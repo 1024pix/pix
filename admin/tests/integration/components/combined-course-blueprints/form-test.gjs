@@ -310,7 +310,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         rewardId: 5,
         rewardType: 'ATTESTATION',
         attestationLabel: 'attestation',
-        rewardRequirements: 'rewardRequirements',
+        rewardRequirementsDescription: 'rewardRequirements',
       });
       const model = { blueprint };
 
@@ -368,7 +368,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       assert.strictEqual(blueprint.surveyLink, 'http://updated-survey-link.fr');
       assert.strictEqual(blueprint.rewardId, 5);
       assert.strictEqual(blueprint.rewardType, 'ATTESTATION');
-      assert.strictEqual(blueprint.rewardRequirements, 'Updated requirements');
+      assert.strictEqual(blueprint.rewardRequirementsDescription, 'Updated requirements');
 
       assert.ok(
         pixToastSuccessStub.calledOnceWith({
@@ -384,7 +384,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         name: 'name',
         internalName: 'internalName',
         attestationLabel: 'Label',
-        rewardRequirements: 'Atteindre tel niveau sur tel sujet',
+        rewardRequirementsDescription: 'Atteindre tel niveau sur tel sujet',
       };
       const model = { blueprint };
 

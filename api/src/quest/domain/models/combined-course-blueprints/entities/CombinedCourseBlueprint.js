@@ -25,7 +25,7 @@ export class CombinedCourseBlueprint {
     updatedAt = null,
     organizationIds = [],
     quest,
-    rewardRequirements = null,
+    rewardRequirementsDescription = null,
   }) {
     this.id = id;
     this.name = name;
@@ -37,7 +37,7 @@ export class CombinedCourseBlueprint {
     this.updatedAt = updatedAt;
     this.organizationIds = organizationIds;
     this.quest = quest;
-    this.rewardRequirements = rewardRequirements;
+    this.rewardRequirementsDescription = rewardRequirementsDescription;
 
     this.validate();
   }
@@ -52,6 +52,15 @@ export class CombinedCourseBlueprint {
     return this.quest.successRequirements
       .filter((item) => item.requirement_type === REQUIREMENT_TYPES.OBJECT.PASSAGES)
       .map(({ data }) => data.moduleId.data);
+  }
+
+  get rewardRequirements() {
+    return this.quest.successRequirements
+      .filter((requirement) => requirement.requirement_type === REQUIREMENT_TYPES.CAPPED_TUBES)
+      .map((requirement) => ({
+        threshold: requirement.data.threshold,
+        cappedTubes: requirement.data.cappedTubes,
+      }));
   }
 
   toCombinedCourse({ code, organizationId, campaigns, name, illustration, description }) {
@@ -157,7 +166,7 @@ export class CombinedCourseBlueprint {
     this.description = combinedCourseBlueprintForUpdate.description;
     this.illustration = combinedCourseBlueprintForUpdate.illustration;
     this.surveyLink = combinedCourseBlueprintForUpdate.surveyLink;
-    this.rewardRequirements = combinedCourseBlueprintForUpdate.rewardRequirements;
+    this.rewardRequirementsDescription = combinedCourseBlueprintForUpdate.rewardRequirementsDescription;
 
     return this;
   }

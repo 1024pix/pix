@@ -5,13 +5,13 @@ export class CombinedCourseBlueprintForUpdate {
     description = null,
     illustration = null,
     surveyLink = null,
-    rewardRequirements = null,
+    rewardRequirementsDescription = null,
   }) {
     this.name = name;
     this.internalName = internalName;
     this.description = description;
     this.illustration = illustration;
     this.surveyLink = surveyLink;
-    this.rewardRequirements = rewardRequirements;
+    this.rewardRequirementsDescription = rewardRequirementsDescription;
   }
 }

@@ -11,6 +11,7 @@ import { DescriptionList } from 'pix-admin/components/ui/description-list';
 
 import RequirementTag from '../common/combined-courses/requirement-tag';
 import SafeMarkdownToHtml from '../safe-markdown-to-html';
+import Area from './capped-tubes/area';
 
 export default class Details extends Component {
   @service intl;
@@ -19,6 +20,10 @@ export default class Details extends Component {
   get isSuperAdmin() {
     return this.currentUser.adminMember.isSuperAdmin;
   }
+
+  displayRequirementsGroupName = (index) => {
+    return `${this.intl.t('components.combined-course-blueprints.reward-requirements.requirements-group-name')} ${index + 1}`;
+  };
 
   <template>
     {{pageTitle "Profil " @model.id " | Pix Admin" replace=true}}
@@ -63,9 +68,9 @@ export default class Details extends Component {
                 <SafeMarkdownToHtml @markdown={{@model.attestationLabel}} />
               </DescriptionList.Item>
 
-              {{#if @model.rewardRequirements}}
+              {{#if @model.rewardRequirementsDescription}}
                 <DescriptionList.Item @label={{t "components.combined-course-blueprints.labels.reward-requirements"}}>
-                  <SafeMarkdownToHtml @markdown={{@model.rewardRequirements}} />
+                  <SafeMarkdownToHtml @markdown={{@model.rewardRequirementsDescription}} />
                 </DescriptionList.Item>
               {{/if}}
 
@@ -103,6 +108,29 @@ export default class Details extends Component {
                 <RequirementTag @requirement={{requirement}} />
               {{/each}}
             </div>
+            {{#if @model.rewardRequirements.length}}
+              <div class="combined-course-blueprint__capped-tubes-requirements">
+                <h2 class="page-section__title">{{t
+                    "components.combined-course-blueprints.reward-requirements.title"
+                  }}</h2>
+                {{#each @model.rewardRequirements as |rewardRequirement index|}}
+                  <div class="card">
+                    <div class="card__title">
+                      {{this.displayRequirementsGroupName index}}
+                    </div>
+                    <div class="card__content">
+                      <p>{{t "components.combined-course-blueprints.reward-requirements.threshold"}}:
+                        {{rewardRequirement.cappedTubesThreshold}}%</p>
+                      {{#if rewardRequirement.areas.length}}
+                        {{#each rewardRequirement.areas as |area|}}
+                          <Area @title={{area.title}} @color={{area.color}} @competences={{area.competences}} />
+                        {{/each}}
+                      {{/if}}
+                    </div>
+                  </div>
+                {{/each}}
+              </div>
+            {{/if}}
           </div>
         </section>
       </main>

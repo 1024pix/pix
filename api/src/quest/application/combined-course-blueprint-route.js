@@ -47,7 +47,7 @@ const register = async function (server) {
                 description: Joi.string().allow(null),
                 'reward-id': Joi.number().integer().allow(null),
                 'reward-type': Joi.string().allow(null),
-                'reward-requirements': Joi.string().allow(null),
+                'reward-requirements-description': Joi.string().allow(null),
                 content: Joi.array(),
                 createdAt: Joi.date(),
                 'survey-link': Joi.string().allow(null),

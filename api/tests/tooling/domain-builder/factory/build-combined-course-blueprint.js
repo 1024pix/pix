@@ -24,7 +24,7 @@ function buildCombinedCourseBlueprint({
     organizationIds,
     quest,
     surveyLink: surveyUrl,
-    rewardRequirements: rewardRequirementsDescription,
+    rewardRequirementsDescription: rewardRequirementsDescription,
   });
 }
 

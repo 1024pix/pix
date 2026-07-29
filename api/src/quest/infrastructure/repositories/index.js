@@ -2,6 +2,7 @@ import * as modulesApi from '../../../devcomp/application/api/modules-api.js';
 import * as recommendedModulesApi from '../../../devcomp/application/api/recommended-modules-api.js';
 import * as knowledgeElementsApi from '../../../evaluation/application/api/knowledge-elements-api.js';
 import * as userApi from '../../../identity-access-management/application/api/users-api.js';
+import * as learningContentApi from '../../../learning-content/application/api/learning-content-api.js';
 import * as skillsApi from '../../../learning-content/application/api/skills-api.js';
 import * as campaignsApi from '../../../prescription/campaign/application/api/campaigns-api.js';
 import * as campaignParticipationsApi from '../../../prescription/campaign-participation/application/api/campaign-participations-api.js';
@@ -25,6 +26,7 @@ import * as combinedCourseRepository from './combined-courses/combined-course-re
 import * as moduleRepository from './combined-courses/module-repository.js';
 import * as courseRepository from './course-repository.js';
 import * as eligibilityRepository from './eligibility-repository.js';
+import * as learningContentRepository from './learning-content-repository.js';
 import * as combinedCourseParticipantRepository from './prescription/combined-course-participant-repository.js';
 import * as attestationRepository from './profile/attestation-repository.js';
 import * as profileRewardRepository from './profile-reward-repository.js';
@@ -55,6 +57,7 @@ const repositoriesWithoutInjectedDependencies = {
   campaignParticipationRepository,
   attestationRepository,
   profileRewardRepository,
+  learningContentRepository,
 };
 
 const dependencies = {
@@ -71,6 +74,7 @@ const dependencies = {
   userApi,
   recommendedModulesApi,
   attestationStorage: AttestationStorage.createClient(),
+  learningContentApi,
 };
 
 const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies, boundedContext);

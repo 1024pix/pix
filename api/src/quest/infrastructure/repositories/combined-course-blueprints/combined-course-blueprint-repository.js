@@ -34,7 +34,7 @@ export async function save({ combinedCourseBlueprint }) {
     internalName: combinedCourseBlueprint.internalName,
     description: combinedCourseBlueprint.description,
     illustration: combinedCourseBlueprint.illustration,
-    rewardRequirementsDescription: combinedCourseBlueprint.rewardRequirements,
+    rewardRequirementsDescription: combinedCourseBlueprint.rewardRequirementsDescription,
     surveyUrl: combinedCourseBlueprint.surveyLink,
     updatedAt: knexConn.fn.now(),
     questId,
@@ -166,7 +166,7 @@ function _toDomain(rawData, quest) {
     createdAt: rawData.createdAt,
     updatedAt: rawData.updatedAt,
     organizationIds: rawData.organizationIds,
-    rewardRequirements: rawData.rewardRequirementsDescription,
+    rewardRequirementsDescription: rawData.rewardRequirementsDescription,
     quest,
   });
 }

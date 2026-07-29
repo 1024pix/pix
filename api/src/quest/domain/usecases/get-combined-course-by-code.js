@@ -38,7 +38,7 @@ export async function getCombinedCourseByCode({
       obtainedAt: profileReward?.createdAt,
       label: attestation?.label,
       templateName: attestation.templateName,
-      requirementsDescription: combinedCourseBlueprint.rewardRequirements,
+      requirementsDescription: combinedCourseBlueprint.rewardRequirementsDescription,
     },
   });
 }
