@@ -59,6 +59,12 @@ export default class CourseModal extends Component {
     }
   }
 
+  get courseDescription() {
+    if (this.isTargetProfile) return this.args.currentCourse.description;
+    if (this.isCombinedCourseBlueprint) return this.args.currentCourse.prescriberDescription;
+    return '';
+  }
+
   <template>
     <PixOverlay
       @isVisible={{@isModalOpen}}
@@ -103,7 +109,7 @@ export default class CourseModal extends Component {
             <SafeMarkdownToHtml
               id="modal-content--{{this.id}}"
               class="course-modal__body__description"
-              @markdown={{@currentCourse.description}}
+              @markdown={{this.courseDescription}}
             />
 
             {{#if (gt @currentCourse.badges.length 0)}}

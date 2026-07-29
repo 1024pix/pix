@@ -3,6 +3,7 @@ import Model, { attr, hasMany } from '@ember-data/model';
 export default class CombinedCourseBlueprintOverview extends Model {
   @attr('string') name;
   @attr('string') description;
+  @attr('string') prescriberDescription;
   @attr('string') illustration;
 
   @hasMany('combined-course-blueprint-item', { async: false, inverse: null }) items;
