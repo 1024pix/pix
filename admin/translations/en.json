@@ -10,6 +10,7 @@
       "confirm-deletion": "Yes, delete",
       "confirm-title": "Please confirm",
       "copied": "Copied!",
+      "copy-id": "Copy ID",
       "deactivate": "Deactivate",
       "download-template": "Download template",
       "edit": "Edit",
@@ -1099,7 +1100,7 @@
         "required-fields-error": "Please fill in all required fields."
       },
       "head-information": {
-        "copy-id": "Copy ID",
+        "change-logo": "Change logo",
         "head-organization-tag": "Head of network",
         "network": "Network:",
         "notifications": {

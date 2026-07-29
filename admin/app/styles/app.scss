@@ -1,4 +1,5 @@
 /* global */
+@use 'globals/a11y' as *;
 @use 'globals/global' as *;
 @use 'globals/form' as *;
 @use 'globals/page' as *;
@@ -107,7 +108,9 @@
 @use 'display/footer-modal' as *;
 
 /* App/Components */
+@use 'ui/copyable-id' as *;
 @use 'ui/deletion-modal' as *;
+@use 'ui/head-information-block' as *;
 @use 'ui/pix-loader' as *;
 @use 'certifications/certification/details-v3' as *;
 @use 'certification-centers/creation-form' as *;

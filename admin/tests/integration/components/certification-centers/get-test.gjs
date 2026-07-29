@@ -3,6 +3,7 @@ import { t } from 'ember-intl/test-support';
 import Get from 'pix-admin/components/certification-centers/get';
 import { module, test } from 'qunit';
 
+import ENV from '../../../../config/environment';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | certification-centers/get', function (hooks) {
@@ -13,9 +14,10 @@ module('Integration | Component | certification-centers/get', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  test('it should display certification center name as title', async function (assert) {
+  test('it should display certification center name and id', async function (assert) {
     // given
     const certificationCenter = store.createRecord('certification-center', {
+      id: 42,
       name: 'Centre SCO',
       type: 'SCO',
       habilitations: [],
@@ -27,6 +29,25 @@ module('Integration | Component | certification-centers/get', function (hooks) {
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Centre SCO' })).exists();
+    assert.dom(screen.getByText((_, element) => element.textContent === 'ID : 42')).exists();
+  });
+
+  test('it should show button to direct user to metabase dashboard', async function (assert) {
+    // given
+    const certificationCenter = store.createRecord('certification-center', {
+      id: 1,
+      name: 'Centre SCO',
+      type: 'SCO',
+      externalId: 'AX129',
+    });
+    const expectedLink = ENV.APP.CERTIFICATION_CENTER_DASHBOARD_URL + certificationCenter.id;
+
+    // when
+    const screen = await render(<template><Get @certificationCenter={{certificationCenter}} /></template>);
+
+    // then
+    const dashboardLink = screen.getByRole('link', { name: 'Tableau de bord' });
+    assert.dom(dashboardLink).hasAttribute('href', expectedLink);
   });
 
   test('it should display navigation bar with links to navigate', async function (assert) {
