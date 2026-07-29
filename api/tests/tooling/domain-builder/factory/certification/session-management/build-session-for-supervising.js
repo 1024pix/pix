@@ -1,7 +1,10 @@
 import dayjs from 'dayjs';
 
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
-import { SessionForSupervising } from '../../../../../../src/certification/session-management/domain/read-models/SessionForSupervising.js';
+import {
+  CandidateForSupervising,
+  SessionForSupervising,
+} from '../../../../../../src/certification/session-management/domain/read-models/SessionForSupervising.js';
 import { Frameworks, toScope } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 
 /**
@@ -41,7 +44,7 @@ class SessionForSupervisingBuilder {
    * @param {string} params.firstName
    * @param {string} params.lastName
    * @param {number} params.extraTimePercentage
-   * @param {boolean} params.authorizedToStart
+   * @param {Date} params.authorizedToStartAt
    * @param {string} params.assessmentStatus
    * @param {date} params.startDateTime
    * @param {date} params.theoricalEndDateTime
@@ -58,7 +61,7 @@ class SessionForSupervisingBuilder {
     firstName,
     lastName,
     extraTimePercentage,
-    authorizedToStart,
+    authorizedToStartAt,
     assessmentStatus,
     startDateTime,
     theoricalEndDateTime,
@@ -74,10 +77,10 @@ class SessionForSupervisingBuilder {
       firstName: firstName ?? 'Lolo',
       lastName: lastName ?? 'Lapraline',
       extraTimePercentage: extraTimePercentage ?? 2,
-      authorizedToStart: authorizedToStart,
-      assessmentStatus: assessmentStatus ?? 'started',
-      startDateTime: startDateTime ?? new Date('2026-06-06T12:00:00Z'),
-      theoricalEndDateTime: theoricalEndDateTime ?? new Date('2026-06-06T12:30:00Z'),
+      authorizedToStartAt,
+      assessmentStatus: assessmentStatus ?? null,
+      startDateTime: startDateTime ?? null,
+      theoricalEndDateTime: theoricalEndDateTime ?? null,
       subscription: subscription ?? Frameworks.CORE,
       isStillEligibleToDoubleCertification: isStillEligibleToDoubleCertification,
       challengeLiveAlert: challengeLiveAlert ?? null,
@@ -139,7 +142,7 @@ class SessionForSupervisingBuilder {
     for (const candidate of sessionForSupervising.candidates) {
       const candidateScope = toScope(candidate.subscription);
       let versionId = versions.get(candidateScope);
-      if (!versionId) {
+      if (!versionId && candidate.startDateTime) {
         versionId = databaseBuilder.factory.buildCertificationVersion({
           scope: candidateScope,
           assessmentDuration: computeAssessmentDuration(candidate.startDateTime, candidate.theoricalEndDateTime),
@@ -166,7 +169,7 @@ class SessionForSupervisingBuilder {
         lastName: candidate.lastName,
         birthdate: candidate.birthdate,
         extraTimePercentage: candidate.extraTimePercentage,
-        authorizedToStartAt: candidate.authorizedToStart ? new Date() : null,
+        authorizedToStartAt: candidate.authorizedToStartAt,
         subscription: candidate.subscription,
       }).id;
 
@@ -176,6 +179,8 @@ class SessionForSupervisingBuilder {
           candidateId: candidate.id,
           createdAt: candidate.startDateTime,
           versionId,
+          sessionId: row.id,
+          userId: candidate.userId,
         }).id;
         assessmentId = databaseBuilder.factory.buildAssessment({
           state: candidate.assessmentStatus,
@@ -213,6 +218,12 @@ class SessionForSupervisingBuilder {
    * @returns {SessionForSupervising}
    */
   build() {
+    const candidates = this.candidates.map((candidate) => new CandidateForSupervising(candidate));
+    const firstCertificationStartedAt =
+      [...candidates]
+        .filter(({ startDateTime }) => startDateTime)
+        .sort((a, b) => a.startDateTime - b.startDateTime)
+        .at(0)?.startDateTime ?? null;
     return new SessionForSupervising({
       id: this.id,
       date: this.date,
@@ -221,7 +232,8 @@ class SessionForSupervisingBuilder {
       room: this.room,
       examiner: this.examiner,
       accessCode: this.accessCode,
-      candidates: this.candidates,
+      candidates,
+      firstCertificationStartedAt,
     });
   }
 }

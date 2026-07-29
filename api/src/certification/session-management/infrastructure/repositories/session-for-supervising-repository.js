@@ -6,7 +6,7 @@ import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/mo
 import { CertificationCompanionLiveAlertStatus } from '../../../shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
-import { SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
+import { CandidateForSupervising, SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
 
 export async function get({ id, dependencies = { certificationBadgesService } }) {
   const knexConn = DomainTransaction.getConnection();
@@ -19,6 +19,9 @@ export async function get({ id, dependencies = { certificationBadgesService } })
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       address: 'sessions.address',
+      firstCertificationStartedAt: knexConn('certification-courses')
+        .min('createdAt')
+        .whereRaw('"certification-courses"."sessionId" = "sessions"."id"'),
       certificationCandidates: knexConn
         .select(
           knexConn.raw(`
@@ -92,7 +95,7 @@ async function _toDomain(results, certificationBadgesService) {
       );
     }
 
-    const candidate = {
+    const candidate = new CandidateForSupervising({
       id: candidateRow.id,
       userId: candidateRow.userId,
       firstName: candidateRow.firstName,
@@ -102,7 +105,7 @@ async function _toDomain(results, certificationBadgesService) {
         candidateRow.extraTimePercentage != null
           ? parseFloat(candidateRow.extraTimePercentage)
           : candidateRow.extraTimePercentage,
-      authorizedToStart: Boolean(candidateRow.authorizedToStartAt),
+      authorizedToStartAt: candidateRow.authorizedToStartAt ? new Date(candidateRow.authorizedToStartAt) : null,
       assessmentStatus: candidateRow.assessmentStatus,
       startDateTime: candidateRow.startDateTime ? new Date(candidateRow.startDateTime) : null,
       theoricalEndDateTime: computeTheoricalEndDateTime(candidateRow.startDateTime, candidateRow.assessmentDuration),
@@ -110,7 +113,7 @@ async function _toDomain(results, certificationBadgesService) {
       isStillEligibleToDoubleCertification,
       challengeLiveAlert: candidateRow.challengeLiveAlert?.status ? candidateRow.challengeLiveAlert : null,
       companionLiveAlert: candidateRow.companionLiveAlert?.status ? candidateRow.companionLiveAlert : null,
-    };
+    });
     candidates.push(candidate);
   }
 
