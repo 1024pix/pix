@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { sessionMassImportController } from '../../../../../src/certification/enrolment/application/session-mass-import-controller.js';
 import { sessionMassImportRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/session-mass-import-route.js';
+import { securityPreHandlers as certifSecurityPreHandlers } from '../../../../../src/certification/shared/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -23,7 +24,9 @@ describe('Unit | Router | session-mass-import-route', function () {
 
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((_, h) => h.response(true));
+      sinon
+        .stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
+        .callsFake((_, h) => h.response(true));
       sinon
         .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
         .callsFake((_request, h) => h.response(true));
@@ -50,7 +53,7 @@ describe('Unit | Router | session-mass-import-route', function () {
         it('should forbid access', async function () {
           // given
           sinon
-            .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
+            .stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
             .callsFake((_, h) => h.response(true));
           sinon
             .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
@@ -78,7 +81,7 @@ describe('Unit | Router | session-mass-import-route', function () {
         it('should allow access', async function () {
           // given
           sinon
-            .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
+            .stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
             .callsFake((_, h) => h.response(true));
           sinon
             .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
@@ -107,7 +110,9 @@ describe('Unit | Router | session-mass-import-route', function () {
   describe('GET /api/certification-centers/{certificationCenterId}/import', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((_, h) => h.response(true));
+      sinon
+        .stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
+        .callsFake((_, h) => h.response(true));
       sinon
         .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
         .callsFake((_, h) => h.response(true));

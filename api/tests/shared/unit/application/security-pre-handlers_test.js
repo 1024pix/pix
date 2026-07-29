@@ -1234,62 +1234,6 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#checkUserIsMemberOfCertificationCenter', function () {
-    context('Successful case', function () {
-      it('should authorize access to resource when the user is authenticated and is member in certification center', async function () {
-        // given
-        const user = domainBuilder.buildUser();
-        const certificationCenter = domainBuilder.buildCertificationCenter();
-        const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
-          user,
-          certificationCenter,
-        });
-        const request = {
-          auth: { credentials: { accessToken: 'valid.access.token', userId: certificationCenterMembership.user.id } },
-          params: { certificationCenterId: certificationCenterMembership.certificationCenter.id },
-        };
-
-        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
-        const checkUserIsMemberOfCertificationCenterUsecaseStub = {
-          execute: sinon.stub().resolves(true),
-        };
-
-        // when
-        const response = await securityPreHandlers.checkUserIsMemberOfCertificationCenter(request, hFake, {
-          checkUserIsMemberOfCertificationCenterUsecase: checkUserIsMemberOfCertificationCenterUsecaseStub,
-        });
-
-        // then
-        expect(response.source).to.be.true;
-      });
-    });
-
-    context('Error cases', function () {
-      it('should forbid resource access when user is not member in certification center', async function () {
-        // given
-        const userId = domainBuilder.buildUser().id;
-        const certificationCenterId = domainBuilder.buildCertificationCenter().id;
-        const request = {
-          auth: { credentials: { accessToken: 'valid.access.token', userId } },
-          params: { certificationCenterId },
-        };
-
-        sinon.stub(tokenService, 'extractTokenFromAuthorizationHeader');
-        const checkUserIsMemberOfCertificationCenterUsecaseStub = {
-          execute: sinon.stub().resolves(false),
-        };
-
-        // when
-        const response = await securityPreHandlers.checkUserIsMemberOfCertificationCenter(request, hFake, {
-          checkUserIsMemberOfCertificationCenterUsecase: checkUserIsMemberOfCertificationCenterUsecaseStub,
-        });
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-  });
-
   describe('#makeCheckOrganizationHasFeature', function () {
     context('Successful case', function () {
       let request;

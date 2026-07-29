@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { securityPreHandlers as certifSecurityPrehandlers } from '../../shared/application/security-pre-handlers.js';
 import { sessionMassImportController } from './session-mass-import-controller.js';
 
 const register = async function (server) {
@@ -12,7 +13,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            method: certifSecurityPrehandlers.checkUserIsMemberOfCertificationCenter,
             assign: 'isMemberOfCertificationCenter',
           },
           {
@@ -42,7 +43,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            method: certifSecurityPrehandlers.checkUserIsMemberOfCertificationCenter,
             assign: 'isMemberOfCertificationCenter',
           },
           {
@@ -73,7 +74,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            method: certifSecurityPrehandlers.checkUserIsMemberOfCertificationCenter,
             assign: 'isMemberOfCertificationCenter',
           },
           {

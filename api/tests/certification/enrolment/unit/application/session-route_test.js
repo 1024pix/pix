@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { sessionController } from '../../../../../src/certification/enrolment/application/session-controller.js';
 import { sessionRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/session-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
+import { securityPreHandlers as certifSecurityPreHandlers } from '../../../../../src/certification/shared/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -13,7 +14,7 @@ describe('Certification | Enrolment | Unit | Application | Routes | session-rout
       // given
       sinon.stub(sessionController, 'createSession').returns('ok');
       sinon
-        .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
+        .stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
         .callsFake((request, h) => h.response(true));
 
       const httpTestServer = new HttpTestServer();
@@ -40,7 +41,7 @@ describe('Certification | Enrolment | Unit | Application | Routes | session-rout
 
     it('should return 403 if user is not member of the given certification center', async function () {
       //given
-      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((request, h) =>
+      sinon.stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((request, h) =>
         h
           .response({ errors: new Error('forbidden') })
           .code(403)

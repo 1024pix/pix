@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { certificationCentersGetDivisionsRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/certification-centers-get-divisions-route.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { securityPreHandlers as certifSecurityPreHandlers } from '../../../../../src/certification/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -12,7 +12,7 @@ describe('Certification | Enrolment | Unit | Router | certification-center-route
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
-        sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake(
+        sinon.stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake(
           () => (request, h) =>
             h
               .response({ errors: new Error('forbidden') })

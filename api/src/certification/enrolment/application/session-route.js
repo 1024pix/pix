@@ -2,9 +2,9 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
+import { securityPreHandlers as certifSecurityPrehandlers } from '../../shared/application/security-pre-handlers.js';
 import { sessionController } from './session-controller.js';
 
 const register = async function (server) {
@@ -15,7 +15,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            method: certifSecurityPrehandlers.checkUserIsMemberOfCertificationCenter,
             assign: 'isMemberOfCertificationCenter',
           },
         ],

@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { certificationCenterController } from '../../../../../src/certification/enrolment/application/certification-center-controller.js';
 import { certificationCenterRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/certification-center-route.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { securityPreHandlers as certifSecurityPreHandlers } from '../../../../../src/certification/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -26,7 +26,7 @@ describe('Certification | Enrolment | Unit | Application | Session Students Rout
     it('should accept a string array of one element as division filter ', async function () {
       // given
       sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
-      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
+      sinon.stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -43,7 +43,7 @@ describe('Certification | Enrolment | Unit | Application | Session Students Rout
     it('should accept a string array of several elements as division filter ', async function () {
       // given
       sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
-      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
+      sinon.stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -75,7 +75,7 @@ describe('Certification | Enrolment | Unit | Application | Session Students Rout
     it('should accept a pagination', async function () {
       // given
       sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
-      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
+      sinon.stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       // when
@@ -120,7 +120,7 @@ describe('Certification | Enrolment | Unit | Application | Session Students Rout
     it('should accept an empty query string', async function () {
       // given
       sinon.stub(certificationCenterController, 'getStudents').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
+      sinon.stub(certifSecurityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

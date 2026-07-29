@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { securityPreHandlers as certifSecurityPrehandlers } from '../../../certification/shared/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationCenterMembershipController } from './certification-center-membership.controller.js';
@@ -11,7 +12,7 @@ export const certificationCenterMembershipRoute = [
     config: {
       pre: [
         {
-          method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+          method: certifSecurityPrehandlers.checkUserIsMemberOfCertificationCenter,
           assign: 'isMemberOfCertificationCenter',
         },
       ],

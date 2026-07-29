@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { securityPreHandlers as certifSecurityPrehandlers } from '../../shared/application/security-pre-handlers.js';
 import { certificationCenterController } from './certification-center-controller.js';
 
 const register = async function (server) {
@@ -27,7 +27,7 @@ const register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            method: certifSecurityPrehandlers.checkUserIsMemberOfCertificationCenter,
             assign: 'isMemberOfCertificationCenter',
           },
         ],

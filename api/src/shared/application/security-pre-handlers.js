@@ -244,29 +244,6 @@ function checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipI
     .catch(() => _replyForbiddenError(h));
 }
 
-function checkUserIsMemberOfCertificationCenter(
-  request,
-  h,
-  dependencies = { checkUserIsMemberOfCertificationCenterUsecase },
-) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const certificationCenterId = request.params.certificationCenterId;
-
-  return dependencies.checkUserIsMemberOfCertificationCenterUsecase
-    .execute(userId, certificationCenterId)
-    .then((isMemberInCertificationCenter) => {
-      if (isMemberInCertificationCenter) {
-        return h.response(true);
-      }
-      return _replyForbiddenError(h);
-    })
-    .catch(() => _replyForbiddenError(h));
-}
-
 async function checkUserBelongsToScoOrganizationAndManagesStudents(
   request,
   h,
@@ -630,7 +607,6 @@ export const securityPreHandlers = {
   checkUserIsAdminOfCertificationCenter,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
-  checkUserIsMemberOfCertificationCenter,
   makeCheckOrganizationHasFeature,
   checkOrganizationAccess,
 };
