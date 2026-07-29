@@ -171,12 +171,6 @@ class CsvParsingError extends DomainError {
   }
 }
 
-class CertificationBadgeForbiddenDeletionError extends DomainError {
-  constructor(message = 'Il est interdit de supprimer un badge lié à une certification.') {
-    super(message);
-  }
-}
-
 class CampaignTypeError extends DomainError {
   constructor(message = "Ce type de campagne n'est pas autorisé.") {
     super(message);
@@ -950,12 +944,6 @@ class OrganizationLearnerCannotBeDissociatedError extends DomainError {
   }
 }
 
-class AcquiredBadgeForbiddenDeletionError extends DomainError {
-  constructor(message = 'Il est interdit de supprimer un badge déjà acquis par un utilisateur.') {
-    super(message);
-  }
-}
-
 class NoSkillsInCampaignError extends DomainError {
   constructor(message = 'La campagne ne contient aucun acquis opérationnel.') {
     super(message);
@@ -1016,7 +1004,6 @@ class PasswordNotMatching extends DomainError {
 export {
   AccountRecoveryDemandExpired,
   AccountRecoveryUserAlreadyConfirmEmail,
-  AcquiredBadgeForbiddenDeletionError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingEntityError,
   AlreadyExistingInvitationError,
@@ -1040,7 +1027,6 @@ export {
   CancelledInvitationError,
   CandidateAlreadyLinkedToUserError,
   CertificateVerificationCodeGenerationTooManyTrials,
-  CertificationBadgeForbiddenDeletionError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,

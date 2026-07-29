@@ -1,3 +1,4 @@
+import * as complementaryCertificationBadgeRepository from '../../../evaluation/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as smartRandomChallengeRepository from '../../../evaluation/infrastructure/repositories/smart-random-challenge-repository.js';
 import * as llmApi from '../../../llm/application/api/llm-api.js';
 import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
@@ -52,6 +53,7 @@ const dependencies = {
   challengeRepository,
   competenceEvaluationRepository,
   competenceRepository,
+  complementaryCertificationBadgeRepository,
   correctionService,
   courseRepository,
   feedbackRepository,
@@ -75,6 +77,7 @@ const dependencies = {
 import { completeAssessment } from './complete-assessment.js';
 import { copyTargetProfileBadges } from './copy-target-profile-badges.js';
 import { createBadge } from './create-badge.js';
+import { deleteUnassociatedBadge } from './delete-unassociated-badge.js';
 import { findAllPaginatedAutonomousCourses } from './find-all-paginated-autonomous-courses.js';
 import { findAnswerByAssessment } from './find-answer-by-assessment.js';
 import { findAnswerByChallengeAndAssessment } from './find-answer-by-challenge-and-assessment.js';
@@ -113,6 +116,7 @@ const usecasesWithoutInjectedDependencies = {
   completeAssessment,
   copyTargetProfileBadges,
   createBadge,
+  deleteUnassociatedBadge,
   findAllPaginatedAutonomousCourses,
   findAnswerByAssessment,
   findAnswerByChallengeAndAssessment,
