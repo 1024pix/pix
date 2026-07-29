@@ -970,7 +970,7 @@
                     },
                     {
                       "title": "Charlotte",
-                      "description": "Notre fonctionnalité de génération de vidéo est très gourmande en calculs alors que les utilisateurs le font gratuitement : nous devrions ne donner accès à cette fonctionnalité uniquement sur abonnement payant !",
+                      "description": "Notre fonctionnalité de génération de vidéos est très gourmande en ressources de calcul. Or, les utilisateurs y ont actuellement accès gratuitement. Nous devrions réserver cette fonctionnalité aux abonnés payants. ",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/reu-charlotte.png",
@@ -1037,12 +1037,12 @@
                     "content": "<p>la proposition de Béatrice</p>"
                   },
                   {
-                    "id": "4",
-                    "content": "<p>la proposition de Dylan</p>"
-                  },
-                  {
                     "id": "3",
                     "content": "<p>la proposition de Charlotte</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>la proposition de Dylan</p>"
                   },
                   {
                     "id": "5",
