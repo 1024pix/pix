@@ -19,14 +19,14 @@ export function getCourseInfo(courseType) {
       return {
         color: 'blue',
         label: 'pages.catalogue.card.tag.target-profile',
-        image: 'https://assets.pix.org/sites/orga/target-profile.png',
+        image: 'https://assets.pix.org/sites/orga/target-profile.svg',
       };
     case BLUEPRINT:
     case COMBINED_COURSE_BLUEPRINT_OVERVIEW:
       return {
         color: 'yellow',
         label: 'pages.catalogue.card.tag.blueprint',
-        image: 'https://assets.pix.org/sites/orga/combined-course.png',
+        image: 'https://assets.pix.org/sites/orga/blueprint.svg',
       };
     default:
       return null;
