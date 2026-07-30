@@ -212,21 +212,6 @@ const save = async function ({ userId, certificationCenterId }) {
   }
 };
 
-const isAdminOfCertificationCenter = async function ({ userId, certificationCenterId }) {
-  const knexConn = DomainTransaction.getConnection();
-  const certificationCenterMembershipId = await knexConn(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
-    .select('id')
-    .where({
-      userId,
-      certificationCenterId,
-      disabledAt: null,
-      role: 'ADMIN',
-    })
-    .first();
-
-  return Boolean(certificationCenterMembershipId);
-};
-
 const isMemberOfCertificationCenter = async function ({ userId, certificationCenterId }) {
   const knexConn = DomainTransaction.getConnection();
   const certificationCenterMembershipId = await knexConn(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
@@ -408,7 +393,6 @@ const certificationCenterMembershipRepository = {
   findOneWithCertificationCenterIdAndUserId,
   getCertificationCenterId,
   getRefererByCertificationCenterId,
-  isAdminOfCertificationCenter,
   isMemberOfCertificationCenter,
   save,
   update,

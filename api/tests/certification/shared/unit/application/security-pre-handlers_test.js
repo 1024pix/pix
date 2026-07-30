@@ -298,4 +298,78 @@ describe('Certification | Shared | Unit | Application | SecurityPreHandlers', fu
       });
     });
   });
+
+  describe('#checkUserIsAdminOfCertificationCenter', function () {
+    let dependencies;
+
+    beforeEach(function () {
+      dependencies = { userMembershipsRepository };
+    });
+
+    context('when credentials are not in request data', function () {
+      it('should forbid resource access', async function () {
+        const request = { auth: { credentials: { foo: 'bar' } } };
+
+        const response = await securityPreHandlers.checkUserIsAdminOfCertificationCenter(request, hFake, dependencies);
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+
+    context('when credentials are invalid', function () {
+      it('should forbid resource access', async function () {
+        const request = { auth: { credentials: { userId: 'bar' } } };
+
+        const response = await securityPreHandlers.checkUserIsAdminOfCertificationCenter(request, hFake, dependencies);
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+
+    context('when certificationCenterId param is invalid', function () {
+      it('should forbid resource access', async function () {
+        const request = { auth: { credentials: { userId: '123' } }, params: { certificationCenterId: 'foo' } };
+
+        const response = await securityPreHandlers.checkUserIsAdminOfCertificationCenter(request, hFake, dependencies);
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+
+    context('when user is not an admin of the certification center', function () {
+      it('should forbid resource access', async function () {
+        const request = { auth: { credentials: { userId: 123 } }, params: { certificationCenterId: 789 } };
+        const userMemberships = domainBuilder.certification.shared
+          .userMembershipsBuilder()
+          .addMembership({ certificationCenterId: 789, isAdmin: false })
+          .withParameters({ userId: 123 })
+          .build();
+        userMembershipsRepository.findByUserId.withArgs({ userId: 123 }).resolves(userMemberships);
+
+        const response = await securityPreHandlers.checkUserIsAdminOfCertificationCenter(request, hFake, dependencies);
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+
+    context('when user is an admin of the certification center', function () {
+      it('should authorize access to the resource', async function () {
+        const request = { auth: { credentials: { userId: 123 } }, params: { certificationCenterId: 456 } };
+        const userMemberships = domainBuilder.certification.shared
+          .userMembershipsBuilder()
+          .addMembership({ certificationCenterId: 456, isAdmin: true, isDisabled: false })
+          .withParameters({ userId: 123 })
+          .build();
+        userMembershipsRepository.findByUserId.withArgs({ userId: 123 }).resolves(userMemberships);
+
+        const response = await securityPreHandlers.checkUserIsAdminOfCertificationCenter(request, hFake, dependencies);
+
+        expect(response.source).to.be.true;
+      });
+    });
+  });
 });

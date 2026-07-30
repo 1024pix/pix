@@ -42,7 +42,7 @@ export const certificationCenterMembershipRoute = [
       handler: certificationCenterMembershipController.updateFromPixCertif,
       pre: [
         {
-          method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
+          method: certifSecurityPrehandlers.checkUserIsAdminOfCertificationCenter,
           assign: 'hasAuthorizationToAccessAdminScope',
         },
       ],
@@ -60,7 +60,7 @@ export const certificationCenterMembershipRoute = [
       handler: certificationCenterMembershipController.updateReferer,
       pre: [
         {
-          method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
+          method: certifSecurityPrehandlers.checkUserIsAdminOfCertificationCenter,
           assign: 'isAdminOfCertificationCenter',
         },
       ],

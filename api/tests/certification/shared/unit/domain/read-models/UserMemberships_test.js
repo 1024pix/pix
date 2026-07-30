@@ -35,6 +35,38 @@ describe('Certification | Shared | Unit | Domain | Read-Models | UserMemberships
     });
   });
 
+  describe('#isAdminOf', function () {
+    it('returns false when user is not a member of the certification center', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123 })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isAdminOf(456)).to.be.false;
+    });
+
+    it('returns false when user used to be an admin of the certification center', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, isAdmin: true, isDisabled: true })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isAdminOf(123)).to.be.false;
+    });
+
+    it('returns true when user used is an active admin member of the certification center', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, isAdmin: true, isDisabled: false })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isAdminOf(123)).to.be.true;
+    });
+  });
+
   describe('#isAdminOfPeer', function () {
     it('returns false when user is not a member of the same certification center as the given peer membership id', function () {
       const userMemberships = domainBuilder.certification.shared
@@ -50,6 +82,16 @@ describe('Certification | Shared | Unit | Domain | Read-Models | UserMemberships
       const userMemberships = domainBuilder.certification.shared
         .userMembershipsBuilder()
         .addMembership({ certificationCenterId: 123, isAdmin: false, peerMembershipIds: [300, 200] })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isAdminOfPeer(300)).to.be.false;
+    });
+
+    it('returns false when user used to an ADMIN in the same certification center as the given peer membership id', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, isAdmin: true, isDisabled: true, peerMembershipIds: [300, 200] })
         .withParameters({ userId: 1 })
         .build();
 
@@ -82,6 +124,16 @@ describe('Certification | Shared | Unit | Domain | Read-Models | UserMemberships
       const userMemberships = domainBuilder.certification.shared
         .userMembershipsBuilder()
         .addMembership({ certificationCenterId: 123, isAdmin: false, invitationIds: [300, 200] })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isAdminOfInvitation(300)).to.be.false;
+    });
+
+    it('returns false when user used to be an ADMIN in the same certification center as the given invitation id', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, isAdmin: true, isDisabled: true, invitationIds: [300, 200] })
         .withParameters({ userId: 1 })
         .build();
 

@@ -10,14 +10,20 @@ export class UserMemberships {
     );
   }
 
+  isAdminOf(certificationCenterId) {
+    return this.memberships.some(
+      (membership) => membership.certificationCenterId === certificationCenterId && membership.isActiveAdmin,
+    );
+  }
+
   isAdminOfPeer(membershipId) {
     const membershipForPeer = this.memberships.find((membership) => membership.hasPeer(membershipId));
-    return membershipForPeer?.isAdmin ?? false;
+    return membershipForPeer?.isActiveAdmin ?? false;
   }
 
   isAdminOfInvitation(invitationId) {
     const membershipForInvitation = this.memberships.find((membership) => membership.hasInvitation(invitationId));
-    return membershipForInvitation?.isAdmin ?? false;
+    return membershipForInvitation?.isActiveAdmin ?? false;
   }
 }
 
@@ -33,6 +39,10 @@ export class Membership {
 
   get isActive() {
     return !this.isDisabled;
+  }
+
+  get isActiveAdmin() {
+    return !this.isDisabled && this.isAdmin;
   }
 
   hasPeer(membershipId) {

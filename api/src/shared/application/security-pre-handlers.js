@@ -22,7 +22,6 @@ import * as checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from './u
 import * as checkUserCanDisableHisOrganizationMembershipUseCase from './usecases/checkUserCanDisableHisOrganizationMembership.js';
 import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
 import * as checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization.js';
-import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkUserIsAdminOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
@@ -164,29 +163,6 @@ function checkUserIsAdminInOrganization(request, h, dependencies = { checkUserIs
     .execute(userId, organizationId)
     .then((isAdminInOrganization) => {
       if (isAdminInOrganization) {
-        return h.response(true);
-      }
-      return _replyForbiddenError(h);
-    })
-    .catch(() => _replyForbiddenError(h));
-}
-
-function checkUserIsAdminOfCertificationCenter(
-  request,
-  h,
-  dependencies = { checkUserIsAdminOfCertificationCenterUsecase },
-) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const certificationCenterId = request.params.certificationCenterId;
-
-  return dependencies.checkUserIsAdminOfCertificationCenterUsecase
-    .execute(userId, certificationCenterId)
-    .then((isAdminInCertificationCenter) => {
-      if (isAdminInCertificationCenter) {
         return h.response(true);
       }
       return _replyForbiddenError(h);
@@ -554,7 +530,6 @@ export const securityPreHandlers = {
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
   checkOrganizationDoesNotHaveFeature,
-  checkUserIsAdminOfCertificationCenter,
   makeCheckOrganizationHasFeature,
   checkOrganizationAccess,
 };
