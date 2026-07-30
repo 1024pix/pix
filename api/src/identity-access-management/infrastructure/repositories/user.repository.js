@@ -27,27 +27,6 @@ const getByEmail = async function (email) {
   return new User(foundUser);
 };
 
-/**
- * @param userId
- * @return {Promise<User>}
- * @throws {UserNotFoundError}
- */
-const getFullById = async function (userId) {
-  const knexConn = DomainTransaction.getConnection();
-  const userDTO = await knexConn('users').where({ id: userId }).first();
-  if (!userDTO) {
-    throw new UserNotFoundError();
-  }
-
-  const membershipsDTO = await knexConn('memberships').where({ userId: userDTO.id, disabledAt: null });
-  const authenticationMethodsDTO = await knexConn('authentication-methods').where({
-    userId: userDTO.id,
-    identityProvider: 'PIX',
-  });
-
-  return _toDomainFromDTO({ userDTO, membershipsDTO, authenticationMethodsDTO });
-};
-
 const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
   const knexConn = DomainTransaction.getConnection();
   const userDTO = await knexConn('users')
@@ -437,7 +416,6 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} getBySamlId
  * @property {function} getByUsernameOrEmailWithRolesAndPassword
  * @property {function} getForObfuscation
- * @property {function} getFullById
  * @property {function} getUserDetailsForAdmin
  * @property {function} isUserAllowedToAccessCertificationCenter
  * @property {function} getWithMemberships
@@ -469,7 +447,6 @@ export {
   getBySamlId,
   getByUsernameOrEmailWithRolesAndPassword,
   getForObfuscation,
-  getFullById,
   getUserDetailsForAdmin,
   getWithMemberships,
   isUserAllowedToAccessCertificationCenter,

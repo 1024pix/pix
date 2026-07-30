@@ -12,5 +12,5 @@ export const changeUserLocale = async function ({ userId, locale, userRepository
   const lang = getBaseLocale(locale);
 
   await userRepository.update({ id: userId, lang, locale });
-  return userRepository.getFullById(userId);
+  return userRepository.get(userId);
 };
