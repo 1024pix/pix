@@ -6,19 +6,6 @@ const ORGANIZATION_TAGS_TABLE = 'organization-tags';
 const ORGANIZATIONS_TABLE = 'organizations';
 const MEMBERSHIPS_TABLE = 'memberships';
 
-export const findByUserId = async function ({ userId }) {
-  const knexConnection = DomainTransaction.getConnection();
-
-  const memberships = await knexConnection(MEMBERSHIPS_TABLE).where({ userId, disabledAt: null });
-  const membershipOrganizationIds = memberships.map(({ organizationId }) => organizationId);
-  const relatedOrganizations = await knexConnection(ORGANIZATIONS_TABLE).whereIn('id', membershipOrganizationIds);
-
-  return memberships.map((membership) => {
-    const organization = relatedOrganizations.find(({ id }) => id === membership.organizationId);
-    return toDomain(membership, organization);
-  });
-};
-
 export const findByUserIdAndOrganizationId = async ({ userId, organizationId, includeOrganization = false }) => {
   const knexConnection = DomainTransaction.getConnection();
   const memberships = await knexConnection(MEMBERSHIPS_TABLE).where({ userId, organizationId, disabledAt: null });
