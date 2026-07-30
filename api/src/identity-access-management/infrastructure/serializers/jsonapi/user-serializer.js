@@ -41,6 +41,7 @@ const serialize = function (users, meta) {
     campaignParticipations: {
       ref: 'id',
       ignoreRelationshipData: true,
+      nullIfMissing: true,
       relationshipLinks: {
         related: function (record, current, parent) {
           return `/api/users/${parent.id}/campaign-participations`;

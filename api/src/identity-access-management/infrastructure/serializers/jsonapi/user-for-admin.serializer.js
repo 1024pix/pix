@@ -38,10 +38,12 @@ const serialize = function (users, meta) {
     pixScore: {
       ref: 'id',
       ignoreRelationshipData: true,
+      nullIfMissing: true,
     },
     scorecards: {
       ref: 'id',
       ignoreRelationshipData: true,
+      nullIfMissing: true,
     },
     profile: {
       ref: 'id',
@@ -55,6 +57,7 @@ const serialize = function (users, meta) {
     campaignParticipations: {
       ref: 'id',
       ignoreRelationshipData: true,
+      nullIfMissing: true,
     },
     isCertifiable: {
       ref: 'id',
