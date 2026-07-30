@@ -598,6 +598,10 @@
             "success-notification": "The new version of the certification framework  has been successfully created.",
             "title": "Creating a new version of the certification framework for {frameworkLabel}"
           },
+          "calibration": {
+            "calibration-id-input-label": "Calibration ID (provided by Data)*",
+            "verify-calibration-id-button": "Start the calibration recovery process"
+          },
           "page-title": "Creation of a new version of the certification in {scope} framework",
           "title": "Creating a Certification Release"
         }

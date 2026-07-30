@@ -132,6 +132,7 @@ Router.map(function () {
           this.route('new');
           this.route('version', { path: '/:version_id' }, function () {
             this.route('edit');
+            this.route('calibration');
           });
         });
         this.route('target-profile', function () {

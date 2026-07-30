@@ -606,6 +606,10 @@
             "success-notification": "La nouvelle version du référentiel de certification a été créé avec succès",
             "title": "Création d'une nouvelle version du référentiel de certification"
           },
+          "calibration": {
+            "calibration-id-input-label": "ID de calibration (fourni par Data)*",
+            "verify-calibration-id-button": "Lancer la récupération de la calibration"
+          },
           "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}",
           "title": "Création d'une version de certification"
         }
