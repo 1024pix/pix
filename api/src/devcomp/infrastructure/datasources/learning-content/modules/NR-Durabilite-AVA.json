@@ -620,7 +620,7 @@
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "<p>Flèche 1 : lorsque l'on récupère les <strong>matières premières</strong> de l'appareil numérique pour fabriquer un nouvel appareil, on&nbsp;&nbsp;</p>"
+                          "content": "<p>1 : lorsque l'on récupère les <strong>matières premières</strong> de l'appareil numérique pour fabriquer un nouvel appareil, on&nbsp;&nbsp;</p>"
                         },
                         {
                           "type": "select",
@@ -653,7 +653,7 @@
                         },
                         {
                           "type": "text",
-                          "content": "<p><br>Flèche 2 : lorqu'on réutilise les <strong>pièces électroniques </strong>pour fabriquer un nouvel appareil, on&nbsp;</p>"
+                          "content": "<p><br>2 : lorqu'on réutilise les <strong>pièces électroniques </strong>pour fabriquer un nouvel appareil, on&nbsp;</p>"
                         },
                         {
                           "type": "select",
@@ -722,7 +722,7 @@
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "<p>Flèche 3 : lorsqu'on donne ou renvend un appareil numérique qui fonctionne encore on&nbsp;&nbsp;<br></p>"
+                          "content": "<p>3 : lorsqu'on donne ou renvend un appareil numérique qui fonctionne encore on&nbsp;&nbsp;<br></p>"
                         },
                         {
                           "type": "select",
@@ -755,7 +755,7 @@
                         },
                         {
                           "type": "text",
-                          "content": "<p><br>Flèche 4 : lorsque l'on souhaite conserver son appareil numérique et le remettre en état, on&nbsp;<br></p>"
+                          "content": "<p><br>4 : lorsque l'on souhaite conserver son appareil numérique et le remettre en état, on&nbsp;<br></p>"
                         },
                         {
                           "type": "select",
@@ -863,7 +863,7 @@
                       "id": "a9a4ecbb-6ae0-4394-86e3-68dbfd8fcecb",
                       "type": "expand",
                       "title": "Indice ? 🔎",
-                      "content": "<p>Regardez la forme des flèches.</p>"
+                      "content": "<p>Rappellez-vous qu'on appelle modèle linéaire le modèle traditionnel « extraire, produire, consommer, jeter » et observez la forme des flèches sur le schéma.</p>"
                     }
                   ]
                 }
