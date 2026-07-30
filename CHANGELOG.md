@@ -1,5 +1,24 @@
 # Pix Changelog
 
+# [5.469.0](https://github.com/1024pix/pix/compare/v5.468.0...v5.469.0) (2026-07-30)
+
+### :rocket: Amélioration
+
+- [#16984](https://github.com/1024pix/pix/pull/16984) MDX-52 schéma effet rebond final
+- [#16982](https://github.com/1024pix/pix/pull/16982) Module Repondremail_IND images definitives
+
+### :bug: Correction
+
+- [#16916](https://github.com/1024pix/pix/pull/16916) Erreur 500 à l'appel Maddo `/api/campaigns/:id/participations`
+- [#16992](https://github.com/1024pix/pix/pull/16992) Le surveillant ne peut pas terminer un test de certification avant la fin depuis l'espace surveillant (PIX-23755)
+
+### :building_construction: Tech
+
+- [#16987](https://github.com/1024pix/pix/pull/16987) Déplacer AssessmentResults dans le contexte Prescription
+- [#16989](https://github.com/1024pix/pix/pull/16989) Déplacer des constantes de logger depuis le contexte Prescription vers Shared
+- [#16968](https://github.com/1024pix/pix/pull/16968) Déplacer la route get-prescriber dans un nouveau contexte
+- [#16909](https://github.com/1024pix/pix/pull/16909) Migration de Pix Admin vers Warpdrive
+
 # [5.468.0](https://github.com/1024pix/pix/compare/v5.467.0...v5.468.0) (2026-07-30)
 
 ### :rocket: Amélioration
