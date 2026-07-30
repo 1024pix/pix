@@ -1,4 +1,3 @@
-import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as userRecommendedTrainingRepository from '../../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
 import * as improvementService from '../../../../evaluation/domain/services/improvement-service.js';
 import * as badgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
@@ -7,14 +6,12 @@ import * as userRepository from '../../../../identity-access-management/infrastr
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import * as accessCodeGenerator from '../../../../shared/domain/services/access-code-generator.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
-import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import * as accessCodeRepository from '../../../../shared/infrastructure/repositories/access-code-repository.js';
 import { adminMemberRepository } from '../../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as badgeForCalculationRepository from '../../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import { auditLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
-import * as knowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
@@ -68,9 +65,7 @@ const dependencies = {
   improvementService,
   divisionRepository,
   auditLoggingJobRepository,
-  featureToggles,
   groupRepository,
-  knowledgeElementRepository,
   knowledgeElementSnapshotRepository,
   learningContentRepository,
   membershipRepository,
@@ -84,7 +79,6 @@ const dependencies = {
   stageCollectionRepository,
   stageAcquisitionRepository,
   targetProfileRepository: campaignRepositories.targetProfileRepository, // TODO
-  tutorialRepository,
   userRepository,
   userRecommendedTrainingRepository,
 };
