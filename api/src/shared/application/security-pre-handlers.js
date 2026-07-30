@@ -1,6 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import * as centerRepository from '../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
 import { PIX_ADMIN } from '../../shared/constants.js';
 import { ForbiddenAccess } from '../domain/errors.js';
@@ -295,39 +294,6 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(
   return _replyForbiddenError(h);
 }
 
-async function checkCertificationCenterIsNotScoManagingStudents(
-  request,
-  h,
-  dependencies = {
-    checkOrganizationIsScoAndManagingStudentUsecase,
-    checkUserIsMemberOfCertificationCenterUsecase,
-    centerRepository,
-  },
-) {
-  if (_noCredentials(request)) {
-    return _replyForbiddenError(h);
-  }
-
-  const certificationCenterId =
-    request?.params?.certificationCenterId || request?.payload?.data?.attributes?.certificationCenterId;
-
-  const organizationId = await dependencies.centerRepository.findActiveScoOrganizationId({ certificationCenterId });
-
-  if (!organizationId) {
-    return h.response(true);
-  }
-
-  const isOrganizationScoManagingStudent = await dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute({
-    organizationId,
-  });
-
-  if (isOrganizationScoManagingStudent) {
-    return _replyForbiddenError(h);
-  }
-
-  return h.response(true);
-}
-
 async function checkUserDoesNotBelongsToScoOrganizationManagingStudents(
   request,
   h,
@@ -613,7 +579,6 @@ export const securityPreHandlers = {
   checkAdminMemberHasRoleMetier,
   checkAdminMemberHasRoleSuperAdmin,
   checkAdminMemberHasRoleSupport,
-  checkCertificationCenterIsNotScoManagingStudents,
   checkOrganizationHasFeature,
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToLearnersOrganization,
