@@ -51,7 +51,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
     };
     userRepository = {
       getBySamlId: sinon.stub(),
-      getForObfuscation: sinon.stub(),
+      get: sinon.stub(),
     };
     userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),

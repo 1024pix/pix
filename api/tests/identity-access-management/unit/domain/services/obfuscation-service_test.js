@@ -14,7 +14,7 @@ describe('Identity Access Management | Unit | Service | user-authentication-meth
 
   beforeEach(function () {
     userRepository = {
-      getForObfuscation: sinon.stub(),
+      get: sinon.stub(),
     };
     authenticationMethodRepository = {
       findOneByUserIdAndIdentityProvider: sinon.stub(),
@@ -28,7 +28,7 @@ describe('Identity Access Management | Unit | Service | user-authentication-meth
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         userId: user.id,
       });
-      userRepository.getForObfuscation.resolves(user);
+      userRepository.get.resolves(user);
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
       // when
@@ -53,7 +53,7 @@ describe('Identity Access Management | Unit | Service | user-authentication-meth
         userId: user.id,
         identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
       });
-      userRepository.getForObfuscation.resolves(user);
+      userRepository.get.resolves(user);
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
       // when
@@ -78,7 +78,7 @@ describe('Identity Access Management | Unit | Service | user-authentication-meth
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         userId: user.id,
       });
-      userRepository.getForObfuscation.resolves(user);
+      userRepository.get.resolves(user);
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
       // when
@@ -99,7 +99,7 @@ describe('Identity Access Management | Unit | Service | user-authentication-meth
       // given
       const username = 'john.harry0702';
       const user = new User({ username });
-      userRepository.getForObfuscation.resolves(user);
+      userRepository.get.resolves(user);
 
       // when
       const value = await getObfuscatedAuthenticationMethod(user.id, {
@@ -119,7 +119,7 @@ describe('Identity Access Management | Unit | Service | user-authentication-meth
       const username = 'john.harry0702';
       const email = 'john.harry@example.net';
       const user = new User({ username, email });
-      userRepository.getForObfuscation.resolves(user);
+      userRepository.get.resolves(user);
 
       // when
       const value = await getObfuscatedAuthenticationMethod(user.id, {
@@ -139,7 +139,7 @@ describe('Identity Access Management | Unit | Service | user-authentication-meth
       // given
       const email = 'john.harry@example.net';
       const user = new User({ email });
-      userRepository.getForObfuscation.resolves(user);
+      userRepository.get.resolves(user);
 
       // when
       const value = await getObfuscatedAuthenticationMethod(user.id, {
@@ -158,7 +158,7 @@ describe('Identity Access Management | Unit | Service | user-authentication-meth
     it('should throw NotFoundError when user authentication is neither username, email nor samlId', async function () {
       // given
       const user = domainBuilder.buildUser({ username: null, email: null, authenticationMethods: [] });
-      userRepository.getForObfuscation.resolves(user);
+      userRepository.get.resolves(user);
 
       // when
       const error = await catchErr(getObfuscatedAuthenticationMethod)(user.id, {

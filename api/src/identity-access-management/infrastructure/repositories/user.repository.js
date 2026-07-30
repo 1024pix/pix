@@ -67,15 +67,6 @@ const getByIds = async function (userIds) {
   return dbUsers.map((dbUser) => new User(dbUser));
 };
 
-const getForObfuscation = async function (userId) {
-  const knexConn = DomainTransaction.getConnection();
-  const foundUser = await knexConn.select('id', 'email', 'username').from('users').where({ id: userId }).first();
-  if (!foundUser) {
-    throw new UserNotFoundError(`User not found for ID ${userId}`);
-  }
-  return new User({ id: foundUser.id, email: foundUser.email, username: foundUser.username });
-};
-
 const getUserDetailsForAdmin = async function (userId) {
   const knexConn = DomainTransaction.getConnection();
   const userDTO = await knexConn('users')
@@ -415,7 +406,6 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} getByIds
  * @property {function} getBySamlId
  * @property {function} getByUsernameOrEmailWithRolesAndPassword
- * @property {function} getForObfuscation
  * @property {function} getUserDetailsForAdmin
  * @property {function} isUserAllowedToAccessCertificationCenter
  * @property {function} getWithMemberships
@@ -446,7 +436,6 @@ export {
   getByIds,
   getBySamlId,
   getByUsernameOrEmailWithRolesAndPassword,
-  getForObfuscation,
   getUserDetailsForAdmin,
   getWithMemberships,
   isUserAllowedToAccessCertificationCenter,
