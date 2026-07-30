@@ -272,6 +272,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
             'examiner-global-comment': null,
             'has-incident': false,
             'has-joining-issue': false,
+            'has-expired': false,
             'finalized-at': null,
             'results-sent-to-prescriber-at': null,
             'published-at': null,
