@@ -1,4 +1,5 @@
 import { compatBuild } from '@embroider/compat';
+import { setConfig } from '@warp-drive/build-config';
 import EmberApp from 'ember-cli/lib/broccoli/ember-app.js';
 
 export default async function (defaults) {
@@ -7,16 +8,13 @@ export default async function (defaults) {
     'ember-cli-template-lint': {
       testGenerator: 'qunit', // or 'mocha', etc.
     },
-    '@embroider/macros': {
-      setConfig: {
-        '@ember-data/store': {
-          polyfillUUID: true,
-        },
-      },
+  });
+
+  setConfig(app, import.meta.dirname, {
+    deprecations: {
+      DEPRECATE_TRACKING_PACKAGE: false,
     },
-    emberData: {
-      deprecations: {},
-    },
+    polyfillUUID: true,
   });
 
   return compatBuild(app, buildOnce, {

@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@warp-drive/legacy/model';
 
 export default class OrganizationInvitation extends Model {
   @attr('string') email;

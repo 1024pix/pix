@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr } from '@warp-drive/legacy/model';
 
 export default class CombinedCourseStatistic extends Model {
   @attr('number') participationsCount;
