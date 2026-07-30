@@ -620,7 +620,7 @@
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "<p>1 : lorsque l'on récupère les <strong>matières premières</strong> de l'appareil numérique pour fabriquer un nouvel appareil, on&nbsp;&nbsp;</p>"
+                          "content": "1 : lorsque l'on récupère les <strong>matières premières</strong> de l'appareil numérique pour fabriquer un nouvel appareil, on&nbsp;&nbsp;"
                         },
                         {
                           "type": "select",
@@ -653,7 +653,7 @@
                         },
                         {
                           "type": "text",
-                          "content": "<p><br>2 : lorqu'on réutilise les <strong>pièces électroniques </strong>pour fabriquer un nouvel appareil, on&nbsp;</p>"
+                          "content": "<br>2 : lorqu'on réutilise les <strong>pièces électroniques </strong>pour fabriquer un nouvel appareil, on&nbsp;"
                         },
                         {
                           "type": "select",
@@ -704,7 +704,7 @@
                       "id": "3356a455-b8ab-40e0-a6d0-39cb3954ed7d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Lorsqu'un appareil numérique <strong>fonctionne encore </strong>ou qu'il est <strong>réparable</strong>, il est possible soit de <strong>redistribuer</strong> l'appareil en le donnant ou en le vendant, soit de <strong>conserver</strong> son appareil numérique.</p>"
+                      "content": "<p> Lorsqu'un appareil numérique <strong>fonctionne encore </strong>ou qu'il est <strong>réparable</strong>, il est possible soit de <strong>redistribuer</strong> l'appareil en le donnant ou en le vendant, soit de <strong>conserver</strong> son appareil numérique.</p>"
                     },
                     {
                       "id": "b3a020ce-560a-4b3d-8a06-2c6594fcd0c7",
@@ -722,7 +722,7 @@
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "<p>3 : lorsqu'on donne ou renvend un appareil numérique qui fonctionne encore on&nbsp;&nbsp;<br></p>"
+                          "content": "3 : lorsqu'on donne ou renvend un appareil numérique qui fonctionne encore on&nbsp;&nbsp;"
                         },
                         {
                           "type": "select",
@@ -755,7 +755,7 @@
                         },
                         {
                           "type": "text",
-                          "content": "<p><br>4 : lorsque l'on souhaite conserver son appareil numérique et le remettre en état, on&nbsp;<br></p>"
+                          "content": "<br>4 : lorsque l'on souhaite conserver son appareil numérique et le remettre en état, on&nbsp;"
                         },
                         {
                           "type": "select",
