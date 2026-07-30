@@ -5,8 +5,7 @@ import { resetPasswordDemandRepository } from '../../../identity-access-manageme
 import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as userLoginRepository from '../../../identity-access-management/infrastructure/repositories/user-login-repository.js';
 import * as userAcceptanceRepository from '../../../legal-documents/infrastructure/repositories/user-acceptance.repository.js';
-import * as organizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import { featureToggles as featureTogglesService } from '../../../shared/infrastructure/feature-toggles/index.js';
+import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { auditLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
@@ -26,7 +25,6 @@ const repositories = {
   learnersApiRepository,
   membershipRepository,
   lastUserApplicationConnectionsRepository,
-  organizationLearnerRepository,
   refreshTokenRepository,
   resetPasswordDemandRepository,
   userAcceptanceRepository,
@@ -36,7 +34,7 @@ const repositories = {
 };
 
 const services = {
-  featureTogglesService,
+  featureToggles,
 };
 
 import { anonymizeUser } from './anonymize-user.usecase.js';
