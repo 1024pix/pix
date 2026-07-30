@@ -34,6 +34,7 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
 
     afterEach(async function () {
       clock.restore();
+      sinon.restore();
     });
 
     context('when the parsed data is valid', function () {

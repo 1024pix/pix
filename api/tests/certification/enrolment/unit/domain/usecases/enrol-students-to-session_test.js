@@ -88,6 +88,10 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
     };
   });
 
+  afterEach(function () {
+    sinon.restore();
+  });
+
   context('when no ids provided', function () {
     it('does nothing if no student ids is given as input', async function () {
       await enrolStudentsToSession({

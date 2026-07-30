@@ -105,16 +105,8 @@ class CannotEnrollScoCandidateError extends DomainError {
   }
 }
 
-class CannotEnrollODSImportError extends DomainError {
-  constructor(message = "La session a débuté, l'ajout de candidat n'est plus possible.") {
-    super(message);
-    this.code = 'ODS_ENROL_NOT_ALLOWED';
-  }
-}
-
 export {
   CannotEnrollCandidateIndividuallyError,
-  CannotEnrollODSImportError,
   CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,
   InvalidCertificationCandidate,

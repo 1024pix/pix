@@ -6,7 +6,6 @@ import {
 } from '../../../shared/application/errors/http-errors.js';
 import {
   CannotEnrollCandidateIndividuallyError,
-  CannotEnrollODSImportError,
   CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,
   InvalidCertificationCandidate,
@@ -35,10 +34,6 @@ const enrolmentDomainErrorMappingConfiguration = [
   },
   {
     name: CannotEnrollCandidateIndividuallyError.name,
-    httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code),
-  },
-  {
-    name: CannotEnrollODSImportError.name,
     httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code),
   },
   {

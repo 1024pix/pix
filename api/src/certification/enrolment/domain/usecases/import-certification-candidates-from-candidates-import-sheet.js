@@ -23,16 +23,16 @@ export async function importCertificationCandidatesFromCandidatesImportSheet({
   centerRepository,
   sessionRepository,
   eventAdapter,
+  sessionAuthorizationAdapter,
   certificationCandidatesOdsService,
   certificationCpfService,
 }) {
-  const candidatesInSession = await candidateRepository.findBySessionId({ sessionId });
-  const session = await sessionRepository.get({ id: sessionId });
-
-  if (session.hasReconciledCandidate({ candidates: candidatesInSession })) {
+  const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
+  if (!sessionAuthorization.canEnrollCandidateViaODS) {
     throw new CandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
+  const session = await sessionRepository.get({ id: sessionId });
   const candidates = await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
     i18n,
     session,

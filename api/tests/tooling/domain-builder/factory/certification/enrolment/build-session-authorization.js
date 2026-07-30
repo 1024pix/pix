@@ -98,6 +98,30 @@ class SessionAuthorizationBuilder {
   }
 
   /**
+   * Can enroll for ODS import enrolment
+   *
+   * @returns {SessionAuthorizationBuilder}
+   */
+  canEnrollODSCandidate() {
+    this.isFinalized = false;
+    this.hasExpired = false;
+    this.hasStarted = false;
+    return this;
+  }
+
+  /**
+   * Cannot enroll for ODS import enrolment
+   *
+   * @returns {SessionAuthorizationBuilder}
+   */
+  cannotEnrollODSCandidate() {
+    this.isFinalized = false;
+    this.hasExpired = false;
+    this.hasStarted = true;
+    return this;
+  }
+
+  /**
    * Overrides any subset of the SessionAuthorizationBuilder attributes carried by the builder.
    * Omitted parameters keep their current value, so the method can be called
    * several times in the same chain without resetting previous overrides.

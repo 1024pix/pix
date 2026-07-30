@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { enrolmentDomainErrorMappingConfiguration } from '../../../../../src/certification/enrolment/application/http-error-mapper-configuration.js';
 import {
   CannotEnrollCandidateIndividuallyError,
-  CannotEnrollODSImportError,
   CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,
   SessionStartedDeletionError,
@@ -87,23 +86,6 @@ describe('Unit | Certification | Enrolment | Application | HttpErrorMapperConfig
         "La session a été finalisée ou a expiré, l'ajout de candidat n'est plus possible.",
       );
       expect(error.code).to.equal('INDIVIDUAL_ENROL_NOT_ALLOWED');
-    });
-  });
-
-  context('when mapping CannotEnrollODSImportError', function () {
-    it('returns an PreconditionFailed Http Error', function () {
-      //given
-      const httpErrorMapper = enrolmentDomainErrorMappingConfiguration.find(
-        (httpErrorMapper) => httpErrorMapper.name === CannotEnrollODSImportError.name,
-      );
-
-      //when
-      const error = httpErrorMapper.httpErrorFn(new CannotEnrollODSImportError());
-
-      //then
-      expect(error).to.be.instanceOf(PreconditionFailedError);
-      expect(error.message).to.equal("La session a débuté, l'ajout de candidat n'est plus possible.");
-      expect(error.code).to.equal('ODS_ENROL_NOT_ALLOWED');
     });
   });
 
