@@ -28,7 +28,7 @@ describe('Certification | Session Management | Integration | Infrastructure | Re
           .sessionAuthorizationInfoBuilder()
           .isFinalized()
           .withFirstCertificationStarted({ at: new Date() })
-          .withParameters({ id: 1 })
+          .withParameters({ id: 1, certificationCenterId: 111 })
           .insertToDB({ databaseBuilder });
 
         await databaseBuilder.commit();
@@ -46,7 +46,7 @@ describe('Certification | Session Management | Integration | Infrastructure | Re
           .sessionAuthorizationInfoBuilder()
           .isFinalized()
           .hasMatchingScoIsManagingStudentsOrganization({ organizationId: 456 })
-          .withParameters({ id: 1 })
+          .withParameters({ id: 1, certificationCenterId: 111 })
           .insertToDB({ databaseBuilder });
 
         await databaseBuilder.commit();

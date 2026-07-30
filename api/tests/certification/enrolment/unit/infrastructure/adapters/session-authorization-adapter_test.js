@@ -39,6 +39,7 @@ describe('Certification | Evaluation | Unit | Adapter | Session authorization', 
           hasExpired: true,
           hasStarted: true,
           scoIsManagingStudentsOrganizationId: 999,
+          certificationCenterId: 111,
         });
 
         const sessionAuthorization = await sessionAuthorizationAdapter.find({
@@ -55,6 +56,7 @@ describe('Certification | Evaluation | Unit | Adapter | Session authorization', 
               hasExpired: true,
               hasStarted: true,
               scoIsManagingStudentsOrganizationId: 999,
+              certificationCenterId: 111,
             })
             .build(),
         );

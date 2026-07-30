@@ -14,7 +14,7 @@ export async function validateSession({
   line,
   certificationCenterId,
   sessionRepository,
-  sessionManagementRepository,
+  sessionAuthorizationAdapter,
 }) {
   const sessionId = session.id;
   const sessionErrors = [];
@@ -29,8 +29,9 @@ export async function validateSession({
     }
 
     if (_isSessionIdFormatValid(sessionId)) {
-      if (await _isSessionExistingInCertificationCenter({ sessionId, certificationCenterId, sessionRepository })) {
-        if (!(await sessionManagementRepository.hasNoStartedCertification({ id: sessionId }))) {
+      const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
+      if (sessionAuthorization?.certificationCenterId === certificationCenterId) {
+        if (!sessionAuthorization.canEnrollCandidateViaMassImport) {
           _addToErrorList({
             errorList: sessionErrors,
             line,
@@ -224,11 +225,6 @@ function _isDateAndTimeValid(session) {
 
 function _isSessionIdFormatValid(sessionId) {
   return !isNaN(sessionId);
-}
-
-async function _isSessionExistingInCertificationCenter({ sessionId, certificationCenterId, sessionRepository }) {
-  const session = await sessionRepository.get({ id: sessionId });
-  return session.certificationCenterId === certificationCenterId;
 }
 
 function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {

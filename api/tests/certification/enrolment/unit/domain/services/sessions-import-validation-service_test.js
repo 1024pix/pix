@@ -1,4 +1,4 @@
-import lodash from 'lodash';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as sessionsImportValidationService from '../../../../../../src/certification/enrolment/domain/services/sessions-import-validation-service.js';
@@ -6,16 +6,14 @@ import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/d
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-const { noop } = lodash;
-
-describe('Unit | Service | sessions import validation Service', function () {
+describe('Certification | Enrolment | Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {
     let clock;
     let sessionRepository;
-    let sessionManagementRepository;
+    let sessionAuthorizationAdapter;
+    let dependencies;
 
     beforeEach(function () {
       clock = sinon.useFakeTimers({
@@ -26,7 +24,12 @@ describe('Unit | Service | sessions import validation Service', function () {
         isSessionExistingByCertificationCenterId: sinon.stub(),
         get: sinon.stub(),
       };
-      sessionManagementRepository = { hasNoStartedCertification: sinon.stub() };
+      sessionAuthorizationAdapter = { find: sinon.stub() };
+
+      dependencies = {
+        sessionRepository,
+        sessionAuthorizationAdapter,
+      };
     });
 
     afterEach(async function () {
@@ -43,14 +46,22 @@ describe('Unit | Service | sessions import validation Service', function () {
             sessionRepository.isSessionExistingByCertificationCenterId
               .withArgs({ ...session, certificationCenterId })
               .resolves(false);
+            sessionAuthorizationAdapter.find
+              .withArgs({ sessionId: session.id })
+              .resolves(
+                domainBuilder.certification.enrolment
+                  .sessionAuthorizationBuilder()
+                  .canEnrollMassImportCandidate()
+                  .withParameters({ id: session.id, certificationCenterId })
+                  .build(),
+              );
 
             // when
             const sessionErrors = await sessionsImportValidationService.validateSession({
               session,
               candidatesData: [_buildValidCandidateData()],
               line: 1,
-              sessionRepository,
-              sessionManagementRepository,
+              ...dependencies,
             });
 
             // then
@@ -70,12 +81,10 @@ describe('Unit | Service | sessions import validation Service', function () {
                 session,
                 candidatesData: [_buildValidCandidateData()],
                 line: 1,
-                sessionRepository,
-                sessionManagementRepository,
+                ...dependencies,
               });
 
               // then
-              expect(sessionManagementRepository.hasNoStartedCertification).to.not.have.been.called;
               expect(sessionErrors).to.deep.equal([
                 {
                   line: 1,
@@ -91,16 +100,24 @@ describe('Unit | Service | sessions import validation Service', function () {
               // given
               const sessionId = 1;
               const session = _buildValidSessionWithId(sessionId);
-              sessionManagementRepository.hasNoStartedCertification.resolves(true);
               sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
+              sessionAuthorizationAdapter.find
+                .withArgs({ sessionId: session.id })
+                .resolves(
+                  domainBuilder.certification.enrolment
+                    .sessionAuthorizationBuilder()
+                    .canEnrollMassImportCandidate()
+                    .withParameters({ id: session.id, certificationCenterId: 10 })
+                    .build(),
+                );
 
               // when
               const sessionErrors = await sessionsImportValidationService.validateSession({
                 session,
                 candidatesData: [_buildValidCandidateData()],
                 line: 1,
-                sessionRepository,
-                sessionManagementRepository,
+                certificationCenterId: 10,
+                ...dependencies,
               });
 
               // then
@@ -111,19 +128,27 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
-    context('when the session has already started', function () {
+    context('when the session cannot be enrolled with more candidate through mass import', function () {
       it('should return an errorReport that contains an already started error', async function () {
         const session = _buildValidSessionWithId(1234);
-        sessionManagementRepository.hasNoStartedCertification.withArgs({ id: 1234 }).resolves(false);
         sessionRepository.get.withArgs({ id: 1234 }).resolves(session);
+        sessionAuthorizationAdapter.find
+          .withArgs({ sessionId: session.id })
+          .resolves(
+            domainBuilder.certification.enrolment
+              .sessionAuthorizationBuilder()
+              .cannotEnrollMassImportCandidate()
+              .withParameters({ id: session.id, certificationCenterId: 10 })
+              .build(),
+          );
 
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
           candidatesData: [_buildValidCandidateData()],
           line: 2,
-          sessionRepository,
-          sessionManagementRepository,
+          certificationCenterId: 10,
+          ...dependencies,
         });
 
         // then
@@ -143,14 +168,23 @@ describe('Unit | Service | sessions import validation Service', function () {
           // given
           const session = _buildValidSessionWithoutId();
           session.date = '2020-03-12';
+          sessionAuthorizationAdapter.find
+            .withArgs({ sessionId: session.id })
+            .resolves(
+              domainBuilder.certification.enrolment
+                .sessionAuthorizationBuilder()
+                .canEnrollMassImportCandidate()
+                .withParameters({ id: session.id, certificationCenterId: 10 })
+                .build(),
+            );
 
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
             candidatesData: [_buildValidCandidateData()],
             line: 1,
-            sessionRepository,
-            sessionManagementRepository,
+            certificationCenterId: 10,
+            ...dependencies,
           });
 
           // then
@@ -173,16 +207,24 @@ describe('Unit | Service | sessions import validation Service', function () {
               // given
               const session = _buildValidSessionWithoutId();
               session.id = 1234;
-              sessionManagementRepository.hasNoStartedCertification.withArgs({ id: 1234 }).resolves(true);
               sessionRepository.get.withArgs({ id: 1234 }).resolves(session);
+              sessionAuthorizationAdapter.find
+                .withArgs({ sessionId: session.id })
+                .resolves(
+                  domainBuilder.certification.enrolment
+                    .sessionAuthorizationBuilder()
+                    .canEnrollMassImportCandidate()
+                    .withParameters({ id: session.id, certificationCenterId: 10 })
+                    .build(),
+                );
 
               // when
               const sessionErrors = await sessionsImportValidationService.validateSession({
                 session,
                 candidatesData: [_buildValidCandidateData()],
                 line: 1,
-                sessionRepository,
-                sessionManagementRepository,
+                certificationCenterId: 10,
+                ...dependencies,
               });
 
               // then
@@ -201,7 +243,6 @@ describe('Unit | Service | sessions import validation Service', function () {
       context('when the session does not exist for the certification center', function () {
         it('should return a sessionErrors array that contains a non-existent session id error', async function () {
           // given
-          const certificationCenter = domainBuilder.buildCertificationCenter();
           const session = domainBuilder.certification.enrolment.buildSession({
             id: 1234,
             address: null,
@@ -210,24 +251,32 @@ describe('Unit | Service | sessions import validation Service', function () {
             time: null,
             examiner: null,
             description: null,
-            certificationCenterId: certificationCenter.id,
+            certificationCenterId: 10,
             certificationCandidates: [],
           });
           sessionRepository.get.withArgs({ id: 1234 }).resolves(
             domainBuilder.certification.enrolment.buildSession({
               id: 1234,
-              certificationCenterId: certificationCenter.id + 1,
+              certificationCenterId: 10,
             }),
           );
+          sessionAuthorizationAdapter.find
+            .withArgs({ sessionId: session.id })
+            .resolves(
+              domainBuilder.certification.enrolment
+                .sessionAuthorizationBuilder()
+                .canEnrollMassImportCandidate()
+                .withParameters({ id: session.id, certificationCenterId: 11 })
+                .build(),
+            );
 
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
             candidatesData: [_buildValidCandidateData()],
-            certificationCenterId: certificationCenter.id,
             line: 1,
-            sessionRepository,
-            sessionManagementRepository,
+            certificationCenterId: 10,
+            ...dependencies,
           });
 
           // then
@@ -254,8 +303,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           candidatesData: [_buildValidCandidateData()],
           line: 1,
-          sessionRepository,
-          sessionManagementRepository,
+          certificationCenterId: 10,
+          ...dependencies,
         });
 
         // then
@@ -266,10 +315,9 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there already is an existing session with the same data as a newly imported one', function () {
       it('should return a sessionErrors array that contains a session already existing error', async function () {
         // given
-        const certificationCenterId = domainBuilder.buildCertificationCenter({}).id;
         const session = _buildValidSessionWithoutId();
         sessionRepository.isSessionExistingByCertificationCenterId
-          .withArgs({ ...session, certificationCenterId })
+          .withArgs({ ...session, certificationCenterId: 10 })
           .resolves(true);
 
         // when
@@ -277,9 +325,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           candidatesData: [_buildValidCandidateData()],
           line: 1,
-          certificationCenterId,
-          sessionRepository,
-          sessionManagementRepository,
+          certificationCenterId: 10,
+          ...dependencies,
         });
 
         // then
@@ -304,12 +351,11 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           candidatesData: [_buildValidCandidateData()],
           line: 1,
-          sessionRepository,
-          sessionManagementRepository,
+          certificationCenterId: 10,
+          ...dependencies,
         });
 
         // then
-        expect(sessionRepository.isSessionExistingByCertificationCenterId).to.not.have.been.called;
         expect(sessionErrors).to.deep.equal([
           {
             line: 1,
@@ -331,12 +377,11 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           candidatesData: [_buildValidCandidateData()],
           line: 1,
-          sessionRepository,
-          sessionManagementRepository,
+          certificationCenterId: 10,
+          ...dependencies,
         });
 
         // then
-        expect(sessionRepository.isSessionExistingByCertificationCenterId).to.not.have.been.called;
         expect(sessionErrors).to.deep.equal([
           {
             line: 1,
@@ -358,8 +403,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           candidatesData: [_buildValidCandidateData()],
           line: 1,
-          sessionRepository,
-          sessionManagementRepository,
+          certificationCenterId: 10,
+          ...dependencies,
         });
 
         // then
@@ -385,8 +430,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           candidatesData: [_buildValidCandidateData()],
           line: 1,
-          sessionRepository,
-          sessionManagementRepository,
+          certificationCenterId: 10,
+          ...dependencies,
         });
 
         // then
@@ -407,8 +452,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           session,
           candidatesData: [],
           line: 1,
-          sessionRepository,
-          sessionManagementRepository,
+          certificationCenterId: 10,
+          ...dependencies,
         });
 
         // then
@@ -786,8 +831,18 @@ describe('Unit | Service | sessions import validation Service', function () {
         const candidate = _buildValidCandidateModel();
         const certificationCpfCountryRepository = Symbol();
         const certificationCpfCityRepository = Symbol();
-        const certificationCandidateError = { code: 'CPF_INCORRECT', getMessage: noop };
-        const certificationCandidateError2 = { code: 'CPF_INCORRECT 2', getMessage: noop };
+        const certificationCandidateError = {
+          code: 'CPF_INCORRECT',
+          getMessage: () => {
+            /* empty */
+          },
+        };
+        const certificationCandidateError2 = {
+          code: 'CPF_INCORRECT 2',
+          getMessage: () => {
+            /* empty */
+          },
+        };
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
         cpfBirthInformationValidation.failure({
           certificationCandidateError: certificationCandidateError,

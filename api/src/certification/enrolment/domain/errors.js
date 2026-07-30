@@ -105,13 +105,6 @@ class CannotEnrollScoCandidateError extends DomainError {
   }
 }
 
-class CannotEnrollMassImportError extends DomainError {
-  constructor(message = "La session a débuté, l'ajout de candidat n'est plus possible.") {
-    super(message);
-    this.code = 'MASS_IMPORT_ENROL_NOT_ALLOWED';
-  }
-}
-
 class CannotEnrollODSImportError extends DomainError {
   constructor(message = "La session a débuté, l'ajout de candidat n'est plus possible.") {
     super(message);
@@ -121,7 +114,6 @@ class CannotEnrollODSImportError extends DomainError {
 
 export {
   CannotEnrollCandidateIndividuallyError,
-  CannotEnrollMassImportError,
   CannotEnrollODSImportError,
   CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,

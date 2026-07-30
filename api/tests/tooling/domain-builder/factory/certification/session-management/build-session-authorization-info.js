@@ -23,6 +23,7 @@ class SessionAuthorizationInfoBuilder {
     this.firstCertificationStartedAt = null;
     this.hasOrga = false;
     this.scoIsManagingStudentsOrganizationId = null;
+    this.certificationCenterId = null;
   }
 
   /**
@@ -69,10 +70,12 @@ class SessionAuthorizationInfoBuilder {
    *
    * @param {object} [params]
    * @param {number} [params.id] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)
+   * @param {number} [params.certificationCenterId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted certification-center (id null)
    * @returns {SessionAuthorizationInfoBuilder}
    */
-  withParameters({ id } = {}) {
+  withParameters({ id, certificationCenterId = null } = {}) {
     this.id = id ?? this.id;
+    this.certificationCenterId = certificationCenterId;
     return this;
   }
 
@@ -88,7 +91,8 @@ class SessionAuthorizationInfoBuilder {
   insertToDB({ databaseBuilder }) {
     const sessionAuthorizationInfo = this.build();
     const type = this.hasOrga ? 'SCO' : 'PRO';
-    const certificationCenterId = databaseBuffer.getNextId();
+    const certificationCenterId = sessionAuthorizationInfo.certificationCenterId ?? databaseBuffer.getNextId();
+    sessionAuthorizationInfo.certificationCenterId = certificationCenterId;
     const externalId = `EXTERNAL_ID_${certificationCenterId}`;
     databaseBuilder.factory.buildCertificationCenter({
       id: certificationCenterId,
@@ -143,6 +147,7 @@ class SessionAuthorizationInfoBuilder {
       finalizedAt: this.finalizedAt,
       firstCertificationStartedAt: this.firstCertificationStartedAt,
       scoIsManagingStudentsOrganizationId: organizationId,
+      certificationCenterId: this.certificationCenterId,
     });
   }
 }

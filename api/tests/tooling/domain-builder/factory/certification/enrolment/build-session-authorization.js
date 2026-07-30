@@ -22,6 +22,7 @@ class SessionAuthorizationBuilder {
     this.hasExpired = false;
     this.hasStarted = false;
     this.scoIsManagingStudentsOrganizationId = null;
+    this.certificationCenterId = null;
   }
 
   /**
@@ -73,6 +74,30 @@ class SessionAuthorizationBuilder {
   }
 
   /**
+   * Can enroll for mass import enrolment
+   *
+   * @returns {SessionAuthorizationBuilder}
+   */
+  canEnrollMassImportCandidate() {
+    this.isFinalized = false;
+    this.hasExpired = false;
+    this.hasStarted = false;
+    return this;
+  }
+
+  /**
+   * Cannot enroll for mass import enrolment
+   *
+   * @returns {SessionAuthorizationBuilder}
+   */
+  cannotEnrollMassImportCandidate() {
+    this.isFinalized = false;
+    this.hasExpired = false;
+    this.hasStarted = true;
+    return this;
+  }
+
+  /**
    * Overrides any subset of the SessionAuthorizationBuilder attributes carried by the builder.
    * Omitted parameters keep their current value, so the method can be called
    * several times in the same chain without resetting previous overrides.
@@ -83,16 +108,18 @@ class SessionAuthorizationBuilder {
    */
   withParameters({
     id,
-    isFinalized = false,
-    hasExpired = false,
-    hasStarted = false,
+    isFinalized,
+    hasExpired,
+    hasStarted,
     scoIsManagingStudentsOrganizationId = null,
+    certificationCenterId = null,
   } = {}) {
     this.id = id ?? this.id;
-    this.isFinalized = isFinalized;
-    this.hasExpired = hasExpired;
-    this.hasStarted = hasStarted;
+    this.isFinalized = isFinalized === undefined ? this.isFinalized : isFinalized;
+    this.hasExpired = hasExpired === undefined ? this.hasExpired : hasExpired;
+    this.hasStarted = hasStarted === undefined ? this.hasStarted : hasStarted;
     this.scoIsManagingStudentsOrganizationId = scoIsManagingStudentsOrganizationId;
+    this.certificationCenterId = certificationCenterId;
     return this;
   }
 
@@ -108,7 +135,8 @@ class SessionAuthorizationBuilder {
   insertToDB({ databaseBuilder }) {
     const sessionAuthorization = this.build();
     const type = sessionAuthorization.scoIsManagingStudentsOrganizationId ? 'SCO' : 'PRO';
-    const certificationCenterId = databaseBuffer.getNextId();
+    const certificationCenterId = sessionAuthorization.certificationCenterId ?? databaseBuffer.getNextId();
+    sessionAuthorization.certificationCenterId = certificationCenterId;
     const externalId = `EXTERNAL_ID_${certificationCenterId}`;
     databaseBuilder.factory.buildCertificationCenter({
       id: certificationCenterId,
@@ -160,6 +188,7 @@ class SessionAuthorizationBuilder {
       hasExpired: this.hasExpired,
       hasStarted: this.hasStarted,
       scoIsManagingStudentsOrganizationId: this.scoIsManagingStudentsOrganizationId,
+      certificationCenterId: this.certificationCenterId,
     });
   }
 }

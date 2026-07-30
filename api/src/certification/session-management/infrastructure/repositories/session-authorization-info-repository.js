@@ -9,6 +9,7 @@ export async function findBySessionId({ sessionId }) {
     .select({
       id: 'sessions.id',
       finalizedAt: 'sessions.finalizedAt',
+      certificationCenterId: 'sessions.certificationCenterId',
       firstCertificationStartedAt: knexConn
         .select('createdAt')
         .from('certification-courses')
