@@ -2,9 +2,7 @@ import * as userRepository from '../../../../identity-access-management/infrastr
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as versionApi from '../../../configuration/application/api/version-api.js';
-import * as flashAlgorithmService from '../../../evaluation/domain/services/algorithm-methods/flash.js';
 import { createLiveAlert } from '../../../evaluation/domain/usecases/create-live-alert.js';
-import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -12,7 +10,6 @@ import {
   answerRepository,
   assessmentRepository,
   assessmentResultRepository,
-  certificationChallengeRepository,
   certificationIssueReportRepository,
   certificationRepository,
   challengeRepository,
@@ -91,7 +88,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js').cpfExportsStorage} CpfExportsStorage
- * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
  * @typedef {import('../services/session-publication-service.js')} SessionPublicationService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
@@ -110,14 +106,12 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
- * @typedef {certificationBadgesService} CertificationBadgesService
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
- * @typedef {certificationChallengeRepository} CertificationChallengeRepository
  * @typedef {challengeRepository} ChallengeRepository
  * @typedef {certificationRepository} CertificationRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
@@ -137,7 +131,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {placementProfileService} PlacementProfileService
  * @typedef {certificationCpfService} CertificationCpfService
  * @typedef {mailService} MailService
- * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {sessionPublicationService} SessionPublicationService
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
@@ -156,14 +149,11 @@ const dependencies = {
   competenceMarkRepository,
   cpfExportsStorage,
   cpfExportRepository,
-  certificationBadgesService,
   placementProfileService,
   certificationCpfService,
   certificationCenterRepository,
-  certificationChallengeRepository,
   certificationRepository,
   certificationIssueReportRepository,
-  flashAlgorithmService,
   sessionPublicationService,
   versionApi,
   userRepository,
