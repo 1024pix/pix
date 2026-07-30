@@ -964,6 +964,7 @@
           "updated-at": "Updated at",
           "user-id": "User ID"
         },
+        "view-learner": "View more informations about the learner {learner} - external link",
         "view-organization": "View organization",
         "view-user": "View user"
       }

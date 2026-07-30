@@ -972,6 +972,7 @@
           "updated-at": "Date MAJ",
           "user-id": "User ID"
         },
+        "view-learner": "Voir plus d'informations sur le prescrit {learner} - lien externe",
         "view-organization": "Voir l'organisation",
         "view-user": "Voir l'utilisateur"
       }

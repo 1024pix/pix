@@ -12,4 +12,8 @@ export default class AdminOrganizationLearner extends Model {
   @attr() userId;
   @attr() updatedAt;
   @attr() isDisabled;
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }
