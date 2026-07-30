@@ -96,7 +96,7 @@ export class PixPlusEdu2ndDegreV3Seed {
       email: user.email,
       sessionId: V3_PUBLISHED_PIX_EDU_2ND_DEGRE_SESSION,
       userId: user.id,
-      authorizedToStart: true,
+      authorizedToStartAt: new Date(),
       billingMode: 'FREE',
       reconciledAt: now.toDate(),
       subscription: Frameworks.EDU_2ND_DEGRE,

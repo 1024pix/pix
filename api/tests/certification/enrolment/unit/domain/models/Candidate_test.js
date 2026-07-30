@@ -38,7 +38,6 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       userId: 777,
       sessionId: 888,
       organizationLearnerId: 999,
-      authorizedToStart: false,
       complementaryCertificationId: null,
       billingMode: BILLING_MODES.FREE,
       prepaymentCode: null,

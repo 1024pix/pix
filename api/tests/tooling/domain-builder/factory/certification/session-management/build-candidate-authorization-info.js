@@ -184,7 +184,6 @@ class CandidateAuthorizationInfoBuilder {
     const candidateId = databaseBuilder.factory.buildCertificationCandidate({
       id: candidateAuthorizationInfo.id ?? undefined,
       userId: candidateAuthorizationInfo.reconciledUserId,
-      authorizedToStart: Boolean(candidateAuthorizationInfo.authorizedToStartAt),
       authorizedToStartAt: candidateAuthorizationInfo.authorizedToStartAt,
       sessionId,
       subscription: candidateAuthorizationInfo.subscription,

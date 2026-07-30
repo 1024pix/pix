@@ -26,7 +26,7 @@ class CandidateAuthorizationBuilder {
     this.userId = null;
     this.reconciledAt = null;
     this.subscription = Frameworks.CORE;
-    this.authorizedToStart = true;
+    this.authorizedToStartAt = null;
     this.shouldCreateCertification = true;
     this.certificationId = null;
     this.hasExceededCertificationDuration = false;
@@ -67,10 +67,13 @@ class CandidateAuthorizationBuilder {
   /**
    * As if the invigilator authorized the candidate to enter the session
    *
+   * @param {object} [params]
+   * @param {Date} [params.at]
+   *
    * @returns {CandidateAuthorizationBuilder}
    */
-  asAuthorizedToStart() {
-    this.authorizedToStart = true;
+  asAuthorizedToStart({ at = new Date() } = {}) {
+    this.authorizedToStartAt = at;
     return this;
   }
 
@@ -80,7 +83,7 @@ class CandidateAuthorizationBuilder {
    * @returns {CandidateAuthorizationBuilder}
    */
   asNotAuthorizedToStart() {
-    this.authorizedToStart = false;
+    this.authorizedToStartAt = null;
     return this;
   }
 
@@ -204,7 +207,7 @@ class CandidateAuthorizationBuilder {
       userId: this.userId,
       reconciledAt: this.reconciledAt,
       subscription: this.subscription,
-      authorizedToStart: this.authorizedToStart,
+      authorizedToStart: Boolean(this.authorizedToStartAt),
       certificationId: this.certificationId,
       hasExceededCertificationDuration: this.hasExceededCertificationDuration,
       isCenterHabilitatedForCandidateSubscription: this.isCenterHabilitatedForCandidateSubscription,

@@ -39,7 +39,7 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
     .groupBy(
       'certification-candidates.id',
       'certification-candidates.userId',
-      'certification-candidates.authorizedToStart',
+      'certification-candidates.authorizedToStartAt',
       'certification-candidates.reconciledAt',
       'certification-candidates.subscription',
       'sessions.id',

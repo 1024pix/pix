@@ -197,7 +197,6 @@ export class CleaV3Seed {
     await this.databaseBuilder.knex
       .from('certification-candidates')
       .update({
-        authorizedToStart: true,
         authorizedToStartAt: new Date(),
       })
       .where({ id: candidateId });

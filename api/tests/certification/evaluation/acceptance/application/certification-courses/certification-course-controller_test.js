@@ -398,7 +398,6 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
   const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
     sessionId,
     userId,
-    authorizedToStart: true,
     authorizedToStartAt: new Date(),
     reconciledAt: new Date('2019-02-01'),
   });
@@ -442,7 +441,6 @@ function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, 
   databaseBuilder.factory.buildCertificationCandidate({
     sessionId,
     userId,
-    authorizedToStart: true,
     authorizedToStartAt: new Date(),
   });
 
