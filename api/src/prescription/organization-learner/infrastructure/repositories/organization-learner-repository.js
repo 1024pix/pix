@@ -176,7 +176,7 @@ async function findPaginatedLearnersForAdmin({ page, filter, sort }) {
   if (filter) {
     const { fullName, organizationExternalId, hideDisabled } = filter;
     if (fullName) {
-      filterByFullName(query, fullName, 'firstName', 'lastName');
+      filterByFullName(query, fullName, 'firstName', 'lastName', 0.6);
     }
     if (organizationExternalId) {
       const searchUpperCase = organizationExternalId.trim().toUpperCase();
