@@ -261,8 +261,8 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/21_RepondreMail_IND/reception.svg",
                 "alt": "Boîte de réception avec 4 mails",
-                "alternativeText": "<ul>    <li>Scène nationale (billeterie@scenenationale.org) - Le programme de théâtre de l’année - Découvrez les spectacles de la saison …</li>    <li>Laboratoire BioSanté (contact@biosante.fr) - Résultats d’analyses - Vos résultats d’analyses sanguines sont disponibles…</li>    <li>Phil Mourget (mourget.phil@pixmail.org) - Du nouveau sur le théâtre ? - Bonjour, nous avions discuté lundi de la pièce «&nbsp;Un regard sur l’océan&nbsp;». Savez-vous quand et où elle sera programmée cette année ? ...</li>    <li>Rajesh (rajesh45@pixmail.org) -&nbsp;TR: Les résultats du championnat de Volley - Coucou, regarde-moi ce palmarès, les Indigos ont encore tout raflé ! …</li></ul>",
-                "legend": "Image provisoire : Capture d’écran basée sur Pixmail avec 4 mails (objet + aperçu du mail)",
+                "alternativeText": "<ul>    <li>Scène nationale (billeterie@scenenationale.org) - Le programme de théâtre de l’année - Découvrez les spectacles de la saison …</li>    <li>Laboratoire BioSanté (contact@biosante.fr) - Résultats d’analyses - Vos résultats d’analyses sanguines sont disponibles…</li>    <li>Phil Mourget (mourget.phil@pixmail.org) - Du nouveau sur le théâtre ? - Bonjour, nous avions discuté lundi de la pièce «&nbsp;Un...</li>    <li>Rajesh (rajesh45@pixmail.org) -&nbsp;TR: Les résultats du championnat de Volley - Coucou, regarde-moi ce palmarès, les…</li></ul>",
+                "legend": "",
                 "licence": ""
               }
             },
@@ -445,7 +445,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/modules/21_RepondreMail_IND/mail_legende.svg",
                 "alt": "Affichage d’un mail transféré",
-                "alternativeText": "<ul>    <li>Dans le titre du mail, « TR » veut dire « Transféré »</li><li>D’abord, l’explication ou le message que vous avez écrit pour accompagner le transfert.</li>    <li>Ensuite, se trouvent les informations du mail d’origine&nbsp;: son expéditeur, la date, son objet et ses destinataires d’origine.</li>    <li>Puis, votre destinataire voit le contenu du mail d’origine.<br></li></ul>",
+                "alternativeText": "<ul>    <li>Dans le titre du mail, « TR » veut dire « Transféré »</li><li>Puis, dans le mail, l’explication ou le message que vous avez écrit pour accompagner le transfert.</li>    <li>Ensuite, se trouvent les informations du mail d’origine&nbsp;: son expéditeur, la date, son objet et ses destinataires d’origine.</li>    <li>Puis, votre destinataire voit le contenu du mail d’origine.<br></li></ul>",
                 "legend": "",
                 "licence": ""
               }
