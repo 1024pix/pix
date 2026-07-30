@@ -1,4 +1,4 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -8,7 +8,6 @@ import { module, test } from 'qunit';
 module('Acceptance | Certification Framework | item | Framework | edit', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-
 
   hooks.beforeEach(function () {
     const versionSummaries = [];
@@ -49,7 +48,6 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
   });
 
   module('when admin member has role "SUPER ADMIN"', function () {
-
     module('when trying to calibrate a non-draft version', function () {
       test('redirects to versions list', async function (assert) {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
@@ -58,6 +56,16 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
         assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
 
         await visit(`/certification-frameworks/CORE/versions/15/calibration`);
+        assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
+      });
+    });
+
+    module('when trying to click on cancel button', function () {
+      test('redirects to certification-framework page', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        await visit(`/certification-frameworks/CORE/versions/14/edit`);
+        await clickByName('Annuler');
         assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
       });
     });

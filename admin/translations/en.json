@@ -14,6 +14,7 @@
       "deactivate": "Deactivate",
       "download-template": "Download template",
       "edit": "Edit",
+      "next": "Next",
       "save": "Save",
       "validate": "Validate"
     },
@@ -577,6 +578,10 @@
           "status": "Status:"
         },
         "versions": {
+          "calibration": {
+            "calibration-id-input-label": "Calibration ID (provided by Data)*",
+            "verify-calibration-id-button": "Start the calibration recovery process"
+          },
           "edit": {
             "assessment-duration-label": "Assessment duration (hh:mm):",
             "challenges-between-same-competence-label": "Number of questions between two questions assessing the same competency:",
@@ -597,10 +602,6 @@
             "submit-button": "Submit the new version of the certification framework ",
             "success-notification": "The new version of the certification framework  has been successfully created.",
             "title": "Creating a new version of the certification framework for {frameworkLabel}"
-          },
-          "calibration": {
-            "calibration-id-input-label": "Calibration ID (provided by Data)*",
-            "verify-calibration-id-button": "Start the calibration recovery process"
           },
           "page-title": "Creation of a new version of the certification in {scope} framework",
           "title": "Creating a Certification Release"
