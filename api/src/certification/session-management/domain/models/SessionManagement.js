@@ -24,6 +24,7 @@ export class SessionManagement {
     assignedCertificationOfficerId,
     version = AlgorithmEngineVersion.V3,
     createdBy,
+    firstCertificationStartedAt,
   } = {}) {
     this.id = id;
     this.accessCode = accessCode;
@@ -45,6 +46,7 @@ export class SessionManagement {
     this.assignedCertificationOfficerId = assignedCertificationOfficerId;
     this.version = version;
     this.createdBy = createdBy;
+    this.firstCertificationStartedAt = firstCertificationStartedAt;
   }
 
   get status() {

@@ -34,6 +34,17 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
         userId: userForCandidate.id,
         reconciledAt: new Date(),
       });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: session.id,
+        createdAt: new Date('2026-06-06T14:00:00Z'),
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: session.id,
+        createdAt: new Date('2026-06-06T12:00:00Z'),
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        createdAt: new Date('2026-06-06T11:00:00Z'),
+      });
       expectedSessionValues = {
         id: session.id,
         certificationCenter: session.certificationCenter,
@@ -53,6 +64,7 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
             resultRecipientEmail: certificationCandidate.resultRecipientEmail,
           },
         ],
+        firstCertificationStartedAt: new Date('2026-06-06T12:00:00Z'),
       };
       await databaseBuilder.commit();
     });

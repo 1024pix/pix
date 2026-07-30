@@ -26,6 +26,14 @@ const get = async function ({ id }) {
       'assignedCertificationOfficerId',
       'createdBy',
     )
+    .select({
+      firstCertificationStartedAt: knexConn
+        .select('createdAt')
+        .from('certification-courses')
+        .where('certification-courses.sessionId', id)
+        .orderBy('createdAt', 'asc')
+        .first(),
+    })
     .from('sessions')
     .where({ id })
     .first();

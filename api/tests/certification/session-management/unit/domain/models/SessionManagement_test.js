@@ -26,6 +26,7 @@ const SESSION_PROPS = [
   'assignedCertificationOfficerId',
   'version',
   'createdBy',
+  'firstCertificationStartedAt',
 ];
 
 describe('Unit | Certification | Session | Domain | Models | SessionManagement', function () {
@@ -54,6 +55,7 @@ describe('Unit | Certification | Session | Domain | Models | SessionManagement',
       certificationCenterId: '',
       assignedCertificationOfficerId: '',
       createdBy: '',
+      firstCertificationStartedAt: null,
     });
   });
 
