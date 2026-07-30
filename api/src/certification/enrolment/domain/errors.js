@@ -91,7 +91,39 @@ class WrongDomainExtensionForPixPlusError extends DomainError {
   }
 }
 
+class CannotEnrollCandidateIndividuallyError extends DomainError {
+  constructor(message = "La session a été finalisée ou a expiré, l'ajout de candidat n'est plus possible.") {
+    super(message);
+    this.code = 'INDIVIDUAL_ENROL_NOT_ALLOWED';
+  }
+}
+
+class CannotEnrollScoCandidateError extends DomainError {
+  constructor(message = "La session a été finalisée ou a expiré, l'ajout de candidat n'est plus possible.") {
+    super(message);
+    this.code = 'SCO_ENROL_NOT_ALLOWED';
+  }
+}
+
+class CannotEnrollMassImportError extends DomainError {
+  constructor(message = "La session a débuté, l'ajout de candidat n'est plus possible.") {
+    super(message);
+    this.code = 'MASS_IMPORT_ENROL_NOT_ALLOWED';
+  }
+}
+
+class CannotEnrollODSImportError extends DomainError {
+  constructor(message = "La session a débuté, l'ajout de candidat n'est plus possible.") {
+    super(message);
+    this.code = 'ODS_ENROL_NOT_ALLOWED';
+  }
+}
+
 export {
+  CannotEnrollCandidateIndividuallyError,
+  CannotEnrollMassImportError,
+  CannotEnrollODSImportError,
+  CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,
   InvalidCertificationCandidate,
   SessionStartedDeletionError,

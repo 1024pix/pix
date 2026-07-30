@@ -1,9 +1,14 @@
 import {
   ConflictError,
   ForbiddenError,
+  PreconditionFailedError,
   UnprocessableEntityError,
 } from '../../../shared/application/errors/http-errors.js';
 import {
+  CannotEnrollCandidateIndividuallyError,
+  CannotEnrollMassImportError,
+  CannotEnrollODSImportError,
+  CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,
   InvalidCertificationCandidate,
   SessionStartedDeletionError,
@@ -28,6 +33,22 @@ const enrolmentDomainErrorMappingConfiguration = [
   {
     name: WrongDomainExtensionForPixPlusError.name,
     httpErrorFn: (error) => new ForbiddenError(error.message, error.code),
+  },
+  {
+    name: CannotEnrollCandidateIndividuallyError.name,
+    httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code),
+  },
+  {
+    name: CannotEnrollMassImportError.name,
+    httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code),
+  },
+  {
+    name: CannotEnrollODSImportError.name,
+    httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code),
+  },
+  {
+    name: CannotEnrollScoCandidateError.name,
+    httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code),
   },
 ];
 export { enrolmentDomainErrorMappingConfiguration };
