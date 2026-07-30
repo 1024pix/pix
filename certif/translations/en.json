@@ -704,7 +704,8 @@
               }
             },
             "title": "Enrol candidates",
-            "warning": "The session has begun, you can’t upload a candidates' list anymore.<br />If you want to edit the list, you can enrol a candidate directly in the table below."
+            "started-warning": "The session has begun, you can’t upload a candidates' list anymore.<br />If you want to edit the list, you can enrol a candidate directly in the table below.",
+            "expired-warning": "The session has expired, you can no longer enrol."
           }
         },
         "downloads": {

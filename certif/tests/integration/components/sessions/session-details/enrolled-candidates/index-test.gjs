@@ -237,6 +237,42 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     });
   });
 
+  module('when session is hexpired', function () {
+    test('it enrol button should be disabled', async function (assert) {
+      // given
+      const certificationCandidates = [
+        _buildCertificationCandidate({ id: '1', subscription: coreSubscription }),
+        _buildCertificationCandidate({
+          id: '2',
+          firstName: 'Lara',
+          lastName: 'Pafromage',
+          isLinked: true,
+        }),
+        _buildCertificationCandidate({
+          id: '3',
+          firstName: 'Jean',
+          lastName: 'Registre',
+        }),
+      ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+
+      // when
+      const screen = await render(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @countries={{countries}}
+            @disableEnrollCandidate={{true}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.strictEqual(screen.getByRole('button', { name: 'Inscrire un candidat' }).getAttribute('aria-disabled'), 'true');
+    });
+  });
+
   module('when candidate needs accessibility adjusted certification', function (hooks) {
     hooks.beforeEach(async function () {
       store = this.owner.lookup('service:store');

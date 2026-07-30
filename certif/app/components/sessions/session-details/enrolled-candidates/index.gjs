@@ -301,11 +301,11 @@ export default class EnrolledCandidates extends Component {
         ({{@certificationCandidates.length}})
       </h3>
       {{#if @shouldDisplayScoStudentRegistration}}
-        <PixButtonLink @route='authenticated.sessions.add-student' @model={{@sessionId}}>
+        <PixButtonLink @isDisabled={{@disableEnrollCandidate}} @route='authenticated.sessions.add-student' @model={{@sessionId}}>
           {{t 'pages.sessions.detail.candidates.list.actions.inscription-multiple.label'}}
         </PixButtonLink>
       {{else}}
-        <PixButton id='add-candidate' @triggerAction={{this.openNewCandidateModal}} @size='small'>
+        <PixButton id='add-candidate' @isDisabled={{@disableEnrollCandidate}} @triggerAction={{this.openNewCandidateModal}} @size='small'>
           {{t 'pages.sessions.detail.candidates.list.actions.inscription.label'}}
         </PixButton>
       {{/if}}

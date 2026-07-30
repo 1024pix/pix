@@ -704,7 +704,8 @@
               }
             },
             "title": "Inscrire des candidats",
-            "warning": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br /> Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous."
+            "started-warning": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br /> Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.",
+            "expired-warning": "La session a expiré, vous ne pouvez plus inscrire de candidats."
           }
         },
         "downloads": {

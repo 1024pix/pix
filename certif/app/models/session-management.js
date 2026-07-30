@@ -15,6 +15,7 @@ export default class Session extends Model {
   @attr('string') examinerGlobalComment;
   @attr('boolean') hasSomeCleaAcquired;
   @attr('boolean') hasIncident;
+  @attr('boolean') hasExpired;
   @attr('boolean') hasJoiningIssue;
   @attr('number') version;
   @hasMany('certification-report', { async: true, inverse: null }) certificationReports;
