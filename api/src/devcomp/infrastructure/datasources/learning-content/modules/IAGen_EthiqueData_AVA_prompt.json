@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Entre inspiration et plagiat, les limites sont parfois difficiles à trancher. Aujourd’hui, avec le développement des logiciels d’IA générative, ces limites deviennent de plus en plus complexes.</p><p>Découvrez dans ce module comment utiliser l’IA de façon éthique et conforme au droit d’auteur.</p><p><strong><br>Important</strong>&nbsp;: ce module n’aborde pas l’entraînement des modèles d'IA générative et la question du droit d’auteur vue par les auteurs d’oeuvres. Ces éléments sont traités dans un autre module.</p>",
+    "description": "<p>Entre inspiration et plagiat, les limites sont parfois difficiles à trancher. Aujourd’hui, avec le développement des logiciels d’IA générative, ces limites deviennent de plus en plus complexes.</p><p>Découvrez dans ce module comment utiliser l’IA de façon éthique et conforme au droit d’auteur.</p>",
     "duration": 10,
     "level": "independent",
     "objectives": [
@@ -209,7 +209,7 @@
                     {
                       "id": "bdc43e6a-b205-4b23-9f25-b42c70546330",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Selon vous, Jeanne a-t-elle fait un effort créatif pour créer le logo&nbsp;?</p>",
+                      "instruction": "<p>Selon vous, Jeanne a-t-elle fait un effort créatif pour créer l'image&nbsp;?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -390,7 +390,7 @@
                       "id": "7b352f6e-e3d9-4ecc-9e52-6856d1851a80",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Simon souhaite publier cette nouvelle.</p>"
+                      "content": "<p>Simon souhaite <strong>publier</strong> cette nouvelle.</p>"
                     },
                     {
                       "id": "0b8c2a5c-6118-42a7-8536-43fcff9ae64c",
@@ -452,7 +452,7 @@
                       "id": "866e4005-205c-41bf-ad23-cec052cd85b1",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Jean-Yves utilise ensuite la photo sur son site web.</p>"
+                      "content": "<p>Jean-Yves <strong>utilise</strong> ensuite la photo sur son site web.</p>"
                     },
                     {
                       "id": "430f8be2-d2c6-4536-9c6b-5ebdc762acd6",
@@ -505,7 +505,7 @@
                         "messages": [
                           {
                             "direction": "outbound",
-                            "content": "Voici un extrait de code créé par mes collègues dans mon entreprise. Aide-moi à modifier ce code pour développer une nouvelle application."
+                            "content": "Voici un extrait de code privé créé par mes collègues dans mon entreprise. Aide-moi à modifier ce code pour développer une nouvelle application à titre personnel."
                           }
                         ]
                       }
@@ -514,12 +514,12 @@
                       "id": "3694c6fb-2970-43a0-8b41-64d2ddf15582",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Arthur souhaite commercialiser cette application.</p>"
+                      "content": "<p>Arthur souhaite <strong>commercialiser</strong> cette application.</p>"
                     },
                     {
                       "id": "654f8747-907b-4371-87d7-5e1e72e86fd7",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Selon vous, Arthur respecte-t-il le droit d'auteur&nbsp;:?</p>",
+                      "instruction": "<p>Selon vous, Arthur respecte-t-il le droit d'auteur&nbsp;?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
@@ -658,9 +658,9 @@
                     {
                       "id": "84a21a6a-9c4a-4574-b031-e0c93fbcc107",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGen_Ethique_AVA_prompt/dec3-1.png",
+                      "url": "https://assets.pix.org/modules/IAGen_EthiqueData_IND_droit_auteur/d3_image2.png",
                       "alt": "",
-                      "alternativeText": "",
+                      "alternativeText": "<p>Photo d'un lac en montagne avec des pins. En bas de la photo, on voit la mention « IA »</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -701,10 +701,10 @@
                     {
                       "id": "ad4ca922-45f2-4d7c-9850-f322207fb33f",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGen_Ethique_AVA_prompt/dec3-3.png",
+                      "url": "https://assets.pix.org/modules/IAGen_EthiqueData_IND_droit_auteur/decouverte3_image3.png",
                       "alt": "",
-                      "alternativeText": "",
-                      "legend": "+ indiquer qu’il y a des métadonnées avec écrit \"généré par IA\"",
+                      "alternativeText": "<p>Photo d'une femme travaillant devant son ordinateur. Une fenêtre \"informations sur l'imag\" est ouverte à côté de l'image qui reprend les caractériques de l'image. Nom du fichier : IMG_20260705_092514.jpg. Date de prise de vue : 5 juillet 2026 à 09:25. Dimensions 5472x3648. Taille du fichier : 2,91 Mo. Créé ou modifié avec une IA oui. Outil d'IA : ChatPix. Méthode : génération d'image.<br></p>",
+                      "legend": "",
                       "licence": ""
                     },
                     {
@@ -717,21 +717,21 @@
                           "id": "1",
                           "content": "<p>Oui.</p>",
                           "feedback": {
-                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong>, c'est-à-dire les informations d'un fichier, indiquent qu’un logiciel d'IA a été utilisé pour créer ou modifier l’image. Mais ces métadonnées ne permettent pas de savoir si l’image a été entièrement générée par le logiciel ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image même après des retouches réalisées par un humain.</p>"
+                            "diagnosis": "<p>Et non ! Les <strong>métadonnées</strong>, c'est-à-dire les informations d'un fichier, indiquent qu’un logiciel d'IA a été utilisé pour créer ou modifier l’image. Mais ces métadonnées ne permettent pas de savoir si l’image a été <strong>entièrement générée par le logiciel </strong>ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image<strong> même après des retouches réalisées par un humain</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Non.</p>",
                           "feedback": {
-                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong>, c'est-à-dire les informations d'un fichier, indiquent qu’une IA a été utilisé pour créer ou modifier l’image. Mais ces métadonnées ne permettent pas de savoir si l’image a été entièrement générée par le logiciel ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image même après des retouches réalisées par un humain.</p>"
+                            "diagnosis": "<p>Ce n'est pas si simple ! Les <strong>métadonnées</strong>, c'est-à-dire les informations d'un fichier, indiquent qu’une IA a été utilisé pour créer ou modifier l’image. Mais ces métadonnées ne permettent pas de savoir si l’image a été <strong>entièrement générée par le logiciel </strong>ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image <strong>même après des retouches réalisées par un humain</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>On ne peut pas savoir.</p>",
                           "feedback": {
-                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong>, c'est-à-dire les informations d'un fichier, indiquent qu’un logiciel d'IA a été utilisé pour créer ou modifier l’image. Mais ces métadonnées ne permettent pas de savoir si l’image a été entièrement générée par le logiciel ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image même après des retouches réalisées par un humain.</p>"
+                            "diagnosis": "<p>En effet ! Les <strong>métadonnées</strong>, c'est-à-dire les informations d'un fichier, indiquent qu’un logiciel d'IA a été utilisé pour créer ou modifier l’image. Mais ces métadonnées ne permettent pas de savoir si l’image a été <strong>entièrement générée par le logiciel </strong>ou si une personne l’a ensuite retravaillée. En effet, le marquage dans les métadonnées peut rester associé à l’image <strong>même après des retouches réalisées par un humain</strong>.</p>"
                           }
                         }
                       ],
@@ -932,7 +932,7 @@
                 "id": "e623b399-786a-4644-b97b-a90bcb773472",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Ambre a utilisé un logiciel d’IA générative pour créer une illutration. Pus, elle a retouché l’image plusieurs heures pour changer les couleurs, ajouter des éléments, etc. En souhaitant diffuser son illustration sur une plateforme, malgré les heures de retouche, la plateforme indique automatiquement que son illustration est un « contenu créé par une IA »..<br></p>"
+                "content": "<p>Ambre a utilisé un logiciel d’IA générative pour créer une illutration. Pus, elle a retouché l’image plusieurs heures pour changer les couleurs, ajouter des éléments, etc. En souhaitant diffuser son illustration sur une plateforme, malgré les heures de retouche, la plateforme indique automatiquement que son illustration est un «&nbsp;contenu créé par une IA&nbsp;».<br></p>"
               }
             },
             {
