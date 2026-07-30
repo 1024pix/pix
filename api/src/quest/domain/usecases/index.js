@@ -29,7 +29,6 @@ const dependencies = {
   accessCodeRepository: repositories.accessCodeRepository,
   attestationRepository: repositories.attestationRepository,
   eligibilityRepository: repositories.eligibilityRepository,
-  rewardRepository: repositories.rewardRepository,
   successRepository: repositories.successRepository,
   questRepository: repositories.questRepository,
   combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
