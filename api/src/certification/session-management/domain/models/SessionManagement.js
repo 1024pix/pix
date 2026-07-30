@@ -1,7 +1,7 @@
 import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
-const MAXIMAL_SESSION_DURATION_IN_MS = 24 * 60 * 60 * 1000; // 24h
+import { MAXIMAL_SESSION_DURATION_IN_MS } from '../constants.js';
 
 export class SessionManagement {
   constructor({
