@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-import { CampaignParticipationLoggerContext } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { CampaignParticipationLoggerContext } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { expect } from '../../../../../test-helper.js';

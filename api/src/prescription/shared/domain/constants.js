@@ -14,16 +14,6 @@ const CampaignExternalIdTypes = {
   EMAIL: 'EMAIL',
 };
 
-const CampaignParticipationLoggerContext = {
-  DELETION: 'CAMPAIGN_PARTICIPATION_DELETION',
-  ANONYMIZATION: 'CAMPAIGN_PARTICIPATION_ANONYMIZATION',
-};
-
-const OrganizationLearnerLoggerContext = {
-  DELETION: 'ORGANIZATION_LEARNER_DELETION',
-  ANONYMIZATION: 'ORGANIZATION_LEARNER_ANONYMIZATION',
-};
-
 const CombinedCourseParticipationStatuses = {
   STARTED: 'STARTED',
   COMPLETED: 'COMPLETED',
@@ -40,11 +30,9 @@ const MaxMasteryRate = {
 
 export {
   CampaignExternalIdTypes,
-  CampaignParticipationLoggerContext,
   CampaignParticipationStatuses,
   CampaignTypes,
   CombinedCourseParticipationStatuses,
   CombinedCourseStatuses,
   MaxMasteryRate,
-  OrganizationLearnerLoggerContext,
 };
