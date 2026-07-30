@@ -21,22 +21,42 @@ describe('Certification | Session Management | Integration | Infrastructure | Re
       expect(sessionAuth).to.be.null;
     });
 
-    it('returns the session authorization info when found for given sessionId', async function () {
-      // given
-      const expectedSessionAuthorizationInfo = domainBuilder.certification.sessionManagement
-        .sessionAuthorizationInfoBuilder()
-        .isFinalized()
-        .withFirstCertificationStarted({ at: new Date() })
-        .withParameters({ id: 1 })
-        .insertToDB({ databaseBuilder });
+    context('when session exists', function () {
+      it('returns SessionAuthorizationInfo model with expected data when it has a first certification started', async function () {
+        // given
+        const expectedSessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+          .sessionAuthorizationInfoBuilder()
+          .isFinalized()
+          .withFirstCertificationStarted({ at: new Date() })
+          .withParameters({ id: 1 })
+          .insertToDB({ databaseBuilder });
 
-      await databaseBuilder.commit();
+        await databaseBuilder.commit();
 
-      // when
-      const sessionAuth = await findBySessionId({ sessionId: 1 });
+        // when
+        const sessionAuth = await findBySessionId({ sessionId: 1 });
 
-      // then
-      expect(sessionAuth).to.deepEqualInstance(expectedSessionAuthorizationInfo);
+        // then
+        expect(sessionAuth).to.deepEqualInstance(expectedSessionAuthorizationInfo);
+      });
+
+      it('returns SessionAuthorizationInfo model with expected data when certification center has a matching SCO ismanaging students orga', async function () {
+        // given
+        const expectedSessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+          .sessionAuthorizationInfoBuilder()
+          .isFinalized()
+          .hasMatchingScoIsManagingStudentsOrganization({ organizationId: 456 })
+          .withParameters({ id: 1 })
+          .insertToDB({ databaseBuilder });
+
+        await databaseBuilder.commit();
+
+        // when
+        const sessionAuth = await findBySessionId({ sessionId: 1 });
+
+        // then
+        expect(sessionAuth).to.deepEqualInstance(expectedSessionAuthorizationInfo);
+      });
     });
   });
 });

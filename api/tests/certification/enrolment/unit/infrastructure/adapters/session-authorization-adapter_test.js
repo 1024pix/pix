@@ -37,6 +37,8 @@ describe('Certification | Evaluation | Unit | Adapter | Session authorization', 
           id: 456,
           isFinalized: true,
           hasExpired: true,
+          hasStarted: true,
+          scoIsManagingStudentsOrganizationId: 999,
         });
 
         const sessionAuthorization = await sessionAuthorizationAdapter.find({
@@ -47,7 +49,13 @@ describe('Certification | Evaluation | Unit | Adapter | Session authorization', 
         expect(sessionAuthorization).to.deepEqualInstance(
           domainBuilder.certification.enrolment
             .sessionAuthorizationBuilder()
-            .withParameters({ id: 456, isFinalized: true, hasExpired: true })
+            .withParameters({
+              id: 456,
+              isFinalized: true,
+              hasExpired: true,
+              hasStarted: true,
+              scoIsManagingStudentsOrganizationId: 999,
+            })
             .build(),
         );
       });

@@ -1,9 +1,10 @@
 export class SessionAuthorization {
-  constructor({ id, isFinalized, hasExpired, hasStarted }) {
+  constructor({ id, isFinalized, hasExpired, hasStarted, scoIsManagingStudentsOrganizationId }) {
     this.id = id;
     this.isFinalized = isFinalized;
     this.hasExpired = hasExpired;
     this.hasStarted = hasStarted;
+    this.scoIsManagingStudentsOrganizationId = scoIsManagingStudentsOrganizationId;
   }
 
   get canEnrollCandidateIndividually() {

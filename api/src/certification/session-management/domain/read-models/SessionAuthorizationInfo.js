@@ -1,10 +1,11 @@
 import { MAXIMAL_SESSION_DURATION_IN_MS } from '../constants.js';
 
 export class SessionAuthorizationInfo {
-  constructor({ id, finalizedAt, firstCertificationStartedAt }) {
+  constructor({ id, finalizedAt, firstCertificationStartedAt, scoIsManagingStudentsOrganizationId }) {
     this.id = id;
     this.finalizedAt = finalizedAt;
     this.firstCertificationStartedAt = firstCertificationStartedAt;
+    this.scoIsManagingStudentsOrganizationId = scoIsManagingStudentsOrganizationId;
   }
 
   get hasExpired() {

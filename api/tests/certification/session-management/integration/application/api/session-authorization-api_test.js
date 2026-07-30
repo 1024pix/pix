@@ -27,6 +27,7 @@ describe('Certification | Session Management | Integration | Application | Api |
         .sessionAuthorizationInfoBuilder()
         .isFinalized()
         .withFirstCertificationStarted({ at: new Date('2021-01-01') })
+        .hasMatchingScoIsManagingStudentsOrganization({ organizationId: 123 })
         .withParameters({ id: 1 })
         .insertToDB({ databaseBuilder });
 
@@ -41,6 +42,7 @@ describe('Certification | Session Management | Integration | Application | Api |
         isFinalized: true,
         hasExpired: true,
         hasStarted: true,
+        scoIsManagingStudentsOrganizationId: 123,
       });
     });
   });

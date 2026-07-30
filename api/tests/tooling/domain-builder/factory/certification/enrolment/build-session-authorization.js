@@ -1,3 +1,4 @@
+import { databaseBuffer } from '../../../../../../db/database-builder/database-buffer.js';
 import { SessionAuthorization } from '../../../../../../src/certification/enrolment/domain/models/SessionAuthorization.js';
 
 /**
@@ -20,6 +21,7 @@ class SessionAuthorizationBuilder {
     this.isFinalized = false;
     this.hasExpired = false;
     this.hasStarted = false;
+    this.scoIsManagingStudentsOrganizationId = null;
   }
 
   /**
@@ -55,11 +57,18 @@ class SessionAuthorizationBuilder {
    * @param {number} [params.id] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)   * @returns {SessionAuthorizationBuilder}
    * @returns {SessionAuthorizationBuilder}
    */
-  withParameters({ id, isFinalized = false, hasExpired = false, hasStarted = false } = {}) {
+  withParameters({
+    id,
+    isFinalized = false,
+    hasExpired = false,
+    hasStarted = false,
+    scoIsManagingStudentsOrganizationId = null,
+  } = {}) {
     this.id = id ?? this.id;
     this.isFinalized = isFinalized;
     this.hasExpired = hasExpired;
     this.hasStarted = hasStarted;
+    this.scoIsManagingStudentsOrganizationId = scoIsManagingStudentsOrganizationId;
     return this;
   }
 
@@ -74,6 +83,24 @@ class SessionAuthorizationBuilder {
    */
   insertToDB({ databaseBuilder }) {
     const sessionAuthorization = this.build();
+    const type = sessionAuthorization.scoIsManagingStudentsOrganizationId ? 'SCO' : 'PRO';
+    const certificationCenterId = databaseBuffer.getNextId();
+    const externalId = `EXTERNAL_ID_${certificationCenterId}`;
+    databaseBuilder.factory.buildCertificationCenter({
+      id: certificationCenterId,
+      type,
+      externalId,
+    });
+
+    if (sessionAuthorization.scoIsManagingStudentsOrganizationId) {
+      databaseBuilder.factory.buildOrganization({
+        id: sessionAuthorization.scoIsManagingStudentsOrganizationId ?? undefined,
+        type: 'SCO',
+        externalId,
+        archivedAt: null,
+        isManagingStudents: true,
+      });
+    }
     const finalizedAt = sessionAuthorization.isFinalized ? null : new Date();
     const sessionId = databaseBuilder.factory.buildSession({
       id: this.id ?? undefined,
@@ -108,6 +135,7 @@ class SessionAuthorizationBuilder {
       isFinalized: this.isFinalized,
       hasExpired: this.hasExpired,
       hasStarted: this.hasStarted,
+      scoIsManagingStudentsOrganizationId: this.scoIsManagingStudentsOrganizationId,
     });
   }
 }

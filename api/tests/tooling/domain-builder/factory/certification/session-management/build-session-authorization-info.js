@@ -1,3 +1,4 @@
+import { databaseBuffer } from '../../../../../../db/database-builder/database-buffer.js';
 import { SessionAuthorizationInfo } from '../../../../../../src/certification/session-management/domain/read-models/SessionAuthorizationInfo.js';
 
 /**
@@ -20,6 +21,8 @@ class SessionAuthorizationInfoBuilder {
     this.id = null;
     this.finalizedAt = null;
     this.firstCertificationStartedAt = null;
+    this.hasOrga = false;
+    this.scoIsManagingStudentsOrganizationId = null;
   }
 
   /**
@@ -43,6 +46,19 @@ class SessionAuthorizationInfoBuilder {
    */
   withFirstCertificationStarted({ at = new Date() } = {}) {
     this.firstCertificationStartedAt = at;
+    return this;
+  }
+
+  /**
+   * Link a matching SCO isManagingStudents organization
+   *
+   * @param {object} [params]
+   * @param {number} [params.organizationId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted organization (id null)
+   * @returns {SessionAuthorizationInfoBuilder}
+   */
+  hasMatchingScoIsManagingStudentsOrganization({ organizationId = null }) {
+    this.hasOrga = true;
+    this.scoIsManagingStudentsOrganizationId = organizationId;
     return this;
   }
 
@@ -71,10 +87,30 @@ class SessionAuthorizationInfoBuilder {
    */
   insertToDB({ databaseBuilder }) {
     const sessionAuthorizationInfo = this.build();
+    const type = this.hasOrga ? 'SCO' : 'PRO';
+    const certificationCenterId = databaseBuffer.getNextId();
+    const externalId = `EXTERNAL_ID_${certificationCenterId}`;
+    databaseBuilder.factory.buildCertificationCenter({
+      id: certificationCenterId,
+      type,
+      externalId,
+    });
+
+    if (this.hasOrga) {
+      const orgaId = databaseBuilder.factory.buildOrganization({
+        id: sessionAuthorizationInfo.scoIsManagingStudentsOrganizationId ?? undefined,
+        type: 'SCO',
+        externalId,
+        archivedAt: null,
+        isManagingStudents: true,
+      }).id;
+      sessionAuthorizationInfo.scoIsManagingStudentsOrganizationId = orgaId;
+    }
 
     const sessionId = databaseBuilder.factory.buildSession({
       id: sessionAuthorizationInfo.id ?? undefined,
       finalizedAt: sessionAuthorizationInfo.finalizedAt,
+      certificationCenterId,
     }).id;
     sessionAuthorizationInfo.id = sessionId;
     if (sessionAuthorizationInfo.firstCertificationStartedAt) {
@@ -101,10 +137,12 @@ class SessionAuthorizationInfoBuilder {
    * @returns {SessionAuthorizationInfo}
    */
   build() {
+    const organizationId = this.hasOrga ? (this.scoIsManagingStudentsOrganizationId ?? 1) : null;
     return new SessionAuthorizationInfo({
       id: this.id,
       finalizedAt: this.finalizedAt,
       firstCertificationStartedAt: this.firstCertificationStartedAt,
+      scoIsManagingStudentsOrganizationId: organizationId,
     });
   }
 }
