@@ -77,6 +77,31 @@ async function checkUserIsAdminOfCertificationCenter(request, h, dependencies = 
   }
 }
 
+async function checkCertificationCenterIsNotScoManagingStudents(
+  request,
+  h,
+  dependencies = {
+    userMembershipsRepository,
+  },
+) {
+  try {
+    const userId = Number(request.auth.credentials.userId);
+    const certificationCenterIdRaw =
+      request?.params?.certificationCenterId || request?.payload?.data?.attributes?.certificationCenterId;
+    const certificationCenterId = Number(certificationCenterIdRaw);
+    if (!userId || !certificationCenterId) {
+      return _replyForbiddenError(h);
+    }
+
+    const userMemberships = await dependencies.userMembershipsRepository.findByUserId({ userId });
+    return userMemberships.isMemberOfScoManagingStudents(certificationCenterId)
+      ? h.response(true)
+      : _replyForbiddenError(h);
+  } catch {
+    return _replyForbiddenError(h);
+  }
+}
+
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;
 
@@ -94,4 +119,5 @@ export const securityPreHandlers = {
   checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
   checkUserIsAdminOfCertificationCenter,
+  checkCertificationCenterIsNotScoManagingStudents,
 };

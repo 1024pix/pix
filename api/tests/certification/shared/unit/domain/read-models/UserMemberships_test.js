@@ -67,6 +67,52 @@ describe('Certification | Shared | Unit | Domain | Read-Models | UserMemberships
     });
   });
 
+  describe('#isMemberOfScoManagingStudents', function () {
+    it('returns false when user is not a member of the certification center', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, isLinkedToScoManagingStudentsOrganization: true })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isMemberOfScoManagingStudents(456)).to.be.false;
+    });
+
+    it('returns false when user used to be a member of the certification center', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({
+          certificationCenterId: 123,
+          isDisabled: true,
+          isLinkedToScoManagingStudentsOrganization: true,
+        })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isMemberOfScoManagingStudents(123)).to.be.false;
+    });
+
+    it('returns false when user used is not a member of a SCO is managing students related certification center', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, isLinkedToScoManagingStudentsOrganization: false })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isMemberOfScoManagingStudents(123)).to.be.false;
+    });
+
+    it('returns true when user used is a member of a SCO is managing students related certification center', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, isLinkedToScoManagingStudentsOrganization: true })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isMemberOfScoManagingStudents(123)).to.be.true;
+    });
+  });
+
   describe('#isAdminOfPeer', function () {
     it('returns false when user is not a member of the same certification center as the given peer membership id', function () {
       const userMemberships = domainBuilder.certification.shared

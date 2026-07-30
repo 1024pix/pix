@@ -372,4 +372,122 @@ describe('Certification | Shared | Unit | Application | SecurityPreHandlers', fu
       });
     });
   });
+
+  describe('#checkCertificationCenterIsNotScoManagingStudents', function () {
+    let dependencies;
+
+    beforeEach(function () {
+      dependencies = { userMembershipsRepository };
+    });
+
+    context('when credentials are not in request data', function () {
+      it('should forbid resource access', async function () {
+        const request = { auth: { credentials: { foo: 'bar' } } };
+
+        const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+          request,
+          hFake,
+          dependencies,
+        );
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+
+    context('when credentials are invalid', function () {
+      it('should forbid resource access', async function () {
+        const request = { auth: { credentials: { userId: 'bar' } } };
+
+        const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+          request,
+          hFake,
+          dependencies,
+        );
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+
+    context('when certificationCenterId param is invalid', function () {
+      it('should forbid resource access', async function () {
+        const request = { auth: { credentials: { userId: '123' } }, params: { certificationCenterId: 'foo' } };
+
+        const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+          request,
+          hFake,
+          dependencies,
+        );
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+
+    context(
+      'when user is not a member of a certification center related to a SCO Is managing students orga',
+      function () {
+        it('should forbid resource access', async function () {
+          const request = { auth: { credentials: { userId: 123 } }, params: { certificationCenterId: 789 } };
+          const userMemberships = domainBuilder.certification.shared
+            .userMembershipsBuilder()
+            .addMembership({ certificationCenterId: 789, isLinkedToScoManagingStudentsOrganization: false })
+            .withParameters({ userId: 123 })
+            .build();
+          userMembershipsRepository.findByUserId.withArgs({ userId: 123 }).resolves(userMemberships);
+
+          const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+            request,
+            hFake,
+            dependencies,
+          );
+
+          expect(response.statusCode).to.equal(403);
+          expect(response.isTakeOver).to.be.true;
+        });
+      },
+    );
+
+    context('when user is a member of a certification center related to a SCO Is managing students orga', function () {
+      it('should authorize access to the resource when certificationCenterId in params', async function () {
+        const request = { auth: { credentials: { userId: 123 } }, params: { certificationCenterId: 456 } };
+        const userMemberships = domainBuilder.certification.shared
+          .userMembershipsBuilder()
+          .addMembership({ certificationCenterId: 456, isLinkedToScoManagingStudentsOrganization: true })
+          .withParameters({ userId: 123 })
+          .build();
+        userMembershipsRepository.findByUserId.withArgs({ userId: 123 }).resolves(userMemberships);
+
+        const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+          request,
+          hFake,
+          dependencies,
+        );
+
+        expect(response.source).to.be.true;
+      });
+
+      it('should authorize access to the resource when certificationCenterId in payload', async function () {
+        const request = {
+          auth: { credentials: { userId: 123 } },
+          payload: { data: { attributes: { certificationCenterId: 456 } } },
+        };
+        const userMemberships = domainBuilder.certification.shared
+          .userMembershipsBuilder()
+          .addMembership({ certificationCenterId: 456, isLinkedToScoManagingStudentsOrganization: true })
+          .withParameters({ userId: 123 })
+          .build();
+        userMembershipsRepository.findByUserId.withArgs({ userId: 123 }).resolves(userMemberships);
+
+        const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+          request,
+          hFake,
+          dependencies,
+        );
+
+        expect(response.source).to.be.true;
+      });
+    });
+  });
 });

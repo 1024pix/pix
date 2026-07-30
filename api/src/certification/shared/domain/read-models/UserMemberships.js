@@ -5,34 +5,45 @@ export class UserMemberships {
   }
 
   isMemberOf(certificationCenterId) {
-    return this.memberships.some(
-      (membership) => membership.certificationCenterId === certificationCenterId && membership.isActive,
-    );
+    return this.memberships.some((membership) => membership.ofCenter(certificationCenterId) && membership.isActive);
   }
 
   isAdminOf(certificationCenterId) {
     return this.memberships.some(
-      (membership) => membership.certificationCenterId === certificationCenterId && membership.isActiveAdmin,
+      (membership) => membership.ofCenter(certificationCenterId) && membership.isActiveAdmin,
+    );
+  }
+
+  isMemberOfScoManagingStudents(certificationCenterId) {
+    return this.memberships.some(
+      (membership) => membership.ofScoManagingStudentCenter(certificationCenterId) && membership.isActive,
     );
   }
 
   isAdminOfPeer(membershipId) {
-    const membershipForPeer = this.memberships.find((membership) => membership.hasPeer(membershipId));
-    return membershipForPeer?.isActiveAdmin ?? false;
+    return this.memberships.some((membership) => membership.hasPeer(membershipId) && membership.isActiveAdmin);
   }
 
   isAdminOfInvitation(invitationId) {
-    const membershipForInvitation = this.memberships.find((membership) => membership.hasInvitation(invitationId));
-    return membershipForInvitation?.isActiveAdmin ?? false;
+    return this.memberships.some((membership) => membership.hasInvitation(invitationId) && membership.isActiveAdmin);
   }
 }
 
 export class Membership {
-  constructor({ id, certificationCenterId, isDisabled, isAdmin, peerMembershipIds, invitationIds }) {
+  constructor({
+    id,
+    certificationCenterId,
+    isDisabled,
+    isAdmin,
+    isLinkedToScoManagingStudentsOrganization,
+    peerMembershipIds,
+    invitationIds,
+  }) {
     this.id = id;
     this.certificationCenterId = certificationCenterId;
     this.isDisabled = isDisabled;
     this.isAdmin = isAdmin;
+    this.isLinkedToScoManagingStudentsOrganization = isLinkedToScoManagingStudentsOrganization;
     this.peerMembershipIds = new Set(peerMembershipIds);
     this.invitationIds = new Set(invitationIds);
   }
@@ -43,6 +54,14 @@ export class Membership {
 
   get isActiveAdmin() {
     return !this.isDisabled && this.isAdmin;
+  }
+
+  ofCenter(certificationCenterId) {
+    return this.certificationCenterId === certificationCenterId;
+  }
+
+  ofScoManagingStudentCenter(certificationCenterId) {
+    return this.certificationCenterId === certificationCenterId && this.isLinkedToScoManagingStudentsOrganization;
   }
 
   hasPeer(membershipId) {

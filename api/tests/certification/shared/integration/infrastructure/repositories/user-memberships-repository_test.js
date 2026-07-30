@@ -36,6 +36,13 @@ describe('Certification | Shared | Integration | Repository | UserMemberships', 
           })
           .addMembership({ id: 200, certificationCenterId: 2, isDisabled: true, peerMembershipIds: [201, 202] })
           .addMembership({ id: 300, certificationCenterId: 3, isAdmin: true, invitationIds: [3000, 4000] })
+          .addMembership({
+            id: 400,
+            certificationCenterId: 4,
+            isLinkedToScoManagingStudentsOrganization: true,
+            isAdmin: true,
+            invitationIds: [5000, 6000],
+          })
           .withParameters({ userId: 123 })
           .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();

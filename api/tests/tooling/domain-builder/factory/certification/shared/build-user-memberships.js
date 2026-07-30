@@ -29,6 +29,7 @@ class UserMembershipsBuilder {
    * @param {object} params
    * @param {number} params.id - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted certification-center-membership (id null)
    * @param {number} params.certificationCenterId - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted certification-center (id null)
+   * @param {boolean} params.isLinkedToScoManagingStudentsOrganization
    * @param {boolean} params.isDisabled
    * @param {boolean} params.isAdmin
    * @param {number[]} params.peerMembershipIds - membership IDs of other people in the same certification center
@@ -38,6 +39,7 @@ class UserMembershipsBuilder {
   addMembership({
     id = null,
     certificationCenterId = 1,
+    isLinkedToScoManagingStudentsOrganization = false,
     isDisabled = false,
     isAdmin = false,
     peerMembershipIds = [],
@@ -46,6 +48,7 @@ class UserMembershipsBuilder {
     this.membershipsData.push({
       id,
       certificationCenterId,
+      isLinkedToScoManagingStudentsOrganization,
       isDisabled,
       isAdmin,
       peerMembershipIds,
@@ -85,9 +88,15 @@ class UserMembershipsBuilder {
     }).id;
     userMemberships.userId = userId;
 
+    let suffix = 0;
     for (const membership of userMemberships.memberships) {
+      const externalId = `EXTERNAL_ID_${userId}_${suffix}`;
+      ++suffix;
+      const certificationCenterType = membership.isLinkedToScoManagingStudentsOrganization ? 'SCO' : 'PRO';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         id: membership.certificationCenterId,
+        externalId,
+        type: certificationCenterType,
       }).id;
       membership.certificationCenterId = certificationCenterId;
       const membershipId = databaseBuilder.factory.buildCertificationCenterMembership({
@@ -96,6 +105,14 @@ class UserMembershipsBuilder {
         disabledAt: membership.isDisabled ? new Date() : null,
         role: membership.isAdmin ? 'ADMIN' : 'MEMBER',
       }).id;
+      if (membership.isLinkedToScoManagingStudentsOrganization) {
+        databaseBuilder.factory.buildOrganization({
+          archivedAt: null,
+          externalId,
+          type: 'SCO',
+          isManagingStudents: true,
+        });
+      }
       for (const peerId of membership.peerMembershipIds) {
         databaseBuilder.factory.buildCertificationCenterMembership({
           id: peerId,
