@@ -49,6 +49,30 @@ class SessionAuthorizationBuilder {
   }
 
   /**
+   * Can enroll for sco enrolment
+   *
+   * @returns {SessionAuthorizationBuilder}
+   */
+  canEnrollScoCandidate() {
+    this.isFinalized = false;
+    this.hasExpired = false;
+    this.hasStarted = true;
+    return this;
+  }
+
+  /**
+   * Cannot enroll for sco enrolment
+   *
+   * @returns {SessionAuthorizationBuilder}
+   */
+  cannotEnrollScoCandidate() {
+    this.isFinalized = false;
+    this.hasExpired = true;
+    this.hasStarted = true;
+    return this;
+  }
+
+  /**
    * Overrides any subset of the SessionAuthorizationBuilder attributes carried by the builder.
    * Omitted parameters keep their current value, so the method can be called
    * several times in the same chain without resetting previous overrides.

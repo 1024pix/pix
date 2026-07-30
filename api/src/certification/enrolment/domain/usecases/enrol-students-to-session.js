@@ -9,7 +9,7 @@
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
-import { UnknownCountryForStudentEnrolmentError } from '../errors.js';
+import { CannotEnrollScoCandidateError, UnknownCountryForStudentEnrolmentError } from '../errors.js';
 import { Candidate } from '../models/Candidate.js';
 
 const INSEE_PREFIX_CODE = '99';
@@ -18,36 +18,36 @@ const INSEE_PREFIX_CODE = '99';
  * @param {object} params
  * @param {OrganizationLearnerRepository} params.organizationLearnerRepository
  * @param {CandidateRepository} params.candidateRepository
- * @param {CenterRepository} params.centerRepository
  * @param {CountryRepository} params.countryRepository
- * @param {SessionRepository} params.sessionRepository
  * @param {EventAdapter} params.eventAdapter
+ * @param {SessionAuthorizationAdapter} params.sessionAuthorizationAdapter
  */
 export async function enrolStudentsToSession({
   sessionId,
   studentIds,
   organizationLearnerRepository,
-  centerRepository,
   countryRepository,
-  sessionRepository,
   candidateRepository,
   certificationCpfCityRepository,
   certificationCpfCountryRepository,
   certificationCpfService,
   eventAdapter,
+  sessionAuthorizationAdapter,
 }) {
   if (studentIds.length === 0) {
     return;
   }
-  const session = await sessionRepository.get({ id: sessionId });
-  const center = await centerRepository.getById({ id: session.certificationCenterId });
+  const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
+  if (!sessionAuthorization.canEnrollScoCandidate) {
+    throw new CannotEnrollScoCandidateError();
+  }
   const enrolledCandidates = await candidateRepository.findBySessionId({ sessionId });
   const alreadyEnrolledStudentIds = enrolledCandidates.map((candidate) => candidate.organizationLearnerId);
   const studentIdsNotYetEnrolled = studentIds.filter((studentId) => !alreadyEnrolledStudentIds.includes(studentId));
   const students = await organizationLearnerRepository.findByIds({ ids: studentIdsNotYetEnrolled });
 
   const doStudentsBelongToCenter = students.every(
-    (student) => center.matchingOrganizationId === student.organizationId,
+    (student) => sessionAuthorization.scoIsManagingStudentsOrganizationId === student.organizationId,
   );
   if (!doStudentsBelongToCenter) {
     throw new ForbiddenAccess("Impossible d'inscrire un élève ne faisant pas partie de votre établissement");
