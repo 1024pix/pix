@@ -34,6 +34,10 @@ const CombinedCourseStatuses = {
   NOT_STARTED: 'NOT_STARTED',
 };
 
+const MaxMasteryRate = {
+  MAX_MASTERY_RATE: 1,
+};
+
 export {
   CampaignExternalIdTypes,
   CampaignParticipationLoggerContext,
@@ -41,5 +45,6 @@ export {
   CampaignTypes,
   CombinedCourseParticipationStatuses,
   CombinedCourseStatuses,
+  MaxMasteryRate,
   OrganizationLearnerLoggerContext,
 };

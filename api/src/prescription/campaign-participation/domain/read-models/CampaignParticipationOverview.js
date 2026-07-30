@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
 
-import { MAX_MASTERY_RATE, MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../../shared/constants.js';
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../../shared/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes, MaxMasteryRate } from '../../../shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -61,7 +61,7 @@ class CampaignParticipationOverview {
       this.isCampaignMultipleSendings &&
       this.isShared &&
       this._timeBeforeRetryingPassed(this.sharedAt) &&
-      (this.masteryRate < MAX_MASTERY_RATE || this.campaignType === CampaignTypes.EXAM)
+      (this.masteryRate < MaxMasteryRate.MAX_MASTERY_RATE || this.campaignType === CampaignTypes.EXAM)
     );
   }
 

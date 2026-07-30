@@ -89,7 +89,6 @@ export const MAX_REACHABLE_PIX_BY_COMPETENCE = config.features.maxReachableLevel
 
 export const MAX_REACHABLE_LEVEL = config.features.maxReachableLevel;
 export const MAX_REACHABLE_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * COMPETENCES_COUNT;
-export const MAX_MASTERY_RATE = 1;
 export const MINIMUM_DELAY_IN_DAYS_FOR_RESET = config.features.dayBeforeCompetenceResetV2;
 export const MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = config.features.dayBeforeImproving;
 export const MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = config.features.dayBeforeRetrying;

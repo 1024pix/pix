@@ -11,7 +11,6 @@
     "prescription/learner-management",
     "prescription/organization-place",
     "prescription/shared",
-    "prescription/stages",
     "team"
   ],
   "circular": "forbidden"
