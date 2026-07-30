@@ -10,8 +10,7 @@
     "prescription/learner-management",
     "prescription/organization-learner",
     "privacy",
-    "shared",
-    "team"
+    "shared"
   ],
   "circular": "temporary-allowed"
 }
