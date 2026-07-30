@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { securityPreHandlers as certifSecurityPreHandlers } from '../../../certification/shared/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationCenterInvitationController } from './certification-center-invitation.controller.js';
@@ -85,7 +86,7 @@ export const certificationCenterInvitationRoutes = [
       handler: (request, h) => certificationCenterInvitationController.resendCertificationCenterInvitation(request, h),
       pre: [
         {
-          method: securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
+          method: certifSecurityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
           assign: 'isAdminOfCertificationCenter',
         },
       ],
@@ -133,7 +134,10 @@ export const certificationCenterInvitationRoutes = [
       pre: [
         {
           method: (request, h) =>
-            securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId(request, h),
+            certifSecurityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId(
+              request,
+              h,
+            ),
           assign: 'isAdminOfCertificationCenter',
         },
       ],

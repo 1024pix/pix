@@ -32,6 +32,7 @@ class UserMembershipsBuilder {
    * @param {boolean} params.isDisabled
    * @param {boolean} params.isAdmin
    * @param {number[]} params.peerMembershipIds - membership IDs of other people in the same certification center
+   * @param {number[]} params.invitationIds - invitation IDS for the certification center
    * @returns {UserMembershipsBuilder}
    */
   addMembership({
@@ -40,13 +41,15 @@ class UserMembershipsBuilder {
     isDisabled = false,
     isAdmin = false,
     peerMembershipIds = [],
+    invitationIds = [],
   } = {}) {
     this.membershipsData.push({
       id,
       certificationCenterId,
       isDisabled,
-      peerMembershipIds,
       isAdmin,
+      peerMembershipIds,
+      invitationIds,
     });
     return this;
   }
@@ -99,7 +102,16 @@ class UserMembershipsBuilder {
           certificationCenterId,
         });
       }
+      for (const invitationId of membership.invitationIds) {
+        databaseBuilder.factory.buildCertificationCenterInvitation({
+          id: invitationId,
+          certificationCenterId,
+        });
+      }
       membership.id = membershipId;
+      if (!membership.peerMembershipIds.has(membershipId)) {
+        membership.peerMembershipIds.add(membershipId);
+      }
     }
 
     return userMemberships;

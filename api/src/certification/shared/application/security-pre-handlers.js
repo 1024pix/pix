@@ -39,6 +39,28 @@ async function checkUserIsAdminOfCertificationCenterWithCertificationCenterMembe
   }
 }
 
+async function checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId(
+  request,
+  h,
+  dependencies = { userMembershipsRepository },
+) {
+  try {
+    const userId = Number(request.auth.credentials.userId);
+    const certificationCenterInvitationId = Number(request.params.certificationCenterInvitationId);
+    if (!userId || !certificationCenterInvitationId) {
+      return _replyForbiddenError(h);
+    }
+
+    const userMemberships = await dependencies.userMembershipsRepository.findByUserId({ userId });
+
+    return userMemberships.isAdminOfInvitation(certificationCenterInvitationId)
+      ? h.response(true)
+      : _replyForbiddenError(h);
+  } catch {
+    return _replyForbiddenError(h);
+  }
+}
+
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;
 
@@ -54,4 +76,5 @@ function _replyForbiddenError(h) {
 export const securityPreHandlers = {
   checkUserIsMemberOfCertificationCenter,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
+  checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
 };

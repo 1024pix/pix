@@ -14,15 +14,21 @@ export class UserMemberships {
     const membershipForPeer = this.memberships.find((membership) => membership.hasPeer(membershipId));
     return membershipForPeer?.isAdmin ?? false;
   }
+
+  isAdminOfInvitation(invitationId) {
+    const membershipForInvitation = this.memberships.find((membership) => membership.hasInvitation(invitationId));
+    return membershipForInvitation?.isAdmin ?? false;
+  }
 }
 
 export class Membership {
-  constructor({ id, certificationCenterId, isDisabled, isAdmin, peerMembershipIds }) {
+  constructor({ id, certificationCenterId, isDisabled, isAdmin, peerMembershipIds, invitationIds }) {
     this.id = id;
     this.certificationCenterId = certificationCenterId;
     this.isDisabled = isDisabled;
     this.isAdmin = isAdmin;
-    this.peerMembershipIds = peerMembershipIds;
+    this.peerMembershipIds = new Set(peerMembershipIds);
+    this.invitationIds = new Set(invitationIds);
   }
 
   get isActive() {
@@ -30,6 +36,10 @@ export class Membership {
   }
 
   hasPeer(membershipId) {
-    return this.peerMembershipIds.some((peerMembershipId) => peerMembershipId === membershipId);
+    return this.peerMembershipIds.has(membershipId);
+  }
+
+  hasInvitation(invitationId) {
+    return this.invitationIds.has(invitationId);
   }
 }

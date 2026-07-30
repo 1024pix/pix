@@ -19,6 +19,12 @@ export async function findByUserId({ userId }) {
           '"peerMemberships"."certificationCenterId" = "certification-center-memberships"."certificationCenterId"',
         )
         .select(knexConn.raw(`COALESCE(ARRAY_AGG("peerMemberships".id), '{}')`)),
+      invitationIds: knexConn
+        .from('certification-center-invitations')
+        .whereRaw(
+          '"certification-center-invitations"."certificationCenterId" = "certification-center-memberships"."certificationCenterId"',
+        )
+        .select(knexConn.raw(`COALESCE(ARRAY_AGG("certification-center-invitations".id), '{}')`)),
     })
     .orderBy('id');
 
@@ -30,6 +36,7 @@ export async function findByUserId({ userId }) {
         isDisabled: Boolean(row.disabledAt),
         isAdmin: row.role === 'ADMIN',
         peerMembershipIds: row.peerMembershipIds,
+        invitationIds: row.invitationIds.map(Number),
       }),
   );
 
