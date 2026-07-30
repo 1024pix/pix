@@ -1,5 +1,4 @@
 import { TubeResultForKnowledgeElementSnapshots } from '../../../../../../src/prescription/campaign/domain/models/TubeResultForKnowledgeElementSnapshots.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -72,8 +71,8 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
       });
 
       knowledgeElementSnapshots = [
-        new KnowledgeElementCollection([user1ke1, user1ke2]).latestUniqNonResetKnowledgeElements,
-        new KnowledgeElementCollection([user2ke1, user2ke2]).latestUniqNonResetKnowledgeElements,
+        KnowledgeElement.toLatestUniqNonResetCollection([user1ke1, user1ke2]),
+        KnowledgeElement.toLatestUniqNonResetCollection([user2ke1, user2ke2]),
       ];
     });
 

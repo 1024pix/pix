@@ -1,5 +1,4 @@
 import { CampaignResultLevelsPerTubesAndCompetences } from '../../../../../../src/prescription/campaign/domain/models/CampaignResultLevelsPerTubesAndCompetences.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { buildArea } from '../../build-area.js';
 import { buildCompetence } from '../../build-competence.js';
@@ -76,9 +75,9 @@ function buildCampaignResultLevelsPerTubesAndCompetences() {
   });
 
   const keData = {
-    participationId1: new KnowledgeElementCollection([user1ke1]).latestUniqNonResetKnowledgeElements,
-    participationId2: new KnowledgeElementCollection([user2ke1]).latestUniqNonResetKnowledgeElements,
-    participationId3: new KnowledgeElementCollection([user3ke1]).latestUniqNonResetKnowledgeElements,
+    participationId1: KnowledgeElement.toLatestUniqNonResetCollection([user1ke1]),
+    participationId2: KnowledgeElement.toLatestUniqNonResetCollection([user2ke1]),
+    participationId3: KnowledgeElement.toLatestUniqNonResetCollection([user3ke1]),
   };
 
   const campaignResult = new CampaignResultLevelsPerTubesAndCompetences({
