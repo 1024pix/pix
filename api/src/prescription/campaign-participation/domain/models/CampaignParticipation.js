@@ -5,7 +5,8 @@ import {
   AssessmentNotCompletedError,
   CampaignParticipationDeletedError,
 } from '../../../../../src/shared/domain/errors.js';
-import { CampaignParticipationLoggerContext, CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationLoggerContext } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { ArchivedCampaignError } from '../../../shared/domain/errors.js';
 
 class CampaignParticipation {

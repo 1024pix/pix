@@ -5,7 +5,7 @@ import { AuditLoggingJob } from '../../../../shared/domain/models/jobs/AuditLogg
 import {
   CampaignParticipationLoggerContext,
   OrganizationLearnerLoggerContext,
-} from '../../../shared/domain/constants.js';
+} from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
 import { OrganizationLearnerList } from '../models/OrganizationLearnerList.js';
 
 const CHUNK_SIZE = 1000;

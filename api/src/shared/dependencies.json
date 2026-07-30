@@ -10,7 +10,6 @@
     "prescription/campaign",
     "prescription/learner-management",
     "prescription/organization-place",
-    "prescription/shared",
     "team"
   ],
   "circular": "forbidden"
