@@ -8,7 +8,6 @@ import * as organizationRepository from '../infrastructure/repositories/organiza
 import { PromiseUtils } from '../infrastructure/utils/promise-utils.js';
 import * as checkOrganizationAccessUseCase from './usecases/check-organization-access.js';
 import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-invitation-id.js';
-import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-membership-id.js';
 import * as checkAdminMemberHasRoleCertifUseCase from './usecases/checkAdminMemberHasRoleCertif.js';
 import * as checkAdminMemberHasRoleMetierUseCase from './usecases/checkAdminMemberHasRoleMetier.js';
 import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin.js';
@@ -214,30 +213,6 @@ function checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationI
 
   return dependencies.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase
     .execute({ certificationCenterInvitationId, userId })
-    .then((isAdminInCertificationCenter) => {
-      return isAdminInCertificationCenter ? h.response(true) : _replyForbiddenError(h);
-    })
-    .catch(() => _replyForbiddenError(h));
-}
-
-function checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId(
-  request,
-  h,
-  dependencies = { checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase },
-) {
-  if (
-    !request.auth.credentials ||
-    !request.auth.credentials.userId ||
-    !request.params.certificationCenterMembershipId
-  ) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const certificationCenterMembershipId = request.params.certificationCenterMembershipId;
-
-  return dependencies.checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase
-    .execute({ certificationCenterMembershipId, userId })
     .then((isAdminInCertificationCenter) => {
       return isAdminInCertificationCenter ? h.response(true) : _replyForbiddenError(h);
     })
@@ -606,7 +581,6 @@ export const securityPreHandlers = {
   checkOrganizationDoesNotHaveFeature,
   checkUserIsAdminOfCertificationCenter,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
-  checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
   makeCheckOrganizationHasFeature,
   checkOrganizationAccess,
 };

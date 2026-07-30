@@ -34,4 +34,36 @@ describe('Certification | Shared | Unit | Domain | Read-Models | UserMemberships
       expect(userMemberships.isMemberOf(123)).to.be.true;
     });
   });
+
+  describe('#isAdminOfPeer', function () {
+    it('returns false when user is not a member of the same certification center as the given peer membership id', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, peerMembershipIds: [100, 200] })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isAdminOfPeer(300)).to.be.false;
+    });
+
+    it('returns false when user is not ADMIN in the same certification center as the given peer membership id', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, isAdmin: false, peerMembershipIds: [300, 200] })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isAdminOfPeer(300)).to.be.false;
+    });
+
+    it('returns true when user is ADMIN in the same certification center as the given peer membership id', function () {
+      const userMemberships = domainBuilder.certification.shared
+        .userMembershipsBuilder()
+        .addMembership({ certificationCenterId: 123, isAdmin: true, peerMembershipIds: [300, 200] })
+        .withParameters({ userId: 1 })
+        .build();
+
+      expect(userMemberships.isAdminOfPeer(300)).to.be.true;
+    });
+  });
 });

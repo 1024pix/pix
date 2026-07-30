@@ -5,16 +5,35 @@ const { Error: JSONAPIError } = jsonapiSerializer;
 
 async function checkUserIsMemberOfCertificationCenter(request, h, dependencies = { userMembershipsRepository }) {
   try {
-    if (!request.auth?.credentials?.userId) {
-      return _replyForbiddenError(h);
-    }
-
     const userId = Number(request.auth.credentials.userId);
     const certificationCenterId = Number(request.params.certificationCenterId);
+    if (!userId || !certificationCenterId) {
+      return _replyForbiddenError(h);
+    }
 
     const userMemberships = await dependencies.userMembershipsRepository.findByUserId({ userId });
 
     return userMemberships.isMemberOf(certificationCenterId) ? h.response(true) : _replyForbiddenError(h);
+  } catch {
+    return _replyForbiddenError(h);
+  }
+}
+
+async function checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId(
+  request,
+  h,
+  dependencies = { userMembershipsRepository },
+) {
+  try {
+    const userId = Number(request.auth.credentials.userId);
+    const certificationCenterMembershipId = Number(request.params.certificationCenterMembershipId);
+    if (!userId || !certificationCenterMembershipId) {
+      return _replyForbiddenError(h);
+    }
+
+    const userMemberships = await dependencies.userMembershipsRepository.findByUserId({ userId });
+
+    return userMemberships.isAdminOfPeer(certificationCenterMembershipId) ? h.response(true) : _replyForbiddenError(h);
   } catch {
     return _replyForbiddenError(h);
   }
@@ -34,4 +53,5 @@ function _replyForbiddenError(h) {
 
 export const securityPreHandlers = {
   checkUserIsMemberOfCertificationCenter,
+  checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
 };

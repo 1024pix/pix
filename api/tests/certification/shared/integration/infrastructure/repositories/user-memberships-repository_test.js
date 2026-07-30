@@ -28,9 +28,9 @@ describe('Certification | Shared | Integration | Repository | UserMemberships', 
       it('returns a UserMemberships model with memberships', async function () {
         const expectedUserMemberships = domainBuilder.certification.shared
           .userMembershipsBuilder()
-          .addMembership({ certificationCenterId: 1 })
-          .addMembership({ certificationCenterId: 2, isDisabled: true })
-          .addMembership({ certificationCenterId: 3, isDisabled: true })
+          .addMembership({ id: 100, certificationCenterId: 1, peerMembershipIds: [101, 102] })
+          .addMembership({ id: 200, certificationCenterId: 2, isDisabled: true, peerMembershipIds: [201, 202] })
+          .addMembership({ id: 300, certificationCenterId: 3, isAdmin: true })
           .withParameters({ userId: 123 })
           .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();

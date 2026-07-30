@@ -4,7 +4,6 @@ import {
 } from '../../../../../../src/certification/shared/domain/read-models/UserMemberships.js';
 
 /**
- * @typedef {import('../../../../../../src/certification/shared/domain/models/Scopes.js').SCOPES} SCOPES
  * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder
  */
 
@@ -28,14 +27,26 @@ class UserMembershipsBuilder {
    * Adds a membership
    *
    * @param {object} params
+   * @param {number} params.id - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted certification-center-membership (id null)
    * @param {number} params.certificationCenterId - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted certification-center (id null)
    * @param {boolean} params.isDisabled
+   * @param {boolean} params.isAdmin
+   * @param {number[]} params.peerMembershipIds - membership IDs of other people in the same certification center
    * @returns {UserMembershipsBuilder}
    */
-  addMembership({ certificationCenterId, isDisabled = false } = {}) {
+  addMembership({
+    id = null,
+    certificationCenterId = 1,
+    isDisabled = false,
+    isAdmin = false,
+    peerMembershipIds = [],
+  } = {}) {
     this.membershipsData.push({
-      certificationCenterId: certificationCenterId ?? null,
+      id,
+      certificationCenterId,
       isDisabled,
+      peerMembershipIds,
+      isAdmin,
     });
     return this;
   }
@@ -73,14 +84,22 @@ class UserMembershipsBuilder {
 
     for (const membership of userMemberships.memberships) {
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-        id: membership.certificationCenterId ?? undefined,
+        id: membership.certificationCenterId,
       }).id;
       membership.certificationCenterId = certificationCenterId;
-      databaseBuilder.factory.buildCertificationCenterMembership({
+      const membershipId = databaseBuilder.factory.buildCertificationCenterMembership({
         userId,
         certificationCenterId,
         disabledAt: membership.isDisabled ? new Date() : null,
-      });
+        role: membership.isAdmin ? 'ADMIN' : 'MEMBER',
+      }).id;
+      for (const peerId of membership.peerMembershipIds) {
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          id: peerId,
+          certificationCenterId,
+        });
+      }
+      membership.id = membershipId;
     }
 
     return userMemberships;

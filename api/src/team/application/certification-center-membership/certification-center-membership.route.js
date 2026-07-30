@@ -82,7 +82,7 @@ export const certificationCenterMembershipRoute = [
       },
       pre: [
         {
-          method: securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
+          method: certifSecurityPrehandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
         },
       ],
       handler: certificationCenterMembershipController.disableFromPixCertif,
