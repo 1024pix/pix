@@ -6,7 +6,6 @@ import * as campaignParticipationRepository from '../../../prescription/campaign
 import knowledgeElementForParticipationService from '../../../prescription/shared/domain/services/knowledge-element-for-participation-service.js';
 import * as targetProfileAdministrationRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
-import { fromDatasourceObject } from '../../../shared/infrastructure/adapters/solution-adapter.js';
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
@@ -29,51 +28,9 @@ import * as algorithmDataFetcherService from '../services/algorithm-methods/data
 import * as smartRandomService from '../services/algorithm-methods/smart-random.js';
 import * as correctionService from '../services/correction-service.js';
 import { getCompetenceLevel } from '../services/get-competence-level.js';
-import * as getMasteryPercentageService from '../services/get-mastery-percentage-service.js';
 import * as improvementService from '../services/improvement-service.js';
 import { pickChallengeService } from '../services/pick-challenge-service.js';
 import * as scorecardService from '../services/scorecard-service.js';
-
-const dependencies = {
-  algorithmDataFetcherService,
-  fromDatasourceObject,
-  answerRepository,
-  correctionRepository: repositories.correctionRepository,
-  areaRepository,
-  assessmentRepository,
-  autonomousCourseRepository: repositories.autonomousCourseRepository,
-  autonomousCourseTargetProfileRepository: repositories.autonomousCourseTargetProfileRepository,
-  certificationEvaluationRepository: repositories.certificationEvaluationRepository,
-  badgeAcquisitionRepository,
-  badgeCriteriaRepository,
-  badgeForCalculationRepository,
-  badgeRepository,
-  campaignParticipationRepository,
-  campaignRepository,
-  challengeRepository,
-  competenceEvaluationRepository,
-  competenceRepository,
-  complementaryCertificationBadgeRepository,
-  correctionService,
-  courseRepository,
-  feedbackRepository,
-  getCompetenceLevel,
-  improvementService,
-  knowledgeElementRepository,
-  llmApi,
-  pickChallengeService,
-  scorecardService,
-  skillRepository,
-  smartRandomService,
-  targetProfileAdministrationRepository,
-  targetProfileRepository,
-  userRepository: repositories.userRepository,
-  getMasteryPercentageService,
-  knowledgeElementForParticipationService,
-  smartRandomChallengeRepository,
-  challengeToPlayRepository,
-};
-
 import { completeAssessment } from './complete-assessment.js';
 import { copyTargetProfileBadges } from './copy-target-profile-badges.js';
 import { createBadge } from './create-badge.js';
@@ -111,6 +68,44 @@ import { updateAutonomousCourse } from './update-autonomous-course.js';
 import { updateBadge } from './update-badge.js';
 import { updateBadgeCriterion } from './update-badge-criterion.js';
 import { updateLastQuestionState } from './update-last-question-state.js';
+
+const dependencies = {
+  algorithmDataFetcherService,
+  answerRepository,
+  correctionRepository: repositories.correctionRepository,
+  areaRepository,
+  assessmentRepository,
+  autonomousCourseRepository: repositories.autonomousCourseRepository,
+  autonomousCourseTargetProfileRepository: repositories.autonomousCourseTargetProfileRepository,
+  certificationEvaluationRepository: repositories.certificationEvaluationRepository,
+  badgeAcquisitionRepository,
+  badgeCriteriaRepository,
+  badgeForCalculationRepository,
+  badgeRepository,
+  campaignParticipationRepository,
+  campaignRepository,
+  challengeRepository,
+  competenceEvaluationRepository,
+  competenceRepository,
+  complementaryCertificationBadgeRepository,
+  correctionService,
+  courseRepository,
+  feedbackRepository,
+  getCompetenceLevel,
+  improvementService,
+  knowledgeElementRepository,
+  llmApi,
+  pickChallengeService,
+  scorecardService,
+  skillRepository,
+  smartRandomService,
+  targetProfileAdministrationRepository,
+  targetProfileRepository,
+  userRepository: repositories.userRepository,
+  knowledgeElementForParticipationService,
+  smartRandomChallengeRepository,
+  challengeToPlayRepository,
+};
 
 const usecasesWithoutInjectedDependencies = {
   completeAssessment,
