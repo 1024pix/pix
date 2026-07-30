@@ -35,14 +35,16 @@ export async function addCandidateToSession({
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
   eventAdapter,
+  sessionAuthorizationAdapter,
 }) {
   candidate.sessionId = sessionId;
-  const session = await sessionRepository.get({ id: sessionId });
+  const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
 
-  if (!session.canEnrolCandidate) {
-    throw new CertificationCandidateOnFinalizedSessionError();
+  if (!sessionAuthorization.canEnrollCandidateIndividually) {
+    throw new CertificationCandidateOnFinalizedSessionError(); // todo change me
   }
 
+  const session = await sessionRepository.get({ id: sessionId });
   try {
     candidate.validate({ isSco: session.isSco });
   } catch (error) {

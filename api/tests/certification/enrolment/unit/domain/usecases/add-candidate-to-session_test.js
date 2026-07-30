@@ -25,6 +25,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   let certificationCpfCityRepository;
   let complementaryCertificationRepository;
   let eventAdapter;
+  let sessionAuthorizationAdapter;
   let mailCheck;
   let normalizeStringFnc;
   let candidateToEnroll;
@@ -48,6 +49,9 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     };
     eventAdapter = {
       onCandidateEnrolledIndividually: sinon.stub(),
+    };
+    sessionAuthorizationAdapter = {
+      find: sinon.stub(),
     };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
@@ -75,23 +79,27 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       certificationCpfCityRepository,
       complementaryCertificationRepository,
       eventAdapter,
+      sessionAuthorizationAdapter,
       mailCheck,
       normalizeStringFnc,
     };
   });
 
-  context('when session cannot accept any candidate', function () {
+  context('when session cannot enrol any candidate', function () {
     it('should throw a CertificationCandidateOnFinalizedSessionError', async function () {
       // given
       candidateToEnroll = domainBuilder.certification.enrolment
         .candidateBuilder()
         .withParameters({ sessionId })
         .build();
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(
-        domainBuilder.certification.enrolment.buildSession({
-          finalizedAt: new Date(),
-        }),
-      );
+      sessionAuthorizationAdapter.find
+        .withArgs({ sessionId })
+        .resolves(
+          domainBuilder.certification.enrolment
+            .sessionAuthorizationBuilder()
+            .cannotEnrollCandidateIndividually()
+            .build(),
+        );
 
       // when
       const error = await catchErr(addCandidateToSession)({
@@ -118,6 +126,11 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
         certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
       });
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
+      sessionAuthorizationAdapter.find
+        .withArgs({ sessionId })
+        .resolves(
+          domainBuilder.certification.enrolment.sessionAuthorizationBuilder().canEnrollCandidateIndividually().build(),
+        );
     });
 
     context('when candidate is not valid', function () {
