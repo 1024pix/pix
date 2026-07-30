@@ -1,12 +1,10 @@
 import * as learningContentRepository from '../../../../../src/prescription/shared/infrastructure/repositories/learning-content-repository.js';
-import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as userRecommendedTrainingRepository from '../../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
 import * as improvementService from '../../../../evaluation/domain/services/improvement-service.js';
 import * as badgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
 import * as competenceEvaluationRepository from '../../../../evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as badgeForCalculationRepository from '../../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
@@ -21,7 +19,6 @@ import * as organizationLearnerRepository from '../../../organization-learner/in
 import knowledgeElementForParticipationService from '../../../shared/domain/services/knowledge-element-for-participation-service.js';
 import * as compareStagesAndAcquiredStages from '../../../stages/domain/services/stage-and-stage-acquisition-comparison-service.js';
 import * as stageAcquisitionRepository from '../../../stages/infrastructure/repositories/stage-acquisition-repository.js';
-import * as stageCollectionRepository from '../../../stages/infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../../stages/infrastructure/repositories/stage-repository.js';
 import * as targetProfileRepository from '../../../target-profile/infrastructure/repositories/target-profile-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -64,7 +61,6 @@ const dependencies = {
   competenceEvaluationRepository,
   competenceRepository,
   auditLoggingJobRepository,
-  featureToggles,
   knowledgeElementForParticipationService,
   knowledgeElementRepository,
   knowledgeElementSnapshotRepository,
@@ -81,9 +77,7 @@ const dependencies = {
   poleEmploiSendingRepository,
   userCampaignParticipationRepository,
   stageAcquisitionRepository,
-  stageCollectionRepository,
   stageRepository,
-  tutorialRepository,
   userRepository,
   userRecommendedTrainingRepository,
 };
