@@ -14,4 +14,8 @@ export default class OrganizationLearner extends Model {
   @attr() canBeDissociated;
 
   @belongsTo('user', { async: true, inverse: 'organizationLearners' }) user;
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }

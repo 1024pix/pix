@@ -87,6 +87,33 @@ module(
       assert.dom(screen.getByText('02/10/2020')).exists();
     });
 
+    test('should display organization learner’s id with link', async function (assert) {
+      // given
+      const toggleDisplayDissociateModal = sinon.spy();
+      const learner = { id: 123, fullName: 'Bob' };
+      const user = {
+        organizationLearners: [learner],
+      };
+      this.owner.register('service:access-control', AccessControlStub);
+
+      // when
+      const screen = await render(
+        <template>
+          <OrganizationLearnerInformation
+            @user={{user}}
+            @toggleDisplayDissociateModal={{toggleDisplayDissociateModal}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.ok(screen.getByText('123'));
+      const link = screen.getByRole('link', {
+        name: t('components.organization-learners.list-table.view-learner', { learner: learner.fullName }),
+      });
+      assert.ok(link.getAttribute('href').endsWith('123'));
+    });
+
     test('should display organization learner’s division', async function (assert) {
       // given
       const toggleDisplayDissociateModal = sinon.spy();
