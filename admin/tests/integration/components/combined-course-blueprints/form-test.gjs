@@ -40,7 +40,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       ];
       const frameworks = [
         {
-          id: 123,
+          id: '123',
           name: 'Pix',
           areas: [],
         },
@@ -150,12 +150,12 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
 
       const attestations = [
-        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
+        { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
       ];
       const frameworks = [
         {
-          id: 123,
+          id: '123',
           name: 'Pix',
           areas: [],
         },
@@ -174,12 +174,12 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
     test('it should display tubes selection component only if the user selects an attestation', async function (assert) {
       //given
       const attestations = [
-        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
+        { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
       ];
       const frameworks = [
         {
-          id: 123,
+          id: '123',
           name: 'Pix',
           areas: [],
         },
@@ -210,15 +210,15 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       const store = this.owner.lookup('service:store');
 
       const blueprint = store.createRecord('combined-course-blueprint', {
-        id: 1,
+        id: '1',
         name: 'name',
       });
       sinon.stub(blueprint, 'save');
       blueprint.save.resolves();
 
       const attestations = [
-        { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
-        { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
+        { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
+        { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
       ];
 
       const tube = store.createRecord('tube', {
@@ -305,7 +305,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       const router = this.owner.lookup('service:router');
 
       const blueprint = store.createRecord('combined-course-blueprint', {
-        id: 1,
+        id: '1',
         name: 'name',
         internalName: 'internalName',
         content: [
@@ -397,7 +397,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
     test('it should display reward requirements when reward exists', async function (assert) {
       // given
       const blueprint = {
-        id: 1,
+        id: '1',
         name: 'name',
         internalName: 'internalName',
         attestationLabel: 'Label',
@@ -422,7 +422,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
   module('error cases', function () {
     const frameworks = [
       {
-        id: 123,
+        id: '123',
         name: 'Pix',
         areas: [],
       },
@@ -629,7 +629,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       const frameworks = [
         {
-          id: 123,
+          id: '123',
           name: 'Pix',
           areas: [],
         },
@@ -670,7 +670,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       const frameworks = [
         {
-          id: 123,
+          id: '123',
           name: 'Pix',
           areas: [],
         },

@@ -26,8 +26,10 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
     const externalId = 'externalId';
     this.server.post('/admin/certification-centers', (schema, request) => {
-      const { name, type, externalId } = JSON.parse(request.requestBody).data.attributes;
-      return schema.certificationCenters.create({ id: 99, name, type, externalId });
+      const { data } = JSON.parse(request.requestBody);
+      const { name, type, externalId } = data.attributes;
+      const habilitationIds = (data.relationships?.habilitations?.data ?? []).map(({ id }) => id);
+      return schema.certificationCenters.create({ id: 99, name, type, externalId, habilitationIds });
     });
 
     // when

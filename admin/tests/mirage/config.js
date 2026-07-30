@@ -1,4 +1,4 @@
-import { pluralize, singularize } from 'ember-inflector';
+import { pluralize, singularize } from '@warp-drive/utilities/string';
 import { createServer } from 'miragejs';
 
 import factories from './factories';
