@@ -3,14 +3,13 @@ import { prescriberSerializer } from '../infrastructure/serializers/jsonapi/pres
 
 /**
  * @param request
- * @param h
- * @param dependencies
  * @return {Promise<*>}
  */
 const get = async function (request, h, dependencies = { prescriberSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
 
   const prescriber = await usecases.getPrescriber({ userId: authenticatedUserId });
+
   return dependencies.prescriberSerializer.serialize(prescriber);
 };
 

@@ -1,19 +1,21 @@
+import * as legalDocumentApi from '../../../legal-documents/application/api/legal-documents-api.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../organizational-entities/domain/models/Tag.js';
 import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ForbiddenAccess, UserNotFoundError } from '../../../shared/domain/errors.js';
 import { Membership } from '../../../shared/domain/models/Membership.js';
-import { UserOrgaSettings } from '../../domain/models/UserOrgaSettings.js';
-import { Prescriber } from '../../domain/read-models/Prescriber.js';
+import { UserOrgaSettings } from '../../../team/domain/models/UserOrgaSettings.js';
+import { Prescriber } from '../../domain/models/Prescriber.js';
 
 /**
+ * @deprecated must be replaced by different API calls in the usecase
  * @param {Object} params
  * @property {string} params.userId
  * @param {any} params.legalDocumentApi
  * @return {Promise<Prescriber>}
  */
-const getPrescriber = async function ({ userId, legalDocumentApi }) {
+const getPrescriber = async function ({ userId, dependencies = { legalDocumentApi } }) {
   const knexConn = DomainTransaction.getConnection();
 
   const user = await knexConn('users').select('id', 'firstName', 'lastName', 'lang').where({ id: userId }).first();
@@ -22,7 +24,7 @@ const getPrescriber = async function ({ userId, legalDocumentApi }) {
     throw new UserNotFoundError(`User not found for ID ${userId}`);
   }
 
-  const pixOrgaLegalDocumentStatus = await legalDocumentApi.getLegalDocumentStatusByUserId({
+  const pixOrgaLegalDocumentStatus = await dependencies.legalDocumentApi.getLegalDocumentStatusByUserId({
     userId,
     service: 'pix-orga',
     type: 'TOS',

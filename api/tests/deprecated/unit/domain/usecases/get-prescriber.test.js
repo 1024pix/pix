@@ -1,35 +1,35 @@
 import sinon from 'sinon';
 
+import { getPrescriber } from '../../../../../src/deprecated/domain/usecases/get-prescriber.js';
 import { UserHasNoOrganizationMembershipError } from '../../../../../src/team/domain/errors.js';
-import { getPrescriber } from '../../../../../src/team/domain/usecases/get-prescriber.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
+describe('Deprecated | Unit | Domain | UseCase | get-prescriber', function () {
   const userId = 1;
   let prescriberRepository;
-  let sharedMembershipRepository;
+  let membershipRepository;
   let userOrgaSettingsRepository;
   let expectedResult;
 
   beforeEach(function () {
     expectedResult = Symbol('prescriber');
     prescriberRepository = { getPrescriber: sinon.stub() };
-    sharedMembershipRepository = { findByUserId: sinon.stub() };
+    membershipRepository = { findByUserId: sinon.stub() };
     userOrgaSettingsRepository = { findOneByUserId: sinon.stub(), create: sinon.stub(), update: sinon.stub() };
   });
 
   context('When user is not a member of any organization', function () {
     it('should throw UserNotMemberOfOrganizationError', async function () {
       // given
-      sharedMembershipRepository.findByUserId.resolves([]);
+      membershipRepository.findByUserId.resolves([]);
 
       // when
       const error = await catchErr(getPrescriber)({
         userId,
         prescriberRepository,
-        sharedMembershipRepository,
+        membershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -44,14 +44,14 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       const user = domainBuilder.buildUser({ id: userId });
       const membership1 = domainBuilder.buildMembership({ user });
       const membership2 = domainBuilder.buildMembership({ user });
-      sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership1, membership2]);
+      membershipRepository.findByUserId.withArgs(userId).resolves([membership1, membership2]);
       userOrgaSettingsRepository.findOneByUserId.withArgs(userId).resolves(null);
 
       // when
       await getPrescriber({
         userId,
         prescriberRepository,
-        sharedMembershipRepository,
+        membershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -63,7 +63,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       // given
       const user = domainBuilder.buildUser({ id: userId });
       const membership = domainBuilder.buildMembership({ user });
-      sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership]);
+      membershipRepository.findByUserId.withArgs(userId).resolves([membership]);
       userOrgaSettingsRepository.findOneByUserId.withArgs(userId).resolves(null);
       prescriberRepository.getPrescriber.withArgs({ userId }).resolves(expectedResult);
 
@@ -71,7 +71,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       const result = await getPrescriber({
         userId,
         prescriberRepository,
-        sharedMembershipRepository,
+        membershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -85,7 +85,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       // given
       const user = domainBuilder.buildUser({ id: userId });
       const membership = domainBuilder.buildMembership({ user });
-      sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership]);
+      membershipRepository.findByUserId.withArgs(userId).resolves([membership]);
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
         currentOrganization: membership.organisation,
         user: membership.user,
@@ -96,7 +96,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       await getPrescriber({
         userId,
         prescriberRepository,
-        sharedMembershipRepository,
+        membershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -108,7 +108,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       // given
       const user = domainBuilder.buildUser({ id: userId });
       const membership = domainBuilder.buildMembership({ user });
-      sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership]);
+      membershipRepository.findByUserId.withArgs(userId).resolves([membership]);
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
         currentOrganization: membership.organisation,
         user: membership.user,
@@ -120,7 +120,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
       const result = await getPrescriber({
         userId,
         prescriberRepository,
-        sharedMembershipRepository,
+        membershipRepository,
         userOrgaSettingsRepository,
       });
 
@@ -134,7 +134,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
         const user = domainBuilder.buildUser({ id: userId });
         const membership1 = domainBuilder.buildMembership({ user });
         const membership2 = domainBuilder.buildMembership({ user });
-        sharedMembershipRepository.findByUserId.withArgs({ userId }).resolves([membership1, membership2]);
+        membershipRepository.findByUserId.withArgs(userId).resolves([membership1, membership2]);
         const outdatedOrganization = domainBuilder.buildOrganization();
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: outdatedOrganization,
@@ -146,7 +146,7 @@ describe('Unit | Team | Domain | UseCase | get-prescriber', function () {
         await getPrescriber({
           userId,
           prescriberRepository,
-          sharedMembershipRepository,
+          membershipRepository,
           userOrgaSettingsRepository,
         });
 

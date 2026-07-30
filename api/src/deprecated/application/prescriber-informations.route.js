@@ -10,9 +10,7 @@ export const prescriberInformationsRoute = [
     path: '/api/prescription/prescribers/{userId}',
     config: {
       validate: {
-        params: Joi.object({
-          userId: identifiersType.userId,
-        }),
+        params: Joi.object({ userId: identifiersType.userId }),
       },
       pre: [
         {
@@ -26,7 +24,7 @@ export const prescriberInformationsRoute = [
           '- Récupération d’un prescripteur.\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
       ],
-      tags: ['api', 'team', 'prescriber'],
+      tags: ['api', 'deprecated', 'prescriber'],
     },
   },
 ];

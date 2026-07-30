@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
-
 import { buildLegalDocumentVersion } from '../../../../../db/database-builder/factory/build-legal-document-version.js';
 import { buildLegalDocumentVersionUserAcceptance } from '../../../../../db/database-builder/factory/build-legal-document-version-user-acceptance.js';
+import { Prescriber } from '../../../../../src/deprecated/domain/models/Prescriber.js';
+import { prescriberRepository } from '../../../../../src/deprecated/infrastructure/repositories/prescriber-repository.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
 import { ATTESTATIONS } from '../../../../../src/profile/domain/constants.js';
@@ -11,27 +11,11 @@ import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { UserOrgaSettings } from '../../../../../src/team/domain/models/UserOrgaSettings.js';
-import { Prescriber } from '../../../../../src/team/domain/read-models/Prescriber.js';
-import { repositories } from '../../../../../src/team/infrastructure/repositories/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-const prescriberRepository = repositories.prescriberRepository;
-
-describe('Integration | Team | Infrastructure | Repository | Prescriber', function () {
-  const userToInsert = {
-    firstName: 'estelle',
-    lastName: 'popopo',
-    email: 'estelle.popopo@example.net',
-    lang: 'fr',
-    /* eslint-disable-next-line n/no-sync */
-    password: bcrypt.hashSync('A124B2C3#!', 1),
-    cgu: true,
-    samlId: 'some-saml-id',
-    shouldChangePassword: false,
-  };
-
+describe('Deprecated | Integration | Infrastructure | Repository | Prescriber', function () {
   let user;
   let organization;
   let membership;
@@ -58,7 +42,7 @@ describe('Integration | Team | Infrastructure | Repository | Prescriber', functi
 
     context('when user is a prescriber', function () {
       beforeEach(async function () {
-        user = databaseBuilder.factory.buildUser(userToInsert);
+        user = databaseBuilder.factory.buildUser();
         organization = databaseBuilder.factory.buildOrganization();
         membership = databaseBuilder.factory.buildMembership({
           id: 3000001,

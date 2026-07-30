@@ -1,11 +1,5 @@
 {
   "name": "team",
-  "dependsOn": [
-    "certification/shared",
-    "identity-access-management",
-    "legal-documents",
-    "organizational-entities",
-    "shared"
-  ],
+  "dependsOn": ["certification/shared", "identity-access-management", "organizational-entities", "shared"],
   "circular": "temporary-allowed"
 }
