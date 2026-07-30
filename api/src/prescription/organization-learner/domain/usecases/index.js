@@ -13,9 +13,7 @@ import * as organizationFeaturesAPI from '../../../../organizational-entities/ap
 import { tagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as libOrganizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as combinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
-import * as questRepository from '../../../../quest/infrastructure/repositories/quests/quest-repository.js';
 import { cryptoService } from '../../../../shared/domain/services/crypto-service.js';
-import { tokenService } from '../../../../shared/domain/services/token-service.js';
 import * as userReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
 /** TODO
  * Internal API Needed For
@@ -71,7 +69,6 @@ const dependencies = {
   campaignRepository,
   campaignParticipationOverviewRepository,
   registrationOrganizationLearnerRepository,
-  questRepository,
   combinedCourseRepository,
   tagRepository,
   userService,
@@ -83,13 +80,11 @@ const dependencies = {
   prescriptionOrganizationLearnerRepository,
   studentRepository,
   obfuscationService,
-  tokenService,
   passwordValidator,
   writeCsvUtils,
   userReconciliationService,
 };
 
-import { getCampaignParticipationStatistics } from '../../../campaign-participation/domain/usecases/get-campaign-participation-statistics.js';
 import { createAndReconcileUserToOrganizationLearner } from './create-and-reconcile-user-to-organization-learner.js';
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser } from './create-user-and-reconcile-to-organization-learner-from-external-user.js';
 import { findAssociationBetweenUserAndOrganizationLearner } from './find-association-between-user-and-organization-learner.js';
@@ -137,7 +132,6 @@ const usecasesWithoutInjectedDependencies = {
   getAttestationPdfFromFilters,
   getOrganizationLearner,
   getOrganizationLearnerActivity,
-  getOrganizationLearnerStatistics: getCampaignParticipationStatistics,
   getOrganizationToJoin,
   unblockOrganizationLearnerAccount,
   updateOrganizationLearnerDependentUserPassword,
