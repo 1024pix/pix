@@ -13,6 +13,7 @@
     "prescription/shared",
     "prescription/target-profile",
     "profile",
+    "team",
     "shared"
   ],
   "circular": "temporary-allowed"
