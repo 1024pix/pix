@@ -144,7 +144,7 @@ describe('Unit | Certification | Session | Domain | Models | SessionManagement',
     });
   });
 
-  context('.isNotAccessible', function () {
+  context('#isNotAccessible', function () {
     it('returns true when the session is created', function () {
       const session = domainBuilder.certification.sessionManagement.buildSessionManagement.created();
       expect(session.isAccessible()).to.be.true;
@@ -163,6 +163,36 @@ describe('Unit | Certification | Session | Domain | Models | SessionManagement',
     it('returns false when the session is processed', function () {
       const session = domainBuilder.certification.sessionManagement.buildSessionManagement.processed();
       expect(session.isAccessible()).to.be.false;
+    });
+  });
+
+  describe('#get hasExpired', function () {
+    it('returns false when session has no started certification', function () {
+      const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
+        firstCertificationStartedAt: null,
+      });
+
+      expect(session.hasExpired).to.be.false;
+    });
+
+    it('returns false when session has a started certification since below 24 hours', function () {
+      const startDateTime = new Date();
+      startDateTime.setHours(startDateTime.getHours() - 23);
+      const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
+        firstCertificationStartedAt: startDateTime,
+      });
+
+      expect(session.hasExpired).to.be.false;
+    });
+
+    it('returns true when session has a started certification for more than 24 hours', function () {
+      const startDateTime = new Date();
+      startDateTime.setHours(startDateTime.getHours() - 25);
+      const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
+        firstCertificationStartedAt: startDateTime,
+      });
+
+      expect(session.hasExpired).to.be.true;
     });
   });
 });
