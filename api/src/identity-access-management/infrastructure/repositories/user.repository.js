@@ -145,6 +145,7 @@ const findPaginatedFiltered = async function ({ filter, page, queryType = QUERY_
   return { models: users, pagination };
 };
 
+// bounded-context: should be done by an api of bounded context team
 const getWithMemberships = async function (userId) {
   const knexConn = DomainTransaction.getConnection();
   const userDTO = await knexConn('users').where({ id: userId }).first();
@@ -167,6 +168,7 @@ const getWithMemberships = async function (userId) {
   return _toDomainFromDTO({ userDTO, membershipsDTO });
 };
 
+// bounded-context: should be done by an api of bounded context team
 const isUserAllowedToAccessCertificationCenter = async function (userId, certificationCenterId) {
   const knexConn = DomainTransaction.getConnection();
   const user = await knexConn('users').where({ id: userId }).first();
