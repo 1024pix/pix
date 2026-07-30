@@ -342,7 +342,7 @@ export default class CandidateInList extends Component {
           lastName: this.args.candidate.lastName,
         }),
       });
-    } catch (err) {
+    } catch {
       this.pixToast.sendErrorNotification({
         message: this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.error', {
           firstName: this.args.candidate.firstName,
@@ -503,7 +503,7 @@ export default class CandidateInList extends Component {
         @showModal={{this.isConfirmationModalDisplayed}}
         @closeConfirmationModal={{this.closeConfirmationModal}}
         @actionOnConfirmation={{this.actionMethod}}
-        @candidate={{this.args.candidate}}
+        @candidate={{@candidate}}
         @modalCancelText={{this.modalCancelText}}
         @modalConfirmationButtonText={{this.modalConfirmationText}}
         @title={{this.modalInstructionText}}
