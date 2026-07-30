@@ -41,29 +41,19 @@ const updateWithSnapshot = async function (campaignParticipation) {
 const getLocked = async function (id) {
   const knexConn = DomainTransaction.getConnection();
 
-  const campaignParticipationDTO = await knexConn.from('campaign-participations').forUpdate().where({ id }).first();
-  const campaignDTO = await knexConn.from('campaigns').where({ id: campaignParticipationDTO.campaignId }).first();
-  const assessmentDTOs = await knexConn.from('assessments').where({ campaignParticipationId: id });
-  const campaign = new Campaign(campaignDTO);
-  return new CampaignParticipation({
-    ...campaignParticipationDTO,
-    campaign,
-    assessments: assessmentDTOs.map((assessmentDTO) => new Assessment({ ...assessmentDTO, campaign })),
-  });
+  const participationData = await baseQuery(knexConn)
+    .where('campaign-participations.id', id)
+    .forUpdate('campaign-participations');
+
+  return toDomainCampaignParticipation(participationData);
 };
 
 const get = async function (id) {
   const knexConn = DomainTransaction.getConnection();
 
-  const campaignParticipationDTO = await knexConn.from('campaign-participations').where({ id }).first();
-  const campaignDTO = await knexConn.from('campaigns').where({ id: campaignParticipationDTO.campaignId }).first();
-  const assessmentDTOs = await knexConn.from('assessments').where({ campaignParticipationId: id });
-  const campaign = new Campaign(campaignDTO);
-  return new CampaignParticipation({
-    ...campaignParticipationDTO,
-    campaign,
-    assessments: assessmentDTOs.map((assessmentDTO) => new Assessment({ ...assessmentDTO, campaign })),
-  });
+  const participationData = await baseQuery(knexConn).where('campaign-participations.id', id);
+
+  return toDomainCampaignParticipation(participationData);
 };
 
 const getByCampaignIds = async function (campaignIds, { withDeletedParticipation = false } = {}) {
@@ -198,22 +188,17 @@ const findInfoByCampaignId = async function ({
 
 const findOneByCampaignIdAndUserId = async function ({ campaignId, userId }) {
   const knexConn = DomainTransaction.getConnection();
-  const campaignParticipation = await knexConn('campaign-participations')
-    .where({ userId, isImproved: false, campaignId })
-    .first();
-  if (!campaignParticipation) return null;
-  const assessments = await knexConn('assessments').where({ campaignParticipationId: campaignParticipation.id });
-  const campaign = await campaignRepository.get(campaignId);
-  return new CampaignParticipation({
-    ...campaignParticipation,
-    assessments: assessments.map(
-      (assessment) =>
-        new Assessment({
-          ...assessment,
-          campaign,
-        }),
-    ),
-  });
+
+  const participationData = await baseQuery(knexConn)
+    .where('campaign-participations.userId', userId)
+    .where('campaign-participations.isImproved', false)
+    .where('campaign-participations.campaignId', campaignId);
+
+  if (participationData.length === 0) {
+    return null;
+  }
+
+  return toDomainCampaignParticipation(participationData);
 };
 
 const findByOrganizationLearnerIds = async function ({ organizationLearnerIds }) {
@@ -333,20 +318,20 @@ const getCodeOfLastParticipationToProfilesCollectionCampaignForUser = async func
 
 const isRetrying = async function ({ campaignParticipationId }) {
   const knexConn = DomainTransaction.getConnection();
-  const { id: campaignId, organizationLearnerId } = await knexConn('campaigns')
-    .select('campaigns.id', 'organizationLearnerId')
-    .join('campaign-participations', 'campaigns.id', 'campaignId')
-    .where({ 'campaign-participations.id': campaignParticipationId })
+  const { participationCountToCampaign, hasUnsharedRetry } = await knexConn('campaign-participations')
+    .whereIn(
+      ['campaignId', 'organizationLearnerId'],
+      knexConn('campaign-participations')
+        .select('campaignId', 'organizationLearnerId')
+        .where({ id: campaignParticipationId }),
+    )
+    .select(
+      knexConn.raw('COUNT(*) AS "participationCountToCampaign"'),
+      knexConn.raw('BOOL_OR(NOT "isImproved" AND "sharedAt" IS NULL) AS "hasUnsharedRetry"'),
+    )
     .first();
 
-  const campaignParticipations = await knexConn('campaign-participations')
-    .select('sharedAt', 'isImproved')
-    .where({ campaignId, organizationLearnerId });
-
-  return (
-    campaignParticipations.length > 1 &&
-    campaignParticipations.some((participation) => !participation.isImproved && !participation.sharedAt)
-  );
+  return participationCountToCampaign > 1 && hasUnsharedRetry;
 };
 
 function _rowToResult(row) {
@@ -372,11 +357,9 @@ function _rowToResult(row) {
 
 async function getSharedParticipationIds(campaignId) {
   const knexConn = DomainTransaction.getConnection();
-  const results = await knexConn('campaign-participations')
+  return knexConn('campaign-participations')
     .pluck('id')
     .where({ campaignId, status: SHARED, isImproved: false, deletedAt: null });
-
-  return results;
 }
 
 export {
@@ -397,3 +380,128 @@ export {
   updateInBatchByIds,
   updateWithSnapshot,
 };
+
+function baseQuery(knexConn) {
+  return knexConn
+    .select({
+      campaignId: 'campaigns.id',
+      campaignName: 'campaigns.name',
+      campaignCode: 'campaigns.code',
+      campaignOrganizationId: 'campaigns.organizationId',
+      campaignCreatorId: 'campaigns.creatorId',
+      campaignCreatedAt: 'campaigns.createdAt',
+      campaignTargetProfileId: 'campaigns.targetProfileId',
+      campaignIdPixLabel: 'campaigns.idPixLabel',
+      campaignTitle: 'campaigns.title',
+      campaignCustomLandingPageText: 'campaigns.customLandingPageText',
+      campaignArchivedAt: 'campaigns.archivedAt',
+      campaignType: 'campaigns.type',
+      campaignExternalIdHelpImageUrl: 'campaigns.externalIdHelpImageUrl',
+      campaignAlternativeTextToExternalIdHelpImage: 'campaigns.alternativeTextToExternalIdHelpImage',
+      campaignIsForAbsoluteNovice: 'campaigns.isForAbsoluteNovice',
+      campaignCustomResultPageText: 'campaigns.customResultPageText',
+      campaignCustomResultPageButtonText: 'campaigns.customResultPageButtonText',
+      campaignCustomResultPageButtonUrl: 'campaigns.customResultPageButtonUrl',
+      campaignMultipleSendings: 'campaigns.multipleSendings',
+      campaignAssessmentMethod: 'campaigns.assessmentMethod',
+      campaignOwnerId: 'campaigns.ownerId',
+      campaignArchivedBy: 'campaigns.archivedBy',
+      campaignDeletedAt: 'campaigns.deletedAt',
+      campaignDeletedBy: 'campaigns.deletedBy',
+      participationId: 'campaign-participations.id',
+      participationCreatedAt: 'campaign-participations.createdAt',
+      participationParticipantExternalId: 'campaign-participations.participantExternalId',
+      participationStatus: 'campaign-participations.status',
+      participationSharedAt: 'campaign-participations.sharedAt',
+      participationDeletedAt: 'campaign-participations.deletedAt',
+      participationDeletedBy: 'campaign-participations.deletedBy',
+      participationUserId: 'campaign-participations.userId',
+      participationValidatedSkillsCount: 'campaign-participations.validatedSkillsCount',
+      participationPixScore: 'campaign-participations.pixScore',
+      participationOrganizationLearnerId: 'campaign-participations.organizationLearnerId',
+      assessmentId: 'assessments.id',
+      assessmentCreatedAt: 'assessments.createdAt',
+      assessmentUpdatedAt: 'assessments.updatedAt',
+      assessmentState: 'assessments.state',
+      assessmentType: 'assessments.type',
+      assessmentIsImproving: 'assessments.isImproving',
+      assessmentLastChallengeId: 'assessments.lastChallengeId',
+      assessmentLastQuestionState: 'assessments.lastQuestionState',
+      assessmentLastQuestionDate: 'assessments.lastQuestionDate',
+      assessmentCourseId: 'assessments.courseId',
+      assessmentCertificationCourseId: 'assessments.certificationCourseId',
+      assessmentUserId: 'assessments.userId',
+      assessmentCompetenceId: 'assessments.competenceId',
+      assessmentCampaignParticipationId: 'assessments.campaignParticipationId',
+      assessmentMethod: 'assessments.method',
+    })
+    .from('campaign-participations')
+    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+    .leftJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id');
+}
+
+function toDomainCampaignParticipation(participationData) {
+  const commonData = participationData[0];
+  const campaign = new Campaign({
+    id: commonData.campaignId,
+    name: commonData.campaignName,
+    code: commonData.campaignCode,
+    organizationId: commonData.campaignOrganizationId,
+    creatorId: commonData.campaignCreatorId,
+    createdAt: commonData.campaignCreatedAt,
+    targetProfileId: commonData.campaignTargetProfileId,
+    idPixLabel: commonData.campaignIdPixLabel,
+    title: commonData.campaignTitle,
+    customLandingPageText: commonData.campaignCustomLandingPageText,
+    archivedAt: commonData.campaignArchivedAt,
+    type: commonData.campaignType,
+    externalIdHelpImageUrl: commonData.campaignExternalIdHelpImageUrl,
+    alternativeTextToExternalIdHelpImage: commonData.campaignAlternativeTextToExternalIdHelpImage,
+    isForAbsoluteNovice: commonData.campaignIsForAbsoluteNovice,
+    customResultPageText: commonData.campaignCustomResultPageText,
+    customResultPageButtonText: commonData.campaignCustomResultPageButtonText,
+    customResultPageButtonUrl: commonData.campaignCustomResultPageButtonUrl,
+    multipleSendings: commonData.campaignMultipleSendings,
+    assessmentMethod: commonData.campaignAssessmentMethod,
+  });
+  let assessments = [];
+  if (commonData.assessmentId) {
+    assessments = participationData.map(
+      (assessmentData) =>
+        new Assessment({
+          id: assessmentData.assessmentId,
+          createdAt: assessmentData.assessmentCreatedAt,
+          updatedAt: assessmentData.assessmentUpdatedAt,
+          state: assessmentData.assessmentState,
+          type: assessmentData.assessmentType,
+          isImproving: assessmentData.assessmentIsImproving,
+          lastChallengeId: assessmentData.assessmentLastChallengeId,
+          lastQuestionState: assessmentData.assessmentLastQuestionState,
+          lastQuestionDate: assessmentData.assessmentLastQuestionDate,
+          courseId: assessmentData.assessmentCourseId,
+          certificationCourseId: assessmentData.assessmentCertificationCourseId,
+          userId: assessmentData.assessmentUserId,
+          competenceId: assessmentData.assessmentCompetenceId,
+          campaignParticipationId: assessmentData.assessmentCampaignParticipationId,
+          method: assessmentData.assessmentMethod,
+          campaign,
+        }),
+    );
+  }
+
+  return new CampaignParticipation({
+    id: commonData.participationId,
+    createdAt: commonData.participationCreatedAt,
+    participantExternalId: commonData.participationParticipantExternalId,
+    status: commonData.participationStatus,
+    sharedAt: commonData.participationSharedAt,
+    deletedAt: commonData.participationDeletedAt,
+    deletedBy: commonData.participationDeletedBy,
+    userId: commonData.participationUserId,
+    validatedSkillsCount: commonData.participationValidatedSkillsCount,
+    pixScore: commonData.participationPixScore,
+    organizationLearnerId: commonData.participationOrganizationLearnerId,
+    campaign,
+    assessments,
+  });
+}
