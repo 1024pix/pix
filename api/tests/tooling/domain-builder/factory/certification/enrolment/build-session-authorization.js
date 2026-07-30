@@ -19,6 +19,7 @@ class SessionAuthorizationBuilder {
     this.id = null;
     this.isFinalized = false;
     this.hasExpired = false;
+    this.hasStarted = false;
   }
 
   /**
@@ -29,6 +30,7 @@ class SessionAuthorizationBuilder {
   canEnrollCandidateIndividually() {
     this.isFinalized = false;
     this.hasExpired = false;
+    this.hasStarted = false;
     return this;
   }
 
@@ -40,6 +42,7 @@ class SessionAuthorizationBuilder {
   cannotEnrollCandidateIndividually() {
     this.isFinalized = false;
     this.hasExpired = true;
+    this.hasStarted = true;
     return this;
   }
 
@@ -52,10 +55,11 @@ class SessionAuthorizationBuilder {
    * @param {number} [params.id] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)   * @returns {SessionAuthorizationBuilder}
    * @returns {SessionAuthorizationBuilder}
    */
-  withParameters({ id, isFinalized = false, hasExpired = false } = {}) {
+  withParameters({ id, isFinalized = false, hasExpired = false, hasStarted = false } = {}) {
     this.id = id ?? this.id;
     this.isFinalized = isFinalized;
     this.hasExpired = hasExpired;
+    this.hasStarted = hasStarted;
     return this;
   }
 
@@ -76,17 +80,19 @@ class SessionAuthorizationBuilder {
       finalizedAt,
     }).id;
 
-    const startDateTime = new Date();
-    const hoursBefore = sessionAuthorization.hasExpired ? 25 : 12;
-    startDateTime.setHours(startDateTime.getHours() - hoursBefore);
-    const candidateId = databaseBuilder.factory.buildCertificationCandidate({
-      sessionId,
-    }).id;
-    databaseBuilder.factory.buildCertificationCourse({
-      sessionId,
-      candidateId,
-      createdAt: startDateTime,
-    });
+    if (sessionAuthorization.hasStarted) {
+      const startDateTime = new Date();
+      const hoursBefore = sessionAuthorization.hasExpired ? 25 : 12;
+      startDateTime.setHours(startDateTime.getHours() - hoursBefore);
+      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+        sessionId,
+      }).id;
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        candidateId,
+        createdAt: startDateTime,
+      });
+    }
 
     return sessionAuthorization;
   }
@@ -101,6 +107,7 @@ class SessionAuthorizationBuilder {
       id: this.id,
       isFinalized: this.isFinalized,
       hasExpired: this.hasExpired,
+      hasStarted: this.hasStarted,
     });
   }
 }

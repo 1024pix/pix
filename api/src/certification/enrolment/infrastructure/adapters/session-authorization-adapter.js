@@ -18,5 +18,6 @@ export async function find({ sessionId, dependencies = { sessionAuthorizationApi
     id: sessionAuthorizationDTO.id,
     isFinalized: sessionAuthorizationDTO.isFinalized,
     hasExpired: sessionAuthorizationDTO.hasExpired,
+    hasStarted: sessionAuthorizationDTO.hasStarted,
   });
 }

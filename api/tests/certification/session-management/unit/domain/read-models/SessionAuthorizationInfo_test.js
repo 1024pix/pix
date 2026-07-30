@@ -53,4 +53,23 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Ses
       expect(sessionAuthorizationinfo.hasExpired).to.be.true;
     });
   });
+
+  describe('#get hasStarted', function () {
+    it('returns false when session has no certification ongoing', function () {
+      const sessionAuthorizationinfo = domainBuilder.certification.sessionManagement
+        .sessionAuthorizationInfoBuilder()
+        .build();
+
+      expect(sessionAuthorizationinfo.hasStarted).to.be.false;
+    });
+
+    it('returns true when session has a certification ongoing ', function () {
+      const sessionAuthorizationinfo = domainBuilder.certification.sessionManagement
+        .sessionAuthorizationInfoBuilder()
+        .withFirstCertificationStarted({ at: new Date() })
+        .build();
+
+      expect(sessionAuthorizationinfo.hasStarted).to.be.true;
+    });
+  });
 });

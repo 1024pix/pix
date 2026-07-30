@@ -40,6 +40,7 @@ describe('Certification | Session Management | Integration | Application | Api |
         id: 1,
         isFinalized: true,
         hasExpired: true,
+        hasStarted: true,
       });
     });
   });

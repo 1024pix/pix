@@ -15,6 +15,10 @@ export class SessionAuthorizationInfo {
     return false;
   }
 
+  get hasStarted() {
+    return Boolean(this.firstCertificationStartedAt);
+  }
+
   get isFinalized() {
     return Boolean(this.finalizedAt);
   }

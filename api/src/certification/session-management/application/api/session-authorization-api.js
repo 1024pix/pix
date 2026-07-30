@@ -5,6 +5,7 @@ import * as sessionAuthorizationInfoRepository from '../../infrastructure/reposi
  * @property {number} id
  * @property {boolean} isFinalized
  * @property {boolean} hasExpired
+ * @property {boolean} hasStarted
  */
 
 /**
@@ -26,5 +27,6 @@ export async function findBySessionId({ sessionId, dependencies = { sessionAutho
     id: sessionAuthorizationInfo.id,
     isFinalized: sessionAuthorizationInfo.isFinalized,
     hasExpired: sessionAuthorizationInfo.hasExpired,
+    hasStarted: sessionAuthorizationInfo.hasStarted,
   };
 }
