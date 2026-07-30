@@ -150,7 +150,7 @@
               "element": {
                 "id": "ef0c86d2-dfb3-4065-97fa-1202417a4f10",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/21_RepondreMail_IND/template-mail-fil-alma-gabriel-d1.png",
+                "url": "https://s.pix.org/draft/modules/21_RepondreMail_IND/template-mail-fil-alma-gabriel-d1.png",
                 "alt": "Mail échangés entre Alma et Gabriel",
                 "alternativeText": "<p>De&nbsp;: Gabriel</p><p>À&nbsp;: Alma</p><p>Objet&nbsp;: Invitation - Conférence Climax </p><p>Date&nbsp;: 27 avril 09:23</p><p>Super, je pourrai venir à la conférence du 16 septembre à l’auditorium. <br>Merci encore pour ces informations !</p><p>Gabriel</p><hr><p>De&nbsp;: Alma</p><p>À&nbsp;: Gabriel</p><p>Objet&nbsp;: RE&nbsp;:&nbsp;Invitation -&nbsp;Conférence Climax</p><p>Date&nbsp;: 26 avril 20:05</p><p>Oui, deux autres conférences sont à venir. Le 8 juin à la salle des fêtes et le 16 septembre à l’auditorium à nouveau. Tu penses pouvoir venir à une de ses conférences ?</p><p>Alma, Chargée d’organisation des Conférences Climax</p><hr><p>De&nbsp;: Gabriel</p><p>À&nbsp;: Alma</p><p>Objet&nbsp;: Invitation - Conférence Climax </p><p>Date&nbsp;: 26 avril 16:32</p><p>Bonjour Alma, Merci pour l’invitation, malheureusement je ne serai pas disponible à cette date. <br>Est-ce qu’il y aura d’autres dates de conférences à venir ? </p><p>Gabriel</p><hr><p>De&nbsp;: Alma</p><p>À&nbsp;: Gabriel</p><p>Objet&nbsp;: Invitation -&nbsp;Conférence Climax</p><p>Date&nbsp;: 25 avril 15:00</p><p>Bonjour Gabriel, </p><p>La 3e édition de notre conférence Climax aura lieu à l’auditorium le 23 mai. Peux-tu me dire si tu seras présent, pour que je puisse prévoir le nombre de participants ?</p><p>À bientôt,<br></p><p>Alma, chargée d’organisation des Conférences Climax</p>",
                 "legend": "Image provisoire (en attendant template-mail avec le fil de discussion visible contenant 4 échanges indentés)",
@@ -898,7 +898,7 @@
               "element": {
                 "id": "46522643-bf3c-4ace-b642-c4f73dc1a799",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/21_RepondreMail_IND/bouton_rep-v3.svg",
+                "url": "https://assets.pix.org/draft/modules/21_RepondreMail_IND/bouton_repv3.svg",
                 "alt": "",
                 "alternativeText": "",
                 "legend": "",
