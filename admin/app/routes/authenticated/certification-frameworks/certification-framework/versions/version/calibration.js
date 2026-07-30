@@ -18,4 +18,16 @@ export default class FrameworkEditRoute extends Route {
       draftVersion,
     };
   }
+
+  afterModel(model) {
+    if (!model.draftVersion.isDraft) {
+      this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
+    }
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting && controller.model.draftVersion.hasDirtyAttributes) {
+      controller.model.draftVersion.rollbackAttributes();
+    }
+  }
 }
