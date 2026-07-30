@@ -1,5 +1,30 @@
 # Pix Changelog
 
+# [5.468.0](https://github.com/1024pix/pix/compare/v5.467.0...v5.468.0) (2026-07-30)
+
+### :rocket: Amélioration
+
+- [#16947](https://github.com/1024pix/pix/pull/16947) Affichage des sujets cappés sélectionnés sur la page admin des détails d'un schéma de parcours (Pix-22771)
+- [#16919](https://github.com/1024pix/pix/pull/16919) Ajouter un bloc graphique pour le titre de la page d'un centre de certification (PIX-22643)
+- [#16976](https://github.com/1024pix/pix/pull/16976) Changer les icônes des parcours du catalogue ainsi que leur couleur de fond (PIX-23740)
+- [#16953](https://github.com/1024pix/pix/pull/16953) Créer un champ "Description prescripteur" dans les blueprints (PIX-23402)
+- [#16981](https://github.com/1024pix/pix/pull/16981) IAGen_ethiqueData_droit_auteur-post-relecture-Marine
+- [#16957](https://github.com/1024pix/pix/pull/16957) Ne pas autoriser la reprise du test depuis l'espace Surveillant lorsque la certification a démarré depuis plus de 24 heures (PIX-23659)
+
+### :bug: Correction
+
+- [#16979](https://github.com/1024pix/pix/pull/16979) Correction du responsive des filtres du catalogue : marges trop importantes sur petits écrans (PIX-23747)
+- [#16972](https://github.com/1024pix/pix/pull/16972) Fix d'envoie d'erreur des notification (PIX-23739)
+
+### :building_construction: Tech
+
+- [#16977](https://github.com/1024pix/pix/pull/16977) Corrige le script drop-database pour pouvoir utiliser le paramètre "WITH FORCE".
+- [#16985](https://github.com/1024pix/pix/pull/16985) Déplacer un pre-handler de shared vers organization-entities
+- [#16925](https://github.com/1024pix/pix/pull/16925) Migration WarpDrive sur Orga
+- [#16980](https://github.com/1024pix/pix/pull/16980) Refactorer KnowledgeElementCollection pour supprimer une dépendance de shared
+- [#16969](https://github.com/1024pix/pix/pull/16969) Supprimer la colonne `authorizedToStart` de la table `certification-candidates` (PIX-23662)
+- [#16966](https://github.com/1024pix/pix/pull/16966) Utiliser la nouvelle authentification de Pix Editor (PIX-23702)
+
 # [5.467.0](https://github.com/1024pix/pix/compare/v5.466.0...v5.467.0) (2026-07-29)
 
 ### :rocket: Amélioration
