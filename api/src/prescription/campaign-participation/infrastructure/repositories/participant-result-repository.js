@@ -3,13 +3,13 @@ import _ from 'lodash';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
-import { AssessmentResult } from '../../../../shared/domain/read-models/participant-results/AssessmentResult.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
 import knowledgeElementForParticipationService from '../../../shared/domain/services/knowledge-element-for-participation-service.js';
 import { convertLevelStagesIntoThresholds } from '../../../stages/domain/services/convert-level-stages-into-thresholds-service.js';
+import { AssessmentResult } from '../../domain/read-models/AssessmentResult.js';
 
 /**
  *

@@ -1,5 +1,5 @@
+import { CompetenceResult } from '../../../../../../src/prescription/campaign-participation/domain/read-models/CompetenceResult.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { CompetenceResult } from '../../../../../../src/shared/domain/read-models/participant-results/CompetenceResult.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

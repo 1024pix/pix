@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../../prescription/shared/domain/constants.js';
-import { getNewAcquiredStages } from '../../../../prescription/stages/domain/services/get-new-acquired-stages-service.js';
-import { MAX_MASTERY_RATE, MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../constants.js';
+import { MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../../shared/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes, MaxMasteryRate } from '../../../shared/domain/constants.js';
+import { getNewAcquiredStages } from '../../../stages/domain/services/get-new-acquired-stages-service.js';
 import { BadgeResult } from './BadgeResult.js';
 import { CompetenceResult } from './CompetenceResult.js';
 
@@ -103,7 +103,7 @@ class AssessmentResult {
       !this.isDisabled &&
       isCampaignMultipleSendings &&
       this.isShared &&
-      (this.masteryRate < MAX_MASTERY_RATE || campaignType === CampaignTypes.EXAM)
+      (this.masteryRate < MaxMasteryRate.MAX_MASTERY_RATE || campaignType === CampaignTypes.EXAM)
     );
   }
 
