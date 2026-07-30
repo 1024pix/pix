@@ -356,48 +356,48 @@
                   "image": {
                     "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte2_img_clic.svg",
                     "alt": "Parcours d’un smaprthone de sa fabrication à son utilisation",
-                    "width": 0,
-                    "height": 0
+                    "width": 1000,
+                    "height": 800
                   },
                   "areas": [
                     {
                       "coords": {
-                        "x1": 40,
-                        "y1": 40,
-                        "x2": 400,
-                        "y2": 400
+                        "x1": 15,
+                        "y1": 15,
+                        "x2": 115,
+                        "y2": 115
                       },
                       "spot": {
-                        "x": 220,
-                        "y": 130
+                        "x": 0,
+                        "y": 0
                       },
                       "info": "L’ordinateur de Benoît est d’abord fabriqué dans une usine. Cela nécessite beaucoup d’énergie et de matières premières.",
                       "tooltipPosition": "bottom"
                     },
                     {
                       "coords": {
-                        "x1": 220,
-                        "y1": 430,
-                        "x2": 730,
-                        "y2": 430
+                        "x1": 65,
+                        "y1": 150,
+                        "x2": 220,
+                        "y2": 230
                       },
                       "spot": {
-                        "x": 630,
-                        "y": 568
+                        "x": 0,
+                        "y": 0
                       },
                       "info": "Une fois fabriqué, l’ordinateur de Benoît est transporté jusque chez lui, en bateau puis en camion.",
                       "tooltipPosition": "bottom"
                     },
                     {
                       "coords": {
-                        "x1": 550,
-                        "y1": 40,
-                        "x2": 960,
-                        "y2": 400
+                        "x1": 170,
+                        "y1": 15,
+                        "x2": 280,
+                        "y2": 120
                       },
                       "spot": {
-                        "x": 852,
-                        "y": 85
+                        "x": 0,
+                        "y": 0
                       },
                       "info": "Benoît doit recharger régulièrement la batterie de son ordinateur. Cela consomme de l’électricité, produite dans une centrale électrique.",
                       "tooltipPosition": "bottom"
