@@ -335,7 +335,7 @@ export default class CandidateInList extends Component {
   async endAssessmentForCandidate() {
     this.closeConfirmationModal();
     try {
-      await this.args.onInvigilatorEndAssessment(this.candidate);
+      await this.args.onInvigilatorEndAssessment(this.args.candidate);
       this.pixToast.sendSuccessNotification({
         message: this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.success', {
           firstName: this.args.candidate.firstName,
@@ -503,7 +503,7 @@ export default class CandidateInList extends Component {
         @showModal={{this.isConfirmationModalDisplayed}}
         @closeConfirmationModal={{this.closeConfirmationModal}}
         @actionOnConfirmation={{this.actionMethod}}
-        @candidate={{this.candidate}}
+        @candidate={{@candidate}}
         @modalCancelText={{this.modalCancelText}}
         @modalConfirmationButtonText={{this.modalConfirmationText}}
         @title={{this.modalInstructionText}}
