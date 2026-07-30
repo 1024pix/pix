@@ -96,7 +96,7 @@
                 "id": "380e28cd-95bc-4fa4-ae8f-7d054f8a2eab",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>That's right: you can improve the software's output by being more precise. It is just like talking to someone—you are more likely to be understood when you explain things clearly.<br><br></p>"
+                "content": "<p>That's right! You can improve the software's output by being more precise. It is just like talking to someone, you are more likely to be understood when you explain things clearly.<br><br></p>"
               }
             }
           ]
@@ -210,7 +210,7 @@
                   "messages": [
                     {
                       "direction": "outbound",
-                      "content": "I wrote this invitation to the tournament. Can you check it for mistakes?<br>\"Hi everyone, <br>Just a friendly reminder that registration for the volleyball tournament is still open, but not for much longer! You have until Friday.\""
+                      "content": "I wrote this invitation to the tournament. Can you check it for mistakes?<br>\"Hi everyone, <br>Just a freindly reminder that registration for the volleyball tournament is still open, but not for much lonnger! You have until Friday.\""
                     },
                     {
                       "direction": "inbound",
@@ -224,7 +224,7 @@
                     },
                     {
                       "prompt": "Use a more serious tone.",
-                      "response": "Dear Sir or Madam,<br> We have not yet received your confirmation for the volleyball tournament.<br> We very much hope you will be able to take part.<br> Please reply by Friday. <br>Please do not hesitate to contact us if you require any further information. Yours faithfully,"
+                      "response": "Dear Sir or Madam,<br> We have not yet received your confirmation for the volleyball tournament.<br> We very much hope you will be able to take part.<br> Please reply by Friday. <br>Please do not hesitate to contact us if you require any further information. <br>Yours faithfully,"
                     },
                     {
                       "prompt": "And make it funnier?",
@@ -287,7 +287,7 @@
                 "id": "86f4a896-7173-49a9-b893-d6db656ac7d8",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>🤔 How can we get an answer that really meets our needs?</h5><p>To get a suitable result, you can specify&nbsp;:<br></p><ul><li><strong>who</strong> you are addressing (a seven-year-old child, a subject expert, etc.), 👥<br></li><li><strong>how</strong> (briefly, clearly, professionally, etc.),💬<br></li><li><strong>a role</strong> to play (\"as a sports coach\", \"as if you were Julius Caesar\", etc.).🎭</li></ul>"
+                "content": "<h5>🤔 How can we get an answer that really meets our needs?</h5><p>To get a suitable result, you can specify:<br></p><ul><li><strong>who</strong> you are addressing (a seven-year-old child, a subject expert, etc.) 👥<br></li><li><strong>how</strong> (briefly, clearly, professionally, etc.) 💬<br></li><li><strong>a role</strong> to play (\"as a sports coach\", \"as if you were Julius Caesar\", etc.) 🎭</li></ul>"
               }
             }
           ]
@@ -377,7 +377,7 @@
                 "id": "701f993a-dae8-4ca7-b288-59e040b7be26",
                 "type": "expand",
                 "title": "🙈 Solution",
-                "content": "A correct answer must&nbsp;:&nbsp;<br><ul><li>be structured as a <strong>table</strong>,</li><li>contain exercises for improving <strong>forearm passing</strong> in <strong>volleyball</strong>,&nbsp;</li><li>include one or more <strong>new exercises</strong> for <strong>expert</strong> players.</li></ul>If these conditions are met, your answer should be accepted.&nbsp;✅<br>"
+                "content": "A correct answer must:&nbsp;<br><ul><li>be structured as a <strong>table</strong>,</li><li>contain exercises for improving <strong>forearm passing</strong> in <strong>volleyball</strong>,&nbsp;</li><li>include one or more <strong>new exercises</strong> for <strong>expert</strong> players.</li></ul>If these conditions are met, your answer should be accepted.&nbsp;✅<br>"
               }
             }
           ]
@@ -397,7 +397,7 @@
                       "id": "95783db0-a66d-4cb2-9b20-e629175154b7",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>🤔 How can you use generative AI software effectively? <br></h5><ul><li>Specify the required <strong>format</strong>, for example, a <strong>text</strong>, a <strong>table</strong>, a <strong>list</strong>, a <strong>mind map</strong>, and so on.</li><li>Add <strong>constraints</strong>, such as <strong>length</strong>(\"&nbsp;in fewer than 10 lines&nbsp;\") or <strong>structure</strong>(\"&nbsp;use two sections, each with two subsections\").</li></ul><p>You can also ask the AI to <strong>use an example as a starting point</strong> and reproduce it.</p>"
+                      "content": "<h5>🤔 How can you use generative AI software effectively? <br></h5><ul><li>Specify the required <strong>format</strong>, for example, a <strong>text</strong>, a <strong>table</strong>, a <strong>list</strong>, a <strong>mind map</strong>, and so on.</li><li>Add <strong>constraints</strong>, such as <strong>length</strong>(\"in fewer than 10 lines\") or <strong>structure</strong>(\"use two sections, each with two subsections\").</li></ul><p>You can also ask the AI to <strong>use an example as a starting point</strong> and reproduce it.</p>"
                     }
                   ]
                 },
@@ -407,7 +407,7 @@
                       "id": "59d3e55d-1583-4401-9e27-5ed4b93a2a51",
                       "type": "text",
                       "tag": " ",
-                      "content": "<h5>🤔 What if the AI's response does not meet our expectations? <br></h5><p>No problem—continue the conversation with the AI and ask it to make changes…</p>"
+                      "content": "<h5>🤔 What if the AI's response does not meet your expectations? <br></h5><p>No problem! Continue the conversation with the AI and ask it to make changes…</p>"
                     }
                   ]
                 }
@@ -432,7 +432,7 @@
                 "id": "f3634fe1-d71c-4154-bd9e-7c3a8214d94f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>A few tips for writing an effective prompt&nbsp;:</p><ul>    <li> Use an <strong>action</strong> verb.</li>    <li> Provide <strong>context.</strong></li><li>Specify the <strong>tone</strong> where relevant.</li><li>Give the AI an <strong>identity</strong> or a <strong>role</strong> where necessary.</li>    <li>Specify the <strong>expected format.</strong></li>        </ul><p>🔄 After each response, you can adjust or refine your prompt to get a better result.</p><p><strong>⚠️&nbsp;</strong>A response may appear clear and well written while containing information that <strong>does not match what was requested</strong> or is partly <strong>incorrect. <br></strong></p><p><strong>🔍&nbsp;Reviewing&nbsp;</strong>the AI's response is essential before using it or presenting it to someone.</p>"
+                "content": "<p>A few tips for writing an effective prompt:</p><ul>    <li> Use an <strong>action</strong> verb.</li>    <li> Provide <strong>context.</strong></li><li>Specify the <strong>tone</strong> where relevant.</li><li>Give the AI an <strong>identity</strong> or a <strong>role</strong> where necessary.</li>    <li>Specify the <strong>expected format.</strong></li>        </ul><p>🔄 After each response, you can adjust or refine your prompt to get a better result.</p><p><strong>⚠️&nbsp;</strong>A response may appear clear and well written while containing information that <strong>does not match what was requested</strong> or is partly <strong>incorrect. <br></strong></p><p><strong>🔍&nbsp;Reviewing&nbsp;</strong>the AI's response is essential before using it or presenting it to someone.</p>"
               }
             }
           ]
@@ -467,7 +467,7 @@
                       "id": "c187e39d-00bb-4c69-ac9f-a33975ac1ed3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>\"&nbsp;Write a dialogue between spectators at a volleyball match.&nbsp;\"</p>"
+                      "content": "<p>\"Write a dialogue between spectators at a volleyball match.\"</p>"
                     },
                     {
                       "id": "5eef4164-25a6-48cf-8e5e-3aab8f1aa879",
@@ -511,7 +511,7 @@
                       "id": "6d9b7e95-a2c9-46d8-91a0-b96d976bd3b9",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>\"&nbsp;As a comedian, write a short, humorous speech (two to three minutes) for a leaving party for a volleyball player on your team who is moving to another town. Include his main qualities (sense of humour, skill and honesty) and his minor flaws (impatient and talkative).&nbsp;\"</p>"
+                      "content": "<p>\"As a comedian, write a short, humorous speech (two to three minutes) for a leaving party for a volleyball player on your team who is moving to another town. Include his main qualities (sense of humour, skill and honesty) and his minor flaws (impatient and talkative).\"</p>"
                     },
                     {
                       "id": "7e05eb9a-c0d0-492b-b968-dc7f33fa3c56",
@@ -565,7 +565,7 @@
                 "id": "626250fc-24c4-4c7b-8348-0bc3a9013288",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Tom took notes during the tournament planning meeting&nbsp;:&nbsp;</p><p><em>- maximum 12 teams. mixed teams → everyone agrees</em></p><p><em>- prizes? medals → cost to be confirmed</em></p><p><em> - referees → volunteers; follow up with those from the last tournament </em></p><p><em>- music: ask the town hall about a sound system </em></p><p><em>- if it rains → is the sports hall available? yes!:-) </em></p><p><em>- refreshments: juice, sandwiches, fruit → no hot food </em></p>"
+                "content": "<p>Tom took notes during the tournament planning meeting:&nbsp;</p><p><em>- maximum 12 teams. mixed teams → everyone agrees</em></p><p><em>- prizes? medals → cost to be confirmed</em></p><p><em> - referees → volunteers; follow up with those from the last tournament </em></p><p><em>- music: ask the town hall about a sound system </em></p><p><em>- if it rains → is the sports hall available? yes!:-) </em></p><p><em>- refreshments: juice, sandwiches, fruit → no hot food </em></p>"
               }
             },
             {
@@ -574,7 +574,7 @@
                 "id": "31b24d96-4c62-4283-83b3-f4d50ed7e690",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Tom wants to send <strong>report</strong> to those who could not attend.</p><p>Talk to the generative AI software below until you obtain <strong>report that accurately reflect</strong> Tom's notes.</p>"
+                "content": "<p>Tom wants to send a <strong>report</strong> to those who could not attend.</p><p>Talk to the generative AI software below until you obtain a <strong>report that accurately reflects</strong> Tom's notes.</p>"
               }
             },
             {
@@ -596,7 +596,7 @@
                 "id": "afd15a86-fc0d-4a97-a6ff-8ce00a2d46ab",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><span aria-hidden=\"true\">🗝️</span> If you need help, click the hints below&nbsp;:</p><p><br></p><p></p><details><summary>Hint 1</summary><p>Have you checked the result produced by the AI?</p></details><details><summary>Hint 2</summary><p> Have you checked the prizes in the report? </p></details><details><summary>Hint 3</summary><p>Have you asked the AI to correct its response?</p></details><p></p><p><br></p>"
+                "content": "<p><span aria-hidden=\"true\">🗝️</span> If you need help, click the hints below:</p><p><br></p><p></p><details><summary>Hint 1</summary><p>Have you checked the result produced by the AI?</p></details><details><summary>Hint 2</summary><p> Have you checked the prizes in the report? </p></details><details><summary>Hint 3</summary><p>Have you asked the AI to correct its response?</p></details><p></p><p><br></p>"
               }
             },
             {
@@ -605,7 +605,7 @@
                 "id": "cec8618a-6abf-486e-b646-7c3976c55ac2",
                 "type": "expand",
                 "title": "🙈 Solution",
-                "content": "<p>If you have produced report, the software has probably made a <strong>mistake</strong>. The tournament <strong>prizes</strong> in Tom's notes are <strong>medals</strong>.&nbsp;🎖️</p><p>You therefore need to ask the software to correct this mistake.</p><p>If you have obtained corrected report that include the medals, your answer should be accepted.&nbsp;✅</p>"
+                "content": "<p>If you have produced a report, the software has probably made a <strong>mistake</strong>. The tournament <strong>prizes</strong> in Tom's notes are <strong>medals</strong>.&nbsp;🎖️</p><p>You therefore need to ask the software to correct this mistake.</p><p>If you have obtained a corrected report that includes the medals, your answer should be accepted.&nbsp;✅</p>"
               }
             }
           ]
@@ -682,7 +682,7 @@
                 "feedbacks": {
                   "valid": {
                     "state": "Well done!",
-                    "diagnosis": "Thanks to you, the tournament can go ahead!"
+                    "diagnosis": "Thanks to you the tournament can go ahead!"
                   },
                   "invalid": {
                     "state": "Not quite...",
