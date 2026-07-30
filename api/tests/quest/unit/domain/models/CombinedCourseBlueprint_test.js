@@ -6,7 +6,12 @@ import {
   ModuleCombinedCourseBlueprintItem,
 } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
-import { Quest } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
+import {
+  CRITERION_COMPARISONS,
+  Quest,
+  REQUIREMENT_COMPARISONS,
+  REQUIREMENT_TYPES,
+} from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
@@ -24,9 +29,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
       name: 'name',
       internalName: 'internalName',
       description: 'description',
+      prescriberDescription: 'prescriberDescription',
       illustration: 'illustration',
       surveyLink: 'survey-link-test',
-      rewardRequirements: 'description of reward requirements',
+      rewardRequirementsDescription: 'description of reward requirements',
       createdAt: new Date('2024-01-25'),
       updatedAt: new Date('2024-01-26'),
       organizationIds: [],
@@ -125,6 +131,81 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
 
       // then
       expect(combinedCourseBlueprint.moduleIds).to.deep.equal([]);
+    });
+  });
+
+  describe('#rewardRequirements', function () {
+    it('should return reward requirements', async function () {
+      // given
+      values.quest = new Quest({
+        eligibilityRequirements: [],
+        successRequirements: [
+          {
+            requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+            data: {
+              cappedTubes: [{ tubeId: 'tubeId1', level: 1 }],
+              threshold: 50,
+            },
+          },
+          {
+            requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+            data: {
+              cappedTubes: [{ tubeId: 'tubeId2', level: 4 }],
+              threshold: 60,
+            },
+          },
+          {
+            requirement_type: REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
+            comparison: REQUIREMENT_COMPARISONS.ALL,
+            data: {
+              targetProfileId: {
+                comparison: CRITERION_COMPARISONS.EQUAL,
+                data: 1,
+              },
+            },
+          },
+        ],
+      });
+
+      // when
+      const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
+
+      // then
+      expect(combinedCourseBlueprint.rewardRequirements).to.deep.equal([
+        {
+          cappedTubes: [{ tubeId: 'tubeId1', level: 1 }],
+          threshold: 50,
+        },
+        {
+          cappedTubes: [{ tubeId: 'tubeId2', level: 4 }],
+          threshold: 60,
+        },
+      ]);
+    });
+
+    it('should return empty list if combined course blueprint has no reward requirement', async function () {
+      // given
+      values.quest = new Quest({
+        eligibilityRequirements: [],
+        successRequirements: [
+          {
+            requirement_type: REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
+            comparison: REQUIREMENT_COMPARISONS.ALL,
+            data: {
+              targetProfileId: {
+                comparison: CRITERION_COMPARISONS.EQUAL,
+                data: 1,
+              },
+            },
+          },
+        ],
+      });
+
+      // when
+      const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
+
+      // then
+      expect(combinedCourseBlueprint.rewardRequirements).to.deep.equal([]);
     });
   });
 
@@ -301,9 +382,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         name: 'NewName',
         internalName: 'NewInternalName',
         description: 'NewDescription',
+        prescriberDescription: 'NewPrescriberDescription',
         illustration: 'NewIllustration',
         surveyLink: values.surveyLink,
-        rewardRequirements: values.rewardRequirements,
+        rewardRequirementsDescription: values.rewardRequirementsDescription,
       });
 
       const expectedUpdatedBlueprint = new CombinedCourseBlueprint({
@@ -311,9 +393,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         name: 'NewName',
         internalName: 'NewInternalName',
         description: 'NewDescription',
+        prescriberDescription: 'NewPrescriberDescription',
         illustration: 'NewIllustration',
         surveyLink: values.surveyLink,
-        rewardRequirements: values.rewardRequirements,
+        rewardRequirementsDescription: values.rewardRequirementsDescription,
         organizationIds: values.organizationIds,
         quest: values.quest,
         updatedAt: values.updatedAt,
@@ -341,9 +424,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         name: 'NewName',
         internalName: 'NewInternalName',
         description: null,
+        prescriberDescription: null,
         illustration: null,
         surveyLink: null,
-        rewardRequirements: null,
+        rewardRequirementsDescription: null,
         organizationIds: values.organizationIds,
         quest: values.quest,
         updatedAt: values.updatedAt,

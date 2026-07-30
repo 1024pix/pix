@@ -299,6 +299,19 @@ const GeneralInfoSection = <template>
         {{t "components.combined-course-blueprints.labels.description"}}
       </:label>
     </PixTextarea>
+
+    <PixTextarea
+      @id="prescriber-description"
+      @value={{@blueprint.prescriberDescription}}
+      {{on "change" (fn @setData "prescriberDescription")}}
+      rows="10"
+      @subLabel={{t "components.combined-course-blueprints.labels.prescriber-description-sublabel"}}
+    >
+      <:label>
+        {{t "components.combined-course-blueprints.labels.prescriber-description"}}
+      </:label>
+    </PixTextarea>
+
     <PixInput @id="surveyLink" @value={{@blueprint.surveyLink}} {{on "change" (fn @setData "surveyLink")}} rows="10">
       <:label>
         {{t "components.combined-course-blueprints.labels.survey-link"}}
@@ -448,8 +461,8 @@ const RewardRequirementsSection = <template>
   >
     <PixTextarea
       @id="reward-requirements"
-      @value={{@blueprint.rewardRequirements}}
-      {{on "change" (fn @setData "rewardRequirements")}}
+      @value={{@blueprint.rewardRequirementsDescription}}
+      {{on "change" (fn @setData "rewardRequirementsDescription")}}
       rows="10"
     >
       <:label>

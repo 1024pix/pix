@@ -19,8 +19,18 @@ export const PRO_COMBINED_COURSE = {
       {
         requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
         data: {
-          cappedTubes: [{ tubeId: 'recrkpItPsNRg2OjJ', level: 2 }],
+          cappedTubes: [
+            { tubeId: 'recrkpItPsNRg2OjJ', level: 2 },
+            { tubeId: 'recpQLhHdOTQAx6UL', level: 1 },
+          ],
           threshold: 50,
+        },
+      },
+      {
+        requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+        data: {
+          cappedTubes: [{ tubeId: 'recMPzW9BRjRdOisX', level: 1 }],
+          threshold: 70,
         },
       },
     ],

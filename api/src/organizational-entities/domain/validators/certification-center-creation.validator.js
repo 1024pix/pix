@@ -20,6 +20,10 @@ const certificationCenterSchema = Joi.object({
   externalId: Joi.string().optional().allow(null).max(255).messages({
     'string.max': 'L‘identifiant externe ne doit pas dépasser 255 caractères.',
   }),
+
+  organizationId: Joi.number().integer().optional().allow(null).messages({
+    'number.base': 'L’identifiant de l’organisation doit être un nombre entier.',
+  }),
 });
 
 const validate = function (certificationCenter) {

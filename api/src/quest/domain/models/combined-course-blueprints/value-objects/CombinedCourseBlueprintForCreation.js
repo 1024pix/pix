@@ -6,11 +6,12 @@ export class CombinedCourseBlueprintForCreation {
     name,
     internalName,
     description,
+    prescriberDescription,
     illustration,
     attestationLabel,
     rewardId = null,
     rewardType = null,
-    rewardRequirements = null,
+    rewardRequirementsDescription = null,
     quest,
     surveyLink = null,
     createdAt,
@@ -21,12 +22,13 @@ export class CombinedCourseBlueprintForCreation {
     this.name = name;
     this.internalName = internalName;
     this.description = description;
+    this.prescriberDescription = prescriberDescription;
     this.illustration = illustration;
     this.organizationIds = organizationIds;
     this.attestationLabel = attestationLabel;
     this.rewardId = rewardId;
     this.rewardType = rewardType;
-    this.rewardRequirements = rewardRequirements;
+    this.rewardRequirementsDescription = rewardRequirementsDescription;
     this.quest = quest;
     this.surveyLink = surveyLink;
     this.createdAt = createdAt;

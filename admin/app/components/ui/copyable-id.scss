@@ -1,0 +1,9 @@
+.copyable-id {
+  display: flex;
+  gap: var(--pix-spacing-2x);
+  align-items: center;
+
+  span {
+    font-weight: normal;
+  }
+}

@@ -183,6 +183,7 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       const currentCourse = store.createRecord('combined-course-blueprint-overview', {
         name: 'Ma super formation',
         description: 'description',
+        prescriberDescription: 'prescriberDescription',
       });
 
       //when
@@ -194,7 +195,8 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
 
       // then
       assert.dom(screen.getByText(currentCourse.name)).exists();
-      assert.dom(screen.getByText(currentCourse.description)).exists();
+      assert.dom(screen.getByText(currentCourse.prescriberDescription)).exists();
+      assert.dom(screen.queryByText(currentCourse.description)).doesNotExist();
       assert.dom(screen.getByText(t('pages.catalogue.card.tag.blueprint'))).exists();
     });
     test('it shows the blueprint items', async function (assert) {

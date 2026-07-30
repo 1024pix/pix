@@ -10,6 +10,7 @@
       "confirm-deletion": "Yes, delete",
       "confirm-title": "Please confirm",
       "copied": "Copied!",
+      "copy-id": "Copy ID",
       "deactivate": "Deactivate",
       "download-template": "Download template",
       "edit": "Edit",
@@ -754,13 +755,15 @@
       "labels": {
         "attestation": "Attestation",
         "created-at": "Creation date",
-        "description": " Description",
-        "description-sublabel": "This description will be seen by users",
+        "description": "Pix App description",
+        "description-sublabel": "This description will be seen by Pix App users at the beginning of the course",
         "illustration": "Illustration",
         "internal-name": "Internal name",
         "itemId": "Id",
         "module": "Module",
         "name": "External name",
+        "prescriber-description": "Prescriber description",
+        "prescriber-description-sublabel": "This description will be seen by the prescribers in Pix Orga",
         "reward-requirements": "Reward requirements",
         "survey-link": "Survey link url",
         "target-profile": "Target profile"
@@ -780,6 +783,14 @@
       "organizations": {
         "detach-organization": "Are you sure you want to detach <strong>{organizationName}</strong> from combined course blueprint <strong>{name}</strong>",
         "detach-organization-success": "Blueprint is not shared with organization {name} anymore."
+      },
+      "reward-requirements": {
+        "levels": "Levels",
+        "requirements-group-name": "Requirements group",
+        "thematics": "Thematics",
+        "threshold": "Required success threshold",
+        "title": "Capped tubes requirements",
+        "tubes": "Tubes"
       },
       "survey-link": {
         "not-provided": "No survey link has been defined"
@@ -1089,7 +1100,7 @@
         "required-fields-error": "Please fill in all required fields."
       },
       "head-information": {
-        "copy-id": "Copy ID",
+        "change-logo": "Change logo",
         "head-organization-tag": "Head of network",
         "network": "Network:",
         "notifications": {

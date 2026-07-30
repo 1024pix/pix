@@ -26,6 +26,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
           name: 'Combined course IA',
           internalName: 'Ia combined course blueprint',
           description: "L'ia c'est magique",
+          prescriberDescription: "Parcours sur l'IA",
           illustration: 'illustration/ia.svg',
           content,
           organizationIds: [],
@@ -166,6 +167,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         name: 'Updated Combined course IA',
         internalName: 'Ia combined course blueprint',
         description: "L'ia c'est magique",
+        prescriberDescription: "Parcours sur l'IA",
         illustration: 'illustration/ia.svg',
         surveyUrl: 'https://survey.com',
       });
@@ -179,6 +181,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
           name: 'Updated Combined course IA',
           internalName: 'Updated Ia combined course blueprint',
           description: "Updated L'ia c'est magique",
+          prescriberDescription: "Updated parcours sur l'IA",
           illustration: 'updated-illustration/ia.svg',
           surveyLink: 'https://updated-survey.com',
           content: updatedContent,
@@ -198,6 +201,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       expect(results[0].name).equal('Updated Combined course IA');
       expect(results[0].internalName).equal('Updated Ia combined course blueprint');
       expect(results[0].description).equal("Updated L'ia c'est magique");
+      expect(results[0].prescriberDescription).equal("Updated parcours sur l'IA");
       expect(results[0].illustration).equal('updated-illustration/ia.svg');
       expect(results[0].surveyLink).equal('https://updated-survey.com');
       expect(results[0].quest.toDTO().successRequirements).deep.equal([
@@ -251,9 +255,10 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         name: expectedCombinedCourseBlueprint.name,
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
+        prescriberDescription: expectedCombinedCourseBlueprint.prescriberDescription,
         surveyLink: expectedCombinedCourseBlueprint.surveyUrl,
         illustration: expectedCombinedCourseBlueprint.illustration,
-        rewardRequirements: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
+        rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
       });
@@ -295,9 +300,10 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         name: expectedCombinedCourseBlueprint.name,
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
+        prescriberDescription: expectedCombinedCourseBlueprint.prescriberDescription,
         illustration: expectedCombinedCourseBlueprint.illustration,
         surveyLink: expectedCombinedCourseBlueprint.surveyLink,
-        rewardRequirements: expectedCombinedCourseBlueprint.rewardRequirements,
+        rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: expectedCombinedCourseBlueprint.organizationIds,
@@ -335,9 +341,10 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         name: expectedCombinedCourseBlueprint.name,
         internalName: expectedCombinedCourseBlueprint.internalName,
         description: expectedCombinedCourseBlueprint.description,
+        prescriberDescription: expectedCombinedCourseBlueprint.prescriberDescription,
         illustration: expectedCombinedCourseBlueprint.illustration,
         surveyLink: expectedCombinedCourseBlueprint.surveyLink,
-        rewardRequirements: expectedCombinedCourseBlueprint.rewardRequirements,
+        rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: [],

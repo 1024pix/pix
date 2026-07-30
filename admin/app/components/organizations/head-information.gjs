@@ -7,7 +7,8 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import get from 'lodash/get';
-import CopyButton from 'pix-admin/components/ui/copy-button';
+import CopyableId from 'pix-admin/components/ui/copyable-id';
+import HeadInformationBlock from 'pix-admin/components/ui/head-information-block';
 import ENV from 'pix-admin/config/environment';
 
 export default class HeadInformation extends Component {
@@ -71,48 +72,37 @@ export default class HeadInformation extends Component {
   }
 
   <template>
-    <div class="organization__head-information">
-      <div class="organization__logo">
-        <figure class="organization__logo-figure">
-          {{#if @organization.logoUrl}}
-            {{! template-lint-disable no-redundant-role }}
-            <img src={{@organization.logoUrl}} alt="" role="presentation" />
-          {{else}}
-            {{! template-lint-disable no-redundant-role }}
-            <img src="{{this.rootURL}}/logo-placeholder.png" alt="" role="presentation" />
-          {{/if}}
+    <HeadInformationBlock @title={{@organization.name}}>
+      <:logo>
+        {{#if @organization.logoUrl}}
+          <img src={{@organization.logoUrl}} alt="" />
+        {{else}}
+          <img src="{{ENV.rootURL}}logo-placeholder.png" alt="" />
+        {{/if}}
 
-          <label class="file-upload">
-            <input type="file" accept="image/*" hidden {{on "change" this.onLogoUpload}} />
-          </label>
-        </figure>
-      </div>
+        <label class="organization-head-information__file-upload">
+          <span class="sr-only">{{t "components.organizations.head-information.change-logo"}}</span>
+          <input class="sr-only" type="file" accept="image/*" {{on "change" this.onLogoUpload}} />
+        </label>
+      </:logo>
 
-      <div class="organization__title">
-        <div>
-          <h1 class="organization__name">{{@organization.name}}</h1>
-          <div class="organization__id">
-            <p>ID : <span>{{@organization.id}}</span></p>
-            <CopyButton
-              @id="copy-organization-id"
-              @value={{@organization.id}}
-              @tooltip={{t "components.organizations.head-information.copy-id"}}
-              @label={{t "components.organizations.head-information.copy-id"}}
-            />
-          </div>
-        </div>
-
-        <ul class="organization-tags-list">
+      <:subtitle>
+        <CopyableId @value={{@organization.id}} @copyButtonId="copy-organization-id" />
+      </:subtitle>
+      <:tagsSection>
+        <ul class="organization-head-information__tags-list">
           {{#if this.belongsToNetwork}}
-            <PixTag class="organization__child-tag" @color="success">
-              {{t "components.organizations.head-information.network"}}
-              <LinkTo @route="authenticated.networks.get" @model={{@organization.network.id}}>
-                {{@organization.network.name}}
-              </LinkTo>
-            </PixTag>
+            <li>
+              <PixTag class="organization-head-information__child-tag" @color="success">
+                {{t "components.organizations.head-information.network"}}
+                <LinkTo @route="authenticated.networks.get" @model={{@organization.network.id}}>
+                  {{@organization.network.name}}
+                </LinkTo>
+              </PixTag>
+            </li>
             {{#if @organization.parentOrganizationId}}
               <li>
-                <PixTag class="organization__child-tag" @color="success">
+                <PixTag class="organization-head-information__child-tag" @color="success">
                   {{t "components.organizations.head-information.parent-organization-tag"}}
                   <LinkTo @route="authenticated.organizations.get" @model={{@organization.parentOrganizationId}}>
                     {{@organization.parentOrganizationName}}
@@ -121,7 +111,7 @@ export default class HeadInformation extends Component {
               </li>
             {{else}}
               <li>
-                <PixTag class="organization__child-tag" @color="success">
+                <PixTag class="organization-head-information__child-tag" @color="success">
                   {{t "components.organizations.head-information.head-organization-tag"}}
 
                 </PixTag>
@@ -137,18 +127,20 @@ export default class HeadInformation extends Component {
             {{/each}}
           {{/if}}
         </ul>
-      </div>
+      </:tagsSection>
 
-      <PixButtonLink
-        class="organization__dashboard-button"
-        @variant="secondary"
-        @href={{this.externalURL}}
-        @size="small"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Tableau de bord
-      </PixButtonLink>
-    </div>
+      <:link>
+        <PixButtonLink
+          @variant="secondary"
+          @href={{this.externalURL}}
+          @size="small"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Tableau de bord
+        </PixButtonLink>
+
+      </:link>
+    </HeadInformationBlock>
   </template>
 }

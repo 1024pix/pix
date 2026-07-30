@@ -1,4 +1,3 @@
-import * as complementaryCertificationBadgeRepository from '../../../certification/configuration/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCompanionAlertRepository from '../../../certification/shared/infrastructure/repositories/certification-companion-alert-repository.js';
 import * as challengeToPlayApi from '../../../evaluation/application/api/challenge-to-play-api.js';
@@ -18,7 +17,6 @@ const dependencies = {
   competenceRepository,
   answerRepository,
   courseRepository,
-  complementaryCertificationBadgeRepository,
   certificationChallengeLiveAlertRepository,
   badgeRepository,
   challengeToPlayApi,
@@ -26,8 +24,8 @@ const dependencies = {
   ...sharedInjectedRepositories,
 };
 
+import { deleteUnassociatedBadge } from '../../../evaluation/domain/usecases/delete-unassociated-badge.js';
 import { updateLastQuestionState } from '../../../evaluation/domain/usecases/update-last-question-state.js';
-import { deleteUnassociatedBadge } from './delete-unassociated-badge.js';
 import { findCountries } from './find-countries.js';
 import { updateAssessmentWithNextChallenge } from './update-assessment-with-next-challenge.js';
 

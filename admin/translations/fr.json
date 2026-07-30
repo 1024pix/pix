@@ -10,6 +10,7 @@
       "confirm-deletion": "Oui, je supprime",
       "confirm-title": "Merci de confirmer",
       "copied": "Copié !",
+      "copy-id": "Copier l'ID",
       "deactivate": "Désactiver",
       "download-template": "Télécharger le template",
       "edit": "Modifier",
@@ -762,13 +763,15 @@
       "labels": {
         "attestation": "Attestation",
         "created-at": "Date de création",
-        "description": "Description",
-        "description-sublabel": "Cette description sera visible par les utilisateurs",
+        "description": "Description Pix App",
+        "description-sublabel": "Cette description sera visible par les utilisateurs de Pix App en début de parcours",
         "illustration": "Illustration",
         "internal-name": "Nom interne",
         "itemId": "Identifiant",
         "module": "Module",
         "name": "Nom externe",
+        "prescriber-description": "Description prescripteur",
+        "prescriber-description-sublabel": "Cette description sera visible par les prescripteurs dans Pix Orga",
         "reward-requirements": "Description des critères d’obtention",
         "survey-link": "Url du questionnaire de fin de parcours",
         "target-profile": "Profil cible"
@@ -788,6 +791,14 @@
       "organizations": {
         "detach-organization": "Etes-vous sûr de vouloir détacher l'organisation <strong>{organizationName}</strong> du schéma de parcours <strong>{name}</strong>",
         "detach-organization-success": "Le schéma de parcours n'est plus partagé avec l'organisation {name}."
+      },
+      "reward-requirements": {
+        "levels": "Niveaux",
+        "requirements-group-name": "Groupe de critères",
+        "thematics": "Thématiques",
+        "threshold": "Taux de réussite requis",
+        "title": "Critères de sujets cappés",
+        "tubes": "Sujets"
       },
       "survey-link": {
         "not-provided": "Aucun questionnaire paramétré"
@@ -1097,7 +1108,7 @@
         "required-fields-error": "Veuillez remplir tous les champs obligatoires."
       },
       "head-information": {
-        "copy-id": "Copier l'ID",
+        "change-logo": "Changer le logo",
         "head-organization-tag": "Tête de réseau",
         "network": "Réseau :",
         "notifications": {

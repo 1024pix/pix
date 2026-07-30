@@ -1,15 +1,15 @@
 import sinon from 'sinon';
 
-import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import {
   AcquiredBadgeForbiddenDeletionError,
   CertificationBadgeForbiddenDeletionError,
-} from '../../../../../src/shared/domain/errors.js';
-import { deleteUnassociatedBadge } from '../../../../../src/shared/domain/usecases/delete-unassociated-badge.js';
+} from '../../../../../src/evaluation/domain/errors.js';
+import { deleteUnassociatedBadge } from '../../../../../src/evaluation/domain/usecases/delete-unassociated-badge.js';
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Unit | UseCase | delete-unassociated-badge', function () {
+describe('Unit | Evaluation | Domain | UseCase | delete-unassociated-badge', function () {
   let badgeId;
   let badgeRepository;
   let complementaryCertificationBadgeRepository;
@@ -20,7 +20,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
       isAssociated: sinon.stub(),
       remove: sinon.stub(),
     };
-    complementaryCertificationBadgeRepository = { isRelatedToCertification: sinon.stub() };
+    complementaryCertificationBadgeRepository = { isAttachedToComplementaryCertification: sinon.stub() };
 
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
       return lambda();
@@ -66,7 +66,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
 
   context('When the badge is related to a certification', function () {
     beforeEach(function () {
-      complementaryCertificationBadgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(true);
+      complementaryCertificationBadgeRepository.isAttachedToComplementaryCertification.withArgs(badgeId).resolves(true);
       badgeRepository.remove.withArgs(badgeId).resolves(true);
     });
 
@@ -85,7 +85,9 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
 
   context('When the badge is not related to a certification', function () {
     beforeEach(function () {
-      complementaryCertificationBadgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(false);
+      complementaryCertificationBadgeRepository.isAttachedToComplementaryCertification
+        .withArgs(badgeId)
+        .resolves(false);
       badgeRepository.remove.withArgs(badgeId).resolves(true);
     });
 

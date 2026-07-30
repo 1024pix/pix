@@ -91,6 +91,13 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       );
 
       await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.prescriber-description'), {
+          exact: false,
+        }),
+        'description prescripteur',
+      );
+
+      await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link')),
         'http://survey-link.fr',
       );
@@ -117,6 +124,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       ]);
       assert.strictEqual(blueprintStub.illustration, 'illustrations/hello.svg');
       assert.strictEqual(blueprintStub.description, 'description');
+      assert.strictEqual(blueprintStub.prescriberDescription, 'description prescripteur');
       assert.strictEqual(blueprintStub.surveyLink, 'http://survey-link.fr');
       assert.strictEqual(blueprintStub.rewardId, 5);
       assert.strictEqual(blueprintStub.rewardType, 'ATTESTATION');
@@ -306,11 +314,12 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         ],
         illustration: 'illustrations/hello.svg',
         description: 'description',
+        prescriberDescription: 'prescriberDescription',
         surveyLink: 'http://survey-link.fr',
         rewardId: 5,
         rewardType: 'ATTESTATION',
         attestationLabel: 'attestation',
-        rewardRequirements: 'rewardRequirements',
+        rewardRequirementsDescription: 'rewardRequirements',
       });
       const model = { blueprint };
 
@@ -344,6 +353,13 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       );
 
       await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.prescriber-description-sublabel'), {
+          exact: false,
+        }),
+        'updatedPrescriberDescription',
+      );
+
+      await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link')),
         'http://updated-survey-link.fr',
       );
@@ -365,10 +381,11 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       ]);
       assert.strictEqual(blueprint.illustration, 'illustrations/updatedHello.svg');
       assert.strictEqual(blueprint.description, 'updatedDescription');
+      assert.strictEqual(blueprint.prescriberDescription, 'updatedPrescriberDescription');
       assert.strictEqual(blueprint.surveyLink, 'http://updated-survey-link.fr');
       assert.strictEqual(blueprint.rewardId, 5);
       assert.strictEqual(blueprint.rewardType, 'ATTESTATION');
-      assert.strictEqual(blueprint.rewardRequirements, 'Updated requirements');
+      assert.strictEqual(blueprint.rewardRequirementsDescription, 'Updated requirements');
 
       assert.ok(
         pixToastSuccessStub.calledOnceWith({
@@ -384,7 +401,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         name: 'name',
         internalName: 'internalName',
         attestationLabel: 'Label',
-        rewardRequirements: 'Atteindre tel niveau sur tel sujet',
+        rewardRequirementsDescription: 'Atteindre tel niveau sur tel sujet',
       };
       const model = { blueprint };
 

@@ -14,7 +14,7 @@ import PixFieldset from '../../ui/pix-fieldset';
           <:title>{{t "pages.campaign-creation.course-label"}}</:title>
           <:content>
             {{#if @campaign.course}}
-              <CourseCard @course={{@campaign.course}} @type={{@campaign.course.type}} />
+              <CourseCard @course={{@campaign.course}} @type={{@campaign.course.type}} @isWide={{true}} />
             {{/if}}
             <PixButtonLink @route="authenticated.catalogue.list" @model={{@tab}} @variant="primary-bis">
               {{t "pages.campaign-creation.course-selection-label"}}

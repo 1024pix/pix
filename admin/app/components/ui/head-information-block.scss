@@ -1,0 +1,56 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/shadows';
+
+.head-information-block {
+  @extend %pix-shadow-default;
+
+  display: flex;
+  gap: var(--pix-spacing-4x);
+  align-items: center;
+  padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+  color: var(--pix-neutral-900);
+  background-color: var(--pix-neutral-0);
+  border-radius: var(--pix-spacing-4x);
+
+  &__logo-container {
+    width: 83px;
+    height: 83px;
+  }
+
+  &__logo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 75px;
+    height: 75px;
+    margin: 0;
+    border: 2px solid var(--pix-neutral-100);
+    border-radius: 3px;
+
+    > img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  &__main-section {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: var(--pix-spacing-2x);
+  }
+
+  &__title {
+    @extend %pix-title-s;
+  }
+
+  &__subtitle {
+    @extend %pix-title-xxs
+  }
+
+  &__link {
+    align-self: center;
+  }
+}

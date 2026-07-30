@@ -32,7 +32,8 @@ export function build(learningContent, { noDefaultValues = false } = {}) {
 
   return nock?.('https://lcms-test.pix.fr/api')
     .get('/releases/latest')
-    .matchHeader('Authorization', 'Bearer test-api-key')
+    .matchHeader('Authorization', 'Basic dGVzdC1wYXNzd29yZA==') // test-password
+    .matchHeader('X-Api-Key', 'test-api-key')
     .reply(200, { content: learningContent });
 }
 

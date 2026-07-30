@@ -1,3 +1,5 @@
+@use 'pix-design-tokens/breakpoints';
+
 .catalogue {
   &__nav {
     margin-bottom: var(--pix-spacing-4x);
@@ -6,8 +8,10 @@
   &__filters {
     margin-bottom: var(--pix-spacing-4x);
 
-    .pix-filter-banner__filter > * {
-      flex-basis: 15rem;
+    @include breakpoints.device-is('desktop') {
+      .pix-filter-banner__filter > * {
+        flex-basis: 15rem;
+      }
     }
   }
 

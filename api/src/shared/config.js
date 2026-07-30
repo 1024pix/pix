@@ -145,6 +145,7 @@ const schema = Joi.object({
   FT_ENABLE_TEXT_TO_SPEECH_BUTTON: Joi.string().optional().valid('true', 'false'),
   KNEX_ASYNC_STACKTRACE_ENABLED: Joi.string().optional().valid('true', 'false'),
   LCMS_API_KEY: Joi.string().requiredForApi(),
+  LCMS_API_OAUTH_BASIC_TOKEN: Joi.string(),
   LCMS_API_URL: Joi.string().uri().requiredForApi(),
   LCMS_API_RELEASE_ID: Joi.any(),
   LLM_CHAT_TEMPORARY_STORAGE_EXP_DELAY_SECONDS: Joi.string().optional(),
@@ -374,6 +375,7 @@ const configuration = (function () {
         (process.env.IS_RUNNING_PLAYWRIGHT === 'true' && process.env.PLAYWRIGHT_LCMS_API_KEY) ||
         process.env.CYPRESS_LCMS_API_KEY ||
         process.env.LCMS_API_KEY,
+      oauthBasicToken: process.env.LCMS_API_OAUTH_BASIC_TOKEN,
       releaseId: process.env.LCMS_API_RELEASE_ID || null,
     },
     llm: {
@@ -601,6 +603,7 @@ const configuration = (function () {
 
     config.lcms.apiKey = 'test-api-key';
     config.lcms.url = 'https://lcms-test.pix.fr/api';
+    config.lcms.oauthBasicToken = 'dGVzdC1wYXNzd29yZA=='; // test-password
 
     config.llm.configurationEditorApi.getConfigurationUrl = 'https://llm-test.pix.fr/api/configurations';
     config.llm.inferenceApi.postPromptUrl = 'https://llm-test.pix.fr/api/chat';

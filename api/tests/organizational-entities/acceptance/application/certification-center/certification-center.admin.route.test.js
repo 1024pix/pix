@@ -175,6 +175,35 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
         );
         expect(response.result.data.id).to.be.ok;
       });
+
+      it('attaches the created certification center to the organization when an organization-id is given', async function () {
+        // given
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/admin/certification-centers',
+          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+          payload: {
+            data: {
+              type: 'certification-center',
+              attributes: {
+                name: 'Nouveau Centre de Certif',
+                type: 'SCO',
+                'data-protection-officer-email': 'adrienne.quepourra@example.net',
+                'organization-id': organization.id,
+              },
+            },
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        const fctStructure = await knex('fct_structures').where({ organization_id: organization.id }).first();
+        expect(fctStructure.certification_center_id).to.equal(Number(response.result.data.id));
+      });
     });
 
     context('when user is not SuperAdmin', function () {

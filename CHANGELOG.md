@@ -1,5 +1,37 @@
 # Pix Changelog
 
+# [5.467.0](https://github.com/1024pix/pix/compare/v5.466.0...v5.467.0) (2026-07-29)
+
+### :rocket: Amélioration
+
+- [#16868](https://github.com/1024pix/pix/pull/16868) Modifier la route de création de centre de certif pour y inclure l'organisationId (PIX-22684)
+
+### :building_construction: Tech
+
+- [#16970](https://github.com/1024pix/pix/pull/16970) Déplacer le usecase delete-unassociated-badge dans le domaine eval
+
+# [5.466.0](https://github.com/1024pix/pix/compare/v5.465.0...v5.466.0) (2026-07-29)
+
+### :rocket: Amélioration
+
+- [#16886](https://github.com/1024pix/pix/pull/16886) Ajouter un onglet Détails sur la page d'un centre de certification (PIX-22646)
+- [#16942](https://github.com/1024pix/pix/pull/16942) Création d'une API interne pour récupérer des référentiels et toute leur arborescence à partir d'une liste d'id de sujets (PIX-23621)
+- [#16940](https://github.com/1024pix/pix/pull/16940) eval-ind-ajout-medias
+- [#16960](https://github.com/1024pix/pix/pull/16960) MDX-123 RequeteMoteurRI_NOV Corrections suite à la relecture de MGO
+- [#16962](https://github.com/1024pix/pix/pull/16962) MDX-232 FonctMoteurRI_NOV Corrections suite à la relecture MGO
+- [#16964](https://github.com/1024pix/pix/pull/16964) Update IAGenImpact_AVA.json - Retours Marine
+
+### :building_construction: Tech
+
+- [#16959](https://github.com/1024pix/pix/pull/16959) Déplacer des pre-handlers liés aux signalements de certif dans le scope dédié
+- [#16956](https://github.com/1024pix/pix/pull/16956) Déplacer le pré-handler checkCampaignParticipationBelongsToUser dans le context de participation
+- [#16961](https://github.com/1024pix/pix/pull/16961) Déplacer le pré-handler checkUserOwnsCertificationCourse to certification context
+- [#16955](https://github.com/1024pix/pix/pull/16955) Émettre un événement lorsque le surveillant agit sur l'autorisation d'entrer en certification depuis l'espace surveillant (PIX-23667)
+
+### :arrow_up: Montée de version
+
+- [#16963](https://github.com/1024pix/pix/pull/16963) Update dependency @1024pix/pix-ui to v61.4.0 (orga)
+
 # [5.465.0](https://github.com/1024pix/pix/compare/v5.464.0...v5.465.0) (2026-07-28)
 
 ### :rocket: Amélioration

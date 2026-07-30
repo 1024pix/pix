@@ -61,7 +61,11 @@ export class DatabaseConnection {
     const { knex, databaseName } = DatabaseConnection.configForDbManagement(knexConfig);
 
     try {
-      await knex.raw('DROP DATABASE ??', `${databaseName}${withForce ? ' WITH (FORCE)' : ''}`);
+      if (withForce) {
+        await knex.raw('DROP DATABASE ?? with (FORCE)', databaseName);
+      } else {
+        await knex.raw('DROP DATABASE ??', databaseName);
+      }
       logger.info(`Database ${databaseName} dropped`);
     } catch (error) {
       if (error.code === PGSQL_DUPLICATE_DATABASE_ERROR) {

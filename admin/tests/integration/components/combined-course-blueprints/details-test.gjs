@@ -23,7 +23,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
       illustration: 'http://pix.fr/mon-illu.png',
       attestationLabel: '6ème',
       surveyLink: 'http://pix-survey-test.fr',
-      rewardRequirements: 'Il faut obtenir tel niveau sur tel sujet',
+      rewardRequirementsDescription: 'Il faut obtenir tel niveau sur tel sujet',
       content: [
         { type: 'module', value: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a', shortId: 'abc-123' },
         { type: 'evaluation', value: 123 },
@@ -97,5 +97,59 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
     assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.description')));
     assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.illustration')));
     assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.reward-requirements')));
+  });
+
+  test('should display reward requirements if provided', async function (assert) {
+    //given
+    const combinedCourseBlueprint = {
+      id: 123,
+      internalName: 'Modèle de parcours apprenant',
+      createdAt: new Date('2025-12-25'),
+      name: 'Parcours apprenant',
+      content: [],
+      rewardRequirements: [
+        {
+          cappedTubesThreshold: 50,
+          areas: [
+            {
+              title: 'Area Test Title',
+            },
+          ],
+        },
+      ],
+    };
+
+    //when
+    const screen = await render(<template><Details @model={{combinedCourseBlueprint}} /></template>);
+
+    //then
+    assert.ok(await screen.queryByText(t('components.combined-course-blueprints.reward-requirements.title')));
+
+    const expectedGroupName =
+      t('components.combined-course-blueprints.reward-requirements.requirements-group-name') + ' 1';
+    assert.ok(await screen.queryByText(expectedGroupName));
+
+    const expectedThreshold = t('components.combined-course-blueprints.reward-requirements.threshold') + ': 50%';
+    assert.ok(await screen.queryByText(expectedThreshold));
+
+    assert.ok(await screen.queryByText('Area Test Title'));
+  });
+
+  test('should not display reward requirements if not provided', async function (assert) {
+    //given
+    const combinedCourseBlueprint = {
+      id: 123,
+      internalName: 'Modèle de parcours apprenant',
+      createdAt: new Date('2025-12-25'),
+      name: 'Parcours apprenant',
+      content: [],
+      rewardRequirements: [],
+    };
+
+    //when
+    const screen = await render(<template><Details @model={{combinedCourseBlueprint}} /></template>);
+
+    //then
+    assert.notOk(screen.queryByText(t('components.combined-course-blueprints.reward-requirements.title')));
   });
 });

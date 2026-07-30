@@ -121,6 +121,8 @@ module.exports = function (environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     ENV.APP.TARGET_PROFILE_DASHBOARD_URL = 'https://exemple.net';
+    ENV.APP.CERTIFICATION_CENTER_DASHBOARD_URL = 'https://example.net/id=';
+    ENV.APP.ORGANIZATION_DASHBOARD_URL = 'https://example.net/id=';
   }
 
   if (environment === 'test') {
@@ -134,6 +136,8 @@ module.exports = function (environment) {
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
     ENV.APP.TARGET_PROFILE_DASHBOARD_URL = 'https://example.net';
+    ENV.APP.CERTIFICATION_CENTER_DASHBOARD_URL = 'https://example.net/id=';
+    ENV.APP.ORGANIZATION_DASHBOARD_URL = 'https://example.net/id=';
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
@@ -145,6 +149,5 @@ module.exports = function (environment) {
     ENV.pagination.debounce = 0;
     ENV.searchTargetProfiles.debounce = 0;
   }
-
   return ENV;
 };
