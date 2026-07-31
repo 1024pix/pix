@@ -1,7 +1,6 @@
 // eslint-disable-next-line simple-import-sort/imports -- import userRepository first to avoid circular dependency ("Cannot access 'campaignRepositories' before initialization")
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 
-import * as centerRepository from '../../../organizational-entities/infrastructure/repositories/center-repository.js';
 import { repositories as campaignRepositories } from '../../../prescription/campaign/infrastructure/repositories/index.js';
 import * as prescriptionOrganizationLearnerRepository from '../../../prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
 import * as organizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
@@ -23,7 +22,6 @@ import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
-import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact.repository.js';
 import { clientApplicationRepository } from '../../infrastructure/repositories/client-application.repository.js';
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
 import { lastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
@@ -52,8 +50,6 @@ const repositories = {
   adminMemberRepository,
   authenticationMethodRepository,
   campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
-  centerRepository,
-  certificationPointOfContactRepository,
   emailValidationDemandRepository,
   clientApplicationRepository,
   emailRepository,
@@ -128,7 +124,6 @@ import { getAccountRecoveryDetails } from './get-account-recovery-details.usecas
 import { getActiveByUserIds } from './get-active-by-user-ids.usecase.js';
 import { getAllIdentityProviders } from './get-all-identity-providers.usecase.js';
 import { getAuthorizationUrl } from './get-authorization-url.usecase.js';
-import { getCertificationPointOfContact } from './get-certification-point-of-contact.usecase.js';
 import { getIdentityProvidersByRequestedApplication } from './get-identity-providers-by-requested-application.usecase.js';
 import { getRedirectLogoutUrl } from './get-redirect-logout-url.usecase.js';
 import { getSamlAuthenticationRedirectionUrl } from './get-saml-authentication-redirection-url.js';
@@ -187,7 +182,6 @@ const usecasesWithoutInjectedDependencies = {
   getActiveByUserIds,
   getAllIdentityProviders,
   getAuthorizationUrl,
-  getCertificationPointOfContact,
   getIdentityProvidersByRequestedApplication,
   getRedirectLogoutUrl,
   getSamlAuthenticationRedirectionUrl,

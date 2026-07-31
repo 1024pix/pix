@@ -445,18 +445,6 @@ export const userRoutes = [
     },
   },
   {
-    method: 'GET',
-    path: '/api/certification-point-of-contacts/me',
-    config: {
-      handler: (request, h) => userController.getCertificationPointOfContact(request, h),
-      notes: [
-        '- **Cette route est restreinte aux utilisateurs authentifiés*' * '\n' +
-          '- Récupération d’un référent de certification.',
-      ],
-      tags: ['api', 'identity-access-management', 'user', 'certification', 'certification-point-of-contact'],
-    },
-  },
-  {
     method: 'PATCH',
     path: '/api/users/{id}/has-seen-challenge-tooltip/{challengeType}',
     config: {

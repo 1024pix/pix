@@ -1,6 +1,6 @@
 /**
  * @typedef {import('../../../organizational-entities/infrastructure/repositories/center-repository.js')} CenterRepository
- * @typedef {import('../../infrastructure/repositories/certification-point-of-contact.repository.js')} CertificationPointOfContactRepository
+ * @typedef {import('../../infrastructure/repositories/certification-point-of-contact-repository.js')} CertificationPointOfContactRepository
  * @typedef {import('../../../organizational-entities/domain/models/Center.js')} Center
  */
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../shared/constants.js';
