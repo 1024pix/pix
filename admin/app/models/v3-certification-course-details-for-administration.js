@@ -79,9 +79,11 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
   }
 
   get hasNotBeenCompletedByCandidate() {
-    return [assessmentStates.ENDED_BY_INVIGILATOR, assessmentStates.ENDED_DUE_TO_FINALIZATION].includes(
-      this.assessmentState,
-    );
+    return [
+      assessmentStates.ENDED_BY_INVIGILATOR,
+      assessmentStates.ENDED_DUE_TO_FINALIZATION,
+      assessmentStates.ENDED_DUE_TO_DURATION_EXCEEDED,
+    ].includes(this.assessmentState);
   }
 
   get result() {
