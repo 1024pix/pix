@@ -2,11 +2,9 @@
   "name": "identity-access-management",
   "dependsOn": [
     "certification/enrolment",
-    "devcomp",
     "legal-documents",
     "organizational-entities",
     "prescription/campaign",
-    "prescription/campaign-participation",
     "prescription/learner-management",
     "prescription/organization-learner",
     "privacy",

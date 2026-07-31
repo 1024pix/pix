@@ -1,12 +1,8 @@
-import { UserWithActivity } from '../read-models/UserWithActivity.js';
+import { UserWithActivity } from '../models/UserWithActivity.js';
 
 /**
- * @param {{
- *   authenticatedUserId: string,
- *   userRepository: userRepository,
- *   campaignParticipationRepository: CampaignParticipationRepository,
- *   userRecommendedTrainingRepository: UserRecommendedTrainingRepository,
- * }} params
+ * @param {object} params
+ * @param {string} params.authenticatedUserId
  * @return {Promise<UserWithActivity>}
  */
 export const getCurrentUser = async function ({
@@ -18,10 +14,12 @@ export const getCurrentUser = async function ({
 }) {
   const hasAssessmentParticipations =
     await campaignParticipationRepository.hasAssessmentParticipations(authenticatedUserId);
+
   const codeForLastProfileToShare =
     await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
       authenticatedUserId,
     );
+
   const hasRecommendedTrainings = await userRecommendedTrainingRepository.hasRecommendedTrainings({
     userId: authenticatedUserId,
   });

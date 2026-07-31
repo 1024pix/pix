@@ -90,18 +90,6 @@ export const userRoutes = [
     },
   },
   {
-    method: 'GET',
-    path: '/api/users/me',
-    config: {
-      handler: (request, h) => userController.getCurrentUser(request, h),
-      notes: [
-        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération de l’utilisateur courant\n',
-      ],
-      tags: ['identity-access-management', 'api', 'user'],
-    },
-  },
-  {
     method: 'DELETE',
     path: '/api/users/me',
     config: {

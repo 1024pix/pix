@@ -10,25 +10,6 @@ import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 const routesUnderTest = identityAccessManagementRoutes[0];
 
 describe('Unit | Identity Access Management | Application | Route | User', function () {
-  describe('GET /api/users/me', function () {
-    const method = 'GET';
-
-    it('exists', async function () {
-      // given
-      sinon.stub(userController, 'getCurrentUser').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(routesUnderTest);
-
-      const url = '/api/users/me';
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('GET /api/users/{id}/authentication-methods', function () {
     const method = 'GET';
 

@@ -2,9 +2,7 @@
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 
 import * as centerRepository from '../../../organizational-entities/infrastructure/repositories/center-repository.js';
-import * as userRecommendedTrainingRepository from '../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
 import { repositories as campaignRepositories } from '../../../prescription/campaign/infrastructure/repositories/index.js';
-import * as campaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as prescriptionOrganizationLearnerRepository from '../../../prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
 import * as organizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { config } from '../../../shared/config.js';
@@ -53,7 +51,6 @@ const repositories = {
   accountRecoveryDemandRepository,
   adminMemberRepository,
   authenticationMethodRepository,
-  campaignParticipationRepository,
   campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
   centerRepository,
   certificationPointOfContactRepository,
@@ -75,7 +72,6 @@ const repositories = {
   revokedUserAccessRepository,
   userEmailRepository,
   userLoginRepository,
-  userRecommendedTrainingRepository,
   userRepository,
   userToCreateRepository,
 };
@@ -133,7 +129,6 @@ import { getActiveByUserIds } from './get-active-by-user-ids.usecase.js';
 import { getAllIdentityProviders } from './get-all-identity-providers.usecase.js';
 import { getAuthorizationUrl } from './get-authorization-url.usecase.js';
 import { getCertificationPointOfContact } from './get-certification-point-of-contact.usecase.js';
-import { getCurrentUser } from './get-current-user.usecase.js';
 import { getIdentityProvidersByRequestedApplication } from './get-identity-providers-by-requested-application.usecase.js';
 import { getRedirectLogoutUrl } from './get-redirect-logout-url.usecase.js';
 import { getSamlAuthenticationRedirectionUrl } from './get-saml-authentication-redirection-url.js';
@@ -193,7 +188,6 @@ const usecasesWithoutInjectedDependencies = {
   getAllIdentityProviders,
   getAuthorizationUrl,
   getCertificationPointOfContact,
-  getCurrentUser,
   getIdentityProvidersByRequestedApplication,
   getRedirectLogoutUrl,
   getSamlAuthenticationRedirectionUrl,
