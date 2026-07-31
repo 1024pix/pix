@@ -18,15 +18,14 @@ const serialize = function (users, meta) {
       'lang',
       'locale',
       'isAnonymous',
-      'profile',
-      'campaignParticipations',
       'hasSeenAssessmentInstructions',
-      'isCertifiable',
       'hasSeenNewDashboardInfo',
       'hasSeenFocusedChallengeTooltip',
       'hasSeenOtherChallengesTooltip',
-      'trainings',
       'lastDataProtectionPolicySeenAt',
+      'profile',
+      'isCertifiable',
+      'trainings',
     ],
     profile: {
       ref: 'id',
@@ -35,16 +34,6 @@ const serialize = function (users, meta) {
       relationshipLinks: {
         related: function (record, current, parent) {
           return `/api/users/${parent.id}/profile`;
-        },
-      },
-    },
-    campaignParticipations: {
-      ref: 'id',
-      ignoreRelationshipData: true,
-      nullIfMissing: true,
-      relationshipLinks: {
-        related: function (record, current, parent) {
-          return `/api/users/${parent.id}/campaign-participations`;
         },
       },
     },

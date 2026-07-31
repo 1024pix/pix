@@ -4,10 +4,6 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (users, meta) {
   return new Serializer('user', {
-    transform(record) {
-      record.profile = null;
-      return record;
-    },
     attributes: [
       'firstName',
       'lastName',
@@ -18,52 +14,15 @@ const serialize = function (users, meta) {
       'mustValidateTermsOfService',
       'pixOrgaTermsOfServiceAccepted',
       'pixCertifTermsOfServiceAccepted',
+      'lastDataProtectionPolicySeenAt',
       'lang',
+      'locale',
       'isAnonymous',
-      'memberships',
-      'pixScore',
-      'scorecards',
-      'profile',
-      'campaignParticipations',
       'hasSeenAssessmentInstructions',
-      'isCertifiable',
       'hasSeenNewDashboardInfo',
       'hasSeenFocusedChallengeTooltip',
       'hasSeenOtherChallengesTooltip',
     ],
-    memberships: {
-      ref: 'id',
-      ignoreRelationshipData: true,
-    },
-    pixScore: {
-      ref: 'id',
-      ignoreRelationshipData: true,
-      nullIfMissing: true,
-    },
-    scorecards: {
-      ref: 'id',
-      ignoreRelationshipData: true,
-      nullIfMissing: true,
-    },
-    profile: {
-      ref: 'id',
-      ignoreRelationshipData: true,
-      relationshipLinks: {
-        related: function (record, current, parent) {
-          return `/api/admin/users/${parent.id}/profile`;
-        },
-      },
-    },
-    campaignParticipations: {
-      ref: 'id',
-      ignoreRelationshipData: true,
-      nullIfMissing: true,
-    },
-    isCertifiable: {
-      ref: 'id',
-      ignoreRelationshipData: true,
-      nullIfMissing: true,
-    },
     meta,
   }).serialize(users);
 };
