@@ -1,4 +1,4 @@
-import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact.repository.js';
+import * as certificationCenterAccessRepository from '../../infrastructure/repositories/certification-center-access.repository.js';
 import { AllowedCertificationCenterAccessDTO } from './models/AllowedCertificationCenterAccessDTO.js';
 
 /**
@@ -15,10 +15,10 @@ import { AllowedCertificationCenterAccessDTO } from './models/AllowedCertificati
  */
 export const getCertificationCenterAccess = async ({
   certificationCenterId,
-  dependencies = { certificationPointOfContactRepository },
+  dependencies = { certificationCenterAccessRepository },
 }) => {
   const allowedCertificationCenterAccess =
-    await dependencies.certificationPointOfContactRepository.getCertificationCenterAccess({
+    await dependencies.certificationCenterAccessRepository.getCertificationCenterAccess({
       certificationCenterId,
     });
 

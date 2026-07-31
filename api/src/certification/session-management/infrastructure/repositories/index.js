@@ -1,6 +1,6 @@
 import * as certificationIssueReportRepository from '../../../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as issueReportCategoryRepository from '../../../../certification/shared/infrastructure/repositories/issue-report-category-repository.js';
-import * as certificationCenterAccessApi from '../../../../identity-access-management/application/api/certification-center-access-api.js';
+import * as certificationCenterAccessApi from '../../../../organizational-entities/application/api/certification-center-access-api.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
