@@ -14,6 +14,7 @@
       "deactivate": "Deactivate",
       "download-template": "Download template",
       "edit": "Edit",
+      "next": "Next",
       "save": "Save",
       "validate": "Validate"
     },
@@ -577,6 +578,10 @@
           "status": "Status:"
         },
         "versions": {
+          "calibration": {
+            "calibration-id-input-label": "Calibration ID (provided by Data)*",
+            "verify-calibration-id-button": "Start the calibration recovery process"
+          },
           "edit": {
             "assessment-duration-label": "Assessment duration (hh:mm):",
             "challenges-between-same-competence-label": "Number of questions between two questions assessing the same competency:",
