@@ -620,7 +620,7 @@
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "1 : lorsque l'on récupère les <strong>matières premières</strong> de l'appareil numérique pour fabriquer un nouvel appareil, on "
+                          "content": "1. Lorsque l'on récupère les <strong>matières premières</strong> de l'appareil numérique pour fabriquer un nouvel appareil, on "
                         },
                         {
                           "type": "select",
@@ -653,7 +653,7 @@
                         },
                         {
                           "type": "text",
-                          "content": "<br>2 : lorqu'on réutilise les <strong>pièces électroniques </strong>pour fabriquer un nouvel appareil, on "
+                          "content": "<br>2. Lorqu'on réutilise les <strong>pièces électroniques</strong> pour fabriquer un nouvel appareil, on "
                         },
                         {
                           "type": "select",
@@ -722,7 +722,7 @@
                       "proposals": [
                         {
                           "type": "text",
-                          "content": "3 : lorsqu'on donne ou renvend un appareil numérique qui fonctionne encore on "
+                          "content": "3. Lorsqu'on donne ou renvend un appareil numérique qui fonctionne encore, on "
                         },
                         {
                           "type": "select",
@@ -755,7 +755,7 @@
                         },
                         {
                           "type": "text",
-                          "content": "<br>4 : lorsque l'on souhaite garder son appareil numérique et le remettre en état, on "
+                          "content": "<br>4. Lorsque l'on souhaite garder son appareil numérique et le remettre en état, on "
                         },
                         {
                           "type": "select",
@@ -863,7 +863,7 @@
                       "id": "a9a4ecbb-6ae0-4394-86e3-68dbfd8fcecb",
                       "type": "expand",
                       "title": "Indice ? 🔎",
-                      "content": "<p>Rappellez-vous qu'on appelle modèle linéaire le modèle traditionnel « extraire, produire, consommer, jeter » et observez la forme des flèches sur le schéma.</p>"
+                      "content": "<p>Rappellez-vous qu'on appelle <strong>modèle linéaire</strong> le modèle traditionnel « extraire, produire, consommer, jeter » et observez la <strong>forme des flèches</strong> sur le schéma.</p>"
                     }
                   ]
                 }
