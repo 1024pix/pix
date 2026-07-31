@@ -686,7 +686,7 @@
                     "input": "1",
                     "display": "inline",
                     "placeholder": "- Sélectionner -",
-                    "ariaLabel": "",
+                    "ariaLabel": "Sélectionner",
                     "tolerances": [],
                     "options": [
                       {
@@ -711,7 +711,7 @@
                     "input": "2",
                     "display": "inline",
                     "placeholder": "-Sélectionner-",
-                    "ariaLabel": "",
+                    "ariaLabel": "Sélectionner",
                     "tolerances": [],
                     "options": [
                       {
@@ -736,7 +736,7 @@
                     "input": "3",
                     "display": "inline",
                     "placeholder": "- Sélectionner -",
-                    "ariaLabel": "",
+                    "ariaLabel": "Sélectionner",
                     "tolerances": [],
                     "options": [
                       {
@@ -758,10 +758,10 @@
                   },
                   {
                     "type": "select",
-                    "input": "",
+                    "input": "4",
                     "display": "inline",
                     "placeholder": "- Sélectionner -",
-                    "ariaLabel": "",
+                    "ariaLabel": "Sélectionner",
                     "tolerances": [],
                     "options": [
                       {
