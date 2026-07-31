@@ -596,7 +596,7 @@
                 "id": "923df52a-04b0-4c9d-a88b-0bff05f558a3",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Si vous avez besoin d’aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p><details open=\"\"><summary>Indice 1</summary><p>Avez-vous vérifié le résultat proposé par l’IA ?</p></details><details open=\"\"><summary>Indice 2</summary><p>Avez-vous vérifié le matériel dans le compte rendu ?</p></details><details open=\"\"><summary>Indice 3</summary><p>Avez-vous demandé à l’IA de corriger sa réponse ?</p></details></p>"
+                "content": "<p>Si vous avez besoin d’aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><p></p><details open=\"\"><summary>Indice 1</summary><p>Avez-vous vérifié le résultat proposé par l’IA ?</p></details><details open=\"\"><summary>Indice 2</summary><p>Avez-vous vérifié le matériel dans le compte rendu ?</p></details><details open=\"\"><summary>Indice 3</summary><p>Avez-vous demandé à l’IA de corriger sa réponse ?</p></details><p></p>"
               }
             },
             {
@@ -617,9 +617,9 @@
       "type": "go-further",
       "grains": [
         {
-          "id": "f8773ad4-3411-499e-9dde-f6d8cc6951e7",
-          "type": "challenge",
-          "title": "Défi : la salle du séminaire",
+          "id": "9784c87a-8481-4ee9-a062-ea035989283b",
+          "type": "activity",
+          "title": "",
           "components": [
             {
               "type": "element",
@@ -627,85 +627,41 @@
                 "id": "3b681347-7546-44ab-86ba-23a65e63f788",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Objectif&nbsp;: trouver un lieu pour le séminaire.</strong></p><p>Gustave cherche un lieu pouvant accueillir son équipe. Il a besoin d’au moins 4 salles de réunion.</p><p>Son budget maximal est de 300 euros. Il cherche la meilleure offre.</p><p>Le prestataire a mis à disposition un logiciel d’IA pour répondre aux questions sur ses espaces disponibles.</p>"
+                "content": "<p>Gustave a utilisé l'IA dans le cadre de son travail pour l'aider à organiser le séminaire annuel.</p>"
               }
             },
             {
               "type": "element",
               "element": {
                 "id": "8364900b-938e-4c18-a4cc-81003340e674",
-                "type": "embed",
-                "isCompletionRequired": true,
-                "title": "Simulateur LLM",
-                "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?mode=cms4swso600049e01ryrg4dbs",
-                "instruction": "<p>Utilisez le logiciel d’IA du prestataire, ci-dessous, pour trouver l’espace qui correspond à ses besoins.</p><p>Une fois que vous avez trouvé, écrivez le nom de l’espace ci-dessous.</p>",
-                "solution": "pix-llm-success",
-                "height": 550
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "84022d80-9dfa-4a2b-9fcb-03877b570ae0",
-                "type": "qrocm",
-                "instruction": "<p>Quel espace Gustave devrait-il réserver ?</p>",
+                "type": "qcm-declarative",
+                "instruction": "<p>Et vous, pour quelles tâches utiliser l'IA pourrait vous être utile ?<br></p>",
+                "hasShortProposals": false,
                 "proposals": [
                   {
-                    "input": "NomEspace",
-                    "type": "input",
-                    "inputType": "text",
-                    "size": 20,
-                    "display": "inline",
-                    "placeholder": "Nom de l’espace",
-                    "ariaLabel": "Nom de l’espace",
-                    "tolerances": [
-                      "t1",
-                      "t2",
-                      "t3"
-                    ],
-                    "solutions": [
-                      "L’Escale Créative",
-                      "Escale Créative"
-                    ]
+                    "id": "1",
+                    "content": "<p>Rédiger, reformuler ou traduire des documents.<br></p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Chercher ou affiner des idées.<br></p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Analyser ou synthétiser des données.<br></p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Se renseigner ou monter en compétence sur un sujet.<br></p>"
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Aucune de ces tâches.<br></p>"
                   }
                 ],
-                "feedbacks": {
-                  "valid": {
-                    "state": "Correct.",
-                    "diagnosis": "Grâce à vous, le séminaire va pouvoir avoir lieu."
-                  },
-                  "invalid": {
-                    "state": "Réponse incorrecte.",
-                    "diagnosis": "Avez-vous vérifié que tous les critères étaient respectés ?"
-                  }
+                "feedback": {
+                  "diagnosis": "<p>L'IA générative peut vous faire <strong>gagner du temps </strong>dans ces tâches, mais elle peut <strong>produire des erreurs.</strong> </p><p>Veillez toujours à garder la <strong>maîtrise de votre travail </strong>et de vos <strong>décisions</strong>.</p><p>En bref, utilisez-la bon escient !</p>"
                 }
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "53785484-8ee2-490f-9b9d-1af81c968426",
-                "type": "expand",
-                "title": "Indice 1",
-                "content": "Avez-vous demandé au logiciel d’IA générative des espaces adaptés à une réunion d’équipe ?<br><br>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "2df88055-cb99-46c4-9708-e0ad0acc8fda",
-                "type": "expand",
-                "title": "Indice 2",
-                "content": "Avez-vous vérifié le <strong>nombre de salles de réunion</strong> disponibles ?"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "40b8a4bf-dad4-42cc-8a9e-767f27e31c53",
-                "type": "expand",
-                "title": "Indice 3",
-                "content": "Avez-vous vérifié le <strong>coût</strong> de l’espace ?"
               }
             }
           ]
