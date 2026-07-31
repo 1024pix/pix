@@ -3,7 +3,6 @@ import * as userRepository from '../../infrastructure/repositories/user.reposito
 
 import * as centerRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as userRecommendedTrainingRepository from '../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
-import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import { repositories as campaignRepositories } from '../../../prescription/campaign/infrastructure/repositories/index.js';
 import * as campaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as prescriptionOrganizationLearnerRepository from '../../../prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
@@ -24,8 +23,6 @@ import * as userLoginRepository from '../../infrastructure/repositories/user-log
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
-import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
-import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact.repository.js';
@@ -57,10 +54,8 @@ const repositories = {
   adminMemberRepository,
   authenticationMethodRepository,
   campaignParticipationRepository,
-  campaignRepository,
   campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
   centerRepository,
-  certificationCenterMembershipRepository,
   certificationPointOfContactRepository,
   emailValidationDemandRepository,
   clientApplicationRepository,
@@ -69,7 +64,6 @@ const repositories = {
   lastUserApplicationConnectionsRepository,
   legalDocumentApiRepository,
   ltiPlatformRegistrationRepository,
-  membershipRepository,
   oidcAuthenticationServiceRegistry,
   oidcProviderRepository,
   organizationLearnerRepository,
