@@ -12,6 +12,7 @@ import * as certificationCenterRepository from '../../../shared/infrastructure/r
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as eventAdapter from '../../infrastructure/adapters/event-adapter.js';
+import * as sessionAuthorizationAdapter from '../../infrastructure/adapters/session-authorization-adapter.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as eligibilityService from '../services/eligibility-service.js';
@@ -67,6 +68,7 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {import('../../../../prescription/campaign/infrastructure/repositories/division-repository.js')} divisionRepository
  * @typedef {import('../../../shared/infrastructure/repositories/certification-center-repository.js')} CertificationCenterRepository
  * @typedef {import('../../infrastructure/adapters/event-adapter.js')} EventAdapter
+ * @typedef {import('../../infrastructure/adapters/session-authorization-adapter.js')} SessionAuthorizationAdapter
  **/
 
 /**
@@ -96,6 +98,7 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {divisionRepository} DivisionRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {eventAdapter} EventAdapter
+ * @typedef {sessionAuthorizationAdapter} SessionAuthorizationAdapter
  *
  **/
 const dependencies = {
@@ -118,6 +121,7 @@ const dependencies = {
   eventAdapter,
   verifyCandidateIdentityService,
   reconcileCandidateService,
+  sessionAuthorizationAdapter,
 };
 
 const usecasesWithoutInjectedDependencies = {

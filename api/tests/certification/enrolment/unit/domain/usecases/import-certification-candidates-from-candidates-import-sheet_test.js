@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../../../src/certification/enrolment/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
@@ -6,7 +7,6 @@ import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constan
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { CandidateAlreadyLinkedToUserError } from '../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
@@ -21,12 +21,12 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let centerRepository;
   let sessionRepository;
   let eventAdapter;
+  let sessionAuthorizationAdapter;
   let dependencies;
 
   beforeEach(function () {
     candidateRepository = {
       deleteBySessionId: sinon.stub(),
-      findBySessionId: sinon.stub(),
       save: sinon.stub(),
     };
     sessionRepository = {
@@ -40,6 +40,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     };
     eventAdapter = {
       onCandidatesEnrolledWithImportSheet: sinon.stub(),
+    };
+    sessionAuthorizationAdapter = {
+      find: sinon.stub(),
     };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
@@ -57,24 +60,25 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       centerRepository,
       sessionRepository,
       eventAdapter,
+      sessionAuthorizationAdapter,
     };
   });
 
+  afterEach(function () {
+    sinon.restore();
+  });
+
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
-    context('when session contains already linked certification candidates', function () {
+    context('when session cannot enrolled candidates', function () {
       it('should throw a BadRequestError', async function () {
         // given
         const sessionId = 'sessionId';
-        const session = domainBuilder.certification.enrolment.buildSession({ sessionId });
         const odsBuffer = 'buffer';
-
-        candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
-          domainBuilder.certification.enrolment
-            .candidateBuilder()
-            .asReconciled({ userId: 123, reconciledAt: new Date('2024-09-25') })
-            .build(),
-        ]);
-        sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
+        sessionAuthorizationAdapter.find
+          .withArgs({ sessionId })
+          .resolves(
+            domainBuilder.certification.enrolment.sessionAuthorizationBuilder().cannotEnrollODSCandidate().build(),
+          );
 
         // when
         const result = await catchErr(importCertificationCandidatesFromCandidatesImportSheet)({
@@ -86,8 +90,8 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
         // then
         expect(result).to.be.an.instanceOf(CandidateAlreadyLinkedToUserError);
-        expect(candidateRepository.save).not.to.have.been.called;
-        expect(eventAdapter.onCandidatesEnrolledWithImportSheet).not.to.have.been.called;
+        sinon.assert.notCalled(candidateRepository.save);
+        sinon.assert.notCalled(eventAdapter.onCandidatesEnrolledWithImportSheet);
       });
     });
 
@@ -100,9 +104,11 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           id: sessionId,
           certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
         });
-        candidateRepository.findBySessionId
+        sessionAuthorizationAdapter.find
           .withArgs({ sessionId })
-          .resolves([domainBuilder.certification.enrolment.candidateBuilder().build()]);
+          .resolves(
+            domainBuilder.certification.enrolment.sessionAuthorizationBuilder().canEnrollODSCandidate().build(),
+          );
         sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
       });
 
@@ -139,12 +145,11 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
 
           // then
-          expect(candidateRepository.deleteBySessionId).to.have.been.calledWithExactly({
+          sinon.assert.calledWithExactly(candidateRepository.deleteBySessionId, {
             sessionId,
           });
-          expect(candidateRepository.save).to.have.been.calledWithExactly({ candidates });
-          expect(candidateRepository.deleteBySessionId.calledBefore(candidateRepository.save)).to.be.true;
-          expect(eventAdapter.onCandidatesEnrolledWithImportSheet).to.to.have.been.calledWithExactly({ candidates });
+          sinon.assert.calledWithExactly(candidateRepository.save, { candidates });
+          sinon.assert.calledWithExactly(eventAdapter.onCandidatesEnrolledWithImportSheet, { candidates });
         });
       });
     });

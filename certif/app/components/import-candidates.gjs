@@ -98,11 +98,18 @@ export default class ImportCandidates extends Component {
                 {{t 'pages.sessions.detail.candidates.panel-actions.actions.upload.label'}}
               </PixButtonUpload>
             </div>
+          {{else if @sessionExpired}}
+            <PixIcon @name='error' @plainIcon={{true}} @ariaHidden={{true}} class='panel-actions__warning-icon' />
+            <div class='panel-actions__description'>
+              <strong class='panel-actions__warning'>
+                {{t 'pages.sessions.detail.candidates.panel-actions.expired-warning' htmlSafe=true}}
+              </strong>
+            </div>
           {{else}}
             <PixIcon @name='error' @plainIcon={{true}} @ariaHidden={{true}} class='panel-actions__warning-icon' />
             <div class='panel-actions__description'>
               <strong class='panel-actions__warning'>
-                {{t 'pages.sessions.detail.candidates.panel-actions.warning' htmlSafe=true}}
+                {{t 'pages.sessions.detail.candidates.panel-actions.started-warning' htmlSafe=true}}
               </strong>
             </div>
           {{/if}}

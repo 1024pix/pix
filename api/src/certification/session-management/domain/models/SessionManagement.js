@@ -1,6 +1,7 @@
 import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
+import { MAXIMAL_SESSION_DURATION_IN_MS } from '../constants.js';
 
 export class SessionManagement {
   constructor({
@@ -24,6 +25,7 @@ export class SessionManagement {
     assignedCertificationOfficerId,
     version = AlgorithmEngineVersion.V3,
     createdBy,
+    firstCertificationStartedAt,
   } = {}) {
     this.id = id;
     this.accessCode = accessCode;
@@ -45,6 +47,7 @@ export class SessionManagement {
     this.assignedCertificationOfficerId = assignedCertificationOfficerId;
     this.version = version;
     this.createdBy = createdBy;
+    this.firstCertificationStartedAt = firstCertificationStartedAt;
   }
 
   get status() {
@@ -66,5 +69,17 @@ export class SessionManagement {
 
   isPublished() {
     return this.publishedAt !== null;
+  }
+
+  get hasExpired() {
+    const hasACertificationOnGoing = Boolean(this.firstCertificationStartedAt);
+    if (hasACertificationOnGoing) {
+      return this.#elapsedTimeSinceSessionStarted() > MAXIMAL_SESSION_DURATION_IN_MS;
+    }
+    return false;
+  }
+
+  #elapsedTimeSinceSessionStarted() {
+    return Date.now() - this.firstCertificationStartedAt.getTime();
   }
 }

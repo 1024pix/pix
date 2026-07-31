@@ -19,6 +19,7 @@ describe('Unit | Certification | session-management | Serializer | session-seria
             'examiner-global-comment': 'It was a fine session my dear',
             'has-incident': true,
             'has-joining-issue': true,
+            'has-expired': false,
             'finalized-at': new Date('2020-02-17T14:23:56Z'),
             'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
             'published-at': new Date('2020-02-21T14:23:56Z'),

@@ -19,10 +19,11 @@
       "validate": "Validate"
     },
     "api-error-messages": {
-      "CANDIDATE_NOT_ALLOWED_FOR_FINALIZED_SESSION": "This session has already been finalised and no new candidates may be added.",
       "CANDIDATE_NOT_FOUND": "An error has occurred, the candidate {firstName} {lastName} hasn't been found.",
       "EMPTY_CANDIDATES_IMPORT": "The file appears to be empty. Please check the content of the uploaded file or contact us.",
+      "INDIVIDUAL_ENROL_NOT_ALLOWED": "This session is either finalized or expired and no new candidates may be added.",
       "INVALID_DOCUMENT": "This version of the document is unknown.<br />Please download and import the candidate list template again",
+      "SCO_ENROL_NOT_ALLOWED": "This session is either finalized or expired and no new candidates may be added.",
       "SESSION_ALREADY_EXISTS": "A session with the same information (date, time, address and room) already exists.",
       "SESSION_ALREADY_FINALIZED": "Cannot finalise session more than once.",
       "SESSION_CANNOT_BE_FINALIZED": "Error during the finalisation of the session.",
@@ -703,8 +704,9 @@
                 "label": "Upload (.ods)"
               }
             },
-            "title": "Enrol candidates",
-            "warning": "The session has begun, you can’t upload a candidates' list anymore.<br />If you want to edit the list, you can enrol a candidate directly in the table below."
+            "expired-warning": "The session has expired, you can no longer enrol.",
+            "started-warning": "The session has begun, you can’t upload a candidates' list anymore.<br />If you want to edit the list, you can enrol a candidate directly in the table below.",
+            "title": "Enrol candidates"
           }
         },
         "downloads": {

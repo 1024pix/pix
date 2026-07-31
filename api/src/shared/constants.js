@@ -140,6 +140,13 @@ export const CERTIFICATION_CENTER_TYPES = {
   PRO: 'PRO',
 };
 
+export const ORGANIZATION_TYPES = {
+  SCO: 'SCO',
+  SUP: 'SUP',
+  PRO: 'PRO',
+  SCO1D: 'SCO-1D',
+};
+
 export const PIX_ADMIN = {
   NOT_ALLOWED_MSG: "Vous n'avez pas les droits pour vous connecter.",
   ROLES: {

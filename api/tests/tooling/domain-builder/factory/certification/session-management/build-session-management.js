@@ -22,6 +22,7 @@ const buildSessionManagement = function ({
   certificationCandidates = [],
   version = 2,
   createdBy = null,
+  firstCertificationStartedAt = null,
 } = {}) {
   return new SessionManagement({
     id,
@@ -45,6 +46,7 @@ const buildSessionManagement = function ({
     certificationCandidates,
     version,
     createdBy,
+    firstCertificationStartedAt,
   });
 };
 
@@ -62,6 +64,7 @@ buildSessionManagement.created = function ({
   certificationCandidates,
   version = 2,
   createBy,
+  firstCertificationStartedAt,
 } = {}) {
   return buildSessionManagement({
     id,
@@ -84,6 +87,7 @@ buildSessionManagement.created = function ({
     assignedCertificationOfficerId: null,
     version,
     createBy,
+    firstCertificationStartedAt,
   });
 };
 
@@ -100,6 +104,7 @@ buildSessionManagement.finalized = function ({
   time,
   certificationCandidates,
   createBy,
+  firstCertificationStartedAt,
 } = {}) {
   return buildSessionManagement({
     id,
@@ -121,6 +126,7 @@ buildSessionManagement.finalized = function ({
     publishedAt: null,
     assignedCertificationOfficerId: null,
     createBy,
+    firstCertificationStartedAt,
   });
 };
 
@@ -137,6 +143,7 @@ buildSessionManagement.inProcess = function ({
   time,
   certificationCandidates,
   createBy,
+  firstCertificationStartedAt,
 } = {}) {
   return buildSessionManagement({
     id,
@@ -158,6 +165,7 @@ buildSessionManagement.inProcess = function ({
     publishedAt: null,
     assignedCertificationOfficerId: 123,
     createBy,
+    firstCertificationStartedAt,
   });
 };
 
@@ -174,6 +182,7 @@ buildSessionManagement.processed = function ({
   time,
   certificationCandidates,
   createBy,
+  firstCertificationStartedAt,
 } = {}) {
   return buildSessionManagement({
     id,
@@ -195,6 +204,7 @@ buildSessionManagement.processed = function ({
     publishedAt: new Date('2020-01-02'),
     assignedCertificationOfficerId: 123,
     createBy,
+    firstCertificationStartedAt,
   });
 };
 

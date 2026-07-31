@@ -10,6 +10,7 @@ export function serialize({ session, hasSomeCleaAcquired }) {
     'examinerGlobalComment',
     'hasIncident',
     'hasJoiningIssue',
+    'hasExpired',
     'finalizedAt',
     'resultsSentToPrescriberAt',
     'publishedAt',

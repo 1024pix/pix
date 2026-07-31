@@ -9,11 +9,11 @@
 
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
 } from '../../../../shared/domain/errors.js';
 import { mailCheck as mailCheckImplementation } from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
+import { CannotEnrollCandidateIndividuallyError } from '../errors.js';
 
 /**
  * @param {object} params
@@ -35,14 +35,16 @@ export async function addCandidateToSession({
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
   eventAdapter,
+  sessionAuthorizationAdapter,
 }) {
   candidate.sessionId = sessionId;
-  const session = await sessionRepository.get({ id: sessionId });
+  const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
 
-  if (!session.canEnrolCandidate) {
-    throw new CertificationCandidateOnFinalizedSessionError();
+  if (!sessionAuthorization.canEnrollCandidateIndividually) {
+    throw new CannotEnrollCandidateIndividuallyError();
   }
 
+  const session = await sessionRepository.get({ id: sessionId });
   try {
     candidate.validate({ isSco: session.isSco });
   } catch (error) {

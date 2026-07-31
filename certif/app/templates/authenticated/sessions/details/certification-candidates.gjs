@@ -11,6 +11,7 @@ import EnrolledCandidates from 'pix-certif/components/sessions/session-details/e
     {{/unless}}
     {{#if @controller.hasOneOrMoreCandidates}}
       <EnrolledCandidates
+        @disableEnrollCandidate={{@controller.disableEnrollCandidate}}
         @shouldDisplayScoStudentRegistration={{@controller.shouldDisplayScoStudentRegistration}}
         @sessionId={{@controller.currentSession.id}}
         @certificationCandidates={{@controller.certificationCandidates}}
@@ -22,12 +23,14 @@ import EnrolledCandidates from 'pix-certif/components/sessions/session-details/e
   {{else}}
     <ImportCandidates
       @session={{@controller.currentSession}}
+      @sessionExpired={{@model.sessionManagement.hasExpired}}
       @certificationCandidates={{@controller.certificationCandidates}}
       @reloadCertificationCandidate={{@controller.reloadCertificationCandidateInController}}
       @importAllowed={{@controller.importAllowed}}
       @fetchCandidatesImportTemplateAction={{@controller.fetchCandidatesImportTemplate}}
     />
     <EnrolledCandidates
+      @disableEnrollCandidate={{@controller.disableEnrollCandidate}}
       @shouldDisplayScoStudentRegistration={{@controller.shouldDisplayScoStudentRegistration}}
       @sessionId={{@controller.currentSession.id}}
       @certificationCandidates={{@controller.certificationCandidates}}

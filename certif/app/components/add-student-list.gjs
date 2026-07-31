@@ -21,6 +21,7 @@ export default class AddStudentList extends Component {
   @service pixToast;
   @service store;
   @service router;
+  @service intl;
   @service locale;
 
   emptyMessage = 'Aucune classe trouvée';
@@ -92,6 +93,12 @@ export default class AddStudentList extends Component {
       this.pixToast.sendSuccessNotification({ message: 'Le(s) candidat(s) ont été inscrit(s) avec succès.' });
     } catch (error) {
       let errorMessage = 'Une erreur est survenue au moment d‘inscrire les candidats.';
+      const err = error?.errors?.[0];
+      if (err?.code) {
+        errorMessage = this.intl.t(`common.api-error-messages.${err.code}`, {
+          ...err?.meta,
+        });
+      }
       if (error.errors?.[0]?.status === '422') errorMessage = error.errors?.[0]?.detail;
       this.pixToast.sendErrorNotification({ message: errorMessage });
     }
