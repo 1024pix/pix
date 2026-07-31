@@ -21,10 +21,17 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
     throw new Error(errorMessage);
   }
 
-  const answersHistoryRepository = AnswersHistoryRepository.createClient();
+  const params = {
+    ranges: {
+      assessment: config.answersHistoryExport.storage.assessmentIdRange,
+      answer: config.answersHistoryExport.storage.answerIdRange,
+    },
 
-  const assessmentIdRange = config.answersHistoryExport.storage.assessmentIdRange;
-  const answerIdRange = config.answersHistoryExport.storage.answerIdRange;
+    repositories: {
+      answersHistory: AnswersHistoryRepository.createClient(),
+      answers: answersRepository,
+    },
+  };
 
   const assessmentIds = await getAssessmentIdsByAssessmentTypeAndDateAndState({
     targetTypes: TARGET_TYPES,
@@ -34,43 +41,52 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
   logger.info(`${assessmentIds.length} assessments will be processed`);
   for (const [assessmentRangeStart, batchAssessmentIdsToBeProcessed] of getBatchesFromRange(
     assessmentIds.map((assessment) => assessment.id),
-    assessmentIdRange,
+    params.ranges.assessment,
   )) {
-    logger.info(`Porcessing for range from ${assessmentRangeStart}`);
+    await _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger);
+  }
+}
 
-    const answerIds = await selectAnswersIdsByAssementIds({ ids: batchAssessmentIdsToBeProcessed });
-    for (const [answerRangeStart, batchAnswerIdsToBeProcessed] of getBatchesFromRange(
-      answerIds.map((answer) => answer.id),
-      answerIdRange,
-    )) {
-      const batchAnswersToBeDeleted = await selectAnswersByIds({ ids: batchAnswerIdsToBeProcessed });
+async function _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger) {
+  logger.info(`Porcessing for range from ${assessmentRangeStart}`);
 
-      logger.info(
-        `Creating parquet file starting for assement range from ${assessmentRangeStart} and answer range from ${answerRangeStart}`,
-      );
-      const { partitionFile, fileContent } = createParquetArrayBuffer(
-        assessmentRangeStart,
-        batchAnswersToBeDeleted,
-        assessmentIdRange,
-      );
-      logger.info(`Successfully created ${partitionFile} file.`);
-      try {
-        logger.info(`Writing ${batchAnswersToBeDeleted.length} answers to ${partitionFile}...`);
-        await answersHistoryRepository.sendFile({
-          filename: partitionFile,
-          fileContent,
-        });
-        logger.info(`Successfully written ${batchAnswersToBeDeleted.length} answers to ${partitionFile}.`);
+  const answerIds = await selectAnswersIdsByAssementIds({ ids: batchAssessmentIdsToBeProcessed });
+  for (const [answerRangeStart, batchAnswerIdsToBeProcessed] of getBatchesFromRange(
+    answerIds.map((answer) => answer.id),
+    params.ranges.answer,
+  )) {
+    await _batchOnAnswers(assessmentRangeStart, answerRangeStart, batchAnswerIdsToBeProcessed, params, logger);
+  }
+}
 
-        logger.info(`Deleting ${batchAnswersToBeDeleted.length} answers...`);
-        await deleteBatchAnswers(answersRepository, batchAnswersToBeDeleted, logger);
-        logger.info(`Successfully deleted ${batchAnswersToBeDeleted.length} answers.`);
-      } catch (error) {
-        logger.error(`File upload failed, rolling back uploaded file ${partitionFile} and deleting it from bucket`);
-        await answersHistoryRepository.deleteFile({ filename: partitionFile });
-        throw Error('An error occurred during the process', { cause: error });
-      }
-    }
+async function _batchOnAnswers(assessmentRangeStart, answerRangeStart, batchAnswerIdsToBeProcessed, params, logger) {
+  const batchAnswersToBeDeleted = await selectAnswersByIds({ ids: batchAnswerIdsToBeProcessed });
+
+  logger.info(
+    `Creating parquet file starting for assement range from ${assessmentRangeStart} and answer range from ${answerRangeStart}`,
+  );
+
+  const { partitionFile, fileContent } = createParquetArrayBuffer(
+    assessmentRangeStart,
+    batchAnswersToBeDeleted,
+    params.ranges.assessment,
+  );
+  logger.info(`Successfully created ${partitionFile} file.`);
+  try {
+    logger.info(`Writing ${batchAnswersToBeDeleted.length} answers to ${partitionFile}...`);
+    await params.repositories.answersHistory.sendFile({
+      filename: partitionFile,
+      fileContent,
+    });
+    logger.info(`Successfully written ${batchAnswersToBeDeleted.length} answers to ${partitionFile}.`);
+
+    logger.info(`Deleting ${batchAnswersToBeDeleted.length} answers...`);
+    await deleteBatchAnswers(params.repositories.answers, batchAnswersToBeDeleted, logger);
+    logger.info(`Successfully deleted ${batchAnswersToBeDeleted.length} answers.`);
+  } catch (error) {
+    logger.error(`File upload failed, rolling back uploaded file ${partitionFile} and deleting it from bucket`);
+    await params.repositories.answersHistory.deleteFile({ filename: partitionFile });
+    throw Error('An error occurred during the process', { cause: error });
   }
 }
 
