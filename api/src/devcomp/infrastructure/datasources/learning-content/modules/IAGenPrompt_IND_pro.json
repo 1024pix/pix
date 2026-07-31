@@ -303,7 +303,7 @@
                 "id": "17f29823-5362-428d-97e1-7107b4417401",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Gustave veut faire monter son équipe en compétences sur un nouvel outil.</p><p>Pour cela, il prépare un plan de formation, sous la forme d’un <strong>tableau</strong>.</p>"
+                "content": "<p>Gustave chercher des ice-breakers pour différents moments du séminaire.</p><p>Pour cela, il prépare des idées sous la forme d’un <strong>tableau</strong>.</p>"
               }
             },
             {
@@ -312,7 +312,7 @@
                 "id": "56d41d29-e03f-4472-bf56-a7a990e77db9",
                 "type": "text",
                 "tag": " ",
-                "content": "<table> <thead><tr><th scope=\"col\" class=\"width-15\">Niveau</th><th scope=\"col\">Activité</th><th scope=\"col\">Description</th></tr></thead> <tbody> <tr><th>Débutant</th><td>Prise en main</td><td>Découvrir l’interface et les fonctions de base de l’outil.</td></tr> <tr><th>Intermédiaire</th><td>Cas pratique guidé</td><td>Réaliser une tâche courante en suivant un guide pas à pas.</td></tr> <tr><th>Avancé</th><td>Cas pratique autonome</td><td>Traiter un cas réel sans assistance.</td></tr> <tr><th>Expert</th><td>...</td><td>...</td></tr></tbody></table>"
+                "content": "<p><br></p><table> <thead><tr><th scope=\"col\" class=\"width-15\">Taille du groupe<br></th><th scope=\"col\">Ice-breaker</th><th scope=\"col\">Description<br></th></tr></thead> <tbody> <tr><th>2 à 5 personnes<br></th><td>Défi \"Objet mystère\"<br></td><td>Chacun trouve un objet dans la salle et explique pourquoi il le représente.<br></td></tr> <tr><th>6 à 15 personnes<br></th><td>Deux vérités et un mensonge<br></td><td>Les participants devinent laquelle des trois affirmations est fausse.<br></td></tr> <tr><th>15 à 30 personnes<br></th><td>Bingo humain<br></td><td>Les participants retrouvent des personnes correspondant à différentes caractéristiques.<br></td></tr> <tr><th>Plus de 30 personnes</th><td>...</td><td>...</td></tr></tbody></table>"
               }
             }
           ]
@@ -328,7 +328,7 @@
                 "id": "3617d4d8-4f4e-4629-8ca7-f2b60e55397c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Il manque d’inspiration pour le niveau expert.</p><p>Utilisez le logiciel d’IA générative ci-dessous pour l’aider à obtenir un <strong>tableau complet</strong> avec des activités pour tous les niveaux.</p>"
+                "content": "<p>Il manque d’inspiration pour les groupes de plus de 30 personnes.</p><p>Utilisez le logiciel d’IA générative ci-dessous pour l’aider à obtenir un <strong>tableau </strong>complété avec des idées pour des groupes plus grands.</p>"
               }
             },
             {
@@ -368,7 +368,7 @@
                 "id": "0dcf79a9-94ce-4c60-87b7-ba556a6aad74",
                 "type": "expand",
                 "title": "Indice 2",
-                "content": "Avez-vous vérifié que le tableau obtenu comporte des <strong>activités</strong> pour différents niveaux, dont le <strong>niveau expert</strong> ?<br>"
+                "content": "<p>Avez-vous vérifié que le <strong>tableau obtenu </strong>comporte des idées d'<strong>ice-breakers</strong>&nbsp;avec leur <strong>description </strong>?</p><br>"
               }
             },
             {
@@ -377,7 +377,7 @@
                 "id": "31395fb8-38d3-404d-96f3-873c5cc44c90",
                 "type": "expand",
                 "title": "Solution",
-                "content": "La bonne réponse doit&nbsp;:<br><ul><li>être structurée sous la forme d’un <strong>tableau</strong>,</li><li>contenir des <strong>activités</strong> de montée en compétences,</li><li>proposer une ou des <strong>nouvelles activités</strong> pour le <strong>niveau expert</strong>.</li></ul>Si ces conditions sont remplies, votre réponse devrait être validée.<br>"
+                "content": "<p>La bonne réponse doit :</p><br><ul><li>être structurée sous la forme d’un <strong>tableau</strong>,</li><li>contenir des <strong>idées d'ice-breake</strong>r avec leurs&nbsp;<strong>descriptions.</strong></li><li>proposer une ou des <strong>nouvelles idées&nbsp;</strong>pour les groupes de <strong>plus de 30 personnes.</strong></li></ul><p>Si ces conditions sont remplies, votre réponse devrait être validée.</p><br>"
               }
             }
           ]
