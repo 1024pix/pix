@@ -1,4 +1,3 @@
-import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as learningContentConversionService from '../../../shared/domain/services/learning-content-conversion-service.js';
 import * as learningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
@@ -16,7 +15,6 @@ import * as targetProfileSummaryForAdminRepository from '../../infrastructure/re
 const dependencies = {
   learningContentConversionService,
   learningContentRepository,
-  organizationRepository,
   organizationsToAttachToTargetProfileRepository,
   targetProfileAdministrationRepository,
   targetProfileBondRepository,

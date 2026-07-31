@@ -1,7 +1,4 @@
 import * as mailService from '../../../../../src/certification/shared/domain/services/mail-service.js';
-import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
-import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
-import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -39,14 +36,11 @@ import { updateVersionComment } from './update-version-comment.js';
  * @typedef {attachableTargetProfileRepository} AttachableTargetProfileRepository
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
- * @typedef {challengeRepository} ChallengeRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {complementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  * @typedef {complementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
  * @typedef {mailService} MailService
  * @typedef {organizationRepository} OrganizationRepository
- * @typedef {skillRepository} SkillRepository
- * @typedef {tubeRepository} TubeRepository
  * @typedef {ScoBlockedAccessDatesRepository} ScoBlockedAccessDatesRepository
  * @typedef {versionRepository} VersionRepository
  * @typedef {versionDetailsRepository} VersionDetailsRepository
@@ -56,15 +50,12 @@ const dependencies = {
   centerRepository,
   ScoBlockedAccessDatesRepository,
   certificationInfoRepository,
-  challengeRepository,
   complementaryCertificationBadgesRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationRepository,
   mailService,
   organizationRepository,
-  skillRepository,
   targetProfileHistoryRepository,
-  tubeRepository,
   versionRepository,
   versionDetailsRepository,
 };

@@ -13,7 +13,6 @@ import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/da
  * @param{MembershipRepository} params.membershipRepository
  * @param{CertificationCenterMembershipRepository} params.certificationCenterMembershipRepository
  * @param{LastUserApplicationConnectionsRepository} params.lastUserApplicationConnectionsRepository
- * @param{OrganizationLearnerRepository} params.organizationLearnerRepository
  * @param{RefreshTokenRepository} params.refreshTokenRepository
  * @param{ResetPasswordDemandRepository} params.resetPasswordDemandRepository
  * @param{UserLoginRepository} params.userLoginRepository

@@ -3,7 +3,6 @@ import * as divisionRepository from '../../../../prescription/campaign/infrastru
 import * as organizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as countryRepository from '../../../../shared/infrastructure/repositories/country-repository.js';
-import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
@@ -65,7 +64,6 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
  * @typedef {import('../services/eligibility-service.js')} EligibilityService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
- * @typedef {import('../../../../shared/infrastructure/repositories/organization-repository.js')} organizationRepository
  * @typedef {import('../../../../prescription/campaign/infrastructure/repositories/division-repository.js')} divisionRepository
  * @typedef {import('../../../shared/infrastructure/repositories/certification-center-repository.js')} CertificationCenterRepository
  * @typedef {import('../../infrastructure/adapters/event-adapter.js')} EventAdapter
@@ -95,7 +93,6 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
  * @typedef {EligibilityService} EligibilityService
  * @typedef {PlacementProfileService} PlacementProfileService
- * @typedef {organizationRepository} OrganizationRepository
  * @typedef {divisionRepository} DivisionRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {eventAdapter} EventAdapter
@@ -114,7 +111,6 @@ const dependencies = {
   certificationCandidatesOdsService,
   eligibilityService,
   placementProfileService,
-  organizationRepository,
   organizationLearnerRepository,
   certificationCourseRepository,
   certificationCenterRepository,

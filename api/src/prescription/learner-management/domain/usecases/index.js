@@ -1,12 +1,10 @@
 import * as userRecommendedTrainingRepository from '../../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
 import * as badgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
 import * as obfuscationService from '../../../../identity-access-management/domain/services/obfuscation-service.js';
-import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import * as organizationsProfileRewardRepository from '../../../../profile/infrastructure/repositories/organizations-profile-reward-repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as userReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
-import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import { auditLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
@@ -42,11 +40,9 @@ import { importStorage } from '../../infrastructure/storage/import-storage.js';
 const dependencies = {
   assessmentRepository,
   badgeAcquisitionRepository,
-  campaignParticipationRepository: repositories.campaignParticipationRepository,
   campaignParticipationRepositoryFromBC,
   campaignRepository,
   auditLoggingJobRepository,
-  featureToggles,
   importFromGenericFileJobRepository,
   importFromSiecleJobRepository,
   importFromFregataJobRepository,
@@ -70,7 +66,6 @@ const dependencies = {
   studentRepository,
   supOrganizationLearnerRepository,
   userRecommendedTrainingRepository,
-  userRepository,
   validateGenericFileJobRepository,
   validateFregataFileJobRepository,
   validateSupFileJobRepository,
