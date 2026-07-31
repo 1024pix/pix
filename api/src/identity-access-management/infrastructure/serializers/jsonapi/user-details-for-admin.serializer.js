@@ -2,8 +2,6 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { UserDetailsForAdmin } from '../../../domain/models/UserDetailsForAdmin.js';
-
 const serialize = function (usersDetailsForAdmin) {
   return new Serializer('user', {
     transform(record) {
@@ -125,60 +123,4 @@ const serialize = function (usersDetailsForAdmin) {
   }).serialize(usersDetailsForAdmin);
 };
 
-const serializeForUpdate = function (usersDetailsForAdmin) {
-  return new Serializer('user', {
-    attributes: [
-      'firstName',
-      'lastName',
-      'email',
-      'username',
-      'lang',
-      'locale',
-      'pixOrgaTermsOfServiceAccepted',
-      'pixCertifTermsOfServiceAccepted',
-      'organizationLearners',
-      'authenticationMethods',
-    ],
-    organizationLearners: {
-      ref: 'id',
-      includes: true,
-      attributes: [
-        'firstName',
-        'lastName',
-        'birthdate',
-        'division',
-        'group',
-        'organizationId',
-        'organizationName',
-        'createdAt',
-        'updatedAt',
-        'isDisabled',
-        'canBeDissociated',
-      ],
-    },
-    authenticationMethods: {
-      ref: 'id',
-      includes: true,
-      attributes: ['identityProvider'],
-    },
-    userLogin: {
-      ref: 'id',
-      includes: true,
-      attributes: ['blockedAt', 'createdAt', 'updatedAt', 'temporaryBlockedUntil', 'failureCount'],
-    },
-  }).serialize(usersDetailsForAdmin);
-};
-
-const deserialize = function (json) {
-  return new UserDetailsForAdmin({
-    id: json.data.id,
-    firstName: json.data.attributes['first-name'],
-    lastName: json.data.attributes['last-name'],
-    email: json.data.attributes.email,
-    username: json.data.attributes.username,
-    lang: json.data.attributes.lang,
-    locale: json.data.attributes.locale,
-  });
-};
-
-export const userDetailsForAdminSerializer = { deserialize, serialize, serializeForUpdate };
+export const userDetailsForAdminSerializer = { serialize };

@@ -1,8 +1,6 @@
 import sinon from 'sinon';
 
-import { UserDetailsForAdmin } from '../../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
@@ -12,7 +10,7 @@ import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/Au
 import { roles } from '../../../../../src/shared/domain/models/Membership.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | updateUserDetailsByAdmin', function () {
@@ -40,24 +38,24 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
 
   it('updates user email, firstname and lastname', async function () {
     // given
-    const userDetailsToUpdate = {
+    const userToUpdate = {
       email: 'partial@example.net',
       firstName: 'firstName',
       lastName: 'lastName',
     };
 
     // when
-    const result = await usecases.updateUserDetailsByAdmin({
+    await usecases.updateUserDetailsByAdmin({
       userId,
-      userDetailsToUpdate,
+      userToUpdate,
       updatedByAdminId,
     });
 
     // then
-    expect(result).to.be.an.instanceOf(UserDetailsForAdmin);
-    expect(result.email).equal(userDetailsToUpdate.email);
-    expect(result.firstName).equal(userDetailsToUpdate.firstName);
-    expect(result.lastName).equal(userDetailsToUpdate.lastName);
+    const result = await knex('users').where({ id: userId }).first();
+    expect(result.email).equal(userToUpdate.email);
+    expect(result.firstName).equal(userToUpdate.firstName);
+    expect(result.lastName).equal(userToUpdate.lastName);
 
     await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayload({
       client: 'PIX_ADMIN',
@@ -65,7 +63,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
       role: 'SUPPORT',
       userId: updatedByAdminId,
       targetUserIds: [userId],
-      data: { oldEmail: 'email@example.net', newEmail: userDetailsToUpdate.email },
+      data: { oldEmail: 'email@example.net', newEmail: userToUpdate.email },
       occurredAt: '2024-12-25T00:00:00.000Z',
       correlationContext: EMPTY_CORRELATION_INFO,
     });
@@ -73,56 +71,37 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
 
   it('updates user email only', async function () {
     // given
-    const userDetailsToUpdate = {
+    const userToUpdate = {
       email: 'partial@example.net',
     };
 
     // when
-    const result = await usecases.updateUserDetailsByAdmin({
+    await usecases.updateUserDetailsByAdmin({
       userId,
-      userDetailsToUpdate,
+      userToUpdate,
       updatedByAdminId,
     });
 
     // then
-    expect(result.email).equal(userDetailsToUpdate.email);
-  });
-
-  it('updates user and returns it with its organization learners', async function () {
-    // given
-    let organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
-    databaseBuilder.factory.buildOrganizationLearner({ id: 1, userId, organizationId });
-    organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
-    databaseBuilder.factory.buildOrganizationLearner({ id: 2, userId, organizationId });
-    await databaseBuilder.commit();
-    const userDetailsToUpdate = { email: 'partial@example.net' };
-
-    // when
-    const result = await usecases.updateUserDetailsByAdmin({
-      userId,
-      userDetailsToUpdate,
-      updatedByAdminId,
-    });
-
-    // then
-    expect(result.organizationLearners).to.have.lengthOf(2);
-    expect(result.email).to.equal(userDetailsToUpdate.email);
+    const result = await knex('users').where({ id: userId }).first();
+    expect(result.email).equal(userToUpdate.email);
   });
 
   context('When email is not updated', function () {
     it('does not log into audit logger', async function () {
       // given
-      const userDetailsToUpdate = { email: 'email@example.net' };
+      const userToUpdate = { email: 'email@example.net' };
 
       // when
-      const result = await usecases.updateUserDetailsByAdmin({
+      await usecases.updateUserDetailsByAdmin({
         userId,
-        userDetailsToUpdate,
+        userToUpdate,
         updatedByAdminId,
       });
 
       // then
-      expect(result.email).equal(userDetailsToUpdate.email);
+      const result = await knex('users').where({ id: userId }).first();
+      expect(result.email).equal(userToUpdate.email);
 
       await expect(AuditLoggingJob.name).to.have.been.performed.withJobsCount(0);
     });
@@ -142,13 +121,13 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
         // when
         await usecases.updateUserDetailsByAdmin({
           userId: userWithUsername.id,
-          userDetailsToUpdate: { email: 'first@email.com' },
+          userToUpdate: { email: 'first@email.com' },
           updatedByAdminId,
         });
 
         // then
-        const updatedUser = await userRepository.get(userWithUsername.id);
-        expect(updatedUser.mustValidateTermsOfService).to.be.true;
+        const result = await knex('users').where({ id: userWithUsername.id }).first();
+        expect(result.mustValidateTermsOfService).to.be.true;
       });
     });
 
@@ -165,13 +144,13 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
         // when
         await usecases.updateUserDetailsByAdmin({
           userId: userWithUsername.id,
-          userDetailsToUpdate: { email: 'first@email.com' },
+          userToUpdate: { email: 'first@email.com' },
           updatedByAdminId,
         });
 
         // then
-        const updatedUser = await userRepository.get(userWithUsername.id);
-        expect(updatedUser.mustValidateTermsOfService).to.be.false;
+        const result = await knex('users').where({ id: userWithUsername.id }).first();
+        expect(result.mustValidateTermsOfService).to.be.false;
       });
     });
   });
@@ -179,14 +158,14 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
   context('When email is already used by another user', function () {
     it('throws AlreadyRegisteredEmailError', async function () {
       // given
-      const userDetailsToUpdate = {
+      const userToUpdate = {
         email: 'alreadyEXIST@example.net',
       };
 
       // when
       const error = await catchErr(usecases.updateUserDetailsByAdmin)({
         userId,
-        userDetailsToUpdate,
+        userToUpdate,
         updatedByAdminId,
       });
 
@@ -213,7 +192,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
       // when
       const error = await catchErr(usecases.updateUserDetailsByAdmin)({
         userId: userToUpdate.id,
-        userDetailsToUpdate: { username: anotherUser.username },
+        userToUpdate: { username: anotherUser.username },
         updatedByAdminId,
       });
 
@@ -232,7 +211,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
       });
       await databaseBuilder.commit();
 
-      const userDetailsToUpdate = {
+      const userToUpdate = {
         email: 'alreadyEXIST@example.net',
         username: 'already.exist.username',
       };
@@ -240,7 +219,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
       // when
       const error = await catchErr(usecases.updateUserDetailsByAdmin)({
         userId,
-        userDetailsToUpdate,
+        userToUpdate,
         updatedByAdminId,
       });
 

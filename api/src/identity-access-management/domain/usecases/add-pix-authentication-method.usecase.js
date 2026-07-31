@@ -9,7 +9,7 @@ import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
  * @param {string} params.userId - The ID of the user.
  * @param {string} params.email - The email of the user.
  * @throws {AuthenticationMethodAlreadyExistsError} If the user already has a PIX authentication method.
- * @returns {Promise<Object>} The updated user details.
+ * @returns {Promise<void>}
  */
 const addPixAuthenticationMethod = async function ({
   userId,
@@ -37,7 +37,6 @@ const addPixAuthenticationMethod = async function ({
   });
   await authenticationMethodRepository.create({ authenticationMethod: authenticationMethodFromPix });
   await userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: { email } });
-  return userRepository.getUserDetailsForAdmin(userId);
 };
 
 export { addPixAuthenticationMethod };
