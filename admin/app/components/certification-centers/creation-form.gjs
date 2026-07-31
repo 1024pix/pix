@@ -22,9 +22,9 @@ export default class CreationForm extends Component {
   @service intl;
 
   @tracked form = {
-    name: '',
-    type: '',
-    externalId: '',
+    name: this.args.attachedOrganization?.name ?? '',
+    type: this.args.attachedOrganization?.type ?? '',
+    externalId: this.args.attachedOrganization?.externalId ?? '',
     dataProtectionOfficerLastName: '',
     dataProtectionOfficerFirstName: '',
     dataProtectionOfficerEmail: '',
@@ -37,6 +37,10 @@ export default class CreationForm extends Component {
 
   get sortedHabilitations() {
     return sortBy(this.args.habilitations, 'id');
+  }
+
+  get isExternalIdDisabled() {
+    return Boolean(this.args.attachedOrganization);
   }
 
   get dpoSectionTitle() {
@@ -89,6 +93,7 @@ export default class CreationForm extends Component {
       dataProtectionOfficerLastName: this.form.dataProtectionOfficerLastName,
       dataProtectionOfficerEmail: this.form.dataProtectionOfficerEmail,
       habilitations: [...this.form.selectedHabilitations],
+      organizationId: this.args.attachedOrganization?.id,
     });
 
     try {
@@ -116,11 +121,20 @@ export default class CreationForm extends Component {
           class="admin-form__card certification-center-creation-form__card"
           @title={{t "common.cards.titles.general-information"}}
         >
+          {{#if @attachedOrganization}}
+            <h2 class="admin-form__content title organization-creation-form__attached-organization--full">
+              {{t
+                "components.certification-centers.creation.attached-organization-name"
+                attachedOrganizationName=@attachedOrganization.name
+              }}
+            </h2>
+          {{/if}}
           <div class="certification-center-creation-form__input--full">
             <PixInput
               @id="name"
               @requiredLabel={{t "common.fields.required-field"}}
               required={{false}}
+              @value={{this.form.name}}
               placeholder={{concat
                 (t "common.words.example-abbr")
                 " "
@@ -152,6 +166,8 @@ export default class CreationForm extends Component {
 
           <PixInput
             @id="externalId"
+            @value={{this.form.externalId}}
+            disabled={{this.isExternalIdDisabled}}
             {{on "change" (fn this.handleInputChange "externalId")}}
             placeholder={{t "components.certification-centers.creation.external-id.placeholder"}}
           >

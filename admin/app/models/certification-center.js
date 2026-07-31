@@ -19,6 +19,7 @@ export default class CertificationCenter extends Model {
   @attr() dataProtectionOfficerFirstName;
   @attr() dataProtectionOfficerLastName;
   @attr() dataProtectionOfficerEmail;
+  @attr() organizationId;
 
   @hasMany('complementary-certification', { async: true, inverse: null }) habilitations;
   @hasMany('certification-center-membership', { async: true, inverse: 'certificationCenter' })

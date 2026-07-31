@@ -475,6 +475,7 @@
         }
       },
       "creation": {
+        "attached-organization-name": "Attached organization : {attachedOrganizationName}",
         "complementary-certifications-habilitations": "Habilitations to complementary certifications",
         "configuration": "Configuration",
         "dpo": {
