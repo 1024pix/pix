@@ -12,7 +12,7 @@
     "url": "https://github.com/1024pix/pix"
   },
   "engines": {
-    "node": "^24.15.0"
+    "node": "^24.18.0"
   },
   "scripts": {
     "codegen": "playwright codegen",
