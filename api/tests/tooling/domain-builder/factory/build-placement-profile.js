@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { PlacementProfile } from '../../../../src/shared/domain/models/PlacementProfile.js';
 import { buildUserCompetence } from './build-user-competence.js';
 
-const buildPlacementProfile = function buildPlacementProfile({
+export function buildPlacementProfile({
   profileDate = new Date('2020-01-01'),
   userId = 123,
   userCompetences = [buildUserCompetence()],
@@ -13,7 +13,7 @@ const buildPlacementProfile = function buildPlacementProfile({
     userId,
     userCompetences,
   });
-};
+}
 
 buildPlacementProfile.buildForCompetences = function buildForCompetences({ profileDate, userId, competencesData }) {
   const userCompetences = _.map(competencesData, (competenceData) => {
@@ -47,5 +47,3 @@ buildPlacementProfile.buildCertifiable = function buildCertifiable({ profileDate
     });
   return new PlacementProfile({ profileDate, userId, userCompetences });
 };
-
-export { buildPlacementProfile };

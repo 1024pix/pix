@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } from '../../constants.js';
 
-class PlacementProfile {
+export class PlacementProfile {
   /**
    * @param {Object} params
    * @param {Date} params.profileDate
@@ -40,5 +40,3 @@ class PlacementProfile {
     return _.find(this.userCompetences, { id: competenceId }) || null;
   }
 }
-
-export { PlacementProfile };
