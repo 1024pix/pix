@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { CertificationAnswer } from '../../../../../../src/certification/shared/domain/models/CertificationAnswer.js';
 import * as certificationAssessmentRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
@@ -127,6 +128,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           assessmentId: expectedCertificationAssessmentId,
           createdAt: new Date('2020-06-24T00:00:00Z'),
           challengeId: 'recChalB',
+          result: 'ok',
+          value: 'first answer value',
         }).id;
 
         dbf.buildAnswer({
@@ -156,6 +159,13 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.lengthOf(2);
         expect(certificationAssessment.certificationChallenges).to.have.lengthOf(2);
+
+        const firstAnswer = certificationAssessment.certificationAnswersByDate[0];
+        expect(firstAnswer).to.be.an.instanceOf(CertificationAnswer);
+        expect(firstAnswer.id).to.equal(firstAnswerInTime);
+        expect(firstAnswer.challengeId).to.equal('recChalB');
+        expect(firstAnswer.value).to.equal('first answer value');
+        expect(firstAnswer.result).to.deep.equal(AnswerStatus.OK);
       });
 
       it('should return the certification answers ordered by date', async function () {
