@@ -191,16 +191,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       };
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Un',
-          lastName: 'Related',
-          birthdate: '1995-04-04',
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'un prénom très proche de frederic',
-          lastName: `un nom tres proche de debussy`,
-          birthdate: '1990-01-04',
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Un',
+            lastName: 'Related',
+            birthdate: '1995-04-04',
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'un prénom très proche de frederic',
+            lastName: `un nom tres proche de debussy`,
+            birthdate: '1990-01-04',
+          })
+          .build(),
       ];
       const normalizeStringFnc = sinon.stub();
       normalizeStringFnc.withArgs(candidatePersonalInfo.lastName).returns(candidatePersonalInfo.lastName);
@@ -230,16 +236,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       };
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Un',
-          lastName: 'Related',
-          birthdate: '1995-04-04',
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Richard',
-          lastName: candidatePersonalInfo.lastName,
-          birthdate: candidatePersonalInfo.birthdate,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Un',
+            lastName: 'Related',
+            birthdate: '1995-04-04',
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Richard',
+            lastName: candidatePersonalInfo.lastName,
+            birthdate: candidatePersonalInfo.birthdate,
+          })
+          .build(),
       ];
       const normalizeStringFnc = sinon.stub((str) => str);
 
@@ -263,16 +275,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       };
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Un',
-          lastName: 'Related',
-          birthdate: '1995-04-04',
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: candidatePersonalInfo.firstName,
-          lastName: 'Chopin',
-          birthdate: candidatePersonalInfo.birthdate,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Un',
+            lastName: 'Related',
+            birthdate: '1995-04-04',
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: candidatePersonalInfo.firstName,
+            lastName: 'Chopin',
+            birthdate: candidatePersonalInfo.birthdate,
+          })
+          .build(),
       ];
       const normalizeStringFnc = sinon.stub((str) => str);
 
@@ -296,16 +314,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       };
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Un',
-          lastName: 'Related',
-          birthdate: '1995-04-04',
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: candidatePersonalInfo.firstName,
-          lastName: candidatePersonalInfo.lastName,
-          birthdate: '1990-01-05',
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Un',
+            lastName: 'Related',
+            birthdate: '1995-04-04',
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: candidatePersonalInfo.firstName,
+            lastName: candidatePersonalInfo.lastName,
+            birthdate: '1990-01-05',
+          })
+          .build(),
       ];
       const normalizeStringFnc = sinon.stub((str) => str);
 
@@ -326,13 +350,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       // given
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: null,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: 123,
-          reconciledAt: new Date('2024-09-25'),
-        }),
+        domainBuilder.certification.enrolment.candidateBuilder().build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId: 123,
+            reconciledAt: new Date('2024-09-25'),
+          })
+          .build(),
       ];
 
       // when
@@ -348,12 +373,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       // given
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: null,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: null,
-        }),
+        domainBuilder.certification.enrolment.candidateBuilder().build(),
+        domainBuilder.certification.enrolment.candidateBuilder().build(),
       ];
 
       // when
@@ -372,17 +393,21 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       const userId = 123;
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: null,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: 123,
-          reconciledAt: new Date('2024-09-25'),
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: 456,
-          reconciledAt: new Date('2024-09-25'),
-        }),
+        domainBuilder.certification.enrolment.candidateBuilder().build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId: 123,
+            reconciledAt: new Date('2024-09-25'),
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId: 456,
+            reconciledAt: new Date('2024-09-25'),
+          })
+          .build(),
       ];
 
       // when
@@ -400,12 +425,13 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       const userId = 123;
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: null,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: 456,
-        }),
+        domainBuilder.certification.enrolment.candidateBuilder().build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId: 456,
+          })
+          .build(),
       ];
 
       // when
@@ -479,18 +505,28 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       };
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          id: 123,
-          firstName: 'Un',
-          lastName: 'Related',
-          birthdate: '1995-04-04',
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          id: 456,
-          firstName: 'un prénom très proche de frederic',
-          lastName: `un nom tres proche de debussy`,
-          birthdate: '1990-01-04',
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Un',
+            lastName: 'Related',
+            birthdate: '1995-04-04',
+          })
+          .withParameters({
+            id: 123,
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'un prénom très proche de frederic',
+            lastName: `un nom tres proche de debussy`,
+            birthdate: '1990-01-04',
+          })
+          .withParameters({
+            id: 456,
+          })
+          .build(),
       ];
       const normalizeStringFnc = sinon.stub();
       normalizeStringFnc.withArgs(candidatePersonalInfo.lastName).returns(candidatePersonalInfo.lastName);
@@ -520,16 +556,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       };
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Un',
-          lastName: 'Related',
-          birthdate: '1995-04-04',
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Richard',
-          lastName: candidatePersonalInfo.lastName,
-          birthdate: candidatePersonalInfo.birthdate,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Un',
+            lastName: 'Related',
+            birthdate: '1995-04-04',
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Richard',
+            lastName: candidatePersonalInfo.lastName,
+            birthdate: candidatePersonalInfo.birthdate,
+          })
+          .build(),
       ];
       const normalizeStringFnc = sinon.stub((str) => str);
 
@@ -553,16 +595,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       };
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Un',
-          lastName: 'Related',
-          birthdate: '1995-04-04',
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: candidatePersonalInfo.firstName,
-          lastName: 'Chopin',
-          birthdate: candidatePersonalInfo.birthdate,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Un',
+            lastName: 'Related',
+            birthdate: '1995-04-04',
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: candidatePersonalInfo.firstName,
+            lastName: 'Chopin',
+            birthdate: candidatePersonalInfo.birthdate,
+          })
+          .build(),
       ];
       const normalizeStringFnc = sinon.stub((str) => str);
 
@@ -586,16 +634,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       };
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Un',
-          lastName: 'Related',
-          birthdate: '1995-04-04',
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: candidatePersonalInfo.firstName,
-          lastName: candidatePersonalInfo.lastName,
-          birthdate: '1990-01-05',
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Un',
+            lastName: 'Related',
+            birthdate: '1995-04-04',
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: candidatePersonalInfo.firstName,
+            lastName: candidatePersonalInfo.lastName,
+            birthdate: '1990-01-05',
+          })
+          .build(),
       ];
       const normalizeStringFnc = sinon.stub((str) => str);
 
@@ -619,18 +673,28 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       };
       const session = domainBuilder.certification.enrolment.buildSession();
       const candidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          id: 123,
-          firstName: candidatePersonalInfo.firstName,
-          lastName: candidatePersonalInfo.lastName,
-          birthdate: candidatePersonalInfo.birthdate,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          id: 456,
-          firstName: candidatePersonalInfo.firstName,
-          lastName: candidatePersonalInfo.lastName,
-          birthdate: candidatePersonalInfo.birthdate,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: candidatePersonalInfo.firstName,
+            lastName: candidatePersonalInfo.lastName,
+            birthdate: candidatePersonalInfo.birthdate,
+          })
+          .withParameters({
+            id: 123,
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: candidatePersonalInfo.firstName,
+            lastName: candidatePersonalInfo.lastName,
+            birthdate: candidatePersonalInfo.birthdate,
+          })
+          .withParameters({
+            id: 456,
+          })
+          .build(),
       ];
       const normalizeStringFnc = sinon.stub((str) => str);
 

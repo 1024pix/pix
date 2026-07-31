@@ -62,12 +62,15 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       id: sessionId,
       certificationCenterId,
     });
-    const matchingCandidate = domainBuilder.certification.enrolment.buildCandidate({
-      firstName,
-      lastName,
-      userId: null,
-      birthdate,
-    });
+    const matchingCandidate = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName,
+        lastName,
+        birthdate,
+      })
+      .withSubscription(Frameworks.CORE)
+      .build();
 
     userRepository.get.withArgs({ id: userId }).resolves(
       domainBuilder.certification.enrolment.buildUser({
@@ -85,11 +88,15 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
 
     candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
       matchingCandidate,
-      domainBuilder.certification.enrolment.buildCandidate({
-        firstName: 'Henri',
-        lastName: 'Quatre',
-        birthdate: '2005-05-01',
-      }),
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          firstName: 'Henri',
+          lastName: 'Quatre',
+          birthdate: '2005-05-01',
+        })
+        .withSubscription(Frameworks.CORE)
+        .build(),
     ]);
 
     // when
@@ -144,11 +151,14 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         }),
       );
       candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Henri',
-          lastName: 'Quatre',
-          birthdate: '2005-05-01',
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Henri',
+            lastName: 'Quatre',
+            birthdate: '2005-05-01',
+          })
+          .build(),
       ]);
 
       // when
@@ -178,18 +188,22 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         }),
       );
       candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName,
-          lastName,
-          userId: null,
-          birthdate,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          firstName,
-          lastName,
-          userId: null,
-          birthdate,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName,
+            lastName,
+            birthdate,
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName,
+            lastName,
+            birthdate,
+          })
+          .build(),
       ]);
 
       // when
@@ -226,21 +240,29 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           }),
         );
 
-        const matchingCandidateAlreadyLinkedToAnotherUserId = domainBuilder.certification.enrolment.buildCandidate({
-          firstName,
-          lastName,
-          userId: userId + 10,
-          reconciledAt: new Date('2024-09-25'),
-          birthdate,
-        });
+        const matchingCandidateAlreadyLinkedToAnotherUserId = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId: userId + 10,
+            reconciledAt: new Date('2024-09-25'),
+          })
+          .withIdentity({
+            firstName,
+            lastName,
+            birthdate,
+          })
+          .build();
 
         candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
           matchingCandidateAlreadyLinkedToAnotherUserId,
-          domainBuilder.certification.enrolment.buildCandidate({
-            firstName: 'Henri',
-            lastName: 'Quatre',
-            birthdate: '2005-05-01',
-          }),
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withIdentity({
+              firstName: 'Henri',
+              lastName: 'Quatre',
+              birthdate: '2005-05-01',
+            })
+            .build(),
         ]);
 
         // when
@@ -275,21 +297,29 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           }),
         );
 
-        const matchingCandidateAlreadyLinked = domainBuilder.certification.enrolment.buildCandidate({
-          firstName,
-          lastName,
-          userId,
-          reconciledAt: new Date('2024-09-25'),
-          birthdate,
-        });
+        const matchingCandidateAlreadyLinked = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId,
+            reconciledAt: new Date('2024-09-25'),
+          })
+          .withIdentity({
+            firstName,
+            lastName,
+            birthdate,
+          })
+          .build();
 
         candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
           matchingCandidateAlreadyLinked,
-          domainBuilder.certification.enrolment.buildCandidate({
-            firstName: 'Henri',
-            lastName: 'Quatre',
-            birthdate: '2005-05-01',
-          }),
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withIdentity({
+              firstName: 'Henri',
+              lastName: 'Quatre',
+              birthdate: '2005-05-01',
+            })
+            .build(),
         ]);
 
         // when
@@ -324,21 +354,28 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           }),
         );
 
-        const anotherCandidateWithGivenUserId = domainBuilder.certification.enrolment.buildCandidate({
-          firstName: 'Louis',
-          lastName: 'Michel',
-          userId,
-          reconciledAt: new Date('2024-09-25'),
-          birthdate: '2005-05-01',
-        });
+        const anotherCandidateWithGivenUserId = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId,
+            reconciledAt: new Date('2024-09-25'),
+          })
+          .withIdentity({
+            firstName: 'Louis',
+            lastName: 'Michel',
+            birthdate: '2005-05-01',
+          })
+          .build();
 
         candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
-          domainBuilder.certification.enrolment.buildCandidate({
-            firstName,
-            lastName,
-            userId: null,
-            birthdate,
-          }),
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withIdentity({
+              firstName,
+              lastName,
+              birthdate,
+            })
+            .build(),
           anotherCandidateWithGivenUserId,
         ]);
 
@@ -380,13 +417,15 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
               }),
             );
             candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
-              domainBuilder.certification.enrolment.buildCandidate({
-                firstName,
-                lastName,
-                userId: null,
-                birthdate,
-                subscription: Frameworks.DROIT,
-              }),
+              domainBuilder.certification.enrolment
+                .candidateBuilder()
+                .withSubscription(Frameworks.DROIT)
+                .withIdentity({
+                  firstName,
+                  lastName,
+                  birthdate,
+                })
+                .build(),
             ]);
 
             // when
@@ -403,13 +442,15 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         context('when the certification center is habilitated for the subscription', function () {
           it('should return the candidate', async function () {
             // given
-            const matchingCandidate = domainBuilder.certification.enrolment.buildCandidate({
-              firstName,
-              lastName,
-              userId: null,
-              birthdate,
-              subscription: Frameworks.DROIT,
-            });
+            const matchingCandidate = domainBuilder.certification.enrolment
+              .candidateBuilder()
+              .withSubscription(Frameworks.DROIT)
+              .withIdentity({
+                firstName,
+                lastName,
+                birthdate,
+              })
+              .build();
             userRepository.get.withArgs({ id: userId }).resolves(
               domainBuilder.certification.enrolment.buildUser({
                 id: userId,
@@ -475,18 +516,26 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             );
 
             candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
-              domainBuilder.certification.enrolment.buildCandidate({
-                firstName,
-                lastName,
-                userId: null,
-                birthdate,
-                organizationLearnerId: 789,
-              }),
-              domainBuilder.certification.enrolment.buildCandidate({
-                firstName: 'Henri',
-                lastName: 'Quatre',
-                birthdate: '2005-05-01',
-              }),
+              domainBuilder.certification.enrolment
+                .candidateBuilder()
+                .withIdentity({
+                  firstName,
+                  lastName,
+                  birthdate,
+                })
+                .asScoCandidate({ organizationLearnerId: 789 })
+                .withSubscription(Frameworks.CORE)
+                .build(),
+              domainBuilder.certification.enrolment
+                .candidateBuilder()
+                .withIdentity({
+                  firstName: 'Henri',
+                  lastName: 'Quatre',
+                  birthdate: '2005-05-01',
+                })
+                .withSubscription(Frameworks.CORE)
+                .asScoCandidate({ organizationLearnerId: 123 })
+                .build(),
             ]);
 
             // when

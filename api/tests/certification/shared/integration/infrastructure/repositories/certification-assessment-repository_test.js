@@ -8,6 +8,7 @@ import { Assessment } from '../../../../../../src/shared/domain/models/Assessmen
 import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function () {
@@ -393,10 +394,15 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       const firstUserId = databaseBuilder.factory.buildUser({}).id;
       const secondUserId = databaseBuilder.factory.buildUser({}).id;
 
-      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-        userId: firstUserId,
-      }).id;
+      const certificationCandidateId = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({
+          userId: firstUserId,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder }).id;
 
       const firstUserCertificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         sessionId,

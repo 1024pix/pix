@@ -171,7 +171,7 @@ import {
 } from './certification/configuration/build-sco-blocked-access-date.js';
 import { versionBuilder } from './certification/configuration/build-version.js';
 import { versionDetailsBuilder } from './certification/configuration/build-version-details.js';
-import { buildCandidate } from './certification/enrolment/build-candidate.js';
+import { candidateBuilder } from './certification/enrolment/build-candidate.js';
 import { buildCertificationEligibility } from './certification/enrolment/build-certification-eligibility.js';
 import { buildComplementaryCertificationBadgeWithOffsetVersion as buildComplementaryCertificationBadgeForEnrolment } from './certification/enrolment/build-complementary-certification-badge.js';
 import { buildComplementaryCertificationCourseWithResultsEnrolment } from './certification/enrolment/build-complementary-certification-course-with-results.js';
@@ -184,7 +184,7 @@ import { buildAssessmentResult as buildCertificationScoringAssessmentResult } fr
 import { buildAssessmentSheet } from './certification/evaluation/build-assessment-sheet.js';
 import { buildCalibratedChallenge } from './certification/evaluation/build-calibrated-challenge.js';
 import { buildCalibratedChallengeSkill } from './certification/evaluation/build-calibrated-challenge-skill.js';
-import { buildEvaluationCandidate } from './certification/evaluation/build-candidate.js';
+import { buildCandidate } from './certification/evaluation/build-candidate.js';
 import { candidateAuthorizationBuilder } from './certification/evaluation/build-candidate-authorization.js';
 import { buildCertificationAssessmentHistory } from './certification/evaluation/build-certification-assessment-history.js';
 import { buildCertificationChallengeCapacity } from './certification/evaluation/build-certification-challenge-capacity.js';
@@ -265,7 +265,7 @@ const certification = {
     buildMatchingOrganization,
     buildHabilitation,
     buildCertificationSessionCandidate,
-    buildCandidate,
+    candidateBuilder,
     buildEditedCandidate,
     buildUser: buildUserEnrolment,
     buildComplementaryCertificationCourseWithResults: buildComplementaryCertificationCourseWithResultsEnrolment,
@@ -277,7 +277,7 @@ const certification = {
   evaluation: {
     buildCalibratedChallenge,
     buildCalibratedChallengeSkill,
-    buildCandidate: buildEvaluationCandidate,
+    buildCandidate,
     buildSession,
     buildComplementaryCertificationScoringCriteria,
     buildComplementaryCertificationScoringWithoutComplementaryReferential,

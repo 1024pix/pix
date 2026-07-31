@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import * as eventAdapter from '../../../../../../src/certification/enrolment/infrastructure/adapters/event-adapter.js';
 import { EVENT_NAMES } from '../../../../../../src/certification/shared/domain/constants/event-names.js';
+import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -13,56 +14,76 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
       pushEvents: sinon.stub(),
     };
     eventApi.pushEvents.resolves();
-    candidateA = domainBuilder.certification.enrolment.buildCandidate({
-      id: 123,
-      firstName: 'firstName A',
-      lastName: 'lastName A',
-      birthCity: 'birthCity A',
-      birthProvinceCode: 'birthProvinceCode A',
-      birthCountry: 'birthCountry A',
-      birthPostalCode: 'birthPostalCode A',
-      birthINSEECode: 'birthINSEECode A',
-      sex: 'sex A',
-      email: 'email A',
-      resultRecipientEmail: 'resultRecipientEmail A',
-      externalId: 'externalId A',
-      birthdate: 'birthdate A',
-      extraTimePercentage: 1,
-      createdAt: 'createdAt A',
-      sessionId: 'sessionId A',
-      userId: 'userId A',
-      organizationLearnerId: 'organizationLearnerId A',
-      billingMode: 'billingMode A',
-      prepaymentCode: 'prepaymentCode A',
-      subscription: 'subscription A',
-      accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
-      reconciledAt: 'reconciledAt A',
-    });
-    candidateB = domainBuilder.certification.enrolment.buildCandidate({
-      id: 456,
-      firstName: 'firstName B',
-      lastName: 'lastName B',
-      birthCity: 'birthCity B',
-      birthProvinceCode: 'birthProvinceCode B',
-      birthCountry: 'birthCountry B',
-      birthPostalCode: 'birthPostalCode B',
-      birthINSEECode: 'birthINSEECode B',
-      sex: 'sex B',
-      email: 'email B',
-      resultRecipientEmail: 'resultRecipientEmail B',
-      externalId: 'externalId B',
-      birthdate: 'birthdate B',
-      extraTimePercentage: 2,
-      createdAt: 'createdAt B',
-      sessionId: 'sessionId B',
-      userId: 'userId B',
-      organizationLearnerId: 'organizationLearnerId B',
-      billingMode: 'billingMode B',
-      prepaymentCode: 'prepaymentCode B',
-      subscription: 'subscription B',
-      accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded B',
-      reconciledAt: 'reconciledAt B',
-    });
+    candidateA = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .asReconciled({
+        userId: 'userId A',
+        reconciledAt: 'reconciledAt A',
+      })
+      .asScoCandidate({
+        organizationLearnerId: 'organizationLearnerId A',
+      })
+      .withSubscription(Frameworks.CORE)
+      .withIdentity({
+        firstName: 'firstName A',
+        lastName: 'lastName A',
+        birthdate: 'birthdate A',
+      })
+      .withParameters({
+        id: 123,
+        birthCity: 'birthCity A',
+        birthProvinceCode: 'birthProvinceCode A',
+        birthCountry: 'birthCountry A',
+        birthPostalCode: 'birthPostalCode A',
+        birthINSEECode: 'birthINSEECode A',
+        sex: 'sex A',
+        email: 'email A',
+        resultRecipientEmail: 'resultRecipientEmail A',
+        externalId: 'externalId A',
+        extraTimePercentage: 1,
+        createdAt: 'createdAt A',
+        authorizedToStart: 'authorizedToStart A',
+        sessionId: 'sessionId A',
+        billingMode: 'billingMode A',
+        prepaymentCode: 'prepaymentCode A',
+        accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
+      })
+      .build();
+    candidateB = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .asReconciled({
+        userId: 'userId B',
+        reconciledAt: 'reconciledAt B',
+      })
+      .asScoCandidate({
+        organizationLearnerId: 'organizationLearnerId B',
+      })
+      .withSubscription(Frameworks.CORE)
+      .withIdentity({
+        firstName: 'firstName B',
+        lastName: 'lastName B',
+        birthdate: 'birthdate B',
+      })
+      .withParameters({
+        id: 456,
+        birthCity: 'birthCity B',
+        birthProvinceCode: 'birthProvinceCode B',
+        birthCountry: 'birthCountry B',
+        birthPostalCode: 'birthPostalCode B',
+        birthINSEECode: 'birthINSEECode B',
+        sex: 'sex B',
+        email: 'email B',
+        resultRecipientEmail: 'resultRecipientEmail B',
+        externalId: 'externalId B',
+        extraTimePercentage: 2,
+        createdAt: 'createdAt B',
+        authorizedToStart: 'authorizedToStart B',
+        sessionId: 'sessionId B',
+        billingMode: 'billingMode B',
+        prepaymentCode: 'prepaymentCode B',
+        accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded B',
+      })
+      .build();
     dependencies = {
       eventApi,
     };
@@ -94,12 +115,12 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             extraTimePercentage: 1,
             createdAt: 'createdAt A',
             sessionId: 'sessionId A',
-            userId: 'userId A',
             organizationLearnerId: 'organizationLearnerId A',
             billingMode: 'billingMode A',
             prepaymentCode: 'prepaymentCode A',
-            subscription: 'subscription A',
+            subscription: 'CORE',
             accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
+            userId: 'userId A',
             reconciledAt: 'reconciledAt A',
           },
         },
@@ -137,7 +158,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             organizationLearnerId: 'organizationLearnerId A',
             billingMode: 'billingMode A',
             prepaymentCode: 'prepaymentCode A',
-            subscription: 'subscription A',
+            subscription: 'CORE',
             accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
             reconciledAt: 'reconciledAt A',
           },
@@ -167,7 +188,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             organizationLearnerId: 'organizationLearnerId B',
             billingMode: 'billingMode B',
             prepaymentCode: 'prepaymentCode B',
-            subscription: 'subscription B',
+            subscription: 'CORE',
             accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded B',
             reconciledAt: 'reconciledAt B',
           },
@@ -209,7 +230,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             organizationLearnerId: 'organizationLearnerId A',
             billingMode: 'billingMode A',
             prepaymentCode: 'prepaymentCode A',
-            subscription: 'subscription A',
+            subscription: 'CORE',
             accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
             reconciledAt: 'reconciledAt A',
           },
@@ -239,7 +260,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             organizationLearnerId: 'organizationLearnerId B',
             billingMode: 'billingMode B',
             prepaymentCode: 'prepaymentCode B',
-            subscription: 'subscription B',
+            subscription: 'CORE',
             accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded B',
             reconciledAt: 'reconciledAt B',
           },
@@ -278,7 +299,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             organizationLearnerId: 'organizationLearnerId A',
             billingMode: 'billingMode A',
             prepaymentCode: 'prepaymentCode A',
-            subscription: 'subscription A',
+            subscription: 'CORE',
             accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
             reconciledAt: 'reconciledAt A',
           },
@@ -308,7 +329,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             organizationLearnerId: 'organizationLearnerId B',
             billingMode: 'billingMode B',
             prepaymentCode: 'prepaymentCode B',
-            subscription: 'subscription B',
+            subscription: 'CORE',
             accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded B',
             reconciledAt: 'reconciledAt B',
           },

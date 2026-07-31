@@ -14,6 +14,7 @@ import { AnswerStatus } from '../../../../../../../src/shared/domain/models/Answ
 import * as assessmentResultRepository from '../../../../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation | Integration | Domain | Services | Score Complementary Certification', function () {
   afterEach(async function () {
@@ -327,11 +328,12 @@ function _buildComplementaryCertificationCourse({
 }) {
   databaseBuilder.factory.buildUser({ id: userId });
   const sessionId = databaseBuilder.factory.buildSession().id;
-  const { id: certificationCandidateId } = databaseBuilder.factory.buildCertificationCandidate({
-    userId,
-    sessionId,
-    subscription: complementaryCertificationKey,
-  });
+  const { id: certificationCandidateId } = domainBuilder.certification.enrolment
+    .candidateBuilder()
+    .asReconciled({ userId })
+    .withSubscription(complementaryCertificationKey)
+    .withParameters({ sessionId })
+    .insertToDB({ databaseBuilder });
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationCourseId,
     userId,

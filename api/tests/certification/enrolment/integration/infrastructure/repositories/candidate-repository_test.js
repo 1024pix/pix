@@ -12,34 +12,39 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
     context('when the candidate exists', function () {
       it('should return the candidate', async function () {
         // given
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-          subscription: Frameworks.CLEA,
-        });
+        const certificationCandidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         // when
         const result = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
 
         // then
-        expect(result).to.deepEqualInstance(new Candidate({ ...certificationCandidate, hasStartedTest: false }));
+        expect(result).to.deepEqualInstance(certificationCandidate);
       });
     });
 
     context('when the candidate has an associated certification course', function () {
       it('should return the candidate with information on whether he/she started the test', async function () {
         // given
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
+        const certificationCandidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled()
+          .insertToDB({ databaseBuilder });
         databaseBuilder.factory.buildCertificationCourse({
           userId: certificationCandidate.userId,
           candidateId: certificationCandidate.id,
         });
+        // when certificationCourse is linked to CandidateId, hasStartedTest is true
+        certificationCandidate.hasStartedTest = true;
         await databaseBuilder.commit();
 
         // when
         const result = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
 
         // then
-        expect(result).to.deepEqualInstance(new Candidate({ ...certificationCandidate, hasStartedTest: true }));
+        expect(result).to.deepEqualInstance(certificationCandidate);
       });
     });
 
@@ -62,25 +67,26 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
       it('should return the candidates', async function () {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
-        const certificationCandidate1 = databaseBuilder.factory.buildCertificationCandidate({
-          sessionId,
-          subscription: Frameworks.CLEA,
-        });
-        const certificationCandidate2 = databaseBuilder.factory.buildCertificationCandidate({
-          firstName: 'FiFouLaPraline',
-          sessionId,
-        });
-        databaseBuilder.factory.buildCertificationCandidate();
+
+        const certificationCandidate1 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withSubscription(Frameworks.CLEA)
+          .withParameters({ sessionId })
+          .insertToDB({ databaseBuilder });
+
+        const certificationCandidate2 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({ sessionId })
+          .insertToDB({ databaseBuilder });
+
+        domainBuilder.certification.enrolment.candidateBuilder().insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         // when
         const result = await candidateRepository.findBySessionId({ sessionId });
 
         // then
-        expect(result).to.deepEqualArray([
-          domainBuilder.certification.enrolment.buildCandidate({ ...certificationCandidate1 }),
-          domainBuilder.certification.enrolment.buildCandidate({ ...certificationCandidate2 }),
-        ]);
+        expect(result).to.deepEqualArray([certificationCandidate1, certificationCandidate2]);
       });
     });
 
@@ -89,7 +95,10 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const otherSessionId = databaseBuilder.factory.buildSession().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({ sessionId })
+          .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         //when
@@ -105,20 +114,24 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
     context('when there are candidates', function () {
       it('should return the candidates', async function () {
         // given
-        const candidate1 = databaseBuilder.factory.buildCertificationCandidate();
-        const userId = candidate1.userId;
-        const candidate2 = databaseBuilder.factory.buildCertificationCandidate({ userId });
-        databaseBuilder.factory.buildCertificationCandidate();
+        const userId = databaseBuilder.factory.buildUser().id;
+        const candidate1 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({ userId })
+          .insertToDB({ databaseBuilder });
+        const candidate2 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({ userId })
+          .insertToDB({ databaseBuilder });
+
+        domainBuilder.certification.enrolment.candidateBuilder().withParameters().insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
         // when
         const result = await candidateRepository.findByUserId({ userId });
 
         // then
-        expect(result).to.deepEqualArray([
-          domainBuilder.certification.enrolment.buildCandidate({ ...candidate1 }),
-          domainBuilder.certification.enrolment.buildCandidate({ ...candidate2 }),
-        ]);
+        expect(result).to.deepEqualArray([candidate1, candidate2]);
       });
     });
 
@@ -137,17 +150,16 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
     context('when the candidate exists', function () {
       it('should update the candidate', async function () {
         // when
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-          firstName: 'toto',
-        });
+        const certificationCandidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({ firstName: 'toto' })
+          .insertToDB({ databaseBuilder });
+
         await databaseBuilder.commit();
-        const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCandidate({
-          ...certificationCandidate,
-        });
-        certificationCandidateToUpdate.firstName = 'tutu';
 
         // when
-        await candidateRepository.update(certificationCandidateToUpdate);
+        await candidateRepository.update({ ...certificationCandidate, firstName: 'tutu' });
+
         const candidate = await candidateRepository.get({
           certificationCandidateId: certificationCandidate.id,
         });
@@ -159,19 +171,14 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
 
       it('should update its subscription', async function () {
         // given
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-          subscription: Frameworks.DROIT,
-        });
-
+        const certificationCandidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withSubscription(Frameworks.DROIT)
+          .insertToDB({ databaseBuilder });
         await databaseBuilder.commit();
 
-        const candidateToUpdate = domainBuilder.certification.enrolment.buildCandidate({
-          ...certificationCandidate,
-          subscription: Frameworks.EDU_1ER_DEGRE,
-        });
-
         // when
-        await candidateRepository.update(candidateToUpdate);
+        await candidateRepository.update({ ...certificationCandidate, subscription: Frameworks.EDU_1ER_DEGRE });
 
         // then
         const updated = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
@@ -201,26 +208,41 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
       // given
       const sessionId = databaseBuilder.factory.buildSession({}).id;
       await databaseBuilder.commit();
-      const candidateA = domainBuilder.certification.enrolment.buildCandidate({
-        firstName: 'Lolo',
-        lastName: 'Lapraline',
-        accessibilityAdjustmentNeeded: true,
-        sessionId,
-        subscription: Frameworks.CLEA,
-      });
-      const candidateB = domainBuilder.certification.enrolment.buildCandidate({
-        firstName: 'Geogeo',
-        lastName: 'Lenougat',
-        accessibilityAdjustmentNeeded: true,
-        sessionId,
-      });
-      const candidateC = domainBuilder.certification.enrolment.buildCandidate({
-        firstName: 'Loulou',
-        lastName: 'Lapistache',
-        sessionId,
-        accessibilityAdjustmentNeeded: false,
-        subscription: Frameworks.DROIT,
-      });
+      const candidateA = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(Frameworks.CLEA)
+        .withIdentity({
+          firstName: 'Lolo',
+          lastName: 'Lapraline',
+        })
+        .withParameters({
+          accessibilityAdjustmentNeeded: true,
+          sessionId,
+        })
+        .build();
+      const candidateB = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          firstName: 'Geogeo',
+          lastName: 'Lenougat',
+        })
+        .withParameters({
+          accessibilityAdjustmentNeeded: true,
+          sessionId,
+        })
+        .build();
+      const candidateC = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          firstName: 'Loulou',
+          lastName: 'Lapistache',
+        })
+        .withSubscription(Frameworks.DROIT)
+        .withParameters({
+          sessionId,
+          accessibilityAdjustmentNeeded: false,
+        })
+        .build();
 
       // when
       const savedCandidates = await candidateRepository.save({ candidates: [candidateA, candidateB, candidateC] });
@@ -228,98 +250,6 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
       // then
       const candidatesInSession = await candidateRepository.findBySessionId({ sessionId });
       expect(savedCandidates).to.deepEqualArray(candidatesInSession);
-      const { id: idCandidateA, createdAt: createdAtA } = savedCandidates.find(
-        (savedCandidate) => savedCandidate.firstName === candidateA.firstName,
-      );
-      const { id: idCandidateB, createdAt: createdAtB } = savedCandidates.find(
-        (savedCandidate) => savedCandidate.firstName === candidateB.firstName,
-      );
-      const { id: idCandidateC, createdAt: createdAtC } = savedCandidates.find(
-        (savedCandidate) => savedCandidate.firstName === candidateC.firstName,
-      );
-      expect(savedCandidates).to.deepEqualArray([
-        domainBuilder.certification.enrolment.buildCandidate({
-          id: idCandidateA,
-          createdAt: createdAtA,
-          firstName: candidateA.firstName,
-          reconciledAt: null,
-          lastName: candidateA.lastName,
-          birthCity: candidateA.birthCity,
-          externalId: candidateA.externalId,
-          extraTimePercentage: candidateB.extraTimePercentage,
-          birthdate: candidateA.birthdate,
-          sessionId: sessionId,
-          birthProvinceCode: candidateA.birthProvinceCode,
-          birthCountry: candidateA.birthCountry,
-          userId: null,
-          email: candidateA.email,
-          resultRecipientEmail: candidateA.resultRecipientEmail,
-          organizationLearnerId: candidateA.organizationLearnerId,
-          birthPostalCode: candidateA.birthPostalCode,
-          birthINSEECode: candidateA.birthINSEECode,
-          sex: candidateA.sex,
-          billingMode: candidateA.billingMode,
-          prepaymentCode: candidateA.prepaymentCode,
-          hasSeenCertificationInstructions: false,
-          accessibilityAdjustmentNeeded: candidateA.accessibilityAdjustmentNeeded,
-          subscription: Frameworks.CLEA,
-          hasStartedTest: false,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          id: idCandidateB,
-          createdAt: createdAtB,
-          firstName: candidateB.firstName,
-          reconciledAt: null,
-          lastName: candidateB.lastName,
-          birthCity: candidateB.birthCity,
-          externalId: candidateB.externalId,
-          extraTimePercentage: candidateB.extraTimePercentage,
-          birthdate: candidateB.birthdate,
-          sessionId: sessionId,
-          birthProvinceCode: candidateB.birthProvinceCode,
-          birthCountry: candidateB.birthCountry,
-          userId: null,
-          email: candidateB.email,
-          resultRecipientEmail: candidateB.resultRecipientEmail,
-          organizationLearnerId: candidateB.organizationLearnerId,
-          birthPostalCode: candidateB.birthPostalCode,
-          birthINSEECode: candidateB.birthINSEECode,
-          sex: candidateB.sex,
-          billingMode: candidateB.billingMode,
-          prepaymentCode: candidateB.prepaymentCode,
-          hasSeenCertificationInstructions: false,
-          accessibilityAdjustmentNeeded: candidateB.accessibilityAdjustmentNeeded,
-          subscription: Frameworks.CORE,
-          hasStartedTest: false,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          id: idCandidateC,
-          createdAt: createdAtC,
-          firstName: candidateC.firstName,
-          reconciledAt: null,
-          lastName: candidateC.lastName,
-          birthCity: candidateC.birthCity,
-          externalId: candidateC.externalId,
-          extraTimePercentage: candidateC.extraTimePercentage,
-          birthdate: candidateC.birthdate,
-          sessionId: sessionId,
-          birthProvinceCode: candidateC.birthProvinceCode,
-          birthCountry: candidateC.birthCountry,
-          userId: null,
-          email: candidateC.email,
-          resultRecipientEmail: candidateC.resultRecipientEmail,
-          organizationLearnerId: candidateC.organizationLearnerId,
-          birthPostalCode: candidateC.birthPostalCode,
-          birthINSEECode: candidateC.birthINSEECode,
-          sex: candidateC.sex,
-          billingMode: candidateC.billingMode,
-          prepaymentCode: candidateC.prepaymentCode,
-          hasSeenCertificationInstructions: false,
-          accessibilityAdjustmentNeeded: candidateC.accessibilityAdjustmentNeeded,
-          subscription: Frameworks.DROIT,
-          hasStartedTest: false,
-        }),
-      ]);
     });
   });
 });

@@ -37,10 +37,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candid
 
   it('should link user', async function () {
     // given
-    const candidate = domainBuilder.certification.enrolment.buildCandidate({
-      userId: null,
-      reconciledAt: null,
-    });
+    const candidate = domainBuilder.certification.enrolment.candidateBuilder().build();
 
     candidateRepository.update.withArgs(candidate).resolves();
 

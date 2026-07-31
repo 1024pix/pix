@@ -4,6 +4,7 @@ import * as sessionForAttendanceSheetRepository from '../../../../../../src/cert
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | Session-for-attendance-sheet', function () {
@@ -30,21 +31,38 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
           time: '12:00:00',
         });
 
-        const candidate1 = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Jackson',
-          firstName: 'Michael',
-          sessionId: session.id,
-        });
-        const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Stardust',
-          firstName: 'Ziggy',
-          sessionId: session.id,
-        });
-        const candidate3 = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Jackson',
-          firstName: 'Janet',
-          sessionId: session.id,
-        });
+        const candidate1 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Jackson',
+            firstName: 'Michael',
+          })
+          .withParameters({
+            sessionId: session.id,
+          })
+          .insertToDB({ databaseBuilder });
+
+        const candidate2 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Stardust',
+            firstName: 'Ziggy',
+          })
+          .withParameters({
+            sessionId: session.id,
+          })
+          .insertToDB({ databaseBuilder });
+
+        const candidate3 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Jackson',
+            firstName: 'Janet',
+          })
+          .withParameters({
+            sessionId: session.id,
+          })
+          .insertToDB({ databaseBuilder });
 
         await databaseBuilder.commit();
 
@@ -99,24 +117,49 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
         const organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({ division: '3b' });
         const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({ division: '3a' });
         const organizationLearner3 = databaseBuilder.factory.buildOrganizationLearner({ division: '2c' });
-        const candidate1 = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Jackson',
-          firstName: 'Michael',
-          sessionId: session.id,
-          organizationLearnerId: organizationLearner1.id,
-        });
-        const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Stardust',
-          firstName: 'Ziggy',
-          sessionId: session.id,
-          organizationLearnerId: organizationLearner2.id,
-        });
-        const candidate3 = databaseBuilder.factory.buildCertificationCandidate({
-          lastName: 'Jackson',
-          firstName: 'Janet',
-          sessionId: session.id,
-          organizationLearnerId: organizationLearner3.id,
-        });
+
+        const candidate1 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Jackson',
+            firstName: 'Michael',
+          })
+          .withParameters({
+            sessionId: session.id,
+          })
+          .asScoCandidate({
+            organizationLearnerId: organizationLearner1.id,
+          })
+          .insertToDB({ databaseBuilder });
+
+        const candidate2 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Stardust',
+            firstName: 'Ziggy',
+          })
+          .withParameters({
+            sessionId: session.id,
+          })
+          .asScoCandidate({
+            organizationLearnerId: organizationLearner2.id,
+          })
+          .insertToDB({ databaseBuilder });
+
+        const candidate3 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Jackson',
+            firstName: 'Janet',
+          })
+          .withParameters({
+            sessionId: session.id,
+          })
+          .asScoCandidate({
+            organizationLearnerId: organizationLearner3.id,
+          })
+          .insertToDB({ databaseBuilder });
+
         await databaseBuilder.commit();
 
         const expectedSessionValues = new SessionForAttendanceSheet({

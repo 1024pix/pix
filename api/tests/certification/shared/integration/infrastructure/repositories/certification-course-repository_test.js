@@ -18,7 +18,10 @@ describe('Certification | Shared | Integration | Repository | Certification Cour
     beforeEach(function () {
       userId = databaseBuilder.factory.buildUser().id;
       sessionId = databaseBuilder.factory.buildSession({ version: 3 }).id;
-      candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      candidateId = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({ sessionId })
+        .insertToDB({ databaseBuilder }).id;
       const version = domainBuilder.certification.configuration
         .versionBuilder()
         .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
@@ -47,7 +50,11 @@ describe('Certification | Shared | Integration | Repository | Certification Cour
         framework: Frameworks.CORE,
       };
 
-      databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId });
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({ userId })
+        .withParameters({ sessionId })
+        .insertToDB({ databaseBuilder });
       certificationCourse = domainBuilder.buildCertificationCourse.unpersisted(certificationCourseData);
 
       return databaseBuilder.commit();
@@ -467,11 +474,11 @@ describe('Certification | Shared | Integration | Repository | Certification Cour
 function _buildCertificationCourse({ createdAt, description, version = 2 }) {
   const userId = databaseBuilder.factory.buildUser().id;
   const sessionId = databaseBuilder.factory.buildSession().id;
-  const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-    userId,
-    sessionId,
-    accessibilityAdjustmentNeeded: true,
-  });
+  const certificationCandidate = domainBuilder.certification.enrolment
+    .candidateBuilder()
+    .asReconciled({ userId })
+    .withParameters({ accessibilityAdjustmentNeeded: true, sessionId })
+    .insertToDB({ databaseBuilder });
   const expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
     userId,
     sessionId,

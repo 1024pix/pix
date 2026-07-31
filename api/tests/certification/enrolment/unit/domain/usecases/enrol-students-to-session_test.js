@@ -194,9 +194,12 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       // given
       const studentIds = [michelStudentData.id, jeannetteStudentData.id];
       candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
-        domainBuilder.certification.enrolment.buildCandidate({
-          organizationLearnerId: 1,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asScoCandidate({
+            organizationLearnerId: 1,
+          })
+          .build(),
       ]);
       const jeanetteLearner = domainBuilder.buildOrganizationLearner({
         ...jeannetteStudentData,

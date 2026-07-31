@@ -19,7 +19,11 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate', function 
 
   it('should return the candidate by id', async function () {
     // given
-    const candidate = domainBuilder.certification.enrolment.buildCandidate({ id: 1234, subscription: Frameworks.CORE });
+    const candidate = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withSubscription(Frameworks.CORE)
+      .withParameters({ id: 1234 })
+      .build();
     candidateRepository.get.withArgs({ certificationCandidateId: 1234 }).resolves(candidate);
 
     // when
@@ -38,7 +42,10 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate', function 
   context('when the candidate is not registered to double certification', function () {
     it('should set doubleCertificationEligibility to false', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CORE });
+      const candidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(Frameworks.CORE)
+        .build();
       candidateRepository.get.resolves(candidate);
 
       // when
@@ -59,12 +66,17 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate', function 
     context('when the center is not habilitated', function () {
       it('should set doubleCertificationEligibility to false', async function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
-          subscription: Frameworks.CLEA,
-          userId: 456,
-          sessionId: 789,
-          reconciledAt: new Date(),
-        });
+        const candidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId: 456,
+            reconciledAt: new Date(),
+          })
+          .withSubscription(Frameworks.CLEA)
+          .withParameters({
+            sessionId: 789,
+          })
+          .build();
         const center = domainBuilder.certification.enrolment.buildCenter({ habilitations: [] });
         candidateRepository.get.resolves(candidate);
         certificationCenterRepository.getBySessionId.withArgs({ sessionId: 789 }).resolves(center);
@@ -88,12 +100,17 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate', function 
         it('should set doubleCertificationEligibility to false', async function () {
           // given
           const reconciledAt = new Date();
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            subscription: Frameworks.CLEA,
-            userId: 456,
-            sessionId: 789,
-            reconciledAt,
-          });
+          const candidate = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .asReconciled({
+              userId: 456,
+              reconciledAt,
+            })
+            .withSubscription(Frameworks.CLEA)
+            .withParameters({
+              sessionId: 789,
+            })
+            .build();
           const habilitation = domainBuilder.certification.shared.buildComplementaryCertification({
             key: Frameworks.CLEA,
           });
@@ -121,12 +138,17 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate', function 
         it('should set doubleCertificationEligibility to true', async function () {
           // given
           const reconciledAt = new Date();
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            subscription: Frameworks.CLEA,
-            userId: 456,
-            sessionId: 789,
-            reconciledAt,
-          });
+          const candidate = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .asReconciled({
+              userId: 456,
+              reconciledAt,
+            })
+            .withSubscription(Frameworks.CLEA)
+            .withParameters({
+              sessionId: 789,
+            })
+            .build();
           const habilitation = domainBuilder.certification.shared.buildComplementaryCertification({
             key: Frameworks.CLEA,
           });

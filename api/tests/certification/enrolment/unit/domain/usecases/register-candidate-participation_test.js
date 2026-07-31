@@ -20,11 +20,6 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     eventAdapter,
     dependencies;
 
-  const candidateData = {
-    firstName: 'Brice',
-    lastName: 'Wine',
-    birthdate: new Date(),
-  };
   const sessionId = 456;
 
   beforeEach(function () {
@@ -65,19 +60,32 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
   context('when reconciliation is ok', function () {
     context('when the candidate is already link to a user', function () {
       it('should not link the candidate to the given user', async function () {
+        const birthdate = '2000-03-23';
         // given
         const userId = domainBuilder.buildUser().id;
-        const alreadyLinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-          sessionId,
-          userId,
-          reconciledAt: new Date('2024-09-25'),
-        });
+        const alreadyLinkedCandidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId,
+            reconciledAt: new Date('2024-09-25'),
+          })
+          .withIdentity({
+            firstName: 'Brice',
+            lastName: 'Wine',
+            birthdate,
+          })
+          .withParameters({
+            sessionId,
+          })
+          .build();
+
         verifyCandidateIdentityService.verifyCandidateIdentity.resolves(alreadyLinkedCandidate);
 
         // when
         await registerCandidateParticipation({
-          ...candidateData,
+          firstName: 'Brice',
+          lastName: 'Wine',
+          birthdate,
           userId,
           sessionId,
           isFrenchDomainExtension: true,
@@ -86,9 +94,11 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
         // then
         sinon.assert.calledOnceWithExactly(verifyCandidateIdentityService.verifyCandidateIdentity, {
-          ...candidateData,
-          sessionId,
+          firstName: 'Brice',
+          lastName: 'Wine',
+          birthdate,
           userId,
+          sessionId,
           normalizeStringFnc,
           candidateRepository,
           centerRepository,
@@ -102,16 +112,26 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
       it('should throw WrongDomainExtensionForPixPlusError', async function () {
         // given
         const userId = domainBuilder.buildUser().id;
-        const candidateWithComplementary = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-          sessionId,
-          subscription: Frameworks.DROIT,
-        });
+        const candidateWithComplementary = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withSubscription(Frameworks.DROIT)
+          .withIdentity({
+            firstName: 'Brice',
+            lastName: 'Wine',
+            birthdate: new Date(),
+          })
+          .withParameters({
+            sessionId,
+          })
+          .build();
+
         verifyCandidateIdentityService.verifyCandidateIdentity.resolves(candidateWithComplementary);
 
         // when
         const error = await catchErr(registerCandidateParticipation)({
-          ...candidateData,
+          firstName: 'Brice',
+          lastName: 'Wine',
+          birthdate: new Date(),
           userId,
           sessionId,
           isFrenchDomainExtension: false,
@@ -132,9 +152,13 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
       beforeEach(function () {
         clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
         userId = domainBuilder.buildUser().id;
-        unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-        });
+        unlinkedCandidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Brice',
+            lastName: 'Wine',
+          })
+          .build();
       });
 
       afterEach(function () {
@@ -152,7 +176,9 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
           // when
           const err = await catchErr(registerCandidateParticipation)({
-            ...candidateData,
+            firstName: 'Brice',
+            lastName: 'Wine',
+            birthdate: new Date(),
             sessionId,
             userId,
             isFrenchDomainExtension: true,
@@ -162,7 +188,9 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
           // then
           expect(err).to.be.instanceOf(UserNotAuthorizedToCertifyError);
           sinon.assert.calledOnceWith(verifyCandidateIdentityService.verifyCandidateIdentity, {
-            ...candidateData,
+            firstName: 'Brice',
+            lastName: 'Wine',
+            birthdate: new Date(),
             userId,
             sessionId,
             normalizeStringFnc,
@@ -185,16 +213,20 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
         // when
         await registerCandidateParticipation({
-          ...candidateData,
-          sessionId,
+          firstName: 'Brice',
+          lastName: 'Wine',
+          birthdate: new Date(),
           userId,
+          sessionId,
           isFrenchDomainExtension: true,
           ...dependencies,
         });
 
         // then
         sinon.assert.calledOnceWith(verifyCandidateIdentityService.verifyCandidateIdentity, {
-          ...candidateData,
+          firstName: 'Brice',
+          lastName: 'Wine',
+          birthdate: new Date(),
           userId,
           sessionId,
           normalizeStringFnc,

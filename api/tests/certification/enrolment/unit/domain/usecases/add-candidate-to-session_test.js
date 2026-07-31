@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 
+import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
 import { BILLING_MODES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
@@ -82,7 +83,10 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   context('when session cannot accept any candidate', function () {
     it('should throw a CertificationCandidateOnFinalizedSessionError', async function () {
       // given
-      candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({ sessionId });
+      candidateToEnroll = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({ sessionId })
+        .build();
       sessionRepository.get.withArgs({ id: sessionId }).resolves(
         domainBuilder.certification.enrolment.buildSession({
           finalizedAt: new Date(),
@@ -119,9 +123,12 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     context('when candidate is not valid', function () {
       it('should throw a CertificationCandidatesError', async function () {
         // given
-        candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-          email: 'toto@toto.fr;tutu@tutu.fr',
-        });
+        candidateToEnroll = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({
+            email: 'toto@toto.fr;tutu@tutu.fr',
+          })
+          .build();
 
         // when
         const error = await catchErr(addCandidateToSession)({
@@ -146,28 +153,38 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
 
     context('when candidate is valid', function () {
       beforeEach(function () {
-        candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-          billingMode: BILLING_MODES.FREE,
-        });
+        candidateToEnroll = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({
+            billingMode: BILLING_MODES.FREE,
+          })
+          .build();
       });
 
       context('when a candidate with the same personal info already enrolled in session', function () {
-        const personalInfo = {
-          firstName: 'Les',
-          lastName: 'Fruits',
-          birthdate: '1990-01-04',
-        };
-
         it('should throw an CertificationCandidateByPersonalInfoTooManyMatchesError', async function () {
           // given
-          candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateToEnroll,
-            ...personalInfo,
-          });
-          candidateRepository.findBySessionId
-            .withArgs({ sessionId })
-            .resolves([domainBuilder.certification.enrolment.buildCandidate({ ...personalInfo })]);
-
+          candidateToEnroll = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withIdentity({
+              firstName: 'Les',
+              lastName: 'Fruits',
+              birthdate: '1990-01-04',
+            })
+            .withParameters({
+              ...candidateToEnroll,
+            })
+            .build();
+          candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
+            domainBuilder.certification.enrolment
+              .candidateBuilder()
+              .withIdentity({
+                firstName: 'Les',
+                lastName: 'Fruits',
+                birthdate: '1990-01-04',
+              })
+              .build(),
+          ]);
           // when
           const error = await catchErr(addCandidateToSession)({
             sessionId,
@@ -186,7 +203,12 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
         beforeEach(function () {
           candidateRepository.findBySessionId
             .withArgs({ sessionId })
-            .resolves([domainBuilder.certification.enrolment.buildCandidate({ firstName: 'Tout autre chose' })]);
+            .resolves([
+              domainBuilder.certification.enrolment
+                .candidateBuilder()
+                .withIdentity({ firstName: 'Tout autre chose' })
+                .build(),
+            ]);
         });
 
         context('when birth information validation fails', function () {
@@ -233,11 +255,14 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             context('when candidate convocation email is not valid', function () {
               it('should throw a CertificationCandidatesError', async function () {
                 // given
-                candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-                  ...candidateToEnroll,
-                  email: 'jesuisunemail@incorrect.fr',
-                  resultRecipientEmail: 'jesuisunemail@correct.fr',
-                });
+                candidateToEnroll = domainBuilder.certification.enrolment
+                  .candidateBuilder()
+                  .withParameters({
+                    ...candidateToEnroll,
+                    email: 'jesuisunemail@incorrect.fr',
+                    resultRecipientEmail: 'jesuisunemail@correct.fr',
+                  })
+                  .build();
                 mailCheck.assertEmailDomainHasMx.withArgs('jesuisunemail@incorrect.fr').throws();
                 mailCheck.assertEmailDomainHasMx.withArgs('jesuisunemail@correct.fr').resolves();
 
@@ -262,11 +287,14 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             context('when candidate recipient email is not valid', function () {
               it('should throw a CertificationCandidatesError', async function () {
                 // given
-                candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-                  ...candidateToEnroll,
-                  email: 'jesuisunemail@correct.fr',
-                  resultRecipientEmail: 'jesuisunemail@incorrect.fr',
-                });
+                candidateToEnroll = domainBuilder.certification.enrolment
+                  .candidateBuilder()
+                  .withParameters({
+                    ...candidateToEnroll,
+                    email: 'jesuisunemail@correct.fr',
+                    resultRecipientEmail: 'jesuisunemail@incorrect.fr',
+                  })
+                  .build();
                 mailCheck.assertEmailDomainHasMx.withArgs('jesuisunemail@incorrect.fr').throws();
                 mailCheck.assertEmailDomainHasMx.withArgs('jesuisunemail@correct.fr').resolves();
 
@@ -297,7 +325,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
 
             it('should insert the candidate and return the ID', async function () {
               // given
-              const correctedCandidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
+              const correctedCandidateToEnroll = new Candidate({
                 ...candidateToEnroll,
                 sessionId,
                 birthCountry: 'COUNTRY',

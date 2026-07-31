@@ -17,7 +17,12 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | complete
 
   beforeEach(async function () {
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
+    const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+      firstName: 'A',
+      lastName: 'B',
+      birthdate: '01/01/1999',
+    });
+
     certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
       abortReason: 'candidate',
       maxReachableLevelOnCertificationDate: 6,

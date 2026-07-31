@@ -33,16 +33,22 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
       certificationCandidates: [],
     });
     sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-    const michelCandidate = domainBuilder.certification.enrolment.buildCandidate({
-      firstName: 'Michel',
-      lastName: 'Jacques',
-      subscription: Frameworks.CORE,
-    });
-    const jeannetteCandidate = domainBuilder.certification.enrolment.buildCandidate({
-      firstName: 'Jeannette',
-      lastName: 'Jacques',
-      subscription: Frameworks.CORE,
-    });
+    const michelCandidate = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withSubscription(Frameworks.CORE)
+      .withIdentity({
+        firstName: 'Michel',
+        lastName: 'Jacques',
+      })
+      .build();
+    const jeannetteCandidate = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withSubscription(Frameworks.CORE)
+      .withIdentity({
+        firstName: 'Jeannette',
+        lastName: 'Jacques',
+      })
+      .build();
     const enrolledCandidates = [michelCandidate, jeannetteCandidate];
     candidateRepository.findBySessionId.withArgs({ sessionId }).resolves(enrolledCandidates);
     const habilitation1 = domainBuilder.certification.enrolment.buildHabilitation({ label: 'Pix+Droit' });

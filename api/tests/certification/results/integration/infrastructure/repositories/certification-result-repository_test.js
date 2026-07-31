@@ -607,25 +607,42 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         assessmentResultId: assessmentResultId1,
       });
       const certificationCandidateId1 = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Paul',
+        lastName: 'Truc',
+        birthdate: '01/01/2000',
         userId: userId1,
         sessionId,
       }).id;
 
       const certificationCandidateId2 = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Solène',
+        lastName: 'Truc',
+        birthdate: '01/01/2000',
         userId: userId2,
         sessionId,
       }).id;
 
       const certificationCandidateId3 = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Marion',
+        lastName: 'Truc',
+        birthdate: '01/01/2000',
         userId: userId3,
         sessionId,
       }).id;
 
       const certificationCandidateIdNotInSession = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Anouk',
+        lastName: 'Truc',
+        birthdate: '01/01/2000',
         userId: userId3,
       }).id;
 
-      const certificationCandidateIdNoResult = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      const certificationCandidateIdNoResult = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Anaïs',
+        lastName: 'Truc',
+        birthdate: '01/01/2000',
+        sessionId,
+      }).id;
 
       await databaseBuilder.commit();
 
@@ -749,7 +766,13 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         competenceId: 'recComp23',
         assessmentResultId,
       });
-      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId }).id;
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Marjolaine',
+        lastName: 'Feu',
+        birthdate: '03/04/2000',
+        userId,
+        sessionId,
+      }).id;
       await databaseBuilder.commit();
 
       // when
@@ -795,7 +818,13 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
       });
-      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId }).id;
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Charlotte',
+        lastName: 'Bal',
+        birthdate: '01/02/2000',
+        userId,
+        sessionId,
+      }).id;
       await databaseBuilder.commit();
 
       // when
@@ -835,6 +864,9 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         assessmentResultId,
       }).id;
       const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Luc',
+        lastName: 'Pou',
+        birthdate: '06/05/1997',
         sessionId,
         userId,
       }).id;

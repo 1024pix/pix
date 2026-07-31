@@ -16,7 +16,6 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   let eventAdapter;
   let dependencies;
   let temporarySessionsStorageForMassImportService;
-  let candidateData;
 
   beforeEach(function () {
     centerRepository = { getById: sinon.stub() };
@@ -34,11 +33,6 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       sessionRepository,
       eventAdapter,
       temporarySessionsStorageForMassImportService,
-    };
-
-    candidateData = {
-      sessionId: undefined,
-      subscription: Frameworks.DROIT,
     };
   });
 
@@ -113,7 +107,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // given
           const center = domainBuilder.certification.enrolment.buildCenter({ id: 567 });
           centerRepository.getById.withArgs({ id: center.id }).resolves(center);
-          const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+          const candidate = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withSubscription(Frameworks.DROIT)
+            .build();
           const sessionCreatorId = 1234;
           const temporaryCachedSessions = [
             {
@@ -136,11 +133,14 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           const cachedValidatedSessionsKey = 'uuid';
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
           sessionRepository.save.resolves({ id: 1234 });
-          const savedCandidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidate,
-            sessionId: 1234,
-            subscription: Frameworks.DROIT,
-          });
+          const savedCandidate = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withSubscription(Frameworks.DROIT)
+            .withParameters({
+              ...candidate,
+              sessionId: 1234,
+            })
+            .build();
           candidateRepository.save.resolves([savedCandidate]);
 
           // when
@@ -169,7 +169,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         // given
         const center = domainBuilder.certification.enrolment.buildCenter();
         centerRepository.getById.withArgs({ id: center.id }).resolves(center);
-        const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+        const candidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withSubscription(Frameworks.DROIT)
+          .build();
         const temporaryCachedSessions = [
           {
             id: 1234,
@@ -180,11 +183,14 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         const sessionCreatorId = 1234;
         const cachedValidatedSessionsKey = 'uuid';
         sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
-        const savedCandidate = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidate,
-          sessionId: 1234,
-          subscription: Frameworks.DROIT,
-        });
+        const savedCandidate = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withSubscription(Frameworks.DROIT)
+          .withParameters({
+            ...candidate,
+            sessionId: 1234,
+          })
+          .build();
         candidateRepository.save.resolves([savedCandidate]);
 
         // when
@@ -212,7 +218,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       // given
       const center = domainBuilder.certification.enrolment.buildCenter();
       centerRepository.getById.withArgs({ id: center.id }).resolves(center);
-      const certificationCandidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+      const certificationCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(Frameworks.DROIT)
+        .build();
       const temporaryCachedSessions = [
         {
           id: 1234,

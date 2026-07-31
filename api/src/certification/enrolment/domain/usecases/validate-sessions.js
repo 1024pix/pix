@@ -19,7 +19,7 @@ import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
 
-const validateSessions = async function ({
+export async function validateSessions({
   sessionsData,
   userId,
   certificationCenterId,
@@ -94,9 +94,7 @@ const validateSessions = async function ({
   sessionsMassImportReport.updateSessionsCounters(validatedSessions);
 
   return sessionsMassImportReport;
-};
-
-export { validateSessions };
+}
 
 async function _createValidCertificationCandidates({
   candidatesDTO,

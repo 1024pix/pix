@@ -51,7 +51,12 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
     context('when user submitting the answer is not the owner of the certification test', function () {
       it('throws a ForbiddenAccess error', async function () {
         userId = databaseBuilder.factory.buildUser().id;
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ userId });
+        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'A',
+          lastName: 'B',
+          birthdate: '01/01/1999',
+          userId,
+        });
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           userId,
           candidateId: certificationCandidate.id,
@@ -79,7 +84,12 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
 
       context('when certification test has been ended by the invigilator', function () {
         it('throws a CertificationEndedByInvigilatorError error', async function () {
-          const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ userId });
+          const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+            firstName: 'a',
+            lastName: 'b',
+            birthdate: '01/01/1998',
+            userId,
+          });
           certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             userId,
             candidateId: certificationCandidate.id,
@@ -103,7 +113,12 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
 
       context('when certification test has been ended by session finalization', function () {
         it('throws a CertificationEndedByFinalizationError error', async function () {
-          const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ userId });
+          const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+            firstName: 'a',
+            lastName: 'b',
+            birthdate: '01/01/1996',
+            userId,
+          });
           certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             userId,
             candidateId: certificationCandidate.id,
@@ -128,7 +143,13 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
       context('when certification test has been started for more than 24 hours', function () {
         it('ends the assessment due to duration exceeded and throws a CertificationDurationExceededError error', async function () {
           const sessionId = databaseBuilder.factory.buildSession().id;
-          const candidateId = databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId }).id;
+          const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+            firstName: 'a',
+            lastName: 't',
+            birthdate: '01/01/2000',
+            userId,
+            sessionId,
+          }).id;
           certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             userId,
             candidateId,
@@ -162,10 +183,16 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
         beforeEach(function () {
           const sessionId = databaseBuilder.factory.buildSession().id;
           const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+            firstName: 'a',
+            lastName: 'b',
+            birthdate: '01/01/1999',
             userId,
             sessionId,
           }).id;
           certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            firstName: 'a',
+            lastName: 'b',
+            birthdate: '01/01/1999',
             userId,
             candidateId,
             sessionId,
