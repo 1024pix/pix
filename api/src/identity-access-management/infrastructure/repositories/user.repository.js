@@ -27,27 +27,6 @@ const getByEmail = async function (email) {
   return new User(foundUser);
 };
 
-/**
- * @param userId
- * @return {Promise<User>}
- * @throws {UserNotFoundError}
- */
-const getFullById = async function (userId) {
-  const knexConn = DomainTransaction.getConnection();
-  const userDTO = await knexConn('users').where({ id: userId }).first();
-  if (!userDTO) {
-    throw new UserNotFoundError();
-  }
-
-  const membershipsDTO = await knexConn('memberships').where({ userId: userDTO.id, disabledAt: null });
-  const authenticationMethodsDTO = await knexConn('authentication-methods').where({
-    userId: userDTO.id,
-    identityProvider: 'PIX',
-  });
-
-  return _toDomainFromDTO({ userDTO, membershipsDTO, authenticationMethodsDTO });
-};
-
 const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
   const knexConn = DomainTransaction.getConnection();
   const userDTO = await knexConn('users')
@@ -86,15 +65,6 @@ const getByIds = async function (userIds) {
   const dbUsers = await knexConn('users').whereIn('id', userIds);
 
   return dbUsers.map((dbUser) => new User(dbUser));
-};
-
-const getForObfuscation = async function (userId) {
-  const knexConn = DomainTransaction.getConnection();
-  const foundUser = await knexConn.select('id', 'email', 'username').from('users').where({ id: userId }).first();
-  if (!foundUser) {
-    throw new UserNotFoundError(`User not found for ID ${userId}`);
-  }
-  return new User({ id: foundUser.id, email: foundUser.email, username: foundUser.username });
 };
 
 const getUserDetailsForAdmin = async function (userId) {
@@ -175,6 +145,7 @@ const findPaginatedFiltered = async function ({ filter, page, queryType = QUERY_
   return { models: users, pagination };
 };
 
+// bounded-context: should be done by an api of bounded context team
 const getWithMemberships = async function (userId) {
   const knexConn = DomainTransaction.getConnection();
   const userDTO = await knexConn('users').where({ id: userId }).first();
@@ -197,6 +168,7 @@ const getWithMemberships = async function (userId) {
   return _toDomainFromDTO({ userDTO, membershipsDTO });
 };
 
+// bounded-context: should be done by an api of bounded context team
 const isUserAllowedToAccessCertificationCenter = async function (userId, certificationCenterId) {
   const knexConn = DomainTransaction.getConnection();
   const user = await knexConn('users').where({ id: userId }).first();
@@ -436,8 +408,6 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} getByIds
  * @property {function} getBySamlId
  * @property {function} getByUsernameOrEmailWithRolesAndPassword
- * @property {function} getForObfuscation
- * @property {function} getFullById
  * @property {function} getUserDetailsForAdmin
  * @property {function} isUserAllowedToAccessCertificationCenter
  * @property {function} getWithMemberships
@@ -468,8 +438,6 @@ export {
   getByIds,
   getBySamlId,
   getByUsernameOrEmailWithRolesAndPassword,
-  getForObfuscation,
-  getFullById,
   getUserDetailsForAdmin,
   getWithMemberships,
   isUserAllowedToAccessCertificationCenter,
@@ -593,14 +561,13 @@ function _toDomainFromDTO({ userDTO, membershipsDTO = [], authenticationMethodsD
   return new User({
     id: userDTO.id,
     cgu: userDTO.cgu,
-    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
     email: userDTO.email,
     emailConfirmedAt: userDTO.emailConfirmedAt,
     username: userDTO.username,
     firstName: userDTO.firstName,
-    knowledgeElements: userDTO.knowledgeElements,
     lastName: userDTO.lastName,
     lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
+    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
     lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
     hasSeenAssessmentInstructions: userDTO.hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo: userDTO.hasSeenNewDashboardInfo,
@@ -610,9 +577,6 @@ function _toDomainFromDTO({ userDTO, membershipsDTO = [], authenticationMethodsD
     lang: userDTO.lang,
     locale: userDTO.locale,
     isAnonymous: userDTO.isAnonymous,
-    pixScore: userDTO.pixScore,
-    scorecards: userDTO.scorecards,
-    campaignParticipations: userDTO.campaignParticipations,
     memberships,
     authenticationMethods: authenticationMethodsDTO,
   });

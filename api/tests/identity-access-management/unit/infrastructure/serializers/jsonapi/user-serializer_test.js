@@ -59,11 +59,6 @@ describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serialize
                   related: `/api/users/${userModelObject.id}/profile`,
                 },
               },
-              'campaign-participations': {
-                links: {
-                  related: `/api/users/${userModelObject.id}/campaign-participations`,
-                },
-              },
               'is-certifiable': {
                 links: {
                   related: `/api/users/${userModelObject.id}/is-certifiable`,

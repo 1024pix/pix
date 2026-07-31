@@ -16,14 +16,13 @@ class User {
     id,
     cgu,
     createdAt,
-    pixCertifTermsOfServiceAccepted,
     email,
     emailConfirmedAt,
     username,
     firstName,
-    knowledgeElements,
     lastName,
     lastTermsOfServiceValidatedAt,
+    pixCertifTermsOfServiceAccepted,
     lastPixCertifTermsOfServiceValidatedAt,
     lastDataProtectionPolicySeenAt,
     hasSeenAssessmentInstructions,
@@ -34,14 +33,11 @@ class User {
     lang,
     locale,
     isAnonymous,
-    memberships = [],
-    pixScore,
-    scorecards = [],
     updatedAt,
-    campaignParticipations = [],
-    authenticationMethods = [],
     hasBeenAnonymised,
     hasBeenAnonymisedBy,
+    memberships = [],
+    authenticationMethods = [],
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -61,15 +57,11 @@ class User {
     this.hasSeenOtherChallengesTooltip = hasSeenOtherChallengesTooltip;
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
-    this.knowledgeElements = knowledgeElements;
     this.lang = coerceLanguage(lang);
     this.locale = getNearestSupportedLocale(locale);
     this.isAnonymous = isAnonymous;
-    this.pixScore = pixScore;
     this.memberships = memberships;
-    this.scorecards = scorecards;
     this.updatedAt = updatedAt;
-    this.campaignParticipations = campaignParticipations;
     this.authenticationMethods = authenticationMethods;
     this.hasBeenAnonymised = hasBeenAnonymised;
     this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;

@@ -1048,32 +1048,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       });
     });
 
-    describe('#getForObfuscation', function () {
-      it('returns a domain user with authentication methods only when found', async function () {
-        // given
-        const userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        await databaseBuilder.commit();
-
-        // when
-        const user = await userRepository.getForObfuscation(userInDb.id);
-
-        // then
-        expect(user.username).to.equal(userInDb.username);
-        expect(user.email).to.equal(userInDb.email.toLowerCase());
-      });
-
-      it('throws an error when user not found', async function () {
-        // given
-        const userIdThatDoesNotExist = '99999';
-
-        // when
-        const result = await catchErr(userRepository.getForObfuscation)(userIdThatDoesNotExist);
-
-        // then
-        expect(result).to.be.instanceOf(UserNotFoundError);
-      });
-    });
-
     describe('#getUserDetailsForAdmin', function () {
       it('returns the found user', async function () {
         // given
