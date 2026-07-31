@@ -13,7 +13,7 @@
     "objectives": [
       "<p>Identifier ce qu’est un temps d’écran excessif</p>",
       "<p>Connaître les effets sur la santé de l’usage excessif des écrans</p>",
-      "<p>Connaître des pratiques simples pour réduire sa sédentarité</p>"
+      "<p>Connaître des pratiques simples pour réduire sa sédentarité liée aux écrans</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -33,7 +33,7 @@
                 "id": "5b562a08-90a8-4f99-9864-1ded6739baf7",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Commençons par un petit sondage.</p>"
+                "content": "<p>Commençons par un petit sondage à propos de vos usages des écrans (smartphone, tablette, ordinateur, télévision, console de jeux, etc.).</p>"
               }
             },
             {
@@ -46,31 +46,31 @@
                 "proposals": [
                   {
                     "id": "0",
-                    "content": "<p>Je regarde un écran dès le réveil.</p>"
+                    "content": "<p>Je regarde un écran dès le réveil.&nbsp;⏰</p>"
                   },
                   {
                     "id": "1",
-                    "content": "<p>Je regarde un écran quand je mange.</p>"
+                    "content": "<p>Je regarde un écran quand je mange.&nbsp;🍽️</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>Je regarde un écran quand je suis avec des amis ou en famille.</p>"
+                    "content": "<p>Je regarde un écran quand je suis avec des amis ou en famille.&nbsp;👨‍👩‍👧‍👦</p>"
                   },
                   {
                     "id": "3",
-                    "content": "<p>Je regarde un écran pour travailler.</p>"
+                    "content": "<p>Je regarde un écran pour travailler. &nbsp;💼</p>"
                   },
                   {
                     "id": "4",
-                    "content": "<p>Je regarde un écran avant de me coucher.</p>"
+                    "content": "<p>Je regarde un écran avant de me coucher.&nbsp;🛏️</p>"
                   },
                   {
                     "id": "5",
-                    "content": "<p>Aucune de ces situations.</p>"
+                    "content": "<p>D’autres situations.&nbsp;🃏</p>"
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Vous avez sélectionné plusieurs situations&nbsp;? Vous n'êtes pas seul&nbsp;! <br></p><p>Les Français passent en moyenne <strong>32 h par semaine sur un écran</strong>. Cela représente <strong>un tiers du temps que l’on passe éveillé</strong>.</p><p><br></p><p>[Remarque : à&nbsp;terme il faudrait un feedback différent si l'utilisateur sélectionne la dernière proposition]</p>\n\n"
+                  "diagnosis": "<p>Vous avez sélectionné plusieurs situations&nbsp;? Vous n’êtes pas seul&nbsp;! <br></p><p>Les Français passent en moyenne <strong>32 h par semaine sur un écran</strong>. Cela représente <strong>un tiers du temps que l’on passe éveillé</strong>.</p>"
                 }
               }
             }
@@ -87,7 +87,7 @@
                 "id": "1ba7ebcf-f16a-4f45-bb73-2f05498e1781",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les écrans sont aujourd’hui devenus <strong>indispensables</strong>. Ils sont partout (au travail, à la maison, ailleurs) et nous sont utiles peu importe notre âge ou nos activités.</p><p>Pourquoi un long temps d’écran est un problème ?</p>"
+                "content": "<p>Les écrans sont aujourd’hui devenus <strong>indispensables</strong>. Ils sont partout (au travail, à la maison, dans les transports, etc.) et nous sont utiles peu importe notre âge ou nos activités.</p><p>Pourquoi passer beaucoup de temps devant des écrans est un problème&nbsp;?</p>"
               }
             }
           ]
@@ -109,7 +109,7 @@
                 "id": "3f8d85ba-9cff-46a9-9599-161ff0059698",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Selon les personnes, les journées ne se ressemblent pas. <br></p><p><strong>Composez une journée avec les activités ci-dessous (la vôtre ou celle de quelqu'un d'autre).</strong></p><p>Sélectionnez des activités, puis observez ce qui se passe.<br><em>(informations sur l'activité dans l'alternative textuelle)</em></p>"
+                "content": "<p> Selon les activités, une journée peut comporter plus ou moins de temps passé devant les écrans. <br></p><p><strong>Composez une journée avec les activités ci-dessous (la vôtre ou celle de quelqu’un d’autre).</strong></p><p>Sélectionnez des activités, puis observez ce qui se passe.<br><em>(informations sur l’activité dans l’alternative textuelle)</em></p>"
               }
             },
             {
@@ -119,7 +119,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/NR_Ecrans&sante_NOV/decouverte-jauge1.jpg",
                 "alt": "",
-                "alternativeText": "<p>A terme : POI Data-Select :\n<br>\n    <em>À gauche : l'appenant peut sélectionner des activités\n<br>    À droite : l'apprenant observe le temps d'écran qui augmente (jauge qui se remplit).<br><br> La jauge se remplit plus ou moins selon les activitées sélectionnées, voici nos estimations pouir le moment :<br></em></p>\n<ul>\n    <li><em>Regarder un film (+2h)</em></li>\n    <li><em>Regarder une série (+2h30)</em></li>\n    <li><em>Jouer aux jeux vidéos (+1h30)</em></li>\n    <li><em>Travailler sur un ordinateur (+5h)</em></li>\n    <li><em>Regarder un stream (+2h)</em></li>\n    <li><em>Scroller sur un réseau social (+3h)</em></li>\n    <li><em>Répondre à des messages (+30min)</em></li>\n    <li><em>Suivre un tutoriel vidéo (+45min)</em></li>\n    <li><em>Lire l'actualité en ligne (+45min)</em></li>\n    <li><em>Faire des recherches sur ordinateur (+1h)</em></li></ul><p><em>La jauge est pleine à un équivalent de 7h. Elle affiche un message d'alerte + le feedback.<br> On peut recommencer plusieurs fois.&nbsp;</em></p>\n",
+                "alternativeText": "<p>A terme&nbsp;: POI Data-Select&nbsp;:<br>    <em>À gauche&nbsp;: l’appenant peut sélectionner des activités<br>    À droite&nbsp;: l’apprenant observe le temps d’écran qui augmente (jauge qui se remplit).<br><br> La jauge se remplit plus ou moins selon les activitées sélectionnées, voici nos estimations pouir le moment&nbsp;:<br></em></p><ul>    <li><em>Regarder un film (+2h)</em></li>    <li><em>Regarder 2 épisodes de série (+1h30)</em></li>    <li><em>Jouer 2h aux jeux vidéo (+2h)</em></li>    <li><em>Travailler sur un ordinateur toute la journée (+6h)</em></li>    <li><em>Regarder un live streaming d’une heure (+1h)</em></li>    <li><em>Scroller sur un réseau social pendant 1h (+1h)</em></li>    <li><em>Répondre à des messages (+30min)</em></li>    <li><em>Suivre un tutoriel en vidéo de 45 min(+45min)</em></li>    <li><em>Lire 45 min l’actualité en ligne (+45min)</em></li>    <li><em>Faire 1h de recherches sur ordinateur (+1h)</em></li></ul><p><em>La jauge est pleine à un équivalent de 7h. Elle affiche un message dès que l’apprenant commence à sélectionner un élément + le feedback change selon la quantité de temps.<br> On peut recommencer/varier les réponses autant qu’on veut.&nbsp;</em></p>",
                 "legend": "",
                 "licence": ""
               }
@@ -146,7 +146,7 @@
                 "id": "cc9d7461-950a-4d05-82a3-4fb43118b132",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le problème n’est pas seulement l’écran, mais le <strong>manque de mouvement</strong>. Quand on est devant un écran, on reste longtemps en <strong>position assise ou couchée</strong>, tout en étant éveillé. C’est ce qu’on appelle <strong>la sédentarité</strong>.</p><p>On peut considérer que <strong>7 heures par jour</strong> devant un écran est une <strong>durée excessive</strong> pour un adulte (4 heures pour un enfant). 🕐</p>"
+                "content": "<p>Le problème n’est pas seulement l’écran, mais le <strong>manque de mouvement</strong>. Quand on est devant un écran, on reste longtemps en <strong>position assise ou couchée</strong>, tout en étant éveillé. C’est ce qu’on appelle <strong>la sédentarité</strong>.</p><p>Une sédentarité prolongée peut avoir des <strong>conséquences négatives graves</strong> sur tous les aspects de la santé (AVC, cancers, maladies chroniques, mal de dos, surpoids, diabète, etc.). 🩺 </p><p>🕐&nbsp;<strong>Passer plus de 7 heures par jour</strong> devant un écran peut être considéré comme un <strong>temps d’écran excessif</strong> pour un adulte <i>(Rapport de la Commission écrans, avril 2024</i> .</p>"
               }
             },
             {
@@ -155,7 +155,7 @@
                 "id": "de7dcf3d-578b-49b3-bc67-5c664ae914bc",
                 "type": "text",
                 "tag": "did-you-know",
-                "content": "<p>Le corps humain est conçu pour marcher plusieurs kilomètres par jour. 👣</p>"
+                "content": "<p>Le corps humain est fait pour marcher plusieurs kilomètres par jour. 👣</p>"
               }
             }
           ]
@@ -191,25 +191,25 @@
                       "id": "04ad6c2a-c717-4eae-b3d0-6bfa160fa454",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Lina se couche tard après avoir regardé des vidéos sur son smartphone.<br>Depuis quelques semaines, Lina dort moins bien. 🫩</p>"
+                      "content": "<p>Lina se couche tard après avoir regardé des vidéos sur son smartphone.<br>Depuis quelques semaines, Lina est très fatiguée. 🫩</p>"
                     },
                     {
                       "id": "af890ff2-f313-45b4-85cb-735be8ebe11d",
                       "type": "qcm",
-                      "instruction": "<p>D’après vous, pourquoi Lina dort moins bien ? (2 bonnes réponses)</p>",
+                      "instruction": "<p>D’après vous, pourquoi Lina est fatiguée ? (2 bonnes réponses)</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>Le temps passé sur les écrans réduit le temps passé à dormir.</p>"
+                          "content": "<p>Passer du temps devant des écrans réduit son temps de sommeil.</p>"
                         },
                         {
                           "id": "1",
-                          "content": "<p>Certaines activités sur écran empêchent de s’endormir rapidement.</p>"
+                          "content": "<p>Certaines activités sur écran l’empêchent de s’endormir rapidement.</p>"
                         },
                         {
                           "id": "2",
-                          "content": "<p>Regarder un écran fatigue tellement qu’on s’endort immédiatement.</p>"
+                          "content": "<p>Regarder son écran la fatigue tellement qu’elle s’endort immédiatement.</p>"
                         }
                       ],
                       "feedbacks": {
@@ -289,15 +289,15 @@
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>La lumière des écrans peut brûler les paupières.</p>"
+                          "content": "<p>La lumière des écrans peut lui brûler les paupières.</p>"
                         },
                         {
                           "id": "1",
-                          "content": "<p>Devant un écran, on cligne moins souvent des yeux.</p>"
+                          "content": "<p>Devant son écran, il cligne moins souvent des yeux.</p>"
                         },
                         {
                           "id": "2",
-                          "content": "<p>Regarder longtemps un écran de près abîme les yeux.</p>"
+                          "content": "<p>Regarder longtemps son écran de près lui abîme les yeux.</p>"
                         }
                       ],
                       "feedbacks": {
@@ -332,7 +332,7 @@
                 "id": "5a0313fd-4f4b-4d3e-8ee9-5b39d67292aa",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Un usage excessif des écrans provoque des troubles&nbsp;: </p><ul><li>du <strong>sommeil</strong>&nbsp;: regarder un écran avant de dormir peut perturber le sommeil. 💤&nbsp;</li><li>de la <strong>vue</strong>&nbsp;: l’usage des écrans peut donner lieu à des problèmes de vue. 👀</li><li>de l’<strong>alimentation</strong>&nbsp;: passer du temps devant un écran favorise le grignotage. 🍔</li></ul><p><br></p><p>Par ailleurs, une sédentarité prolongée a des <strong>conséquences négatives graves</strong> sur tous les aspects de la santé (problèmes cardiovasculaires, cancers, pathologies chroniques, troubles musculo-squelettiques, surpoids, diabète, etc.). 🩺</p>"
+                "content": "<p>Un usage excessif des écrans provoque des troubles&nbsp;: </p><ul><li>du <strong>sommeil</strong>&nbsp;: regarder un écran avant de dormir peut perturber le sommeil. 💤&nbsp;</li><li>de la <strong>vue</strong>&nbsp;: l’usage des écrans peut provoquer des problèmes de vue. 👀</li><li>de l’<strong>alimentation</strong>&nbsp;: passer du temps devant un écran favorise le grignotage. 🍔</li></ul>"
               }
             },
             {
@@ -341,7 +341,7 @@
                 "id": "77daaf6d-6ab8-4e3a-aac1-367e27bb7f63",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Les écrans ont aussi des effets sur la <strong>santé mentale</strong> et sur le <strong>les relations aux autres</strong>. Ils peuvent notamment augmenter l’anxiété et accentuer les risques de dépression.</p>"
+                "content": "<p>Les activités sur écrans peuvent aussi avoir des effets sur la <strong>santé mentale</strong> et sur <strong>les relations aux autres</strong>. Ils peuvent notamment augmenter l’anxiété et accentuer les risques de dépression.</p>"
               }
             }
           ]
@@ -405,11 +405,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Eh oui !<br></p>",
-                          "diagnosis": "<p>Tous ces conseils sont effectivement adaptés à la situation de Johan. </p><ul><li><strong>Regarder au loin</strong> permet de détendre les muscles des yeux et de réduire la fatigue visuelle.&nbsp;</li><li><strong>Les pauses sans écrans</strong> aident à limiter la fatigue mentale et visuelle.</li><li><strong>Associer mouvement et travail</strong> permet de rester productif sans regarder un écran.</li></ul>"
+                          "diagnosis": "<p>Tous ces conseils sont adaptés à la situation de Johan. </p><ul><li><strong>Regarder au loin</strong> permet de détendre les muscles des yeux et de réduire la fatigue visuelle.&nbsp;</li><li><strong>Les pauses sans écrans</strong> aident à limiter la fatigue mentale et visuelle.</li><li><strong>Associer mouvement et travail</strong> permet de rester productif sans regarder un écran.</li></ul>"
                         },
                         "invalid": {
                           "state": "<p>Pas tout à fait !</p>",
-                          "diagnosis": "<p>Être allongé peut donner une impression de repos, mais cela ne reposera pas les yeux de Johan s’il continue de regarder un écran.</p><p>Tous les autres conseils sont effectivement adaptés à la situation de Johan. </p><ul>    <li><strong>Regarder au loin</strong> permet de détendre les muscles des yeux et de réduire la fatigue visuelle.&nbsp;</li>    <li><strong>Les pauses sans écrans</strong> aident à limiter la fatigue mentale et visuelle.</li>    <li><strong>Associer mouvement et travail</strong> permet de rester productif sans regarder un écran.</li></ul>"
+                          "diagnosis": "<p>Être allongé peut donner une impression de repos, mais cela ne reposera pas les yeux de Johan s’il continue de regarder un écran.</p><p>Tous les autres conseils sont adaptés à la situation de Johan. </p><ul>    <li><strong>Regarder au loin</strong> permet de détendre les muscles des yeux et de réduire la fatigue visuelle.&nbsp;</li>    <li><strong>Les pauses sans écrans</strong> aident à limiter la fatigue mentale et visuelle.</li>    <li><strong>Associer mouvement et travail</strong> permet de rester productif sans regarder un écran.</li></ul>"
                         }
                       },
                       "solutions": [
@@ -454,11 +454,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Eh oui !</p>",
-                          "diagnosis": "<p>Tous ces conseils sont effectivement adaptés à la situation d’Emma. </p><ul><li><strong>Réduire l’usage des écrans</strong> avant le coucher aide le cerveau à se mettre en mode repos.</li><li><strong>Éloigner le smartphone</strong> évite de le prendre dans son lit et favorise un environnement propice au sommeil.</li><li><strong>Mettre une limite de temps</strong> sur son smartphone évite de se laisser absorber pendant plusieurs heures.</li></ul>"
+                          "diagnosis": "<p>Tous ces conseils sont adaptés à la situation d’Emma. </p><ul><li><strong>Réduire l’usage des écrans</strong> avant le coucher aide le cerveau à se mettre en mode repos.</li><li><strong>Éloigner le smartphone</strong> évite de le prendre dans son lit.</li><li><strong>Mettre une limite de temps</strong> sur son smartphone évite de se laisser absorber pendant plusieurs heures.</li></ul>"
                         },
                         "invalid": {
                           "state": "<p>Pas tout à fait !</p>",
-                          "diagnosis": "<p>Le type de vidéo que regarde Emma ne change pas le problème de fond. C’est la présence de l’écran qui garde Emma éveillée.</p><p>Tous les autres conseils sont effectivement adaptés à la situation d’Emma. </p><ul>    <li><strong>Réduire l’usage des écrans</strong> avant le coucher aide le cerveau à se mettre en mode repos.</li>    <li><strong>Éloigner le smartphone</strong> évite de le prendre dans son lit et favorise un environnement propice au sommeil.</li>    <li><strong>Mettre une limite de temps</strong> sur son smartphone évite de se laisser absorber pendant plusieurs heures.</li></ul>"
+                          "diagnosis": "<p>Le type de vidéo que regarde Emma ne change pas le problème de fond. C’est la présence de l’écran qui garde Emma éveillée.</p><p>Tous les autres conseils sont adaptés à la situation d’Emma. </p><ul>    <li><strong>Réduire l’usage des écrans</strong> avant le coucher aide le cerveau à se mettre en mode repos.</li>    <li><strong>Éloigner le smartphone</strong> évite de le prendre dans son lit.</li>    <li><strong>Mettre une limite de temps</strong> sur son smartphone évite de se laisser absorber pendant plusieurs heures.</li></ul>"
                         }
                       },
                       "solutions": [
@@ -484,7 +484,7 @@
                 "id": "40d1fac2-7db3-46d6-b761-f783f96a402b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Plus le temps d’exposition aux écrans augmente, plus les risques peuvent être importants. </p>\n<p>Heureusement, il est possible d’agir pour limiter les risques&nbsp;:<br></p>\n"
+                "content": "<p>Plus le temps d’écran augmente, plus les risques pour la santé peuvent être importants. </p><p>Heureusement, il est possible d’agir pour limiter les risques&nbsp;:<br></p>"
               }
             },
             {
@@ -492,9 +492,9 @@
               "element": {
                 "id": "35723f88-e4f8-412a-b3e6-b2f9ab44bafa",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/NR_Ecrans&sante_NOV/infographie-lecon.jpg",
+                "url": "https://assets.pix.org/draft/modules/NR_Ecrans&sante_NOV/infographie-lecon-2.jpg",
                 "alt": "",
-                "alternativeText": "<ul><li><strong>Se déconnecter&nbsp;:</strong> prévoir des temps sans écran. 🏝️</li><li><strong>Remplacer&nbsp;</strong>: trouver une autre solution sans écran pour une tâche ou une activité. 📖</li><li><strong>Limiter&nbsp;</strong>: se fixer une durée maximum de temps d’écran dans la journée. ⛔</li><li><strong>Bouger&nbsp;: </strong>faire des pauses dès que possible avec une activité physique, même minime. 🤸</li></ul>",
+                "alternativeText": "<ul><li><strong>Se déconnecter 🏝️&nbsp;:</strong> prévoir des moments sans écra, comem faire uen soirée sans écran. </li><li><strong>Remplacer 📖&nbsp;</strong>: trouver une autre solution sans écran pour une tâche ou une activité.Par exemple, écouter un podcast plutôt que de regarder une émission</li><li><strong>Limiter ⛔&nbsp;</strong>: se fixer une durée maximum de temps d’écran dans la journée. PAr exemple paramétrer son téléphone avec une limite d'1h sur les réseaux sociaux.</li><li><strong>Bouger 🤸&nbsp;: </strong>faire des pauses dès que possible avec une activité physique, même minime. Par exemple, marcher 15 minutes tous les soirs.</li></ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -505,7 +505,7 @@
                 "id": "50ded1a0-61f4-4cc9-9b51-334594426d08",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>🎯 Le but n’est pas de supprimer tous les temps d’écran, mais de <strong>trouver un équilibre</strong>. ⚖️</p>\n<p><br></p>\n<p>Certaines applications peuvent aider à suivre son temps d’écran, mais elles ne remplacent pas <strong>de bonnes habitudes</strong>.</p>"
+                "content": "<p>🎯 Le but n’est pas de supprimer tous les écrans, mais de <strong>trouver un équilibre</strong>. ⚖️</p><p>Certaines applications ou paramètres de l’appareil peuvent aider à suivre son temps d’écran, mais elles ne remplacent pas <strong>de bonnes habitudes</strong>.</p>"
               }
             }
           ]
@@ -527,7 +527,7 @@
                 "id": "df348def-712c-441b-b8aa-379905fb71f0",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li><strong>Plus de 7 heures par jour</strong> devant un écran peut être considéré comme un <strong>temps d’écran excessif</strong> pour un adulte. 🕒</li>    <li>Le principal problème est la <strong>sédentarité</strong> provoquée par l’usage des écrans&nbsp;: on reste longtemps assis ou couché, tout en étant éveillé. 🛏️</li>    <li>Un usage excessif des écrans peut entraîner des <strong>problèmes de santé</strong> comme des troubles du <strong>sommeil</strong>, de la <strong>vue</strong> et de l’<strong>alimentation</strong>. 🩺</li>    <li>De <strong>bonnes habitudes</strong> permettent de limiter ces risques et réduire la sédentarité&nbsp;:&nbsp;<ul>            <li>se déconnecter,&nbsp;</li>            <li>remplacer l’écran,&nbsp;</li>            <li>limiter son temps d’écran,&nbsp;</li>            <li>pratiquer une activité physique.</li>        </ul>    </li></ul>"
+                "content": "<ul>    <li><strong>Passer plus de 7 heures par jour</strong> devant un écran peut être considéré comme un <strong>temps d’écran excessif</strong> pour un adulte. 🕒</li>    <li>Le principal problème est la <strong>sédentarité</strong> provoquée par l’usage des écrans&nbsp;: on reste longtemps assis ou couché, tout en étant éveillé. 🛏️</li>    <li>Un usage excessif des écrans peut entraîner des <strong>problèmes de santé</strong> comme des troubles du <strong>sommeil</strong>, de la <strong>vue</strong> et de l’<strong>alimentation</strong>. 🩺</li>    <li>De <strong>bonnes habitudes</strong> permettent de limiter ces risques et réduire la sédentarité&nbsp;:&nbsp;<ul>            <li>prévoir des moments sans écrans,&nbsp;</li>            <li>remplacer l’écran par une autre activité,&nbsp;</li>            <li>limiter son temps d’écran,&nbsp;</li>            <li>pratiquer une activité physique régulièrement.</li>        </ul>    </li></ul>"
               }
             }
           ]
@@ -563,7 +563,7 @@
                   },
                   {
                     "id": "dacdf728-2bde-4709-a7c2-b4f4e336968a",
-                    "text": "Il est impossible de se réguler face aux écrans.",
+                    "text": "Il est impossible de se limiter face aux écrans.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -574,7 +574,7 @@
                   },
                   {
                     "id": "efa279bc-16d9-47f2-89a9-91d3ab868b2b",
-                    "text": "Les écrans facilitent l’endormissement.",
+                    "text": "Les écrans aident à l’endormissement.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -623,7 +623,7 @@
               "element": {
                 "id": "8f37e287-56e0-48e2-b578-76e4fd86dadb",
                 "type": "qcu",
-                "instruction": "<p>Parmi les risques suivants, lequel est directement lié à un temps d’écran excessif ?</p>",
+                "instruction": "<p>Parmi les risques suivants, lequel peut être directement lié à un temps d’écran excessif ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -636,10 +636,10 @@
                   },
                   {
                     "id": "1",
-                    "content": "<p>Des douleurs aux genoux</p>",
+                    "content": "<p>Une maladie de peau</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Ce trouble n’est pas directement lié à un usage excessif des écrans.</p>"
+                      "diagnosis": "<p>Ce trouble n’est pas lié à un usage excessif des écrans.</p>"
                     }
                   },
                   {
@@ -667,43 +667,127 @@
                 "id": "af63ce13-fe36-41d6-b5bc-0b0a15b28f46",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Alfie, Sarah et Garance sont des collègues de travail.</p>\n<p><strong>Comparez leur journée-type, puis répondez à la question qui suit.</strong></p>\n<p>[A terme : carrousel illustré ?&nbsp;BD ?]</p>\n<p><br></p>\n<table>\n    <thead>\n        <tr>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\"><br></th>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Alfie</th>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Sarah</th>\n            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Garance</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td><strong>Réveil</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Lit ses mails</td>\n            <td>Promène son chien</td>\n            <td>Répond à des messages<br></td>\n        </tr>\n        <tr>\n            <td><strong>Matin</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Réunion en visioconférence</td>\n            <td>Réunion en présence de ses collègues</td>\n            <td>Réunion chez un client<br></td>\n        </tr>\n        <tr>\n            <td><strong>Midi</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Manger avec des amis</td>\n            <td>Manger avec des amis</td>\n            <td>Fais de la course à pieds après son repas<br></td>\n        </tr>\n        <tr>\n            <td><strong>Après-midi</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Travaille sur un ordinateur</td>\n            <td>Travaille sur un ordinateur</td>\n            <td>Travaille sur un ordinateur<br></td>\n        </tr>\n        <tr>\n            <td><strong>Soir</strong></td>\n            <td scope=\"\\&quot;\\\\&quot;row\\\\&quot;\\&quot;\">Regarde une série après le dîner</td>\n            <td>Lit un livre avant de dormir</td>\n            <td>Regarde un film pendant le dîner<br></td>\n        </tr>\n    </tbody>\n</table>"
+                "content": "<p>Sarah et Garance sont des collègues de travail.</p><p><strong>Observez leur journée-type, puis répondez à la question qui suit.</strong></p><p><em>[A terme ce sera un carrousel avec une&nbsp;BD pour chaque personnage]</em></p><table>    <thead>        <tr>            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\"><br></th>                        <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Sarah</th>            <th scope=\"\\&quot;\\\\&quot;col\\\\&quot;\\&quot;\">Garance</th>        </tr>    </thead>    <tbody>        <tr>            <td><strong>Réveil</strong></td>                        <td>Promène son chien</td>            <td>Répond à des messages<br></td>        </tr>        <tr>            <td><strong>Matin</strong></td>                        <td>Réunion en visioconférence<br></td>            <td>Réunion chez un client<br></td>        </tr>        <tr>            <td><strong>Midi</strong></td>                        <td>Manger avec des amis</td>            <td>Fais de la course à pieds après son repas<br></td>        </tr>        <tr>            <td><strong>Après-midi</strong></td>                        <td>Travaille sur un ordinateur</td>            <td>Travaille sur un ordinateur<br></td>        </tr>        <tr>            <td><strong>Soir</strong></td>                        <td>Lit un livre avant de dormir</td>            <td>Regarde un film pendant le dîner<br></td>        </tr>    </tbody></table>"
               }
             },
             {
               "type": "element",
               "element": {
                 "id": "cd8fdadf-6fb4-467f-81b2-138dec8e2cf5",
-                "type": "qcu",
-                "instruction": "<p>Qui de Alfie, Sarah ou Garance dépasse 7 h par jour sur les écrans ?</p>",
-                "hasShortProposals": true,
+                "type": "qrocm",
+                "instruction": "<p>Quelles bonnes pratiques ont mis en place Garance et Sarah pour réduire leur temps d’écran ?</p>",
                 "proposals": [
                   {
-                    "id": "0",
-                    "content": "Alfie",
-                    "feedback": {
-                      "state": "<p>Bonne réponse ! 🎉</p>",
-                      "diagnosis": "<p>Le mode de vie d’Alfie le conduit à passer beaucoup de temps sur les écrans.</p>"
-                    }
+                    "type": "text",
+                    "content": "<p>Sarah réduit sa sédentarité en</p>"
                   },
                   {
-                    "id": "1",
-                    "content": "Sarah",
-                    "feedback": {
-                      "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Sarah passe moins de temps sur les écrans qu’Alfie. Son temps d’écran n’est pas excessif.</p>"
-                    }
+                    "type": "select",
+                    "input": "1",
+                    "display": "inline",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "Sélectionner",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "promenant son chien"
+                      },
+                      {
+                        "id": "2",
+                        "content": "mangeant avec des amis"
+                      }
+                    ],
+                    "solutions": [
+                      "1"
+                    ]
                   },
                   {
-                    "id": "2",
-                    "content": "Garance",
-                    "feedback": {
-                      "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Garance passe moins de temps sur les écrans qu’Alfie. Son temps d’écran n’est pas excessif.</p>"
-                    }
+                    "type": "text",
+                    "content": "<p>et protège son sommeil en</p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "2",
+                    "display": "inline",
+                    "placeholder": "-Sélectionner-",
+                    "ariaLabel": "Sélectionner",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "regardant un film "
+                      },
+                      {
+                        "id": "2",
+                        "content": "lisant un livre "
+                      }
+                    ],
+                    "solutions": [
+                      "2"
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>avant de dormir.</p><p><br></p>\n<p> Garance fait des efforts au travail en</p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "3",
+                    "display": "inline",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "Sélectionner",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "travaillant sur un ordinateur"
+                      },
+                      {
+                        "id": "2",
+                        "content": "se déplaçant pour sa réunion"
+                      }
+                    ],
+                    "solutions": [
+                      "2"
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>et réduit sa sédentarité en</p>"
+                  },
+                  {
+                    "type": "select",
+                    "input": "4",
+                    "display": "inline",
+                    "placeholder": "- Sélectionner -",
+                    "ariaLabel": "Sélectionner",
+                    "tolerances": [],
+                    "options": [
+                      {
+                        "id": "1",
+                        "content": "faisant de la course à pieds."
+                      },
+                      {
+                        "id": "2",
+                        "content": "répondant à des messages au réveil."
+                      }
+                    ],
+                    "solutions": [
+                      "1"
+                    ]
                   }
                 ],
-                "solution": "0"
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bonne réponse !</p>",
+                    "diagnosis": "<p>Toutes les activités que Sarah ou Garance ont réalisé sans écrans ou en mouvement les aident à être en meilleure santé.<br></p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Mauvaise réponse.<br></p>",
+                    "diagnosis": "<p>Les bonnes pratiques de Sarah et Garance correspondent aux moments où ils choissent des activités sans écrans ou des activités en mouvement.<br></p>"
+                  }
+                }
               }
             }
           ]
@@ -745,7 +829,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>C’est une bonne idée ! L’important est de choisir un premier pas réaliste et de l’intégrer progressivement à vos habitudes.</p><p><br></p>\n<p>[Remarque : à&nbsp;terme il faudrait un feedback différent si plusieurs réponses sont sélectionnées par l'apprenant]</p>"
+                  "diagnosis": "<p>C’est une bonne idée ! L’important est de choisir un premier pas réaliste et de l’intégrer progressivement à vos habitudes.</p><p>[Remarque&nbsp;: à&nbsp;terme il faudrait un feedback différent si plusieurs réponses sont sélectionnées par l’apprenant]</p>"
                 }
               }
             }
