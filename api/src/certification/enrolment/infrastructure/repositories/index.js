@@ -1,3 +1,4 @@
+import * as centerRepository from '../../../../organizational-entities/infrastructure/repositories/center-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../organizational-entities/infrastructure/repositories/data-protection-officer.repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as sessionManagementRepository from '../../../session-management/infrastructure/repositories/session-management-repository.js';
@@ -6,7 +7,6 @@ import * as targetProfileHistoryRepository from '../../../shared/infrastructure/
 import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as candidateRepository from './candidate-repository.js';
-import * as centerRepository from './center-repository.js';
 import * as certificationCpfCityRepository from './certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
 import * as complementaryCertificationBadgeWithOffsetVersionRepository from './complementary-certification-badge-with-offset-version-repository.js';

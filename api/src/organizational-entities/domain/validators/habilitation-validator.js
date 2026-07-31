@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { EntityValidationError } from '../../../shared/domain/errors.js';
 
 const complementaryCertificationHabilitationSchema = Joi.object({
   complementaryCertificationId: Joi.number().required(),

@@ -1,13 +1,13 @@
-import * as centerRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
-import { types } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { CertificationCenter } from '../../../../../../src/shared/domain/models/CertificationCenter.js';
-import { expect } from '../../../../../test-helper.js';
-import { databaseBuilder } from '../../../../../tooling/databases.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { types } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import * as centerRepository from '../../../../../src/organizational-entities/infrastructure/repositories/center-repository.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { CertificationCenter } from '../../../../../src/shared/domain/models/CertificationCenter.js';
+import { expect } from '../../../../test-helper.js';
+import { databaseBuilder } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Integration | Certification |  Center | Repository | center-repository', function () {
+describe('Integration | Organizational Entities | Infrastructure | Repositories | center-repository', function () {
   describe('#getById', function () {
     context('when the certification center could not be found', function () {
       it('should throw a NotFound error', async function () {

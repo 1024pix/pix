@@ -1,4 +1,3 @@
-import * as centerRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as learnersApi from '../../../prescription/learner-management/application/api/learners-api.js';
 import * as schoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
 import * as accessCodeGenerator from '../../../shared/domain/services/access-code-generator.js';
@@ -9,6 +8,7 @@ import * as organizationRepository from '../../../shared/infrastructure/reposito
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as administrationTeamRepository from '../../infrastructure/repositories/administration-team-repository.js';
+import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 import * as certificationCenterRepository from '../../infrastructure/repositories/certification-center.repository.js';
 import { certificationCenterApiRepository } from '../../infrastructure/repositories/certification-center-api.repository.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin.repository.js';
@@ -32,7 +32,7 @@ import * as organizationValidator from '../validators/organization-with-tags-and
  * @typedef {import ('../../../shared/infrastructure/repositories/admin-member.repository.js')} AdminMemberRepository
  * @typedef {import ('../../infrastructure/repositories/certification-center-api.repository.js')} certificationCenterApiRepository
  * @typedef {import ('../../infrastructure/repositories/certification-center.repository.js')} CertificationCenterRepository
- * @typedef {import ('../../../certification/enrolment/infrastructure/repositories/center-repository.js')} CenterRepository
+ * @typedef {import ('../../infrastructure/repositories/center-repository.js')} CenterRepository
  * @typedef {import ('../../infrastructure/repositories/certification-center-for-admin-repository.js')} CertificationCenterForAdminRepository
  * @typedef {import ('../../infrastructure/repositories/complementary-certification-habilitation-repository.js')} ComplementaryCertificationHabilitationRepository
  * @typedef {import ('../../infrastructure/repositories/data-protection-officer-repository.js')} DataProtectionOfficerRepository

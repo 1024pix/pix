@@ -1,6 +1,6 @@
-import { Center, MatchingOrganization } from '../../../../src/certification/enrolment/domain/models/Center.js';
-import { CenterTypes } from '../../../../src/certification/enrolment/domain/models/CenterTypes.js';
+import { Center, MatchingOrganization } from '../../../../src/organizational-entities/domain/models/Center.js';
 import { types } from '../../../../src/organizational-entities/domain/models/Organization.js';
+import { CenterTypes } from '../../../../src/organizational-entities/domain/read-models/CenterTypes.js';
 const buildCenter = function ({
   id = 1,
   name = 'A Certif Center',

@@ -1,10 +1,10 @@
-import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
-import { types } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
-import { expect } from '../../../../../test-helper.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { types } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { CenterTypes } from '../../../../../src/organizational-entities/domain/read-models/CenterTypes.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
+import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Unit | Certification | Enrolment | Domain | Models | Center', function () {
+describe('Unit | Organizational Entities | Domain | Models | Center', function () {
   context('#hasBillingMode', function () {
     it('should return false when center is of type SCO', function () {
       // given

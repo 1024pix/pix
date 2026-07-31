@@ -1,10 +1,10 @@
 /**
- * @typedef {import('../../../../certification/enrolment/domain/models/Center.js').Center} Center
+ * @typedef {import('../Center.js').Center} Center
  * @typedef {import('../DataProtectionOfficer.js').DataProtectionOfficer} DataProtectionOfficer
  */
 
-import { Habilitation } from '../../../../certification/enrolment/domain/models/Habilitation.js';
 import { CenterForAdmin } from '../CenterForAdmin.js';
+import { Habilitation } from '../Habilitation.js';
 
 export class CenterForAdminFactory {
   /**

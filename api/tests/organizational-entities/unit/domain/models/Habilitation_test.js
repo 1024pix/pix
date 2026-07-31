@@ -1,9 +1,9 @@
-import { Habilitation } from '../../../../../../src/certification/enrolment/domain/models/Habilitation.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
-import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
+import { Habilitation } from '../../../../../src/organizational-entities/domain/models/Habilitation.js';
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
+import { expect } from '../../../../test-helper.js';
+import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
-describe('Unit | Certification | Enrolment | Domain | Models | Habilitation', function () {
+describe('Unit | Organizational Entities | Domain | Models | Habilitation', function () {
   it('should build an Habilitation', function () {
     // given
     const data = { complementaryCertificationId: 12, key: 'A_KEY', label: 'This is a key' };
