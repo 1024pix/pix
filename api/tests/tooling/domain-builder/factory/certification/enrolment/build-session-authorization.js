@@ -139,9 +139,9 @@ class SessionAuthorizationBuilder {
     certificationCenterId = null,
   } = {}) {
     this.id = id ?? this.id;
-    this.isFinalized = isFinalized === undefined ? this.isFinalized : isFinalized;
-    this.hasExpired = hasExpired === undefined ? this.hasExpired : hasExpired;
-    this.hasStarted = hasStarted === undefined ? this.hasStarted : hasStarted;
+    this.isFinalized = isFinalized ?? this.isFinalized;
+    this.hasExpired = hasExpired ?? this.hasExpired;
+    this.hasStarted = hasStarted ?? this.hasStarted;
     this.scoIsManagingStudentsOrganizationId = scoIsManagingStudentsOrganizationId;
     this.certificationCenterId = certificationCenterId;
     return this;
