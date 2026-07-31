@@ -3,129 +3,12 @@ import { expect } from 'chai';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   deleteAnswersByIds,
-  getAnswersByAssessmentTypeAndDateAndState,
+  selectAnswersByIds,
+  selectAnswersIdsByAssementIds,
 } from '../../../../../src/db-history/infrastructure/repositories/answers-repository.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-describe('Integration | History-db | Infrastructure | Repository | AnswersHistory', function () {
-  describe('getAnswersByAssessmentTypeAndDateAndState', function () {
-    it('should get two answers from the assessment for the given date', async function () {
-      // given
-      const assessmentWithAnswer = databaseBuilder.factory.buildAssessment({
-        updatedAt: new Date('2020-01-02'),
-        state: 'completed',
-        type: 'CAMPAIGN',
-      });
-      const answer1 = databaseBuilder.factory.buildAnswer({
-        assessmentId: assessmentWithAnswer.id,
-      });
-      const answer2 = databaseBuilder.factory.buildAnswer({
-        assessmentId: assessmentWithAnswer.id,
-      });
-
-      await databaseBuilder.commit();
-
-      const targetTypes = ['PREVIEW', 'CAMPAIGN'];
-      const targetDate = '2020-01-02';
-      const targetState = 'completed';
-
-      // when
-      const answers = await getAnswersByAssessmentTypeAndDateAndState({ targetTypes, targetDate, targetState });
-
-      // then
-      expect(answers).to.have.length(2);
-      expect(answers[0].id).to.equal(answer1.id);
-      expect(answers[1].id).to.equal(answer2.id);
-    });
-
-    describe('when assessment’s type is not given target type', function () {
-      it('should not return this assessment’s answers', async function () {
-        // given
-        const assessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
-          updatedAt: new Date('2020-01-03'),
-          state: 'completed',
-          type: 'CERTIFICATION',
-        });
-        databaseBuilder.factory.buildAnswer({
-          assessmentId: assessmentWithAnswerToDelete.id,
-        });
-        databaseBuilder.factory.buildAnswer({
-          assessmentId: assessmentWithAnswerToDelete.id,
-        });
-
-        await databaseBuilder.commit();
-
-        const targetTypes = ['PREVIEW', 'CAMPAIGN'];
-        const targetDate = '2020-01-03';
-        const targetState = 'completed';
-
-        // when
-        const answers = await getAnswersByAssessmentTypeAndDateAndState({ targetTypes, targetDate, targetState });
-
-        // then
-        expect(answers).to.have.length(0);
-      });
-    });
-
-    describe('when assessment’s state is not completed', function () {
-      it('should not return this assessment’s answers', async function () {
-        // given
-        const assessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
-          updatedAt: new Date('2020-01-03'),
-          state: 'started',
-          type: 'CAMPAIGN',
-        });
-        databaseBuilder.factory.buildAnswer({
-          assessmentId: assessmentWithAnswerToDelete.id,
-        });
-        databaseBuilder.factory.buildAnswer({
-          assessmentId: assessmentWithAnswerToDelete.id,
-        });
-
-        await databaseBuilder.commit();
-
-        const targetTypes = ['PREVIEW', 'CAMPAIGN'];
-        const targetDate = '2020-01-03';
-        const targetState = 'completed';
-
-        // when
-        const answers = await getAnswersByAssessmentTypeAndDateAndState({ targetTypes, targetDate, targetState });
-
-        // then
-        expect(answers).to.have.length(0);
-      });
-    });
-
-    describe('when assessment’s updatedAt is not target date', function () {
-      it('should not return this assessment’s answers', async function () {
-        // given
-        const assessmentWithAnswerToDelete = databaseBuilder.factory.buildAssessment({
-          updatedAt: new Date('2020-01-04'),
-          state: 'completed',
-          type: 'CAMPAIGN',
-        });
-        databaseBuilder.factory.buildAnswer({
-          assessmentId: assessmentWithAnswerToDelete.id,
-        });
-        databaseBuilder.factory.buildAnswer({
-          assessmentId: assessmentWithAnswerToDelete.id,
-        });
-
-        await databaseBuilder.commit();
-
-        const targetTypes = ['PREVIEW', 'CAMPAIGN'];
-        const targetDate = '2020-01-03';
-        const targetState = 'completed';
-
-        // when
-        const answers = await getAnswersByAssessmentTypeAndDateAndState({ targetTypes, targetDate, targetState });
-
-        // then
-        expect(answers).to.have.length(0);
-      });
-    });
-  });
-
+describe('Integration | History-db | Infrastructure | Repository | Answers', function () {
   describe('deleteAnswersByIds', function () {
     it('only deletes answers with given ids', async function () {
       // given
@@ -143,6 +26,70 @@ describe('Integration | History-db | Infrastructure | Repository | AnswersHistor
       expect(remainingAnswers).to.have.length(2);
       expect(remainingAnswers[0].id).to.equal(answerToKeep1.id);
       expect(remainingAnswers[1].id).to.equal(answerToKeep2.id);
+    });
+  });
+  describe('selectAnswersIdsByAssementIds', function () {
+    it('select answers from assessment ids', async function () {
+      // given
+      databaseBuilder.factory.buildAssessment({ id: 100000 });
+      databaseBuilder.factory.buildAssessment({ id: 100001 });
+      databaseBuilder.factory.buildAssessment({ id: 100002 });
+
+      databaseBuilder.factory.buildAnswer({
+        id: 1,
+        assessmentId: 100000,
+      });
+
+      databaseBuilder.factory.buildAnswer({
+        id: 2,
+        assessmentId: 100000,
+      });
+
+      databaseBuilder.factory.buildAnswer({
+        id: 3,
+        assessmentId: 100001,
+      });
+      databaseBuilder.factory.buildAnswer({
+        id: 4,
+        assessmentId: 100002,
+      });
+      await databaseBuilder.commit();
+      const assessmentIds = { ids: [100000, 100002] };
+
+      // when
+      const answerIds = await selectAnswersIdsByAssementIds(assessmentIds);
+
+      //then
+      expect(answerIds).to.have.length(3);
+      expect(answerIds.map((answer) => answer.id)).to.deep.equal([1, 2, 4]);
+    });
+  });
+
+  describe('selectAnswersByIds', function () {
+    it('select answers from  ids', async function () {
+      // given
+      databaseBuilder.factory.buildAnswer({
+        id: 1,
+      });
+
+      databaseBuilder.factory.buildAnswer({
+        id: 2,
+      });
+
+      databaseBuilder.factory.buildAnswer({
+        id: 3,
+      });
+      databaseBuilder.factory.buildAnswer({
+        id: 4,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const answerIds = await selectAnswersByIds({ ids: [1, 2, 4] });
+
+      //then
+      expect(answerIds).to.have.length(3);
+      expect(answerIds.map((answer) => answer.id)).to.deep.equal([1, 2, 4]);
     });
   });
 });

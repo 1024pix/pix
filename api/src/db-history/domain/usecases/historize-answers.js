@@ -5,6 +5,11 @@ import { parquetWriteBuffer } from 'hyparquet-writer';
 import { config } from '../../../shared/config.js';
 import { logger as defaultLogger } from '../../../shared/infrastructure/utils/logger.js';
 import { AnswersHistoryRepository } from '../../infrastructure/repositories/answers-history-repository.js';
+import {
+  selectAnswersByIds,
+  selectAnswersIdsByAssementIds,
+} from '../../infrastructure/repositories/answers-repository.js';
+import { getAssessmentIdsByAssessmentTypeAndDateAndState } from '../../infrastructure/repositories/assessments-repository.js';
 import { TARGET_STATE, TARGET_TYPES } from '../constants.js';
 
 export async function historizeAnswers({ answersRepository, targetDate, logger = defaultLogger }) {
@@ -16,58 +21,69 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
     throw new Error(errorMessage);
   }
 
-  const answersToBeDeleted = await answersRepository.getAnswersByAssessmentTypeAndDateAndState({
+  const answersHistoryRepository = AnswersHistoryRepository.createClient();
+
+  const assessmentIdRange = config.answersHistoryExport.storage.assessmentIdRange;
+  const answerIdRange = config.answersHistoryExport.storage.answerIdRange;
+
+  const assessmentIds = await getAssessmentIdsByAssessmentTypeAndDateAndState({
     targetTypes: TARGET_TYPES,
     targetState: TARGET_STATE,
     targetDate,
   });
-
-  logger.info(`${answersToBeDeleted.length} answers will be written to parquet file and deleted`);
-
-  const answersHistoryRepository = AnswersHistoryRepository.createClient();
-
-  const assessmentIdRange = config.answersHistoryExport.storage.assessmentIdRange;
-
-  for (const [rangeStart, batchAnswersToBeDeleted] of getAnswersGroupedByAssessmentId(
-    answersToBeDeleted,
+  logger.info(`${assessmentIds.length} assessments will be processed`);
+  for (const [assessmentRangeStart, batchAssessmentIdsToBeProcessed] of getBatchesFromRange(
+    assessmentIds.map((assessment) => assessment.id),
     assessmentIdRange,
   )) {
-    logger.info(`Creating parquet file starting for range from ${rangeStart}`);
-    const { partitionFile, fileContent } = createParquetArrayBuffer(
-      rangeStart,
-      batchAnswersToBeDeleted,
-      assessmentIdRange,
-    );
-    logger.info(`Successfully created ${partitionFile} file.`);
-    try {
-      logger.info(`Writing ${batchAnswersToBeDeleted.length} answers to ${partitionFile}...`);
-      await answersHistoryRepository.sendFile({
-        filename: partitionFile,
-        fileContent,
-      });
-      logger.info(`Successfully written ${batchAnswersToBeDeleted.length} answers to ${partitionFile}.`);
+    logger.info(`Porcessing for range from ${assessmentRangeStart}`);
 
-      logger.info(`Deleting ${batchAnswersToBeDeleted.length} answers...`);
-      await deleteBatchAnswers(answersRepository, batchAnswersToBeDeleted, logger);
-      logger.info(`Successfully deleted ${batchAnswersToBeDeleted.length} answers.`);
-    } catch (error) {
-      logger.error(`File upload failed, rolling back uploaded file ${partitionFile} and deleting it from bucket`);
-      await answersHistoryRepository.deleteFile({ filename: partitionFile });
-      throw Error('An error occurred during the process', { cause: error });
+    const answerIds = await selectAnswersIdsByAssementIds({ ids: batchAssessmentIdsToBeProcessed });
+    for (const [answerRangeStart, batchAnswerIdsToBeProcessed] of getBatchesFromRange(
+      answerIds.map((answer) => answer.id),
+      answerIdRange,
+    )) {
+      const batchAnswersToBeDeleted = await selectAnswersByIds({ ids: batchAnswerIdsToBeProcessed });
+
+      logger.info(
+        `Creating parquet file starting for assement range from ${assessmentRangeStart} and answer range from ${answerRangeStart}`,
+      );
+      const { partitionFile, fileContent } = createParquetArrayBuffer(
+        assessmentRangeStart,
+        batchAnswersToBeDeleted,
+        assessmentIdRange,
+      );
+      logger.info(`Successfully created ${partitionFile} file.`);
+      try {
+        logger.info(`Writing ${batchAnswersToBeDeleted.length} answers to ${partitionFile}...`);
+        await answersHistoryRepository.sendFile({
+          filename: partitionFile,
+          fileContent,
+        });
+        logger.info(`Successfully written ${batchAnswersToBeDeleted.length} answers to ${partitionFile}.`);
+
+        logger.info(`Deleting ${batchAnswersToBeDeleted.length} answers...`);
+        await deleteBatchAnswers(answersRepository, batchAnswersToBeDeleted, logger);
+        logger.info(`Successfully deleted ${batchAnswersToBeDeleted.length} answers.`);
+      } catch (error) {
+        logger.error(`File upload failed, rolling back uploaded file ${partitionFile} and deleting it from bucket`);
+        await answersHistoryRepository.deleteFile({ filename: partitionFile });
+        throw Error('An error occurred during the process', { cause: error });
+      }
     }
   }
 }
 
-export function getAnswersGroupedByAssessmentId(answers, assessmentIdRange) {
-  const answerGroups = new Map();
-  for (const answer of answers) {
-    const groupIndex = Math.floor((answer.assessmentId - 1) / assessmentIdRange);
-    const firstAssessmentIdInGroup = groupIndex * assessmentIdRange + 1;
-    const groupExists = answerGroups.has(firstAssessmentIdInGroup);
-    if (!groupExists) answerGroups.set(firstAssessmentIdInGroup, []);
-    answerGroups.get(firstAssessmentIdInGroup).push(answer);
+export function getBatchesFromRange(elments, range) {
+  const elmentGroups = new Map();
+  for (const element of elments) {
+    const groupIndex = Math.floor((element - 1) / range);
+    const firstAssessmentIdInGroup = groupIndex * range + 1;
+    const groupExists = elmentGroups.has(firstAssessmentIdInGroup);
+    if (!groupExists) elmentGroups.set(firstAssessmentIdInGroup, []);
+    elmentGroups.get(firstAssessmentIdInGroup).push(element);
   }
-  return answerGroups;
+  return elmentGroups;
 }
 
 export async function deleteBatchAnswers(answersRepository, answersToBeDeleted, logger) {

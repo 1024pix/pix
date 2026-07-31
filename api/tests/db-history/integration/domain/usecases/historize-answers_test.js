@@ -5,7 +5,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   createParquetArrayBuffer,
   deleteBatchAnswers,
-  getAnswersGroupedByAssessmentId,
+  getBatchesFromRange,
 } from '../../../../../src/db-history/domain/usecases/historize-answers.js';
 import { usecases } from '../../../../../src/db-history/domain/usecases/index.js';
 import * as answersRepository from '../../../../../src/db-history/infrastructure/repositories/answers-repository.js';
@@ -340,94 +340,25 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     });
   });
 
-  describe('getAnswersGroupedByAssessmentId', function () {
-    it('should group answers according to the assessments id range', function () {
-      const firstAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 100000,
-        value: 'value for first answer',
-        result: 'result for first answer',
-        challengeId: 'rec123ABC',
-        createdAt: new Date('2020-01-01'),
-        updatedAt: new Date('2020-01-02'),
-        timeout: null,
-        resultDetails: 'result details for first answer.',
-        isFocusedOut: false,
-        timeSpent: 30,
-      });
+  describe('getBatchesFromRange', function () {
+    it('should group assessment ids according to the assessments id range', function () {
+      const firstAssessmentId = 100000;
 
-      const secondAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 100001,
-        value: 'value for second answer',
-        result: 'result for second answer',
-        challengeId: 'rec123DEF',
-        createdAt: 'toDay',
-        updatedAt: new Date('2020-01-04'),
-        timeout: 10,
-        resultDetails: 'result details for second answer.',
-        isFocusedOut: true,
-        timeSpent: 50,
-      });
+      const secondAssessmentId = 100001;
 
-      const thirdAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 100002,
-        value: 'value for third answer',
-        result: 'result for third answer',
-        challengeId: 'rec123DEF',
-        createdAt: new Date('2020-01-03'),
-        updatedAt: new Date('2020-01-04'),
-        timeout: 10,
-        resultDetails: 'result details for third answer.',
-        isFocusedOut: true,
-        timeSpent: 50,
-      });
-      const answers = [firstAnswer, secondAnswer, thirdAnswer];
-      const groups = getAnswersGroupedByAssessmentId(answers, 1000);
+      const thirdAssessmentId = 100002;
+
+      const assessments = [firstAssessmentId, secondAssessmentId, thirdAssessmentId];
+      const groups = getBatchesFromRange(assessments, 1000);
+
       expect(groups).to.have.length(2);
-      expect(groups.get(99001)).to.deep.equal([firstAnswer]);
-      expect(groups.get(100001)).to.deep.equal([secondAnswer, thirdAnswer]);
+      expect(groups.get(99001)).to.deep.equal([firstAssessmentId]);
+      expect(groups.get(100001)).to.deep.equal([secondAssessmentId, thirdAssessmentId]);
     });
 
-    it('should not have empty group answers ', function () {
-      const firstAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 100000,
-        value: 'value for first answer',
-        result: 'result for first answer',
-        challengeId: 'rec123ABC',
-        createdAt: new Date('2020-01-01'),
-        updatedAt: new Date('2020-01-02'),
-        timeout: null,
-        resultDetails: 'result details for first answer.',
-        isFocusedOut: false,
-        timeSpent: 30,
-      });
-
-      const secondAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 200001,
-        value: 'value for second answer',
-        result: 'result for second answer',
-        challengeId: 'rec123DEF',
-        createdAt: 'toDay',
-        updatedAt: new Date('2020-01-04'),
-        timeout: 10,
-        resultDetails: 'result details for second answer.',
-        isFocusedOut: true,
-        timeSpent: 50,
-      });
-
-      const thirdAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 200002,
-        value: 'value for third answer',
-        result: 'result for third answer',
-        challengeId: 'rec123DEF',
-        createdAt: new Date('2020-01-03'),
-        updatedAt: new Date('2020-01-04'),
-        timeout: 10,
-        resultDetails: 'result details for third answer.',
-        isFocusedOut: true,
-        timeSpent: 50,
-      });
-      const answers = [firstAnswer, secondAnswer, thirdAnswer];
-      const groups = getAnswersGroupedByAssessmentId(answers, 1000);
+    it('should not have empty group assessments ', function () {
+      const assessmentIds = [100000, 200001, 200002];
+      const groups = getBatchesFromRange(assessmentIds, 1000);
       expect(groups).to.have.length(2);
       expect(groups.get(100001)).to.be.undefined;
     });

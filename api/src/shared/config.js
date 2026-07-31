@@ -197,6 +197,7 @@ const configuration = (function () {
           forcePathStyle: true,
         },
         assessmentIdRange: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
+        answersIdRange: parseInt(process.env.ANSWERS_HISTORY_ANSWER_ID_RANGE),
       },
     },
     import: {
@@ -724,6 +725,7 @@ const configuration = (function () {
           forcePathStyle: true,
         },
         assessmentIdRange: parseInt(process.env.TEST_ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
+        answersIdRange: parseInt(process.env.TEST_ANSWERS_HISTORY_ANSWER_ID_RANGE),
       },
     };
 
