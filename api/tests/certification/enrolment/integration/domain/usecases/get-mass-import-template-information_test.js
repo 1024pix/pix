@@ -1,5 +1,5 @@
 import { usecases } from '../../../../../../src/certification/enrolment/domain/usecases/index.js';
-import { CenterTypes } from '../../../../../../src/organizational-entities/domain/read-models/CenterTypes.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
@@ -10,7 +10,7 @@ describe('Integration | Certification | Enrolment | UseCase | get-mass-import-te
     it('should return a certification center habilitations and billingMode', async function () {
       // given
       const centerId = databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.SUP,
+        type: CERTIFICATION_CENTER_TYPES.SUP,
         externalId: '1234AB',
       }).id;
       const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;

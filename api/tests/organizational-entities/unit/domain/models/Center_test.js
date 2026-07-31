@@ -1,5 +1,4 @@
 import { types } from '../../../../../src/organizational-entities/domain/models/Organization.js';
-import { CenterTypes } from '../../../../../src/organizational-entities/domain/read-models/CenterTypes.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
@@ -8,7 +7,7 @@ describe('Unit | Organizational Entities | Domain | Models | Center', function (
   context('#hasBillingMode', function () {
     it('should return false when center is of type SCO', function () {
       // given
-      const center = domainBuilder.certification.enrolment.buildCenter({ type: CenterTypes.SCO });
+      const center = domainBuilder.certification.enrolment.buildCenter({ type: CERTIFICATION_CENTER_TYPES.SCO });
 
       // when / then
       expect(center.hasBillingMode).is.false;
@@ -16,7 +15,7 @@ describe('Unit | Organizational Entities | Domain | Models | Center', function (
 
     it('should return true when center is not of type SCO', function () {
       // given
-      const center = domainBuilder.certification.enrolment.buildCenter({ type: CenterTypes.SUP });
+      const center = domainBuilder.certification.enrolment.buildCenter({ type: CERTIFICATION_CENTER_TYPES.SUP });
 
       // when / then
       expect(center.hasBillingMode).is.true;

@@ -1,8 +1,8 @@
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
-import { CenterTypes } from '../../../../../src/organizational-entities/domain/read-models/CenterTypes.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import * as organizationCreationValidator from '../../../../../src/organizational-entities/domain/validators/organization-creation-validator.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { usecases as teamUsecases } from '../../../../../src/team/domain/usecases/index.js';
 import { COUNTRY_FRANCE_CODE } from '../../common/constants.js';
@@ -32,7 +32,7 @@ export class CommonOrganizations {
 
       const organization = new OrganizationForAdmin({
         name: 'Certification SCO Managing students organization',
-        type: CenterTypes.SCO,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
         isManagingStudents: true,
         externalId: 'SCO_MANAGING_STUDENTS_EXTERNAL_ID',
         administrationTeamId: administrationTeam.id,
@@ -77,7 +77,7 @@ export class CommonOrganizations {
 
       const organization = new OrganizationForAdmin({
         name: 'Certification PRO organization',
-        type: CenterTypes.PRO,
+        type: CERTIFICATION_CENTER_TYPES.PRO,
         isManagingStudents: false,
         externalId: 'PRO_EXTERNAL_ID',
         administrationTeamId: administrationTeam.id,
@@ -120,7 +120,7 @@ export class CommonOrganizations {
 
       const organization = new OrganizationForAdmin({
         name: 'Certification SUP organization',
-        type: CenterTypes.SUP,
+        type: CERTIFICATION_CENTER_TYPES.SUP,
         isManagingStudents: false,
         externalId: 'SUP_EXTERNAL_ID',
         administrationTeamId: administrationTeam.id,
