@@ -227,7 +227,8 @@
         },
         "errors": {
           "expired-demand": "We’re sorry, but your request to reset your password has already been used or has expired. Please start again.",
-          "forbidden": "An error occurred, please contact the support."
+          "forbidden": "An error occurred, please contact the support.",
+          "revoked-password-cannot-be-reused": "The password you just entered has been revoked by our teams as a security measure. Do not reuse it. Please choose a new password."
         },
         "fields": {
           "password": {

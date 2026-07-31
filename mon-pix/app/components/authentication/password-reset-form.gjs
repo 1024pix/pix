@@ -18,6 +18,8 @@ const HTTP_ERROR_MESSAGES = {
   400: 'common.validation.password.error',
   403: 'components.authentication.password-reset-form.errors.forbidden',
   404: 'components.authentication.password-reset-form.errors.expired-demand',
+  REVOKED_PASSWORD_CANNOT_BE_REUSED:
+    'components.authentication.password-reset-form.errors.revoked-password-cannot-be-reused',
   default: 'common.api-error-messages.internal-server-error',
 };
 
@@ -26,6 +28,7 @@ export default class PasswordResetForm extends Component {
 
   @tracked isPasswordResetSucceeded = false;
   @tracked isLoading = false;
+  @tracked password;
   @tracked globalError;
 
   validation = new FormValidation({
@@ -37,6 +40,8 @@ export default class PasswordResetForm extends Component {
 
   @action
   handleInputChange(event) {
+    this.password = event.target.value;
+
     const { user } = this.args;
     user.password = event.target.value;
     this.validation.password.validate(user.password);
@@ -60,8 +65,13 @@ export default class PasswordResetForm extends Component {
       user.password = null;
       this.isPasswordResetSucceeded = true;
     } catch (response) {
-      const status = get(response, 'errors[0].status');
-      this.globalError = HTTP_ERROR_MESSAGES[status] || HTTP_ERROR_MESSAGES['default'];
+      const error = get(response, 'errors[0]');
+      if (['REVOKED_PASSWORD_CANNOT_BE_REUSED'].includes(error?.code)) {
+        this.password = null;
+      }
+
+      const i18nKey = error.code ?? error.status;
+      this.globalError = HTTP_ERROR_MESSAGES[i18nKey] || HTTP_ERROR_MESSAGES['default'];
     } finally {
       this.isLoading = false;
     }
@@ -86,7 +96,9 @@ export default class PasswordResetForm extends Component {
           @id="password"
           class="password-reset-form__password-input"
           name="password"
-          {{on "change" this.handleInputChange}}
+          @useExternalValue={{true}}
+          @value={{this.password}}
+          @onInput={{this.handleInputChange}}
           @validationStatus={{this.validation.password.status}}
           @errorMessage={{t this.validation.password.error}}
           @rules={{PASSWORD_RULES}}

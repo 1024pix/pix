@@ -84,6 +84,12 @@ class PasswordResetDemandNotFoundError extends DomainError {
   }
 }
 
+class RevokedPasswordCannotBeReusedError extends DomainError {
+  constructor() {
+    super('This password has been revoked. It cannot be reused.', 'REVOKED_PASSWORD_CANNOT_BE_REUSED');
+  }
+}
+
 class PixAdminLoginFromPasswordDisabledError extends DomainError {
   constructor() {
     super('PixAdminLoginFromPassword disabled. Use SSO authentication.', 'PIX_ADMIN_LOGIN_FROM_PASSWORD_DISABLED');
@@ -136,6 +142,7 @@ export {
   PasswordResetDemandNotFoundError,
   PasswordResetTokenInvalidOrExpired,
   PixAdminLoginFromPasswordDisabledError,
+  RevokedPasswordCannotBeReusedError,
   RevokeUntilMustBeAnInstanceOfDate,
   UserCantBeCreatedError,
   UserIdIsRequiredError,

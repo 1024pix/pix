@@ -1,6 +1,7 @@
 import {
   BadRequestError,
   ConflictError,
+  ForbiddenError,
   NotFoundError,
   PasswordShouldChangeError,
   UnauthorizedError,
@@ -15,6 +16,7 @@ import {
   PasswordResetDemandNotFoundError,
   PasswordResetTokenInvalidOrExpired,
   PixAdminLoginFromPasswordDisabledError,
+  RevokedPasswordCannotBeReusedError,
   UserCantBeCreatedError,
   UserShouldChangePasswordError,
 } from '../domain/errors.js';
@@ -47,6 +49,10 @@ const authenticationDomainErrorMappingConfiguration = [
   {
     name: PasswordResetDemandNotFoundError.name,
     httpErrorFn: (error) => new NotFoundError(error.message),
+  },
+  {
+    name: RevokedPasswordCannotBeReusedError.name,
+    httpErrorFn: (error) => new ForbiddenError(error.message, error.code),
   },
   {
     name: PixAdminLoginFromPasswordDisabledError.name,

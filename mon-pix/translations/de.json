@@ -227,7 +227,8 @@
         },
         "errors": {
           "expired-demand": "Es tut uns leid, aber dein Antrag zum Zurücksetzen des Passworts wurde bereits verwendet oder ist abgelaufen. Bitte versuche es erneut.",
-          "forbidden": "Es ist ein Fehler aufgetreten, bitte wende dich an den Support."
+          "forbidden": "Es ist ein Fehler aufgetreten, bitte wende dich an den Support.",
+          "revoked-password-cannot-be-reused": "Das soeben von Ihnen eingegebene Passwort wurde von unseren Teams aus Sicherheitsgründen gesperrt. Verwenden Sie es nicht erneut. Bitte wählen Sie ein neues Passwort."
         },
         "fields": {
           "password": {

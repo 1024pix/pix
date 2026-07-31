@@ -35,8 +35,12 @@ const hashPasswordSync = function (password) {
   return bcrypt.hashSync(password, bcryptNumberOfSaltRounds);
 };
 
-const checkPassword = async function ({ password, passwordHash }) {
-  const matching = await bcrypt.compare(password, passwordHash);
+const matchPassword = async function ({ password, passwordHash }) {
+  return bcrypt.compare(password, passwordHash);
+};
+
+const assertMatchPassword = async function ({ password, passwordHash }) {
+  const matching = await matchPassword({ password, passwordHash });
   if (!matching) {
     throw new PasswordNotMatching();
   }
@@ -113,7 +117,8 @@ async function generateJSONWebKeyPair({ alg = 'RS256' } = {}) {
 /**
  * @typedef {Object} CryptoService
  * @property {function} randomBytes
- * @property {function} checkPassword
+ * @property {function} matchPassword
+ * @property {function} assertMatchPassword
  * @property {function} decrypt
  * @property {function} encrypt
  * @property {function} hashPassword
@@ -123,7 +128,8 @@ async function generateJSONWebKeyPair({ alg = 'RS256' } = {}) {
  */
 const cryptoService = {
   randomBytes,
-  checkPassword,
+  matchPassword,
+  assertMatchPassword,
   decrypt,
   encrypt,
   hashPassword,

@@ -227,7 +227,8 @@
         },
         "errors": {
           "expired-demand": "Siamo spiacenti, ma la richiesta di reimpostazione della password è già stata utilizzata o è scaduta. Si prega di riprovare.",
-          "forbidden": "Si è verificato un errore, contattare l'assistenza."
+          "forbidden": "Si è verificato un errore, contattare l'assistenza.",
+          "revoked-password-cannot-be-reused": "La password che hai appena inserito è stata revocata dai nostri team per motivi di sicurezza. Non riutilizzarla. Scegli una nuova password."
         },
         "fields": {
           "password": {

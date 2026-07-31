@@ -3,18 +3,15 @@ import sinon from 'sinon';
 import { PasswordResetDemandNotFoundError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
-import { getUserByResetPasswordDemand } from '../../../../../src/identity-access-management/domain/usecases/get-user-by-reset-password-demand.usecase.js';
-import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
-import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { config } from '../../../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { InvalidTemporaryKeyError } from '../../../../../src/shared/domain/errors.js';
-import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Integration | Identity Access Management | Domain | UseCase | getUserByResetPasswordDemand', function () {
+describe('Integration | Identity Access Management | Domain | UseCase | usecases.getUserByResetPasswordDemand', function () {
   const email = 'user@example.net';
 
   let temporaryKey;
@@ -31,12 +28,8 @@ describe('Integration | Identity Access Management | Domain | UseCase | getUserB
     await databaseBuilder.commit();
 
     // when
-    const foundUser = await getUserByResetPasswordDemand({
+    const foundUser = await usecases.getUserByResetPasswordDemand({
       temporaryKey,
-      resetPasswordService,
-      tokenService,
-      userRepository,
-      resetPasswordDemandRepository,
     });
 
     // then
@@ -46,12 +39,8 @@ describe('Integration | Identity Access Management | Domain | UseCase | getUserB
 
   it('should throws InvalidTemporaryKeyError if temporaryKey is invalid', async function () {
     // when
-    const error = await catchErr(getUserByResetPasswordDemand)({
+    const error = await catchErr(usecases.getUserByResetPasswordDemand)({
       temporaryKey: 'INVALIDKEY',
-      resetPasswordService,
-      tokenService,
-      userRepository,
-      resetPasswordDemandRepository,
     });
 
     // then
@@ -68,12 +57,8 @@ describe('Integration | Identity Access Management | Domain | UseCase | getUserB
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(getUserByResetPasswordDemand)({
+      const error = await catchErr(usecases.getUserByResetPasswordDemand)({
         temporaryKey,
-        resetPasswordService,
-        tokenService,
-        userRepository,
-        resetPasswordDemandRepository,
       });
 
       // then
@@ -86,12 +71,8 @@ describe('Integration | Identity Access Management | Domain | UseCase | getUserB
     const unknownTemporaryKey = await resetPasswordService.generateTemporaryKey();
 
     // when
-    const error = await catchErr(getUserByResetPasswordDemand)({
+    const error = await catchErr(usecases.getUserByResetPasswordDemand)({
       temporaryKey: unknownTemporaryKey,
-      resetPasswordService,
-      tokenService,
-      userRepository,
-      resetPasswordDemandRepository,
     });
 
     // then
@@ -106,12 +87,8 @@ describe('Integration | Identity Access Management | Domain | UseCase | getUserB
     await databaseBuilder.commit();
 
     // when
-    const error = await catchErr(getUserByResetPasswordDemand)({
+    const error = await catchErr(usecases.getUserByResetPasswordDemand)({
       temporaryKey,
-      resetPasswordService,
-      tokenService,
-      userRepository,
-      resetPasswordDemandRepository,
     });
 
     // then

@@ -49,7 +49,7 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
     });
   });
 
-  describe('#invalidateOldResetPasswordDemandsByEmail', function () {
+  describe('#invalidateAllResetPasswordDemandsByEmail', function () {
     let resetPasswordDemandRepository;
 
     beforeEach(function () {
@@ -64,7 +64,7 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
       resetPasswordDemandRepository.markAllAsUsedByEmail.resolves();
 
       // when
-      const promise = resetPasswordService.invalidateOldResetPasswordDemandsByEmail(
+      const promise = resetPasswordService.invalidateAllResetPasswordDemandsByEmail(
         userEmail,
         resetPasswordDemandRepository,
       );
@@ -73,41 +73,6 @@ describe('Unit | Identity Access Management | Domain | Service | reset-password'
       return promise.then(() => {
         sinon.assert.calledOnce(resetPasswordDemandRepository.markAllAsUsedByEmail);
         sinon.assert.calledWith(resetPasswordDemandRepository.markAllAsUsedByEmail, userEmail);
-      });
-    });
-  });
-
-  describe('#invalidateResetPasswordDemand', function () {
-    const userEmail = 'shi@fu.me';
-    let resetPasswordDemandRepository;
-
-    beforeEach(function () {
-      resetPasswordDemandRepository = {
-        markAsUsed: sinon.stub(),
-      };
-      resetPasswordDemandRepository.markAsUsed.throws();
-      resetPasswordDemandRepository.markAsUsed.withArgs(userEmail, 'good-temporary-key').resolves();
-      resetPasswordDemandRepository.markAsUsed.withArgs(userEmail, 'bad-temporary-key').rejects();
-    });
-
-    context('when there is a matching password reset demand', function () {
-      it('resolves', async function () {
-        await resetPasswordService.invalidateResetPasswordDemand(
-          userEmail,
-          'good-temporary-key',
-          resetPasswordDemandRepository,
-        );
-      });
-    });
-
-    context('when there is no matching password reset demand', function () {
-      it('resolves', function () {
-        const promise = resetPasswordService.invalidateResetPasswordDemand(
-          userEmail,
-          'bad-temporary-key',
-          resetPasswordDemandRepository,
-        );
-        return expect(promise).to.be.rejected;
       });
     });
   });

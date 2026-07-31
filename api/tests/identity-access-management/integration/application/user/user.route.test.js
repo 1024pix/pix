@@ -2,6 +2,9 @@ import sinon from 'sinon';
 
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
 import { userController } from '../../../../../src/identity-access-management/application/user/user.controller.js';
+import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
+import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { config } from '../../../../../src/shared/config.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -205,6 +208,79 @@ describe('Integration | Identity Access Management | Application | Route | User'
           // then
           expect(response.statusCode).to.equal(400);
           expect(response.result.errors[0].detail).to.equal('"data.attributes.cgu" must be a boolean');
+        });
+      });
+    });
+  });
+
+  describe('PATCH /api/users/{id}/password-update', function () {
+    context('when the password reset demand is expired', function () {
+      it('throws an InvalidTemporaryKeyError', async function () {
+        // given
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        const userId = user.id;
+        const email = user.email;
+
+        sinon.stub(config.passwordResetDemand, 'lifespan').value(0);
+        const temporaryKey = await resetPasswordService.generateTemporaryKey();
+        databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
+
+        await databaseBuilder.commit();
+
+        const newPassword = 'example-of-a-new-password';
+
+        const payload = {
+          data: {
+            id: userId,
+            attributes: {
+              password: newPassword,
+            },
+          },
+        };
+        const url = `/api/users/${userId}/password-update?temporary-key=${temporaryKey}`;
+
+        // when
+        const response = await httpTestServer.request('PATCH', url, payload, null);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    context('when user has a revokedHashedPassword', function () {
+      context('when the given password is the same as the previous password', function () {
+        it('throws a RevokedPasswordCannotBeReusedError', async function () {
+          // given
+          const initialPassword = 'example-of-a-valid-password-az-AZ-01234';
+          const temporaryKey = await resetPasswordService.generateTemporaryKey();
+          const user = databaseBuilder.factory.buildUser.withRawPassword({ rawPassword: initialPassword });
+          const userId = user.id;
+          const email = user.email;
+
+          await databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
+
+          await databaseBuilder.commit();
+
+          await usecases.revokeAccessForUsers({ userIds: [userId] });
+
+          const newPassword = initialPassword;
+          const payload = {
+            data: {
+              id: userId,
+              attributes: {
+                password: newPassword,
+              },
+            },
+          };
+          const url = `/api/users/${userId}/password-update?temporary-key=${temporaryKey}`;
+
+          // when
+          const response = await httpTestServer.request('PATCH', url, payload, null);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+          expect(response.result.errors[0].code).to.equal('REVOKED_PASSWORD_CANNOT_BE_REUSED');
         });
       });
     });

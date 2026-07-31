@@ -20,7 +20,7 @@ const assertTemporaryKey = function (token) {
   }
 };
 
-const invalidateOldResetPasswordDemandsByEmail = function (userEmail, resetPasswordDemandRepository) {
+const invalidateAllResetPasswordDemandsByEmail = function (userEmail, resetPasswordDemandRepository) {
   return resetPasswordDemandRepository.markAllAsUsedByEmail(userEmail);
 };
 
@@ -29,29 +29,16 @@ const verifyDemand = function (temporaryKey, resetPasswordDemandRepository) {
 };
 
 /**
- * @param {string} email
- * @param {string} temporaryKey
- * @param {ResetPasswordDemandRepository} resetPasswordDemandRepository
- * @return {Promise<*>}
- * @throws PasswordResetDemandNotFoundError
- */
-const invalidateResetPasswordDemand = function (email, temporaryKey, resetPasswordDemandRepository) {
-  return resetPasswordDemandRepository.markAsUsed(email, temporaryKey);
-};
-
-/**
  * @typedef {Object} ResetPasswordService
  * @property assertTemporaryKey
  * @property generateTemporaryKey
- * @property invalidateResetPasswordDemand
- * @property invalidateOldResetPasswordDemandsByEmail
+ * @property invalidateAllResetPasswordDemandsByEmail
  * @property verifyDemand
  */
 const resetPasswordService = {
   assertTemporaryKey,
   generateTemporaryKey,
-  invalidateResetPasswordDemand,
-  invalidateOldResetPasswordDemandsByEmail,
+  invalidateAllResetPasswordDemandsByEmail,
   verifyDemand,
 };
 export { resetPasswordService };

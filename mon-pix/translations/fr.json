@@ -227,7 +227,8 @@
         },
         "errors": {
           "expired-demand": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
-          "forbidden": "Une erreur est survenue, veuillez contacter le support."
+          "forbidden": "Une erreur est survenue, veuillez contacter le support.",
+          "revoked-password-cannot-be-reused": "Le mot de passe que vous venez d’entrer a été révoqué par nos équipes par mesure de sécurité. Il ne faut pas le réutiliser. Merci de choisir un nouveau mot de passe."
         },
         "fields": {
           "password": {
