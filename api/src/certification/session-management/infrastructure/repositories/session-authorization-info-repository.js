@@ -1,5 +1,4 @@
-import { Organization } from '../../../../organizational-entities/domain/models/Organization.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/constants.js';
+import { CERTIFICATION_CENTER_TYPES, ORGANIZATION_TYPES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { SessionAuthorizationInfo } from '../../domain/read-models/SessionAuthorizationInfo.js';
 
@@ -27,7 +26,7 @@ export async function findBySessionId({ sessionId }) {
         .whereRaw('"sessions"."certificationCenterId" = "certification-centers".id')
         .where({
           'certification-centers.type': CERTIFICATION_CENTER_TYPES.SCO,
-          'organizations.type': Organization.types.SCO,
+          'organizations.type': ORGANIZATION_TYPES.SCO,
           'organizations.archivedAt': null,
           'organizations.isManagingStudents': true,
         })

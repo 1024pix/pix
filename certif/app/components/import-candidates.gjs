@@ -105,13 +105,13 @@ export default class ImportCandidates extends Component {
                 {{t 'pages.sessions.detail.candidates.panel-actions.expired-warning' htmlSafe=true}}
               </strong>
             </div>
-            {{else}}
-              <PixIcon @name='error' @plainIcon={{true}} @ariaHidden={{true}} class='panel-actions__warning-icon' />
-              <div class='panel-actions__description'>
-                <strong class='panel-actions__warning'>
-                  {{t 'pages.sessions.detail.candidates.panel-actions.started-warning' htmlSafe=true}}
-                </strong>
-              </div>
+          {{else}}
+            <PixIcon @name='error' @plainIcon={{true}} @ariaHidden={{true}} class='panel-actions__warning-icon' />
+            <div class='panel-actions__description'>
+              <strong class='panel-actions__warning'>
+                {{t 'pages.sessions.detail.candidates.panel-actions.started-warning' htmlSafe=true}}
+              </strong>
+            </div>
           {{/if}}
         </div>
       </div>

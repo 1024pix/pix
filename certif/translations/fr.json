@@ -19,10 +19,11 @@
       "validate": "Valider"
     },
     "api-error-messages": {
-      "INDIVIDUAL_ENROL_NOT_ALLOWED": "Cette session est finalisée ou expirée, l'ajout de candidat n'est pas autorisé.",
       "CANDIDATE_NOT_FOUND": "Une erreur est survenue, le candidat {firstName} {lastName} n'a pas été trouvé.",
       "EMPTY_CANDIDATES_IMPORT": "Le fichier semble vide. Veuillez vérifier le contenu du fichier importé ou nous contacter.",
+      "INDIVIDUAL_ENROL_NOT_ALLOWED": "Cette session est finalisée ou expirée, l'ajout de candidat n'est pas autorisé.",
       "INVALID_DOCUMENT": "La version du document est inconnue.<br />Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
+      "SCO_ENROL_NOT_ALLOWED": "Cette session est finalisée ou expirée, l'ajout de candidat n'est pas autorisé.",
       "SESSION_ALREADY_EXISTS": "Une session avec les mêmes informations (date, horaire, adresse et salle) existe déjà.",
       "SESSION_ALREADY_FINALIZED": "La session a déjà été finalisée.",
       "SESSION_CANNOT_BE_FINALIZED": "Erreur lors de la finalisation de session.",
@@ -703,9 +704,9 @@
                 "label": "Importer (.ods)"
               }
             },
-            "title": "Inscrire des candidats",
+            "expired-warning": "La session a expiré, vous ne pouvez plus inscrire de candidats.",
             "started-warning": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br /> Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.",
-            "expired-warning": "La session a expiré, vous ne pouvez plus inscrire de candidats."
+            "title": "Inscrire des candidats"
           }
         },
         "downloads": {

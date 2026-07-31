@@ -13,9 +13,9 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
 import toNumber from 'lodash/toNumber';
+import dayjsUtcFormat from 'pix-certif/helpers/dayjs-utc-format';
+import { formatPercentage } from 'pix-certif/helpers/format-percentage';
 
-import dayjsUtcFormat from '../../../../helpers/dayjs-utc-format';
-import { formatPercentage } from '../../../../helpers/format-percentage';
 import CandidateCreationModal from './candidate-creation-modal';
 import CandidateDetailsModal from './candidate-details-modal';
 import CandidateEditionModal from './candidate-edition-modal';
@@ -222,6 +222,7 @@ export default class EnrolledCandidates extends Component {
         return this._handleEntityValidationError(errorResponse);
       case '400':
         return this._handleMissingQueryParamError(errorResponse);
+      case '412':
       case '403':
         return this._handleApiError(errorResponse);
       default:
@@ -301,11 +302,20 @@ export default class EnrolledCandidates extends Component {
         ({{@certificationCandidates.length}})
       </h3>
       {{#if @shouldDisplayScoStudentRegistration}}
-        <PixButtonLink @isDisabled={{@disableEnrollCandidate}} @route='authenticated.sessions.add-student' @model={{@sessionId}}>
+        <PixButtonLink
+          @isDisabled={{@disableEnrollCandidate}}
+          @route='authenticated.sessions.add-student'
+          @model={{@sessionId}}
+        >
           {{t 'pages.sessions.detail.candidates.list.actions.inscription-multiple.label'}}
         </PixButtonLink>
       {{else}}
-        <PixButton id='add-candidate' @isDisabled={{@disableEnrollCandidate}} @triggerAction={{this.openNewCandidateModal}} @size='small'>
+        <PixButton
+          id='add-candidate'
+          @isDisabled={{@disableEnrollCandidate}}
+          @triggerAction={{this.openNewCandidateModal}}
+          @size='small'
+        >
           {{t 'pages.sessions.detail.candidates.list.actions.inscription.label'}}
         </PixButton>
       {{/if}}

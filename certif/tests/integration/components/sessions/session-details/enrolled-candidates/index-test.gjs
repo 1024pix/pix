@@ -269,7 +269,10 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       );
 
       // then
-      assert.strictEqual(screen.getByRole('button', { name: 'Inscrire un candidat' }).getAttribute('aria-disabled'), 'true');
+      assert.strictEqual(
+        screen.getByRole('button', { name: 'Inscrire un candidat' }).getAttribute('aria-disabled'),
+        'true',
+      );
     });
   });
 
