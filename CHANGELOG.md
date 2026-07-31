@@ -1,5 +1,19 @@
 # Pix Changelog
 
+# [5.470.0](https://github.com/1024pix/pix/compare/v5.469.0...v5.470.0) (2026-07-31)
+
+### :rocket: Amélioration
+
+- [#16986](https://github.com/1024pix/pix/pull/16986) Ajouter la page de calibration (PIX-23749)
+- [#16973](https://github.com/1024pix/pix/pull/16973) Durabilité_AVA-post-panel-modifs
+- [#16926](https://github.com/1024pix/pix/pull/16926) Interdiction pour l’utilisateur de réinitialiser son mot de passe avec un mot de passe révoqué (PIX-23483)
+
+### :building_construction: Tech
+
+- [#16944](https://github.com/1024pix/pix/pull/16944) :recycle: Utilise un vrai `builder` pour le candidat dans le contexte `enrolment` (PIX-23680)
+- [#16993](https://github.com/1024pix/pix/pull/16993) Revoir l'utilisation de membership-repository
+- [#16996](https://github.com/1024pix/pix/pull/16996) Suppression de dépendences non utilisées dans les index des usecases
+
 # [5.469.0](https://github.com/1024pix/pix/compare/v5.468.0...v5.469.0) (2026-07-30)
 
 ### :rocket: Amélioration
