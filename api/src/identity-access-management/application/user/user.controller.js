@@ -7,7 +7,6 @@ import { emailVerificationSerializer } from '../../infrastructure/serializers/js
 import { updateEmailSerializer } from '../../infrastructure/serializers/jsonapi/update-email.serializer.js';
 import { userAccountInfoSerializer } from '../../infrastructure/serializers/jsonapi/user-account-info.serializer.js';
 import { userSerializer } from '../../infrastructure/serializers/jsonapi/user-serializer.js';
-import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 
 const acceptPixCertifTermsOfService = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
@@ -64,22 +63,6 @@ const changeUserLocale = async function (request, h, dependencies = { userSerial
   const updatedUser = await usecases.changeUserLocale({ userId: authenticatedUserId, locale });
 
   return dependencies.userSerializer.serialize(updatedUser);
-};
-
-/**
- * @param request
- * @param h
- * @param {{
- *   userWithActivitySerializer: UserWithActivitySerializer
- * }} dependencies
- * @return {Promise<*>}
- */
-const getCurrentUser = async function (request, h, dependencies = { userWithActivitySerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const result = await usecases.getCurrentUser({ authenticatedUserId });
-
-  return dependencies.userWithActivitySerializer.serialize(result);
 };
 
 /**
@@ -284,7 +267,6 @@ export const userController = {
   acceptPixOrgaTermsOfService,
   changeUserLocale,
   getCertificationPointOfContact,
-  getCurrentUser,
   getCurrentUserAccountInfo,
   getUserAuthenticationMethods,
   rememberUserHasSeenChallengeTooltip,

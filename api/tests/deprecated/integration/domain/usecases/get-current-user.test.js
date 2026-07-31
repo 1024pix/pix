@@ -1,11 +1,11 @@
-import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-describe('Integration | Identity Access Management | Domain | UseCase | get-current-user', function () {
+describe('Deprecated | Integration | Domain | UseCase | get-current-user', function () {
   it('gets the user basic information', async function () {
     // given
     const user = databaseBuilder.factory.buildUser({ shouldSeeDataProtectionPolicyInformationBanner: true });

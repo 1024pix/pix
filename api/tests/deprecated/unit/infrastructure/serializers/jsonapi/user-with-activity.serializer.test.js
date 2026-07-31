@@ -1,9 +1,9 @@
+import { UserWithActivity } from '../../../../../../src/deprecated/domain/models/UserWithActivity.js';
+import { userWithActivitySerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
-import { UserWithActivity } from '../../../../../../src/identity-access-management/domain/read-models/UserWithActivity.js';
-import { userWithActivitySerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | user-with-activity', function () {
+describe('Deprecated | Unit | Infrastructure | Serializer | JSONAPI | user-with-activity', function () {
   describe('#serialize', function () {
     let userModelObject;
 
