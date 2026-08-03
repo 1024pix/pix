@@ -70,6 +70,19 @@ export async function selectNextCertificationChallenge({ assessmentId }) {
 
 /**
  * @function
+ * @name getAssessmentLiveAlerts
+ *
+ * @param {object} params
+ * @param {number} params.assessmentId
+ *
+ * @returns {Promise<{challengeLiveAlerts: Array<object>, companionLiveAlerts: Array<object>}>}
+ */
+export async function getAssessmentLiveAlerts({ assessmentId }) {
+  return usecases.getAssessmentLiveAlerts({ assessmentId });
+}
+
+/**
+ * @function
  * @name evaluateAndSaveAnswer
  *
  * @param {object} params

@@ -5,6 +5,21 @@ import { usecases } from '../../../../../../src/certification/evaluation/domain/
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Application | Certification | Evaluation | API', function () {
+  describe('#getAssessmentLiveAlerts', function () {
+    it('should call getAssessmentLiveAlerts usecase', async function () {
+      // given
+      const assessmentId = Symbol('assessmentId');
+      const liveAlerts = Symbol('liveAlerts');
+      sinon.stub(usecases, 'getAssessmentLiveAlerts').withArgs({ assessmentId }).resolves(liveAlerts);
+
+      // when
+      const result = await certificationEvaluationApi.getAssessmentLiveAlerts({ assessmentId });
+
+      // then
+      expect(result).to.equal(liveAlerts);
+    });
+  });
+
   describe('#completeCertificationAssessment', function () {
     it('should call completeCertificationAssessment', async function () {
       // given
