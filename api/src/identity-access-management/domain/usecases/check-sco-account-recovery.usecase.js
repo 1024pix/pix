@@ -3,29 +3,26 @@ import { StudentInformationForAccountRecovery } from '../read-models/StudentInfo
 const checkScoAccountRecovery = async function ({
   studentInformation,
   organizationLearnerRepository,
-  organizationRepository,
-  accountRecoveryDemandRepository,
-  userRepository,
-  scoAccountRecoveryService,
   userReconciliationService,
+  userRepository,
+  organizationRepository,
+  scoAccountRecoveryService,
 }) {
-  const { firstName, lastName, username, organizationId, email } =
-    await scoAccountRecoveryService.retrieveOrganizationLearner({
-      studentInformation,
-      accountRecoveryDemandRepository,
-      organizationLearnerRepository,
-      userRepository,
-      userReconciliationService,
-    });
+  const { userId, firstName, lastName, organizationId } = await scoAccountRecoveryService.retrieveOrganizationLearner({
+    studentInformation,
+    organizationLearnerRepository,
+    userReconciliationService,
+  });
 
-  const { name: latestOrganizationName } = await organizationRepository.get(organizationId);
+  const user = await userRepository.get(userId);
+  const organization = await organizationRepository.get(organizationId);
 
   return new StudentInformationForAccountRecovery({
     firstName,
     lastName,
-    username,
-    email,
-    latestOrganizationName,
+    username: user.username,
+    email: user.email,
+    latestOrganizationName: organization.name,
   });
 };
 
