@@ -1,9 +1,8 @@
-import { Answer } from '../../../../evaluation/domain/models/Answer.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import * as answerStatusDatabaseAdapter from '../../../../shared/infrastructure/adapters/answer-status-database-adapter.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import { CertificationAssessment } from '../../../session-management/domain/models/CertificationAssessment.js';
+import { CertificationAnswer } from '../../domain/models/CertificationAnswer.js';
 import { CertificationChallengeWithType } from '../../domain/models/CertificationChallengeWithType.js';
 
 export async function getByCertificationCourseId({ certificationCourseId }) {
@@ -88,9 +87,7 @@ export async function save(certificationAssessment) {
     });
   }
   for (const answer of certificationAssessment.certificationAnswersByDate) {
-    await knexConn('answers')
-      .where({ id: answer.id })
-      .update({ result: answerStatusDatabaseAdapter.toSQLString(answer.result) });
+    await knexConn('answers').where({ id: answer.id }).update({ result: answer.result.status });
   }
 
   await knexConn('assessments')
@@ -117,17 +114,12 @@ async function _getCertificationChallenges(certificationCourseId, knexConn) {
 
 async function _getCertificationAnswersByDate(certificationAssessmentId, knexConn) {
   const answerDTOs = await knexConn
-    .select(['id', 'result', 'resultDetails', 'timeout', 'value', 'assessmentId', 'challengeId', 'timeSpent'])
+    .select(['id', 'result', 'value', 'challengeId'])
     .from('answers')
     .where({ assessmentId: certificationAssessmentId })
     .orderBy('createdAt', 'asc');
   const dedupedAnswerDTOs = uniqByChallenge(answerDTOs);
-  return dedupedAnswerDTOs.map((answerDTO) => {
-    return new Answer({
-      ...answerDTO,
-      result: answerStatusDatabaseAdapter.fromSQLString(answerDTO.result),
-    });
-  });
+  return dedupedAnswerDTOs.map((answerDTO) => new CertificationAnswer(answerDTO));
 }
 
 function uniqByChallenge(answerDTOs) {
