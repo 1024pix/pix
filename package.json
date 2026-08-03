@@ -101,7 +101,7 @@
     "eslint-plugin-i18n-json": "^4.0.1",
     "eslint-plugin-import-x": "^4.9.3",
     "eslint-plugin-knex": "v0.2.2",
-    "eslint-plugin-mocha": "^11.0.0",
+    "eslint-plugin-mocha": "^12.0.0",
     "eslint-plugin-n": "^18.0.0",
     "eslint-plugin-prettier": "^5.2.5",
     "eslint-plugin-unicorn": "^65.0.0",
