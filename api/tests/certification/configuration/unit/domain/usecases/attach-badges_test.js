@@ -18,7 +18,7 @@ describe('Unit | UseCase | attach-badges', function () {
       getById: sinon.stub(),
     };
     complementaryCertificationBadgesRepository = {
-      findAttachableBadgesByIds: sinon.stub(),
+      countAttachableBadges: sinon.stub(),
     };
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
@@ -127,7 +127,7 @@ describe('Unit | UseCase | attach-badges', function () {
         id: 123,
         hasExternalJury: true,
       });
-      complementaryCertificationBadgesRepository.findAttachableBadgesByIds.resolves([{ badgeId: 1 }, { badgeId: 2 }]);
+      complementaryCertificationBadgesRepository.countAttachableBadges.resolves(2);
 
       // when
       const error = await catchErr(attachBadges)({
@@ -150,13 +150,13 @@ describe('Unit | UseCase | attach-badges', function () {
 
   context('when one or more badges do not exist', function () {
     [
-      { label: 'no badges found', resolve: [] },
-      { label: 'not all badges are certifiable', resolve: [{ badgeId: 1, level: 1, isCertifiable: true }] },
+      { label: 'no badges found', resolve: 0 },
+      { label: 'not all badges are certifiable', resolve: 1 },
     ].forEach((assessment) => {
       context(`when  ${assessment.label}`, function () {
         it('should throw a not found error', async function () {
           // given
-          complementaryCertificationBadgesRepository.findAttachableBadgesByIds.resolves(assessment.resolve);
+          complementaryCertificationBadgesRepository.countAttachableBadges.resolves(assessment.resolve);
 
           // when
           const error = await catchErr(attachBadges)({
@@ -183,8 +183,6 @@ describe('Unit | UseCase | attach-badges', function () {
         sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
           return callback();
         });
-        const badge1 = domainBuilder.buildBadge({ id: 123 });
-        const badge2 = domainBuilder.buildBadge({ id: 456 });
 
         const complementaryCertification = domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
           id: 123,
@@ -194,7 +192,7 @@ describe('Unit | UseCase | attach-badges', function () {
           attach: sinon.stub().resolves(),
           detachByIds: sinon.stub(),
           getAllIdsByTargetProfileId: sinon.stub(),
-          findAttachableBadgesByIds: sinon.stub().resolves([badge1, badge2]),
+          countAttachableBadges: sinon.stub().resolves(2),
         };
 
         complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId
@@ -225,7 +223,6 @@ describe('Unit | UseCase | attach-badges', function () {
         sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
           return callback();
         });
-        const badge1 = domainBuilder.buildBadge({ id: 123 });
 
         const complementaryCertificationBadge = {
           badgeId: 123,
@@ -252,7 +249,7 @@ describe('Unit | UseCase | attach-badges', function () {
               level: 1,
             }).badgeId,
           ]),
-          findAttachableBadgesByIds: sinon.stub().resolves([badge1]),
+          countAttachableBadges: sinon.stub().resolves(1),
         };
 
         // when
@@ -283,7 +280,6 @@ describe('Unit | UseCase | attach-badges', function () {
         sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
           return callback();
         });
-        const badge1 = domainBuilder.buildBadge({ id: 123 });
 
         const complementaryCertificationBadge = {
           badgeId: 123,
@@ -310,7 +306,7 @@ describe('Unit | UseCase | attach-badges', function () {
               level: 1,
             }).badgeId,
           ]),
-          findAttachableBadgesByIds: sinon.stub().resolves([badge1]),
+          countAttachableBadges: sinon.stub().resolves(1),
         };
 
         // when
@@ -348,8 +344,6 @@ describe('Unit | UseCase | attach-badges', function () {
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
-      const badge1 = domainBuilder.buildBadge({ id: 123 });
-      const badge2 = domainBuilder.buildBadge({ id: 456 });
 
       const complementaryCertification = domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
         id: 123,
@@ -359,7 +353,7 @@ describe('Unit | UseCase | attach-badges', function () {
         attach: sinon.stub().resolves(),
         detachByIds: sinon.stub(),
         getAllIdsByTargetProfileId: sinon.stub(),
-        findAttachableBadgesByIds: sinon.stub().resolves([badge1, badge2]),
+        countAttachableBadges: sinon.stub().resolves(2),
       };
       const BadgeToAttachValidator = {
         validate: sinon.stub().resolves(),

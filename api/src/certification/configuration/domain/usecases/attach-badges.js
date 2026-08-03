@@ -152,9 +152,9 @@ async function _verifyThatBadgesToAttachExist({
   }
 
   const ids = complementaryCertificationBadgesToAttachDTO.map((ccBadgeToAttach) => ccBadgeToAttach.badgeId);
-  const badges = await complementaryCertificationBadgesRepository.findAttachableBadgesByIds({ ids });
+  const attachableBadgesCount = await complementaryCertificationBadgesRepository.countAttachableBadges({ ids });
 
-  if (badges?.length !== ids.length) {
+  if (attachableBadgesCount !== ids.length) {
     throw new NotFoundError('One or several badges are not attachable.');
   }
 }
