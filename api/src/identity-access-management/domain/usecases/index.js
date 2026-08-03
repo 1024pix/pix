@@ -129,7 +129,6 @@ import { getRedirectLogoutUrl } from './get-redirect-logout-url.usecase.js';
 import { getSamlAuthenticationRedirectionUrl } from './get-saml-authentication-redirection-url.js';
 import { getUserAccountInfo } from './get-user-account-info.usecase.js';
 import { getUserByResetPasswordDemand } from './get-user-by-reset-password-demand.usecase.js';
-import { getUserDetailsForAdmin } from './get-user-details-for-admin.usecase.js';
 import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { logoutOidcUser } from './logout-oidc-user.usecase.js';
 import { markAssessmentInstructionsInfoAsSeen } from './mark-assessment-instructions-info-as-seen.usecase.js';
@@ -187,7 +186,6 @@ const usecasesWithoutInjectedDependencies = {
   getSamlAuthenticationRedirectionUrl,
   getUserAccountInfo,
   getUserByResetPasswordDemand,
-  getUserDetailsForAdmin,
   listLtiPublicKeys,
   logoutOidcUser,
   markAssessmentInstructionsInfoAsSeen,

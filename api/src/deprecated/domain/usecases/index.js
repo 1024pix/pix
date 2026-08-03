@@ -9,12 +9,15 @@ import { userOrgaSettingsRepository } from '../../../team/infrastructure/reposit
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
 import { prescriberRepository } from '../../infrastructure/repositories/prescriber-repository.js';
+import * as userAdminRepository from '../../infrastructure/repositories/user-admin-repository.js';
 import { getCertificationPointOfContact } from './get-certification-point-of-contact.js';
 import { getCurrentUser } from './get-current-user.js';
 import { getPrescriber } from './get-prescriber.js';
+import { getUserDetailsForAdmin } from './get-user-details-for-admin.usecase.js';
 
 const dependencies = {
   userRepository,
+  userAdminRepository,
   prescriberRepository,
   membershipRepository,
   userOrgaSettingsRepository,
@@ -29,8 +32,7 @@ const usecasesWithoutInjectedDependencies = {
   getCurrentUser,
   getCertificationPointOfContact,
   getPrescriber,
+  getUserDetailsForAdmin,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
-
-export { usecases };
+export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
