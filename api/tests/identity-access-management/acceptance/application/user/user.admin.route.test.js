@@ -187,7 +187,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
       await databaseBuilder.commit();
     });
 
-    it('replies with 200 status code, when user details are updated', async function () {
+    it('replies with 204 status code, when user details are updated', async function () {
       // given
       const options = {
         method: 'PATCH',
@@ -212,12 +212,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data.id).to.equal(String(user.id));
-      expect(response.result.data.type).to.equal('users');
-      expect(response.result.data.attributes.email).to.equal('emailUpdated@example.net');
-      expect(response.result.data.relationships['organization-learners']).to.not.be.undefined;
-      expect(response.result.data.relationships['authentication-methods']).to.not.be.undefined;
+      expect(response.statusCode).to.equal(204);
     });
 
     describe('Error case', function () {
@@ -534,8 +529,6 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
 
       // then
       expect(response.statusCode).to.equal(201);
-      expect(response.result.data.attributes.email).to.equal('user@example.net');
-      expect(response.result.included[0].attributes['identity-provider']).to.equal('PIX');
     });
   });
 

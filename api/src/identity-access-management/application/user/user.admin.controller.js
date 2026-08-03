@@ -4,6 +4,7 @@ import { userAnonymizedDetailsForAdminSerializer } from '../../infrastructure/se
 import { userDetailsForAdminSerializer } from '../../infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
 import { userForAdminSerializer } from '../../infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
 import { userLoginSerializer } from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
+import { userUpdateForAdminSerializer } from '../../infrastructure/serializers/jsonapi/user-update-for-admin.serializer.js';
 
 /**
  *
@@ -37,17 +38,16 @@ const unblockUserAccount = async function (request, h, dependencies = { userLogi
  * @param request
  * @param h
  * @param {object} dependencies
- * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
+ * @param {userUpdateForAdminSerializer} dependencies.userUpdateForAdminSerializer
  * @return {Promise<*>}
  */
-const updateUserDetailsByAdmin = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
+const updateUserDetailsByAdmin = async function (request, h, dependencies = { userUpdateForAdminSerializer }) {
   const updatedByAdminId = request.auth.credentials.userId;
   const userId = request.params.id;
-  const userDetailsToUpdate = dependencies.userDetailsForAdminSerializer.deserialize(request.payload);
+  const userToUpdate = dependencies.userUpdateForAdminSerializer.deserialize(request.payload);
 
-  const updatedUser = await usecases.updateUserDetailsByAdmin({ userId, userDetailsToUpdate, updatedByAdminId });
-
-  return dependencies.userDetailsForAdminSerializer.serializeForUpdate(updatedUser);
+  await usecases.updateUserDetailsByAdmin({ userId, userToUpdate, updatedByAdminId });
+  return h.response().code(204);
 };
 
 /**
@@ -95,11 +95,11 @@ const anonymizeUser = async function (request, h, dependencies = { userAnonymize
  * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
  * @returns {Promise<*>}
  */
-const addPixAuthenticationMethod = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
+const addPixAuthenticationMethod = async function (request, h) {
   const userId = request.params.id;
   const email = request.payload.data.attributes.email.trim().toLowerCase();
-  const userUpdated = await usecases.addPixAuthenticationMethod({ userId, email });
-  return h.response(dependencies.userDetailsForAdminSerializer.serialize(userUpdated)).created();
+  await usecases.addPixAuthenticationMethod({ userId, email });
+  return h.response().created();
 };
 
 /**

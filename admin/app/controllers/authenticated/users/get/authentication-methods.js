@@ -21,6 +21,7 @@ export default class UserAuthenticationMethodsController extends Controller {
   @action
   async addPixAuthenticationMethod(newEmail) {
     await this.model.userProfile.save({ adapterOptions: { addPixAuthenticationMethod: true, newEmail } });
+    this.send('refreshModel');
   }
 
   @action

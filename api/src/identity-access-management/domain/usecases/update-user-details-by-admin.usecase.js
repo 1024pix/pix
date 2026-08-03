@@ -11,12 +11,12 @@ import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLogging
 
 const updateUserDetailsByAdmin = async function ({
   userId,
-  userDetailsToUpdate,
+  userToUpdate,
   updatedByAdminId,
   userRepository,
   auditLoggingJobRepository,
 }) {
-  const { email, username } = userDetailsToUpdate;
+  const { email, username } = userToUpdate;
 
   await _checkEmailAndUsernameAreAvailable({ userId, email, username, userRepository });
 
@@ -24,14 +24,12 @@ const updateUserDetailsByAdmin = async function ({
 
   const userMustValidateTermsOfService = _isAddingEmailForFirstTime({ currentUser, newEmail: email });
   if (userMustValidateTermsOfService) {
-    userDetailsToUpdate.mustValidateTermsOfService = true;
+    userToUpdate.mustValidateTermsOfService = true;
   }
 
-  await userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: userDetailsToUpdate });
+  await userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: userToUpdate });
 
   await _auditLogForEmailChanged({ currentUser, newEmail: email, updatedByAdminId, auditLoggingJobRepository });
-
-  return userRepository.getUserDetailsForAdmin(userId);
 };
 
 async function _checkEmailAndUsernameAreAvailable({ userId, email, username, userRepository }) {
