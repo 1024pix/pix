@@ -1,5 +1,3 @@
-// eslint-disable import/no-restricted-paths
-import * as divisionRepository from '../../../../prescription/campaign/infrastructure/repositories/division-repository.js';
 import * as organizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as countryRepository from '../../../../shared/infrastructure/repositories/country-repository.js';
@@ -65,7 +63,6 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
  * @typedef {import('../services/eligibility-service.js')} EligibilityService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
- * @typedef {import('../../../../prescription/campaign/infrastructure/repositories/division-repository.js')} divisionRepository
  * @typedef {import('../../../shared/infrastructure/repositories/certification-center-repository.js')} CertificationCenterRepository
  * @typedef {import('../../infrastructure/adapters/event-adapter.js')} EventAdapter
  * @typedef {import('../../infrastructure/adapters/session-authorization-adapter.js')} SessionAuthorizationAdapter
@@ -95,7 +92,7 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
  * @typedef {EligibilityService} EligibilityService
  * @typedef {PlacementProfileService} PlacementProfileService
- * @typedef {divisionRepository} DivisionRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').DivisionRepository} DivisionRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {eventAdapter} EventAdapter
  * @typedef {sessionAuthorizationAdapter} SessionAuthorizationAdapter
@@ -110,7 +107,6 @@ const dependencies = {
   sessionValidator,
   attendanceSheetPdfUtils,
   certificationCpfService,
-  divisionRepository,
   certificationCandidatesOdsService,
   eligibilityService,
   placementProfileService,

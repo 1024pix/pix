@@ -16,7 +16,7 @@ describe('Unit | UseCase | find-divisions-by-certification-center', function () 
       findActiveScoOrganizationId: sinon.stub(),
     };
     divisionRepository = {
-      findByOrganizationIdForCurrentSchoolYear: sinon.stub(),
+      findActiveDivisionsByOrganizationId: sinon.stub(),
     };
   });
 
@@ -30,7 +30,7 @@ describe('Unit | UseCase | find-divisions-by-certification-center', function () 
       centerRepository.findActiveScoOrganizationId
         .withArgs({ certificationCenterId: certificationCenter.id })
         .resolves(organization.id);
-      divisionRepository.findByOrganizationIdForCurrentSchoolYear
+      divisionRepository.findActiveDivisionsByOrganizationId
         .withArgs({ organizationId: organization.id })
         .resolves([{ name: '3a' }, { name: '3b' }, { name: '5c' }]);
 

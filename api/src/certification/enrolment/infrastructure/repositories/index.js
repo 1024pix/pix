@@ -11,6 +11,7 @@ import * as certificationCpfCityRepository from './certification-cpf-city-reposi
 import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
 import * as complementaryCertificationBadgeWithOffsetVersionRepository from './complementary-certification-badge-with-offset-version-repository.js';
 import * as complementaryCertificationCourseRepository from './complementary-certification-course-repository.js';
+import * as divisionRepository from './division-repository.js';
 import * as sessionForAttendanceSheetRepository from './session-for-attendance-sheet-repository.js';
 import * as sessionRepository from './session-repository.js';
 
@@ -30,11 +31,13 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {targetProfileHistoryRepository} TargetProfileHistoryRepository
  * @typedef {complementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
  * @typedef {complementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
+ * @typedef {divisionRepository} DivisionRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
   centerRepository,
   certificationCenterRepository,
+  divisionRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   dataProtectionOfficerRepository,
