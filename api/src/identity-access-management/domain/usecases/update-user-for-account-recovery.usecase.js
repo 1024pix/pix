@@ -1,11 +1,11 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { AccountRecoveryService } from '../services/account-recovery.service.js';
 
 /**
  * @param {{
  *   password: string,
  *   temporaryKey: string,
- *   scoAccountRecoveryService: ScoAccountRecoveryService,
  *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
  *   cryptoService: CryptoService,
  *   authenticationMethodRepository: AuthenticationMethodRepository,
@@ -17,27 +17,21 @@ import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 export const updateUserForAccountRecovery = async function ({
   password,
   temporaryKey,
-  scoAccountRecoveryService,
   accountRecoveryDemandRepository,
   cryptoService,
   authenticationMethodRepository,
   legalDocumentApiRepository,
   userRepository,
 }) {
-  const { userId, newEmail } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
-    temporaryKey,
-    accountRecoveryDemandRepository,
-    userRepository,
-  });
+  const recoveryDemandService = new AccountRecoveryService({ userRepository, accountRecoveryDemandRepository });
+
+  const { userId, newEmail } = await recoveryDemandService.getRecoveryDemand(temporaryKey);
 
   const hashedPassword = await cryptoService.hashPassword(password);
 
   const hasAnAuthenticationMethodFromPix = await authenticationMethodRepository.hasIdentityProviderPIX({ userId });
   if (hasAnAuthenticationMethodFromPix) {
-    await authenticationMethodRepository.updatePassword({
-      userId,
-      hashedPassword,
-    });
+    await authenticationMethodRepository.updatePassword({ userId, hashedPassword });
   } else {
     const authenticationMethodFromPix = new AuthenticationMethod({
       userId,
@@ -47,9 +41,7 @@ export const updateUserForAccountRecovery = async function ({
         shouldChangePassword: false,
       }),
     });
-    await authenticationMethodRepository.create({
-      authenticationMethod: authenticationMethodFromPix,
-    });
+    await authenticationMethodRepository.create({ authenticationMethod: authenticationMethodFromPix });
   }
 
   await authenticationMethodRepository.removeByUserIdAndIdentityProvider({
