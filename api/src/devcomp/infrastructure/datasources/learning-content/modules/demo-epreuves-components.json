@@ -1097,7 +1097,8 @@
                 "instruction": "",
                 "tagName": "phishing-message",
                 "props": {
-                  "titleLevel": 2
+                  "titleLevel": 2,
+                  "forcedLocale": "fr-BE"
                 },
                 "title": "",
                 "functionalInstruction": ""
