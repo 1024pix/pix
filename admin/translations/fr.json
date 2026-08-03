@@ -588,8 +588,29 @@
         },
         "versions": {
           "calibration": {
-            "calibration-id-input-label": "ID de calibration (fourni par Data)*",
-            "verify-calibration-id-button": "Lancer la récupération de la calibration"
+            "calibration-id-input-label": "ID de calibration (fourni par Data)",
+            "label-for-CALIBRATED_CHALLENGE_COUNT": "Nombre d'épreuves calibrées",
+            "label-for-CALIBRATION_SCOPE": "Prévue pour le référentiel",
+            "label-for-CALIBRATION_STARTED_AT": "Démarrée le",
+            "label-for-CALIBRATION_STATUS": "Statut",
+            "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents dans la calibration uniquement",
+            "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents dans la version uniquement",
+            "report-title": "Rapport de vérification de la calibration d'ID {calibrationId} généré le",
+            "scopes": {
+              "CORE": "Pix Cœur (transverse)",
+              "DROIT": "Pix+ Droit",
+              "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
+              "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
+              "EDU_CPE": "Pix+ Édu CPE",
+              "PRO_SANTE": "Pix+ Pro Santé"
+            },
+            "show-additional-info": "Montrer plus d'informations sur la ligne {lineNumber} du rapport",
+            "statuses": {
+              "INVALIDATED": "Invalidée",
+              "TO_VALIDATE": "À valider",
+              "VALIDATED": "Validée"
+            },
+            "verify-calibration-id-button": "Vérifier la calibration"
           },
           "edit": {
             "assessment-duration-label": "Durée de l’épreuve (hh:mm) :",
