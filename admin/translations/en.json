@@ -769,7 +769,13 @@
         "name": "External name",
         "prescriber-description": "Prescriber description",
         "prescriber-description-sublabel": "This description will be seen by the prescribers in Pix Orga",
-        "reward-requirements": "Reward requirements",
+        "reward-requirements": {
+          "add-new-tubes-selection": "Add a new selection of capped tubes",
+          "description": "Reward requirements",
+          "multiple-subsets-option": "on multiple sets of capped tubes",
+          "one-subset-option": "on the whole combined course blueprint",
+          "reward-criteria-choice": "Choose a reward requirement rule :"
+        },
         "survey-link": "Survey link url",
         "target-profile": "Target profile"
       },
