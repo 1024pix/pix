@@ -11,6 +11,10 @@
 
 .combined-course-blueprint {
   &__container {
+    & img {
+      max-width: 320px;
+    }
+
     display: flex;
     flex-direction: column;
 

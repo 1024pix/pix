@@ -229,7 +229,7 @@ export const buildCombinedCourseBlueprints = () => {
   const combinedCourseBlueprintId = buildCombinedCourseBlueprint({
     name: 'Mon parcours combiné 2',
     internalName: 'Mon schéma de parcours combiné 2',
-    illustration: 'https://assets.pix.org/combined-courses/illu_ia.svg',
+    illustration: 'https://assets.pix.org/combined-courses/picto-nr-parcours.png',
     description:
       "#Un parcours\n pour découvrir l'essentiel sur l'intelligence artificielle : [comprendre sa définition](http://pix.fr), ses domaines d'application, comment elle fonctionne, ainsi que ses enjeux, notamment en matière d'impact environnemental.",
     prescriberDescription:
