@@ -174,10 +174,8 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  removeRequirement(value) {
-    this.blueprint.content = this.blueprint.content.filter(
-      (item) => item.id !== value.id || item.shortId !== value.shortId,
-    );
+  removeRequirement(index) {
+    this.blueprint.content = this.blueprint.content.filter((item, i) => i !== index);
   }
 
   async refreshAreas() {
@@ -464,7 +462,7 @@ const ContentSection = <template>
         <div>
           {{#if (gt @blueprint.content.length 0)}}
             <PixTable @variant="admin" @data={{@blueprint.content}} class="table">
-              <:columns as |row context|>
+              <:columns as |row context index|>
                 <PixTableColumn @context={{context}}>
                   <:header>
                     {{t "components.combined-course-blueprints.items.item-type-header"}}
@@ -493,8 +491,9 @@ const ContentSection = <template>
                   <:cell>
                     <PixIconButton
                       @iconName="delete"
-                      @triggerAction={{fn @removeRequirement row}}
+                      @triggerAction={{fn @removeRequirement index}}
                       @ariaLabel="Supprimer"
+                      data-testid="delete-{{index}}"
                     />
                   </:cell>
                 </PixTableColumn>
