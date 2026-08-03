@@ -64,6 +64,7 @@ import { saveAutonomousCourse } from './save-autonomous-course.js';
 import { saveFeedback } from './save-feedback.js';
 import { startEmbedLlmChat } from './start-embed-llm-chat.js';
 import { startOrResumeCompetenceEvaluation } from './start-or-resume-competence-evaluation.js';
+import { updateAssessmentWithNextChallenge } from './update-assessment-with-next-challenge.js';
 import { updateAutonomousCourse } from './update-autonomous-course.js';
 import { updateBadge } from './update-badge.js';
 import { updateBadgeCriterion } from './update-badge-criterion.js';
@@ -148,5 +149,11 @@ const usecasesWithoutInjectedDependencies = {
 };
 
 const evaluationUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
+
+evaluationUsecases.updateAssessmentWithNextChallenge = injectDependencies(
+  { updateAssessmentWithNextChallenge },
+  { ...dependencies, evaluationUsecases },
+  boundedContext,
+).updateAssessmentWithNextChallenge;
 
 export { evaluationUsecases };

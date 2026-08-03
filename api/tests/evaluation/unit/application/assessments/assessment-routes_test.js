@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { assessmentController } from '../../../../../src/evaluation/application/assessments/assessment-controller.js';
 import { assessmentsRoute as moduleUnderTest } from '../../../../../src/evaluation/application/assessments/index.js.js';
+import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
@@ -9,6 +10,40 @@ import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Evaluation | Unit | Application | assessment-routes', function () {
+  describe('GET /api/assessments/{id}', function () {
+    it('should return 200', async function () {
+      // given
+      sinon.stub(assessmentAuthorization, 'verify').callsFake((request, h) => h.response(null));
+      sinon
+        .stub(assessmentController, 'getAssessmentWithNextChallenge')
+        .callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/assessments/1');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should call pre-handler', async function () {
+      // given
+      sinon.stub(assessmentAuthorization, 'verify').callsFake((request, h) => h.response(null));
+      sinon
+        .stub(assessmentController, 'getAssessmentWithNextChallenge')
+        .callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('GET', '/api/assessments/1');
+
+      // then
+      sinon.assert.called(assessmentAuthorization.verify);
+    });
+  });
+
   describe('POST /api/assessments', function () {
     it('should return 200', async function () {
       // given

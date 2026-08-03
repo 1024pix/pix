@@ -162,6 +162,25 @@ async function findCompetenceEvaluations(request) {
   return competenceEvaluationSerializer.serialize(competenceEvaluations);
 }
 
+async function getAssessmentWithNextChallenge(
+  request,
+  h,
+  dependencies = { assessmentSerializer, extractUserIdFromRequest },
+) {
+  const assessmentId = request.params.id;
+  const locale = getChallengeLocale(request);
+  const userId = dependencies.extractUserIdFromRequest(request);
+
+  const { assessment, globalProgression } = await evaluationUsecases.updateAssessmentWithNextChallenge({
+    assessmentId,
+    userId,
+    locale,
+  });
+
+  const assessmentDto = AssessmentDtoFactory.toDto(assessment, globalProgression);
+  return dependencies.assessmentSerializer.serialize(assessmentDto);
+}
+
 const assessmentController = {
   completeAssessment,
   promptToLLMChat,
@@ -170,6 +189,7 @@ const assessmentController = {
   autoValidateNextChallenge,
   updateLastChallengeState,
   findCompetenceEvaluations,
+  getAssessmentWithNextChallenge,
 };
 
 export { assessmentController };

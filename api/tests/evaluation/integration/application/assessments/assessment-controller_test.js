@@ -1,26 +1,25 @@
 import sinon from 'sinon';
 
+import { assessmentsRoute as moduleUnderTest } from '../../../../../src/evaluation/application/assessments/index.js.js';
 import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
-import { assessmentsRoute as moduleUnderTest } from '../../../../../src/shared/application/assessments/index.js';
-import { sharedUsecases } from '../../../../../src/shared/domain/usecases/index.js';
+import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
-describe('Integration | Application | Assessments | assessment-controller', function () {
+describe('Integration | Evaluation | Application | Assessments | assessment-controller', function () {
   let assessment;
-
   let httpTestServer;
 
   beforeEach(async function () {
-    sinon.stub(sharedUsecases, 'updateAssessmentWithNextChallenge');
+    sinon.stub(evaluationUsecases, 'updateAssessmentWithNextChallenge');
     sinon.stub(assessmentAuthorization, 'verify');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
     assessment = domainBuilder.buildAssessment();
   });
 
-  describe('#get', function () {
+  describe('#getAssessmentWithNextChallenge', function () {
     context('Success cases', function () {
       beforeEach(function () {
         assessmentAuthorization.verify.resolves(assessment);
@@ -28,7 +27,7 @@ describe('Integration | Application | Assessments | assessment-controller', func
 
       it('should resolve a 200 HTTP response', async function () {
         // given
-        sharedUsecases.updateAssessmentWithNextChallenge.resolves({ assessment, globalProgression: null });
+        evaluationUsecases.updateAssessmentWithNextChallenge.resolves({ assessment, globalProgression: null });
 
         // when
         const response = await httpTestServer.request('GET', '/api/assessments/1234');
@@ -39,7 +38,7 @@ describe('Integration | Application | Assessments | assessment-controller', func
 
       it('should return a JSON API assessment', async function () {
         // given
-        sharedUsecases.updateAssessmentWithNextChallenge.resolves({ assessment, globalProgression: null });
+        evaluationUsecases.updateAssessmentWithNextChallenge.resolves({ assessment, globalProgression: null });
 
         // when
         const response = await httpTestServer.request('GET', '/api/assessments/1234');
