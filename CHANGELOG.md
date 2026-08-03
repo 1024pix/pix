@@ -1,5 +1,24 @@
 # Pix Changelog
 
+# [5.471.0](https://github.com/1024pix/pix/compare/v5.470.0...v5.471.0) (2026-08-03)
+
+### :rocket: Amélioration
+
+- [#16994](https://github.com/1024pix/pix/pull/16994) Bloquer l'ajout de participant sur une session expirée (PIX-23724)
+- [#16872](https://github.com/1024pix/pix/pull/16872) datacenter-ind-post-panel
+- [#17001](https://github.com/1024pix/pix/pull/17001) Module Ecransetsante_NOV relectures interne
+- [#16905](https://github.com/1024pix/pix/pull/16905) Prototype contextualisation module IA
+
+### :building_construction: Tech
+
+- [#17012](https://github.com/1024pix/pix/pull/17012) Ajout d'une colonne `externalCalibrationId` dans la table `certification_versions` (PIX-23775)
+- [#17002](https://github.com/1024pix/pix/pull/17002) Déplacer /api/users/me de iam vers deprecated
+- [#16978](https://github.com/1024pix/pix/pull/16978) Déplacer le repo Center dans le contexte OrganizationalEntities
+- [#17005](https://github.com/1024pix/pix/pull/17005) Ne pas utiliser UserDetailsForAdmin pour mettre à jour l'utilisateur
+- [#16999](https://github.com/1024pix/pix/pull/16999) Nettoyage sur les repository, model et serializers de User dans IAM
+- [#17014](https://github.com/1024pix/pix/pull/17014) Supprimer la dépendance au domaine "évaluation" dans "certification/configuration"
+- [#17006](https://github.com/1024pix/pix/pull/17006) Utiliser un modèle answer spécifique à certif
+
 # [5.470.0](https://github.com/1024pix/pix/compare/v5.469.0...v5.470.0) (2026-07-31)
 
 ### :rocket: Amélioration
