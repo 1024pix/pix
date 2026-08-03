@@ -1,6 +1,8 @@
 import { logs, SeverityNumber } from '@opentelemetry/api-logs';
 import isEmpty from 'lodash/isEmpty.js';
+import isNil from 'lodash/isNil.js';
 import omit from 'lodash/omit.js';
+import omitBy from 'lodash/omitBy.js';
 import pino from 'pino';
 import pretty from 'pino-pretty';
 
@@ -187,32 +189,28 @@ function messageFormatCompact(log, messageKey, _logLevel, { colors }) {
     const details = colors.yellow([queries, queriesTime].filter(Boolean).join(' '));
     const time = colors.gray(`(${responseTime}ms)`);
     const correlationInfo = colors.gray(
-      JSON.stringify({
-        user_id: req.user_id,
-        request_id: req.request_id,
-        scriptId: req.scriptId,
-        jobId: req.jobId,
-        [CORRELATION_METADATA]: req[CORRELATION_METADATA],
-      }),
+      JSON.stringify(
+        omitBy(
+          {
+            user_id: req.user_id,
+            request_id: req.request_id,
+            scriptId: req.scriptId,
+            jobId: req.jobId,
+            [CORRELATION_METADATA]: req[CORRELATION_METADATA],
+          },
+          isNil,
+        ),
+      ),
     );
 
     return [statusCode, request, details, time, correlationInfo].filter(Boolean).join(' - ');
   }
 
-  // compact log by default
-  const compactLog = omit(log, [
-    messageKey,
-    'id',
-    'level',
-    'time',
-    'pid',
-    'hostname',
-    'uri',
-    'address',
-    'event',
-    'started',
-    'created',
-  ]);
+  // compact log by default and remove null/undefined values
+  const compactLog = omitBy(
+    omit(log, [messageKey, 'id', 'level', 'time', 'pid', 'hostname', 'uri', 'address', 'event', 'started', 'created']),
+    isNil,
+  );
   const details = !isEmpty(compactLog) ? colors.gray(JSON.stringify(compactLog)) : '';
   return `${message} ${details}`;
 }
