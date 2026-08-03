@@ -1,66 +1,49 @@
-import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
-import { AccountRecoveryDemand } from '../models/AccountRecoveryDemand.js';
+import { AccountRecoveryService } from '../services/account-recovery.service.js';
 
 /**
  * @param {{
  *   studentInformation: Object,
- *   temporaryKey: string,
- *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
  *   organizationLearnerRepository: OrganizationLearnerRepository,
- *   userRepository: UserRepository,
- *   mailService: MailService,
- *   scoAccountRecoveryService: ScoAccountRecoveryService,
  *   userReconciliationService: UserReconciliationService,
+ *   userRepository: UserRepository,
+ *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
+ *   scoAccountRecoveryService: ScoAccountRecoveryService,
+ *   mailService: MailService,
+ *   cryptoService: CryptoService,
  * }} params
  * @return {Promise<void>}
  */
 export const sendEmailForAccountRecovery = async function ({
   studentInformation,
-  temporaryKey,
   organizationLearnerRepository,
+  userReconciliationService,
   userRepository,
   accountRecoveryDemandRepository,
-  mailService,
   scoAccountRecoveryService,
-  userReconciliationService,
+  mailService,
+  cryptoService,
 }) {
-  const { email: newEmail } = studentInformation;
-  let encodedTemporaryKey;
-  if (temporaryKey) {
-    encodedTemporaryKey = temporaryKey;
-  } else {
-    const randomBytesBuffer = await cryptoService.randomBytes(32);
-    encodedTemporaryKey = randomBytesBuffer.toString('hex');
-  }
-
-  const {
-    firstName,
-    id,
-    userId,
-    email: oldEmail,
-  } = await scoAccountRecoveryService.retrieveOrganizationLearner({
+  const organizationLearner = await scoAccountRecoveryService.retrieveOrganizationLearner({
     studentInformation,
-    accountRecoveryDemandRepository,
     organizationLearnerRepository,
-    userRepository,
     userReconciliationService,
   });
 
-  await userRepository.checkIfEmailIsAvailable(newEmail);
-
-  const accountRecoveryDemand = new AccountRecoveryDemand({
-    userId,
-    organizationLearnerId: id,
-    newEmail,
-    oldEmail,
-    used: false,
-    temporaryKey: encodedTemporaryKey,
+  const accountRecoveryService = new AccountRecoveryService({
+    userRepository,
+    accountRecoveryDemandRepository,
+    cryptoService,
   });
-  await accountRecoveryDemandRepository.save(accountRecoveryDemand);
+
+  const recoveryDemand = await accountRecoveryService.createRecoveryDemand({
+    userId: organizationLearner.userId,
+    newEmail: studentInformation.email,
+    organizationLearnerId: organizationLearner.id,
+  });
 
   await mailService.sendAccountRecoveryEmail({
-    firstName,
-    email: newEmail,
-    temporaryKey: encodedTemporaryKey,
+    firstName: organizationLearner.firstName,
+    email: studentInformation.email,
+    temporaryKey: recoveryDemand.temporaryKey,
   });
 };
