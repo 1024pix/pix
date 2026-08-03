@@ -118,6 +118,13 @@ export function getNowAsDDMMYYYY() {
   return new Date().toISOString().slice(0, 10).split('-').reverse().join('/');
 }
 
+export function getYesterdayAsDDMMYYYY() {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  return yesterday.toISOString().slice(0, 10).split('-').reverse().join('/');
+}
+
 export async function getDownloadBuffer(page: Page, downloadTriggerPromise: Promise<void>) {
   const [download] = await Promise.all([page.waitForEvent('download'), downloadTriggerPromise]);
   const stream = await download.createReadStream();

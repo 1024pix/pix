@@ -39,6 +39,12 @@ export async function changeCandidateAnswers(certificationId: number, rightWrong
   }
 }
 
+export async function expireCertification(certificationId: number) {
+  const startDateTime = new Date();
+  startDateTime.setHours(startDateTime.getHours() - 25);
+  await knex('certification-courses').update({ createdAt: startDateTime }).where({ id: certificationId });
+}
+
 export async function getCleaTargetProfileId() {
   const [id] = await knex('badges').pluck('targetProfileId').where({ key: CERTIFICATIONS_DATA.CLEA });
   return id;
