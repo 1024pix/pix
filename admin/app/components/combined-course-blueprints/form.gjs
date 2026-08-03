@@ -294,9 +294,11 @@ export default class CombinedCourseBlueprintForm extends Component {
       {{/if}}
 
       <fieldset class="controls">
-        <PixButton class="combined-course-blueprint-form__button" @triggerAction={{this.save}} @variant="secondary">{{t
-            "common.actions.cancel"
-          }}</PixButton>
+        <PixButton
+          class="combined-course-blueprint-form__button"
+          @triggerAction={{this.goToListPage}}
+          @variant="secondary"
+        >{{t "common.actions.cancel"}}</PixButton>
         <PixButton class="combined-course-blueprint-form__button" @triggerAction={{this.save}} @variant="success">{{if
             @updateMode
             (t "components.combined-course-blueprints.update.updateButton")
