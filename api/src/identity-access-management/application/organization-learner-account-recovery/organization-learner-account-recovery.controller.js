@@ -15,8 +15,23 @@ async function checkScoAccountRecovery(request, h, dependencies = { studentInfor
   );
 }
 
+const sendEmailForScoAccountRecovery = async function (
+  request,
+  h,
+  dependencies = { studentInformationForAccountRecoverySerializer },
+) {
+  const studentInformation = await dependencies.studentInformationForAccountRecoverySerializer.deserialize(
+    request.payload,
+  );
+
+  await usecases.sendEmailForAccountRecovery({ studentInformation });
+
+  return h.response().code(204);
+};
+
 const scoOrganizationLearnerController = {
   checkScoAccountRecovery,
+  sendEmailForScoAccountRecovery,
 };
 
 export { scoOrganizationLearnerController };

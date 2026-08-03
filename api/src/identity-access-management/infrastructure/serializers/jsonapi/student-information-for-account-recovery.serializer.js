@@ -8,12 +8,6 @@ const serialize = function (studentInformationForAccountRecovery) {
   }).serialize(studentInformationForAccountRecovery);
 };
 
-const serializeAccountRecovery = function (accountRecoveryDemand) {
-  return new Serializer('account-recovery-demand', {
-    attributes: ['firstName', 'email', 'hasGarAuthenticationMethod', 'hasScoUsername'],
-  }).serialize(accountRecoveryDemand);
-};
-
 const deserialize = async function (studentInformationForAccountRecovery) {
   function transform(record) {
     return {
@@ -29,4 +23,4 @@ const deserialize = async function (studentInformationForAccountRecovery) {
     .then((studentInformation) => studentInformation);
 };
 
-export const studentInformationForAccountRecoverySerializer = { deserialize, serialize, serializeAccountRecovery };
+export const studentInformationForAccountRecoverySerializer = { deserialize, serialize };
