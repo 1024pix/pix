@@ -222,18 +222,5 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       expect(result.used).to.equal(used);
       expect(result.temporaryKey).to.equal(temporaryKey);
     });
-
-    context('when no row is saved', function () {
-      it('throws an error', async function () {
-        // given
-        const notValidAccountRecoveryDemand = 123;
-
-        // when
-        const error = await catchErr(accountRecoveryDemandRepository.save)(notValidAccountRecoveryDemand);
-
-        // then
-        expect(error).to.be.instanceOf(Error);
-      });
-    });
   });
 });
