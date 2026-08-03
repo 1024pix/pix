@@ -4,7 +4,6 @@
  * @typedef {import("../../../../shared/domain/models/Challenge.js").Challenge} Challenge
  */
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { Version } from '../../domain/models/Version.js';
 
@@ -20,14 +19,13 @@ export async function findAll() {
 /**
  * @param {object} params
  * @param {number} params.id
- * @returns {Promise<Version>}
- * @throws {NotFoundError}
+ * @returns {Promise<Version|null>}
  */
 export async function getById({ id }) {
   const versionData = await buildBaseQuery().where({ id }).first();
 
   if (!versionData) {
-    throw new NotFoundError(`Version with id ${id} not found`);
+    return null;
   }
 
   return _toDomain(versionData);
