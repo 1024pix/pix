@@ -1,5 +1,26 @@
 # Pix Changelog
 
+# [5.472.0](https://github.com/1024pix/pix/compare/v5.471.0...v5.472.0) (2026-08-03)
+
+### :rocket: Amélioration
+
+- [#16998](https://github.com/1024pix/pix/pull/16998) Ajouter la possibilité d'attacher plusieurs sélections de sujets cappés à une attestation dans le formulaire de création de schéma de parcours combinés(PIX-23635)
+
+### :bug: Correction
+
+- [#17016](https://github.com/1024pix/pix/pull/17016) Limite d'affichage de la taille des images sur une page de détails d'un schéma de parcours combiné (PIX-23549)
+
+### :building_construction: Tech
+
+- [#17010](https://github.com/1024pix/pix/pull/17010) Ajout de tests E2E pour vérifier le bon déroulé jusqu'à la publication de certification ayant été arrêté par excès de temps autorisé (PIX-23771)
+- [#17019](https://github.com/1024pix/pix/pull/17019) Créer un script pour supprimer les users anonymes d'une campagne
+- [#17003](https://github.com/1024pix/pix/pull/17003) Déplacer la route certification-point-contacts/me dans deprecated
+- [#17017](https://github.com/1024pix/pix/pull/17017) Supprimer la dépendance à prescription/campaign dans certification/enrolment
+
+### :arrow_up: Montée de version
+
+- [#17011](https://github.com/1024pix/pix/pull/17011) Update node
+
 # [5.471.0](https://github.com/1024pix/pix/compare/v5.470.0...v5.471.0) (2026-08-03)
 
 ### :rocket: Amélioration
