@@ -15,15 +15,24 @@ export class CalibrationReport {
 }
 
 export class CalibrationReportLine {
-  constructor({ content, alertLevel = ALERT_LEVELS.NA, additionalContent = null }) {
+  constructor({ label, content, alertLevel = null, additionalContent = null }) {
+    this.label = label;
     this.content = content;
     this.alertLevel = alertLevel;
     this.additionalContent = additionalContent;
   }
 }
 
+export const REPORT_LABELS = Object.freeze({
+  CALIBRATED_CHALLENGE_COUNT: 'CALIBRATED_CHALLENGE_COUNT',
+  TUBE_ONLY_IN_VERSION_COUNT: 'TUBE_ONLY_IN_VERSION_COUNT',
+  TUBE_ONLY_IN_CALIBRATION_COUNT: 'TUBE_ONLY_IN_CALIBRATION_COUNT',
+  CALIBRATION_STARTED_AT: 'CALIBRATION_STARTED_AT',
+  CALIBRATION_STATUS: 'CALIBRATION_STATUS',
+  CALIBRATION_SCOPE: 'CALIBRATION_SCOPE',
+});
+
 export const ALERT_LEVELS = Object.freeze({
-  NA: 'N/A',
   HIGH: 'HIGH',
   LOW: 'LOW',
 });
@@ -52,7 +61,7 @@ export function buildReport({ version, calibration }) {
 
 function computeReportForLearningContentPerimeter(version, calibration, reportLines) {
   reportLines.push(
-    new CalibrationReportLine({ content: `Nombre d'épreuves calibrées : ${calibration.challengeCount}` }),
+    new CalibrationReportLine({ label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT, content: calibration.challengeCount }),
   );
   const tubeIdsFromCalibration = calibration.tubeIds;
   const tubeIdsFromVersion = new Set(version.tubeIds);
@@ -62,7 +71,8 @@ function computeReportForLearningContentPerimeter(version, calibration, reportLi
     if (tubeIdsInCalibrationButNotInVersion.size) {
       reportLines.push(
         new CalibrationReportLine({
-          content: `Nombre de sujets dans la calibration non présents dans la version : ${tubeIdsInCalibrationButNotInVersion.size}`,
+          label: REPORT_LABELS.TUBE_ONLY_IN_CALIBRATION_COUNT,
+          content: tubeIdsInCalibrationButNotInVersion.size,
           alertLevel: ALERT_LEVELS.HIGH,
           additionalContent: [...tubeIdsInCalibrationButNotInVersion.values()].join(', '),
         }),
@@ -72,7 +82,8 @@ function computeReportForLearningContentPerimeter(version, calibration, reportLi
     if (tubeIdsInVersionButNotInCalibration.size) {
       reportLines.push(
         new CalibrationReportLine({
-          content: `Nombre de sujets dans la version non présents dans la calibration : ${tubeIdsInVersionButNotInCalibration.size}`,
+          label: REPORT_LABELS.TUBE_ONLY_IN_VERSION_COUNT,
+          content: tubeIdsInVersionButNotInCalibration.size,
           alertLevel: ALERT_LEVELS.LOW,
           additionalContent: [...tubeIdsInVersionButNotInCalibration.values()].join(', '),
         }),
@@ -86,39 +97,50 @@ function computeReportForStartDate(now, calibration, reportLines) {
   sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
   const oneYearAgo = new Date(now);
   oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-  let alertLevel;
+  let alertLevel, additionalContent;
   if (calibration.startedAt >= sixMonthsAgo) {
-    alertLevel = ALERT_LEVELS.NA;
+    alertLevel = null;
   } else if (calibration.startedAt >= oneYearAgo) {
     alertLevel = ALERT_LEVELS.LOW;
+    additionalContent = 'La calibration a été démarrée depuis plus de 6 mois';
   } else {
     alertLevel = ALERT_LEVELS.HIGH;
+    additionalContent = "La calibration a été démarrée depuis plus d'1 an";
   }
   reportLines.push(
     new CalibrationReportLine({
-      content: `L'élaboration de cette calibration a débuté le ${calibration.startedAt.toLocaleDateString('fr-FR')}`,
+      label: REPORT_LABELS.CALIBRATION_STARTED_AT,
+      content: calibration.startedAt,
       alertLevel,
+      additionalContent,
     }),
   );
 }
 
 function computeReportForScope(version, calibration, reportLines) {
   const adaptedCalibrationScope = fromCalibrationScope(calibration.scope);
-  const alertLevel = version.scope !== adaptedCalibrationScope ? ALERT_LEVELS.HIGH : ALERT_LEVELS.NA;
+  const alertLevel = version.scope !== adaptedCalibrationScope ? ALERT_LEVELS.HIGH : null;
+  const additionalContent =
+    alertLevel === null ? null : 'La calibration ne concerne pas le même référentiel que la version';
   reportLines.push(
     new CalibrationReportLine({
-      content: `Le scope de cette calibration est "${adaptedCalibrationScope}"`,
+      label: REPORT_LABELS.CALIBRATION_SCOPE,
+      content: adaptedCalibrationScope,
       alertLevel,
+      additionalContent,
     }),
   );
 }
 
 function computeReportForStatus(calibration, reportLines) {
-  const alertLevel = calibration.status === CALIBRATION_STATUSES.VALIDATED ? ALERT_LEVELS.NA : ALERT_LEVELS.HIGH;
+  const alertLevel = calibration.status === CALIBRATION_STATUSES.VALIDATED ? null : ALERT_LEVELS.HIGH;
+  const additionalContent = alertLevel === null ? null : 'La calibration ne semble pas encore finalisée';
   reportLines.push(
     new CalibrationReportLine({
-      content: `Le statut de cette calibration est "${calibration.status}"`,
+      label: REPORT_LABELS.CALIBRATION_STATUS,
+      content: calibration.status,
       alertLevel,
+      additionalContent,
     }),
   );
 }

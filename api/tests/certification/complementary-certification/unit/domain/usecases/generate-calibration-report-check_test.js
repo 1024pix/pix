@@ -1,8 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CALIBRATION_SCOPES } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
-import { ALERT_LEVELS } from '../../../../../../src/certification/configuration/domain/models/CalibrationReport.js';
+import {
+  CALIBRATION_SCOPES,
+  CALIBRATION_STATUSES,
+} from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
+import { REPORT_LABELS } from '../../../../../../src/certification/configuration/domain/models/CalibrationReport.js';
 import { generateCalibrationReportCheck } from '../../../../../../src/certification/configuration/domain/usecases/generate-calibration-report-check.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
@@ -96,23 +99,27 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
       expect(report.reportLines).to.deep.include.members([
         {
           additionalContent: null,
-          alertLevel: ALERT_LEVELS.NA,
-          content: "Nombre d'épreuves calibrées : 1",
+          alertLevel: null,
+          content: 1,
+          label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
         },
         {
           additionalContent: null,
-          alertLevel: ALERT_LEVELS.NA,
-          content: "L'élaboration de cette calibration a débuté le 15/06/2025",
+          alertLevel: null,
+          content: new Date(),
+          label: REPORT_LABELS.CALIBRATION_STARTED_AT,
         },
         {
           additionalContent: null,
-          alertLevel: ALERT_LEVELS.NA,
-          content: 'Le scope de cette calibration est "CORE"',
+          alertLevel: null,
+          content: SCOPES.CORE,
+          label: REPORT_LABELS.CALIBRATION_SCOPE,
         },
         {
           additionalContent: null,
-          alertLevel: ALERT_LEVELS.NA,
-          content: 'Le statut de cette calibration est "VALIDATED"',
+          alertLevel: null,
+          content: CALIBRATION_STATUSES.VALIDATED,
+          label: REPORT_LABELS.CALIBRATION_STATUS,
         },
       ]);
     });

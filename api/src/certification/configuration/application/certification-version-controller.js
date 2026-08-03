@@ -3,6 +3,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Deserializer } = jsonapiSerializer;
 
 import { usecases } from '../domain/usecases/index.js';
+import * as calibrationReportSerializer from '../infrastructure/serializers/calibration-report-serializer.js';
 import { certificationInfoSerializer } from '../infrastructure/serializers/certification-info-serializer.js';
 import * as versionDetailsSerializer from '../infrastructure/serializers/version-details-serializer.js';
 
@@ -55,6 +56,13 @@ async function createDraft(request, h) {
   return h.response(versionDetailsSerializer.serialize(versionDetails)).code(201);
 }
 
+async function generateCalibrationReport(request, h) {
+  const versionId = request.params.certificationVersionId;
+  const { calibrationId } = request.payload.data.attributes;
+  const report = await usecases.generateCalibrationReportCheck({ versionId, calibrationId });
+  return h.response(calibrationReportSerializer.serialize(report)).code(200);
+}
+
 async function getInfo(request) {
   const framework = request.params.framework;
 
@@ -72,6 +80,7 @@ const certificationVersionController = {
   update,
   updateComments,
   getInfo,
+  generateCalibrationReport,
 };
 
 export { certificationVersionController };

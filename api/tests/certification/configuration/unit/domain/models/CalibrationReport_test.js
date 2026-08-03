@@ -1,10 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CALIBRATION_SCOPES } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
+import {
+  CALIBRATION_SCOPES,
+  CALIBRATION_STATUSES,
+} from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import {
   ALERT_LEVELS,
   buildReport,
+  REPORT_LABELS,
 } from '../../../../../../src/certification/configuration/domain/models/CalibrationReport.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -32,23 +36,27 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
         commonReportLines = [
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: "Nombre d'épreuves calibrées : 3",
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
+            content: 3,
           },
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: "L'élaboration de cette calibration a débuté le 15/06/2025",
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_STARTED_AT,
+            content: new Date(),
           },
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: 'Le scope de cette calibration est "CORE"',
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_SCOPE,
+            content: SCOPES.CORE,
           },
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: 'Le statut de cette calibration est "VALIDATED"',
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_STATUS,
+            content: CALIBRATION_STATUSES.VALIDATED,
           },
         ];
       });
@@ -70,7 +78,8 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
             {
               additionalContent: 'tubeC, tubeE',
               alertLevel: ALERT_LEVELS.LOW,
-              content: 'Nombre de sujets dans la version non présents dans la calibration : 2',
+              label: REPORT_LABELS.TUBE_ONLY_IN_VERSION_COUNT,
+              content: 2,
             },
           ]);
         });
@@ -93,7 +102,8 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
             {
               additionalContent: 'tubeD, tubeF',
               alertLevel: ALERT_LEVELS.HIGH,
-              content: 'Nombre de sujets dans la calibration non présents dans la version : 2',
+              label: REPORT_LABELS.TUBE_ONLY_IN_CALIBRATION_COUNT,
+              content: 2,
             },
           ]);
         });
@@ -115,18 +125,21 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
         commonReportLines = [
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: "Nombre d'épreuves calibrées : 1",
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
+            content: 1,
           },
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: 'Le scope de cette calibration est "CORE"',
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_SCOPE,
+            content: SCOPES.CORE,
           },
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: 'Le statut de cette calibration est "VALIDATED"',
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_STATUS,
+            content: CALIBRATION_STATUSES.VALIDATED,
           },
         ];
       });
@@ -142,8 +155,9 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
             ...commonReportLines,
             {
               additionalContent: null,
-              alertLevel: ALERT_LEVELS.NA,
-              content: "L'élaboration de cette calibration a débuté le 15/12/2024",
+              label: REPORT_LABELS.CALIBRATION_STARTED_AT,
+              content: new Date('2024-12-15T13:00:00Z'),
+              alertLevel: null,
             },
           ]);
         });
@@ -159,9 +173,10 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
           expect(report.reportLines).to.deep.include.members([
             ...commonReportLines,
             {
-              additionalContent: null,
+              additionalContent: 'La calibration a été démarrée depuis plus de 6 mois',
               alertLevel: ALERT_LEVELS.LOW,
-              content: "L'élaboration de cette calibration a débuté le 15/06/2024",
+              label: REPORT_LABELS.CALIBRATION_STARTED_AT,
+              content: new Date('2024-06-15T13:00:00Z'),
             },
           ]);
         });
@@ -177,9 +192,10 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
           expect(report.reportLines).to.deep.include.members([
             ...commonReportLines,
             {
-              additionalContent: null,
+              additionalContent: "La calibration a été démarrée depuis plus d'1 an",
               alertLevel: ALERT_LEVELS.HIGH,
-              content: "L'élaboration de cette calibration a débuté le 15/06/2024",
+              label: REPORT_LABELS.CALIBRATION_STARTED_AT,
+              content: new Date('2024-06-15T11:59:00Z'),
             },
           ]);
         });
@@ -201,18 +217,21 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
         commonReportLines = [
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: "Nombre d'épreuves calibrées : 1",
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
+            content: 1,
           },
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: 'Le statut de cette calibration est "VALIDATED"',
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_STATUS,
+            content: CALIBRATION_STATUSES.VALIDATED,
           },
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: "L'élaboration de cette calibration a débuté le 15/06/2025",
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_STARTED_AT,
+            content: new Date(),
           },
         ];
       });
@@ -226,9 +245,10 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
           expect(report.reportLines).to.deep.include.members([
             ...commonReportLines,
             {
-              additionalContent: null,
+              additionalContent: 'La calibration ne concerne pas le même référentiel que la version',
               alertLevel: ALERT_LEVELS.HIGH,
-              content: 'Le scope de cette calibration est "PRO_SANTE"',
+              label: REPORT_LABELS.CALIBRATION_SCOPE,
+              content: SCOPES.PIX_PLUS_PRO_SANTE,
             },
           ]);
         });
@@ -244,8 +264,9 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
             ...commonReportLines,
             {
               additionalContent: null,
-              alertLevel: ALERT_LEVELS.NA,
-              content: 'Le scope de cette calibration est "CORE"',
+              alertLevel: null,
+              label: REPORT_LABELS.CALIBRATION_SCOPE,
+              content: SCOPES.CORE,
             },
           ]);
         });
@@ -267,18 +288,21 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
         commonReportLines = [
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: "Nombre d'épreuves calibrées : 1",
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
+            content: 1,
           },
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: "L'élaboration de cette calibration a débuté le 15/06/2025",
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_STARTED_AT,
+            content: new Date(),
           },
           {
             additionalContent: null,
-            alertLevel: ALERT_LEVELS.NA,
-            content: 'Le scope de cette calibration est "CORE"',
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_SCOPE,
+            content: SCOPES.CORE,
           },
         ];
       });
@@ -293,8 +317,9 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
             ...commonReportLines,
             {
               additionalContent: null,
-              alertLevel: ALERT_LEVELS.NA,
-              content: 'Le statut de cette calibration est "VALIDATED"',
+              alertLevel: null,
+              label: REPORT_LABELS.CALIBRATION_STATUS,
+              content: CALIBRATION_STATUSES.VALIDATED,
             },
           ]);
         });
@@ -309,9 +334,10 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
           expect(report.reportLines).to.deep.include.members([
             ...commonReportLines,
             {
-              additionalContent: null,
+              additionalContent: 'La calibration ne semble pas encore finalisée',
               alertLevel: ALERT_LEVELS.HIGH,
-              content: 'Le statut de cette calibration est "INVALIDATED"',
+              label: REPORT_LABELS.CALIBRATION_STATUS,
+              content: CALIBRATION_STATUSES.INVALIDATED,
             },
           ]);
         });
@@ -326,9 +352,10 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
           expect(report.reportLines).to.deep.include.members([
             ...commonReportLines,
             {
-              additionalContent: null,
+              additionalContent: 'La calibration ne semble pas encore finalisée',
               alertLevel: ALERT_LEVELS.HIGH,
-              content: 'Le statut de cette calibration est "TO_VALIDATE"',
+              label: REPORT_LABELS.CALIBRATION_STATUS,
+              content: CALIBRATION_STATUSES.TO_VALIDATE,
             },
           ]);
         });

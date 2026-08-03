@@ -265,4 +265,95 @@ describe('Unit | Certification | Configuration | Application | Router | certific
       });
     });
   });
+
+  describe('POST /api/admin/certification-versions/{certificationVersionId}/calibration-report', function () {
+    context('when the user authenticated has no role', function () {
+      it('should return 403 HTTP status code', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        sinon.stub(certificationVersionController, 'generateCalibrationReport').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          `/api/admin/certification-versions/1/calibration-report`,
+          {
+            data: { attributes: { calibrationId: 2 } },
+          },
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(certificationVersionController.generateCalibrationReport);
+      });
+    });
+
+    context('when the params are invalid', function () {
+      it('should return 400 HTTP status code when version id is not valid', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        sinon.stub(certificationVersionController, 'generateCalibrationReport').returns('ok');
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          `/api/admin/certification-versions/NOT_AN_ID/calibration-report`,
+          {
+            data: { attributes: { calibrationId: 2 } },
+          },
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationVersionController.generateCalibrationReport);
+      });
+
+      it('should return 400 HTTP status code when calibration id is not valid', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        sinon.stub(certificationVersionController, 'generateCalibrationReport').returns('ok');
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          `/api/admin/certification-versions/1/calibration-report`,
+          {
+            data: { attributes: { calibrationId: 'coucou' } },
+          },
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationVersionController.generateCalibrationReport);
+      });
+    });
+
+    it(`should return OK HTTP status code when everything is fine`, async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+      sinon.stub(certificationVersionController, 'generateCalibrationReport').returns({});
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', `/api/admin/certification-versions/1/calibration-report`, {
+        data: { attributes: { calibrationId: 2 } },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      sinon.assert.called(certificationVersionController.generateCalibrationReport);
+    });
+  });
 });
