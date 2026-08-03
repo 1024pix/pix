@@ -1,4 +1,4 @@
-import { AllowedCertificationCenterAccess } from '../../../../src/identity-access-management/domain/read-models/AllowedCertificationCenterAccess.js';
+import { AllowedCertificationCenterAccess } from '../../../../src/organizational-entities/domain/read-models/AllowedCertificationCenterAccess.js';
 
 const ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID = 123;
 

@@ -1,87 +1,11 @@
 import _ from 'lodash';
 
+import { AllowedCertificationCenterAccess } from '../../../organizational-entities/domain/read-models/AllowedCertificationCenterAccess.js';
+import { CertificationPointOfContact } from '../../../organizational-entities/domain/read-models/CertificationPointOfContact.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
-import { CertificationPointOfContact } from '../../domain/read-models/CertificationPointOfContact.js';
 
 const CERTIFICATION_CENTER_MEMBERSHIPS_TABLE_NAME = 'certification-center-memberships';
-
-/**
- * Retrieve a certification center access
- *
- * @param {number} certificationCenterId - List of certification centers.
- * @returns {Promise<AllowedCertificationCenterAccess>} - center access
- */
-const getCertificationCenterAccess = async ({ certificationCenterId }) => {
-  const knexConn = DomainTransaction.getConnection();
-
-  const certificationCenterAccess = await knexConn
-    .select({
-      id: 'certification-centers.id',
-      name: 'certification-centers.name',
-      externalId: 'certification-centers.externalId',
-      type: 'certification-centers.type',
-      isInWhitelist: 'certification-centers.isScoBlockedAccessWhitelist',
-      isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
-      tags: knexConn.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
-      habilitations: knexConn.raw(
-        `array_agg(json_build_object(
-          'id', "complementary-certifications".id,
-          'label', "complementary-certifications".label,
-          'key', "complementary-certifications".key
-        ) order by "complementary-certifications".id)`,
-      ),
-    })
-    .from('certification-centers')
-    .leftJoin('organizations', function () {
-      this.on(knexConn.raw('LOWER("organizations"."externalId") = LOWER("certification-centers"."externalId")')).andOn(
-        'organizations.type',
-        '=',
-        'certification-centers.type',
-      );
-    })
-    .leftJoin('organization-tags', 'organization-tags.organizationId', 'organizations.id')
-    .leftJoin('tags', 'tags.id', 'organization-tags.tagId')
-    .leftJoin(
-      'complementary-certification-habilitations',
-      'complementary-certification-habilitations.certificationCenterId',
-      'certification-centers.id',
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'complementary-certification-habilitations.complementaryCertificationId',
-    )
-    .where('certification-centers.id', certificationCenterId)
-    .groupBy('certification-centers.id', 'organizations.isManagingStudents')
-    .first();
-
-  const scoBlockedAccessDatesRows = await knexConn('certification_sco_blocked_access_dates').select(
-    'scoOrganizationTagName',
-    'reopeningDate',
-  );
-  const scoBlockedAccessDates = _transformScoBlockedAccessDates(scoBlockedAccessDatesRows);
-
-  return _toDomain({ certificationCenterAccess, scoBlockedAccessDates });
-};
-
-const _toDomain = ({ certificationCenterAccess, scoBlockedAccessDates }) => {
-  return new AllowedCertificationCenterAccess({
-    center: {
-      id: certificationCenterAccess.id,
-      name: certificationCenterAccess.name,
-      externalId: certificationCenterAccess.externalId,
-      type: certificationCenterAccess.type,
-      isInWhitelist: certificationCenterAccess.isInWhitelist,
-      habilitations: _cleanHabilitations(certificationCenterAccess),
-    },
-    isRelatedToManagingStudentsOrganization: certificationCenterAccess.isRelatedToManagingStudentsOrganization,
-    relatedOrganizationTags: _cleanTags(certificationCenterAccess),
-    scoBlockedAccessDateCollege: scoBlockedAccessDates.college,
-    scoBlockedAccessDateLycee: scoBlockedAccessDates.lycee,
-  });
-};
 
 /**
  * Retrieves allowed certification center accesses for a given list of centers.
@@ -203,7 +127,7 @@ const getPointOfContact = async function ({
   });
 };
 
-export { getAllowedCenterAccesses, getAuthorizedCenterIds, getCertificationCenterAccess, getPointOfContact };
+export { getAllowedCenterAccesses, getAuthorizedCenterIds, getPointOfContact };
 
 function _toDomainList({ allowedAccessDTOs, centerList, scoBlockedAccessDates }) {
   return allowedAccessDTOs.map((allowedCenterAccessDTO) => {

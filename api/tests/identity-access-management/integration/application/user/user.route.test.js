@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
-import { userController } from '../../../../../src/identity-access-management/application/user/user.controller.js';
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { config } from '../../../../../src/shared/config.js';
@@ -400,29 +399,6 @@ describe('Integration | Identity Access Management | Application | Route | User'
         // then
         expect(response.statusCode).to.equal(403);
       });
-    });
-  });
-
-  describe('GET /api/certification-point-of-contacts/me', function () {
-    it('returns controller success response HTTP code', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
-
-      const headers = generateAuthenticatedUserRequestHeaders({ userId });
-      sinon.stub(userController, 'getCertificationPointOfContact').callsFake((request, h) => h.response().code(200));
-
-      // when
-      const result = await httpTestServer.request(
-        'GET',
-        '/api/certification-point-of-contacts/me',
-        null,
-        null,
-        headers,
-      );
-
-      // then
-      expect(result.statusCode).to.equal(200);
     });
   });
 

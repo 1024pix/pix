@@ -2,7 +2,6 @@ import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js'
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { authenticationMethodsSerializer } from '../../infrastructure/serializers/jsonapi/authentication-methods.serializer.js';
-import { certificationPointOfContactSerializer } from '../../infrastructure/serializers/jsonapi/certification-point-of-contact.serializer.js';
 import { emailVerificationSerializer } from '../../infrastructure/serializers/jsonapi/email-verification.serializer.js';
 import { updateEmailSerializer } from '../../infrastructure/serializers/jsonapi/update-email.serializer.js';
 import { userAccountInfoSerializer } from '../../infrastructure/serializers/jsonapi/user-account-info.serializer.js';
@@ -214,12 +213,6 @@ const validateUserAccountEmail = async function (request, h) {
   return h.redirect(location);
 };
 
-const getCertificationPointOfContact = async function (request) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const certificationPointOfContact = await usecases.getCertificationPointOfContact({ userId: authenticatedUserId });
-  return certificationPointOfContactSerializer.serialize(certificationPointOfContact);
-};
-
 const rememberUserHasSeenChallengeTooltip = async function (request, h, dependencies = { userSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const challengeType = request.params.challengeType;
@@ -266,7 +259,6 @@ export const userController = {
   acceptPixAppTermsOfService,
   acceptPixOrgaTermsOfService,
   changeUserLocale,
-  getCertificationPointOfContact,
   getCurrentUserAccountInfo,
   getUserAuthenticationMethods,
   rememberUserHasSeenChallengeTooltip,

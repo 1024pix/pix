@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { AllowedCertificationCenterAccess } from '../../../../../src/identity-access-management/domain/read-models/AllowedCertificationCenterAccess.js';
+import { AllowedCertificationCenterAccess } from '../../../../../src/organizational-entities/domain/read-models/AllowedCertificationCenterAccess.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 

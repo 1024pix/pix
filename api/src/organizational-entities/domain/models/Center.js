@@ -3,7 +3,6 @@
  */
 
 import { CERTIFICATION_CENTER_TYPES } from '../../../shared/constants.js';
-import { CenterTypes } from '../read-models/CenterTypes.js';
 import { types } from './Organization.js';
 
 export class Center {
@@ -12,7 +11,7 @@ export class Center {
    * @param {number} props.id
    * @param {string} props.name
    * @param {string} props.externalId
-   * @param {CenterTypes} props.type
+   * @param {CERTIFICATION_CENTER_TYPES} props.type
    * @param {Array<Habilitation>} props.habilitations center habilitations
    * @param {MatchingOrganization | null} props.matchingOrganization
    * @param {Date} createdAt
@@ -32,7 +31,7 @@ export class Center {
   }
 
   get hasBillingMode() {
-    return this.type !== CenterTypes.SCO;
+    return this.type !== CERTIFICATION_CENTER_TYPES.SCO;
   }
 
   isHabilitated(key) {

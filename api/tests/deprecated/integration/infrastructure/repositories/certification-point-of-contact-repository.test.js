@@ -1,6 +1,6 @@
-import { AllowedCertificationCenterAccess } from '../../../../../src/identity-access-management/domain/read-models/AllowedCertificationCenterAccess.js';
-import * as certificationPointOfContactRepository from '../../../../../src/identity-access-management/infrastructure/repositories/certification-point-of-contact.repository.js';
+import * as certificationPointOfContactRepository from '../../../../../src/deprecated/infrastructure/repositories/certification-point-of-contact-repository.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { AllowedCertificationCenterAccess } from '../../../../../src/organizational-entities/domain/read-models/AllowedCertificationCenterAccess.js';
 import * as centerRepository from '../../../../../src/organizational-entities/infrastructure/repositories/center-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { CertificationCenter } from '../../../../../src/shared/domain/models/CertificationCenter.js';
@@ -9,7 +9,7 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Integration | Identity Access Management |  Repository | CertificationPointOfContact', function () {
+describe('Integration | Deprecated | Repository | CertificationPointOfContact', function () {
   let userWithoutMembership;
   let userWithMembership;
   let certificationCenter;
@@ -157,100 +157,6 @@ describe('Integration | Identity Access Management |  Repository | Certification
         { id: certificationCenter.id, isInWhitelist: false },
         { id: certificationCenterScoWhitelisted.id, isInWhitelist: true },
       ]);
-    });
-  });
-
-  describe('#getCertificationCenterAccess', function () {
-    it('returns a certification center access for the given ID (case insensitive)', async function () {
-      // given
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-        type: CertificationCenter.types.PRO,
-        externalId: 'ONEtwoTHREE',
-      });
-      databaseBuilder.factory.buildOrganization({
-        externalId: 'ONETWOthree',
-        isManagingStudents: false,
-        type: Organization.types.PRO,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const allowedCertificationCenterAccess = await certificationPointOfContactRepository.getCertificationCenterAccess(
-        {
-          certificationCenterId: certificationCenter.id,
-        },
-      );
-
-      // then
-      const expectedAllowedCertificationCenterAccess = {
-        id: certificationCenter.id,
-        name: certificationCenter.name,
-        externalId: certificationCenter.externalId,
-        type: certificationCenter.type,
-        habilitations: [],
-        isRelatedToManagingStudentsOrganization: false,
-        relatedOrganizationTags: [],
-        pixCertifScoBlockedAccessDateCollege: undefined,
-        pixCertifScoBlockedAccessDateLycee: undefined,
-      };
-
-      expect(allowedCertificationCenterAccess).to.deep.equal(expectedAllowedCertificationCenterAccess);
-      expect(allowedCertificationCenterAccess).to.be.instanceOf(AllowedCertificationCenterAccess);
-    });
-
-    it('returns the whitelist status of a center', async function () {
-      // given
-      const certificationCenterScoWhitelisted = databaseBuilder.factory.buildCertificationCenter({
-        name: 'Centre SCO',
-        type: CertificationCenter.types.SCO,
-        isScoBlockedAccessWhitelist: true,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const whitelistedCenterAccess = await certificationPointOfContactRepository.getCertificationCenterAccess({
-        certificationCenterId: certificationCenterScoWhitelisted.id,
-      });
-      const nonWhitelistedCenterAccess = await certificationPointOfContactRepository.getCertificationCenterAccess({
-        certificationCenterId: certificationCenter.id,
-      });
-
-      // then
-      expect(whitelistedCenterAccess.isInWhitelist()).to.be.true;
-      expect(nonWhitelistedCenterAccess.isInWhitelist()).to.be.false;
-    });
-
-    it('returns the center habilitations', async function () {
-      // given
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-        type: CertificationCenter.types.PRO,
-        externalId: 'ONETWOTHREE',
-      });
-      const complementaryCertificationInformation = {
-        id: 980,
-        key: 'CLEA',
-        label: 'CléA Numérique',
-      };
-      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification(
-        complementaryCertificationInformation,
-      );
-      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-        certificationCenterId: certificationCenter.id,
-        complementaryCertificationId: complementaryCertification.id,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationCenterAccess = await certificationPointOfContactRepository.getCertificationCenterAccess({
-        certificationCenterId: certificationCenter.id,
-      });
-
-      // then
-      const expectedCertificationCenterAccess = {
-        habilitations: [complementaryCertificationInformation],
-      };
-
-      expect(certificationCenterAccess.habilitations).to.deep.equal(expectedCertificationCenterAccess.habilitations);
     });
   });
 

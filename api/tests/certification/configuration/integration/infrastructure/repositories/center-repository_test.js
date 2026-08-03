@@ -1,5 +1,5 @@
 import * as centerRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/center-repository.js';
-import { CenterTypes } from '../../../../../../src/organizational-entities/domain/read-models/CenterTypes.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -10,13 +10,13 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       // given
       const whitelistedExternalId1 = '1234Abc';
       const center1BeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.SCO,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
         externalId: whitelistedExternalId1,
         updatedAt: new Date('2024-09-24'),
       });
       const whitelistedExternalId2 = 'SCOuai';
       const center2BeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.SCO,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
         externalId: whitelistedExternalId2,
         updatedAt: new Date('2024-09-24'),
       });
@@ -43,7 +43,7 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       // given
       const whitelistedExternalId1 = '1234ABC';
       databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.SCO,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
         externalId: whitelistedExternalId1,
       });
       const whitelistedExternalId2 = 'SCOUAI';
@@ -65,7 +65,7 @@ describe('Certification | Configuration | Integration | Repository | center-repo
         // given
         const whitelistedExternalId1 = '1234ABC';
         const nonSCOCenterBeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
-          type: CenterTypes.PRO,
+          type: CERTIFICATION_CENTER_TYPES.PRO,
           externalId: whitelistedExternalId1,
         });
         await databaseBuilder.commit();
@@ -83,7 +83,7 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       it('should not whitelist this center', async function () {
         // given
         const archivedCenter = databaseBuilder.factory.buildCertificationCenter({
-          type: CenterTypes.SCO,
+          type: CERTIFICATION_CENTER_TYPES.SCO,
           archivedAt: new Date('2024-09-24'),
         });
         await databaseBuilder.commit();
@@ -102,11 +102,11 @@ describe('Certification | Configuration | Integration | Repository | center-repo
         // given
         const duplicatedExternalId = '1234ABC';
         databaseBuilder.factory.buildCertificationCenter({
-          type: CenterTypes.SCO,
+          type: CERTIFICATION_CENTER_TYPES.SCO,
           externalId: duplicatedExternalId,
         });
         databaseBuilder.factory.buildCertificationCenter({
-          type: CenterTypes.SCO,
+          type: CERTIFICATION_CENTER_TYPES.SCO,
           externalId: duplicatedExternalId,
         });
         await databaseBuilder.commit();
@@ -126,7 +126,7 @@ describe('Certification | Configuration | Integration | Repository | center-repo
     it('should reset all isScoBlockedAccessWhitelist to false', async function () {
       // given
       const centerBeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.SCO,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
         isScoBlockedAccessWhitelist: true,
         updatedAt: new Date('2024-09-24'),
       });
@@ -144,7 +144,7 @@ describe('Certification | Configuration | Integration | Repository | center-repo
     it('should not reset centers other than SCO', async function () {
       // given
       const centerBeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.PRO,
+        type: CERTIFICATION_CENTER_TYPES.PRO,
         isScoBlockedAccessWhitelist: true,
         updatedAt: new Date('2024-09-24'),
       });
@@ -163,13 +163,13 @@ describe('Certification | Configuration | Integration | Repository | center-repo
     it('should get whitelisted centers', async function () {
       // given
       const whitelistedCenter = databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.SCO,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
         isScoBlockedAccessWhitelist: true,
         externalId: 'IN_WHITELIST',
         updatedAt: new Date('2024-09-24'),
       });
       databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.SCO,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
         isScoBlockedAccessWhitelist: false,
         externalId: 'NOT_IN_WHITELIST',
         updatedAt: new Date('2024-09-24'),
@@ -184,7 +184,7 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       expect(results[0]).to.deepEqualInstance(
         domainBuilder.certification.configuration.buildCenter({
           id: whitelistedCenter.id,
-          type: CenterTypes.SCO,
+          type: CERTIFICATION_CENTER_TYPES.SCO,
           externalId: 'IN_WHITELIST',
         }),
       );

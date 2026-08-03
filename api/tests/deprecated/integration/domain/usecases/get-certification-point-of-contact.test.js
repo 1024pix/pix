@@ -1,4 +1,4 @@
-import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
 import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../../src/team/domain/models/CertificationCenterMembership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -6,7 +6,7 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 
 const { getCertificationPointOfContact } = usecases;
 
-describe('Integration | Identity Access Management | Domain | UseCase | get-certification-point-of-contact', function () {
+describe('Integration | Deprecated | Domain | UseCase | get-certification-point-of-contact', function () {
   it('returns the CertificationPointOfContact', async function () {
     // given
     const user = databaseBuilder.factory.buildUser();
