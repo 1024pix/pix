@@ -10,4 +10,4 @@ cd ../junior
 npm i @1024pix/epreuves-components@latest
 
 cd ..
-node api/scripts/modulix/generate-demo-epreuve-component.js
+node api/src/devcomp/scripts/generate-demo-epreuve-component.js
