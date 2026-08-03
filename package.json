@@ -91,7 +91,7 @@
     "npm-run-all2": "^9.0.0"
   },
   "devDependencies": {
-    "@1024pix/eslint-plugin": "^2.1.19",
+    "@1024pix/eslint-plugin": "^2.1.21",
     "@babel/eslint-parser": "^8.0.0",
     "@cyclonedx/cyclonedx-npm": "^6.0.0",
     "@eslint/compat": "^2.0.0",
