@@ -1,5 +1,6 @@
 import { config } from '../../src/shared/config.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { datawarehouseKnex } from '../../tests/tooling/databases.js';
 import { DatabaseBuilder } from '../database-builder/database-builder.js';
 import { commonBuilder } from './data/common/common-builder.js';
 import { complementaryCertificationBuilder } from './data/common/complementary-certification-builder.js';
@@ -67,7 +68,7 @@ export async function seed(knex) {
   if (config.seeds.context.certification) {
     logger.info('Seeding : Certification');
     await complementaryCertificationBuilder({ databaseBuilder });
-    await teamCertificationDataBuilder({ databaseBuilder });
+    await teamCertificationDataBuilder({ databaseBuilder, datawarehouseKnex });
   }
 
   if (config.seeds.context.evaluation) {

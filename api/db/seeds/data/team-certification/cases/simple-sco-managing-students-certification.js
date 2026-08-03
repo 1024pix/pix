@@ -30,8 +30,9 @@ import publishSessionWithValidatedCertification from '../tools/publish-session-w
  *   - I have previously obtained a certif SCO with ~550 pix
  */
 export class ScoManagingStudent {
-  constructor({ databaseBuilder }) {
+  constructor({ databaseBuilder, datawarehouseKnex }) {
     this.databaseBuilder = databaseBuilder;
+    this.datawarehouseKnex = datawarehouseKnex;
   }
 
   async create() {
@@ -78,6 +79,7 @@ export class ScoManagingStudent {
   async #initCertificationReferentials() {
     await CommonCertificationVersions.initCoreVersions({
       databaseBuilder: this.databaseBuilder,
+      datawarehouseKnex: this.datawarehouseKnex,
     });
   }
 

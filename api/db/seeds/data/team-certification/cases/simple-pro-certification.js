@@ -29,8 +29,9 @@ import publishSessionWithValidatedCertification from '../tools/publish-session-w
  *   - I have previously obtained a certif PRO with ~250 pix
  */
 export class ProSeed {
-  constructor({ databaseBuilder }) {
+  constructor({ databaseBuilder, datawarehouseKnex }) {
     this.databaseBuilder = databaseBuilder;
+    this.datawarehouseKnex = datawarehouseKnex;
   }
 
   async create() {
@@ -73,6 +74,7 @@ export class ProSeed {
   async #initCertificationReferentials() {
     await CommonCertificationVersions.initCoreVersions({
       databaseBuilder: this.databaseBuilder,
+      datawarehouseKnex: this.datawarehouseKnex,
     });
   }
 
