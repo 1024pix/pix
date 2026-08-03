@@ -147,9 +147,9 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   setItemType(e) {
     this.itemType = e.target.value;
-    if (this.itemValue === '') {
-      this.itemAddDisabled = true;
-    }
+    this.itemValue = '';
+    this.itemAddDisabled = true;
+    this.itemToAdd = null;
   }
 
   @action
@@ -267,6 +267,7 @@ export default class CombinedCourseBlueprintForm extends Component {
           @updateMode={{@updateMode}}
           @handleKeyPress={{this.handleKeyPress}}
           @removeRequirement={{this.removeRequirement}}
+          @itemValue={{this.itemValue}}
           @itemAddDisabled={{this.itemAddDisabled}}
           @itemToAdd={{this.itemToAdd}}
           @getItemColor={{this.getItemColor}}
