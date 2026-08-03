@@ -21,6 +21,23 @@ export class Calibration {
     this.scope = scope;
     this.calibratedChallenges = calibratedChallenges;
   }
+
+  get challengeCount() {
+    return this.calibratedChallenges.length;
+  }
+
+  /**
+   *
+   * @returns {Set<string>} tubeIds
+   */
+  get tubeIds() {
+    const tubeIds = new Set();
+    for (const calibratedChallenge of this.calibratedChallenges) {
+      tubeIds.add(calibratedChallenge.tubeId);
+    }
+
+    return tubeIds;
+  }
 }
 
 export class CalibratedChallenge {
