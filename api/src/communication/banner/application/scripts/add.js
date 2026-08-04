@@ -1,6 +1,6 @@
-import { Script } from '../../../shared/application/scripts/script.js';
-import { ScriptRunner } from '../../../shared/application/scripts/script-runner.js';
-import { informationBannersStorage } from '../../../shared/infrastructure/key-value-storages/index.js';
+import { Script } from '../../../../shared/application/scripts/script.js';
+import { ScriptRunner } from '../../../../shared/application/scripts/script-runner.js';
+import { informationBannersStorage } from '../../../../shared/infrastructure/key-value-storages/index.js';
 
 export class AddInformationBanners extends Script {
   constructor() {

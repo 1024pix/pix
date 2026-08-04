@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { getAnnouncement } from '../../../../../src/announcements/domain/usecases/get-announcement.js';
+import { getAnnouncement } from '../../../../../src/communication/announcements/domain/usecases/get-announcement.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | Get Announcement', function () {

@@ -1,5 +1,5 @@
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { announcementsStorage } from '../../../shared/infrastructure/key-value-storages/index.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { announcementsStorage } from '../../../../shared/infrastructure/key-value-storages/index.js';
 import { Announcement } from '../../domain/models/Announcement.js';
 
 const TTL = 24 * 60 * 60;

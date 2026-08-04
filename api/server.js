@@ -5,8 +5,6 @@ import { parse } from 'neoqs';
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 import { databaseConnections } from './db/database-connections.js';
 import { knex } from './db/knex-database-connection.js';
-import { announcementRoutes } from './src/announcements/routes.js';
-import { bannerRoutes } from './src/banner/routes.js';
 import {
   attachTargetProfileRoutes,
   certificationConfigurationRoutes,
@@ -17,6 +15,8 @@ import { certificationEnrolmentRoutes } from './src/certification/enrolment/rout
 import { certificationEvaluationRoutes } from './src/certification/evaluation/routes.js';
 import { certificationResultRoutes } from './src/certification/results/routes.js';
 import { certificationSessionRoutes } from './src/certification/session-management/routes.js';
+import { announcementRoutes } from './src/communication/announcements/routes.js';
+import { bannerRoutes } from './src/communication/banner/routes.js';
 import { deprecatedRoutes } from './src/deprecated/application/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { evaluationRoutes } from './src/evaluation/routes.js';
