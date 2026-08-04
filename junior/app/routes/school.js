@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import { query } from '@warp-drive/utilities/json-api';
 
 import { styleToolkit } from '../utils/layout';
 
@@ -20,9 +21,12 @@ export default class SchoolRoute extends Route {
 
   async model(_params, transition) {
     try {
-      const school = await this.store.queryRecord('school', {
-        code: transition.to.parent.params.code,
-      });
+      const { content } = await this.store.request(
+        query('school', {
+          code: transition.to.parent.params.code?.toUpperCase(),
+        }),
+      );
+      const school = content.data;
       const divisions = [...new Set(school.organizationLearners.map((learner) => learner.division))];
       return {
         code: school.code,

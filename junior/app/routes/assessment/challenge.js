@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import { findRecord } from '@warp-drive/utilities/json-api';
+import { findRecord, query } from '@warp-drive/utilities/json-api';
 
 export default class ChallengeRoute extends Route {
   @service router;
@@ -16,13 +16,19 @@ export default class ChallengeRoute extends Route {
       const challenge = content.data;
       return { assessment, challenge };
     }
-    const challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
+    const { content } = await this.store.request(
+      query('challenge', {}, { resourcePath: `assessments/${assessment.id}/next`, reload: true }),
+    );
+    const challenge = content.data;
     if (challenge == null) {
       return this.router.replaceWith('assessment.resume', assessment.id, {
         queryParams: { assessmentHasNoMoreQuestions: true },
       });
     }
-    const activity = await this.store.queryRecord('activity', { assessmentId: assessment.id });
+    const { content: activityContent } = await this.store.request(
+      query('activity', {}, { resourcePath: `assessments/${assessment.id}/current-activity` }),
+    );
+    const activity = activityContent.data;
     let oralization = false;
     if (this.currentLearner.learner) {
       const { content } = await this.store.request(findRecord('organization-learner', this.currentLearner.learner.id));

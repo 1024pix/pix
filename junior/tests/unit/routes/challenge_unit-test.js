@@ -36,9 +36,10 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         const organizationLearner = store.createRecord('organization-learner', { features: ['ORALIZATION'] });
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
-        sinon.stub(store, 'queryRecord').returns(challenge);
         const requestStub = sinon.stub(store, 'request');
-        requestStub.onCall(0).resolves({ content: { data: organizationLearner } });
+        requestStub.onCall(0).resolves({ content: { data: challenge } });
+        requestStub.onCall(1).resolves({ content: { data: activity } });
+        requestStub.onCall(2).resolves({ content: { data: organizationLearner } });
 
         const result = await route.model();
 
@@ -53,7 +54,7 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         const assessment = { id: 2 };
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
-        sinon.stub(store, 'queryRecord').returns(null);
+        sinon.stub(store, 'request').resolves({ content: { data: null } });
 
         await route.model();
 
