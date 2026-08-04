@@ -2,6 +2,7 @@ import { SessionEnrolment } from '../../../../../../src/certification/enrolment/
 
 /**
  * @typedef {import('../../../../../../src/certification/shared/domain/models/Scopes.js').SCOPES} SCOPES
+ * @typedef {import('./build-candidate.js').candidateBuilder} CandidateBuilder
  * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder
  */
 
@@ -30,6 +31,7 @@ class SessionEnrolmentBuilder {
     this.certificationCenterName = 'SuperCentre';
     this.certificationCenterType = 'PRO';
     this.finalizedAt = null;
+    this.candidatesBuilders = [];
   }
 
   /**
@@ -57,6 +59,13 @@ class SessionEnrolmentBuilder {
     return this;
   }
 
+  /**
+   * Set the session as finalized
+   *
+   * @param {object} [params]
+   * @param {Date} [params.at]
+   * @returns {SessionEnrolmentBuilder}
+   */
   finalized({ at = new Date() } = {}) {
     this.finalizedAt = at;
     return this;
@@ -89,6 +98,17 @@ class SessionEnrolmentBuilder {
     this.address = address ?? this.address;
     this.description = description ?? this.description;
     this.invigilatorPassword = invigilatorPassword ?? this.invigilatorPassword;
+    return this;
+  }
+
+  /**
+   * Add candidate builders to build in cascade candidates linked to this session
+   *
+   * @param {CandidateBuilder[]} candidatesBuilders
+   * @returns {SessionEnrolment} the persisted sessionEnrolment
+   */
+  addCandidatesBuilders(candidatesBuilders) {
+    this.candidatesBuilders.push(...candidatesBuilders);
     return this;
   }
 
@@ -138,6 +158,12 @@ class SessionEnrolmentBuilder {
     }).id;
 
     sessionEnrolment.id = sessionId;
+    this.id = sessionId;
+    sessionEnrolment.certificationCandidates = this.candidatesBuilders.map((candidateBuilder) => {
+      candidateBuilder.withParameters({ sessionId: this.id });
+      return candidateBuilder.insertToDB({ databaseBuilder });
+    });
+
     return sessionEnrolment;
   }
 
@@ -147,6 +173,10 @@ class SessionEnrolmentBuilder {
    * @returns {SessionEnrolment}
    */
   build() {
+    const certificationCandidates = this.candidatesBuilders.map((candidateBuilder) => {
+      candidateBuilder.withParameters({ sessionId: this.id });
+      return candidateBuilder.build();
+    });
     return new SessionEnrolment({
       id: this.id,
       date: this.date,
@@ -162,7 +192,7 @@ class SessionEnrolmentBuilder {
       certificationCenterId: this.certificationCenterId,
       certificationCenter: this.certificationCenterName,
       certificationCenterType: this.certificationCenterType,
-      certificationCandidates: [],
+      certificationCandidates,
       version: 3,
     });
   }

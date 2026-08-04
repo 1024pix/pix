@@ -1,7 +1,7 @@
-// @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
+import { Candidate } from '../../domain/models/Candidate.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 /**
@@ -30,7 +30,10 @@ export async function save({ session }) {
     })
     .returning('*');
 
-  return new SessionEnrolment(savedSession);
+  return new SessionEnrolment({
+    ...savedSession,
+    certificationCandidates: [],
+  });
 }
 
 /**
@@ -59,8 +62,41 @@ export async function get({ id }) {
       certificationCenter: 'certification-centers.name',
       certificationCenterId: 'certification-centers.id',
       certificationCenterType: 'certification-centers.type',
+      candidatesData: knexConn
+        .select(
+          knexConn.raw(`
+        json_agg(json_build_object(
+          'id', "certification-candidates"."id",
+          'firstName', "certification-candidates"."firstName",
+          'lastName', "certification-candidates"."lastName",
+          'sex', "certification-candidates"."sex",
+          'birthPostalCode', "certification-candidates"."birthPostalCode",
+          'birthINSEECode', "certification-candidates"."birthINSEECode",
+          'birthCity', "certification-candidates"."birthCity",
+          'birthProvinceCode', "certification-candidates"."birthProvinceCode",
+          'birthCountry', "certification-candidates"."birthCountry",
+          'email', "certification-candidates"."email",
+          'resultRecipientEmail', "certification-candidates"."resultRecipientEmail",
+          'externalId', "certification-candidates"."externalId",
+          'birthdate', "certification-candidates"."birthdate",
+          'extraTimePercentage', "certification-candidates"."extraTimePercentage",
+          'createdAt', "certification-candidates"."createdAt",
+          'userId', "certification-candidates"."userId",
+          'reconciledAt', "certification-candidates"."reconciledAt",
+          'organizationLearnerId', "certification-candidates"."organizationLearnerId",
+          'subscription', "certification-candidates"."subscription",
+          'hasSeenCertificationInstructions', "certification-candidates"."hasSeenCertificationInstructions",
+          'accessibilityAdjustmentNeeded', "certification-candidates"."accessibilityAdjustmentNeeded",
+          'billingMode', "certification-candidates"."billingMode",
+          'prepaymentCode', "certification-candidates"."prepaymentCode",
+          'certificationId', "certification-courses"."id"
+        ) order by "certification-candidates"."id")
+    `),
+        )
+        .from('certification-candidates')
+        .leftJoin('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
+        .whereRaw('"certification-candidates"."sessionId" = sessions.id'),
     })
-    .select({ certificationCenterType: 'certification-centers.type' })
     .from('sessions')
     .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .where('sessions.id', id)
@@ -68,7 +104,23 @@ export async function get({ id }) {
   if (!foundSession) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
-  return new SessionEnrolment({ ...foundSession, certificationCandidates: [] });
+
+  const certificationCandidates =
+    foundSession?.candidatesData?.map(
+      (candidateData) =>
+        new Candidate({
+          ...candidateData,
+          sessionId: foundSession.id,
+          extraTimePercentage:
+            candidateData.extraTimePercentage != null ? parseFloat(candidateData.extraTimePercentage) : null,
+          createdAt: new Date(candidateData.createdAt),
+          reconciledAt: candidateData.reconciledAt ? new Date(candidateData.reconciledAt) : null,
+          hasStartedTest: !!candidateData.certificationId,
+          hasSeenCertificationInstructions: !!candidateData.hasSeenCertificationInstructions,
+          accessibilityAdjustmentNeeded: !!candidateData.accessibilityAdjustmentNeeded,
+        }),
+    ) ?? [];
+  return new SessionEnrolment({ ...foundSession, certificationCandidates });
 }
 
 /**

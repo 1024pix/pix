@@ -1,4 +1,6 @@
 import * as sessionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
+import { BILLING_MODES } from '../../../../../../src/certification/shared/domain/constants.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
@@ -45,7 +47,59 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
   });
 
   describe('#get', function () {
-    it('returns the SessionEnrolment model', async function () {
+    it('returns the SessionEnrolment model with candidates', async function () {
+      const candidateABuilder = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(SCOPES.PIX_PLUS_DROIT)
+        .withIdentity({ firstName: 'firstName A', lastName: 'lastName A', birthdate: '1991-01-01' })
+        .asReconciled({ userId: 111, reconciledAt: new Date('2022-01-01') })
+        .withParameters({
+          id: 111,
+          firstName: 'firstName A',
+          lastName: 'lastName A',
+          sex: 'M',
+          birthPostalCode: 'birthPostalCode A',
+          birthINSEECode: 'birthINSEECode A',
+          birthCity: 'birthCity A',
+          birthProvinceCode: 'birthProvinceCode A',
+          birthCountry: 'birthCountry A',
+          email: 'email A',
+          resultRecipientEmail: 'resultRecipientEmail A',
+          externalId: 'externalId A',
+          birthdate: '1990-01-01',
+          extraTimePercentage: null,
+          createdAt: new Date('2021-01-01'),
+          organizationLearnerId: null,
+          billingMode: BILLING_MODES.FREE,
+          prepaymentCode: 'prepaymentCode A',
+          hasSeenCertificationInstructions: true,
+          accessibilityAdjustmentNeeded: true,
+        })
+        .withStartedTest({ certification: 111 });
+      const candidateBBuilder = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(SCOPES.CORE)
+        .withIdentity({ firstName: 'firstName B', lastName: 'lastName B', birthdate: '1995-05-05' })
+        .asReconciled({ userId: 222, reconciledAt: new Date('2023-03-03') })
+        .withParameters({
+          id: 222,
+          sex: 'F',
+          birthPostalCode: 'birthPostalCode B',
+          birthINSEECode: 'birthINSEECode B',
+          birthCity: 'birthCity B',
+          birthProvinceCode: 'birthProvinceCode B',
+          birthCountry: 'birthCountry B',
+          email: 'email B',
+          resultRecipientEmail: 'resultRecipientEmail B',
+          externalId: 'externalId B',
+          extraTimePercentage: 0.1,
+          createdAt: new Date('2021-02-02'),
+          organizationLearnerId: null,
+          billingMode: BILLING_MODES.PREPAID,
+          prepaymentCode: 'prepaymentCode B',
+          hasSeenCertificationInstructions: false,
+          BccessibilityAdjustmentNeeded: false,
+        });
       const expectedSession = domainBuilder.certification.enrolment
         .sessionEnrolmentBuilder()
         .createdBy({
@@ -66,6 +120,7 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
           description: 'une description pleine de sens',
           invigilatorPassword: 'INVIG7',
         })
+        .addCandidatesBuilders([candidateABuilder, candidateBBuilder])
         .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
 
