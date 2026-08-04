@@ -22,7 +22,7 @@ class CandidateAuthorizationInfoBuilder {
     this.sessionId = null;
     this.sessionAccessCode = 'ABC123';
     this.sessionFinalizedAt = null;
-    this.sessionPublishedAt = null;
+    this.sessionStartedAt = null;
     this.reconciledUserId = null;
     this.reconciledAt = null;
     this.subscription = Frameworks.CORE;
@@ -52,14 +52,15 @@ class CandidateAuthorizationInfoBuilder {
    * @param {object} [params]
    * @param {number} [params.sessionId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)
    * @param {string} [params.accessCode]
-   * @param {boolean} [params.isAccessible]
+   * @param {Date} [params.startedAt]
+   * @param {Date} [params.finalizedAt]
    * @returns {CandidateAuthorizationInfoBuilder}
    */
-  withSession({ sessionId = null, accessCode = 'ABC123', isAccessible = true } = {}) {
+  withSession({ sessionId = null, accessCode = 'ABC123', finalizedAt = null, startedAt = null } = {}) {
     this.sessionId = sessionId;
     this.sessionAccessCode = accessCode;
-    this.sessionFinalizedAt = isAccessible ? null : new Date();
-    this.sessionPublishedAt = null;
+    this.sessionFinalizedAt = finalizedAt;
+    this.sessionStartedAt = startedAt;
     return this;
   }
 
@@ -172,7 +173,6 @@ class CandidateAuthorizationInfoBuilder {
       id: candidateAuthorizationInfo.sessionId ?? undefined,
       accessCode: candidateAuthorizationInfo.sessionAccessCode,
       finalizedAt: candidateAuthorizationInfo.sessionFinalizedAt,
-      publishedAt: candidateAuthorizationInfo.sessionPublishedAt,
       certificationCenterId,
     }).id;
     candidateAuthorizationInfo.sessionId = sessionId;
@@ -199,6 +199,13 @@ class CandidateAuthorizationInfoBuilder {
       }).id;
       candidateAuthorizationInfo.certificationId = certificationId;
     }
+
+    if (this.sessionStartedAt && this.sessionStartedAt !== candidateAuthorizationInfo.certificationStartedAt) {
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        createdAt: this.sessionStartedAt,
+      });
+    }
     candidateAuthorizationInfo.id = candidateId;
 
     return candidateAuthorizationInfo;
@@ -215,7 +222,7 @@ class CandidateAuthorizationInfoBuilder {
       sessionId: this.sessionId,
       sessionAccessCode: this.sessionAccessCode,
       sessionFinalizedAt: this.sessionFinalizedAt,
-      sessionPublishedAt: this.sessionPublishedAt,
+      sessionStartedAt: this.sessionStartedAt,
       authorizedToStartAt: this.authorizedToStartAt,
       reconciledUserId: this.reconciledUserId,
       reconciledAt: this.reconciledAt,
