@@ -6,13 +6,11 @@ import {
   CampaignTypes,
 } from '../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Domain | UseCases | get-progression', function () {
   describe('when the assessment is link to a campaign participation', function () {
@@ -49,38 +47,6 @@ describe('Integration | Domain | UseCases | get-progression', function () {
         });
 
         await databaseBuilder.commit();
-      });
-
-      describe('When participation has been anonymized', function () {
-        it('should throw Forbidden Access', async function () {
-          //given
-          const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-            campaignId: campaign.id,
-            userId: null,
-            organizationLearnerId: organizationLearner.id,
-            createdAt: assessmentCreatedDate,
-            status: CampaignParticipationStatuses.STARTED,
-            sharedAt: null,
-            deletedAt: new Date(),
-          });
-
-          assessmentId = databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: null,
-            userId: campaignParticipation.userId,
-            type: Assessment.types.CAMPAIGN,
-            state: Assessment.states.STARTED,
-            createdAt: assessmentCreatedDate,
-          }).id;
-
-          await databaseBuilder.commit();
-
-          const error = await catchErr(evaluationUsecases.getProgression)({
-            progressionId: `progression-${assessmentId}`,
-            userId: campaignParticipation.userId,
-          });
-
-          expect(error).instanceOf(ForbiddenAccess);
-        });
       });
 
       describe('When participation is active', function () {
@@ -347,6 +313,67 @@ describe('Integration | Domain | UseCases | get-progression', function () {
           });
         });
       });
+
+      describe('When participation is shared', function () {
+        let sharedAt;
+
+        beforeEach(async function () {
+          sharedAt = new Date('2024-02-01');
+          const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            userId: organizationLearner.userId,
+            organizationLearnerId: organizationLearner.id,
+            createdAt: assessmentCreatedDate,
+            status: CampaignParticipationStatuses.SHARED,
+            sharedAt,
+          });
+
+          userId = campaignParticipation.userId;
+          assessmentId = databaseBuilder.factory.buildAssessment({
+            campaignParticipationId: campaignParticipation.id,
+            userId: campaignParticipation.userId,
+            type: Assessment.types.CAMPAIGN,
+            state: Assessment.states.COMPLETED,
+            createdAt: assessmentCreatedDate,
+          }).id;
+
+          await databaseBuilder.commit();
+        });
+
+        it('ignores the knowledge elements acquired after the participation was shared', async function () {
+          // given
+          const knowledgeElementBeforeSharing = databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'skillId1Archive',
+            userId,
+            assessmentId,
+            status: KnowledgeElement.StatusType.VALIDATED,
+            createdAt: dayjs(sharedAt).subtract(1, 'day').toDate(),
+          });
+          databaseBuilder.factory.buildKnowledgeElement({
+            skillId: 'skillId2Actif',
+            userId,
+            status: KnowledgeElement.StatusType.VALIDATED,
+            createdAt: dayjs(sharedAt).add(1, 'day').toDate(),
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const result = await evaluationUsecases.getProgression({
+            progressionId: `progression-${assessmentId}`,
+            userId,
+          });
+
+          // then
+          expect(result).to.deep.equal({
+            id: `progression-${assessmentId}`,
+            isProfileCompleted: true,
+            knowledgeElements: [knowledgeElementBeforeSharing],
+            skillIds: ['skillId1Archive', 'skillId2Actif'],
+            targetedKnowledgeElements: [knowledgeElementBeforeSharing],
+          });
+        });
+      });
     });
 
     describe('campaign Exam cases', function () {
@@ -382,38 +409,6 @@ describe('Integration | Domain | UseCases | get-progression', function () {
         });
 
         await databaseBuilder.commit();
-      });
-
-      describe('When participation has been anonymized', function () {
-        it('should throw Forbidden Access', async function () {
-          //given
-          const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-            campaignId: campaign.id,
-            userId: null,
-            organizationLearnerId: organizationLearner.id,
-            createdAt: assessmentCreatedDate,
-            status: CampaignParticipationStatuses.STARTED,
-            sharedAt: null,
-            deletedAt: new Date(),
-          });
-
-          assessmentId = databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: null,
-            userId: campaignParticipation.userId,
-            type: Assessment.types.CAMPAIGN,
-            state: Assessment.states.STARTED,
-            createdAt: assessmentCreatedDate,
-          }).id;
-
-          await databaseBuilder.commit();
-
-          const error = await catchErr(evaluationUsecases.getProgression)({
-            progressionId: `progression-${assessmentId}`,
-            userId: campaignParticipation.userId,
-          });
-
-          expect(error).instanceOf(ForbiddenAccess);
-        });
       });
 
       describe('When participation is active', function () {
@@ -618,4 +613,125 @@ describe('Integration | Domain | UseCases | get-progression', function () {
       });
     });
   });
+
+  describe('when the assessment is a competence evaluation', function () {
+    const competenceId = 'recCompetence1';
+    const assessmentCreatedDate = new Date('2024-01-15');
+    let userId, recentlyInvalidatedKnowledgeElement, validatedKnowledgeElement, longAgoInvalidatedKnowledgeElement;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+
+      ['skillId1Actif', 'skillId2Actif', 'skillId3Actif'].forEach((skillId) =>
+        databaseBuilder.factory.learningContent.buildSkill({ id: skillId, competenceId, status: 'actif' }),
+      );
+      databaseBuilder.factory.learningContent.buildSkill({
+        id: 'skillId4Archive',
+        competenceId,
+        status: 'archivé',
+      });
+
+      validatedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        competenceId,
+        skillId: 'skillId1Actif',
+        status: KnowledgeElement.StatusType.VALIDATED,
+        createdAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
+      });
+      longAgoInvalidatedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        competenceId,
+        skillId: 'skillId2Actif',
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        createdAt: dayjs(assessmentCreatedDate).subtract(20, 'day').toDate(),
+      });
+      recentlyInvalidatedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        competenceId,
+        skillId: 'skillId3Actif',
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        createdAt: dayjs(assessmentCreatedDate).subtract(1, 'day').toDate(),
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    it('rate to 1, on the active skills of the competence only', async function () {
+      // given
+      const assessmentId = _buildCompetenceEvaluationAssessment({
+        userId,
+        competenceId,
+        createdAt: assessmentCreatedDate,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await evaluationUsecases.getProgression({
+        progressionId: `progression-${assessmentId}`,
+        userId,
+      });
+
+      // then
+      expect(result.completionRate).equal(1);
+      expect(result).to.deep.equal({
+        id: `progression-${assessmentId}`,
+        isProfileCompleted: false,
+        knowledgeElements: [
+          recentlyInvalidatedKnowledgeElement,
+          validatedKnowledgeElement,
+          longAgoInvalidatedKnowledgeElement,
+        ],
+        skillIds: ['skillId1Actif', 'skillId2Actif', 'skillId3Actif'],
+        targetedKnowledgeElements: [
+          recentlyInvalidatedKnowledgeElement,
+          validatedKnowledgeElement,
+          longAgoInvalidatedKnowledgeElement,
+        ],
+      });
+    });
+
+    it('ignores the invalidated knowledge elements too old to be improved when the assessment is improving', async function () {
+      // given
+      const assessmentId = _buildCompetenceEvaluationAssessment({
+        userId,
+        competenceId,
+        createdAt: assessmentCreatedDate,
+        isImproving: true,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await evaluationUsecases.getProgression({
+        progressionId: `progression-${assessmentId}`,
+        userId,
+      });
+
+      // then
+      expect(result.completionRate).equal(2 / 3);
+      expect(result).to.deep.equal({
+        id: `progression-${assessmentId}`,
+        isProfileCompleted: false,
+        knowledgeElements: [recentlyInvalidatedKnowledgeElement, validatedKnowledgeElement],
+        skillIds: ['skillId1Actif', 'skillId2Actif', 'skillId3Actif'],
+        targetedKnowledgeElements: [recentlyInvalidatedKnowledgeElement, validatedKnowledgeElement],
+      });
+    });
+  });
 });
+
+function _buildCompetenceEvaluationAssessment({ userId, competenceId, createdAt, isImproving = false }) {
+  const assessmentId = databaseBuilder.factory.buildAssessment({
+    userId,
+    competenceId,
+    createdAt,
+    isImproving,
+    type: Assessment.types.COMPETENCE_EVALUATION,
+    state: Assessment.states.STARTED,
+  }).id;
+
+  databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+
+  return assessmentId;
+}

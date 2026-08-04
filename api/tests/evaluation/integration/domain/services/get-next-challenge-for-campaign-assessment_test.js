@@ -1,4 +1,4 @@
-import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
+import { services } from '../../../../../src/evaluation/domain/services/index.js';
 import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
@@ -7,7 +7,7 @@ import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Evaluation | Integration | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
+describe('Evaluation | Integration | Domain | Services | get-next-challenge-for-campaign-assessment', function () {
   const skillIds = ['acquisTube1Niveau1', 'acquisTube1Niveau2'];
 
   context('for a campaign of type assessment with method smart_random', function () {
@@ -70,7 +70,7 @@ describe('Evaluation | Integration | Domain | Use Cases | get-next-challenge-for
 
       // when
       const assessment = domainBuilder.buildAssessment(assessmentDB);
-      const challengeId = await evaluationUsecases.getNextChallengeForCampaignAssessment({
+      const challengeId = await services.getNextChallengeForCampaignAssessment({
         assessment,
         locale,
       });
@@ -145,7 +145,7 @@ describe('Evaluation | Integration | Domain | Use Cases | get-next-challenge-for
 
       // when
       const assessment = domainBuilder.buildAssessment(assessmentDB);
-      const challengeId = await evaluationUsecases.getNextChallengeForCampaignAssessment({
+      const challengeId = await services.getNextChallengeForCampaignAssessment({
         assessment,
         locale,
       });

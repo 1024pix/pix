@@ -1,8 +1,7 @@
 import sinon from 'sinon';
 
 import { getProgression } from '../../../../../src/evaluation/domain/usecases/get-progression.js';
-import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { ForbiddenAccess, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -12,161 +11,62 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
   const progressionId = `progression-${assessmentId}`;
   const userId = 9874;
 
-  let campaignParticipationRepository;
-  let campaignRepository;
-  let knowledgeElementRepository;
+  let getCampaignProgression;
   let assessmentRepository;
-  let competenceEvaluationRepository;
-  let skillRepository;
-  let improvementService;
+  let dependencies;
 
   beforeEach(function () {
-    campaignParticipationRepository = { get: sinon.stub(), isRetrying: sinon.stub() };
-    campaignRepository = { findSkillIds: sinon.stub() };
-    knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves([]) };
+    getCampaignProgression = sinon.stub();
     assessmentRepository = { getByAssessmentIdAndUserId: sinon.stub() };
-    competenceEvaluationRepository = { getByAssessmentId: sinon.stub() };
-    skillRepository = { findActiveByCompetenceId: sinon.stub() };
-    improvementService = { filterKnowledgeElements: sinon.stub() };
+
+    dependencies = {
+      userId,
+      progressionId,
+      assessmentRepository,
+      getCampaignProgression,
+    };
   });
 
   describe('#getProgression', function () {
-    context('when the assessment exists and is competence evaluation', function () {
-      let competenceEvaluationAssessment, competenceEvaluation, competenceSkills;
-
-      beforeEach(function () {
-        competenceEvaluationAssessment = domainBuilder.buildAssessment({
+    context('when the assessment is for a campaign', function () {
+      it('should return the progression computed by the campaign progression service', async function () {
+        // given
+        const campaignAssessment = domainBuilder.buildAssessment.ofTypeCampaign({
           id: assessmentId,
           userId,
-          type: Assessment.types.COMPETENCE_EVALUATION,
+          campaignParticipationId: 555,
         });
-        competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
-          competenceId: 1,
-          assessmentId,
-          userId,
-        });
-        competenceSkills = [domainBuilder.buildSkill()];
+        const expectedProgression = domainBuilder.buildProgression({ id: progressionId });
 
-        assessmentRepository.getByAssessmentIdAndUserId.resolves(competenceEvaluationAssessment);
-        competenceEvaluationRepository.getByAssessmentId.resolves(competenceEvaluation);
-        skillRepository.findActiveByCompetenceId.resolves(competenceSkills);
-        improvementService.filterKnowledgeElements
-          .withArgs({
-            knowledgeElements: [],
-            createdAt: competenceEvaluationAssessment.createdAt,
-            isImproving: competenceEvaluationAssessment.isImproving,
-          })
-          .returns([]);
-      });
-
-      it('should load the right assessment', async function () {
-        // when
-        await getProgression({
-          userId,
-          progressionId,
-          assessmentRepository,
-          campaignParticipationRepository,
-          competenceEvaluationRepository,
-          knowledgeElementRepository,
-          skillRepository,
-          campaignRepository,
-          improvementService,
-        });
-
-        // then
-        expect(competenceEvaluationRepository.getByAssessmentId).to.have.been.calledWithExactly(assessmentId);
-      });
-
-      it('should return the progression associated to the assessment', async function () {
-        // given
-        const expectedProgression = domainBuilder.buildProgression({
-          id: progressionId,
-          skillIds: competenceSkills.map((skill) => skill.id),
-          knowledgeElements: [],
-          isProfileCompleted: competenceEvaluationAssessment.isCompleted(),
-        });
+        assessmentRepository.getByAssessmentIdAndUserId.resolves(campaignAssessment);
+        getCampaignProgression
+          .withArgs({ assessment: campaignAssessment, progressionId })
+          .resolves(expectedProgression);
 
         // when
-        const progression = await getProgression({
-          userId,
-          progressionId,
-          assessmentRepository,
-          campaignParticipationRepository,
-          competenceEvaluationRepository,
-          knowledgeElementRepository,
-          skillRepository,
-          campaignRepository,
-          improvementService,
-        });
+        const progression = await getProgression(dependencies);
 
         // then
-        expect(progression).to.deep.equal(expectedProgression);
+        expect(progression).to.equal(expectedProgression);
       });
 
-      context('when the assessment is improving', function () {
-        let knowledgeElements, knowledgeElementsFiltered;
-
-        beforeEach(function () {
-          competenceEvaluationAssessment.state = 'improving';
-          knowledgeElements = [domainBuilder.buildKnowledgeElement(), domainBuilder.buildKnowledgeElement()];
-          knowledgeElementsFiltered = [knowledgeElements[0]];
-          knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
-
-          improvementService.filterKnowledgeElements
-            .withArgs({
-              knowledgeElements,
-              createdAt: competenceEvaluationAssessment.createdAt,
-              isImproving: competenceEvaluationAssessment.isImproving,
-            })
-            .returns(knowledgeElementsFiltered);
-        });
-
-        it('should filter the knowledge elements', async function () {
-          // when
-          await getProgression({
-            userId,
-            progressionId,
-            assessmentRepository,
-            campaignParticipationRepository,
-            competenceEvaluationRepository,
-            knowledgeElementRepository,
-            skillRepository,
-            campaignRepository,
-            improvementService,
-          });
-
-          // then
-          expect(improvementService.filterKnowledgeElements).to.have.been.calledWithExactly({
-            knowledgeElements,
-            createdAt: competenceEvaluationAssessment.createdAt,
-            isImproving: competenceEvaluationAssessment.isImproving,
-          });
-        });
-
-        it('should return the progression associated to the assessment', async function () {
+      context('when the campaign participation has been deleted', function () {
+        it('should throw a ForbiddenAccess error', async function () {
           // given
-          const expectedProgression = domainBuilder.buildProgression({
-            id: progressionId,
-            skillIds: competenceSkills.map((skill) => skill.id),
-            knowledgeElements: knowledgeElementsFiltered,
-            isProfileCompleted: competenceEvaluationAssessment.isCompleted(),
+          const campaignAssessment = domainBuilder.buildAssessment.ofTypeCampaign({
+            id: assessmentId,
+            userId,
+            campaignParticipationId: null,
           });
+
+          assessmentRepository.getByAssessmentIdAndUserId.resolves(campaignAssessment);
 
           // when
-          const progression = await getProgression({
-            userId,
-            progressionId,
-            assessmentRepository,
-            campaignParticipationRepository,
-            competenceEvaluationRepository,
-            knowledgeElementRepository,
-            skillRepository,
-            campaignRepository,
-            improvementService,
-          });
+          const error = await catchErr(getProgression)(dependencies);
 
           // then
-          expect(progression).to.deep.equal(expectedProgression);
+          expect(error).to.be.instanceOf(ForbiddenAccess);
+          expect(getCampaignProgression).to.not.have.been.called;
         });
       });
     });
@@ -177,20 +77,10 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
         assessmentRepository.getByAssessmentIdAndUserId.rejects(new NotFoundError('No found Assessment for ID 1234'));
 
         // when
-        const error = await catchErr(getProgression)({
-          userId,
-          progressionId,
-          assessmentRepository,
-          campaignParticipationRepository,
-          competenceEvaluationRepository,
-          knowledgeElementRepository,
-          skillRepository,
-          campaignRepository,
-          improvementService,
-        });
+        const error = await catchErr(getProgression)(dependencies);
 
         // then
-        return expect(error).to.be.instanceOf(NotFoundError);
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });

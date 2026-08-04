@@ -30,6 +30,7 @@
 !.idea/runConfigurations/*.xml
 *.iml
 *.code-workspace
+**/.zed/*
 
 # system
 .DS_Store
