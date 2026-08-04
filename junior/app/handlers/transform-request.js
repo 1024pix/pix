@@ -1,7 +1,7 @@
 import { dasherize, pluralize } from '@warp-drive/utilities/string';
 export const TransformRequest = {
   request(context, next) {
-    if (context.request.method === 'GET') {
+    if (context.request.method === 'GET' || context.request.op === 'query') {
       return next(context.request);
     }
 
