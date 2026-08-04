@@ -16,6 +16,7 @@ class StudentInformationForAccountRecovery {
 export default class FindScoRecordController extends Controller {
   @service intl;
   @service store;
+  @service accountRecoveryDemand;
 
   @tracked accountRecoveryError = {
     message: '',
@@ -65,18 +66,11 @@ export default class FindScoRecordController extends Controller {
   }
 
   @action
-  async sendEmail(newEmail) {
+  async sendEmail(email) {
     const { firstName, lastName, ineIna, birthdate } = this.studentInformationForAccountRecovery;
-    const accountRecoveryDemand = this.store.createRecord('account-recovery-demand', {
-      firstName,
-      lastName,
-      ineIna,
-      birthdate,
-      email: newEmail,
-    });
     try {
       this.isLoading = true;
-      await accountRecoveryDemand.send();
+      await this.accountRecoveryDemand.send({ firstName, lastName, ineIna, birthdate, email });
       this.showAlreadyRegisteredEmailError = false;
       this.showBackupEmailConfirmationForm = false;
       this.showConfirmationEmailSent = true;

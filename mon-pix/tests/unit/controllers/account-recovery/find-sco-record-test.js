@@ -78,17 +78,15 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
       test('should send account recovery email', async function (assert) {
         // given
         const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
+        const accountRecoveryDemandService = this.owner.lookup('service:account-recovery-demand');
         const studentInformationForAccountRecovery = {
           firstName: 'Philippe',
           lastName: 'Legoff',
           birthdate: '2012-07-01',
           ineIna: '123456789CC',
         };
-        controller.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
-        const sendEmailStub = sinon.stub();
-        const createRecord = sinon.stub().returns({ send: sendEmailStub.resolves() });
-        const store = { createRecord };
-        controller.set('store', store);
+        controller.set('studentInformation', studentInformationForAccountRecovery);
+        accountRecoveryDemandService.send = sinon.stub().resolves();
         const email = 'new_email@example.net';
 
         // when
@@ -96,12 +94,7 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
 
         // then
         const expectedAccountRecoveryDemandAttributes = { ...studentInformationForAccountRecovery, email };
-        sinon.assert.calledWithExactly(
-          createRecord,
-          'account-recovery-demand',
-          expectedAccountRecoveryDemandAttributes,
-        );
-        sinon.assert.calledOnce(sendEmailStub);
+        sinon.assert.calledWithExactly(accountRecoveryDemandService.send, expectedAccountRecoveryDemandAttributes);
         assert.ok(true);
       });
     });
