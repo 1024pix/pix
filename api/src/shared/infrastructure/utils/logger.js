@@ -1,8 +1,4 @@
 import { logs, SeverityNumber } from '@opentelemetry/api-logs';
-import isEmpty from 'lodash/isEmpty.js';
-import isNil from 'lodash/isNil.js';
-import omit from 'lodash/omit.js';
-import omitBy from 'lodash/omitBy.js';
 import pino from 'pino';
 import pretty from 'pino-pretty';
 
@@ -188,29 +184,40 @@ function messageFormatCompact(log, messageKey, _logLevel, { colors }) {
     const request = colors.magentaBright([method, req.url].filter(Boolean).join(' '));
     const details = colors.yellow([queries, queriesTime].filter(Boolean).join(' '));
     const time = colors.gray(`(${responseTime}ms)`);
-    const correlationInfo = colors.gray(
-      JSON.stringify(
-        omitBy(
-          {
-            user_id: req.user_id,
-            request_id: req.request_id,
-            scriptId: req.scriptId,
-            jobId: req.jobId,
-            [CORRELATION_METADATA]: req[CORRELATION_METADATA],
-          },
-          isNil,
-        ),
-      ),
-    );
+
+    const correlationInfoCompacted = omitNilAndKeys({
+      user_id: req.user_id,
+      request_id: req.request_id,
+      scriptId: req.scriptId,
+      jobId: req.jobId,
+      [CORRELATION_METADATA]: req[CORRELATION_METADATA],
+    });
+    const correlationInfo = colors.gray(JSON.stringify(correlationInfoCompacted));
 
     return [statusCode, request, details, time, correlationInfo].filter(Boolean).join(' - ');
   }
 
   // compact log by default and remove null/undefined values
-  const compactLog = omitBy(
-    omit(log, [messageKey, 'id', 'level', 'time', 'pid', 'hostname', 'uri', 'address', 'event', 'started', 'created']),
-    isNil,
-  );
-  const details = !isEmpty(compactLog) ? colors.gray(JSON.stringify(compactLog)) : '';
+  const EXCLUDED_KEYS = new Set([
+    messageKey,
+    'id',
+    'level',
+    'time',
+    'pid',
+    'hostname',
+    'uri',
+    'address',
+    'event',
+    'started',
+    'created',
+  ]);
+  const compactLog = omitNilAndKeys(log, EXCLUDED_KEYS);
+
+  const details = Object.keys(compactLog).length > 0 ? colors.gray(JSON.stringify(compactLog)) : '';
   return `${message} ${details}`;
 }
+
+const omitNilAndKeys = (obj, keys = []) => {
+  const excluded = new Set(keys);
+  return Object.fromEntries(Object.entries(obj).filter(([key, value]) => !excluded.has(key) && value != null));
+};
