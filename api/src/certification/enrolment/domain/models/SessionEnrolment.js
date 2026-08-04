@@ -5,9 +5,6 @@ import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/constants.js';
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 
-const INVIGILATOR_PASSWORD_LENGTH = 6;
-const INVIGILATOR_PASSWORD_CHARS = '23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?'.split('');
-
 export class SessionEnrolment {
   constructor({
     id,
@@ -39,7 +36,7 @@ export class SessionEnrolment {
     this.time = time;
     this.certificationCandidates = certificationCandidates;
     this.certificationCenterId = certificationCenterId;
-    this.invigilatorPassword = invigilatorPassword ?? this.#generateInvigilatorPassword();
+    this.invigilatorPassword = invigilatorPassword;
     this.version = version;
     this.createdBy = createdBy;
     this.canEnrolCandidate = !finalizedAt;
@@ -51,15 +48,6 @@ export class SessionEnrolment {
 
   get isSco() {
     return this.certificationCenterType === CERTIFICATION_CENTER_TYPES.SCO;
-  }
-
-  #generateInvigilatorPassword() {
-    const chars = Array.from(INVIGILATOR_PASSWORD_CHARS);
-    for (let i = INVIGILATOR_PASSWORD_LENGTH; i >= 0; i--) {
-      const j = Math.floor(Math.random() * (chars.length - 1));
-      [chars[i], chars[j]] = [chars[j], chars[i]];
-    }
-    return chars.slice(0, INVIGILATOR_PASSWORD_LENGTH).join('');
   }
 
   isSessionScheduledInThePast() {

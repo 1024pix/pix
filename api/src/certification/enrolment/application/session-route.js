@@ -20,8 +20,25 @@ const register = async function (server) {
           },
         ],
         validate: {
+          options: {
+            allowUnknown: true,
+          },
           params: Joi.object({
             certificationCenterId: identifiersType.certificationCenterId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                address: Joi.string().required(),
+                room: Joi.string().required(),
+                date: Joi.date().format('YYYY-MM-DD').required().empty(['', null]),
+                time: Joi.string()
+                  .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
+                  .required(),
+                examiner: Joi.string().required(),
+                description: Joi.string().optional().allow(null, ''),
+              },
+            },
           }),
         },
         handler: sessionController.createSession,

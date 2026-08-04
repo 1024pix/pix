@@ -1,9 +1,11 @@
 // @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 /**
+ * @deprecated use create
  * @function
  * @param {object} params
  * @param {SessionEnrolment} params.session
@@ -82,8 +84,65 @@ export async function isSessionExistingByCertificationCenterId({
 }
 
 /**
+ * @param {object} params
+ * @param {number} params.userId
+ * @param {certificationCenterId} params.certificationCenterId
+ * @param {string} params.address
+ * @param {string} params.room
+ * @param {string} params.date
+ * @param {string} params.time
+ * @param {string} params.examiner
+ * @param {string} params.description
+ * @param {string} params.accessCode
+ * @param {string} params.invigilatorPassword
+ * @returns {Promise<void>}
+ */
+export async function create({
+  userId,
+  certificationCenterId,
+  address,
+  room,
+  examiner,
+  date,
+  time,
+  description,
+  accessCode,
+  invigilatorPassword,
+}) {
+  const knexConn = DomainTransaction.getConnection();
+  const [certificationCenter] = await knexConn
+    .pluck('name')
+    .from('certification-centers')
+    .where({ id: certificationCenterId });
+  const [{ id }] = await knexConn('sessions')
+    .insert({
+      createdBy: userId,
+      certificationCenterId,
+      address,
+      room,
+      examiner,
+      date,
+      time,
+      description,
+      accessCode,
+      invigilatorPassword,
+      certificationCenter,
+      version: AlgorithmEngineVersion.V3,
+    })
+    .returning('id');
+  return id;
+}
+
+/**
  * @function
- * @param {SessionEnrolment} session
+ * @param {object} params
+ * @param {number} params.id
+ * @param {string} params.address
+ * @param {string} params.room
+ * @param {string} params.date
+ * @param {string} params.time
+ * @param {string} params.examiner
+ * @param {string} params.description
  * @returns {Promise<void>}
  */
 export async function updateInfo({ id, address, room, examiner, date, time, description }) {

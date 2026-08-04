@@ -164,6 +164,54 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
     });
   });
 
+  describe('#create', function () {
+    it('should create session in database', async function () {
+      databaseBuilder.factory.buildCertificationCenter({ id: 1, name: 'Mon centre stylé', type: 'SUP' });
+      databaseBuilder.factory.buildCertificationCenter({ id: 2, name: 'Un centre inintéressant', type: 'PRO' });
+      databaseBuilder.factory.buildUser({ id: 123 });
+      await databaseBuilder.commit();
+
+      // when
+      const sessionId = await sessionRepository.create({
+        userId: 123,
+        certificationCenterId: 1,
+        address: '1 rue des lauriers',
+        room: '2B',
+        date: '2021-01-01',
+        time: '14:00:00',
+        examiner: 'Louise',
+        description: 'coucou',
+        accessCode: 'MONCODE123',
+        invigilatorPassword: 'INVIGI',
+      });
+
+      // then
+      const actualSession = await sessionRepository.get({ id: sessionId });
+      expect(actualSession).to.deepEqualInstance(
+        domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            id: sessionId,
+            address: '1 rue des lauriers',
+            room: '2B',
+            date: '2021-01-01',
+            time: '14:00:00',
+            examiner: 'Louise',
+            description: 'coucou',
+            invigilatorPassword: 'INVIGI',
+            accessCode: 'MONCODE123',
+          })
+          .createdBy({
+            userId: 123,
+            certificationCenterId: 1,
+            certificationCenterName: 'Mon centre stylé',
+            certificationCenterType: 'SUP',
+          })
+          .build(),
+      );
+    });
+  });
+
   describe('#remove', function () {
     context('when session exists', function () {
       context('when the session has candidates', function () {

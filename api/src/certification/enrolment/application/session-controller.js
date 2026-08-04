@@ -4,13 +4,24 @@ import * as sessionRepository from '../infrastructure/repositories/session-repos
 import { candidateSerializer } from '../infrastructure/serializers/candidate-serializer.js';
 import { sessionSerializer } from '../infrastructure/serializers/session-serializer.js';
 
-async function createSession(request, _h, dependencies = { sessionSerializer }) {
+async function createSession(request, _h, dependencies = { sessionSerializer, sessionRepository }) {
   const userId = request.auth.credentials.userId;
-  const session = dependencies.sessionSerializer.deserialize(request.payload);
+  const certificationCenterId = request.params.certificationCenterId;
+  const { address, room, date, time, examiner, description } = request.payload.data.attributes;
 
-  const newSession = await usecases.createSession({ userId, session });
+  const newSessionId = await usecases.createSession({
+    userId,
+    certificationCenterId,
+    address,
+    room,
+    date,
+    time,
+    examiner,
+    description,
+  });
+  const session = await dependencies.sessionRepository.get({ id: newSessionId });
 
-  return dependencies.sessionSerializer.serialize(newSession);
+  return dependencies.sessionSerializer.serialize(session);
 }
 
 async function update(request, h, dependencies = { sessionSerializer, sessionRepository }) {

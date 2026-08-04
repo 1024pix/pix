@@ -18,9 +18,21 @@ describe('Certification | Enrolment | Unit | Application | Routes | session-rout
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          attributes: {
+            address: '1 rue des lauriers',
+            room: '2B',
+            date: '2021-01-01',
+            time: '14:00',
+            examiner: 'Louise',
+            description: 'coucou',
+          },
+        },
+      };
 
       /// when
-      const response = await httpTestServer.request('POST', '/api/certification-centers/123/session');
+      const response = await httpTestServer.request('POST', '/api/certification-centers/123/session', payload);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -30,9 +42,21 @@ describe('Certification | Enrolment | Unit | Application | Routes | session-rout
       //given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          attributes: {
+            address: '1 rue des lauriers',
+            room: '2B',
+            date: '2021-01-01',
+            time: '14:00',
+            examiner: 'Louise',
+            description: 'coucou',
+          },
+        },
+      };
 
       // when
-      const response = await httpTestServer.request('POST', '/api/certification-centers/invalid/session');
+      const response = await httpTestServer.request('POST', '/api/certification-centers/invalid/session', payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -46,12 +70,24 @@ describe('Certification | Enrolment | Unit | Application | Routes | session-rout
           .code(403)
           .takeover(),
       );
+      const payload = {
+        data: {
+          attributes: {
+            address: '1 rue des lauriers',
+            room: '2B',
+            date: '2021-01-01',
+            time: '14:00',
+            examiner: 'Louise',
+            description: 'coucou',
+          },
+        },
+      };
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', '/api/certification-centers/123/session');
+      const response = await httpTestServer.request('POST', '/api/certification-centers/123/session', payload);
 
       // then
       expect(response.statusCode).to.equal(403);
@@ -85,9 +121,21 @@ describe('Certification | Enrolment | Unit | Application | Routes | session-rout
       sinon.stub(sessionController, 'update').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          attributes: {
+            address: '1 rue des lauriers',
+            room: '2B',
+            date: '2021-01-01',
+            time: '14:00',
+            examiner: 'Louise',
+            description: 'coucou',
+          },
+        },
+      };
 
       // when
-      const response = await httpTestServer.request('PATCH', '/api/sessions/1');
+      const response = await httpTestServer.request('PATCH', '/api/sessions/1', payload);
 
       // then
       expect(response.statusCode).to.equal(200);
