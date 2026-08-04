@@ -89,6 +89,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
 
     hooks.beforeEach(function () {
       store = this.owner.lookup('service:store');
+      store.createRecord = sinon.stub();
     });
 
     test('should call the show verification code method only once', async function (assert) {
@@ -96,7 +97,8 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       const newEmail = 'newEmail@example.net';
       const password = 'password';
       const showVerificationCode = sinon.stub();
-      store.createRecord = () => ({ sendNewEmail: sinon.stub() });
+      const service = this.owner.lookup('service:email-verification-code');
+      service.sendNewEmail = sinon.stub().resolves();
 
       const screen = await render(
         <template><EmailWithValidationForm @showVerificationCode={{showVerificationCode}} /></template>,
@@ -113,8 +115,8 @@ module('Integration | Component | user-account | email-with-validation-form', fu
     test('should not request a verification code when the form is not valid', async function (assert) {
       // given
       const showVerificationCode = sinon.stub();
-      const sendNewEmail = sinon.stub();
-      store.createRecord = sinon.stub().returns({ sendNewEmail });
+      const service = this.owner.lookup('service:email-verification-code');
+      service.sendNewEmail = sinon.stub().resolves();
 
       const screen = await render(
         <template><EmailWithValidationForm @showVerificationCode={{showVerificationCode}} /></template>,
@@ -129,7 +131,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
 
       // then
       sinon.assert.notCalled(store.createRecord);
-      sinon.assert.notCalled(sendNewEmail);
+      sinon.assert.notCalled(service.sendNewEmail);
       sinon.assert.notCalled(showVerificationCode);
       assert.ok(true);
     });
@@ -138,9 +140,8 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
-      store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws({ errors: [{ status: '400' }] }),
-      });
+      const service = this.owner.lookup('service:email-verification-code');
+      service.sendNewEmail = sinon.stub().throws({ errors: [{ status: '400' }] });
 
       const screen = await render(<template><EmailWithValidationForm /></template>);
 
@@ -159,9 +160,10 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
-      store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws({ errors: [{ status: '422', source: { pointer: 'attributes/email' } }] }),
-      });
+      const service = this.owner.lookup('service:email-verification-code');
+      service.sendNewEmail = sinon
+        .stub()
+        .throws({ errors: [{ status: '422', source: { pointer: 'attributes/email' } }] });
 
       const screen = await render(<template><EmailWithValidationForm /></template>);
 
@@ -182,9 +184,10 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
-      store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws({ errors: [{ status: '422', source: { pointer: 'attributes/password' } }] }),
-      });
+      const service = this.owner.lookup('service:email-verification-code');
+      service.sendNewEmail = sinon
+        .stub()
+        .throws({ errors: [{ status: '422', source: { pointer: 'attributes/password' } }] });
 
       const screen = await render(<template><EmailWithValidationForm /></template>);
 
