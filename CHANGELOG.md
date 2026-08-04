@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## [5.472.1](https://github.com/1024pix/pix/compare/v5.472.0...v5.472.1) (2026-08-04)
+
+### :building_construction: Tech
+
+- [#17044](https://github.com/1024pix/pix/pull/17044) Nettoyage et maintenance des dépendances racine.
+
+### :arrow_up: Montée de version
+
+- [#17025](https://github.com/1024pix/pix/pull/17025) Mettre à jour le package epreuves-component en version 4.13.0.
+- [#17024](https://github.com/1024pix/pix/pull/17024) Update dependency @1024pix/eslint-plugin to ^2.1.21 (admin)
+- [#17026](https://github.com/1024pix/pix/pull/17026) Update dependency @1024pix/eslint-plugin to ^2.1.21 (api)
+- [#17027](https://github.com/1024pix/pix/pull/17027) Update dependency @1024pix/eslint-plugin to ^2.1.21 (audit-logger)
+- [#17028](https://github.com/1024pix/pix/pull/17028) Update dependency @1024pix/eslint-plugin to ^2.1.21 (certif)
+- [#17029](https://github.com/1024pix/pix/pull/17029) Update dependency @1024pix/eslint-plugin to ^2.1.21 (dossier racine)
+- [#17030](https://github.com/1024pix/pix/pull/17030) Update dependency @1024pix/eslint-plugin to ^2.1.21 (e2e-playwright)
+- [#17031](https://github.com/1024pix/pix/pull/17031) Update dependency @1024pix/eslint-plugin to ^2.1.21 (junior)
+- [#17032](https://github.com/1024pix/pix/pull/17032) Update dependency @1024pix/eslint-plugin to ^2.1.21 (mon-pix)
+- [#17033](https://github.com/1024pix/pix/pull/17033) Update dependency @1024pix/eslint-plugin to ^2.1.21 (orga)
+- [#17023](https://github.com/1024pix/pix/pull/17023) Update dependency oxfmt to ^0.60.0 (api)
+- [#17034](https://github.com/1024pix/pix/pull/17034) Update dependency undici to v8.9.0 (api)
+
 # [5.472.0](https://github.com/1024pix/pix/compare/v5.471.0...v5.472.0) (2026-08-03)
 
 ### :rocket: Amélioration
