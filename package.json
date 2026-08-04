@@ -58,7 +58,6 @@
     "lint:junior": "cd junior && npm run lint",
     "lint:scripts": "eslint --ignore-pattern **/compose.yaml scripts",
     "lint:yaml": "eslint --fix .circleci/*.yml .github/**/*.yaml",
-    "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
     "dev:team-certif": "run-p --print-label dev:api dev:mon-pix dev:certif dev:admin",
     "dev:admin": "cd admin && npm run dev",
     "dev:api": "cd api && npm run dev",
@@ -87,28 +86,8 @@
     "domains:trust-self-signed-certificate:linux": "cd ./scripts/local-domains/ && sudo docker cp caddy:/data/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/root.crt && sudo update-ca-certificates --fresh",
     "demo-epreuves:update": "./scripts/update-demo-epreuves.sh"
   },
-  "dependencies": {
-    "npm-run-all2": "^9.0.0"
-  },
   "devDependencies": {
-    "@1024pix/eslint-plugin": "^2.1.21",
-    "@babel/eslint-parser": "^8.0.0",
     "@cyclonedx/cyclonedx-npm": "^6.0.0",
-    "@eslint/compat": "^2.0.0",
-    "eslint": "^9.23.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-chai-expect": "^4.0.0",
-    "eslint-plugin-i18n-json": "^4.0.1",
-    "eslint-plugin-import-x": "^4.9.3",
-    "eslint-plugin-knex": "v0.2.2",
-    "eslint-plugin-mocha": "^11.0.0",
-    "eslint-plugin-n": "^18.0.0",
-    "eslint-plugin-prettier": "^5.2.5",
-    "eslint-plugin-unicorn": "^65.0.0",
-    "prettier-plugin-ember-template-tag": "^2.0.4",
-    "typescript-eslint": "^8.28.0"
-  },
-  "peerDependencies": {
-    "markdown-link-check": "^3.8.6"
+    "npm-run-all2": "^9.0.2"
   }
 }
