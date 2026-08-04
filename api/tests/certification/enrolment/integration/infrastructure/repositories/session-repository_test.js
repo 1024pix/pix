@@ -106,38 +106,61 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
     });
   });
 
-  describe('#update', function () {
-    let session;
+  describe('#updateInfo', function () {
+    it('should update session in database', async function () {
+      domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .createdBy({
+          userId: 1,
+          certificationCenterId: 2,
+          certificationCenterName: 'mon centre',
+          certificationCenterType: 'SUP',
+        })
+        .withParameters({
+          id: 123,
+          address: '1 rue des lauriers OLD',
+          room: '2B OLD',
+          date: '2020-02-02',
+          time: '15:00:00',
+          examiner: 'Louise OLD',
+          description: 'coucou OLD',
+        })
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
 
-    beforeEach(function () {
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-        type: CERTIFICATION_CENTER_TYPES.SUP,
-      }).id;
-      const savedSession = databaseBuilder.factory.buildSession({
-        certificationCenterId,
-      });
-      session = domainBuilder.certification.enrolment.buildSession({
-        ...savedSession,
-        certificationCenterType: CERTIFICATION_CENTER_TYPES.SUP,
-      });
-      session.room = 'New room';
-      session.examiner = 'New examiner';
-      session.address = 'New address';
-      session.accessCode = 'BABAAURHUM';
-      session.date = '2010-01-01';
-      session.time = '12:00:00';
-      session.description = 'New description';
-
-      return databaseBuilder.commit();
-    });
-
-    it('should update model in database', async function () {
       // when
-      await sessionRepository.update(session);
+      await sessionRepository.updateInfo({
+        id: 123,
+        address: '1 rue des lauriers',
+        room: '2B',
+        date: '2021-01-01',
+        time: '14:00:00',
+        examiner: 'Louise',
+        description: 'coucou',
+      });
 
       // then
-      const actualSession = await sessionRepository.get({ id: session.id });
-      expect(actualSession).to.deepEqualInstance(session);
+      const actualSession = await sessionRepository.get({ id: 123 });
+      expect(actualSession).to.deepEqualInstance(
+        domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            id: 123,
+            address: '1 rue des lauriers',
+            room: '2B',
+            date: '2021-01-01',
+            time: '14:00:00',
+            examiner: 'Louise',
+            description: 'coucou',
+          })
+          .createdBy({
+            userId: 1,
+            certificationCenterId: 2,
+            certificationCenterName: 'mon centre',
+            certificationCenterType: 'SUP',
+          })
+          .build(),
+      );
     });
   });
 

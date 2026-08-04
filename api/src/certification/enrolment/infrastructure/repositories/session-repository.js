@@ -86,19 +86,9 @@ export async function isSessionExistingByCertificationCenterId({
  * @param {SessionEnrolment} session
  * @returns {Promise<void>}
  */
-export async function update(session) {
+export async function updateInfo({ id, address, room, examiner, date, time, description }) {
   const knexConn = DomainTransaction.getConnection();
-  const sessionDataToUpdate = {
-    address: session.address,
-    room: session.room,
-    accessCode: session.accessCode,
-    examiner: session.examiner,
-    date: session.date,
-    time: session.time,
-    description: session.description,
-  };
-
-  await knexConn('sessions').where({ id: session.id }).update(sessionDataToUpdate);
+  await knexConn('sessions').where({ id }).update({ address, room, examiner, date, time, description });
 }
 
 /**

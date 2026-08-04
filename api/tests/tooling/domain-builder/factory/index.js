@@ -180,6 +180,7 @@ import { buildEditedCandidate } from './certification/enrolment/build-edited-can
 import { buildPixCertification } from './certification/enrolment/build-pix-certification.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
 import { sessionAuthorizationBuilder } from './certification/enrolment/build-session-authorization.js';
+import { sessionEnrolmentBuilder } from './certification/enrolment/build-session-new.js';
 import { buildUserEnrolment } from './certification/enrolment/build-user.js';
 import { buildUserCertificationEligibility } from './certification/enrolment/build-user-certification-eligibility.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/evaluation/build-assessment-result.js';
@@ -276,6 +277,7 @@ const certification = {
     buildPixCertification,
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadgeForEnrolment,
     sessionAuthorizationBuilder,
+    sessionEnrolmentBuilder,
   },
   evaluation: {
     buildCalibratedChallenge,

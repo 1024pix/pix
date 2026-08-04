@@ -93,36 +93,47 @@ describe('Certification | Enrolment | Unit | Application | Controller | session-
   });
 
   describe('#update', function () {
-    let request, updatedSession;
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId: 1 } },
-        params: { sessionId: 345 },
-        payload: {},
-      };
-
-      updatedSession = {
-        id: request.params.sessionId,
-      };
-
-      sinon.stub(usecases, 'updateSession');
-    });
-
     it('should return the updated session', async function () {
       // given
-      const sessionSerializer = { serialize: sinon.stub(), deserialize: sinon.stub() };
-      sessionSerializer.deserialize.withArgs(request.payload).returns({});
+      const request = {
+        auth: { credentials: { userId: 1 } },
+        params: { sessionId: 345 },
+        payload: {
+          data: {
+            attributes: {
+              address: '1 rue des lauriers',
+              room: '2B',
+              date: '2021-01-01',
+              time: '14:00',
+              examiner: 'Louise',
+              description: 'coucou',
+            },
+          },
+        },
+      };
+      sinon.stub(usecases, 'updateSession');
+      const sessionSerializer = { serialize: sinon.stub() };
+      const sessionRepository = { get: sinon.stub() };
       usecases.updateSession
-        .withArgs({ userId: request.auth.credentials.userId, session: updatedSession })
-        .resolves(updatedSession);
-      sessionSerializer.serialize.withArgs(updatedSession).returns(updatedSession);
+        .withArgs({
+          address: '1 rue des lauriers',
+          room: '2B',
+          date: '2021-01-01',
+          time: '14:00',
+          examiner: 'Louise',
+          description: 'coucou',
+          sessionId: 345,
+        })
+        .resolves();
+      const updatedSession = Symbol('updatedSession');
+      sessionRepository.get.withArgs({ id: 345 }).resolves(updatedSession);
+      sessionSerializer.serialize.withArgs(updatedSession).returns('json');
 
       // when
-      const response = await sessionController.update(request, hFake, { sessionSerializer });
+      const response = await sessionController.update(request, hFake, { sessionSerializer, sessionRepository });
 
       // then
-      expect(response).to.deep.equal(updatedSession);
+      expect(response).to.equal('json');
     });
   });
 

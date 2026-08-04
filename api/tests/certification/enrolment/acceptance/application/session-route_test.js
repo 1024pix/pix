@@ -4,6 +4,7 @@ import { types } from '../../../../../src/organizational-entities/domain/models/
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
@@ -67,6 +68,147 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
     });
   });
 
+  describe('GET /sessions/{id}/certification-candidates', function () {
+    let sessionId;
+    let userId;
+    let certificationCenterId;
+
+    beforeEach(function () {
+      ({ id: sessionId, certificationCenterId } = databaseBuilder.factory.buildSession());
+
+      return databaseBuilder.commit();
+    });
+
+    context('when user has no access to session resources', function () {
+      beforeEach(function () {
+        userId = databaseBuilder.factory.buildUser().id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return 404 HTTP status code (to keep opacity on whether forbidden or not found)', async function () {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/sessions/${sessionId}/certification-candidates`,
+          payload: {},
+          headers: generateAuthenticatedUserRequestHeaders({ userId }),
+        });
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
+    context('when user has access to session resources', function () {
+      let expectedCertificationCandidateAAttributes;
+      let expectedCertificationCandidateBAttributes;
+
+      beforeEach(function () {
+        const certificationCandidateA = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'A',
+          })
+          .asReconciled()
+          .withParameters({
+            sessionId,
+          })
+          .insertToDB({ databaseBuilder });
+
+        const certificationCandidateB = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'B',
+          })
+          .asReconciled()
+          .withParameters({
+            sessionId,
+          })
+          .insertToDB({ databaseBuilder });
+        databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCertificationCandidate();
+        expectedCertificationCandidateAAttributes = {
+          'first-name': certificationCandidateA.firstName,
+          'last-name': certificationCandidateA.lastName,
+          'billing-mode': null,
+          'prepayment-code': null,
+          birthdate: certificationCandidateA.birthdate,
+          'birth-city': certificationCandidateA.birthCity,
+          'birth-province-code': certificationCandidateA.birthProvinceCode,
+          'birth-country': certificationCandidateA.birthCountry,
+          email: certificationCandidateA.email,
+          'result-recipient-email': certificationCandidateA.resultRecipientEmail,
+          'external-id': certificationCandidateA.externalId,
+          'extra-time-percentage': certificationCandidateA.extraTimePercentage,
+          'is-linked': true,
+          'organization-learner-id': null,
+          sex: certificationCandidateA.sex,
+          'birth-insee-code': certificationCandidateA.birthINSEECode,
+          'birth-postal-code': certificationCandidateA.birthPostalCode,
+          'has-seen-certification-instructions': false,
+          'accessibility-adjustment-needed': false,
+          subscription: certificationCandidateA.subscription,
+        };
+        expectedCertificationCandidateBAttributes = {
+          'first-name': certificationCandidateB.firstName,
+          'last-name': certificationCandidateB.lastName,
+          'billing-mode': null,
+          'prepayment-code': null,
+          birthdate: certificationCandidateB.birthdate,
+          'birth-city': certificationCandidateB.birthCity,
+          'birth-province-code': certificationCandidateB.birthProvinceCode,
+          'birth-country': certificationCandidateB.birthCountry,
+          email: certificationCandidateB.email,
+          'result-recipient-email': certificationCandidateB.resultRecipientEmail,
+          'external-id': certificationCandidateB.externalId,
+          'extra-time-percentage': certificationCandidateB.extraTimePercentage,
+          'is-linked': true,
+          'organization-learner-id': null,
+          sex: certificationCandidateB.sex,
+          'birth-insee-code': certificationCandidateB.birthINSEECode,
+          'birth-postal-code': certificationCandidateB.birthPostalCode,
+          'has-seen-certification-instructions': false,
+          'accessibility-adjustment-needed': false,
+          subscription: certificationCandidateB.subscription,
+        };
+        userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return 200 HTTP status code', async function () {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/sessions/${sessionId}/certification-candidates`,
+          payload: {},
+          headers: generateAuthenticatedUserRequestHeaders({ userId }),
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return the expected data', async function () {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/sessions/${sessionId}/certification-candidates`,
+          payload: {},
+          headers: generateAuthenticatedUserRequestHeaders({ userId }),
+        });
+
+        // then
+        expect(response.result.data[0].attributes).to.deep.equal(expectedCertificationCandidateAAttributes);
+        expect(response.result.data[1].attributes).to.deep.equal(expectedCertificationCandidateBAttributes);
+      });
+    });
+  });
+
   describe('PATCH /api/sessions/{sessionId}', function () {
     let user, unauthorizedUser, certificationCenter, session, payload;
 
@@ -103,8 +245,6 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
             date: '2017-08-12',
             time: '14:30',
             description: 'ahah',
-            accessCode: 'ABCD12',
-            'certification-center-id': certificationCenter.id,
           },
         },
       };
@@ -112,7 +252,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
       await databaseBuilder.commit();
     });
 
-    it('should respond with a 200 and update the session', function () {
+    it('should respond with a 200 and update the session', async function () {
       const options = {
         method: 'PATCH',
         url: `/api/sessions/${session.id}`,
@@ -121,16 +261,14 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('session-enrolments');
-        expect(response.result.data.id).to.equal(session.id.toString());
-        expect(response.result.data.attributes.address).to.equal('New address');
-        expect(response.result.data.attributes.room).to.equal('New room');
-      });
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.type).to.equal('session-enrolments');
+      expect(response.result.data.id).to.equal(session.id.toString());
+      expect(response.result.data.attributes.address).to.equal('New address');
+      expect(response.result.data.attributes.room).to.equal('New room');
     });
 
     it('should respond with a 404 when user is not authorized to update the session (to keep opacity on whether forbidden or not found)', function () {
