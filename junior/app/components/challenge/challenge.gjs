@@ -13,6 +13,8 @@ import RobotDialog from '../robot-dialog';
 import ChallengeContent from './challenge-content';
 import ChallengeLayout from './challenge-layout';
 const CHALLENGE_DISPLAY_DELAY = ENV.APP.CHALLENGE_DISPLAY_DELAY;
+import { cacheKeyFor } from '@warp-drive/core';
+import { createRecord } from '@warp-drive/utilities/json-api';
 
 export default class Challenge extends Component {
   @service store;
@@ -99,8 +101,8 @@ export default class Challenge extends Component {
     this.validationWarning = errorValue;
   }
 
-  _createActivityAnswer(challenge) {
-    return this.store.createRecord('activity-answer', { challenge });
+  _createActivityAnswer(challenge, value) {
+    return this.store.createRecord('activity-answer', { challenge, value });
   }
 
   get #assessmentId() {
@@ -124,10 +126,18 @@ export default class Challenge extends Component {
       this.displayValidationWarning = false;
     }
 
-    this.answer = this._createActivityAnswer(this.args.challenge);
-    this.answer.value = this.answerValue;
+    this.answer = this._createActivityAnswer(this.args.challenge, this.answerValue);
+    const init = createRecord(this.answer);
+    const serializedData = this.store.cache.peek(cacheKeyFor(this.answer));
+
+    init.body = JSON.stringify({ data: serializedData });
+
     try {
-      await this.answer.save({ adapterOptions: { assessmentId: this.#assessmentId, isPreview: this.#isPreview } });
+      const { content } = await this.store.request({
+        ...init,
+        options: { assessmentId: this.#assessmentId, isPreview: this.#isPreview },
+      });
+      this.answer.result = content.data.result;
       this.answerHasBeenValidated = true;
       this.scrollToTop();
     } catch {
