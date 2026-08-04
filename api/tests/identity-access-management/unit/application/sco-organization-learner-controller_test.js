@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { scoOrganizationLearnerController } from '../../../../src/identity-access-management/application/organization-learner-account-recovery/organization-learner-account-recovery.controller.js';
+import { scoOrganizationLearnerController } from '../../../../src/identity-access-management/application/account-recovery/organization-learner-account-recovery.controller.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import { expect } from '../../../test-helper.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';

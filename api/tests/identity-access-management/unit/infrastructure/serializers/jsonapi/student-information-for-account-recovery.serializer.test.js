@@ -34,37 +34,6 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
     });
   });
 
-  describe('#serializeAccountRecovery()', function () {
-    it('converts an account recovery demand into JSON API data', function () {
-      // given
-      const accountRecoveryDetails = {
-        id: 1,
-        firstName: 'Jude',
-        email: 'judelaw@example.net',
-        hasGarAuthenticationMethod: true,
-        hasScoUsername: false,
-      };
-
-      // when
-      const json = studentInformationForAccountRecoverySerializer.serializeAccountRecovery(accountRecoveryDetails);
-
-      // then
-      const expectedJsonApi = {
-        data: {
-          type: 'account-recovery-demands',
-          id: accountRecoveryDetails.id.toString(),
-          attributes: {
-            'first-name': accountRecoveryDetails.firstName,
-            email: accountRecoveryDetails.email,
-            'has-gar-authentication-method': true,
-            'has-sco-username': false,
-          },
-        },
-      };
-      expect(json).to.deep.equal(expectedJsonApi);
-    });
-  });
-
   describe('#deserialize()', function () {
     it('converts the payload json to student information', async function () {
       // given

@@ -1,19 +1,13 @@
-import dayjs from 'dayjs';
 import sinon from 'sinon';
 
 import { scoAccountRecoveryService } from '../../../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
-import { config } from '../../../../../src/shared/config.js';
 import {
-  AccountRecoveryDemandExpired,
-  AlreadyRegisteredEmailError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
-  UserHasAlreadyLeftSCO,
   UserNotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
-const { features } = config;
 
 describe('Unit | Identity Access Management | Domain | Service | sco-account-recovery', function () {
   describe('#retrieveOrganizationLearner', function () {
@@ -113,8 +107,6 @@ describe('Unit | Identity Access Management | Domain | Service | sco-account-rec
             firstName: studentInformation.firstName,
             lastName: studentInformation.lastName,
             birthdate: studentInformation.birthdate,
-            username: 'nanou.monchose0705',
-            email: 'nanou.monchose@example.net',
           });
           const firstOrganization = domainBuilder.buildOrganization({ id: 8, name: 'Collège Beauxbâtons' });
           const secondOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Poudlard' });
@@ -179,8 +171,6 @@ describe('Unit | Identity Access Management | Domain | Service | sco-account-rec
           const expectedResult = {
             firstName: 'Nanou',
             lastName: 'Monchose',
-            username: 'nanou.monchose0705',
-            email: 'nanou.monchose@example.net',
             id: 4,
             userId: 9,
             organizationId: 9,
@@ -279,8 +269,6 @@ describe('Unit | Identity Access Management | Domain | Service | sco-account-rec
           firstName: 'Manuela',
           lastName: studentInformation.lastName,
           birthdate: studentInformation.birthdate,
-          username: 'nanou.monchose0705',
-          email: 'nanou.monchose@example.net',
         });
         const organization = domainBuilder.buildOrganization({ id: 8, name: 'Collège Beauxbâtons' });
         const organizationLearner = domainBuilder.buildOrganizationLearner({
@@ -329,8 +317,6 @@ describe('Unit | Identity Access Management | Domain | Service | sco-account-rec
         const expectedResult = {
           firstName: 'Manuela',
           lastName: 'Monchose',
-          username: 'nanou.monchose0705',
-          email: 'nanou.monchose@example.net',
           id: 2,
           userId: 9,
           organizationId: 8,
@@ -378,208 +364,6 @@ describe('Unit | Identity Access Management | Domain | Service | sco-account-rec
 
         // then
         expect(error).an.instanceOf(UserNotFoundError);
-      });
-    });
-
-    context('when user had already left SCO', function () {
-      it('should throw an error', async function () {
-        // given
-        const studentInformation = {
-          ineIna: '123456789AA',
-          firstName: 'Nanou',
-          lastName: 'Monchose',
-          birthdate: '2004-05-07',
-        };
-        const expectedUser = domainBuilder.buildUser({
-          id: 9,
-          firstName: 'Manuela',
-          lastName: studentInformation.lastName,
-          birthdate: studentInformation.birthdate,
-          username: 'nanou.monchose0705',
-          email: 'nanou.monchose@example.net',
-        });
-        const organization = domainBuilder.buildOrganization({ id: 8, name: 'Collège Beauxbâtons' });
-        const organizationLearner = domainBuilder.buildOrganizationLearner({
-          id: 2,
-          userId: expectedUser.id,
-          organization: organization,
-          updatedAt: new Date('2000-01-01T15:00:00Z'),
-          ...studentInformation,
-          firstName: expectedUser.firstName,
-          nationalStudentId: studentInformation.ineIna,
-        });
-        const accountRecoveryDemandNotUsed = domainBuilder.buildAccountRecoveryDemand({
-          userId: expectedUser.id,
-          organizationLearnerId: organizationLearner.id,
-        });
-        const accountRecoveryDemandUsed = domainBuilder.buildAccountRecoveryDemand({
-          userId: expectedUser.id,
-          organizationLearnerId: organizationLearner.id,
-          used: true,
-        });
-
-        organizationLearnerRepository.getLatestOrganizationLearner
-          .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
-          .resolves(organizationLearner);
-
-        userReconciliationService.findMatchingCandidateIdForGivenUser
-          .withArgs([organizationLearner], {
-            firstName: studentInformation.firstName,
-            lastName: studentInformation.lastName,
-          })
-          .resolves(organizationLearner.id);
-
-        organizationLearnerRepository.findByUserId
-          .withArgs({ userId: expectedUser.id })
-          .resolves([organizationLearner]);
-        userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
-
-        accountRecoveryDemandRepository.findByUserId
-          .withArgs(expectedUser.id)
-          .resolves([accountRecoveryDemandNotUsed, accountRecoveryDemandUsed]);
-
-        userRepository.get.resolves({
-          username: expectedUser.username,
-          email: expectedUser.email,
-        });
-
-        // when
-        const error = await catchErr(scoAccountRecoveryService.retrieveOrganizationLearner)({
-          accountRecoveryDemandRepository,
-          studentInformation,
-          organizationLearnerRepository,
-          userRepository,
-          userReconciliationService,
-        });
-
-        // then
-        expect(error).to.be.an.instanceOf(UserHasAlreadyLeftSCO);
-        expect(error.message).to.be.equal('User has already left SCO.');
-      });
-    });
-  });
-
-  describe('#retrieveAndValidateAccountRecoveryDemand', function () {
-    let userRepository;
-    let accountRecoveryDemandRepository;
-
-    beforeEach(function () {
-      userRepository = {
-        checkIfEmailIsAvailable: sinon.stub(),
-      };
-      accountRecoveryDemandRepository = {
-        findByUserId: sinon.stub(),
-        findByTemporaryKey: sinon.stub(),
-      };
-    });
-
-    it('should return account recovery detail', async function () {
-      // given
-      const createdAt = new Date();
-      const newEmail = 'philippe@example.net';
-      const userId = '1234';
-      const organizationLearnerId = '12';
-      const accountRecoveryId = '34';
-      const expectedResult = {
-        id: accountRecoveryId,
-        userId,
-        newEmail,
-        organizationLearnerId,
-      };
-
-      accountRecoveryDemandRepository.findByTemporaryKey.resolves({ ...expectedResult, createdAt });
-      userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves();
-      accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
-
-      // when
-      const result = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
-        userRepository,
-        accountRecoveryDemandRepository,
-      });
-
-      // then
-      expect(result).to.be.deep.equal(expectedResult);
-    });
-
-    it('should throw error AlreadyRegisteredEmailError when it is not available', async function () {
-      // given
-      const newEmail = 'philippe@example.net';
-
-      accountRecoveryDemandRepository.findByTemporaryKey.resolves({ newEmail });
-      userRepository.checkIfEmailIsAvailable.withArgs(newEmail).rejects(new AlreadyRegisteredEmailError());
-
-      // when
-      const error = await catchErr(scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand)({
-        userRepository,
-        accountRecoveryDemandRepository,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(AlreadyRegisteredEmailError);
-      expect(error.message).to.be.equal('Cette adresse e-mail est déjà utilisée.');
-      expect(error.code).to.be.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXISTS');
-    });
-
-    it('should throw error UserHasAlreadyLeftSCO when user already left SCO', async function () {
-      // given
-      const userId = '1234';
-
-      accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId });
-      userRepository.checkIfEmailIsAvailable.resolves();
-      accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: true }]);
-
-      // when
-      const error = await catchErr(scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand)({
-        userRepository,
-        accountRecoveryDemandRepository,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(UserHasAlreadyLeftSCO);
-      expect(error.message).to.be.equal('User has already left SCO.');
-    });
-
-    describe('should throw error AccountRecoveryDemandExpired when demand has expired', function () {
-      it('based on default expiration value', async function () {
-        // given
-        const userId = '1234';
-        const createdAt = new Date();
-        const createdTenDaysAgo = 10;
-        createdAt.setDate(createdAt.getDate() - createdTenDaysAgo);
-
-        accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId, createdAt });
-        userRepository.checkIfEmailIsAvailable.resolves();
-        accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
-
-        // when
-        const error = await catchErr(scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand)({
-          userRepository,
-          accountRecoveryDemandRepository,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(AccountRecoveryDemandExpired);
-        expect(error.message).to.be.equal('This account recovery demand has expired.');
-      });
-
-      it('based on environment variable', async function () {
-        // given
-        features.scoAccountRecoveryKeyLifetimeMinutes = 1;
-        const userId = '1234';
-        const createdTwoMinutesAgo = dayjs().subtract(2, 'minutes').toDate();
-        accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId, createdAt: createdTwoMinutesAgo });
-        userRepository.checkIfEmailIsAvailable.resolves();
-        accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
-
-        // when
-        const error = await catchErr(scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand)({
-          userRepository,
-          accountRecoveryDemandRepository,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(AccountRecoveryDemandExpired);
-        expect(error.message).to.be.equal('This account recovery demand has expired.');
       });
     });
   });

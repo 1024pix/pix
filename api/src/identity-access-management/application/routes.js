@@ -1,9 +1,9 @@
 import { accountRecoveryRoutes } from './account-recovery/account-recovery.route.js';
+import { organizationLearnerAccountRecoveryRoutes } from './account-recovery/organization-learner-account-recovery.route.js';
 import { anonymizationAdminRoutes } from './anonymization/anonymization.admin.route.js';
 import { ltiRoutes } from './lti/lti.route.js';
 import { oidcProviderAdminRoutes } from './oidc-provider/oidc-provider.admin.route.js';
 import { oidcProviderRoutes } from './oidc-provider/oidc-provider.route.js';
-import { organizationLearnerAccountRecoveryRoutes } from './organization-learner-account-recovery/organization-learner-account-recovery.route.js';
 import { passwordRoutes } from './password/password.route.js';
 import { samlRoutes } from './saml/saml.route.js';
 import { tokenRoutes } from './token/token.route.js';

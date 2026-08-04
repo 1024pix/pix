@@ -2,7 +2,6 @@
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 
 import { repositories as campaignRepositories } from '../../../prescription/campaign/infrastructure/repositories/index.js';
-import * as prescriptionOrganizationLearnerRepository from '../../../prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
 import * as organizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
@@ -61,7 +60,6 @@ const repositories = {
   oidcProviderRepository,
   organizationLearnerRepository,
   organizationRepository,
-  prescriptionOrganizationLearnerRepository,
   privacyUsersApiRepository,
   refreshTokenRepository,
   resetPasswordDemandRepository,
