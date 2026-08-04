@@ -1,4 +1,4 @@
-import { Answer } from '../../../../evaluation/domain/models/Answer.js';
+import { Answer } from './Answer.js';
 
 export class AssessmentSimulatorSingleMeasureStrategy {
   constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, initialCapacity }) {
