@@ -1,7 +1,5 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { userAnonymizedDetailsForAdminSerializer } from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin.serializer.js';
-import { userDetailsForAdminSerializer } from '../../infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
 import { userForAdminSerializer } from '../../infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
 import { userLoginSerializer } from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 import { userUpdateForAdminSerializer } from '../../infrastructure/serializers/jsonapi/user-update-for-admin.serializer.js';
@@ -51,27 +49,12 @@ const updateUserDetailsByAdmin = async function (request, h, dependencies = { us
 };
 
 /**
- *
  * @param request
  * @param h
  * @param dependencies
- * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
  * @returns {Promise<*>}
  */
-const getUserDetails = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
-  const userId = request.params.id;
-  const userDetailsForAdmin = await usecases.getUserDetailsForAdmin({ userId });
-  return dependencies.userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
-};
-
-/**
- * @param request
- * @param h
- * @param dependencies
- * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
- * @returns {Promise<*>}
- */
-const anonymizeUser = async function (request, h, dependencies = { userAnonymizedDetailsForAdminSerializer }) {
+const anonymizeUser = async function (request, h) {
   const userToAnonymizeId = request.params.id;
   const adminMemberId = request.auth.credentials.userId;
 
@@ -82,10 +65,7 @@ const anonymizeUser = async function (request, h, dependencies = { userAnonymize
       domainTransaction,
     });
   });
-
-  const anonymizedUser = await usecases.getUserDetailsForAdmin({ userId: userToAnonymizeId });
-
-  return h.response(dependencies.userAnonymizedDetailsForAdminSerializer.serialize(anonymizedUser)).code(200);
+  return h.response().code(204);
 };
 
 /**
@@ -144,15 +124,12 @@ const reassignAuthenticationMethod = async function (request, h) {
  * @property {function} unblockUserAccount
  * @property {function} updateUserDetailsByAdmin
  */
-const userAdminController = {
+export const userAdminController = {
   addPixAuthenticationMethod,
   anonymizeUser,
   findPaginatedFilteredUsers,
-  getUserDetails,
   reassignAuthenticationMethod,
   removeAuthenticationMethod,
   unblockUserAccount,
   updateUserDetailsByAdmin,
 };
-
-export { userAdminController };

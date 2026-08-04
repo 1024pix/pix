@@ -1,5 +1,3 @@
-import sinon from 'sinon';
-
 import { createServer } from '../../../../../server.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { QUERY_TYPES } from '../../../../../src/identity-access-management/domain/constants/user-query.js';
@@ -270,173 +268,6 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
     });
   });
 
-  describe('GET /api/admin/users/{id}', function () {
-    let clock;
-
-    beforeEach(async function () {
-      clock = sinon.useFakeTimers({
-        now: Date.now(),
-        toFake: ['Date'],
-      });
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
-    describe('Resource access management', function () {
-      it('responds with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser();
-        await databaseBuilder.commit();
-
-        const otherUserId = 9999;
-
-        // when
-        const response = await server.inject({
-          method: 'GET',
-          url: `/api/admin/users/${user.id}`,
-          payload: {},
-          headers: generateAuthenticatedUserRequestHeaders({ userId: otherUserId }),
-        });
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-
-    describe('Success case', function () {
-      it('returns 200 and user serialized', async function () {
-        // given
-        const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-        await databaseBuilder.commit();
-
-        const user = databaseBuilder.factory.buildUser({ username: 'brice.glace0712', locale: 'fr-FR' });
-        const blockedAt = new Date('2022-12-07');
-        const temporaryBlockedUntil = new Date('2022-12-06');
-        const userLoginId = databaseBuilder.factory.buildUserLogin({
-          failureCount: 666,
-          blockedAt,
-          temporaryBlockedUntil,
-          userId: user.id,
-          lastLoggedAt: new Date(),
-        }).id;
-
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject({
-          method: 'GET',
-          url: `/api/admin/users/${user.id}`,
-          payload: {},
-          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
-        });
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.id).to.deep.equal(`${user.id}`);
-        expect(response.result.data.type).to.deep.equal('users');
-
-        expect(response.result.data.attributes).to.deep.equal({
-          cgu: true,
-          'created-at': new Date(),
-          email: user.email,
-          'email-confirmed-at': null,
-          'first-name': user.firstName,
-          lang: 'fr',
-          locale: 'fr-FR',
-          'last-logged-at': new Date(),
-          'last-name': user.lastName,
-          'last-pix-certif-terms-of-service-validated-at': null,
-          'last-pix-orga-terms-of-service-validated-at': null,
-          'last-pix-app-terms-of-service-validated-at': null,
-          'pix-certif-terms-of-service-accepted': false,
-          'pix-orga-terms-of-service-accepted': false,
-          'pix-app-terms-of-service-accepted': true,
-          username: user.username,
-          'has-been-anonymised': false,
-          'has-been-anonymised-by': null,
-          'anonymised-by-full-name': null,
-          'is-pix-agent': false,
-        });
-
-        expect(response.result.data.relationships).to.deep.equal({
-          'authentication-methods': {
-            data: [],
-          },
-          'certification-center-memberships': {
-            links: {
-              related: `/api/admin/users/${user.id}/certification-center-memberships`,
-            },
-          },
-          'certification-courses': {
-            links: {
-              related: `/api/admin/users/${user.id}/certification-courses`,
-            },
-          },
-          'organization-learners': {
-            data: [],
-          },
-          profile: {
-            links: {
-              related: `/api/admin/users/${user.id}/profile`,
-            },
-          },
-          'organization-memberships': {
-            links: {
-              related: `/api/admin/users/${user.id}/organizations`,
-            },
-          },
-          'user-login': {
-            data: {
-              id: `${userLoginId}`,
-              type: 'userLogins',
-            },
-          },
-          participations: {
-            links: {
-              related: `/api/admin/users/${user.id}/participations`,
-            },
-          },
-          'last-application-connections': {
-            data: [],
-          },
-        });
-        expect(response.result.included).to.deep.equal([
-          {
-            id: `${userLoginId}`,
-            type: 'userLogins',
-            attributes: {
-              'failure-count': 666,
-              'blocked-at': blockedAt,
-              'temporary-blocked-until': temporaryBlockedUntil,
-            },
-          },
-        ]);
-      });
-
-      describe('When user has a learner without firstName and lastName (ex: from a simplified campaign)', function () {
-        it('returns 200', async function () {
-          // given
-          const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-          const user = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildOrganizationLearner({ firstName: '', lastName: '', userId: user.id });
-          await databaseBuilder.commit();
-
-          // when
-          const response = await server.inject({
-            method: 'GET',
-            url: `/api/admin/users/${user.id}`,
-            headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
-          });
-
-          // then
-          expect(response.statusCode).to.equal(200);
-        });
-      });
-    });
-  });
-
   describe('POST /api/admin/users/{id}/anonymize', function () {
     let superAdmin;
     let response;
@@ -470,28 +301,27 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
 
     it('anomymizes user', async function () {
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
 
-      const updatedUserAttributes = response.result.data.attributes;
-
-      expect(updatedUserAttributes['first-name']).to.equal('(anonymised)');
-      expect(updatedUserAttributes['last-name']).to.equal('(anonymised)');
-      expect(updatedUserAttributes.email).to.be.null;
-      expect(updatedUserAttributes.username).to.be.null;
-
-      expect(updatedUserAttributes['has-been-anonymised']).to.be.true;
-      expect(updatedUserAttributes['anonymised-by-full-name']).to.equal('Billy TheKid');
-      expect(updatedUserAttributes['updated-at']).to.exist;
+      const user = await knex('users').where({ id: userId }).first();
+      expect(user.firstName).to.equal('(anonymised)');
+      expect(user.lastName).to.equal('(anonymised)');
+      expect(user.email).to.be.null;
+      expect(user.username).to.be.null;
+      expect(user.hasBeenAnonymised).to.be.true;
     });
 
     it('removes authentication methods', async function () {
       // then
-      const updatedUserRelationships = response.result.data.relationships;
-      expect(updatedUserRelationships['authentication-methods'].data).to.be.empty;
+      expect(response.statusCode).to.equal(204);
+
+      const authenticationMethods = await knex('authentication-methods').where({ userId });
+      expect(authenticationMethods.length).to.equal(0);
     });
 
     it("disables user's certification center, organization learner and organisation memberships", async function () {
       // then
+      expect(response.statusCode).to.equal(204);
       const certificationCenterMembership = await knex('certification-center-memberships')
         .select()
         .where({ certificationCenterId })

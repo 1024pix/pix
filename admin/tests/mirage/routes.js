@@ -230,6 +230,8 @@ export default function routes() {
       email: null,
       username: null,
       authenticationMethods: [],
+      organizationMemberships: [],
+      certificationCenterMemberships: [],
     });
   });
   this.post('/admin/users/:id/remove-authentication', (schema, request) => {

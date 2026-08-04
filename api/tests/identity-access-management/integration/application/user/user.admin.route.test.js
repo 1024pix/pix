@@ -201,39 +201,6 @@ describe('Integration | Identity Access Management | Application | Route | Admin
     });
   });
 
-  describe('GET /api/admin/users/{id}', function () {
-    it('returns an HTTP status code 200', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(userAdminController, 'getUserDetails').resolves('ok');
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/users/8');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
-      sinon.assert.calledOnce(userAdminController.getUserDetails);
-    });
-
-    it('returns an HTTP status code 403', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns((request, h) =>
-        h
-          .response({ errors: new Error('') })
-          .code(403)
-          .takeover(),
-      );
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/users/8');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
-    });
-  });
-
   describe('POST /api/admin/users/{id}/anonymize', function () {
     it('returns 200 when user role is "SUPER_ADMIN"', async function () {
       // given
