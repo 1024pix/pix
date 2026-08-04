@@ -34,6 +34,12 @@
     align-items: center;
   }
 
+  &__mastery-rate-column {
+    width: 200px;
+    font-weight: var(--pix-font-bold);
+    text-align: center;
+  }
+
   &__status-column {
     width: 200px;
   }
@@ -45,5 +51,3 @@
     margin-bottom: var(--pix-spacing-4x);
   }
 }
-
-

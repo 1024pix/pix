@@ -42,6 +42,16 @@ export default class ParticipationDetail extends Component {
     }
   };
 
+  getFormattedMasteryRate = (masteryRate) => {
+    const rate = masteryRate ?? 0;
+    return `${Math.trunc(rate * 100, 0)} %`;
+  };
+
+  isCampaign = (items) => {
+    const firstItemType = items[0].type;
+    return firstItemType === ITEM_TYPES.CAMPAIGN;
+  };
+
   isFormation = (type) => {
     return type === ITEM_TYPES.FORMATION;
   };
@@ -114,6 +124,17 @@ export default class ParticipationDetail extends Component {
               </span>
             </:cell>
           </PixTableColumn>
+
+          {{#if (this.isCampaign items)}}
+            <PixTableColumn @context={{context}} class="participation-detail__mastery-rate-column">
+              <:header>
+                {{t "pages.combined-course.participation-detail.column.mastery-rate"}}
+              </:header>
+              <:cell>
+                {{this.getFormattedMasteryRate item.masteryRate}}
+              </:cell>
+            </PixTableColumn>
+          {{/if}}
 
           <PixTableColumn @context={{context}} class="participation-detail__status-column">
             <:header>

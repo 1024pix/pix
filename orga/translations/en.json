@@ -1127,6 +1127,7 @@
         "breadcrumb": "Participation of {firstName} {lastName}",
         "column": {
           "campaign": "Campaign",
+          "mastery-rate": "Pass rate",
           "module": "Module",
           "status": "Status"
         },

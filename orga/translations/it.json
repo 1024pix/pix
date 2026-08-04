@@ -1127,6 +1127,7 @@
         "breadcrumb": "Partecipazione di {firstName} {lastName}",
         "column": {
           "campaign": "Campagna",
+          "mastery-rate": "% di successo",
           "module": "Modulo",
           "status": "Stato"
         },
