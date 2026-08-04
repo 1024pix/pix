@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import { findRecord } from '@warp-drive/utilities/json-api';
 
 export default class MissionsRoute extends Route {
   @service store;
@@ -8,7 +9,10 @@ export default class MissionsRoute extends Route {
 
   async model() {
     const missions = await this.store.findAll('mission');
-    const organizationLearner = await this.store.findRecord('organization-learner', this.currentLearner.learner.id);
+    const { content: organizationLearnerContent } = await this.store.request(
+      findRecord('organization-learner', this.currentLearner.learner.id),
+    );
+    const organizationLearner = organizationLearnerContent.data;
     return {
       missions,
       organizationLearner,

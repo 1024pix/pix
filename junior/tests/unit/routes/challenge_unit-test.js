@@ -16,7 +16,7 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         const transition = { to: { queryParams: { challengeId: challenge.id } } };
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
-        sinon.stub(store, 'findRecord').returns(challenge);
+        sinon.stub(store, 'request').resolves({ content: { data: challenge } });
 
         const result = await route.model({}, transition);
 
@@ -37,7 +37,8 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
         sinon.stub(store, 'queryRecord').returns(challenge);
-        sinon.stub(store, 'findRecord').returns(organizationLearner);
+        const requestStub = sinon.stub(store, 'request');
+        requestStub.onCall(0).resolves({ content: { data: organizationLearner } });
 
         const result = await route.model();
 
