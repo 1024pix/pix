@@ -1,0 +1,1 @@
+{ "name": "db-history", "dependsOn": ["shared"], "circular": "forbidden" }
