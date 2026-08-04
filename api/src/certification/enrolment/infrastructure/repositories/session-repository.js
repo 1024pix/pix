@@ -43,7 +43,23 @@ export async function save({ session }) {
 export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const foundSession = await knexConn
-    .select('sessions.*')
+    .select({
+      id: 'sessions.id',
+      invigilatorPassword: 'sessions.invigilatorPassword',
+      accessCode: 'sessions.accessCode',
+      date: 'sessions.date',
+      time: 'sessions.time',
+      address: 'sessions.address',
+      room: 'sessions.room',
+      examiner: 'sessions.examiner',
+      description: 'sessions.description',
+      version: 'sessions.version',
+      finalizedAt: 'sessions.finalizedAt',
+      createdBy: 'sessions.createdBy',
+      certificationCenter: 'certification-centers.name',
+      certificationCenterId: 'certification-centers.id',
+      certificationCenterType: 'certification-centers.type',
+    })
     .select({ certificationCenterType: 'certification-centers.type' })
     .from('sessions')
     .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')

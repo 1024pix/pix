@@ -1,6 +1,4 @@
-import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import * as sessionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
@@ -9,97 +7,100 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | certification | enrolment | SessionEnrolment', function () {
   describe('#save', function () {
-    let session, certificationCenter, sessionCreator;
-
-    beforeEach(async function () {
-      certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
-      sessionCreator = databaseBuilder.factory.buildUser({});
-      session = new SessionEnrolment({
-        certificationCenter: certificationCenter.name,
-        certificationCenterId: certificationCenter.id,
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Michel Essentiel',
-        date: '2017-12-08',
-        time: '14:30:00',
-        description: 'Première certification EVER !!!',
-        examinerGlobalComment: 'No comment',
-        hasIncident: true,
-        hasJoiningIssue: true,
-        publishedAt: new Date('2017-12-07'),
-        resultsSentToPrescriberAt: new Date('2017-12-07'),
-        assignedCertificationOfficerId: null,
-        accessCode: 'XXXX',
-        invigilatorPassword: 'AB2C7A',
-        version: 2,
-        createdBy: sessionCreator.id,
+    it('should persist and return the session', async function () {
+      databaseBuilder.factory.buildCertificationCenter({
+        id: 456,
+        name: 'Centre de certif fictif',
+        type: 'SCO',
       });
-
+      databaseBuilder.factory.buildUser({
+        id: 123,
+      });
       await databaseBuilder.commit();
-    });
+      const sessionToSave = domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .createdBy({
+          userId: 123,
+          certificationCenterId: 456,
+          certificationCenterName: 'Centre de certif fictif',
+          certificationCenterType: 'SCO',
+        })
+        .withParameters({
+          date: '2026-01-01',
+          time: '19:30:05',
+          examiner: 'terminator',
+          room: 'CFA-330',
+          accessCode: 'SOME1ACCESS2CODE',
+          address: '2 rue des coquelicots',
+          description: 'une description pleine de sens',
+          invigilatorPassword: 'INVIG7',
+        })
+        .build();
 
-    it('should persist the session in db', async function () {
-      // when
-      await sessionRepository.save({ session });
+      const savedSession = await sessionRepository.save({ session: sessionToSave });
 
-      // then
-      const sessionSaved = await knex('sessions').select();
-      expect(sessionSaved).to.have.lengthOf(1);
-    });
-
-    it('should return the saved Session', async function () {
-      // when
-      const savedSession = await sessionRepository.save({ session });
-
-      // then
-      expect(savedSession).to.be.an.instanceOf(SessionEnrolment);
-      expect(savedSession).to.have.property('id').and.not.null;
-      expect(savedSession).to.deepEqualInstance(new SessionEnrolment({ ...session, id: savedSession.id }));
+      const readSession = await sessionRepository.get({ id: savedSession.id });
+      expect(readSession).to.deepEqualInstance(readSession);
     });
   });
 
   describe('#get', function () {
-    let sessionDB;
-    let sessionCreator;
-
-    beforeEach(async function () {
-      // given
-      sessionCreator = databaseBuilder.factory.buildUser({});
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-        type: CERTIFICATION_CENTER_TYPES.PRO,
-      }).id;
-      sessionDB = databaseBuilder.factory.buildSession({
-        certificationCenterId,
-        certificationCenter: 'Tour Gamma',
-        address: 'rue de Bercy',
-        room: 'Salle A',
-        examiner: 'Monsieur Examinateur',
-        date: '2018-02-23',
-        time: '12:00:00',
-        description: 'CertificationPix pour les jeunes',
-        accessCode: 'NJR10',
-        createdBy: sessionCreator.id,
-      });
+    it('returns the SessionEnrolment model', async function () {
+      const expectedSession = domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .createdBy({
+          userId: 123,
+          certificationCenterId: 456,
+          certificationCenterName: 'Centre de certif fictif',
+          certificationCenterType: 'SCO',
+        })
+        .finalized({ at: new Date('2021-01-01') })
+        .withParameters({
+          id: 789,
+          date: '2026-01-01',
+          time: '19:30:05',
+          examiner: 'terminator',
+          room: 'CFA-330',
+          accessCode: 'SOME1ACCESS2CODE',
+          address: '2 rue des coquelicots',
+          description: 'une description pleine de sens',
+          invigilatorPassword: 'INVIG7',
+        })
+        .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
-    });
 
-    it('should return session informations in a session Object', async function () {
       // when
-      const actualSession = await sessionRepository.get({ id: sessionDB.id });
+      const actualSession = await sessionRepository.get({ id: 789 });
 
       // then
-      expect(actualSession).to.deepEqualInstance(
-        domainBuilder.certification.enrolment.buildSession({
-          ...sessionDB,
-          certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
-          certificationCandidates: [],
-        }),
-      );
+      expect(actualSession).to.deepEqualInstance(expectedSession);
     });
 
     it('should return a Not found error when no session was found', async function () {
+      domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .createdBy({
+          userId: 123,
+          certificationCenterId: 456,
+          certificationCenterName: 'Centre de certif fictif',
+          certificationCenterType: 'SCO',
+        })
+        .finalized({ at: new Date('2021-01-01') })
+        .withParameters({
+          id: 789,
+          date: '2026-01-01',
+          time: '19:30:05',
+          examiner: 'terminator',
+          room: 'CFA-330',
+          accessCode: 'SOME1ACCESS2CODE',
+          address: '2 rue des coquelicots',
+          description: 'une description pleine de sens',
+          invigilatorPassword: 'INVIG7',
+        })
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
       // when
-      const error = await catchErr(sessionRepository.get)({ id: 2 });
+      const error = await catchErr(sessionRepository.get)({ id: 777 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);

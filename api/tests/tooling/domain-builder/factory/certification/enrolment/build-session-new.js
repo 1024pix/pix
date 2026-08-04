@@ -16,7 +16,7 @@ import { SessionEnrolment } from '../../../../../../src/certification/enrolment/
  */
 class SessionEnrolmentBuilder {
   constructor() {
-    this.id = null;
+    this.id = undefined;
     this.date = '2024-01-01';
     this.time = '14:00:00';
     this.examiner = 'Moi';
@@ -29,6 +29,7 @@ class SessionEnrolmentBuilder {
     this.certificationCenterId = null;
     this.certificationCenterName = 'SuperCentre';
     this.certificationCenterType = 'PRO';
+    this.finalizedAt = null;
   }
 
   /**
@@ -53,6 +54,11 @@ class SessionEnrolmentBuilder {
     this.certificationCenterId = certificationCenterId;
     this.certificationCenterName = certificationCenterName;
     this.certificationCenterType = certificationCenterType;
+    return this;
+  }
+
+  finalized({ at = new Date() } = {}) {
+    this.finalizedAt = at;
     return this;
   }
 
@@ -128,6 +134,7 @@ class SessionEnrolmentBuilder {
       certificationCenterId: sessionEnrolment.certificationCenterId,
       certificationCenter: sessionEnrolment.certificationCenter,
       createdBy: sessionEnrolment.createdBy,
+      finalizedAt: sessionEnrolment.finalizedAt,
     }).id;
 
     sessionEnrolment.id = sessionId;
@@ -151,6 +158,7 @@ class SessionEnrolmentBuilder {
       description: this.description,
       invigilatorPassword: this.invigilatorPassword,
       createdBy: this.createdById,
+      finalizedAt: this.finalizedAt,
       certificationCenterId: this.certificationCenterId,
       certificationCenter: this.certificationCenterName,
       certificationCenterType: this.certificationCenterType,

@@ -23,7 +23,7 @@ export class SessionEnrolment {
     version = AlgorithmEngineVersion.V3,
     createdBy,
     finalizedAt,
-  } = {}) {
+  }) {
     this.id = id;
     this.accessCode = accessCode;
     this.address = address;
@@ -40,6 +40,7 @@ export class SessionEnrolment {
     this.version = version;
     this.createdBy = createdBy;
     this.canEnrolCandidate = !finalizedAt;
+    this.finalizedAt = finalizedAt;
   }
 
   get status() {
