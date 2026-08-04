@@ -31,9 +31,9 @@ async function remove(request, h) {
   return h.response().code(204);
 }
 
-async function get(request, h, dependencies = { sessionSerializer }) {
+async function get(request, h, dependencies = { sessionSerializer, sessionRepository }) {
   const sessionId = request.params.sessionId;
-  const session = await usecases.getSession({ sessionId });
+  const session = await dependencies.sessionRepository.get({ id: sessionId });
   return dependencies.sessionSerializer.serialize(session);
 }
 
