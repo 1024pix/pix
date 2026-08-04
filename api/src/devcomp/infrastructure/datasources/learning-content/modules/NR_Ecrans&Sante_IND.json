@@ -729,14 +729,14 @@
           ]
         },
         {
-          "id": "37350a34-67f9-4e69-9d38-8e259beb8c6b",
+          "id": "3e5d6ce9-b387-4bcb-9a30-147eec5193b0",
           "type": "discovery",
           "title": "Découverte #4",
           "components": [
             {
               "type": "element",
               "element": {
-                "id": "34f51752-0c74-403a-a922-dad3a009360e",
+                "id": "1ce882d4-aef9-4f5a-8a80-bde7ce89d7af",
                 "type": "qab",
                 "instruction": "<p>Pour chacun des conseils suivants, indiquez s’il s’agit d’une bonne ou d’une mauvaise idée pour limiter les effets de l’hyperconnexion.</p>",
                 "cards": [
