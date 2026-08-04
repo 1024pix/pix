@@ -1,10 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  SessionExpiredError,
-  WrongDomainExtensionForPixPlusError,
-} from '../../../../../../src/certification/enrolment/domain/errors.js';
+import { SessionExpiredError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/domain/usecases/register-candidate-participation.js';
 import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -378,54 +375,6 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     });
 
     expect(error).to.be.instanceOf(MatchingReconciledStudentNotFoundError);
-  });
-
-  it('throws WrongDomainExtensionForPixPlusError when not CORE session from not `.fr` extension', async function () {
-    const firstName = 'Brice';
-    const lastName = 'Wine';
-    const birthdate = '2000-03-23';
-    const user = domainBuilder.certification.enrolment.buildUser();
-    const candidate = domainBuilder.certification.enrolment
-      .candidateBuilder()
-      .withIdentity({
-        firstName,
-        lastName,
-        birthdate,
-      })
-      .withSubscription(Frameworks.DROIT)
-      .withParameters({
-        sessionId,
-      })
-      .build();
-    const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
-    const session = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
-    const certificationCenter = domainBuilder.certification.enrolment.buildCenter({
-      habilitations: [{ key: Frameworks.DROIT }],
-      matchingOrganization: organization,
-    });
-    const sessionAuthorization = domainBuilder.certification.enrolment
-      .sessionAuthorizationBuilder()
-      .withParameters({ id: sessionId })
-      .build();
-
-    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
-
-    sessionRepository.get.resolves(session);
-    candidateRepository.findBySessionId.resolves([candidate]);
-    centerRepository.getById.resolves(certificationCenter);
-    userRepository.get.resolves(user);
-
-    const error = await catchErr(registerCandidateParticipation)({
-      firstName,
-      birthdate,
-      lastName,
-      userId: user.id,
-      sessionId,
-      isFrenchDomainExtension: false,
-      ...dependencies,
-    });
-
-    expect(error).to.be.instanceOf(WrongDomainExtensionForPixPlusError);
   });
 
   it('throws UserNotAuthorizedToCertifyError if user is not certifiable', async function () {

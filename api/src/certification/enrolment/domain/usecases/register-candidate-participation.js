@@ -9,7 +9,7 @@ import {
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../shared/domain/errors.js';
 import { CenterHabilitationError } from '../../../shared/domain/errors.js';
-import { SessionExpiredError, WrongDomainExtensionForPixPlusError } from '../errors.js';
+import { SessionExpiredError } from '../errors.js';
 
 /**
  * Candidate entry to a certification is a multi step process
@@ -68,8 +68,6 @@ export async function registerCandidateParticipation({
     candidate,
     userId,
   });
-
-  await checkFrenchExtension({ candidate, isFrenchDomainExtension });
 
   await checkIfUserIsCertifiable({ placementProfileService, userId });
 
@@ -158,12 +156,6 @@ async function checkAroundCertificationCenter({ centerRepository, userRepository
     if (!user.has({ organizationLearnerId: candidate.organizationLearnerId })) {
       throw new MatchingReconciledStudentNotFoundError();
     }
-  }
-}
-
-function checkFrenchExtension({ candidate, isFrenchDomainExtension }) {
-  if (!candidate.hasCoreScopeSubscription() && !isFrenchDomainExtension) {
-    throw new WrongDomainExtensionForPixPlusError();
   }
 }
 
