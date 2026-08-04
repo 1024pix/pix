@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import { assessmentController } from '../../../../../src/evaluation/application/assessments/assessment-controller.js';
-import { assessmentsRoute as moduleUnderTest } from '../../../../../src/evaluation/application/assessments/index.js.js';
+import { assessmentsRoute as moduleUnderTest } from '../../../../../src/evaluation/application/assessments/index.js';
 import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { config as settings } from '../../../../../src/shared/config.js';

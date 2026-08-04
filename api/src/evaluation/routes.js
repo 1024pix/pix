@@ -1,5 +1,5 @@
 import { answersRoute } from './application/answers/index.js';
-import { assessmentsRoute } from './application/assessments/index.js.js';
+import { assessmentsRoute } from './application/assessments/index.js';
 import { autonomousCoursesRoute } from './application/autonomous-courses/index.js';
 import { badgeCriteriaRoute } from './application/badge-criteria/index.js';
 import { badgesRoute } from './application/badges/index.js';
