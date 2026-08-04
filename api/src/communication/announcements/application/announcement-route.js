@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
-import { getSupportedLocales } from '../../shared/domain/services/locale-service.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { announcementController } from './announcement-controller.js';
 
 const ANNOUNCEMENT_NAME_SCHEMA = Joi.string().valid('SCO').required();

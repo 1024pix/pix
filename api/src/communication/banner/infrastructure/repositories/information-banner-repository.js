@@ -1,4 +1,4 @@
-import { informationBannersStorage } from '../../../shared/infrastructure/key-value-storages/index.js';
+import { informationBannersStorage } from '../../../../shared/infrastructure/key-value-storages/index.js';
 import { InformationBanner } from '../../domain/models/information-banner.js';
 
 const get = async function ({ id }) {

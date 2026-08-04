@@ -1,1 +1,0 @@
-{ "name": "banner", "dependsOn": ["shared"], "circular": "forbidden" }
