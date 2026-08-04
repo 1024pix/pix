@@ -15,7 +15,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | add-pix-authent
     userRepository = {
       checkIfEmailIsAvailable: sinon.stub(),
       updateUserDetailsForAdministration: sinon.stub(),
-      getUserDetailsForAdmin: sinon.stub(),
     };
     authenticationMethodRepository = {
       hasIdentityProviderPIX: sinon.stub(),

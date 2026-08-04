@@ -158,6 +158,7 @@ export default class UserOverview extends Component {
   @action
   async anonymizeUser() {
     await this.args.user.save({ adapterOptions: { anonymizeUser: true } });
+    await this.args.user.reload();
     this.args.user.organizationMemberships = [];
     this.args.user.certificationCenterMemberships = [];
     this.args.user.organizationLearners = [];

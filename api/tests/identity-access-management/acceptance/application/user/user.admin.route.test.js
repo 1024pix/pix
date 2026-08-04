@@ -301,28 +301,27 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
 
     it('anomymizes user', async function () {
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
 
-      const updatedUserAttributes = response.result.data.attributes;
-
-      expect(updatedUserAttributes['first-name']).to.equal('(anonymised)');
-      expect(updatedUserAttributes['last-name']).to.equal('(anonymised)');
-      expect(updatedUserAttributes.email).to.be.null;
-      expect(updatedUserAttributes.username).to.be.null;
-
-      expect(updatedUserAttributes['has-been-anonymised']).to.be.true;
-      expect(updatedUserAttributes['anonymised-by-full-name']).to.equal('Billy TheKid');
-      expect(updatedUserAttributes['updated-at']).to.exist;
+      const user = await knex('users').where({ id: userId }).first();
+      expect(user.firstName).to.equal('(anonymised)');
+      expect(user.lastName).to.equal('(anonymised)');
+      expect(user.email).to.be.null;
+      expect(user.username).to.be.null;
+      expect(user.hasBeenAnonymised).to.be.true;
     });
 
     it('removes authentication methods', async function () {
       // then
-      const updatedUserRelationships = response.result.data.relationships;
-      expect(updatedUserRelationships['authentication-methods'].data).to.be.empty;
+      expect(response.statusCode).to.equal(204);
+
+      const authenticationMethods = await knex('authentication-methods').where({ userId });
+      expect(authenticationMethods.length).to.equal(0);
     });
 
     it("disables user's certification center, organization learner and organisation memberships", async function () {
       // then
+      expect(response.statusCode).to.equal(204);
       const certificationCenterMembership = await knex('certification-center-memberships')
         .select()
         .where({ certificationCenterId })
