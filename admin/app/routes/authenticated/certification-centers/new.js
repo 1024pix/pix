@@ -4,6 +4,10 @@ import { service } from '@ember/service';
 export default class NewRoute extends Route {
   @service store;
 
+  queryParams = {
+    attachedOrganizationId: { refreshModel: true },
+  };
+
   async model(_, transition) {
     const habilitations = await this.store.findAll('complementary-certification');
     let attachedOrganization = null;
@@ -12,5 +16,11 @@ export default class NewRoute extends Route {
       attachedOrganization = await this.store.findRecord('organization', attachedOrganizationId);
     }
     return { habilitations, attachedOrganization };
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.attachedOrganizationId = null;
+    }
   }
 }

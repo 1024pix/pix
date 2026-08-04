@@ -13,7 +13,7 @@ import CreationForm from 'pix-admin/components/certification-centers/creation-fo
   <CreationForm
     class="main-admin-form"
     @habilitations={{@model.habilitations}}
-    @onCancel={{@controller.goBackToCertificationCentersList}}
+    @onCancel={{@controller.redirectOnCancel}}
     @attachedOrganization={{@model.attachedOrganization}}
   />
 </template>
