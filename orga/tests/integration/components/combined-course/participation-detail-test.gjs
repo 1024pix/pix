@@ -146,7 +146,7 @@ module('Integration | Component | combined-course/participation-detail', functio
   });
 
   module('column labels', function () {
-    test('it displays "Campagne" column label when items are campaigns', async function (assert) {
+    test('it displays "Campagne" and "% de réussite" column labels when items are campaigns', async function (assert) {
       const participation = {
         firstName: 'Jean',
         lastName: 'Bon',
@@ -180,6 +180,7 @@ module('Integration | Component | combined-course/participation-detail', functio
 
       assert.ok(
         screen.getByRole('columnheader', { name: t('pages.combined-course.participation-detail.column.campaign') }),
+        screen.getByRole('columnheader', { name: t('pages.combined-course.participation-detail.column.mastery-rate') }),
       );
     });
 
@@ -292,6 +293,78 @@ module('Integration | Component | combined-course/participation-detail', functio
       );
 
       assert.ok(screen.getByText('Campaign 1'));
+    });
+
+    test('it displays campaign items with their formatted mastery rate', async function (assert) {
+      const participation = {
+        firstName: 'Jean',
+        lastName: 'Bon',
+        combinedCourseId: 123,
+      };
+      const combinedCourse = {
+        id: 123,
+        name: 'Combinix',
+      };
+      const itemsBySteps = [
+        [
+          {
+            type: 'CAMPAIGN',
+            title: 'Campaign 1',
+            isLocked: false,
+            isCompleted: false,
+            masteryRate: 0.42222222,
+            participationStatus: 'NOT_STARTED',
+          },
+        ],
+      ];
+
+      const screen = await render(
+        <template>
+          <ParticipationDetail
+            @participation={{participation}}
+            @combinedCourse={{combinedCourse}}
+            @itemsBySteps={{itemsBySteps}}
+          />
+        </template>,
+      );
+
+      assert.ok(screen.getByText('42 %'));
+    });
+
+    test('it displays campaign items with 0% mastery rate', async function (assert) {
+      const participation = {
+        firstName: 'Jean',
+        lastName: 'Bon',
+        combinedCourseId: 123,
+      };
+      const combinedCourse = {
+        id: 123,
+        name: 'Combinix',
+      };
+      const itemsBySteps = [
+        [
+          {
+            type: 'CAMPAIGN',
+            title: 'Campaign 1',
+            isLocked: false,
+            isCompleted: false,
+            participationStatus: 'NOT_STARTED',
+          },
+        ],
+      ];
+
+      const screen = await render(
+        <template>
+          <ParticipationDetail
+            @participation={{participation}}
+            @combinedCourse={{combinedCourse}}
+            @itemsBySteps={{itemsBySteps}}
+          />
+        </template>,
+      );
+
+      assert.ok(screen.getByText('Campaign 1'));
+      assert.ok(screen.getByText('0 %'));
     });
 
     test('it displays module items with their title', async function (assert) {
