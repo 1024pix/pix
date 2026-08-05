@@ -43,7 +43,7 @@ describe('Certification | Session Management | Integration | Application | Api |
       }).id;
       domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
-        .withSession({ sessionId: 1, accessCode: 'CHACHACHA', isAccessible: true })
+        .withSession({ sessionId: 1, accessCode: 'CHACHACHA' })
         .reconciled({ userId: 2, at: new Date('2021-01-01') })
         .subscribedTo({ framework: Frameworks.PRO_SANTE })
         .withCenterHabilitation({ scope: Frameworks.EDU_CPE })
@@ -69,7 +69,7 @@ describe('Certification | Session Management | Integration | Application | Api |
       // then
       expect(candidateAuthorizationDTO).to.deep.equal({
         id: 3,
-        isSessionAccessible: true,
+        isSessionAccessible: false,
         accessCode: 'CHACHACHA',
         userId: 2,
         authorizedToStart: true,

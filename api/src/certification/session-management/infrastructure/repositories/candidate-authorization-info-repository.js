@@ -27,9 +27,11 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
       subscription: 'certification-candidates.subscription',
       authorizedToStartAt: 'certification-candidates.authorizedToStartAt',
       sessionId: 'sessions.id',
+      sessionStartedAt: knexConn('certification-courses')
+        .min('createdAt')
+        .whereRaw('"certification-courses"."sessionId" = "sessions"."id"'),
       sessionAccessCode: 'sessions.accessCode',
       sessionFinalizedAt: 'sessions.finalizedAt',
-      sessionPublishedAt: 'sessions.publishedAt',
       certificationId: 'certification-courses.id',
       certificationStartedAt: 'certification-courses.createdAt',
       centerHabilitations: knexConn.raw(
