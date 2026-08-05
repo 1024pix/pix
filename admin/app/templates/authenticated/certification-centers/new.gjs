@@ -14,5 +14,6 @@ import CreationForm from 'pix-admin/components/certification-centers/creation-fo
     class="main-admin-form"
     @habilitations={{@model.habilitations}}
     @onCancel={{@controller.goBackToCertificationCentersList}}
+    @attachedOrganization={{@model.attachedOrganization}}
   />
 </template>

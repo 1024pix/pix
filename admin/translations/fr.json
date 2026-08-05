@@ -482,6 +482,7 @@
         }
       },
       "creation": {
+        "attached-organization-name": "Organisation rattachée : {attachedOrganizationName}",
         "complementary-certifications-habilitations": "Habilitations aux certifications complémentaires",
         "configuration": "Paramétrage",
         "dpo": {
