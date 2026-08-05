@@ -797,7 +797,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Il n’est <strong>pas toujours possible de désactiver toutes les fonctionnalités</strong> qui captent notre attention. Malgré tout, certains réglages disponibles permettent d’agir pour mieux maîtriser quand et comment les applications sollicitent notre attention (et donc limiter l’hyperconnexion).</p><p>Connaître l’existance de ses fonctionnalités permet également  de prendre conscience de leurs conséquences sur notre quotidien.</p>"
+                  "diagnosis": "<p>Il n’est <strong>pas toujours possible de désactiver toutes les fonctionnalités</strong> qui captent notre attention. Malgré tout, certains réglages disponibles permettent de mieux maîtriser quand et comment les applications sollicitent notre attention (et donc limiter l’hyperconnexion).</p><p>Connaître l’existance de ces fonctionnalités permet également  de prendre conscience de leurs conséquences sur notre quotidien.</p>"
                 }
               }
             }
