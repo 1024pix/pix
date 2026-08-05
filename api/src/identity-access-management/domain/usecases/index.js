@@ -27,7 +27,6 @@ import { lastUserApplicationConnectionsRepository } from '../../infrastructure/r
 import { legalDocumentApiRepository } from '../../infrastructure/repositories/legal-document-api.repository.js';
 import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
-import * as privacyUsersApiRepository from '../../infrastructure/repositories/privacy-users-api.repository.js';
 import { refreshTokenRepository } from '../../infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
 import { revokedUserAccessRepository } from '../../infrastructure/repositories/revoked-user-access.repository.js';
@@ -60,7 +59,6 @@ const repositories = {
   oidcProviderRepository,
   organizationLearnerRepository,
   organizationRepository,
-  privacyUsersApiRepository,
   refreshTokenRepository,
   resetPasswordDemandRepository,
   revokedUserAccessRepository,
@@ -124,7 +122,6 @@ import { getAuthorizationUrl } from './get-authorization-url.usecase.js';
 import { getIdentityProvidersByRequestedApplication } from './get-identity-providers-by-requested-application.usecase.js';
 import { getRedirectLogoutUrl } from './get-redirect-logout-url.usecase.js';
 import { getSamlAuthenticationRedirectionUrl } from './get-saml-authentication-redirection-url.js';
-import { getUserAccountInfo } from './get-user-account-info.usecase.js';
 import { getUserByResetPasswordDemand } from './get-user-by-reset-password-demand.usecase.js';
 import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { logoutOidcUser } from './logout-oidc-user.usecase.js';
@@ -179,7 +176,6 @@ const usecasesWithoutInjectedDependencies = {
   getIdentityProvidersByRequestedApplication,
   getRedirectLogoutUrl,
   getSamlAuthenticationRedirectionUrl,
-  getUserAccountInfo,
   getUserByResetPasswordDemand,
   listLtiPublicKeys,
   logoutOidcUser,

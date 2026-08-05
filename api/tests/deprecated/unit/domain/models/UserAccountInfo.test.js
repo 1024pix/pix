@@ -1,7 +1,7 @@
-import { UserAccountInfo } from '../../../../../src/identity-access-management/domain/models/UserAccountInfo.js';
+import { UserAccountInfo } from '../../../../../src/deprecated/domain/models/UserAccountInfo.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | UserAccountInfo', function () {
+describe('Unit | Deprecated | Domain | Models | UserAccountInfo', function () {
   const restrictedOidcProvidersForEmailCreation = ['RESTRICTED_OIDC_PROVIDER_1'];
 
   describe('constructor', function () {

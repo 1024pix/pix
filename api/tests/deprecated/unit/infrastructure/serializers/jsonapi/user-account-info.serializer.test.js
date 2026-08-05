@@ -1,7 +1,7 @@
-import { userAccountInfoSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-account-info.serializer.js';
+import { userAccountInfoSerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/user-account-info.serializer.js';
 import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | user-account-info', function () {
+describe('Unit | Deprecated | Infrastructure | Serializer | JSONAPI | user-account-info', function () {
   describe('#serialize', function () {
     it('serializes user account information', function () {
       // given

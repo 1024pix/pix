@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 
-import * as privacyUsersApiRepository from '../../../../../src/identity-access-management/infrastructure/repositories/privacy-users-api.repository.js';
+import * as privacyUsersApiRepository from '../../../../../src/deprecated/infrastructure/repositories/privacy-users-api.repository.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Identity Access Management | Infrastructure | Repositories | privacy-users-api', function () {
+describe('Unit | Deprecated | Infrastructure | Repositories | privacy-users-api', function () {
   describe('#canSelfDeleteAccount', function () {
     it('indicates if user can self delete their account', async function () {
       // given

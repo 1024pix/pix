@@ -1,4 +1,5 @@
 import { usecases } from '../domain/usecases/index.js';
+import { userAccountInfoSerializer } from '../infrastructure/serializers/jsonapi/user-account-info.serializer.js';
 import { userWithActivitySerializer } from '../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 
 /**
@@ -16,4 +17,19 @@ const getCurrentUser = async function (request, h, dependencies = { userWithActi
   return dependencies.userWithActivitySerializer.serialize(result);
 };
 
-export const usersMeController = { getCurrentUser };
+/**
+ * @param request
+ * @param h
+ * @param {object} dependencies
+ * @param {UserAccountInfoSerializer} dependencies.userAccountInfoSerializer
+ * @return {Promise<*>}
+ */
+const getCurrentUserAccountInfo = async function (request, h, dependencies = { userAccountInfoSerializer }) {
+  const authenticatedUserId = request.auth.credentials.userId;
+
+  const userAccountInfo = await usecases.getUserAccountInfo({ userId: authenticatedUserId });
+
+  return dependencies.userAccountInfoSerializer.serialize(userAccountInfo);
+};
+
+export const usersMeController = { getCurrentUser, getCurrentUserAccountInfo };

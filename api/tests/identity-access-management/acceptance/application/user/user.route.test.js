@@ -10,7 +10,6 @@ import * as userRepository from '../../../../../src/identity-access-management/i
 import { userEmailRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
@@ -208,37 +207,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
         // then
         expect(response.statusCode).to.equal(403);
-      });
-    });
-  });
-
-  describe('GET /api/users/my-account', function () {
-    it('returns 200 HTTP status code', async function () {
-      // given
-      await featureToggles.set('isSelfAccountDeletionEnabled', false);
-      const user = databaseBuilder.factory.buildUser();
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject({
-        method: 'GET',
-        url: '/api/users/my-account',
-        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-      });
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal({
-        data: {
-          type: 'account-infos',
-          id: user.id.toString(),
-          attributes: {
-            'can-self-delete-account': false,
-            email: user.email,
-            username: user.username,
-            'can-add-email-connection-method': false,
-          },
-        },
       });
     });
   });
