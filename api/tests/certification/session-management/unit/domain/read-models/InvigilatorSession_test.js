@@ -2,15 +2,17 @@ import { InvigilatorSession } from '../../../../../../src/certification/session-
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Session | Domain | Models | InvigilatorSession', function () {
-  context('#isNotAccessible', function () {
+  context('#isNotJoinable', function () {
     it(`returns false when the session doesn't have finalized date`, function () {
       const invigilatorSession = new InvigilatorSession({ finalizedAt: null });
-      expect(invigilatorSession.isNotAccessible).to.be.false;
+      expect(invigilatorSession.isNotJoinable).to.be.false;
     });
 
     it('returns true when the session has finalized date', function () {
-      const invigilatorSession = new InvigilatorSession({ finalizedAt: new Date() });
-      expect(invigilatorSession.isNotAccessible).to.be.true;
+      const invigilatorSession = new InvigilatorSession({
+        finalizedAt: new Date(),
+      });
+      expect(invigilatorSession.isNotJoinable).to.be.true;
     });
   });
 

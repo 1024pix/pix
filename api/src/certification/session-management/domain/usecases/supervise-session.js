@@ -38,7 +38,7 @@ export const superviseSession = withTransaction(
 
     const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
-    if (session.isNotAccessible) {
+    if (session.isNotJoinable) {
       throw new SessionFinalized();
     }
 

@@ -8,7 +8,7 @@ class InvigilatorSession {
    */
   constructor({ finalizedAt, invigilatorPassword }) {
     this.invigilatorPassword = invigilatorPassword;
-    this.isNotAccessible = !!finalizedAt;
+    this.isNotJoinable = !!finalizedAt;
   }
 
   checkPassword(invigilatorPassword) {
