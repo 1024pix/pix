@@ -9,7 +9,7 @@ import {
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../shared/domain/errors.js';
 import { CenterHabilitationError } from '../../../shared/domain/errors.js';
-import { WrongDomainExtensionForPixPlusError } from '../errors.js';
+import { SessionExpiredError, WrongDomainExtensionForPixPlusError } from '../errors.js';
 
 /**
  * Candidate entry to a certification is a multi step process
@@ -37,7 +37,14 @@ export async function registerCandidateParticipation({
   userRepository,
   placementProfileService,
   eventAdapter,
+  sessionAuthorizationAdapter,
 }) {
+  const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
+
+  if (!sessionAuthorization.canJoinSession) {
+    throw new SessionExpiredError();
+  }
+
   const session = await sessionRepository.get({ id: sessionId });
 
   const candidate = await checkAndGetCandidateFromSession({
@@ -77,10 +84,8 @@ async function checkAndGetCandidateFromSession({
   firstName,
   lastName,
   birthdate,
-
   session,
   candidateRepository,
-
   normalizeStringFnc,
 }) {
   const candidatesInSession = await candidateRepository.findBySessionId({ sessionId: session.id });

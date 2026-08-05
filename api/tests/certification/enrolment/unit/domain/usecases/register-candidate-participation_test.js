@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { WrongDomainExtensionForPixPlusError } from '../../../../../../src/certification/enrolment/domain/errors.js';
+import {
+  SessionExpiredError,
+  WrongDomainExtensionForPixPlusError,
+} from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/domain/usecases/register-candidate-participation.js';
 import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -23,12 +26,18 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     userRepository,
     placementProfileService,
     eventAdapter,
+    sessionAuthorizationAdapter,
     dependencies;
 
   const sessionId = 456;
 
   beforeEach(function () {
+    sessionAuthorizationAdapter = {
+      find: sinon.stub(),
+    };
+
     normalizeStringFnc = sinon.stub();
+
     eventAdapter = {
       onCandidateReconciled: sinon.stub(),
     };
@@ -61,7 +70,32 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
       userRepository,
       placementProfileService,
       eventAdapter,
+      sessionAuthorizationAdapter,
     };
+  });
+
+  it('throws SessionExpiredError when session has expired', async function () {
+    const userId = 123;
+    const sessionId = 456;
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId, hasExpired: true, hasStarted: true, isFinalized: false })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Tony',
+      lastName: 'Stark',
+      birthdate: '1994-07-18',
+      userId,
+      sessionId,
+      isFrenchDomainExtension: true,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(SessionExpiredError);
   });
 
   it('throws UserAlreadyLinkedToCandidateInSessionError when given user is already reconciled to an other candidate than matching', async function () {
@@ -96,6 +130,13 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
         sessionId,
       })
       .build();
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
     const session = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
     sessionRepository.get.resolves(session);
     candidateRepository.findBySessionId.resolves([matchingCandidate, alreadyReconciledCandidate]);
@@ -126,6 +167,12 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
         sessionId,
       })
       .build();
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
     const session = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
     sessionRepository.get.resolves(session);
     candidateRepository.findBySessionId.resolves([candidate]);
@@ -168,6 +215,12 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
         sessionId,
       })
       .build();
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
     const session = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
     sessionRepository.get.resolves(session);
     candidateRepository.findBySessionId.resolves([candidate, otherCandidate]);
@@ -211,6 +264,12 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
     const otherCandidate = domainBuilder.certification.enrolment.candidateBuilder().build();
     const candidates = [alreadyLinkedCandidate, otherCandidate];
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
 
     sessionRepository.get.resolves(session);
     candidateRepository.findBySessionId.resolves(candidates);
@@ -250,6 +309,12 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     const session = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
     const certificationCenter = domainBuilder.certification.enrolment.buildCenter({ habilitations: [] });
 
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
     sessionRepository.get.resolves(session);
     candidateRepository.findBySessionId.resolves([candidate]);
     centerRepository.getById.resolves(certificationCenter);
@@ -291,6 +356,12 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
       matchingOrganization: organization,
     });
 
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
     sessionRepository.get.resolves(session);
     candidateRepository.findBySessionId.resolves([candidate]);
     centerRepository.getById.resolves(certificationCenter);
@@ -332,6 +403,12 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
       habilitations: [{ key: Frameworks.DROIT }],
       matchingOrganization: organization,
     });
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
 
     sessionRepository.get.resolves(session);
     candidateRepository.findBySessionId.resolves([candidate]);
@@ -376,6 +453,12 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     });
     const placementProfile = domainBuilder.buildPlacementProfile({ userId: user.id });
 
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
     sessionRepository.get.resolves(session);
     candidateRepository.findBySessionId.resolves([candidate]);
     centerRepository.getById.resolves(certificationCenter);
@@ -420,6 +503,12 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     });
     const placementProfile = domainBuilder.buildPlacementProfile.buildCertifiable({ userId: user.id });
 
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
     sessionRepository.get.resolves(session);
     candidateRepository.findBySessionId.resolves([candidate]);
     centerRepository.getById.resolves(certificationCenter);

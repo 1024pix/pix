@@ -100,4 +100,37 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
       expect(sessionAuthorization.canEnrollCandidateViaMassImport).to.be.true;
     });
   });
+
+  describe('#get canJoinSession', function () {
+    it('returns false if session is expired', function () {
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ hasExpired: true, hasStarted: true, isFinalized: false })
+        .build();
+
+      expect(sessionAuthorization.canJoinSession).to.be.false;
+    });
+
+    it('returns false if session is finalized', function () {
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({
+          hasExpired: false,
+          hasStarted: true,
+          isFinalized: true,
+        })
+        .build();
+
+      expect(sessionAuthorization.canJoinSession).to.be.false;
+    });
+
+    it('returns true if session is not expired and not finalized', function () {
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ hasExpired: false, hasStarted: true, isFinalized: false })
+        .build();
+
+      expect(sessionAuthorization.canJoinSession).to.be.true;
+    });
+  });
 });
