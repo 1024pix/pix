@@ -1,5 +1,28 @@
 # Pix Changelog
 
+# [5.473.0](https://github.com/1024pix/pix/compare/v5.472.1...v5.473.0) (2026-08-05)
+
+### :rocket: Amélioration
+
+- [#17021](https://github.com/1024pix/pix/pull/17021) :sparkles: Empêcher un candidat de lancer le test de certification après la saisie du code d'accès si la session est expirée (PIX-23768)
+- [#17004](https://github.com/1024pix/pix/pull/17004) Afficher les informations de l'organisation qui sera rattachée lors de la création du centre de certif (PIX-22685)
+- [#17008](https://github.com/1024pix/pix/pull/17008) relecture interne et eval virus_ind
+- [#16995](https://github.com/1024pix/pix/pull/16995) Rendre la recherche de prescrit par filtre Prénom Nom plus stricte (PIX-23757)
+- [#17007](https://github.com/1024pix/pix/pull/17007) Update IAGenPrompt_IND_pro.json - modif
+
+### :bug: Correction
+
+- [#17046](https://github.com/1024pix/pix/pull/17046) Résoudre les problèmes front sur la création d'un schéma de parcours combiné (PIX-23619)
+
+### :building_construction: Tech
+
+- [#17051](https://github.com/1024pix/pix/pull/17051) Ajouter une dépendance manquante pour le lint de certif.
+- [#17043](https://github.com/1024pix/pix/pull/17043) Améliorer l'affichage des log 'human compact' en dev
+- [#16832](https://github.com/1024pix/pix/pull/16832) Cache de release : rendre la colonne version des modules obligatoire (PIX-23345)
+- [#17022](https://github.com/1024pix/pix/pull/17022) Déplacer la route get admin/users/{id} dans deprecated
+- [#17018](https://github.com/1024pix/pix/pull/17018) Isoler la logique Account Recovery generique pour IAM
+- [#17049](https://github.com/1024pix/pix/pull/17049) Move contexts banner and announcements to new BC communication
+
 ## [5.472.1](https://github.com/1024pix/pix/compare/v5.472.0...v5.472.1) (2026-08-04)
 
 ### :building_construction: Tech
