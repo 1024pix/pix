@@ -56,7 +56,10 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       state: 'completed',
       type: 'CAMPAIGN',
     });
+    // answer ids are pinned so that every historized answer falls in the same answer id range:
+    // the expected file count below depends on the assessment ranges only
     databaseBuilder.factory.buildAnswer({
+      id: 1,
       assessmentId: assessmentWithAnswerToDelete.id,
     });
 
@@ -76,6 +79,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       type: 'DEMO',
     });
     databaseBuilder.factory.buildAnswer({
+      id: 2,
       assessmentId: demoAssessmentWithAnswerToDelete.id,
     });
 
@@ -95,6 +99,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       type: 'COMPETENCE_EVALUATION',
     });
     databaseBuilder.factory.buildAnswer({
+      id: 3,
       assessmentId: evaluationAssessmentWithAnswerToDelete.id,
     });
 
@@ -114,6 +119,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       type: 'PLACEMENT',
     });
     databaseBuilder.factory.buildAnswer({
+      id: 4,
       assessmentId: placementAssessmentWithAnswerToDelete.id,
     });
 
@@ -133,6 +139,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       type: 'PREVIEW',
     });
     databaseBuilder.factory.buildAnswer({
+      id: 5,
       assessmentId: previewAssessmentWithAnswerToDelete.id,
     });
 
@@ -155,6 +162,68 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     // IDs 50001-50003 → range [50001, 51000], IDs 51001-51002 → range [51001, 52000] with range=1000
     expect(uploadedFiles).to.have.length(2);
     expect(uploadedFiles[0].Key).to.match(/^answers\//);
+  });
+
+  describe('answer id range configuration', function () {
+    // Guards the wiring between config.js and the use case: a mismatched property name or a
+    // missing env var yields undefined/NaN, and getBatchesFromRange then silently collapses
+    // every answer into a single NaN-keyed batch — which is exactly the OOM it is meant to prevent.
+    it('exposes an answer id range the use case can batch on', function () {
+      const answerIdRange = config.answersHistoryExport.storage.answerIdRange;
+
+      expect(Number.isInteger(answerIdRange), `answerIdRange must be an integer, got ${answerIdRange}`).to.be.true;
+      expect(answerIdRange).to.be.above(0);
+    });
+
+    it('exposes an assessment id range the use case can batch on', function () {
+      const assessmentIdRange = config.answersHistoryExport.storage.assessmentIdRange;
+
+      expect(Number.isInteger(assessmentIdRange), `assessmentIdRange must be an integer, got ${assessmentIdRange}`).to
+        .be.true;
+      expect(assessmentIdRange).to.be.above(0);
+    });
+  });
+
+  it('splits the answers of a single assessment range into one file per answer id range', async function () {
+    const logger = {
+      info: sinon.stub(),
+      error: sinon.stub(),
+    };
+    const targetDate = new Date('2020-01-02');
+    const { assessmentIdRange, answerIdRange } = config.answersHistoryExport.storage;
+
+    // both assessments fall in the same assessment range, hence the same parquet partition
+    const firstAssessmentId = assessmentIdRange * 50 + 1;
+    const secondAssessmentId = firstAssessmentId + 1;
+    for (const id of [firstAssessmentId, secondAssessmentId]) {
+      databaseBuilder.factory.buildAssessment({
+        id,
+        updatedAt: targetDate,
+        state: 'completed',
+        type: 'CAMPAIGN',
+      });
+    }
+
+    // but their answers fall in two distinct answer ranges, hence two distinct files
+    const firstAnswerRangeStart = answerIdRange * 10 + 1;
+    const secondAnswerRangeStart = answerIdRange * 20 + 1;
+    databaseBuilder.factory.buildAnswer({ id: firstAnswerRangeStart, assessmentId: firstAssessmentId });
+    databaseBuilder.factory.buildAnswer({ id: firstAnswerRangeStart + 1, assessmentId: secondAssessmentId });
+    databaseBuilder.factory.buildAnswer({ id: secondAnswerRangeStart, assessmentId: firstAssessmentId });
+    databaseBuilder.factory.buildAnswer({ id: secondAnswerRangeStart + 1, assessmentId: secondAssessmentId });
+
+    await databaseBuilder.commit();
+    await usecases.historizeAnswers({ targetDate, logger });
+
+    const remainingAnswers = await knex('answers');
+    expect(remainingAnswers).to.have.length(0);
+
+    const { Contents: uploadedFiles } = await s3Client.listFiles();
+    expect(uploadedFiles).to.have.length(2);
+    const assessmentRangeEnd = firstAssessmentId + assessmentIdRange - 1;
+    for (const file of uploadedFiles) {
+      expect(file.Key).to.match(new RegExp(`^answers/${firstAssessmentId}_${assessmentRangeEnd}/`));
+    }
   });
 
   describe('when target date is more recent than one year ago', function () {
