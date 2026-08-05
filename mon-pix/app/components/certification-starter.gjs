@@ -154,7 +154,7 @@ export default class CertificationStarter extends Component {
 
     const ERROR_MESSAGE_KEYS = {
       404: 'pages.certification-start.error-messages.access-code-error',
-      412: 'pages.certification-start.error-messages.session-not-accessible',
+      412: 'pages.certification-start.error-messages.session-not-joinable',
     };
 
     const FORBIDDEN_ERROR_MESSAGE_KEYS = {

@@ -591,7 +591,7 @@
             "incorrect-data": "The session number and/or the session password entered are incorrect.",
             "mandatory-fields": "The fields “Session number” and “Session password” are required.",
             "session-finalized": "The session has been finalized. Access to its invigilator space is no longer possible.",
-            "session-not-accessible": "Opening of your PixCertif space on {date} (00:00, Metropolitan France time)."
+            "session-not-joinable": "Opening of your PixCertif space on {date} (00:00, Metropolitan France time)."
           },
           "session-number": "Session number",
           "session-password": {

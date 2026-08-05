@@ -429,7 +429,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           await submitForm();
 
           // then
-          assert.ok(screen.getByText(t('pages.certification-start.error-messages.session-not-accessible')));
+          assert.ok(screen.getByText(t('pages.certification-start.error-messages.session-not-joinable')));
         });
 
         test('should display the appropriate error message when the certification duration has been exceeded', async function (assert) {
