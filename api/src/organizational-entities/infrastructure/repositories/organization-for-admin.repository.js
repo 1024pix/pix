@@ -4,6 +4,7 @@ import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { MissingAttributesError, NotFoundError } from '../../../shared/domain/errors.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
+import * as organizationApi from '../../../team/application/api/organization.js';
 import { AttachedOrganization } from '../../domain/models/AttachedOrganization.js';
 import { OrganizationForAdmin } from '../../domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../domain/models/OrganizationLearnerType.js';
@@ -22,7 +23,7 @@ const ORGANIZATION_INVITATIONS_TABLE_NAME = 'organization-invitations';
  * @param {string|number} params.archivedBy
  * @return {Promise<void|MissingAttributesError|NotFoundError>}
  */
-const archive = async function ({ id, archivedBy, campaignApi, learnerApi }) {
+const archive = async function ({ id, archivedBy }) {
   const knexConnection = DomainTransaction.getConnection();
   const organization = await knexConnection(ORGANIZATIONS_TABLE_NAME).where({ id }).first();
   if (!organization) {
@@ -37,11 +38,15 @@ const archive = async function ({ id, archivedBy, campaignApi, learnerApi }) {
 
   await knexConnection(ORGANIZATION_INVITATIONS_TABLE_NAME).where({ organizationId: id }).delete();
 
-  await learnerApi.deleteOrganizationLearnerBeforeImportFeature({
+  const { deleteOrganizationLearnerBeforeImportFeature } =
+    await import('../../../prescription/learner-management/application/api/learners-api.js');
+  await deleteOrganizationLearnerBeforeImportFeature({
     userId: archivedBy,
     organizationId: id,
   });
-  await campaignApi.deleteActiveCampaigns({ userId: archivedBy, organizationId: id });
+
+  const { deleteActiveCampaigns } = await import('../../../prescription/campaign/application/api/campaigns-api.js');
+  await deleteActiveCampaigns({ userId: archivedBy, organizationId: id });
 
   await knexConnection('memberships')
     .where({ organizationId: id, disabledAt: null })
@@ -358,7 +363,6 @@ const findPaginatedFiltered = async function ({ filter, page }) {
  * @param {string} params.role
  * @param {string} params.locale
  * @param {OrganizationRepository} params.organizationRepository
- * @param {OrganizationApi} params.organizationApi
  * @returns {Promise<void>}
  */
 const createProOrganizationInvitation = async function ({
@@ -367,7 +371,6 @@ const createProOrganizationInvitation = async function ({
   role,
   locale,
   organizationRepository,
-  organizationApi,
 }) {
   await organizationApi.createProOrganizationInvitation({
     organizationId,
@@ -383,8 +386,10 @@ const createProOrganizationInvitation = async function ({
  * @param {number} organizationId
  * @return {Promise<{totalParticipantsCount: number}>}
  */
-const getOrganizationParticipantsStatistics = async ({ campaignStatsApi, organizationId }) => {
-  return campaignStatsApi.getOrganizationParticipantsStatistics(organizationId);
+const getOrganizationParticipantsStatistics = async ({ organizationId }) => {
+  const { getOrganizationParticipantsStatistics } =
+    await import('../../../prescription/campaign/application/api/campaign-stats-api.js');
+  return getOrganizationParticipantsStatistics(organizationId);
 };
 
 /**

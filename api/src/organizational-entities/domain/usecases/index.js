@@ -14,9 +14,9 @@ import { certificationCenterApiRepository } from '../../infrastructure/repositor
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin.repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation.repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer.repository.js';
-import { repositories as organizationalEntitiesRepositories } from '../../infrastructure/repositories/index.js';
 import * as networkRepository from '../../infrastructure/repositories/network.repository.js';
 import * as organizationFeatureRepository from '../../infrastructure/repositories/organization-feature-repository.js';
+import { organizationForAdminRepository } from '../../infrastructure/repositories/organization-for-admin.repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner.repository.js';
 import * as organizationLearnerTypeRepository from '../../infrastructure/repositories/organization-learner-type-repository.js';
 import * as organizationPlacesLotRepository from '../../infrastructure/repositories/organization-places-lot.repository.js';
@@ -66,7 +66,7 @@ const dependenciesToInject = {
   certificationCenterApiRepository,
   complementaryCertificationHabilitationRepository,
   networkRepository,
-  organizationForAdminRepository: organizationalEntitiesRepositories.organizationForAdminRepository,
+  organizationForAdminRepository,
   organizationFeatureRepository,
   organizationLearnerRepository,
   organizationLearnerTypeRepository,

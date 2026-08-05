@@ -35,10 +35,12 @@ import * as campaignParticipationsStatsRepository from '../../infrastructure/rep
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
+import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
-import { repositories as campaignRepositories } from '../../infrastructure/repositories/index.js';
 import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as organizationMembershipRepository from '../../infrastructure/repositories/organization-membership-repository.js';
+import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 
 const dependencies = {
   knowledgeElementForParticipationService,
@@ -59,7 +61,7 @@ const dependencies = {
   campaignProfilesCollectionParticipationSummaryRepository,
   campaignReportRepository,
   campaignRepository,
-  campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
+  campaignToJoinRepository,
   accessCodeGenerator,
   competenceRepository,
   improvementService,
@@ -71,14 +73,14 @@ const dependencies = {
   membershipRepository,
   organizationFeatureApi,
   organizationLearnerImportFormatRepository,
-  organizationMembershipRepository: campaignRepositories.organizationMembershipRepository,
+  organizationMembershipRepository,
   organizationRepository,
   placementProfileService,
   stageRepository,
   accessCodeRepository,
   stageCollectionRepository,
   stageAcquisitionRepository,
-  targetProfileRepository: campaignRepositories.targetProfileRepository, // TODO
+  targetProfileRepository,
   userRepository,
   userRecommendedTrainingRepository,
 };

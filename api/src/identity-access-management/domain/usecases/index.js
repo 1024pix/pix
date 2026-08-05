@@ -1,7 +1,7 @@
 // eslint-disable-next-line simple-import-sort/imports -- import userRepository first to avoid circular dependency ("Cannot access 'campaignRepositories' before initialization")
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 
-import { repositories as campaignRepositories } from '../../../prescription/campaign/infrastructure/repositories/index.js';
+import * as campaignToJoinRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
 import * as organizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
@@ -48,7 +48,7 @@ const repositories = {
   accountRecoveryDemandRepository,
   adminMemberRepository,
   authenticationMethodRepository,
-  campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
+  campaignToJoinRepository,
   emailValidationDemandRepository,
   clientApplicationRepository,
   emailRepository,
