@@ -1,3 +1,5 @@
+import * as campaignStatsApi from '../../../prescription/campaign/application/api/campaign-stats-api.js';
+import * as campaignsApi from '../../../prescription/campaign/application/api/campaigns-api.js';
 import * as learnersApi from '../../../prescription/learner-management/application/api/learners-api.js';
 import * as schoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
 import * as accessCodeGenerator from '../../../shared/domain/services/access-code-generator.js';
@@ -14,9 +16,9 @@ import { certificationCenterApiRepository } from '../../infrastructure/repositor
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin.repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation.repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer.repository.js';
-import { repositories as organizationalEntitiesRepositories } from '../../infrastructure/repositories/index.js';
 import * as networkRepository from '../../infrastructure/repositories/network.repository.js';
 import * as organizationFeatureRepository from '../../infrastructure/repositories/organization-feature-repository.js';
+import { organizationForAdminRepository } from '../../infrastructure/repositories/organization-for-admin.repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner.repository.js';
 import * as organizationLearnerTypeRepository from '../../infrastructure/repositories/organization-learner-type-repository.js';
 import * as organizationPlacesLotRepository from '../../infrastructure/repositories/organization-places-lot.repository.js';
@@ -28,6 +30,8 @@ import * as organizationCreationValidator from '../validators/organization-creat
 import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles.js';
 
 /**
+ * @typedef {import ('../../../prescription/campaign/application/api/campaigns-api.js')} campaignsApi
+ * @typedef {import ('../../../prescription/campaign/application/api/campaign-stats-api.js')} campaignStatsApi
  * @typedef {import ('../../../prescription/learner-management/application/api/learners-api.js')} learnersApi
  * @typedef {import ('../../../shared/infrastructure/repositories/admin-member.repository.js')} AdminMemberRepository
  * @typedef {import ('../../infrastructure/repositories/certification-center-api.repository.js')} certificationCenterApiRepository
@@ -57,6 +61,8 @@ const dependenciesToInject = {
   organizationValidator,
   organizationCreationValidator,
   accessCodeGenerator,
+  campaignsApi,
+  campaignStatsApi,
   centerRepository,
   certificationCenterRepository,
   certificationCenterForAdminRepository,
@@ -66,7 +72,7 @@ const dependenciesToInject = {
   certificationCenterApiRepository,
   complementaryCertificationHabilitationRepository,
   networkRepository,
-  organizationForAdminRepository: organizationalEntitiesRepositories.organizationForAdminRepository,
+  organizationForAdminRepository,
   organizationFeatureRepository,
   organizationLearnerRepository,
   organizationLearnerTypeRepository,

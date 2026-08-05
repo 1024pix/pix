@@ -1,4 +1,4 @@
-import { repositories } from '../../../../../src/organizational-entities/infrastructure/repositories/index.js';
+import { certificationCenterApiRepository } from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center-api.repository.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -24,7 +24,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
       await databaseBuilder.commit();
 
       // when
-      await repositories.certificationCenterApiRepository.archiveCertificationCenterData({
+      await certificationCenterApiRepository.archiveCertificationCenterData({
         certificationCenterId,
         archiveDate,
         archivedBy: superAdminUser.id,
