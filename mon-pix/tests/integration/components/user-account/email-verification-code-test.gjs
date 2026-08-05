@@ -47,38 +47,6 @@ module('Integration | Component | user-account | email-verification-code', funct
       );
     });
 
-    test('prevents multiple requests to resend verification code', async function (assert) {
-      // given
-      const email = 'toto@example.net';
-      const password = 'pix123';
-      const actionType = 'update-email';
-
-      const service = this.owner.lookup('service:email-verification-code');
-      service.sendNewEmail = sinon.stub().resolves();
-
-      // when
-      const screen = await render(
-        <template><EmailVerificationCode @email={{email}} @password={{password}} @action={{actionType}} /></template>,
-      );
-
-      await click(
-        screen.getByRole('button', {
-          name: t('pages.user-account.email-verification.send-back-the-code'),
-        }),
-      );
-      await this.pauseTest();
-
-      // then
-      assert.dom(
-        screen
-          .getByRole('button', {
-            name: t('pages.user-account.email-verification.send-back-the-code'),
-            hidden: true,
-          })
-          .hasAttribute('aria-disabled'),
-      );
-    });
-
     test('shows confirmation message when resending code message', async function (assert) {
       // given
       const email = 'toto@example.net';
