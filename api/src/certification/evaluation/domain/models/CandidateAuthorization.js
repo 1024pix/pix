@@ -3,14 +3,14 @@ import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   CenterNotHabilitatedError,
-  SessionNotAccessibleError,
+  SessionNotJoinableError,
 } from '../errors.js';
 
 export class CandidateAuthorization {
   constructor({
     id,
     accessCode,
-    isSessionAccessible,
+    isSessionJoinable,
     userId,
     reconciledAt,
     subscription,
@@ -21,7 +21,7 @@ export class CandidateAuthorization {
   }) {
     this.id = id;
     this.accessCode = accessCode;
-    this.isSessionAccessible = isSessionAccessible;
+    this.isSessionJoinable = isSessionJoinable;
     this.userId = userId;
     this.reconciledAt = reconciledAt;
     this.subscription = subscription;
@@ -37,7 +37,7 @@ export class CandidateAuthorization {
     if (!this.isCenterHabilitatedForCandidateSubscription) {
       throw new CenterNotHabilitatedError();
     }
-    if (!this.hasStartedCertification && !this.isSessionAccessible) throw new SessionNotAccessibleError();
+    if (!this.hasStartedCertification && !this.isSessionJoinable) throw new SessionNotJoinableError();
     if (!this.authorizedToStart) {
       if (this.hasStartedCertification) {
         throw new CandidateNotAuthorizedToResumeCertificationTestError();

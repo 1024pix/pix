@@ -40,7 +40,7 @@ export class CandidateAuthorizationInfo {
     }
   }
 
-  get isSessionAccessible() {
+  get isSessionJoinable() {
     return !this.sessionFinalizedAt && !this.sessionIsOvertime;
   }
 

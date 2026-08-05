@@ -16,7 +16,7 @@ import {
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionFinalized,
-  SessionNotAccessible,
+  SessionNotJoinable,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
 } from '../domain/errors.js';
@@ -47,7 +47,7 @@ const sessionDomainErrorMappingConfiguration = [
     httpErrorFn: (error) => new NotFoundError(error.message, error.code),
   },
   {
-    name: SessionNotAccessible.name,
+    name: SessionNotJoinable.name,
     httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code, error.meta),
   },
   {

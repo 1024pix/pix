@@ -11,7 +11,7 @@ import {
   CertificationCenterIsArchivedError,
   InvalidSessionSupervisingLoginError,
   SessionFinalized,
-  SessionNotAccessible,
+  SessionNotJoinable,
 } from '../errors.js';
 
 export const superviseSession = withTransaction(
@@ -47,19 +47,19 @@ export const superviseSession = withTransaction(
     });
 
     if (certificationCenterAccess.isAccessBlockedCollege) {
-      throw new SessionNotAccessible(certificationCenterAccess.pixCertifScoBlockedAccessDateCollege);
+      throw new SessionNotJoinable(certificationCenterAccess.pixCertifScoBlockedAccessDateCollege);
     }
 
     if (certificationCenterAccess.isAccessBlockedLycee) {
-      throw new SessionNotAccessible(certificationCenterAccess.pixCertifScoBlockedAccessDateLycee);
+      throw new SessionNotJoinable(certificationCenterAccess.pixCertifScoBlockedAccessDateLycee);
     }
 
     if (certificationCenterAccess.isAccessBlockedAEFE) {
-      throw new SessionNotAccessible(certificationCenterAccess.pixCertifScoBlockedAccessDateLycee);
+      throw new SessionNotJoinable(certificationCenterAccess.pixCertifScoBlockedAccessDateLycee);
     }
 
     if (certificationCenterAccess.isAccessBlockedAgri) {
-      throw new SessionNotAccessible(certificationCenterAccess.pixCertifScoBlockedAccessDateLycee);
+      throw new SessionNotJoinable(certificationCenterAccess.pixCertifScoBlockedAccessDateLycee);
     }
 
     if (!session.checkPassword(invigilatorPassword)) {

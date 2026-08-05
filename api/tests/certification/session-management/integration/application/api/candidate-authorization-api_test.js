@@ -69,7 +69,7 @@ describe('Certification | Session Management | Integration | Application | Api |
       // then
       expect(candidateAuthorizationDTO).to.deep.equal({
         id: 3,
-        isSessionAccessible: false,
+        isSessionJoinable: false,
         accessCode: 'CHACHACHA',
         userId: 2,
         authorizedToStart: true,

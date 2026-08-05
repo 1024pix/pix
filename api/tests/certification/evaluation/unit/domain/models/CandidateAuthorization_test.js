@@ -4,7 +4,7 @@ import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   CenterNotHabilitatedError,
-  SessionNotAccessibleError,
+  SessionNotJoinableError,
 } from '../../../../../../src/certification/evaluation/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
@@ -16,7 +16,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate Author
       it('throws a NotFoundError', function () {
         const candidateAuthorization = domainBuilder.certification.evaluation
           .candidateAuthorizationBuilder()
-          .withSession({ accessCode: 'ABCDEF', isAccessible: true })
+          .withSession({ accessCode: 'ABCDEF', isJoinable: true })
           .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: true })
           .asAuthorizedToStart()
           .build();
@@ -27,16 +27,16 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate Author
 
     context('when session is not accessible', function () {
       context('when candidate has not started the test yet', function () {
-        it('throws a SessionNotAccessible', function () {
+        it('throws a SessionNotJoinable', function () {
           const candidateAuthorization = domainBuilder.certification.evaluation
             .candidateAuthorizationBuilder()
-            .withSession({ accessCode: 'ABCDEF', isAccessible: false })
+            .withSession({ accessCode: 'ABCDEF', isJoinable: false })
             .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: true })
             .asAuthorizedToStart()
             .build();
 
           expect(() => candidateAuthorization.verifyCanStartOrResumeCertification('ABCDEF')).to.throw(
-            SessionNotAccessibleError,
+            SessionNotJoinableError,
           );
         });
       });
@@ -45,7 +45,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate Author
         it('returns (successful)', function () {
           const candidateAuthorization = domainBuilder.certification.evaluation
             .candidateAuthorizationBuilder()
-            .withSession({ accessCode: 'ABCDEF', isAccessible: false })
+            .withSession({ accessCode: 'ABCDEF', isJoinable: false })
             .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: true })
             .asAuthorizedToStart()
             .hasACertification({ certificationId: 123 })
@@ -60,7 +60,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate Author
       it('throws a CenterHabilitationError', function () {
         const candidateAuthorization = domainBuilder.certification.evaluation
           .candidateAuthorizationBuilder()
-          .withSession({ accessCode: 'ABCDEF', isAccessible: true })
+          .withSession({ accessCode: 'ABCDEF', isJoinable: true })
           .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: false })
           .asAuthorizedToStart()
           .build();
@@ -76,7 +76,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate Author
         it('throws a CandidateNotAuthorizedToResumeCertificationTestError', function () {
           const candidateAuthorization = domainBuilder.certification.evaluation
             .candidateAuthorizationBuilder()
-            .withSession({ accessCode: 'ABCDEF', isAccessible: true })
+            .withSession({ accessCode: 'ABCDEF', isJoinable: true })
             .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: true })
             .asNotAuthorizedToStart()
             .hasACertification({ certificationId: 123 })
@@ -92,7 +92,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate Author
         it('throws a CandidateNotAuthorizedToJoinSessionError', function () {
           const candidateAuthorization = domainBuilder.certification.evaluation
             .candidateAuthorizationBuilder()
-            .withSession({ accessCode: 'ABCDEF', isAccessible: true })
+            .withSession({ accessCode: 'ABCDEF', isJoinable: true })
             .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: true })
             .asNotAuthorizedToStart()
             .build();
@@ -107,13 +107,13 @@ describe('Certification | Evaluation | Unit | Domain | Models | Candidate Author
         it('returns (successful)', function () {
           const candidateAuthorizationWithNoTestStarted = domainBuilder.certification.evaluation
             .candidateAuthorizationBuilder()
-            .withSession({ accessCode: 'ABCDEF', isAccessible: true })
+            .withSession({ accessCode: 'ABCDEF', isJoinable: true })
             .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: true })
             .asAuthorizedToStart()
             .build();
           const candidateAuthorizationWithStartedTest = domainBuilder.certification.evaluation
             .candidateAuthorizationBuilder()
-            .withSession({ accessCode: 'ABCDEF', isAccessible: true })
+            .withSession({ accessCode: 'ABCDEF', isJoinable: true })
             .subscribedTo({ framework: Frameworks.CLEA, isCenterHabilitated: true })
             .asAuthorizedToStart()
             .hasACertification({ certificationId: 123 })

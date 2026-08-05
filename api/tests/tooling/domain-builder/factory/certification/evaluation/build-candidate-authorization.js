@@ -10,7 +10,7 @@ const THIRTY_HOURS_IN_MS = 30 * 60 * 60 * 1000;
  * Fluent builder for the {@link CandidateAuthorization} domain model.
  *
  * @example
- * const candidateAuthorization = domainBuilder.certification.sessionManagement
+ * const candidateAuthorization = domainBuilder.certification.evaluation
  *   .candidateAuthorizationBuilder()
  *   .withSession()
  *   .asAuthorizedToStart()
@@ -22,7 +22,7 @@ class CandidateAuthorizationBuilder {
     this.id = null;
     this.accessCode = 'ABC123';
     this.sessionId = null;
-    this.isSessionAccessible = true;
+    this.isSessionJoinable = true;
     this.userId = null;
     this.reconciledAt = null;
     this.subscription = Frameworks.CORE;
@@ -39,12 +39,12 @@ class CandidateAuthorizationBuilder {
    * @param {object} [params]
    * @param {number} [params.sessionId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)
    * @param {string} [params.accessCode]
-   * @param {boolean} [params.isAccessible]
+   * @param {boolean} [params.isJoinable]
    * @returns {CandidateAuthorizationBuilder}
    */
-  withSession({ sessionId = null, accessCode = 'ABC123', isAccessible = true } = {}) {
+  withSession({ sessionId = null, accessCode = 'ABC123', isJoinable = true } = {}) {
     this.sessionId = sessionId;
-    this.isSessionAccessible = isAccessible;
+    this.isSessionJoinable = isJoinable;
     this.accessCode = accessCode;
     return this;
   }
@@ -155,7 +155,7 @@ class CandidateAuthorizationBuilder {
     const sessionId = databaseBuilder.factory.buildSession({
       id: this.sessionId ?? undefined,
       accessCode: candidateAuthorization.accessCode,
-      finalizedAt: candidateAuthorization.isSessionAccessible ? new Date() : null,
+      finalizedAt: candidateAuthorization.isSessionJoinable ? new Date() : null,
       publishedAt: null,
       certificationCenterId,
     }).id;
@@ -202,7 +202,7 @@ class CandidateAuthorizationBuilder {
   build() {
     return new CandidateAuthorization({
       id: this.id,
-      isSessionAccessible: this.isSessionAccessible,
+      isSessionJoinable: this.isSessionJoinable,
       accessCode: this.accessCode,
       userId: this.userId,
       reconciledAt: this.reconciledAt,

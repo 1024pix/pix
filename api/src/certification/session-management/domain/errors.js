@@ -66,9 +66,9 @@ class InvalidSessionSupervisingLoginError extends DomainError {
   }
 }
 
-class SessionNotAccessible extends DomainError {
+class SessionNotJoinable extends DomainError {
   constructor(blockedAccessDate) {
-    super('Certification session is not accessible', 'SESSION_NOT_ACCESSIBLE');
+    super('Certification session is not joinable', 'SESSION_NOT_JOINABLE');
     if (blockedAccessDate) {
       this.meta = { blockedAccessDate };
     }
@@ -112,7 +112,7 @@ export {
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionFinalized,
-  SessionNotAccessible,
+  SessionNotJoinable,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
 };
