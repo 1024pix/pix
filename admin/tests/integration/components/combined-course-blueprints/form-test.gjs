@@ -827,5 +827,50 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       //then
       assert.notOk(screen.queryByRole('cell', { name: /super pc/ }));
     });
+    test('it should remove only the selected item in a list of duplicates when user clicks on remove button', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const findRecordStub = sinon.stub(store, 'findRecord');
+
+      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
+
+      const frameworks = [
+        {
+          id: '123',
+          name: 'Pix',
+          areas: [],
+        },
+      ];
+      const model = { frameworks };
+
+      //when
+
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+        1,
+      );
+      await click(
+        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+      );
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+        1,
+      );
+      await click(
+        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+      );
+
+      let itemsInTable = screen.getAllByRole('cell', { name: /super pc/ });
+      assert.strictEqual(itemsInTable.length, 2);
+
+      await click(screen.getByTestId('delete-1'));
+
+      //then
+      itemsInTable = screen.getAllByRole('cell', { name: /super pc/ });
+      assert.strictEqual(itemsInTable.length, 1);
+    });
   });
 });
