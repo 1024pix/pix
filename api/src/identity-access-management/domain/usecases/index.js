@@ -1,24 +1,19 @@
-// eslint-disable-next-line simple-import-sort/imports -- import userRepository first to avoid circular dependency ("Cannot access 'campaignRepositories' before initialization")
-import * as userRepository from '../../infrastructure/repositories/user.repository.js';
-
 import * as campaignToJoinRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
 import * as organizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { mailService } from '../../../shared/domain/services/mail-service.js';
-import * as obfuscationService from '../services/obfuscation-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
-import * as userService from '../services/user-service.js';
+import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
 import * as passwordValidator from '../../../shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../shared/domain/validators/user-validator.js';
 import { httpAgent } from '../../../shared/infrastructure/http-agent.js';
 import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
 import { auditLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
-import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
-import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import { clientApplicationRepository } from '../../infrastructure/repositories/client-application.repository.js';
@@ -30,16 +25,19 @@ import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-p
 import { refreshTokenRepository } from '../../infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
 import { revokedUserAccessRepository } from '../../infrastructure/repositories/revoked-user-access.repository.js';
+import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 import { userEmailRepository } from '../../infrastructure/repositories/user-email.repository.js';
+import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 import { userToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';
+import * as obfuscationService from '../services/obfuscation-service.js';
 import { OidcAuthenticationServiceRegistry } from '../services/oidc-authentication-service-registry.js';
 import * as passwordGeneratorService from '../services/password-generator.service.js';
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';
 import { resetPasswordService } from '../services/reset-password.service.js';
 import { scoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
+import * as userService from '../services/user-service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
-import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
 
 const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });
 
