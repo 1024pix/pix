@@ -11,10 +11,9 @@ import {
   InvalidCertificationCandidate,
   SessionStartedDeletionError,
   UnknownCountryForStudentEnrolmentError,
-  WrongDomainExtensionForPixPlusError,
 } from '../domain/errors.js';
 
-const enrolmentDomainErrorMappingConfiguration = [
+export const enrolmentDomainErrorMappingConfiguration = [
   {
     name: CertificationCandidateForbiddenDeletionError.name,
     httpErrorFn: (error) => new ForbiddenError(error.message, error.code),
@@ -29,10 +28,6 @@ const enrolmentDomainErrorMappingConfiguration = [
     httpErrorFn: (error) => new UnprocessableEntityError(error.message),
   },
   {
-    name: WrongDomainExtensionForPixPlusError.name,
-    httpErrorFn: (error) => new ForbiddenError(error.message, error.code),
-  },
-  {
     name: CannotEnrollCandidateIndividuallyError.name,
     httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code),
   },
@@ -41,4 +36,3 @@ const enrolmentDomainErrorMappingConfiguration = [
     httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code),
   },
 ];
-export { enrolmentDomainErrorMappingConfiguration };

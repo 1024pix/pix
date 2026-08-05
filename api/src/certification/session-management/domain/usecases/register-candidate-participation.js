@@ -33,6 +33,11 @@ export async function registerCandidateParticipation({
   placementProfileService,
   eventAdapter,
 }) {
+  console.log("0")
+  console.log({userId})
+  console.verifyCandidateIdentityService
+
+  try{
   const candidate = await verifyCandidateIdentityService.verifyCandidateIdentity({
     userId,
     sessionId,
@@ -45,14 +50,20 @@ export async function registerCandidateParticipation({
     sessionRepository,
     userRepository,
   });
+  }catch(e){
+    console.log(e)
+  }
+  console.log("1")
   if (!candidate.hasCoreScopeSubscription() && !isFrenchDomainExtension) {
     throw new WrongDomainExtensionForPixPlusError();
   }
 
+  console.log("2")
   if (candidate.isReconciled()) {
     return candidate;
   }
 
+  console.log("3")
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId,
     limitDate: new Date(),

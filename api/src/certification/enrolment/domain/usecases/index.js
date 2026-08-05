@@ -14,11 +14,9 @@ import * as sessionAuthorizationAdapter from '../../infrastructure/adapters/sess
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as eligibilityService from '../services/eligibility-service.js';
-import * as reconcileCandidateService from '../services/reconcile-candidate.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
-import * as verifyCandidateIdentityService from '../services/verify-candidate-identity.js';
 import { addCandidateToSession } from './add-candidate-to-session.js';
 import { candidateHasSeenCertificationInstructions } from './candidate-has-seen-certification-instructions.js';
 import { createSession } from './create-session.js';
@@ -39,7 +37,6 @@ import { getSession } from './get-session.js';
 import { getUserCertificationEligibility } from './get-user-certification-eligibility.js';
 import { hasBeenCandidate } from './has-been-candidate.js';
 import { importCertificationCandidatesFromCandidatesImportSheet } from './import-certification-candidates-from-candidates-import-sheet.js';
-import { registerCandidateParticipation } from './register-candidate-participation.js';
 import { updateEnrolledCandidate } from './update-enrolled-candidate.js';
 import { updateSession } from './update-session.js';
 import { validateSessions } from './validate-sessions.js';
@@ -115,8 +112,6 @@ const dependencies = {
   certificationCenterRepository,
   countryRepository,
   eventAdapter,
-  verifyCandidateIdentityService,
-  reconcileCandidateService,
   sessionAuthorizationAdapter,
 };
 
@@ -144,7 +139,6 @@ const usecasesWithoutInjectedDependencies = {
   updateEnrolledCandidate,
   updateSession,
   validateSessions,
-  registerCandidateParticipation,
 };
 
 export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);

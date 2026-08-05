@@ -1,6 +1,7 @@
 import {
   BadRequestError,
   ConflictError,
+  ForbiddenError,
   PreconditionFailedError,
   ServiceUnavailableError,
   UnauthorizedError,
@@ -19,9 +20,10 @@ import {
   SessionNotAccessible,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
+  WrongDomainExtensionForPixPlusError,
 } from '../domain/errors.js';
 
-const sessionDomainErrorMappingConfiguration = [
+export const sessionDomainErrorMappingConfiguration = [
   {
     name: SessionWithoutStartedCertificationError.name,
     httpErrorFn: (error) => new BadRequestError(error.message, error.code, error.meta),
@@ -33,6 +35,10 @@ const sessionDomainErrorMappingConfiguration = [
   {
     name: SessionAlreadyFinalizedError.name,
     httpErrorFn: (error) => new ConflictError(error.message, error.code),
+  },
+  {
+    name: WrongDomainExtensionForPixPlusError.name,
+    httpErrorFn: (error) => new ForbiddenError(error.message, error.code),
   },
   {
     name: SessionAlreadyPublishedError.name,
@@ -71,5 +77,3 @@ const sessionDomainErrorMappingConfiguration = [
     httpErrorFn: (error) => new ServiceUnavailableError(error.message),
   },
 ];
-
-export { sessionDomainErrorMappingConfiguration };

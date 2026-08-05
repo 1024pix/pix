@@ -61,11 +61,9 @@ async function getJuryCertificationSummaries(
   });
 }
 
-const sessionController = {
+export const sessionController = {
   getJuryCertificationSummaries,
   findPaginatedFilteredJurySessions,
   get,
   getJurySession,
 };
-
-export { sessionController };

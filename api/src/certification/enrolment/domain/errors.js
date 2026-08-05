@@ -1,19 +1,19 @@
 import { DomainError } from '../../../shared/domain/errors.js';
 
-class CertificationCandidateForbiddenDeletionError extends DomainError {
+export class CertificationCandidateForbiddenDeletionError extends DomainError {
   constructor(message = 'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.') {
     super(message);
   }
 }
 
-class SessionStartedDeletionError extends DomainError {
+export class SessionStartedDeletionError extends DomainError {
   constructor(message = 'La session a déjà commencé.') {
     super(message);
     this.code = 'SESSION_STARTED_DELETION_ERROR';
   }
 }
 
-class UnknownCountryForStudentEnrolmentError extends DomainError {
+export class UnknownCountryForStudentEnrolmentError extends DomainError {
   constructor(
     { firstName, lastName },
     message = `L'élève ${firstName} ${lastName} a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix`,
@@ -22,7 +22,7 @@ class UnknownCountryForStudentEnrolmentError extends DomainError {
   }
 }
 
-class InvalidCertificationCandidate extends DomainError {
+export class InvalidCertificationCandidate extends DomainError {
   constructor({ message = 'Candidat de certification invalide.', error }) {
     super(message);
     this.key = error.key;
@@ -84,33 +84,16 @@ class InvalidCertificationCandidate extends DomainError {
   }
 }
 
-class WrongDomainExtensionForPixPlusError extends DomainError {
-  constructor(message = 'Pix Plus candidate is not on french domain') {
-    super(message);
-    this.code = 'WRONG_PIX_PLUS_CANDIDATE_DOMAIN';
-  }
-}
-
-class CannotEnrollCandidateIndividuallyError extends DomainError {
+export class CannotEnrollCandidateIndividuallyError extends DomainError {
   constructor(message = "La session a été finalisée ou a expiré, l'ajout de candidat n'est plus possible.") {
     super(message);
     this.code = 'INDIVIDUAL_ENROL_NOT_ALLOWED';
   }
 }
 
-class CannotEnrollScoCandidateError extends DomainError {
+export class CannotEnrollScoCandidateError extends DomainError {
   constructor(message = "La session a été finalisée ou a expiré, l'ajout de candidat n'est plus possible.") {
     super(message);
     this.code = 'SCO_ENROL_NOT_ALLOWED';
   }
 }
-
-export {
-  CannotEnrollCandidateIndividuallyError,
-  CannotEnrollScoCandidateError,
-  CertificationCandidateForbiddenDeletionError,
-  InvalidCertificationCandidate,
-  SessionStartedDeletionError,
-  UnknownCountryForStudentEnrolmentError,
-  WrongDomainExtensionForPixPlusError,
-};

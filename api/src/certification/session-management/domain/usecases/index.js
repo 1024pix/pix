@@ -1,8 +1,10 @@
-import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+//import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as versionApi from '../../../configuration/application/api/version-api.js';
 import { createLiveAlert } from '../../../evaluation/domain/usecases/create-live-alert.js';
+import * as candidateRepository from '../../../enrolment/infrastructure/repositories/candidate-repository.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -20,7 +22,9 @@ import {
   sharedCompetenceMarkRepository,
 } from '../../infrastructure/repositories/index.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
+import * as reconcileCandidateService from '../services/reconcile-candidate.js';
 import * as sessionPublicationService from '../services/session-publication-service.js';
+import * as verifyCandidateIdentityService from '../services/verify-candidate-identity.js';
 import { abortCertificationCourse } from './abort-certification-course.js';
 import { assignCertificationOfficerToJurySession } from './assign-certification-officer-to-jury-session.js';
 import { cancel } from './cancel.js';
@@ -46,6 +50,7 @@ import { manuallyResolveCertificationIssueReport } from './manually-resolve-cert
 import { processAutoJury } from './process-auto-jury.js';
 import { publishSession } from './publish-session.js';
 import { publishSessionsInBatch } from './publish-sessions-in-batch.js';
+import { registerCandidateParticipation } from './register-candidate-participation.js';
 import { registerPublishableSession } from './register-publishable-session.js';
 import { rejectCertificationCourse } from './reject-certification-course.js';
 import { saveCertificationIssueReport } from './save-certification-issue-report.js';
@@ -147,6 +152,7 @@ const dependencies = {
   sharedCompetenceMarkRepository,
   challengeRepository,
   competenceMarkRepository,
+  candidateRepository,
   cpfExportsStorage,
   cpfExportRepository,
   placementProfileService,
@@ -155,6 +161,8 @@ const dependencies = {
   certificationRepository,
   certificationIssueReportRepository,
   sessionPublicationService,
+  verifyCandidateIdentityService,
+  reconcileCandidateService,
   versionApi,
   userRepository,
 };
@@ -176,6 +184,7 @@ const usecasesWithoutInjectedDependencies = {
   findFinalizedSessionsWithRequiredAction,
   findPaginatedFilteredCertificationCenterSessionSummaries,
   getCertificationDetails,
+  registerCandidateParticipation,
   getPreSignedUrls,
   getInvigilatorKitSessionInfo,
   getJuryCertification,

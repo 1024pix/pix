@@ -37,6 +37,7 @@ export async function verifyCandidateIdentity({
   userRepository,
   normalizeStringFnc,
 }) {
+  console.log("dans verifyCandidate identity", userId)
   const user = await userRepository.get({ id: userId });
 
   const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(user.lang);

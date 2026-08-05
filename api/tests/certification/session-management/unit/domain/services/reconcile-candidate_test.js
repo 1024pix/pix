@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { reconcileCandidate } from '../../../../../../src/certification/enrolment/domain/services/reconcile-candidate.js';
+import { reconcileCandidate } from '../../../../../../src/certification/session-management/domain/services/reconcile-candidate.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

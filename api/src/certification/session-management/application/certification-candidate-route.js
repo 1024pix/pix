@@ -77,6 +77,37 @@ const register = async function (server) {
         tags: ['api'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/sessions/{sessionId}/candidate-participation',
+      config: {
+        validate: {
+          params: Joi.object({
+            sessionId: identifiersType.sessionId,
+          }),
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              type: Joi.string().valid('certification-candidates').required(),
+              attributes: Joi.object({
+                'first-name': Joi.string().empty(['', null]).required(),
+                'last-name': Joi.string().empty(['', null]).required(),
+                birthdate: Joi.date().format('YYYY-MM-DD').raw().required(),
+              }),
+            },
+          }),
+        },
+        handler: certificationCandidateController.createCandidateParticipation,
+        tags: ['api', 'sessions', 'certification-candidates'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle associe un candidat de certification\n' +
+            "à un utilisateur à l'aide des informations d'identité de celui-ci (nom, prénom et date de naissance).",
+        ],
+      },
+    },
   ]);
 };
 
