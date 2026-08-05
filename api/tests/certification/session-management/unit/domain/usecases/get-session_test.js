@@ -20,7 +20,10 @@ describe('Unit | UseCase | get-session', function () {
     it('should get the session', async function () {
       // given
       const sessionId = 123;
-      const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+      const sessionToFind = domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .withParameters({ id: sessionId })
+        .build();
       sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
       sessionManagementRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
 
@@ -38,7 +41,10 @@ describe('Unit | UseCase | get-session', function () {
       it('should return hasSomeCleaAcquired to true', async function () {
         // given
         const sessionId = 123;
-        const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+        const sessionToFind = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({ id: sessionId })
+          .build();
         sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionManagementRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(true);
 
@@ -57,7 +63,10 @@ describe('Unit | UseCase | get-session', function () {
       it('should return hasSomeCleaAcquired to true', async function () {
         // given
         const sessionId = 123;
-        const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+        const sessionToFind = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({ id: sessionId })
+          .build();
         sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionManagementRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
 

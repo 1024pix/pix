@@ -39,7 +39,6 @@ export class SessionEnrolment {
     this.invigilatorPassword = invigilatorPassword;
     this.version = version;
     this.createdBy = createdBy;
-    this.canEnrolCandidate = !finalizedAt;
     this.finalizedAt = finalizedAt;
   }
 
@@ -56,47 +55,29 @@ export class SessionEnrolment {
     return sessionDate < new Date();
   }
 
-  isCandidateAlreadyEnrolled({ candidates, candidatePersonalInfo, normalizeStringFnc }) {
-    return this.findCandidatesByPersonalInfo({ candidates, candidatePersonalInfo, normalizeStringFnc }).length > 0;
+  isCandidateAlreadyEnrolled({ candidatePersonalInfo, normalizeStringFnc }) {
+    return (
+      this.findCandidatesByPersonalInfo({
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      }).length > 0
+    );
   }
 
   /**
    * @param {object} params
-   * @param {Array<Candidate>} params.candidates
-   */
-  hasReconciledCandidate({ candidates }) {
-    return candidates.some((candidate) => candidate.isReconciled());
-  }
-
-  /**
-   * @param {object} params
-   * @param {Array<Candidate>} params.candidates
    * @param {number} params.userId
    */
-  hasReconciledCandidateTo({ candidates, userId }) {
-    return candidates.some((candidate) => candidate.isReconciledTo(userId));
+  hasReconciledCandidateTo({ userId }) {
+    return this.certificationCandidates.some((candidate) => candidate.isReconciledTo(userId));
   }
 
-  updateInfo(sessionData) {
-    this.address = sessionData.address;
-    this.room = sessionData.room;
-    this.accessCode = sessionData.accessCode;
-    this.examiner = sessionData.examiner;
-    this.date = sessionData.date;
-    this.time = sessionData.time;
-    this.description = sessionData.description;
-  }
-
-  findCandidatesByPersonalInfo({
-    candidates,
-    candidatePersonalInfo: { firstName, lastName, birthdate },
-    normalizeStringFnc,
-  }) {
+  findCandidatesByPersonalInfo({ candidatePersonalInfo: { firstName, lastName, birthdate }, normalizeStringFnc }) {
     const normalizedInputNames = {
       lastName: normalizeStringFnc(lastName),
       firstName: normalizeStringFnc(firstName),
     };
-    return candidates.filter((enrolledCandidate) => {
+    return this.certificationCandidates.filter((enrolledCandidate) => {
       const enrolledCandidatesNormalizedNames = {
         lastName: normalizeStringFnc(enrolledCandidate.lastName),
         firstName: normalizeStringFnc(enrolledCandidate.firstName),

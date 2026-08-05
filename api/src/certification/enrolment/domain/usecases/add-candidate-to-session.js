@@ -53,9 +53,7 @@ export async function addCandidateToSession({
       meta: { value: error.meta },
     });
   }
-  const candidatesInSession = await candidateRepository.findBySessionId({ sessionId });
   const isAlreadyEnrolled = session.isCandidateAlreadyEnrolled({
-    candidates: candidatesInSession,
     candidatePersonalInfo: {
       firstName: candidate.firstName,
       lastName: candidate.lastName,

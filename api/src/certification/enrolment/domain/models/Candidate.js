@@ -61,13 +61,16 @@ export class Candidate {
     this.reconciledAt = reconciledAt;
     this.hasStartedTest = hasStartedTest;
     this.doubleCertificationEligibility = doubleCertificationEligibility;
-    this.isLinked = Boolean(userId);
   }
 
   static sortByLastNameAndFirstName(candidateA, candidateB) {
     let compareRes = candidateA.lastName.localeCompare(candidateB.lastName);
     if (compareRes === 0) compareRes = candidateA.firstName.localeCompare(candidateB.firstName);
     return compareRes;
+  }
+
+  get isLinked() {
+    return Boolean(this.userId);
   }
 
   isReconciled() {

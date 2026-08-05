@@ -117,11 +117,11 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
         const userId = databaseBuilder.factory.buildUser().id;
         const candidate1 = domainBuilder.certification.enrolment
           .candidateBuilder()
-          .asReconciled({ userId })
+          .asReconciled({ userId, doNotPersistUser: true })
           .insertToDB({ databaseBuilder });
         const candidate2 = domainBuilder.certification.enrolment
           .candidateBuilder()
-          .asReconciled({ userId })
+          .asReconciled({ userId, doNotPersistUser: true })
           .insertToDB({ databaseBuilder });
 
         domainBuilder.certification.enrolment.candidateBuilder().withParameters().insertToDB({ databaseBuilder });

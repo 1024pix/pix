@@ -34,7 +34,7 @@ describe('Acceptance | Controller | session-controller-delete-certification-cand
       beforeEach(function () {
         certificationCandidateId = domainBuilder.certification.enrolment
           .candidateBuilder()
-          .asReconciled({ userId })
+          .asReconciled()
           .withParameters({ sessionId })
           .insertToDB({ databaseBuilder }).id;
         options.url = `/api/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`;

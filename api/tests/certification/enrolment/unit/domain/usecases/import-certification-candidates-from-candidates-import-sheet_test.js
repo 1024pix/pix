@@ -100,10 +100,11 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       let session;
 
       beforeEach(function () {
-        session = domainBuilder.certification.enrolment.buildSession({
-          id: sessionId,
-          certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
-        });
+        session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({ id: sessionId })
+          .createdBy({ certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO })
+          .build();
         sessionAuthorizationAdapter.find
           .withArgs({ sessionId })
           .resolves(

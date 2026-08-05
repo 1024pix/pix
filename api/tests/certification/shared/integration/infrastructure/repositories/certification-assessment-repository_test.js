@@ -401,13 +401,12 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       // given
       const expectedState = Assessment.states.STARTED;
       const sessionId = databaseBuilder.factory.buildSession({}).id;
-      const firstUserId = databaseBuilder.factory.buildUser({}).id;
       const secondUserId = databaseBuilder.factory.buildUser({}).id;
 
       const certificationCandidateId = domainBuilder.certification.enrolment
         .candidateBuilder()
         .asReconciled({
-          userId: firstUserId,
+          userId: 123,
         })
         .withParameters({
           sessionId,
@@ -416,7 +415,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       const firstUserCertificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         sessionId,
-        userId: firstUserId,
+        userId: 123,
       }).id;
       const secondUserCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
         sessionId,
@@ -424,7 +423,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       }).id;
 
       const firstUserAssessmentId = databaseBuilder.factory.buildAssessment({
-        userId: firstUserId,
+        userId: 123,
         certificationCourseId: firstUserCertificationCourseId,
         state: expectedState,
         type: 'CERTIFICATION',
@@ -471,7 +470,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       // then
       expect(certificationAssessment).to.be.an.instanceOf(CertificationAssessment);
       expect(certificationAssessment.id).to.equal(firstUserAssessmentId);
-      expect(certificationAssessment.userId).to.equal(firstUserId);
+      expect(certificationAssessment.userId).to.equal(123);
       expect(certificationAssessment.certificationCourseId).to.equal(firstUserCertificationCourseId);
       expect(certificationAssessment.state).to.equal(expectedState);
       expect(certificationAssessment.version).to.equal(2);

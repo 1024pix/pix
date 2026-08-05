@@ -19,7 +19,6 @@ import { SessionExpiredError } from '../errors.js';
  * @param {string} params.firstName
  * @param {string} params.lastName
  * @param {Date} params.birthdate
- * @param {boolean} params.isFrenchDomainExtension
  * @param {Function} params.normalizeStringFnc
  * @returns {Promise<Candidate>}
  */
@@ -29,7 +28,6 @@ export async function registerCandidateParticipation({
   firstName,
   lastName,
   birthdate,
-  isFrenchDomainExtension,
   normalizeStringFnc,
   candidateRepository,
   centerRepository,
@@ -53,8 +51,6 @@ export async function registerCandidateParticipation({
     lastName,
     birthdate,
     session,
-    candidateRepository,
-
     normalizeStringFnc,
   });
   if (candidate.isReconciledTo(userId)) {
@@ -83,14 +79,10 @@ async function checkAndGetCandidateFromSession({
   lastName,
   birthdate,
   session,
-  candidateRepository,
   normalizeStringFnc,
 }) {
-  const candidatesInSession = await candidateRepository.findBySessionId({ sessionId: session.id });
-
   const candidate = findMatchingEnrolledCandidate({
     session,
-    candidatesInSession,
     firstName,
     lastName,
     birthdate,
@@ -106,22 +98,13 @@ async function checkAndGetCandidateFromSession({
 
 /**
  * @param {object} params
- * @param {Array<Candidate>} params.candidatesInSession
  * @param {string} params.firstName
  * @param {string} params.lastName
  * @param {Date} params.birthdate
  * @param {Function} params.normalizeStringFnc
  */
-function findMatchingEnrolledCandidate({
-  session,
-  candidatesInSession,
-  firstName,
-  lastName,
-  birthdate,
-  normalizeStringFnc,
-}) {
+function findMatchingEnrolledCandidate({ session, firstName, lastName, birthdate, normalizeStringFnc }) {
   const matchingEnrolledCandidates = session.findCandidatesByPersonalInfo({
-    candidates: candidatesInSession,
     candidatePersonalInfo: {
       firstName,
       lastName,

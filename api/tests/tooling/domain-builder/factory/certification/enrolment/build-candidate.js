@@ -21,6 +21,7 @@ class CandidateBuilder {
     this.hasSeenCertificationInstructions = false;
     this.doubleCertificationEligibility = false;
     this.userId = null;
+    this.doNotPersistUser = false;
     this.resultRecipientEmail = null;
     this.reconciledAt = null;
     this.prepaymentCode = null;
@@ -56,9 +57,10 @@ class CandidateBuilder {
     return this;
   }
 
-  asReconciled({ userId, reconciledAt = new Date() } = {}) {
+  asReconciled({ userId, reconciledAt = new Date(), doNotPersistUser = false } = {}) {
     this.userId = userId;
     this.reconciledAt = reconciledAt;
+    this.doNotPersistUser = doNotPersistUser;
     return this;
   }
 
@@ -133,7 +135,7 @@ class CandidateBuilder {
       this.sessionId = databaseBuilder.factory.buildSession().id;
     }
 
-    if (this.reconciledAt) {
+    if (this.reconciledAt && !this.doNotPersistUser) {
       this.userId = databaseBuilder.factory.buildUser({ id: this.userId ?? undefined }).id;
     }
 

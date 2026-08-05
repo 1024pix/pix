@@ -35,7 +35,7 @@ describe('Certification | Results | Acceptance | Application | Routes | organiza
       });
       const candidate = domainBuilder.certification.enrolment
         .candidateBuilder()
-        .asReconciled({ userId: user.id })
+        .asReconciled()
         .asScoCandidate({
           organizationLearnerId: organizationLearner.id,
         })
