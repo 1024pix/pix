@@ -109,12 +109,12 @@ module('Acceptance | Combined course | Start Combined course workflow', function
         combinedCourseCampaignItem = server.create('combined-course-item', {
           title: 'Diagnostique',
           reference: campaign.code,
-          type: 'CAMPAIGN',
+          type: 'campaign',
         });
         combinedCourseModuleItem = server.create('combined-course-item', {
           title: module.title,
           reference: module.slug,
-          type: 'MODULE',
+          type: 'module',
           shortId: 'm4tth74s',
         });
         combinedCourse = server.create('combined-course', {
