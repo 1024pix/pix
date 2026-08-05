@@ -31,7 +31,7 @@ export class HistorizeAnswersCatchUpScript extends Script {
     const { dryRun, startDate, endDate } = options;
 
     logger.info(`Executing answers historization between ${startDate} and ${endDate}`);
-    let totalNumberOfAssessmenstProcessed = 0;
+    let totalNumberOfAssessmentsProcessed = 0;
     const dateOfScriptExecutionEnding = new Date(endDate);
 
     for (
@@ -45,7 +45,7 @@ export class HistorizeAnswersCatchUpScript extends Script {
           targetState: TARGET_STATE,
           targetDate: currentDate,
         });
-        totalNumberOfAssessmenstProcessed += assessmentIds.length;
+        totalNumberOfAssessmentsProcessed += assessmentIds.length;
         logger.info(`dryRun mode: ${assessmentIds.length} assessments will be processed for ${currentDate}`);
       } else {
         try {
@@ -60,7 +60,7 @@ export class HistorizeAnswersCatchUpScript extends Script {
     }
 
     if (dryRun) {
-      logger.info(`dryRun mode: ${totalNumberOfAssessmenstProcessed} assessments have been processed`);
+      logger.info(`dryRun mode: ${totalNumberOfAssessmentsProcessed} assessments have been processed`);
     }
   }
 }

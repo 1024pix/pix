@@ -336,7 +336,6 @@ const configuration = (function () {
       databaseHistory: {
         scheduleHistorizeAnswers: {
           cron: process.env.SCHEDULE_HISTORIZE_ANSWERS_JOB_CRON || '0 0 29 2 *',
-          chunkSize: process.env.SCHEDULE_HISTORIZE_ANSWERS_CHUNK_SIZE || 1000,
         },
       },
     },
