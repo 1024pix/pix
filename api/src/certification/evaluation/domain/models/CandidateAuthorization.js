@@ -27,18 +27,19 @@ export class CandidateAuthorization {
     this.subscription = subscription;
     this.authorizedToStart = authorizedToStart;
     this.certificationId = certificationId;
+    this.hasStartedCertification = !!certificationId;
     this.hasExceededCertificationDuration = hasExceededCertificationDuration;
     this.isCenterHabilitatedForCandidateSubscription = isCenterHabilitatedForCandidateSubscription;
   }
 
   verifyCanStartOrResumeCertification(enteredAccessCode) {
     if (this.accessCode !== enteredAccessCode) throw new NotFoundError('Session not found');
-    if (!this.isSessionAccessible) throw new SessionNotAccessibleError();
     if (!this.isCenterHabilitatedForCandidateSubscription) {
       throw new CenterNotHabilitatedError();
     }
+    if (!this.hasStartedCertification && !this.isSessionAccessible) throw new SessionNotAccessibleError();
     if (!this.authorizedToStart) {
-      if (this.certificationId) {
+      if (this.hasStartedCertification) {
         throw new CandidateNotAuthorizedToResumeCertificationTestError();
       }
       throw new CandidateNotAuthorizedToJoinSessionError();

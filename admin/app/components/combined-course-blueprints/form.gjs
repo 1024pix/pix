@@ -147,9 +147,9 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   setItemType(e) {
     this.itemType = e.target.value;
-    if (this.itemValue === '') {
-      this.itemAddDisabled = true;
-    }
+    this.itemValue = '';
+    this.itemAddDisabled = true;
+    this.itemToAdd = null;
   }
 
   @action
@@ -174,10 +174,8 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  removeRequirement(value) {
-    this.blueprint.content = this.blueprint.content.filter(
-      (item) => item.id !== value.id || item.shortId !== value.shortId,
-    );
+  removeRequirement(index) {
+    this.blueprint.content = this.blueprint.content.filter((item, i) => i !== index);
   }
 
   async refreshAreas() {
@@ -267,6 +265,7 @@ export default class CombinedCourseBlueprintForm extends Component {
           @updateMode={{@updateMode}}
           @handleKeyPress={{this.handleKeyPress}}
           @removeRequirement={{this.removeRequirement}}
+          @itemValue={{this.itemValue}}
           @itemAddDisabled={{this.itemAddDisabled}}
           @itemToAdd={{this.itemToAdd}}
           @getItemColor={{this.getItemColor}}
@@ -293,9 +292,11 @@ export default class CombinedCourseBlueprintForm extends Component {
       {{/if}}
 
       <fieldset class="controls">
-        <PixButton class="combined-course-blueprint-form__button" @triggerAction={{this.save}} @variant="secondary">{{t
-            "common.actions.cancel"
-          }}</PixButton>
+        <PixButton
+          class="combined-course-blueprint-form__button"
+          @triggerAction={{this.goToListPage}}
+          @variant="secondary"
+        >{{t "common.actions.cancel"}}</PixButton>
         <PixButton class="combined-course-blueprint-form__button" @triggerAction={{this.save}} @variant="success">{{if
             @updateMode
             (t "components.combined-course-blueprints.update.updateButton")
@@ -461,7 +462,7 @@ const ContentSection = <template>
         <div>
           {{#if (gt @blueprint.content.length 0)}}
             <PixTable @variant="admin" @data={{@blueprint.content}} class="table">
-              <:columns as |row context|>
+              <:columns as |row context index|>
                 <PixTableColumn @context={{context}}>
                   <:header>
                     {{t "components.combined-course-blueprints.items.item-type-header"}}
@@ -490,8 +491,9 @@ const ContentSection = <template>
                   <:cell>
                     <PixIconButton
                       @iconName="delete"
-                      @triggerAction={{fn @removeRequirement row}}
+                      @triggerAction={{fn @removeRequirement index}}
                       @ariaLabel="Supprimer"
+                      data-testid="delete-{{index}}"
                     />
                   </:cell>
                 </PixTableColumn>

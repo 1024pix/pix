@@ -7,19 +7,46 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 const TWENTY_FOUR_HOURS_IN_MS = 24 * 60 * 60 * 1000;
 
 describe('Certification | Session-management | Unit | Domain | Read-models | CandidateAuthorizationInfo', function () {
+  let clock;
+  const now = new Date('2026-01-02T00:00:00Z');
+
+  beforeEach(function () {
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+  });
+
+  afterEach(function () {
+    clock.restore();
+  });
+
   describe('#isSessionAccessible', function () {
-    it('returns true when session is accessible', function () {
+    it('returns true when session is neither finalized nor overtime', function () {
+      const twentyThreeHoursBefore = new Date();
+      twentyThreeHoursBefore.setHours(twentyThreeHoursBefore.getHours() - 23);
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
-        .withSession({ isAccessible: true })
+        .withSession({ finalizedAt: null, startedAt: twentyThreeHoursBefore })
         .build();
 
       expect(candidateAuthorizationInfo.isSessionAccessible).to.be.true;
     });
-    it('returns false when session is not accessible', function () {
+
+    it('returns false when session is finalized', function () {
+      const twentyThreeHoursBefore = new Date();
+      twentyThreeHoursBefore.setHours(twentyThreeHoursBefore.getHours() - 23);
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
-        .withSession({ isAccessible: false })
+        .withSession({ finalizedAt: new Date(), startedAt: twentyThreeHoursBefore })
+        .build();
+
+      expect(candidateAuthorizationInfo.isSessionAccessible).to.be.false;
+    });
+
+    it('returns false when session has been started more than 24 hours before and thus is overtime', function () {
+      const twentyFiveHoursBefore = new Date();
+      twentyFiveHoursBefore.setHours(twentyFiveHoursBefore.getHours() - 25);
+      const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .candidateAuthorizationInfoBuilder()
+        .withSession({ finalizedAt: null, startedAt: twentyFiveHoursBefore })
         .build();
 
       expect(candidateAuthorizationInfo.isSessionAccessible).to.be.false;
@@ -27,17 +54,6 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
   });
 
   describe('#hasExceededCertificationDuration', function () {
-    let clock;
-    const now = new Date('2026-01-02T00:00:00Z');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
     it('returns false when candidate has not started a certification', function () {
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()

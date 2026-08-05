@@ -40,7 +40,7 @@ describe('Certification | Session Management | Integration | Infrastructure | Re
       }).id;
       const expectedCandidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
-        .withSession({ sessionId: 1, accessCode: 'CHACHACHA', isAccessible: true })
+        .withSession({ sessionId: 1, accessCode: 'CHACHACHA' })
         .reconciled({ userId: 2, at: new Date() })
         .withCenterHabilitation({ scope: Frameworks.EDU_CPE })
         .withCenterHabilitation({ scope: Frameworks.CLEA })
@@ -70,8 +70,12 @@ describe('Certification | Session Management | Integration | Infrastructure | Re
       }).id;
       const expectedCandidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
-        .withSession({ sessionId: 1, accessCode: 'CHACHACHA', isAccessible: true })
-        .withCertificationStartedAt({ certificationId: 10, startedAt: new Date('2023-02-02') })
+        .withSession({
+          sessionId: 1,
+          accessCode: 'CHACHACHA',
+          startedAt: new Date('2023-02-02T10:43:00Z'),
+        })
+        .withCertificationStartedAt({ certificationId: 10, startedAt: new Date('2023-02-02T11:00:00Z') })
         .reconciled({ userId: 2 })
         .withCenterHabilitation({ scope: Frameworks.CLEA })
         .asAuthorizedToStart()
