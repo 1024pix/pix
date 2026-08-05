@@ -43,4 +43,30 @@ module('Unit | Route | authenticated/certification-centers/new', function (hooks
     assert.strictEqual(result.habilitations, habilitations);
     assert.strictEqual(result.attachedOrganization, attachedOrganization);
   });
+
+  module('#resetController', function () {
+    test('it should reset the attachedOrganizationId query param when leaving the page', function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certification-centers/new');
+      controller.attachedOrganizationId = '123';
+
+      // when
+      route.resetController(controller, true);
+
+      // then
+      assert.strictEqual(controller.attachedOrganizationId, null);
+    });
+
+    test('it should keep the attachedOrganizationId query param when staying on the page', function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certification-centers/new');
+      controller.attachedOrganizationId = '123';
+
+      // when
+      route.resetController(controller, false);
+
+      // then
+      assert.strictEqual(controller.attachedOrganizationId, '123');
+    });
+  });
 });

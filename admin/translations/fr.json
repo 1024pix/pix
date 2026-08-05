@@ -994,6 +994,7 @@
           "input-sublabel": "ID du centre",
           "name": "Rattacher un centre de certification"
         },
+        "creation-button": "Créer un centre de certification",
         "empty": "Aucun centre de certification rattaché.",
         "notifications": {
           "attach-success": "Le centre de certification a bien été rattaché à l'organisation.",

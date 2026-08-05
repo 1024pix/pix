@@ -986,6 +986,7 @@
           "input-sublabel": "ID of the center",
           "name": "Attach a certification center"
         },
+        "creation-button": "Create a certification center",
         "empty": "No certification center attached.",
         "notifications": {
           "attach-success": "The certification center has been successfully attached to the organization.",

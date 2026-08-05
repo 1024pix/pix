@@ -54,6 +54,30 @@ module('Integration | Component | organizations/attached-certification-center', 
         .exists();
     });
 
+    test('it displays a link to create a certification center prefilled with the organization', async function (assert) {
+      // given
+      const attachedCertificationCenters = [];
+
+      // when
+      const screen = await render(
+        <template>
+          <AttachedCertificationCenter
+            @attachedCertificationCenters={{attachedCertificationCenters}}
+            @organizationId="42"
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('link', {
+            name: t('components.organizations.attached-certification-center.creation-button'),
+          }),
+        )
+        .hasAttribute('href', '/certification-centers/new?attachedOrganizationId=42');
+    });
+
     module('when attaching a certification center', function () {
       test('it sends a success notification and refreshes model', async function (assert) {
         // given
@@ -163,85 +187,160 @@ module('Integration | Component | organizations/attached-certification-center', 
         });
       });
     });
-
-    module('when there are attached certification centers', function () {
-      test('it does not display a form to attach a certification center', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const certificationCenter = store.createRecord('attached-certification-center', {
-          id: '123',
-          name: 'Centre Pix',
-          externalId: 'EXT-456',
-        });
-        const attachedCertificationCenters = [certificationCenter];
-
-        // when
-        const screen = await render(
-          <template>
-            <AttachedCertificationCenter @attachedCertificationCenters={{attachedCertificationCenters}} />
-          </template>,
-        );
-
-        // then
-        assert.dom(screen.queryByRole('form', { name: 'Rattacher un centre de certification' })).doesNotExist();
+  });
+  module('when there are attached certification centers', function () {
+    test('it does not display a form to attach a certification center', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationCenter = store.createRecord('attached-certification-center', {
+        id: '123',
+        name: 'Centre Pix',
+        externalId: 'EXT-456',
       });
+      const attachedCertificationCenters = [certificationCenter];
 
-      test('it displays the table with caption and column headers', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const certificationCenter = store.createRecord('attached-certification-center', {
-          id: '123',
-          name: 'Centre Pix',
-          externalId: 'EXT-456',
-        });
-        const attachedCertificationCenters = [certificationCenter];
+      // when
+      const screen = await render(
+        <template>
+          <AttachedCertificationCenter @attachedCertificationCenters={{attachedCertificationCenters}} />
+        </template>,
+      );
 
-        // when
-        const screen = await render(
-          <template>
-            <AttachedCertificationCenter @attachedCertificationCenters={{attachedCertificationCenters}} />
-          </template>,
-        );
+      // then
+      assert.dom(screen.queryByRole('form', { name: 'Rattacher un centre de certification' })).doesNotExist();
+    });
 
-        // then
-        assert
-          .dom(
-            screen.getByRole('table', {
-              name: t('components.organizations.attached-certification-center.table.caption'),
-            }),
-          )
-          .exists();
-        assert
-          .dom(
-            screen.getByRole('columnheader', {
-              name: t('components.organizations.attached-certification-center.table.headers.id'),
-            }),
-          )
-          .exists();
-        assert
-          .dom(
-            screen.getByRole('columnheader', {
-              name: t('components.organizations.attached-certification-center.table.headers.name'),
-            }),
-          )
-          .exists();
-        assert
-          .dom(
-            screen.getByRole('columnheader', {
-              name: t('components.organizations.attached-certification-center.table.headers.external-id'),
-            }),
-          )
-          .exists();
-        assert
-          .dom(
-            screen.getByRole('columnheader', {
-              name: t('components.organizations.attached-certification-center.table.headers.actions'),
-            }),
-          )
-          .exists();
+    test('it does not display a link to create a certification center', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationCenter = store.createRecord('attached-certification-center', {
+        id: '123',
+        name: 'Centre Pix',
+        externalId: 'EXT-456',
       });
+      const attachedCertificationCenters = [certificationCenter];
 
-      test('it displays the certification centers in a table', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <AttachedCertificationCenter
+            @attachedCertificationCenters={{attachedCertificationCenters}}
+            @organizationId="42"
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.queryByRole('link', {
+            name: t('components.organizations.attached-certification-center.creation-button'),
+          }),
+        )
+        .doesNotExist();
+    });
+
+    test('it displays the table with caption and column headers', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationCenter = store.createRecord('attached-certification-center', {
+        id: '123',
+        name: 'Centre Pix',
+        externalId: 'EXT-456',
+      });
+      const attachedCertificationCenters = [certificationCenter];
+
+      // when
+      const screen = await render(
+        <template>
+          <AttachedCertificationCenter @attachedCertificationCenters={{attachedCertificationCenters}} />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('table', {
+            name: t('components.organizations.attached-certification-center.table.caption'),
+          }),
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByRole('columnheader', {
+            name: t('components.organizations.attached-certification-center.table.headers.id'),
+          }),
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByRole('columnheader', {
+            name: t('components.organizations.attached-certification-center.table.headers.name'),
+          }),
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByRole('columnheader', {
+            name: t('components.organizations.attached-certification-center.table.headers.external-id'),
+          }),
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByRole('columnheader', {
+            name: t('components.organizations.attached-certification-center.table.headers.actions'),
+          }),
+        )
+        .exists();
+    });
+
+    test('it displays the certification centers in a table', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationCenter = store.createRecord('attached-certification-center', {
+        id: '123',
+        name: 'Centre Pix',
+        externalId: 'EXT-456',
+      });
+      const attachedCertificationCenter = [certificationCenter];
+
+      // when
+      const screen = await render(
+        <template>
+          <AttachedCertificationCenter @attachedCertificationCenters={{attachedCertificationCenter}} />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByRole('cell', { name: '123' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Centre Pix' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'EXT-456' })).exists();
+    });
+
+    test('it displays a link to the certification center page', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationCenter = store.createRecord('attached-certification-center', {
+        id: '123',
+        name: 'Centre Pix',
+        externalId: 'EXT-456',
+      });
+      const attachedCertificationCenter = [certificationCenter];
+
+      // when
+      const screen = await render(
+        <template>
+          <AttachedCertificationCenter @attachedCertificationCenters={{attachedCertificationCenter}} />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByRole('link', { name: '123' })).hasAttribute('href', '/certification-centers/123');
+    });
+
+    module('when detaching a certification center', function () {
+      test('it opens a confirmation modal when clicking the detach button', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const certificationCenter = store.createRecord('attached-certification-center', {
@@ -254,18 +353,76 @@ module('Integration | Component | organizations/attached-certification-center', 
         // when
         const screen = await render(
           <template>
-            <AttachedCertificationCenter @attachedCertificationCenters={{attachedCertificationCenter}} />
+            <AttachedCertificationCenter
+              @attachedCertificationCenters={{attachedCertificationCenter}}
+              @organizationId="42"
+            />
           </template>,
         );
+        await click(
+          screen.getByRole('button', {
+            name: t('components.organizations.attached-certification-center.actions.detach.button'),
+          }),
+        );
+        const modal = await screen.findByRole('dialog');
 
         // then
-        assert.dom(screen.getByRole('cell', { name: '123' })).exists();
-        assert.dom(screen.getByRole('cell', { name: 'Centre Pix' })).exists();
-        assert.dom(screen.getByRole('cell', { name: 'EXT-456' })).exists();
+        assert
+          .dom(
+            within(modal).getByRole('heading', {
+              name: t('components.organizations.attached-certification-center.actions.detach.confirm-modal-title'),
+            }),
+          )
+          .exists();
+
+        assert.dom(within(modal).getByText('Centre Pix')).exists();
       });
 
-      test('it displays a link to the certification center page', async function (assert) {
+      test('it detaches the certification center and removes the table when confirming the modal', async function (assert) {
         // given
+        requestManager.request.resolves();
+
+        const store = this.owner.lookup('service:store');
+        const certificationCenter = store.createRecord('attached-certification-center', {
+          id: '123',
+          name: 'Centre Pix',
+          externalId: 'EXT-456',
+        });
+        const state = new State([certificationCenter]);
+        router.refresh.callsFake(() => {
+          state.attachedCertificationCenters = [];
+        });
+
+        const screen = await render(
+          <template>
+            <AttachedCertificationCenter
+              @attachedCertificationCenters={{state.attachedCertificationCenters}}
+              @organizationId="42"
+            />
+          </template>,
+        );
+        await click(
+          screen.getByRole('button', {
+            name: t('components.organizations.attached-certification-center.actions.detach.button'),
+          }),
+        );
+        await screen.findByRole('dialog');
+        await click(screen.getByRole('button', { name: t('common.actions.confirm') }));
+
+        // then
+        assert.true(requestManager.request.called);
+        assert.true(
+          pixToast.sendSuccessNotification.calledWith({
+            message: t('components.organizations.attached-certification-center.actions.detach.success'),
+          }),
+        );
+        assert.dom(screen.queryByRole('table')).doesNotExist();
+      });
+
+      test('it displays an error notification and keeps the table when detaching fails', async function (assert) {
+        // given
+        requestManager.request.rejects();
+
         const store = this.owner.lookup('service:store');
         const certificationCenter = store.createRecord('attached-certification-center', {
           id: '123',
@@ -274,133 +431,29 @@ module('Integration | Component | organizations/attached-certification-center', 
         });
         const attachedCertificationCenter = [certificationCenter];
 
-        // when
         const screen = await render(
           <template>
-            <AttachedCertificationCenter @attachedCertificationCenters={{attachedCertificationCenter}} />
+            <AttachedCertificationCenter
+              @attachedCertificationCenters={{attachedCertificationCenter}}
+              @organizationId="42"
+            />
           </template>,
         );
+        await click(
+          screen.getByRole('button', {
+            name: t('components.organizations.attached-certification-center.actions.detach.button'),
+          }),
+        );
+        await screen.findByRole('dialog');
+        await click(screen.getByRole('button', { name: t('common.actions.confirm') }));
 
         // then
-        assert.dom(screen.getByRole('link', { name: '123' })).hasAttribute('href', '/certification-centers/123');
-      });
-
-      module('when detaching a certification center', function () {
-        test('it opens a confirmation modal when clicking the detach button', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          const certificationCenter = store.createRecord('attached-certification-center', {
-            id: '123',
-            name: 'Centre Pix',
-            externalId: 'EXT-456',
-          });
-          const attachedCertificationCenter = [certificationCenter];
-
-          // when
-          const screen = await render(
-            <template>
-              <AttachedCertificationCenter
-                @attachedCertificationCenters={{attachedCertificationCenter}}
-                @organizationId="42"
-              />
-            </template>,
-          );
-          await click(
-            screen.getByRole('button', {
-              name: t('components.organizations.attached-certification-center.actions.detach.button'),
-            }),
-          );
-          const modal = await screen.findByRole('dialog');
-
-          // then
-          assert
-            .dom(
-              within(modal).getByRole('heading', {
-                name: t('components.organizations.attached-certification-center.actions.detach.confirm-modal-title'),
-              }),
-            )
-            .exists();
-
-          assert.dom(within(modal).getByText('Centre Pix')).exists();
-        });
-
-        test('it detaches the certification center and removes the table when confirming the modal', async function (assert) {
-          // given
-          requestManager.request.resolves();
-
-          const store = this.owner.lookup('service:store');
-          const certificationCenter = store.createRecord('attached-certification-center', {
-            id: '123',
-            name: 'Centre Pix',
-            externalId: 'EXT-456',
-          });
-          const state = new State([certificationCenter]);
-          router.refresh.callsFake(() => {
-            state.attachedCertificationCenters = [];
-          });
-
-          const screen = await render(
-            <template>
-              <AttachedCertificationCenter
-                @attachedCertificationCenters={{state.attachedCertificationCenters}}
-                @organizationId="42"
-              />
-            </template>,
-          );
-          await click(
-            screen.getByRole('button', {
-              name: t('components.organizations.attached-certification-center.actions.detach.button'),
-            }),
-          );
-          await screen.findByRole('dialog');
-          await click(screen.getByRole('button', { name: t('common.actions.confirm') }));
-
-          // then
-          assert.true(requestManager.request.called);
-          assert.true(
-            pixToast.sendSuccessNotification.calledWith({
-              message: t('components.organizations.attached-certification-center.actions.detach.success'),
-            }),
-          );
-          assert.dom(screen.queryByRole('table')).doesNotExist();
-        });
-
-        test('it displays an error notification and keeps the table when detaching fails', async function (assert) {
-          // given
-          requestManager.request.rejects();
-
-          const store = this.owner.lookup('service:store');
-          const certificationCenter = store.createRecord('attached-certification-center', {
-            id: '123',
-            name: 'Centre Pix',
-            externalId: 'EXT-456',
-          });
-          const attachedCertificationCenter = [certificationCenter];
-
-          const screen = await render(
-            <template>
-              <AttachedCertificationCenter
-                @attachedCertificationCenters={{attachedCertificationCenter}}
-                @organizationId="42"
-              />
-            </template>,
-          );
-          await click(
-            screen.getByRole('button', {
-              name: t('components.organizations.attached-certification-center.actions.detach.button'),
-            }),
-          );
-          await screen.findByRole('dialog');
-          await click(screen.getByRole('button', { name: t('common.actions.confirm') }));
-
-          // then
-          assert.true(
-            pixToast.sendErrorNotification.calledWith({
-              message: t('common.notifications.generic-error'),
-            }),
-          );
-          assert.dom(screen.getByRole('table')).exists();
-        });
+        assert.true(
+          pixToast.sendErrorNotification.calledWith({
+            message: t('common.notifications.generic-error'),
+          }),
+        );
+        assert.dom(screen.getByRole('table')).exists();
       });
     });
   });
