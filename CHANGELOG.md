@@ -1,5 +1,15 @@
 # Pix Changelog
 
+# [5.474.0](https://github.com/1024pix/pix/compare/v5.473.0...v5.474.0) (2026-08-05)
+
+### :rocket: Amélioration
+
+- [#17020](https://github.com/1024pix/pix/pull/17020) Pouvoir créer un centre de certification lié à une organisation (PIX-23465)
+
+### :building_construction: Tech
+
+- [#17058](https://github.com/1024pix/pix/pull/17058) Dépendances cycliques entre organization-entities et prescription/campaign
+
 # [5.473.0](https://github.com/1024pix/pix/compare/v5.472.1...v5.473.0) (2026-08-05)
 
 ### :rocket: Amélioration
