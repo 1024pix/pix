@@ -19,7 +19,7 @@ export async function find({ userId, sessionId, dependencies = { candidateAuthor
   return new CandidateAuthorization({
     id: candidateAuthorizationDTO.id,
     accessCode: candidateAuthorizationDTO.accessCode,
-    isSessionAccessible: candidateAuthorizationDTO.isSessionAccessible,
+    isSessionJoinable: candidateAuthorizationDTO.isSessionJoinable,
     userId: candidateAuthorizationDTO.userId,
     reconciledAt: candidateAuthorizationDTO.reconciledAt,
     subscription: candidateAuthorizationDTO.subscription,

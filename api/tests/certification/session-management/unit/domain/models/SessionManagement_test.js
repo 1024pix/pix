@@ -144,28 +144,6 @@ describe('Unit | Certification | Session | Domain | Models | SessionManagement',
     });
   });
 
-  context('#isNotAccessible', function () {
-    it('returns true when the session is created', function () {
-      const session = domainBuilder.certification.sessionManagement.buildSessionManagement.created();
-      expect(session.isAccessible()).to.be.true;
-    });
-
-    it('returns false when the session is finalized', function () {
-      const session = domainBuilder.certification.sessionManagement.buildSessionManagement.finalized();
-      expect(session.isAccessible()).to.be.false;
-    });
-
-    it('returns false when the session is in process', function () {
-      const session = domainBuilder.certification.sessionManagement.buildSessionManagement.inProcess();
-      expect(session.isAccessible()).to.be.false;
-    });
-
-    it('returns false when the session is processed', function () {
-      const session = domainBuilder.certification.sessionManagement.buildSessionManagement.processed();
-      expect(session.isAccessible()).to.be.false;
-    });
-  });
-
   describe('#get hasExpired', function () {
     it('returns false when session has no started certification', function () {
       const session = domainBuilder.certification.sessionManagement.buildSessionManagement({

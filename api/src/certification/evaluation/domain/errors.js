@@ -39,8 +39,8 @@ export class CandidateNotAuthorizedToResumeCertificationTestError extends Domain
   }
 }
 
-export class SessionNotAccessibleError extends DomainError {
-  constructor(message = 'Certification session is not accessible', code = 'SESSION_NOT_ACCESSIBLE') {
+export class SessionNotJoinableError extends DomainError {
+  constructor(message = 'Certification session is not joinable', code = 'SESSION_NOT_JOINABLE') {
     super(message, code);
   }
 }

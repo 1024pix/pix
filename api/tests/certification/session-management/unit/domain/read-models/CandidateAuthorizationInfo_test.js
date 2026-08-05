@@ -18,7 +18,7 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
     clock.restore();
   });
 
-  describe('#isSessionAccessible', function () {
+  describe('#isSessionJoinable', function () {
     it('returns true when session is neither finalized nor overtime', function () {
       const twentyThreeHoursBefore = new Date();
       twentyThreeHoursBefore.setHours(twentyThreeHoursBefore.getHours() - 23);
@@ -27,7 +27,7 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
         .withSession({ finalizedAt: null, startedAt: twentyThreeHoursBefore })
         .build();
 
-      expect(candidateAuthorizationInfo.isSessionAccessible).to.be.true;
+      expect(candidateAuthorizationInfo.isSessionJoinable).to.be.true;
     });
 
     it('returns false when session is finalized', function () {
@@ -38,7 +38,7 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
         .withSession({ finalizedAt: new Date(), startedAt: twentyThreeHoursBefore })
         .build();
 
-      expect(candidateAuthorizationInfo.isSessionAccessible).to.be.false;
+      expect(candidateAuthorizationInfo.isSessionJoinable).to.be.false;
     });
 
     it('returns false when session has been started more than 24 hours before and thus is overtime', function () {
@@ -49,7 +49,7 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
         .withSession({ finalizedAt: null, startedAt: twentyFiveHoursBefore })
         .build();
 
-      expect(candidateAuthorizationInfo.isSessionAccessible).to.be.false;
+      expect(candidateAuthorizationInfo.isSessionJoinable).to.be.false;
     });
   });
 

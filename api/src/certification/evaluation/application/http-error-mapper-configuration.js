@@ -10,7 +10,7 @@ import {
   CenterNotHabilitatedError,
   CertificationDurationExceededError,
   NextChallengeAlreadyComputingError,
-  SessionNotAccessibleError,
+  SessionNotJoinableError,
 } from '../domain/errors.js';
 
 const evaluationDomainErrorMappingConfiguration = [
@@ -31,7 +31,7 @@ const evaluationDomainErrorMappingConfiguration = [
     httpErrorFn: (error) => new ForbiddenError(error.message, error.code, error.meta),
   },
   {
-    name: SessionNotAccessibleError.name,
+    name: SessionNotJoinableError.name,
     httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code, error.meta),
   },
   {

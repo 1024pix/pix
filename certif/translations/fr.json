@@ -591,7 +591,7 @@
             "incorrect-data": "Le numéro de session et/ou le mot de passe saisis sont incorrects.",
             "mandatory-fields": "Les champs \"Numéro de la session\" et \"Mot de passe de session\" sont obligatoires.",
             "session-finalized": "La session a été finalisée. L'accès à son espace surveillant n'est plus possible.",
-            "session-not-accessible": "Ouverture de votre espace PixCertif le {date} (00h00, heure France métropolitaine)."
+            "session-not-joinable": "Ouverture de votre espace PixCertif le {date} (00h00, heure France métropolitaine)."
           },
           "session-number": "Numéro de la session",
           "session-password": {
