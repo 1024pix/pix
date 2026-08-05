@@ -1,4 +1,5 @@
-import { SmartRandomChallenge, STATUSES } from '../../../../../src/evaluation/domain/models/SmartRandomChallenge.js';
+import { SmartRandomChallenge } from '../../../../../src/evaluation/domain/models/SmartRandomChallenge.js';
+import { CHALLENGE_STATUSES as STATUSES } from '../../../../../src/shared/constants.js';
 import { buildChallenge } from '../learning-content/build-challenge.js';
 
 export const buildSmartRandomChallenge = function ({

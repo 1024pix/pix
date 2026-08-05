@@ -1,4 +1,4 @@
-import { BaseChallenge, STATUSES as ORIGINAL_STATUSES } from '../../../shared/domain/models/BaseChallenge.js';
+import { BaseChallenge } from './BaseChallenge.js';
 
 /**
  * @class SmartRandomChallenge
@@ -18,4 +18,3 @@ export class SmartRandomChallenge extends BaseChallenge {
     super(coreChallenge);
   }
 }
-export const STATUSES = ORIGINAL_STATUSES;

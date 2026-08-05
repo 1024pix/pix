@@ -1,17 +1,7 @@
-export const TYPES = Object.freeze({
-  QCU: 'QCU',
-  QCM: 'QCM',
-  QROC: 'QROC',
-  QROCM_IND: 'QROCM-ind',
-  QROCM_DEP: 'QROCM-dep',
-});
-
-export const STATUSES = Object.freeze({
-  VALIDATED: 'validé',
-  ARCHIVED: 'archivé',
-  OBSOLETE: 'périmé',
-  PROPOSED: 'proposé',
-});
+/**
+ * @typedef {import('../../../shared/constants.js').CHALLENGE_TYPES} TYPES
+ * @typedef {import('../../../shared/constants.js').CHALLENGE_STATUSES} STATUSES
+ */
 
 export class Challenge {
   #cachedChallengeDto;

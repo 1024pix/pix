@@ -1,4 +1,5 @@
-import { BaseChallenge, STATUSES, TYPES } from '../../../../../src/shared/domain/models/BaseChallenge.js';
+import { BaseChallenge } from '../../../../../src/evaluation/domain/models/BaseChallenge.js';
+import { CHALLENGE_STATUSES as STATUSES, CHALLENGE_TYPES as TYPES } from '../../../../../src/shared/constants.js';
 
 export const buildBaseChallenge = function ({
   id = 'foo id',
