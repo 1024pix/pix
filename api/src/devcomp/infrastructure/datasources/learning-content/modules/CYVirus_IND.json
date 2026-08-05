@@ -352,7 +352,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "<p>Faibl</p>",
+                          "content": "<p>Faible</p>",
                           "feedback": {
                             "diagnosis": "<p>Eh non. <em>Log4Shell</em> est une importante vulnérabilité considérée comme <strong>critique et donc dangereuse</strong>. En effet, elle peut donner à un pirate informatique <strong>un accès qu’il ne devrait pas avoir</strong> pour réaliser différentes actions malveillantes.</p>"
                           }
