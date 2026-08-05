@@ -189,6 +189,7 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
         userId,
         organizationLearnerId,
         status: participation.campaignStatus,
+        masteryRate: participation.masteryRate,
       });
 
       buildAssessment({

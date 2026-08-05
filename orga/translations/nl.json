@@ -1127,6 +1127,7 @@
         "breadcrumb": "Deelname van {firstName} {lastName}",
         "column": {
           "campaign": "Campagne",
+          "mastery-rate": "succespercentage",
           "module": "Module",
           "status": "Status"
         },
