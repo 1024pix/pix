@@ -17,6 +17,7 @@ export default class FindScoRecordController extends Controller {
   @service intl;
   @service store;
   @service accountRecoveryDemand;
+  @service studentInformation;
 
   @tracked accountRecoveryError = {
     message: '',
@@ -42,10 +43,15 @@ export default class FindScoRecordController extends Controller {
     this.studentInformationForAccountRecovery.birthdate = studentInformation.birthdate;
     this.studentInformationForAccountRecovery.ineIna = studentInformation.ineIna;
     this.studentInformationForAccountRecovery.firstName = studentInformation.firstName;
-    const studentInformationToSave = this.store.createRecord('student-information', studentInformation);
+    this.studentInformationForAccountRecovery.lastName = studentInformation.lastName;
     try {
       const { firstName, lastName, username, email, latestOrganizationName } =
-        await studentInformationToSave.submitStudentInformation();
+        await this.studentInformation.submitStudentInformation({
+          firstName: this.studentInformationForAccountRecovery.firstName,
+          lastName: this.studentInformationForAccountRecovery.lastName,
+          ineIna: this.studentInformationForAccountRecovery.ineIna,
+          birthdate: this.studentInformationForAccountRecovery.birthdate,
+        });
       this.studentInformationForAccountRecovery.firstName = firstName;
       this.studentInformationForAccountRecovery.lastName = lastName;
       this.studentInformationForAccountRecovery.username = username;
