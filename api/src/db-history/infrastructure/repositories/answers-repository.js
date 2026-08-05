@@ -5,7 +5,7 @@ export const deleteAnswersByIds = ({ ids }) => {
   return knexConn('answers').delete().whereIn('id', ids);
 };
 
-export const selectAnswersIdsByAssementIds = ({ ids }) => {
+export const selectAnswerIdsByAssessmentIds = ({ ids }) => {
   const knexConn = DomainTransaction.getConnection();
   return knexConn.select('id').from('answers').whereIn('answers.assessmentId', ids);
 };

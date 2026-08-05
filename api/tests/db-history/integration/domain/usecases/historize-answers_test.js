@@ -56,10 +56,9 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       state: 'completed',
       type: 'CAMPAIGN',
     });
-    // answer ids are pinned so that every historized answer falls in the same answer id range:
-    // the expected file count below depends on the assessment ranges only
+    // each assessment carries a single answer, well below the configured answer batch size:
+    // the expected file count below therefore depends on the assessment ranges only
     databaseBuilder.factory.buildAnswer({
-      id: 1,
       assessmentId: assessmentWithAnswerToDelete.id,
     });
 
@@ -79,7 +78,6 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       type: 'DEMO',
     });
     databaseBuilder.factory.buildAnswer({
-      id: 2,
       assessmentId: demoAssessmentWithAnswerToDelete.id,
     });
 
@@ -99,7 +97,6 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       type: 'COMPETENCE_EVALUATION',
     });
     databaseBuilder.factory.buildAnswer({
-      id: 3,
       assessmentId: evaluationAssessmentWithAnswerToDelete.id,
     });
 
@@ -119,7 +116,6 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       type: 'PLACEMENT',
     });
     databaseBuilder.factory.buildAnswer({
-      id: 4,
       assessmentId: placementAssessmentWithAnswerToDelete.id,
     });
 
@@ -139,7 +135,6 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       type: 'PREVIEW',
     });
     databaseBuilder.factory.buildAnswer({
-      id: 5,
       assessmentId: previewAssessmentWithAnswerToDelete.id,
     });
 
@@ -164,15 +159,16 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     expect(uploadedFiles[0].Key).to.match(/^answers\//);
   });
 
-  describe('answer id range configuration', function () {
+  describe('batching configuration', function () {
     // Guards the wiring between config.js and the use case: a mismatched property name or a
-    // missing env var yields undefined/NaN, and getBatchesFromRange then silently collapses
-    // every answer into a single NaN-keyed batch — which is exactly the OOM it is meant to prevent.
-    it('exposes an answer id range the use case can batch on', function () {
-      const answerIdRange = config.answersHistoryExport.storage.answerIdRange;
+    // missing env var used to yield undefined/NaN, which silently collapsed every answer into
+    // a single batch — which is exactly the OOM the batching is meant to prevent.
+    it('exposes an answer batch size the use case can batch on', function () {
+      const answerBatchSize = config.answersHistoryExport.storage.answerBatchSize;
 
-      expect(Number.isInteger(answerIdRange), `answerIdRange must be an integer, got ${answerIdRange}`).to.be.true;
-      expect(answerIdRange).to.be.above(0);
+      expect(Number.isInteger(answerBatchSize), `answerBatchSize must be an integer, got ${answerBatchSize}`).to.be
+        .true;
+      expect(answerBatchSize).to.be.above(0);
     });
 
     it('exposes an assessment id range the use case can batch on', function () {
@@ -182,15 +178,37 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
         .be.true;
       expect(assessmentIdRange).to.be.above(0);
     });
+
+    it('throws rather than processing everything at once when the answer batch size is missing', async function () {
+      sinon.stub(config.answersHistoryExport.storage, 'answerBatchSize').value(NaN);
+
+      const error = await catchErr(usecases.historizeAnswers)({ targetDate: new Date('2020-01-02') });
+
+      expect(error.message).to.equal(
+        'Configuration is invalid: ANSWERS_HISTORY_ANSWER_BATCH_SIZE must be a positive integer, but was: NaN',
+      );
+    });
+
+    it('throws rather than processing everything at once when the assessment id range is missing', async function () {
+      sinon.stub(config.answersHistoryExport.storage, 'assessmentIdRange').value(NaN);
+
+      const error = await catchErr(usecases.historizeAnswers)({ targetDate: new Date('2020-01-02') });
+
+      expect(error.message).to.equal(
+        'Configuration is invalid: ANSWERS_HISTORY_ASSESSMENT_ID_RANGE must be a positive integer, but was: NaN',
+      );
+    });
   });
 
-  it('splits the answers of a single assessment range into one file per answer id range', async function () {
+  it('splits the answers of a single assessment range into one file per answer batch', async function () {
     const logger = {
       info: sinon.stub(),
       error: sinon.stub(),
     };
     const targetDate = new Date('2020-01-02');
-    const { assessmentIdRange, answerIdRange } = config.answersHistoryExport.storage;
+    const { assessmentIdRange } = config.answersHistoryExport.storage;
+    // forced locally so the test stays fast: the production batch size would need thousands of rows
+    sinon.stub(config.answersHistoryExport.storage, 'answerBatchSize').value(2);
 
     // both assessments fall in the same assessment range, hence the same parquet partition
     const firstAssessmentId = assessmentIdRange * 50 + 1;
@@ -204,13 +222,12 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       });
     }
 
-    // but their answers fall in two distinct answer ranges, hence two distinct files
-    const firstAnswerRangeStart = answerIdRange * 10 + 1;
-    const secondAnswerRangeStart = answerIdRange * 20 + 1;
-    databaseBuilder.factory.buildAnswer({ id: firstAnswerRangeStart, assessmentId: firstAssessmentId });
-    databaseBuilder.factory.buildAnswer({ id: firstAnswerRangeStart + 1, assessmentId: secondAssessmentId });
-    databaseBuilder.factory.buildAnswer({ id: secondAnswerRangeStart, assessmentId: firstAssessmentId });
-    databaseBuilder.factory.buildAnswer({ id: secondAnswerRangeStart + 1, assessmentId: secondAssessmentId });
+    // 4 answers with a batch size of 2 means two batches, hence two files in that single partition,
+    // whatever the answer ids happen to be
+    databaseBuilder.factory.buildAnswer({ assessmentId: firstAssessmentId });
+    databaseBuilder.factory.buildAnswer({ assessmentId: firstAssessmentId });
+    databaseBuilder.factory.buildAnswer({ assessmentId: secondAssessmentId });
+    databaseBuilder.factory.buildAnswer({ assessmentId: secondAssessmentId });
 
     await databaseBuilder.commit();
     await usecases.historizeAnswers({ targetDate, logger });

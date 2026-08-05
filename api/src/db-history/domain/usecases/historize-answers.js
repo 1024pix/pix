@@ -1,13 +1,14 @@
 import { randomUUID } from 'node:crypto';
 
 import { parquetWriteBuffer } from 'hyparquet-writer';
+import chunk from 'lodash/chunk.js';
 
 import { config } from '../../../shared/config.js';
 import { logger as defaultLogger } from '../../../shared/infrastructure/utils/logger.js';
 import { AnswersHistoryRepository } from '../../infrastructure/repositories/answers-history-repository.js';
 import {
+  selectAnswerIdsByAssessmentIds,
   selectAnswersByIds,
-  selectAnswersIdsByAssementIds,
 } from '../../infrastructure/repositories/answers-repository.js';
 import { getAssessmentIdsByAssessmentTypeAndDateAndState } from '../../infrastructure/repositories/assessments-repository.js';
 import { TARGET_STATE, TARGET_TYPES } from '../constants.js';
@@ -22,10 +23,16 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
   }
 
   const params = {
-    ranges: {
-      assessment: config.answersHistoryExport.storage.assessmentIdRange,
-      answer: config.answersHistoryExport.storage.answerIdRange,
-    },
+    // assessments are grouped by id range because the range names the parquet partition,
+    // whereas answers are only chunked by count to bound the memory footprint of a batch
+    assessmentIdRange: _requirePositiveInteger(
+      config.answersHistoryExport.storage.assessmentIdRange,
+      'ANSWERS_HISTORY_ASSESSMENT_ID_RANGE',
+    ),
+    answerBatchSize: _requirePositiveInteger(
+      config.answersHistoryExport.storage.answerBatchSize,
+      'ANSWERS_HISTORY_ANSWER_BATCH_SIZE',
+    ),
 
     repositories: {
       answersHistory: AnswersHistoryRepository.createClient(),
@@ -41,35 +48,43 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
   logger.info(`${assessmentIds.length} assessments will be processed`);
   for (const [assessmentRangeStart, batchAssessmentIdsToBeProcessed] of getBatchesFromRange(
     assessmentIds.map((assessment) => assessment.id),
-    params.ranges.assessment,
+    params.assessmentIdRange,
   )) {
     await _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger);
   }
 }
 
 async function _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger) {
-  logger.info(`Porcessing for range from ${assessmentRangeStart}`);
+  logger.info(`Processing assessment range from ${assessmentRangeStart}`);
 
-  const answerIds = await selectAnswersIdsByAssementIds({ ids: batchAssessmentIdsToBeProcessed });
-  for (const [answerRangeStart, batchAnswerIdsToBeProcessed] of getBatchesFromRange(
+  const answerIds = await selectAnswerIdsByAssessmentIds({ ids: batchAssessmentIdsToBeProcessed });
+  const answerBatches = chunk(
     answerIds.map((answer) => answer.id),
-    params.ranges.answer,
-  )) {
-    await _batchOnAnswers(assessmentRangeStart, answerRangeStart, batchAnswerIdsToBeProcessed, params, logger);
+    params.answerBatchSize,
+  );
+  logger.info(`${answerIds.length} answers to historize, split into ${answerBatches.length} batches`);
+
+  for (const [batchIndex, batchAnswerIdsToBeProcessed] of answerBatches.entries()) {
+    await _batchOnAnswers(
+      assessmentRangeStart,
+      `${batchIndex + 1}/${answerBatches.length}`,
+      batchAnswerIdsToBeProcessed,
+      params,
+      logger,
+    );
   }
 }
 
-async function _batchOnAnswers(assessmentRangeStart, answerRangeStart, batchAnswerIdsToBeProcessed, params, logger) {
+async function _batchOnAnswers(assessmentRangeStart, batchProgress, batchAnswerIdsToBeProcessed, params, logger) {
   const batchAnswersToBeDeleted = await selectAnswersByIds({ ids: batchAnswerIdsToBeProcessed });
 
-  logger.info(
-    `Creating parquet file starting for assement range from ${assessmentRangeStart} and answer range from ${answerRangeStart}`,
-  );
+  logger.info(`Creating parquet file for assessment range from ${assessmentRangeStart}, answer batch ${batchProgress}`);
 
   const { partitionFile, fileContent } = createParquetArrayBuffer(
     assessmentRangeStart,
     batchAnswersToBeDeleted,
-    params.ranges.assessment,
+    params.assessmentIdRange,
+    logger,
   );
   logger.info(`Successfully created ${partitionFile} file.`);
   try {
@@ -90,16 +105,30 @@ async function _batchOnAnswers(assessmentRangeStart, answerRangeStart, batchAnsw
   }
 }
 
-export function getBatchesFromRange(elments, range) {
-  const elmentGroups = new Map();
-  for (const element of elments) {
-    const groupIndex = Math.floor((element - 1) / range);
-    const firstAssessmentIdInGroup = groupIndex * range + 1;
-    const groupExists = elmentGroups.has(firstAssessmentIdInGroup);
-    if (!groupExists) elmentGroups.set(firstAssessmentIdInGroup, []);
-    elmentGroups.get(firstAssessmentIdInGroup).push(element);
+/**
+ * Groups ids by the id range they belong to, keyed by the first id of the range.
+ * Beware: the size of a group depends on how dense the ids are, so it cannot be used to bound
+ * the amount of data loaded at once — use a chunk by count for that.
+ */
+export function getBatchesFromRange(ids, rangeSize) {
+  const groupsByFirstIdInRange = new Map();
+  for (const id of ids) {
+    const rangeIndex = Math.floor((id - 1) / rangeSize);
+    const firstIdInRange = rangeIndex * rangeSize + 1;
+    const groupExists = groupsByFirstIdInRange.has(firstIdInRange);
+    if (!groupExists) groupsByFirstIdInRange.set(firstIdInRange, []);
+    groupsByFirstIdInRange.get(firstIdInRange).push(id);
   }
-  return elmentGroups;
+  return groupsByFirstIdInRange;
+}
+
+function _requirePositiveInteger(value, environmentVariableName) {
+  if (!Number.isInteger(value) || value <= 0) {
+    throw new Error(
+      `Configuration is invalid: ${environmentVariableName} must be a positive integer, but was: ${value}`,
+    );
+  }
+  return value;
 }
 
 export async function deleteBatchAnswers(answersRepository, answersToBeDeleted, logger) {

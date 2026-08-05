@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   deleteAnswersByIds,
+  selectAnswerIdsByAssessmentIds,
   selectAnswersByIds,
-  selectAnswersIdsByAssementIds,
 } from '../../../../../src/db-history/infrastructure/repositories/answers-repository.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
@@ -28,7 +28,7 @@ describe('Integration | History-db | Infrastructure | Repository | Answers', fun
       expect(remainingAnswers[1].id).to.equal(answerToKeep2.id);
     });
   });
-  describe('selectAnswersIdsByAssementIds', function () {
+  describe('selectAnswerIdsByAssessmentIds', function () {
     it('select answers from assessment ids', async function () {
       // given
       databaseBuilder.factory.buildAssessment({ id: 100000 });
@@ -57,7 +57,7 @@ describe('Integration | History-db | Infrastructure | Repository | Answers', fun
       const assessmentIds = { ids: [100000, 100002] };
 
       // when
-      const answerIds = await selectAnswersIdsByAssementIds(assessmentIds);
+      const answerIds = await selectAnswerIdsByAssessmentIds(assessmentIds);
 
       //then
       expect(answerIds).to.have.length(3);

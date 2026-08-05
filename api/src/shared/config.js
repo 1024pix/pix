@@ -103,6 +103,10 @@ function buildSeedsContext(value) {
 const schema = Joi.object({
   MADDO: Joi.boolean().optional().default(false),
   ACCESS_TOKEN_LIFESPAN: Joi.string().optional(),
+  // only the answers historization job needs those two ANSWERS_HISTORY values, hence optional here: the job itself
+  // rejects a missing or non-positive value rather than silently skipping its batching
+  ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: Joi.number().integer().min(1).optional(),
+  ANSWERS_HISTORY_ANSWER_BATCH_SIZE: Joi.number().integer().min(1).optional(),
   AUTH_SECRET: Joi.string().required(),
   AUTONOMOUS_COURSES_ORGANIZATION_ID: Joi.number().requiredForApi(),
   API_DATA_URL: Joi.string().uri().optional(),
@@ -197,7 +201,7 @@ const configuration = (function () {
           forcePathStyle: true,
         },
         assessmentIdRange: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
-        answerIdRange: parseInt(process.env.ANSWERS_HISTORY_ANSWER_ID_RANGE),
+        answerBatchSize: parseInt(process.env.ANSWERS_HISTORY_ANSWER_BATCH_SIZE),
       },
     },
     import: {
@@ -725,7 +729,7 @@ const configuration = (function () {
           forcePathStyle: true,
         },
         assessmentIdRange: parseInt(process.env.TEST_ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
-        answerIdRange: parseInt(process.env.TEST_ANSWERS_HISTORY_ANSWER_ID_RANGE),
+        answerBatchSize: parseInt(process.env.TEST_ANSWERS_HISTORY_ANSWER_BATCH_SIZE),
       },
     };
 
