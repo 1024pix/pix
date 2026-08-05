@@ -63,10 +63,6 @@ export class SessionManagement {
     return SESSION_STATUSES.CREATED;
   }
 
-  isAccessible() {
-    return this.status === SESSION_STATUSES.CREATED;
-  }
-
   isPublished() {
     return this.publishedAt !== null;
   }
