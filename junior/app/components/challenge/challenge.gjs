@@ -13,11 +13,10 @@ import RobotDialog from '../robot-dialog';
 import ChallengeContent from './challenge-content';
 import ChallengeLayout from './challenge-layout';
 const CHALLENGE_DISPLAY_DELAY = ENV.APP.CHALLENGE_DISPLAY_DELAY;
-import { cacheKeyFor } from '@warp-drive/core';
-import { createRecord } from '@warp-drive/utilities/json-api';
 
 export default class Challenge extends Component {
   @service store;
+  @service storeRequest;
   @service router;
   @service intl;
   @tracked answerHasBeenValidated = false;
@@ -101,10 +100,6 @@ export default class Challenge extends Component {
     this.validationWarning = errorValue;
   }
 
-  _createActivityAnswer(challenge, value) {
-    return this.store.createRecord('activity-answer', { challenge, value });
-  }
-
   get #assessmentId() {
     return this.args.assessment?.id;
   }
@@ -126,22 +121,19 @@ export default class Challenge extends Component {
       this.displayValidationWarning = false;
     }
 
-    this.answer = this._createActivityAnswer(this.args.challenge, this.answerValue);
-    const init = createRecord(this.answer);
-    const serializedData = this.store.cache.peek(cacheKeyFor(this.answer));
-
-    init.body = JSON.stringify({ data: serializedData });
+    const data = { challenge: this.args.challenge, value: this.answerValue };
+    const meta = {};
+    if (this.#assessmentId) meta.assessmentId = this.#assessmentId;
+    if (this.#isPreview) meta.isPreview = this.#isPreview;
+    const bodyOptions = { meta };
 
     try {
-      const { content } = await this.store.request({
-        ...init,
-        options: { assessmentId: this.#assessmentId, isPreview: this.#isPreview },
-      });
-      this.answer.result = content.data.result;
+      const { content } = await this.storeRequest.createRecord('activity-answer', data, { bodyOptions });
+      this.answer = content.data;
       this.answerHasBeenValidated = true;
       this.scrollToTop();
-    } catch {
-      this.answer.rollbackAttributes();
+    } catch (error) {
+      console.log(error);
     }
   }
 

@@ -29,10 +29,10 @@ const register = async function (server) {
               type: Joi.string(),
             },
             meta: Joi.object({
-              assessmentId: identifiersType.assessmentId.optional(),
-              isPreview: Joi.bool(),
+              'assessment-id': identifiersType.assessmentId.optional(),
+              'is-preview': Joi.bool(),
             })
-              .xor('assessmentId', 'isPreview')
+              .xor('assessment-id', 'is-preview')
               .required(),
           }),
         },
