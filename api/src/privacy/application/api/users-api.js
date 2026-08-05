@@ -1,17 +1,4 @@
-import { usecases } from '../../domain/usecases/index.js';
-
-/**
- * Anonymizes everything related to the user.
- *
- * @param{string} params.userId
- * @param{string} params.anonymizedByUserId
- * @param{string} params.anonymizedByUserRole
- * @param{string} params.client
- * @returns {Promise<void>}
- */
-const anonymizeUser = async ({ userId, anonymizedByUserId, anonymizedByUserRole, client }) => {
-  return usecases.anonymizeUser({ userId, anonymizedByUserId, anonymizedByUserRole, client });
-};
+import { anonymizeServices } from '../../domain/services/anonymize-services/index.js';
 
 /**
  * Determines if a user can self-delete their account.
@@ -21,7 +8,7 @@ const anonymizeUser = async ({ userId, anonymizedByUserId, anonymizedByUserRole,
  * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the user can self-delete their account.
  */
 const canSelfDeleteAccount = async ({ userId }) => {
-  return usecases.canSelfDeleteAccount({ userId });
+  return anonymizeServices.canAnonymizeItself({ userId });
 };
 
-export { anonymizeUser, canSelfDeleteAccount };
+export { canSelfDeleteAccount };

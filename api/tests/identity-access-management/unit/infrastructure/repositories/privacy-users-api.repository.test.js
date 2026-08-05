@@ -26,37 +26,4 @@ describe('Unit | Identity Access Management | Infrastructure | Repositories | pr
       expect(result).to.be.true;
     });
   });
-
-  describe('#anonymizeUser', function () {
-    it('anonymizes everything related to the user', async function () {
-      // given
-      const dependencies = {
-        privacyUsersApi: {
-          anonymizeUser: sinon.stub().resolves(),
-        },
-      };
-
-      const userId = Symbol('userId');
-      const anonymizedByUserId = userId;
-      const anonymizedByUserRole = 'USER';
-      const client = 'PIX_APP';
-
-      // when
-      await privacyUsersApiRepository.anonymizeUser({
-        userId,
-        anonymizedByUserId,
-        anonymizedByUserRole,
-        client,
-        dependencies,
-      });
-
-      // then
-      expect(dependencies.privacyUsersApi.anonymizeUser).to.have.been.calledWithExactly({
-        userId,
-        anonymizedByUserId,
-        anonymizedByUserRole,
-        client,
-      });
-    });
-  });
 });

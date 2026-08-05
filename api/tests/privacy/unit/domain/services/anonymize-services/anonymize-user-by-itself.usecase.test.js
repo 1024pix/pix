@@ -1,10 +1,10 @@
 import sinon from 'sinon';
 
-import { usecases } from '../../../../../src/privacy/domain/usecases/index.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
+import { anonymizeServices } from '../../../../../../src/privacy/domain/services/anonymize-services/index.js';
+import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function () {
+describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-user-by-itself', function () {
   const userId = '123';
   let dependencies;
 
@@ -34,7 +34,7 @@ describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function
         // given
         await featureToggles.set('isSelfAccountDeletionEnabled', true);
         // when
-        const result = await usecases.canSelfDeleteAccount({ userId, ...dependencies });
+        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
 
         // then
         expect(result).to.be.true;
@@ -47,7 +47,7 @@ describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function
         dependencies.learnersApiRepository.hasBeenLearner.withArgs({ userId }).resolves(true);
 
         // when
-        const result = await usecases.canSelfDeleteAccount({ userId, ...dependencies });
+        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -60,7 +60,7 @@ describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function
         dependencies.campaignParticipationsApiRepository.hasCampaignParticipations.withArgs({ userId }).resolves(true);
 
         // when
-        const result = await usecases.canSelfDeleteAccount({ userId, ...dependencies });
+        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -73,7 +73,7 @@ describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function
         dependencies.campaignParticipationsApiRepository.hasCampaignParticipations.withArgs({ userId }).resolves(false);
 
         // when
-        const result = await usecases.canSelfDeleteAccount({ userId, ...dependencies });
+        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
 
         // then
         expect(result).to.be.true;
@@ -86,7 +86,7 @@ describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function
         dependencies.candidatesApiRepository.hasBeenCandidate.withArgs({ userId }).resolves(true);
 
         // when
-        const result = await usecases.canSelfDeleteAccount({ userId, ...dependencies });
+        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -103,7 +103,7 @@ describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function
         });
 
         // when
-        const result = await usecases.canSelfDeleteAccount({ userId, ...dependencies });
+        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -120,7 +120,7 @@ describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function
         });
 
         // when
-        const result = await usecases.canSelfDeleteAccount({ userId, ...dependencies });
+        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -137,7 +137,7 @@ describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function
         });
 
         // when
-        const result = await usecases.canSelfDeleteAccount({ userId, ...dependencies });
+        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -155,7 +155,7 @@ describe('Unit | Privacy | Domain | UseCase | can-self-delete-account', function
         // given
 
         // when
-        const result = await usecases.canSelfDeleteAccount({ userId: '123', ...dependencies });
+        const result = await anonymizeServices.canAnonymizeItself({ userId: '123', ...dependencies });
 
         // then
         expect(result).to.be.false;

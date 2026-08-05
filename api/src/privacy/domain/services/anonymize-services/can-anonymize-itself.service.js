@@ -1,16 +1,11 @@
 /**
- * Determines if a user can self-delete their account.
+ * Determines if a user can self-anonymize their account.
  *
  * @param {Object} params - The parameters for the use case.
  * @param {number} params.userId - The ID of the user.
- * @param {Object} params.featureToggles - The feature toggles configuration.
- * @param {Object} params.campaignParticipationsApiRepository - The repository for campaign participations operations.
- * @param {Object} params.candidatesApiRepository - The repository for candidate-related operations.
- * @param {Object} params.learnersApiRepository - The repository for learner-related operations.
- * @param {Object} params.userTeamsApiRepository - The repository for user team access operations.
  * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if self-account deletion is enabled.
  */
-const canSelfDeleteAccount = async ({
+export const canAnonymizeItself = async ({
   userId,
   candidatesApiRepository,
   learnersApiRepository,
@@ -37,5 +32,3 @@ const canSelfDeleteAccount = async ({
 
   return true;
 };
-
-export { canSelfDeleteAccount };

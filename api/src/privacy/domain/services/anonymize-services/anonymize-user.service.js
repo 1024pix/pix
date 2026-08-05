@@ -1,6 +1,6 @@
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLoggingJob.js';
-import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { AuditLoggingJob } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
+import { anonymizeGeneralizeDate } from '../../../../shared/infrastructure/utils/date-utils.js';
 
 /**
  * @param params
@@ -19,7 +19,7 @@ import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/da
  * @param{AuditLoggingJobRepository} params.auditLoggingJobRepository
  * @returns {Promise<void>}
  */
-const anonymizeUser = async function ({
+export const anonymizeUser = async function ({
   userId,
   anonymizedByUserId,
   anonymizedByUserRole,
@@ -149,5 +149,3 @@ async function _anonymizeUser({ user, anonymizedByUserId, userRepository }) {
 async function _anonymizeOrganizationLearner({ userId, learnersApiRepository }) {
   await learnersApiRepository.anonymizeByUserId({ userId });
 }
-
-export { anonymizeUser };

@@ -4,7 +4,6 @@ import { identityAccessManagementRoutes } from '../../../../../src/identity-acce
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { config } from '../../../../../src/shared/config.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -363,42 +362,6 @@ describe('Integration | Identity Access Management | Application | Route | User'
       // then
       expect(result.statusCode).to.equal(403);
       expect(result.result.errors[0].code).to.equal('EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND');
-    });
-  });
-
-  describe('DELETE /api/users/me', function () {
-    context('when user is not authenticated', function () {
-      it('returns a 401 HTTP status code', async function () {
-        // given
-        const url = '/api/users/me';
-
-        // when
-        const response = await httpTestServer.request('DELETE', url);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-    });
-
-    context('when user cannot self delete their account', function () {
-      beforeEach(async function () {
-        await featureToggles.set('isSelfAccountDeletionEnabled', false);
-      });
-
-      it('returns a 403 HTTP status code', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        await databaseBuilder.commit();
-
-        const url = '/api/users/me';
-        const headers = generateAuthenticatedUserRequestHeaders({ userId });
-
-        // when
-        const response = await httpTestServer.request('DELETE', url, null, null, headers);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
     });
   });
 

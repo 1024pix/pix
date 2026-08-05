@@ -949,31 +949,4 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       expect(pixAuthenticationMethod.authenticationComplement.password).to.deep.equal('ABCDEF1234');
     });
   });
-
-  describe('DELETE /api/users/me', function () {
-    let userId;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
-    });
-
-    it('anonymizes the user and returns a 204 HTTP status code', async function () {
-      // given
-      const options = {
-        method: 'DELETE',
-        url: '/api/users/me',
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-
-      const user = await knex('users').select().where({ id: userId }).first();
-      expect(user.hasBeenAnonymised).to.be.true;
-    });
-  });
 });

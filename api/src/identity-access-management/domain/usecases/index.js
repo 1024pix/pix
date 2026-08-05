@@ -102,7 +102,6 @@ import { addOidcProvider } from './add-oidc-provider.js';
 import { addPixAuthenticationMethod } from './add-pix-authentication-method.usecase.js';
 import { addUserEmailWithValidation } from './add-user-email-with-validation.usecase.js';
 import { anonymizeGarAuthenticationMethods } from './anonymize-gar-authentication-methods.usecase.js';
-import { anonymizeUser } from './anonymize-user.usecase.js';
 import { assertUserIsBlocked } from './assert-user-is-blocked.js';
 import { authenticateAnonymousUser } from './authenticate-anonymous-user.usecase.js';
 import { authenticateApplication } from './authenticate-application.js';
@@ -140,7 +139,6 @@ import { rememberUserHasSeenLastDataProtectionPolicyInformation } from './rememb
 import { removeAuthenticationMethod } from './remove-authentication-method.usecase.js';
 import { revokeAccessForUsers } from './revoke-access-for-users.usecase.js';
 import { revokeRefreshToken } from './revoke-refresh-token.usecase.js';
-import { selfDeleteUserAccount } from './self-delete-user-account.usecase.js';
 import { sendEmailForAccountRecovery } from './send-email-for-account-recovery.usecase.js';
 import { sendVerificationCode } from './send-verification-code.usecase.js';
 import { unblockUserAccount } from './unblock-user-account.js';
@@ -159,7 +157,6 @@ const usecasesWithoutInjectedDependencies = {
   addOidcProvider,
   addPixAuthenticationMethod,
   anonymizeGarAuthenticationMethods,
-  anonymizeUser,
   assertUserIsBlocked,
   authenticateAnonymousUser,
   authenticateApplication,
@@ -197,7 +194,6 @@ const usecasesWithoutInjectedDependencies = {
   removeAuthenticationMethod,
   revokeAccessForUsers,
   revokeRefreshToken,
-  selfDeleteUserAccount,
   sendEmailForAccountRecovery,
   sendVerificationCode,
   unblockUserAccount,

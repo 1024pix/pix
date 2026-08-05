@@ -186,15 +186,6 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
-const selfDeleteUserAccount = async function (request, h) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const locale = getUserLocale(request);
-
-  await usecases.selfDeleteUserAccount({ userId: authenticatedUserId, locale });
-
-  return h.response().code(204);
-};
-
 const sendVerificationCode = async function (request, h, dependencies = { emailVerificationSerializer }) {
   const locale = getUserLocale(request);
 
@@ -264,7 +255,6 @@ export const userController = {
   rememberUserHasSeenChallengeTooltip,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
   createUser,
-  selfDeleteUserAccount,
   sendVerificationCode,
   updatePassword,
   updateUserEmailWithValidation,

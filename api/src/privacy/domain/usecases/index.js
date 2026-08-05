@@ -1,52 +1,27 @@
-import * as authenticationMethodRepository from '../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
-import { lastUserApplicationConnectionsRepository } from '../../../identity-access-management/infrastructure/repositories/last-user-application-connections.repository.js';
-import { refreshTokenRepository } from '../../../identity-access-management/infrastructure/repositories/refresh-token.repository.js';
-import { resetPasswordDemandRepository } from '../../../identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import * as userLoginRepository from '../../../identity-access-management/infrastructure/repositories/user-login-repository.js';
-import * as userAcceptanceRepository from '../../../legal-documents/infrastructure/repositories/user-acceptance.repository.js';
-import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
-import { auditLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
-import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
-import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
+import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
+import { adminMemberRepository } from '../../../team/infrastructure/repositories/admin-member.repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
-import * as campaignParticipationsApiRepository from '../../infrastructure/repositories/campaign-participations-api.repository.js';
-import * as candidatesApiRepository from '../../infrastructure/repositories/candidates-api.repository.js';
-import * as learnersApiRepository from '../../infrastructure/repositories/learners-api.repository.js';
-import * as userTeamsApiRepository from '../../infrastructure/repositories/user-teams-api.repository.js';
+import { anonymizeServices } from '../services/anonymize-services/index.js';
+import { anonymizeUserByAdmin } from './anonymize-user-by-admin.usecase.js';
+import { anonymizeUserByItself } from './anonymize-user-by-itself.usecase.js';
 
 const repositories = {
-  authenticationMethodRepository,
-  campaignParticipationsApiRepository,
-  candidatesApiRepository,
-  certificationCenterMembershipRepository,
-  auditLoggingJobRepository,
-  learnersApiRepository,
-  membershipRepository,
-  lastUserApplicationConnectionsRepository,
-  refreshTokenRepository,
-  resetPasswordDemandRepository,
-  userAcceptanceRepository,
-  userLoginRepository,
   userRepository,
-  userTeamsApiRepository,
+  emailRepository,
+  adminMemberRepository,
 };
 
 const services = {
-  featureToggles,
+  anonymizeServices,
 };
 
-import { anonymizeUser } from './anonymize-user.usecase.js';
-import { canSelfDeleteAccount } from './can-self-delete-account.usecase.js';
-
 const usecasesWithoutInjectedDependencies = {
-  anonymizeUser,
-  canSelfDeleteAccount,
+  anonymizeUserByAdmin,
+  anonymizeUserByItself,
 };
 
 const dependencies = Object.assign({}, repositories, services);
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
-
-export { usecases };
+export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);

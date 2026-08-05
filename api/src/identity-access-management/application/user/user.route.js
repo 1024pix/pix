@@ -42,7 +42,6 @@ export const userRoutes = [
       tags: ['api', 'user', 'verification-code'],
     },
   },
-
   {
     method: 'POST',
     path: '/api/users',
@@ -86,18 +85,6 @@ export const userRoutes = [
       },
       handler: (request, h) => userController.createUser(request, h),
       notes: ['- **Cette route est publique**\n' + '- Crée un compte utilisateur'],
-      tags: ['identity-access-management', 'api', 'user'],
-    },
-  },
-  {
-    method: 'DELETE',
-    path: '/api/users/me',
-    config: {
-      handler: (request, h) => userController.selfDeleteUserAccount(request, h),
-      notes: [
-        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Permet à l’utilisateur authentifié de supprimer son compte',
-      ],
       tags: ['identity-access-management', 'api', 'user'],
     },
   },
