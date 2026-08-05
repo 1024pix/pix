@@ -433,21 +433,21 @@
                           "id": "1",
                           "content": "<p>Celui de la plateforme vidéo A</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non&nbsp;! Sur la plateforme A, l’utilisateur peut plus facilement décider de continuer à regarder des vidéos ou s’arrêter. Alors que sur la plateforme B, aucune action de l’utilisateur n’est nécessaire, la prochaine vidéo démarre automatiquement. </p><p>La <strong>lecture automatique</strong> réduit les occasions de décider de s’arrêter et peut conduire à regarder plus de vidéos que prévu. Cela peut favoriser un comportement de visionnage compulsif (<em>binge-watching&nbsp;</em>en anglais).</p>"
+                            "diagnosis": "<p>Eh oui ! Sur la plateforme A, aucune action de l’utilisateur n’est nécessaire, la prochaine vidéo démarre automatiquement. Alors que sur la plateforme B, l’utilisateur peut plus facilement décider de continuer à regarder des vidéos ou s’arrêter. </p><p>La <strong>lecture automatique</strong> réduit les occasions de décider de s’arrêter et peut conduire à regarder plus de vidéos que prévu. Cela peut favoriser un comportement de visionnage compulsif (<em>binge-watching&nbsp;</em>en anglais).</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Celui de la plateforme vidéo B</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui ! Sur la plateforme B, la prochaine vidéo démarre automatiquement. Aucune action de l’utilisateur n’est nécessaire. Alors que sur la plateforme A, l’utilisateur peut plus facilement décider de continuer à regarder des vidéos ou s’arrêter.</p><p>La <strong>lecture automatique</strong> réduit les occasions de décider de s’arrêter et peut conduire à regarder plus de vidéos que prévu. Cela peut favoriser un comportement de visionnage compulsif (<em>binge-watching&nbsp;</em>en anglais).</p>"
+                            "diagnosis": "<p>Eh non ! Sur la plateforme B, l’utilisateur peut plus facilement décider de continuer à regarder des vidéos ou s’arrêter. Alors que sur la plateforme A, aucune action de l’utilisateur n’est nécessaire, la prochaine vidéo démarre automatiquement. </p><p>La <strong>lecture automatique</strong> réduit les occasions de décider de s’arrêter et peut conduire à regarder plus de vidéos que prévu. Cela peut favoriser un comportement de visionnage compulsif (<em>binge-watching&nbsp;</em>en anglais).</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>C’est la plateforme B car la prochaine vidéo démarre automatiquement. Aucune action de l’utilisateur n’est nécessaire. Alors que sur la plateforme A, l’utilisateur peut plus facilement décider de continuer à regarder des vidéos ou s’arrêter.</p><p>La <strong>lecture automatique</strong> réduit les occasions de décider de s’arrêter et peut conduire à regarder plus de vidéos que prévu. Cela peut favoriser un comportement de visionnage compulsif (<em>binge-watching&nbsp;</em>en anglais).</p>"
+                            "diagnosis": "<p>C’est la plateforme A car la prochaine vidéo démarre automatiquement. Aucune action de l’utilisateur n’est nécessaire. Alors que sur la plateforme B, l’utilisateur peut plus facilement décider de continuer à regarder des vidéos ou s’arrêter.</p><p>La <strong>lecture automatique</strong> réduit les occasions de décider de s’arrêter et peut conduire à regarder plus de vidéos que prévu. Cela peut favoriser un comportement de visionnage compulsif (<em>binge-watching&nbsp;</em>en anglais).</p>"
                           }
                         }
                       ],
