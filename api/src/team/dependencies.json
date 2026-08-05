@@ -1,5 +1,5 @@
 {
   "name": "team",
   "dependsOn": ["certification/shared", "identity-access-management", "organizational-entities", "shared"],
-  "circular": "temporary-allowed"
+  "circular": "forbidden"
 }
