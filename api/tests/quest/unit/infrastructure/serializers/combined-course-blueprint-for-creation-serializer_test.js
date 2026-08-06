@@ -17,7 +17,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
     const moduleId = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
     const items = [
       { type: COMBINED_COURSE_ITEM_TYPES.MODULE, value: moduleId },
-      { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: 123 },
+      { type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: 123 },
     ];
     // given
     const serializedBlueprint = {
