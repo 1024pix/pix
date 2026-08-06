@@ -1,9 +1,5 @@
 import sinon from 'sinon';
 
-import {
-  cleanCalibrationTables,
-  createCalibrationTables,
-} from '../../../../../db/database-builder/database-helpers.js';
 import { createServer } from '../../../../../server.js';
 import {
   CALIBRATION_SCOPES,
@@ -17,7 +13,7 @@ import { VERSION_STATUSES } from '../../../../../src/certification/configuration
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
@@ -603,12 +599,10 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
     beforeEach(function () {
       clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      return createCalibrationTables();
     });
 
     afterEach(function () {
       clock.restore();
-      return cleanCalibrationTables();
     });
 
     it('should return 200 HTTP status code and a the calibration report', async function () {
@@ -616,13 +610,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         .versionBuilder()
         .withParameters({ id: 1, scope: SCOPES.CORE, tubeIds: ['tubeA'] })
         .insertToDB({ databaseBuilder });
+
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .onScope({ scope: CALIBRATION_SCOPES.COEUR })
-        .withCalibratredChallenges([{ tubeId: 'tubeA' }])
+        .withCalibratredChallenges([{ challengeId: 'challengeA', tubeId: 'tubeA' }])
         .asValidated({ startedAt: new Date('2021-01-01') })
         .withParameters({ id: 2 })
-        .insertToDB();
+        .insertToDB({ datamartBuilder });
+
       const learningContent = {
         skills: [
           {
@@ -638,7 +634,10 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         ],
       };
       databaseBuilder.factory.learningContent.build(learningContent);
+
       await databaseBuilder.commit();
+      await datamartBuilder.commit();
+
       const options = {
         method: 'POST',
         url: `/api/admin/certification-versions/1/calibration-report`,
@@ -667,14 +666,8 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
             {
               additionalContent: null,
               alertLevel: null,
-              content: 0,
-              label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
-            },
-            {
-              additionalContent: 'tubeA',
-              alertLevel: ALERT_LEVELS.LOW,
               content: 1,
-              label: REPORT_LABELS.TUBE_ONLY_IN_VERSION_COUNT,
+              label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
             },
             {
               additionalContent: "La calibration a été démarrée depuis plus d'1 an",

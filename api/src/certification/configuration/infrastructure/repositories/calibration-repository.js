@@ -1,4 +1,4 @@
-import { knex as datawarehouseKnex } from '../../../../../datawarehouse/knex-database-connection.js';
+import { knex as datamartKnex } from '../../../../../datamart/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger, SCOPES } from '../../../../shared/infrastructure/utils/logger.js';
 import { CalibratedChallenge, Calibration } from '../../domain/models/Calibration.js';
@@ -6,7 +6,7 @@ import { CalibratedChallenge, Calibration } from '../../domain/models/Calibratio
 export async function find(calibrationId) {
   const knexConn = DomainTransaction.getConnection();
   try {
-    const generalInfo = await datawarehouseKnex
+    const generalInfo = await datamartKnex
       .select({ id: 'id', startedAt: 'calibration_date', status: 'status', scope: 'scope' })
       .from('data_calibrations')
       .where({ id: calibrationId })
@@ -14,11 +14,14 @@ export async function find(calibrationId) {
 
     if (!generalInfo) return null;
 
-    const calibratedChallengesData = await datawarehouseKnex
-      .select({ id: 'id', challengeId: 'challenge_id', alpha: 'alpha', delta: 'delta' })
-      .from('data_calibration_challenges')
-      .where({ calibration_id: calibrationId, is_excluded: false })
-      .orderBy('id');
+    const calibratedChallengesData = await datamartKnex
+      .select({
+        challengeId: 'challenge_id',
+        alpha: 'alpha',
+        delta: 'delta',
+      })
+      .from('data_active_calibrated_challenges')
+      .where({ calibration_id: calibrationId });
 
     let calibratedChallenges = [];
     if (calibratedChallengesData.length > 0) {
@@ -31,6 +34,7 @@ export async function find(calibrationId) {
           calibratedChallengesData.map((data) => data.challengeId),
         );
       const tubeByChallenge = new Map(tubeAndChallengeData.map(({ challengeId, tubeId }) => [challengeId, tubeId]));
+
       calibratedChallenges = calibratedChallengesData.map(
         (calibratedChallengeData) =>
           new CalibratedChallenge({
@@ -49,7 +53,7 @@ export async function find(calibrationId) {
   } catch (err) {
     logger.error(
       { event: SCOPES.CERTIFICATION },
-      `Error while retrieving the calibration data of ID ${calibrationId} from datawarehouse : ${err}`,
+      `Error while retrieving the calibration data of ID ${calibrationId} from datamart : ${err}`,
     );
     throw err;
   }

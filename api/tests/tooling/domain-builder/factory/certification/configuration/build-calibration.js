@@ -4,16 +4,13 @@ import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
 } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
-import { datawarehouseKnex } from '../../../../databases.js';
 
 /**
  * @typedef {Object} CalibratedChallengeData
- * @property {number} id
  * @property {number} alpha
  * @property {number} delta
  * @property {string} challengeId
  * @property {string} tubeId
- * @property {boolean} isExcluded
  */
 
 /**
@@ -24,7 +21,7 @@ import { datawarehouseKnex } from '../../../../databases.js';
  *   .calibrationBuilder()
  *   .onScope(SCOPES.PIX_PLUS_DROIT)
  *   .asValidated()
- *   .withCalibratedChallenges([{ id: 1, challengeId: 'chalABC', alpha: -4, delta: 3.324, isExcluded: false }])
+ *   .withCalibratredChallenges([{ challengeId: 'chalABC', tubeId: 'tubeABC', alpha: -4, delta: 3.324 }])
  *   .withParameters({ id: 123 })
  *   .insertToDB({ databaseBuilder });
  */
@@ -116,31 +113,35 @@ class CalibrationBuilder {
   }
 
   /**
-   * Inserts the calibration row and any subsequent data to DATAWAREHOUSE DB
+   * Buffers the calibration row and any subsequent data into the DATAMART builder
    * then returns the built domain Calibration carrying the persisted id.
-   * PERSISTS DATA IMMEDIATELY
+   * Call `datamartBuilder.commit()` afterwards to actually persist.
+   *
+   * Note: `tubeId` is NOT persisted, it is derived by the repository from
+   * `challengeId` through the learning content, so `challengeId` must reference
+   * a challenge built in the learning content of the test.
    *
    * @returns {Promise<Calibration>} the persisted calibration
    */
-  async insertToDB() {
+  async insertToDB({ datamartBuilder }) {
     const calibration = this.build();
 
-    await datawarehouseKnex('data_calibrations').insert({
+    const persistedCalibration = datamartBuilder.factory.buildCalibration({
       id: calibration.id,
       calibration_date: calibration.startedAt,
       scope: calibration.scope,
       status: calibration.status,
     });
 
-    const calibratedChallengesToInsert = this.calibratedChallengesData.map((calibratedChallengeData) => ({
-      id: calibratedChallengeData.id,
-      calibration_id: calibration.id,
-      challenge_id: calibratedChallengeData.challengeId,
-      alpha: calibratedChallengeData.alpha,
-      delta: calibratedChallengeData.delta,
-      is_excluded: calibratedChallengeData.isExcluded,
-    }));
-    await datawarehouseKnex('data_calibration_challenges').insert(calibratedChallengesToInsert);
+    this.calibratedChallengesData.forEach((calibratedChallengeData) => {
+      datamartBuilder.factory.buildDatamartActiveCalibratedChallenge({
+        calibrationId: persistedCalibration.id,
+        challengeId: calibratedChallengeData.challengeId,
+        alpha: calibratedChallengeData.alpha,
+        delta: calibratedChallengeData.delta,
+      });
+    });
+
     return calibration;
   }
 
@@ -150,10 +151,9 @@ class CalibrationBuilder {
    * @returns {Calibration}
    */
   build() {
-    const calibratedChallenges = this.calibratedChallengesData
-      .filter((calibratedChallengeData) => !calibratedChallengeData.isExcluded)
-      .sort((a, b) => a.id - b.id)
-      .map((calibratedChallengeData) => new CalibratedChallenge(calibratedChallengeData));
+    const calibratedChallenges = this.calibratedChallengesData.map(
+      (calibratedChallengeData) => new CalibratedChallenge(calibratedChallengeData),
+    );
 
     return new Calibration({
       id: this.id,

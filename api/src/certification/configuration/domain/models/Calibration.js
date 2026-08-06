@@ -41,8 +41,7 @@ export class Calibration {
 }
 
 export class CalibratedChallenge {
-  constructor({ id, challengeId, tubeId, alpha, delta }) {
-    this.id = id;
+  constructor({ challengeId, tubeId, alpha, delta }) {
     this.challengeId = challengeId;
     this.tubeId = tubeId;
     this.alpha = alpha;
