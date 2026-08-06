@@ -12,15 +12,13 @@ const updateOrganizationLearnerDependentUserPassword = async function ({
   passwordGenerator,
   authenticationMethodRepository,
   prescriptionOrganizationLearnerRepository,
+  membershipRepository,
   userRepository,
 }) {
-  const userWithMemberships = await userRepository.getWithMemberships(userId);
+  const memberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId });
   const organizationLearner = await prescriptionOrganizationLearnerRepository.getLearnerInfo(organizationLearnerId);
 
-  if (
-    !userWithMemberships.hasAccessToOrganization(organizationId) ||
-    organizationLearner.organizationId !== organizationId
-  ) {
+  if (memberships.length === 0 || organizationLearner.organizationId !== organizationId) {
     throw new UserNotAuthorizedToUpdatePasswordError(
       `L'utilisateur ${userId} n'est pas autorisé à modifier le mot de passe des élèves de l'organisation ${organizationId} car il n'y appartient pas.`,
     );
