@@ -8,7 +8,7 @@ import { anonymizeServices } from '../../domain/services/anonymize-services/inde
  * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the user can self-delete their account.
  */
 const canSelfDeleteAccount = async ({ userId }) => {
-  return anonymizeServices.canAnonymizeItself({ userId });
+  return anonymizeServices.canSelfAnonymize({ userId });
 };
 
 export { canSelfDeleteAccount };

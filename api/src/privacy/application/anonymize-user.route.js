@@ -29,7 +29,7 @@ async function register(server) {
       method: 'DELETE',
       path: '/api/users/me',
       config: {
-        handler: (request, h) => anonymizeUserController.anonymizeUserByItself(request, h),
+        handler: (request, h) => anonymizeUserController.selfAnonymizeByUser(request, h),
         notes: ['Permet à l’utilisateur authentifié de supprimer son compte Pix (par anonymisation)'],
         tags: ['api', 'privacy', 'user'],
       },

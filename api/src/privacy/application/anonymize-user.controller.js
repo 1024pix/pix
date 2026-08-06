@@ -13,11 +13,11 @@ const anonymizeUserByAdmin = async function (request, h) {
   return h.response().code(204);
 };
 
-const anonymizeUserByItself = async function (request, h) {
+const selfAnonymizeByUser = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
   const locale = getUserLocale(request);
 
-  await usecases.anonymizeUserByItself({
+  await usecases.selfAnonymizeByUser({
     userId: authenticatedUserId,
     locale,
   });
@@ -25,4 +25,4 @@ const anonymizeUserByItself = async function (request, h) {
   return h.response().code(204);
 };
 
-export const anonymizeUserController = { anonymizeUserByAdmin, anonymizeUserByItself };
+export const anonymizeUserController = { anonymizeUserByAdmin, selfAnonymizeByUser };

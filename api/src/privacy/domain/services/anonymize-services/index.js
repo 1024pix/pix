@@ -16,7 +16,7 @@ import * as candidatesApiRepository from '../../../infrastructure/repositories/c
 import * as learnersApiRepository from '../../../infrastructure/repositories/learners-api.repository.js';
 import * as userTeamsApiRepository from '../../../infrastructure/repositories/user-teams-api.repository.js';
 import { anonymizeUser } from './anonymize-user.service.js';
-import { canAnonymizeItself } from './can-anonymize-itself.service.js';
+import { canSelfAnonymize } from './can-self-anonymize.service.js';
 
 const repositories = {
   authenticationMethodRepository,
@@ -41,7 +41,7 @@ const services = {
 
 const servicesWithoutInjectedDependencies = {
   anonymizeUser,
-  canAnonymizeItself,
+  canSelfAnonymize,
 };
 
 const dependencies = Object.assign({}, repositories, services);

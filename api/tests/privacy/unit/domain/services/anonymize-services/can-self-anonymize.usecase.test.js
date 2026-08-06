@@ -4,7 +4,7 @@ import { anonymizeServices } from '../../../../../../src/privacy/domain/services
 import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-user-by-itself', function () {
+describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | can-self-anonymize', function () {
   const userId = '123';
   let dependencies;
 
@@ -34,7 +34,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-u
         // given
         await featureToggles.set('isSelfAccountDeletionEnabled', true);
         // when
-        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
+        const result = await anonymizeServices.canSelfAnonymize({ userId, ...dependencies });
 
         // then
         expect(result).to.be.true;
@@ -47,7 +47,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-u
         dependencies.learnersApiRepository.hasBeenLearner.withArgs({ userId }).resolves(true);
 
         // when
-        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
+        const result = await anonymizeServices.canSelfAnonymize({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -60,7 +60,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-u
         dependencies.campaignParticipationsApiRepository.hasCampaignParticipations.withArgs({ userId }).resolves(true);
 
         // when
-        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
+        const result = await anonymizeServices.canSelfAnonymize({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -73,7 +73,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-u
         dependencies.campaignParticipationsApiRepository.hasCampaignParticipations.withArgs({ userId }).resolves(false);
 
         // when
-        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
+        const result = await anonymizeServices.canSelfAnonymize({ userId, ...dependencies });
 
         // then
         expect(result).to.be.true;
@@ -86,7 +86,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-u
         dependencies.candidatesApiRepository.hasBeenCandidate.withArgs({ userId }).resolves(true);
 
         // when
-        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
+        const result = await anonymizeServices.canSelfAnonymize({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -103,7 +103,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-u
         });
 
         // when
-        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
+        const result = await anonymizeServices.canSelfAnonymize({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -120,7 +120,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-u
         });
 
         // when
-        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
+        const result = await anonymizeServices.canSelfAnonymize({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -137,7 +137,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-u
         });
 
         // when
-        const result = await anonymizeServices.canAnonymizeItself({ userId, ...dependencies });
+        const result = await anonymizeServices.canSelfAnonymize({ userId, ...dependencies });
 
         // then
         expect(result).to.be.false;
@@ -155,7 +155,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | anonymize-u
         // given
 
         // when
-        const result = await anonymizeServices.canAnonymizeItself({ userId: '123', ...dependencies });
+        const result = await anonymizeServices.canSelfAnonymize({ userId: '123', ...dependencies });
 
         // then
         expect(result).to.be.false;

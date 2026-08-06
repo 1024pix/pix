@@ -5,7 +5,7 @@
  * @param {number} params.userId - The ID of the user.
  * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if self-account deletion is enabled.
  */
-export const canAnonymizeItself = async ({
+export const canSelfAnonymize = async ({
   userId,
   candidatesApiRepository,
   learnersApiRepository,

@@ -6,14 +6,14 @@ import { createSelfDeleteUserAccountEmail } from '../emails/create-self-delete-u
  * @param{number} params.userId
  * @returns {Promise<boolean>}
  */
-export const anonymizeUserByItself = async function ({
+export const selfAnonymizeByUser = async function ({
   userId,
   locale,
   userRepository,
   emailRepository,
   anonymizeServices,
 }) {
-  const canAnonymize = await anonymizeServices.canAnonymizeItself({ userId });
+  const canAnonymize = await anonymizeServices.canSelfAnonymize({ userId });
   if (!canAnonymize) throw new ForbiddenAccess();
 
   const user = await userRepository.get(userId);

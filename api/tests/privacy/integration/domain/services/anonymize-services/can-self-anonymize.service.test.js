@@ -2,7 +2,7 @@ import { anonymizeServices } from '../../../../../../src/privacy/domain/services
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Integration | Privacy | Domain | Services | AnonymizeServices | can-anonymize-itself', function () {
+describe('Integration | Privacy | Domain | Services | AnonymizeServices | can-self-anonymize', function () {
   context('When user is eligible', function () {
     it('returns true', async function () {
       // given
@@ -10,7 +10,7 @@ describe('Integration | Privacy | Domain | Services | AnonymizeServices | can-an
       await databaseBuilder.commit();
 
       // when
-      const result = await anonymizeServices.canAnonymizeItself({ userId: user.id });
+      const result = await anonymizeServices.canSelfAnonymize({ userId: user.id });
 
       // then
       expect(result).to.be.true;

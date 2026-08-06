@@ -4,7 +4,7 @@ import { featureToggles } from '../../../../../src/shared/infrastructure/feature
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-itself', function () {
+describe('Integration | Privacy | Domain | UseCase | self-anonymize-by-user', function () {
   context('when user can self delete their account', function () {
     context('when user has an email', function () {
       it('doesn’t throw ForbiddenError and creates a SendEmailJob', async function () {
@@ -13,7 +13,7 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-itself', 
         await databaseBuilder.commit();
 
         // when & then
-        await expect(usecases.anonymizeUserByItself({ userId })).to.not.be.rejectedWith(ForbiddenAccess);
+        await expect(usecases.selfAnonymizeByUser({ userId })).to.not.be.rejectedWith(ForbiddenAccess);
 
         await expect('SendEmailJob').to.have.been.performed.withJobsCount(1);
       });
@@ -26,7 +26,7 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-itself', 
         await databaseBuilder.commit();
 
         // when & then
-        await expect(usecases.anonymizeUserByItself({ userId })).to.not.be.rejectedWith(ForbiddenAccess);
+        await expect(usecases.selfAnonymizeByUser({ userId })).to.not.be.rejectedWith(ForbiddenAccess);
 
         await expect('SendEmailJob').to.have.been.performed.withJobsCount(0);
       });
@@ -42,7 +42,7 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-itself', 
       await featureToggles.set('isSelfAccountDeletionEnabled', false);
 
       // when & then
-      await expect(usecases.anonymizeUserByItself({ userId })).to.be.rejectedWith(ForbiddenAccess);
+      await expect(usecases.selfAnonymizeByUser({ userId })).to.be.rejectedWith(ForbiddenAccess);
     });
   });
 });

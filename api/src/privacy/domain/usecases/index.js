@@ -5,7 +5,7 @@ import { adminMemberRepository } from '../../../team/infrastructure/repositories
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { anonymizeServices } from '../services/anonymize-services/index.js';
 import { anonymizeUserByAdmin } from './anonymize-user-by-admin.usecase.js';
-import { anonymizeUserByItself } from './anonymize-user-by-itself.usecase.js';
+import { selfAnonymizeByUser } from './self-anonymize-by-user.usecase.js';
 
 const repositories = {
   userRepository,
@@ -19,7 +19,7 @@ const services = {
 
 const usecasesWithoutInjectedDependencies = {
   anonymizeUserByAdmin,
-  anonymizeUserByItself,
+  selfAnonymizeByUser,
 };
 
 const dependencies = Object.assign({}, repositories, services);
