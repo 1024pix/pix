@@ -43,7 +43,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
           attributes: {
             title: 'diagnostique1',
             reference: 'ABCDIAG1',
-            type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
+            type: COMBINED_COURSE_ITEM_TYPES.EVALUATION,
             redirection: undefined,
             'is-completed': false,
             'is-locked': false,

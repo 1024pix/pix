@@ -48,7 +48,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseItem', function () {
       expect(item.masteryRate).to.be.null;
       expect(item.totalStagesCount).to.be.null;
       expect(item.validatedStagesCount).to.be.null;
-      expect(item.type).to.equal(COMBINED_COURSE_ITEM_TYPES.CAMPAIGN);
+      expect(item.type).to.equal(COMBINED_COURSE_ITEM_TYPES.EVALUATION);
     });
   });
   describe('ModuleCombinedCourseItem', function () {

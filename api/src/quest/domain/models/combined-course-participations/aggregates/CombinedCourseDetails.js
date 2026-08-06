@@ -95,7 +95,7 @@ export class CombinedCourseDetails extends CombinedCourse {
       createdAt: this.#participation.createdAt,
       updatedAt: this.#participation.updatedAt,
       hasFormationItem: this.items.some(({ type }) => type === COMBINED_COURSE_ITEM_TYPES.FORMATION),
-      nbCampaigns: this.items.filter(({ type }) => type === COMBINED_COURSE_ITEM_TYPES.CAMPAIGN).length,
+      nbCampaigns: this.items.filter(({ type }) => type === COMBINED_COURSE_ITEM_TYPES.EVALUATION).length,
       nbModules: this.items.filter(
         ({ type }) => type === COMBINED_COURSE_ITEM_TYPES.MODULE || type === COMBINED_COURSE_ITEM_TYPES.FORMATION,
       ).length,
@@ -103,7 +103,7 @@ export class CombinedCourseDetails extends CombinedCourse {
         ({ isCompleted, type }) => isCompleted && type === COMBINED_COURSE_ITEM_TYPES.MODULE,
       ).length,
       nbCampaignsCompleted: this.items.filter(
-        ({ isCompleted, type }) => isCompleted && type === COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
+        ({ isCompleted, type }) => isCompleted && type === COMBINED_COURSE_ITEM_TYPES.EVALUATION,
       ).length,
       rewardStatus: this.reward?.status,
     });
