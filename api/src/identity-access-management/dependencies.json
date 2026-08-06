@@ -1,5 +1,5 @@
 {
   "name": "identity-access-management",
-  "dependsOn": ["legal-documents", "organizational-entities", "prescription/organization-learner", "shared"],
+  "dependsOn": ["legal-documents", "prescription/organization-learner", "shared"],
   "circular": "forbidden"
 }
