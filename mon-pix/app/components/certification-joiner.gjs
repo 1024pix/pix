@@ -328,6 +328,12 @@ const ERROR_HANDLERS = [
     },
   },
   {
+    match: (error) => error.status === '409' && error.code === 'SESSION_EXPIRED_ERROR',
+    handle(component) {
+      component.errorMessage = component.intl.t('pages.certification-joiner.error-messages.session-not-joinable');
+    },
+  },
+  {
     match: (error) => error.status === '412',
     handle(component) {
       component.errorMessage = component.intl.t('pages.certification-joiner.error-messages.session-not-joinable');

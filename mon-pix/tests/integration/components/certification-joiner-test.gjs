@@ -203,6 +203,30 @@ module('Integration | Component | certification-joiner', function (hooks) {
       assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.generic.check-personal-info')));
     });
 
+    test('should display an error message when session has expired', async function (assert) {
+      // given
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
+
+      await _fillInputsToJoinSession({ screen, t });
+
+      const store = this.owner.lookup('service:store');
+      const saveStub = sinon.stub();
+      saveStub
+        .withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } })
+        .throws({ errors: [{ status: '409', code: 'SESSION_EXPIRED_ERROR' }] });
+
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: saveStub, deleteRecord: function () {} });
+      store.createRecord = createRecordMock;
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
+
+      // then
+      assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.session-not-joinable')));
+    });
+
     test('should display an error message on session not accessible', async function (assert) {
       // given
       const onStepChange = sinon.stub();
