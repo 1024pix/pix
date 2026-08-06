@@ -14,7 +14,6 @@ import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
  * @param {import('../../infrastructure/repositories/user.repository.js')} params.userRepository
  * @param {import('../../infrastructure/repositories/user-to-create.repository.js')} params.userToCreateRepository
  * @param {import('../../../shared/domain/services/crypto-service.js')} params.cryptoService
- * @param {Object} params.mailService
  * @param {import('../services/user-service.js')} params.userService
  * @param {import('../../../shared/domain/validators/user-validator.js')} params.userValidator
  * @param {import('../../../shared/domain/validators/password-validator.js')} params.passwordValidator
