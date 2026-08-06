@@ -18,9 +18,9 @@ const updateOrganizationLearnerDependentUserPassword = async function ({
   const organizationLearner = await prescriptionOrganizationLearnerRepository.getLearnerInfo(organizationLearnerId);
 
   const memberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId });
-  const hasAccessToOrganization = memberships.length > 0;
+  const isMember = memberships.length > 0;
 
-  if (!hasAccessToOrganization || organizationLearner.organizationId !== organizationId) {
+  if (!isMember || organizationLearner.organizationId !== organizationId) {
     throw new UserNotAuthorizedToUpdatePasswordError(
       `L'utilisateur ${userId} n'est pas autorisé à modifier le mot de passe des élèves de l'organisation ${organizationId} car il n'y appartient pas.`,
     );
