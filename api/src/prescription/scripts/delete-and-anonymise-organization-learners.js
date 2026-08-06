@@ -1,11 +1,11 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
-import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
 import { CLIENTS, PIX_ADMIN } from '../../shared/constants.js';
 import { usecases } from '../learner-management/domain/usecases/index.js';
 // Définition du script
-export class DeleteAndAnonymiseOrganizationLearnerScript extends Script {
+export class DeleteAndAnonymiseOrganizationLearnerScript extends ScriptWithJob {
   constructor() {
     super({
       description: 'Deletes organization-learners and anonymise their related data',
@@ -21,8 +21,10 @@ export class DeleteAndAnonymiseOrganizationLearnerScript extends Script {
     });
   }
 
-  async handle({ options, logger }) {
+  async handle({ options, logger, jobClient }) {
     const engineeringUserId = process.env.ENGINEERING_USER_ID;
+
+    await super.handle({ jobClient });
 
     logger.info(`Anonymize ${options.organizationLearnerIds.length} learners`);
 

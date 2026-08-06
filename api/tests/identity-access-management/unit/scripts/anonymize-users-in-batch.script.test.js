@@ -7,6 +7,7 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
   let script;
   let logger;
   let anonymizeUser;
+  let jobClient;
 
   beforeEach(function () {
     script = new AnonymizeUsersInBatchScript();
@@ -15,6 +16,7 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
       error: sinon.spy(),
     };
     anonymizeUser = sinon.stub();
+    jobClient = { initialize: sinon.stub(), stop: sinon.stub() };
   });
 
   describe('#handle', function () {
@@ -34,6 +36,7 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
           },
           logger,
           anonymizeUser,
+          jobClient,
           delay: 0,
         });
 
@@ -58,6 +61,7 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
           },
           logger,
           anonymizeUser,
+          jobClient,
           delay: 0,
         });
 
@@ -85,6 +89,7 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
               },
               logger,
               anonymizeUser,
+              jobClient,
               delay: 0,
             }),
           ).to.be.rejectedWith('There was some errors during the process.');
