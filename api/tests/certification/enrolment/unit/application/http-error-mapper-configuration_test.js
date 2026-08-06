@@ -5,6 +5,7 @@ import {
   CannotEnrollCandidateIndividuallyError,
   CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,
+  SessionExpiredError,
   SessionStartedDeletionError,
   UnknownCountryForStudentEnrolmentError,
 } from '../../../../../src/certification/enrolment/domain/errors.js';
@@ -105,6 +106,23 @@ describe('Unit | Certification | Enrolment | Application | HttpErrorMapperConfig
         "La session a été finalisée ou a expiré, l'ajout de candidat n'est plus possible.",
       );
       expect(error.code).to.equal('SCO_ENROL_NOT_ALLOWED');
+    });
+  });
+
+  context('when mapping SessionExpiredError', function () {
+    it('returns a ConflictError Http Error', function () {
+      //given
+      const httpErrorMapper = enrolmentDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === SessionExpiredError.name,
+      );
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new SessionExpiredError());
+
+      //then
+      expect(error).to.be.instanceOf(ConflictError);
+      expect(error.message).to.equal('La session est terminée.');
+      expect(error.code).to.equal('SESSION_EXPIRED_ERROR');
     });
   });
 });

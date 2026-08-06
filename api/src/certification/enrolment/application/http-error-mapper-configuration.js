@@ -9,6 +9,7 @@ import {
   CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,
   InvalidCertificationCandidate,
+  SessionExpiredError,
   SessionStartedDeletionError,
   UnknownCountryForStudentEnrolmentError,
   WrongDomainExtensionForPixPlusError,
@@ -23,6 +24,10 @@ const enrolmentDomainErrorMappingConfiguration = [
   {
     name: UnknownCountryForStudentEnrolmentError.name,
     httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: SessionExpiredError.name,
+    httpErrorFn: (error) => new ConflictError(error.message, error.code),
   },
   {
     name: InvalidCertificationCandidate.name,
