@@ -6,8 +6,8 @@ import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../shared/appli
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
 import { generateCSVTemplate } from '../../../shared/infrastructure/serializers/csv/csv-template.js';
+import { getDataBuffer } from '../../../shared/infrastructure/utils/buffer.js';
 import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
-import { getDataBuffer } from '../../learner-management/infrastructure/utils/bufferize/get-data-buffer.js';
 import { CAMPAIGNS_HEADER } from '../domain/constants.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as csvCampaignsIdsParser from '../infrastructure/serializers/csv/csv-campaigns-ids-parser.js';

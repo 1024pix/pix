@@ -3,10 +3,10 @@
  */
 import { createReadStream } from 'node:fs';
 
-import { getDataBuffer } from '../../../prescription/learner-management/infrastructure/utils/bufferize/get-data-buffer.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
+import { getDataBuffer } from '../../../shared/infrastructure/utils/buffer.js';
 import { QUEST_HEADER } from '../constants.js';
 import { Quest } from '../models/quests/entities/Quest.js';
 

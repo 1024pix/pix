@@ -4,10 +4,10 @@
 
 import { createReadStream } from 'node:fs';
 
-import { getDataBuffer } from '../../../prescription/learner-management/infrastructure/utils/bufferize/get-data-buffer.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
+import { getDataBuffer } from '../../../shared/infrastructure/utils/buffer.js';
 import { ORGANIZATION_FEATURES_HEADER } from '../constants.js';
 import { FeatureParamsNotProcessable } from '../errors.js';
 import { OrganizationFeature } from '../models/OrganizationFeature.js';

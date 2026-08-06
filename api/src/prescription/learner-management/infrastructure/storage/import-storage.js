@@ -3,9 +3,9 @@ import path from 'node:path';
 
 import { config } from '../../../../shared/config.js';
 import { DomainError, FileValidationError } from '../../../../shared/domain/errors.js';
+import { getDataBuffer as gDB } from '../../../../shared/infrastructure/utils/buffer.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { getDataBuffer as gDB } from '../utils/bufferize/get-data-buffer.js';
 
 class S3UploadError extends Error {}
 
