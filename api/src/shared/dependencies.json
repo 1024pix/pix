@@ -1,7 +1,6 @@
 {
   "name": "shared",
   "dependsOn": [
-    "certification/evaluation",
     "certification/shared",
     "evaluation",
     "learning-content",

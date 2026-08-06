@@ -1,23 +1,23 @@
-import { logger } from '../../infrastructure/utils/logger.js';
 import {
   AssessmentEndedError,
   AssessmentLackOfChallengesError,
   CampaignParticipationDeletedError,
   NotFoundError,
-} from '../errors.js';
+} from '../../../shared/domain/errors.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 export async function updateAssessmentWithNextChallenge({
   assessmentId,
-  userId,
   locale,
-  evaluationUsecases,
+  getCampaignProgression,
+  getNextChallengeForCampaignAssessment,
+  getNextChallengeForCompetenceEvaluation,
+  getNextChallengeForDemo,
   assessmentRepository,
   certificationEvaluationRepository,
   courseRepository,
-  challengeToPlayApi,
+  challengeToPlayRepository,
   competenceRepository,
-  certificationChallengeLiveAlertRepository,
-  certificationCompanionAlertRepository,
 }) {
   const assessment = await assessmentRepository.getWithAnswers(assessmentId);
   assessment.nextChallenge = null;
@@ -25,12 +25,10 @@ export async function updateAssessmentWithNextChallenge({
   let nextChallengeId = null;
   try {
     if (assessment.isCertification()) {
-      const challengeLiveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId({
-        assessmentId: assessment.id,
-      });
-      const companionLiveAlerts = await certificationCompanionAlertRepository.getAllByAssessmentId({
-        assessmentId: assessment.id,
-      });
+      const { challengeLiveAlerts, companionLiveAlerts } =
+        await certificationEvaluationRepository.getAssessmentLiveAlerts({
+          assessmentId: assessment.id,
+        });
       assessment.attachLiveAlerts({ challengeLiveAlerts, companionLiveAlerts });
       if (assessment.isStarted()) {
         nextChallengeId = await certificationEvaluationRepository.selectNextCertificationChallenge({
@@ -50,7 +48,7 @@ export async function updateAssessmentWithNextChallenge({
       }
       assessment.title = course.name;
       if (assessment.isStarted()) {
-        nextChallengeId = await evaluationUsecases.getNextChallengeForDemo({ assessment });
+        nextChallengeId = await getNextChallengeForDemo({ assessment });
       }
     }
 
@@ -60,21 +58,17 @@ export async function updateAssessmentWithNextChallenge({
           `Cannot continue assessement: ${assessmentId} on deleted participation`,
         );
       if (assessment.isForExamCampaign()) {
-        const progression = await evaluationUsecases.getProgression({
-          progressionId: assessmentId.toString(),
-          userId,
-        });
+        const progression = await getCampaignProgression({ assessment });
         globalProgression = progression.completionRate;
       }
-      nextChallengeId = await evaluationUsecases.getNextChallengeForCampaignAssessment({ assessment, locale });
+      nextChallengeId = await getNextChallengeForCampaignAssessment({ assessment, locale });
     }
 
     if (assessment.isCompetenceEvaluation()) {
       assessment.title = await competenceRepository.getCompetenceName({ id: assessment.competenceId, locale });
       if (assessment.isStarted()) {
-        nextChallengeId = await evaluationUsecases.getNextChallengeForCompetenceEvaluation({
+        nextChallengeId = await getNextChallengeForCompetenceEvaluation({
           assessment,
-          userId,
           locale,
         });
       }
@@ -115,7 +109,7 @@ export async function updateAssessmentWithNextChallenge({
     });
   }
 
-  assessment.nextChallenge = await challengeToPlayApi.get(nextChallengeId);
+  assessment.nextChallenge = await challengeToPlayRepository.get(nextChallengeId);
 
   return {
     assessment,

@@ -74,6 +74,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
             type: Assessment.types.COMPETENCE_EVALUATION,
             userId,
             competenceId,
+            state: 'started',
           });
           databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
           await databaseBuilder.commit();
@@ -92,7 +93,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
 
           // then
           return promise.then((response) => {
-            expect(response.result.data.id).to.equal(frenchChallengeId);
+            expect(response.result.data.relationships['next-challenge'].data.id).to.equal(frenchChallengeId);
           });
         });
       });

@@ -1,4 +1,5 @@
 import * as certificationChallengeLiveAlertRepository from '../../../../certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import * as certificationCompanionAlertRepository from '../../../../certification/shared/infrastructure/repositories/certification-companion-alert-repository.js';
 import * as correctionApi from '../../../../evaluation/application/api/correction-api.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
@@ -20,7 +21,6 @@ import * as assessmentSheetRepository from '../../infrastructure/repositories/as
 import * as calibratedChallengeRepository from '../../infrastructure/repositories/calibrated-challenge-repository.js';
 import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import * as certificationAssessmentHistoryRepository from '../../infrastructure/repositories/certification-assessment-history-repository.js';
-import * as certificationCompanionAlertRepository from '../../infrastructure/repositories/certification-companion-alert-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
 import * as scoringConfigurationRepository from '../../infrastructure/repositories/scoring-configuration-repository.js';
@@ -33,6 +33,7 @@ import { createCompanionAlert } from './create-companion-alert.js';
 import { createLiveAlert } from './create-live-alert.js';
 import { deneutralizeChallenge } from './deneutralize-challenge.js';
 import { evaluateAndSaveAnswer } from './evaluate-and-save-answer.js';
+import { getAssessmentLiveAlerts } from './get-assessment-live-alerts.js';
 import { getCertificationCourse } from './get-certification-course.js';
 import { getNextChallenge } from './get-next-challenge.js';
 import { neutralizeChallenge } from './neutralize-challenge.js';
@@ -115,6 +116,7 @@ const usecasesWithoutInjectedDependencies = {
   simulateScoreFromCapacity,
   evaluateAndSaveAnswer,
   createLiveAlert,
+  getAssessmentLiveAlerts,
 };
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 

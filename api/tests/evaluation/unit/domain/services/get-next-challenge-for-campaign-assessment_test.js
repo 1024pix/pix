@@ -1,11 +1,11 @@
 import sinon from 'sinon';
 
 import * as flash from '../../../../../src/certification/evaluation/domain/services/algorithm-methods/flash.js';
-import { getNextChallengeForCampaignAssessment } from '../../../../../src/evaluation/domain/usecases/get-next-challenge-for-campaign-assessment.js';
+import { getNextChallengeForCampaignAssessment } from '../../../../../src/evaluation/domain/services/get-next-challenge-for-campaign-assessment.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
+describe('Evaluation | Unit | Domain | Services | get-next-challenge-for-campaign-assessment', function () {
   describe('#get-next-challenge-for-campaign-assessment', function () {
     describe('when no assessment method is defined', function () {
       it('should use smart-random algorithm', async function () {

@@ -12,6 +12,26 @@ const { featureToggles } = config;
 const register = async function (server) {
   const routes = [
     {
+      method: 'GET',
+      path: '/api/assessments/{id}',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        pre: [
+          {
+            method: assessmentAuthorization.verify,
+            assign: 'authorizationCheck',
+          },
+        ],
+        handler: assessmentController.getAssessmentWithNextChallenge,
+        tags: ['api'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/assessments/{id}/complete-assessment',
       config: {

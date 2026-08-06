@@ -1,12 +1,10 @@
 import sinon from 'sinon';
 
-import { getNextChallengeForCompetenceEvaluation } from '../../../../../src/evaluation/domain/usecases/get-next-challenge-for-competence-evaluation.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../src/shared/domain/errors.js';
+import { getNextChallengeForCompetenceEvaluation } from '../../../../../src/evaluation/domain/services/get-next-challenge-for-competence-evaluation.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', function () {
+describe('Evaluation | Unit | Domain | Services | get-next-challenge-for-competence-evaluation', function () {
   describe('#getNextChallengeForCompetenceEvaluation', function () {
     let userId,
       assessmentId,
@@ -73,25 +71,6 @@ describe('Evaluation | Unit | Domain | Use Cases | get-next-challenge-for-compet
           possibleSkillsForNextChallenge: [web2, url2, search2],
         }),
       };
-    });
-
-    context('when user is not related to assessment', function () {
-      let requestErr;
-
-      beforeEach(async function () {
-        requestErr = await catchErr(getNextChallengeForCompetenceEvaluation)({
-          assessment,
-          userId: userId + 1,
-          pickChallengeService,
-          locale,
-          smartRandomService: smartRandomStub,
-          algorithmDataFetcherService: algorithmDataFetcherServiceStub,
-        });
-      });
-
-      it('should throw a UserNotAuthorizedToAccessEntityError error', function () {
-        expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
-      });
     });
 
     context('when user is related to assessment', function () {
