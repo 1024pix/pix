@@ -1,6 +1,6 @@
 import { createReadStream } from 'node:fs';
 
-import { getDataBuffer } from '../../prescription/learner-management/infrastructure/utils/bufferize/get-data-buffer.js';
+import { getDataBuffer } from '../../shared/infrastructure/utils/buffer.js';
 import { getChallengeLocale } from '../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import { campaignTypeCombinedCourseSerializer } from '../infrastructure/serializers/campaign-type-combined-course-serializer.js';

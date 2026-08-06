@@ -1,7 +1,7 @@
 import { createReadStream } from 'node:fs';
 
+import { getDataBuffer } from '../../../../../shared/infrastructure/utils/buffer.js';
 import { GenericParser } from '../../../infrastructure/serializers/csv/parsers/generic-parser.js';
-import { getDataBuffer } from '../../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { AggregateImportError, OrganizationLearnerImportFormatNotFoundError } from '../../errors.js';
 import { ValidateGenericFileJob } from '../../models/jobs/ValidateGenericFileJob.js';
 import { OrganizationImportStatus } from '../../models/OrganizationImportStatus.js';
