@@ -23,4 +23,8 @@ export class SessionAuthorization {
   get canEnrollCandidateViaMassImport() {
     return !this.hasStarted;
   }
+
+  get canJoinSession() {
+    return !this.isFinalized && !this.hasExpired;
+  }
 }
