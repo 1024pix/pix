@@ -232,7 +232,6 @@ import { buildCampaignResultLevelsPerTubesAndCompetences as boundedContextCampai
 import { buildCampaignParticipation as boundedContextCampaignParticipationBuildCampaignParticipation } from './prescription/campaign-participation/build-campaign-participation.js';
 import { buildOrganizationLearnerImportFormat } from './prescription/learner-management/build-organization-learner-import-format.js';
 import { buildOrganizationToJoin } from './prescription/organization-learner/build-organization-to-join.js';
-import { builders as sharedBuilders } from './shared/index.js';
 import { buildStageCollection as buildStageCollectionForTargetProfileManagement } from './target-profile-management/build-stage-collection.js';
 import { buildStageCollection as buildStageCollectionForUserCampaignResults } from './user-campaign-results/build-stage-collection.js';
 
@@ -353,7 +352,6 @@ const maddo = {
 };
 
 const learningContent = learningContentBuilders;
-const shared = sharedBuilders;
 
 const llm = {
   buildAssistantMessage,
@@ -538,5 +536,4 @@ export {
   maddo,
   organizationalEntities,
   prescription,
-  shared,
 };

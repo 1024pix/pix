@@ -100,6 +100,21 @@ export const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
 export const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 export const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
 
+export const CHALLENGE_TYPES = Object.freeze({
+  QCU: 'QCU',
+  QCM: 'QCM',
+  QROC: 'QROC',
+  QROCM_IND: 'QROCM-ind',
+  QROCM_DEP: 'QROCM-dep',
+});
+
+export const CHALLENGE_STATUSES = Object.freeze({
+  VALIDATED: 'validé',
+  ARCHIVED: 'archivé',
+  OBSOLETE: 'périmé',
+  PROPOSED: 'proposé',
+});
+
 export const PIX_ORIGIN = 'Pix';
 
 export const STUDENT_RECONCILIATION_ERRORS = {

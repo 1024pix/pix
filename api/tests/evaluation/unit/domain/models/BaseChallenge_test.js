@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
-import { BaseChallenge } from '../../../../../src/shared/domain/models/BaseChallenge.js';
+import { BaseChallenge } from '../../../../../src/evaluation/domain/models/BaseChallenge.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
-  const STATUSES = domainBuilder.shared.buildBaseChallenge.STATUSES;
+describe('Evaluation | Unit | Domain | Models | BaseChallenge', function () {
+  const STATUSES = domainBuilder.evaluation.buildBaseChallenge.STATUSES;
 
   const baseData = {
     id: 'challengeId00',
@@ -97,7 +97,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
 
   describe('#isTimed', function () {
     it('returns false when timer is null', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         timer: null,
       });
@@ -106,7 +106,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
     });
 
     it('returns true when timer is not null', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         timer: 123,
       });
@@ -117,7 +117,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
 
   describe('#hasIllustration', function () {
     it('returns false when challenge has no illustration', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         illustrationUrl: null,
       });
@@ -126,7 +126,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
     });
 
     it('returns true when challenge has an illustration', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         illustrationUrl: 'some illustration url',
       });
@@ -137,7 +137,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
 
   describe('#hasEmbed', function () {
     it('returns false when challenge has no embed', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         embedUrl: null,
       });
@@ -146,7 +146,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
     });
 
     it('returns true when challenge has an embed', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         embedUrl: 'some embed url',
       });
@@ -157,11 +157,11 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
 
   describe('#hasAtLeastOneAttachment', function () {
     it('returns false when challenge has no attachments', function () {
-      const baseChallengeA = domainBuilder.shared.buildBaseChallenge({
+      const baseChallengeA = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         attachments: null,
       });
-      const baseChallengeB = domainBuilder.shared.buildBaseChallenge({
+      const baseChallengeB = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         attachments: [],
       });
@@ -171,11 +171,11 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
     });
 
     it('returns true when challenge has at least one attachment', function () {
-      const baseChallengeA = domainBuilder.shared.buildBaseChallenge({
+      const baseChallengeA = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         attachments: ['one'],
       });
-      const baseChallengeB = domainBuilder.shared.buildBaseChallenge({
+      const baseChallengeB = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         attachments: ['two', 'three'],
       });
@@ -187,7 +187,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
 
   describe('#isFocused', function () {
     it('returns false when challenge is not focused', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         focused: false,
       });
@@ -196,7 +196,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
     });
 
     it('returns true when challenge is focused', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         focused: true,
       });
@@ -207,7 +207,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
 
   describe('#get isMobileCompliant', function () {
     it('returns false when challenge is not responsive for mobile', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         responsive: 'Tablet,TV',
       });
@@ -216,7 +216,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
     });
 
     it('returns true when challenge is mobile compliant', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         responsive: 'Tamagotchi,Smartphone,TV',
       });
@@ -227,7 +227,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
 
   describe('#get isTabletCompliant', function () {
     it('returns false when challenge is not responsive for tablet', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         responsive: 'Smartphone,TV',
       });
@@ -236,7 +236,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
     });
 
     it('returns true when challenge is tablet compliant', function () {
-      const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+      const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
         ...baseData,
         responsive: 'Tamagotchi,Tablet,TV',
       });
@@ -251,7 +251,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
       .filter((status) => operative_statuses.includes(status))
       .forEach(function (status) {
         it(`returns true when status is ${status}`, function () {
-          const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+          const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
             ...baseData,
             status,
           });
@@ -264,7 +264,7 @@ describe('Shared | Unit | Domain | Models | BaseChallenge', function () {
       .filter((status) => !operative_statuses.includes(status))
       .forEach(function (status) {
         it(`returns false when status is ${status}`, function () {
-          const baseChallenge = domainBuilder.shared.buildBaseChallenge({
+          const baseChallenge = domainBuilder.evaluation.buildBaseChallenge({
             ...baseData,
             status,
           });

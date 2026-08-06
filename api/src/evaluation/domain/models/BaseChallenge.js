@@ -1,10 +1,13 @@
 /**
- * @typedef {import ('../../../learning-content/domain/models/Challenge.js').Challenge} Challenge
+ * A challenge record from the learning content referential: its properties are
+ * the columns of the `learningcontent.challenges` table.
+ *
+ * @typedef {object} Challenge
  */
-import {
-  STATUSES as ORIGINAL_STATUSES,
-  TYPES as ORIGINAL_TYPES,
-} from '../../../learning-content/domain/models/Challenge.js';
+/**
+ * @typedef {typeof import('../../../shared/constants.js').CHALLENGE_TYPES} ChallengeTypes
+ */
+import { CHALLENGE_STATUSES as STATUSES } from '../../../shared/constants.js';
 
 export class BaseChallenge {
   /**
@@ -54,7 +57,7 @@ export class BaseChallenge {
 
   /**
    * @readonly
-   * @type {TYPES[keyof TYPES]}
+   * @type {ChallengeTypes[keyof ChallengeTypes]}
    */
   get type() {
     return this.#coreChallenge.type;
@@ -384,6 +387,3 @@ export class BaseChallenge {
     return this.responsive?.includes(type);
   }
 }
-
-export const STATUSES = ORIGINAL_STATUSES;
-export const TYPES = ORIGINAL_TYPES;

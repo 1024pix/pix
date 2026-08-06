@@ -4,20 +4,7 @@ import { ValidatorQCU } from '../../../evaluation/domain/models/ValidatorQCU.js'
 import { ValidatorQROC } from '../../../evaluation/domain/models/ValidatorQROC.js';
 import { ValidatorQROCMDep } from '../../../evaluation/domain/models/ValidatorQROCMDep.js';
 import { ValidatorQROCMInd } from '../../../evaluation/domain/models/ValidatorQROCMInd.js';
-
-const ChallengeType = Object.freeze({
-  QCU: 'QCU',
-  QCM: 'QCM',
-  QROC: 'QROC',
-  QROCM_IND: 'QROCM-ind',
-  QROCM_DEP: 'QROCM-dep',
-});
-
-const Statuses = Object.freeze({
-  VALIDATED: 'validé',
-  ARCHIVED: 'archivé',
-  OBSOLETE: 'périmé',
-});
+import { CHALLENGE_STATUSES as Statuses, CHALLENGE_TYPES as ChallengeType } from '../../constants.js';
 
 /**
  * Traduction: Épreuve
