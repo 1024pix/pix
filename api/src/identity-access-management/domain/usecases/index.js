@@ -1,4 +1,3 @@
-import * as campaignToJoinRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
 import * as organizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
@@ -16,6 +15,7 @@ import * as emailRepository from '../../../shared/mail/infrastructure/repositori
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
+import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import { clientApplicationRepository } from '../../infrastructure/repositories/client-application.repository.js';
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
 import { lastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
