@@ -1,4 +1,4 @@
-const getCleaCertifiedCandidateBySession = async function ({
+export async function getCleaCertifiedCandidateBySession({
   sessionId,
   cleaCertifiedCandidateRepository,
   sessionEnrolmentRepository,
@@ -7,6 +7,4 @@ const getCleaCertifiedCandidateBySession = async function ({
   const session = await sessionEnrolmentRepository.get({ id: sessionId });
 
   return { session, cleaCertifiedCandidateData };
-};
-
-export { getCleaCertifiedCandidateBySession };
+}

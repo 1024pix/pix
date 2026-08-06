@@ -6,7 +6,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
 import { certificationResultsController } from './certification-results-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -156,6 +156,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationResultsRoute = { name: 'certification/results/certification-results-api', register };

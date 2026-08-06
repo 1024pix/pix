@@ -9,7 +9,7 @@
  * @param {CertificateMeshLevel} params.globalMeshLevel
  * @param {object} params.translate
  */
-const serialize = ({ certificationResult, translate }) => {
+export function serialize({ certificationResult, translate }) {
   return {
     organizationUai: certificationResult.organizationUai,
     ine: certificationResult.ine,
@@ -22,6 +22,4 @@ const serialize = ({ certificationResult, translate }) => {
     certificationDate: certificationResult.certificationDate,
     competences: certificationResult.competences,
   };
-};
-
-export { serialize };
+}

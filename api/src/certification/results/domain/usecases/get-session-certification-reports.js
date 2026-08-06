@@ -6,8 +6,6 @@
  * @param {object} params
  * @param {CertificationReportRepository} params.certificationReportRepository
  */
-const getSessionCertificationReports = async function ({ sessionId, certificationReportRepository }) {
+export async function getSessionCertificationReports({ sessionId, certificationReportRepository }) {
   return certificationReportRepository.findBySessionId({ sessionId });
-};
-
-export { getSessionCertificationReports };
+}

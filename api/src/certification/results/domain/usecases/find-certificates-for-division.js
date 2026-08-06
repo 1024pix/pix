@@ -1,6 +1,6 @@
 import { NoCertificateForDivisionError } from '../../../../shared/domain/errors.js';
 
-const findCertificatesForDivision = async function ({ organizationId, division, locale, certificateRepository }) {
+export async function findCertificatesForDivision({ organizationId, division, locale, certificateRepository }) {
   const certificates = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({
     organizationId,
     division,
@@ -11,6 +11,4 @@ const findCertificatesForDivision = async function ({ organizationId, division, 
     throw new NoCertificateForDivisionError(division);
   }
   return certificates;
-};
-
-export { findCertificatesForDivision };
+}

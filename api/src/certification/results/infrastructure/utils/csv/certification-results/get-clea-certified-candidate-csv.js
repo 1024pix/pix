@@ -2,12 +2,12 @@ import dayjs from 'dayjs';
 
 import { getCsvContent } from '../../../../../../shared/infrastructure/utils/csv/write-csv-utils.js';
 
-const getCleaCertifiedCandidateCsv = async function ({ cleaCertifiedCandidates }) {
+export async function getCleaCertifiedCandidateCsv({ cleaCertifiedCandidates }) {
   const fileHeaders = _buildFileHeadersForCleaCandidates(cleaCertifiedCandidates);
   const data = _buildFileDataForCleaCandidates(cleaCertifiedCandidates);
 
   return getCsvContent({ data, fileHeaders });
-};
+}
 
 function _buildFileHeadersForCleaCandidates() {
   return [
@@ -122,5 +122,3 @@ const _headers = {
   CCPI: 'CCPI',
   FIRST_SHOT: 'Obtention après la première évaluation ?',
 };
-
-export { getCleaCertifiedCandidateCsv };

@@ -6,6 +6,6 @@
  * @param {object} params
  * @param {CertificateRepository} params.certificateRepository
  */
-export const getCertificate = async function ({ certificationCourseId, locale, certificateRepository }) {
+export async function getCertificate({ certificationCourseId, locale, certificateRepository }) {
   return certificateRepository.getCertificate({ certificationCourseId, locale });
-};
+}

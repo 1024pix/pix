@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CleaCertifiedCandidate } from '../../domain/read-models/CleaCertifiedCandidate.js';
 
-const getBySessionId = async function (sessionId) {
+export async function getBySessionId(sessionId) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn
     .from('certification-courses')
@@ -45,6 +45,4 @@ const getBySessionId = async function (sessionId) {
       'complementary-certification-course-results.acquired': true,
     });
   return results.map((candidate) => new CleaCertifiedCandidate(candidate));
-};
-
-export { getBySessionId };
+}

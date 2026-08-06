@@ -3,7 +3,7 @@ import { getI18n } from '../../../shared/infrastructure/i18n/i18n.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as parcoursupCertificationSerializer from '../infrastructure/serializers/parcoursup-certification-serializer.js';
 
-const getCertificationResultForParcoursup = async function (
+async function getCertificationResultForParcoursup(
   request,
   h,
   dependencies = {
@@ -26,7 +26,7 @@ const getCertificationResultForParcoursup = async function (
     certificationResult,
     translate: i18n.__,
   });
-};
+}
 
 export const parcoursupController = {
   getCertificationResultForParcoursup,

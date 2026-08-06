@@ -14,7 +14,7 @@ import {
   CertifiedTube,
 } from '../../domain/read-models/CertifiedProfile.js';
 
-const get = async function (certificationCourseId) {
+export async function get(certificationCourseId) {
   const knexConn = DomainTransaction.getConnection();
   const certificationDatas = await knexConn
     .select({
@@ -38,7 +38,6 @@ const get = async function (certificationCourseId) {
     limitDate: createdAt,
   });
 
-  const isKnowledgeElementValidated = (knowledgeElement) => knowledgeElement.status === 'validated';
   const skillIds = knowledgeElements
     .filter((knowledgeElement) => isKnowledgeElementValidated(knowledgeElement))
     .map((pixKnowledgeElement) => pixKnowledgeElement.skillId);
@@ -56,9 +55,11 @@ const get = async function (certificationCourseId) {
     certifiedTubes,
     certifiedSkills,
   });
-};
+}
 
-export { get };
+function isKnowledgeElementValidated(knowledgeElement) {
+  return knowledgeElement.status === 'validated';
+}
 
 async function _createCertifiedSkills(skillIds, askedSkillIds) {
   const skills = await skillRepository.findByRecordIds(skillIds);
