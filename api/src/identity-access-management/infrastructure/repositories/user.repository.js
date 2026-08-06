@@ -1,12 +1,10 @@
 import { InvalidOrAlreadyUsedEmailError } from '../../../identity-access-management/domain/errors.js';
-import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   AlreadyExistingEntityError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
 } from '../../../shared/domain/errors.js';
-import { Membership } from '../../../shared/domain/models/Membership.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import { QUERY_TYPES } from '../../domain/constants/user-query.js';
@@ -32,13 +30,12 @@ const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
     throw new UserNotFoundError();
   }
 
-  const membershipsDTO = await knexConn('memberships').where({ userId: userDTO.id, disabledAt: null });
   const authenticationMethodsDTO = await knexConn('authentication-methods').where({
     userId: userDTO.id,
     identityProvider: 'PIX',
   });
 
-  return _toDomainFromDTO({ userDTO, membershipsDTO, authenticationMethodsDTO });
+  return _toDomainFromDTO({ userDTO, authenticationMethodsDTO });
 };
 
 /**
@@ -347,20 +344,7 @@ export {
  * @return {User}
  * @private
  */
-function _toDomainFromDTO({ userDTO, membershipsDTO = [], authenticationMethodsDTO = [] }) {
-  const memberships = membershipsDTO.map((membershipDTO) => {
-    let organization;
-    if (membershipDTO.organizationName) {
-      organization = new Organization({
-        id: membershipDTO.organizationId,
-        name: membershipDTO.organizationName,
-        type: membershipDTO.organizationType,
-        externalId: membershipDTO.organizationExternalId,
-        isManagingStudents: membershipDTO.organizationIsManagingStudents,
-      });
-    }
-    return new Membership({ ...membershipDTO, organization });
-  });
+function _toDomainFromDTO({ userDTO, authenticationMethodsDTO = [] }) {
   return new User({
     id: userDTO.id,
     cgu: userDTO.cgu,
@@ -380,7 +364,6 @@ function _toDomainFromDTO({ userDTO, membershipsDTO = [], authenticationMethodsD
     lang: userDTO.lang,
     locale: userDTO.locale,
     isAnonymous: userDTO.isAnonymous,
-    memberships,
     authenticationMethods: authenticationMethodsDTO,
   });
 }
