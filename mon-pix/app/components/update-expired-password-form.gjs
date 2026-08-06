@@ -140,12 +140,10 @@ export default class UpdateExpiredPasswordForm extends Component {
       this.validation = VALIDATION_MAP.default;
 
       try {
-        this.resetExpiredPasswordDemand.newPassword = this.newPassword;
         const login = await this.resetExpiredPasswordDemandService.updateExpiredPassword({
-          newPassword: this.resetExpiredPasswordDemand.newPassword,
-          passwordResetToken: this.resetExpiredPasswordDemand.passwordResetToken,
+          newPassword: this.newPassword,
+          passwordResetToken: this.passwordResetToken,
         });
-        this.resetExpiredPasswordDemand.unloadRecord();
 
         try {
           await this.session.authenticateUser(login, this.newPassword);

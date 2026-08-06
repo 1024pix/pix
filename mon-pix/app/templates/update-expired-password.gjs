@@ -4,6 +4,6 @@ import UpdateExpiredPasswordForm from 'mon-pix/components/update-expired-passwor
 <template>
   {{pageTitle (t "pages.update-expired-password.title")}}
   <div class="update-expired-password-form-page">
-    <UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{@model}} />
+    <UpdateExpiredPasswordForm @passwordResetToken={{@model.passwordResetToken}} />
   </div>
 </template>

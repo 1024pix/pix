@@ -95,7 +95,6 @@ module('Integration | Component | update-expired-password-form', function (hooks
 
       // then
       sinon.assert.calledWith(session.authenticateUser, login, NEW_VALID_PASSWORD);
-      sinon.assert.called(resetExpiredPasswordDemand.unloadRecord);
       assert.ok(true);
     });
 

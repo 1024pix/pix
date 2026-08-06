@@ -91,9 +91,7 @@ export default class LoginForm extends Component {
   }
 
   async _updateExpiredPassword(passwordResetToken) {
-    this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
-    // TODO: peut-on passer le passwordResetToken en query params ?
-    return this.router.replaceWith('update-expired-password');
+    this.router.replaceWith('update-expired-password', { queryParams: { passwordResetToken } });
   }
 
   <template>

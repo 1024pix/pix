@@ -64,7 +64,10 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await settled();
 
     // then
-    assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+    assert.strictEqual(
+      currentURL(),
+      `/mise-a-jour-mot-de-passe-expire?passwordResetToken=${userShouldChangePassword.id}`,
+    );
     const expectedValidationErrorMessage = t('pages.update-expired-password.fields.error');
     assert.ok(screen.getByText(expectedValidationErrorMessage));
   });
@@ -98,7 +101,11 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await settled();
 
     // then
-    assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+    assert.strictEqual(
+      currentURL(),
+      `/mise-a-jour-mot-de-passe-expire?passwordResetToken=${userShouldChangePassword.id}`,
+    );
+
     assert.dom(screen.getByText(t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
   });
 
@@ -146,7 +153,10 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await settled();
 
     // then
-    assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+    assert.strictEqual(
+      currentURL(),
+      `/mise-a-jour-mot-de-passe-expire?passwordResetToken=${userShouldChangePassword.id}`,
+    );
     assert.dom(screen.getByText(t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
   });
 });
