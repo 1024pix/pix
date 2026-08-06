@@ -782,7 +782,7 @@
                 "id": "205d2bd4-5592-41bc-b541-14dda76082b5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Nadia doit résoudre un litige avec le service client de « Bureaupro », un fournisseur de matériel de bureau. Elle décide de demander à un logiciel d’IA générative de lui rédiger une lettre recommandée.</strong></p>"
+                "content": "<p><strong>Nadia doit résoudre un litige avec le service client de « Ordipro », un fournisseur de matériel informatique. Elle décide de demander à un logiciel d’IA générative de lui rédiger une lettre recommandée.</strong></p>"
               }
             },
             {
@@ -798,7 +798,7 @@
                   "messages": [
                     {
                       "direction": "outbound",
-                      "content": "Rédige une lettre recommandée pour une réclamation au service client de « Bureaupro » avec un ton ferme et les informations suivantes : ma commande est notée comme livrée à mon domicile mais je ne l’ai jamais reçue. Mon nom est Nadia Benali, j’habite au 36 rue des Geais à Lyon et mon numéro de téléphone est le 06 39 98 44 77."
+                      "content": "Rédige une lettre recommandée pour une réclamation au service client de « Ordipro » avec un ton ferme et les informations suivantes : j'ai commandé deux ordinateurs portables pour remplacer ceux de mes collègues Frederic Clamson, assistant comptable, et Yasmine Durand, cheffe du service de sécurité. Ma commande est notée comme livrée au siège de mon entreprise, mais je ne l’ai jamais reçue. Mon nom est Nadia Benali, et mon numéro de téléphone est le 06 39 98 44 77."
                     }
                   ]
                 }
