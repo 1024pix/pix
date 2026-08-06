@@ -109,7 +109,6 @@ import { findAllTags } from './find-all-tags.usecase.js';
 import { findAttachedCertificationCenterForAdmin } from './find-attached-certification-center-for-admin.usecase.js';
 import { findAttachedOrganizationsForAdmin } from './find-attached-organizations-for-admin.usecase.js';
 import { findChildrenOrganizations } from './find-children-organizations.usecase.js';
-import { findOrganizationFeatures } from './find-organization-features.js';
 import { findPaginatedFilteredCertificationCenters } from './find-paginated-filtered-certification-centers.usecase.js';
 import { findPaginatedFilteredNetworks } from './find-paginated-filtered-networks.usecase.js';
 import { findPaginatedFilteredOrganizations } from './find-paginated-filtered-organizations.usecase.js';
@@ -147,7 +146,6 @@ const usecasesWithoutInjectedDependencies = {
   findAttachedCertificationCenterForAdmin,
   findAttachedOrganizationsForAdmin,
   findChildrenOrganizations,
-  findOrganizationFeatures,
   findPaginatedFilteredCertificationCenters,
   findPaginatedFilteredOrganizations,
   findAllAdministrationTeams,

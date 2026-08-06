@@ -1,9 +1,13 @@
-import { usecases } from '../../domain/usecases/index.js';
+import * as organizationFeatureRepository from '../../infrastructure/repositories/organization-feature-repository.js';
 import { OrganizationFeatureItemDTO } from './OrganizationFeatureItemDTO.js';
 import { OrganizationFeaturesDTO } from './OrganizationFeaturesDTO.js';
 
 /**
  * @module OrganizationFeaturesApi
+ */
+
+/**
+ * @typedef {import('../../infrastructure/repositories/organization-feature-repository.js')} OrganizationFeatureRepository
  */
 
 /**
@@ -26,10 +30,16 @@ import { OrganizationFeaturesDTO } from './OrganizationFeaturesDTO.js';
  * @name getAllFeaturesFromOrganization
  *
  * @param {number} organizationId
+ * @param {Object} [dependencies]
+ * @param {OrganizationFeatureRepository} [dependencies.organizationFeatureRepository]
  * @returns {Promise<OrganizationFeaturesDTO>}
  */
-export const getAllFeaturesFromOrganization = async (organizationId) => {
-  const organizationFeatures = await usecases.findOrganizationFeatures({ organizationId });
+export const getAllFeaturesFromOrganization = async (
+  organizationId,
+  dependencies = { organizationFeatureRepository },
+) => {
+  const organizationFeatures =
+    await dependencies.organizationFeatureRepository.findAllOrganizationFeaturesFromOrganizationId({ organizationId });
 
   return new OrganizationFeaturesDTO({
     features: organizationFeatures.map((organizationFeature) => new OrganizationFeatureItemDTO(organizationFeature)),

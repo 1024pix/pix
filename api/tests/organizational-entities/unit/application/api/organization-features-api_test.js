@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import * as organizationEntitiesApi from '../../../../../src/organizational-entities/application/api/organization-features-api.js';
 import { OrganizationFeaturesDTO } from '../../../../../src/organizational-entities/application/api/OrganizationFeaturesDTO.js';
 import { OrganizationFeatureItem } from '../../../../../src/organizational-entities/domain/models/OrganizationFeatureItem.js';
-import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Application | API | organization-features-api', function () {
@@ -11,16 +10,18 @@ describe('Unit | Organizational Entities | Application | API | organization-feat
     it('should return OrganizationFeature configuration from organization', async function () {
       // given
       const organizationId = Symbol('organizationId');
+      const organizationFeatureRepository = {
+        findAllOrganizationFeaturesFromOrganizationId: sinon.stub(),
+      };
 
-      const getOrganizationFeatures = sinon.stub(usecases, 'findOrganizationFeatures');
-      getOrganizationFeatures
-        .withArgs({
-          organizationId,
-        })
+      organizationFeatureRepository.findAllOrganizationFeaturesFromOrganizationId
+        .withArgs({ organizationId })
         .resolves([{}]);
 
       // when
-      const result = await organizationEntitiesApi.getAllFeaturesFromOrganization(organizationId);
+      const result = await organizationEntitiesApi.getAllFeaturesFromOrganization(organizationId, {
+        organizationFeatureRepository,
+      });
 
       // then
       expect(result).to.be.instanceOf(OrganizationFeaturesDTO);
