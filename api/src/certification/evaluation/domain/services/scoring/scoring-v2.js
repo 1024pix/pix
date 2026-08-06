@@ -10,7 +10,6 @@
  */
 
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
-import { AlgorithmEngineVersion } from '../../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { AnswerCollectionForScoring } from '../../../../shared/domain/models/AnswerCollectionForScoring.js';
 import { CompetenceMark } from '../../../../shared/domain/models/CompetenceMark.js';
 import { ReproducibilityRate } from '../../../../shared/domain/models/ReproducibilityRate.js';
@@ -98,7 +97,6 @@ export async function calculateCertificationAssessmentScore({
   const testedCompetences = await _getTestedCompetences({
     userId: certificationAssessment.userId,
     limitDate: candidate.reconciledAt,
-    version: AlgorithmEngineVersion.V2,
     placementProfileService,
   });
 
@@ -120,8 +118,8 @@ export async function calculateCertificationAssessmentScore({
  * @param {object} params
  * @param {PlacementProfileService} params.placementProfileService
  */
-async function _getTestedCompetences({ userId, limitDate, version, placementProfileService }) {
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, version });
+async function _getTestedCompetences({ userId, limitDate, placementProfileService }) {
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
   const certifiableUserCompetences = placementProfile.userCompetences.filter((uc) => uc.isCertifiable());
   return certifiableUserCompetences.map((cuc) => {
     return {

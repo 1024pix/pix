@@ -68,7 +68,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         .withArgs({
           userId: candidate.userId,
           limitDate: candidate.reconciledAt,
-          version: certificationAssessment.version,
           allowExcessPixAndLevels: false,
         })
         .resolves(placementProfile);
