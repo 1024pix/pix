@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import JSONAPIAdapter from '@ember-data/adapter/json-api';
+import { JSONAPIAdapter } from '@warp-drive/legacy/adapter/json-api';
 import ENV from 'mon-pix/config/environment';
 
 export default class Application extends JSONAPIAdapter {

@@ -3,7 +3,7 @@
 import { computed } from '@ember/object';
 import { equal, not } from '@ember/object/computed';
 import Mixin from '@ember/object/mixin';
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@warp-drive/legacy/model';
 import { load } from 'js-yaml';
 
 const ValueAsArrayOfString = Mixin.create({

@@ -1,7 +1,7 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
 import { and, empty } from '@ember/object/computed';
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 
 export default class Correction extends Model {
   // attributes

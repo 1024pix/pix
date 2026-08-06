@@ -1,3 +1,4 @@
+import { pluralize, singularize } from '@warp-drive/utilities/string';
 import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
 import { createServer, Response } from 'miragejs';
 
@@ -55,6 +56,10 @@ export default function makeServer(config) {
     logging: true,
     urlPrefix: 'http://localhost:3000',
     trackRequests: true,
+    inflector: {
+      pluralize,
+      singularize,
+    },
   };
 
   const server = createServer(finalConfig);

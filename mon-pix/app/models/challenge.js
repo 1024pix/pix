@@ -2,7 +2,7 @@
 
 import { computed } from '@ember/object';
 import { equal, gt, notEmpty } from '@ember/object/computed';
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@warp-drive/legacy/model';
 
 export default class Challenge extends Model {
   // attributes

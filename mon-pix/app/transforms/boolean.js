@@ -1,1 +1,1 @@
-export { BooleanTransform as default } from '@ember-data/serializer/transform';
+export { BooleanTransform as default } from '@warp-drive/legacy/serializer/transform';

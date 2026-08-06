@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import Model from '@ember-data/model';
+import Model from '@warp-drive/legacy/model';
 
 export default class SharedCertificationRoute extends Route {
   @service router;

@@ -1,4 +1,4 @@
-import REST from '@ember-data/adapter/rest';
+import { RESTAdapter } from '@warp-drive/legacy/adapter/rest';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -86,14 +86,14 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
         // given
         const sessionService = stubSessionService(this.owner, { isAuthenticated: true });
         const applicationAdapter = this.owner.lookup('adapter:application');
-        sinon.stub(REST.prototype, 'handleResponse');
+        sinon.stub(RESTAdapter.prototype, 'handleResponse');
 
         // when
         applicationAdapter.handleResponse(302);
 
         // then
         sinon.assert.notCalled(sessionService.invalidate);
-        sinon.assert.calledOnce(REST.prototype.handleResponse);
+        sinon.assert.calledOnce(RESTAdapter.prototype.handleResponse);
         sinon.restore();
         assert.ok(true);
       });
