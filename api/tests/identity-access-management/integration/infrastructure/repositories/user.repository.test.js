@@ -779,7 +779,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const expectedUser = new User(userInDB);
 
         // when
-        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
+        const foundUser = await userRepository.getByUsernameOrEmailWithPassword(userInDB.email);
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
@@ -798,7 +798,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const uppercaseEmailAlreadyInDb = userInDB.email.toUpperCase();
 
         // when
-        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(uppercaseEmailAlreadyInDb);
+        const foundUser = await userRepository.getByUsernameOrEmailWithPassword(uppercaseEmailAlreadyInDb);
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
@@ -817,7 +817,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         await databaseBuilder.commit();
 
         // when
-        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword('thOMas123');
+        const foundUser = await userRepository.getByUsernameOrEmailWithPassword('thOMas123');
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
@@ -831,7 +831,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
       it('returns authenticationMethods associated to the user', async function () {
         // when
-        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
+        const foundUser = await userRepository.getByUsernameOrEmailWithPassword(userInDB.email);
 
         // then
         expect(foundUser.authenticationMethods).to.be.an('array');
@@ -851,7 +851,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const unusedEmail = 'kikou@pix.fr';
 
         // when
-        const result = await catchErr(userRepository.getByUsernameOrEmailWithRolesAndPassword)(unusedEmail);
+        const result = await catchErr(userRepository.getByUsernameOrEmailWithPassword)(unusedEmail);
 
         // then
         expect(result).to.be.instanceOf(UserNotFoundError);
@@ -862,7 +862,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const unusedUsername = 'john.doe0909';
 
         // when
-        const result = await catchErr(userRepository.getByUsernameOrEmailWithRolesAndPassword)(unusedUsername);
+        const result = await catchErr(userRepository.getByUsernameOrEmailWithPassword)(unusedUsername);
 
         // then
         expect(result).to.be.instanceOf(UserNotFoundError);

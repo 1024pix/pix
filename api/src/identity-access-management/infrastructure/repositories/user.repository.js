@@ -19,7 +19,7 @@ const getByEmail = async function (email) {
   return new User(foundUser);
 };
 
-const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
+const getByUsernameOrEmailWithPassword = async function (username) {
   const knexConn = DomainTransaction.getConnection();
   const userDTO = await knexConn('users')
     .whereRaw('LOWER("email") = ?', username.toLowerCase())
@@ -294,7 +294,7 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} getByEmail
  * @property {function} getByIds
  * @property {function} getBySamlId
- * @property {function} getByUsernameOrEmailWithRolesAndPassword
+ * @property {function} getByUsernameOrEmailWithPassword
  * @property {function} isUserExistingByEmail
  * @property {function} isUsernameAvailable
  * @property {function} update
@@ -321,7 +321,7 @@ export {
   getByEmail,
   getByIds,
   getBySamlId,
-  getByUsernameOrEmailWithRolesAndPassword,
+  getByUsernameOrEmailWithPassword,
   isUserExistingByEmail,
   isUsernameAvailable,
   update,
