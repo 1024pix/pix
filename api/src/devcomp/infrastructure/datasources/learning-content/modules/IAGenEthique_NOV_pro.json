@@ -398,28 +398,28 @@
                     "id": "1",
                     "content": "<p>Non, c’est impossible.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pas exactement.</p><p>Comme les logiciels d’IA générative <strong>génèrent du contenu à partir de</strong><strong>données réelles</strong>, il est possible que certaines réponses contiennent de <strong>vraies informations</strong>. Les fabricants d’IA essaient d’éviter cela.</p>"
+                      "diagnosis": "<p>Pas exactement.</p><p>Comme les logiciels d’IA générative <strong>génèrent du contenu à partir de données réelles</strong>, il est possible que certaines réponses contiennent de <strong>vraies informations</strong>. Les fabricants d’IA essaient d’éviter cela.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>C’est sans doute de vraies informations.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pas exactement.&nbsp;</p><p>Comme les logiciels d’IA générative <strong>génèrent du contenu à partir de</strong><strong>données réelles</strong>, il est possible que certaines réponses contiennent de <strong>vraies informations</strong>. Les fabricants d’IA essaient d’éviter cela.</p>"
+                      "diagnosis": "<p>Pas exactement.&nbsp;</p><p>Comme les logiciels d’IA générative <strong>génèrent du contenu à partir de données réelles</strong>, il est possible que certaines réponses contiennent de <strong>vraies informations</strong>. Les fabricants d’IA essaient d’éviter cela.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>On peut se poser la question.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Exactement.&nbsp;</p><p>Comme les logiciels d’IA générative <strong>génèrent du contenu à partir de</strong><strong>données réelles</strong>, il est possible que certaines réponses contiennent de <strong>vraies informations</strong>. Les fabricants d’IA essaient d’éviter cela.</p>"
+                      "diagnosis": "<p>Exactement.&nbsp;</p><p>Comme les logiciels d’IA générative <strong>génèrent du contenu à partir de données réelles</strong>, il est possible que certaines réponses contiennent de <strong>vraies informations</strong>. Les fabricants d’IA essaient d’éviter cela.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Comme les logiciels d’IA générative <strong>créent du contenu à partir de</strong><strong>données réelles</strong>, il est possible que certaines réponses contiennent de <strong>vraies informations</strong>. Les fabricants d’IA essaient d’éviter cela.</p>"
+                      "diagnosis": "<p>Comme les logiciels d’IA générative <strong>créent du contenu à partir de données réelles</strong>, il est possible que certaines réponses contiennent de <strong>vraies informations</strong>. Les fabricants d’IA essaient d’éviter cela.</p>"
                     }
                   }
                 ],
