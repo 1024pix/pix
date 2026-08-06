@@ -1,4 +1,7 @@
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as certificationCourseInfoRepository from '../infrastructure/repositories/certification-course-info-repository.js';
+import * as certificationCourseInfoSerializer from '../infrastructure/serializers/certification-course-info-serializer.js';
 import * as certificationCourseSerializer from '../infrastructure/serializers/certification-course-serializer.js';
 
 export async function save(request, h, dependencies = { certificationCourseSerializer }) {
@@ -21,10 +24,17 @@ export async function save(request, h, dependencies = { certificationCourseSeria
   return created ? h.response(serialized).created() : serialized;
 }
 
-export async function get(request, h, dependencies = { certificationCourseSerializer }) {
+export async function get(
+  request,
+  h,
+  dependencies = { certificationCourseInfoRepository, certificationCourseInfoSerializer },
+) {
   const { certificationCourseId } = request.params;
-  const certificationCourse = await usecases.getCertificationCourse({ certificationCourseId });
-  return dependencies.certificationCourseSerializer.serialize(certificationCourse);
+  const certificationCourseInfo = await dependencies.certificationCourseInfoRepository.find(certificationCourseId);
+  if (!certificationCourseInfo) {
+    throw new NotFoundError('Certification does not exist');
+  }
+  return dependencies.certificationCourseInfoSerializer.serialize(certificationCourseInfo);
 }
 
 export const certificationCourseController = {

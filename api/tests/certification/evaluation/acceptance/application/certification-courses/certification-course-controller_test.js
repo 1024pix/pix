@@ -1,6 +1,5 @@
 import { createServer } from '../../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
@@ -23,65 +22,39 @@ describe('Acceptance | API | Certification Course', function () {
     let options;
     let userId;
     let otherUserId;
-    let expectedCertificationCourse;
+    let expectedJson;
 
     beforeEach(function () {
-      otherUserId = databaseBuilder.factory.buildUser().id;
       userId = databaseBuilder.factory.buildUser().id;
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-        id: 99,
-      });
-      const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
-
-      const reconciledAt = new Date('2025-01-01');
-      databaseBuilder.factory.buildCertificationCandidate({
-        userId,
-        sessionId: session.id,
-        reconciledAt,
-      }).id;
-
-      const versionId = domainBuilder.certification.configuration
-        .versionBuilder()
-        .asDraft({ startDate: new Date('2024-01-01') })
-        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
-        .insertToDB({ databaseBuilder }).id;
-
-      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-        sessionId: session.id,
-        userId,
-        version: AlgorithmEngineVersion.V3,
-        versionId,
-      });
-
-      databaseBuilder.factory.buildCertificationIssueReport({
-        certificationCourseId: certificationCourse.id,
-        category: CertificationIssueReportCategory.OTHER,
-        description: "il s'est enfuit de la session",
-      });
-
-      const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
+      domainBuilder.certification.evaluation
+        .certificationCourseInfoBuilder()
+        .withIdentity({ firstName: 'Anneso', lastName: 'Coucou' })
+        .asAdjustedForAccessibility()
+        .withNbChallenges(45)
+        .withParameters({ id: 123, assessmentId: 456 })
+        .insertToDB({ databaseBuilder, existingUserId: userId });
+      otherUserId = databaseBuilder.factory.buildUser().id;
 
       options = {
         method: 'GET',
-        url: `/api/certification-courses/${certificationCourse.id}`,
+        url: `/api/certification-courses/123`,
         headers: {},
       };
 
-      expectedCertificationCourse = {
+      expectedJson = {
         type: 'certification-courses',
-        id: certificationCourse.id.toString(),
+        id: '123',
         attributes: {
-          'examiner-comment': "il s'est enfuit de la session",
-          'nb-challenges': 32,
-          'first-name': certificationCourse.firstName,
-          'last-name': certificationCourse.lastName,
-          'is-adjusted-for-accessibility': false,
-          version: certificationCourse.version,
+          'nb-challenges': 45,
+          'first-name': 'Anneso',
+          'last-name': 'Coucou',
+          'is-adjusted-for-accessibility': true,
+          version: 3,
         },
         relationships: {
           assessment: {
             links: {
-              related: `/api/assessments/${assessment.id}`,
+              related: '/api/assessments/456',
             },
           },
         },
@@ -90,17 +63,15 @@ describe('Acceptance | API | Certification Course', function () {
     });
 
     describe('Resource access management', function () {
-      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', function () {
+      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', async function () {
         // given
         options.headers = generateAuthenticatedUserRequestHeaders({ userId: otherUserId });
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
 
@@ -112,7 +83,7 @@ describe('Acceptance | API | Certification Course', function () {
       const response = await server.inject(options);
 
       // then
-      expect(response.result.data).to.deep.equal(expectedCertificationCourse);
+      expect(response.result.data).to.deep.equal(expectedJson);
     });
   });
 

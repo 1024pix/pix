@@ -34,7 +34,6 @@ import { createLiveAlert } from './create-live-alert.js';
 import { deneutralizeChallenge } from './deneutralize-challenge.js';
 import { evaluateAndSaveAnswer } from './evaluate-and-save-answer.js';
 import { getAssessmentLiveAlerts } from './get-assessment-live-alerts.js';
-import { getCertificationCourse } from './get-certification-course.js';
 import { getNextChallenge } from './get-next-challenge.js';
 import { neutralizeChallenge } from './neutralize-challenge.js';
 import { rescoreV2Certification } from './rescore-v2-certification.js';
@@ -105,7 +104,6 @@ const usecasesWithoutInjectedDependencies = {
   createCompanionAlert,
   deneutralizeChallenge,
   getNextChallenge,
-  getCertificationCourse,
   neutralizeChallenge,
   rescoreV2Certification,
   retrieveLastOrCreateCertificationCourse,

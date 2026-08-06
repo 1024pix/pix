@@ -93,13 +93,14 @@ class CertificationCourseInfoBuilder {
    *
    * @param {object} params
    * @param {DatabaseBuilder} params.databaseBuilder
+   * @param {number} params.existingUserId
    * @returns {CertificationCourseInfo} the persisted certificationCourseInfo
    */
-  insertToDB({ databaseBuilder }) {
+  insertToDB({ databaseBuilder, existingUserId }) {
     const certificationCourseInfo = this.build();
 
     const sessionId = databaseBuilder.factory.buildSession().id;
-    const userId = databaseBuilder.factory.buildUser().id;
+    const userId = existingUserId ? existingUserId : databaseBuilder.factory.buildUser().id;
     const candidateId = databaseBuilder.factory.buildCertificationCandidate({
       sessionId,
       accessibilityAdjustmentNeeded: this.isAdjustedForAccessibility,
