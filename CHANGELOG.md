@@ -1,5 +1,25 @@
 # Pix Changelog
 
+# [5.475.0](https://github.com/1024pix/pix/compare/v5.474.0...v5.475.0) (2026-08-06)
+
+### :rocket: Amélioration
+
+- [#16988](https://github.com/1024pix/pix/pull/16988) Ajout de la colonne ID du prescrit dans Pix Admin (PIX-23154)
+- [#17054](https://github.com/1024pix/pix/pull/17054) Ajouter le pourcentage de réussite du diagnostic de mon participant pour les campagnes (PIX-21253)
+- [#17052](https://github.com/1024pix/pix/pull/17052) integration v0 ecran&sante_ind
+
+### :bug: Correction
+
+- [#17045](https://github.com/1024pix/pix/pull/17045) Ajoute un script pour corriger les critères de badges (PIX-23779)
+
+### :building_construction: Tech
+
+- [#17055](https://github.com/1024pix/pix/pull/17055) :recycle: Renomme un élément de `CandidateAuthorization` à propos de la session
+- [#17050](https://github.com/1024pix/pix/pull/17050) Ajouter un modèle Answer spécifique à certification/evaluation
+- [#17042](https://github.com/1024pix/pix/pull/17042) Déplacer la route /assessments/{id} dans le context evaluation 
+- [#17061](https://github.com/1024pix/pix/pull/17061) Déplacer les routes d'anonymisation dans privacy
+- [#17064](https://github.com/1024pix/pix/pull/17064) Mettre à jour les snapshots des tests E2E de certification après la mise à jour de la release de référence
+
 # [5.474.0](https://github.com/1024pix/pix/compare/v5.473.0...v5.474.0) (2026-08-05)
 
 ### :rocket: Amélioration
