@@ -103,7 +103,7 @@ describe('Identity Access Management | Integration | Domain | Services | user-se
       });
 
       // then
-      const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
+      const foundUser = await userRepository.getByUsernameOrEmailWithPassword(username);
       const foundUserAttrs = pick(foundUser, userAttributes);
       expect(foundUserAttrs).to.deep.equal({
         id: user.id,

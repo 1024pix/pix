@@ -97,7 +97,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         await server.inject(options);
 
         // then
-        const userFound = await userRepository.getByUsernameOrEmailWithRolesAndPassword(user.email);
+        const userFound = await userRepository.getByUsernameOrEmailWithPassword(user.email);
         expect(pick(userFound, pickedUserAttributes)).to.deep.equal(expectedUser);
         expect(userFound.authenticationMethods[0].authenticationComplement.password).to.exist;
       });
@@ -132,7 +132,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         const response = await server.inject(options);
 
         // then
-        const createdUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userAttributes.email);
+        const createdUser = await userRepository.getByUsernameOrEmailWithPassword(userAttributes.email);
         expect(createdUser.locale).to.equal(locale);
         expect(response.statusCode).to.equal(201);
       });

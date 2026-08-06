@@ -35,9 +35,9 @@ export const createCampaign = withTransaction(async function ({
 
 async function _checkUserIsAMemberOfOrganization({ membershipRepository, organizationId, userId }) {
   const memberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId });
-  const hasAccessToOrganization = memberships.length > 0;
+  const isMember = memberships.length > 0;
 
-  if (!hasAccessToOrganization) {
+  if (!isMember) {
     throw new UserNotAuthorizedToCreateCampaignError(
       `User does not have an access to the organization ${organizationId}`,
     );

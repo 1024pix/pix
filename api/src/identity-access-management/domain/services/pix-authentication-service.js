@@ -17,7 +17,7 @@ async function getUserByUsernameAndPassword({
   userRepository,
   dependencies = { userLoginRepository, cryptoService },
 }) {
-  const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
+  const foundUser = await userRepository.getByUsernameOrEmailWithPassword(username);
 
   let userLogin = await dependencies.userLoginRepository.findByUserId(foundUser.id);
   if (!userLogin) {

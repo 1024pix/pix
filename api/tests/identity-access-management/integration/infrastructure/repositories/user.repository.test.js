@@ -779,7 +779,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const expectedUser = new User(userInDB);
 
         // when
-        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
+        const foundUser = await userRepository.getByUsernameOrEmailWithPassword(userInDB.email);
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
@@ -798,7 +798,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const uppercaseEmailAlreadyInDb = userInDB.email.toUpperCase();
 
         // when
-        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(uppercaseEmailAlreadyInDb);
+        const foundUser = await userRepository.getByUsernameOrEmailWithPassword(uppercaseEmailAlreadyInDb);
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
@@ -817,7 +817,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         await databaseBuilder.commit();
 
         // when
-        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword('thOMas123');
+        const foundUser = await userRepository.getByUsernameOrEmailWithPassword('thOMas123');
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
@@ -831,7 +831,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
       it('returns authenticationMethods associated to the user', async function () {
         // when
-        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
+        const foundUser = await userRepository.getByUsernameOrEmailWithPassword(userInDB.email);
 
         // then
         expect(foundUser.authenticationMethods).to.be.an('array');
@@ -851,7 +851,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const unusedEmail = 'kikou@pix.fr';
 
         // when
-        const result = await catchErr(userRepository.getByUsernameOrEmailWithRolesAndPassword)(unusedEmail);
+        const result = await catchErr(userRepository.getByUsernameOrEmailWithPassword)(unusedEmail);
 
         // then
         expect(result).to.be.instanceOf(UserNotFoundError);
@@ -862,82 +862,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const unusedUsername = 'john.doe0909';
 
         // when
-        const result = await catchErr(userRepository.getByUsernameOrEmailWithRolesAndPassword)(unusedUsername);
-
-        // then
-        expect(result).to.be.instanceOf(UserNotFoundError);
-      });
-    });
-
-    describe('#isUserAllowedToAccessCertificationCenter', function () {
-      it('returns true when user has access to the certification center', async function () {
-        // given
-        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-        databaseBuilder.factory.buildCertificationCenterMembership({
-          userId: userInDB.id,
-          certificationCenterId: certificationCenter.id,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const hasAccess = await userRepository.isUserAllowedToAccessCertificationCenter(
-          userInDB.id,
-          certificationCenter.id,
-        );
-
-        // then
-        expect(hasAccess).to.be.true;
-      });
-
-      it('returns false when user has no membership to the certification center', async function () {
-        // given
-        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-        await databaseBuilder.commit();
-
-        // when
-        const hasAccess = await userRepository.isUserAllowedToAccessCertificationCenter(
-          userInDB.id,
-          certificationCenter.id,
-        );
-
-        // then
-        expect(hasAccess).to.be.false;
-      });
-
-      it('returns false when user membership is disabled', async function () {
-        // given
-        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-        databaseBuilder.factory.buildCertificationCenterMembership({
-          userId: userInDB.id,
-          certificationCenterId: certificationCenter.id,
-          disabledAt: new Date(),
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const hasAccess = await userRepository.isUserAllowedToAccessCertificationCenter(
-          userInDB.id,
-          certificationCenter.id,
-        );
-
-        // then
-        expect(hasAccess).to.be.false;
-      });
-
-      it('rejects with a UserNotFound error when no user was found with the given id', async function () {
-        // given
-        const unknownUserId = 666;
-        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-        await databaseBuilder.commit();
-
-        // when
-        const result = await catchErr(userRepository.isUserAllowedToAccessCertificationCenter)(
-          unknownUserId,
-          certificationCenter.id,
-        );
+        const result = await catchErr(userRepository.getByUsernameOrEmailWithPassword)(unusedUsername);
 
         // then
         expect(result).to.be.instanceOf(UserNotFoundError);

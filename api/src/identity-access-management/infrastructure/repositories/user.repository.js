@@ -1,12 +1,10 @@
 import { InvalidOrAlreadyUsedEmailError } from '../../../identity-access-management/domain/errors.js';
-import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   AlreadyExistingEntityError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
 } from '../../../shared/domain/errors.js';
-import { Membership } from '../../../shared/domain/models/Membership.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import { QUERY_TYPES } from '../../domain/constants/user-query.js';
@@ -21,7 +19,7 @@ const getByEmail = async function (email) {
   return new User(foundUser);
 };
 
-const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
+const getByUsernameOrEmailWithPassword = async function (username) {
   const knexConn = DomainTransaction.getConnection();
   const userDTO = await knexConn('users')
     .whereRaw('LOWER("email") = ?', username.toLowerCase())
@@ -32,13 +30,12 @@ const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
     throw new UserNotFoundError();
   }
 
-  const membershipsDTO = await knexConn('memberships').where({ userId: userDTO.id, disabledAt: null });
   const authenticationMethodsDTO = await knexConn('authentication-methods').where({
     userId: userDTO.id,
     identityProvider: 'PIX',
   });
 
-  return _toDomainFromDTO({ userDTO, membershipsDTO, authenticationMethodsDTO });
+  return _toDomainFromDTO({ userDTO, authenticationMethodsDTO });
 };
 
 /**
@@ -73,23 +70,6 @@ const findPaginatedFiltered = async function ({ filter, page, queryType = QUERY_
 
   const users = results.map((userDTO) => new User(userDTO));
   return { models: users, pagination };
-};
-
-// bounded-context: should be done by an api of bounded context team
-const isUserAllowedToAccessCertificationCenter = async function (userId, certificationCenterId) {
-  const knexConn = DomainTransaction.getConnection();
-  const user = await knexConn('users').where({ id: userId }).first();
-  if (!user) throw new UserNotFoundError(`User not found for ID ${userId}`);
-
-  const userIsMemberOfThisCertificationCenter = await knexConn('certification-center-memberships')
-    .where({
-      userId,
-      certificationCenterId,
-    })
-    .whereNull('disabledAt')
-    .first();
-
-  return Boolean(userIsMemberOfThisCertificationCenter);
 };
 
 const getBySamlId = async function (samlId) {
@@ -314,8 +294,7 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} getByEmail
  * @property {function} getByIds
  * @property {function} getBySamlId
- * @property {function} getByUsernameOrEmailWithRolesAndPassword
- * @property {function} isUserAllowedToAccessCertificationCenter
+ * @property {function} getByUsernameOrEmailWithPassword
  * @property {function} isUserExistingByEmail
  * @property {function} isUsernameAvailable
  * @property {function} update
@@ -342,8 +321,7 @@ export {
   getByEmail,
   getByIds,
   getBySamlId,
-  getByUsernameOrEmailWithRolesAndPassword,
-  isUserAllowedToAccessCertificationCenter,
+  getByUsernameOrEmailWithPassword,
   isUserExistingByEmail,
   isUsernameAvailable,
   update,
@@ -366,20 +344,7 @@ export {
  * @return {User}
  * @private
  */
-function _toDomainFromDTO({ userDTO, membershipsDTO = [], authenticationMethodsDTO = [] }) {
-  const memberships = membershipsDTO.map((membershipDTO) => {
-    let organization;
-    if (membershipDTO.organizationName) {
-      organization = new Organization({
-        id: membershipDTO.organizationId,
-        name: membershipDTO.organizationName,
-        type: membershipDTO.organizationType,
-        externalId: membershipDTO.organizationExternalId,
-        isManagingStudents: membershipDTO.organizationIsManagingStudents,
-      });
-    }
-    return new Membership({ ...membershipDTO, organization });
-  });
+function _toDomainFromDTO({ userDTO, authenticationMethodsDTO = [] }) {
   return new User({
     id: userDTO.id,
     cgu: userDTO.cgu,
@@ -399,7 +364,6 @@ function _toDomainFromDTO({ userDTO, membershipsDTO = [], authenticationMethodsD
     lang: userDTO.lang,
     locale: userDTO.locale,
     isAnonymous: userDTO.isAnonymous,
-    memberships,
     authenticationMethods: authenticationMethodsDTO,
   });
 }

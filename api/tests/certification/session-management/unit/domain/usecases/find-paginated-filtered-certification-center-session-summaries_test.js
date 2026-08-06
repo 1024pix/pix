@@ -10,19 +10,21 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
     findPaginatedFilteredByCertificationCenterId: () => undefined,
   };
 
-  const userRepository = {
-    isUserAllowedToAccessCertificationCenter: () => undefined,
+  const certificationCenterMembershipRepository = {
+    isMemberOfCertificationCenter: () => undefined,
   };
 
   beforeEach(function () {
     sessionSummaryRepository.findPaginatedFilteredByCertificationCenterId = sinon.stub();
-    userRepository.isUserAllowedToAccessCertificationCenter = sinon.stub();
+    certificationCenterMembershipRepository.isMemberOfCertificationCenter = sinon.stub();
   });
 
   context('when user is not a member of the certification center', function () {
     it('should throw a Forbidden Access error', async function () {
       // given
-      userRepository.isUserAllowedToAccessCertificationCenter.withArgs(123, 456).resolves(false);
+      certificationCenterMembershipRepository.isMemberOfCertificationCenter
+        .withArgs({ userId: 123, certificationCenterId: 456 })
+        .resolves(false);
       sessionSummaryRepository.findPaginatedFilteredByCertificationCenterId.rejects(new Error('should not be called'));
 
       // when
@@ -31,7 +33,7 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
         certificationCenterId: 456,
         page: 'pagination-info',
         sessionSummaryRepository,
-        userRepository,
+        certificationCenterMembershipRepository,
       });
 
       // then
@@ -43,7 +45,9 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
   context('when user is a member of the certification center', function () {
     it('should return session summaries', async function () {
       // given
-      userRepository.isUserAllowedToAccessCertificationCenter.withArgs(123, 456).resolves(true);
+      certificationCenterMembershipRepository.isMemberOfCertificationCenter
+        .withArgs({ userId: 123, certificationCenterId: 456 })
+        .resolves(true);
       const sessionSummaries = Symbol('session-summaries');
       const meta = Symbol('meta');
       sessionSummaryRepository.findPaginatedFilteredByCertificationCenterId
@@ -64,7 +68,7 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
         filters: { sessionId: 1 },
         page: 'pagination-info',
         sessionSummaryRepository,
-        userRepository,
+        certificationCenterMembershipRepository,
       });
 
       // then

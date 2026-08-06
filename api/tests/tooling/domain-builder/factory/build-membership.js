@@ -41,9 +41,6 @@ const buildMembership = function ({
     user,
     lastAccessedAt,
   });
-
-  membership.user.memberships.push(membership);
-
   return membership;
 };
 
