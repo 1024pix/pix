@@ -189,6 +189,7 @@ import { buildCandidate } from './certification/evaluation/build-candidate.js';
 import { candidateAuthorizationBuilder } from './certification/evaluation/build-candidate-authorization.js';
 import { buildCertificationAssessmentHistory } from './certification/evaluation/build-certification-assessment-history.js';
 import { buildCertificationChallengeCapacity } from './certification/evaluation/build-certification-challenge-capacity.js';
+import { certificationCourseInfoBuilder } from './certification/evaluation/build-certification-course-info.js';
 import { buildChallengeCalibration } from './certification/evaluation/build-challenge-calibration.js';
 import { buildComplementaryCertificationScoringCriteria } from './certification/evaluation/build-complementary-certification-scoring-criteria.js';
 import { buildComplementaryCertificationScoringWithoutComplementaryReferential } from './certification/evaluation/build-complementary-certification-scoring-without-complementary-referential.js';
@@ -291,6 +292,7 @@ const certification = {
     buildCertificationChallengeCapacity,
     buildCertificationAssessmentHistory,
     candidateAuthorizationBuilder,
+    certificationCourseInfoBuilder,
   },
   sessionManagement: sessionManagementBuilders,
   shared: {
