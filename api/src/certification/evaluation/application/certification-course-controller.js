@@ -1,7 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 import * as certificationCourseSerializer from '../infrastructure/serializers/certification-course-serializer.js';
 
-const save = async function (request, h, dependencies = { certificationCourseSerializer }) {
+export async function save(request, h, dependencies = { certificationCourseSerializer }) {
   const userId = request.auth.credentials.userId;
   const accessCode = request.payload.data.attributes['access-code'];
   const sessionId = request.payload.data.attributes['session-id'];
@@ -19,17 +19,15 @@ const save = async function (request, h, dependencies = { certificationCourseSer
   const serialized = await dependencies.certificationCourseSerializer.serialize(certificationCourse);
 
   return created ? h.response(serialized).created() : serialized;
-};
+}
 
-const get = async function (request, h, dependencies = { certificationCourseSerializer }) {
+export async function get(request, h, dependencies = { certificationCourseSerializer }) {
   const { certificationCourseId } = request.params;
   const certificationCourse = await usecases.getCertificationCourse({ certificationCourseId });
   return dependencies.certificationCourseSerializer.serialize(certificationCourse);
-};
+}
 
-const certificationCourseController = {
+export const certificationCourseController = {
   save,
   get,
 };
-
-export { certificationCourseController };
