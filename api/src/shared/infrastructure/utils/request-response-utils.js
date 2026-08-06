@@ -23,7 +23,7 @@ function escapeFileName(fileName) {
 }
 
 /**
- * @deprecated Instead, for authenticated routes, use `const { userId } = request.auth.credentials`
+ * Must be used for routes without authentication. For authenticated routes, use `const { userId } = request.auth.credentials`
  */
 function extractUserIdFromRequest(request) {
   if (request.headers && request.headers.authorization) {

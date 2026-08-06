@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { assessmentController } from '../../../../../src/evaluation/application/assessments/assessment-controller.js';
 import { assessmentsRoute as moduleUnderTest } from '../../../../../src/evaluation/application/assessments/index.js';
-import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
@@ -13,7 +12,7 @@ describe('Evaluation | Unit | Application | assessment-routes', function () {
   describe('GET /api/assessments/{id}', function () {
     it('should return 200', async function () {
       // given
-      sinon.stub(assessmentAuthorization, 'verify').callsFake((request, h) => h.response(null));
+      sinon.stub(securityPreHandlers, 'checkUserOwnsAssessment').callsFake((request, h) => h.response(null));
       sinon
         .stub(assessmentController, 'getAssessmentWithNextChallenge')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -29,7 +28,7 @@ describe('Evaluation | Unit | Application | assessment-routes', function () {
 
     it('should call pre-handler', async function () {
       // given
-      sinon.stub(assessmentAuthorization, 'verify').callsFake((request, h) => h.response(null));
+      sinon.stub(securityPreHandlers, 'checkUserOwnsAssessment').callsFake((request, h) => h.response(null));
       sinon
         .stub(assessmentController, 'getAssessmentWithNextChallenge')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -40,7 +39,7 @@ describe('Evaluation | Unit | Application | assessment-routes', function () {
       await httpTestServer.request('GET', '/api/assessments/1');
 
       // then
-      sinon.assert.called(assessmentAuthorization.verify);
+      sinon.assert.called(securityPreHandlers.checkUserOwnsAssessment);
     });
   });
 

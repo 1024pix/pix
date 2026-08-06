@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { assessmentAuthorization } from '../../../evaluation/application/pre-handlers/assessment-authorization.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { liveAlertController } from './live-alert-controller.js';
 
@@ -12,7 +12,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: assessmentAuthorization.verify,
+            method: securityPreHandlers.checkUserOwnsAssessment,
             assign: 'authorizationCheck',
           },
         ],
