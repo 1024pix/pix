@@ -20,9 +20,11 @@ import SearchForm from 'pix-admin/components/certifications/search-form';
         Neutralisation
       </LinkTo>
     {{/unless}}
-    <LinkTo @route="authenticated.sessions.certification.details" @model={{@model.id}}>
-      {{t "pages.certifications.certification.details.title"}}
-    </LinkTo>
+    {{#unless @model.isV1}}
+      <LinkTo @route="authenticated.sessions.certification.details" @model={{@model.id}}>
+        {{t "pages.certifications.certification.details.title"}}
+      </LinkTo>
+    {{/unless}}
     {{#unless @model.isV3}}
       <LinkTo @route="authenticated.sessions.certification.profile" @model={{@model.id}}>
         Profil
