@@ -1,14 +1,11 @@
 {
   "name": "identity-access-management",
   "dependsOn": [
-    "certification/enrolment",
     "legal-documents",
     "organizational-entities",
     "prescription/campaign",
-    "prescription/learner-management",
     "prescription/organization-learner",
-    "privacy",
     "shared"
   ],
-  "circular": "temporary-allowed"
+  "circular": "forbidden"
 }

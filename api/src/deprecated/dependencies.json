@@ -8,6 +8,7 @@
     "prescription/campaign-participation",
     "prescription/learner-management",
     "shared",
+    "privacy",
     "team"
   ],
   "circular": "forbidden"

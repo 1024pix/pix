@@ -1,5 +1,6 @@
 import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
@@ -112,6 +113,37 @@ describe('Deprecated | Acceptance | Application | Route | User', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedUserJSONApi);
+    });
+  });
+
+  describe('GET /api/users/my-account', function () {
+    it('returns 200 HTTP status code', async function () {
+      // given
+      await featureToggles.set('isSelfAccountDeletionEnabled', false);
+      const user = databaseBuilder.factory.buildUser();
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: '/api/users/my-account',
+        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          type: 'account-infos',
+          id: user.id.toString(),
+          attributes: {
+            'can-self-delete-account': false,
+            email: user.email,
+            username: user.username,
+            'can-add-email-connection-method': false,
+          },
+        },
+      });
     });
   });
 });

@@ -33,6 +33,7 @@ import { organizationLearnerFeatureRoutes } from './src/prescription/organizatio
 import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { stagesModuleRoutes } from './src/prescription/stages/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
+import { privacyRoutes } from './src/privacy/application/routes.js';
 import { profileRoutes } from './src/profile/routes.js';
 import { questRoutes } from './src/quest/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
@@ -251,6 +252,7 @@ const setupRoutesAndPlugins = async function (server) {
       plugins,
       deprecatedRoutes,
       identityAccessManagementRoutes,
+      privacyRoutes,
       organizationalEntitiesRoutes,
       sharedRoutes,
       profileRoutes,

@@ -1,13 +1,10 @@
 {
   "name": "privacy",
-  "dependsOn": [
+  "dependsOn": ["identity-access-management", "legal-documents", "shared", "team"],
+  "dependsOnViaApi": [
     "certification/enrolment",
-    "identity-access-management",
-    "legal-documents",
     "prescription/campaign-participation",
-    "prescription/learner-management",
-    "shared",
-    "team"
+    "prescription/learner-management"
   ],
-  "circular": "temporary-allowed"
+  "circular": "forbidden"
 }

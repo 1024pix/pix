@@ -1,4 +1,3 @@
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { userForAdminSerializer } from '../../infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
 import { userLoginSerializer } from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
@@ -52,26 +51,6 @@ const updateUserDetailsByAdmin = async function (request, h, dependencies = { us
  * @param request
  * @param h
  * @param dependencies
- * @returns {Promise<*>}
- */
-const anonymizeUser = async function (request, h) {
-  const userToAnonymizeId = request.params.id;
-  const adminMemberId = request.auth.credentials.userId;
-
-  await DomainTransaction.execute(async (domainTransaction) => {
-    await usecases.anonymizeUser({
-      userId: userToAnonymizeId,
-      updatedByUserId: adminMemberId,
-      domainTransaction,
-    });
-  });
-  return h.response().code(204);
-};
-
-/**
- * @param request
- * @param h
- * @param dependencies
  * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
  * @returns {Promise<*>}
  */
@@ -116,7 +95,6 @@ const reassignAuthenticationMethod = async function (request, h) {
 
 /**
  * @typedef {object} UserAdminController
- * @property {function} anonymizeUser
  * @property {function} findPaginatedFilteredUsers
  * @property {function} getUserDetails
  * @property {function} reassignAuthenticationMethod
@@ -126,7 +104,6 @@ const reassignAuthenticationMethod = async function (request, h) {
  */
 export const userAdminController = {
   addPixAuthenticationMethod,
-  anonymizeUser,
   findPaginatedFilteredUsers,
   reassignAuthenticationMethod,
   removeAuthenticationMethod,
