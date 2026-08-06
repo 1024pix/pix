@@ -100,14 +100,6 @@ class User {
     return false;
   }
 
-  isLinkedToOrganizations() {
-    return this.memberships.length > 0;
-  }
-
-  hasAccessToOrganization(organizationId) {
-    return this.memberships.some((membership) => membership.organization.id === organizationId);
-  }
-
   markEmailAsValid() {
     this.emailConfirmedAt = new Date();
   }
