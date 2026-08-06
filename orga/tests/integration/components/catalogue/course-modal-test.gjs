@@ -288,7 +288,7 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
 
       //then
       assert.dom(submitButton).hasAttribute('aria-disabled', 'false');
-      assert.ok(submitButton.href.includes('/creation-catalogue?courseId=123'));
+      assert.ok(submitButton.href.includes('/creation?courseId=123'));
     });
     test('it disables campaign creation route button if not enough "places"', async function (assert) {
       //given
