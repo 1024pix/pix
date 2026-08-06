@@ -75,23 +75,6 @@ const findPaginatedFiltered = async function ({ filter, page, queryType = QUERY_
   return { models: users, pagination };
 };
 
-// bounded-context: should be done by an api of bounded context team
-const isUserAllowedToAccessCertificationCenter = async function (userId, certificationCenterId) {
-  const knexConn = DomainTransaction.getConnection();
-  const user = await knexConn('users').where({ id: userId }).first();
-  if (!user) throw new UserNotFoundError(`User not found for ID ${userId}`);
-
-  const userIsMemberOfThisCertificationCenter = await knexConn('certification-center-memberships')
-    .where({
-      userId,
-      certificationCenterId,
-    })
-    .whereNull('disabledAt')
-    .first();
-
-  return Boolean(userIsMemberOfThisCertificationCenter);
-};
-
 const getBySamlId = async function (samlId) {
   const knexConn = DomainTransaction.getConnection();
   const user = await knexConn('users')
@@ -315,7 +298,6 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} getByIds
  * @property {function} getBySamlId
  * @property {function} getByUsernameOrEmailWithRolesAndPassword
- * @property {function} isUserAllowedToAccessCertificationCenter
  * @property {function} isUserExistingByEmail
  * @property {function} isUsernameAvailable
  * @property {function} update
@@ -343,7 +325,6 @@ export {
   getByIds,
   getBySamlId,
   getByUsernameOrEmailWithRolesAndPassword,
-  isUserAllowedToAccessCertificationCenter,
   isUserExistingByEmail,
   isUsernameAvailable,
   update,

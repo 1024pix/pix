@@ -1,6 +1,7 @@
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
+import { certificationCenterMembershipRepository } from '../../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import * as versionApi from '../../../configuration/application/api/version-api.js';
 import { createLiveAlert } from '../../../evaluation/domain/usecases/create-live-alert.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
@@ -96,6 +97,7 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationEvaluationRepository} CertificationEvaluationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {import('../../../../identity-access-management/infrastructure/repositories/user.repository.js')} UserRepository
+ * @typedef {import('../../../../team/infrastructure/repositories/certification-center-membership.repository.js')} CertificationCenterMembershipRepository
  **/
 
 /**
@@ -136,6 +138,7 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {certificationCompanionAlertRepository} CertificationCompanionAlertRepository
  * @typedef {userRepository} UserRepository
  * @typedef {CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
+ * @typedef {CertificationCenterMembershipRepository} CertificationCenterMembershipRepository
  **/
 const dependencies = {
   ...repositories,
@@ -153,6 +156,7 @@ const dependencies = {
   certificationCenterRepository,
   certificationRepository,
   certificationIssueReportRepository,
+  certificationCenterMembershipRepository,
   sessionPublicationService,
   versionApi,
   userRepository,
