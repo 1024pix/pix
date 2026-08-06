@@ -64,7 +64,7 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
     this.validatedStagesCount = validatedStagesCount;
   }
   get type() {
-    return COMBINED_COURSE_ITEM_TYPES.EVALUATION;
+    return COMBINED_COURSE_ITEM_TYPES.CAMPAIGN;
   }
 }
 

@@ -17,7 +17,7 @@ describe('CombinedCourseParticipationSerializer', function () {
         {
           id: 2,
           title: 'Campagne',
-          type: COMBINED_COURSE_ITEM_TYPES.EVALUATION,
+          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
           masteryRate: 0.5,
           participationStatus: CampaignParticipationStatuses.SHARED,
           isCompleted: true,
@@ -93,7 +93,7 @@ describe('CombinedCourseParticipationSerializer', function () {
             'participation-status': CampaignParticipationStatuses.SHARED,
             title: 'Campagne',
             'total-stages-count': 5,
-            type: COMBINED_COURSE_ITEM_TYPES.EVALUATION,
+            type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
             'validated-stages-count': 2,
           },
           id: '2',
