@@ -1,5 +1,11 @@
 import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 
+export const COMBINED_COURSE_ITEM_TYPES = {
+  MODULE: 'module',
+  CAMPAIGN: 'campaign',
+  FORMATION: 'formation',
+};
+
 export default class CombinedCourseBlueprint extends Model {
   @attr('string') name;
   @attr('string') internalName;

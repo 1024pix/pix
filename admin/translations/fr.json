@@ -775,8 +775,8 @@
         "generalInfoCardTitle": "Informations générales",
         "notifications": {
           "addItemError": "Oups. Une erreur est survenue lors de l'ajout de la ressource.",
+          "campaignNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi",
           "error": "Oups. Une erreur est survenue lors de la création du schéma de parcours.",
-          "evaluationNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi",
           "moduleNotFound": "Il n'existe pas de module avec l'identifiant saisi",
           "success": "Création du schéma de parcours réussie !"
         },

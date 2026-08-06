@@ -1,6 +1,7 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 import RequirementTag from 'pix-admin/components/common/combined-courses/requirement-tag';
+import { COMBINED_COURSE_ITEM_TYPES } from 'pix-admin/models/combined-course-blueprint.js';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -8,9 +9,9 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Component |  common/combined-courses/requirement-tag', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('should display a module item when type is not evaluation', async function (assert) {
+  test('should display a module item when type is not campaign', async function (assert) {
     const item = {
-      type: 'module',
+      type: COMBINED_COURSE_ITEM_TYPES.MODULE,
       value: 'full-id-abc-123',
       shortId: 'abc-123',
       label: 'Mon module',
@@ -23,9 +24,9 @@ module('Integration | Component |  common/combined-courses/requirement-tag', fun
     assert.ok(link.getAttribute('href').endsWith('modules/abc-123/slug/details'));
   });
 
-  test('should display a target profile item when type is evaluation', async function (assert) {
+  test('should display a target profile item when type is campaign', async function (assert) {
     const item = {
-      type: 'evaluation',
+      type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
       value: 1,
       label: 'Ma campagne',
     };
