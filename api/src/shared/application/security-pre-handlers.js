@@ -3,8 +3,11 @@ import jsonapiSerializer from 'jsonapi-serializer';
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
 import { PIX_ADMIN } from '../../shared/constants.js';
 import { ForbiddenAccess } from '../domain/errors.js';
+import * as assessmentRepository from '../infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
+import { validationErrorSerializer } from '../infrastructure/serializers/jsonapi/validation-error-serializer.js';
 import { PromiseUtils } from '../infrastructure/utils/promise-utils.js';
+import { extractUserIdFromRequest } from '../infrastructure/utils/request-response-utils.js';
 import * as checkOrganizationAccessUseCase from './usecases/check-organization-access.js';
 import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-invitation-id.js';
 import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-membership-id.js';
@@ -570,6 +573,16 @@ function checkOrganizationDoesNotHaveFeature(featureKey) {
   };
 }
 
+function checkUserOwnsAssessment(request, h, dependencies = { assessmentRepository, validationErrorSerializer }) {
+  const userId = extractUserIdFromRequest(request);
+  const assessmentId = parseInt(request.params.id) || parseInt(request.params.assessmentId);
+
+  return dependencies.assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId).catch(() => {
+    const buildError = { data: { authorization: ["Vous n'êtes pas autorisé à accéder à cette évaluation"] } };
+    return h.response(dependencies.validationErrorSerializer.serialize(buildError)).code(401).takeover();
+  });
+}
+
 export const securityPreHandlers = {
   hasAtLeastOneAccessOf,
   validateAllAccess,
@@ -598,4 +611,5 @@ export const securityPreHandlers = {
   checkUserIsMemberOfCertificationCenter,
   makeCheckOrganizationHasFeature,
   checkOrganizationAccess,
+  checkUserOwnsAssessment,
 };
