@@ -28,6 +28,7 @@ import * as studentRepository from '../../../../shared/infrastructure/repositori
 import * as writeCsvUtils from '../../../../shared/infrastructure/utils/csv/write-csv-utils.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as emailRepository from '../../../../shared/mail/infrastructure/repositories/email.repository.js';
+import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
 import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
 import * as divisionRepository from '../../../campaign/infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../../campaign/infrastructure/repositories/group-repository.js';
@@ -53,6 +54,7 @@ const dependencies = {
   emailRepository,
   userValidator,
   groupRepository,
+  membershipRepository,
   supOrganizationParticipantRepository,
   scoOrganizationParticipantRepository,
   libOrganizationLearnerRepository,

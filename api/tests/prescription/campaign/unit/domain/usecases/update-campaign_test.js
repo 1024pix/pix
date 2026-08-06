@@ -7,14 +7,7 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | update-campaign', function () {
-  let originalCampaign;
-  let userWithMembership;
-  let ownerwithMembership;
   let campaignAdministrationRepository, membershipRepository;
-
-  const organizationId = 1;
-  const creatorId = 1;
-  const ownerId = 2;
 
   beforeEach(function () {
     campaignAdministrationRepository = {
@@ -25,57 +18,38 @@ describe('Unit | UseCase | update-campaign', function () {
   });
 
   context('when campaign exists', function () {
-    beforeEach(function () {
-      originalCampaign = domainBuilder.prescription.campaign.buildCampaign({
+    it('should update the campaign', async function () {
+      // given
+      const organizationId = 1;
+      const owner = domainBuilder.buildUser();
+      const campaign = domainBuilder.prescription.campaign.buildCampaign.ofTypeAssessment({
         id: 1,
         name: 'Old name',
         title: 'Old title',
         type: 'ASSESSMENT',
         customLandingPageText: 'Old text',
-        creatorId,
-        ownerId,
+        userId: owner.id,
+        ownerId: owner.id,
         organizationId,
-      });
-      userWithMembership = {
-        id: 1,
-        memberships: [{ organization: { id: organizationId } }],
-        hasAccessToOrganization: sinon.stub(),
-      };
-      ownerwithMembership = domainBuilder.buildMembership({
-        user: domainBuilder.buildUser({ id: ownerId }),
-        organization: { id: organizationId },
-      });
-      campaignAdministrationRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
-      userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
-      membershipRepository.findByUserIdAndOrganizationId
-        .withArgs({ userId: ownerId, organizationId })
-        .resolves([ownerwithMembership]);
-    });
-
-    it('should update the campaign', async function () {
-      // given
-      const campaign = domainBuilder.prescription.campaign.buildCampaign.ofTypeAssessment({
-        ...originalCampaign,
       });
       const expectedResult = Symbol('updatedCampaign');
       sinon.stub(campaign, 'updateFields');
       campaignAdministrationRepository.get.withArgs(campaign.id).resolves(campaign);
       campaignAdministrationRepository.update.withArgs(campaign).resolves(expectedResult);
       membershipRepository.findByUserIdAndOrganizationId
-        .withArgs({ userId: userWithMembership.id, organizationId: campaign.organizationId })
+        .withArgs({ userId: owner.id, organizationId: campaign.organizationId })
         .resolves([Symbol('membership')]);
       const attributesToUpdate = {
         title: 'New Title',
         name: 'New Name',
         customLandingPageText: 'New Custom Landing Page Text',
-        ownerId: 1,
+        ownerId: owner.id,
       };
 
       // when
       const resultCampaign = await updateCampaign({
-        userId: userWithMembership.id,
         campaignId: campaign.id,
-        ownerId,
+        ownerId: owner.id,
         membershipRepository,
         campaignAdministrationRepository,
         ...attributesToUpdate,
@@ -90,24 +64,18 @@ describe('Unit | UseCase | update-campaign', function () {
   context('when an error occurred', function () {
     it('should throw an error when the owner is not a member of organization', async function () {
       // given
+      const organizationId = 1;
       const ownerWithoutMembership = domainBuilder.buildUser();
-      userWithMembership = {
-        id: 1,
-        memberships: [{ organization: { id: organizationId } }],
-        hasAccessToOrganization: sinon.stub(),
-      };
-      originalCampaign = domainBuilder.prescription.campaign.buildCampaign({ organizationId });
+      const campaign = domainBuilder.prescription.campaign.buildCampaign({ organizationId });
 
-      campaignAdministrationRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
-      userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
+      campaignAdministrationRepository.get.withArgs(campaign.id).resolves(campaign);
       membershipRepository.findByUserIdAndOrganizationId
         .withArgs({ userId: ownerWithoutMembership.id, organizationId })
         .resolves([]);
 
       // when
       const error = await catchErr(updateCampaign)({
-        userId: userWithMembership.id,
-        campaignId: originalCampaign.id,
+        campaignId: campaign.id,
         ownerId: ownerWithoutMembership.id,
         campaignAdministrationRepository,
         membershipRepository,

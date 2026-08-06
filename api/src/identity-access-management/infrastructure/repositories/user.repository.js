@@ -76,29 +76,6 @@ const findPaginatedFiltered = async function ({ filter, page, queryType = QUERY_
 };
 
 // bounded-context: should be done by an api of bounded context team
-const getWithMemberships = async function (userId) {
-  const knexConn = DomainTransaction.getConnection();
-  const userDTO = await knexConn('users').where({ id: userId }).first();
-
-  if (!userDTO) {
-    throw new UserNotFoundError();
-  }
-
-  const membershipsDTO = await knexConn('memberships')
-    .select(
-      'memberships.*',
-      'organizations.name AS organizationName',
-      'organizations.type AS organizationType',
-      'organizations.externalId AS organizationExternalId',
-      'organizations.isManagingStudents AS organizationIsManagingStudents',
-    )
-    .join('organizations', 'organizations.id', 'memberships.organizationId')
-    .where({ userId: userDTO.id, disabledAt: null });
-
-  return _toDomainFromDTO({ userDTO, membershipsDTO });
-};
-
-// bounded-context: should be done by an api of bounded context team
 const isUserAllowedToAccessCertificationCenter = async function (userId, certificationCenterId) {
   const knexConn = DomainTransaction.getConnection();
   const user = await knexConn('users').where({ id: userId }).first();
@@ -339,7 +316,6 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} getBySamlId
  * @property {function} getByUsernameOrEmailWithRolesAndPassword
  * @property {function} isUserAllowedToAccessCertificationCenter
- * @property {function} getWithMemberships
  * @property {function} isUserExistingByEmail
  * @property {function} isUsernameAvailable
  * @property {function} update
@@ -367,7 +343,6 @@ export {
   getByIds,
   getBySamlId,
   getByUsernameOrEmailWithRolesAndPassword,
-  getWithMemberships,
   isUserAllowedToAccessCertificationCenter,
   isUserExistingByEmail,
   isUsernameAvailable,

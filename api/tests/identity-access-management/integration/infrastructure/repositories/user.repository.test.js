@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-const { each, map, times, pick } = lodash;
+const { each, map, times } = lodash;
 import sinon from 'sinon';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
@@ -7,14 +7,12 @@ import * as OidcIdentityProviders from '../../../../../src/identity-access-manag
 import { InvalidOrAlreadyUsedEmailError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
-import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import {
   AlreadyExistingEntityError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
-import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -865,88 +863,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // when
         const result = await catchErr(userRepository.getByUsernameOrEmailWithRolesAndPassword)(unusedUsername);
-
-        // then
-        expect(result).to.be.instanceOf(UserNotFoundError);
-      });
-    });
-
-    describe('#getWithMemberships', function () {
-      it('returns user with his/her membership(s) for the given id', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser.withRawPassword({
-          firstName: 'Sarah',
-          lastName: 'Pelle',
-          email: 'sarahpelle@example.net',
-          password: 'pix123',
-          cgu: true,
-        });
-        const organizationId = databaseBuilder.factory.buildOrganization({ name: "Orga de l'année.", type: 'SUP' }).id;
-        const membershipId = databaseBuilder.factory.buildMembership({
-          userId: user.id,
-          organizationRole: 'MEMBER',
-          organizationId,
-        }).id;
-        await databaseBuilder.commit();
-
-        // when
-        const foundUser = await userRepository.getWithMemberships(user.id);
-
-        // then
-        expect(foundUser).to.be.an.instanceof(User);
-        const expectedUserAttributes = ['id', 'firstName', 'lastName', 'email', 'password', 'cgu'];
-        expect(pick(foundUser, expectedUserAttributes)).to.deep.equal({
-          id: user.id,
-          firstName: 'Sarah',
-          lastName: 'Pelle',
-          email: 'sarahpelle@example.net',
-          cgu: true,
-        });
-
-        expect(foundUser.memberships).to.have.lengthOf(1);
-        const membership = foundUser.memberships[0];
-        expect(membership).to.be.an.instanceof(Membership);
-        expect(pick(membership, ['id', 'organizationRole'])).to.deep.equal({
-          id: membershipId,
-          organizationRole: 'MEMBER',
-        });
-
-        const associatedOrganization = membership.organization;
-        expect(associatedOrganization).to.be.an.instanceof(Organization);
-        expect(pick(associatedOrganization, ['id', 'name', 'type'])).to.deep.equal({
-          id: organizationId,
-          name: "Orga de l'année.",
-          type: 'SUP',
-        });
-      });
-
-      context('when the membership associated to the user has been disabled', function () {
-        it('does not return the membership', async function () {
-          // given
-          const userId = databaseBuilder.factory.buildUser().id;
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildMembership({
-            userId,
-            organizationId,
-            disabledAt: new Date(),
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const user = await userRepository.getWithMemberships(userId);
-
-          // then
-          expect(user.memberships).to.be.an('array');
-          expect(user.memberships).to.be.empty;
-        });
-      });
-
-      it('rejects with a UserNotFound error when no user was found with the given id', async function () {
-        // given
-        const unknownUserId = 666;
-
-        // when
-        const result = await catchErr(userRepository.getWithMemberships)(unknownUserId);
 
         // then
         expect(result).to.be.instanceOf(UserNotFoundError);
