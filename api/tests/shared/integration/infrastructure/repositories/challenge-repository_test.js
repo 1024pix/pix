@@ -884,11 +884,11 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#get_proxy', function () {
+  describe('#getChallengeDto', function () {
     context('when no challenge found for id', function () {
       it('should throw a NotFound error', async function () {
         // when
-        const err = await catchErr(challengeRepository.get_proxy)('challengeIdPipeauPipette');
+        const err = await catchErr(challengeRepository.getChallengeDto)('challengeIdPipeauPipette');
 
         // then
         expect(err).to.be.instanceOf(NotFoundError);
@@ -899,14 +899,15 @@ describe('Integration | Repository | challenge-repository', function () {
     context('when challenge found for id', function () {
       it('should return the challenge', async function () {
         // when
-        const challenge = await challengeRepository.get_proxy('challengeId00');
+        const challenge = await challengeRepository.getChallengeDto('challengeId00');
 
         // then
-        expect(challenge).to.deepEqualInstance(
+        expect(challenge).to.deep.equal(
           domainBuilder.learningContent.buildChallenge(
             challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson,
           ),
         );
+        expect(Object.isFrozen(challenge)).to.be.true;
       });
     });
   });
@@ -1289,11 +1290,11 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findValidatedByCompetenceId_proxy', function () {
+  describe('#findValidatedChallengeDtosByCompetenceId', function () {
     context('when locale is not defined', function () {
       it('should throw an Error', async function () {
         // when
-        const err = await catchErr(challengeRepository.findValidatedByCompetenceId_proxy)('competenceId00');
+        const err = await catchErr(challengeRepository.findValidatedChallengeDtosByCompetenceId)('competenceId00');
 
         // then
         expect(err.message).to.equal('Locale shall be defined');
@@ -1304,7 +1305,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when no validated challenges found for given locale and competenceId', function () {
         it('should return an empty array', async function () {
           // when
-          const challenges = await challengeRepository.findValidatedByCompetenceId_proxy('competenceId00', 'es');
+          const challenges = await challengeRepository.findValidatedChallengeDtosByCompetenceId('competenceId00', 'es');
 
           // then
           expect(challenges).to.deep.equal([]);
@@ -1314,7 +1315,7 @@ describe('Integration | Repository | challenge-repository', function () {
       context('when validated challenges are found for given locale and competenceId', function () {
         it('should return the challenges', async function () {
           // when
-          const challenges = await challengeRepository.findValidatedByCompetenceId_proxy('competenceId00', 'en');
+          const challenges = await challengeRepository.findValidatedChallengeDtosByCompetenceId('competenceId00', 'en');
 
           // then
           expect(challenges).to.deep.equal([
@@ -1325,12 +1326,13 @@ describe('Integration | Repository | challenge-repository', function () {
               challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson,
             ),
           ]);
+          expect(challenges.every(Object.isFrozen)).to.be.true;
         });
       });
     });
   });
 
-  describe('#findOperativeBySkillsAndLocales_proxy', function () {
+  describe('#findOperativeChallengeDtosBySkillsAndLocales', function () {
     context('when locale is defined', function () {
       context('when no operative challenges found for given locale', function () {
         it('should return an empty array', async function () {
@@ -1342,7 +1344,10 @@ describe('Integration | Repository | challenge-repository', function () {
           });
 
           // when
-          const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy([skill00], ['catalan']);
+          const challenges = await challengeRepository.findOperativeChallengeDtosBySkillsAndLocales(
+            [skill00],
+            ['catalan'],
+          );
 
           // then
           expect(challenges).to.deep.equal([]);
@@ -1361,7 +1366,10 @@ describe('Integration | Repository | challenge-repository', function () {
           ];
 
           // when
-          const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy(skills, ['en-TZ', 'en']);
+          const challenges = await challengeRepository.findOperativeChallengeDtosBySkillsAndLocales(skills, [
+            'en-TZ',
+            'en',
+          ]);
           // then
           expect(challenges).to.deep.equal([
             domainBuilder.learningContent.buildChallenge(enArchivedChallenge),
@@ -1370,6 +1378,7 @@ describe('Integration | Repository | challenge-repository', function () {
             domainBuilder.learningContent.buildChallenge(enUGValidatedChallenge),
             domainBuilder.learningContent.buildChallenge(enValidatedChallenge),
           ]);
+          expect(challenges.every(Object.isFrozen)).to.be.true;
         });
       });
     });

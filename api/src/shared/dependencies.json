@@ -3,7 +3,6 @@
   "dependsOn": [
     "certification/shared",
     "evaluation",
-    "learning-content",
     "organizational-entities",
     "prescription/campaign",
     "prescription/learner-management",

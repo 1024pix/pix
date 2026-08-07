@@ -1,4 +1,5 @@
-import { Challenge as ChallengeProxy } from '../../../learning-content/domain/models/Challenge.js';
+import _ from 'lodash';
+
 import { NotFoundError } from '../../domain/errors.js';
 import { Challenge } from '../../domain/models/Challenge.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
@@ -41,13 +42,13 @@ export async function get(id, { forCorrection = false } = {}) {
   return toDomain({ challengeDto, skill, ...webComponentInfo });
 }
 
-export async function get_proxy(id) {
-  const challengeDto = await getInstance().load(id);
-  if (!challengeDto) {
+export async function getChallengeDto(id) {
+  const challengeData = await getInstance().load(id);
+  if (!challengeData) {
     logger.warn({ challengeId: id }, 'Épreuve introuvable');
     throw new NotFoundError('Épreuve introuvable');
   }
-  return new ChallengeProxy(challengeDto);
+  return toChallengeDto(challengeData);
 }
 
 export async function getMany(ids, locale) {
@@ -75,16 +76,16 @@ export async function findValidated(locale) {
   return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
 }
 
-export async function findValidatedByCompetenceId_proxy(competenceId, locale) {
+export async function findValidatedChallengeDtosByCompetenceId(competenceId, locale) {
   _assertLocaleIsDefined(locale);
   const cacheKey = `findValidatedByCompetenceId(${competenceId}, ${locale})`;
   const findValidatedByLocaleByCompetenceIdCallback = (knex) =>
     knex.whereRaw('?=ANY(??)', [locale, 'locales']).where({ competenceId, status: VALIDATED_STATUS }).orderBy('id');
-  const challengeDtos = await getInstance().find(cacheKey, findValidatedByLocaleByCompetenceIdCallback);
-  return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
+  const challenges = await getInstance().find(cacheKey, findValidatedByLocaleByCompetenceIdCallback);
+  return challenges.map(toChallengeDto);
 }
 
-export async function findOperativeBySkillsAndLocales_proxy(skills, locales) {
+export async function findOperativeChallengeDtosBySkillsAndLocales(skills, locales) {
   const skillIds = skills.map((skill) => skill.id);
   const cacheKey = `findOperativesBySkillsAndLocales([${skillIds.sort()}], ${locales.sort().join(',')})`;
 
@@ -94,8 +95,8 @@ export async function findOperativeBySkillsAndLocales_proxy(skills, locales) {
       .whereIn('status', OPERATIVE_STATUSES)
       .whereIn('skillId', skillIds)
       .orderBy('id');
-  const challengeDtos = await getInstance().find(cacheKey, findOperativeByLocaleBySkillIdsCallback);
-  return challengeDtos.map((challengeDto) => new ChallengeProxy(challengeDto));
+  const challenges = await getInstance().find(cacheKey, findOperativeByLocaleBySkillIdsCallback);
+  return challenges.map(toChallengeDto);
 }
 
 export function clearCache(id) {
@@ -135,6 +136,10 @@ function _assertLocaleIsDefined(locale) {
 
 function byId(challenge1, challenge2) {
   return challenge1.id < challenge2.id ? -1 : 1;
+}
+
+function toChallengeDto(challengeData) {
+  return Object.freeze(_.omit(challengeData, ['alpha', 'delta']));
 }
 
 function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill, successProbabilityThreshold }) {
