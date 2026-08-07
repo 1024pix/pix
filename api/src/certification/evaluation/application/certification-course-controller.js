@@ -3,7 +3,7 @@ import { usecases } from '../domain/usecases/index.js';
 import * as certificationCourseInfoRepository from '../infrastructure/repositories/certification-course-info-repository.js';
 import * as certificationCourseInfoSerializer from '../infrastructure/serializers/certification-course-info-serializer.js';
 
-export async function save(request, h, dependencies = { certificationCourseInfoSerializer }) {
+async function save(request, h, dependencies = { certificationCourseInfoSerializer }) {
   const userId = request.auth.credentials.userId;
   const accessCode = request.payload.data.attributes['access-code'];
   const sessionId = request.payload.data.attributes['session-id'];
@@ -20,7 +20,7 @@ export async function save(request, h, dependencies = { certificationCourseInfoS
   return hasResumed ? serialized : h.response(serialized).created();
 }
 
-export async function get(
+async function get(
   request,
   h,
   dependencies = { certificationCourseInfoRepository, certificationCourseInfoSerializer },
