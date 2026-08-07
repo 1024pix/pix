@@ -20,7 +20,7 @@ import { MoreThanOneMatchingCertificationError } from '../errors.js';
  * @throws {MoreThanOneMatchingCertificationError} in some cases (INE for example) there might be duplicates
  * @throws {NotFoundError} if no certification exists for this candidate
  **/
-export const getCertificationResultForParcoursup = async ({
+export async function getCertificationResultForParcoursup({
   ine,
   organizationUai,
   lastName,
@@ -28,7 +28,7 @@ export const getCertificationResultForParcoursup = async ({
   birthdate,
   verificationCode,
   certificationParcoursupRepository,
-}) => {
+}) {
   let certifications = [];
 
   if (ine) {
@@ -52,4 +52,4 @@ export const getCertificationResultForParcoursup = async ({
   }
 
   return certifications.shift();
-};
+}

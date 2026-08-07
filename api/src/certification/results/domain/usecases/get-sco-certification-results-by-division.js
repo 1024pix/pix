@@ -10,7 +10,7 @@ import { NoCertificationResultForDivision } from '../errors.js';
  * @param {CertificationResultRepository} params.certificationResultRepository
  * @param {ScoCertificationCandidateRepository} params.scoCertificationCandidateRepository
  */
-const getScoCertificationResultsByDivision = async function ({
+export async function getScoCertificationResultsByDivision({
   organizationId,
   division,
   scoCertificationCandidateRepository,
@@ -32,6 +32,4 @@ const getScoCertificationResultsByDivision = async function ({
   }
 
   return certificationResults;
-};
-
-export { getScoCertificationResultsByDivision };
+}

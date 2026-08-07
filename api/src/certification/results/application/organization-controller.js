@@ -2,11 +2,7 @@ import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js'
 import { usecases } from '../domain/usecases/index.js';
 import { getDivisionCertificationResultsCsv } from '../infrastructure/utils/csv/certification-results/get-division-certification-results-csv.js';
 
-const downloadCertificationResults = async function (
-  request,
-  h,
-  dependencies = { getDivisionCertificationResultsCsv },
-) {
+async function downloadCertificationResults(request, h, dependencies = { getDivisionCertificationResultsCsv }) {
   const i18n = getI18nFromRequest(request);
 
   const organizationId = request.params.organizationId;
@@ -24,10 +20,8 @@ const downloadCertificationResults = async function (
     .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
     .header('Content-Disposition', `attachment; filename="${csvResult.filename}"`);
-};
+}
 
-const organizationController = {
+export const organizationController = {
   downloadCertificationResults,
 };
-
-export { organizationController };

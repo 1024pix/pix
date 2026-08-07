@@ -9,11 +9,9 @@
  * @param {CertificateRepository} params.certificateRepository
  */
 
-const getShareableCertificate = async function ({ certificationCourseId, locale, certificateRepository }) {
+export async function getShareableCertificate({ certificationCourseId, locale, certificateRepository }) {
   return certificateRepository.getShareableCertificate({
     certificationCourseId,
     locale,
   });
-};
-
-export { getShareableCertificate };
+}

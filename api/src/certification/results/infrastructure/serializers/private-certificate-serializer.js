@@ -2,14 +2,14 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const typeForAttribute = (attribute) => {
+function typeForAttribute(attribute) {
   if (attribute === 'resultCompetenceTree') {
     return 'result-competence-trees';
   }
   if (attribute === 'resultCompetences') {
     return 'result-competences';
   }
-};
+}
 
 const resultCompetenceTree = {
   included: true,
@@ -51,7 +51,7 @@ const attributes = [
   'algorithmEngineVersion',
 ];
 
-const serialize = function (certificate, { translate }) {
+export function serialize(certificate, { translate }) {
   return new Serializer('certifications', {
     transform(privateCertificate) {
       return {
@@ -63,6 +63,4 @@ const serialize = function (certificate, { translate }) {
     attributes,
     resultCompetenceTree,
   }).serialize(certificate);
-};
-
-export { serialize };
+}

@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { userController } from './user-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -36,6 +36,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const userRoute = { name: 'certification/results/certification-results-user-api', register };

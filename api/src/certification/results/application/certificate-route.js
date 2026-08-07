@@ -6,7 +6,7 @@ import { certificationVerificationCodeType, identifiersType } from '../../../sha
 import { certificateController } from './certificate-controller.js';
 import { resultsSecurityPreHandlers } from './security-pre-handlers.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -156,6 +156,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificateRoute = { name: 'certification/results/certificate-api', register };

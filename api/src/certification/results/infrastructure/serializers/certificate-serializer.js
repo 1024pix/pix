@@ -2,14 +2,14 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const typeForAttribute = (attribute) => {
+function typeForAttribute(attribute) {
   if (attribute === 'resultCompetenceTree') {
     return 'result-competence-trees';
   }
   if (attribute === 'resultCompetences') {
     return 'result-competences';
   }
-};
+}
 
 const resultCompetenceTree = {
   included: true,
@@ -56,7 +56,7 @@ const attributes = [
   'badgeUrl',
 ];
 
-const serialize = function ({ certificate, translate, context }) {
+export function serialize({ certificate, translate, context }) {
   let globalLevel = {};
 
   if (certificate?.globalLevel) {
@@ -80,10 +80,8 @@ const serialize = function ({ certificate, translate, context }) {
     attributes,
     resultCompetenceTree,
   }).serialize(certificate);
-};
+}
 
 function _getLevel(certificate) {
   return certificate.globalLevel.meshLevel.split('_').at(-1);
 }
-
-export { serialize };
