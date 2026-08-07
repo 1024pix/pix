@@ -1,5 +1,27 @@
 # Pix Changelog
 
+# [5.476.0](https://github.com/1024pix/pix/compare/v5.475.0...v5.476.0) (2026-08-07)
+
+### :rocket: Amélioration
+
+- [#17009](https://github.com/1024pix/pix/pull/17009) Limite l'entrée en session de certification à 24 h après le début du premier démarrage d'un candidat (PIX-23788)
+- [#17086](https://github.com/1024pix/pix/pull/17086) Module Phishing_IND FWB avec les exemples contextualisés
+
+### :building_construction: Tech
+
+- [#17063](https://github.com/1024pix/pix/pull/17063) Déplacement du BaseChallenge depuis shared vers evaluation
+- [#17066](https://github.com/1024pix/pix/pull/17066) Enlever la dépendance prescription/campaign de IAM
+- [#16938](https://github.com/1024pix/pix/pull/16938) Migrer mon-pix vers WarpDrive
+- [#17082](https://github.com/1024pix/pix/pull/17082) Oblige et corrige la façon de déclarer des fonctions dans le contexte certification-result
+- [#17069](https://github.com/1024pix/pix/pull/17069) Supprimer getWithMemberships du contexte IAM
+- [#17067](https://github.com/1024pix/pix/pull/17067) Supprimer l'utilitaire en doublon get-data-buffer de prescription
+- [#17071](https://github.com/1024pix/pix/pull/17071) Supprimer la vérification de membership de centre de certif du contexte IAM
+
+### :arrow_up: Montée de version
+
+- [#17077](https://github.com/1024pix/pix/pull/17077) Update actions/setup-node action to v7 (workflows)
+- [#17075](https://github.com/1024pix/pix/pull/17075) Update dependency oxfmt to ^0.61.0 (api)
+
 # [5.475.0](https://github.com/1024pix/pix/compare/v5.474.0...v5.475.0) (2026-08-06)
 
 ### :rocket: Amélioration
