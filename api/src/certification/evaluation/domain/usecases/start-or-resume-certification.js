@@ -2,6 +2,7 @@
  * @typedef {import('./index.js').AssessmentRepository} AssessmentRepository
  * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
+ * @typedef {import('./index.js').CertificationCourseInfoRepository} CertificationCourseInfoRepository
  * @typedef {import('./index.js').AssessmentSheetRepository} AssessmentSheetRepository
  * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('./index.js').VersionApi} VersionApi
@@ -28,6 +29,7 @@ const DEFAULT_LOCALE = 'fr-fr';
  * @param {AssessmentRepository} params.assessmentRepository
  * @param {CandidateRepository} params.candidateRepository
  * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {CertificationCourseInfoRepository} params.certificationCourseInfoRepository
  * @param {AssessmentSheetRepository} params.assessmentSheetRepository
  * @param {CandidateAuthorizationAdapter} params.candidateAuthorizationAdapter
  * @param {SessionAdapter} params.sessionAdapter
@@ -35,7 +37,7 @@ const DEFAULT_LOCALE = 'fr-fr';
  * @param {CertificationBadgesService} params.certificationBadgesService
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
  */
-export async function retrieveLastOrCreateCertificationCourse({
+export async function startOrResumeCertification({
   accessCode,
   sessionId,
   userId,
@@ -44,6 +46,7 @@ export async function retrieveLastOrCreateCertificationCourse({
   assessmentRepository,
   candidateRepository,
   certificationCourseRepository,
+  certificationCourseInfoRepository,
   assessmentSheetRepository,
   candidateAuthorizationAdapter,
   sessionAdapter,
@@ -60,36 +63,27 @@ export async function retrieveLastOrCreateCertificationCourse({
     await endCertification({ certificationId: candidateAuthorization.certificationId, assessmentSheetRepository });
   }
 
+  const existingCertificationCourseInfo = await certificationCourseInfoRepository.findByUserIdAndSessionId({
+    userId,
+    sessionId,
+  });
+  if (existingCertificationCourseInfo) {
+    await sessionAdapter.onCertificationStartedOrResumed({
+      certificationId: existingCertificationCourseInfo.id,
+      sessionId,
+      candidateId: existingCertificationCourseInfo.candidateId,
+      timezone: clientTimezone,
+    });
+    return {
+      hasResumed: true,
+      certificationCourseInfo: existingCertificationCourseInfo,
+    };
+  }
+
   const certificationVersion = await versionApi.getByFrameworkAndDate({
     framework: candidateAuthorization.subscription,
     date: candidateAuthorization.reconciledAt,
   });
-
-  const existingCertificationCourse =
-    await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
-      userId,
-      sessionId,
-    });
-
-  if (existingCertificationCourse) {
-    const candidate = await candidateRepository.findByUserIdAndSessionId({ userId, sessionId });
-    await sessionAdapter.onCertificationStartedOrResumed({
-      // todo rename into startedOrResumed ?
-      certificationId: existingCertificationCourse.getId(),
-      sessionId,
-      candidateId: candidate.id,
-      timezone: clientTimezone,
-    });
-    existingCertificationCourse.adjustForAccessibility(candidate.accessibilityAdjustmentNeeded);
-    existingCertificationCourse.setNumberOfChallenges(
-      certificationVersion.challengesConfiguration.maximumAssessmentLength,
-    );
-
-    return {
-      created: false,
-      certificationCourse: existingCertificationCourse,
-    };
-  }
 
   return _startNewCertification({
     sessionId,
@@ -100,6 +94,7 @@ export async function retrieveLastOrCreateCertificationCourse({
     sessionAdapter,
     assessmentRepository,
     certificationCourseRepository,
+    certificationCourseInfoRepository,
     candidateRepository,
     verifyCertificateCodeService,
     certificationBadgesService,
@@ -135,6 +130,7 @@ async function endCertification({ certificationId, assessmentSheetRepository }) 
  * @param {string} params.clientTimezone
  * @param {SessionAdapter} params.sessionAdapter
  * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {CertificationCourseInfoRepository} params.certificationCourseInfoRepository
  * @param {CertificationBadgesService} params.certificationBadgesService
  * @param {AssessmentRepository} params.assessmentRepository
  * @param {CandidateRepository} params.candidateRepository
@@ -148,6 +144,7 @@ async function _startNewCertification({
   sessionAdapter,
   assessmentRepository,
   certificationCourseRepository,
+  certificationCourseInfoRepository,
   candidateRepository,
   certificationBadgesService,
   verifyCertificateCodeService,
@@ -182,6 +179,7 @@ async function _startNewCertification({
     certificationVersion,
     sessionAdapter,
     certificationCourseRepository,
+    certificationCourseInfoRepository,
     assessmentRepository,
     userId,
     verifyCertificateCodeService,
@@ -197,6 +195,7 @@ async function _startNewCertification({
  * @param {number} params.sessionId
  * @param {string} params.clientTimezone
  * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {CertificationCourseInfoRepository} params.certificationCourseInfoRepository
  * @param {CandidateRepository} params.candidateRepository
  * @param {AssessmentRepository} params.assessmentRepository
  * @param {SessionAdapter} params.sessionAdapter
@@ -207,6 +206,7 @@ async function _createCertificationCourse({
   certificationVersion,
   sessionAdapter,
   certificationCourseRepository,
+  certificationCourseInfoRepository,
   candidateRepository,
   assessmentRepository,
   verifyCertificateCodeService,
@@ -239,26 +239,23 @@ async function _createCertificationCourse({
     const savedCertificationCourse = await certificationCourseRepository.save({
       certificationCourse: newCertificationCourse,
     });
-
     const newAssessment = Assessment.createForCertificationCourse({
       userId,
       certificationCourseId: savedCertificationCourse.getId(),
     });
-    const savedAssessment = await assessmentRepository.save({ assessment: newAssessment });
+    await assessmentRepository.save({ assessment: newAssessment });
 
-    const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
-    certificationCourse.setNumberOfChallenges(certificationVersion.challengesConfiguration.maximumAssessmentLength);
-
+    const certificationCourseInfo = await certificationCourseInfoRepository.find(savedCertificationCourse.getId());
     await sessionAdapter.onCertificationStartedOrResumed({
-      certificationId: savedCertificationCourse.getId(),
+      certificationId: certificationCourseInfo.id,
       sessionId,
-      candidateId: candidate.id,
+      candidateId: certificationCourseInfo.candidateId,
       timezone: clientTimezone,
     });
 
     return {
-      created: true,
-      certificationCourse,
+      hasResumed: false,
+      certificationCourseInfo,
     };
   });
 }

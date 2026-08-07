@@ -1,26 +1,23 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationCourseController } from '../../../../../src/certification/evaluation/application/certification-course-controller.js';
 import { usecases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
-import { CertificationCourse } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { expect } from '../../../../test-helper.js';
+import * as certificationCourseInfoSerializer from '../../../../../src/certification/evaluation/infrastructure/serializers/certification-course-info-serializer.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
-import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Unit | Controller | certification-course-controller', function () {
-  let certificationCourseSerializer;
+describe('Certification | Evaluation | Unit | Controller | certification-course-controller', function () {
+  let certificationCourseInfoRepository, request;
 
-  beforeEach(function () {
-    certificationCourseSerializer = {
-      serialize: sinon.stub(),
-      serializeFromCertificationCourse: sinon.stub(),
-      deserializeCertificationCandidateModificationCommand: sinon.stub(),
-    };
+  afterEach(function () {
+    sinon.restore();
   });
 
   describe('#save', function () {
-    let request;
-
+    let startOrResumeStub;
     beforeEach(function () {
       request = {
         auth: { credentials: { accessToken: 'jwt.access.token', userId: 'userId' } },
@@ -38,13 +35,10 @@ describe('Unit | Controller | certification-course-controller', function () {
           'x-timezone': 'Europe/Amsterdam',
         },
       };
-      sinon.stub(usecases, 'retrieveLastOrCreateCertificationCourse');
-      certificationCourseSerializer.serialize.returns('ok');
+      startOrResumeStub = sinon.stub(usecases, 'startOrResumeCertification');
     });
 
-    const retrievedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
-
-    it('should call the use case with the right arguments', async function () {
+    it('should reply with response 201 when the certification started', async function () {
       // given
       const usecaseArgs = {
         sessionId: '12345',
@@ -53,61 +47,150 @@ describe('Unit | Controller | certification-course-controller', function () {
         locale: 'fr-fr',
         clientTimezone: 'Europe/Amsterdam',
       };
-      usecases.retrieveLastOrCreateCertificationCourse
+      const certificationCourseInfo = domainBuilder.certification.evaluation
+        .certificationCourseInfoBuilder()
+        .withIdentity({ firstName: 'Anneso', lastName: 'Coucou' })
+        .asAdjustedForAccessibility()
+        .withNbChallenges(45)
+        .withParameters({ id: 123, assessmentId: 456 })
+        .build();
+      startOrResumeStub
         .withArgs(usecaseArgs)
-        .resolves({ created: true, certificationCourse: retrievedCertificationCourse });
+        .resolves({ hasResumed: false, certificationCourseInfo: certificationCourseInfo });
 
       // when
-      await certificationCourseController.save(request, hFake, { certificationCourseSerializer });
+      const response = await certificationCourseController.save(request, hFake, { certificationCourseInfoSerializer });
 
       // then
-      expect(usecases.retrieveLastOrCreateCertificationCourse).to.have.been.calledOnce;
-    });
-
-    it('should reply the certification course serialized', async function () {
-      // given
-      const serializedCertificationCourse = Symbol('a serialized certification course');
-      const usecaseArgs = {
-        sessionId: '12345',
-        accessCode: 'ABCD12',
-        userId: 'userId',
-        locale: 'fr-fr',
-        clientTimezone: 'Europe/Amsterdam',
-      };
-      usecases.retrieveLastOrCreateCertificationCourse
-        .withArgs(usecaseArgs)
-        .resolves({ created: true, certificationCourse: retrievedCertificationCourse });
-      certificationCourseSerializer.serialize.resolves(serializedCertificationCourse);
-
-      // when
-      const response = await certificationCourseController.save(request, hFake, { certificationCourseSerializer });
-
-      // then
-      expect(response.source).to.equal(serializedCertificationCourse);
       expect(response.statusCode).to.equal(201);
+      expect(response.source.data).to.deep.equal({
+        type: 'certification-courses',
+        id: '123',
+        attributes: {
+          'nb-challenges': 45,
+          'first-name': 'Anneso',
+          'last-name': 'Coucou',
+          'is-adjusted-for-accessibility': true,
+          version: 3,
+        },
+        relationships: {
+          assessment: {
+            links: {
+              related: '/api/assessments/456',
+            },
+          },
+        },
+      });
+    });
+
+    it('should reply solely with the serialized certification when resumed', async function () {
+      // given
+      const usecaseArgs = {
+        sessionId: '12345',
+        accessCode: 'ABCD12',
+        userId: 'userId',
+        locale: 'fr-fr',
+        clientTimezone: 'Europe/Amsterdam',
+      };
+      const certificationCourseInfo = domainBuilder.certification.evaluation
+        .certificationCourseInfoBuilder()
+        .withIdentity({ firstName: 'Anneso', lastName: 'Coucou' })
+        .asAdjustedForAccessibility()
+        .withNbChallenges(45)
+        .withParameters({ id: 123, assessmentId: 456 })
+        .build();
+      startOrResumeStub
+        .withArgs(usecaseArgs)
+        .resolves({ hasResumed: true, certificationCourseInfo: certificationCourseInfo });
+
+      // when
+      const response = await certificationCourseController.save(request, hFake, { certificationCourseInfoSerializer });
+
+      // then
+      expect(response.data).to.deep.equal({
+        type: 'certification-courses',
+        id: '123',
+        attributes: {
+          'nb-challenges': 45,
+          'first-name': 'Anneso',
+          'last-name': 'Coucou',
+          'is-adjusted-for-accessibility': true,
+          version: 3,
+        },
+        relationships: {
+          assessment: {
+            links: {
+              related: '/api/assessments/456',
+            },
+          },
+        },
+      });
     });
   });
 
   describe('#get', function () {
-    it('should fetch and return the given course, serialized as JSONAPI', async function () {
+    it('returns the serialized certification course info', async function () {
       // given
-      const sessionId = 5;
-      const certificationCourseId = 'certification_course_id';
-      const certificationCourse = new CertificationCourse({ id: certificationCourseId, sessionId });
-      const userId = 42;
-      sinon.stub(usecases, 'getCertificationCourse').withArgs({ certificationCourseId }).resolves(certificationCourse);
-      certificationCourseSerializer.serialize.withArgs(certificationCourse).resolves(certificationCourse);
+      const certificationCourseInfo = domainBuilder.certification.evaluation
+        .certificationCourseInfoBuilder()
+        .withIdentity({ firstName: 'Anneso', lastName: 'Coucou' })
+        .asAdjustedForAccessibility()
+        .withNbChallenges(45)
+        .withParameters({ id: 123, assessmentId: 456 })
+        .build();
+      certificationCourseInfoRepository = {
+        find: sinon.fake.resolves(certificationCourseInfo),
+      };
       const request = {
-        params: { certificationCourseId },
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-        auth: { credentials: { userId } },
+        params: { certificationCourseId: 123 },
       };
 
       // when
-      const response = await certificationCourseController.get(request, hFake, { certificationCourseSerializer });
+      const response = await certificationCourseController.get(request, hFake, {
+        certificationCourseInfoRepository,
+        certificationCourseInfoSerializer,
+      });
 
       // then
-      expect(response).to.deep.equal(certificationCourse);
+      expect(response).to.deep.equal({
+        data: {
+          type: 'certification-courses',
+          id: '123',
+          attributes: {
+            'nb-challenges': 45,
+            'first-name': 'Anneso',
+            'last-name': 'Coucou',
+            'is-adjusted-for-accessibility': true,
+            version: 3,
+          },
+          relationships: {
+            assessment: {
+              links: {
+                related: '/api/assessments/456',
+              },
+            },
+          },
+        },
+      });
+    });
+
+    it('throws a 404 not found when no certification info found for id', async function () {
+      // given
+      certificationCourseInfoRepository = {
+        find: sinon.fake.resolves(null),
+      };
+      const request = {
+        params: { certificationCourseId: 123 },
+      };
+
+      // when
+      const err = await catchErr(certificationCourseController.get)(request, hFake, {
+        certificationCourseInfoRepository,
+        certificationCourseInfoSerializer,
+      });
+
+      // then
+      expect(err).to.be.instanceOf(NotFoundError);
     });
   });
 });
