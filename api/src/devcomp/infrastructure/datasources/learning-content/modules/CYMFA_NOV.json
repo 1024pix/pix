@@ -136,22 +136,22 @@
                       "hasShortProposals": true,
                       "proposals": [
                         {
-                          "id": "2",
-                          "content": "",
+                          "id": "1",
+                          "content": "Zone 1",
                           "feedback": {
                             "diagnosis": "<p>Exactement. Dans cette zone, Zoé doit saisir son identifiant. L<strong>’identifiant</strong> permet au service de savoir qui souhaite se connecter.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "2",
+                          "content": "Zone 2",
                           "feedback": {
                             "diagnosis": "<p>Eh non. C'est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong>qui permet au service de savoir qui souhaite se connecter.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "3",
+                          "content": "Zone 3",
                           "feedback": {
                             "diagnosis": "<p>Eh non. C'est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong> permet au service de savoir qui souhaite se connecter.</p>"
                           }
@@ -193,21 +193,21 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "1",
+                          "content": "Zone 1",
                           "feedback": {
                             "diagnosis": "<p>Eh non. C'est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
                           }
                         },
                         {
                           "id": "2",
-                          "content": "2",
+                          "content": "Zone 2",
                           "feedback": {
                             "diagnosis": "<p>Exactement.&nbsp; Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "3",
+                          "content": "Zone 3",
                           "feedback": {
                             "diagnosis": "<p>Eh non. C'est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
                           }
