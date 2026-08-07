@@ -115,7 +115,7 @@
                     {
                       "id": "05f42dd0-d808-4dde-90f5-e32dacc82e5f",
                       "type": "image",
-                      "url": "https://assets.pix.org/modules/CYPhishingInd/phishing-qcu-exemple-1.svg",
+                      "url": "https://assets.pix.org/modules/CYPhishingInd/phishing-qcu-exemple-1-vfwb.svg",
                       "alt": "Mail détaillé dans l’alternative textuelle",
                       "alternativeText": "<h5>Boîte de réception</h5>\n<p><strong>Date de réception&nbsp;:</strong> mar 9 fev. 2025 - 09h12</p>\n<p><strong>Objet du mail&nbsp;: </strong>Information&nbsp;: nous venons de désactiver votre carte de crédit</p>\n<p><strong>Expéditeur&nbsp;:</strong>&nbsp;Crédit Agricole - hotlinesbo@resepku.online</p>\n<p><strong>Corps du mail&nbsp;:&nbsp;</strong><br><strong>Logo&nbsp;: </strong>Crédit Agricole-CA</p>\n<p>«&nbsp;Bonjour,<br>Nous venons de désactiver votre carte de crédit.<br>Nous avons détecté plusieurs IP connexions à votre compte et des erreurs de mots de passe avant session.<br>Pour la réactiver, vous devez vous connecter sur le site de La Banque Crédit Agricole et accéder à votre espace sécurisé en cliquant sur le lien ci-dessous&nbsp;:<br>La procédure est simple&nbsp;:</p>\n<ul>\n    <li>Cliquez sur le lien pour ouvrir une fenêtre sécurisée.</li>\n    <li> Suivez les instructions.</li>\n</ul>\n<p>Lien cliquable&nbsp;: «&nbsp;Accéder à votre compte&nbsp;»</p>",
                       "legend": "",
@@ -158,7 +158,7 @@
                     {
                       "id": "921dd657-affa-4a69-b37c-15d99f1537fa",
                       "type": "image",
-                      "url": "https://assets.pix.org/modules/CYPhishingInd/phishing-qcu-exemple-2-v2.svg",
+                      "url": "https://assets.pix.org/modules/CYPhishingInd/phishing-qcu-exemple-2-vfwb.svg",
                       "alt": "Mail détaillé dans l’alternative textuelle",
                       "alternativeText": "<h5>Boite de réception</h5><p><strong>Date de réception&nbsp;:</strong> mar 9 fev. 2025 - 09h12</p><p><strong>Objet du mail&nbsp;:&nbsp;</strong> [FELICITATIONS] Vous avez gagné une PS5</p><p><strong>Expéditeur&nbsp;: </strong>Darty-marie-tarte@unknow.po.org</p><p><strong>Corps du mail&nbsp;:</strong></p><p>Logo&nbsp;: Darty</p><p>Félicitations ! Vous avez été choisi pour recevoir la console de jeux vidéo PS5. Remplissez vite le formulaire pour la recevoir dès demain&nbsp;:<br>Bouton&nbsp;: CLIQUER ICI<br>Photographie d’une PS5.</p>",
                       "legend": "",
@@ -201,7 +201,7 @@
                     {
                       "id": "316e1124-ba0f-4a54-9375-54217aad43c9",
                       "type": "image",
-                      "url": "https://assets.pix.org/modules/CYPhishingInd/phishing-qcu-exemple-3.svg",
+                      "url": "https://assets.pix.org/modules/CYPhishingInd/phishing-qcu-exemple-3-vfwb.svg",
                       "alt": "SMS détaillé dans l’alternative textuelle",
                       "alternativeText": "<p>reçu à&nbsp;8:30</p><p><strong>Expéditeur&nbsp;: </strong>La C4F</p><p><strong>Corps du SMS&nbsp;:&nbsp;</strong></p><p>«&nbsp;Vous avez 300 euros d’aide disponible sur votre compte Caf. Pour les recevoir, remplissez le formulaire sur https://cutt.ly/sejiodFE et donnez-nous votre RIB.&nbsp;»</p>",
                       "legend": "",
@@ -536,7 +536,7 @@
                       "id": "0949abac-39fa-4d48-a969-40bbdc6d942e",
                       "type": "short-video",
                       "title": "survol lien phishing",
-                      "url": "https://assets.pix.org/modules/CYPhishingInd/screencast-url-phishing.mp4"
+                      "url": "https://assets.pix.org/modules/CYPhishingInd/screencast-url-phishing-fwb.mp4"
                     }
                   ]
                 },
@@ -976,7 +976,7 @@
                 "type": "embed",
                 "isCompletionRequired": false,
                 "title": "Sélectionner et marquer un message malveillant comme indésirable.",
-                "url": "https://epreuves.pix.fr/fr/pixmail-spam/modulix-phishing.html",
+                "url": "https://epreuves.pix.fr/fr/pixmail-spam/modulix-phishing-fwb.html",
                 "instruction": "<p>Trouvez le mail malveillant et signalez-le comme spam.</p>",
                 "solution": "",
                 "height": 500
