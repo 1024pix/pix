@@ -108,13 +108,123 @@
             {
               "type": "element",
               "element": {
-                "id": "b6d0a765-5207-4321-b21a-a1807be1d0e5",
-                "type": "custom-draft",
-                "title": "Champs de connexion",
-                "url": "https://1024pix.github.io/atelier-contenus/LSI/MFA_Nov/connexion.html",
-                "instruction": "",
-                "height": 550
+                "id": "2e4c297f-d5fe-496e-949c-7a05ddfee2ee",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Prenons l’exemple de Zoé qui veut se connecter à un service en ligne.</p>"
               }
+            },
+            {
+              "type": "stepper",
+              "instruction": "<p><strong>Observez la page de connexion ci-dessous, puis répondez aux deux questions qui suivent.</strong></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "8ab87610-5ce7-4da1-a018-adfae3f1709f",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/CYMFANOV/connexion2.svg",
+                      "alt": "Capture d'écran numérotée d'une page de connexion décrite dans l'alternative textuelle",
+                      "alternativeText": "<p>Page de connexion comportant trois zones numérotées&nbsp;:</p>\n<ol>\n    <li>Champ de saisie «&nbsp;Identifiant&nbsp;» : exemple@pixmail.com</li>\n    <li>Champ de saisie&nbsp;«&nbsp;Mot de passe&nbsp;» : Mot de passe</li>\n    <li>Bouton «&nbsp;Je me connecte&nbsp;»</li>\n</ol>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "108fc27f-64bd-4b92-a494-e2bb2e3fe1a3",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Quelle zone permet à Zoé d'inquer au service qui elle est ?</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "2",
+                          "content": "",
+                          "feedback": {
+                            "diagnosis": "<p>Exactement. Dans cette zone, Zoé doit saisir son identifiant. L<strong>’identifiant</strong> permet au service de savoir qui souhaite se connecter.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "2",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non. C'est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong>qui permet au service de savoir qui souhaite se connecter.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "3",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non. C'est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong> permet au service de savoir qui souhaite se connecter.</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "Je ne sais pas.",
+                          "feedback": {
+                            "diagnosis": "<p>C'est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong>qui permet au service de savoir qui souhaite se connecter.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "ad3a2093-0a30-4e4b-996f-c462bc6f0bf6",
+                      "type": "image",
+                      "url": "https://assets.pix.org/modules/CYMFANOV/connexion2.svg",
+                      "alt": "Capture d'écran numérotée d'une page de connexion décrite dans l'alternative textuelle",
+                      "alternativeText": "<p>Page de connexion comportant trois zones numérotées&nbsp;:</p>\n<ol>\n    <li>Champ de saisie «&nbsp;Identifiant&nbsp;»&nbsp;: exemple@pixmail.com</li>\n    <li>Champ de saisie «&nbsp;Mot de passe&nbsp;»&nbsp;: Mot de passe</li>\n    <li>Bouton «&nbsp;Je me connecte&nbsp;»</li>\n</ol>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "219c8bad-0865-4416-a889-fda3106be3cf",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Zoé s’est identifiée grâce à son identifiant.</p>"
+                    },
+                    {
+                      "id": "db06d1f9-6b81-4d22-b648-580482c942ef",
+                      "type": "qcu-discovery",
+                      "instruction": "<p> Quelle zone permet à Zoé de prouver qu’elle est bien la propriétaire du compte.</p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "1",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non. C'est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "2",
+                          "feedback": {
+                            "diagnosis": "<p>Exactement.&nbsp; Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "3",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non. C'est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "Je ne sais pas.",
+                          "feedback": {
+                            "diagnosis": "<p>C'est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -170,8 +280,8 @@
                 "id": "21de2b19-c6cb-472f-a487-8ea582aba05f",
                 "type": "image",
                 "url": "https://assets.pix.org/modules/CYMFANOV/dec2_code.svg",
-                "alt": "Capture d’écran décrite en détail dans l’alternative textuelle.",
-                "alternativeText": "<p>Page de vérification de connexion demandant un code à six chiffres envoyé par SMS à un numéro se terminant par 60 pour se connecter au compte lassociation@gmail.com. Champ de saisie du code et bouton «&nbsp;Connexion&nbsp;».</p>",
+                "alt": "Capture d’écran d'une page de vérification de connexion décrite dans l’alternative textuelle",
+                "alternativeText": "<p>Page de vérification de connexion&nbsp; demandant un code à six chiffres envoyé par SMS pour se connecter à un compte&nbsp;:</p>\n<ul>\n    <li>Titre de la page&nbsp;: Informations de compte</li>\n    <li>Adresse mail&nbsp;: lassociation@gmail.com</li>\n    <li>Entrer le code de vérification reçu par SMS au XX XX XX XX 60</li>\n    <li>Champ de saisie du code&nbsp;: Code à 6 chiffres</li>\n    <li>bouton «&nbsp;Connexion&nbsp;».</li>\n</ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -236,10 +346,12 @@
               "type": "element",
               "element": {
                 "id": "2ab37e14-affd-4917-b78a-73ee24f6f836",
-                "type": "custom-draft",
+                "type": "embed",
+                "isCompletionRequired": true,
                 "title": "Moyen de double authentification",
-                "url": "https://1024pix.github.io/atelier-contenus/LSI/MFA_Nov/qcmimg.html",
+                "url": "https://epreuves.pix.fr/qcm-qcu-select/qcm-qcu-select.html?lang=fr&mode=mdx-mfa-nov-d2",
                 "instruction": "<p>À votre avis, quels sont les autres moyens de vérification possibles ?</p>",
+                "solution": "",
                 "height": 550
               }
             }
@@ -713,16 +825,20 @@
                 "id": "ea9dfc1a-89c1-4d04-a807-5213a6cf9df9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Grâce à Tao, l’ancien président de l’association, Philomène a rattaché son numéro de téléphone à la boîte mail de l’association.<br>C’est maintenant Philomène qui recevra le code de vérification quand elle se connectera.<br><br>Voici les informations pour se connecter à la boîte mail&nbsp;:</p><ul><li> lassociation@pixmail.org</li><li>mdp&nbsp;: Asso12Aniw0!</li></ul>"
+                "content": "<p>Grâce à Tao, l’ancien président de l’association, Philomène a rattaché son numéro de téléphone à la boîte mail de l’association. C’est maintenant Philomène qui recevra le code de vérification quand elle se connectera.</p>"
               }
             },
             {
               "type": "element",
               "element": {
-                "id": "f8318c1c-996e-4a1e-8fe4-305aba23d3fa",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Aidez-la à se connecter à la boîte mail de l’association&nbsp;:<br><a href=\"https://epreuves.pix.fr/papotix/papotix.html?lang=fr&amp;mode=example\" target=\"_blank\">Simulateur à venir à partir de celui de l’évaluation</a>.<br>(à tester avec \"se connecter à papotix\", \"email\": \"a\",    \"password\": \"pix123\")<br><br>[Feedback dans le simulateur]<br>Bravo ! Philomène est connectée à la boîte mail de l’association.</p>"
+                "id": "3aedc329-df81-4f60-8f06-7a8d3e800603",
+                "type": "embed",
+                "isCompletionRequired": true,
+                "title": "Connexion à la boîte mail de l'association",
+                "url": "https://epreuves.pix.fr/papotix/papotix.html?lang=fr&mode=module_mfa_nov",
+                "instruction": "<p>À vous de jouer&nbsp;! Dans l'interface ci-dessous, aidez Philomène à se connecter à la boîte mail de l’association. </p><br>\n<p>Voici les informations pour se connecter à la boîte mail&nbsp;: </p>\n<ul>\n    <li>Adresse mail&nbsp;: lassociation@pixmail.org</li>\n    <li>Mot de passe&nbsp;: Asso12Aniw0!</li>\n</ul>",
+                "solution": "",
+                "height": 550
               }
             },
             {
@@ -740,7 +856,7 @@
                 "id": "2d52702a-0de3-4758-9418-0452e2fd5b5b",
                 "type": "expand",
                 "title": "🗝️ Indice 1",
-                "content": "<p>Commencez par entrer l’identifiant et le mot de passe dans l’application Mail.</p>"
+                "content": "<p>Commencez par entrer l’identifiant et le mot de passe dans l’application Pixmail.</p>"
               }
             },
             {
@@ -758,7 +874,7 @@
                 "id": "b0f2ce58-dd06-4890-a4ff-0ad53e9f3adb",
                 "type": "expand",
                 "title": "🗝️ Indice 3",
-                "content": "<p>Collez le code dans l’application Mail.</p>"
+                "content": "<p>Collez le code dans l’application Pixmail.</p>"
               }
             }
           ]
