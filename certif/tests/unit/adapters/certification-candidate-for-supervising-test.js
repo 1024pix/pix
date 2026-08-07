@@ -1,6 +1,7 @@
 import { setupTest } from 'ember-qunit';
+import ENV from 'pix-certif/config/environment';
 import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
+import sinon from 'sinon';
 
 module('Unit | Adapters | certification-candidate-for-supervising', function (hooks) {
   setupTest(hooks);
@@ -9,39 +10,47 @@ module('Unit | Adapters | certification-candidate-for-supervising', function (ho
 
   hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:certification-candidate-for-supervising');
-    const ajaxStub = () => resolve();
-    adapter.ajax = ajaxStub;
+    adapter.ajax = sinon.stub();
   });
 
-  module('#buildUrl', function () {
-    module('when request type is updateAuthorizedToStart', function () {
-      test('should build url', async function (assert) {
-        // when
-        const url = await adapter.buildURL(undefined, 2, undefined, 'updateAuthorizedToStart', undefined);
+  module('#updateAuthorizedToStart', function () {
+    test('should call API to /certification-candidates/:id/authorize-to-start', async function (assert) {
+      // when
+      await adapter.updateAuthorizedToStart({ candidateId: 123, authorizedToStart: true });
 
-        // then
-        assert.true(url.endsWith('certification-candidates/2/authorize-to-start'));
-      });
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(`${ENV.APP.API_HOST}/api/certification-candidates/123/authorize-to-start`, 'POST', {
+          data: { 'authorized-to-start': true },
+        }),
+      );
     });
+  });
 
-    module('when request type is authorizeToResume', function () {
-      test('should build url', async function (assert) {
-        // when
-        const url = await adapter.buildURL(undefined, 2, undefined, 'authorizeToResume', undefined);
+  module('#authorizeTestResume', function () {
+    test('should call API to /certification-candidates/:id/authorize-to-resume', async function (assert) {
+      // when
+      await adapter.authorizeTestResume({ candidateId: 123 });
 
-        // then
-        assert.true(url.endsWith('certification-candidates/2/authorize-to-resume'));
-      });
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(`${ENV.APP.API_HOST}/api/certification-candidates/123/authorize-to-resume`, 'POST'),
+      );
     });
+  });
 
-    module('when request type is endAssessmentByInvigilator', function () {
-      test('should build url', async function (assert) {
-        // when
-        const url = await adapter.buildURL(undefined, 2, undefined, 'endAssessmentByInvigilator', undefined);
+  module('when request type is endAssessmentByInvigilator', function () {
+    test('should call API to /certification-candidates/:id/end-assessment-by-invigilator', async function (assert) {
+      // when
+      await adapter.endAssessmentByInvigilator({ candidateId: 123 });
 
-        // then
-        assert.true(url.endsWith('certification-candidates/2/end-assessment-by-invigilator'));
-      });
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(
+          `${ENV.APP.API_HOST}/api/certification-candidates/123/end-assessment-by-invigilator`,
+          'PATCH',
+        ),
+      );
     });
   });
 });
