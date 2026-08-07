@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationRescoringController } from './certification-rescoring-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -32,6 +32,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationRescoringRoute = { name: 'certification/evaluation/certification-rescoring-api', register };

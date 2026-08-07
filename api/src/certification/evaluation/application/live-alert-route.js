@@ -4,7 +4,7 @@ import { assessmentAuthorization } from '../../../evaluation/application/pre-han
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { liveAlertController } from './live-alert-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   const routes = [
     {
       method: 'POST',
@@ -34,6 +34,6 @@ const register = async function (server) {
     },
   ];
   server.route(routes);
-};
+}
 
 export const liveAlertRoute = { name: 'certification/evaluation/evaluation-live-alert-api', register };

@@ -136,12 +136,12 @@ export async function scoreV3Certification({
  * @throws {NotFinalizedSessionError}
  * @throws {SessionAlreadyPublishedError}
  */
-const _verifyCertificationIsScorable = async ({
+async function _verifyCertificationIsScorable({
   certificationCourseId,
   answers,
   maximumAssessmentLength,
   sessionRepository,
-}) => {
+}) {
   const session = await sessionRepository.getByCertificationCourseId({ certificationCourseId });
 
   if (session.isPublished) {
@@ -153,7 +153,7 @@ const _verifyCertificationIsScorable = async ({
   if (!session.isFinalized && !hasCandidateSeenEndScreen) {
     throw new NotFinalizedSessionError();
   }
-};
+}
 
 /**
  * @param {object} params

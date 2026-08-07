@@ -34,7 +34,7 @@ import { CertificationContract } from '../CertificationContract.js';
  * @param {object} params.dependencies
  * @param {calculateCertificationAssessmentScore} params.dependencies.calculateCertificationAssessmentScore
  */
-export const handleV2CertificationScoring = async ({
+export async function handleV2CertificationScoring({
   event,
   certificationAssessment,
   assessmentResultRepository,
@@ -45,7 +45,7 @@ export const handleV2CertificationScoring = async ({
   scoringService,
   candidateRepository,
   dependencies = { calculateCertificationAssessmentScore },
-}) => {
+}) {
   const certificationAssessmentScore = await dependencies.calculateCertificationAssessmentScore({
     certificationAssessment,
     areaRepository,
@@ -76,7 +76,7 @@ export const handleV2CertificationScoring = async ({
   });
 
   return certificationCourse;
-};
+}
 
 /**
  * @param {object} params
@@ -84,7 +84,7 @@ export const handleV2CertificationScoring = async ({
  * @param {ScoringService} params.scoringService
  * @param {CandidateRepository} params.candidateRepository
  */
-export const calculateCertificationAssessmentScore = async function ({
+export async function calculateCertificationAssessmentScore({
   certificationAssessment,
   areaRepository,
   placementProfileService,
@@ -114,7 +114,7 @@ export const calculateCertificationAssessmentScore = async function ({
 
   const allAreas = await areaRepository.list();
   return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, allAreas, scoringService);
-};
+}
 
 /**
  * @param {object} params

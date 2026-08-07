@@ -48,7 +48,7 @@ export async function update(assessmentSheet) {
     .where({ id: assessmentSheet.certificationCourseId });
 }
 
-const baseQuery = () => {
+function baseQuery() {
   const knexConn = DomainTransaction.getConnection();
   return knexConn
     .select({
@@ -73,4 +73,4 @@ const baseQuery = () => {
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .join('certification-candidates', 'certification-candidates.id', 'certification-courses.candidateId');
-};
+}

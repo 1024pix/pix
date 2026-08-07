@@ -5,7 +5,7 @@ import * as certificationCourseRepository from '../../shared/infrastructure/repo
 import CertificationRescored from '../domain/events/CertificationRescored.js';
 import { usecases } from '../domain/usecases/index.js';
 
-const rescoreCertification = async function (
+async function rescoreCertification(
   request,
   h,
   dependencies = { certificationCourseRepository, courseAssessmentResultRepository },
@@ -35,14 +35,12 @@ const rescoreCertification = async function (
   }
 
   return h.response().code(201);
-};
+}
 
-const _isAssessmentResultNotRescorable = (latestAssessmentResult) => {
+function _isAssessmentResultNotRescorable(latestAssessmentResult) {
   return latestAssessmentResult?.status === 'cancelled' || latestAssessmentResult?.status === 'rejected';
-};
+}
 
-const certificationRescoringController = {
+export const certificationRescoringController = {
   rescoreCertification,
 };
-
-export { certificationRescoringController };

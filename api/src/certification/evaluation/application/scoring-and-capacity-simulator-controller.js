@@ -1,7 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 import * as serializer from '../infrastructure/serializers/scoring-and-capacity-simulator-report-serializer.js';
 
-const simulateScoringOrCapacity = async (req, h) => {
+async function simulateScoringOrCapacity(req, h) {
   const { capacity, score, date } = req.payload.data;
 
   let scoringAndCapacitySimulatorReport;
@@ -20,10 +20,8 @@ const simulateScoringOrCapacity = async (req, h) => {
   }
 
   return h.response(serializer.serialize(scoringAndCapacitySimulatorReport)).code(200);
-};
+}
 
-const scoringAndCapacitySimulatorController = {
+export const scoringAndCapacitySimulatorController = {
   simulateScoringOrCapacity,
 };
-
-export { scoringAndCapacitySimulatorController };

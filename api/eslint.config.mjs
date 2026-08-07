@@ -64,7 +64,11 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/certification/configuration/**/*.{js,mjs}', 'src/certification/results/**/*.{js,mjs}'],
+    files: [
+      'src/certification/configuration/**/*.{js,mjs}',
+      'src/certification/results/**/*.{js,mjs}',
+      'src/certification/evaluation/**/*.{js,mjs}',
+    ],
     rules: {
       'func-style': ['error', 'declaration'],
     },
