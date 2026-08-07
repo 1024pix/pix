@@ -81,6 +81,7 @@
     "test:api:debug": "NODE_ENV=test node --env-file-if-exists=.env ./node_modules/mocha/bin/mocha --inspect-brk=9229 --recursive --exit --reporter dot tests",
     "test:api:watch": "NODE_ENV=test nodemon --env-file-if-exists=.env --exec 'mocha --recursive tests --reporter dot'",
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
+    "test:api:certif:acceptance": "NODE_ENV=test node --env-file-if-exists=.env ./node_modules/mocha/bin/mocha --exit --recursive --reporter=${MOCHA_REPORTER:-dot} --retries=${MOCHA_RETRIES:-0} --timeout=5000  --require ./tests/experimentation-certif/acceptance/setup.js 'tests/experimentation-certif/acceptance/**/*.test.js'",
     "test:lint": "npm test && npm run lint",
     "test:api:git-modified": "git ls-files -m -- '*test.js' | xargs npm run test:api:path -- $1",
     "toggles": "LOG_FOR_HUMANS_FORMAT=compact node --env-file-if-exists=.env src/shared/infrastructure/feature-toggles/feature-toggles-script.js",
