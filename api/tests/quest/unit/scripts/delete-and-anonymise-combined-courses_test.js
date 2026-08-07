@@ -50,7 +50,8 @@ describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
       await script.handle({
         options: { combinedCourseIds: [combinedCourseId] },
         logger,
-        dependencies: { usecases: usecasesStub, jobClient: jobClientStub },
+        dependencies: { usecases: usecasesStub },
+        jobClient: jobClientStub,
       });
 
       //then
@@ -77,7 +78,8 @@ describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
         script.handle({
           options: { combinedCourseIds: [combinedCourseId] },
           logger,
-          dependencies: { usecases: usecasesStub, jobClient: jobClientStub },
+          dependencies: { usecases: usecasesStub },
+          jobClient: jobClientStub,
         }),
       ).to.be.rejected;
     });

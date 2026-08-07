@@ -27,7 +27,7 @@ describe('DeleteAndAnonymizeOrganizationLearnerParticipationsScript', function (
   });
 
   describe('Handle', function () {
-    let usecasesStub, domainTransactionStub;
+    let usecasesStub, domainTransactionStub, jobClientStub;
     const combinedCourseId = '1';
     const organizationLearnerId = '2';
 
@@ -37,6 +37,10 @@ describe('DeleteAndAnonymizeOrganizationLearnerParticipationsScript', function (
       logger = { info: sinon.spy(), error: sinon.spy() };
       sinon.stub(process, 'env').value({ ENGINEERING_USER_ID });
       script = new DeleteAndAnonymizeOrganizationLearnerParticipationsScript();
+      jobClientStub = {
+        initialize: sinon.stub(),
+        stop: sinon.stub(),
+      };
       usecasesStub = {
         deleteAndAnonymizeParticipationsForALearnerId: sinon.stub(),
       };
@@ -51,6 +55,7 @@ describe('DeleteAndAnonymizeOrganizationLearnerParticipationsScript', function (
         options: { combinedCourseId, organizationLearnerId, dryRun: false },
         logger,
         dependencies: usecasesStub,
+        jobClient: jobClientStub,
       });
 
       //then
@@ -75,10 +80,14 @@ describe('DeleteAndAnonymizeOrganizationLearnerParticipationsScript', function (
         })
         .rejects(new Error('message'));
 
-      await catchErr(script.handle)({
+      await catchErr(
+        script.handle,
+        script,
+      )({
         options: { combinedCourseId, organizationLearnerId, dryRun: false },
         logger,
         dependencies: usecasesStub,
+        jobClient: jobClientStub,
       });
 
       //then

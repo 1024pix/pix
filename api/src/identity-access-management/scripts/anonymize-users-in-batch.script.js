@@ -1,8 +1,8 @@
 import joi from 'joi';
 
 import { csvFileStreamer } from '../../shared/application/scripts/parsers.js';
-import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
 import { usecases } from '../domain/usecases/index.js';
 
 const CHUNK_SIZE = 1000;
@@ -10,7 +10,7 @@ const DELAY = 1000;
 
 const columnSchemas = [{ name: 'userId', schema: joi.number().required() }];
 
-export class AnonymizeUsersInBatchScript extends Script {
+export class AnonymizeUsersInBatchScript extends ScriptWithJob {
   constructor() {
     super({
       description: 'Anonymizes the given user accounts.',
@@ -52,8 +52,10 @@ export class AnonymizeUsersInBatchScript extends Script {
     this.errorOccured = false;
   }
 
-  async handle({ options, logger, anonymizeUser = usecases.anonymizeUser }) {
+  async handle({ options, logger, anonymizeUser = usecases.anonymizeUser, jobClient }) {
     const { file: streamFile, dryRun, anonymizerId, chunkSize, delayInMilliseconds } = options;
+
+    await super.handle({ jobClient });
 
     await streamFile(async (chunk) => {
       logger.info(`Processing chunk ${this.currentChunkNumber + 1} (${chunk.length} rows)...`);

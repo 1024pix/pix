@@ -1,10 +1,10 @@
 import { usecases } from '../../quest/domain/usecases/index.js';
-import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 
 // Définition du script
-export class DeleteAndAnonymizeOrganizationLearnerParticipationsScript extends Script {
+export class DeleteAndAnonymizeOrganizationLearnerParticipationsScript extends ScriptWithJob {
   constructor() {
     super({
       description:
@@ -29,11 +29,14 @@ export class DeleteAndAnonymizeOrganizationLearnerParticipationsScript extends S
     });
   }
 
-  async handle({ options, logger, dependencies = usecases }) {
+  async handle({ options, logger, dependencies = usecases, jobClient }) {
     logger.info(
       { event: 'DeleteAndAnonymizeOrganizationLearnerParticipations' },
       `Deletes and anonymizes all participations linked to combined course ${options.combinedCourseId} for learner ${options.organizationLearnerId}`,
     );
+
+    await super.handle({ jobClient });
+
     await DomainTransaction.execute(async () => {
       const knexConn = DomainTransaction.getConnection();
 
