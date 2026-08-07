@@ -349,7 +349,7 @@
                 "type": "embed",
                 "isCompletionRequired": true,
                 "title": "Moyen de double authentification",
-                "url": "https://epreuves-viewer.pix.digital/production/?embed=qcm-qcu-select&mode=example-qcm&locale=fr",
+                "url": "https://epreuves.pix.fr/qcm-qcu-select/qcm-qcu-select.html?lang=fr&mode=example-qcm",
                 "instruction": "<p>À votre avis, quels sont les autres moyens de vérification possibles ?</p>",
                 "solution": "",
                 "height": 550
