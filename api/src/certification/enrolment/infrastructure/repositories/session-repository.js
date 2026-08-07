@@ -1,9 +1,11 @@
-// @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
+import { Candidate } from '../../domain/models/Candidate.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 /**
+ * @deprecated use create
  * @function
  * @param {object} params
  * @param {SessionEnrolment} params.session
@@ -28,7 +30,10 @@ export async function save({ session }) {
     })
     .returning('*');
 
-  return new SessionEnrolment(savedSession);
+  return new SessionEnrolment({
+    ...savedSession,
+    certificationCandidates: [],
+  });
 }
 
 /**
@@ -41,8 +46,57 @@ export async function save({ session }) {
 export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const foundSession = await knexConn
-    .select('sessions.*')
-    .select({ certificationCenterType: 'certification-centers.type' })
+    .select({
+      id: 'sessions.id',
+      invigilatorPassword: 'sessions.invigilatorPassword',
+      accessCode: 'sessions.accessCode',
+      date: 'sessions.date',
+      time: 'sessions.time',
+      address: 'sessions.address',
+      room: 'sessions.room',
+      examiner: 'sessions.examiner',
+      description: 'sessions.description',
+      version: 'sessions.version',
+      finalizedAt: 'sessions.finalizedAt',
+      createdBy: 'sessions.createdBy',
+      certificationCenter: 'certification-centers.name',
+      certificationCenterId: 'certification-centers.id',
+      certificationCenterType: 'certification-centers.type',
+      candidatesData: knexConn
+        .select(
+          knexConn.raw(`
+        json_agg(json_build_object(
+          'id', "certification-candidates"."id",
+          'firstName', "certification-candidates"."firstName",
+          'lastName', "certification-candidates"."lastName",
+          'sex', "certification-candidates"."sex",
+          'birthPostalCode', "certification-candidates"."birthPostalCode",
+          'birthINSEECode', "certification-candidates"."birthINSEECode",
+          'birthCity', "certification-candidates"."birthCity",
+          'birthProvinceCode', "certification-candidates"."birthProvinceCode",
+          'birthCountry', "certification-candidates"."birthCountry",
+          'email', "certification-candidates"."email",
+          'resultRecipientEmail', "certification-candidates"."resultRecipientEmail",
+          'externalId', "certification-candidates"."externalId",
+          'birthdate', "certification-candidates"."birthdate",
+          'extraTimePercentage', "certification-candidates"."extraTimePercentage",
+          'createdAt', "certification-candidates"."createdAt",
+          'userId', "certification-candidates"."userId",
+          'reconciledAt', "certification-candidates"."reconciledAt",
+          'organizationLearnerId', "certification-candidates"."organizationLearnerId",
+          'subscription', "certification-candidates"."subscription",
+          'hasSeenCertificationInstructions', "certification-candidates"."hasSeenCertificationInstructions",
+          'accessibilityAdjustmentNeeded', "certification-candidates"."accessibilityAdjustmentNeeded",
+          'billingMode', "certification-candidates"."billingMode",
+          'prepaymentCode', "certification-candidates"."prepaymentCode",
+          'certificationId', "certification-courses"."id"
+        ) order by "certification-candidates"."id")
+    `),
+        )
+        .from('certification-candidates')
+        .leftJoin('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
+        .whereRaw('"certification-candidates"."sessionId" = sessions.id'),
+    })
     .from('sessions')
     .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .where('sessions.id', id)
@@ -50,7 +104,23 @@ export async function get({ id }) {
   if (!foundSession) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
-  return new SessionEnrolment({ ...foundSession, certificationCandidates: [] });
+
+  const certificationCandidates =
+    foundSession?.candidatesData?.map(
+      (candidateData) =>
+        new Candidate({
+          ...candidateData,
+          sessionId: foundSession.id,
+          extraTimePercentage:
+            candidateData.extraTimePercentage != null ? parseFloat(candidateData.extraTimePercentage) : null,
+          createdAt: new Date(candidateData.createdAt),
+          reconciledAt: candidateData.reconciledAt ? new Date(candidateData.reconciledAt) : null,
+          hasStartedTest: !!candidateData.certificationId,
+          hasSeenCertificationInstructions: !!candidateData.hasSeenCertificationInstructions,
+          accessibilityAdjustmentNeeded: !!candidateData.accessibilityAdjustmentNeeded,
+        }),
+    ) ?? [];
+  return new SessionEnrolment({ ...foundSession, certificationCandidates });
 }
 
 /**
@@ -82,23 +152,70 @@ export async function isSessionExistingByCertificationCenterId({
 }
 
 /**
- * @function
- * @param {SessionEnrolment} session
+ * @param {object} params
+ * @param {number} params.userId
+ * @param {certificationCenterId} params.certificationCenterId
+ * @param {string} params.address
+ * @param {string} params.room
+ * @param {string} params.date
+ * @param {string} params.time
+ * @param {string} params.examiner
+ * @param {string} params.description
+ * @param {string} params.accessCode
+ * @param {string} params.invigilatorPassword
  * @returns {Promise<void>}
  */
-export async function update(session) {
+export async function create({
+  userId,
+  certificationCenterId,
+  address,
+  room,
+  examiner,
+  date,
+  time,
+  description,
+  accessCode,
+  invigilatorPassword,
+}) {
   const knexConn = DomainTransaction.getConnection();
-  const sessionDataToUpdate = {
-    address: session.address,
-    room: session.room,
-    accessCode: session.accessCode,
-    examiner: session.examiner,
-    date: session.date,
-    time: session.time,
-    description: session.description,
-  };
+  const [certificationCenter] = await knexConn
+    .pluck('name')
+    .from('certification-centers')
+    .where({ id: certificationCenterId });
+  const [{ id }] = await knexConn('sessions')
+    .insert({
+      createdBy: userId,
+      certificationCenterId,
+      address,
+      room,
+      examiner,
+      date,
+      time,
+      description,
+      accessCode,
+      invigilatorPassword,
+      certificationCenter,
+      version: AlgorithmEngineVersion.V3,
+    })
+    .returning('id');
+  return id;
+}
 
-  await knexConn('sessions').where({ id: session.id }).update(sessionDataToUpdate);
+/**
+ * @function
+ * @param {object} params
+ * @param {number} params.id
+ * @param {string} params.address
+ * @param {string} params.room
+ * @param {string} params.date
+ * @param {string} params.time
+ * @param {string} params.examiner
+ * @param {string} params.description
+ * @returns {Promise<void>}
+ */
+export async function updateInfo({ id, address, room, examiner, date, time, description }) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('sessions').where({ id }).update({ address, room, examiner, date, time, description });
 }
 
 /**

@@ -12,37 +12,6 @@ const Joi = BaseJoi.extend(JoiDate);
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
-const sessionValidationJoiSchema = Joi.object({
-  address: Joi.string().required().messages({
-    'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_ADDRESS_REQUIRED.getMessage(),
-    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_ADDRESS_REQUIRED.getMessage(),
-  }),
-
-  room: Joi.string().required().messages({
-    'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_ROOM_REQUIRED.getMessage(),
-    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_ROOM_REQUIRED.getMessage(),
-  }),
-
-  date: Joi.date().format('YYYY-MM-DD').required().empty(['', null]).messages({
-    'any.required': CERTIFICATION_SESSIONS_ERRORS.SESSION_DATE_REQUIRED.getMessage(),
-    'date.format': CERTIFICATION_SESSIONS_ERRORS.SESSION_DATE_NOT_VALID.getMessage(),
-  }),
-
-  time: Joi.string()
-    .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
-    .required()
-    .messages({
-      'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_TIME_REQUIRED.getMessage(),
-      'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_TIME_REQUIRED.getMessage(),
-      'string.pattern.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_TIME_REQUIRED.getMessage(),
-    }),
-
-  examiner: Joi.string().required().messages({
-    'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_EXAMINER_REQUIRED.getMessage(),
-    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_EXAMINER_REQUIRED.getMessage(),
-  }),
-});
-
 const sessionValidationForMassImportJoiSchema = Joi.object({
   address: Joi.string().required().messages({
     'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_ADDRESS_REQUIRED.code,
@@ -91,13 +60,6 @@ const sessionFiltersValidationSchema = Joi.object({
   version: Joi.number().valid(AlgorithmEngineVersion.V2, AlgorithmEngineVersion.V3).optional(),
 });
 
-const validate = function (session) {
-  const { error } = sessionValidationJoiSchema.validate(session, validationConfiguration);
-  if (error) {
-    throw EntityValidationError.fromJoiErrors(error.details);
-  }
-};
-
 const validateForMassSessionImport = function (session) {
   const { error } = sessionValidationForMassImportJoiSchema.validate(session, validationConfiguration);
   if (error) {
@@ -115,4 +77,4 @@ const validateAndNormalizeFilters = function (filters) {
   return value;
 };
 
-export { validate, validateAndNormalizeFilters, validateForMassSessionImport };
+export { validateAndNormalizeFilters, validateForMassSessionImport };

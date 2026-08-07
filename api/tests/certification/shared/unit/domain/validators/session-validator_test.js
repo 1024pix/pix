@@ -11,155 +11,16 @@ describe('Unit | Domain | Validators | session-validator', function () {
   let session;
 
   beforeEach(function () {
-    session = domainBuilder.certification.enrolment.buildSession({
-      address: '51 rue des lillas',
-      room: 'Salle John Doe',
-      date: '2000-10-20',
-      time: '14:30',
-      examiner: 'Mister T',
-    });
-  });
-
-  describe('#validate', function () {
-    context('when validation is successful', function () {
-      it('should not throw any error', function () {
-        expect(() => {
-          sessionValidator.validate(session);
-        }).to.not.throw();
-      });
-    });
-
-    context('when session data validation fails', function () {
-      context('on address attribute', function () {
-        it('should reject with error when address is missing', function () {
-          // given
-          const expectedErrors = [
-            {
-              attribute: 'address',
-              message: 'Veuillez indiquer un nom de site.',
-            },
-          ];
-          session.address = MISSING_VALUE;
-
-          try {
-            // when
-            sessionValidator.validate(session);
-            expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
-            // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
-          }
-        });
-      });
-
-      context('on room attribute', function () {
-        it('should reject with error when room is missing', async function () {
-          // given
-          const expectedErrors = [
-            {
-              attribute: 'room',
-              message: 'Veuillez indiquer un nom de salle.',
-            },
-          ];
-          session.room = MISSING_VALUE;
-
-          try {
-            // when
-            sessionValidator.validate(session);
-            expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
-            // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
-          }
-        });
-      });
-
-      context('on date attribute', function () {
-        it('should reject with error when date is missing', function () {
-          // given
-          const expectedErrors = [
-            {
-              attribute: 'date',
-              message: 'Veuillez indiquer une date de début.',
-            },
-          ];
-          session.date = MISSING_VALUE;
-
-          try {
-            // when
-            sessionValidator.validate(session);
-            expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
-            // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
-          }
-        });
-      });
-
-      context('on time attribute', function () {
-        it('should reject with error when time is an empty string', function () {
-          // given
-          const expectedErrors = [
-            {
-              attribute: 'time',
-              message: 'Veuillez indiquer une heure de début.',
-            },
-          ];
-          session.time = '';
-
-          try {
-            // when
-            sessionValidator.validate(session);
-            expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
-            // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
-          }
-        });
-
-        it('should reject with error when time ihas a format different than HH:MM', function () {
-          // given
-          const expectedErrors = [
-            {
-              attribute: 'time',
-              message: 'Veuillez indiquer une heure de début.',
-            },
-          ];
-          session.time = '14:23:30';
-
-          try {
-            // when
-            sessionValidator.validate(session);
-            expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
-            // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
-          }
-        });
-      });
-
-      context('on examiner attribute', function () {
-        it('should reject with error when examiner is missing', function () {
-          // given
-          const expectedErrors = [
-            {
-              attribute: 'examiner',
-              message: 'Veuillez indiquer un(e) surveillant(e).',
-            },
-          ];
-          session.examiner = MISSING_VALUE;
-
-          try {
-            // when
-            sessionValidator.validate(session);
-            expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
-            // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
-          }
-        });
-      });
-    });
+    session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({
+        address: '51 rue des lillas',
+        room: 'Salle John Doe',
+        date: '2000-10-20',
+        time: '14:30',
+        examiner: 'Mister T',
+      })
+      .build();
   });
 
   describe('#validateForMassSessionImport', function () {

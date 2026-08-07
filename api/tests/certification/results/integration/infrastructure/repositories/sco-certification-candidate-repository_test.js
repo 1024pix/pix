@@ -19,6 +19,7 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         .candidateBuilder()
         .asReconciled({
           userId,
+          doNotPersistUser: true,
         })
         .asScoCandidate({
           organizationLearnerId,

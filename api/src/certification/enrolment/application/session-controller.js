@@ -1,42 +1,54 @@
 import { normalize } from '../../../shared/infrastructure/utils/string-utils.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as sessionRepository from '../infrastructure/repositories/session-repository.js';
 import { candidateSerializer } from '../infrastructure/serializers/candidate-serializer.js';
 import { sessionSerializer } from '../infrastructure/serializers/session-serializer.js';
 
-const createSession = async function (request, _h, dependencies = { sessionSerializer }) {
+async function createSession(request, _h, dependencies = { sessionSerializer, sessionRepository }) {
   const userId = request.auth.credentials.userId;
-  const session = dependencies.sessionSerializer.deserialize(request.payload);
+  const certificationCenterId = request.params.certificationCenterId;
+  const { address, room, date, time, examiner, description } = request.payload.data.attributes;
 
-  const newSession = await usecases.createSession({ userId, session });
+  const newSessionId = await usecases.createSession({
+    userId,
+    certificationCenterId,
+    address,
+    room,
+    date,
+    time,
+    examiner,
+    description,
+  });
+  const session = await dependencies.sessionRepository.get({ id: newSessionId });
 
-  return dependencies.sessionSerializer.serialize(newSession);
-};
+  return dependencies.sessionSerializer.serialize(session);
+}
 
-const update = async function (request, h, dependencies = { sessionSerializer }) {
-  const userId = request.auth.credentials.userId;
-  const session = dependencies.sessionSerializer.deserialize(request.payload);
-  session.id = request.params.sessionId;
+async function update(request, h, dependencies = { sessionSerializer, sessionRepository }) {
+  const { address, room, date, time, examiner, description } = request.payload.data.attributes;
+  const sessionId = request.params.sessionId;
 
-  const updatedSession = await usecases.updateSession({ userId, session });
+  await usecases.updateSession({ address, room, date, time, examiner, description, sessionId });
+  const updatedSession = await dependencies.sessionRepository.get({ id: sessionId });
 
   return dependencies.sessionSerializer.serialize(updatedSession);
-};
+}
 
-const remove = async function (request, h) {
+async function remove(request, h) {
   const sessionId = request.params.sessionId;
 
   await usecases.deleteSession({ sessionId });
 
   return h.response().code(204);
-};
+}
 
-const get = async function (request, h, dependencies = { sessionSerializer }) {
+async function get(request, h, dependencies = { sessionSerializer, sessionRepository }) {
   const sessionId = request.params.sessionId;
-  const session = await usecases.getSession({ sessionId });
+  const session = await dependencies.sessionRepository.get({ id: sessionId });
   return dependencies.sessionSerializer.serialize(session);
-};
+}
 
-const createCandidateParticipation = async function (request, h) {
+async function createCandidateParticipation(request, h) {
   const userId = request.auth.credentials.userId;
   const sessionId = request.params.sessionId;
   const firstName = request.payload.data.attributes['first-name'].trim();
@@ -57,7 +69,7 @@ const createCandidateParticipation = async function (request, h) {
   });
 
   return h.response(candidateSerializer.serializeForParticipation(candidate)).created();
-};
+}
 
 const sessionController = {
   createSession,

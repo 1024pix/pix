@@ -330,7 +330,7 @@ function _buildComplementaryCertificationCourse({
   const sessionId = databaseBuilder.factory.buildSession().id;
   const { id: certificationCandidateId } = domainBuilder.certification.enrolment
     .candidateBuilder()
-    .asReconciled({ userId })
+    .asReconciled({ userId, doNotPersistUser: true })
     .withSubscription(complementaryCertificationKey)
     .withParameters({ sessionId })
     .insertToDB({ databaseBuilder });

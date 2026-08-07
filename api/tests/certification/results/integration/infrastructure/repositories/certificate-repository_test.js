@@ -1380,6 +1380,7 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           .candidateBuilder()
           .asReconciled({
             userId: 456,
+            doNotPersistUser: true,
           })
           .asScoCandidate({
             organizationLearnerId: 55,
@@ -2875,6 +2876,7 @@ function _linkCertificationAttestationToOrganization({
     .candidateBuilder()
     .asReconciled({
       userId: certificationAttestationData.userId,
+      doNotPersistUser: true,
     })
     .asScoCandidate({
       organizationLearnerId: srId,

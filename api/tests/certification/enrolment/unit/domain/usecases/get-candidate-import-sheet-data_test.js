@@ -1,22 +1,18 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getCandidateImportSheetData } from '../../../../../../src/certification/enrolment/domain/usecases/get-candidate-import-sheet-data.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-sheet-data', function () {
   let sessionRepository;
-  let candidateRepository;
   let centerRepository;
 
   beforeEach(function () {
     sessionRepository = {
       get: sinon.stub(),
-    };
-    candidateRepository = {
-      findBySessionId: sinon.stub(),
     };
     centerRepository = {
       getById: sinon.stub(),
@@ -28,29 +24,26 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
     const userId = 123;
     const sessionId = 456;
     const certificationCenterId = 789;
-    const session = domainBuilder.certification.enrolment.buildSession({
-      certificationCenterId,
-      certificationCandidates: [],
-    });
-    sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-    const michelCandidate = domainBuilder.certification.enrolment
+    const michelCandidateBuilder = domainBuilder.certification.enrolment
       .candidateBuilder()
       .withSubscription(Frameworks.CORE)
       .withIdentity({
         firstName: 'Michel',
         lastName: 'Jacques',
-      })
-      .build();
-    const jeannetteCandidate = domainBuilder.certification.enrolment
+      });
+    const jeannetteCandidateBuilder = domainBuilder.certification.enrolment
       .candidateBuilder()
       .withSubscription(Frameworks.CORE)
       .withIdentity({
         firstName: 'Jeannette',
         lastName: 'Jacques',
-      })
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .createdBy({ certificationCenterId })
+      .addCandidatesBuilders([michelCandidateBuilder, jeannetteCandidateBuilder])
       .build();
-    const enrolledCandidates = [michelCandidate, jeannetteCandidate];
-    candidateRepository.findBySessionId.withArgs({ sessionId }).resolves(enrolledCandidates);
+    sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
     const habilitation1 = domainBuilder.certification.enrolment.buildHabilitation({ label: 'Pix+Droit' });
     const habilitation2 = domainBuilder.certification.enrolment.buildHabilitation({ label: 'Pix+Penché' });
     const center = domainBuilder.certification.enrolment.buildCenter({
@@ -64,14 +57,13 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
       userId,
       sessionId,
       sessionRepository,
-      candidateRepository,
       centerRepository,
     });
 
     // then
-    expect(result).to.deepEqualInstance({
+    expect(result).to.deep.equal({
       session,
-      enrolledCandidates: [jeannetteCandidate, michelCandidate],
+      enrolledCandidates: [jeannetteCandidateBuilder.build(), michelCandidateBuilder.build()],
       certificationCenterHabilitations: [habilitation1, habilitation2],
       isScoCertificationCenter: true,
     });

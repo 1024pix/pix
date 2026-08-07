@@ -18,10 +18,10 @@ class CandidateBuilder {
     this.birthdate = '1990-05-06';
     this.sex = 'F';
     this.accessibilityAdjustmentNeeded = false;
-    this.authorizedToStart = false;
     this.hasSeenCertificationInstructions = false;
     this.doubleCertificationEligibility = false;
     this.userId = null;
+    this.doNotPersistUser = false;
     this.resultRecipientEmail = null;
     this.reconciledAt = null;
     this.prepaymentCode = null;
@@ -36,6 +36,8 @@ class CandidateBuilder {
     this.billingMode = null;
     this.subscription = Frameworks.CORE;
     this.sessionId = null;
+    this.certificationId = null;
+    this.hasStartedTest = false;
   }
 
   withSubscription(subscription) {
@@ -55,9 +57,16 @@ class CandidateBuilder {
     return this;
   }
 
-  asReconciled({ userId = null, reconciledAt = new Date() } = {}) {
+  asReconciled({ userId, reconciledAt = new Date(), doNotPersistUser = false } = {}) {
     this.userId = userId;
     this.reconciledAt = reconciledAt;
+    this.doNotPersistUser = doNotPersistUser;
+    return this;
+  }
+
+  withStartedTest({ certificationId = null } = {}) {
+    this.certificationId = certificationId;
+    this.hasStartedTest = true;
     return this;
   }
 
@@ -74,8 +83,6 @@ class CandidateBuilder {
     resultRecipientEmail,
     extraTimePercentage,
     externalId,
-    authorizedToStart,
-    authorizedToStartAt,
     hasSeenCertificationInstructions,
     accessibilityAdjustmentNeeded,
     doubleCertificationEligibility,
@@ -95,10 +102,18 @@ class CandidateBuilder {
     this.extraTimePercentage = extraTimePercentage ?? this.extraTimePercentage;
     this.externalId = externalId ?? this.externalId;
     this.sessionId = sessionId ?? this.sessionId;
-    this.authorizedToStart = authorizedToStart ?? this.authorizedToStart;
-    this.authorizedToStartAt = authorizedToStartAt ?? this.authorizedToStartAt;
-    this.hasSeenCertificationInstructions = hasSeenCertificationInstructions ?? this.hasSeenCertificationInstructions;
-    this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded ?? this.accessibilityAdjustmentNeeded;
+    this.hasSeenCertificationInstructions =
+      hasSeenCertificationInstructions === true
+        ? true
+        : hasSeenCertificationInstructions === false
+          ? false
+          : this.hasSeenCertificationInstructions;
+    this.accessibilityAdjustmentNeeded =
+      accessibilityAdjustmentNeeded === true
+        ? true
+        : accessibilityAdjustmentNeeded === false
+          ? false
+          : this.accessibilityAdjustmentNeeded;
     this.doubleCertificationEligibility = doubleCertificationEligibility ?? this.doubleCertificationEligibility;
     this.createdAt = createdAt;
     this.billingMode = billingMode ?? this.billingMode;
@@ -120,11 +135,11 @@ class CandidateBuilder {
       this.sessionId = databaseBuilder.factory.buildSession().id;
     }
 
-    if (!this.userId && this.reconciledAt) {
-      this.userId = databaseBuilder.factory.buildUser().id;
+    if (this.reconciledAt && !this.doNotPersistUser) {
+      this.userId = databaseBuilder.factory.buildUser({ id: this.userId ?? undefined }).id;
     }
 
-    if (!this.createAt) {
+    if (!this.createdAt) {
       this.createdAt = new Date();
     }
 
@@ -150,15 +165,21 @@ class CandidateBuilder {
       userId: candidate.userId,
       reconciledAt: candidate.reconciledAt,
       organizationLearnerId: candidate.organizationLearnerId,
-      authorizedToStart: candidate.authorizedToStart,
-      authorizedToStartAt: candidate.authorizedToStartAt,
-      hasSeenCertificationInstructions: candidate.hasSeenCertificationInstruction,
+      hasSeenCertificationInstructions: candidate.hasSeenCertificationInstructions,
       accessibilityAdjustmentNeeded: candidate.accessibilityAdjustmentNeeded,
-      doubleCertificationEligibility: candidate.doubleCertificationEligibility,
       billingMode: candidate.billingMode,
       prepaymentCode: candidate.prepaymentCode,
       createdAt: candidate.createdAt,
     });
+
+    if (candidate.hasStartedTest) {
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: this.sessionId,
+        id: this.certificationId ?? undefined,
+        userId: this.userId ?? undefined,
+        candidateId: row.id,
+      });
+    }
 
     this.id = row.id;
     this.sessionId = row.sessionId;
@@ -192,14 +213,13 @@ class CandidateBuilder {
       reconciledAt: this.reconciledAt,
       userId: this.userId,
       organizationLearnerId: this.organizationLearnerId,
-      authorizedToStart: this.authorizedToStart,
-      authorizedToStartAt: this.authorizedToStartAt,
-      hasSeenCertificationInstructions: this.hasSeenCertificationInstruction,
+      hasSeenCertificationInstructions: this.hasSeenCertificationInstructions,
       accessibilityAdjustmentNeeded: this.accessibilityAdjustmentNeeded,
       doubleCertificationEligibility: this.doubleCertificationEligibility,
       createdAt: this.createdAt,
       billingMode: this.billingMode,
       prepaymentCode: this.prepaymentCode,
+      hasStartedTest: this.hasStartedTest,
     });
   }
 }

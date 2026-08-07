@@ -134,6 +134,7 @@ describe('Integration | Repository | Certification-livret-scolaire ', function (
         })
         .asReconciled({
           userId: user.id,
+          doNotPersistUser: true,
         })
         .withParameters({
           sessionId: session.id,

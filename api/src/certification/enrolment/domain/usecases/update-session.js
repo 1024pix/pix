@@ -1,38 +1,27 @@
 /**
- * @typedef {import('./index.js').SessionRepository} SessionRepository
- *
- * @typedef {import('./index.js').SessionValidator} SessionValidator
+ * @typedef {import('./index.js').SessionRepository} SessionRepository*
  */
-
-import { AlreadyExistingEntityError } from '../../../../shared/domain/errors.js';
 
 /**
  * @param {object} params
+ * @param {number} params.sessionId
+ * @param {string} params.address
+ * @param {string} params.room
+ * @param {string} params.date
+ * @param {string} params.time
+ * @param {string} params.examiner
+ * @param {string} params.description
  * @param {SessionRepository} params.sessionRepository
- * @param {SessionValidator} params.sessionValidator
  */
-const updateSession = async function ({ session, sessionRepository, sessionValidator }) {
-  sessionValidator.validate(session);
-
-  const sessionAlreadyExists = await sessionRepository.isSessionExistingByCertificationCenterId({
-    address: session.address,
-    room: session.room,
-    date: session.date,
-    time: session.time,
-    certificationCenterId: session.certificationCenterId,
-    excludeSessionId: session.id,
-  });
-  if (sessionAlreadyExists) {
-    throw new AlreadyExistingEntityError(
-      'Une session avec les mêmes informations existe déjà.',
-      'SESSION_ALREADY_EXISTS',
-    );
-  }
-
-  const sessionToUpdate = await sessionRepository.get({ id: session.id });
-  sessionToUpdate.updateInfo(session);
-  await sessionRepository.update(sessionToUpdate);
-  return sessionRepository.get({ id: sessionToUpdate.id });
-};
-
-export { updateSession };
+export async function updateSession({
+  sessionId,
+  address,
+  room,
+  date,
+  time,
+  examiner,
+  description,
+  sessionRepository,
+}) {
+  return sessionRepository.updateInfo({ id: sessionId, address, room, date, time, examiner, description });
+}
