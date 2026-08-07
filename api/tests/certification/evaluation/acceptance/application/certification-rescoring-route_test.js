@@ -4,17 +4,15 @@ import { SCOPES } from '../../../../../src/certification/shared/domain/models/Sc
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Evaluation | Acceptance | Application |  certification rescoring', function () {
   describe('GET /api/admin/certifications/{certificationCourseId}/rescore', function () {
-    let server, calibrationId;
+    let server;
 
     beforeEach(async function () {
-      calibrationId = 1;
-
       server = await createServer();
     });
 
@@ -212,18 +210,6 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
           delta: null,
         });
 
-        datamartBuilder.factory.buildCalibration({
-          id: calibrationId,
-          scope: 'COEUR',
-          status: 'VALIDATED',
-        });
-        datamartBuilder.factory.buildDatamartActiveCalibratedChallenge({
-          calibrationId: calibrationId,
-          challengeId: 'recChallenge0_0_0',
-          alpha: 3.3,
-          delta: 4.4,
-        });
-
         const archivedVersion = domainBuilder.certification.configuration
           .versionBuilder()
           .asArchived({ startDate: new Date('2010-02-01'), expirationDate: new Date('2024-02-01') })
@@ -327,7 +313,6 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
         databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: assessmentResult.id });
 
         await databaseBuilder.commit();
-        await datamartBuilder.commit();
 
         const request = {
           method: 'POST',

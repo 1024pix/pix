@@ -41,7 +41,7 @@
     "db:prepare": "npm run db:delete && npm run db:create && npm run db:migrate",
     "db:seed": "NODE_OPTIONS=\"--max-old-space-size=380\" knex --knexfile db/knexfile.js seed:run",
     "db:reload": "npm run db:empty && npm run db:seed",
-    "db:reset": "npm run db:prepare && npm run db:seed",
+    "db:reset": "npm run db:prepare && npm run datamart:prepare && npm run db:seed",
     "db:schemalint": "schemalint --config tests/tooling/db-schemalint.cjs",
     "doc:api:prescription": "node --env-file-if-exists=.env scripts/generate-api-documentation.js src/prescription > src/prescription/API.md",
     "doc:api:team": "node --env-file-if-exists=.env scripts/generate-api-documentation.js src/team > src/team/API.md",

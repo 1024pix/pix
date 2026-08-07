@@ -1,0 +1,50 @@
+export const CALIBRATION_STATUSES = Object.freeze({
+  TO_VALIDATE: 'TO_VALIDATE',
+  VALIDATED: 'VALIDATED',
+  INVALIDATED: 'INVALIDATED',
+});
+
+export const CALIBRATION_SCOPES = Object.freeze({
+  COEUR: 'COEUR',
+  EDU_2ND_DEGRE: 'EDU_2ND_DEGRE',
+  EDU_1ER_DEGRE: 'EDU_1ER_DEGRE',
+  EDU_CPE: 'EDU_CPE',
+  DROIT: 'DROIT',
+  PRO_SANTE: 'PRO_SANTE',
+});
+
+export class Calibration {
+  constructor({ id, startedAt, status, scope, calibratedChallenges }) {
+    this.id = id;
+    this.startedAt = startedAt;
+    this.status = status;
+    this.scope = scope;
+    this.calibratedChallenges = calibratedChallenges;
+  }
+
+  get challengeCount() {
+    return this.calibratedChallenges.length;
+  }
+
+  /**
+   *
+   * @returns {Set<string>} tubeIds
+   */
+  get tubeIds() {
+    const tubeIds = new Set();
+    for (const calibratedChallenge of this.calibratedChallenges) {
+      tubeIds.add(calibratedChallenge.tubeId);
+    }
+
+    return tubeIds;
+  }
+}
+
+export class CalibratedChallenge {
+  constructor({ challengeId, tubeId, alpha, delta }) {
+    this.challengeId = challengeId;
+    this.tubeId = tubeId;
+    this.alpha = alpha;
+    this.delta = delta;
+  }
+}

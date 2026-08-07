@@ -12,7 +12,7 @@ import { CertificationVersionForbiddenDeletionError } from '../errors.js';
 
 export async function deleteVersion({ id, versionRepository }) {
   const version = await versionRepository.getById({ id });
-  if (!version.canRemove) {
+  if (!version || !version.canRemove) {
     throw new CertificationVersionForbiddenDeletionError();
   }
   await versionRepository.remove(id);

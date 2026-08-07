@@ -3,6 +3,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
+import * as calibrationRepository from '../../infrastructure/repositories/calibration-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 import * as certificationInfoRepository from '../../infrastructure/repositories/certification-info-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../infrastructure/repositories/complementary-certification-badge-repository.js';
@@ -17,6 +18,7 @@ import { createDraft } from './create-draft.js';
 import { deleteVersion } from './delete-version.js';
 import { exportScoWhitelist } from './export-sco-whitelist.js';
 import { findComplementaryCertifications } from './find-complementary-certifications.js';
+import { generateCalibrationReportCheck } from './generate-calibration-report-check.js';
 import { getComplementaryCertificationForTargetProfileAttachmentRepository } from './get-complementary-certification-for-target-profile-attachment.js';
 import { getComplementaryCertificationTargetProfileHistory } from './get-complementary-certification-target-profile-history.js';
 import { getInfo } from './get-info.js';
@@ -44,6 +46,7 @@ import { updateVersionComment } from './update-version-comment.js';
  * @typedef {ScoBlockedAccessDatesRepository} ScoBlockedAccessDatesRepository
  * @typedef {versionRepository} VersionRepository
  * @typedef {versionDetailsRepository} VersionDetailsRepository
+ * @typedef {calibrationRepository} CalibrationRepository
  **/
 const dependencies = {
   attachableTargetProfileRepository,
@@ -58,6 +61,7 @@ const dependencies = {
   targetProfileHistoryRepository,
   versionRepository,
   versionDetailsRepository,
+  calibrationRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -77,6 +81,7 @@ const usecasesWithoutInjectedDependencies = {
   updateScoBlockedAccessDate,
   updateVersion,
   updateVersionComment,
+  generateCalibrationReportCheck,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);

@@ -54,7 +54,7 @@ async function register(server) {
         handler: certificationVersionController.getVersionById,
         tags: ['api', 'admin'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Cette route est restreinte aux utilisateurs PixAdmin',
           'Elle permet de récupérer une version par son id',
         ],
       },
@@ -198,6 +198,40 @@ async function register(server) {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
           "Elle permet de créer un nouveau millésime draft d'un référentiel de certification",
+        ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/certification-versions/{certificationVersionId}/calibration-report',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationVersionId: identifiersType.certificationVersionId,
+          }),
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                calibrationId: Joi.number().integer().required(),
+              }).required(),
+            }),
+          }),
+        },
+        handler: certificationVersionController.generateCalibrationReport,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte au SUPER ADMIN',
+          "Elle permet d'obtenir un rapport de vérification qui précède la récupération d'une calibration",
         ],
       },
     },

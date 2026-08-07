@@ -7,6 +7,24 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Configuration | Integration | Domain | UseCase | delete-version', function () {
+  it('should throw CertificationVersionForbiddenDeletionError when version cannot be found', async function () {
+    // given
+    domainBuilder.certification.configuration
+      .versionBuilder()
+      .asActive()
+      .withParameters({ id: 1, scope: SCOPES.CORE, tubeIds: ['coucou'] })
+      .insertToDB({ databaseBuilder });
+
+    await databaseBuilder.commit();
+
+    // when
+    const error = await catchErr(usecases.deleteVersion)({
+      id: 2,
+    });
+    // then
+    expect(error).to.be.instanceOf(CertificationVersionForbiddenDeletionError);
+  });
+
   it('should throw CertificationVersionForbiddenDeletionError when version cannot be removed', async function () {
     // given
     const certificationVersion = domainBuilder.certification.configuration
