@@ -14,7 +14,6 @@ import ChallengeEmbedSimulator from 'mon-pix/components/challenge-embed-simulato
 import ChallengeIllustration from 'mon-pix/components/challenge-illustration';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
 import MarkdownToHtmlUnsafe from 'mon-pix/components/markdown-to-html-unsafe';
-import ENV from 'mon-pix/config/environment';
 import extractExtension from 'mon-pix/helpers/extract-extension';
 import { SessionStorageEntry } from 'mon-pix/utils/session-storage-entry';
 
@@ -51,9 +50,7 @@ export default class ChallengeStatement extends Component {
             <div class="sr-only">{{t "pages.challenge.statement.sr-only.alternative-instruction"}}</div>
           {{/if}}
 
-          {{#if this.isFocusedChallengeToggleEnabled}}
-            <Tooltip @challenge={{@challenge}} />
-          {{/if}}
+          <Tooltip @challenge={{@challenge}} />
         </div>
       {{/if}}
 
@@ -172,9 +169,6 @@ export default class ChallengeStatement extends Component {
     super(...arguments);
     this._initialiseDefaultAttachment();
     this.stopTextToSpeechOnLeaveOrRefresh();
-  }
-  get isFocusedChallengeToggleEnabled() {
-    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED;
   }
 
   get challengeInstruction() {

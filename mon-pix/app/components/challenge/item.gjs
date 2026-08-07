@@ -3,7 +3,6 @@ import { service } from '@ember/service';
 import { ensureSafeComponent } from '@embroider/util';
 import Component from '@glimmer/component';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
-import ENV from 'mon-pix/config/environment';
 
 import ChallengeItemQcm from '../challenge-item/challenge-item-qcm';
 import ChallengeItemQcu from '../challenge-item/challenge-item-qcu';
@@ -95,7 +94,7 @@ export default class Item extends Component {
   };
 
   get isFocusedChallenge() {
-    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
+    return this.args.challenge.focused;
   }
 
   @action
