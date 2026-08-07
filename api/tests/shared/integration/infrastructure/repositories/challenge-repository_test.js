@@ -907,7 +907,6 @@ describe('Integration | Repository | challenge-repository', function () {
             challengeData00_skill00_qcu_valide_flashCompatible_frnl_noEmbedJson,
           ),
         );
-        expect(Object.isFrozen(challenge)).to.be.true;
       });
     });
   });
@@ -1326,7 +1325,6 @@ describe('Integration | Repository | challenge-repository', function () {
               challengeData04_skill01_qcu_valide_flashCompatible_ennl_noEmbedJson,
             ),
           ]);
-          expect(challenges.every(Object.isFrozen)).to.be.true;
         });
       });
     });
@@ -1378,7 +1376,6 @@ describe('Integration | Repository | challenge-repository', function () {
             domainBuilder.learningContent.buildChallenge(enUGValidatedChallenge),
             domainBuilder.learningContent.buildChallenge(enValidatedChallenge),
           ]);
-          expect(challenges.every(Object.isFrozen)).to.be.true;
         });
       });
     });

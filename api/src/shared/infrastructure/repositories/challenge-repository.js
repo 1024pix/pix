@@ -139,7 +139,7 @@ function byId(challenge1, challenge2) {
 }
 
 function toChallengeDto(challengeData) {
-  return Object.freeze(_.omit(challengeData, ['alpha', 'delta']));
+  return _.omit(challengeData, ['alpha', 'delta']);
 }
 
 function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill, successProbabilityThreshold }) {
