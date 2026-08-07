@@ -33,6 +33,7 @@ class CertificationCourseInfoBuilder {
     this.version = AlgorithmEngineVersion.V3;
     this.isAdjustedForAccessibility = false;
     this.assessmentId = null;
+    this.candidateId = null;
   }
 
   /**
@@ -76,12 +77,14 @@ class CertificationCourseInfoBuilder {
    * @param {object} [params]
    * @param {number} [params.id] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted certification-course (id null)
    * @param {number} [params.assessmentId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted assesment (id null)
+   * @param {number} [params.candidateId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted candidate (id null)
    * @param {number} [params.existingVersionId] - already existing version. Will overwrite nbChallenges and no create itself a version
    * @returns {CertificationCourseInfoBuilder}
    */
-  withParameters({ id, assessmentId, existingVersionId } = {}) {
+  withParameters({ id, assessmentId, candidateId, existingVersionId } = {}) {
     this.id = id ?? this.id;
     this.assessmentId = assessmentId ?? this.assessmentId;
+    this.candidateId = candidateId ?? this.candidateId;
     this.existingVersionId = existingVersionId ?? this.existingVersionId;
     return this;
   }
@@ -94,19 +97,22 @@ class CertificationCourseInfoBuilder {
    * @param {object} params
    * @param {DatabaseBuilder} params.databaseBuilder
    * @param {number} params.existingUserId
+   * @param {number} params.existingSessionId
    * @returns {CertificationCourseInfo} the persisted certificationCourseInfo
    */
-  insertToDB({ databaseBuilder, existingUserId }) {
+  insertToDB({ databaseBuilder, existingUserId, existingSessionId }) {
     const certificationCourseInfo = this.build();
 
-    const sessionId = databaseBuilder.factory.buildSession().id;
+    const sessionId = existingSessionId ? existingSessionId : databaseBuilder.factory.buildSession().id;
     const userId = existingUserId ? existingUserId : databaseBuilder.factory.buildUser().id;
     const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+      id: certificationCourseInfo.candidateId ?? undefined,
       sessionId,
       accessibilityAdjustmentNeeded: this.isAdjustedForAccessibility,
       userId,
       reconciledAt: new Date(),
     }).id;
+    certificationCourseInfo.candidateId = candidateId;
 
     if (!this.existingVersionId) {
       const versionId = databaseBuilder.factory.buildCertificationVersion({
@@ -161,6 +167,7 @@ class CertificationCourseInfoBuilder {
       version: this.version,
       isAdjustedForAccessibility: this.isAdjustedForAccessibility,
       assessmentId: this.assessmentId,
+      candidateId: this.candidateId,
     });
   }
 }

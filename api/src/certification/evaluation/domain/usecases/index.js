@@ -21,6 +21,7 @@ import * as assessmentSheetRepository from '../../infrastructure/repositories/as
 import * as calibratedChallengeRepository from '../../infrastructure/repositories/calibrated-challenge-repository.js';
 import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import * as certificationAssessmentHistoryRepository from '../../infrastructure/repositories/certification-assessment-history-repository.js';
+import * as certificationCourseInfoRepository from '../../infrastructure/repositories/certification-course-info-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
 import * as scoringConfigurationRepository from '../../infrastructure/repositories/scoring-configuration-repository.js';
@@ -37,11 +38,11 @@ import { getAssessmentLiveAlerts } from './get-assessment-live-alerts.js';
 import { getNextChallenge } from './get-next-challenge.js';
 import { neutralizeChallenge } from './neutralize-challenge.js';
 import { rescoreV2Certification } from './rescore-v2-certification.js';
-import { retrieveLastOrCreateCertificationCourse } from './retrieve-last-or-create-certification-course.js';
 import { scoreV3Certification } from './score-v3-certification.js';
 import { simulateCapacityFromScore } from './simulate-capacity-from-score.js';
 import { simulateFlashAssessmentScenario } from './simulate-flash-assessment-scenario.js';
 import { simulateScoreFromCapacity } from './simulate-score-from-capacity.js';
+import { startOrResumeCertification } from './start-or-resume-certification.js';
 
 /**
  * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
@@ -54,6 +55,7 @@ import { simulateScoreFromCapacity } from './simulate-score-from-capacity.js';
  * @typedef {complementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
+ * @typedef {certificationCourseInfoRepository} CertificationCourseInfoRepository
  * @typedef {sharedChallengeRepository} SharedChallengeRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
@@ -89,6 +91,7 @@ const dependencies = {
   pickChallengeService,
   certificationCompanionAlertRepository,
   certificationCourseRepository,
+  certificationCourseInfoRepository,
   certificationAssessmentRepository,
   complementaryCertificationScoringCriteriaRepository,
   certificationChallengeLiveAlertRepository,
@@ -106,7 +109,7 @@ const usecasesWithoutInjectedDependencies = {
   getNextChallenge,
   neutralizeChallenge,
   rescoreV2Certification,
-  retrieveLastOrCreateCertificationCourse,
+  startOrResumeCertification,
   simulateFlashAssessmentScenario,
   scoreV3Certification,
   completeCertificationAssessment,

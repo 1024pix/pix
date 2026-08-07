@@ -257,20 +257,6 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
     });
   });
 
-  describe('#setNumberOfChallenges', function () {
-    it('sets the certification number of challenges', function () {
-      // given
-      const certificationCourse = new CertificationCourse();
-      const numberOfChallenges = 12;
-
-      // when
-      certificationCourse.setNumberOfChallenges(numberOfChallenges);
-
-      // then
-      expect(certificationCourse.getNumberOfChallenges()).to.equal(numberOfChallenges);
-    });
-  });
-
   describe('#isLanguageAvailableForV3Certification', function () {
     it('should be true if user language is available for certification', function () {
       // given

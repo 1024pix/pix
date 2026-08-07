@@ -1,11 +1,9 @@
 import { createServer } from '../../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
@@ -89,201 +87,6 @@ describe('Acceptance | API | Certification Course', function () {
 
   describe('POST /api/certification-courses', function () {
     let response;
-    const learningContent = [
-      {
-        id: 'recArea0',
-        competences: [
-          {
-            id: 'recCompetence0',
-            index: '1.1',
-            tubes: [
-              {
-                id: 'recTube0_0',
-                skills: [
-                  {
-                    id: 'recSkill0_0',
-                    nom: '@recSkill0_0',
-                    challenges: [{ id: 'recChallenge0_0_0' }],
-                    level: 0,
-                  },
-                  {
-                    id: 'recSkill0_1',
-                    nom: '@recSkill0_1',
-                    challenges: [{ id: 'recChallenge0_1_0' }],
-                    level: 1,
-                  },
-                  {
-                    id: 'recSkill0_2',
-                    nom: '@recSkill0_2',
-                    challenges: [{ id: 'recChallenge0_2_0' }],
-                    level: 2,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence1',
-            tubes: [
-              {
-                id: 'recTube1_0',
-                skills: [
-                  {
-                    id: 'recSkill1_0',
-                    nom: '@recSkill1_0',
-                    challenges: [{ id: 'recChallenge1_0_0' }],
-                    level: 0,
-                  },
-                  {
-                    id: 'recSkill1_1',
-                    nom: '@recSkill1_1',
-                    challenges: [{ id: 'recChallenge1_1_0' }],
-                    level: 1,
-                  },
-                  {
-                    id: 'recSkill1_2',
-                    nom: '@recSkill1_2',
-                    challenges: [{ id: 'recChallenge1_2_0' }],
-                    level: 2,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence2',
-            tubes: [
-              {
-                id: 'recTube2_0',
-                skills: [
-                  {
-                    id: 'recSkill2_0',
-                    nom: '@recSkill2_0',
-                    challenges: [{ id: 'recChallenge2_0_0' }],
-                    level: 0,
-                  },
-                  {
-                    id: 'recSkill2_1',
-                    nom: '@recSkill2_1',
-                    challenges: [{ id: 'recChallenge2_1_0' }],
-                    level: 1,
-                  },
-                  {
-                    id: 'recSkill2_2',
-                    nom: '@recSkill2_2',
-                    challenges: [{ id: 'recChallenge2_2_0' }],
-                    level: 2,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence3',
-            tubes: [
-              {
-                id: 'recTube3_0',
-                skills: [
-                  {
-                    id: 'recSkill3_0',
-                    nom: '@recSkill3_0',
-                    challenges: [{ id: 'recChallenge3_0_0' }],
-                    level: 0,
-                  },
-                  {
-                    id: 'recSkill3_1',
-                    nom: '@recSkill3_1',
-                    challenges: [{ id: 'recChallenge3_1_0' }],
-                    level: 1,
-                  },
-                  {
-                    id: 'recSkill3_2',
-                    nom: '@recSkill3_2',
-                    challenges: [{ id: 'recChallenge3_2_0' }],
-                    level: 2,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence4',
-            tubes: [
-              {
-                id: 'recTube4_0',
-                skills: [
-                  {
-                    id: 'recSkill4_0',
-                    nom: '@recSkill4_0',
-                    challenges: [{ id: 'recChallenge4_0_0' }],
-                    level: 0,
-                  },
-                  {
-                    id: 'recSkill4_1',
-                    nom: '@recSkill4_1',
-                    challenges: [{ id: 'recChallenge4_1_0' }],
-                    level: 1,
-                  },
-                  {
-                    id: 'recSkill4_2',
-                    nom: '@recSkill4_2',
-                    challenges: [{ id: 'recChallenge4_2_0' }],
-                    level: 2,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence5',
-            tubes: [
-              {
-                id: 'recTube5_0',
-                skills: [
-                  {
-                    id: 'recSkill5_0',
-                    nom: '@recSkill5_0',
-                    challenges: [
-                      { id: 'recChallenge5_0_0', langues: ['Franco Français'] },
-                      { id: 'recChallenge5_0_1' },
-                    ],
-                    level: 0,
-                  },
-                  {
-                    id: 'recSkill5_1',
-                    nom: '@recSkill5_1',
-                    challenges: [{ id: 'recChallenge5_1_1', langues: ['Franco Français'] }],
-                    level: 1,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence6',
-            tubes: [
-              {
-                id: 'recTube6_0',
-                skills: [
-                  {
-                    id: 'recSkill6_0',
-                    nom: '@recSkill6_0',
-                    challenges: [{ id: 'recChallenge6_0_0', langues: ['Anglais'] }],
-                    level: 0,
-                  },
-                  {
-                    id: 'recSkill6_1',
-                    nom: '@recSkill6_1',
-                    challenges: [{ id: 'recChallenge6_1_0', langues: ['Anglais'] }],
-                    level: 1,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ];
 
     context('when the certification course does not exist', function () {
       context('when locale is fr-fr', function () {
@@ -291,7 +94,6 @@ describe('Acceptance | API | Certification Course', function () {
           // given
           const { options, userId, sessionId } = _createRequestOptions();
           const { certificationCandidate } = _createNonExistingCertifCourseSetup({
-            learningContent,
             userId,
             sessionId,
           });
@@ -317,7 +119,7 @@ describe('Acceptance | API | Certification Course', function () {
       it('should respond with 200 status code and retrieve the already existing certification course', async function () {
         // given
         const { options, userId, sessionId } = _createRequestOptions({ version: AlgorithmEngineVersion.V3 });
-        _createExistingCertifCourseSetup({ learningContent, userId, sessionId, version: AlgorithmEngineVersion.V3 });
+        _createExistingCertifCourseSetup({ userId, sessionId, version: AlgorithmEngineVersion.V3 });
         await databaseBuilder.commit();
 
         // when
@@ -362,10 +164,7 @@ function _createRequestOptions(
   };
 }
 
-function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userId }) {
-  const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-  databaseBuilder.factory.learningContent.build(learningContentObjects);
-
+function _createNonExistingCertifCourseSetup({ sessionId, userId }) {
   const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
     sessionId,
     userId,
@@ -379,45 +178,27 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
     .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 123 })
     .insertToDB({ databaseBuilder });
 
-  databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
-    learningContent,
-    userId,
-    earnedPix: 4,
-    placementDate: new Date('2019-01-01'),
-  });
-
-  // KnowledgeElement.StatusType.RESET after the reconciledAt date
-  databaseBuilder.factory.buildKnowledgeElement({
-    status: KnowledgeElement.StatusType.RESET,
-    skillId: 'recSkill5_1',
-    competenceId: 'recCompetence5',
-    userId: userId,
-    createdAt: new Date('2023-03-03'),
-  });
-
   return { certificationCandidate };
 }
 
-function _createExistingCertifCourseSetup({ learningContent, userId, sessionId, version = 2, createdAt = new Date() }) {
-  const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-  databaseBuilder.factory.learningContent.build(learningContentObjects);
-  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-    userId,
-    sessionId,
-    version,
-    createdAt,
-  }).id;
-  databaseBuilder.factory.buildAssessment({ userId, certificationCourseId });
-
-  databaseBuilder.factory.buildCertificationCandidate({
-    sessionId,
-    userId,
-    authorizedToStartAt: new Date(),
-  });
-
-  domainBuilder.certification.configuration
+function _createExistingCertifCourseSetup({ userId, sessionId, version = 2, createdAt = new Date() }) {
+  const certifVersion = domainBuilder.certification.configuration
     .versionBuilder()
     .asDraft({ startDate: new Date('2020-01-01') })
     .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
     .insertToDB({ databaseBuilder });
+  const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+    sessionId,
+    userId,
+    authorizedToStartAt: new Date(),
+  }).id;
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+    candidateId,
+    userId,
+    sessionId,
+    version,
+    createdAt,
+    versionId: certifVersion.id,
+  }).id;
+  databaseBuilder.factory.buildAssessment({ userId, certificationCourseId });
 }

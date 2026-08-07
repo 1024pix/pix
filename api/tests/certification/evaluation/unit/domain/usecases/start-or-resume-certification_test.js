@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CertificationDurationExceededError } from '../../../../../../src/certification/evaluation/domain/errors.js';
-import { retrieveLastOrCreateCertificationCourse } from '../../../../../../src/certification/evaluation/domain/usecases/retrieve-last-or-create-certification-course.js';
+import { startOrResumeCertification } from '../../../../../../src/certification/evaluation/domain/usecases/start-or-resume-certification.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
@@ -15,10 +15,11 @@ import { Assessment } from '../../../../../../src/shared/domain/models/Assessmen
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
-describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-certification-course', function () {
+describe('Certification | Evaluation | Unit | UseCase | start-or-resume-certification', function () {
   let assessmentRepository,
     candidateRepository,
     certificationCourseRepository,
+    certificationCourseInfoRepository,
     assessmentSheetRepository,
     candidateAuthorizationAdapter,
     sessionAdapter,
@@ -39,8 +40,11 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       findByUserIdAndSessionId: sinon.stub(),
     };
     certificationCourseRepository = {
-      findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
       save: sinon.stub(),
+    };
+    certificationCourseInfoRepository = {
+      findByUserIdAndSessionId: sinon.stub(),
+      find: sinon.stub(),
     };
     versionApi = {
       getByFrameworkAndDate: sinon.stub(),
@@ -63,7 +67,8 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       assessmentRepository.save,
       candidateRepository.findByUserIdAndSessionId,
       certificationCourseRepository.save,
-      certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId,
+      certificationCourseInfoRepository.findByUserIdAndSessionId,
+      certificationCourseInfoRepository.find,
       assessmentSheetRepository.findByCertificationCourseId,
       assessmentSheetRepository.update,
       candidateAuthorizationAdapter.find,
@@ -78,6 +83,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       assessmentRepository,
       candidateRepository,
       certificationCourseRepository,
+      certificationCourseInfoRepository,
       assessmentSheetRepository,
       candidateAuthorizationAdapter,
       sessionAdapter,
@@ -98,7 +104,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(null);
 
       // when
-      const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+      const error = await catchErr(startOrResumeCertification)({
         accessCode: 'RIGHTCODE',
         sessionId: 1,
         userId: 2,
@@ -124,7 +130,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(candidateAuthorization);
 
       // when
-      const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+      const error = await catchErr(startOrResumeCertification)({
         accessCode: 'RIGHTCODE',
         sessionId: 1,
         userId: 2,
@@ -160,7 +166,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       assessmentSheetRepository.update.resolves();
 
       // when
-      const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+      const error = await catchErr(startOrResumeCertification)({
         accessCode: 'RIGHTCODE',
         sessionId: 1,
         userId: 2,
@@ -195,25 +201,22 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         .hasACertification({ certificationId: 3, hasExceededCertificationDuration: false })
         .build();
       candidateAuthorizationAdapter.find.withArgs({ userId: 2, sessionId: 1 }).resolves(candidateAuthorization);
-      const candidate = domainBuilder.certification.evaluation.buildCandidate({
-        id: 4,
-        accessibilityAdjustmentNeeded: true,
-      });
-      candidateRepository.findByUserIdAndSessionId.withArgs({ userId: 2, sessionId: 1 }).resolves(candidate);
-      versionApi.getByFrameworkAndDate
-        .withArgs({ framework: Frameworks.CORE, date: new Date('2022-02-02') })
-        .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
-      const certificationCourse = domainBuilder.buildCertificationCourse({ id: 3 });
-      certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+      const expectedCertificationCourseInfo = domainBuilder.certification.evaluation
+        .certificationCourseInfoBuilder()
+        .withNbChallenges(99)
+        .asAdjustedForAccessibility()
+        .withParameters({ id: 3, candidateId: 4 })
+        .build();
+      certificationCourseInfoRepository.findByUserIdAndSessionId
         .withArgs({
           userId: 2,
           sessionId: 1,
         })
-        .resolves(certificationCourse);
+        .resolves(expectedCertificationCourseInfo);
       sessionAdapter.onCertificationStartedOrResumed.resolves();
 
       // when
-      const result = await retrieveLastOrCreateCertificationCourse({
+      const result = await startOrResumeCertification({
         accessCode: 'RIGHTCODE',
         sessionId: 1,
         userId: 2,
@@ -225,8 +228,8 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       const expectedCertificationCourse = domainBuilder.buildCertificationCourse({ id: 3 });
       expectedCertificationCourse._isAdjustedForAccessibility = true;
       expectedCertificationCourse._numberOfChallenges = 99;
-      expect(result.created).to.be.false;
-      expect(result.certificationCourse).to.deep.equal(expectedCertificationCourse);
+      expect(result.hasResumed).to.be.true;
+      expect(result.certificationCourseInfo).to.deep.equal(expectedCertificationCourseInfo);
       sinon.assert.calledWith(sessionAdapter.onCertificationStartedOrResumed, {
         candidateId: 4,
         certificationId: 3,
@@ -250,7 +253,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       versionApi.getByFrameworkAndDate
         .withArgs({ framework: Frameworks.CORE, date: new Date('2022-02-02') })
         .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
-      certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+      certificationCourseInfoRepository.findByUserIdAndSessionId
         .withArgs({
           userId: 2,
           sessionId: 1,
@@ -258,7 +261,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         .resolves(null);
 
       // when
-      const err = await catchErr(retrieveLastOrCreateCertificationCourse)({
+      const err = await catchErr(startOrResumeCertification)({
         accessCode: 'RIGHTCODE',
         sessionId: 1,
         userId: 2,
@@ -292,7 +295,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       versionApi.getByFrameworkAndDate
         .withArgs({ framework: Frameworks.CORE, date: new Date('2022-02-02') })
         .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
-      certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+      certificationCourseInfoRepository.findByUserIdAndSessionId
         .withArgs({
           userId: 2,
           sessionId: 1,
@@ -300,15 +303,21 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         .resolves(null);
       const savedCertificationCourse = domainBuilder.buildCertificationCourse({
         id: 10,
-        isAdjustedForAccessibility: true,
       });
       certificationCourseRepository.save.resolves(savedCertificationCourse);
       const savedAssessment = domainBuilder.buildAssessment({ id: 11 });
       assessmentRepository.save.resolves(savedAssessment);
       sessionAdapter.onCertificationStartedOrResumed.resolves();
+      const expectedCertificationCourseInfo = domainBuilder.certification.evaluation
+        .certificationCourseInfoBuilder()
+        .withNbChallenges(99)
+        .asAdjustedForAccessibility()
+        .withParameters({ id: 10, candidateId: 4 })
+        .build();
+      certificationCourseInfoRepository.find.withArgs(10).resolves(expectedCertificationCourseInfo);
 
       // when
-      const result = await retrieveLastOrCreateCertificationCourse({
+      const result = await startOrResumeCertification({
         accessCode: 'RIGHTCODE',
         sessionId: 1,
         userId: 2,
@@ -317,12 +326,8 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
       });
 
       // then
-      expect(result.created).to.be.true;
-      sinon.assert.match(result.certificationCourse, {
-        _id: 10,
-        _numberOfChallenges: 99,
-        _assessment: savedAssessment,
-      });
+      expect(result.hasResumed).to.be.false;
+      expect(result.certificationCourseInfo).to.deep.equal(expectedCertificationCourseInfo);
       sinon.assert.calledWith(sessionAdapter.onCertificationStartedOrResumed, {
         candidateId: 4,
         certificationId: 10,
@@ -367,7 +372,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         versionApi.getByFrameworkAndDate
           .withArgs({ framework: Frameworks.CLEA, date: new Date('2022-02-02') })
           .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
-        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+        certificationCourseInfoRepository.findByUserIdAndSessionId
           .withArgs({
             userId: 2,
             sessionId: 1,
@@ -375,16 +380,22 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
           .resolves(null);
         const savedCertificationCourse = domainBuilder.buildCertificationCourse({
           id: 10,
-          isAdjustedForAccessibility: true,
         });
         certificationCourseRepository.save.resolves(savedCertificationCourse);
         const savedAssessment = domainBuilder.buildAssessment({ id: 11 });
         assessmentRepository.save.resolves(savedAssessment);
         sessionAdapter.onCertificationStartedOrResumed.resolves();
         certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 2 }).resolves([]);
+        const expectedCertificationCourseInfo = domainBuilder.certification.evaluation
+          .certificationCourseInfoBuilder()
+          .withNbChallenges(99)
+          .asAdjustedForAccessibility()
+          .withParameters({ id: 10, candidateId: 4 })
+          .build();
+        certificationCourseInfoRepository.find.withArgs(10).resolves(expectedCertificationCourseInfo);
 
         // when
-        const result = await retrieveLastOrCreateCertificationCourse({
+        const result = await startOrResumeCertification({
           accessCode: 'RIGHTCODE',
           sessionId: 1,
           userId: 2,
@@ -393,12 +404,8 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         });
 
         // then
-        expect(result.created).to.be.true;
-        sinon.assert.match(result.certificationCourse, {
-          _id: 10,
-          _numberOfChallenges: 99,
-          _assessment: savedAssessment,
-        });
+        expect(result.hasResumed).to.be.false;
+        expect(result.certificationCourseInfo).to.deep.equal(expectedCertificationCourseInfo);
         sinon.assert.calledWith(sessionAdapter.onCertificationStartedOrResumed, {
           candidateId: 4,
           certificationId: 10,
@@ -442,7 +449,7 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         versionApi.getByFrameworkAndDate
           .withArgs({ framework: Frameworks.CLEA, date: new Date('2022-02-02') })
           .resolves({ id: 5, challengesConfiguration: { maximumAssessmentLength: 99 } });
-        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+        certificationCourseInfoRepository.findByUserIdAndSessionId
           .withArgs({
             userId: 2,
             sessionId: 1,
@@ -450,7 +457,6 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
           .resolves(null);
         const savedCertificationCourse = domainBuilder.buildCertificationCourse({
           id: 10,
-          isAdjustedForAccessibility: true,
         });
         certificationCourseRepository.save.resolves(savedCertificationCourse);
         const savedAssessment = domainBuilder.buildAssessment({ id: 11 });
@@ -463,9 +469,16 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
             complementaryCertificationKey: Frameworks.CLEA,
           },
         ]);
+        const expectedCertificationCourseInfo = domainBuilder.certification.evaluation
+          .certificationCourseInfoBuilder()
+          .withNbChallenges(99)
+          .asAdjustedForAccessibility()
+          .withParameters({ id: 10, candidateId: 4 })
+          .build();
+        certificationCourseInfoRepository.find.withArgs(10).resolves(expectedCertificationCourseInfo);
 
         // when
-        const result = await retrieveLastOrCreateCertificationCourse({
+        const result = await startOrResumeCertification({
           accessCode: 'RIGHTCODE',
           sessionId: 1,
           userId: 2,
@@ -474,12 +487,8 @@ describe('Certification | Evaluation | Unit | UseCase | retrieve-last-or-create-
         });
 
         // then
-        expect(result.created).to.be.true;
-        sinon.assert.match(result.certificationCourse, {
-          _id: 10,
-          _numberOfChallenges: 99,
-          _assessment: savedAssessment,
-        });
+        expect(result.hasResumed).to.be.false;
+        expect(result.certificationCourseInfo).to.deep.equal(expectedCertificationCourseInfo);
         sinon.assert.calledWith(sessionAdapter.onCertificationStartedOrResumed, {
           candidateId: 4,
           certificationId: 10,
