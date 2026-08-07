@@ -40,9 +40,9 @@ import publishSessionWithValidatedCertification from '../tools/publish-session-w
  *   - I have previously obtained a certif CLEA with ~350 pix
  */
 export class CleaV3Seed {
-  constructor({ databaseBuilder, datawarehouseKnex }) {
+  constructor({ databaseBuilder, datamartKnex }) {
     this.databaseBuilder = databaseBuilder;
-    this.datawarehouseKnex = datawarehouseKnex;
+    this.datamartKnex = datamartKnex;
   }
 
   async create() {
@@ -62,20 +62,32 @@ export class CleaV3Seed {
      * Session with candidat ready to start his certification
      */
     await this.#initCertificationReferentials();
-    const sessionReadyToStart = await this.#addReadyToStartSession({ certificationCenterMember, certificationCenter });
+    const sessionReadyToStart = await this.#addReadyToStartSession({
+      certificationCenterMember,
+      certificationCenter,
+    });
 
     for (const user of certifiableUsers) {
-      await this.#addCandidateToSession({ pixAppUser: user, session: sessionReadyToStart });
+      await this.#addCandidateToSession({
+        pixAppUser: user,
+        session: sessionReadyToStart,
+      });
     }
 
     /**
      * Session with a published certification
      */
-    const sessionToPublish = await this.#addSessionToPublish({ certificationCenterMember, certificationCenter });
+    const sessionToPublish = await this.#addSessionToPublish({
+      certificationCenterMember,
+      certificationCenter,
+    });
 
     const candidatesToPublish = [];
     for (const user of certifiableUsers) {
-      const candidate = await this.#addCandidateToSession({ pixAppUser: user, session: sessionToPublish });
+      const candidate = await this.#addCandidateToSession({
+        pixAppUser: user,
+        session: sessionToPublish,
+      });
       candidatesToPublish.push(candidate);
     }
 
@@ -90,7 +102,7 @@ export class CleaV3Seed {
   async #initCertificationReferentials() {
     await CommonCertificationVersions.initCoreVersions({
       databaseBuilder: this.databaseBuilder,
-      datawarehouseKnex: this.datawarehouseKnex,
+      datamartKnex: this.datamartKnex,
     });
   }
 
@@ -133,7 +145,9 @@ export class CleaV3Seed {
   }
 
   async #addCertifiableUsers() {
-    const { certifiableUsers } = await CommonCertifiableUser.getInstance({ databaseBuilder: this.databaseBuilder });
+    const { certifiableUsers } = await CommonCertifiableUser.getInstance({
+      databaseBuilder: this.databaseBuilder,
+    });
     return certifiableUsers;
   }
 
@@ -213,6 +227,8 @@ export class CleaV3Seed {
       normalizeStringFnc: normalize,
     });
 
-    return enrolmentUseCases.getCandidate({ certificationCandidateId: candidateId });
+    return enrolmentUseCases.getCandidate({
+      certificationCandidateId: candidateId,
+    });
   }
 }

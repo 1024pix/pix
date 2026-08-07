@@ -29,9 +29,9 @@ import publishSessionWithValidatedCertification from '../tools/publish-session-w
  *   - I have previously obtained a certif PRO with ~250 pix
  */
 export class ProSeed {
-  constructor({ databaseBuilder, datawarehouseKnex }) {
+  constructor({ databaseBuilder, datamartKnex }) {
     this.databaseBuilder = databaseBuilder;
-    this.datawarehouseKnex = datawarehouseKnex;
+    this.datamartKnex = datamartKnex;
   }
 
   async create() {
@@ -46,20 +46,32 @@ export class ProSeed {
      * Session with candidat ready to start his certification
      */
     await this.#initCertificationReferentials();
-    const sessionReadyToStart = await this.#addReadyToStartSession({ certificationCenterMember, certificationCenter });
+    const sessionReadyToStart = await this.#addReadyToStartSession({
+      certificationCenterMember,
+      certificationCenter,
+    });
 
     for (const certifiableUser of certifiableUsers) {
-      await this.#addCandidateToSession({ pixAppUser: certifiableUser, session: sessionReadyToStart });
+      await this.#addCandidateToSession({
+        pixAppUser: certifiableUser,
+        session: sessionReadyToStart,
+      });
     }
 
     /**
      * Session with a published certification
      */
-    const sessionToPublish = await this.#addSessionToPublish({ certificationCenterMember, certificationCenter });
+    const sessionToPublish = await this.#addSessionToPublish({
+      certificationCenterMember,
+      certificationCenter,
+    });
 
     const candidatesToPublish = [];
     for (const user of certifiableUsers) {
-      const candidate = await this.#addCandidateToSession({ pixAppUser: user, session: sessionToPublish });
+      const candidate = await this.#addCandidateToSession({
+        pixAppUser: user,
+        session: sessionToPublish,
+      });
       candidatesToPublish.push(candidate);
     }
 
@@ -74,7 +86,7 @@ export class ProSeed {
   async #initCertificationReferentials() {
     await CommonCertificationVersions.initCoreVersions({
       databaseBuilder: this.databaseBuilder,
-      datawarehouseKnex: this.datawarehouseKnex,
+      datamartKnex: this.datamartKnex,
     });
   }
 
@@ -107,7 +119,9 @@ export class ProSeed {
   }
 
   async #addCertifiableUsers() {
-    const { certifiableUsers } = await CommonCertifiableUser.getInstance({ databaseBuilder: this.databaseBuilder });
+    const { certifiableUsers } = await CommonCertifiableUser.getInstance({
+      databaseBuilder: this.databaseBuilder,
+    });
     return certifiableUsers;
   }
 
@@ -186,6 +200,8 @@ export class ProSeed {
       })
       .where({ id: candidateId });
 
-    return enrolmentUseCases.getCandidate({ certificationCandidateId: candidateId });
+    return enrolmentUseCases.getCandidate({
+      certificationCandidateId: candidateId,
+    });
   }
 }

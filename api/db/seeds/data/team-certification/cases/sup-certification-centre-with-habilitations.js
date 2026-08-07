@@ -35,9 +35,9 @@ import addSession from '../tools/add-session.js';
  *   - I'm able to start a certification course
  */
 export class SupWithHabilitationsSeed {
-  constructor({ databaseBuilder, datawarehouseKnex }) {
+  constructor({ databaseBuilder, datamartKnex }) {
     this.databaseBuilder = databaseBuilder;
-    this.datawarehouseKnex = datawarehouseKnex;
+    this.datamartKnex = datamartKnex;
   }
 
   async create() {
@@ -91,17 +91,17 @@ export class SupWithHabilitationsSeed {
   async #initCertificationReferentials() {
     await CommonCertificationVersions.initCoreVersions({
       databaseBuilder: this.databaseBuilder,
-      datawarehouseKnex: this.datawarehouseKnex,
+      datamartKnex: this.datamartKnex,
     });
 
     await CommonCertificationVersions.initPixPlusDroitVersion({
       databaseBuilder: this.databaseBuilder,
-      datawarehouseKnex: this.datawarehouseKnex,
+      datamartKnex: this.datamartKnex,
     });
 
     await CommonCertificationVersions.initPixPlusEdu1erDegreVersion({
       databaseBuilder: this.databaseBuilder,
-      datawarehouseKnex: this.datawarehouseKnex,
+      datamartKnex: this.datamartKnex,
     });
   }
 
@@ -142,7 +142,9 @@ export class SupWithHabilitationsSeed {
   }
 
   async #addCertifiableUsers() {
-    const { certifiableUsers } = await CommonCertifiableUser.getInstance({ databaseBuilder: this.databaseBuilder });
+    const { certifiableUsers } = await CommonCertifiableUser.getInstance({
+      databaseBuilder: this.databaseBuilder,
+    });
     return certifiableUsers;
   }
 
@@ -211,6 +213,8 @@ export class SupWithHabilitationsSeed {
       normalizeStringFnc: normalize,
     });
 
-    return enrolmentUseCases.getCandidate({ certificationCandidateId: candidateId });
+    return enrolmentUseCases.getCandidate({
+      certificationCandidateId: candidateId,
+    });
   }
 }

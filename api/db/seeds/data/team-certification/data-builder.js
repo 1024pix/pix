@@ -9,19 +9,19 @@ import { SupWithHabilitationsSeed } from './cases/sup-certification-centre-with-
 import { setupConfigurations } from './shared/setup-configuration.js';
 import { UnseedableError } from './shared/UnseedableError.js';
 
-export async function teamCertificationDataBuilder({ databaseBuilder, datawarehouseKnex }) {
+export async function teamCertificationDataBuilder({ databaseBuilder, datamartKnex }) {
   try {
     // Pix platform configuration
     await setupConfigurations({ databaseBuilder });
 
     // Cases
-    await new SupWithHabilitationsSeed({ databaseBuilder, datawarehouseKnex }).create();
-    await new ProSeed({ databaseBuilder, datawarehouseKnex }).create();
-    await new ScoManagingStudent({ databaseBuilder, datawarehouseKnex }).create();
-    await new CleaV3Seed({ databaseBuilder, datawarehouseKnex }).create();
-    await new PixPlusDroitV2Seed({ databaseBuilder, datawarehouseKnex }).create();
-    await new PixPlusDroitV3Seed({ databaseBuilder, datawarehouseKnex }).create();
-    await new PixPlusEdu2ndDegreV3Seed({ databaseBuilder, datawarehouseKnex }).create();
+    await new SupWithHabilitationsSeed({ databaseBuilder, datamartKnex }).create();
+    await new ProSeed({ databaseBuilder, datamartKnex }).create();
+    await new ScoManagingStudent({ databaseBuilder, datamartKnex }).create();
+    await new CleaV3Seed({ databaseBuilder, datamartKnex }).create();
+    await new PixPlusDroitV2Seed({ databaseBuilder, datamartKnex }).create();
+    await new PixPlusDroitV3Seed({ databaseBuilder, datamartKnex }).create();
+    await new PixPlusEdu2ndDegreV3Seed({ databaseBuilder, datamartKnex }).create();
   } catch (error) {
     if (error instanceof UnseedableError) {
       logger.warn(error, 'Certification seeding is only minimal/partial');

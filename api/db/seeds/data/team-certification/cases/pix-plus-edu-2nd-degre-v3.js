@@ -13,9 +13,9 @@ import {
 } from '../shared/constants.js';
 
 export class PixPlusEdu2ndDegreV3Seed {
-  constructor({ databaseBuilder, datawarehouseKnex }) {
+  constructor({ databaseBuilder, datamartKnex }) {
     this.databaseBuilder = databaseBuilder;
-    this.datawarehouseKnex = datawarehouseKnex;
+    this.datamartKnex = datamartKnex;
   }
 
   async create() {
@@ -31,7 +31,7 @@ export class PixPlusEdu2ndDegreV3Seed {
 
     await CommonCertificationVersions.initPixPlusEdu2ndDegreVersion({
       databaseBuilder: this.databaseBuilder,
-      datawarehouseKnex: this.datawarehouseKnex,
+      datamartKnex: this.datamartKnex,
     });
 
     const versionId = CommonCertificationVersions.pixPlusEdu2ndDegreVersion.currentVersionId;

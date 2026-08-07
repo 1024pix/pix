@@ -24,20 +24,20 @@ export class CommonCertificationVersions {
   /**
    * @param {Object} params
    * @param {Knex} params.databaseBuilder
-   * @param {Knex} params.datawarehouseKnex
+   * @param {Knex} params.datamartKnex
    */
-  constructor({ databaseBuilder, datawarehouseKnex }) {
+  constructor({ databaseBuilder, datamartKnex }) {
     this.databaseBuilder = databaseBuilder;
-    this.datawarehouseKnex = datawarehouseKnex;
+    this.datamartKnex = datamartKnex;
   }
 
   /**
    * @param {Object} params
    * @param {Knex} params.databaseBuilder
-   * @param {Knex} params.datawarehouseKnex
+   * @param {Knex} params.datamartKnex
    * @returns {Promise<void>}
    */
-  static async initCoreVersions({ databaseBuilder, datawarehouseKnex }) {
+  static async initCoreVersions({ databaseBuilder, datamartKnex }) {
     try {
       if (!this.coreVersion) {
         this.coreVersion = {};
@@ -54,7 +54,7 @@ export class CommonCertificationVersions {
         });
         await buildDataCalibrationForVersion({
           knex: databaseBuilder.knex,
-          datawarehouseKnex,
+          datamartKnex,
           versionId: this.coreVersion.currentVersionId,
           scope: CALIBRATION_SCOPES.COEUR,
           status: CALIBRATION_STATUSES.VALIDATED,
@@ -75,7 +75,7 @@ export class CommonCertificationVersions {
    * @param {Knex} params.datawarehouseKnex
    * @returns {Promise<void>}
    */
-  static async initPixPlusDroitVersion({ databaseBuilder, datawarehouseKnex }) {
+  static async initPixPlusDroitVersion({ databaseBuilder, datamartKnex }) {
     try {
       if (!this.pixPlusDroitVersion) {
         this.pixPlusDroitVersion = {};
@@ -101,13 +101,20 @@ export class CommonCertificationVersions {
           ],
           competencesScoringConfiguration: null,
         });
-        await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+        await seedVersionChallengesAndTubes({
+          databaseBuilder,
+          challengeIds,
+          versionId: currentVersion.id,
+        });
 
-        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
+        await this.#simulateCalibration({
+          databaseBuilder,
+          versionId: currentVersion.id,
+        });
         this.pixPlusDroitVersion.currentVersionId = currentVersion.id;
         await buildDataCalibrationForVersion({
           knex: databaseBuilder.knex,
-          datawarehouseKnex,
+          datamartKnex,
           versionId: currentVersion.id,
           scope: CALIBRATION_SCOPES.DROIT,
           status: CALIBRATION_STATUSES.VALIDATED,
@@ -125,10 +132,10 @@ export class CommonCertificationVersions {
   /**
    * @param {Object} params
    * @param {Knex} params.databaseBuilder
-   * @param {Knex} params.datawarehouseKnex
+   * @param {Knex} params.datamartKnex
    * @returns {Promise<void>}
    */
-  static async initPixPlusEdu1erDegreVersion({ databaseBuilder, datawarehouseKnex }) {
+  static async initPixPlusEdu1erDegreVersion({ databaseBuilder, datamartKnex }) {
     try {
       if (!this.pixPlusEdu1erDegreVersion) {
         this.pixPlusEdu1erDegreVersion = {};
@@ -150,14 +157,21 @@ export class CommonCertificationVersions {
           competencesScoringConfiguration: null,
         });
 
-        await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+        await seedVersionChallengesAndTubes({
+          databaseBuilder,
+          challengeIds,
+          versionId: currentVersion.id,
+        });
 
-        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
+        await this.#simulateCalibration({
+          databaseBuilder,
+          versionId: currentVersion.id,
+        });
 
         this.pixPlusEdu1erDegreVersion.currentVersionId = currentVersion.id;
         await buildDataCalibrationForVersion({
           knex: databaseBuilder.knex,
-          datawarehouseKnex,
+          datamartKnex,
           versionId: currentVersion.id,
           scope: CALIBRATION_SCOPES.EDU_1ER_DEGRE,
           status: CALIBRATION_STATUSES.VALIDATED,
@@ -175,10 +189,10 @@ export class CommonCertificationVersions {
   /**
    * @param {Object} params
    * @param {Knex} params.databaseBuilder
-   * @param {Knex} params.datawarehouseKnex
+   * @param {Knex} params.datamartKnex
    * @returns {Promise<void>}
    */
-  static async initPixPlusEdu2ndDegreVersion({ databaseBuilder, datawarehouseKnex }) {
+  static async initPixPlusEdu2ndDegreVersion({ databaseBuilder, datamartKnex }) {
     try {
       if (!this.pixPlusEdu2ndDegreVersion) {
         this.pixPlusEdu2ndDegreVersion = {};
@@ -199,14 +213,21 @@ export class CommonCertificationVersions {
           competencesScoringConfiguration: null,
         });
 
-        await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+        await seedVersionChallengesAndTubes({
+          databaseBuilder,
+          challengeIds,
+          versionId: currentVersion.id,
+        });
 
-        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
+        await this.#simulateCalibration({
+          databaseBuilder,
+          versionId: currentVersion.id,
+        });
 
         this.pixPlusEdu2ndDegreVersion.currentVersionId = currentVersion.id;
         await buildDataCalibrationForVersion({
           knex: databaseBuilder.knex,
-          datawarehouseKnex,
+          datamartKnex,
           versionId: currentVersion.id,
           scope: CALIBRATION_SCOPES.EDU_2ND_DEGRE,
           status: CALIBRATION_STATUSES.VALIDATED,
@@ -316,7 +337,11 @@ export class CommonCertificationVersions {
       globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
       competencesScoringConfiguration: null,
     });
-    await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: expiredVersion.id });
+    await seedVersionChallengesAndTubes({
+      databaseBuilder,
+      challengeIds,
+      versionId: expiredVersion.id,
+    });
 
     await databaseBuilder.commit();
 
@@ -363,9 +388,16 @@ export class CommonCertificationVersions {
       globalScoringConfiguration: GLOBAL_SCORING_CONFIGURATION,
       competencesScoringConfiguration,
     });
-    await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+    await seedVersionChallengesAndTubes({
+      databaseBuilder,
+      challengeIds,
+      versionId: currentVersion.id,
+    });
 
-    await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
+    await this.#simulateCalibration({
+      databaseBuilder,
+      versionId: currentVersion.id,
+    });
 
     return currentVersion.id;
   }
