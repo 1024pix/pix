@@ -1198,7 +1198,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await click(screen.getByRole('button', { name: 'Se connecter' }));
 
               // then
-              assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+              assert.strictEqual(
+                currentURL(),
+                `/mise-a-jour-mot-de-passe-expire?passwordResetToken=${userShouldChangePassword.id}`,
+              );
 
               // when
               await fillIn(screen.getByLabelText('Mot de passe', { exact: false }), 'newPass12345!');

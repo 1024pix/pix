@@ -14,14 +14,8 @@ module('Unit | Controller | account-recovery | update-sco-record', function (hoo
         const password = 'Password123';
         const temporaryKey = 'temporaryKey';
 
-        const updateDemand = {
-          update: sinon.stub().resolves(),
-        };
-
-        const storeStub = {
-          createRecord: sinon.stub(),
-        };
-        storeStub.createRecord.withArgs('account-recovery-demand', { temporaryKey, password }).returns(updateDemand);
+        const accountRecoveryDemandService = this.owner.lookup('service:account-recovery-demand');
+        accountRecoveryDemandService.update = sinon.stub().resolves();
 
         const sessionStub = Service.create({
           authenticate: sinon.stub(),
@@ -32,13 +26,12 @@ module('Unit | Controller | account-recovery | update-sco-record', function (hoo
         const controller = this.owner.lookup('controller:account-recovery/update-sco-record');
         controller.model = { email, temporaryKey };
         controller.session = sessionStub;
-        controller.store = storeStub;
 
         // when
         await controller.updateRecord(password);
 
         // then
-        sinon.assert.called(updateDemand.update);
+        sinon.assert.calledWith(accountRecoveryDemandService.update, { temporaryKey, password });
         sinon.assert.called(controller.session.invalidate);
         sinon.assert.calledWith(controller.session.authenticate, 'authenticator:oauth2', {
           login: email,
@@ -55,14 +48,8 @@ module('Unit | Controller | account-recovery | update-sco-record', function (hoo
         const password = 'Password123';
         const temporaryKey = 'temporaryKey';
 
-        const updateDemand = {
-          update: sinon.stub().resolves(),
-        };
-
-        const storeStub = {
-          createRecord: sinon.stub(),
-        };
-        storeStub.createRecord.withArgs('account-recovery-demand', { temporaryKey, password }).returns(updateDemand);
+        const accountRecoveryDemandService = this.owner.lookup('service:account-recovery-demand');
+        accountRecoveryDemandService.update = sinon.stub().resolves();
 
         const sessionStub = Service.create({
           authenticate: sinon.stub(),
@@ -73,13 +60,12 @@ module('Unit | Controller | account-recovery | update-sco-record', function (hoo
         const controller = this.owner.lookup('controller:account-recovery/update-sco-record');
         controller.model = { email, temporaryKey };
         controller.session = sessionStub;
-        controller.store = storeStub;
 
         // when
         await controller.updateRecord(password);
 
         // then
-        sinon.assert.called(updateDemand.update);
+        sinon.assert.calledWith(accountRecoveryDemandService.update, { temporaryKey, password });
         sinon.assert.notCalled(controller.session.invalidate);
         sinon.assert.calledWith(controller.session.authenticate, 'authenticator:oauth2', {
           login: email,

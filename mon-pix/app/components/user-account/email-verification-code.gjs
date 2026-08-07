@@ -15,6 +15,7 @@ export default class EmailVerificationCode extends Component {
 
   @service currentUser;
   @service store;
+  @service emailVerificationCode;
   @service intl;
   @service pixToast;
   @tracked showResendCode = false;
@@ -40,17 +41,16 @@ export default class EmailVerificationCode extends Component {
   async resendVerificationCodeByEmail() {
     this.isResending = true;
     try {
-      const emailVerificationCode = this.store.createRecord('email-verification-code', {
+      await this.emailVerificationCode.sendNewEmail({
         password: this.args.password,
         newEmail: this.args.email.trim().toLowerCase(),
         action: this.args.action,
       });
-      await emailVerificationCode.sendNewEmail();
       this.isEmailSent = true;
       this.code = null;
     } finally {
-      this.isResending = false;
       setTimeout(() => {
+        this.isResending = false;
         this.isEmailSent = false;
       }, ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
     }
@@ -66,12 +66,8 @@ export default class EmailVerificationCode extends Component {
     }
     const code = this.code;
     this.code = null;
-    const emailVerificationCode = this.store.createRecord('email-verification-code', {
-      code,
-      action: this.args.action,
-    });
     try {
-      const email = await emailVerificationCode.verifyCode();
+      const email = await this.emailVerificationCode.verifyCode({ code, action: this.args.action });
       if (this.args.action === 'add-email') {
         await this._reloadAccountData();
         this.pixToast.sendSuccessNotification({

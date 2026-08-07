@@ -67,10 +67,10 @@ module('Integration | Component | user-account | add-email-with-validation-form'
   });
 
   module('when the user submits new email and password', function (hooks) {
-    let store;
+    let emailVerificationCode;
 
     hooks.beforeEach(function () {
-      store = this.owner.lookup('service:store');
+      emailVerificationCode = this.owner.lookup('service:email-verification-code');
     });
 
     test('calls the show verification code method only once', async function (assert) {
@@ -78,7 +78,7 @@ module('Integration | Component | user-account | add-email-with-validation-form'
       const email = 'email@example.net';
       const password = 'Password123';
       const showVerificationCode = sinon.stub();
-      store.createRecord = () => ({ sendNewEmail: sinon.stub() });
+      emailVerificationCode.sendNewEmail = sinon.stub();
 
       const screen = await render(
         <template><AddEmailWithValidationForm @showVerificationCode={{showVerificationCode}} /></template>,
@@ -88,7 +88,7 @@ module('Integration | Component | user-account | add-email-with-validation-form'
       await _fillInputsAndValidateNewEmail({ screen, t, email: email, password });
 
       // then
-      sinon.assert.calledOnce(showVerificationCode);
+      sinon.assert.calledOnce(emailVerificationCode.sendNewEmail);
       assert.ok(true);
     });
 
@@ -96,9 +96,7 @@ module('Integration | Component | user-account | add-email-with-validation-form'
       // given
       const email = 'email@example.net';
       const password = 'Password123';
-      store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws({ errors: [{ status: '400' }] }),
-      });
+      emailVerificationCode.sendNewEmail = sinon.stub().throws({ errors: [{ status: '400' }] });
 
       const screen = await render(<template><AddEmailWithValidationForm /></template>);
 
@@ -117,9 +115,9 @@ module('Integration | Component | user-account | add-email-with-validation-form'
       // given
       const email = 'email@example.net';
       const password = 'Password123';
-      store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws({ errors: [{ status: '422', source: { pointer: 'attributes/email' } }] }),
-      });
+      emailVerificationCode.sendNewEmail = sinon
+        .stub()
+        .throws({ errors: [{ status: '422', source: { pointer: 'attributes/email' } }] });
 
       const screen = await render(<template><AddEmailWithValidationForm /></template>);
 
@@ -140,9 +138,9 @@ module('Integration | Component | user-account | add-email-with-validation-form'
       // given
       const email = 'email@example.net';
       const password = 'Password123';
-      store.createRecord = () => ({
-        sendNewEmail: sinon.stub().throws({ errors: [{ status: '422', source: { pointer: 'attributes/password' } }] }),
-      });
+      emailVerificationCode.sendNewEmail = sinon
+        .stub()
+        .throws({ errors: [{ status: '422', source: { pointer: 'attributes/password' } }] });
 
       const screen = await render(<template><AddEmailWithValidationForm /></template>);
 

@@ -91,8 +91,7 @@ export default class LoginForm extends Component {
   }
 
   async _updateExpiredPassword(passwordResetToken) {
-    this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
-    return this.router.replaceWith('update-expired-password');
+    this.router.replaceWith('update-expired-password', { queryParams: { passwordResetToken } });
   }
 
   <template>

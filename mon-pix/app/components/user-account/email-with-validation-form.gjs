@@ -26,7 +26,7 @@ const ERROR_INPUT_MESSAGE_MAP = {
 
 export default class EmailWithValidationForm extends Component {
   @service intl;
-  @service store;
+  @service emailVerificationCode;
   @tracked newEmail = '';
   @tracked password = '';
   @tracked newEmailValidationMessage = null;
@@ -64,12 +64,11 @@ export default class EmailWithValidationForm extends Component {
         if (!this.hasRequestedUpdate) {
           this.hasRequestedUpdate = true;
 
-          const emailVerificationCode = this.store.createRecord('email-verification-code', {
+          await this.emailVerificationCode.sendNewEmail({
             password: this.password,
             newEmail: this.newEmail,
             action: 'update-email',
           });
-          await emailVerificationCode.sendNewEmail();
 
           this.args.showVerificationCode({ newEmail: this.newEmail, password: this.password });
         }

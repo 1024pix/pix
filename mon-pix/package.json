@@ -40,7 +40,6 @@
     "test:watch": "ember exam --serve --reporter dot"
   },
   "devDependencies": {
-    "@1024pix/ember-api-actions": "^1.1.0",
     "@1024pix/ember-testing-library": "^3.0.41",
     "@1024pix/epreuves-components": "^4.13.0",
     "@1024pix/eslint-plugin": "^2.1.21",

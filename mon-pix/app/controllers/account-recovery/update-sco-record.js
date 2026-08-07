@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class UpdateScoRecordController extends Controller {
   @service intl;
   @service session;
-  @service store;
+  @service accountRecoveryDemand;
 
   @tracked errorMessage = this.model.errorMessage;
   @tracked showRenewLink = this.model.showRenewLink;
@@ -16,13 +16,9 @@ export default class UpdateScoRecordController extends Controller {
 
   @action
   async updateRecord(password) {
-    const updateDemand = this.store.createRecord('account-recovery-demand', {
-      temporaryKey: this.model.temporaryKey,
-      password,
-    });
     try {
       this.isLoading = true;
-      await updateDemand.update();
+      await this.accountRecoveryDemand.update({ password, temporaryKey: this.model.temporaryKey });
 
       if (this.session.isAuthenticated) {
         await this.session.invalidate();
