@@ -51,7 +51,6 @@ module.exports = function (environment) {
         { value: 'nl-BE', nativeName: 'Nederlands (België)', displayedInSwitcher: true },
       ],
       PIX_ASSETS_MANAGER_URL: process.env.PIX_ASSETS_MANAGER_URL,
-      FT_FOCUS_CHALLENGE_ENABLED: _isFeatureEnabled(process.env.FT_FOCUS_CHALLENGE_ENABLED) || false,
       isTimerCountdownEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
@@ -198,7 +197,6 @@ module.exports = function (environment) {
     ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
-    ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
     ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID = 999;
     ENV.APP.AUTO_SHARE_AFTER_DATE = '2025-07-18';
 
