@@ -296,21 +296,21 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Campagne d'évaluation",
-        "CAMPAIGN": "Campagne d'évaluation",
         "COMBINED_COURSE": "Parcours apprenant",
         "EXAM": "Mode interro",
-        "FORMATION": "Formation",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Campagne de collecte de profil"
+        "PROFILES_COLLECTION": "Campagne de collecte de profil",
+        "campaign": "Campagne d'évaluation",
+        "formation": "Formation",
+        "module": "Module"
       },
       "information": {
         "ASSESSMENT": "Évaluation",
-        "CAMPAIGN": "Évaluation",
         "COMBINED_COURSE": "Parcours apprenant",
         "EXAM": "Mode interro",
-        "FORMATION": "Formation",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Collecte de profil"
+        "PROFILES_COLLECTION": "Collecte de profil",
+        "campaign": "Évaluation",
+        "formation": "Formation",
+        "module": "Module"
       }
     },
     "analysis-per-competence": {

@@ -296,21 +296,21 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Campaign of type assessment",
-        "CAMPAIGN": "Campaign of type assessment",
         "COMBINED_COURSE": "Learning program",
         "EXAM": "Exam mode",
-        "FORMATION": "Training",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Campaign of type profiles collection"
+        "PROFILES_COLLECTION": "Campaign of type profiles collection",
+        "campaign": "Campaign of type assessment",
+        "formation": "Training",
+        "module": "Module"
       },
       "information": {
         "ASSESSMENT": "Assessment",
-        "CAMPAIGN": "Assessment",
         "COMBINED_COURSE": "Learning program",
         "EXAM": "Exam mode",
-        "FORMATION": "Training",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Profiles collection"
+        "PROFILES_COLLECTION": "Profiles collection",
+        "campaign": "Assessment",
+        "formation": "Training",
+        "module": "Module"
       }
     },
     "analysis-per-competence": {

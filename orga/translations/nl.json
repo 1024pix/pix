@@ -296,21 +296,21 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Beoordelingscampagne",
-        "CAMPAIGN": "Evaluatiecampagne",
         "COMBINED_COURSE": "Leetraject",
         "EXAM": "Vraagmodus",
-        "FORMATION": "Training",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Campagne profielenverzameling"
+        "PROFILES_COLLECTION": "Campagne profielenverzameling",
+        "campaign": "Evaluatiecampagne",
+        "formation": "Training",
+        "module": "Module"
       },
       "information": {
         "ASSESSMENT": "Beoordeling",
-        "CAMPAIGN": "Beoordeling",
         "COMBINED_COURSE": "Leetraject",
         "EXAM": "Vraagmodus",
-        "FORMATION": "Training",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Profielverzameling"
+        "PROFILES_COLLECTION": "Profielverzameling",
+        "campaign": "Beoordeling",
+        "formation": "Training",
+        "module": "Module"
       }
     },
     "analysis-per-competence": {
