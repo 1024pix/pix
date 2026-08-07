@@ -14,11 +14,10 @@ export default class CertificationReportAdapter extends ApplicationAdapter {
     return url;
   }
 
-  buildURL(modelName, id, snapshot, requestType, query) {
-    if (requestType === 'abort-certification') {
-      return `${this.host}/${this.namespace}/certification-reports/${snapshot.record.certificationCourseId}/abort`;
-    } else {
-      return super.buildURL(modelName, id, snapshot, requestType, query);
-    }
+  abort({ certificationCourseId, reason }) {
+    const data = { reason };
+    const url = `${this.host}/${this.namespace}/certification-reports/${certificationCourseId}/abort`;
+
+    return this.ajax(url, 'POST', { data });
   }
 }
