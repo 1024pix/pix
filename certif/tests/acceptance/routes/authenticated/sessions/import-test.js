@@ -383,15 +383,13 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
-                  );
-                });
-
-                this.server.post('/certification-centers/:id/sessions/confirm-for-mass-import', () => {
-                  return new Response(
-                    200,
-                    {},
-                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3 },
+                    {
+                      sessionsCount: 2,
+                      sessionsWithoutCandidatesCount: 0,
+                      candidatesCount: 3,
+                      cachedValidatedSessionsKey: 'cached-validated-sessions-key',
+                      errorReports: [],
+                    },
                   );
                 });
 
@@ -423,15 +421,13 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
                     return new Response(
                       200,
                       {},
-                      { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 1, errorReports: [] },
-                    );
-                  });
-
-                  this.server.post('/certification-centers/:id/sessions/confirm-for-mass-import', () => {
-                    return new Response(
-                      200,
-                      {},
-                      { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
+                      {
+                        sessionsCount: 1,
+                        sessionsWithoutCandidatesCount: 0,
+                        candidatesCount: 1,
+                        cachedValidatedSessionsKey: 'cached-validated-sessions-key',
+                        errorReports: [],
+                      },
                     );
                   });
 
@@ -474,15 +470,13 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
                     return new Response(
                       200,
                       {},
-                      { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
-                    );
-                  });
-
-                  this.server.post('/certification-centers/:id/sessions/confirm-for-mass-import', () => {
-                    return new Response(
-                      200,
-                      {},
-                      { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
+                      {
+                        sessionsCount: 2,
+                        sessionsWithoutCandidatesCount: 0,
+                        candidatesCount: 3,
+                        cachedValidatedSessionsKey: 'cached-validated-sessions-key',
+                        errorReports: [],
+                      },
                     );
                   });
 
