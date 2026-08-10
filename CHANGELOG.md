@@ -1,5 +1,34 @@
 # Pix Changelog
 
+# [5.477.0](https://github.com/1024pix/pix/compare/v5.476.0...v5.477.0) (2026-08-10)
+
+### :rocket: Amélioration
+
+- [#16879](https://github.com/1024pix/pix/pull/16879) FRI CYVirus_NOV traitement retours panels
+- [#17013](https://github.com/1024pix/pix/pull/17013) Permettre au SuperAdmin de saisir un ID de calibration pour vérifier sa cohérence avec la version en cours de création (PIX-23773)
+
+### :bug: Correction
+
+- [#17092](https://github.com/1024pix/pix/pull/17092) Correction des seeds de certification
+
+### :building_construction: Tech
+
+- [#17100](https://github.com/1024pix/pix/pull/17100) Ajouter la table structures_categories (PIX-23551)
+- [#17085](https://github.com/1024pix/pix/pull/17085) Création d'un read-model dédié pour le candidat lors de son passage de test de certification
+- [#17084](https://github.com/1024pix/pix/pull/17084) Rassemble les route de creation de campagne (PIX-23812)
+- [#17053](https://github.com/1024pix/pix/pull/17053) Refactoring autour du modèle de Session dans le bounded context d'inscription
+- [#17081](https://github.com/1024pix/pix/pull/17081) Réparer les scripts impactés par la migration PgBoss
+- [#17089](https://github.com/1024pix/pix/pull/17089) Suppression du FT des épreuves focus
+- [#17056](https://github.com/1024pix/pix/pull/17056) Supprime ember-api-actions de mon-pix.
+
+### :arrow_up: Montée de version
+
+- [#17094](https://github.com/1024pix/pix/pull/17094) Update dependency @1024pix/pix-ui to ^61.4.1 (admin)
+- [#17095](https://github.com/1024pix/pix/pull/17095) Update dependency @1024pix/pix-ui to ^61.4.1 (certif)
+- [#17096](https://github.com/1024pix/pix/pull/17096) Update dependency @1024pix/pix-ui to ^61.4.1 (junior)
+- [#17097](https://github.com/1024pix/pix/pull/17097) Update dependency @1024pix/pix-ui to ^61.4.1 (mon-pix)
+- [#17098](https://github.com/1024pix/pix/pull/17098) Update dependency webpack to v5.109.2 (junior)
+
 # [5.476.0](https://github.com/1024pix/pix/compare/v5.475.0...v5.476.0) (2026-08-07)
 
 ### :rocket: Amélioration
