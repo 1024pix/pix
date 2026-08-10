@@ -101,7 +101,7 @@
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.3",
     "@hapi/yar": "^11.0.3",
-    "@joi/date": "^2.1.1",
+    "@joi/date": "^3.0.0",
     "@json2csv/node": "^7.0.2",
     "@opentelemetry/api": "^1.9.1",
     "@opentelemetry/api-logs": "^0.220.0",
