@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
+import * as sessionRepository from '../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import pickChallengeService from '../../../../../src/certification/evaluation/domain/services/pick-challenge-service.js';
 import { usecases as evaluationUseCases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { usecases as flashUseCases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
@@ -24,7 +25,7 @@ export default async function publishSessionWithValidatedCertification({
   candidatesIds,
   pixScoreTarget,
 }) {
-  const session = await enrolmentUseCases.getSession({ sessionId });
+  const session = await sessionRepository.get({ id: sessionId });
 
   const version = await knex('certification_versions').where('expirationDate', null).andWhere('scope', 'CORE').first();
 
@@ -33,7 +34,7 @@ export default async function publishSessionWithValidatedCertification({
   for (const candidateId of candidatesIds) {
     const candidate = await enrolmentUseCases.getCandidate({ certificationCandidateId: candidateId });
 
-    const { certificationCourseInfo } = await evaluationUseCases.retrieveLastOrCreateCertificationCourse({
+    const { certificationCourseInfo } = await evaluationUseCases.startOrResumeCertification({
       sessionId,
       accessCode: session.accessCode,
       userId: candidate.userId,
