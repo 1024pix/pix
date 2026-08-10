@@ -266,7 +266,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
     });
   });
 
-  describe('POST /api/admin/certification-versions/{certificationVersionId}/calibration-report', function () {
+  describe('GET /api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report', function () {
     context('when the user authenticated has no role', function () {
       it('should return 403 HTTP status code', async function () {
         // given
@@ -279,11 +279,8 @@ describe('Unit | Certification | Configuration | Application | Router | certific
 
         // when
         const response = await httpTestServer.request(
-          'POST',
-          `/api/admin/certification-versions/1/calibration-report`,
-          {
-            data: { attributes: { calibrationId: 2 } },
-          },
+          'GET',
+          `/api/admin/certification-versions/1/calibrations/2/report`,
         );
 
         // then
@@ -303,11 +300,8 @@ describe('Unit | Certification | Configuration | Application | Router | certific
 
         // when
         const response = await httpTestServer.request(
-          'POST',
-          `/api/admin/certification-versions/NOT_AN_ID/calibration-report`,
-          {
-            data: { attributes: { calibrationId: 2 } },
-          },
+          'GET',
+          `/api/admin/certification-versions/NOT_AN_ID/calibrations/2/report`,
         );
 
         // then
@@ -325,11 +319,8 @@ describe('Unit | Certification | Configuration | Application | Router | certific
 
         // when
         const response = await httpTestServer.request(
-          'POST',
-          `/api/admin/certification-versions/1/calibration-report`,
-          {
-            data: { attributes: { calibrationId: 'coucou' } },
-          },
+          'GET',
+          `/api/admin/certification-versions/1/calibrations/coucou/report`,
         );
 
         // then
@@ -347,10 +338,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', `/api/admin/certification-versions/1/calibration-report`, {
-        data: { attributes: { calibrationId: 2 } },
-      });
-
+      const response = await httpTestServer.request('GET', `/api/admin/certification-versions/1/calibrations/2/report`);
       // then
       expect(response.statusCode).to.equal(200);
       sinon.assert.called(certificationVersionController.generateCalibrationReport);

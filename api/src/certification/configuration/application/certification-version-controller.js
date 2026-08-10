@@ -57,8 +57,7 @@ async function createDraft(request, h) {
 }
 
 async function generateCalibrationReport(request, h) {
-  const versionId = request.params.certificationVersionId;
-  const { calibrationId } = request.payload.data.attributes;
+  const { certificationVersionId: versionId, calibrationId } = request.params;
   const report = await usecases.generateCalibrationReportCheck({ versionId, calibrationId });
   return h.response(calibrationReportSerializer.serialize(report)).code(200);
 }

@@ -63,16 +63,13 @@ export default class CalibrationForm extends Component {
   @action
   async onGenerateReport(event) {
     event.preventDefault();
-    const report = this.store.createRecord('calibration-report');
+    let report;
     try {
-      await report.save({
-        adapterOptions: {
-          calibrationId: this.calibrationId,
-          versionId: this.args.draftVersion.id,
-        },
+      report = await this.store.queryRecord('calibration-report', {
+        calibrationId: this.calibrationId,
+        versionId: this.args.draftVersion.id,
       });
     } catch (error) {
-      report.deleteRecord();
       this.pixToast.sendErrorNotification({ message: error.errors?.[0].detail });
       return;
     }
