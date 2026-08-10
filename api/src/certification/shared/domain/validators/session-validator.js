@@ -1,4 +1,4 @@
-import JoiDate from '@joi/date';
+import { JoiDate } from '@joi/date';
 import BaseJoi from 'joi';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';

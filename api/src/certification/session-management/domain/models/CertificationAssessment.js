@@ -2,7 +2,7 @@
  * @typedef {import('../../../shared/domain/models/CertificationChallengeWithType.js').CertificationChallengeWithType} CertificationChallengeWithType
  * @typedef {import('../../../shared/domain/models/CertificationAnswer.js').CertificationAnswer} CertificationAnswer
  */
-import JoiDate from '@joi/date';
+import { JoiDate } from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
