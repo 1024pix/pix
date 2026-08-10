@@ -359,6 +359,16 @@ function routes() {
     return new Response(200);
   });
 
+  this.post('/certification-centers/:id/sessions/confirm-for-mass-import', (schema, request) => {
+    const { cachedValidatedSessionsKey } = JSON.parse(request.requestBody).data.attributes;
+
+    if (!cachedValidatedSessionsKey) {
+      return new Response(400, {}, { errors: [{ status: '400', title: 'Bad Request' }] });
+    }
+
+    return new Response(200);
+  });
+
   this.post('/users', (schema, request) => {
     const requestBody = JSON.parse(request.requestBody);
     const attributes = requestBody.data.attributes;

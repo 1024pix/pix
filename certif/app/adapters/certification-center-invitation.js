@@ -30,4 +30,20 @@ export default class CertificationCenterInvitationAdapter extends ApplicationAda
 
     return this.ajax(url, 'POST', { data });
   }
+
+  accept({ id, code, email }) {
+    const data = {
+      data: {
+        id,
+        type: 'certification-center-invitations-accept',
+        attributes: {
+          code,
+          email,
+        },
+      },
+    };
+    const url = `${this.host}/${this.namespace}/certification-center-invitations/${id}/accept`;
+
+    return this.ajax(url, 'POST', { data });
+  }
 }

@@ -6,21 +6,32 @@ export default class SessionSupervisingController extends Controller {
   @service session;
   @service pixToast;
   @service fileSaver;
+  @service store;
 
   @action
   async toggleCandidate(candidate) {
-    const authorizedToStart = !candidate.authorizedToStart;
-    await candidate.updateAuthorizedToStart(authorizedToStart);
+    candidate.authorizedToStart = !candidate.authorizedToStart;
+    try {
+      await this.store
+        .adapterFor('certification-candidate-for-supervising')
+        .updateAuthorizedToStart({ candidateId: candidate.id, authorizedToStart: candidate.authorizedToStart });
+    } catch {
+      candidate.authorizedToStart = !candidate.authorizedToStart;
+    }
   }
 
   @action
   async authorizeTestResume(candidate) {
-    await candidate.authorizeTestResume();
+    await this.store
+      .adapterFor('certification-candidate-for-supervising')
+      .authorizeTestResume({ candidateId: candidate.id });
   }
 
   @action
   async endAssessmentByInvigilator(candidate) {
-    await candidate.endAssessmentByInvigilator();
+    await this.store
+      .adapterFor('certification-candidate-for-supervising')
+      .endAssessmentByInvigilator({ candidateId: candidate.id });
   }
 
   @action

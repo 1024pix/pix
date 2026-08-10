@@ -295,15 +295,15 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
 
   module('#onValidateReferer', function () {
     module('when a referer is selected', function () {
-      test('should call updateReferer model method', function (assert) {
+      test('should call updateReferer adapter method', function (assert) {
         // given
-        const updateRefererStub = sinon.stub();
         const sendStub = sinon.stub();
+        const adapter = this.owner.lookup('adapter:member');
+        adapter.updateReferer = sinon.stub();
         const member = store.createRecord('member', {
           id: '102',
           firstName: 'Abe',
           lastName: 'Sapiens',
-          updateReferer: updateRefererStub,
         });
         controller.selectedReferer = '102';
         controller.model = { members: [member], hasCleaHabilitation: true };
@@ -313,7 +313,7 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
         controller.onValidateReferer();
 
         // then
-        sinon.assert.calledWith(updateRefererStub, { userId: '102', isReferer: true });
+        sinon.assert.calledWith(adapter.updateReferer, { userId: '102', isReferer: true });
         assert.true(true);
       });
     });

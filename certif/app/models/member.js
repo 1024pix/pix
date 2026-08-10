@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 import { service } from '@ember/service';
 import Model, { attr } from '@warp-drive/legacy/model';
 
@@ -23,19 +22,4 @@ export default class Member extends Model {
   get isAdmin() {
     return this.role === 'ADMIN';
   }
-
-  updateReferer = memberAction({
-    type: 'post',
-    urlType: 'update-referer',
-    before({ userId, isReferer }) {
-      return {
-        data: {
-          attributes: {
-            userId,
-            isReferer,
-          },
-        },
-      };
-    },
-  });
 }

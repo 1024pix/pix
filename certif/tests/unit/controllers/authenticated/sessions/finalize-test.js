@@ -163,9 +163,11 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const certificationReport = store.createRecord('certification-report', {
+          certificationCourseId: 123,
           abortReason: 'technical',
         });
-        certificationReport.abort = sinon.stub();
+        const adapter = this.owner.lookup('adapter:certification-report');
+        adapter.abort = sinon.stub();
         const session = store.createRecord('session-management', {
           certificationReports: [certificationReport],
         });
@@ -184,7 +186,10 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
         await controller.finalizeSession();
 
         // then
-        sinon.assert.calledOnceWithExactly(certificationReport.abort, certificationReport.abortReason);
+        sinon.assert.calledOnceWithExactly(adapter.abort, {
+          certificationCourseId: 123,
+          reason: certificationReport.abortReason,
+        });
         assert.ok(true);
       });
     });

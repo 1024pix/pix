@@ -12,6 +12,7 @@ export default class SessionsFinalizeController extends Controller {
   @service pixToast;
   @service router;
   @service intl;
+  @service store;
 
   @alias('model') session;
 
@@ -31,8 +32,12 @@ export default class SessionsFinalizeController extends Controller {
   @action
   async finalizeSession() {
     try {
+      const adapter = this.store.adapterFor('certification-report');
       for (const certificationReport of this.session.uncompletedCertificationReports) {
-        await certificationReport.abort(certificationReport.abortReason);
+        await adapter.abort({
+          certificationCourseId: certificationReport.certificationCourseId,
+          reason: certificationReport.abortReason,
+        });
       }
       await this.session.save({ adapterOptions: { finalization: true } });
       this.pixToast.sendSuccessNotification({

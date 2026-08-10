@@ -86,28 +86,38 @@ module('Unit | Adapter | member', function (hooks) {
     });
   });
 
-  module('#buildUrl', function () {
-    module('when request type is update-referer', function () {
-      test('should build url', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-          id: '123',
-        });
-
-        class CurrentUserStub extends Service {
-          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-
-        const adapter = this.owner.lookup('adapter:member');
-
-        // when
-        const url = await adapter.buildURL(undefined, undefined, undefined, 'update-referer', undefined);
-
-        // then
-        assert.true(url.endsWith('certification-centers/123/update-referer'));
+  module('#updateReferer', function () {
+    test('should call /api/certif/certification-centers/:id/update-referer', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: '123',
       });
+
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const adapter = this.owner.lookup('adapter:member');
+      adapter.ajax = sinon.stub();
+
+      // when
+      await adapter.updateReferer({ userId: 123, isReferer: true });
+
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(`${ENV.APP.API_HOST}/api/certif/certification-centers/123/update-referer`, 'POST', {
+          data: {
+            data: {
+              attributes: {
+                userId: 123,
+                isReferer: true,
+              },
+            },
+          },
+        }),
+      );
     });
   });
 });

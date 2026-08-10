@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class AuthenticatedTeamListController extends Controller {
+  @service store;
   @service currentUser;
   @service router;
   @service pixToast;
@@ -51,11 +52,10 @@ export default class AuthenticatedTeamListController extends Controller {
   @action
   async onValidateReferer() {
     if (this.selectedReferer !== '') {
-      const userId = this.selectedReferer;
-      const member = this.model.members.find((member) => member.id === userId);
+      const adapter = this.store.adapterFor('member');
 
       try {
-        await member.updateReferer({ userId: member.id, isReferer: true });
+        await adapter.updateReferer({ userId: this.selectedReferer, isReferer: true });
         this.shouldShowRefererSelectionModal = !this.shouldShowRefererSelectionModal;
         this.send('refreshModel');
         this.pixToast.sendSuccessNotification({ message: this.intl.t('pages.team.notifications.success') });
