@@ -148,6 +148,9 @@ export default class CalibrationForm extends Component {
       <PixButtonLink @route="authenticated.certification-frameworks.certification-framework" @variant="secondary">
         {{t "common.actions.cancel"}}
       </PixButtonLink>
+      <PixButtonLink @route="authenticated.certification-frameworks.certification-framework.versions.version.meshes-configuration" @variant="primary">
+        {{t "common.actions.next"}}
+      </PixButtonLink>
     </section>
   </template>
 }
