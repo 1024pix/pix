@@ -1,9 +1,9 @@
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { click, currentURL, visit } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
+import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { STUDENT_PAGE_SIZE } from 'pix-certif/utils/pagination';
 import { module, test } from 'qunit';
 
