@@ -44,7 +44,7 @@ export default class CourseModal extends Component {
     if (this.hasReachedPlacesLimit) {
       return null;
     }
-    return 'authenticated.campaigns.new-catalogue';
+    return 'authenticated.campaigns.new';
   }
 
   get courseLevelLabel() {
