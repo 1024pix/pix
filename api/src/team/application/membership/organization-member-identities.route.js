@@ -1,4 +1,4 @@
-import JoiDate from '@joi/date';
+import { JoiDate } from '@joi/date';
 import BaseJoi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
