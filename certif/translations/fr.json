@@ -30,8 +30,8 @@
       "SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED": "La session n'existe pas ou son accès est restreint.",
       "SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br />Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.",
       "SESSION_WITHOUT_STARTED_CERTIFICATION": "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer.",
-      "SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE": "Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.",
-      "UNTERMINATED_CERTIFICATION_WITHOUT_ABORT_REASON": "Une ou plusieurs certifications non terminées n'ont pas de \"Raison de l’abandon\" renseignées. La session ne peut donc pas être finalisée.",
+      "SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE": "Le champ “Motif d’interruption” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.",
+      "UNTERMINATED_CERTIFICATION_WITHOUT_ABORT_REASON": "Une ou plusieurs certifications non terminées n'ont pas de \"Motif d’interruption\" renseigné. La session ne peut donc pas être finalisée.",
       "authorize-resume-error": "Une erreur est survenue, {firstName} {lastName} n'a pas pu être autorisé à reprendre son test.",
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
       "certification-candidate": {
@@ -410,7 +410,7 @@
         "warning": "Attention :"
       },
       "errors": {
-        "no-abort-reason": "Une ou plusieurs certification(s) non terminée(s) n'ont pas de motif d'abandon. Veuillez les renseigner."
+        "no-abort-reason": "Une ou plusieurs certification(s) non terminée(s) n'ont pas de motif d'interruption. Veuillez les renseigner."
       },
       "issue-reports-modal": {
         "actions": {
@@ -442,12 +442,12 @@
         "title": "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident",
         "uncompleted-reports-information": {
           "description": "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
-          "extra-information": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
+          "extra-information": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner le motif d’interruption.",
           "table": {
             "labels": {
-              "abandonment": "Abandon : Manque de temps ou départ prématuré",
-              "abandonment-reason": "Raison de l'abandon",
-              "abandonment-reason-label": "Sélectionner la raison de l'abandon",
+              "abandonment": "Test non finalisé dans le délai imparti",
+              "abandonment-reason": "Motif d'interruption",
+              "abandonment-reason-label": "Sélectionner le motif d'interruption",
               "technical-problem": "Problème technique"
             },
             "tooltip": {
@@ -455,7 +455,7 @@
                 "enough-time-description": "Le candidat n'a pas eu le temps de répondre à toutes ses questions",
                 "left-deliberately-description": "Le candidat est parti volontairement avant la fin du test"
               },
-              "extra-information": "Description de la raison de l'abandon",
+              "extra-information": "Description du motif d'interruption",
               "technical-problem-description": "Le candidat a rencontré un problème technique l'empêchant de poursuivre son test jusqu’à la fin"
             }
           }

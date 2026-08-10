@@ -1632,7 +1632,7 @@
           "title": "Details",
           "v3": {
             "abort-reason": {
-              "candidate": "Withdrawal: Lack of time or early departure",
+              "candidate": "Test not completed within the allotted time",
               "technical": "Technical problem"
             },
             "answer-status": {
@@ -1658,7 +1658,7 @@
             },
             "general-informations": {
               "labels": {
-                "abort-reason": "Reason for withdrawal",
+                "abort-reason": "Reason for interruption",
                 "created-at": "Created on",
                 "ended-by": "Certification completed by",
                 "last-answer-at": "Last answer on",
