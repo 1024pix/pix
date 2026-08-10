@@ -593,7 +593,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
     });
   });
 
-  describe('POST /api/admin/certification-versions/{certificationVersionId}/calibration-report', function () {
+  describe('GET /api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report', function () {
     const now = new Date('2025-06-15T12:00:00Z');
     let clock;
 
@@ -639,16 +639,9 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       await datamartBuilder.commit();
 
       const options = {
-        method: 'POST',
-        url: `/api/admin/certification-versions/1/calibration-report`,
+        method: 'GET',
+        url: `/api/admin/certification-versions/1/calibrations/2/report`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
-        payload: {
-          data: {
-            attributes: {
-              calibrationId: 2,
-            },
-          },
-        },
       };
 
       // when

@@ -73,7 +73,7 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
     module('when loading a report for a version', function () {
       test('displays the report', async function (assert) {
         const generatedAt = new Date('2026-08-08T14:00:00Z');
-        server.post('/admin/certification-versions/:id/calibration-report', (schema) => {
+        server.get('/admin/certification-versions/:id/calibrations/:calibrationId/report', (schema) => {
           return schema.create('calibration-report', {
             id: 999,
             calibrationId: 1,
