@@ -5,6 +5,7 @@ import { tokenService } from '../../../../src/shared/domain/services/token-servi
 import { expect } from '../../../test-helper.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
+import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Shared | Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
@@ -1501,7 +1502,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
 
     describe('when user is the owner of the assessment', function () {
       it('should return the assessment', async function () {
-        const request = { auth: { credentials: { userId: 100 } }, params: { id: 8 } };
+        const request = { headers: generateAuthenticatedUserRequestHeaders({ userId: 100 }), params: { id: 8 } };
         assessmentRepository.getByAssessmentIdAndUserId.resolves({});
 
         const response = await securityPreHandlers.checkUserOwnsAssessment(request, hFake, {
@@ -1516,7 +1517,7 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
 
     describe('when the assessment has no owner', function () {
       it('should return the assessment', async function () {
-        const request = { auth: { credentials: null }, params: { id: 8 } };
+        const request = { params: { id: 8 } };
         assessmentRepository.getByAssessmentIdAndUserId.resolves({});
 
         const response = await securityPreHandlers.checkUserOwnsAssessment(request, hFake, {
@@ -1524,14 +1525,14 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
           validationErrorSerializer,
         });
 
-        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, 8, undefined);
+        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, 8, null);
         expect(response).to.deep.equal({});
       });
     });
 
     describe('when user is not the owner of the assessment', function () {
       it('should return a status 401', async function () {
-        const request = { auth: { credentials: { userId: 101 } }, params: { id: 8 } };
+        const request = { headers: generateAuthenticatedUserRequestHeaders({ userId: 101 }), params: { id: 8 } };
         assessmentRepository.getByAssessmentIdAndUserId.rejects();
 
         const response = await securityPreHandlers.checkUserOwnsAssessment(request, hFake, {
