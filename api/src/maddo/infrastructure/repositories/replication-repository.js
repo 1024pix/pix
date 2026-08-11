@@ -1,6 +1,7 @@
 export const replications = [
   {
     name: 'sco_certification_results',
+    chunkSize: 4500,
     before: async ({ datamartKnex }) => {
       await datamartKnex('sco_certification_results').truncate();
     },
@@ -28,6 +29,7 @@ export const replications = [
   },
   {
     name: 'certification_results',
+    chunkSize: 5000,
     before: async ({ datamartKnex }) => {
       await datamartKnex('certification_results').truncate();
     },
