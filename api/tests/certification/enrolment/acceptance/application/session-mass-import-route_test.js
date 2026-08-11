@@ -177,7 +177,6 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
           date: '2023-01-01',
           time: '11:00',
           accessCode: 'accessCode',
-          invigilatorPassword: 'KV2CPA',
           certificationCandidates: [],
         };
         const newCachedSessionUUID = await temporarySessionsStorageForMassImportService.save({
@@ -201,7 +200,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
         const sessions = await knex('sessions');
         expect(sessions).to.have.lengthOf(1);
         expect(sessions[0].certificationCenter).to.equal(certificationCenter);
-        expect(sessions[0].invigilatorPassword).to.equal(sessionToSave.invigilatorPassword);
+        expect(sessions[0].invigilatorPassword).to.match(/^[23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?]{6}$/);
         expect(sessions[0].version).to.equal(3);
         expect(response.statusCode).to.equal(201);
       });
