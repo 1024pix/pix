@@ -17,7 +17,7 @@
   &__course-content {
     display: flex;
     flex: 1;
-    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+    padding: var(--pix-spacing-6x);
     overflow-y: scroll;
     scrollbar-width: none;
 
@@ -32,6 +32,15 @@
     & > h2 {
       @extend %pix-title-xxs;
 
+      margin-top: var(--pix-spacing-2x);
+      margin-bottom: var(--pix-spacing-2x);
+    }
+
+    &:last-child {
+      padding-bottom: var(--pix-spacing-6x);
+    }
+
+    &__title {
       margin-top: var(--pix-spacing-2x);
       margin-bottom: var(--pix-spacing-2x);
     }
