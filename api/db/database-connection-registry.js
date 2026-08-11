@@ -10,7 +10,7 @@ configureGlobalExtensions();
 export class DatabaseConnectionRegistry {
   #connections;
   #requiredConnectionNames = null;
-  #isDisconnected = false;
+  #disconnectPromise = null;
 
   constructor(connections) {
     this.#connections = connections;
@@ -40,10 +40,15 @@ export class DatabaseConnectionRegistry {
   }
 
   async disconnect() {
-    if (this.#isDisconnected) {
+    if (this.#disconnectPromise) {
+      await Promise.allSettled([this.#disconnectPromise]);
       return;
     }
-    this.#isDisconnected = true;
+    this.#disconnectPromise = this.#disconnectAll();
+    return this.#disconnectPromise;
+  }
+
+  async #disconnectAll() {
     const results = await Promise.allSettled(
       Object.values(this.#connections).map((connection) => connection.disconnect()),
     );

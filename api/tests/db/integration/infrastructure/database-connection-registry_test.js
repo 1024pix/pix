@@ -169,6 +169,20 @@ describe('Integration | Infrastructure | database-connection-registry', function
       await expect(registry.disconnect()).to.be.fulfilled;
     });
 
+    it('should make concurrent calls await the in-flight closure and close connections only once', async function () {
+      // given
+      const connection = buildApiConnection();
+      const disconnectSpy = sinon.spy(connection, 'disconnect');
+      const registry = buildRegistry({ api: connection });
+
+      // when
+      await Promise.all([registry.disconnect(), registry.disconnect()]);
+
+      // then
+      expect(disconnectSpy).to.have.been.calledOnce;
+      await expect(registry.get('api').knex.raw('SELECT 1')).to.be.rejected;
+    });
+
     it('should close all connections even when one fails and aggregate the errors', async function () {
       // given
       const failingConnection = buildApiConnection();
