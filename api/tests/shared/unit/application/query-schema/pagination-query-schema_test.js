@@ -1,9 +1,12 @@
-import { pageQuerySchema } from '../../../../../src/shared/application/query-schema/pagination-query-schema.js';
+import { createPageQuerySchema } from '../../../../../src/shared/application/query-schema/pagination-query-schema.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | pagination-query-schema', function () {
   describe('when no page is provided', function () {
     it('defaults to an empty object', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema();
+
       // when
       const { error, value } = pageQuerySchema.validate(undefined);
 
@@ -15,6 +18,9 @@ describe('Unit | Application | pagination-query-schema', function () {
 
   describe('page validation rules (object form)', function () {
     it('accepts a valid object', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema();
+
       // when
       const { error, value } = pageQuerySchema.validate({ number: 2, size: 2 });
 
@@ -24,8 +30,14 @@ describe('Unit | Application | pagination-query-schema', function () {
     });
 
     it('accepts null values for number and size', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema();
+
       // when
-      const { error, value } = pageQuerySchema.validate({ number: null, size: null });
+      const { error, value } = pageQuerySchema.validate({
+        number: null,
+        size: null,
+      });
 
       // then
       expect(error).to.not.exist;
@@ -33,6 +45,9 @@ describe('Unit | Application | pagination-query-schema', function () {
     });
 
     it('rejects a negative number', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema();
+
       // when
       const { error } = pageQuerySchema.validate({ number: -1, size: 2 });
 
@@ -42,6 +57,9 @@ describe('Unit | Application | pagination-query-schema', function () {
     });
 
     it('rejects a size equal to zero', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema();
+
       // when
       const { error } = pageQuerySchema.validate({ number: 1, size: 0 });
 
@@ -50,7 +68,10 @@ describe('Unit | Application | pagination-query-schema', function () {
       expect(error.message).to.equal('"size" must be a positive number');
     });
 
-    it('rejects a size exceeding 200', function () {
+    it('rejects a size exceeding default max size of 200', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema();
+
       // when
       const { error } = pageQuerySchema.validate({ number: 2, size: 500 });
 
@@ -58,10 +79,25 @@ describe('Unit | Application | pagination-query-schema', function () {
       expect(error).to.exist;
       expect(error.message).to.equal('"size" must be less than or equal to 200');
     });
+
+    it('rejects a size exceeding set max size', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema({ maxSize: 100 });
+
+      // when
+      const { error } = pageQuerySchema.validate({ number: 2, size: 101 });
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.equal('"size" must be less than or equal to 100');
+    });
   });
 
   describe('page validation rules (JSON-encoded form)', function () {
     it('accepts a valid JSON string and parses it into an object', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema();
+
       // when
       const { error, value } = pageQuerySchema.validate('{"number":2,"size":2}');
 
@@ -70,7 +106,10 @@ describe('Unit | Application | pagination-query-schema', function () {
       expect(value).to.deep.equal({ number: 2, size: 2 });
     });
 
-    it('rejects a JSON-encoded string whose size exceeds 200, with the underlying Joi message', function () {
+    it('rejects a JSON-encoded string whose size exceeds default max size of 200, with the underlying Joi message', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema();
+
       // when
       const { error } = pageQuerySchema.validate('{"number":2,"size":500}');
 
@@ -79,7 +118,22 @@ describe('Unit | Application | pagination-query-schema', function () {
       expect(error.message).to.equal('"size" must be less than or equal to 200');
     });
 
+    it('rejects a JSON-encoded string whose size exceeds set max size, with the underlying Joi message', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema({ maxSize: 100 });
+
+      // when
+      const { error } = pageQuerySchema.validate('{"number":2,"size":101}');
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.equal('"size" must be less than or equal to 100');
+    });
+
     it('names "page" in the error when the JSON string cannot be parsed', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema();
+
       // when
       const { error } = pageQuerySchema.validate('not-json');
 
