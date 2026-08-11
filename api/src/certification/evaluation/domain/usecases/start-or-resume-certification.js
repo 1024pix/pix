@@ -14,9 +14,9 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { LanguageNotSupportedError, UnexpectedUserAccountError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
-import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
+import { ComplementaryCertificationCourse } from '../../../shared/domain/models/ComplementaryCertificationCourse.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { CertificationDurationExceededError } from '../errors.js';

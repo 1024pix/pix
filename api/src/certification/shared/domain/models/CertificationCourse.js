@@ -2,7 +2,7 @@
  * @typedef {import('../../../../shared/domain/models/Assessment.js').Assessment} Assessment
  * @typedef {import('../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  * @typedef {import('./CertificationIssueReport.js').CertificationIssueReport} CertificationIssueReport
- * @typedef {import('../../../session-management/domain/models/ComplementaryCertificationCourse.js').ComplementaryCertificationCourse} ComplementaryCertificationCourse
+ * @typedef {import('./ComplementaryCertificationCourse.js').ComplementaryCertificationCourse} ComplementaryCertificationCourse
  * @typedef {import('./AlgorithmEngineVersion.js').AlgorithmEngineVersion} AlgorithmEngineVersion
  */
 import JoiDate from '@joi/date';
