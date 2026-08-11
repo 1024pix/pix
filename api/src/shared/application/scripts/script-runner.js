@@ -5,11 +5,8 @@ import pick from 'lodash/pick.js';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
-import { databaseConnectionRegistry } from '../../../../db/database-connection-registry.js';
 import { executeInContext, EXECUTORS } from '../../infrastructure/execution-context-manager.js';
-import { quitAllStorages } from '../../infrastructure/key-value-storages/index.js';
-import { quitMutex } from '../../infrastructure/mutex/RedisMutex.js';
-import { close as closePubSub } from '../../infrastructure/pubsub.js';
+import { releaseInfrastructure } from '../../infrastructure/release-infrastructure.js';
 import { logger } from '../../infrastructure/utils/logger.js';
 
 function isRunningFromCli(scriptFileUrl) {
@@ -32,7 +29,7 @@ export class ScriptRunner {
    * @template {typeof import('./script.js').Script} Script
    * @param {string} scriptFileUrl - The file URL of the script being executed.
    * @param {Script} ScriptClass - The script class to be instantiated and executed.
-   * @param {object} [dependencies] - The script runner dependencies (logger, isRunningFromCli, getProcessArgs)
+   * @param {object} [dependencies] - The script runner dependencies (logger, isRunningFromCli, getProcessArgs, releaseInfrastructure)
    */
   static async execute(
     scriptFileUrl,
@@ -40,9 +37,10 @@ export class ScriptRunner {
     dependencies = {
       isRunningFromCli,
       getProcessArgs,
+      releaseInfrastructure,
     },
   ) {
-    const { isRunningFromCli, getProcessArgs } = dependencies;
+    const { isRunningFromCli, getProcessArgs, releaseInfrastructure } = dependencies;
     const context = { event: ScriptClass.name, scriptId: randomUUID() };
     await executeInContext(
       context,
@@ -81,10 +79,7 @@ export class ScriptRunner {
           logger.error(error);
           process.exitCode = 1;
         } finally {
-          await databaseConnectionRegistry.disconnect();
-          await closePubSub();
-          await quitAllStorages();
-          await quitMutex();
+          await releaseInfrastructure();
         }
       },
       EXECUTORS.SCRIPT,

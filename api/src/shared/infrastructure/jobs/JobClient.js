@@ -32,6 +32,10 @@ export class JobClient {
     return JobClient.#jobClient;
   }
 
+  get isInitialized() {
+    return this.#isInitialized;
+  }
+
   async initialize(
     { worker, isTestOnly, jobGroups } = { worker: false, isTestOnly: false, jobGroups: [] },
     pgBossFactory,
