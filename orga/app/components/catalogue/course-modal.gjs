@@ -79,13 +79,6 @@ export default class CourseModal extends Component {
         aria-describedby="modal-content--{{this.id}}"
         aria-modal="true"
       >
-        <div class="course-modal__course-content">
-          {{#if this.isTargetProfile}}
-            <TargetProfileContent @currentCourse={{@currentCourse}} />
-          {{else if this.isCombinedCourseBlueprint}}
-            <CombinedCourseBlueprintContent @combinedCourseBlueprint={{@currentCourse}} />
-          {{/if}}
-        </div>
         <div class="course-modal__course-details">
           <div class="course-modal__header">
             <PixButton
@@ -144,6 +137,13 @@ export default class CourseModal extends Component {
               </p>
             {{/if}}
           </div>
+        </div>
+        <div class="course-modal__course-content">
+          {{#if this.isTargetProfile}}
+            <TargetProfileContent @currentCourse={{@currentCourse}} />
+          {{else if this.isCombinedCourseBlueprint}}
+            <CombinedCourseBlueprintContent @combinedCourseBlueprint={{@currentCourse}} />
+          {{/if}}
         </div>
       </div>
     </PixOverlay>
