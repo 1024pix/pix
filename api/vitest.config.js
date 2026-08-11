@@ -8,10 +8,10 @@ export default defineConfig({
   test: {
     globals: true,
     setupFiles: ['./tests/test-helper.js'],
-    testTimeout: 5_000,
+    testTimeout: 5000,
     retry: Number(process.env.VITEST_RETRIES ?? 0),
     isolate: false,
-    pool: 'forks',
+    fileParallelism: false,
     env: { NODE_ENV: 'test' },
     projects: [
       {
@@ -19,9 +19,7 @@ export default defineConfig({
         test: {
           name: 'unit',
           include: ['tests/**/unit/**/*test.js'],
-          fileParallelism: true,
-          maxForks: 6,
-          minForks: 6,
+          setupFiles: ['./tests/setup-unit.js'],
           sequence: { groupOrder: 1 },
           env: {
             TEST_DATABASE_URL: 'postgres://should.not.reach.db.in.unit.tests',
@@ -35,7 +33,7 @@ export default defineConfig({
         test: {
           name: 'integration',
           include: ['tests/**/integration/**/*test.js'],
-          fileParallelism: false,
+          setupFiles: ['./tests/setup-integ.js'],
           sequence: { groupOrder: 2 },
         },
       },
@@ -44,7 +42,7 @@ export default defineConfig({
         test: {
           name: 'acceptance',
           include: ['tests/**/acceptance/**/*test.js'],
-          fileParallelism: false,
+          setupFiles: ['./tests/setup-integ.js'],
           sequence: { groupOrder: 3 },
         },
       },
