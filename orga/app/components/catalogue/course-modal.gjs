@@ -80,7 +80,7 @@ export default class CourseModal extends Component {
         aria-modal="true"
       >
         <div class="course-modal__course-details">
-          <div class="course-modal__header">
+          <div class="course-modal__top-actions">
             <PixButton
               @variant="tertiary"
               @triggerAction={{@closeModal}}
@@ -91,14 +91,18 @@ export default class CourseModal extends Component {
               {{t "common.actions.exit"}}
             </PixButton>
           </div>
-          <div class="course-modal__body">
+
+          <div class="course-modal__heading">
             <div class="pix-card__image pix-card__image--orga">
               <img src={{this.courseInfo.image}} aria-hidden="true" alt={{@currentCourse.type}} />
             </div>
             <PixTag @color={{this.courseInfo.color}} class="course-card__tag">
               {{t this.courseInfo.label}}
             </PixTag>
-            <h1 id="modal-title--{{this.id}}" class="course-modal__body__name">{{@currentCourse.name}}</h1>
+            <h1 id="modal-title--{{this.id}}" class="course-modal__heading__name">{{@currentCourse.name}}</h1>
+          </div>
+
+          <div class="course-modal__body">
             <SafeMarkdownToHtml
               id="modal-content--{{this.id}}"
               class="course-modal__body__description"
@@ -113,7 +117,9 @@ export default class CourseModal extends Component {
                 <Badges @badges={{@currentCourse.badges}} @hideBadgesAcquisition={{true}} />
               </div>
             {{/if}}
+          </div>
 
+          <div class="course-modal__footer">
             <PixButtonLink
               @route={{this.campaignCreationRoute}}
               @query={{hash courseId=@currentCourse.id}}
@@ -123,8 +129,7 @@ export default class CourseModal extends Component {
             >
               {{t "pages.catalogue.modal.select-course"}}
             </PixButtonLink>
-          </div>
-          <div class="course-modal__footer">
+
             {{#if this.isTargetProfile}}
               <p class="course-modal__footer__text">
                 {{t this.courseLevelLabel}}
