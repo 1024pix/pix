@@ -116,6 +116,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             attributes: {
               'start-date': new Date(),
               'assessment-duration': 1,
+              'external-calibration-id': null,
               'minimum-answers-required-for-validation': 1,
               'maximum-assessment-length': 1,
               'challenges-between-same-competence': 1,
@@ -129,7 +130,6 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             type: 'certification-versions',
           },
         });
-
         // then
         expect(response.statusCode).to.equal(403);
         sinon.assert.notCalled(certificationVersionController.update);

@@ -254,6 +254,7 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
         defaultCandidateCapacity: 700,
         limitToOneQuestionPerTube: false,
         enablePassageByAllCompetences: false,
+        externalCalibrationId: null,
       };
     });
 
