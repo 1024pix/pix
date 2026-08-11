@@ -179,8 +179,7 @@ describe('Integration | Infrastructure | database-connection', function () {
         connectionString: undefined,
       },
     };
-    const expectedErrorMessage =
-      'Database "datawarehouse" is not configured. Missing environment variable.';
+    const expectedErrorMessage = 'Database "datawarehouse" is not configured. Missing environment variable.';
 
     it('should build without logging an error', function () {
       // given

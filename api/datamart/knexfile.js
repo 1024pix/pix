@@ -14,10 +14,7 @@ const baseConfiguration = {
 
 const environments = {
   development: buildPostgresEnvironment(baseConfiguration),
-  test: setConnectionString(
-    process.env.TEST_DATAMART_DATABASE_URL,
-    buildPostgresEnvironment(baseConfiguration),
-  ),
+  test: setConnectionString(process.env.TEST_DATAMART_DATABASE_URL, buildPostgresEnvironment(baseConfiguration)),
   production: buildPostgresEnvironment(baseConfiguration),
 };
 

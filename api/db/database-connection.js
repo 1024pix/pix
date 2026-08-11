@@ -15,16 +15,6 @@ import { PGSQL_DUPLICATE_DATABASE_ERROR, PGSQL_NON_EXISTENT_DATABASE_ERROR } fro
 
 const { logging } = config;
 
-function buildNotConfiguredKnexStub(buildError) {
-  const throwNotConfiguredError = () => {
-    throw buildError();
-  };
-  return new Proxy(throwNotConfiguredError, {
-    get: throwNotConfiguredError,
-    apply: throwNotConfiguredError,
-  });
-}
-
 export class DatabaseConnection {
   knex;
   #name;
@@ -201,4 +191,14 @@ export class DatabaseConnection {
       },
     };
   }
+}
+
+function buildNotConfiguredKnexStub(buildError) {
+  const throwNotConfiguredError = () => {
+    throw buildError();
+  };
+  return new Proxy(throwNotConfiguredError, {
+    get: throwNotConfiguredError,
+    apply: throwNotConfiguredError,
+  });
 }
