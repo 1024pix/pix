@@ -19,11 +19,6 @@
     flex: 1;
     padding: var(--pix-spacing-6x);
     overflow-y: scroll;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      -webkit-appearance: none;
-    }
   }
 
   &__competence {
