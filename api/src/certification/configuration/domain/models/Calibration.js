@@ -1,3 +1,5 @@
+import { SCOPES } from '../../../shared/domain/models/Scopes.js';
+
 export const CALIBRATION_STATUSES = Object.freeze({
   TO_VALIDATE: 'TO_VALIDATE',
   VALIDATED: 'VALIDATED',
@@ -47,4 +49,20 @@ export class CalibratedChallenge {
     this.alpha = alpha;
     this.delta = delta;
   }
+}
+
+/**
+ * @param {typeof CALIBRATION_SCOPES[keyof typeof CALIBRATION_SCOPES]} calibrationScope
+ * @returns {SCOPES}
+ */
+export function fromCalibrationScope(calibrationScope) {
+  const mapping = {
+    [CALIBRATION_SCOPES.COEUR]: SCOPES.CORE,
+    [CALIBRATION_SCOPES.EDU_1ER_DEGRE]: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
+    [CALIBRATION_SCOPES.EDU_2ND_DEGRE]: SCOPES.PIX_PLUS_EDU_2ND_DEGRE,
+    [CALIBRATION_SCOPES.EDU_CPE]: SCOPES.PIX_PLUS_EDU_CPE,
+    [CALIBRATION_SCOPES.DROIT]: SCOPES.PIX_PLUS_DROIT,
+    [CALIBRATION_SCOPES.PRO_SANTE]: SCOPES.PIX_PLUS_PRO_SANTE,
+  };
+  return mapping[calibrationScope];
 }
