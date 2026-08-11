@@ -1635,7 +1635,7 @@
           "title": "Détails",
           "v3": {
             "abort-reason": {
-              "candidate": "Abandon : Manque de temps ou départ prématuré",
+              "candidate": "Test non finalisé dans le délai imparti",
               "technical": "Problème technique"
             },
             "answer-status": {
@@ -1661,7 +1661,7 @@
             },
             "general-informations": {
               "labels": {
-                "abort-reason": "Raison de l'abandon",
+                "abort-reason": "Motif d'interruption",
                 "created-at": "Créée le",
                 "ended-by": "Certification terminée par",
                 "last-answer-at": "Dernière réponse le",
