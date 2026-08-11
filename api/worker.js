@@ -22,7 +22,7 @@ async function main() {
   const jobGroups = [jobGroup];
   checkJobGroups(jobGroups);
 
-  const requiredDatabases = jobGroup === JobGroup.MADDO ? ['api', 'datamart', 'datawarehouse'] : ['api', 'datamart'];
+  const requiredDatabases = jobGroup === JobGroup.MADDO ? ['api', 'datamart', 'datawarehouse'] : ['api'];
   await databaseConnectionRegistry.initialize(requiredDatabases);
 
   await JobClient.instance.initialize({ worker: true, jobGroups });

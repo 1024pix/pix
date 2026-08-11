@@ -19,7 +19,7 @@ async function _setupEcosystem() {
     DNS resolution. So we execute one harmless query to our database
     so those matters are resolved before starting the server.
   */
-  await databaseConnectionRegistry.initialize(['api', 'datamart']);
+  await databaseConnectionRegistry.initialize(['api']);
 }
 
 const start = async function () {

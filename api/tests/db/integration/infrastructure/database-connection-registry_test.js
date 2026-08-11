@@ -106,42 +106,26 @@ describe('Integration | Infrastructure | database-connection-registry', function
   });
 
   describe('#checkStatuses', function () {
-    context('when no required connections have been declared', function () {
-      it('should check every configured connection', async function () {
-        // given
-        const registry = buildRegistry({
-          api: buildApiConnection(),
-          unreachable: buildUnreachableConnection(),
-        });
-
-        // when / then
-        await expect(registry.checkStatuses()).to.be.rejectedWith('Connection to database unreachable not available.');
+    it('should check every configured connection', async function () {
+      // given
+      const registry = buildRegistry({
+        api: buildApiConnection(),
+        unreachable: buildUnreachableConnection(),
       });
 
-      it('should ignore connections that are not configured', async function () {
-        // given
-        const registry = buildRegistry({
-          api: buildApiConnection(),
-          datawarehouse: buildNotConfiguredConnection(),
-        });
-
-        // when / then
-        await expect(registry.checkStatuses()).to.be.fulfilled;
-      });
+      // when / then
+      await expect(registry.checkStatuses()).to.be.rejectedWith('Connection to database unreachable not available.');
     });
 
-    context('when required connections have been declared', function () {
-      it('should check only the declared required connections', async function () {
-        // given
-        const registry = buildRegistry({
-          api: buildApiConnection(),
-          unreachable: buildUnreachableConnection(),
-        });
-        await registry.initialize(['api']);
-
-        // when / then
-        await expect(registry.checkStatuses()).to.be.fulfilled;
+    it('should ignore connections that are not configured', async function () {
+      // given
+      const registry = buildRegistry({
+        api: buildApiConnection(),
+        datawarehouse: buildNotConfiguredConnection(),
       });
+
+      // when / then
+      await expect(registry.checkStatuses()).to.be.fulfilled;
     });
   });
 

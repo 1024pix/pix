@@ -9,7 +9,6 @@ configureGlobalExtensions();
 
 export class DatabaseConnectionRegistry {
   #connections;
-  #requiredConnectionNames = null;
   #disconnectPromise = null;
 
   constructor(connections) {
@@ -28,14 +27,11 @@ export class DatabaseConnectionRegistry {
 
   async initialize(requiredConnectionNames) {
     const connections = requiredConnectionNames.map((name) => this.get(name));
-    this.#requiredConnectionNames = requiredConnectionNames;
     await Promise.all(connections.map((connection) => connection.prepare()));
   }
 
   async checkStatuses() {
-    const connections = this.#requiredConnectionNames
-      ? this.#requiredConnectionNames.map((name) => this.get(name))
-      : Object.values(this.#connections).filter((connection) => connection.isConfigured);
+    const connections = Object.values(this.#connections).filter((connection) => connection.isConfigured);
     return Promise.all(connections.map((connection) => connection.checkStatus()));
   }
 
