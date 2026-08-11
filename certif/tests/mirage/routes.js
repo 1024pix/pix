@@ -1,5 +1,4 @@
-import { applyEmberDataSerializers } from 'ember-cli-mirage';
-import { createServer, Response } from 'miragejs';
+import { Response } from 'miragejs';
 
 import { findPaginatedSessionSummaries } from './handlers/find-paginated-session-summaries';
 import { findPaginatedStudents } from './handlers/find-paginated-students';
@@ -13,22 +12,7 @@ function parseQueryString(queryString) {
   return result;
 }
 
-export default function makeServer(config) {
-  const finalConfig = {
-    ...config,
-    models: { ...config.models },
-    serializers: applyEmberDataSerializers(config.serializers),
-    routes,
-    logging: true,
-    urlPrefix: 'http://localhost:3000',
-  };
-  const server = createServer(finalConfig);
-  server.create('information-banner', 'withoutBanners');
-
-  return server;
-}
-
-function routes() {
+export default function routes() {
   this.namespace = 'api';
   this.timing = 0;
 

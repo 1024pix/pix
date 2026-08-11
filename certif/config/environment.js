@@ -104,10 +104,6 @@ module.exports = function (environment) {
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
     },
 
-    'ember-cli-mirage': {
-      enabled: false,
-    },
-
     'ember-inputmask5': {
       defaults: { showMaskOnHover: false },
     },
@@ -139,11 +135,6 @@ module.exports = function (environment) {
     ENV.APP.autoboot = false;
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.DEBOUNCE_FILTER_DELAY = 0;
-
-    ENV['ember-cli-mirage'] = {
-      enabled: true,
-      usingProxy: false,
-    };
   }
 
   return ENV;
