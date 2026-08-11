@@ -11,7 +11,7 @@ import {
 } from '../src/shared/infrastructure/execution-context-manager.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 import { configureConnectionExtension, disableTypeCastingForJsonTypes } from './knex-extensions.js';
-import { PGSQL_DUPLICATE_DATABASE_ERROR } from './pgsql-errors.js';
+import { PGSQL_DUPLICATE_DATABASE_ERROR, PGSQL_NON_EXISTENT_DATABASE_ERROR } from './pgsql-errors.js';
 
 const { logging } = config;
 
@@ -51,6 +51,7 @@ export class DatabaseConnection {
         logger.info(`Database ${databaseName} already created`);
       } else {
         logger.error(`Database creation failed: ${error}`);
+        throw error;
       }
     } finally {
       await knex.destroy();
@@ -68,10 +69,11 @@ export class DatabaseConnection {
       }
       logger.info(`Database ${databaseName} dropped`);
     } catch (error) {
-      if (error.code === PGSQL_DUPLICATE_DATABASE_ERROR) {
+      if (error.code === PGSQL_NON_EXISTENT_DATABASE_ERROR) {
         logger.info(`Database ${databaseName} does not exist`);
       } else {
         logger.error(`Database drop failed: ${error}`);
+        throw error;
       }
     } finally {
       await knex.destroy();

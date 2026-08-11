@@ -8,7 +8,90 @@ import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 
+function knexConfigForDatabase(databaseName) {
+  const { environment } = config;
+  const knexConfig = liveKnexConfigs[environment];
+  const connectionUrl = new URL(knexConfig.connection.connectionString);
+  connectionUrl.pathname = `/${databaseName}`;
+  return { ...knexConfig, connection: { ...knexConfig.connection, connectionString: connectionUrl.href } };
+}
+
+async function databaseExists(databaseName) {
+  const { environment } = config;
+  const databaseConnection = new DatabaseConnection(liveKnexConfigs[environment]);
+  try {
+    const { rows } = await databaseConnection.knex.raw('SELECT 1 FROM pg_database WHERE datname = ?', [databaseName]);
+    return rows.length > 0;
+  } finally {
+    await databaseConnection.disconnect();
+  }
+}
+
+const unreachableKnexConfig = {
+  client: 'postgresql',
+  connection: {
+    connectionString: 'postgres://user:password@localhost:1/unreachable_database',
+  },
+  acquireConnectionTimeout: 1000,
+  pool: { min: 0, max: 1 },
+};
+
 describe('Integration | Infrastructure | database-connection', function () {
+  describe('.createDatabaseFromConfig', function () {
+    const databaseName = 'test_database_creation';
+
+    afterEach(async function () {
+      await DatabaseConnection.dropDatabaseFromConfig(knexConfigForDatabase(databaseName), { withForce: true });
+    });
+
+    it('should create the database', async function () {
+      // when
+      await DatabaseConnection.createDatabaseFromConfig(knexConfigForDatabase(databaseName));
+
+      // then
+      expect(await databaseExists(databaseName)).to.be.true;
+    });
+
+    it('should succeed when database already exists', async function () {
+      // given
+      await DatabaseConnection.createDatabaseFromConfig(knexConfigForDatabase(databaseName));
+
+      // when / then
+      await expect(DatabaseConnection.createDatabaseFromConfig(knexConfigForDatabase(databaseName))).to.be.fulfilled;
+    });
+
+    it('should propagate the error when creation really fails', async function () {
+      // when / then
+      await expect(DatabaseConnection.createDatabaseFromConfig(unreachableKnexConfig)).to.be.rejected;
+    });
+  });
+
+  describe('.dropDatabaseFromConfig', function () {
+    const databaseName = 'test_database_drop';
+
+    afterEach(async function () {
+      await DatabaseConnection.dropDatabaseFromConfig(knexConfigForDatabase(databaseName), { withForce: true });
+    });
+
+    it('should drop the database', async function () {
+      // given
+      await DatabaseConnection.createDatabaseFromConfig(knexConfigForDatabase(databaseName));
+
+      // when
+      await DatabaseConnection.dropDatabaseFromConfig(knexConfigForDatabase(databaseName), {});
+
+      // then
+      expect(await databaseExists(databaseName)).to.be.false;
+    });
+
+    it('should succeed when database does not exist', async function () {
+      // when / then
+      await expect(
+        DatabaseConnection.dropDatabaseFromConfig(knexConfigForDatabase('test_database_that_does_not_exist'), {}),
+      ).to.be.fulfilled;
+    });
+  });
+
   describe('#emptyAllTables', function () {
     it('should empty all tables', async function () {
       // given
