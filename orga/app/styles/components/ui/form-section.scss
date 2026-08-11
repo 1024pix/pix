@@ -1,13 +1,42 @@
 @use 'pix-design-tokens/typography';
 
 .form-section {
-  & + & {
-    margin-top: var(--pix-spacing-6x);
+  position: relative;
+  padding-top: var(--pix-spacing-8x);
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 500px;
+    height: 2px;
+    background-color: var(--pix-neutral-100);
+    content: '';
   }
 
   &__title {
-    @extend %pix-subtitle-l;
+    @extend %pix-subtitle-m;
 
     margin-bottom: var(--pix-spacing-6x);
+    color: var(--pix-neutral-500);
+  }
+
+  .form-field:last-child {
+    margin-bottom: var(--pix-spacing-2x);
+  }
+}
+
+.campaign-creation-form .form-section {
+  margin-top: var(--pix-spacing-6x);
+  margin-bottom: var(--pix-spacing-2x);
+
+  &:first-of-type {
+    margin-top: 0;
+    padding: 0;
+
+    &::before {
+      content: none;
+    }
   }
 }
