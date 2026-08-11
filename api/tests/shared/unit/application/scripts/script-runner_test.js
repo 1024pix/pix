@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { databaseConnections } from '../../../../../db/database-connections.js';
+import { databaseConnectionRegistry } from '../../../../../db/database-connection-registry.js';
 import { Script } from '../../../../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../../../../src/shared/application/scripts/script-runner.js';
 import { close as closePubSub } from '../../../../../src/shared/infrastructure/pubsub.js';
@@ -41,7 +41,7 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
       }
     };
 
-    sinon.spy(databaseConnections.disconnect);
+    sinon.stub(databaseConnectionRegistry, 'disconnect').resolves();
     sinon.spy(closePubSub);
   });
 

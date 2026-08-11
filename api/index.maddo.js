@@ -1,4 +1,4 @@
-import { databaseConnections } from './db/database-connections.js';
+import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { createMaddoServer } from './server.maddo.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config, schema as configSchema } from './src/shared/config.js';
@@ -16,6 +16,7 @@ let server;
 let isShuttingDown = false;
 
 const start = async function () {
+  await databaseConnectionRegistry.initialize(['api', 'datamart', 'datawarehouse']);
   server = await createMaddoServer();
   await server.start();
 };
@@ -36,7 +37,7 @@ async function _exitOnSignal(signal) {
   logger.info('Stopping PG Boss client...');
   await JobClient.instance.stop();
   logger.info('Closing connections to databases...');
-  await databaseConnections.disconnect();
+  await databaseConnectionRegistry.disconnect();
   logger.info('Closing connections to pubsub...');
   await closePubSub();
   logger.info('Closing connections to storages...');

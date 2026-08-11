@@ -1,5 +1,4 @@
-import { databaseConnections } from './db/database-connections.js';
-import { databaseConnection as liveDatabaseConnection } from './db/knex-database-connection.js';
+import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { createServer } from './server.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config, schema as configSchema } from './src/shared/config.js';
@@ -23,7 +22,7 @@ async function _setupEcosystem() {
     DNS resolution. So we execute one harmless query to our database
     so those matters are resolved before starting the server.
   */
-  await liveDatabaseConnection.prepare();
+  await databaseConnectionRegistry.initialize(['api', 'datamart']);
 }
 
 const start = async function () {
@@ -54,7 +53,7 @@ async function _exitOnSignal(signal) {
   logger.info('Stopping PG Boss client...');
   await JobClient.instance.stop();
   logger.info('Closing connections to databases...');
-  await databaseConnections.disconnect();
+  await databaseConnectionRegistry.disconnect();
   logger.info('Closing connections to pubsub...');
   await closePubSub();
   logger.info('Closing connections to storages...');

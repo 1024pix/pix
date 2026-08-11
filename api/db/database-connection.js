@@ -15,6 +15,16 @@ import { PGSQL_DUPLICATE_DATABASE_ERROR, PGSQL_NON_EXISTENT_DATABASE_ERROR } fro
 
 const { logging } = config;
 
+function buildNotConfiguredKnexStub(buildError) {
+  const throwNotConfiguredError = () => {
+    throw buildError();
+  };
+  return new Proxy(throwNotConfiguredError, {
+    get: throwNotConfiguredError,
+    apply: throwNotConfiguredError,
+  });
+}
+
 export class DatabaseConnection {
   knex;
   #name;
@@ -81,13 +91,13 @@ export class DatabaseConnection {
   }
 
   constructor(knexConfig) {
+    this.#name = knexConfig?.name;
     this.#hasConnection = Boolean(knexConfig?.connection?.connectionString);
     if (this.#hasConnection) {
       if (knexConfig?.customFlags?.disableJsonTypesParsing) {
         disableTypeCastingForJsonTypes(knexConfig);
       }
       this.knex = Knex(knexConfig);
-      this.#name = knexConfig.name;
       const url = DatabaseConnection.databaseUrlFromConfig(knexConfig);
       this.knex.__pix__database = url.pathname.slice(1);
       this.knex.on('query', function (data) {
@@ -110,11 +120,22 @@ export class DatabaseConnection {
 
       configureConnectionExtension(this.knex);
     } else {
-      logger.error('Database connection not found');
+      this.knex = buildNotConfiguredKnexStub(() => this.#notConfiguredError());
     }
   }
 
+  get isConfigured() {
+    return this.#hasConnection;
+  }
+
+  #notConfiguredError() {
+    return new Error(`Database "${this.#name}" is not configured. Missing environment variable.`);
+  }
+
   async checkStatus() {
+    if (!this.#hasConnection) {
+      throw this.#notConfiguredError();
+    }
     try {
       await this.knex.raw('SELECT 1');
     } catch (cause) {

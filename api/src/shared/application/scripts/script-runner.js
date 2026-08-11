@@ -5,7 +5,7 @@ import pick from 'lodash/pick.js';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
-import { databaseConnections } from '../../../../db/database-connections.js';
+import { databaseConnectionRegistry } from '../../../../db/database-connection-registry.js';
 import { executeInContext, EXECUTORS } from '../../infrastructure/execution-context-manager.js';
 import { quitAllStorages } from '../../infrastructure/key-value-storages/index.js';
 import { quitMutex } from '../../infrastructure/mutex/RedisMutex.js';
@@ -81,7 +81,7 @@ export class ScriptRunner {
           logger.error(error);
           process.exitCode = 1;
         } finally {
-          await databaseConnections.disconnect();
+          await databaseConnectionRegistry.disconnect();
           await closePubSub();
           await quitAllStorages();
           await quitMutex();

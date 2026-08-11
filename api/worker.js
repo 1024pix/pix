@@ -1,4 +1,4 @@
-import { databaseConnections } from './db/database-connections.js';
+import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { checkJobGroups, JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config, schema as configSchema } from './src/shared/config.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
@@ -24,6 +24,9 @@ async function main() {
   const jobGroups = [jobGroup];
   checkJobGroups(jobGroups);
 
+  const requiredDatabases = jobGroup === JobGroup.MADDO ? ['api', 'datamart', 'datawarehouse'] : ['api', 'datamart'];
+  await databaseConnectionRegistry.initialize(requiredDatabases);
+
   await JobClient.instance.initialize({ worker: true, jobGroups });
 
   process.on('SIGTERM', async () => {
@@ -40,7 +43,7 @@ async function exitOnSignal(signal) {
 
   logger.info(`Received signal: ${signal}.`);
   await JobClient.instance.stop();
-  await databaseConnections.disconnect();
+  await databaseConnectionRegistry.disconnect();
   await metrics.clearMetrics();
   await closePubsub();
   await quitAllStorages();

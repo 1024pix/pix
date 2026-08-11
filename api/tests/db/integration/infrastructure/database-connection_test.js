@@ -1,3 +1,5 @@
+import sinon from 'sinon';
+
 import datamartKnexConfigs from '../../../../datamart/knexfile.js';
 import datawarehouseKnexConfigs from '../../../../datawarehouse/knexfile.js';
 import { DatabaseConnection } from '../../../../db/database-connection.js';
@@ -5,6 +7,7 @@ import liveKnexConfigs from '../../../../db/knexfile.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { config } from '../../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 
@@ -146,7 +149,7 @@ describe('Integration | Infrastructure | database-connection', function () {
       });
     });
 
-    it('should not return metrics when connection is not defined', async function () {
+    it('should not return metrics when connection is not configured', async function () {
       // given
       const databaseConnection = new DatabaseConnection({
         name: 'not-existing-pg',
@@ -165,6 +168,55 @@ describe('Integration | Infrastructure | database-connection', function () {
 
       // then
       expect(poolMetrics).to.deep.equal({});
+    });
+  });
+
+  describe('when the connection is not configured', function () {
+    const notConfiguredKnexConfig = {
+      name: 'datawarehouse',
+      client: 'postgresql',
+      connection: {
+        connectionString: undefined,
+      },
+    };
+    const expectedErrorMessage =
+      'Database "datawarehouse" is not configured. Missing environment variable.';
+
+    it('should build without logging an error', function () {
+      // given
+      const loggerErrorStub = sinon.stub(logger, 'error');
+
+      // when
+      const databaseConnection = new DatabaseConnection(notConfiguredKnexConfig);
+
+      // then
+      expect(databaseConnection.isConfigured).to.be.false;
+      expect(loggerErrorStub).to.not.have.been.called;
+    });
+
+    it('should throw a named error on any knex usage', function () {
+      // given
+      const databaseConnection = new DatabaseConnection(notConfiguredKnexConfig);
+
+      // when / then
+      expect(() => databaseConnection.knex.raw('SELECT 1')).to.throw(expectedErrorMessage);
+      expect(() => databaseConnection.knex('users')).to.throw(expectedErrorMessage);
+    });
+
+    it('should reject checkStatus with a named error', async function () {
+      // given
+      const databaseConnection = new DatabaseConnection(notConfiguredKnexConfig);
+
+      // when / then
+      await expect(databaseConnection.checkStatus()).to.be.rejectedWith(expectedErrorMessage);
+    });
+
+    it('should be a no-op on disconnect', async function () {
+      // given
+      const databaseConnection = new DatabaseConnection(notConfiguredKnexConfig);
+
+      // when / then
+      await expect(databaseConnection.disconnect()).to.be.fulfilled;
     });
   });
 });
