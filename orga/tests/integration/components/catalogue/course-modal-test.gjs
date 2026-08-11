@@ -164,9 +164,8 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       );
 
       // then
-      assert
-        .dom(screen.getByRole('heading', { name: `${competencesPix[0].index} - ${competencesPix[0].name}` }))
-        .exists();
+      assert.dom(screen.getByText(`Compétence ${competencesPix[0].index}`)).exists(); // TODO trad
+      assert.dom(screen.getByRole('heading', { name: competencesPix[0].name })).exists();
 
       const firstCompetence = screen.getByRole('table', {
         name: `${competencesPix[0].index} - ${competencesPix[0].name}`,

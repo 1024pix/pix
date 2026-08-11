@@ -3,6 +3,7 @@ import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
+const getCompetenceIndexLabel = (label, index) => `${label} ${index}`;
 const getTableName = (index, name) => `${index} - ${name}`;
 
 export default class TargetProfileContent extends Component {
@@ -31,7 +32,10 @@ export default class TargetProfileContent extends Component {
       </div>
       {{#each this.targetProfileCompetences as |competence|}}
         <div class="course-modal__competence">
-          <h2>{{getTableName competence.index competence.name}}</h2>
+          <div class="course-modal__competence__title">
+            <p>{{getCompetenceIndexLabel "Compétence" competence.index}}</p>
+            <h2>{{competence.name}}</h2>
+          </div>
           <PixTable
             @condensed={{true}}
             @variant="orga"

@@ -29,11 +29,17 @@
   &__competence {
     padding-bottom: var(--pix-spacing-2x);
 
-    & > h2 {
-      @extend %pix-title-xxs;
-
+    &__title {
       margin-top: var(--pix-spacing-2x);
       margin-bottom: var(--pix-spacing-2x);
+
+      p {
+        @extend %pix-body-s;
+      }
+
+      h2 {
+        @extend %pix-title-xxs;
+      }
     }
 
     &:last-child {
