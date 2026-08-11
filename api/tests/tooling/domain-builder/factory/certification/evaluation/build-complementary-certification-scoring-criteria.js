@@ -6,7 +6,6 @@ function buildComplementaryCertificationScoringCriteria({
   minimumReproducibilityRateLowerLevel = 60,
   complementaryCertificationBadgeId = 89,
   complementaryCertificationBadgeKey = 'badge_key',
-  hasComplementaryReferential = false,
   minimumEarnedPix = 0,
 } = {}) {
   return new ComplementaryCertificationScoringCriteria({
@@ -15,7 +14,6 @@ function buildComplementaryCertificationScoringCriteria({
     minimumReproducibilityRate,
     minimumReproducibilityRateLowerLevel,
     complementaryCertificationBadgeKey,
-    hasComplementaryReferential,
     minimumEarnedPix,
   });
 }

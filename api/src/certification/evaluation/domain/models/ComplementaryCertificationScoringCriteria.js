@@ -5,7 +5,6 @@ class ComplementaryCertificationScoringCriteria {
     minimumReproducibilityRateLowerLevel,
     complementaryCertificationBadgeKey,
     complementaryCertificationBadgeId,
-    hasComplementaryReferential,
     minimumEarnedPix,
   } = {}) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
@@ -13,7 +12,6 @@ class ComplementaryCertificationScoringCriteria {
     this.minimumReproducibilityRateLowerLevel = minimumReproducibilityRateLowerLevel;
     this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
     this.complementaryCertificationBadgeKey = complementaryCertificationBadgeKey;
-    this.hasComplementaryReferential = hasComplementaryReferential;
     this.minimumEarnedPix = minimumEarnedPix;
   }
 }
