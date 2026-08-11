@@ -12,7 +12,7 @@ import { ChallengeNeutralized } from '../events/ChallengeNeutralized.js';
  * @param {CertificationAssessmentRepository} params.certificationAssessmentRepository
  * @returns {Promise<ChallengeNeutralizedEvent>}
  */
-export const neutralizeChallenge = async function ({
+export async function neutralizeChallenge({
   certificationCourseId,
   challengeRecId,
   juryId,
@@ -24,4 +24,4 @@ export const neutralizeChallenge = async function ({
   certificationAssessment.neutralizeChallengeByRecId(challengeRecId);
   await certificationAssessmentRepository.save(certificationAssessment);
   return new ChallengeNeutralized({ certificationCourseId, juryId });
-};
+}

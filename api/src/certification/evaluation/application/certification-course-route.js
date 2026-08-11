@@ -5,7 +5,7 @@ import { V3_CERTIFICATION_AVAILABLE_LOCALES } from '../../shared/domain/models/C
 import { certificationCourseController } from './certification-course-controller.js';
 import { evaluationSecurityPreHandlers } from './security-pre-handlers.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -60,6 +60,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationCourseRoute = { name: 'certification/evaluation/certification-courses-api', register };

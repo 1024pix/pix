@@ -106,9 +106,9 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
  * @param {CandidateRecord}
  * @returns {Candidate}
  */
-const _toDomain = (data) => {
+function _toDomain(data) {
   return new Candidate({
     ...data,
     subscriptionFramework: data.subscription,
   });
-};
+}

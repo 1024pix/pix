@@ -25,13 +25,13 @@ const PROBABILITY_TO_PICK_THE_MOST_USEFUL_CHALLENGE_FOR_CANDIDATE_EVALUATION = 1
  * @param {FlashAssessmentAlgorithmConfiguration} params.flashAssessmentAlgorithmConfiguration - The flash assessment algorithm configuration.
  * @returns {number} The downgraded capacity.
  */
-export const downgradeCapacity = ({
+export function downgradeCapacity({
   algorithm,
   capacity,
   allChallenges,
   allAnswers,
   flashAssessmentAlgorithmConfiguration,
-}) => {
+}) {
   const numberOfUnansweredChallenges =
     flashAssessmentAlgorithmConfiguration.maximumAssessmentLength - allAnswers.length;
 
@@ -57,4 +57,4 @@ export const downgradeCapacity = ({
   const result = simulator.run({ challengesAnswers: allAnswers });
 
   return result.at(-1).capacity;
-};
+}

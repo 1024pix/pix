@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { scoringAndCapacitySimulatorController } from './scoring-and-capacity-simulator-controller.js';
 
-const register = async (server) => {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -33,7 +33,7 @@ const register = async (server) => {
       },
     },
   ]);
-};
+}
 
 export const scoringAndCapacitySimulatorRoute = {
   name: 'certification/evaluation/scoring-and-capacity-simulator-api',

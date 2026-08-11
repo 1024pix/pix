@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationScoringCriteria } from '../../domain/models/ComplementaryCertificationScoringCriteria.js';
 
-export const findByCertificationCourseId = async function ({ certificationCourseId }) {
+export async function findByCertificationCourseId({ certificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn('complementary-certification-courses')
     .select({
@@ -44,4 +44,4 @@ export const findByCertificationCourseId = async function ({ certificationCourse
       });
     },
   );
-};
+}
