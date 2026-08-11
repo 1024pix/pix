@@ -1,7 +1,7 @@
 /* eslint-disable knex/avoid-injections */
 import _ from 'lodash';
 
-import { DatabaseConnection } from '../database-connection.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { databaseBuffer as defaultDatabaseBuffer } from './database-buffer.js';
 import * as databaseHelpers from './database-helpers.js';
 import { factory } from './factory/index.js';
@@ -26,6 +26,7 @@ const CHUNK_SIZE = 1000;
  * @property {Factory} factory
  */
 export class DatabaseBuilder {
+  #databaseConnection;
   #emptyFirst;
   #databaseBuffer;
 
@@ -36,8 +37,9 @@ export class DatabaseBuilder {
   #deletePriority;
   #dirtyTables = new Set();
 
-  constructor({ knex, emptyFirst = true, databaseBuffer = defaultDatabaseBuffer }) {
-    this.knex = knex;
+  constructor({ databaseConnection, emptyFirst = true, databaseBuffer = defaultDatabaseBuffer }) {
+    this.#databaseConnection = databaseConnection;
+    this.knex = databaseConnection.knex;
     /** @type {Factory} */
     this.factory = factory;
     this.#databaseBuffer = databaseBuffer;
@@ -46,16 +48,8 @@ export class DatabaseBuilder {
     this.#addListeners();
   }
 
-  static async create({ knex, emptyFirst = true }) {
-    const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst });
-
-    try {
-      await databaseBuilder.#init();
-    } catch {
-      // Error thrown only with unit tests
-    }
-
-    return databaseBuilder;
+  static async create({ databaseConnection, emptyFirst = true }) {
+    return new DatabaseBuilder({ databaseConnection, emptyFirst });
   }
 
   async commit() {
@@ -75,8 +69,7 @@ export class DatabaseBuilder {
         }
       });
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(`Erreur dans databaseBuilder.commit() : ${err}`);
+      logger.error(`Erreur dans databaseBuilder.commit() : ${err}`);
       this.#dirtyTables.clear();
       throw err;
     } finally {
@@ -125,11 +118,7 @@ export class DatabaseBuilder {
   }
 
   async #getDirtyTablesSequencesInfo() {
-    // TODO: find a better way to do it
-    const knexConfig = this.knex.context.client.config;
-    const url = DatabaseConnection.databaseUrlFromConfig(knexConfig);
-    this.knex.__pix__database = url.pathname.slice(1);
-    const database = this.knex.__pix__database;
+    const database = this.#databaseConnection.databaseName;
 
     const rawSequencesInfo = await this.knex
       .from('information_schema.columns')

@@ -29,6 +29,7 @@ export class DatabaseConnection {
   knex;
   #name;
   #hasConnection;
+  #databaseName;
 
   static databaseUrlFromConfig(knexConfig) {
     return knexConfig?.connection?.connectionString ? new URL(knexConfig.connection.connectionString) : null;
@@ -99,7 +100,7 @@ export class DatabaseConnection {
       }
       this.knex = Knex(knexConfig);
       const url = DatabaseConnection.databaseUrlFromConfig(knexConfig);
-      this.knex.__pix__database = url.pathname.slice(1);
+      this.#databaseName = url.pathname.slice(1);
       this.knex.on('query', function (data) {
         if (logging.enableKnexPerformanceMonitoring) {
           const queryId = data.__knexQueryUid;
@@ -126,6 +127,10 @@ export class DatabaseConnection {
 
   get isConfigured() {
     return this.#hasConnection;
+  }
+
+  get databaseName() {
+    return this.#databaseName;
   }
 
   #notConfiguredError() {
@@ -173,7 +178,7 @@ export class DatabaseConnection {
   async #listAllTableNames() {
     const resultSet = await this.knex.raw(
       'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
-      [this.knex.__pix__database],
+      [this.#databaseName],
     );
 
     const rows = resultSet.rows;
