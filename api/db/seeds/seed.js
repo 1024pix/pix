@@ -1,6 +1,6 @@
+import { knex as datamartKnex } from '../../datamart/knex-database-connection.js';
 import { config } from '../../src/shared/config.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import { datamartKnex } from '../../tests/tooling/databases.js';
 import { DatabaseBuilder } from '../database-builder/database-builder.js';
 import { commonBuilder } from './data/common/common-builder.js';
 import { complementaryCertificationBuilder } from './data/common/complementary-certification-builder.js';
