@@ -1,5 +1,29 @@
 # Pix Changelog
 
+# [5.478.0](https://github.com/1024pix/pix/compare/v5.477.0...v5.478.0) (2026-08-11)
+
+### :rocket: Amélioration
+
+- [#17104](https://github.com/1024pix/pix/pull/17104) Modifier les textes liés à l'abandon de candidat de certif (PIX-23785).
+
+### :bug: Correction
+
+- [#17101](https://github.com/1024pix/pix/pull/17101) Afficher la notif de passage de niveau au dessus de la bannière d'info (PIX-23827).
+
+### :building_construction: Tech
+
+- [#17102](https://github.com/1024pix/pix/pull/17102) Ajouter la colonne category_id sur la table structures (PIX-23552)
+- [#17103](https://github.com/1024pix/pix/pull/17103) Changement d'une route POST en route GET (PIX-23822)
+- [#17088](https://github.com/1024pix/pix/pull/17088) Oblige et modifie le style de déclaration de function pour le contexte `certification/evaluation`
+- [#17106](https://github.com/1024pix/pix/pull/17106) Remplacer `ember-cli-mirage` par `miragejs` sur Pix Certif.
+- [#17107](https://github.com/1024pix/pix/pull/17107) Suppression des occurrences inutiles de `reproducibilityRate` pour la V3 (PIX-21672).
+- [#17087](https://github.com/1024pix/pix/pull/17087) Supprime `ember-api-actions`de Pix Certif.
+
+### :arrow_up: Montée de version
+
+- [#17074](https://github.com/1024pix/pix/pull/17074) Update dependency npm-run-all2 to v9.0.3 (e2e)
+- [#17108](https://github.com/1024pix/pix/pull/17108) Update dependency oxfmt to ^0.62.0 (api)
+
 # [5.477.0](https://github.com/1024pix/pix/compare/v5.476.0...v5.477.0) (2026-08-10)
 
 ### :rocket: Amélioration
