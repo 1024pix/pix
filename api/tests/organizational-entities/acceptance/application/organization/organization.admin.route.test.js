@@ -682,7 +682,12 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
         const network = databaseBuilder.factory.buildNetwork({
           name: 'Réseau Académique',
         });
-        const structure = databaseBuilder.factory.buildStructure();
+        const structureCategory = databaseBuilder.factory.buildStructureCategory({
+          label: 'Structure Category',
+        });
+        const structure = databaseBuilder.factory.buildStructure({
+          categoryId: structureCategory.id,
+        });
         databaseBuilder.factory.buildFactStructure({
           structureId: structure.id,
           networkId: network.id,
@@ -733,6 +738,8 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
               'country-name': country.commonName,
               'organization-learner-type-name': organizationLearnerType.name,
               'organization-learner-type-id': organizationLearnerType.id,
+              'category-id': structureCategory.id,
+              'category-label': structureCategory.label,
               features: {
                 [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: {
                   active: false,
