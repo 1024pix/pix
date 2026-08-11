@@ -15,9 +15,9 @@ export default class CertificationReportAdapter extends ApplicationAdapter {
   }
 
   abort({ certificationCourseId, reason }) {
-    const data = { reason };
+    const payload = { data: { reason } };
     const url = `${this.host}/${this.namespace}/certification-reports/${certificationCourseId}/abort`;
 
-    return this.ajax(url, 'POST', { data });
+    return this.ajax(url, 'POST', { data: payload });
   }
 }
