@@ -178,6 +178,16 @@
   }
 }
 
+.target-profile-detail {
+  &__header {
+    margin-bottom: var(--pix-spacing-6x);
+  }
+
+  &__description {
+    color: var(--pix-neutral-500);
+  }
+}
+
 .combined-course-blueprint-detail {
   display: flex;
   flex-direction: column;

@@ -21,7 +21,14 @@ export default class TargetProfileContent extends Component {
   }
 
   <template>
-    <div>
+    <div class="target-profile-detail">
+      <div class="target-profile-detail__header">
+        <h3 class="pix-title-xs">Profils Cibles</h3>
+        <p class="pix-body-s target-profile-detail__description">
+          Les profils cibles permettent de réaliser des évaluations personnalisées et progressive en fonction du niveau
+          de chaque participant. (WIP Description temporaire)
+        </p>
+      </div>
       {{#each this.targetProfileCompetences as |competence|}}
         <div class="course-modal__competence">
           <h2>{{getTableName competence.index competence.name}}</h2>
