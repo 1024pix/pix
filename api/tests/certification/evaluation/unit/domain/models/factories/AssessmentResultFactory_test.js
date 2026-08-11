@@ -360,7 +360,6 @@ describe('Certification | Evaluation | Unit | Domain | Factories | AssessmentRes
       const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
         status: AssessmentResult.status.REJECTED,
         pixScore: null,
-        reproducibilityRate: null,
         assessmentId: 123,
         juryId: 456,
         competenceMarks: [],
@@ -376,6 +375,8 @@ describe('Certification | Evaluation | Unit | Domain | Factories | AssessmentRes
       });
       expectedAssessmentResult.id = undefined;
       expectedAssessmentResult.createdAt = undefined;
+      // le taux de reproductibilité n'existe pas en V3
+      expectedAssessmentResult.reproducibilityRate = undefined;
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
   });
@@ -395,7 +396,6 @@ describe('Certification | Evaluation | Unit | Domain | Factories | AssessmentRes
       const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
         status: AssessmentResult.status.REJECTED,
         pixScore: null,
-        reproducibilityRate: null,
         assessmentId: 123,
         juryId: 456,
         competenceMarks: [],
@@ -411,6 +411,8 @@ describe('Certification | Evaluation | Unit | Domain | Factories | AssessmentRes
       });
       expectedAssessmentResult.id = undefined;
       expectedAssessmentResult.createdAt = undefined;
+      // le taux de reproductibilité n'existe pas en V3
+      expectedAssessmentResult.reproducibilityRate = undefined;
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
   });

@@ -157,11 +157,9 @@ function _scoreDoubleCertification({ assessmentSheet, assessmentResult, cleaScor
   return new DoubleCertificationScoring({
     complementaryCertificationCourseId: cleaScoringCriteria.complementaryCertificationCourseId,
     complementaryCertificationBadgeId: cleaScoringCriteria.complementaryCertificationBadgeId,
-    reproducibilityRate: assessmentResult.reproducibilityRate,
     pixScore: assessmentResult.pixScore,
     minimumEarnedPix: cleaScoringCriteria.minimumEarnedPix,
     hasAcquiredPixCertification: assessmentResult.isValidated(),
-    minimumReproducibilityRate: cleaScoringCriteria.minimumReproducibilityRate,
     isRejectedForFraud: assessmentSheet.isRejectedForFraud,
   });
 }
