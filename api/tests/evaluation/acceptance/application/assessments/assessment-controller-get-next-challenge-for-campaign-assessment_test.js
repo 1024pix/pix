@@ -81,8 +81,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
     const userId = 1234;
 
     context('When there still are challenges to answer', function () {
-      let clock;
-
       beforeEach(async function () {
         databaseBuilder.factory.buildUser({ id: userId });
         const campaign = databaseBuilder.factory.buildCampaign({ assessmentMethod: 'SMART_RANDOM' });
@@ -106,14 +104,10 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
         });
         await databaseBuilder.commit();
 
-        clock = sinon.useFakeTimers({
+        sinon.useFakeTimers({
           now: Date.now(),
           toFake: ['Date'],
         });
-      });
-
-      afterEach(async function () {
-        clock.restore();
       });
 
       it('should return an assessment', async function () {

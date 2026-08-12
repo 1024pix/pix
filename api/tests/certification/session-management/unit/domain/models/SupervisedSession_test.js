@@ -5,15 +5,10 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Certification | SessionManagement | Unit | Domain | Models | SupervisedSession', function () {
   describe('setStartDate', function () {
-    let clock;
     const now = new Date('2022-11-28T01:00:00Z');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     context('when session has no started certifications yet', function () {

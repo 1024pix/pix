@@ -67,15 +67,10 @@ describe('Integration | Repository | Organization Learner Management | Organizat
   });
 
   describe('#updateInBatchByIds', function () {
-    let clock;
     const now = new Date('2023-02-02');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('update given organization learner', async function () {
@@ -648,15 +643,10 @@ describe('Integration | Repository | Organization Learner Management | Organizat
     });
 
     context('update existing learner', function () {
-      let clock;
       const now = new Date('2023-02-02');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       it('should update existing learner', async function () {
@@ -724,17 +714,12 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
   describe('#disableCommonOrganizationLearnersFromOrganizationId', function () {
     let organizationId;
-    let clock;
     const now = new Date('2023-08-17');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     it('should set isDisabled to true and set updatedAt with today on organization learner', async function () {

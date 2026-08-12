@@ -213,7 +213,6 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
     let organizationLearner;
     let modulesApi;
     let organizationLearnerApi;
-    let clock;
     const now = new Date('2022-11-28T12:00:00Z');
 
     beforeEach(async function () {
@@ -228,11 +227,7 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       organizationLearnerApi = {
         get: sinon.stub(),
       };
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should create passage when participations does not exist', async function () {

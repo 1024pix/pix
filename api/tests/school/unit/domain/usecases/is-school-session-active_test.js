@@ -4,15 +4,9 @@ import { isSchoolSessionActive } from '../../../../../src/school/domain/usecases
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | is-session-active', function () {
-  let clock;
-
   beforeEach(function () {
     const now = new Date('2022-08-04');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it('should return false if no sessionExpirationDate found for school', async function () {

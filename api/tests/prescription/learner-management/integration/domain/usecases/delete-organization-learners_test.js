@@ -34,7 +34,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
   let campaignParticipation1;
   const participantExternalId = 'foo';
   let adminUserId;
-  let now, clock;
+  let now;
 
   beforeEach(async function () {
     adminUserId = buildUser().id;
@@ -59,11 +59,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
     await databaseBuilder.commit();
 
     now = new Date('2023-03-03');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when no organization learner is provided', function () {

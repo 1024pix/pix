@@ -20,14 +20,13 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
     let algorithm;
     let scoringDegradationService;
 
-    let clock;
     const now = new Date('2019-01-01T05:06:07Z');
 
     beforeEach(function () {
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
       scoringDegradationService = {
         downgradeCapacity: sinon.stub().rejects(new Error('Args mismatch')),
       };
@@ -39,10 +38,6 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
         configuration: flashAssessmentAlgorithmConfiguration,
       });
       sinon.stub(createV3AssessmentResult);
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     context('when scoring a CORE certification', function () {

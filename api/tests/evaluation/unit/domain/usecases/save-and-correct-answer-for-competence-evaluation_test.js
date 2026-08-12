@@ -24,7 +24,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
   let validator;
   let correctAnswerValue;
   let answer;
-  let clock;
   let answerRepository,
     challengeRepository,
     competenceRepository,
@@ -43,7 +42,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
   beforeEach(function () {
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     nowDate.setMilliseconds(1);
-    clock = sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
+    sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     answerRepository = { save: sinon.stub() };
     challengeRepository = { get: sinon.stub() };
@@ -90,10 +89,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       areaRepository,
       competenceRepository,
     };
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   context('when the user which want to save the answer is not the right user', function () {

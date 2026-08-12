@@ -6,15 +6,10 @@ import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | UserLogin', function () {
-  let clock;
   const now = new Date('2022-11-28T12:00:00Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#remainingAttempts', function () {

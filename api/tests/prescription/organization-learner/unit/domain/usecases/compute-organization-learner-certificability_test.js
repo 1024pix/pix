@@ -5,17 +5,11 @@ import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | compute-organization-learner-certificabilty', function () {
-  let clock;
-
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({
+    sinon.useFakeTimers({
       now: Date.now(),
       toFake: ['Date'],
     });
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   it('should update certificability for an organization learner', async function () {

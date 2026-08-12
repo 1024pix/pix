@@ -10,18 +10,13 @@ import { mockAttestationStorage } from '../../../../tooling/mocks/attestation-st
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Profile | Integration | Domain | get-attestation-data-for-users', function () {
-  let clock;
   const now = new Date('2022-12-25');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({
+    sinon.useFakeTimers({
       now,
       toFake: ['Date'],
     });
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   describe('#getAttestationDataForUsers', function () {

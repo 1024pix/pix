@@ -355,14 +355,9 @@ describe('Certification | Results | Unit | Application | certificate-controller'
 
   describe('#downloadDivisionCertificates', function () {
     const now = new Date('2019-01-01T05:06:07Z');
-    let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     describe('when there are at least one v3 attestation', function () {

@@ -38,11 +38,11 @@ describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function
   });
 
   describe('#canReset', function () {
-    let clock, now, baseProps;
+    let now, baseProps;
 
     beforeEach(function () {
       now = new Date('2020-01-07T05:06:07Z');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       baseProps = {
         id: 1,
@@ -56,10 +56,6 @@ describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function
         isOrganizationLearnerActive: true,
         sharedAt: new Date('2020-01-01T01:02:03Z'),
       };
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     describe('when isShared is not defined', function () {

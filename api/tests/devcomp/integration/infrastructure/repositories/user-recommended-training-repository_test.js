@@ -420,13 +420,10 @@ describe('Integration | Repository | user-recommended-training-repository', func
   });
 
   describe(deleteCampaignParticipationIds.name, function () {
-    let now, clock;
+    let now;
     beforeEach(function () {
       now = new Date('2025-01-01');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should set campaignParticipationId to null for given campaignParticipationIds', async function () {

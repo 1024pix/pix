@@ -109,8 +109,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
     const userId = 1234;
 
     context('When there are still challenges to answer', function () {
-      let clock;
-
       beforeEach(async function () {
         const user = databaseBuilder.factory.buildUser({ id: userId });
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -183,14 +181,10 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         await databaseBuilder.commit();
 
-        clock = sinon.useFakeTimers({
+        sinon.useFakeTimers({
           now: Date.now(),
           toFake: ['Date'],
         });
-      });
-
-      afterEach(async function () {
-        clock.restore();
       });
 
       it('should save and return an assessment', async function () {

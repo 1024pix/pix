@@ -6,14 +6,9 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 
 describe('Unit | Domain | Models | Badge', function () {
   const now = new Date();
-  let clock;
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers(now);
-  });
-
-  afterEach(async function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#updateBadgeProperties', function () {

@@ -7,7 +7,7 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 
 describe('Unit | Identity Access Management | Domain | UseCase | validate-user-account-email', function () {
   let emailValidationDemandRepository, userRepository;
-  let clock, now;
+  let now;
 
   const token = '00000000-0000-0000-0000-000000000000';
   const defaultRedirectionUrl = 'https://test.app.pix.fr/connexion';
@@ -22,14 +22,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
       update: sinon.stub(),
     };
 
-    clock = sinon.useFakeTimers({ now: new Date('2024-06-26'), toFake: ['Date'] });
-    now = new Date(clock.now);
+    now = new Date('2024-06-26');
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     sinon.stub(logger, 'error');
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   context('when token property is not given', function () {

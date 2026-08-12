@@ -52,16 +52,11 @@ describe('Unit | Domain | Models | OrganizationLearner', function () {
   });
 
   describe('#delete', function () {
-    let clock;
     let now;
 
     beforeEach(function () {
       now = new Date('2025-01-01');
-      clock = sinon.useFakeTimers(now, 'Date');
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should anonymize attributes using importFormat rules', function () {
@@ -220,16 +215,11 @@ describe('Unit | Domain | Models | OrganizationLearner', function () {
   });
 
   describe('#detachUser', function () {
-    let clock;
     let now;
 
     beforeEach(function () {
       now = new Date('2025-01-01');
-      clock = sinon.useFakeTimers(now, 'Date');
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should detach userId', function () {

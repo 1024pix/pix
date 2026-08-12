@@ -40,22 +40,17 @@ describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', 
     'organizationLearnerTypeId',
   ];
 
-  let clock;
   const now = new Date('2022-12-01');
 
   let user;
   let organization;
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     user = databaseBuilder.factory.buildUser();
     organization = databaseBuilder.factory.buildOrganization();
     await databaseBuilder.commit();
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   describe('#create', function () {

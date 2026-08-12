@@ -9,14 +9,9 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 describe('Integration | DevComp | Repositories | ElementAnswerRepository', function () {
   describe('#save', function () {
     const fakeDate = new Date('2023-12-31');
-    let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: fakeDate, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: fakeDate, toFake: ['Date'] });
     });
 
     it('should have an element answer', async function () {

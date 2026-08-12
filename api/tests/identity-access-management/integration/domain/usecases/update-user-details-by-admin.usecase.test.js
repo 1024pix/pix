@@ -17,7 +17,6 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
   let userId;
   let updatedByAdminId;
 
-  let clock;
   const now = new Date('2024-12-25');
 
   beforeEach(async function () {
@@ -29,11 +28,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
     databaseBuilder.factory.buildUser({ email: 'alreadyexist@example.net' });
     await databaseBuilder.commit();
 
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(async function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it('updates user email, firstname and lastname', async function () {

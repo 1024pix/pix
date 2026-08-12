@@ -31,7 +31,6 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
   const recipient2WithUpperCases = 'EMAIL2@EXAMPLE.NET';
 
   const certificationCenter = 'certificationCenter';
-  let clock;
   let candidateWithRecipient1,
     candidateWithRecipient2,
     candidate2WithRecipient2,
@@ -63,12 +62,8 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
       ],
       publishedAt: null,
     });
-    clock = sinon.useFakeTimers({ now: new Date('2019-01-01T05:06:07Z'), toFake: ['Date'] });
-    now = new Date(clock.now);
-  });
-
-  afterEach(function () {
-    clock.restore();
+    now = new Date('2019-01-01T05:06:07Z');
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#publishSession', function () {

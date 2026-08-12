@@ -10,7 +10,7 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
       const metricsMock = { addMetricPoint: sinon.stub() };
       const handlerMock = { handle: sinon.stub() };
       const loggerMock = { info: sinon.stub(), error: sinon.stub() };
-      sinon.useFakeTimers({ now: new Date('2022-02-27T13:00:00Z') });
+      sinon.useFakeTimers({ now: new Date('2022-02-27T13:00:00Z'), toFake: ['Date'] });
       const jobData = {
         id: '123',
         data: { foo: 'bar' },
@@ -52,7 +52,7 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
       const metricsMock = { addMetricPoint: sinon.stub() };
       const handlerMock = { handle: sinon.stub().rejects(new Error('error in handler')) };
       const loggerMock = { info: sinon.stub(), error: sinon.stub() };
-      sinon.useFakeTimers({ now: new Date('2022-02-27T13:00:00Z') });
+      sinon.useFakeTimers({ now: new Date('2022-02-27T13:00:00Z'), toFake: ['Date'] });
       const jobData = {
         id: '123',
         data: { foo: 'bar' },

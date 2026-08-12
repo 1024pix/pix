@@ -6,14 +6,8 @@ import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Team | Domain | UseCase | disable-own-membership', function () {
-  let clock;
-
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now: new Date('2023-08-01T11:15:00Z'), toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now: new Date('2023-08-01T11:15:00Z'), toFake: ['Date'] });
   });
 
   context('success', function () {

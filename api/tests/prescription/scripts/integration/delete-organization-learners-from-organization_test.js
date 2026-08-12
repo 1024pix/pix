@@ -33,21 +33,17 @@ describe('Script | Prod | Delete Organization Learners From Organization', funct
   });
 
   describe('Handle', function () {
-    let clock, now, script, logger;
+    let now, script, logger;
     const ENGINEERING_USER_ID = 99999;
 
     beforeEach(async function () {
       script = new DeleteOrganizationLearnersFromOrganizationScript();
       now = new Date('2024-01-17');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
       logger = { info: sinon.spy(), error: sinon.spy() };
       sinon.stub(process, 'env').value({ ENGINEERING_USER_ID });
       databaseBuilder.factory.buildUser({ id: process.env.ENGINEERING_USER_ID });
       await databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     it('delete one learner from given organizationId', async function () {

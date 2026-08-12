@@ -37,7 +37,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
   });
 
   context('#complete', function () {
-    let clock, assessmentSheetBaseData;
+    let assessmentSheetBaseData;
     const now = new Date();
 
     beforeEach(function () {
@@ -48,11 +48,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
         isRejectedForFraud: true,
         answers: [domainBuilder.buildAnswer()],
       };
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it(`should update state and assessmentUpdatedAt when assessment sheet is in state ${STATES.STARTED}`, function () {
@@ -361,7 +357,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
   });
 
   context('#endDueToCertificationDurationExceeded', function () {
-    let clock, assessmentSheetBaseData;
+    let assessmentSheetBaseData;
     const now = new Date();
 
     beforeEach(function () {
@@ -372,11 +368,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
         isRejectedForFraud: true,
         answers: [domainBuilder.buildAnswer()],
       };
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it(`should set state to ${STATES.ENDED_DUE_TO_DURATION_EXCEEDED} and update assessmentUpdatedAt`, function () {

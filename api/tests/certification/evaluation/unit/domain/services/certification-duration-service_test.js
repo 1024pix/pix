@@ -7,15 +7,10 @@ const TWENTY_FOUR_HOURS_IN_MS = 24 * 60 * 60 * 1000;
 
 describe('Unit | Certification | Evaluation | Domain | Service | certification-duration', function () {
   describe('#isDurationExceeded', function () {
-    let clock;
     const now = new Date('2026-01-02T00:00:00Z');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('returns true when the elapsed duration exceeds 24 hours by one millisecond', function () {

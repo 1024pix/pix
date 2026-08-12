@@ -14,7 +14,6 @@ describe('Integration | UseCases | generate organization learners username and t
   const generatedPassword = 'abcdef12';
   let cryptoService, passwordGenerator;
 
-  let clock;
   const now = new Date('2025-05-05');
 
   const allAuthenticationMethodUsername = 'laurent.bar';
@@ -31,7 +30,7 @@ describe('Integration | UseCases | generate organization learners username and t
   let aNotToTouchBlockedUserId;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     organization = domainBuilder.buildOrganization({ id: undefined });
     cryptoService = { hashPassword: sinon.stub().resolves(hashedPassword) };
@@ -92,10 +91,6 @@ describe('Integration | UseCases | generate organization learners username and t
     });
 
     userId = databaseBuilder.factory.buildUser().id;
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   context('When organization is of type SCO and has isManagingStudents at true', function () {

@@ -8,15 +8,11 @@ import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Certification | SessionManagement | Integration | Repository | Supervised candidate', function () {
-  let clock, now;
+  let now;
 
   beforeEach(function () {
     now = new Date('2003-04-05T03:04:05Z');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#authorizeToStart', function () {

@@ -6,15 +6,9 @@ import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer', function () {
-  let clock;
-
-  afterEach(function () {
-    clock.restore();
-  });
-
   beforeEach(function () {
     const now = new Date('2020-01-02');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   let profileSharedForCampaign;

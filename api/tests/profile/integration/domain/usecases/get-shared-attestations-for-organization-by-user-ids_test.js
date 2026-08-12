@@ -10,15 +10,10 @@ import { mockAttestationStorage } from '../../../../tooling/mocks/attestation-st
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Profile | Integration | Domain | get-shared-attestations-for-organization-by-user-ids', function () {
-  let clock;
   const now = new Date('2022-12-25');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(async function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#getAttestationDataForUsers', function () {

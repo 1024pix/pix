@@ -37,15 +37,10 @@ describe('Unit | Domain | ReadModels | organizationPlacesLotManagement', functio
   });
 
   describe('#status', function () {
-    let clock;
     const now = new Date('2021-05-01');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('have expired status when expirationDate has passed.', function () {

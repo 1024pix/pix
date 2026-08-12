@@ -44,15 +44,10 @@ describe('Integration | Shared | Infrastructure | Repositories | adminMember', f
     });
 
     context('when admin member is disabled', function () {
-      let clock;
       const now = new Date('2022-02-16');
 
       beforeEach(async function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(async function () {
-        clock.restore();
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       it('should return admin member details', async function () {

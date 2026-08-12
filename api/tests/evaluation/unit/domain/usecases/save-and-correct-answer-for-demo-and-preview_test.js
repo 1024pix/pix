@@ -21,7 +21,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-d
   let validator;
   let correctAnswerValue;
   let answer;
-  let clock;
   let answerRepository, challengeRepository;
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
@@ -33,7 +32,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-d
   beforeEach(function () {
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     nowDate.setMilliseconds(1);
-    clock = sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
+    sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
     answerRepository = { save: sinon.stub() };
     challengeRepository = { get: sinon.stub() };
 
@@ -59,10 +58,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-d
       challengeRepository,
       correctionService,
     };
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   context('when an answer for that challenge has already been provided', function () {

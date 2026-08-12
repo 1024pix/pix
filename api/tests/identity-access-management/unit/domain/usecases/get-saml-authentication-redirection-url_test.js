@@ -80,15 +80,10 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
   });
 
   context('when user already exists in database', function () {
-    let clock;
     const now = new Date('2022-03-13');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return access token url', async function () {

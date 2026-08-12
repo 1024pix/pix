@@ -378,15 +378,11 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
   });
 
   describe('#remainingSecondsBeforeRetrying', function () {
-    let clock, now;
+    let now;
 
     beforeEach(function () {
       now = new Date('2020-01-05T05:06:07Z');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     context('when participation is not shared', function () {
@@ -757,15 +753,11 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
   });
 
   describe('#canReset', function () {
-    let clock, now;
+    let now;
 
     beforeEach(function () {
       now = new Date('2020-01-05T05:06:07Z');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     context('when the campaign does not allow multiple sendings', function () {

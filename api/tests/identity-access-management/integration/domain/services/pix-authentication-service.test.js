@@ -20,10 +20,9 @@ const password = 'Password123';
 describe('Integration | Identity Access Management | Domain | Services | pix-authentication-service', function () {
   describe('#getUserByUsernameAndPassword', function () {
     let user;
-    let clock;
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       user = databaseBuilder.factory.buildUser.withRawPassword({
         email: 'user@example.net',
@@ -31,10 +30,6 @@ describe('Integration | Identity Access Management | Domain | Services | pix-aut
         rawPassword: password,
       });
       await databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     context('When user credentials are valid', function () {

@@ -9,14 +9,9 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 
 describe('Unit | Domain | Models | CertificationCenterMembership', function () {
   const now = new Date('2023-09-12');
-  let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('getters', function () {

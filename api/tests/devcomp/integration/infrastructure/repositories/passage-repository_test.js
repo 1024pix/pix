@@ -9,14 +9,8 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | DevComp | Repositories | PassageRepository', function () {
   describe('#save', function () {
-    let clock;
-
     beforeEach(function () {
-      clock = sinon.useFakeTimers(new Date('2023-12-31'), 'Date');
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: new Date('2023-12-31'), toFake: ['Date'] });
     });
 
     it('should save a passage with a userId provided', async function () {
@@ -72,14 +66,8 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
   });
 
   describe('#update', function () {
-    let clock;
-
     beforeEach(function () {
-      clock = sinon.useFakeTimers(new Date('2024-01-02'), 'Date');
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: new Date('2024-01-02'), toFake: ['Date'] });
     });
 
     it('should update a passage', async function () {

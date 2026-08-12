@@ -117,15 +117,10 @@ describe('Integration | Team | Infrastructure | Repositories | adminMember', fun
     });
 
     context('when admin member is disabled', function () {
-      let clock;
       const now = new Date('2022-02-16');
 
       beforeEach(async function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(async function () {
-        clock.restore();
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       it('should return admin member details', async function () {
@@ -191,15 +186,10 @@ describe('Integration | Team | Infrastructure | Repositories | adminMember', fun
     });
 
     context('when admin member is disabled', function () {
-      let clock;
       const now = new Date('2022-02-16');
 
       beforeEach(async function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(async function () {
-        clock.restore();
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       it('should return admin member details', async function () {
@@ -231,15 +221,10 @@ describe('Integration | Team | Infrastructure | Repositories | adminMember', fun
   });
 
   describe('#update', function () {
-    let clock;
     const now = new Date('2022-02-16');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return the given Admin role with new role', async function () {
@@ -293,15 +278,10 @@ describe('Integration | Team | Infrastructure | Repositories | adminMember', fun
   });
 
   describe('#deactivate', function () {
-    let clock;
     const now = new Date('2022-02-16');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should update Admin role with disabledAt and updatedAt filled with the date', async function () {

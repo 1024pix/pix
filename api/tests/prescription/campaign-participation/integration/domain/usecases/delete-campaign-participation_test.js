@@ -20,7 +20,7 @@ const {
 } = databaseBuilder.factory;
 
 describe('Integration | UseCases | delete-campaign-participation', function () {
-  let clock, now;
+  let now;
   let adminUserId;
   let campaignId;
   let userId;
@@ -30,7 +30,7 @@ describe('Integration | UseCases | delete-campaign-participation', function () {
 
   beforeEach(async function () {
     now = new Date('2023-03-03');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     adminUserId = databaseBuilder.factory.buildUser().id;
     userId = databaseBuilder.factory.buildUser().id;
@@ -48,10 +48,6 @@ describe('Integration | UseCases | delete-campaign-participation', function () {
     }).id;
 
     await databaseBuilder.commit();
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   it('should delete all campaignParticipations with anonymization', async function () {

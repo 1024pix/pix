@@ -10,7 +10,6 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | attach-badges', function () {
   let complementaryCertificationForTargetProfileAttachmentRepository, complementaryCertificationBadgesRepository;
-  let clock;
   const now = new Date('2023-02-02');
 
   beforeEach(function () {
@@ -20,11 +19,7 @@ describe('Unit | UseCase | attach-badges', function () {
     complementaryCertificationBadgesRepository = {
       countAttachableBadges: sinon.stub(),
     };
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when levels checks are not ok', function () {
