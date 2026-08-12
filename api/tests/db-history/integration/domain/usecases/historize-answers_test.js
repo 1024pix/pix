@@ -275,7 +275,10 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       await databaseBuilder.commit();
 
       const databaseError = new Error('connection terminated unexpectedly');
-      const failingAnswersRepository = { deleteAnswersByIds: sinon.stub().rejects(databaseError) };
+      const failingAnswersRepository = {
+        ...answersRepository,
+        deleteAnswersByIds: sinon.stub().rejects(databaseError),
+      };
 
       // when
       const error = await catchErr(historizeAnswers)({
@@ -319,6 +322,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
         deleteFile: sinon.stub().rejects(deletionError),
       });
       const failingAnswersRepository = {
+        ...answersRepository,
         deleteAnswersByIds: sinon.stub().rejects(new Error('connection terminated unexpectedly')),
       };
 

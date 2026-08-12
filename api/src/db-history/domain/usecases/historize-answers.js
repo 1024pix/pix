@@ -5,10 +5,6 @@ import { parquetWriteBuffer } from 'hyparquet-writer';
 import { config } from '../../../shared/config.js';
 import { logger as defaultLogger } from '../../../shared/infrastructure/utils/logger.js';
 import { AnswersHistoryRepository } from '../../infrastructure/repositories/answers-history-repository.js';
-import {
-  selectAnswerIdsByAssessmentIds,
-  selectAnswersByIds,
-} from '../../infrastructure/repositories/answers-repository.js';
 import { getAssessmentIdsByAssessmentTypeAndDateAndState } from '../../infrastructure/repositories/assessments-repository.js';
 import { TARGET_STATE, TARGET_TYPES } from '../constants.js';
 
@@ -63,14 +59,26 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
       assessmentIds,
       params.assessmentIdRange,
     )) {
-      await _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger);
+      await _batchOnAssessments(
+        assessmentRangeStart,
+        batchAssessmentIdsToBeProcessed,
+        params,
+        logger,
+        answersRepository,
+      );
     }
 
     fromId = assessmentIds.at(-1);
   }
 }
 
-async function _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger) {
+async function _batchOnAssessments(
+  assessmentRangeStart,
+  batchAssessmentIdsToBeProcessed,
+  params,
+  logger,
+  answersRepository,
+) {
   logger.info(`Processing assessment range from ${assessmentRangeStart}`);
 
   let fromId = 0;
@@ -79,7 +87,11 @@ async function _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeP
   const pageSize = params.answerBatchSize;
 
   while (hasMore) {
-    const answerIds = await selectAnswerIdsByAssessmentIds({ ids: batchAssessmentIdsToBeProcessed, pageSize, fromId });
+    const answerIds = await answersRepository.selectAnswerIdsByAssessmentIds({
+      ids: batchAssessmentIdsToBeProcessed,
+      pageSize,
+      fromId,
+    });
 
     hasMore = answerIds.length === pageSize;
 
@@ -89,15 +101,24 @@ async function _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeP
 
     logger.info(`${answerIds.length} answers to historize from batch ${batchCount}`);
 
-    await _batchOnAnswers(assessmentRangeStart, batchCount, answerIds, params, logger);
+    await _batchOnAnswers(assessmentRangeStart, batchCount, answerIds, params, logger, answersRepository);
 
     batchCount++;
     fromId = answerIds.at(-1);
   }
 }
 
-async function _batchOnAnswers(assessmentRangeStart, batchCount, batchAnswerIdsToBeProcessed, params, logger) {
-  const batchAnswersToBeDeleted = await selectAnswersByIds({ ids: batchAnswerIdsToBeProcessed });
+async function _batchOnAnswers(
+  assessmentRangeStart,
+  batchCount,
+  batchAnswerIdsToBeProcessed,
+  params,
+  logger,
+  answersRepository,
+) {
+  const batchAnswersToBeDeleted = await answersRepository.selectAnswersByIds({
+    ids: batchAnswerIdsToBeProcessed,
+  });
 
   logger.info(`Creating parquet file for assessment range from ${assessmentRangeStart}, answer batch ${batchCount}`);
 
@@ -124,7 +145,9 @@ async function _batchOnAnswers(assessmentRangeStart, batchCount, batchAnswerIdsT
       `File upload failed, rolling back uploaded file ${partitionFile} and deleting it from bucket. Error: ${historizationError}`,
     );
     try {
-      await params.repositories.answersHistory.deleteFile({ filename: partitionFile });
+      await params.repositories.answersHistory.deleteFile({
+        filename: partitionFile,
+      });
     } catch (deletionError) {
       throw Error('An error occurred during the deletion process', {
         cause: deletionError,
