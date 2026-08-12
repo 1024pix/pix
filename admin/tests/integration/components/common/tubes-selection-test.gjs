@@ -1,12 +1,13 @@
 import { clickByName, render, within } from '@1024pix/ember-testing-library';
-import { click, triggerEvent } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
+import { click, triggerEvent, waitUntil } from '@ember/test-helpers';
 import TubesSelection from 'pix-admin/components/common/tubes-selection';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | Common::TubesSelection', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let screen;
 
   hooks.beforeEach(async function () {
@@ -157,6 +158,45 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
 
     // then
     assert.dom(screen.getByText('Compatibilité')).exists();
+  });
+
+  module('#expand all accordions', function () {
+    test('it should display an action to expand and an action to collapse every accordion', async function (assert) {
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Tout déplier' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Tout replier' })).exists();
+    });
+
+    test('it should display every tube without expanding the accordions one by one', async function (assert) {
+      // when
+      await clickByName('Tout déplier');
+
+      // then
+      // Les accordéons Compétence ne sont rendus qu'une fois leur Domaine ouvert : l'ouverture se
+      // propage sur plusieurs frames, d'où l'attente explicite.
+      await waitUntil(() => screen.queryByText('@tubeName1 : Tube 1'));
+
+      assert.dom(screen.getByText('@tubeName1 : Tube 1')).exists();
+      assert.dom(screen.getByText('@tubeName2 : Tube 2')).exists();
+      assert.dom(screen.getByText('@tubeName3 : Tube 3')).exists();
+    });
+
+    test('it should collapse every accordion back', async function (assert) {
+      // given
+      await clickByName('Tout déplier');
+      await waitUntil(() => screen.queryByText('@tubeName1 : Tube 1'));
+
+      // when
+      await clickByName('Tout replier');
+
+      // then
+      // PixAccordions garde le contenu dans le DOM une fois ouvert et se contente de le masquer :
+      // on vérifie donc l'état des accordéons, pas la disparition du texte.
+      assert.dom(screen.getByRole('button', { name: '1 · Titre domaine' })).hasAria('expanded', 'false');
+      // Une fois le Domaine replié, son contenu passe en aria-hidden : l'accordéon Compétence
+      // sort de l'arbre d'accessibilité, d'où `hidden: true`.
+      assert.dom(screen.getByRole('button', { name: '1 Titre competence', hidden: true })).hasAria('expanded', 'false');
+    });
   });
 
   module('#import tubes preselection or target profile export', function () {
