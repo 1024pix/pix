@@ -585,7 +585,7 @@ jobs:
           at: ~/pix
       - run:
           name: Test
-          command: npm run test:api:unit
+          command: npm run test:api:unit -- --no-cache
           environment:
             NODE_ENV: test
             VITEST_JUNIT_OUTPUT: /home/circleci/test-results/test-results.xml
