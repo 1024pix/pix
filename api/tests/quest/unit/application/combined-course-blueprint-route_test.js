@@ -201,7 +201,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
             'internal-name': 'Mon schéma de parcours combiné',
             description: 'La description combinix',
             illustration: 'illustration.svg',
-            'reward-requirements': 'Description of the reward requirements',
+            'reward-requirements-description': 'Description of the reward requirements',
           },
         },
       };
