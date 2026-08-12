@@ -6,12 +6,17 @@ loadEnvFileIfExists();
 
 export default defineConfig({
   test: {
+    environment: 'node',
     globals: true,
-    setupFiles: ['./tests/test-helper.js'],
+    css: false,
     testTimeout: 5000,
     retry: Number(process.env.VITEST_RETRIES ?? 0),
     isolate: false,
     fileParallelism: false,
+    mockReset: false,
+    restoreMocks: false,
+    pool: 'threads',
+    maxWorkers: 1,
     env: { NODE_ENV: 'test' },
     projects: [
       {
