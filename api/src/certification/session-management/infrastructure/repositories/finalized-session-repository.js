@@ -52,7 +52,7 @@ const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}
       'finalized-sessions.publishedAt': null,
     })
     .select('finalized-sessions.*')
-    .orderBy('finalized-sessions.finalizedAt');
+    .orderBy('finalized-sessions.finalizedAt', 'DESC');
 
   return publishableFinalizedSessions.map(_toDomainObject);
 };
