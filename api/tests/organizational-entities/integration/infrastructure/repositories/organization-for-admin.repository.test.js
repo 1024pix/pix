@@ -696,6 +696,9 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       // given
       const superAdminUser = databaseBuilder.factory.buildUser({ firstName: 'Cécile', lastName: 'Encieux' });
       const organizationLearnerType = databaseBuilder.factory.buildOrganizationLearnerType({ name: 'Type Toto' });
+      const structureCategorie = databaseBuilder.factory.buildStructureCategory({
+        label: 'Structure Category Label',
+      });
       const {
         network,
         structure: parentStructure,
@@ -715,7 +718,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationLearnerTypeId: organizationLearnerType.id,
         },
       });
-      const { organization } = databaseBuilder.factory.buildOrganizationInNetwork({
+      const { organization, structure } = databaseBuilder.factory.buildOrganizationInNetwork({
         networkId: network.id,
         parentStructureId: parentStructure.id,
         organizationData: {
@@ -759,7 +762,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       });
 
       await databaseBuilder.commit();
-
+      await knex('structures').where({ id: structure.id }).update({ category_id: structureCategorie.id });
       // when
       const foundOrganizationForAdmin = await organizationForAdminRepository.get({
         organizationId: organization.id,
@@ -809,6 +812,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         networkName: network.name,
         networkHeadOrganizationId: parentOrganization.id,
         networkHeadOrganizationName: 'Mother Of Dark Side',
+        categoryId: structureCategorie.id,
+        categoryLabel: structureCategorie.label,
       });
       expect(foundOrganizationForAdmin).to.deep.equal(expectedOrganizationForAdmin);
     });
@@ -911,6 +916,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationLearnerType: domainOrganizationLearnerType,
           networkId: null,
           networkName: null,
+          categoryId: null,
+          categoryLabel: null,
         });
         expect(foundOrganizationForAdmin).to.deep.equal(expectedOrganizationForAdmin);
       });
@@ -1025,6 +1032,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationLearnerType: domainOrganizationLearnerType,
           networkId: null,
           networkName: null,
+          categoryId: null,
+          categoryLabel: null,
         });
         expect(foundOrganizationForAdmin).to.deep.equal(expectedOrganizationForAdmin);
       });
@@ -1157,6 +1166,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationLearnerType: domainOrganizationLearnerType,
           networkId: null,
           networkName: null,
+          categoryId: null,
+          categoryLabel: null,
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
       });

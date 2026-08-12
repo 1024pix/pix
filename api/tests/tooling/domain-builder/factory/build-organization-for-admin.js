@@ -38,6 +38,8 @@ function buildOrganizationForAdmin({
   networkName,
   networkHeadOrganizationId,
   networkHeadOrganizationName,
+  categoryId = null,
+  categoryLabel = null,
 } = {}) {
   return new OrganizationForAdmin({
     id,
@@ -77,6 +79,8 @@ function buildOrganizationForAdmin({
     networkName,
     networkHeadOrganizationId,
     networkHeadOrganizationName,
+    categoryId,
+    categoryLabel,
   });
 }
 

@@ -39,6 +39,7 @@ export { createOrganization };
  * @param {number} administrationTeamId
  * @param {number} countryCode
  * @param configOrganization {learnerCount: number }
+ * @param {number} categoryId
  * @returns {Promise<{organizationId: number}>}
  */
 async function createOrganization({
@@ -71,6 +72,7 @@ async function createOrganization({
   administrationTeamId,
   countryCode = COUNTRY_FRANCE_CODE,
   organizationLearnerTypeId,
+  categoryId = null,
 }) {
   organizationId = _buildOrganization({
     databaseBuilder,
@@ -99,7 +101,7 @@ async function createOrganization({
     organizationLearnerTypeId,
   }).id;
 
-  _buildAndLinkStructure({ databaseBuilder, organizationId });
+  _buildAndLinkStructure({ databaseBuilder, organizationId, categoryId });
 
   _buildMemberships({
     databaseBuilder,
@@ -201,8 +203,8 @@ function _buildMemberships({ databaseBuilder, organizationId, adminIds, memberId
   );
 }
 
-function _buildAndLinkStructure({ databaseBuilder, organizationId }) {
-  const structureId = databaseBuilder.factory.buildStructure().id;
+function _buildAndLinkStructure({ databaseBuilder, organizationId, categoryId }) {
+  const structureId = databaseBuilder.factory.buildStructure({ categoryId }).id;
   databaseBuilder.factory.buildFactStructure({ structureId, organizationId });
 }
 
