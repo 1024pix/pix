@@ -28,6 +28,7 @@ describe('Integration | History-db | Infrastructure | Repository | Answers', fun
       expect(remainingAnswers[1].id).to.equal(answerToKeep2.id);
     });
   });
+
   describe('selectAnswerIdsByAssessmentIds', function () {
     it('select answers from assessment ids', async function () {
       // given
@@ -54,14 +55,28 @@ describe('Integration | History-db | Infrastructure | Repository | Answers', fun
         assessmentId: 100002,
       });
       await databaseBuilder.commit();
-      const assessmentIds = { ids: [100000, 100002] };
 
       // when
-      const answerIds = await selectAnswerIdsByAssessmentIds(assessmentIds);
+      const firstPageAnswerIds = await selectAnswerIdsByAssessmentIds({
+        ids: [100000, 100002],
+        pageSize: 2,
+        fromId: 0,
+      });
 
       //then
-      expect(answerIds).to.have.length(3);
-      expect(answerIds.map((answer) => answer.id)).to.deep.equal([1, 2, 4]);
+      expect(firstPageAnswerIds).to.have.length(2);
+      expect(firstPageAnswerIds).to.deep.equal([1, 2]);
+
+      // when
+      const secondPageAnswerIds = await selectAnswerIdsByAssessmentIds({
+        ids: [100000, 100002],
+        pageSize: 2,
+        fromId: 2,
+      });
+
+      //then
+      expect(secondPageAnswerIds).to.have.length(1);
+      expect(secondPageAnswerIds).to.deep.equal([4]);
     });
   });
 

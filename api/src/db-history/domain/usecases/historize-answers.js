@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto';
 
 import { parquetWriteBuffer } from 'hyparquet-writer';
-import chunk from 'lodash/chunk.js';
 
 import { config } from '../../../shared/config.js';
 import { logger as defaultLogger } from '../../../shared/infrastructure/utils/logger.js';
@@ -41,7 +40,7 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
   };
   let fromId = 0;
   let hasMore = true;
-  const pageSize = 1000;
+  const pageSize = 10000;
 
   while (hasMore) {
     const assessmentIds = await getAssessmentIdsByAssessmentTypeAndDateAndState({
@@ -74,28 +73,33 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
 async function _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger) {
   logger.info(`Processing assessment range from ${assessmentRangeStart}`);
 
-  const answerIds = await selectAnswerIdsByAssessmentIds({ ids: batchAssessmentIdsToBeProcessed });
-  const answerBatches = chunk(
-    answerIds.map((answer) => answer.id),
-    params.answerBatchSize,
-  );
-  logger.info(`${answerIds.length} answers to historize, split into ${answerBatches.length} batches`);
+  let fromId = 0;
+  let batchCount = 1;
+  let hasMore = true;
+  const pageSize = params.answerBatchSize;
 
-  for (const [batchIndex, batchAnswerIdsToBeProcessed] of answerBatches.entries()) {
-    await _batchOnAnswers(
-      assessmentRangeStart,
-      `${batchIndex + 1}/${answerBatches.length}`,
-      batchAnswerIdsToBeProcessed,
-      params,
-      logger,
-    );
+  while (hasMore) {
+    const answerIds = await selectAnswerIdsByAssessmentIds({ ids: batchAssessmentIdsToBeProcessed, pageSize, fromId });
+
+    hasMore = answerIds.length === pageSize;
+
+    if (answerIds.length === 0) {
+      break;
+    }
+
+    logger.info(`${answerIds.length} answers to historize from batch ${batchCount}`);
+
+    await _batchOnAnswers(assessmentRangeStart, batchCount, answerIds, params, logger);
+
+    batchCount++;
+    fromId = answerIds.at(-1);
   }
 }
 
-async function _batchOnAnswers(assessmentRangeStart, batchProgress, batchAnswerIdsToBeProcessed, params, logger) {
+async function _batchOnAnswers(assessmentRangeStart, batchCount, batchAnswerIdsToBeProcessed, params, logger) {
   const batchAnswersToBeDeleted = await selectAnswersByIds({ ids: batchAnswerIdsToBeProcessed });
 
-  logger.info(`Creating parquet file for assessment range from ${assessmentRangeStart}, answer batch ${batchProgress}`);
+  logger.info(`Creating parquet file for assessment range from ${assessmentRangeStart}, answer batch ${batchCount}`);
 
   const { partitionFile, fileContent } = createParquetArrayBuffer(
     assessmentRangeStart,

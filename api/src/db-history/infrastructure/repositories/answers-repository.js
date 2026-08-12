@@ -5,9 +5,15 @@ export const deleteAnswersByIds = ({ ids }) => {
   return knexConn('answers').delete().whereIn('id', ids);
 };
 
-export const selectAnswerIdsByAssessmentIds = ({ ids }) => {
+export const selectAnswerIdsByAssessmentIds = ({ ids, fromId = 0, pageSize = 1000 }) => {
   const knexConn = DomainTransaction.getConnection();
-  return knexConn.select('id').from('answers').whereIn('answers.assessmentId', ids);
+  return knexConn
+    .pluck('id')
+    .from('answers')
+    .whereIn('answers.assessmentId', ids)
+    .andWhere('answers.id', '>', fromId)
+    .limit(pageSize)
+    .orderBy('answers.id', 'asc');
 };
 
 export const selectAnswersByIds = ({ ids }) => {
