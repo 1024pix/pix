@@ -1160,6 +1160,7 @@
             "undone": "This action cannot be undone."
           }
         },
+        "category": "Category",
         "code": "Code",
         "country": {
           "label": "Country (INSEE code)",
