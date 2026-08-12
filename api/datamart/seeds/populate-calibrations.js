@@ -1,37 +1,111 @@
-import { complementaryCertifications } from '../../db/seeds/data/team-certification/shared/complementary-certifications.js';
-import { ComplementaryCertificationKeys } from '../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import dayjs from 'dayjs';
 
-async function insertCalibrations({ knex }) {
-  const id = nextCalibrationId();
-  await knex.batchInsert('data_calibrations', [
-    {
-      id,
-      calibration_date: new Date(),
-      status: 'VALIDATED',
-      scope: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-    },
-  ]);
-  await insertActiveCalibratedChallenges({ knex, calibrationId: id });
+import { knex as apiKnex } from '../../db/knex-database-connection.js';
+import {
+  CALIBRATION_SCOPES,
+  CALIBRATION_STATUSES,
+  fromCalibrationScope,
+} from '../../src/certification/configuration/domain/models/Calibration.js';
+import { VERSION_STATUSES } from '../../src/certification/configuration/domain/models/Version.js';
+import { config } from '../../src/shared/config.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { knex as datamartKnex } from '../knex-database-connection.js';
+
+const CALIBRATION_AGE_IN_MONTHS = 4;
+const ALPHA = 1;
+const DELTA = 1;
+
+/**
+ * @param {Object} params
+ * @param {typeof CALIBRATION_SCOPES[keyof typeof CALIBRATION_SCOPES]} params.calibrationScope
+ * @returns {Promise<number|undefined>}
+ */
+async function findActiveVersionId({ calibrationScope }) {
+  const version = await apiKnex('certification_versions')
+    .select('id')
+    .where({ scope: fromCalibrationScope(calibrationScope), status: VERSION_STATUSES.ACTIVE })
+    .orderBy('id', 'desc')
+    .first();
+
+  return version?.id;
 }
 
-async function insertActiveCalibratedChallenges({ knex, calibrationId }) {
-  const challengeIds = complementaryCertifications[0].challengeIds;
+/**
+ * @param {Object} params
+ * @param {number} params.versionId
+ * @returns {Promise<Array<string>>}
+ */
+async function findChallengeIdsToCalibrate({ versionId }) {
+  const tubeIds = await apiKnex.pluck('tube_id').from('certification_versions_tubes').where('version_id', versionId);
 
-  const activeCalibratedChallenges = challengeIds.map((challengeId) => {
-    return {
-      calibration_id: calibrationId,
-      challenge_id: challengeId,
-      alpha: 2.3,
-      delta: 5.1,
-    };
-  });
-  await knex.batchInsert('data_active_calibrated_challenges', activeCalibratedChallenges);
+  return apiKnex
+    .from({ skills: 'learningcontent.skills' })
+    .join({ challenges: 'learningcontent.challenges' }, 'challenges.skillId', 'skills.id')
+    .whereIn('skills.tubeId', tubeIds)
+    .where('challenges.status', 'validé')
+    .pluck('challenges.id');
 }
 
-function nextCalibrationId(startingFrom = 10000) {
-  return startingFrom++;
+async function removeExistingCalibrations() {
+  await datamartKnex('data_active_calibrated_challenges').truncate();
+  await datamartKnex('data_calibrations').truncate();
 }
 
-export async function seed(knex) {
-  insertCalibrations({ knex });
+export async function seed() {
+  if (!config.seeds.context.certification) {
+    logger.info('Certification seeds are disabled, skipping calibrations');
+    return;
+  }
+
+  await removeExistingCalibrations();
+
+  const calibrationDate = dayjs().subtract(CALIBRATION_AGE_IN_MONTHS, 'month').toDate();
+  let seededCalibrationCount = 0;
+
+  for (const [index, calibrationScope] of Object.values(CALIBRATION_SCOPES).entries()) {
+    const versionId = await findActiveVersionId({ calibrationScope });
+
+    if (!versionId) {
+      logger.warn(`No active certification version for scope ${calibrationScope}, skipping its calibration`);
+      continue;
+    }
+
+    const challengeIds = await findChallengeIdsToCalibrate({ versionId });
+
+    if (challengeIds.length === 0) {
+      logger.warn(
+        `No validated challenge for scope ${calibrationScope} (version ${versionId}), skipping its calibration`,
+      );
+      continue;
+    }
+
+    const calibrationId = index + 1;
+    await datamartKnex('data_calibrations').insert({
+      id: calibrationId,
+      calibration_date: calibrationDate,
+      scope: calibrationScope,
+      status: CALIBRATION_STATUSES.VALIDATED,
+    });
+
+    await datamartKnex.batchInsert(
+      'data_active_calibrated_challenges',
+      challengeIds.map((challengeId) => ({
+        calibration_id: calibrationId,
+        challenge_id: challengeId,
+        alpha: ALPHA,
+        delta: DELTA,
+      })),
+    );
+
+    seededCalibrationCount++;
+    logger.info(
+      `Seeded calibration ${calibrationId} (${calibrationScope}) with ${challengeIds.length} calibrated challenges`,
+    );
+  }
+
+  if (seededCalibrationCount === 0) {
+    logger.warn(
+      'No calibration seeded: the API database holds no calibratable certification version. Run `npm run db:seed` then `npm run datamart:seed:calibrations`.',
+    );
+  }
 }

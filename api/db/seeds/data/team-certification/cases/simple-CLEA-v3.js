@@ -40,9 +40,8 @@ import publishSessionWithValidatedCertification from '../tools/publish-session-w
  *   - I have previously obtained a certif CLEA with ~350 pix
  */
 export class CleaV3Seed {
-  constructor({ databaseBuilder, datamartKnex }) {
+  constructor({ databaseBuilder }) {
     this.databaseBuilder = databaseBuilder;
-    this.datamartKnex = datamartKnex;
   }
 
   async create() {
@@ -102,7 +101,6 @@ export class CleaV3Seed {
   async #initCertificationReferentials() {
     await CommonCertificationVersions.initCoreVersions({
       databaseBuilder: this.databaseBuilder,
-      datamartKnex: this.datamartKnex,
     });
   }
 
