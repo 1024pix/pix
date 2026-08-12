@@ -6,6 +6,7 @@
       "are-you-sure": "En cochant cette case vous affirmer avoir les droits d'effectuer cette action.",
       "cancel": "Annuler",
       "close": "Fermer",
+      "collapse-all": "Tout replier",
       "confirm": "Confirmer",
       "confirm-deletion": "Oui, je supprime",
       "confirm-title": "Merci de confirmer",
@@ -14,6 +15,7 @@
       "deactivate": "Désactiver",
       "download-template": "Télécharger le template",
       "edit": "Modifier",
+      "expand-all": "Tout déplier",
       "next": "Suivant",
       "save": "Enregistrer",
       "validate": "Valider"

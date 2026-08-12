@@ -109,6 +109,7 @@
 @use 'display/footer-modal' as *;
 
 /* App/Components */
+@use 'common/expandable-accordions' as *;
 @use 'ui/copyable-id' as *;
 @use 'ui/deletion-modal' as *;
 @use 'ui/head-information-block' as *;

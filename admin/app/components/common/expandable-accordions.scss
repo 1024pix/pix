@@ -1,0 +1,13 @@
+.expandable-accordions {
+  &__toolbar {
+    display: flex;
+    gap: var(--pix-spacing-1x);
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: var(--pix-spacing-4x);
+  }
+
+  &__separator {
+    color: var(--pix-neutral-500);
+  }
+}

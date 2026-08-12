@@ -6,6 +6,7 @@
       "are-you-sure": "By ticking this box, you confirm that you have the right to perform this action.",
       "cancel": "Cancel",
       "close": "Close",
+      "collapse-all": "Collapse all",
       "confirm": "Confirm",
       "confirm-deletion": "Yes, delete",
       "confirm-title": "Please confirm",
@@ -14,6 +15,7 @@
       "deactivate": "Deactivate",
       "download-template": "Download template",
       "edit": "Edit",
+      "expand-all": "Expand all",
       "next": "Next",
       "save": "Save",
       "validate": "Validate"
