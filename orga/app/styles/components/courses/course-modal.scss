@@ -68,6 +68,7 @@
 
         & .pix-table-header-container {
           justify-content: center;
+          text-align: center;
         }
       }
 
@@ -214,6 +215,8 @@
 }
 
 .target-profile-detail {
+  padding-bottom: var(--pix-spacing-6x);
+
   &__header {
     margin-bottom: var(--pix-spacing-6x);
   }
