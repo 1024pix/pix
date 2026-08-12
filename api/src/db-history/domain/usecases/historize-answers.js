@@ -119,10 +119,20 @@ async function _batchOnAnswers(assessmentRangeStart, batchCount, batchAnswerIdsT
     logger.info(`Deleting ${batchAnswersToBeDeleted.length} answers...`);
     await deleteBatchAnswers(params.repositories.answers, batchAnswersToBeDeleted, logger);
     logger.info(`Successfully deleted ${batchAnswersToBeDeleted.length} answers.`);
-  } catch (error) {
-    logger.error(`File upload failed, rolling back uploaded file ${partitionFile} and deleting it from bucket`);
-    await params.repositories.answersHistory.deleteFile({ filename: partitionFile });
-    throw Error('An error occurred during the process', { cause: error });
+  } catch (historizationError) {
+    logger.error(
+      `File upload failed, rolling back uploaded file ${partitionFile} and deleting it from bucket. Error: ${historizationError}`,
+    );
+    try {
+      await params.repositories.answersHistory.deleteFile({ filename: partitionFile });
+    } catch (deletionError) {
+      throw Error('An error occurred during the deletion process', {
+        cause: deletionError,
+      });
+    }
+    throw Error('An error occurred during the historization process', {
+      cause: historizationError,
+    });
   }
 }
 

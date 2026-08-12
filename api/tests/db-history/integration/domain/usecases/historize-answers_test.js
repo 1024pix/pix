@@ -6,8 +6,10 @@ import {
   createParquetArrayBuffer,
   deleteBatchAnswers,
   getBatchesFromRange,
+  historizeAnswers,
 } from '../../../../../src/db-history/domain/usecases/historize-answers.js';
 import { usecases } from '../../../../../src/db-history/domain/usecases/index.js';
+import { AnswersHistoryRepository } from '../../../../../src/db-history/infrastructure/repositories/answers-history-repository.js';
 import * as answersRepository from '../../../../../src/db-history/infrastructure/repositories/answers-repository.js';
 import { config } from '../../../../../src/shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
@@ -253,6 +255,83 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
 
       //then
       expect(error).to.deepEqualInstance(new Error(`Target date: ${targetDate} must be at least one year ago.`));
+    });
+  });
+
+  describe('when the answers cannot be deleted from the database', function () {
+    it('rolls the uploaded file back and reports the underlying cause', async function () {
+      // given
+      const logger = {
+        info: sinon.stub(),
+        error: sinon.stub(),
+      };
+      const targetDate = new Date('2020-01-02');
+      const assessment = databaseBuilder.factory.buildAssessment({
+        updatedAt: targetDate,
+        state: 'completed',
+        type: 'CAMPAIGN',
+      });
+      databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id });
+      await databaseBuilder.commit();
+
+      const databaseError = new Error('connection terminated unexpectedly');
+      const failingAnswersRepository = { deleteAnswersByIds: sinon.stub().rejects(databaseError) };
+
+      // when
+      const error = await catchErr(historizeAnswers)({
+        answersRepository: failingAnswersRepository,
+        targetDate,
+        logger,
+      });
+
+      // then
+      expect(error.message).to.equal('An error occurred during the historization process');
+      expect(error.cause.message).to.equal('An error occurred during the answers deletion in DB');
+      expect(error.cause.cause).to.equal(databaseError);
+
+      const { Contents: uploadedFiles } = await s3Client.listFiles();
+      expect(uploadedFiles ?? []).to.have.length(0);
+
+      // the cause is what makes the failure diagnosable from the logs alone
+      expect(logger.error.lastCall.args[0]).to.include('An error occurred during the answers deletion in DB');
+    });
+  });
+
+  describe('when the rollback of the uploaded file fails', function () {
+    it('reports the deletion error instead of the historization one', async function () {
+      // given
+      const logger = {
+        info: sinon.stub(),
+        error: sinon.stub(),
+      };
+      const targetDate = new Date('2020-01-02');
+      const assessment = databaseBuilder.factory.buildAssessment({
+        updatedAt: targetDate,
+        state: 'completed',
+        type: 'CAMPAIGN',
+      });
+      databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id });
+      await databaseBuilder.commit();
+
+      const deletionError = new Error('Access Denied');
+      sinon.stub(AnswersHistoryRepository, 'createClient').returns({
+        sendFile: sinon.stub().resolves(),
+        deleteFile: sinon.stub().rejects(deletionError),
+      });
+      const failingAnswersRepository = {
+        deleteAnswersByIds: sinon.stub().rejects(new Error('connection terminated unexpectedly')),
+      };
+
+      // when
+      const error = await catchErr(historizeAnswers)({
+        answersRepository: failingAnswersRepository,
+        targetDate,
+        logger,
+      });
+
+      // then
+      expect(error.message).to.equal('An error occurred during the deletion process');
+      expect(error.cause).to.equal(deletionError);
     });
   });
 
