@@ -1,10 +1,11 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import Details from 'pix-admin/components/target-profiles/details';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | routes/authenticated/target-profiles/target-profile | details', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should display specific text when profile has no content', async function (assert) {
     // given
