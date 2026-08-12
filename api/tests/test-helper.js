@@ -38,8 +38,8 @@ Object.values(customChaiHelpers).forEach(chaiUse);
 /* eslint-disable mocha/no-top-level-hooks */
 before(async function () {
   // Always start tests with a clean database
-  const isUnitTest = process.env.TEST_DATABASE_URL?.includes('should.not.reach.db');
-  if (!isUnitTest) await databaseBuilder.emptyDatabase();
+  const isDbReachable = !process.env.TEST_DATABASE_URL?.includes('should.not.reach.db');
+  if (isDbReachable) await databaseBuilder.emptyDatabase();
 
   nock.disableNetConnect();
   nock.enableNetConnect('localhost:9090'); // Unmock S3 storage
