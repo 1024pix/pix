@@ -24,8 +24,7 @@ describe('Integration | History-db | Infrastructure | Repository | Answers', fun
       // then
       const remainingAnswers = await knex('answers');
       expect(remainingAnswers).to.have.length(2);
-      expect(remainingAnswers[0].id).to.equal(answerToKeep1.id);
-      expect(remainingAnswers[1].id).to.equal(answerToKeep2.id);
+      expect(remainingAnswers.map(({ id }) => id)).to.have.members([answerToKeep1.id, answerToKeep2.id]);
     });
   });
 
@@ -104,7 +103,7 @@ describe('Integration | History-db | Infrastructure | Repository | Answers', fun
 
       //then
       expect(answerIds).to.have.length(3);
-      expect(answerIds.map((answer) => answer.id)).to.deep.equal([1, 2, 4]);
+      expect(answerIds.map((answer) => answer.id)).to.have.members([1, 2, 4]);
     });
   });
 });
