@@ -245,7 +245,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
               description: 'La description combinix',
               'prescriber-description': 'La description prescripteur',
               illustration: 'illustration.svg',
-              'reward-requirements': 'Description of the reward requirements',
+              'reward-requirements-description': 'Description of the reward requirements',
             },
           },
         };

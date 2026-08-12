@@ -19,6 +19,10 @@ export default class CombinedCourseBlueprintSerializer extends ApplicationSerial
       }
     }
 
+    if (json.data.relationships) {
+      delete json.data.relationships;
+    }
+
     return json;
   }
 }
