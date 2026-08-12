@@ -5,10 +5,14 @@ import { parquetWriteBuffer } from 'hyparquet-writer';
 import { config } from '../../../shared/config.js';
 import { logger as defaultLogger } from '../../../shared/infrastructure/utils/logger.js';
 import { AnswersHistoryRepository } from '../../infrastructure/repositories/answers-history-repository.js';
-import { getAssessmentIdsByAssessmentTypeAndDateAndState } from '../../infrastructure/repositories/assessments-repository.js';
 import { TARGET_STATE, TARGET_TYPES } from '../constants.js';
 
-export async function historizeAnswers({ answersRepository, targetDate, logger = defaultLogger }) {
+export async function historizeAnswers({
+  answersRepository,
+  assessmentsRepository,
+  targetDate,
+  logger = defaultLogger,
+}) {
   const now = new Date();
   const oneYearAgo = now.setFullYear(now.getFullYear() - 1);
 
@@ -39,7 +43,7 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
   const pageSize = 10000;
 
   while (hasMore) {
-    const assessmentIds = await getAssessmentIdsByAssessmentTypeAndDateAndState({
+    const assessmentIds = await assessmentsRepository.getAssessmentIdsByAssessmentTypeAndDateAndState({
       targetTypes: TARGET_TYPES,
       targetState: TARGET_STATE,
       targetDate,

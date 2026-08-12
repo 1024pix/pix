@@ -11,6 +11,7 @@ import {
 import { usecases } from '../../../../../src/db-history/domain/usecases/index.js';
 import { AnswersHistoryRepository } from '../../../../../src/db-history/infrastructure/repositories/answers-history-repository.js';
 import * as answersRepository from '../../../../../src/db-history/infrastructure/repositories/answers-repository.js';
+import * as assessmentsRepository from '../../../../../src/db-history/infrastructure/repositories/assessments-repository.js';
 import { config } from '../../../../../src/shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { expect } from '../../../../test-helper.js';
@@ -283,6 +284,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       // when
       const error = await catchErr(historizeAnswers)({
         answersRepository: failingAnswersRepository,
+        assessmentsRepository,
         targetDate,
         logger,
       });
@@ -329,6 +331,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       // when
       const error = await catchErr(historizeAnswers)({
         answersRepository: failingAnswersRepository,
+        assessmentsRepository,
         targetDate,
         logger,
       });
