@@ -717,21 +717,6 @@ const configuration = (function () {
       },
     };
 
-    config.answersHistoryExport = {
-      storage: {
-        client: {
-          accessKeyId: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID,
-          secretAccessKey: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY,
-          endpoint: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT,
-          region: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_REGION,
-          bucket: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME,
-          forcePathStyle: true,
-        },
-        assessmentIdRange: parseInt(process.env.TEST_ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
-        answerBatchSize: parseInt(process.env.TEST_ANSWERS_HISTORY_ANSWER_BATCH_SIZE),
-      },
-    };
-
     config.attestations = {
       storage: {
         client: {
