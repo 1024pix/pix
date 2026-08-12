@@ -47,7 +47,7 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
   });
   logger.info(`${assessmentIds.length} assessments will be processed`);
   for (const [assessmentRangeStart, batchAssessmentIdsToBeProcessed] of getBatchesFromRange(
-    assessmentIds.map((assessment) => assessment.id),
+    assessmentIds,
     params.assessmentIdRange,
   )) {
     await _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger);

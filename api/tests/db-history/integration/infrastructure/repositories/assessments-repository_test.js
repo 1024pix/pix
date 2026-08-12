@@ -44,8 +44,8 @@ describe('Integration | History-db | Infrastructure | Repository | Assessments',
 
       // then
       expect(firstPageAssessmentIds).to.have.length(2);
-      expect(firstPageAssessmentIds[0]).to.deep.equal({ id: 1 });
-      expect(firstPageAssessmentIds[1]).to.deep.equal({ id: 2 });
+      expect(firstPageAssessmentIds[0]).to.deep.equal(1);
+      expect(firstPageAssessmentIds[1]).to.deep.equal(2);
 
       // when
       const secondPageAssessmentIds = await getAssessmentIdsByAssessmentTypeAndDateAndState({
@@ -58,7 +58,7 @@ describe('Integration | History-db | Infrastructure | Repository | Assessments',
 
       // then
       expect(secondPageAssessmentIds).to.have.length(1);
-      expect(secondPageAssessmentIds[0]).to.deep.equal({ id: 3 });
+      expect(secondPageAssessmentIds[0]).to.deep.equal(3);
     });
 
     describe('when assessment’s updatedAt is not target date', function () {
@@ -92,7 +92,7 @@ describe('Integration | History-db | Infrastructure | Repository | Assessments',
 
         // then
         expect(assessmentIds).to.have.length(1);
-        expect(assessmentIds[0]).to.deep.equal({ id: 2 });
+        expect(assessmentIds[0]).to.deep.equal(2);
       });
     });
   });

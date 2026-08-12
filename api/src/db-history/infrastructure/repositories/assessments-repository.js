@@ -10,7 +10,7 @@ export const getAssessmentIdsByAssessmentTypeAndDateAndState = async ({
   const nextDay = new Date(targetDate);
   nextDay.setDate(nextDay.getDate() + 1);
   return knex
-    .select('id')
+    .pluck('id')
     .from('assessments')
     .whereIn('assessments.type', targetTypes)
     .andWhere('assessments.state', targetState)
