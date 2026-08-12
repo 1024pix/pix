@@ -1,4 +1,4 @@
-import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 export const getAssessmentIdsByAssessmentTypeAndDateAndState = async ({
   targetTypes,
@@ -7,11 +7,11 @@ export const getAssessmentIdsByAssessmentTypeAndDateAndState = async ({
   pageSize = 10,
   fromId = 0,
 }) => {
+  const knexConn = DomainTransaction.getConnection();
   const nextDay = new Date(targetDate);
   nextDay.setDate(nextDay.getDate() + 1);
-  return knex
+  return knexConn('assessments')
     .pluck('id')
-    .from('assessments')
     .whereIn('assessments.type', targetTypes)
     .andWhere('assessments.state', targetState)
     .andWhere('assessments.id', '>', fromId)
