@@ -189,7 +189,7 @@ const register = async function (server) {
                 description: Joi.string().allow(null),
                 'prescriber-description': Joi.string().allow(null),
                 'survey-link': Joi.string().allow(null),
-                'reward-requirements': Joi.string().allow(null),
+                'reward-requirements-description': Joi.string().allow(null),
               },
             },
           }),
