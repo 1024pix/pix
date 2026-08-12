@@ -149,6 +149,9 @@ export class DatabaseBuilder {
   }
 
   async emptyDatabase({ keepLearningContent = false } = {}) {
+    // Can be called before #init() has loaded the tables (initial test cleanup)
+    if (!this.#tablesOrderedByDependency) await this.#loadTables();
+
     const sortedTableNames = this.#tablesOrderedByDependency
       .map(sanitizeTableName)
       .filter((tableName) => {
