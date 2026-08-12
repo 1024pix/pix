@@ -3,8 +3,6 @@
  * @typedef {import ("./index.js").SessionCodeService} SessionCodeService
  */
 
-const INVIGILATOR_PASSWORD_LENGTH = 6;
-const INVIGILATOR_PASSWORD_CHARS = '23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?'.split('');
 /**
  * @param {object} params
  * @param {number} params.userId
@@ -30,8 +28,6 @@ export async function createSession({
   sessionRepository,
   sessionCodeService,
 }) {
-  const accessCode = sessionCodeService.getNewSessionCode();
-  const invigilatorPassword = generateInvigilatorPassword();
   return sessionRepository.create({
     userId,
     certificationCenterId,
@@ -41,16 +37,7 @@ export async function createSession({
     time,
     examiner,
     description,
-    accessCode,
-    invigilatorPassword,
+    accessCode: sessionCodeService.getNewSessionCode(),
+    invigilatorPassword: sessionCodeService.getNewInvigilatorPassword(),
   });
-}
-
-function generateInvigilatorPassword() {
-  const chars = Array.from(INVIGILATOR_PASSWORD_CHARS);
-  for (let i = INVIGILATOR_PASSWORD_LENGTH; i >= 0; i--) {
-    const j = Math.floor(Math.random() * (chars.length - 1));
-    [chars[i], chars[j]] = [chars[j], chars[i]];
-  }
-  return chars.slice(0, INVIGILATOR_PASSWORD_LENGTH).join('');
 }

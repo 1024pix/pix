@@ -12,14 +12,14 @@ module('Unit | Adapter | certification issue report', function (hooks) {
       sinon.stub(adapter, 'ajax');
 
       const certificationCourseId = 1;
-      const reason = 'reason';
+      const reason = 'technical';
 
       // when
       await adapter.abort({ certificationCourseId, reason });
 
       // then
       const expectedUrl = 'http://localhost:3000/api/certification-reports/1/abort';
-      assert.ok(adapter.ajax.calledWith(expectedUrl, 'POST', { data: { reason } }));
+      assert.true(adapter.ajax.calledOnceWithExactly(expectedUrl, 'POST', { data: { data: { reason: 'technical' } } }));
     });
   });
 });

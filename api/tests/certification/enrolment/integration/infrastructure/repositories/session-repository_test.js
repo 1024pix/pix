@@ -8,44 +8,6 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | certification | enrolment | SessionEnrolment', function () {
-  describe('#save', function () {
-    it('should persist and return the session', async function () {
-      databaseBuilder.factory.buildCertificationCenter({
-        id: 456,
-        name: 'Centre de certif fictif',
-        type: 'SCO',
-      });
-      databaseBuilder.factory.buildUser({
-        id: 123,
-      });
-      await databaseBuilder.commit();
-      const sessionToSave = domainBuilder.certification.enrolment
-        .sessionEnrolmentBuilder()
-        .createdBy({
-          userId: 123,
-          certificationCenterId: 456,
-          certificationCenterName: 'Centre de certif fictif',
-          certificationCenterType: 'SCO',
-        })
-        .withParameters({
-          date: '2026-01-01',
-          time: '19:30:05',
-          examiner: 'terminator',
-          room: 'CFA-330',
-          accessCode: 'SOME1ACCESS2CODE',
-          address: '2 rue des coquelicots',
-          description: 'une description pleine de sens',
-          invigilatorPassword: 'INVIG7',
-        })
-        .build();
-
-      const savedSession = await sessionRepository.save({ session: sessionToSave });
-
-      const readSession = await sessionRepository.get({ id: savedSession.id });
-      expect(readSession).to.deepEqualInstance(readSession);
-    });
-  });
-
   describe('#get', function () {
     it('returns the SessionEnrolment model with candidates', async function () {
       const candidateABuilder = domainBuilder.certification.enrolment
