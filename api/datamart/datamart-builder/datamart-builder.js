@@ -8,6 +8,7 @@ import { factory } from './factory/index.js';
  */
 class DatamartBuilder {
   constructor({ databaseConnection }) {
+    this.databaseConnection = databaseConnection;
     this.knex = databaseConnection.knex;
     this.datamartBuffer = datamartBuffer;
     this.factory = factory;
@@ -18,6 +19,8 @@ class DatamartBuilder {
   }
 
   async commit() {
+    if (!this.databaseConnection.isConfigured) return;
+
     try {
       const trx = await this.knex.transaction();
       for (const objectToInsert of this.datamartBuffer.objectsToInsert) {
@@ -33,6 +36,8 @@ class DatamartBuilder {
   }
 
   async clean() {
+    if (!this.databaseConnection.isConfigured) return;
+
     let rawQuery = '';
 
     [
