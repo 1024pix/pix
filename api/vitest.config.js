@@ -49,7 +49,7 @@ export default defineConfig({
     ],
     reporters: process.env.CI
       ? [
-          'default',
+          'dot',
           [
             'junit',
             {
