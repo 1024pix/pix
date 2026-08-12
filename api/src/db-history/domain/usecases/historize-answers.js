@@ -39,18 +39,35 @@ export async function historizeAnswers({ answersRepository, targetDate, logger =
       answers: answersRepository,
     },
   };
+  let fromId = 0;
+  let hasMore = true;
+  const pageSize = 1000;
 
-  const assessmentIds = await getAssessmentIdsByAssessmentTypeAndDateAndState({
-    targetTypes: TARGET_TYPES,
-    targetState: TARGET_STATE,
-    targetDate,
-  });
-  logger.info(`${assessmentIds.length} assessments will be processed`);
-  for (const [assessmentRangeStart, batchAssessmentIdsToBeProcessed] of getBatchesFromRange(
-    assessmentIds,
-    params.assessmentIdRange,
-  )) {
-    await _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger);
+  while (hasMore) {
+    const assessmentIds = await getAssessmentIdsByAssessmentTypeAndDateAndState({
+      targetTypes: TARGET_TYPES,
+      targetState: TARGET_STATE,
+      targetDate,
+      fromId,
+      pageSize,
+    });
+
+    hasMore = assessmentIds.length === pageSize;
+
+    if (assessmentIds.length === 0) {
+      break;
+    }
+
+    logger.info(`${assessmentIds.length} assessments will be processed`);
+
+    for (const [assessmentRangeStart, batchAssessmentIdsToBeProcessed] of getBatchesFromRange(
+      assessmentIds,
+      params.assessmentIdRange,
+    )) {
+      await _batchOnAssessments(assessmentRangeStart, batchAssessmentIdsToBeProcessed, params, logger);
+    }
+
+    fromId = assessmentIds.at(-1);
   }
 }
 
