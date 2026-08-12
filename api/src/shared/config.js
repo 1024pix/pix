@@ -103,6 +103,10 @@ function buildSeedsContext(value) {
 const schema = Joi.object({
   MADDO: Joi.boolean().optional().default(false),
   ACCESS_TOKEN_LIFESPAN: Joi.string().optional(),
+  // only the answers historization job needs those two ANSWERS_HISTORY values, hence optional here: the job itself
+  // rejects a missing or non-positive value rather than silently skipping its batching
+  ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: Joi.number().integer().min(1).optional(),
+  ANSWERS_HISTORY_ANSWER_BATCH_SIZE: Joi.number().integer().min(1).optional(),
   AUTH_SECRET: Joi.string().required(),
   AUTONOMOUS_COURSES_ORGANIZATION_ID: Joi.number().requiredForApi(),
   API_DATA_URL: Joi.string().uri().optional(),
@@ -197,6 +201,8 @@ const configuration = (function () {
           forcePathStyle: true,
         },
         assessmentIdRange: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
+        assessmentIdBatchSize: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE),
+        answerBatchSize: parseInt(process.env.ANSWERS_HISTORY_ANSWER_BATCH_SIZE),
       },
     },
     import: {
@@ -331,7 +337,6 @@ const configuration = (function () {
       databaseHistory: {
         scheduleHistorizeAnswers: {
           cron: process.env.SCHEDULE_HISTORIZE_ANSWERS_JOB_CRON || '0 0 29 2 *',
-          chunkSize: process.env.SCHEDULE_HISTORIZE_ANSWERS_CHUNK_SIZE || 1000,
         },
       },
     },
@@ -710,20 +715,6 @@ const configuration = (function () {
           bucket: process.env.TEST_IMPORT_STORAGE_BUCKET_NAME,
           forcePathStyle: true,
         },
-      },
-    };
-
-    config.answersHistoryExport = {
-      storage: {
-        client: {
-          accessKeyId: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID,
-          secretAccessKey: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY,
-          endpoint: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT,
-          region: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_REGION,
-          bucket: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME,
-          forcePathStyle: true,
-        },
-        assessmentIdRange: parseInt(process.env.TEST_ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
       },
     };
 
