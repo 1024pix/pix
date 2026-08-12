@@ -1,6 +1,10 @@
 let calibrationId = 0;
 
+const TEMPORARY_DISABLED = true;
+
 export async function buildDataCalibrationForVersion({ knex, datamartKnex, versionId, scope, status }) {
+  if (TEMPORARY_DISABLED) return;
+
   calibrationId++;
 
   const fourMonthsAgo = new Date();

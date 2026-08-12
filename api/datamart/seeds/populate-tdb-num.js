@@ -1,4 +1,5 @@
 import { DatamartBuilder } from '../../datamart/datamart-builder/datamart-builder.js';
+import { databaseConnection } from '../knex-database-connection.js';
 
 // Deterministic per-competence variation factor allows to have various avgPixScore
 const COMPETENCES = [
@@ -264,8 +265,8 @@ const SCHOOLS = [
   },
 ];
 
-export async function seed(knex) {
-  const datamartBuilder = new DatamartBuilder({ knex });
+export async function seed() {
+  const datamartBuilder = new DatamartBuilder({ databaseConnection });
 
   for (const school of SCHOOLS) {
     for (const cls of school.classes) {

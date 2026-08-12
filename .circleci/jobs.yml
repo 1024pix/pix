@@ -1178,15 +1178,15 @@ jobs:
           working_directory: ~/pix/api
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
-            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            DATAMART_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
             AUTH_SECRET: 'secret'
             LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
-          command: npm run db:prepare
+          command: npm run db:prepare && npm run datamart:prepare && npm run datawarehouse:prepare
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
@@ -1194,8 +1194,8 @@ jobs:
           background: true
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
-            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            DATAMART_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
@@ -1286,15 +1286,15 @@ jobs:
           working_directory: ~/pix/api
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
-            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            DATAMART_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
             AUTH_SECRET: 'secret'
             LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
-          command: npm run db:prepare
+          command: npm run db:prepare && npm run datamart:prepare && npm run datawarehouse:prepare
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
@@ -1302,8 +1302,8 @@ jobs:
           background: true
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
-            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            DATAMART_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'

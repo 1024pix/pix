@@ -8,13 +8,13 @@ import nock from 'nock';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-import { disconnect as disconnectKnex } from '../db/knex-database-connection.js';
 import * as moduleRepository from '../src/devcomp/infrastructure/repositories/module-repository.js';
 import * as tutorialRepository from '../src/devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as missionRepository from '../src/school/infrastructure/repositories/mission-repository.js';
 import { featureToggles } from '../src/shared/infrastructure/feature-toggles/index.js';
 import { JobClient } from '../src/shared/infrastructure/jobs/JobClient.js';
-import { clearMutex, quitMutex } from '../src/shared/infrastructure/mutex/RedisMutex.js';
+import { clearMutex } from '../src/shared/infrastructure/mutex/RedisMutex.js';
+import { releaseInfrastructure } from '../src/shared/infrastructure/release-infrastructure.js';
 import * as areaRepository from '../src/shared/infrastructure/repositories/area-repository.js';
 import * as challengeRepository from '../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../src/shared/infrastructure/repositories/competence-repository.js';
@@ -72,13 +72,7 @@ afterEach(async function () {
 });
 
 after(async function () {
-  await quitMutex();
-  try {
-    await JobClient.instance.stop();
-  } catch {
-    // pgBoss is not available on unit tests
-  }
-  await disconnectKnex();
+  await releaseInfrastructure();
 });
 /* eslint-enable mocha/no-top-level-hooks */
 

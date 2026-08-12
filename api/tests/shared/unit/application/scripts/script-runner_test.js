@@ -1,9 +1,7 @@
 import sinon from 'sinon';
 
-import { databaseConnections } from '../../../../../db/database-connections.js';
 import { Script } from '../../../../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../../../../src/shared/application/scripts/script-runner.js';
-import { close as closePubSub } from '../../../../../src/shared/infrastructure/pubsub.js';
 import { logger, loggerPino } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { expect } from '../../../../test-helper.js';
 
@@ -14,6 +12,7 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
   let isRunningFromCli;
   let loggerInfoSpy, loggerErrorSpy;
   let getProcessArgs;
+  let releaseInfrastructure;
 
   beforeEach(function () {
     scriptFileUrl = 'file://script.js';
@@ -21,6 +20,7 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
     loggerInfoSpy = sinon.spy(logger, 'info');
     loggerErrorSpy = sinon.spy(logger, 'error');
     getProcessArgs = sinon.stub();
+    releaseInfrastructure = sinon.stub().resolves();
     scriptRunStub = sinon.stub();
     ScriptClass = class MyTestScript extends Script {
       constructor() {
@@ -40,9 +40,6 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
         return scriptRunStub(...args);
       }
     };
-
-    sinon.spy(databaseConnections.disconnect);
-    sinon.spy(closePubSub);
   });
 
   it('runs in a dedicated context and attach correlation information', async function () {
@@ -53,7 +50,7 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
     const loggerPinoChildSpy = sinon.spy(loggerPino, 'child');
 
     // when
-    await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs });
+    await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs, releaseInfrastructure });
 
     // then
     expect(
@@ -74,11 +71,16 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
       // given
 
       // when
-      await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs });
+      await ScriptRunner.execute(scriptFileUrl, ScriptClass, {
+        isRunningFromCli,
+        getProcessArgs,
+        releaseInfrastructure,
+      });
 
       // then
       expect(loggerInfoSpy).not.to.have.been.called;
       expect(loggerErrorSpy).not.to.have.been.called;
+      expect(releaseInfrastructure).not.to.have.been.called;
     });
   });
 
@@ -93,7 +95,11 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
       getProcessArgs.returns(['--verbose', 'pouet', '--volume', '666']);
 
       // when
-      await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs });
+      await ScriptRunner.execute(scriptFileUrl, ScriptClass, {
+        isRunningFromCli,
+        getProcessArgs,
+        releaseInfrastructure,
+      });
 
       // then
       expect(loggerInfoSpy).to.have.been.calledWith('Start script');
@@ -103,6 +109,7 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
         logger,
       });
       expect(loggerInfoSpy).to.have.been.calledWith('Script execution successful.');
+      expect(releaseInfrastructure).to.have.been.calledOnce;
     });
 
     context('when an error occurs in the script', function () {
@@ -112,13 +119,18 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
         getProcessArgs.returns([]);
 
         // when
-        await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs });
+        await ScriptRunner.execute(scriptFileUrl, ScriptClass, {
+          isRunningFromCli,
+          getProcessArgs,
+          releaseInfrastructure,
+        });
 
         // then
         expect(scriptRunStub).to.have.been.calledOnce;
         expect(loggerErrorSpy).to.have.been.calledWith('Script execution failed.');
         expect(loggerErrorSpy).to.have.been.calledWithMatch(sinon.match.instanceOf(Error));
         expect(process.exitCode).to.equal(1);
+        expect(releaseInfrastructure).to.have.been.calledOnce;
       });
     });
   });
