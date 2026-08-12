@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## [5.478.1](https://github.com/1024pix/pix/compare/v5.478.0...v5.478.1) (2026-08-12)
+
+### :bug: Correction
+
+- [#17114](https://github.com/1024pix/pix/pull/17114) Gérer le cas ou la currentOrganization d'un prescripteur ne fait plus parti de ses memberships (PIX-23778)
+- [#17115](https://github.com/1024pix/pix/pull/17115) Vérifie que la session existe avant de passer au cas d'utilisation (PIX-23846)
+
+### :building_construction: Tech
+
+- [#17111](https://github.com/1024pix/pix/pull/17111) Augmentation de la taille des lots de copie sur les réplications parcoursup
+- [#17112](https://github.com/1024pix/pix/pull/17112) Corrige un problème dans les seeds : utilise la connexion au datamart directement
+
 # [5.478.0](https://github.com/1024pix/pix/compare/v5.477.0...v5.478.0) (2026-08-11)
 
 ### :rocket: Amélioration
