@@ -3,7 +3,7 @@ import lodash from 'lodash';
 import {
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserNotFoundError,
-} from '../../../shared/domain/errors.js';
+} from '../../../../shared/domain/errors.js';
 
 const { uniqBy } = lodash;
 

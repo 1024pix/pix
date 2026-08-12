@@ -1,9 +1,9 @@
-import { StudentInformationForAccountRecovery } from '../../../../../src/identity-access-management/domain/read-models/StudentInformationForAccountRecovery.js';
-import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import { StudentInformationForAccountRecovery } from '../../../../../../src/prescription/organization-learner/domain/read-models/StudentInformationForAccountRecovery.js';
+import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
+import { expect } from '../../../../../test-helper.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Integration | Identity Access Management | UseCase | check-sco-account-recovery', function () {
+describe('Integration | Prescription | Learner Management | UseCase | check-sco-account-recovery', function () {
   it('should return user account information', async function () {
     // given
     const user = databaseBuilder.factory.buildUser({ email: 'email@example.net', username: 'username' });

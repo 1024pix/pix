@@ -2,6 +2,7 @@ import { authenticationSessionService } from '../../../../identity-access-manage
 import * as obfuscationService from '../../../../identity-access-management/domain/services/obfuscation-service.js';
 import * as passwordGenerator from '../../../../identity-access-management/domain/services/password-generator.service.js';
 import * as userService from '../../../../identity-access-management/domain/services/user-service.js';
+import { accountRecoveryDemandRepository } from '../../../../identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../../../identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import { lastUserApplicationConnectionsRepository } from '../../../../identity-access-management/infrastructure/repositories/last-user-application-connections.repository.js';
@@ -14,6 +15,7 @@ import { tagRepository } from '../../../../organizational-entities/infrastructur
 import * as libOrganizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as combinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 import { cryptoService } from '../../../../shared/domain/services/crypto-service.js';
+import { mailService } from '../../../../shared/domain/services/mail-service.js';
 import * as userReconciliationService from '../../../../shared/domain/services/user-reconciliation-service.js';
 /** TODO
  * Internal API Needed For
@@ -44,8 +46,10 @@ import * as organizationParticipantRepository from '../../infrastructure/reposit
 import * as registrationOrganizationLearnerRepository from '../../infrastructure/repositories/registration-organization-learner-repository.js';
 import * as scoOrganizationParticipantRepository from '../../infrastructure/repositories/sco-organization-participant-repository.js';
 import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
+import { scoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
 
 const dependencies = {
+  accountRecoveryDemandRepository,
   analysisRepository,
   authenticationSessionService,
   divisionRepository,
@@ -54,6 +58,7 @@ const dependencies = {
   emailRepository,
   userValidator,
   groupRepository,
+  mailService,
   membershipRepository,
   supOrganizationParticipantRepository,
   scoOrganizationParticipantRepository,
@@ -80,6 +85,7 @@ const dependencies = {
   userToCreateRepository,
   userLoginRepository,
   prescriptionOrganizationLearnerRepository,
+  scoAccountRecoveryService,
   studentRepository,
   obfuscationService,
   passwordValidator,
@@ -87,6 +93,7 @@ const dependencies = {
   userReconciliationService,
 };
 
+import { checkScoAccountRecovery } from './check-sco-account-recovery.usecase.js';
 import { createAndReconcileUserToOrganizationLearner } from './create-and-reconcile-user-to-organization-learner.js';
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser } from './create-user-and-reconcile-to-organization-learner-from-external-user.js';
 import { findAssociationBetweenUserAndOrganizationLearner } from './find-association-between-user-and-organization-learner.js';
@@ -109,10 +116,12 @@ import { getAttestationPdfFromFilters } from './get-attestation-pdf-from-filters
 import { getOrganizationLearner } from './get-organization-learner.js';
 import { getOrganizationLearnerActivity } from './get-organization-learner-activity.js';
 import { getOrganizationToJoin } from './get-organization-to-join.js';
+import { sendEmailForAccountRecovery } from './send-email-for-account-recovery.usecase.js';
 import { unblockOrganizationLearnerAccount } from './unblock-organization-learner-account.js';
 import { updateOrganizationLearnerDependentUserPassword } from './update-organization-learner-dependent-user-password.js';
 
 const usecasesWithoutInjectedDependencies = {
+  checkScoAccountRecovery,
   createAndReconcileUserToOrganizationLearner,
   createUserAndReconcileToOrganizationLearnerFromExternalUser,
   findAssociationBetweenUserAndOrganizationLearner,
@@ -135,6 +144,7 @@ const usecasesWithoutInjectedDependencies = {
   getOrganizationLearner,
   getOrganizationLearnerActivity,
   getOrganizationToJoin,
+  sendEmailForAccountRecovery,
   unblockOrganizationLearnerAccount,
   updateOrganizationLearnerDependentUserPassword,
 };

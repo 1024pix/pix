@@ -1,11 +1,11 @@
 import sinon from 'sinon';
 
-import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { mailService } from '../../../../../src/shared/domain/services/mail-service.js';
-import { expect } from '../../../../test-helper.js';
-import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
+import { mailService } from '../../../../../../src/shared/domain/services/mail-service.js';
+import { expect } from '../../../../../test-helper.js';
+import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
-describe('Integration | Identity Access Management | Domain | UseCase | send-email-for-account-recovery', function () {
+describe('Integration | Prescription | Organization Learner | Domain | UseCase | send-email-for-account-recovery', function () {
   context('when email is available', function () {
     it('saves the account recovery demand', async function () {
       // given

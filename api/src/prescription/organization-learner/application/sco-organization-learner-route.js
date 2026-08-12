@@ -7,7 +7,7 @@ import {
   UnprocessableEntityError,
 } from '../../../shared/application/errors/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { identifiersType, studentIdentifierType } from '../../../shared/domain/types/identifiers-type.js';
 import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
 import { UsernameSchema } from '../../../shared/domain/validators/username-validator.js';
 import { scoOrganizationLearnerController } from './sco-organization-learner-controller.js';
@@ -227,6 +227,56 @@ const register = async function (server) {
         handler: scoOrganizationLearnerController.unblockOrganizationLearnerAccount,
         notes: ["- Permet à un membre d'une organisation de débloquer le compte d'un élève"],
         tags: ['api', 'sco-organization-learners'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/sco-organization-learners/account-recovery',
+      config: {
+        auth: false,
+        handler: scoOrganizationLearnerController.checkScoAccountRecovery,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'ine-ina': studentIdentifierType,
+                birthdate: Joi.date().format('YYYY-MM-DD').required(),
+              },
+            },
+          }).options({ allowUnknown: true }),
+        },
+        notes: [
+          'Permet de rechercher un ancien élève par son ine/ina, prénom, nom, date de naissance pour récupérer son compte Pix.',
+        ],
+        tags: ['api', 'sco-organization-learners', 'account-recovery'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/account-recovery',
+      config: {
+        auth: false,
+        handler: scoOrganizationLearnerController.sendEmailForScoAccountRecovery,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'ine-ina': studentIdentifierType,
+                birthdate: Joi.date().format('YYYY-MM-DD').required(),
+                email: Joi.string().email().required(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        notes: ["Permet d'envoyer un mail de demande de récupération de compte Pix à un ancien élève."],
+        tags: ['api', 'sco-organization-learners', 'account-recovery'],
       },
     },
   ]);

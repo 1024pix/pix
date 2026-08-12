@@ -1,18 +1,5 @@
-import { AccountRecoveryService } from '../services/account-recovery.service.js';
+import { AccountRecoveryService } from '../../../../identity-access-management/domain/services/account-recovery.service.js';
 
-/**
- * @param {{
- *   studentInformation: Object,
- *   organizationLearnerRepository: OrganizationLearnerRepository,
- *   userReconciliationService: UserReconciliationService,
- *   userRepository: UserRepository,
- *   accountRecoveryDemandRepository: AccountRecoveryDemandRepository,
- *   scoAccountRecoveryService: ScoAccountRecoveryService,
- *   mailService: MailService,
- *   cryptoService: CryptoService,
- * }} params
- * @return {Promise<void>}
- */
 export const sendEmailForAccountRecovery = async function ({
   studentInformation,
   organizationLearnerRepository,
@@ -29,12 +16,12 @@ export const sendEmailForAccountRecovery = async function ({
     userReconciliationService,
   });
 
+  // bounded-context: must be exposed as an api from the identity-access-management bounded-context
   const accountRecoveryService = new AccountRecoveryService({
     userRepository,
     accountRecoveryDemandRepository,
     cryptoService,
   });
-
   const recoveryDemand = await accountRecoveryService.createRecoveryDemand({
     userId: organizationLearner.userId,
     newEmail: studentInformation.email,

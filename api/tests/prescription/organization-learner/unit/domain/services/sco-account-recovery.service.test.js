@@ -1,15 +1,15 @@
 import sinon from 'sinon';
 
-import { scoAccountRecoveryService } from '../../../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
+import { scoAccountRecoveryService } from '../../../../../../src/prescription/organization-learner/domain/services/sco-account-recovery.service.js';
 import {
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserNotFoundError,
-} from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
-import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../tooling/test-utils/error.js';
+} from '../../../../../../src/shared/domain/errors.js';
+import { expect } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | Identity Access Management | Domain | Service | sco-account-recovery', function () {
+describe('Unit | Prescription | Organization Learner | Domain | Service | sco-account-recovery', function () {
   describe('#retrieveOrganizationLearner', function () {
     let organizationLearnerRepository;
     let userRepository;

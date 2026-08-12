@@ -126,7 +126,7 @@ async function generateJSONWebKeyPair({ alg = 'RS256' } = {}) {
  * @property {function} generateJSONWebKeyPair
  * @property {RegExp} phcRegexp
  */
-const cryptoService = {
+export const cryptoService = {
   randomBytes,
   matchPassword,
   assertMatchPassword,
@@ -137,5 +137,3 @@ const cryptoService = {
   phcRegexp,
   generateJSONWebKeyPair,
 };
-
-export { cryptoService };

@@ -1,6 +1,6 @@
-import { StudentInformationForAccountRecovery } from '../../../../../../src/identity-access-management/domain/read-models/StudentInformationForAccountRecovery.js';
-import { studentInformationForAccountRecoverySerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/student-information-for-account-recovery.serializer.js';
-import { expect } from '../../../../../test-helper.js';
+import { StudentInformationForAccountRecovery } from '../../../../../../../src/prescription/organization-learner/domain/read-models/StudentInformationForAccountRecovery.js';
+import { studentInformationForAccountRecoverySerializer } from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/student-information-for-account-recovery.serializer.js';
+import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery', function () {
   describe('#serialize()', function () {
