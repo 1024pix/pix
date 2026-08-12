@@ -653,6 +653,7 @@ jobs:
             ANSWERS_HISTORY_EXPORT_STORAGE_REGION: pix
             ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME: pix-answers-history-export-test
             ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: 1000
+            ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE: 1000
             ANSWERS_HISTORY_ANSWER_BATCH_SIZE: 1000
           when: always
       - store_test_results:
@@ -717,6 +718,7 @@ jobs:
             ANSWERS_HISTORY_EXPORT_STORAGE_REGION: pix
             ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME: pix-answers-history-export-test
             ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: 1000
+            ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE: 1000
             ANSWERS_HISTORY_ANSWER_BATCH_SIZE: 1000
           when: always
       - store_test_results:

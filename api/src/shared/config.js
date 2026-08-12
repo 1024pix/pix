@@ -201,6 +201,7 @@ const configuration = (function () {
           forcePathStyle: true,
         },
         assessmentIdRange: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
+        assessmentIdBatchSize: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE),
         answerBatchSize: parseInt(process.env.ANSWERS_HISTORY_ANSWER_BATCH_SIZE),
       },
     },

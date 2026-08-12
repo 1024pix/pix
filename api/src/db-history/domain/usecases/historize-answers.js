@@ -28,6 +28,10 @@ export async function historizeAnswers({
       config.answersHistoryExport.storage.assessmentIdRange,
       'ANSWERS_HISTORY_ASSESSMENT_ID_RANGE',
     ),
+    assessmentIdBatchSize: _requirePositiveInteger(
+      config.answersHistoryExport.storage.assessmentIdBatchSize,
+      'ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE',
+    ),
     answerBatchSize: _requirePositiveInteger(
       config.answersHistoryExport.storage.answerBatchSize,
       'ANSWERS_HISTORY_ANSWER_BATCH_SIZE',
@@ -40,7 +44,7 @@ export async function historizeAnswers({
   };
   let fromId = 0;
   let hasMore = true;
-  const pageSize = 10000;
+  const pageSize = params.assessmentIdBatchSize;
 
   while (hasMore) {
     const assessmentIds = await assessmentsRepository.getAssessmentIdsByAssessmentTypeAndDateAndState({
