@@ -1168,6 +1168,7 @@
             "undone": "Cette action est irréversible."
           }
         },
+        "category": "Catégorie",
         "code": "Code",
         "country": {
           "label": "Pays (code INSEE)",

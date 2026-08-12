@@ -63,6 +63,7 @@ module('Integration | Component | organizations/information-section-view', funct
         countryCode: 99100,
         countryName: 'France',
         organizationLearnerTypeName: 'super-type-de-prescrit',
+        categoryLabel: 'super-label',
       };
 
       // when
@@ -121,6 +122,9 @@ module('Integration | Component | organizations/information-section-view', funct
             .nextElementSibling,
         )
         .hasText('super-type-de-prescrit');
+      assert
+        .dom(screen.getByText(t('components.organizations.information-section-view.category')).nextElementSibling)
+        .hasText(organization.categoryLabel);
     });
 
     test('it renders GAR identity provider correctly', async function (assert) {
