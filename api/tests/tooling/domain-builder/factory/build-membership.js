@@ -31,6 +31,7 @@ const buildMembership = function ({
   organizationRole = Membership.roles.MEMBER,
   user = _buildUser(),
   lastAccessedAt = null,
+  disabledAt = null,
 } = {}) {
   const membership = new Membership({
     id,
@@ -40,6 +41,7 @@ const buildMembership = function ({
     userId: user.id,
     user,
     lastAccessedAt,
+    disabledAt,
   });
   return membership;
 };
