@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { User } from '../../../enrolment/domain/models/User.js';
+import { User } from '../../domain/models/User.js';
 
 export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
