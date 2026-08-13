@@ -228,14 +228,14 @@
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement. Ici, l’application de sport <strong>est vulnérable</strong>.</p><p>Le <strong>code</strong><strong>&nbsp;informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent exploiter ces vulnérabilités.</p>"
+                            "diagnosis": "<p>Effectivement. Ici, l’application de sport <strong>est vulnérable</strong>.</p><p>Le <strong>code</strong><strong>&nbsp;informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent utiliser ces vulnérabilités.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Eh si ! Ici, l’application de sport <strong>est vulnérable</strong>.</p><p>Le <strong>code</strong><strong>&nbsp;informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent exploiter ces vulnérabilités.</p>"
+                            "diagnosis": "<p>Eh si ! Ici, l’application de sport <strong>est vulnérable</strong>.</p><p>Le <strong>code</strong><strong>&nbsp;informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent utiliser ces vulnérabilités.</p>"
                           }
                         },
                         {
