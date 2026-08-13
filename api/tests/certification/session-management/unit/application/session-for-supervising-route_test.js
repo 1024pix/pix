@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
+import { authorization as sessionInvigilatorAuthorization } from '../../../../../src/certification/session-management/application/pre-handlers/authorization.js';
 import { sessionForSupervisingController } from '../../../../../src/certification/session-management/application/session-for-supervising-controller.js';
 import { sessionForSupervisingRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/session-for-supervising-route.js';
-import { assessmentInvigilatorAuthorization as sessionInvigilatorAuthorization } from '../../../../../src/certification/shared/application/pre-handlers/session-invigilator-authorization.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -10,7 +10,9 @@ describe('Certification | Session Management | Unit | Application | Routes | Ses
   describe('GET /api/sessions/{sessionId}/supervising', function () {
     it('should return 200 if the user is an invigilator of the session', async function () {
       //given
-      sinon.stub(sessionInvigilatorAuthorization, 'verifyBySessionId').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(sessionInvigilatorAuthorization, 'checkUserHaveInvigilatorAccessForSession')
+        .callsFake((request, h) => h.response(true));
       sinon.stub(sessionForSupervisingController, 'get').returns('ok');
 
       const httpTestServer = new HttpTestServer();
@@ -26,7 +28,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Ses
     it('should return 401 if the user is not an invigilator of the session', async function () {
       //given
       sinon
-        .stub(sessionInvigilatorAuthorization, 'verifyBySessionId')
+        .stub(sessionInvigilatorAuthorization, 'checkUserHaveInvigilatorAccessForSession')
         .callsFake((request, h) => h.response().code(401).takeover());
       sinon.stub(sessionForSupervisingController, 'get').returns('ok');
 

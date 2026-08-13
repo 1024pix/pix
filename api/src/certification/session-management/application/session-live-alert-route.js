@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { responseObjectErrorDoc } from '../../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
-import { assessmentInvigilatorAuthorization } from '../../shared/application/pre-handlers/session-invigilator-authorization.js';
+import { authorization } from './pre-handlers/authorization.js';
 import { sessionLiveAlertController } from './session-live-alert-controller.js';
 
 const register = async function (server) {
@@ -34,7 +34,7 @@ const register = async function (server) {
         },
         pre: [
           {
-            method: assessmentInvigilatorAuthorization.verifyBySessionId,
+            method: authorization.checkUserHaveInvigilatorAccessForSession,
             assign: 'isInvigilatorForSession',
           },
         ],
@@ -73,7 +73,7 @@ const register = async function (server) {
         },
         pre: [
           {
-            method: assessmentInvigilatorAuthorization.verifyBySessionId,
+            method: authorization.checkUserHaveInvigilatorAccessForSession,
             assign: 'isInvigilatorForSession',
           },
         ],

@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { certificationCandidateController } from '../../../../../src/certification/session-management/application/certification-candidate-controller.js';
 import { certificationCandidateRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/certification-candidate-route.js';
-import { assessmentInvigilatorAuthorization as sessionInvigilatorAuthorization } from '../../../../../src/certification/shared/application/pre-handlers/session-invigilator-authorization.js';
+import { authorization as sessionInvigilatorAuthorization } from '../../../../../src/certification/session-management/application/pre-handlers/authorization.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -11,7 +11,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     it('should return 200 if the user is an invigilator of the session linked to the candidate', async function () {
       //given
       sinon
-        .stub(sessionInvigilatorAuthorization, 'verifyByCertificationCandidateId')
+        .stub(sessionInvigilatorAuthorization, 'checkUserHaveInvigilatorAccessForSessionCandidate')
         .callsFake((request, h) => h.response(true));
       sinon.stub(certificationCandidateController, 'authorizeToStart').returns('ok');
 
@@ -33,7 +33,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     it('should return 401 if the user is not an invigilator of the session linked to the candidate and certification center is in the whitelist', async function () {
       //given
       sinon
-        .stub(sessionInvigilatorAuthorization, 'verifyByCertificationCandidateId')
+        .stub(sessionInvigilatorAuthorization, 'checkUserHaveInvigilatorAccessForSessionCandidate')
         .callsFake((request, h) => h.response().code(401).takeover());
 
       const httpTestServer = new HttpTestServer();
@@ -56,7 +56,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     it('should return 204 if the user is an invigilator of the session linked to the candidate', async function () {
       // given
       sinon
-        .stub(sessionInvigilatorAuthorization, 'verifyByCertificationCandidateId')
+        .stub(sessionInvigilatorAuthorization, 'checkUserHaveInvigilatorAccessForSessionCandidate')
         .callsFake((request, h) => h.response(true));
       sinon
         .stub(certificationCandidateController, 'authorizeToResume')
@@ -74,7 +74,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     it('should return 401 if the user is not an invigilator of the session linked to the candidate', async function () {
       // given
       sinon
-        .stub(sessionInvigilatorAuthorization, 'verifyByCertificationCandidateId')
+        .stub(sessionInvigilatorAuthorization, 'checkUserHaveInvigilatorAccessForSessionCandidate')
         .callsFake((request, h) => h.response().code(401).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -91,7 +91,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     it('should return 200 if the user is an invigilator of the session linked to the candidate', async function () {
       // given
       sinon
-        .stub(sessionInvigilatorAuthorization, 'verifyByCertificationCandidateId')
+        .stub(sessionInvigilatorAuthorization, 'checkUserHaveInvigilatorAccessForSessionCandidate')
         .callsFake((request, h) => h.response(true));
       sinon.stub(certificationCandidateController, 'endAssessmentByInvigilator').returns(null);
       const httpTestServer = new HttpTestServer();
@@ -110,7 +110,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     it('should return 401 if the user is not an invigilator of the session linked to the candidate', async function () {
       // given
       sinon
-        .stub(sessionInvigilatorAuthorization, 'verifyByCertificationCandidateId')
+        .stub(sessionInvigilatorAuthorization, 'checkUserHaveInvigilatorAccessForSessionCandidate')
         .callsFake((request, h) => h.response().code(401).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

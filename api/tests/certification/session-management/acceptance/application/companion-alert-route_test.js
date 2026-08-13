@@ -83,7 +83,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(401);
+        expect(response.statusCode).to.equal(403);
       });
     });
   });

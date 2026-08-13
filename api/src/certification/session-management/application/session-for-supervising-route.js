@@ -3,7 +3,7 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { assessmentInvigilatorAuthorization } from '../../shared/application/pre-handlers/session-invigilator-authorization.js';
+import { authorization } from './pre-handlers/authorization.js';
 import { sessionForSupervisingController } from './session-for-supervising-controller.js';
 
 const register = async function (server) {
@@ -19,7 +19,7 @@ const register = async function (server) {
         },
         pre: [
           {
-            method: assessmentInvigilatorAuthorization.verifyBySessionId,
+            method: authorization.checkUserHaveInvigilatorAccessForSession,
             assign: 'isInvigilatorForSession',
           },
         ],

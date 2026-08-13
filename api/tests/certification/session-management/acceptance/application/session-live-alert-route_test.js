@@ -89,7 +89,7 @@ describe('Certification | Session | Acceptance | Application | Routes | session-
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(401);
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
@@ -181,7 +181,7 @@ describe('Certification | Session | Acceptance | Application | Routes | session-
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(401);
+        expect(response.statusCode).to.equal(403);
       });
     });
   });

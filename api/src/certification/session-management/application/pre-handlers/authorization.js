@@ -1,7 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
-import { extractUserIdFromRequest } from '../../../../shared/infrastructure/utils/request-response-utils.js';
 import * as invigilatorAccessRepository from '../../infrastructure/repositories/invigilator-access-repository.js';
 import * as sessionManagementRepository from '../../infrastructure/repositories/session-management-repository.js';
 
@@ -46,7 +45,7 @@ async function checkUserHaveCertificationCenterMembershipForSession(
 }
 
 async function checkUserHaveInvigilatorAccessForSession(request, h, dependencies = { invigilatorAccessRepository }) {
-  const userId = extractUserIdFromRequest(request);
+  const { userId } = request.auth.credentials;
   const sessionId = request.params.sessionId;
 
   try {
@@ -64,9 +63,34 @@ async function checkUserHaveInvigilatorAccessForSession(request, h, dependencies
   }
 }
 
+const checkUserHaveInvigilatorAccessForSessionCandidate = async function (
+  request,
+  h,
+  dependencies = { invigilatorAccessRepository },
+) {
+  const { userId } = request.auth.credentials;
+  const certificationCandidateId = request.params.certificationCandidateId;
+  try {
+    const isInvigilatorForSession = await dependencies.invigilatorAccessRepository.isUserInvigilatorForSessionCandidate(
+      {
+        invigilatorId: userId,
+        certificationCandidateId,
+      },
+    );
+
+    if (!isInvigilatorForSession) {
+      throw new ForbiddenAccess(FORBIDDEN_ERROR_MESSAGE);
+    }
+    return h.response(true);
+  } catch {
+    return _replyForbiddenError(h);
+  }
+};
+
 const authorization = {
   checkUserHaveCertificationCenterMembershipForSession,
   checkUserHaveInvigilatorAccessForSession,
+  checkUserHaveInvigilatorAccessForSessionCandidate,
 };
 
 export { authorization };
