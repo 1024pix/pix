@@ -86,7 +86,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -116,7 +116,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -132,7 +132,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -145,7 +145,7 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -162,7 +162,7 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -665,7 +665,6 @@ jobs:
     executor:
       name: node-redis-postgres-s3-docker
     working_directory: ~/pix/api
-    parallelism: 3
     steps:
       - run:
           name: Skip if not needed
@@ -696,10 +695,7 @@ jobs:
             TEST_DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datawarehouse
       - run:
           name: Test
-          command: |
-            circleci tests glob 'tests/**/acceptance/**/*test.js' |
-            circleci tests split --split-by=filesize |
-            xargs npm run test:api:path -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          command: npm run test:api:acceptance -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
           environment:
             NODE_ENV: test
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
