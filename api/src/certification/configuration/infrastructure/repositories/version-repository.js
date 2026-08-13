@@ -63,6 +63,7 @@ export async function save(version) {
       : null,
     challengesConfiguration: JSON.stringify(version.challengesConfiguration),
     status: version.status,
+    externalCalibrationId: version.externalCalibrationId ?? null,
   };
 
   const [{ id }] = await knexConn('certification_versions')
@@ -115,6 +116,7 @@ function _toDomain({
   globalScoringConfiguration,
   competencesScoringConfiguration,
   challengesConfiguration,
+  externalCalibrationId,
   status,
   comments,
   tubeIds,
@@ -128,6 +130,7 @@ function _toDomain({
     assessmentDuration,
     globalScoringConfiguration,
     competencesScoringConfiguration,
+    externalCalibrationId,
     status,
     comments,
     tubeIds,

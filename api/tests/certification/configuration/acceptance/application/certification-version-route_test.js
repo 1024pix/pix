@@ -151,6 +151,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         attributes: {
           'start-date': new Date('2025-01-11'),
           'expiration-date': new Date('2026-01-01'),
+          'external-calibration-id': null,
           'assessment-duration': 100,
           'minimum-answers-required-for-validation': 20,
           'maximum-assessment-length': 32,
@@ -302,6 +303,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
             attributes: {
               'start-date': new Date('2020-02-02'),
               'assessment-duration': 1,
+              'external-calibration-id': null,
               'minimum-answers-required-for-validation': 2,
               'maximum-assessment-length': 3,
               'challenges-between-same-competence': 4,
@@ -484,6 +486,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'enable-passage-by-all-competences': true,
           status: VERSION_STATUSES.DRAFT,
           'expiration-date': null,
+          'external-calibration-id': null,
           'start-date': null,
           scope: SCOPES.CORE,
           comments: null,

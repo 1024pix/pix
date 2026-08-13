@@ -122,6 +122,7 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
             scope: SCOPES.PIX_PLUS_PRO_SANTE,
             status: VERSION_STATUSES.ARCHIVED,
             'challenges-between-same-competence': 2,
+            'external-calibration-id': null,
             'default-probability-to-pick-challenge': 40,
             'default-candidate-capacity': -2,
             'variation-percent': 0.66,

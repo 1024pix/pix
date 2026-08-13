@@ -596,6 +596,8 @@
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents dans la calibration uniquement",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents dans la version uniquement",
             "report-title": "Rapport de vérification de la calibration d'ID {calibrationId} généré le",
+            "save-button-label": "Enregistrer l'ID {id} de calibration",
+            "save-success-message": "La mise à jour s'est bien faite !",
             "scopes": {
               "CORE": "Pix Cœur (transverse)",
               "DROIT": "Pix+ Droit",
@@ -610,6 +612,7 @@
               "TO_VALIDATE": "À valider",
               "VALIDATED": "Validée"
             },
+            "title": "Calibration des épreuves",
             "verify-calibration-id-button": "Vérifier la calibration"
           },
           "edit": {
