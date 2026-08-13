@@ -1,32 +1,36 @@
-import { createServer } from '../../../../../server.js';
 import { campaignSecurityPreHandlers } from '../../../../../src/prescription/campaign/application/security-pre-handlers.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
-describe('Prescription | Campaign | Acceptance | Application | SecurityPreHandlers', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
+describe('Prescription | Campaign | Integration | Application | SecurityPreHandlers', function () {
+  let httpTestServer;
 
   describe('#checkCampaignBelongsToCombinedCourse', function () {
     let campaignId;
+
     beforeEach(async function () {
-      server.route({
-        method: 'GET',
-        path: '/api/pate-de-campagne/{campaignId}',
-        handler: (r, h) => h.response({}).code(200),
-        config: {
-          auth: false,
-          pre: [
-            {
-              method: campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse,
+      const moduleUnderTest = {
+        name: 'security-test',
+        register: async function (server) {
+          server.route({
+            method: 'GET',
+            path: '/api/pate-de-campagne/{campaignId}',
+            handler: (r, h) => h.response({}).code(200),
+            config: {
+              auth: false,
+              pre: [
+                {
+                  method: campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse,
+                },
+              ],
             },
-          ],
+          });
         },
-      });
+      };
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
@@ -50,7 +54,7 @@ describe('Prescription | Campaign | Acceptance | Application | SecurityPreHandle
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.requestObject(options);
 
       // then
       expect(response.statusCode).to.equal(403);

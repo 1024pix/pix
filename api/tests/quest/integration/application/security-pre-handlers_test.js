@@ -1,4 +1,3 @@
-import { createServer } from '../../../../server.js';
 import {
   checkAuthorizationToAccessCombinedCourse,
   checkCombinedCourseBlueprintBelongsToOrganization,
@@ -13,9 +12,10 @@ import { ORGANIZATION_FEATURE } from '../../../../src/shared/constants.js';
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
-describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
+describe('Quest | Integration | Application | SecurityPreHandlers', function () {
   const jsonApiError403 = {
     errors: [
       {
@@ -26,11 +26,18 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
     ],
   };
 
-  let server;
+  let httpTestServer;
 
-  beforeEach(async function () {
-    server = await createServer();
-  });
+  async function startServerWithRoute(route) {
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register({
+      name: 'security-test',
+      register: async function (server) {
+        server.route(route);
+      },
+    });
+    httpTestServer.setupAuthentication();
+  }
 
   describe('#checkAuthorizationToAccessCombinedCourse', function () {
     let userId;
@@ -43,7 +50,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildCombinedCourse({ code, organizationId });
 
-      server.route({
+      await startServerWithRoute({
         method: 'GET',
         path: '/api/test-combined-course',
         handler: (r, h) => h.response({}).code(200),
@@ -71,7 +78,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
       await databaseBuilder.commit();
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.requestObject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -87,7 +94,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
 
       await databaseBuilder.commit();
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.requestObject(options);
 
       // then
       expect(response.statusCode).to.equal(403);
@@ -97,7 +104,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
 
   describe('#checkParticipationBelongsToCombinedCourse', function () {
     beforeEach(async function () {
-      server.route({
+      await startServerWithRoute({
         method: 'GET',
         path: '/api/fake-cc/{combinedCourseId}/fake-p/{participationId}',
         handler: (_, h) => h.response({}).code(200),
@@ -124,7 +131,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.requestObject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -145,7 +152,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.requestObject(options);
 
       // then
       expect(response.statusCode).to.equal(403);
@@ -155,7 +162,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
 
   describe('#checkCombinedCoursesFeatureIsEnabled', function () {
     beforeEach(async function () {
-      server.route({
+      await startServerWithRoute({
         method: 'GET',
         path: '/api/test-route',
         handler: (_, h) => h.response({}).code(200),
@@ -177,7 +184,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
         headers: generateAuthenticatedUserRequestHeaders({ userId }),
       };
 
-      const response = await server.inject(options);
+      const response = await httpTestServer.requestObject(options);
 
       expect(response.statusCode).to.equal(200);
     });
@@ -194,7 +201,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
         headers: generateAuthenticatedUserRequestHeaders({ userId }),
       };
 
-      const response = await server.inject(options);
+      const response = await httpTestServer.requestObject(options);
 
       expect(response.statusCode).to.equal(422);
       expect(response.payload).to.equal('Combined courses feature is disabled');
@@ -210,7 +217,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
       combinedCourseBlueprintId = combinedCourseBlueprintShare.combinedCourseBlueprintId;
       organizationId = combinedCourseBlueprintShare.organizationId;
 
-      server.route({
+      await startServerWithRoute({
         method: 'GET',
         path: '/api/organization/{organizationId}/combined-course-blueprint/{blueprintId}',
         handler: (r, h) => h.response({}).code(200),
@@ -231,7 +238,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.requestObject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -254,7 +261,7 @@ describe('Quest | Acceptance | Application | SecurityPreHandlers', function () {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.requestObject(options);
 
       // then
       expect(response.statusCode).to.equal(403);
