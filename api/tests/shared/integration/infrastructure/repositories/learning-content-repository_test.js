@@ -267,4 +267,41 @@ describe('Integration | Repository | learning-repository', function () {
       });
     });
   });
+
+  describe('frozen entities', function () {
+    it('freezes entities when putting it in cache', async function () {
+      // when
+      const loadedEntity = await repository.load('entity1');
+      const loadedEntities = await repository.loadMany(['entity2', 'entity3']);
+      const foundEntities = await repository.find('group1', (knex) => knex.where({ group: 'group1' }).orderBy('id'));
+
+      // then
+      expect(Object.isFrozen(loadedEntity)).to.be.true;
+
+      expect(loadedEntities).to.have.lengthOf(2);
+      expect(loadedEntities.every(Object.isFrozen)).to.be.true;
+
+      expect(foundEntities).to.have.lengthOf(3);
+      expect(foundEntities.every(Object.isFrozen)).to.be.true;
+    });
+
+    it('deep freezes entities and their nested values when putting it in cache', async function () {
+      // given
+      await knex.schema.withSchema(SCHEMA_NAME).alterTable(TABLE_NAME, (table) => {
+        table.specificType('nestedValue', 'text[]');
+      });
+      await knex
+        .withSchema(SCHEMA_NAME)
+        .from(TABLE_NAME)
+        .where({ id: 'entity1' })
+        .update({ nestedValue: ['a', 'b'] });
+
+      // when
+      const loadedEntity = await repository.load('entity1');
+
+      // then
+      expect(loadedEntity.nestedValue).to.deep.equal(['a', 'b']);
+      expect(Object.isFrozen(loadedEntity.nestedValue)).to.be.true;
+    });
+  });
 });

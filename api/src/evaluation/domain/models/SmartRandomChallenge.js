@@ -17,4 +17,12 @@ export class SmartRandomChallenge extends BaseChallenge {
   constructor(coreChallenge) {
     super(coreChallenge);
   }
+
+  /**
+   *
+   * @returns {boolean}
+   */
+  isTimed() {
+    return super.isTimed();
+  }
 }
