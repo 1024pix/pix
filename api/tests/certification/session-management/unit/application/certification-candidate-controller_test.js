@@ -22,10 +22,6 @@ describe('Certification | Session Management | Unit | Application | Controller |
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   describe('#authorizeToStart', function () {
     it('should return a 204 status code and call authorize', async function () {
       // given

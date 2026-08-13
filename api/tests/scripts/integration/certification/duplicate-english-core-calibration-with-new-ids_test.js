@@ -147,10 +147,6 @@ describe('Integration | Scripts | Certification | duplicate-english-core-calibra
     });
 
     context('when an error occurs during insertion', function () {
-      afterEach(function () {
-        sinon.restore();
-      });
-
       it('should rollback the transaction and rethrow the error', async function () {
         // given
         const { id: versionId } = domainBuilder.certification.configuration

@@ -14,7 +14,6 @@ describe('Certification | Shared | Integration | Application | API | Event', fun
   });
 
   afterEach(function () {
-    sinon.restore();
     return knex('certification_events').truncate();
   });
 

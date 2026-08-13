@@ -92,10 +92,6 @@ describe('Certification | Evaluation | Unit | UseCase | start-or-resume-certific
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   context('when no candidate found for given user and session', function () {
     it('should throw a UnexpectedUserAccountError', async function () {
       // given

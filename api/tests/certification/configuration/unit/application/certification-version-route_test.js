@@ -9,10 +9,6 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Certification | Configuration | Application | Router | certification-version-route', function () {
-  afterEach(function () {
-    sinon.restore();
-  });
-
   describe('GET /api/certifications/{framework}/info', function () {
     context('when the user is not authenticated', function () {
       it('should reject access', async function () {

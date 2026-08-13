@@ -31,10 +31,6 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
       };
     });
 
-    afterEach(async function () {
-      sinon.restore();
-    });
-
     context('when the parsed data is valid', function () {
       context('when the session has not started yet', function () {
         context('when there is no sessionId', function () {
