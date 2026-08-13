@@ -18,17 +18,11 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
   });
 
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import', function () {
-    let clock;
-
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now: new Date('2023-01-01'),
         toFake: ['Date'],
       });
-    });
-
-    afterEach(async function () {
-      clock.restore();
     });
 
     context('when user validate sessions for import', function () {

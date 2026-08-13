@@ -14,7 +14,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | archive-org
       it('archives the organization', async function () {
         // given
         const now = new Date('2022-02-22');
-        const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
         const superAdminUser = databaseBuilder.factory.buildUser.withRole();
         const organization = databaseBuilder.factory.buildOrganization();
         await databaseBuilder.commit();
@@ -29,14 +29,12 @@ describe('Integration | Organizational Entities | Domain | UseCase | archive-org
         expect(archivedOrganization.archivedAt).to.deep.equal(now);
         expect(archivedOrganization.archivistFirstName).to.deep.equal(superAdminUser.firstName);
         expect(archivedOrganization.archivistLastName).to.deep.equal(superAdminUser.lastName);
-
-        clock.restore();
       });
 
       it('deletes the active campaigns of the organization', async function () {
         // given
         const now = new Date('2022-02-02');
-        const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
         const previousDate = new Date('2021-01-01');
         const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -60,14 +58,12 @@ describe('Integration | Organizational Entities | Domain | UseCase | archive-org
 
         const previouslyArchivedCampaigns = await knex('campaigns').where({ archivedAt: previousDate });
         expect(previouslyArchivedCampaigns).to.have.lengthOf(1);
-
-        clock.restore();
       });
 
       it('deletes the organization learners', async function () {
         // given
         const now = new Date('2022-02-02');
-        const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
         const previousDate = new Date('2021-01-01');
         const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -91,14 +87,12 @@ describe('Integration | Organizational Entities | Domain | UseCase | archive-org
 
         const previouslyDeletedLearners = await knex('organization-learners').where({ deletedAt: previousDate });
         expect(previouslyDeletedLearners).to.have.lengthOf(1);
-
-        clock.restore();
       });
 
       it('deletes the campaign participations of the organization', async function () {
         // given
         const now = new Date('2022-02-02');
-        const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
         const previousDate = new Date('2021-01-01');
         const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -124,8 +118,6 @@ describe('Integration | Organizational Entities | Domain | UseCase | archive-org
           deletedAt: previousDate,
         });
         expect(previouslyDeletedParticipations).to.have.lengthOf(1);
-
-        clock.restore();
       });
     });
 

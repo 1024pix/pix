@@ -15,13 +15,8 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Unit | Certification | Configuration | Domain | Models | Calibration Report', function () {
   const now = new Date('2025-06-15T12:00:00Z');
-  let clock;
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#build', function () {

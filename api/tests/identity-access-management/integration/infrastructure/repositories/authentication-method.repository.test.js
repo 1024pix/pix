@@ -150,16 +150,11 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
   describe('#updatePassword', function () {
     let userId;
-    let clock;
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
+      sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     it('updates the password in database', async function () {
@@ -483,14 +478,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
   describe('#updateExternalIdentifierByUserIdAndIdentityProvider', function () {
     context('When authentication method exists', function () {
-      let clock;
-
       beforeEach(async function () {
-        clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
+        sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
       });
 
       it('updates external identifier by userId and identity provider', async function () {
@@ -692,10 +681,9 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   describe('#updateAuthenticationComplementByUserIdAndIdentityProvider', function () {
     context('When authentication method exists', function () {
       let authenticationMethod;
-      let clock;
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
+        sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
         const userId = databaseBuilder.factory.buildUser().id;
         authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
           id: 123,
@@ -706,10 +694,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           userId,
         });
         return databaseBuilder.commit();
-      });
-
-      afterEach(function () {
-        clock.restore();
       });
 
       it('updates the authentication complement in database', async function () {
@@ -969,7 +953,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         // given
         const now = new Date('2021-01-02');
         const createdAt = new Date('2020-01-02');
-        const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
         const identityProvider = NON_OIDC_IDENTITY_PROVIDERS.PIX.code;
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
@@ -992,8 +976,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(updatedAuthenticationMethod).to.exist;
         expect(updatedAuthenticationMethod.createdAt.toISOString()).to.equal(createdAt.toISOString());
         expect(updatedAuthenticationMethod.lastLoggedAt.toISOString()).to.equal(now.toISOString());
-
-        clock.restore();
       });
     });
   });
@@ -1172,15 +1154,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   });
 
   describe('#updateAuthenticationMethodUserId', function () {
-    let clock;
     const now = new Date('2022-02-16');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('updates authentication method user id', async function () {
@@ -1207,16 +1184,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   });
 
   describe('#update', function () {
-    let clock;
-
-    afterEach(async function () {
-      clock.restore();
-    });
-
     it('updates authentication method complement', async function () {
       // given
       const now = new Date('2022-03-15');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       const userId = databaseBuilder.factory.buildUser().id;
       const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({

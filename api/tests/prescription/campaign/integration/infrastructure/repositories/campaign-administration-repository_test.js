@@ -687,11 +687,10 @@ describe('Integration | Repository | Campaign Administration', function () {
 
   describe('#removeInBatch', function () {
     let campaign1, campaign2, userId;
-    let clock;
     const frozenTime = new Date('1992-07-07');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: frozenTime, toFake: ['Date'] });
+      sinon.useFakeTimers({ now: frozenTime, toFake: ['Date'] });
 
       campaign1 = new Campaign(
         databaseBuilder.factory.buildCampaign({
@@ -711,10 +710,6 @@ describe('Integration | Repository | Campaign Administration', function () {
       userId = databaseBuilder.factory.buildUser().id;
 
       return databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     it('should remove the correct campaigns', async function () {
@@ -863,15 +858,10 @@ describe('Integration | Repository | Campaign Administration', function () {
   });
 
   describe('#archiveCampaigns', function () {
-    let clock;
     const now = new Date('2023-02-02');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('Mark list of campaign to archived', async function () {

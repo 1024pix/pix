@@ -21,15 +21,10 @@ const { SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Models | CampaignParticipation', function () {
   describe('delete', function () {
-    let clock;
     const now = new Date('2021-09-25');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
     });
 
     it('updates attributes deletedAt,deletedBy and userId', function () {
@@ -112,15 +107,10 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
   describe('share', function () {
     context('when the campaign is not archived nor deleted', function () {
-      let clock;
       const now = new Date('2021-09-25');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
+        sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
       });
 
       context('when the campaign is already shared', function () {

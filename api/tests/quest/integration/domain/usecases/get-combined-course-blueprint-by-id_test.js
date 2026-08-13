@@ -12,15 +12,10 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprint-by-id', function () {
-  let clock;
   const now = new Date('2022-11-28T12:00:00Z');
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it('should return a combined course blueprint for a given id', async function () {

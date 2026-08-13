@@ -205,15 +205,10 @@ describe('Integration | Identity Access Management | Domain | UseCase | update-u
   });
 
   context('emailConfirmedAt', function () {
-    let clock;
     const now = new Date('2002-02-02');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('is updated', async function () {

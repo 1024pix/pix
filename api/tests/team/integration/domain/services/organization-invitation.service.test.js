@@ -19,15 +19,10 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Team | Domain | Service | organizationInvitationService', function () {
   describe('#createOrUpdateOrganizationInvitation', function () {
-    let clock;
     const now = new Date('2021-01-02');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('creates a new organization invitation with organizationId, email, role and status', async function () {

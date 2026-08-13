@@ -142,14 +142,8 @@ describe('Integration | Prescription | Shared | Service | KnowledgeElementForPar
       });
 
       context('when campaign is of type EXAM', function () {
-        let clock;
-
         beforeEach(function () {
-          clock = sinon.useFakeTimers(new Date('2021-10-29'));
-        });
-
-        afterEach(function () {
-          clock.restore();
+          sinon.useFakeTimers({ now: new Date('2021-10-29'), toFake: ['Date'] });
         });
 
         context('when a snapshot for this participation already exists', function () {

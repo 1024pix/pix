@@ -524,18 +524,13 @@ describe('Acceptance | Team | Application | Controller | organization-invitation
   });
 
   describe('PATCH /api/organizations/{id}/resend-invitation', function () {
-    let clock;
     const now = new Date('2022-12-25');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now,
         toFake: ['Date'],
       });
-    });
-
-    afterEach(async function () {
-      clock.restore();
     });
 
     it('should return the matching organization invitation as JSON API', async function () {

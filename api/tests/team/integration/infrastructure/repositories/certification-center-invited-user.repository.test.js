@@ -110,8 +110,6 @@ describe('Integration | Team | Infrastructure | Repositories | CertificationCent
   });
 
   describe('#save', function () {
-    let clock;
-
     it('creates membership', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;
@@ -144,7 +142,7 @@ describe('Integration | Team | Infrastructure | Repositories | CertificationCent
     it('marks certification center invitation as accepted', async function () {
       // given
       const now = new Date('2021-05-27');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;
       const user = databaseBuilder.factory.buildUser({ id: 6789, email: 'user@example.net' });
@@ -176,7 +174,6 @@ describe('Integration | Team | Infrastructure | Repositories | CertificationCent
       expect(certificationCenterInvitationUpdated.status).to.equal(CertificationCenterInvitation.StatusType.ACCEPTED);
       expect(certificationCenterInvitationUpdated.role).to.equal(CertificationCenterInvitation.Roles.ADMIN);
       expect(certificationCenterInvitationUpdated.updatedAt).to.deep.equal(now);
-      clock.restore();
     });
   });
 });

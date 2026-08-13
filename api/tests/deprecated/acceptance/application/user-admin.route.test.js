@@ -13,17 +13,11 @@ describe('Acceptance | Deprecated | Application | Route | User admin', function 
   });
 
   describe('GET /api/admin/users/{id}', function () {
-    let clock;
-
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now: Date.now(),
         toFake: ['Date'],
       });
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     describe('Resource access management', function () {

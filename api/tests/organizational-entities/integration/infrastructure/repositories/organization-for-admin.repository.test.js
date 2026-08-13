@@ -14,21 +14,17 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Organizational Entities | Infrastructure | Repository | organization-for-admin', function () {
-  let clock, byDefaultFeatureId, administrationTeam, organizationLearnerType, domainOrganizationLearnerType;
+  let byDefaultFeatureId, administrationTeam, organizationLearnerType, domainOrganizationLearnerType;
   const now = new Date('2022-02-02');
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     administrationTeam = databaseBuilder.factory.buildAdministrationTeam({ name: 'ma team' });
     organizationLearnerType = databaseBuilder.factory.buildOrganizationLearnerType();
     domainOrganizationLearnerType = domainBuilder.acquisition.buildOrganizationLearnerType({
       ...organizationLearnerType,
     });
     await databaseBuilder.commit();
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   describe('#findPaginatedFiltered', function () {

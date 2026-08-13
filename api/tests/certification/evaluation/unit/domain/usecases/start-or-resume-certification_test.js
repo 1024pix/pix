@@ -26,13 +26,12 @@ describe('Certification | Evaluation | Unit | UseCase | start-or-resume-certific
     versionApi,
     certificationBadgesService,
     verifyCertificateCodeService,
-    dependencies,
-    clock;
+    dependencies;
   const now = new Date('2026-01-01');
   const clientTimezone = 'Europe/London';
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     assessmentRepository = {
       save: sinon.stub(),
     };
@@ -94,7 +93,6 @@ describe('Certification | Evaluation | Unit | UseCase | start-or-resume-certific
   });
 
   afterEach(function () {
-    clock.restore();
     sinon.restore();
   });
 

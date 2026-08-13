@@ -529,18 +529,13 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
   describe('PATCH /api/users/{id}/has-seen-last-data-protection-policy-information', function () {
     describe('Success case', function () {
-      let clock;
       const now = new Date('2022-12-07');
 
       beforeEach(async function () {
-        clock = sinon.useFakeTimers({
+        sinon.useFakeTimers({
           now,
           toFake: ['Date'],
         });
-      });
-
-      afterEach(function () {
-        clock.restore();
       });
 
       it('returns a response with HTTP status code 200', async function () {

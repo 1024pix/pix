@@ -5,16 +5,11 @@ import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Repository | target-profile-training-repository', function () {
-  let clock;
   let now;
 
   beforeEach(function () {
     now = new Date('2022-02-13');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(async function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#create', function () {

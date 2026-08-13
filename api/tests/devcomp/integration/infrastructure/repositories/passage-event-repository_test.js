@@ -10,14 +10,8 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | DevComp | Repositories | PassageEventRepository', function () {
   describe('#record', function () {
-    let clock;
-
     beforeEach(function () {
-      clock = sinon.useFakeTimers(new Date('2023-12-31'), 'Date');
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: new Date('2023-12-31'), toFake: ['Date'] });
     });
 
     it('should record a passage event', async function () {

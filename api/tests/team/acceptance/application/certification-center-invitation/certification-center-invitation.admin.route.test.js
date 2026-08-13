@@ -75,18 +75,13 @@ describe('Acceptance | Team | Application | Route | Admin | Certification Center
   });
 
   describe('POST /api/admin/certification-centers/{certificationCenterId}/invitations', function () {
-    let clock;
     const now = new Date('2021-05-01');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now,
         toFake: ['Date'],
       });
-    });
-
-    afterEach(async function () {
-      clock.restore();
     });
 
     it('returns 201 HTTP status code with created invitation', async function () {

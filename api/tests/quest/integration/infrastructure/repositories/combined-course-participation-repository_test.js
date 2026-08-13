@@ -629,15 +629,10 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
   });
 
   describe('#update', function () {
-    let clock;
     const now = new Date('2025-07-07');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should update only given field', async function () {

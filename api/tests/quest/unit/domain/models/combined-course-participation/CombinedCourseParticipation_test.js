@@ -6,15 +6,10 @@ import { expect } from '../../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseParticipation ', function () {
   describe('complete', function () {
-    let clock;
     const now = new Date('2025-07-07');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should set status to completed, and update date', function () {

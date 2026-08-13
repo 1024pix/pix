@@ -11,21 +11,17 @@ import { preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-
 describe('Certification | Session Management | Integration | Domain | UseCase | process-auto-jury_test ', function () {
   context('when it is a V3 certification', function () {
     let certificationEvaluationRepository_rescoreV3CertificationStub;
-    let certificationEvaluationRepository, clock;
+    let certificationEvaluationRepository;
     const now = new Date('2025-06-15');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
       certificationEvaluationRepository_rescoreV3CertificationStub = sinon.stub().named('rescoreV3Certification');
       preventStubsToBeCalledUnexpectedly([certificationEvaluationRepository_rescoreV3CertificationStub]);
 
       certificationEvaluationRepository = {
         rescoreV3Certification: certificationEvaluationRepository_rescoreV3CertificationStub,
       };
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     context('when certification is started', function () {

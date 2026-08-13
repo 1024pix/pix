@@ -10,18 +10,13 @@ import { buildAttestationUserDetail } from '../../../../tooling/domain-builder/f
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Profile | Integration | Domain | get-shared-attestations-user-detail-by-organization-id', function () {
-  let clock;
   const now = new Date('2022-12-25');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({
+    sinon.useFakeTimers({
       now,
       toFake: ['Date'],
     });
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   describe('#getSharedAttestationsUserDetailByOrganizationId', function () {

@@ -10,15 +10,10 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Team | UseCases | update-membership-last-accessed-at', function () {
-  let clock;
   const now = new Date('2022-12-01');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when the membership does not exist', function () {

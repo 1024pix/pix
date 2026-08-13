@@ -67,12 +67,12 @@ describe('Integration | Organizational Entities | Domain | UseCase | add-organiz
     let activeOrganizationLearnerId, deletedOrganizationLearnerId;
     let oldUserDeletedLearnerId;
     let oldDeletedAt;
-    let clock, now;
+    let now;
 
     beforeEach(async function () {
       now = new Date('2025-01-01');
 
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
       oldDeletedAt = new Date('2024-12-12');
 
       oldUserDeletedLearnerId = databaseBuilder.factory.buildUser().id;
@@ -88,10 +88,6 @@ describe('Integration | Organizational Entities | Domain | UseCase | add-organiz
       }).id;
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     it('should not delete learners without parameters', async function () {

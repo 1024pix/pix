@@ -7,18 +7,13 @@ import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/Au
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-authentication-methods', function () {
-  let clock;
   let auditLoggingJobRepository;
 
   beforeEach(function () {
     const now = new Date('2023-08-17');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     auditLoggingJobRepository = { performAsync: sinon.stub().resolves() };
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   it('processes user GAR anonymisation in batch and returns anonymized / total of userIds', async function () {

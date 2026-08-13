@@ -25,11 +25,10 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     eventAdapter,
     sessionAuthorizationAdapter,
     dependencies;
-  let clock;
   const sessionId = 456;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now: new Date('2026-04-05T03:04:05Z') });
+    sinon.useFakeTimers({ now: new Date('2026-04-05T03:04:05Z'), toFake: ['Date'] });
     sessionAuthorizationAdapter = {
       find: sinon.stub(),
     };
@@ -72,7 +71,6 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
   });
 
   afterEach(function () {
-    clock.restore();
     sinon.restore();
   });
 

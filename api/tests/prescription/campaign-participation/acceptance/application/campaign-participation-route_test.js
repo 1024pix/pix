@@ -375,11 +375,11 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
 
     let server, badge1, badge2, stage;
 
-    let recentDate, clock;
+    let recentDate;
 
     beforeEach(async function () {
       server = await createServer();
-      clock = sinon.useFakeTimers({ now: new Date('2018-05-07'), toFake: ['Date'] });
+      sinon.useFakeTimers({ now: new Date('2018-05-07'), toFake: ['Date'] });
       const oldDate = new Date('2018-02-03');
       recentDate = new Date('2018-05-06');
       const futureDate = new Date('2018-07-10');
@@ -561,9 +561,6 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
       const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       databaseBuilder.factory.learningContent.build(learningContentObjects);
       await databaseBuilder.commit();
-    });
-    afterEach(function () {
-      clock.restore();
     });
 
     it('should return the campaign assessment result', async function () {

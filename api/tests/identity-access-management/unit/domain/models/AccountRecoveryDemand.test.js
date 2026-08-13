@@ -7,7 +7,7 @@ describe('Unit | Identity Access Management | Domain | Model | AccountRecoveryDe
   const now = new Date('2022-11-28T12:00:00Z');
 
   beforeEach(function () {
-    sinon.useFakeTimers({ now });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#hasExpired', function () {

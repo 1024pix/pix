@@ -43,17 +43,11 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
   });
 
   context('#isSessionScheduledInThePast', function () {
-    let clock;
-
     beforeEach(function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now: new Date('2023-01-01'),
         toFake: ['Date'],
       });
-    });
-
-    afterEach(async function () {
-      clock.restore();
     });
 
     context('when session is scheduled in the past', function () {

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 
 import { createServer } from '../../../../../server.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
@@ -529,7 +529,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
         beforeEach(async function () {
           options.headers = generateAuthenticatedUserRequestHeaders({ userId });
 
-          Sinon.useFakeTimers({
+          sinon.useFakeTimers({
             now: new Date('2019-01-10'),
             toFake: ['Date'],
           });

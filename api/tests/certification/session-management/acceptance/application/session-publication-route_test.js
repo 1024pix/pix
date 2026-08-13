@@ -75,15 +75,9 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
           let certificationId;
           const now = new Date('2000-01-01T10:00:00Z');
 
-          let clock;
-
-          afterEach(async function () {
-            clock.restore();
-          });
-
           context('when the certification course contains challenges', function () {
             beforeEach(function () {
-              clock = sinon.useFakeTimers({
+              sinon.useFakeTimers({
                 now,
                 toFake: ['Date'],
               });
@@ -129,7 +123,7 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
 
           context('when the certification course does not contain challenges', function () {
             beforeEach(function () {
-              clock = sinon.useFakeTimers({
+              sinon.useFakeTimers({
                 now,
                 toFake: ['Date'],
               });

@@ -401,14 +401,8 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   describe('POST /api/admin/certification-versions', function () {
     const now = new Date('2025-06-15T12:00:00Z');
 
-    let clock;
-
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return 201 HTTP status code and a new version as a draft and link his challenges', async function () {
@@ -595,14 +589,9 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
   describe('GET /api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report', function () {
     const now = new Date('2025-06-15T12:00:00Z');
-    let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return 200 HTTP status code and a the calibration report', async function () {

@@ -28,14 +28,8 @@ describe('Unit | Domain | Models | SessionJuryComment', function () {
   });
 
   context('#update', function () {
-    let clock;
-
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: new Date('2003-04-05T03:04:05Z'), toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: new Date('2003-04-05T03:04:05Z'), toFake: ['Date'] });
     });
 
     it('should update the comment', function () {

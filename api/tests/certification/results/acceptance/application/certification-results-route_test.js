@@ -251,14 +251,9 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
 
   describe('GET /api/admin/sessions/download-selection-results', function () {
     const now = new Date('2026-01-01T05:06:07Z');
-    let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return 200 HTTP status code', async function () {
