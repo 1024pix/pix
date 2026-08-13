@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Écrire une lettre, rédiger un devoir, compléter un document administratif, faire une attestation, tout le monde peut avoir besoin d’écrire du texte sur un ordinateur. Dans ce module, découvrez comment utiliser un traitement de texte pour écrire, organiser et enregistrer un document.</p>",
+    "description": "<p>Écrire une lettre, rédiger un devoir, compléter un document administratif, faire une attestation... tout le monde peut avoir besoin d’écrire du texte sur un ordinateur. Dans ce module, découvrez comment utiliser un traitement de texte pour écrire, organiser et enregistrer un document.</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
@@ -46,30 +46,30 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>La messagerie électronique.</p>",
+                    "content": "<p>La messagerie électronique</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non.<br> Le logiciel de traitement de texte est l’outil adapté pour rédiger du texte sur ordinateur.</p>"
+                      "diagnosis": "<p>Eh non.<br> Un <strong>logiciel de traitement de texte</strong> est l’outil adapté pour rédiger du texte sur ordinateur.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Le navigateur web de l’ordinateur.</p>",
+                    "content": "<p>Le navigateur web de l’ordinateur</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non.<br> Le <strong>logiciel de traitement de texte</strong> est l’outil adapté pour rédiger du texte sur ordinateur.</p>"
+                      "diagnosis": "<p>Eh non.<br> Un <strong>logiciel de traitement de texte</strong> est l’outil adapté pour rédiger du texte sur ordinateur.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Un logiciel de traitement de texte.</p>",
+                    "content": "<p>Un logiciel de traitement de texte</p>",
                     "feedback": {
-                      "diagnosis": "<p>Exactement ! <br> Le <strong>logiciel de traitement de texte</strong> est l’outil adapté pour rédiger du texte sur ordinateur.</p>"
+                      "diagnosis": "<p>Exactement ! <br> Un <strong>logiciel de traitement de texte</strong> est l’outil adapté pour rédiger du texte sur ordinateur.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Le <strong>logiciel de traitement de texte</strong> est l’outil adapté pour rédiger du texte sur ordinateur.</p>"
+                      "diagnosis": "<p>Un <strong>logiciel de traitement de texte</strong> est l’outil adapté pour rédiger du texte sur ordinateur.</p>"
                     }
                   }
                 ],
@@ -89,7 +89,7 @@
                 "id": "7752ec11-aeef-4981-a4d0-d32f446bdfe2",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Aidez Mina à trouver un logiciel de traitement de texte.</p>"
+                "content": "<p>Aidez Mina à trouver un logiciel de traitement de texte sur son ordinateur.</p>"
               }
             }
           ]
@@ -111,7 +111,7 @@
                 "id": "33390847-60c5-429e-8c07-1068ac4b85e1",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Mina cherche un logiciel de traitement de texte pour écrire son discours. Observez les logiciels ci-dessous puis répondez à la question</p>",
+                "instruction": "<p>Mina cherche un logiciel de traitement de texte pour écrire son discours. Observez les logiciels ci-dessous puis répondez à la question.</p>",
                 "functionalInstruction": "<p>Faites défiler chaque logiciel à l’aide des flèches.</p>",
                 "tagName": "pix-carousel",
                 "props": {
@@ -193,9 +193,9 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>VLC<br></p>",
+                    "content": "<p>VLC</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. Ici, il s’agissait de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
+                      "diagnosis": "<p>Eh non. Ici, il s’agit de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
                     }
                   },
                   {
@@ -207,16 +207,16 @@
                   },
                   {
                     "id": "3",
-                    "content": "<p>Finder<br></p>",
+                    "content": "<p>Finder</p>",
                     "feedback": {
                       "diagnosis": "<p>Eh non. Ici, il s’agissait de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
                     }
                   },
                   {
                     "id": "4",
-                    "content": "<p>Chrome<br></p>",
+                    "content": "<p>Chrome</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
+                      "diagnosis": "<p>Eh non.Ici, il s’agit de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou des icônes qui font penser à l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
                     }
                   }
                 ],
@@ -257,7 +257,7 @@
                 "id": "9171d9f9-36ba-4b5e-a2b6-4202c300126e",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Un document peut généralement s’<strong>ouvrir </strong>a<strong>vec tous les logiciels </strong>de traitement de texte.</p>"
+                "content": "<p>Un document texte peut généralement <strong>s’ouvrir avec tous les logiciels </strong>de traitement de texte.</p>"
               }
             }
           ]
@@ -273,7 +273,7 @@
                 "id": "f969abb8-d21c-4d5f-85f0-497bef589436",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mina ouvre le logiciel de traitement de texte de son ordinateur. Elle peut <strong>créer un nouveau document </strong>ou <strong>ouvrir un document existant</strong>.&nbsp; </p><p>Mina crée un nouveau document pour recopier son discours.</p>"
+                "content": "<p>Mina ouvre le logiciel de traitement de texte de son ordinateur. Elle peut <strong>créer un nouveau document </strong>ou <strong>ouvrir un document existant</strong>.&nbsp; </p><p>Mina crée un nouveau document.</p>"
               }
             }
           ]
@@ -289,7 +289,7 @@
                 "id": "ccc324a5-a1d3-4cfa-abe9-5a33baee133a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mina veut commencer à recopier le début de son discours.</p><p><strong>Dans le logiciel de traitement de texte ci-dessous, écrivez de début de la phrase suivante&nbsp;:</strong></p>"
+                "content": "<p>Mina veut commencer à recopier le début de son discours.</p><p><strong>Dans le logiciel de traitement de texte ci-dessous, écrivez la phrase suivante&nbsp;:</strong></p>"
               }
             },
             {
@@ -322,7 +322,7 @@
               "element": {
                 "id": "965d413f-c6aa-4413-8cd2-1b6aaeba4f32",
                 "type": "expand",
-                "title": "🗝️ Indice : ",
+                "title": "🗝️ Indice ",
                 "content": "<p>Pour taper du texte, cliquez dans la zone centrale blanche. Quand vous voyez le curseur de texte qui clignote, vous pouvez taper au clavier.</p>"
               }
             },
@@ -332,7 +332,7 @@
                 "id": "32ba46fc-0b8b-4089-a28d-d9e31ea39883",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Feedback&nbsp;:&nbsp;Pour écrire du texte dans un logiciel de traitement de texte, il faut se placer dans la <strong>zone centrale</strong>, appelée <strong>zone de travail</strong>, puis taper le texte à l’aide de son clavier.</p>"
+                "content": "<p>Feedback&nbsp;:&nbsp;Pour écrire du texte dans un logiciel de traitement de texte, il faut cliquer dans la <strong>zone centrale</strong>, appelée <strong>zone de travail</strong>, puis taper le texte à l’aide de son clavier.</p>"
               }
             }
           ]
@@ -369,7 +369,7 @@
                 "id": "8275f9df-9b89-4db3-980f-0c5c0f2d773f",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>La <strong>zone de travail</strong>&nbsp;: pour écrire et modifier votre texte avec le clavier.</li><li>La <strong>barre d’outils</strong>&nbsp;: pour accéder rapidement aux outils les plus courants à l’aide des raccourcis.</li><li>La <strong>barre des menus</strong>&nbsp;: pour accéder à toutes les options, ou à des actions qui concernent tout le logiciel (comme «&nbsp;Enregistrer&nbsp;» ou «&nbsp;Imprimer&nbsp;»).</li></ul>"
+                "content": "<ul><li>La <strong>zone de travail</strong>&nbsp;: pour écrire et modifier votre texte avec le clavier.</li><li>La <strong>barre d’outils</strong>&nbsp;: pour accéder rapidement aux outils les plus courants à l’aide des raccourcis.</li><li>La <strong>barre des menus</strong>&nbsp;: pour accéder à toutes les options, ou à des actions qui concernent tout le logiciel (comme «&nbsp;Enregistrer&nbsp;» ou «&nbsp;Imprimer&nbsp;» le document).</li></ul>"
               }
             }
           ]
@@ -385,7 +385,7 @@
                 "id": "460dafa8-bbc3-49cc-ac88-996137376374",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mina veut continuer la rédaction de son discours… mais elle a peur de perdre ce qu’elle a écrit si le logiciel se ferme.</p>"
+                "content": "<p>Mina veut continuer à écrire son discours… mais elle a peur de perdre ce qu’elle a déjà écrit si le logiciel se ferme.</p>"
               }
             }
           ]
@@ -412,9 +412,18 @@
                 "isCompletionRequired": false,
                 "title": "Exercice enregistrer sous",
                 "url": "https://epreuves.pix.fr/pixwriter-contrat/pixwriter-contrat.html?lang=fr",
-                "instruction": "<p>Dans l’interface ci-dessous&nbsp;:&nbsp; </p><ul><li>Dans la barre des menus, sélectionnez «&nbsp;Enregistrer sous&nbsp;»&nbsp;</li><li>Nommez votre document «&nbsp;Discours&nbsp;»&nbsp;</li><li>Enregistrez «&nbsp;Discours&nbsp;» sur le Bureau</li></ul>",
+                "instruction": "<p>Dans le logiciel ci-dessous&nbsp;:&nbsp; </p><ul><li>Dans la barre des menus, sélectionnez «&nbsp;Enregistrer sous&nbsp;».</li><li>Nommez votre document «&nbsp;Discours&nbsp;».</li><li>Enregistrez «&nbsp;Discours&nbsp;» sur le Bureau.</li></ul>",
                 "solution": "",
                 "height": 400
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "5a66d21c-d3be-4196-a407-b6718309b433",
+                "type": "expand",
+                "title": "🗝️ Indice",
+                "content": "<p>Cliquez sur « Fichier » dans la barre des menus pour trouver «&nbsp;Enregistrer sous&nbsp;».</p>"
               }
             },
             {
@@ -439,7 +448,7 @@
                 "id": "9d02d6eb-1b19-4aed-a777-923b10142b19",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>Pour retrouver</strong> votre document sur l’ordinateur et pouvoir le <strong>modifier</strong> plus tard, vous devez l’<strong>enregistrer</strong>.</p><p>Par contre, si vous utilisez une service en ligne, le document est <strong>enregistré en ligne</strong>, pas sur votre ordinateur.</p>"
+                "content": "<p><strong>Pour retrouver</strong> votre document sur l’ordinateur et pouvoir le <strong>modifier</strong> plus tard, vous devez l’<strong>enregistrer</strong>.</p><p>Si vous utilisez un service en ligne, le document est <strong>enregistré en ligne</strong>, pas sur votre ordinateur.</p>"
               }
             },
             {
@@ -448,7 +457,7 @@
                 "id": "30d1730d-59fd-4f69-a9b4-edcb692518b4",
                 "type": "text",
                 "tag": "tip",
-                "content": "<p>Vous pouvez aussi enregistrer votre document <strong>avant d’avoir commencé à écrire</strong>, pour être sûr de ne pas oublier.</p>"
+                "content": "<p>Vous pouvez aussi enregistrer votre document <strong>avant d’avoir commencé à écrire</strong>, pour être sûr de ne pas oublier de le faire.</p>"
               }
             },
             {
@@ -457,7 +466,7 @@
                 "id": "288679f0-9944-4381-b958-12be2d104e24",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Vous avez oublié d’enregistrer votre document ? Pas de panique. <br>Quand vous allez fermer le logiciel, un message d‘alerte vous proposera d’enregistrer.<br><br></p>"
+                "content": "<p>Vous avez oublié d’enregistrer votre document ? Pas de panique. <br>Quand vous allez fermer le logiciel, un message d‘alerte vous proposera de l’enregistrer.</p>"
               }
             }
           ]
@@ -473,7 +482,7 @@
                 "id": "93d4c7c1-4c66-49a2-b891-964c7187d350",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mina a terminé de recopier le discours qu’elle avait rédigé à la main. Elle veut faire des modifications.</p>"
+                "content": "<p>Mina a terminé de recopier le discours sur son ordinateur. Elle veut faire des modifications.</p>"
               }
             }
           ]
@@ -493,14 +502,14 @@
                       "id": "f60c6ff5-39e0-4f64-8145-c36a0807774d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Mina veut séparer son texte en 4 parties (paragraphes) pour le rendre plus facile à lire. Voici le résultat que Mina veut atteindre.</p>"
+                      "content": "<p>Mina veut séparer son texte en 4 parties (paragraphes) pour le rendre plus facile à lire. Le résultat que Mina veut obtenir est le suivant :</p>"
                     },
                     {
                       "id": "4a22a634-ea99-4262-b2f3-c3eb23cf796e",
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/31_MiseEnFormeTxt_NOV2/paragraphes-encadre.jpg",
                       "alt": "",
-                      "alternativeText": "<p>Je prends la parole aujourd’hui avec beaucoup d’émotion pour le mariage de ma sœur Léa.&nbsp; </p><p>Nous avons grandi ensemble et je garde en mémoire nos fous rires et nos secrets partagés dans notre chambre. Tu as toujours été mon modèle, celle qui me protégeait et qui savait me redonner le sourire.&nbsp; </p><p>Aujourd’hui, je vous vois tous les deux si complices et si heureux. C’est une grande joie de voir que tu as trouvé quelqu’un qui partage tes valeurs et ta gentillesse.&nbsp; </p><p>Je vous souhaite une vie remplie de projets et de tendresse. Je vous demande à tous de lever votre verre en l’honneur des jeunes mariés !</p>",
+                      "alternativeText": "<p>Je prends la parole aujourd’hui avec beaucoup d’émotion pour le mariage de ma sœur Léa.&nbsp; </p><br><p>Nous avons grandi ensemble et je garde en mémoire nos fous rires et nos secrets partagés dans notre chambre. Tu as toujours été mon modèle, celle qui me protégeait et qui savait me redonner le sourire.&nbsp; </p><br><p>Aujourd’hui, je vous vois tous les deux si complices et si heureux. C’est une grande joie de voir que tu as trouvé quelqu’un qui partage tes valeurs et ta gentillesse.&nbsp; </p><br><p>Je vous souhaite une vie remplie de projets et de tendresse. Je vous demande à tous de lever votre verre en l’honneur des jeunes mariés !</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -518,12 +527,12 @@
                       "id": "6ef00fea-9b2f-4245-90f2-dea59149ab0b",
                       "type": "expand",
                       "title": "🗝️ Indice 1",
-                      "content": "<p>Placez-vous au bon endroit pour séparer le texte&nbsp;: à la fin d’une phrase.</p>"
+                      "content": "<p>Placez le curseur de votre souris au bon endroit pour séparer le texte&nbsp;: à la fin d’une phrase.</p>"
                     },
                     {
                       "id": "05739401-9449-4037-95d2-3c1599ac57a6",
                       "type": "expand",
-                      "title": "🗝️ Indice 2 :",
+                      "title": "🗝️ Indice 2",
                       "content": "<p>Une touche sur votre clavier permet de faire un saut de ligne , la touche «&nbsp;Entrée ⏎&nbsp;» ou «&nbsp;⏎&nbsp;».</p>"
                     },
                     {
