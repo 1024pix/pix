@@ -306,7 +306,7 @@
                 "id": "289f0b54-d015-420c-850b-a5ea01aa6da9",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Lisez l’article ci-dessous à propos de la vulnérabilité Log4Shell puis répondez aux questions qui suivent.</p>",
+                "instruction": "<p>Lisez l’article ci-dessous à propos de la vulnérabilité <i>Log4Shell</i> puis répondez aux questions qui suivent.</p>",
                 "functionalInstruction": "",
                 "tagName": "pix-article",
                 "props": {
@@ -326,7 +326,7 @@
             },
             {
               "type": "stepper",
-              "instruction": "<p><br></p>",
+              "instruction": "",
               "steps": [
                 {
                   "elements": [
