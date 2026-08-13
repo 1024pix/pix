@@ -1,6 +1,6 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Routes | certification-officer', function () {
@@ -8,7 +8,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
     let server;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
     });
 
     context('when user does not have the role Super Admin', function () {

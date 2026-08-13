@@ -1,13 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Organization Entities | Admin | Route | Certification Centers', function () {
   let superAdmin, request, server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
   });
@@ -576,7 +576,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
   describe('GET /api/admin/certification-centers/{certificationCenterId}/attached-organizations', function () {
     it('should return the organizations attached to a given certification center and http code 200', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       databaseBuilder.factory.buildOrganizationWithStructure({

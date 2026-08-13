@@ -6,7 +6,6 @@ import nock from 'nock';
 import sinon from 'sinon';
 import { MockAgent, setGlobalDispatcher } from 'undici';
 
-import { createServer } from '../../../../../server.js';
 import { CertificationCompletedJob } from '../../../../../src/certification/evaluation/domain/events/CertificationCompleted.js';
 import { TrainingTrigger } from '../../../../../src/devcomp/domain/models/TrainingTrigger.js';
 import * as badgeAcquisitionRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-acquisition-repository.js';
@@ -25,6 +24,7 @@ import { SCOPES } from '../../../../../src/shared/infrastructure/utils/logger.js
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 import { waitForStreamFinalizationToBeDone } from '../../../../tooling/test-utils/wait.js';
 
@@ -402,7 +402,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
 
-    server = await createServer();
+    server = await getServer();
 
     user = databaseBuilder.factory.buildUser({});
     assessment = databaseBuilder.factory.buildAssessment({

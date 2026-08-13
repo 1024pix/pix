@@ -1,11 +1,11 @@
 import querystring from 'node:querystring';
 
-import { createServer } from '../../../../server.js';
 import { UserAccessToken } from '../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { config } from '../../../../src/shared/config.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateInjectOptions } from '../../../tooling/test-utils/http-server.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -14,7 +14,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/token', function () {
@@ -534,7 +534,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
     const SCOPE2 = 'another-scope';
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       options = {
         method: 'POST',
         url: '/api/application/token',

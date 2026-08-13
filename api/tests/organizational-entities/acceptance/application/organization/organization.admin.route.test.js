@@ -1,13 +1,13 @@
 import iconv from 'iconv-lite';
 import lodash from 'lodash';
 
-import { createServer } from '../../../../../server.js';
 import { ORGANIZATIONS_UPDATE_HEADER } from '../../../../../src/organizational-entities/domain/constants.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -22,7 +22,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
     await databaseBuilder.commit();
 
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/admin/organizations/import-csv/template', function () {
@@ -1586,7 +1586,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
   describe('GET /api/organizations/{id}/places-statistics', function () {
     it('should return statistics of organization places and http code 200', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const { userId, organizationId } = databaseBuilder.factory.buildMembership({
         organizationRole: Membership.roles.ADMIN,
@@ -1628,7 +1628,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
   describe('GET /api/organizations/{id}/statistics', function () {
     it('should return statistics of a given organization and http code 200', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
@@ -1654,7 +1654,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
   describe('GET /api/organizations/{id}/certification-centers', function () {
     it('should return certification-center attached to a given organization and http code 200', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
@@ -1681,7 +1681,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
   describe('POST /api/admin/organizations/{id}/attach-certification-centers', function () {
     it('should attach a given certification center to a given organization and return http code 204', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
@@ -1707,7 +1707,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
   describe('POST /api/admin/organizations/{id}/detach-certification-center', function () {
     it('should detach a certification center from a given organization and return http code 204', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({

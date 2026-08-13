@@ -1,9 +1,9 @@
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const competenceId = 'recCompetence';
@@ -55,7 +55,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/assessments/:assessment_id', function () {

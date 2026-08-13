@@ -1,5 +1,5 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Route | Get Data Organization Places', function () {
@@ -9,7 +9,7 @@ describe('Acceptance | Route | Get Data Organization Places', function () {
       const PIX_DATA_CLIENT_ID = 'test-pixDataCliendId';
       const PIX_DATA_SCOPE = 'statistics';
 
-      const server = await createServer();
+      const server = await getServer();
 
       // when
       const options = {

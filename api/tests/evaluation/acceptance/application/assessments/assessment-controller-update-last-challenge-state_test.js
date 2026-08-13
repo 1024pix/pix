@@ -1,8 +1,8 @@
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const competenceId = 'recCompetence';
@@ -51,7 +51,7 @@ describe('Evaluation | Acceptance | Assessment | assessment-controller-update-la
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
     await databaseBuilder.commit();
@@ -67,7 +67,7 @@ describe('Evaluation | Acceptance | Assessment | assessment-controller-update-la
 
     context('Resource access management', function () {
       beforeEach(async function () {
-        server = await createServer();
+        server = await getServer();
 
         user = databaseBuilder.factory.buildUser();
         assessment = databaseBuilder.factory.buildAssessment({

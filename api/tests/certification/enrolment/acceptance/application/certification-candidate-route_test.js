@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 
-import { createServer } from '../../../../../server.js';
 import { CandidateCreatedEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateCreatedEvent.js';
 import { CandidateNotCertifiableEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateNotCertifiableEvent.js';
 import { CandidateReconciledEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateReconciledEvent.js';
@@ -9,6 +8,7 @@ import { Frameworks } from '../../../../../src/certification/shared/domain/model
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -17,7 +17,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/sessions/{sessionId}/certification-candidates', function () {

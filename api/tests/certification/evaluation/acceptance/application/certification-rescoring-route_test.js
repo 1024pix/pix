@@ -1,4 +1,3 @@
-import { createServer } from '../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
@@ -6,6 +5,7 @@ import { Assessment } from '../../../../../src/shared/domain/models/Assessment.j
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Evaluation | Acceptance | Application |  certification rescoring', function () {
@@ -13,7 +13,7 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
     let server;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
     });
 
     describe('when scoring from the current framework', function () {

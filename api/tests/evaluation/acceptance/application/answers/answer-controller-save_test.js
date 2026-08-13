@@ -1,4 +1,3 @@
-import { createServer } from '../../../../../server.js';
 import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
@@ -8,6 +7,7 @@ import { ENGLISH_SPOKEN, FRENCH_FRANCE } from '../../../../../src/shared/domain/
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
@@ -17,7 +17,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/answers', function () {

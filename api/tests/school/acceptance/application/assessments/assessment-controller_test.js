@@ -1,14 +1,14 @@
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Controller | assessment-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /assessments/{id}/current-activity', function () {
