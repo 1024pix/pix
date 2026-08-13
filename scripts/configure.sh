@@ -97,7 +97,7 @@ function setup_and_run_infrastructure() {
   echo "Creating database"
 
   # It drops and creates database then load the seed.
-  (cd api && npm run db:reset)
+  (cd api && npm run db:reset && npm run datamart:reset)
 
   echo "✅ Database created"
   echo ""

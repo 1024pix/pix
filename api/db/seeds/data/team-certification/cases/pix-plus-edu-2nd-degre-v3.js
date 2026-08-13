@@ -13,9 +13,8 @@ import {
 } from '../shared/constants.js';
 
 export class PixPlusEdu2ndDegreV3Seed {
-  constructor({ databaseBuilder, datamartKnex }) {
+  constructor({ databaseBuilder }) {
     this.databaseBuilder = databaseBuilder;
-    this.datamartKnex = datamartKnex;
   }
 
   async create() {
@@ -31,7 +30,6 @@ export class PixPlusEdu2ndDegreV3Seed {
 
     await CommonCertificationVersions.initPixPlusEdu2ndDegreVersion({
       databaseBuilder: this.databaseBuilder,
-      datamartKnex: this.datamartKnex,
     });
 
     const versionId = CommonCertificationVersions.pixPlusEdu2ndDegreVersion.currentVersionId;

@@ -1,4 +1,3 @@
-import { knex as datamartKnex } from '../../datamart/knex-database-connection.js';
 import { config } from '../../src/shared/config.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { DatabaseBuilder } from '../database-builder/database-builder.js';
@@ -69,7 +68,7 @@ export async function seed() {
   if (config.seeds.context.certification) {
     logger.info('Seeding : Certification');
     await complementaryCertificationBuilder({ databaseBuilder });
-    await teamCertificationDataBuilder({ databaseBuilder, datamartKnex });
+    await teamCertificationDataBuilder({ databaseBuilder });
   }
 
   if (config.seeds.context.evaluation) {

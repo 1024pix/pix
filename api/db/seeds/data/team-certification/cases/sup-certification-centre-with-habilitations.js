@@ -35,9 +35,8 @@ import addSession from '../tools/add-session.js';
  *   - I'm able to start a certification course
  */
 export class SupWithHabilitationsSeed {
-  constructor({ databaseBuilder, datamartKnex }) {
+  constructor({ databaseBuilder }) {
     this.databaseBuilder = databaseBuilder;
-    this.datamartKnex = datamartKnex;
   }
 
   async create() {
@@ -91,17 +90,14 @@ export class SupWithHabilitationsSeed {
   async #initCertificationReferentials() {
     await CommonCertificationVersions.initCoreVersions({
       databaseBuilder: this.databaseBuilder,
-      datamartKnex: this.datamartKnex,
     });
 
     await CommonCertificationVersions.initPixPlusDroitVersion({
       databaseBuilder: this.databaseBuilder,
-      datamartKnex: this.datamartKnex,
     });
 
     await CommonCertificationVersions.initPixPlusEdu1erDegreVersion({
       databaseBuilder: this.databaseBuilder,
-      datamartKnex: this.datamartKnex,
     });
   }
 
