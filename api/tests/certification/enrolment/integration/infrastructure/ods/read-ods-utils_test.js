@@ -245,7 +245,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | read-ods-utils',
   describe('#getSheetDataRowsFromOdsBuffer', function () {
     const candidatesRange = { range: 'B12:M13' };
 
-    before(async function () {
+    beforeAll(async function () {
       odsBuffer = await readFile(SIMPLE_ATTENDANCE_ODS_FILE_PATH);
     });
 

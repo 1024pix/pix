@@ -5,7 +5,7 @@ import { expect } from '../../../../test-helper.js';
 describe('Unit | Domain | Read-Models | DemoAssessment', function () {
   describe('#constructor', function () {
     let assessment;
-    before(function () {
+    beforeAll(function () {
       assessment = new DemoAssessment({ title: 'Mon Course' });
     });
 

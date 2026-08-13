@@ -19,7 +19,7 @@ const findByUserId = async function ({ userId }) {
         'id', "complementary-certification-course-results".id,
         'acquired', "complementary-certification-course-results".acquired,
         'complementaryCertificationBadgeId', "complementary-certification-course-results"."complementaryCertificationBadgeId",
-        'source', "complementary-certification-course-results".source))`,
+        'source', "complementary-certification-course-results".source) ORDER BY "complementary-certification-course-results".id DESC)`,
       ),
     })
     .from('complementary-certification-courses')

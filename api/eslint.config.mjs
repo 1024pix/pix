@@ -1,10 +1,10 @@
 import pixRecommendedConfig from '@1024pix/eslint-plugin/config';
 import { fixupPluginRules } from '@eslint/compat';
+import vitest from '@vitest/eslint-plugin';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import chaiExpect from 'eslint-plugin-chai-expect';
 import i18nJsonPlugin from 'eslint-plugin-i18n-json';
 import knex from 'eslint-plugin-knex';
-import mocha from 'eslint-plugin-mocha';
 import nRecommendedConfig from 'eslint-plugin-n';
 import unicorn from 'eslint-plugin-unicorn';
 
@@ -39,16 +39,25 @@ export default defineConfig([
   },
   // Overridden rules for "tests" files
   {
-    ...mocha.configs.recommended,
+    ...vitest.configs.env,
     files: ['tests/**/*.js'],
+    plugins: { vitest },
+    languageOptions: {
+      ...vitest.configs.env.languageOptions,
+      globals: {
+        ...vitest.configs.env.languageOptions.globals,
+        // Mocha's `context()` alias for `describe()` is shimmed globally in tests/test-helper.js
+        // rather than rewriting ~5,200 call sites; declared here so `no-undef` doesn't flag it.
+        context: 'readonly',
+      },
+    },
     rules: {
-      ...mocha.configs.recommended.rules,
-      'mocha/no-hooks-for-single-case': 'off',
-      'mocha/no-exclusive-tests': 'error',
-      'mocha/no-pending-tests': 'error',
-      'mocha/no-top-level-hooks': 'error',
-      'mocha/no-setup-in-describe': 'off',
-      'mocha/consistent-spacing-between-blocks': 'off',
+      // Only the direct equivalents of the previous eslint-plugin-mocha rules are enabled here —
+      // vitest's broader `recommended` ruleset (no-identical-title, expect-expect, valid-title...)
+      // would flag pre-existing content across the whole suite, which is out of scope for a
+      // runner swap.
+      'vitest/no-focused-tests': 'error',
+      'vitest/no-disabled-tests': 'error',
     },
   },
   // Overridden rules for "translations" files

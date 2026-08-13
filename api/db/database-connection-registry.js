@@ -35,6 +35,10 @@ export class DatabaseConnectionRegistry {
     return Promise.all(connections.map((connection) => connection.checkStatus()));
   }
 
+  async connect() {
+    this.#connections = buildConnections();
+  }
+
   async disconnect() {
     if (this.#disconnectPromise) {
       await Promise.allSettled([this.#disconnectPromise]);
@@ -64,8 +68,12 @@ export class DatabaseConnectionRegistry {
 
 const { environment } = config;
 
-export const databaseConnectionRegistry = new DatabaseConnectionRegistry({
-  api: new DatabaseConnection(knexConfigWithPgBouncer[environment]),
-  datamart: new DatabaseConnection(datamartKnexConfigs[environment]),
-  datawarehouse: new DatabaseConnection(datawarehouseKnexConfigs[environment]),
-});
+function buildConnections() {
+  return {
+    api: new DatabaseConnection(knexConfigWithPgBouncer[environment]),
+    datamart: new DatabaseConnection(datamartKnexConfigs[environment]),
+    datawarehouse: new DatabaseConnection(datawarehouseKnexConfigs[environment]),
+  };
+}
+
+export const databaseConnectionRegistry = new DatabaseConnectionRegistry(buildConnections());

@@ -9,7 +9,7 @@ describe('Unit | Domain | Models | Stages acquisition', function () {
     let stagesAcquisitions;
     let stageAcquisitionCollection;
 
-    before(function () {
+    beforeAll(function () {
       availableStages = [
         { id: 50, threshold: 30 },
         { id: 10, threshold: null, level: null, isFirstSkill: true },
@@ -57,7 +57,7 @@ describe('Unit | Domain | Models | Stages acquisition', function () {
     let stagesAcquisitions;
     let stageAcquisitionCollection;
 
-    before(function () {
+    beforeAll(function () {
       availableStages = [
         { id: 4, level: 2 },
         { id: 1, level: 5 },

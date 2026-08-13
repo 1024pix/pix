@@ -11,8 +11,8 @@ describe('Integration | UseCases | detach-parent-organization-from-organization'
     await databaseBuilder.commit();
   });
   // TODO: ce test doit être mis à jour une fois qu'il sera décidé de l'impact du détachement d'organisation
-  // eslint-disable-next-line mocha/no-pending-tests
-  xit('should detach parent organization from child organization', async function () {
+  // eslint-disable-next-line vitest/no-disabled-tests
+  it.skip('should detach parent organization from child organization', async function () {
     // given
     const parentOrganization = databaseBuilder.factory.buildOrganization();
 

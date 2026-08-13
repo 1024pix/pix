@@ -155,9 +155,11 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
     it('should close the connection', async function () {
       // given
       const client = new RedisClient(config.redis.url);
+      const ended = new Promise((resolve) => client._client.once('end', resolve));
 
       // when
       await client.quit();
+      await ended;
 
       // then
       expect(client._client.status).to.equal('end');
@@ -167,9 +169,11 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
       it('should not throw an error', async function () {
         // given
         const client = new RedisClient(config.redis.url);
+        const ended = new Promise((resolve) => client._client.once('end', resolve));
 
         // when
         await client.quit();
+        await ended;
         await client.quit();
 
         // then

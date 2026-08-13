@@ -169,7 +169,7 @@ describe('Integration | UseCase | get-campaign', function () {
     context('when there are no participation', function () {
       let campaign;
 
-      before(async function () {
+      beforeAll(async function () {
         campaign = databaseBuilder.factory.buildCampaign({
           name: 'TroTro',
           type: CampaignTypes.EXAM,
@@ -198,7 +198,7 @@ describe('Integration | UseCase | get-campaign', function () {
       let campaign;
       let resultCampaign;
 
-      before(async function () {
+      beforeAll(async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         databaseBuilder.factory.buildBadge({ targetProfileId });

@@ -54,7 +54,7 @@ describe('Identity Access Management | Integration | Application | SecurityPreHa
       });
 
       describe('when the application tries to refresh the access token', function () {
-        before(async function () {
+        beforeAll(async function () {
           // given
           databaseBuilder.factory.buildUser({ username: 'refresh_token_user_1' });
           await databaseBuilder.commit();

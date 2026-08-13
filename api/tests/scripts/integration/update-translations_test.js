@@ -21,25 +21,25 @@ describe('integration | scripts | update-translations', function () {
       it('should return an error if source is not a json', function () {
         // given
         const source = 'source';
-        const target = ['target.json'];
+        const targets = ['target.json'];
 
         // when
-        const result = script.handle(source, target, logger);
+        const result = script.handle({ options: { source, targets, dryRun: false }, logger });
 
         // then
-        expect(result).to.be.rejectedWith('The source file must be a JSON file');
+        return expect(result).to.be.rejectedWith('The source file must be a JSON file');
       });
 
       it('should return an error if one target file is not a json', function () {
         // given
         const source = 'source.json';
-        const target = ['target1'];
+        const targets = ['target1'];
 
         // when
-        const result = script.handle(source, target, logger);
+        const result = script.handle({ options: { source, targets, dryRun: false }, logger });
 
         // then
-        expect(result).to.be.rejectedWith('The target file must be a JSON file');
+        return expect(result).to.be.rejectedWith('All target files must be JSON files');
       });
     });
 

@@ -6,7 +6,7 @@ describe('Unit | Service | Convert Level Stages Into Thresholds', function () {
   describe('convertLevelStagesIntoThresholds', function () {
     let stages;
 
-    before(function () {
+    beforeAll(function () {
       stages = [
         domainBuilder.buildStage({ level: 0, threshold: null }),
         domainBuilder.buildStage({ level: null, threshold: null, isFirstSkill: true }),

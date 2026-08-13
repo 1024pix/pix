@@ -12,7 +12,7 @@ describe('Unit | Domain | services | cat-algorithm', function () {
   let tubes;
 
   // data used for the following tests have been extracted from production to recreate genuine simulation results
-  before(function () {
+  beforeAll(function () {
     predictedLevel = 6.5;
     knowledgeElements = [
       {

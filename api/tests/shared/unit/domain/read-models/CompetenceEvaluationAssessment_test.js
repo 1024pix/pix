@@ -5,7 +5,7 @@ import { expect } from '../../../../test-helper.js';
 describe('Unit | Domain | Read-Models | CompetenceEvaluationAssessment', function () {
   describe('#constructor', function () {
     let assessment;
-    before(function () {
+    beforeAll(function () {
       assessment = new CompetenceEvaluationAssessment({ title: 'Ma Compétence' });
     });
 

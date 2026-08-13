@@ -1,4 +1,5 @@
 const INITIAL_ID = 100000;
+
 const databaseBuffer = {
   objectsToInsert: {},
   nextId: INITIAL_ID,
