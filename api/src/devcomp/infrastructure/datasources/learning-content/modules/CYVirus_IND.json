@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Ordinateur, smartphone, tablette… Vos appareils utilisent de nombreux logiciels tous les jours. Parfois, même si tout fonctionne bien en apparence, ces logiciels peuvent être vulnérables. Des pirates informatiques peuvent s’introduire sur vos appareils pour réaliser des actions malveillantes. <br> Dans ce module, vous allez découvrir comment les logiciels de vos appareils peuvent devenir des portes d’entrée pour les pirates informatiques, et comment les mises à jour permettent de renforcer la protection de vos appareils.</p>",
+    "description": "<p>Ordinateur, smartphone, tablette… vos appareils utilisent de nombreux logiciels tous les jours. Parfois, même si tout fonctionne bien en apparence, ces logiciels peuvent être vulnérables. Des pirates informatiques peuvent s’introduire sur vos appareils pour réaliser des actions malveillantes. <br> Dans ce module, vous allez découvrir comment les logiciels de vos appareils peuvent devenir des portes d’entrée pour les pirates informatiques, et comment les mises à jour permettent de renforcer la protection de vos appareils.</p>",
     "duration": 10,
     "level": "independent",
     "objectives": [
@@ -60,7 +60,7 @@
                     "id": "1",
                     "content": "<p>Votre appareil continue à fonctionner comme avant.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Il est possible que votre appareil fonctionne normalement en apparence. Toutefois, une mise à jour peut permettre de <strong>protéger votre appareil</strong>. <br>Si vous ignorez ou repoussez l’installation des mises à jour disponibles, <strong>votre appareil devient vulnérable</strong>.</p>"
+                      "diagnosis": "<p>Il est possible que votre appareil fonctionne normalement en apparence. Mais une mise à jour peut aussi permettre de <strong>protéger votre appareil</strong>. <br>Si vous ignorez ou repoussez l’installation des mises à jour disponibles, <strong>votre appareil devient vulnérable</strong>.</p>"
                     }
                   },
                   {
@@ -101,7 +101,7 @@
                 "id": "b0722cda-34d4-49c5-ba40-597a51a34837",
                 "type": "text",
                 "tag": " ",
-                "content": "<p> Mais ça veut dire quoi un appareil vulnérable&nbsp;? De quoi protège la mise à jour&nbsp;?</p>"
+                "content": "<p> Mais qu’est-ce qu’un appareil vulnérable&nbsp;? Et comment une mise à jour protège protège-t-elle un appareil&nbsp;?</p>"
               }
             }
           ]
@@ -123,7 +123,7 @@
                 "id": "a1736018-27c9-4599-95cb-811dbed84785",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Un appareil numérique, une application ou un logiciel devient vulnérable quand il présente une vulnérabilité logicielle.</p>"
+                "content": "<p>Un appareil numérique, une application ou un logiciel devient vulnérable quand il présente une vulnérabilité logicielle ou non.</p>"
               }
             },
             {
@@ -136,7 +136,7 @@
                       "id": "7fdea00b-9f3f-451f-816c-2a10b5e8d2e3",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’application photos de Ruben indique «&nbsp;Espace de stockage insuffisant&nbsp;» et lui demande de supprimer des photos pour pouvoir en prendre d’autres.</p>"
+                      "content": "<p>L’application photos de Ruben indique : «&nbsp;Espace de stockage insuffisant&nbsp;». L’application demande de supprimer des photos pour pouvoir en prendre d’autres.</p>"
                     },
                     {
                       "id": "2ceaae89-4551-47f8-bf47-ba0aed6d864b",
@@ -148,21 +148,21 @@
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>C’est peu probable. Ici, l’espace de stockage est une<strong> limite</strong> de l’application photos, mais cela <strong>ne constitue pas une vulnérabilité logicielle</strong>.</p>"
+                            "diagnosis": "<p>C’est peu probable. Ici, l’espace de stockage est une<strong> limite</strong> de l’application photos, mais ce n’est <strong>pas une vulnérabilité logicielle</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement. Ici, l’espace de stockage est une <strong>limite</strong> de l’application photos, mais cela <strong>ne constitue pas une vulnérabilité logicielle</strong>.</p>"
+                            "diagnosis": "<p>Effectivement. Ici, l’espace de stockage est une <strong>limite</strong> de l’application photos, mais ce n’est <strong>pas une vulnérabilité logicielle</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Ici, l’espace de stockage est une <strong>limite</strong> de l’application photos, mais cela <strong>ne constitue pas une vulnérabilité logicielle</strong>.</p>"
+                            "diagnosis": "<p>Ici, l’espace de stockage est une <strong>limite</strong> de l’application photos, mais ce n’est <strong>pas une vulnérabilité logicielle</strong>.</p>"
                           }
                         }
                       ],
@@ -176,7 +176,7 @@
                       "id": "33e79840-0e3c-46e0-be93-ebe5c7dcfb65",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>En répondant à une arnaque téléphonique, le collègue de Ruben a donné des informations bancaires à un faux conseiller en ligne. L’escroc a pu voler de l’argent à votre entreprise. Ruben a reçu un message d’alerte sur son application bancaire.</p>"
+                      "content": "<p>En répondant à une arnaque téléphonique, le collègue de Ruben a donné des informations bancaires à un faux conseiller en ligne. L’escroc a pu voler de l’argent à son entreprise. Ruben a reçu un message d’alerte sur son application bancaire.</p>"
                     },
                     {
                       "id": "1b5d7f9c-b886-4c3e-9b45-323d5476816f",
@@ -216,33 +216,33 @@
                       "id": "8eb75a21-6667-4c65-a759-3947c328241c",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Une erreur dans le code informatique de l’application de gym de Ruben permet à des pirates informatiques d’insérer du code informatique malveillant dans l’application et de voler les données des utilisateurs.</p>"
+                      "content": "<p>Une erreur dans le code informatique de l’application de sport de Ruben permet à des pirates informatiques d’insérer du code informatique malveillant dans l’application et de voler les données des utilisateurs.</p>"
                     },
                     {
                       "id": "33529cf6-86c1-451a-846b-90b74e064148",
                       "type": "qcu-discovery",
-                      "instruction": "<p>À votre avis, dans cette situation, est-ce que l’application de gym de Ruben présente une vulnérabilité logicielle ?</p>",
+                      "instruction": "<p>À votre avis, dans cette situation, est-ce que l’application de sport de Ruben présente une vulnérabilité logicielle ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement. Ici l’application de gym <strong>est vulnérable</strong>.</p><p>Le <strong>code</strong><strong>&nbsp;informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent exploiter ces vulnérabilités.</p>"
+                            "diagnosis": "<p>Effectivement. Ici, l’application de sport <strong>est vulnérable</strong>.</p><p>Le <strong>code</strong><strong>&nbsp;informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent exploiter ces vulnérabilités.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Eh si ! Ici l’application de gym <strong>est vulnérable</strong>.</p><p>Le <strong>code</strong><strong>&nbsp;informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent exploiter ces vulnérabilités.</p>"
+                            "diagnosis": "<p>Eh si ! Ici, l’application de sport <strong>est vulnérable</strong>.</p><p>Le <strong>code</strong><strong>&nbsp;informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent exploiter ces vulnérabilités.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Ici l’application de gym <strong>est vulnérable</strong>.</p><p>Le code<strong> informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent exploiter ces vulnérabilités.</p>"
+                            "diagnosis": "<p>Ici, l’application de sport <strong>est vulnérable</strong>.</p><p>Le code<strong> informatique</strong> des logiciels présentent parfois des <strong>faiblesses de conception</strong>&nbsp;: des erreurs, des maladresses ou des oublis. On parle de <strong>vulnérabilités logicielles</strong>.</p><p>Les pirates informatiques peuvent utiliser ces vulnérabilités.</p>"
                           }
                         }
                       ],
@@ -265,7 +265,7 @@
                 "id": "72617e89-2dae-4ca4-9ff7-ce099c90e5ad",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Dans la plupart des cas, une <strong>vulnérabilité logicielle</strong> ne se voit pas quand on utilise l’appareil. Un logiciel peut <strong>fonctionner normalement en apparence</strong> pour l’utilisateur, pendant qu’un pirate informatique l’<strong>exploite de manière malveillante</strong>.&nbsp;☠️</p>\n<p>Les vulnérabilités logicielles sont des <strong>faiblesses de conception</strong> (erreurs, maladresses, oublis) <strong>dans le code informatique&nbsp;</strong>d’appareils numériques, de logiciels ou d’applications.<br></p>"
+                "content": "<p>Les vulnérabilités logicielles sont des <strong>faiblesses de conception</strong> (erreurs, maladresses, oublis) <strong>dans le code informatique&nbsp;</strong>d’appareils numériques, de logiciels ou d’applications.</p><p>Dans la plupart des cas, une <strong>vulnérabilité logicielle</strong> ne se voit pas quand on utilise un appareil. Un logiciel peut <strong>fonctionner normalement en apparence</strong> pour l’utilisateur, pendant qu’un pirate informatique l’<strong>exploite de manière malveillante</strong>.&nbsp;☠️</p>"
               }
             },
             {
@@ -274,7 +274,7 @@
                 "id": "e4315db0-11c7-4e7e-8e86-139f6d5d6cb5",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Tous les logiciels peuvent contenir des vulnérabilités. Cependant, pour toucher un grand nombre d’utilisateurs, les pirates informatiques ciblent souvent les logiciels les plus répandus tels que&nbsp;:&nbsp; </p><ul><li>les navigateurs web (Google Chrome, Edge, Firefox, Safari, etc.),&nbsp;</li><li>les logiciels bureautiques (traitement de texte, etc.),</li><li>les systèmes d’exploitation (Windows, macOS, Linux, Android, IOS).</li></ul>"
+                "content": "<p>Tous les logiciels peuvent contenir des vulnérabilités. Cependant, pour toucher un grand nombre d’utilisateurs, les pirates informatiques ciblent souvent les logiciels les plus répandus tels que&nbsp;: </p><ul><li>les navigateurs web (Google Chrome, Edge, Firefox, Safari, etc.),</li><li>les logiciels bureautiques (traitement de texte, messagerie électronique, etc.),</li><li>les systèmes d’exploitation (Windows, macOS, Linux, Android, IOS).</li></ul>"
               }
             }
           ]
@@ -290,7 +290,7 @@
                 "id": "cae1160e-c08b-4dc8-ab4d-68ec0ea348ca",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Ça veut dire quoi «&nbsp;exploiter une vulnérabilité logicielle&nbsp;»&nbsp;? Quels sont les risques pour les utilisateurs&nbsp;? <br>Voyons cela plus en détails avec un exemple.</p>"
+                "content": "<p>Mais que veut dire «&nbsp;exploiter une vulnérabilité logicielle&nbsp;»&nbsp;? Quels sont les risques pour les utilisateurs&nbsp;? <br>Voyons cela plus en détail avec un exemple.</p>"
               }
             }
           ]
@@ -361,7 +361,7 @@
                           "id": "4",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. <em>Log4Shell</em> est une importante vulnérabilité considérée comme <strong>critique et donc dangereuse</strong>. En effet, elle peut donner à un pirate informatique <strong>un accès qu’il ne devrait pas avoir</strong> pour réaliser différentes actions malveillantes.</p>"
+                            "diagnosis": "<p><em>Log4Shell</em> est une importante vulnérabilité considérée comme <strong>critique et donc dangereuse</strong>. En effet, elle peut donner à un pirate informatique <strong>un accès qu’il ne devrait pas avoir</strong> pour réaliser différentes actions malveillantes.</p>"
                           }
                         }
                       ],
@@ -395,7 +395,7 @@
                           "id": "3",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. <strong>Tout dépend de la vulnérabilité exploitée</strong> et de son niveau de risque : certaines sont beaucoup plus graves que d’autres. Certaines vulnérabilités permettent seulement de perturber le fonctionnement d’un logiciel ou d’un service. D’autres, comme <em>Log4Shell</em>, permettent au pirate d’<strong>entrer illégalement dans un appareil</strong> et d’en <strong>prendre le contrôle</strong> pour réaliser plusieurs actions malveillantes (récupérer des données, installer un logiciel malveillant, etc.).</p>"
+                            "diagnosis": "<p><strong>Tout dépend de la vulnérabilité exploitée</strong> et de son niveau de risque : certaines sont beaucoup plus graves que d’autres. Certaines vulnérabilités permettent seulement de perturber le fonctionnement d’un logiciel ou d’un service. D’autres, comme <em>Log4Shell</em>, permettent au pirate d’<strong>entrer illégalement dans un appareil</strong> et d’en <strong>prendre le contrôle</strong> pour réaliser plusieurs actions malveillantes (récupérer des données, installer un logiciel malveillant, etc.).</p>"
                           }
                         }
                       ],
@@ -418,7 +418,7 @@
                 "id": "bce25e34-0664-4caa-a16a-193aeab7eb0c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les pirates informatiques peuvent exploiter les vulnérabilités logicielles pour <strong>s’introduire</strong> sur un appareil <strong>puis réaliser des actions malveillantes</strong>. </p><p>Cela peut avoir des <strong>conséquences importantes à plusieurs échelles</strong>&nbsp;: pour l’appareil, ce qu’il contient, ou même d’autres appareils connectés sur le même réseau. L’objectif des pirates informatiques est d’obtenir de l’argent, de voler des données, de prendre le contrôle d’appareils, etc.</p>"
+                "content": "<p>Les pirates informatiques peuvent exploiter des vulnérabilités logicielles pour <strong>s’introduire</strong> dans un appareil <strong>puis réaliser des actions malveillantes</strong>. </p><p>Cela peut avoir des <strong>conséquences importantes à plusieurs échelles</strong>&nbsp;: pour l’appareil, ce qu’il contient, ou même d’autres appareils connectés sur le même réseau. L’objectif des pirates informatiques est d’obtenir de l’argent, de voler des données, de prendre le contrôle d’appareils, etc.</p>"
               }
             },
             {
@@ -512,28 +512,28 @@
                     {
                       "id": "88555043-36e0-4de6-9eff-703027e0b2b9",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Un pirate informatique est toujours le premier à détecter une vulnérabilité.</p>",
+                      "instruction": "<p>Un pirate informatique est toujours le premier à détecter une vulnérabilité logicielle.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Les vulnérabilités peuvent être détectées par des pirates informatiques ou par les éditeurs de logiciel eux-mêmes.</p>"
+                            "diagnosis": "<p>Eh non. Les vulnérabilités peuvent être détectées <strong>par des pirates informatiques</strong> ou <strong>par les éditeurs de logiciel</strong> eux-mêmes.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Eh oui. Les vulnérabilités peuvent être détectées par des pirates informatiques ou par les éditeurs de logiciel eux-mêmes.</p>"
+                            "diagnosis": "<p>Eh oui. Les vulnérabilités peuvent être détectées <strong>par des pirates informatiques</strong> ou <strong>par les éditeurs de logiciel</strong> eux-mêmes.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>C’était Faux. Les vulnérabilités peuvent être détectées par des pirates informatiques ou par les éditeurs de logiciel eux-mêmes.</p>"
+                            "diagnosis": "<p>C’était faux. Les vulnérabilités peuvent être détectées <strong>par des pirates informatiques</strong> ou <strong>par les éditeurs de logiciel</strong> eux-mêmes.</p>"
                           }
                         }
                       ],
@@ -567,7 +567,7 @@
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>C’était Vrai. Lorsque des vulnérabilités sont détectées par les éditeurs de logiciel, des <strong>mises à jour</strong> sont développées pour éviter ou stopper les attaques associées. Ces mises à jour contiennent des <strong>corrections</strong> des vulnérabilités (en plus des améliorations).</p>"
+                            "diagnosis": "<p>C’était vrai. Lorsque des vulnérabilités sont détectées par les éditeurs de logiciel, des <strong>mises à jour</strong> sont développées pour éviter ou stopper les attaques associées. Ces mises à jour contiennent des <strong>corrections</strong> des vulnérabilités (en plus des améliorations).</p>"
                           }
                         }
                       ],
@@ -580,28 +580,28 @@
                     {
                       "id": "6af8d4e6-07ff-472d-90f3-c77b84a6906f",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Dès que la mise à jour est publiée par l’éditeur de logiciel, la vulnérabilité ne peut plus être exploitée par les pirates informatiques.</p>",
+                      "instruction": "<p>Dès que la mise à jour est publiée par l’éditeur de logiciel, la vulnérabilité ne peut plus être exploitée par des pirates informatiques.</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Vrai",
                           "feedback": {
-                            "diagnosis": "<p>Pas tout à fait. L’éditeur de logiciel publie la mise à jour et notifie les utilisateurs. Tant que l’<strong>utilisateur ne l’a pas encore installée</strong>, le pirate informatique <strong>peut toujours exploiter</strong> la vulnérabilité.</p>"
+                            "diagnosis": "<p>Pas tout à fait. L’éditeur de logiciel publie la mise à jour et notifie les utilisateurs. Tant qu’un <strong>utilisateur n’a pas encore installé la mise à jour du logiciel</strong>, un pirate informatique <strong>peut toujours exploiter</strong> la vulnérabilité.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Faux",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement. L’éditeur de logiciel publie la mise à jour et notifie les utilisateurs. Tant que l’<strong>utilisateur ne l’a pas encore installée</strong>, le pirate informatique <strong>peut toujours exploiter</strong> la vulnérabilité.</p>"
+                            "diagnosis": "<p>Effectivement. L’éditeur de logiciel publie la mise à jour et notifie les utilisateurs. Tant qu’un <strong>utilisateur n’a pas encore installé la mise à jour du logiciel</strong>, un pirate informatique <strong>peut toujours exploiter</strong> la vulnérabilité.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>C’était Faux. L’éditeur de logiciel publie la mise à jour et notifie les utilisateurs. Tant que l’<strong>utilisateur ne l’a pas encore installée</strong>, le pirate informatique <strong>peut toujours exploiter</strong> la vulnérabilité.</p>"
+                            "diagnosis": "<p>C’était faux. L’éditeur de logiciel publie la mise à jour et notifie les utilisateurs. Tant qu’un <strong>utilisateur n’a pas encore installé la mise à jour du logiciel</strong>, un pirate informatique <strong>peut toujours exploiter</strong> la vulnérabilité.</p>"
                           }
                         }
                       ],
@@ -633,7 +633,7 @@
                 "id": "c1b0c3f0-71d2-4e6d-beaa-df76eaf799aa",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Grâce à l’aide de l’Intelligence Artificielle, cette course contre la montre entre éditeurs de logiciels et pirates informatiques s’accélère.</p>"
+                "content": "<p>Grâce à l’aide de l’intelligence artificielle, cette course contre la montre entre éditeurs de logiciels et pirates informatiques s’accélère.</p>"
               }
             },
             {
@@ -674,7 +674,7 @@
                 "id": "2758792a-22c5-40fe-b94f-dd9af3101b59",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Selon qu’ils s’agisse d’un logiciel, d’une application ou d’un appareil numérique, les notifications de mises à jour peuvent prendre différentes formes.</p>"
+                "content": "<p>Les notifications de mises à jour peuvent prendre différentes formes si elles concernent un logiciel, une application ou un appareil numérique.</p>"
               }
             },
             {
@@ -731,7 +731,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/draft/modules/CY_Virus_IND/decouverte4-situation2-2.png",
                       "alt": "à rédiger",
-                      "alternativeText": "<p>à rédiger<br></p>",
+                      "alternativeText": "<p>à rédiger</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -824,28 +824,28 @@
                     {
                       "id": "7a159b6f-2627-4aef-9bc7-e46626f5dae9",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Le navigateur de cet appareil est-il à jour ?</p>",
+                      "instruction": "<p>Le navigateur web de cet appareil est-il à jour ?</p>",
                       "hasShortProposals": true,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Le navigateur a besoin de redémarrer pour terminer l’installation de sa mise à jour. </p><p>De nombreux navigateurs <strong>installent leurs mises à jour automatiquement en arrière-plan</strong> quand vous fermez et rouvrez le navigateur.</p>"
+                            "diagnosis": "<p>Eh non. Le navigateur web a besoin de redémarrer pour terminer l’installation de sa mise à jour. </p><p>De nombreux navigateurs <strong>installent leurs mises à jour automatiquement</strong> quand vous fermez et rouvrez le navigateur.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement. Le navigateur a besoin de redémarrer pour terminer l’installation de sa mise à jour. </p><p>De nombreux navigateurs <strong>installent leurs mises à jour automatiquement en arrière-plan</strong> quand vous fermez et rouvrez le navigateur.</p>"
+                            "diagnosis": "<p>Effectivement. Le navigateur web a besoin de redémarrer pour terminer l’installation de sa mise à jour. </p><p>De nombreux navigateurs <strong>installent leurs mises à jour automatiquement</strong> quand vous fermez et rouvrez le navigateur.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>Le navigateur a besoin de redémarrer pour terminer l’installation de sa mise à jour. </p><p>De nombreux navigateurs <strong>installent leurs mises à jour automatiquement en arrière-plan</strong> quand vous fermez et rouvrez le navigateur. Si vous n’avez pas fermé votre navigateur depuis un certain temps, une mise à jour peut être en attente.</p>"
+                            "diagnosis": "<p>Le navigateur web a besoin de redémarrer pour terminer l’installation de sa mise à jour. </p><p>De nombreux navigateurs <strong>installent leurs mises à jour automatiquement</strong> quand vous fermez et rouvrez le navigateur. Si vous n’avez pas fermé votre navigateur depuis un certain temps, une mise à jour peut être en attente.</p>"
                           }
                         }
                       ],
@@ -868,7 +868,7 @@
                 "id": "d4ab8819-a5d0-4b93-ab53-b5fe6d397d78",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>En tant qu’utilisateur, pour renforcer la protection de vos appareils vous pouvez&nbsp;: </p><ul>    <li>Vérifiez régulièrement que les logiciels, applications et systèmes d’exploitation <strong>sont à jour</strong>, ou si des <strong>mises à jour sont disponibles</strong>.</li>    <li>Téléchargez puis installez les mises à jour dès <strong>qu’elles sont proposées</strong> (ou planifiez votre mise à jour dans votre prochaine période d’inactivité).</li></ul>"
+                "content": "<p>En tant qu’utilisateur, pour renforcer la protection de vos appareils vous pouvez&nbsp;: </p><ul>    <li>Vérifiez régulièrement que les logiciels, applications et systèmes d’exploitation de vos appareils <strong>sont à jour</strong>, ou si des <strong>mises à jour sont disponibles</strong>.</li>    <li>Téléchargez puis installez les mises à jour <strong>dès qu’elles sont proposées</strong> (ou planifiez votre mise à jour dans votre prochaine période d’inactivité sur l’appareil).</li></ul>"
               }
             },
             {
@@ -877,7 +877,7 @@
                 "id": "6c90d82e-785f-409b-8375-d9b7679247d1",
                 "type": "text",
                 "tag": "tip",
-                "content": "<p>Pour vérifier les mises à jour, rendez-vous <strong>dans les Paramètres</strong> de vos logiciels et de vos appareils, ou dans les magasins d’application. Vous y trouverez la version actuellement utilisée et si des mises à jour sont disponibles. </p><p>Dans ces Paramètres, il est parfois possible d’<strong>activer l’installation automatique</strong> des mises à jour sur vos appareils ou sur vos logiciels.</p>"
+                "content": "<p>Pour vérifier les mises à jour, rendez-vous dans les <strong>Paramètres</strong> de vos logiciels et de vos appareils, ou dans les magasins d’applications. Vous y trouverez la version actuellement utilisée et si des mises à jour sont disponibles. </p><p>Dans ces Paramètres, il est parfois possible d’<strong>activer l’installation automatique</strong> des mises à jour sur vos appareils ou sur vos logiciels.</p>"
               }
             },
             {
@@ -886,7 +886,7 @@
                 "id": "b6b8c94c-f7f1-43c7-9789-a2405c5fb16c",
                 "type": "text",
                 "tag": "did-you-know",
-                "content": "<p>⚠️ En naviguant sur internet, vous pouvez rencontrer de <strong>fausses alertes de mise à jour</strong>. Soyez vigilant et installez uniquement les mises à jour depuis le logiciel concerné ou les magasins d’applications. </p>"
+                "content": "<p>⚠️ En naviguant sur internet, vous pouvez rencontrer de <strong>fausses alertes de mises à jour</strong>. Soyez vigilant et installez uniquement les mises à jour depuis le logiciel concerné ou les magasins d’applications. </p>"
               }
             }
           ]
@@ -908,7 +908,7 @@
                 "id": "d80d568b-d4d9-41f0-8082-101da70e606b",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>\n    <li>Les logiciels que nous utilisons au quotidien sur nos différents appareils peuvent présenter des faiblesses de conception, appelées <strong>vulnérabilités logicielles</strong>. 🚨<br></li>\n    <li>Un jeu du chat et de la souris a lieu entre les éditeurs de logiciels et les pirates informatiques. 🐈‍⬛ 🐁 <ul>\n            <li>Les pirates informatiques détectent ces vulnérabilités pour les <strong>exploiter à des fins malveillantes</strong>. ☠️</li>\n            <li>Les éditeurs de logiciels <strong>détectent et</strong>&nbsp;<strong>corrigent ces vulnérabilités logicielles</strong> en publiant des <strong>mises à jour</strong>. ⛑️<br></li>\n        </ul>\n    </li>\n    <li>Pour<strong> protéger vos appareils</strong> et ceux des autres, il est essentiel d’<strong>effectuer les mises à jour</strong> logicielles fréquemment sur ses appareils, ou d’activer les mises à jour automatiques. 🔄</li>\n</ul>"
+                "content": "<ul>\n    <li>Les logiciels que vous utilisez au quotidien sur vos différents appareils peuvent présenter des faiblesses de conception, appelées <strong>vulnérabilités logicielles</strong>. 🚨<br></li>\n    <li>Un jeu du chat et de la souris a lieu entre les éditeurs de logiciels et les pirates informatiques. 🐈‍⬛ 🐁 <ul>\n            <li>Les pirates informatiques détectent ces vulnérabilités pour les <strong>exploiter à des fins malveillantes</strong>. ☠️</li>\n            <li>Les éditeurs de logiciels <strong>détectent et</strong>&nbsp;<strong>corrigent ces vulnérabilités logicielles</strong> en publiant des <strong>mises à jour</strong>. ⛑️<br></li>\n        </ul>\n    </li>\n    <li>Pour<strong> protéger vos appareils</strong> et ceux des autres, il est essentiel d’<strong>effectuer les mises à jour</strong> logicielles fréquemment sur vos appareils, ou d’activer les mises à jour automatiques. 🔄</li>\n</ul>"
               }
             }
           ]
@@ -1052,7 +1052,7 @@
                 "id": "5cd04b3a-2c26-4aa9-8669-49d10b1c8ba8",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Classez par ordre chronologique les actions qui suivent la détection d’une vulnérabilité pour un éditeur de logiciel.</p>",
+                "instruction": "<p>Classez par ordre chronologique les actions qui ont lieu lorsqu’une vulnérabilité est détectée par un éditeur de logiciel.</p>",
                 "functionalInstruction": "",
                 "tagName": "mdp-classement",
                 "props": {
@@ -1090,7 +1090,7 @@
                 "cards": [
                   {
                     "id": "d794850b-6530-4c3e-acca-aef456b1e105",
-                    "text": "Elisabetta recherche régulièrement les mises à jour disponibles de son ordinateur.",
+                    "text": "Elisabetta recherche régulièrement les mises à jour disponibles sur son ordinateur.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1101,7 +1101,7 @@
                   },
                   {
                     "id": "690e4b94-e95e-4fb1-af14-ba4d79e2d509",
-                    "text": "Natalia reporte à la semaine prochaine le redémarrage demandé pour l’installation d’une mise à jour.",
+                    "text": "Anne-Laure reporte à la semaine prochaine le redémarrage demandé sur son logiciel pour l’installation d’une mise à jour.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1112,7 +1112,7 @@
                   },
                   {
                     "id": "15aefd2d-d6ff-4f80-9c27-1dc64c6e8983",
-                    "text": "Heido active les mises à jour automatique sur son ordinateur.",
+                    "text": "Heido active les mises à jour automatiques sur son ordinateur.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1123,7 +1123,7 @@
                   },
                   {
                     "id": "237e906e-81b6-457f-a7f0-0014270483dc",
-                    "text": "Mika ignore les notifications de mise à jour disponibles qu’il reçoit sur sa tablette.",
+                    "text": "Mika ignore les notifications de mises à jour disponibles qu’il reçoit sur sa tablette.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1134,7 +1134,7 @@
                   },
                   {
                     "id": "b0657d17-f25f-4e91-bd38-de3143682847",
-                    "text": "Jan vérifie dans les paramètres systèmes que son smartphone est à jour.",
+                    "text": "Jan vérifie dans les paramètres que son smartphone est à jour.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -1168,7 +1168,7 @@
                 "id": "9050e008-8867-4a59-bdd3-7d22528bb2cb",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>À vous de jouer ! Vérifier la disponibilité des mises à jour sur un appareil prend à peine 2 minutes.</p>"
+                "content": "<p>À vous de jouer ! Vérifier la disponibilité des mises à jour sur un appareil prend quelques minutes.</p>"
               }
             },
             {
