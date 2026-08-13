@@ -307,6 +307,10 @@ workflows:
           context: Pix
           requires:
             - api_install
+      - api_certif_acceptance_test:
+          context: Pix
+          requires:
+            - api_install
 
       # --- Audit Logger ---
       - audit_logger_test:
@@ -720,6 +724,69 @@ jobs:
             ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: 1000
             ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE: 1000
             ANSWERS_HISTORY_ANSWER_BATCH_SIZE: 1000
+          when: always
+      - store_test_results:
+          path: /home/circleci/test-results
+      - store_artifacts:
+          path: /home/circleci/test-results
+
+  api_certif_acceptance_test:
+    executor:
+      name: node-redis-postgres-s3-docker
+    working_directory: ~/pix/api
+    parallelism: 3
+    steps:
+      - run:
+          name: Skip if not needed
+          command: |
+            if [[ "$CIRCLE_BRANCH" != "dev" ]] && [[ "<< pipeline.parameters.run-api >>" == "false" ]]; then
+              circleci step halt
+            fi
+      - attach_workspace:
+          at: ~/pix
+      - run:
+          name: Prepare database
+          command: npm run db:prepare
+          environment:
+            NODE_ENV: test
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_certif_acceptance
+            TEST_JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_certif_acceptance
+      - run:
+          name: Prepare datamart
+          command: npm run datamart:prepare
+          environment:
+            NODE_ENV: test
+            TEST_DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_certif_acceptance_datamart
+      - run:
+          name: Prepare datawarehouse
+          command: npm run datawarehouse:prepare
+          environment:
+            NODE_ENV: test
+            TEST_DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_certif_acceptance_datawarehouse
+      - run:
+          name: Test
+          command: |
+            circleci tests glob 'tests/experimentation-certif/**/acceptance/**/*.test.js' |
+            circleci tests split --split-by=filesize |
+            xargs npm run test:api:certif:acceptance -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          environment:
+            NODE_ENV: test
+            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+            MOCHA_REPORTER: xunit
+            MOCHA_RETRIES: 2
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_certif_acceptance
+            TEST_DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_certif_acceptance_datamart
+            TEST_DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_certif_acceptance_datawarehouse
+            TEST_JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_certif_acceptance
+            TEST_REDIS_URL: redis://localhost:6379
+            TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
+            TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
+            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: test
+            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: test
+            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: http://localhost:9090
+            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_REGION: pix
+            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME: pix-answers-history-export-test
+            TEST_ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: 1000
           when: always
       - store_test_results:
           path: /home/circleci/test-results
