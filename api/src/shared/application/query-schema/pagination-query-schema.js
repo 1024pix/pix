@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { createObjectQuerySchema } from './object-query-schema.js';
 
-function createPageQuerySchema({ maxSize = 200 } = {}) {
+function createPageQuerySchema({ maxSize = 200, defaultValue = {} } = {}) {
   const pageObjectSchema = Joi.object({
     number: Joi.number().integer().positive().empty('').allow(null).optional().description('Numéro de la page'),
     size: Joi.number()
@@ -19,10 +19,10 @@ function createPageQuerySchema({ maxSize = 200 } = {}) {
     paramName: 'page',
     valueSchema: pageObjectSchema,
   })
-    .default({})
     .description(
       'Paramètres de pagination, en bracket notation (page[number]=1&page[size]=10) ou en objet JSON encodé dans l’URL (page={"number":1,"size":10}).',
     )
+    .default(defaultValue)
     .example({ page: { number: 1, size: 10 } });
 
   return pageQuerySchema;

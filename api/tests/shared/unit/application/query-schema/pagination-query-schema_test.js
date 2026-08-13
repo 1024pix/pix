@@ -14,6 +14,19 @@ describe('Unit | Application | pagination-query-schema', function () {
       expect(error).to.not.exist;
       expect(value).to.deep.equal({});
     });
+    it('defaults to the default value if provided', function () {
+      // given
+      const pageQuerySchema = createPageQuerySchema({
+        defaultValue: { number: 1, size: 10 },
+      });
+
+      // when
+      const { error, value } = pageQuerySchema.validate(undefined);
+
+      // then
+      expect(error).to.not.exist;
+      expect(value).to.deep.equal({ number: 1, size: 10 });
+    });
   });
 
   describe('page validation rules (object form)', function () {
