@@ -12,10 +12,6 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 describe('Certification | Evaluation | Unit | Controller | certification-course-controller', function () {
   let certificationCourseInfoRepository, request;
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   describe('#save', function () {
     let startOrResumeStub;
     beforeEach(function () {

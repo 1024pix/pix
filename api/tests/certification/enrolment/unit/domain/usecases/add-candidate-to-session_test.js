@@ -102,10 +102,6 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   context('when session cannot enrol any candidate', function () {
     it('should throw a CertificationCandidateOnFinalizedSessionError', async function () {
       // given

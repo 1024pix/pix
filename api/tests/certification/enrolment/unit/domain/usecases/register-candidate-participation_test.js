@@ -70,10 +70,6 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   it('throws NotFoundError when the session does not exist', async function () {
     const userId = 123;
     const sessionId = 456;

@@ -64,10 +64,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
     context('when session cannot enrolled candidates', function () {
       it('should throw a BadRequestError', async function () {
