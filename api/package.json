@@ -84,7 +84,7 @@
     "toggles": "LOG_FOR_HUMANS_FORMAT=compact node --env-file-if-exists=.env src/shared/infrastructure/feature-toggles/feature-toggles-script.js",
     "monitoring:arborescence": "node --env-file-if-exists=.env scripts/arborescence-monitoring/arborescence-monitoring.js",
     "monitoring:metrics": "node --env-file-if-exists=.env scripts/arborescence-monitoring/add-metrics-to-gist.js",
-    "modulix:test": "TEST_DATABASE_URL=postgres://should.not.reach.db.in.unit.tests TEST_REDIS_URL= TEST_JOBS_DATABASE_URL=postgres://should.not.reach.db.in.unit.tests npm run test:api:path -- 'tests/devcomp/unit/infrastructure/datasources/learning-content/module-datasource_test.js' 'tests/devcomp/acceptance/module-instantiation_test.js' 'tests/devcomp/unit/infrastructure/datasources/learning-content/validation/module-validation_test.js' 'tests/devcomp/unit/infrastructure/repositories/module-repository_test.js'"
+    "modulix:test": "npm run test:api:path -- 'tests/devcomp/unit/infrastructure/datasources/learning-content/module-datasource_test.js' 'tests/devcomp/unit/infrastructure/datasources/learning-content/validation/module-validation_test.js' 'tests/devcomp/unit/infrastructure/repositories/module-repository_test.js' && TEST_SETUP_MODE=unit npm run test:api:path -- 'tests/devcomp/acceptance/module-instantiation_test.js'"
   },
   "dependencies": {
     "@1024pix/epreuves-components": "^4.13.0",
