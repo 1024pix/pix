@@ -128,13 +128,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           variationPercent: 0.5,
           defaultCandidateCapacity: -3,
           defaultProbabilityToPickChallenge: 51,
-          globalScoringConfiguration: [{
-            bounded: {
-              min: -8,
-              max: -2
+          globalScoringConfiguration: [
+            {
+              bounds: {
+                min: -8,
+                max: -2,
+              },
+              meshLevel: 0,
             },
-            meshLevel:0
-          }],
+          ],
           comments: 'Some awesome comments',
         })
         .insertToDB({ databaseBuilder });
@@ -170,13 +172,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'enable-passage-by-all-competences': true,
           status: VERSION_STATUSES.ARCHIVED,
           scope: SCOPES.CORE,
-          'global-scoring-configuration': [{
-            bounded: {
-              min: -8,
-              max: -2
+          'global-scoring-configuration': [
+            {
+              bounds: {
+                min: -8,
+                max: -2,
+              },
+              meshLevel: 0,
             },
-            meshLevel:0
-          }],
+          ],
           comments: 'Some awesome comments',
         },
         relationships: {
@@ -326,6 +330,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
               'default-candidate-capacity': 7,
               'limit-to-one-question-per-tube': true,
               'enable-passage-by-all-competences': true,
+              'global-scoring-configuration': [
+                {
+                  bounds: {
+                    min: 1,
+                    max: 8,
+                  },
+                  meshLevel: 0,
+                },
+              ],
             },
             type: 'certification-versions',
           },
@@ -502,6 +515,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'expiration-date': null,
           'external-calibration-id': null,
           'start-date': null,
+          'global-scoring-configuration': [],
           scope: SCOPES.CORE,
           comments: null,
         },

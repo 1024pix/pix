@@ -1,7 +1,4 @@
-import {
-  defaultCompetencesScoringConfiguration,
-  defaultGlobalScoringConfiguration,
-} from '../../../../../../db/database-builder/factory/build-certification-version.js';
+import { defaultCompetencesScoringConfiguration } from '../../../../../../db/database-builder/factory/build-certification-version.js';
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { VersionDetails } from '../../../../../../src/certification/configuration/domain/read-models/VersionDetails.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -190,7 +187,7 @@ class VersionDetailsBuilder {
     this.variationPercent = variationPercent ?? this.variationPercent;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube || this.limitToOneQuestionPerTube;
     this.enablePassageByAllCompetences = enablePassageByAllCompetences || this.enablePassageByAllCompetences;
-    this.globalScoringConfiguration = globalScoringConfiguration || this.globalScoringConfiguration;
+    this.globalScoringConfiguration = globalScoringConfiguration ?? this.globalScoringConfiguration;
     this.comments = comments ?? this.comments;
     this.externalCalibrationId = externalCalibrationId ?? this.externalCalibrationId;
     return this;
@@ -207,7 +204,7 @@ class VersionDetailsBuilder {
    */
   insertToDB({ databaseBuilder }) {
     const versionDetails = this.build();
-    
+
     const row = databaseBuilder.factory.buildCertificationVersion({
       id: versionDetails.id ?? undefined,
       scope: versionDetails.scope,

@@ -130,7 +130,7 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
               id: 1,
               assessmentDuration: 11,
               minimumAnswersRequiredToValidateACertification: 11,
-              globalScoringConfiguration: ['some globalScoringConfiguration'],
+              globalScoringConfiguration: [{ bounds: { min: 1, max: 2 }, meshLevel: 0 }],
               competencesScoringConfiguration: ['some competencesScoringConfiguration'],
               challengesConfiguration: {
                 maximumAssessmentLength: 11,
@@ -159,7 +159,7 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
                 tubeIds: ['rec456'],
                 assessmentDuration: 11,
                 minimumAnswersRequiredToValidateACertification: 11,
-                globalScoringConfiguration: ['some globalScoringConfiguration'],
+                globalScoringConfiguration: [{ bounds: { min: 1, max: 2 }, meshLevel: 0 }],
                 competencesScoringConfiguration: ['some competencesScoringConfiguration'],
                 challengesConfiguration: {
                   maximumAssessmentLength: 11,
@@ -255,6 +255,15 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
         limitToOneQuestionPerTube: false,
         enablePassageByAllCompetences: false,
         externalCalibrationId: null,
+        globalScoringConfiguration: [
+          {
+            bounds: {
+              min: 1,
+              max: 8,
+            },
+            meshLevel: 0,
+          },
+        ],
       };
     });
 
@@ -284,6 +293,15 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
               limitToOneQuestionPerTube: validUpdateData.limitToOneQuestionPerTube,
               enablePassageByAllCompetences: validUpdateData.enablePassageByAllCompetences,
             },
+            globalScoringConfiguration: [
+              {
+                bounds: {
+                  min: 1,
+                  max: 8,
+                },
+                meshLevel: 0,
+              },
+            ],
           })
           .build();
         expect(version).to.deepEqualInstance(expectedVersion);

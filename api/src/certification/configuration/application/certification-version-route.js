@@ -92,6 +92,17 @@ async function register(server) {
                 'default-candidate-capacity': Joi.number().required(),
                 'limit-to-one-question-per-tube': Joi.boolean().required(),
                 'enable-passage-by-all-competences': Joi.boolean().required(),
+                'global-scoring-configuration': Joi.array()
+                  .items(
+                    Joi.object({
+                      bounds: Joi.object({
+                        min: Joi.number().required(),
+                        max: Joi.number().required(),
+                      }),
+                      meshLevel: Joi.number().required(),
+                    }),
+                  )
+                  .empty(),
               })
                 .required()
                 .unknown(true),

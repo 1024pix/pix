@@ -26,7 +26,17 @@ export class Version {
     expirationDate: Joi.date().allow(null).optional(),
     assessmentDuration: Joi.number().required(),
     minimumAnswersRequiredToValidateACertification: Joi.number().required(),
-    globalScoringConfiguration: Joi.array().allow(null).optional(),
+    globalScoringConfiguration: Joi.array()
+      .items(
+        Joi.object({
+          bounds: Joi.object({
+            min: Joi.number().required(),
+            max: Joi.number().required(),
+          }),
+          meshLevel: Joi.number().required(),
+        }).optional(),
+      )
+      .min(0),
     competencesScoringConfiguration: Joi.array().allow(null).optional(),
     challengesConfiguration: Joi.object().instance(FlashAssessmentAlgorithmConfiguration).required(),
     comments: Joi.string().allow(null).optional(),
@@ -102,6 +112,7 @@ export class Version {
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
     externalCalibrationId,
+    globalScoringConfiguration,
   }) {
     if (!this.isDraft) {
       throw new VersionNotDraftError();
@@ -119,6 +130,7 @@ export class Version {
       enablePassageByAllCompetences,
     });
     this.externalCalibrationId = externalCalibrationId;
+    this.globalScoringConfiguration = globalScoringConfiguration;
     this.validate();
   }
 

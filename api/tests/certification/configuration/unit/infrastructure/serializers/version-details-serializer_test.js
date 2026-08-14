@@ -128,6 +128,7 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
             'variation-percent': 0.66,
             'limit-to-one-question-per-tube': true,
             'enable-passage-by-all-competences': true,
+            'global-scoring-configuration': [],
           },
           relationships: {
             areas: {
