@@ -142,10 +142,7 @@ describe('Unit | Application | sort-query-schema', function () {
 
       // then
       expect(error).to.not.exist;
-      expect(value).to.deep.equal([
-        { value: 'lastName', type: 'asc' },
-        { value: 'firstName' },
-      ]);
+      expect(value).to.deep.equal([{ value: 'lastName', type: 'asc' }, { value: 'firstName' }]);
     });
 
     it('rejects a JSON-encoded item missing a value', function () {

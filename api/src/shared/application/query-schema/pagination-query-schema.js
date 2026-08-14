@@ -4,7 +4,13 @@ import { createObjectQuerySchema } from './object-query-schema.js';
 
 function createPageQuerySchema({ maxSize = 200, defaultValue = {} } = {}) {
   const pageObjectSchema = Joi.object({
-    number: Joi.number().integer().positive().empty('').allow(null).optional().description('Numéro de la page'),
+    number: Joi.number()
+      .integer()
+      .positive()
+      .empty('')
+      .allow(null)
+      .optional()
+      .description('Numéro de la page (commence à 1)'),
     size: Joi.number()
       .integer()
       .positive()
@@ -19,9 +25,7 @@ function createPageQuerySchema({ maxSize = 200, defaultValue = {} } = {}) {
     paramName: 'page',
     valueSchema: pageObjectSchema,
   })
-    .description(
-      'Paramètres de pagination, en bracket notation (page[number]=1&page[size]=10) ou en objet JSON encodé dans l’URL (page={"number":1,"size":10}).',
-    )
+    .description('Paramètres de pagination')
     .default(defaultValue)
     .example({ page: { number: 1, size: 10 } });
 
