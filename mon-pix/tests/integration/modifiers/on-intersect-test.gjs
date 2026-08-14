@@ -25,7 +25,6 @@ module('Integration | Modifier | on-intersect', function (hooks) {
 
   hooks.afterEach(function () {
     delete window.IntersectionObserver;
-    sinon.restore();
   });
 
   test('it observes the element on insertion', async function (assert) {

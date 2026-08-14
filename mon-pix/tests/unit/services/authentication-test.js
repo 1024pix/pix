@@ -14,10 +14,6 @@ module('Unit | Services | authentication', function (hooks) {
     sinon.stub(authenticationService.router, 'replaceWith');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#handleAnonymousAuthentication', function () {
     module('when there is no session', function () {
       module('when the route is available for an anonymous user', function () {

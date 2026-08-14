@@ -6,10 +6,6 @@ import sinon from 'sinon';
 module('Unit | Service | currentDomain', function (hooks) {
   setupTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#getExtension', function () {
     module('when location is FR TLD', function () {
       test(`returns fr`, function (assert) {

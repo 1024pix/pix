@@ -70,7 +70,6 @@ module(
       module('tracking', function (hooks) {
         hooks.afterEach(function () {
           delete window.IntersectionObserver;
-          sinon.restore();
         });
 
         test('it should send tracking when drawer is displayed', async function (assert) {

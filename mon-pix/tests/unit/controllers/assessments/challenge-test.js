@@ -15,10 +15,6 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
     controller.intl = intl;
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#pageTitle', function () {
     test('should return Épreuve 2 sur 5', function (assert) {
       // given

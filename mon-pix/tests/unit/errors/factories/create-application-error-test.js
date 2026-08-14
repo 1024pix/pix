@@ -6,10 +6,6 @@ import sinon from 'sinon';
 module('Unit | Errors | Factories | create-application-error', function (hooks) {
   setupTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('when the error code is provided', function () {
     test('returns an application error with a translated message', function (assert) {
       // Given
