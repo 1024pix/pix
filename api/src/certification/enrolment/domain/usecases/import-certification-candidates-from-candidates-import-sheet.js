@@ -5,7 +5,7 @@
  */
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CandidateAlreadyLinkedToUserError } from '../../../../shared/domain/errors.js';
+import { CandidateAlreadyLinkedToUserError, NotFoundError } from '../../../../shared/domain/errors.js';
 
 /**
  * @param {object} params
@@ -28,11 +28,17 @@ export async function importCertificationCandidatesFromCandidatesImportSheet({
   certificationCpfService,
 }) {
   const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
+
+  if (!sessionAuthorization) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+
   if (!sessionAuthorization.canEnrollCandidateViaODS) {
     throw new CandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
   const session = await sessionRepository.get({ id: sessionId });
+
   const candidates = await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
     i18n,
     session,

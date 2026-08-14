@@ -93,7 +93,7 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
       expect(actualSession).to.deepEqualInstance(expectedSession);
     });
 
-    it('should return a Not found error when no session was found', async function () {
+    it('returns null when no session was found', async function () {
       domainBuilder.certification.enrolment
         .sessionEnrolmentBuilder()
         .createdBy({
@@ -116,11 +116,12 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
         })
         .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
+
       // when
-      const error = await catchErr(sessionRepository.get)({ id: 777 });
+      const session = await sessionRepository.get({ id: 777 });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
+      expect(session).to.be.null;
     });
   });
 

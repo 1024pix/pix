@@ -10,6 +10,7 @@
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidatesError,
+  NotFoundError,
 } from '../../../../shared/domain/errors.js';
 import { mailCheck as mailCheckImplementation } from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
@@ -40,11 +41,16 @@ export async function addCandidateToSession({
   candidate.sessionId = sessionId;
   const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
 
+  if (!sessionAuthorization) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+
   if (!sessionAuthorization.canEnrollCandidateIndividually) {
     throw new CannotEnrollCandidateIndividuallyError();
   }
 
   const session = await sessionRepository.get({ id: sessionId });
+
   try {
     candidate.validate({ isSco: session.isSco });
   } catch (error) {

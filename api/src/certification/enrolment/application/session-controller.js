@@ -4,7 +4,7 @@ import * as sessionRepository from '../infrastructure/repositories/session-repos
 import { candidateSerializer } from '../infrastructure/serializers/candidate-serializer.js';
 import { sessionSerializer } from '../infrastructure/serializers/session-serializer.js';
 
-async function createSession(request, _h, dependencies = { sessionSerializer, sessionRepository }) {
+async function createSession(request, h, dependencies = { sessionSerializer, sessionRepository }) {
   const userId = request.auth.credentials.userId;
   const certificationCenterId = request.params.certificationCenterId;
   const { address, room, date, time, examiner, description } = request.payload.data.attributes;
@@ -19,6 +19,7 @@ async function createSession(request, _h, dependencies = { sessionSerializer, se
     examiner,
     description,
   });
+
   const session = await dependencies.sessionRepository.get({ id: newSessionId });
 
   return dependencies.sessionSerializer.serialize(session);
@@ -30,6 +31,10 @@ async function update(request, h, dependencies = { sessionSerializer, sessionRep
 
   await usecases.updateSession({ address, room, date, time, examiner, description, sessionId });
   const updatedSession = await dependencies.sessionRepository.get({ id: sessionId });
+
+  if (!updatedSession) {
+    return h.response().code(404);
+  }
 
   return dependencies.sessionSerializer.serialize(updatedSession);
 }
@@ -45,6 +50,11 @@ async function remove(request, h) {
 async function get(request, h, dependencies = { sessionSerializer, sessionRepository }) {
   const sessionId = request.params.sessionId;
   const session = await dependencies.sessionRepository.get({ id: sessionId });
+
+  if (!session) {
+    return h.response().code(404);
+  }
+
   return dependencies.sessionSerializer.serialize(session);
 }
 
