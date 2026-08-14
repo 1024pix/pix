@@ -19,6 +19,7 @@
     flex: 1;
     height: 100%;
   }
+
   &__top-actions {
     position: absolute;
     top: 0;
@@ -35,16 +36,16 @@
   }
 
   &__course-content {
-    z-index: 10;
     position: absolute;
     top: 0;
     left: 0;
-    overflow-y: scroll;
+    z-index: 10;
     display: flex;
     height: 100%;
     padding: var(--pix-spacing-4x);
-    padding-left: var(--pix-spacing-6x);
     padding-top: 4rem;
+    padding-left: var(--pix-spacing-6x);
+    overflow-y: scroll;
   }
 
   &__competence {
