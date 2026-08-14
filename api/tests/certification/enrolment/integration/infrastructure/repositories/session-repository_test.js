@@ -1,11 +1,9 @@
 import * as sessionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import { BILLING_MODES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | certification | enrolment | SessionEnrolment', function () {
   describe('#get', function () {
@@ -297,15 +295,15 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
     });
 
     context('when session does not exist', function () {
-      it('should throw a not found error', async function () {
+      it('return null', async function () {
         // given
         const sessionId = 123456;
 
         // when
-        const error = await catchErr(sessionRepository.remove)({ id: sessionId });
+        const result = await sessionRepository.remove({ id: sessionId });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(result).to.be.null;
       });
     });
   });

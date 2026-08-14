@@ -4,6 +4,7 @@
  */
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionAlreadyPublishedError } from '../errors.js';
 
 /**
@@ -17,7 +18,12 @@ const unfinalizeSession = async function ({ sessionId, sessionManagementReposito
   }
 
   return DomainTransaction.execute(async () => {
-    await finalizedSessionRepository.remove({ sessionId });
+    const session = await finalizedSessionRepository.remove({ sessionId });
+
+    if (!session) {
+      throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+    }
+
     await sessionManagementRepository.unfinalize({ id: sessionId });
   });
 };

@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionStartedDeletionError } from '../errors.js';
 
 /**
@@ -17,7 +18,11 @@ const deleteSession = async ({ sessionId, sessionRepository, sessionManagementRe
   }
 
   await DomainTransaction.execute(async () => {
-    await sessionRepository.remove({ id: sessionId });
+    const deletedSession = await sessionRepository.remove({ id: sessionId });
+
+    if (!deletedSession) {
+      throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+    }
   });
 };
 
