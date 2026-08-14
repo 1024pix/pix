@@ -118,18 +118,10 @@
     align-items: stretch;
     justify-content: center;
     padding: var(--pix-spacing-6x);
-    padding-right: 0;
     background-color: var(--pix-neutral-0);
     border-radius: var(--pix-spacing-4x);
     border-top-right-radius: var(--pix-spacing-10x);
     border-bottom-right-radius: var(--pix-spacing-10x);
-  }
-
-  // For content scrollbar to be right on details block border
-  &__heading,
-  &__body,
-  &__footer {
-    padding-right: var(--pix-spacing-6x);
   }
 
   &__heading {
@@ -147,31 +139,7 @@
     }
   }
 
-  // body bottom scroll gradient overlay
-  $scroll-gradient-height: 2rem;
-
-  &__footer {
-    position: relative;
-    z-index: 10;
-
-    &::before {
-      position: absolute;
-      top: -$scroll-gradient-height;
-      left: 0;
-      z-index: 1;
-      width: 100%;
-      height: $scroll-gradient-height;
-      background: linear-gradient(180deg, rgb(255 255 255 / 0%), rgb(255 255 255 / 100%) 25%);
-      content: '';
-    }
-  }
-
   &__body {
-    position: relative;
-    z-index: 1;
-    padding-bottom: $scroll-gradient-height;
-    overflow-y: scroll;
-
     &__description {
       @extend %pix-body-s;
 
@@ -187,7 +155,6 @@
     flex-direction: column;
     flex-grow: 1;
     flex-shrink: 0;
-    gap: var(--pix-spacing-3x);
     align-items: center;
 
     &__text {
@@ -199,6 +166,7 @@
 
   &__form-link {
     align-self: center;
+    margin-top: var(--pix-spacing-4x);
     margin-bottom: auto;
   }
 
