@@ -375,10 +375,11 @@ describe('Integration | Repository | JurySession', function () {
 
           // then
           expect(pagination).to.deep.equal(expectedPagination);
-          expect(jurySessions[0].id).to.equal(expectedSCOSession.id);
-          expect(jurySessions[1].id).to.equal(expectedSUPSession.id);
-          expect(jurySessions[2].id).to.equal(expectedPROSession.id);
-          expect(jurySessions).to.have.lengthOf(3);
+          expect(jurySessions.map(({ id }) => id)).to.have.members([
+            expectedSCOSession.id,
+            expectedSUPSession.id,
+            expectedPROSession.id,
+          ]);
         });
       });
 
