@@ -1,5 +1,11 @@
 # Pix Changelog
 
+# [5.480.0](https://github.com/1024pix/pix/compare/v5.479.0...v5.480.0) (2026-08-14)
+
+### :rocket: Amélioration
+
+- [#17135](https://github.com/1024pix/pix/pull/17135) Créer une route pour remonter la liste des catégories de structures (PIX-23559)
+
 # [5.479.0](https://github.com/1024pix/pix/compare/v5.478.1...v5.479.0) (2026-08-14)
 
 ### :rocket: Amélioration
