@@ -5,10 +5,6 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/catalogue', function (hooks) {
   setupTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('beforeModel', function () {
     test("it should redirect to index page if user can't access campaign page", async function (assert) {
       // given

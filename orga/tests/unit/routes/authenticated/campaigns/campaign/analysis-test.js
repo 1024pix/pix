@@ -11,10 +11,6 @@ module('Unit | Route | authenticated/campaigns/campaign/analysis', function (hoo
     currentUser = this.owner.lookup('service:current-user');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('beforeModel', function () {
     module('When places limit is reached', function () {
       test('should redirect on main campaign page', function (assert) {

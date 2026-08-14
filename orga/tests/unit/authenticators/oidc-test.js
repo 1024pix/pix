@@ -57,10 +57,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
       oidcIdentityProvidersService.set('store', storeStub);
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     test('retrieves an access token with authentication key', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
@@ -194,7 +190,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
           // then
           assert.strictEqual(authenticator.session.routeAfterInvalidation, redirectLogoutUrl);
-          sinon.restore();
         });
       });
 
@@ -227,7 +222,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
             '/connexion?error=USER_HAS_NO_ORGANIZATION_MEMBERSHIP',
           );
           sinon.assert.notCalled(window.fetch);
-          sinon.restore();
         });
       });
     });

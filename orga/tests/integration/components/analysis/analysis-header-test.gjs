@@ -10,10 +10,6 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | analysis-header', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('for campaign or global analysis', function () {
     test('it should navigate the competences view', async function (assert) {
       // given
