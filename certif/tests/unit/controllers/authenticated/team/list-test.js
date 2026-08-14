@@ -17,10 +17,6 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#shouldDisplayNoRefererSection', function () {
     module('when certification center has CLEA habilitation', function (hooks) {
       hooks.beforeEach(function () {

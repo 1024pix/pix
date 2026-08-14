@@ -16,10 +16,6 @@ module('Unit | Controller | authenticated/team/list/members', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#leaveCertificationCenter', function () {
     test('deletes the current user membership', async function (assert) {
       // given

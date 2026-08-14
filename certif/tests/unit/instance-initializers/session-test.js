@@ -23,7 +23,6 @@ module('Unit | Instance Initializer | session', function (hooks) {
   hooks.afterEach(function () {
     this.instance.destroy();
     this.application.destroy();
-    sinon.restore();
   });
 
   module('when a session exists', function () {
