@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { omit } = lodash;
@@ -11,7 +11,7 @@ describe('Acceptance | Route | badges', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/admin/target-profiles/{id}/badges', function () {

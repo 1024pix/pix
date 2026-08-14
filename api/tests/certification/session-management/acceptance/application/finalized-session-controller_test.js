@@ -1,13 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session-management | Acceptance | Application | finalized-session-controller', function () {
   let server, options, superAdmin;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
   });
@@ -83,7 +83,7 @@ describe('Certification | Session-management | Acceptance | Application | finali
 
         await databaseBuilder.commit();
 
-        const server = await createServer();
+        const server = await getServer();
         const options = {
           method: 'GET',
           url: '/api/admin/sessions/with-required-action',
@@ -118,7 +118,7 @@ describe('Certification | Session-management | Acceptance | Application | finali
 
           await databaseBuilder.commit();
 
-          const server = await createServer();
+          const server = await getServer();
           const options = {
             method: 'GET',
             url: '/api/admin/sessions/with-required-action?filter[version]=3',

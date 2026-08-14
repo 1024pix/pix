@@ -1,9 +1,9 @@
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | API | assessment-controller-get', function () {
@@ -16,7 +16,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
     context(`when the assessment is of type CERTIFICATION`, function () {
       it('should return the expected assessment', async function () {
         // given
-        server = await createServer();
+        server = await getServer();
         const userId = databaseBuilder.factory.buildUser().id;
         const sessionId = databaseBuilder.factory.buildSession().id;
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId }).id;
@@ -88,7 +88,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
     context(`when the assessment is of type PREVIEW`, function () {
       it('should return the expected assessment', async function () {
         // given
-        server = await createServer();
+        server = await getServer();
         const assessmentId = databaseBuilder.factory.buildAssessment({
           userId: null,
           courseId,
@@ -158,7 +158,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
     context(`when the assessment is of type CAMPAIGN`, function () {
       it('should return the expected assessment', async function () {
         // given
-        server = await createServer();
+        server = await getServer();
         const createdAtDate = new Date();
         const userId = databaseBuilder.factory.buildUser().id;
         const campaign = databaseBuilder.factory.buildCampaign();
@@ -245,7 +245,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
     context(`when the assessment is of type DEMO`, function () {
       it('should return the expected assessment', async function () {
         // given
-        server = await createServer();
+        server = await getServer();
         const courseName = 'Course name';
         const learningContent = [
           {
@@ -331,7 +331,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
     context(`when the assessment is of type COMPETENCE_EVALUATION`, function () {
       it('should return the expected assessment', async function () {
         // given
-        server = await createServer();
+        server = await getServer();
         const competenceId = 'competence_id';
         const learningContent = [
           {
@@ -426,7 +426,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
     let options;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       const userId = databaseBuilder.factory.buildUser({}).id;
       const assessmentId = databaseBuilder.factory.buildAssessment({
         userId,
@@ -454,7 +454,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
     let assessmentId, userId, answer1, answer2;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       userId = databaseBuilder.factory.buildUser({}).id;
       assessmentId = databaseBuilder.factory.buildAssessment({
         userId,

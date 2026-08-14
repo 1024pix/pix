@@ -1,4 +1,3 @@
-import { createServer } from '../../../../../server.js';
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -6,6 +5,7 @@ import { Assessment } from '../../../../../src/shared/domain/models/Assessment.j
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 import { createSuccessfulCertificationCourse } from '../../../shared/fixtures/certification-course.js';
 
@@ -14,7 +14,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
     context('when the user does not have role super admin', function () {
       it('should return 403 HTTP status code', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
 
         const options = {
           headers: generateAuthenticatedUserRequestHeaders(),
@@ -39,7 +39,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       let server;
 
       beforeEach(async function () {
-        server = await createServer();
+        server = await getServer();
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
 
         const versionId = domainBuilder.certification.configuration
@@ -171,7 +171,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
           certificationCourse,
         });
 
-        const server = await createServer();
+        const server = await getServer();
 
         // when
         const response = await server.inject({
@@ -259,7 +259,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
           certificationCourse,
         });
 
-        const server = await createServer();
+        const server = await getServer();
 
         // when
         const response = await server.inject({
@@ -346,7 +346,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         certificationCourse,
       });
 
-      const server = await createServer();
+      const server = await getServer();
 
       // when
       const response = await server.inject({
@@ -401,7 +401,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
 
-      server = await createServer();
+      server = await getServer();
 
       options = {
         method: 'POST',
@@ -483,7 +483,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       }));
       await databaseBuilder.commit();
 
-      server = await createServer();
+      server = await getServer();
 
       options = {
         method: 'GET',
@@ -580,7 +580,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
 
-      server = await createServer();
+      server = await getServer();
 
       options = {
         method: 'POST',

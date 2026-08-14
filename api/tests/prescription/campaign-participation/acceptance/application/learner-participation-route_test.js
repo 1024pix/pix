@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { createServer } from '../../../../../server.js';
 import { ParticipationResultCalculationJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
 import { ParticipationSharedJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationSharedJob.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
@@ -12,6 +11,7 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent } from '../../../../tooling/learning-content-builder/build-learning-content.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
@@ -20,7 +20,7 @@ describe('Acceptance | Routes | Campaign Participations', function () {
   let server, options, user;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     user = databaseBuilder.factory.buildUser();
   });
 

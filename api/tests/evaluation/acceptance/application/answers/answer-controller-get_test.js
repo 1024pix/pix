@@ -1,6 +1,6 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | answer-controller-get', function () {
@@ -12,7 +12,7 @@ describe('Acceptance | Controller | answer-controller-get', function () {
 
     context('when the assessment has an userId (is not a demo or preview)', function () {
       beforeEach(async function () {
-        server = await createServer();
+        server = await getServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
         answer = databaseBuilder.factory.buildAnswer({
@@ -62,7 +62,7 @@ describe('Acceptance | Controller | answer-controller-get', function () {
 
     context('when the id of the answer is not an integer', function () {
       beforeEach(async function () {
-        server = await createServer();
+        server = await getServer();
         userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
         options = {
@@ -83,7 +83,7 @@ describe('Acceptance | Controller | answer-controller-get', function () {
 
     context('when the assessment has an userId but the user is not the relevant user', function () {
       beforeEach(async function () {
-        server = await createServer();
+        server = await getServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
         const answer = databaseBuilder.factory.buildAnswer({
@@ -113,7 +113,7 @@ describe('Acceptance | Controller | answer-controller-get', function () {
 
     context('when the assessment is demo and there is no userId', function () {
       beforeEach(async function () {
-        server = await createServer();
+        server = await getServer();
         const assessment = databaseBuilder.factory.buildAssessment({ userId: null, type: 'DEMO' });
         const answer = databaseBuilder.factory.buildAnswer({
           assessmentId: assessment.id,

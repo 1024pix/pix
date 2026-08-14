@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
@@ -13,6 +12,7 @@ import { LegalDocumentType } from '../../../../../src/legal-documents/domain/mod
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
@@ -26,7 +26,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/users', function () {
@@ -669,7 +669,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   describe('PUT /api/users/{id}/email/verification-code', function () {
     it('returns 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const newEmail = 'new_email@example.net';
       const locale = 'fr-fr';
@@ -707,7 +707,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     it('returns 422 if email already exists', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const locale = 'fr-fr';
       const rawPassword = 'Password123';
@@ -745,7 +745,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     it('returns 403 if requested user is not the same as authenticated user', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const locale = 'fr-fr';
       const rawPassword = 'Password123';
@@ -784,7 +784,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     it('returns 400 if password is not valid', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const locale = 'fr-fr';
       const newEmail = 'new_email@example.net';
@@ -825,7 +825,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   describe('POST /api/users/{id}/update-email', function () {
     it('returns 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const code = '999999';
       const newEmail = 'judy.new_email@example.net';
@@ -863,7 +863,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   describe('POST /api/users/{id}/add-email-connection-method', function () {
     it('returns 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const code = '999999';
       const newEmail = 'judy.new_email@example.net';

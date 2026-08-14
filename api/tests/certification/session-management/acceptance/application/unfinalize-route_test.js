@@ -1,6 +1,6 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Controller | unfinalize', function () {
@@ -12,7 +12,7 @@ describe('Certification | Session Management | Acceptance | Application | Contro
       databaseBuilder.factory.buildFinalizedSession({ sessionId: 123 });
       await databaseBuilder.commit();
 
-      const server = await createServer();
+      const server = await getServer();
       const options = {
         method: 'PATCH',
         url: '/api/admin/sessions/123/unfinalize',

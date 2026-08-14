@@ -1,12 +1,12 @@
-import { createServer } from '../../../../server.js';
 import { informationBannersStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { expect } from '../../../test-helper.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 
 let server;
 
 describe('Acceptance | Router | banner-route', function () {
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/information-banners/{target}', function () {

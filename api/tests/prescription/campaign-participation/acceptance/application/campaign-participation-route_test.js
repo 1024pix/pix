@@ -1,20 +1,20 @@
 import times from 'lodash/times.js';
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Campaign Participation | Application | Route', function () {
   let server, options, userId, organizationId, campaignId;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     userId = databaseBuilder.factory.buildUser().id;
     organizationId = databaseBuilder.factory.buildOrganization().id;
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
@@ -378,7 +378,7 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
     let recentDate;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       sinon.useFakeTimers({ now: new Date('2018-05-07'), toFake: ['Date'] });
       const oldDate = new Date('2018-02-03');
       recentDate = new Date('2018-05-06');

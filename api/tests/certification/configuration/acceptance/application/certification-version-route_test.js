@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
@@ -15,6 +14,7 @@ import { SCOPES } from '../../../../../src/certification/shared/domain/models/Sc
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Certification | Configuration | API | certification-version-route', function () {
@@ -22,7 +22,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   let superAdmin;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
   });
