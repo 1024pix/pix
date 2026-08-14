@@ -32,6 +32,11 @@ export default defineConfig([
       'n/no-unpublished-import': 'off',
     },
   },
+  // Overridden language options for CommonJS files
+  {
+    files: ['**/*.cjs'],
+    languageOptions: { sourceType: 'commonjs', globals: { module: 'writable', require: 'readonly' } },
+  },
   // Overridden rules for "scripts" files
   {
     files: ['scripts/**/*.js'],
