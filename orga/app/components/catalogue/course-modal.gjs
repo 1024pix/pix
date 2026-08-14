@@ -80,18 +80,6 @@ export default class CourseModal extends Component {
         aria-modal="true"
       >
         <div class="course-modal__course-details">
-          <div class="course-modal__top-actions">
-            <PixButton
-              @variant="tertiary"
-              @triggerAction={{@closeModal}}
-              @size="small"
-              @iconAfter="close"
-              class="course-modal__exit"
-            >
-              {{t "common.actions.exit"}}
-            </PixButton>
-          </div>
-
           <div class="course-modal__heading">
             <div class="pix-card__image pix-card__image--orga">
               <img src={{this.courseInfo.image}} aria-hidden="true" alt={{@currentCourse.type}} />
@@ -143,12 +131,25 @@ export default class CourseModal extends Component {
             {{/if}}
           </div>
         </div>
-        <div class="course-modal__course-content">
-          {{#if this.isTargetProfile}}
-            <TargetProfileContent @currentCourse={{@currentCourse}} />
-          {{else if this.isCombinedCourseBlueprint}}
-            <CombinedCourseBlueprintContent @combinedCourseBlueprint={{@currentCourse}} />
-          {{/if}}
+        <div class="course-modal__course-content__wrapper">
+          <div class="course-modal__top-actions">
+            <PixButton
+              @variant="secondary"
+              @triggerAction={{@closeModal}}
+              @size="small"
+              @iconAfter="close"
+              class="course-modal__top-actions__exit"
+            >
+              {{t "common.actions.exit"}}
+            </PixButton>
+          </div>
+          <div class="course-modal__course-content">
+            {{#if this.isTargetProfile}}
+              <TargetProfileContent @currentCourse={{@currentCourse}} />
+            {{else if this.isCombinedCourseBlueprint}}
+              <CombinedCourseBlueprintContent @combinedCourseBlueprint={{@currentCourse}} />
+            {{/if}}
+          </div>
         </div>
       </div>
     </PixOverlay>

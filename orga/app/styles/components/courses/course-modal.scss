@@ -14,11 +14,36 @@
   border-radius: var(--pix-spacing-4x);
   margin-block: auto;
 
-  &__course-content {
-    display: flex;
+  &__course-content__wrapper {
+    position: relative;
     flex: 1;
-    padding: var(--pix-spacing-6x);
+    height: 100%;
+  }
+  &__top-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    padding-top: var(--pix-spacing-6x);
+    padding-right: var(--pix-spacing-6x);
+
+    &__exit {
+      align-self: flex-end;
+      text-decoration: none;
+      background-color: var(--pix-orga-50);
+    }
+  }
+
+  &__course-content {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
     overflow-y: scroll;
+    display: flex;
+    height: 100%;
+    padding: var(--pix-spacing-6x);
+    padding-top: 4rem;
   }
 
   &__competence {
@@ -100,25 +125,11 @@
     border-bottom-right-radius: var(--pix-spacing-10x);
   }
 
-  // For body scrollbar near details block right border
+  // For content scrollbar to be right on details block border
   &__heading,
   &__body,
   &__footer {
     padding-right: var(--pix-spacing-8x);
-  }
-
-  &__top-actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 100;
-    padding-top: var(--pix-spacing-6x);
-    padding-right: var(--pix-spacing-8x);
-
-    &__exit {
-      align-self: flex-end;
-      text-decoration: none;
-    }
   }
 
   &__heading {
