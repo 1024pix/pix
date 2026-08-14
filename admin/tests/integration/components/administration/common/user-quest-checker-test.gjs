@@ -12,10 +12,6 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Component |  administration/user-quest-checker', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   test('it should display a form', async function (assert) {
     // when
     const screen = await render(<template><UserQuestChecker /></template>);

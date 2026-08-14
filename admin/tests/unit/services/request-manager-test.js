@@ -21,10 +21,6 @@ module('Unit | Service | request-manager', function (hooks) {
     sinon.stub(localeService, 'acceptLanguageHeader').value('fr');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('request()', function () {
     test('it requests successfully with default headers', async function (assert) {
       // given

@@ -16,9 +16,6 @@ module('Integration | Component | users | certification-centers | membership-ite
     store = this.owner.lookup('service:store');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
   module('displays a certification center membership table row item', function () {
     test('with last access date if there is one', async function (assert) {
       // given
