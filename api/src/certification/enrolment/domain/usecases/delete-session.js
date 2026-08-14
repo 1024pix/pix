@@ -11,6 +11,8 @@ import { SessionStartedDeletionError } from '../errors.js';
  * @param {object} params
  * @param {SessionRepository} params.sessionRepository
  * @param {SessionManagementRepository} params.sessionManagementRepository
+ * @throws {SessionStartedDeletionError} the session has already started
+ * @throws {NotFoundError} the session does not exist or its access is restricted
  */
 const deleteSession = async ({ sessionId, sessionRepository, sessionManagementRepository }) => {
   if (!(await sessionManagementRepository.hasNoStartedCertification({ id: sessionId }))) {

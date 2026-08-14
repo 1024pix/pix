@@ -8,6 +8,7 @@ import { Candidate } from '../models/Candidate.js';
  * @param {object} params
  * @param {SessionRepository} params.sessionRepository
  * @param {CenterRepository} params.centerRepository
+ * @throws {NotFoundError} the session does not exist or its access is restricted
  */
 export async function getCandidateImportSheetData({ sessionId, sessionRepository, centerRepository }) {
   const session = await sessionRepository.get({ id: sessionId });

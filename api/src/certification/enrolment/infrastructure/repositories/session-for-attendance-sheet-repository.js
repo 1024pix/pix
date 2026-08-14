@@ -6,8 +6,7 @@ import { SessionForAttendanceSheet } from '../../domain/read-models/SessionForAt
  * @function
  * @param {object} params
  * @param {number} params.id
- * @returns {Promise<SessionForAttendanceSheet>}
- * @throws {NotFoundError}
+ * @returns {Promise<SessionForAttendanceSheet|null>} the session with its candidates, or null when the session does not exist or has no enrolled candidate
  */
 export async function getWithCertificationCandidates({ id }) {
   const knexConn = DomainTransaction.getConnection();

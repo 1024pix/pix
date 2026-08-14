@@ -7,7 +7,7 @@ import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
  * @function
  * @param {object} params
  * @param {number} params.id
- * @returns {Promise<SessionEnrolment>}
+ * @returns {Promise<SessionEnrolment|null>} the session, or null when no session was found
  */
 export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();

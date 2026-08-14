@@ -21,6 +21,7 @@ const INSEE_PREFIX_CODE = '99';
  * @param {CountryRepository} params.countryRepository
  * @param {EventAdapter} params.eventAdapter
  * @param {SessionAuthorizationAdapter} params.sessionAuthorizationAdapter
+ * @throws {NotFoundError} the session does not exist or its access is restricted
  */
 export async function enrolStudentsToSession({
   sessionId,

@@ -9,6 +9,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @param {object} params
  * @param {SessionForAttendanceSheetRepository} params.sessionForAttendanceSheetRepository
  * @param {AttendanceSheetPdfUtils} params.attendanceSheetPdfUtils
+ * @throws {NotFoundError} the session does not exist or no candidate is enrolled in it
  */
 const getAttendanceSheet = async function ({
   sessionId,

@@ -11,6 +11,8 @@ import { SessionAlreadyPublishedError } from '../errors.js';
  * @param {object} params
  * @param {SessionManagementRepository} params.sessionManagementRepository
  * @param {FinalizedSessionRepository} params.finalizedSessionRepository
+ * @throws {SessionAlreadyPublishedError} the session is already published
+ * @throws {NotFoundError} the finalized session does not exist or its access is restricted
  */
 const unfinalizeSession = async function ({ sessionId, sessionManagementRepository, finalizedSessionRepository }) {
   if (await sessionManagementRepository.isPublished({ id: sessionId })) {

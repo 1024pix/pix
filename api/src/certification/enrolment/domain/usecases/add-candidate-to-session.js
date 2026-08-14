@@ -24,6 +24,7 @@ import { CannotEnrollCandidateIndividuallyError } from '../errors.js';
  * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
  * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
  * @param {EventAdapter} params.eventAdapter
+ * @throws {NotFoundError} the session does not exist or its access is restricted
  */
 export async function addCandidateToSession({
   sessionId,

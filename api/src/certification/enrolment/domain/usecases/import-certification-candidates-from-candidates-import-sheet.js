@@ -12,6 +12,7 @@ import { CandidateAlreadyLinkedToUserError, NotFoundError } from '../../../../sh
  * @param {CandidateRepository} params.candidateRepository
  * @param {SessionRepository} params.sessionRepository
  * @param {EventAdapter} params.eventAdapter
+ * @throws {NotFoundError} the session does not exist or its access is restricted
  */
 export async function importCertificationCandidatesFromCandidatesImportSheet({
   sessionId,
