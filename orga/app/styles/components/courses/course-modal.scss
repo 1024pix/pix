@@ -24,8 +24,8 @@
     top: 0;
     right: 0;
     z-index: 100;
-    padding-top: var(--pix-spacing-6x);
-    padding-right: var(--pix-spacing-6x);
+    padding-top: var(--pix-spacing-4x);
+    padding-right: var(--pix-spacing-4x);
 
     &__exit {
       align-self: flex-end;
@@ -42,7 +42,8 @@
     overflow-y: scroll;
     display: flex;
     height: 100%;
-    padding: var(--pix-spacing-6x);
+    padding: var(--pix-spacing-4x);
+    padding-left: var(--pix-spacing-6x);
     padding-top: 4rem;
   }
 
@@ -116,8 +117,7 @@
     flex-shrink: 0;
     align-items: stretch;
     justify-content: center;
-    padding: var(--pix-spacing-8x);
-    padding-top: var(--pix-spacing-10x);
+    padding: var(--pix-spacing-6x);
     padding-right: 0;
     background-color: var(--pix-neutral-0);
     border-radius: var(--pix-spacing-4x);
@@ -129,7 +129,7 @@
   &__heading,
   &__body,
   &__footer {
-    padding-right: var(--pix-spacing-8x);
+    padding-right: var(--pix-spacing-6x);
   }
 
   &__heading {
