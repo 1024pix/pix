@@ -180,27 +180,6 @@
         text-decoration: underline;
       }
     }
-
-    &__badges-title {
-      @extend %pix-title-xxs;
-
-      margin-top: var(--pix-spacing-4x);
-    }
-
-    &__badges {
-      display: flex;
-      flex-wrap: wrap;
-      width: 100%;
-
-      .pix-tooltip {
-        flex: 0 0 2.25rem;
-
-        img {
-          width: calc(100% + 0.75rem);
-          height: auto;
-        }
-      }
-    }
   }
 
   &__footer {
@@ -210,17 +189,40 @@
     flex-shrink: 0;
     gap: var(--pix-spacing-3x);
     align-items: center;
-    justify-content: space-between;
-
-    &__form-link {
-      align-self: center;
-      margin-top: var(--pix-spacing-6x);
-    }
 
     &__text {
       @extend %pix-body-s;
 
       text-align: center;
+    }
+  }
+
+  &__form-link {
+    align-self: center;
+    margin-bottom: auto;
+  }
+
+  &__badges {
+    &__title {
+      @extend %pix-title-xxs;
+
+      width: 100%;
+      margin-top: var(--pix-spacing-4x);
+    }
+
+    &__container {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .pix-tooltip {
+      flex: 0 0 2.25rem;
+
+      img {
+        width: calc(100% + 0.75rem);
+        height: auto;
+      }
     }
   }
 }

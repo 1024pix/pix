@@ -93,24 +93,26 @@ export default class CourseModal extends Component {
               class="course-modal__body__description"
               @markdown={{this.courseDescription}}
             />
-
-            {{#if (gt @currentCourse.badges.length 0)}}
-              <h2 class="course-modal__body__badges-title">
-                {{t "pages.catalogue.modal.associated-badges"}}
-              </h2>
-              <div class="course-modal__body__badges">
-                <Badges @badges={{@currentCourse.badges}} @hideBadgesAcquisition={{true}} />
-              </div>
-            {{/if}}
           </div>
 
           <div class="course-modal__footer">
+            {{#if (gt @currentCourse.badges.length 0)}}
+              <div class="course-modal__badges">
+                <h2 class="course-modal__badges__title">
+                  {{t "pages.catalogue.modal.associated-badges"}}
+                </h2>
+                <div class="course-modal__badges__container">
+                  <Badges @badges={{@currentCourse.badges}} @hideBadgesAcquisition={{true}} />
+                </div>
+              </div>
+            {{/if}}
+
             <PixButtonLink
               @route={{this.campaignCreationRoute}}
               @query={{hash courseId=@currentCourse.id}}
               @isDisabled={{this.hasReachedPlacesLimit}}
               @size="small"
-              class="course-modal__body__form-link"
+              class="course-modal__form-link"
             >
               {{t "pages.catalogue.modal.select-course"}}
             </PixButtonLink>
