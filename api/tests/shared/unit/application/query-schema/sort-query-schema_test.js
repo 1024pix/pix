@@ -132,37 +132,40 @@ describe('Unit | Application | sort-query-schema', function () {
     });
   });
 
-  describe('sort validation rules (JSON-encoded form)', function () {
-    it('accepts a valid JSON string and parses it into an array', function () {
+  describe('sort validation rules (Swagger repeated query params form)', function () {
+    it('accepts an array of JSON-encoded objects and parses each item', function () {
       // given
       const schema = createSortQuerySchema();
 
       // when
-      const { error, value } = schema.validate('[{"value":"lastName","type":"asc"}]');
+      const { error, value } = schema.validate(['{"value":"lastName","type":"asc"}', '{"value":"firstName"}']);
 
       // then
       expect(error).to.not.exist;
-      expect(value).to.deep.equal([{ value: 'lastName', type: 'asc' }]);
+      expect(value).to.deep.equal([
+        { value: 'lastName', type: 'asc' },
+        { value: 'firstName' },
+      ]);
     });
 
-    it('rejects a parsed array item missing a value, with the underlying Joi message', function () {
+    it('rejects a JSON-encoded item missing a value', function () {
       // given
       const schema = createSortQuerySchema();
 
       // when
-      const { error } = schema.validate('[{"type":"asc"}]');
+      const { error } = schema.validate(['{"type":"asc"}']);
 
       // then
       expect(error).to.exist;
-      expect(error.message).to.equal('"[0].value" is required');
+      expect(error.message).to.equal('"value" is required');
     });
 
-    it('names "sort" in the error when the JSON string cannot be parsed', function () {
+    it('rejects a non-JSON item with a message naming "sort"', function () {
       // given
       const schema = createSortQuerySchema();
 
       // when
-      const { error } = schema.validate('not-json');
+      const { error } = schema.validate(['not-json']);
 
       // then
       expect(error).to.exist;
@@ -170,16 +173,29 @@ describe('Unit | Application | sort-query-schema', function () {
     });
   });
 
+  describe('when a whole JSON-encoded array is provided', function () {
+    it('rejects it, since this format is no longer supported', function () {
+      // given
+      const schema = createSortQuerySchema();
+
+      // when
+      const { error } = schema.validate('[{"value":"lastName","type":"asc"}]');
+
+      // then
+      expect(error).to.exist;
+    });
+  });
+
   describe('example option', function () {
     it('attaches the provided example to the schema', function () {
       // given
-      const example = [{ value: 'lastName', type: 'asc' }];
+      const example = { value: 'lastName', type: 'asc' };
 
       // when
       const schema = createSortQuerySchema({ example });
 
       // then
-      expect(schema.describe().examples).to.deep.equal([example]);
+      expect(schema.describe().examples).to.deep.equal([[example]]);
     });
 
     it('set default sort example none is provided', function () {
@@ -187,7 +203,7 @@ describe('Unit | Application | sort-query-schema', function () {
       const schema = createSortQuerySchema();
 
       // then
-      expect(schema.describe().examples).to.deep.equal([[[{ value: 'id', type: 'asc' }]]]);
+      expect(schema.describe().examples).to.deep.equal([[{ value: 'id', type: 'asc' }]]);
     });
   });
 });
