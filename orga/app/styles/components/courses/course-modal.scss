@@ -173,7 +173,7 @@
     overflow-y: scroll;
 
     &__description {
-      @extend %pix-body-m;
+      @extend %pix-body-s;
 
       a {
         color: var(--pix-orga-500);
