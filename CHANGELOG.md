@@ -1,5 +1,38 @@
 # Pix Changelog
 
+# [5.479.0](https://github.com/1024pix/pix/compare/v5.478.1...v5.479.0) (2026-08-14)
+
+### :rocket: Amélioration
+
+- [#17125](https://github.com/1024pix/pix/pull/17125) Afficher la category de l'organisation dans sa page de détail (PIX-23555)
+- [#17128](https://github.com/1024pix/pix/pull/17128) Afficher les sessions les plus récentes en premier dans pix Admin (PIX-23836)
+- [#17000](https://github.com/1024pix/pix/pull/17000) Ajout d'un second batch pour answers history 
+- [#17110](https://github.com/1024pix/pix/pull/17110) Ajout de la sauvegarde de externalCalibrationId au modèle certification-version (PIX-23823)
+- [#17126](https://github.com/1024pix/pix/pull/17126) Ajouter la configuration pour avoir plausible sur PixAdmin (PIX-23777)
+- [#17090](https://github.com/1024pix/pix/pull/17090) integration medias et simulateur papotix finaux CY_MFA_NOV
+
+### :bug: Correction
+
+- [#17132](https://github.com/1024pix/pix/pull/17132) Corriger le script modulix:test (PIX-23879)
+- [#17127](https://github.com/1024pix/pix/pull/17127) Erreur du datamart-builder dans les tests unitaires
+- [#17123](https://github.com/1024pix/pix/pull/17123) Réparer la création d'un schéma de parcours (PIX-23854)
+- [#17109](https://github.com/1024pix/pix/pull/17109) Réparer la génération de mot de passe lors de l'import de session en masse (PIX-23835).
+
+### :building_construction: Tech
+
+- [#17131](https://github.com/1024pix/pix/pull/17131) Améliorer les tests d'API
+- [#17083](https://github.com/1024pix/pix/pull/17083) Déplacer le code spécifique à la récupération de compte SCO dans organization-learners
+- [#17121](https://github.com/1024pix/pix/pull/17121) Déplacer les seeds de calibration dans le contexte MADDO (PIX-23861).
+- [#17120](https://github.com/1024pix/pix/pull/17120) Exposer la catégorie de la structure dans le détail d'une organisation (PIX-23554)
+- [#17117](https://github.com/1024pix/pix/pull/17117) Nettoyage de quelques dépendances de certification
+- [#17116](https://github.com/1024pix/pix/pull/17116) Rassembler les pré-handlers du surveillant dans session-management
+- [#17068](https://github.com/1024pix/pix/pull/17068) Remplacement du Challenge de learning-content utilisé dans shared par un objet plat remappé par le BC
+- [#17122](https://github.com/1024pix/pix/pull/17122) Réparer une typo dans les tests e2e certif
+- [#17118](https://github.com/1024pix/pix/pull/17118) Retravailler la création des connexions aux bases
+- [#17130](https://github.com/1024pix/pix/pull/17130) S'assurer que la base est clean entre chaque tests
+- [#17133](https://github.com/1024pix/pix/pull/17133) Séparer la configuration des tests API par type de test
+- [#17129](https://github.com/1024pix/pix/pull/17129) Uniformiser l'utilisation de sinon.useFakeTimers dans les tests API
+
 ## [5.478.1](https://github.com/1024pix/pix/compare/v5.478.0...v5.478.1) (2026-08-12)
 
 ### :bug: Correction
