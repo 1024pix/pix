@@ -312,6 +312,30 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
     });
   });
 
+  describe('#hasSameEmailAs', function () {
+    it('returns true when email is the same', function () {
+      // given
+      const user = domainBuilder.buildUser({ email: 'test@example.com' });
+
+      // when
+      const result = user.hasSameEmailAs('TEST@example.com');
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('returns false when email is different', function () {
+      // given
+      const user = domainBuilder.buildUser({ email: 'test@example.com' });
+
+      // when
+      const result = user.hasSameEmailAs('test2@example.com');
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
   describe('#markEmailAsValid', function () {
     let now;
 
