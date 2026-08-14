@@ -133,8 +133,6 @@ class ImportOrganizationLearnerSet {
         return convertDateValue({
           dateString: attribute,
           inputFormat: dateFormat.config.validate.format,
-          alternativeInputFormat: dateFormat.config.validate.format,
-          outputFormat: 'YYYY-MM-DD',
         });
       }
     }

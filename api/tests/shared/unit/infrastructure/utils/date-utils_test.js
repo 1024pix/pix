@@ -15,6 +15,10 @@ describe('Unit | Utils | date-utils', function () {
       it('should accept a date object', function () {
         expect(isValidDate(new Date(), 'YYYY-MM-DD')).to.be.true;
       });
+
+      it('should accept even with french format', function () {
+        expect(isValidDate('23/12/2022', 'DD/MM/YYYY')).to.be.true;
+      });
     });
 
     describe('Invalid cases', function () {
@@ -53,98 +57,98 @@ describe('Unit | Utils | date-utils', function () {
       it('should NOT accept a undefined value', function () {
         expect(isValidDate(undefined, 'YYYY-MM-DD')).to.be.false;
       });
+
+      it('should NOT accept an invalid date object', function () {
+        expect(isValidDate(new Date(NaN), 'YYYY-MM-DD')).to.be.false;
+      });
+
+      it('should NOT accept a plain object', function () {
+        expect(isValidDate({}, 'YYYY-MM-DD')).to.be.false;
+      });
+
+      it('should NOT accept an array', function () {
+        expect(isValidDate([], 'YYYY-MM-DD')).to.be.false;
+      });
+
+      it('should NOT accept a number', function () {
+        expect(isValidDate(123, 'YYYY-MM-DD')).to.be.false;
+      });
+
+      it('should NOT accept a boolean', function () {
+        expect(isValidDate(true, 'YYYY-MM-DD')).to.be.false;
+      });
     });
   });
 
   describe('#convertDateValue', function () {
-    context('when alternativeInputFormat does not exist', function () {
-      context('when dateValue does not match inputFormat', function () {
-        it('should return null', function () {
-          expect(convertDateValue({ dateString: '1980-05-05', inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' }))
-            .to.be.null;
-        });
-      });
-
-      context('when dateValue matches inputFormat', function () {
-        it('should return converted date', function () {
-          expect(
-            convertDateValue({ dateString: '05/05/1980', inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' }),
-          ).to.equal('1980-05-05');
-        });
+    context('when dateValue does not match inputFormat', function () {
+      it('should return null', function () {
+        expect(convertDateValue({ dateString: '1980-05-05', inputFormat: 'DD/MM/YYYY' })).to.be.null;
       });
     });
 
-    context('when alternativeInputFormat exists', function () {
-      context('when dateValue does not match nor inputFormat, nor alternativeInputFormat', function () {
-        it('should return null', function () {
-          expect(
-            convertDateValue({
-              dateString: '1980-05-05',
-              inputFormat: 'DD/MM/YYYY',
-              alternativeInputFormat: 'DD/MM/YY',
-              outputFormat: 'YYYY-MM-DD',
-            }),
-          ).to.be.null;
-        });
+    context('when dateValue matches inputFormat', function () {
+      it('should return converted date', function () {
+        expect(convertDateValue({ dateString: '05/05/1980', inputFormat: 'DD/MM/YYYY' })).to.equal('1980-05-05');
+      });
+    });
+
+    context('when dateValue is Date Object', function () {
+      it('should return converted date', function () {
+        expect(
+          convertDateValue({
+            dateString: new Date('1980-05-05'),
+            inputFormat: 'DD/MM/YYYY',
+          }),
+        ).to.equal('1980-05-05');
+      });
+    });
+
+    context('when dateValue matches alternativeInputFormat with 2 digits year', function () {
+      it('should return converted date with year 2000 if input year < the current year', function () {
+        const currentYear = new Date().getFullYear();
+        const currentTwoDigitYear = currentYear - 2000;
+        const inputDate = '05/05/' + (currentTwoDigitYear - 1);
+        const expectedDate = currentYear - 1 + '-05-05';
+        expect(
+          convertDateValue({
+            dateString: inputDate,
+            inputFormat: 'DD/MM/YY',
+          }),
+        ).to.equal(expectedDate);
       });
 
-      context('when dateValue matches inputFormat', function () {
-        it('should return converted date', function () {
-          expect(
-            convertDateValue({
-              dateString: '05/05/1980',
-              inputFormat: 'DD/MM/YYYY',
-              alternativeInputFormat: 'DD/MM/YY',
-              outputFormat: 'YYYY-MM-DD',
-            }),
-          ).to.equal('1980-05-05');
-        });
+      it('should return converted date with year 1900 if input year >= the current year', function () {
+        const currentYear = new Date().getFullYear();
+        const currentTwoDigitYear = currentYear - 2000;
+        const inputDate = '05/05/' + currentTwoDigitYear;
+        const expectedDate = 1900 + currentTwoDigitYear + '-05-05';
+        expect(
+          convertDateValue({
+            dateString: inputDate,
+            inputFormat: 'DD/MM/YY',
+          }),
+        ).to.equal(expectedDate);
       });
+    });
 
-      context('when dateValue is Date Object', function () {
-        it('should return converted date', function () {
-          expect(
-            convertDateValue({
-              dateString: new Date('1980-05-05'),
-              inputFormat: 'DD/MM/YYYY',
-              alternativeInputFormat: 'DD/MM/YY',
-              outputFormat: 'YYYY-MM-DD',
-            }),
-          ).to.equal('1980-05-05');
-        });
+    context('when inputFormat is missing', function () {
+      it('should return null instead of throwing', function () {
+        expect(convertDateValue({ dateString: '05/05/1980' })).to.be.null;
       });
+    });
 
-      context('when dateValue matches alternativeInputFormat with 2 digits year', function () {
-        it('should return converted date with year 2000 if input year < the current year', function () {
-          const currentYear = new Date().getFullYear();
-          const currentTwoDigitYear = currentYear - 2000;
-          const inputDate = '05/05/' + (currentTwoDigitYear - 1);
-          const expectedDate = currentYear - 1 + '-05-05';
-          expect(
-            convertDateValue({
-              dateString: inputDate,
-              inputFormat: 'DD/MM/YYYY',
-              alternativeInputFormat: 'DD/MM/YY',
-              outputFormat: 'YYYY-MM-DD',
-            }),
-          ).to.equal(expectedDate);
-        });
-
-        it('should return converted date with year 1900 if input year >= the current year', function () {
-          const currentYear = new Date().getFullYear();
-          const currentTwoDigitYear = currentYear - 2000;
-          const inputDate = '05/05/' + currentTwoDigitYear;
-          const expectedDate = 1900 + currentTwoDigitYear + '-05-05';
-          expect(
-            convertDateValue({
-              dateString: inputDate,
-              inputFormat: 'DD/MM/YYYY',
-              alternativeInputFormat: 'DD/MM/YY',
-              outputFormat: 'YYYY-MM-DD',
-            }),
-          ).to.equal(expectedDate);
-        });
+    context('when dateValue is neither a string nor a valid Date', function () {
+      it('should return null instead of throwing', function () {
+        expect(convertDateValue({ dateString: {}, inputFormat: 'DD/MM/YYYY' })).to.be.null;
+        expect(convertDateValue({ dateString: [], inputFormat: 'DD/MM/YYYY' })).to.be.null;
+        expect(convertDateValue({ dateString: 42, inputFormat: 'DD/MM/YYYY' })).to.be.null;
+        expect(convertDateValue({ dateString: new Date(NaN), inputFormat: 'DD/MM/YYYY' })).to.be.null;
       });
+    });
+
+    it('returns null for inexisting date', function () {
+      expect(convertDateValue({ dateString: '2008-02-31', inputFormat: 'YYYY-MM-DD' })).to.be.null;
     });
   });
 
