@@ -81,10 +81,7 @@ export default class CourseModal extends Component {
       >
         <div class="course-modal__course-details">
           <div class="course-modal__heading">
-            <div class="pix-card__image pix-card__image--orga">
-              <img src={{this.courseInfo.image}} aria-hidden="true" alt={{@currentCourse.type}} />
-            </div>
-            <PixTag @color={{this.courseInfo.color}} class="course-card__tag">
+            <PixTag @color={{this.courseInfo.color}}>
               {{t this.courseInfo.label}}
             </PixTag>
             <h1 id="modal-title--{{this.id}}" class="course-modal__heading__name">{{@currentCourse.name}}</h1>
