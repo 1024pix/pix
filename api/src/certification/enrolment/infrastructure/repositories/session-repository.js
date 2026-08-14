@@ -9,7 +9,6 @@ import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
  * @param {object} params
  * @param {number} params.id
  * @returns {Promise<SessionEnrolment>}
- * @throws {NotFoundError}
  */
 export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
@@ -69,8 +68,9 @@ export async function get({ id }) {
     .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .where('sessions.id', id)
     .first();
+
   if (!foundSession) {
-    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+    return null;
   }
 
   const certificationCandidates =

@@ -96,6 +96,39 @@ describe('Certification | Enrolment | Unit | Application | Controller | session-
       // then
       expect(response).to.equal('json');
     });
+
+    context('when the updated session cannot be retrieved', function () {
+      it('should return a 404 response', async function () {
+        // given
+        const request = {
+          auth: { credentials: { userId: 1 } },
+          params: { sessionId: 345 },
+          payload: {
+            data: {
+              attributes: {
+                address: '1 rue des lauriers',
+                room: '2B',
+                date: '2021-01-01',
+                time: '14:00',
+                examiner: 'Louise',
+                description: 'coucou',
+              },
+            },
+          },
+        };
+        sinon.stub(usecases, 'updateSession').resolves();
+        const sessionSerializer = { serialize: sinon.stub() };
+        const sessionRepository = { get: sinon.stub() };
+        sessionRepository.get.withArgs({ id: 345 }).resolves(null);
+
+        // when
+        const response = await sessionController.update(request, hFake, { sessionSerializer, sessionRepository });
+
+        // then
+        expect(response.statusCode).to.equal(404);
+        expect(sessionSerializer.serialize).to.not.have.been.called;
+      });
+    });
   });
 
   describe('#delete', function () {
@@ -141,6 +174,26 @@ describe('Certification | Enrolment | Unit | Application | Controller | session-
 
       // then
       expect(response).to.equal('json');
+    });
+
+    context('when the session does not exist', function () {
+      it('should return a 404 response', async function () {
+        // given
+        const request = {
+          auth: { credentials: { userId: 1 } },
+          params: { sessionId: 345 },
+        };
+        const sessionSerializer = { serialize: sinon.stub() };
+        const sessionRepository = { get: sinon.stub() };
+        sessionRepository.get.withArgs({ id: 345 }).resolves(null);
+
+        // when
+        const response = await sessionController.get(request, hFake, { sessionSerializer, sessionRepository });
+
+        // then
+        expect(response.statusCode).to.equal(404);
+        expect(sessionSerializer.serialize).to.not.have.been.called;
+      });
     });
   });
 

@@ -5,7 +5,7 @@ import { importCertificationCandidatesFromCandidatesImportSheet } from '../../..
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { CandidateAlreadyLinkedToUserError } from '../../../../../../src/shared/domain/errors.js';
+import { CandidateAlreadyLinkedToUserError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -65,6 +65,26 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   });
 
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
+    context('when session does not exist', function () {
+      it('throws a NotFoundError', async function () {
+        // given
+        const sessionId = 'sessionId';
+        const odsBuffer = 'buffer';
+        sessionAuthorizationAdapter.find.withArgs({ sessionId }).resolves(null);
+
+        // when
+        const error = await catchErr(importCertificationCandidatesFromCandidatesImportSheet)({
+          i18n,
+          sessionId,
+          odsBuffer,
+          ...dependencies,
+        });
+
+        // then
+        expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
+      });
+    });
+
     context('when session cannot enrolled candidates', function () {
       it('should throw a BadRequestError', async function () {
         // given
