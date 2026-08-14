@@ -6,6 +6,7 @@ import Application from 'pix-orga/app';
 import config from 'pix-orga/config/environment';
 import * as QUnit from 'qunit';
 import { setup } from 'qunit-dom';
+import sinon from 'sinon';
 
 export async function start(options) {
   // Set default browser locale
@@ -16,6 +17,11 @@ export async function start(options) {
   // Reset all cookies before each test to avoid side-effects
   QUnit.hooks.beforeEach(function () {
     clearAllCookies();
+  });
+
+  // Restore all sinon stubs after each test to avoid side-effects
+  QUnit.hooks.afterEach(function () {
+    sinon.restore();
   });
 
   setApplication(Application.create(config.APP));
