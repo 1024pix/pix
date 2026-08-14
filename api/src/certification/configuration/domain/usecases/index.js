@@ -84,9 +84,4 @@ const usecasesWithoutInjectedDependencies = {
   generateCalibrationReportCheck,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
-
-/**
- * @typedef {dependencies} dependencies
- */
-export { usecases };
+export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);

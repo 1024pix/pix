@@ -128,6 +128,13 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           variationPercent: 0.5,
           defaultCandidateCapacity: -3,
           defaultProbabilityToPickChallenge: 51,
+          globalScoringConfiguration: [{
+            bounded: {
+              min: -8,
+              max: -2
+            },
+            meshLevel:0
+          }],
           comments: 'Some awesome comments',
         })
         .insertToDB({ databaseBuilder });
@@ -163,6 +170,13 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'enable-passage-by-all-competences': true,
           status: VERSION_STATUSES.ARCHIVED,
           scope: SCOPES.CORE,
+          'global-scoring-configuration': [{
+            bounded: {
+              min: -8,
+              max: -2
+            },
+            meshLevel:0
+          }],
           comments: 'Some awesome comments',
         },
         relationships: {

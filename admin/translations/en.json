@@ -607,15 +607,6 @@
             "title": "Calibration of challenges",
             "verify-calibration-id-button": "Check the calibration"
           },
-          "scoring": {
-            "title": "Min / max capacity by mesh",
-            "minimum-input-label": "Min capacity",
-            "maximum-input-label": "Max capacity",
-            "level": "Level {index}",
-            "capacity-submit-button": "Save capacities by mesh",
-            "cannot-be-lower-error": "This field cannot be lower than the minimum",
-            "success-notification": "The scoring has been successfully updated"
-          },
           "edit": {
             "assessment-duration-label": "Assessment duration (hh:mm):",
             "challenges-between-same-competence-label": "Number of questions between two questions assessing the same competency:",
@@ -638,6 +629,15 @@
             "title": "Creating a new version of the certification framework for {frameworkLabel}"
           },
           "page-title": "Creation of a new version of the certification in {scope} framework",
+          "scoring": {
+            "cannot-be-lower-error": "This field cannot be lower than the minimum",
+            "capacity-submit-button": "Save capacities by mesh",
+            "level": "Level {index}",
+            "maximum-input-label": "Max capacity",
+            "minimum-input-label": "Min capacity",
+            "success-notification": "The scoring has been successfully updated",
+            "title": "Min / max capacity by mesh"
+          },
           "title": "Creating a Certification Release"
         }
       },

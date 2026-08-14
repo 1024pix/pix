@@ -79,6 +79,7 @@ class VersionDetailsBuilder {
     this.limitToOneQuestionPerTube = true;
     this.enablePassageByAllCompetences = false;
     this.externalCalibrationId = null;
+    this.globalScoringConfiguration = [];
     this.comments = null;
     this.areas = [];
   }
@@ -173,6 +174,7 @@ class VersionDetailsBuilder {
     variationPercent,
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
+    globalScoringConfiguration,
     comments,
   } = {}) {
     this.id = id ?? this.id;
@@ -188,6 +190,7 @@ class VersionDetailsBuilder {
     this.variationPercent = variationPercent ?? this.variationPercent;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube || this.limitToOneQuestionPerTube;
     this.enablePassageByAllCompetences = enablePassageByAllCompetences || this.enablePassageByAllCompetences;
+    this.globalScoringConfiguration = globalScoringConfiguration || this.globalScoringConfiguration;
     this.comments = comments ?? this.comments;
     this.externalCalibrationId = externalCalibrationId ?? this.externalCalibrationId;
     return this;
@@ -204,7 +207,7 @@ class VersionDetailsBuilder {
    */
   insertToDB({ databaseBuilder }) {
     const versionDetails = this.build();
-
+    
     const row = databaseBuilder.factory.buildCertificationVersion({
       id: versionDetails.id ?? undefined,
       scope: versionDetails.scope,
@@ -213,7 +216,7 @@ class VersionDetailsBuilder {
       externalCalibrationId: versionDetails.externalCalibrationId,
       assessmentDuration: versionDetails.assessmentDuration,
       minimumAnswersRequiredToValidateACertification: versionDetails.minimumAnswersRequiredForValidation,
-      globalScoringConfiguration: defaultGlobalScoringConfiguration,
+      globalScoringConfiguration: versionDetails.globalScoringConfiguration,
       competencesScoringConfiguration: defaultCompetencesScoringConfiguration,
       challengesConfiguration: {
         maximumAssessmentLength: versionDetails.maximumAssessmentLength,
@@ -316,6 +319,7 @@ class VersionDetailsBuilder {
       limitToOneQuestionPerTube: this.limitToOneQuestionPerTube,
       enablePassageByAllCompetences: this.enablePassageByAllCompetences,
       externalCalibrationId: this.externalCalibrationId,
+      globalScoringConfiguration: this.globalScoringConfiguration,
       comments: this.comments,
       status: this.status,
       areas: this.areas,

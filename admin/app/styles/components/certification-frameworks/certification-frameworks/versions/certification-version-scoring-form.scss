@@ -4,17 +4,17 @@
     flex-direction: column;
 
     h3 {
-      font-size: 1.2rem;
       font-weight: 700;
+      font-size: 1.2rem;
       line-height: 20px;
     }
 
     section {
       display: flex;
       gap: 1.5rem;
-      margin-bottom: 1.5rem;
       align-items: start;
       justify-content: space-between;
+      margin-bottom: 1.5rem;
 
       .pix-label {
         font-size: 0.9rem;
@@ -31,10 +31,10 @@
     gap: 24px;
 
     label {
-      cursor: pointer;
       display: flex;
-      align-items: center;
       gap: 0.3rem;
+      align-items: center;
+      cursor: pointer;
     }
   }
 }

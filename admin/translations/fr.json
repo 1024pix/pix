@@ -615,15 +615,6 @@
             "title": "Calibration des épreuves",
             "verify-calibration-id-button": "Vérifier la calibration"
           },
-          "scoring": {
-            "title": "Capacités minimum et maximum par mailles",
-            "minimum-input-label": "Capacité minimum",
-            "maximum-input-label": "Capacité maximum",
-            "level": "Niveau {index}",
-            "capacity-submit-button": "Sauvegarder les capacités par mailles",
-            "cannot-be-lower-error": "Ce champ ne peut pas être inférieur au minimum",
-            "success-notification": "Le scoring à bien été mis à jour"
-          },
           "edit": {
             "assessment-duration-label": "Durée de l’épreuve (hh:mm) :",
             "challenges-between-same-competence-label": "Nombre de question entre 2 questions de la même compétence :",
@@ -646,6 +637,15 @@
             "title": "Création d'une nouvelle version du référentiel de certification"
           },
           "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}",
+          "scoring": {
+            "cannot-be-lower-error": "Ce champ ne peut pas être inférieur au minimum",
+            "capacity-submit-button": "Sauvegarder les capacités par mailles",
+            "level": "Niveau {index}",
+            "maximum-input-label": "Capacité maximum",
+            "minimum-input-label": "Capacité minimum",
+            "success-notification": "Le scoring à bien été mis à jour",
+            "title": "Capacités minimum et maximum par mailles"
+          },
           "title": "Création d'une version de certification"
         }
       },
