@@ -1,5 +1,4 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
@@ -190,13 +189,17 @@ export async function updateInfo({ id, address, room, examiner, date, time, desc
  * @function
  * @param {object} params
  * @param {number} params.id
- * @returns {Promise<void>}
- * @throws {NotFoundError}
+ * @returns {Promise<number|null>} the number of deleted sessions, or null when no session was found
  */
 export async function remove({ id }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('invigilator_accesses').where({ sessionId: id }).del();
   await knexConn('certification-candidates').where({ sessionId: id }).del();
   const nbSessionsDeleted = await knexConn('sessions').where({ id }).del();
-  if (nbSessionsDeleted === 0) throw new NotFoundError();
+
+  if (nbSessionsDeleted === 0) {
+    return null;
+  }
+
+  return nbSessionsDeleted;
 }
