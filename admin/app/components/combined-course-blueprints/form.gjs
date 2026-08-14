@@ -34,6 +34,7 @@ export default class CombinedCourseBlueprintForm extends Component {
   @tracked hasMultipleCappedTubeSubsets = false;
   @tracked cappedTubeRequirements = [{}];
   @tracked areas;
+  @tracked cappedTubesAdded = [];
 
   constructor() {
     super(...arguments);
@@ -62,6 +63,12 @@ export default class CombinedCourseBlueprintForm extends Component {
 
   addToContent() {
     this.blueprint.content = [...this.blueprint.content, this.itemToAdd];
+
+    if (this.itemToAdd.type === 'evaluation') {
+      const cappedTubeAddedId = this.itemToAdd.value;
+      this.cappedTubesAdded.push(cappedTubeAddedId);
+      this.cappedTubesAdded = [...this.cappedTubesAdded, cappedTubeAddedId];
+    }
   }
 
   async previewItem() {
@@ -175,7 +182,9 @@ export default class CombinedCourseBlueprintForm extends Component {
 
   @action
   removeRequirement(index) {
+    const requirementToRemove = this.blueprint.content[index];
     this.blueprint.content = this.blueprint.content.filter((item, i) => i !== index);
+    this.cappedTubesAdded = this.cappedTubesAdded.filter((cappedTubeId) => cappedTubeId !== requirementToRemove.value);
   }
 
   async refreshAreas() {
@@ -272,7 +281,13 @@ export default class CombinedCourseBlueprintForm extends Component {
         />
       {{/unless}}
 
-      {{#if (or (and (not @updateMode) this.blueprint.rewardId) (and @updateMode this.blueprint.attestationLabel))}}
+      {{!-- à refactoriser --}}
+      {{#if
+        (or
+          (and (not @updateMode) this.blueprint.rewardId this.cappedTubesAdded.length)
+          (and @updateMode this.blueprint.attestationLabel)
+        )
+      }}
         <RewardRequirementsSection
           @blueprint={{this.blueprint}}
           @setData={{this.setData}}
