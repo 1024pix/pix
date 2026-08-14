@@ -4,7 +4,6 @@
 
 // @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CertificationCandidateNotFoundError } from '../../../shared/domain/errors.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
 /**
@@ -71,9 +70,7 @@ export async function update(candidate) {
     .update(candidateDataToSave)
     .returning('*');
 
-  if (!updatedCertificationCandidate) {
-    throw new CertificationCandidateNotFoundError();
-  }
+  return updatedCertificationCandidate;
 }
 
 /**
