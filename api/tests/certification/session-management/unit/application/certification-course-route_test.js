@@ -9,18 +9,99 @@ import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Certification Course', function () {
   describe('PATCH /api/admin/certification-courses/{certificationCourseId}', function () {
-    it('should exist', async function () {
+    let validPayload;
+
+    beforeEach(function () {
+      validPayload = {
+        data: {
+          type: 'certifications',
+          id: 1234,
+          attributes: {
+            'first-name': 'Freezer',
+            'last-name': 'The all mighty',
+            birthdate: '1989-10-24',
+            birthplace: null,
+            sex: 'M',
+            'birth-country': 'FRANCE',
+            'birth-insee-code': '01091',
+            'birth-postal-code': null,
+          },
+        },
+      };
+    });
+
+    it('return bad request if an identity attribute is not a string', async function () {
       // given
+      const invalidPayload = structuredClone(validPayload);
+      invalidPayload.data.attributes.birthdate = {};
       sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationCourseController, 'update').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234');
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234', invalidPayload);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.stringify(response.payload)).to.includes('data.attributes.birthdate');
+      expect(JSON.stringify(response.payload)).to.includes('must be a string');
+    });
+
+    for (const attribute of ['first-name', 'last-name', 'birthdate']) {
+      it(`return bad request if ${attribute} is an empty string`, async function () {
+        // given
+        const invalidPayload = structuredClone(validPayload);
+        invalidPayload.data.attributes[attribute] = '';
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(certificationCourseController, 'update').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234', invalidPayload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        expect(JSON.stringify(response.payload)).to.includes(`data.attributes.${attribute}`);
+        expect(JSON.stringify(response.payload)).to.includes('is not allowed to be empty');
+      });
+    }
+
+    it('return bad request if the payload id is not a number', async function () {
+      // given
+      const invalidPayload = structuredClone(validPayload);
+      invalidPayload.data.id = 'coucou';
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(certificationCourseController, 'update').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234', invalidPayload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.stringify(response.payload)).to.includes('data.id');
+      expect(JSON.stringify(response.payload)).to.includes('must be a number');
+    });
+
+    it('return bad request if extra unexpected attributes are added to the payload', async function () {
+      // given
+      const invalidPayload = structuredClone(validPayload);
+      invalidPayload.data.attributes.coucou = 'cava';
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(certificationCourseController, 'update').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234', invalidPayload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.stringify(response.payload)).to.includes('data.attributes.coucou');
+      expect(JSON.stringify(response.payload)).to.includes('is not allowed');
     });
 
     it('should return a forbidden access if user has METIER role', async function () {
@@ -43,7 +124,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234');
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234', validPayload);
 
       // then
       expect(response.statusCode).to.equal(403);
