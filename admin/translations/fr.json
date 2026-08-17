@@ -643,7 +643,7 @@
             "level": "Niveau {index}",
             "maximum-input-label": "Capacité maximum",
             "minimum-input-label": "Capacité minimum",
-            "success-notification": "Le scoring à bien été mis à jour",
+            "success-notification": "Le scoring a bien été mis à jour",
             "title": "Capacités minimum et maximum par mailles"
           },
           "title": "Création d'une version de certification"

@@ -26,17 +26,6 @@
     }
   }
 
-  &__fields-actions {
-    display: flex;
-    gap: 24px;
-
-    label {
-      display: flex;
-      gap: 0.3rem;
-      align-items: center;
-      cursor: pointer;
-    }
-  }
 }
 
 .actions-container {

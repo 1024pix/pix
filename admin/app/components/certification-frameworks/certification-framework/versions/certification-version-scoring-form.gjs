@@ -20,11 +20,11 @@ export default class ScoringForm extends Component {
   }
 
   @action
-  saveCapacityByMesh(event) {
+  async saveCapacityByMesh(event) {
     event.preventDefault();
 
     try {
-      this.args.draftVersion.save();
+      await this.args.draftVersion.save();
       this.pixToast.sendSuccessNotification({
         message: this.intl.t(
           'components.certification-frameworks.certification-framework.versions.scoring.success-notification',
@@ -38,13 +38,13 @@ export default class ScoringForm extends Component {
   @action
   updateValue(name, index, event) {
     const isMax = name === 'max';
-    const newArray = this.globalScoringConfiguration;
+    const newArray = [...this.globalScoringConfiguration];
     newArray.at(index).bounds[name] = Number(event.target.value);
 
-    if (isMax && this.globalScoringConfiguration.at(index + 1)) {
+    if (isMax && newArray.at(index + 1)) {
       newArray.at(index + 1).bounds.min = Number(event.target.value);
     }
-    this.globalScoringConfiguration = [...newArray];
+    this.args.draftVersion.globalScoringConfiguration = newArray;
     this.fieldValidator();
   }
 

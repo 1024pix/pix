@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-export default class FrameworkEditRoute extends Route {
+export default class ScoringRoute extends Route {
   @service store;
   @service router;
 
