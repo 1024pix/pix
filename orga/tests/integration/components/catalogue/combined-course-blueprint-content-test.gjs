@@ -7,7 +7,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Catalogue | Course Modale::CombinedCourseBlueprintContent', function (hooks) {
   setupIntlRenderingTest(hooks);
-  test('it shows combined course explanation', async function (assert) {
+  test('it shows combined course content title', async function (assert) {
     const store = this.owner.lookup('service:store');
 
     //given
@@ -25,7 +25,6 @@ module('Integration | Component | Catalogue | Course Modale::CombinedCourseBluep
     assert
       .dom(screen.getByRole('heading', { level: 3, name: t('pages.catalogue.modal.combined-course-content.title') }))
       .exists();
-    assert.dom(screen.getByText(t('pages.catalogue.modal.combined-course-content.description'))).exists();
   });
   test('it shows explanation for module step', async function (assert) {
     const store = this.owner.lookup('service:store');

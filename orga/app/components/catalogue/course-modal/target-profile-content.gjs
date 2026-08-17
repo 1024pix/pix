@@ -1,12 +1,14 @@
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-const getCompetenceIndexLabel = (label, index) => `${label} ${index}`;
 const getTableName = (index, name) => `${index} - ${name}`;
 
 export default class TargetProfileContent extends Component {
+  @service intl;
+
   get targetProfileCompetences() {
     return this.args.currentCourse.frameworks
       .flatMap((framework) => framework.hasMany('areas').value())
@@ -21,19 +23,21 @@ export default class TargetProfileContent extends Component {
       });
   }
 
+  getCompetenceIndexLabel = (index) => {
+    return `${this.intl.t('pages.catalogue.modal.target-profile-content.competence')} ${index}`;
+  };
+
   <template>
     <div class="target-profile-detail">
       <div class="target-profile-detail__header">
-        <h3 class="pix-title-xs">Profils Cibles</h3>
-        <p class="pix-body-s target-profile-detail__description">
-          Les profils cibles permettent de réaliser des évaluations personnalisées et progressive en fonction du niveau
-          de chaque participant. (WIP Description temporaire)
-        </p>
+        <h3 class="pix-title-xs">
+          {{t "pages.catalogue.modal.target-profile-content.title"}}
+        </h3>
       </div>
       {{#each this.targetProfileCompetences as |competence|}}
         <div class="course-modal__competence">
           <div class="course-modal__competence__title">
-            <p>{{getCompetenceIndexLabel "Compétence" competence.index}}</p>
+            <p>{{this.getCompetenceIndexLabel competence.index}}</p>
             <h2>{{competence.name}}</h2>
           </div>
           <PixTable

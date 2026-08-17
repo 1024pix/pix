@@ -70,6 +70,25 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       assert.dom(screen.getByText(t('pages.catalogue.card.tag.target-profile'))).exists();
     });
 
+    test('it shows target profile content title', async function (assert) {
+      //given
+      const currentCourse = store.createRecord('target-profile-overview', {
+        name: 'Ma super formation',
+        description: 'description',
+      });
+
+      //when
+      const screen = await render(
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
+      );
+
+      assert
+        .dom(screen.getByRole('heading', { level: 3, name: t('pages.catalogue.modal.target-profile-content.title') }))
+        .exists();
+    });
+
     test('it shows the target profile tubes', async function (assert) {
       const tubesPix = [
         await store.createRecord('tube', {
@@ -164,7 +183,13 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       );
 
       // then
-      assert.dom(screen.getByText(`Compétence ${competencesPix[0].index}`)).exists(); // TODO trad
+      assert
+        .dom(
+          screen.getByText(
+            `${t('pages.catalogue.modal.target-profile-content.competence')} ${competencesPix[0].index}`,
+          ),
+        )
+        .exists();
       assert.dom(screen.getByRole('heading', { name: competencesPix[0].name })).exists();
 
       const firstCompetence = screen.getByRole('table', {

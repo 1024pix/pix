@@ -41,6 +41,25 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when grouping fields into sections', function () {
+    test('it should always display "Objectif" section', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByRole('heading', { name: t('pages.campaign-creation.purpose.title') })).exists();
+    });
+
     test('it does not display a "Paramétrage" section until a goal is selected', async function (assert) {
       // when
       const screen = await render(
@@ -57,13 +76,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       );
 
       // then
-      assert
-        .dom(
-          screen.queryByRole('heading', {
-            name: t('pages.campaign-creation.settings.title'),
-          }),
-        )
-        .doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: t('pages.campaign-creation.settings.title') })).doesNotExist();
     });
 
     test('it does not display the "Personnalisation" section until a course is selected for an assessment goal', async function (assert) {

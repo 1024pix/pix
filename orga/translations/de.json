@@ -816,7 +816,8 @@
         "label": "Was ist das Ziel Ihrer Kampagne?",
         "profiles-collection": "Sammeln Sie die Pix-Profile der Teilnehmer",
         "profiles-collection-info": "Eine Profilsammelkampagne ruft die Profile der Teilnehmer ab: Niveaustufen pro Fertigkeit und Pix-Score.",
-        "profiles-collection-info-certificability-calculation": "Der Status Zertifizierbar wird automatisch auf der Registerkarte '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Schüler'</a>' aktualisiert."
+        "profiles-collection-info-certificability-calculation": "Der Status Zertifizierbar wird automatisch auf der Registerkarte '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Schüler'</a>' aktualisiert.",
+        "title": "Ziel"
       },
       "settings": {
         "title": "Einstellungen"
@@ -1042,7 +1043,7 @@
         "simplified-access": "Zugang ohne Konto",
         "tag": {
           "blueprint": "Lernpfad",
-          "target-profile": "Kurs"
+          "target-profile": "Bewertungspfad"
         },
         "tubes-count": "{count, plural, =0 {Kein Thema} =1 {{count} thema} other {{count} themen}}"
       },
@@ -1074,17 +1075,20 @@
         "associated-badges": "Zugehörige Abzeichen",
         "combined-course-content": {
           "aria-label-duration": "Geschätzte Dauer: {duration} Minuten",
-          "description": "Lernpfade kombinieren Bewertungen und personalisierte Lernmodule, um das Unterrichten auf der Grundlage des Niveaus jedes Teilnehmers anzupassen.",
           "duration": "≈ {duration} Min",
           "module-info": "Module werden den Teilnehmern basierend auf ihren Ergebnissen empfohlen.",
           "prescribed": "Vorgegeben",
           "recommended": "Empfohlen",
           "step": "Schritt {number}",
-          "title": "Lernpfade"
+          "title": "Inhalt des Lernpfads"
         },
         "max-level": "Max. Stufe",
         "open-modal": "Details zu {name} anzeigen",
         "select-course": "Diesen Kurs auswählen",
+        "target-profile-content": {
+          "competence": "Kompetenz",
+          "title": "Inhalt des Bewertungspfads"
+        },
         "tube-name-and-description": "Name und Beschreibung des Themas",
         "tube-unavailable": "Thema nicht verfügbar"
       },
