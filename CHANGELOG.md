@@ -1,5 +1,17 @@
 # Pix Changelog
 
+# [5.481.0](https://github.com/1024pix/pix/compare/v5.480.0...v5.481.0) (2026-08-17)
+
+### :rocket: Amélioration
+
+- [#17134](https://github.com/1024pix/pix/pull/17134) relecture jennifer 1/2 virus_ind
+
+### :building_construction: Tech
+
+- [#17140](https://github.com/1024pix/pix/pull/17140) Correction de tests flakies
+- [#17138](https://github.com/1024pix/pix/pull/17138) Réutiliser le serveur dans les tests d'acceptance
+- [#17146](https://github.com/1024pix/pix/pull/17146) sinon.restore() entre chaque test dans les fronts
+
 # [5.480.0](https://github.com/1024pix/pix/compare/v5.479.0...v5.480.0) (2026-08-14)
 
 ### :rocket: Amélioration
