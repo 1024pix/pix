@@ -6,14 +6,15 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { t } from 'ember-intl';
+  import { t } from 'ember-intl';
 import Card from 'pix-admin/components/card';
 
 export default class ScoringForm extends Component {
   @service pixToast;
   @service intl;
-  @tracked hasError = false;
+  get hasError() {
+    return this.globalScoringConfiguration.some(({ bounds }) => bounds.max <= bounds.min);
+  }
 
   get globalScoringConfiguration() {
     return this.args.draftVersion.globalScoringConfiguration;
@@ -22,6 +23,7 @@ export default class ScoringForm extends Component {
   @action
   async saveCapacityByMesh(event) {
     event.preventDefault();
+    if (this.hasError) return;
 
     try {
       await this.args.draftVersion.save();
@@ -45,15 +47,6 @@ export default class ScoringForm extends Component {
       newArray.at(index + 1).bounds.min = Number(event.target.value);
     }
     this.args.draftVersion.globalScoringConfiguration = newArray;
-    this.fieldValidator();
-  }
-
-  fieldValidator() {
-    const errors = this.globalScoringConfiguration.map(({ bounds }) => {
-      if (bounds.max <= bounds.min) return 'error';
-      return 'default';
-    });
-    this.hasError = errors.some((error) => error === 'error');
   }
 
   @action
