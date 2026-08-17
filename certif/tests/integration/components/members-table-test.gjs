@@ -17,10 +17,6 @@ module('Integration | Component | Members Table', function (hooks) {
     currentUser = this.owner.lookup('service:current-user');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   test('it displays members firstName, lastName and role', async function (assert) {
     // given
     const memberWithMemberRole = store.createRecord('member', {

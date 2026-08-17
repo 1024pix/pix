@@ -7,10 +7,6 @@ module(
   function (hooks) {
     setupTest(hooks);
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     module('Before model', function () {
       module('When places limit is reached', function () {
         test('should redirect on main campaign page', function (assert) {

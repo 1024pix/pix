@@ -5,11 +5,7 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/users/get', function (hooks) {
   setupTest(hooks);
 
-  module('beforeModel', function (hooks) {
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
+  module('beforeModel', function () {
     test('loads all available identity providers', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated/users/get');

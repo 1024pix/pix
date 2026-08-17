@@ -16,6 +16,7 @@ module('Unit | MetricsAdapter | plausible-adapter', function (hooks) {
   });
 
   hooks.afterEach(function () {
+    sinon.restore(); // must restore before uninstall, which deletes window.plausible
     this.adapter.uninstall();
   });
 

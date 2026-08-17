@@ -23,10 +23,6 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
     this.set('resendInvitation', resendInvitation);
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   test('displays email address, last sending date and actions headers', async function (assert) {
     // given
     const invitation = store.createRecord('certification-center-invitation', {

@@ -286,7 +286,6 @@ module('Acceptance | Campaigns | Results | Recommendation Engine', function (hoo
 
       hooks.afterEach(function () {
         delete window.IntersectionObserver;
-        sinon.restore();
       });
 
       test('should display the drawer when user has not answered the survey', async function (assert) {

@@ -923,11 +923,7 @@ module('Integration | Component | Certifications | Certification | Information |
       });
     });
 
-    module('when button is displayed', function (hooks) {
-      hooks.afterEach(function () {
-        sinon.restore();
-      });
-
+    module('when button is displayed', function () {
       test('should trigger rescoring and show success notification', async function (assert) {
         assert.expect(1);
 

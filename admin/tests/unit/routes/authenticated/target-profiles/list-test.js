@@ -26,10 +26,6 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
       };
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     module('when queryParams filters are falsy', function () {
       test('it should call store.query with no filters on name and id', async function (assert) {
         // when

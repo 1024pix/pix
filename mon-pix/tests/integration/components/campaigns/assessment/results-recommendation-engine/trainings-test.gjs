@@ -28,7 +28,6 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
 
   hooks.afterEach(function () {
     delete window.IntersectionObserver;
-    sinon.restore();
   });
 
   test('it should display the trainings list', async function (assert) {

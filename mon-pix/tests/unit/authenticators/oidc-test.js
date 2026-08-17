@@ -57,10 +57,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
       oidcIdentityProvidersService.set('store', storeStub);
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     test('retrieves an access token with authentication key', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
@@ -193,7 +189,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
         // then
         assert.strictEqual(authenticator.session.alternativeRootURL, redirectLogoutUrl);
-        sinon.restore();
       });
     });
   });
