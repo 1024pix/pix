@@ -32,6 +32,9 @@ export class Version {
           bounds: Joi.object({
             min: Joi.number().required(),
             max: Joi.number().required(),
+          }).custom((value, helpers) => {
+            if (value.max <= value.min) return helpers.error('any.invalid');
+            return value;
           }),
           meshLevel: Joi.number().required(),
         }).optional(),

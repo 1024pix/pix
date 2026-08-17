@@ -316,5 +316,37 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
         expect(() => version.update(validUpdateData)).to.throw(VersionNotDraftError);
       });
     });
+
+    context('when globalScoringConfiguration contains invalid bounds', function () {
+      it('throws an EntityValidationError when max is lower than min', function () {
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2025-05-05') })
+          .withParameters(baseVersionData)
+          .build();
+
+        expect(() =>
+          version.update({
+            ...validUpdateData,
+            globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
+          }),
+        ).to.throw(EntityValidationError);
+      });
+
+      it('throws an EntityValidationError when max equals min', function () {
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2025-05-05') })
+          .withParameters(baseVersionData)
+          .build();
+
+        expect(() =>
+          version.update({
+            ...validUpdateData,
+            globalScoringConfiguration: [{ bounds: { min: 3, max: 3 }, meshLevel: 0 }],
+          }),
+        ).to.throw(EntityValidationError);
+      });
+    });
   });
 });
