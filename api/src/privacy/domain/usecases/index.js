@@ -4,6 +4,7 @@ import * as emailRepository from '../../../shared/mail/infrastructure/repositori
 import { adminMemberRepository } from '../../../team/infrastructure/repositories/admin-member.repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { anonymizeServices } from '../services/anonymize-services/index.js';
+import * as eventJobPublisherService from '../../../shared/infrastructure/events/event-job-publisher-service.js';
 import { anonymizeUserByAdmin } from './anonymize-user-by-admin.usecase.js';
 import { selfAnonymizeByUser } from './self-anonymize-by-user.usecase.js';
 

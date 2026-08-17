@@ -45,9 +45,13 @@ class FakePgBoss {
       },
     };
   }
+
+  publish() {
+    return;
+  }
 }
 
-describe('Unit | JobClient', function () {
+describe.only('Unit | JobClient', function () {
   context('#initialize', function () {
     it('registers an error listener on the client instance to prevent process crash', async function () {
       // given
@@ -244,7 +248,32 @@ describe('Unit | JobClient', function () {
         });
       });
     });
+
+    describe('event Job', function () {
+      it('subscribe to AnonymizeUserByAdminEvent', async function () {
+        //given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'subscribe');
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.subscribe).to.have.been.calledWith(
+          'ANONYMIZE_USER_BY_ADMIN',
+          'AnonymizeAuthenticationMethodsJob',
+        );
+      });
+    });
   });
+
   context('#getQueuesStats', function () {
     it('returns stats', async function () {
       // given
@@ -346,6 +375,47 @@ describe('Unit | JobClient', function () {
         { name: 'FirstJob', ageInSeconds: 42 },
         { name: 'SecondJob', ageInSeconds: 3600 },
       ]);
+    });
+  });
+
+  context('#publishEvent', function () {
+    it('should publish an event', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon.stub(pgBossStub, 'publish');
+
+      const jobClient = new JobClient();
+      await jobClient.initialize(
+        {
+          jobGroups: [JobGroup.DEFAULT],
+          worker: true,
+        },
+        () => pgBossStub,
+      );
+
+      // when
+      await jobClient.publishEvent(
+        'UN_EVENEMENT',
+        {
+          userId: 123,
+          adminId: 456,
+        },
+        {
+          priority: 1,
+        },
+      );
+
+      // then
+      expect(pgBossStub.publish).to.have.been.calledWith(
+        'UN_EVENEMENT',
+        {
+          userId: 123,
+          adminId: 456,
+        },
+        {
+          priority: 1,
+        },
+      );
     });
   });
 });
