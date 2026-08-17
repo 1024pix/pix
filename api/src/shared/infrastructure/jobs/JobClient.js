@@ -113,6 +113,7 @@ export class JobClient {
 
       instrumentJobController(moduleName, ModuleClass);
 
+      // TODO A supprimer doublon ?
       instrumentJobController(moduleName, ModuleClass);
 
       if (!jobGroups.includes(job.jobGroup) && !this.#isTestOnly) continue;
@@ -214,6 +215,12 @@ export class JobClient {
 
   async #unscheduleCronJob(name) {
     return this.#pgBoss.unschedule(name);
+  }
+
+  async publishEvent(name, payload, options) {
+    this.#assertIsInitialized();
+    logger.info({ type: 'EVENT_LOG', handlerName: name }, 'PGBOSS EVENT PUBLISHED');
+    await this.#pgBoss.publish(name, payload, options);
   }
 
   async send(name, payload, options) {

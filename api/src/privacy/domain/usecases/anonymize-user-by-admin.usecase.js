@@ -11,8 +11,11 @@ export const anonymizeUserByAdmin = async function ({
   updatedByUserId,
   adminMemberRepository,
   anonymizeServices,
+  eventJobPublisherService,
 }) {
-  const anonymizedBy = await adminMemberRepository.get({ userId: updatedByUserId });
+  const anonymizedBy = await adminMemberRepository.get({
+    userId: updatedByUserId,
+  });
   if (!anonymizedBy) {
     throw new UserNotFoundError(`Admin not found for id: ${updatedByUserId}`);
   }
@@ -20,6 +23,8 @@ export const anonymizeUserByAdmin = async function ({
   const anonymizedByUserId = updatedByUserId;
   const anonymizedByUserRole = anonymizedBy.role;
   const client = 'PIX_ADMIN';
+
+  await eventJobPublisherService.publishEvent('ANONYMIZE_USER_BY_ADMIN', { userId, updatedByUserId });
 
   await anonymizeServices.anonymizeUser({
     userId,
