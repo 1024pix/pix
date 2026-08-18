@@ -7,6 +7,7 @@ import {
 } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { ABORT_REASONS } from '../../../shared/domain/constants/abort-reasons.js';
+import { CertificationDurationExceededError, CertificationTestEndedError } from '../errors.js';
 
 export const STATES = Assessment.states;
 export const STATES_OF_LAST_QUESTION = Assessment.statesOfLastQuestion;
@@ -96,6 +97,10 @@ export class AssessmentSheet {
     return this.state === STATES.ENDED_DUE_TO_FINALIZATION;
   }
 
+  hasBeenEndedDueToDurationExceeded() {
+    return this.state === STATES.ENDED_DUE_TO_DURATION_EXCEEDED;
+  }
+
   isChallengeAlreadyAnswered(challengeId) {
     return this.answers.some((answer) => answer.challengeId === challengeId);
   }
@@ -122,6 +127,12 @@ export class AssessmentSheet {
     }
     if (this.hasBeenEndedDueToFinalization()) {
       throw new CertificationEndedByFinalizationError();
+    }
+    if (this.hasBeenEndedDueToDurationExceeded()) {
+      throw new CertificationDurationExceededError();
+    }
+    if (!this.isStarted) {
+      throw new CertificationTestEndedError();
     }
     if (!this.isChallengeExpectedToBeAnswered(answer.challengeId)) {
       throw new ChallengeNotAskedError();
