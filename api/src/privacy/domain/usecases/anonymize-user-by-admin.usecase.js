@@ -24,7 +24,10 @@ export const anonymizeUserByAdmin = async function ({
   const anonymizedByUserRole = anonymizedBy.role;
   const client = 'PIX_ADMIN';
 
-  await eventJobPublisherService.publishEvent('ANONYMIZE_USER_BY_ADMIN', { userId, updatedByUserId });
+  await eventJobPublisherService.publishEvent('ANONYMIZE_USER_BY_ADMIN', {
+    userId,
+    updatedByUserId,
+  });
 
   await anonymizeServices.anonymizeUser({
     userId,

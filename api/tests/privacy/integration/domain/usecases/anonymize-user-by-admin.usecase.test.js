@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { AnonymizeAuthenticationMethodsEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-authentication-methods.event-handler.js';
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { usecases } from '../../../../../src/privacy/domain/usecases/index.js';
@@ -17,8 +18,7 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
     sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
-  it(`deletes all user’s authentication methods,
-    revokes all user’s refresh tokens,
+  it(`revokes all user’s refresh tokens,
     removes all user’s password reset demands,
     disables all user’s organization memberships,
     disables all user’s certification center memberships,
@@ -67,6 +67,12 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
     });
 
     // then
+    const handler = new AnonymizeAuthenticationMethodsEventHandler();
+    await expect(handler.jobName).to.have.performed.withEventPayload({
+      userId,
+      updatedByUserId: anonymizedByUserId,
+    });
+
     await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayload({
       client: 'PIX_ADMIN',
       action: 'ANONYMIZATION',
@@ -76,9 +82,6 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
       targetUserIds: [userId],
       correlationContext: EMPTY_CORRELATION_INFO,
     });
-
-    const authenticationMethods = await knex('authentication-methods').where({ userId });
-    expect(authenticationMethods).to.have.lengthOf(0);
 
     const refreshTokens = await refreshTokenRepository.findAllByUserId(userId);
     expect(refreshTokens).to.have.lengthOf(0);

@@ -9,7 +9,6 @@ import { anonymizeGeneralizeDate } from '../../../../shared/infrastructure/utils
  * @param{string} params.anonymizedByUserRole
  * @param{string} params.client
  * @param{UserRepository} params.userRepository
- * @param{AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param{MembershipRepository} params.membershipRepository
  * @param{CertificationCenterMembershipRepository} params.certificationCenterMembershipRepository
  * @param{LastUserApplicationConnectionsRepository} params.lastUserApplicationConnectionsRepository
@@ -25,7 +24,6 @@ export const anonymizeUser = async function ({
   anonymizedByUserRole,
   client,
   userRepository,
-  authenticationMethodRepository,
   membershipRepository,
   certificationCenterMembershipRepository,
   lastUserApplicationConnectionsRepository,
@@ -39,9 +37,8 @@ export const anonymizeUser = async function ({
   await DomainTransaction.execute(async () => {
     const user = await userRepository.get(userId);
 
+    // TODO Check if it's done before, on pre-handlers
     await userRepository.get(anonymizedByUserId);
-
-    await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
 
     await refreshTokenRepository.revokeAllByUserId({ userId });
 
@@ -60,6 +57,7 @@ export const anonymizeUser = async function ({
 
     await _anonymizeCertificationCenterMemberships(certificationCenterMembershipRepository, userId, anonymizedByUserId);
 
+    // TODO: Retirer l'appel en double
     await _anonymizeLastUserApplicationConnections(lastUserApplicationConnectionsRepository, userId);
 
     await userAcceptanceRepository.removeAllByUserId(userId);

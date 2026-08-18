@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { anonymizeUserByAdmin } from '../../../../../src/privacy/domain/usecases/anonymize-user-by-admin.usecase.js';
 import { expect } from '../../../../test-helper.js';
 
-describe.only('Unit | Privacy | Domain | usecases | anonymize user by admin', function () {
+describe('Unit | Privacy | Domain | usecases | anonymize user by admin', function () {
   let adminMemberRepository, anonymizeServices, eventJobPublisherService;
   beforeEach(function () {
     adminMemberRepository = {
@@ -17,13 +17,12 @@ describe.only('Unit | Privacy | Domain | usecases | anonymize user by admin', fu
     eventJobPublisherService = {
       publishEvent: sinon.stub(),
     };
-
   });
   it('should publish an event', async function () {
     // given
     const userId = 1234;
     const updatedByUserId = 456;
-    adminMemberRepository.get.resolves({id:updatedByUserId, role:'super admin'});
+    adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'super admin' });
     // when
     await anonymizeUserByAdmin({
       userId,
@@ -34,9 +33,9 @@ describe.only('Unit | Privacy | Domain | usecases | anonymize user by admin', fu
     });
 
     // then
-    expect(eventJobPublisherService.publishEvent).to.have.been.calledWith(
-      "ANONYMIZE_USER_BY_ADMIN",
-      { userId: 1234, updatedByUserId: 456 },
-    );
+    expect(eventJobPublisherService.publishEvent).to.have.been.calledWith('ANONYMIZE_USER_BY_ADMIN', {
+      userId: 1234,
+      updatedByUserId: 456,
+    });
   });
 });

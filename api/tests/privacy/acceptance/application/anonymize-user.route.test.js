@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { AnonymizeAuthenticationMethodsEventHandler } from '../../../../src/identity-access-management/application/jobs/anonymize-authentication-methods-event-handler.js';
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
@@ -59,8 +60,11 @@ describe('Acceptance | Privacy | Application | Route | anonymize-user', function
       // then
       expect(response.statusCode).to.equal(204);
 
-      const authenticationMethods = await knex('authentication-methods').where({ userId });
-      expect(authenticationMethods.length).to.equal(0);
+      const handler = new AnonymizeAuthenticationMethodsEventHandler();
+      await expect(handler.jobName).to.have.performed.withEventPayload({
+        userId,
+        updatedByUserId: superAdmin.id,
+      });
     });
 
     it("disables user's certification center, organization learner and organisation memberships", async function () {

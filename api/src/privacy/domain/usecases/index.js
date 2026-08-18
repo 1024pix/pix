@@ -16,6 +16,7 @@ const repositories = {
 
 const services = {
   anonymizeServices,
+  eventJobPublisherService,
 };
 
 const usecasesWithoutInjectedDependencies = {

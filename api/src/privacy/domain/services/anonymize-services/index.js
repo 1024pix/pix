@@ -1,4 +1,3 @@
-import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { lastUserApplicationConnectionsRepository } from '../../../../identity-access-management/infrastructure/repositories/last-user-application-connections.repository.js';
 import { refreshTokenRepository } from '../../../../identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../../../identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
@@ -19,7 +18,6 @@ import { anonymizeUser } from './anonymize-user.service.js';
 import { canSelfAnonymize } from './can-self-anonymize.service.js';
 
 const repositories = {
-  authenticationMethodRepository,
   campaignParticipationsApiRepository,
   candidatesApiRepository,
   certificationCenterMembershipRepository,
