@@ -638,13 +638,13 @@
           },
           "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}",
           "scoring": {
-            "cannot-be-lower-error": "Ce champ ne peut pas être inférieur au minimum",
+            "cannot-be-lower-error": "La capacité maximale d'un niveau doit être strictement supérieur à sa capacité minimale.",
             "capacity-submit-button": "Sauvegarder les capacités par mailles",
             "level": "Niveau {index}",
-            "maximum-input-label": "Capacité maximum",
-            "minimum-input-label": "Capacité minimum",
+            "maximum-input-label": "Capacité maximale",
+            "minimum-input-label": "Capacité minimale",
             "success-notification": "Le scoring a bien été mis à jour",
-            "title": "Capacités minimum et maximum par mailles"
+            "title": "Bornes de capacités par mailles"
           },
           "title": "Création d'une version de certification"
         }

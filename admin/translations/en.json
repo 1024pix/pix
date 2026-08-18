@@ -630,13 +630,13 @@
           },
           "page-title": "Creation of a new version of the certification in {scope} framework",
           "scoring": {
-            "cannot-be-lower-error": "This field cannot be lower than the minimum",
+            "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
             "capacity-submit-button": "Save capacities by mesh",
             "level": "Level {index}",
-            "maximum-input-label": "Max capacity",
-            "minimum-input-label": "Min capacity",
+            "maximum-input-label": "Maximal capacity",
+            "minimum-input-label": "Minimal capacity",
             "success-notification": "The scoring has been successfully updated",
-            "title": "Min / max capacity by mesh"
+            "title": "Bounds of capacity by mesh"
           },
           "title": "Creating a Certification Release"
         }
