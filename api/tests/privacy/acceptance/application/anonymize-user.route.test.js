@@ -76,6 +76,7 @@ describe('Acceptance | Privacy | Application | Route | anonymize-user', function
       const removeLegalDocumentByUserEventHandler = new RemoveLegalDocumentByUserEventHandler();
       await expect(removeLegalDocumentByUserEventHandler.jobName).to.have.performed.withEventPayload({
         userId,
+        updatedByUserId: superAdmin.id,
       });
     });
 
@@ -86,6 +87,7 @@ describe('Acceptance | Privacy | Application | Route | anonymize-user', function
       const handler = new RevokeAllAnonymizedUserTokenEventHandler();
       await expect(handler.jobName).to.have.performed.withEventPayload({
         userId,
+        updatedByUserId: superAdmin.id,
       });
     });
 

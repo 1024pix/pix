@@ -1,19 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { RefreshToken } from '../../../../../../src/identity-access-management/domain/models/RefreshToken.js';
-import { refreshTokenRepository } from '../../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
-import { LegalDocumentService } from '../../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
-import { LegalDocumentType } from '../../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { anonymizeServices } from '../../../../../../src/privacy/domain/services/anonymize-services/index.js';
 import { PIX_ADMIN } from '../../../../../../src/shared/constants.js';
 import { UserNotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
-
-const { PIX_ORGA } = LegalDocumentService.VALUES;
-const { TOS } = LegalDocumentType.VALUES;
 
 describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonymize-user', function () {
   const now = new Date('2024-04-05T03:04:05Z');
@@ -22,10 +15,7 @@ describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonym
     sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
-  it(`deletes all user’s authentication methods,
-    revokes all user’s refresh tokens,
-    removes all user’s password reset demands,
-    disables all user’s organization memberships,
+  it(`disables all user’s organization memberships,
     disables all user’s certification center memberships,
     disables all user’s student prescriptions,
     anonymizes user’s legal document acceptances,
@@ -65,13 +55,6 @@ describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonym
     const managingStudentsOrga = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
     databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId: managingStudentsOrga.id });
 
-    const legalDocumentVersion = databaseBuilder.factory.buildLegalDocumentVersion({ service: PIX_ORGA, type: TOS });
-    databaseBuilder.factory.buildLegalDocumentVersionUserAcceptance({
-      userId: user.id,
-      legalDocumentVersionId: legalDocumentVersion.id,
-      acceptedAt: new Date('2023-03-23T23:23:23Z'),
-    }).id;
-
     const userLogin = databaseBuilder.factory.buildUserLogin({
       userId,
       createdAt: new Date('2012-12-12T12:25:34Z'),
@@ -83,42 +66,13 @@ describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonym
 
     await databaseBuilder.commit();
 
-    const refreshToken = RefreshToken.generate({
-      userId,
-      source: 'pix',
-      audience: 'https://app.dev.pix.fr',
-      sessionId: 'random-session-id',
-    });
-    await refreshTokenRepository.save({ refreshToken });
-
     // when
     await anonymizeServices.anonymizeUser({
       userId,
       anonymizedByUserId,
-      anonymizedByUserRole: PIX_ADMIN.ROLES.SUPER_ADMIN,
-      client: 'PIX_ADMIN',
     });
 
     // then
-    await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayload({
-      client: 'PIX_ADMIN',
-      action: 'ANONYMIZATION',
-      role: PIX_ADMIN.ROLES.SUPER_ADMIN,
-      occurredAt: now.toISOString(),
-      userId: anonymizedByUserId,
-      targetUserIds: [userId],
-      correlationContext: EMPTY_CORRELATION_INFO,
-    });
-
-    const authenticationMethods = await knex('authentication-methods').where({ userId });
-    expect(authenticationMethods).to.have.lengthOf(0);
-
-    const refreshTokens = await refreshTokenRepository.findAllByUserId(userId);
-    expect(refreshTokens).to.have.lengthOf(0);
-
-    const resetPasswordDemands = await knex('reset-password-demands').whereRaw('LOWER("email") = LOWER(?)', user.email);
-    expect(resetPasswordDemands).to.have.lengthOf(0);
-
     const enabledMemberships = await knex('memberships').where({ userId }).whereNull('disabledAt');
     expect(enabledMemberships).to.have.lengthOf(0);
     const disabledMemberships = await knex('memberships').where({ userId }).whereNotNull('disabledAt');
@@ -137,9 +91,6 @@ describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonym
 
     const organizationLearners = await knex('organization-learners').where({ userId });
     expect(organizationLearners).to.have.lengthOf(0);
-
-    const userAcceptance = await knex('legal-document-version-user-acceptances').where({ userId: user.id }).first();
-    expect(userAcceptance).to.be.undefined;
 
     const anonymizedUserLogin = await knex('user-logins').where({ id: userLogin.id }).first();
     expect(anonymizedUserLogin.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');

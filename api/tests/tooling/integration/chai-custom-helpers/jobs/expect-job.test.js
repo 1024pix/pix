@@ -174,6 +174,19 @@ describe('Integration | Tooling | Expect Job', function () {
       });
     });
 
+    it('succeeds when the actual payload contains expectedPayload', async function () {
+      // given
+      const job = new JobRepository({ name: 'JobTest' });
+
+      // when
+      await job.performAsync({ foo: 'bar' });
+
+      // then
+      await expect('JobTest').to.have.been.performed.withJobPayload({
+        foo: 'bar',
+      });
+    });
+
     it('fails when the job payload is not correct', async function () {
       // given
       const job = new JobRepository({ name: 'JobTest' });

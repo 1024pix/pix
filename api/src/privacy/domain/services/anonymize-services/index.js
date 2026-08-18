@@ -3,7 +3,6 @@ import { resetPasswordDemandRepository } from '../../../../identity-access-manag
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as userLoginRepository from '../../../../identity-access-management/infrastructure/repositories/user-login-repository.js';
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
-import { auditLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { certificationCenterMembershipRepository } from '../../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
@@ -19,7 +18,6 @@ const repositories = {
   campaignParticipationsApiRepository,
   candidatesApiRepository,
   certificationCenterMembershipRepository,
-  auditLoggingJobRepository,
   learnersApiRepository,
   membershipRepository,
   lastUserApplicationConnectionsRepository,

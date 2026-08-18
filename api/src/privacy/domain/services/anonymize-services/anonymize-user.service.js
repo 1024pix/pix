@@ -1,12 +1,10 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { AuditLoggingJob } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
 import { anonymizeGeneralizeDate } from '../../../../shared/infrastructure/utils/date-utils.js';
 
 /**
  * @param params
  * @param{string} params.userId
  * @param{string} params.anonymizedByUserId
- * @param{string} params.anonymizedByUserRole
  * @param{string} params.client
  * @param{UserRepository} params.userRepository
  * @param{MembershipRepository} params.membershipRepository
@@ -14,21 +12,17 @@ import { anonymizeGeneralizeDate } from '../../../../shared/infrastructure/utils
  * @param{LastUserApplicationConnectionsRepository} params.lastUserApplicationConnectionsRepository
  * @param{ResetPasswordDemandRepository} params.resetPasswordDemandRepository
  * @param{UserLoginRepository} params.userLoginRepository
- * @param{AuditLoggingJobRepository} params.auditLoggingJobRepository
  * @returns {Promise<void>}
  */
 export const anonymizeUser = async function ({
   userId,
   anonymizedByUserId,
-  anonymizedByUserRole,
-  client,
   userRepository,
   membershipRepository,
   certificationCenterMembershipRepository,
   lastUserApplicationConnectionsRepository,
   resetPasswordDemandRepository,
   userLoginRepository,
-  auditLoggingJobRepository,
   learnersApiRepository,
 }) {
   await DomainTransaction.execute(async () => {
@@ -59,16 +53,6 @@ export const anonymizeUser = async function ({
 
     await _anonymizeUser({ user, anonymizedByUserId, userRepository });
   });
-
-  await auditLoggingJobRepository.performAsync(
-    AuditLoggingJob.forUser({
-      client,
-      action: 'ANONYMIZATION',
-      userId,
-      updatedByUserId: anonymizedByUserId,
-      role: anonymizedByUserRole,
-    }),
-  );
 };
 
 async function _anonymizeMemberships({ userId, anonymizedByUserId, membershipRepository }) {
