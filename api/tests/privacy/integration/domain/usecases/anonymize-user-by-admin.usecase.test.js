@@ -3,6 +3,7 @@ import sinon from 'sinon';
 
 import { AnonymizeAuthenticationMethodsEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-authentication-methods.event-handler.js';
 import { AnonymizeLastUserApplicationConnectionsEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-last-user-application-connections.event-handler.js';
+import { AnonymizeUserEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-user.event-handler.js';
 import { AnonymizeUserLoginEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-user-login.event-handler.js';
 import { RevokeAllAnonymizedUserTokenEventHandler } from '../../../../../src/identity-access-management/application/jobs/revoke-all-anonymized-user-token.event-handler.js';
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
@@ -122,19 +123,11 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
       updatedByUserId: anonymizedByUserId,
     });
 
-    const anonymizedUser = await knex('users').where({ id: user.id }).first();
-    expect(anonymizedUser.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');
-    expect(anonymizedUser.updatedAt.toISOString()).to.equal('2024-04-01T00:00:00.000Z');
-    expect(anonymizedUser.firstName).to.equal('(anonymised)');
-    expect(anonymizedUser.lastName).to.equal('(anonymised)');
-    expect(anonymizedUser.email).to.be.null;
-    expect(anonymizedUser.emailConfirmedAt).to.be.null;
-    expect(anonymizedUser.username).to.be.null;
-    expect(anonymizedUser.hasBeenAnonymised).to.be.true;
-    expect(anonymizedUser.hasBeenAnonymisedBy).to.equal(admin.id);
-    expect(anonymizedUser.lastTermsOfServiceValidatedAt).to.be.null;
-    expect(anonymizedUser.lastPixCertifTermsOfServiceValidatedAt).to.be.null;
-    expect(anonymizedUser.lastDataProtectionPolicySeenAt).to.be.null;
+    const anonymizeUserEventHandler = new AnonymizeUserEventHandler();
+    await expect(anonymizeUserEventHandler.jobName).to.have.performed.withEventPayload({
+      userId,
+      updatedByUserId: anonymizedByUserId,
+    });
   });
 
   context('when the admin user does not exist', function () {

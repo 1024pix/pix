@@ -42,7 +42,7 @@ class FakePgBoss {
     return;
   }
   getQueueStats() {
-    return [{ totalCount: 0 }];
+    return {queuedCount: 0};
   }
   getDb() {
     return {
@@ -328,7 +328,8 @@ describe('Unit | JobClient', function () {
         //given
         const pgBossStub = new FakePgBoss();
         sinon.stub(pgBossStub, 'deleteQueue');
-        sinon.stub(pgBossStub, 'getQueueStats').resolves([{ totalCount: 1 }]);
+        sinon.stub(pgBossStub, 'createQueue');
+        sinon.stub(pgBossStub, 'getQueueStats').resolves({ queuedCount: 1 });
 
         // when
         const jobClient = new JobClient();
@@ -343,6 +344,7 @@ describe('Unit | JobClient', function () {
 
         // then
         expect(pgBossStub.deleteQueue).to.not.have.been.called;
+        expect(pgBossStub.createQueue).to.have.been.calledWith('test.to-delete.event-queue');
       });
 
       it('deletes queue when queue is empty', async function () {

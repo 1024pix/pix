@@ -12,7 +12,6 @@ export const anonymizeUserByAdmin = async function ({
   userId,
   updatedByUserId,
   adminMemberRepository,
-  anonymizeServices,
   eventJobPublisherService,
   auditLoggingJobRepository,
 }) {
@@ -24,11 +23,6 @@ export const anonymizeUserByAdmin = async function ({
   }
 
   await eventJobPublisherService.publishEvent(new AnonymizeUserEvent({ userId, updatedByUserId }));
-
-  await anonymizeServices.anonymizeUser({
-    userId,
-    anonymizedByUserId: updatedByUserId,
-  });
 
   await auditLoggingJobRepository.performAsync(
     AuditLoggingJob.forUser({
