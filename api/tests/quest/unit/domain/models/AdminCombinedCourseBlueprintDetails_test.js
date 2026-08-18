@@ -11,8 +11,16 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails '
       const quest = new QuestInput({ items }).toQuest();
       const rewardRequirements = [{ threshold: 50, areas: [domainBuilder.buildArea()] }];
       const content = [{ type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: 12 }];
+      const name = 'external name';
+      const internalName = 'internal name';
 
-      const details = new AdminCombinedCourseBlueprintDetails({ quest, rewardRequirements, content });
+      const details = new AdminCombinedCourseBlueprintDetails({
+        quest,
+        rewardRequirements,
+        content,
+        name,
+        internalName,
+      });
 
       expect(details.content).to.deep.equal(content);
       expect(details.quest).to.equal(quest);
@@ -31,7 +39,7 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails '
         { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: targetProfileId },
       ];
       const quest = new QuestInput({ items }).toQuest();
-      const combinedCourseBlueprint = { id: 1, name: 'test', quest };
+      const combinedCourseBlueprint = { id: 1, name: 'test', internalName: 'internal', quest };
       const modulesById = { [moduleId]: [{ shortId }] };
       const area1 = domainBuilder.buildArea();
       const area2 = domainBuilder.buildArea();

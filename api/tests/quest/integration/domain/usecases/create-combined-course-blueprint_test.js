@@ -28,7 +28,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
       name: 'Mon épure',
       internalName: 'Une épure pour tel niveau',
-      illustration: 'illustrations/mon-epure.png',
+      illustration: 'http://example.pix/illustrations/mon-epure.png',
       description: 'Description',
       prescriberDescription: 'Description pour les prescripteurs',
       content,
@@ -79,7 +79,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
       name: 'Mon épure',
       internalName: 'Une épure pour tel niveau',
-      illustration: 'illustrations/mon-epure.png',
+      illustration: 'http://example.net/illustrations/mon-epure.png',
       description: 'Description',
       prescriberDescription: 'Description pour les prescripteurs',
       content,
@@ -115,7 +115,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
       name: 'Mon épure',
       internalName: 'Une épure pour tel niveau',
-      illustration: 'illustrations/mon-epure.png',
+      illustration: 'http://example.pix/illustrations/mon-epure.png',
       description: 'Description',
       prescriberDescription: 'Description pour les prescripteurs',
       content,

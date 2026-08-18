@@ -136,7 +136,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
       name: 'Mon parcours combiné',
       internalName: 'Mon schéma de parcours combiné',
       description: 'Le but de ma quête',
-      illustration: 'images/illustration.svg',
+      illustration: 'http://example.pix/images/illustration.svg',
       createdAt: now,
       updatedAt: now,
       organizationIds: [],
