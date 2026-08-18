@@ -2,8 +2,10 @@ import sinon from 'sinon';
 
 import { FinalizedSession } from '../../../../../../src/certification/session-management/domain/models/FinalizedSession.js';
 import { unpublishSession } from '../../../../../../src/certification/session-management/domain/usecases/unpublish-session.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Session-Management | Unit | Domain | Use Cases | unpublish-session', function () {
   let certificationRepository;
@@ -23,6 +25,22 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
       save: sinon.stub(),
     };
     sessionManagementRepository.flagResultsAsSentToPrescriber = sinon.stub();
+  });
+
+  it('throws a NotFoundError when no session is found', async function () {
+    // given
+    sessionManagementRepository.get.withArgs({ id: 99 }).resolves(null);
+
+    // when
+    const error = await catchErr(unpublishSession)({
+      sessionId: 99,
+      certificationRepository,
+      sessionManagementRepository,
+      finalizedSessionRepository,
+    });
+
+    // then
+    expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
   });
 
   it('should return the session', async function () {

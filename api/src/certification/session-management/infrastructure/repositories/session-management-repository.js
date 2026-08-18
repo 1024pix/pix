@@ -37,15 +37,18 @@ const get = async function ({ id }) {
     .from('sessions')
     .where({ id })
     .first();
+
   if (!foundSession) {
-    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+    return null;
   }
+
   const certificationCandidates = await knexConn
     .select('id', 'userId', 'reconciledAt', 'resultRecipientEmail')
     .from('certification-candidates')
     .groupBy('certification-candidates.id')
     .where({ sessionId: id })
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
+
   return new SessionManagement({ ...foundSession, certificationCandidates });
 };
 

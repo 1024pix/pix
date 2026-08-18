@@ -5,6 +5,7 @@ import { unfinalizeSession } from '../../../../../../src/certification/session-m
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | unfinalize-session', function () {
@@ -18,14 +19,14 @@ describe('Unit | UseCase | unfinalize-session', function () {
 
       const sessionId = 123;
       sessionManagementRepository = {
+        get: sinon.stub(),
         unfinalize: sinon.stub(),
-        isPublished: sinon.stub(),
       };
       finalizedSessionRepository = {
         remove: sinon.stub(),
       };
 
-      sessionManagementRepository.isPublished.withArgs({ id: sessionId }).resolves(false);
+      sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(null);
       finalizedSessionRepository.remove.withArgs({ sessionId }).resolves(null);
 
       // when
@@ -48,11 +49,14 @@ describe('Unit | UseCase | unfinalize-session', function () {
 
       sessionManagementRepository = {
         unfinalize: sinon.stub(),
-        isPublished: sinon.stub().resolves(false),
+        get: sinon.stub(),
       };
       finalizedSessionRepository = {
         remove: sinon.stub(),
       };
+      sessionManagementRepository.get
+        .withArgs({ id: 99 })
+        .resolves(domainBuilder.certification.sessionManagement.buildSessionManagement({ publishedAt: null }));
       finalizedSessionRepository.remove.withArgs({ sessionId: 99 }).resolves(1);
 
       // when
@@ -63,8 +67,6 @@ describe('Unit | UseCase | unfinalize-session', function () {
         id: 99,
       });
 
-      expect(sessionManagementRepository.isPublished).to.have.been.calledWithMatch({ id: 99 });
-
       expect(finalizedSessionRepository.remove).to.have.been.calledWithMatch({
         sessionId: 99,
       });
@@ -74,9 +76,16 @@ describe('Unit | UseCase | unfinalize-session', function () {
   describe('when session is published', function () {
     it('should throw an SessionAlreadyPublishedError', async function () {
       // given
+      sinon.stub(DomainTransaction, 'execute').callsFake((fn) => fn({}));
       sessionManagementRepository = {
-        isPublished: sinon.stub().resolves(true),
+        get: sinon.stub(),
       };
+
+      sessionManagementRepository.get.withArgs({ id: 99 }).resolves(
+        domainBuilder.certification.sessionManagement.buildSessionManagement({
+          publishedAt: new Date('2020-01-01'),
+        }),
+      );
 
       // when
       const error = await catchErr(unfinalizeSession)({ sessionId: 99, sessionManagementRepository });

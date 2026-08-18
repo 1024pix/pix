@@ -1,3 +1,5 @@
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+
 const unpublishSession = async function ({
   sessionId,
   certificationRepository,
@@ -5,6 +7,10 @@ const unpublishSession = async function ({
   finalizedSessionRepository,
 }) {
   const session = await sessionManagementRepository.get({ id: sessionId });
+
+  if (!session) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
 
   await certificationRepository.unpublishCertificationCoursesBySessionId({ sessionId });
 

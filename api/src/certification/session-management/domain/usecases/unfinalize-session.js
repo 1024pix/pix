@@ -15,16 +15,18 @@ import { SessionAlreadyPublishedError } from '../errors.js';
  * @throws {NotFoundError} the finalized session does not exist or its access is restricted
  */
 const unfinalizeSession = async function ({ sessionId, sessionManagementRepository, finalizedSessionRepository }) {
-  if (await sessionManagementRepository.isPublished({ id: sessionId })) {
-    throw new SessionAlreadyPublishedError();
-  }
-
   return DomainTransaction.execute(async () => {
-    const nbFinalizedSessionsRemoved = await finalizedSessionRepository.remove({ sessionId });
+    const session = await sessionManagementRepository.get({ id: sessionId });
 
-    if (!nbFinalizedSessionsRemoved) {
+    if (!session) {
       throw new NotFoundError("La session n'existe pas ou son accès est restreint");
     }
+
+    if (session.isPublished()) {
+      throw new SessionAlreadyPublishedError();
+    }
+
+    await finalizedSessionRepository.remove({ sessionId });
 
     await sessionManagementRepository.unfinalize({ id: sessionId });
   });
