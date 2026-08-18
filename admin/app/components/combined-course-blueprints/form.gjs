@@ -128,7 +128,7 @@ export default class CombinedCourseBlueprintForm extends Component {
         });
       }
       return responseError.errors
-        .filter((error) => ['400', '404', '412'].includes(error.status))
+        .filter((error) => ['400', '404', '412', '422'].includes(error.status))
         .forEach((error) => this.pixToast.sendErrorNotification({ message: error.detail }));
     }
   }
