@@ -96,10 +96,17 @@ export class JobClient {
   }
 
   async #registerJobs(jobGroups = []) {
-    const globPattern = `${workerDirPath}/src/**/application/**/*job-controller.js`;
+    const jobControllerPattern = `${workerDirPath}/src/**/application/**/*job-controller.js`;
+    const eventHandlerPattern = `${workerDirPath}/src/**/application/**/*event-handler.js`;
+    const excludePattern = ['**/job-controller.js', '**/event-handler.js', '**/job-schedule-controller.js'];
 
-    logger.info(`Search for job handlers in ${globPattern}`);
-    const jobFiles = await Array.fromAsync(glob(globPattern, { exclude: ['**/job-controller.js'] }));
+    logger.info(`Search for job handlers in ${jobControllerPattern}`);
+    const jobControllerFiles = await Array.fromAsync(glob(jobControllerPattern, { exclude: excludePattern }));
+
+    logger.info(`Search for event handlers in ${eventHandlerPattern}`);
+    const jobFiles = jobControllerFiles.concat(
+      await Array.fromAsync(glob(eventHandlerPattern, { exclude: excludePattern })),
+    );
     logger.info(`${jobFiles.length} job handlers files found.`);
 
     let jobModules = {};
@@ -109,6 +116,7 @@ export class JobClient {
     }
 
     let jobRegisteredCount = 0;
+    let eventHandlerCount = 0;
     let cronJobCount = 0;
     for (const [moduleName, ModuleClass] of Object.entries(jobModules)) {
       const job = new ModuleClass();
@@ -143,6 +151,9 @@ export class JobClient {
           }
 
           cronJobCount++;
+        } else if (job.eventName) {
+          await this.subscribeEventHandler({ eventName: job.eventName, handlerName: job.jobName });
+          eventHandlerCount++;
         } else {
           jobRegisteredCount++;
         }
@@ -157,6 +168,7 @@ export class JobClient {
       }
     }
     logger.info(`${jobRegisteredCount} jobs registered for groups "${jobGroups}".`);
+    logger.info(`${eventHandlerCount} event handler subscribed for groups "${jobGroups}".`);
     logger.info(`${cronJobCount} cron jobs scheduled for groups "${jobGroups}".`);
   }
 
@@ -213,6 +225,10 @@ export class JobClient {
       retentionSeconds: config.pgBoss.retentionSeconds,
       notify: config.pgBoss.useListenNotify && !this.#isTestOnly,
     });
+  }
+
+  async subscribeEventHandler({ eventName, handlerName }) {
+    return this.#pgBoss.subscribe(eventName, handlerName);
   }
 
   async #unscheduleCronJob(name) {

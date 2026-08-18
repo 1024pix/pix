@@ -49,9 +49,13 @@ class FakePgBoss {
   publish() {
     return;
   }
+
+  subscribe() {
+    return;
+  }
 }
 
-describe.only('Unit | JobClient', function () {
+describe('Unit | JobClient', function () {
   context('#initialize', function () {
     it('registers an error listener on the client instance to prevent process crash', async function () {
       // given
