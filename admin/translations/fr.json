@@ -646,6 +646,9 @@
             "capacity-submit-button": "Sauvegarder les capacités par mailles",
             "level": "Niveau {index}",
             "previous-version-capacity": "Ancienne valeur : {previousVersionCapacity}",
+            "competences": {
+              "title": "Bornes de capacités par compétences"
+            },
             "success-notification": "Le scoring a bien été mis à jour",
             "title": "Bornes de capacités par mailles"
           },

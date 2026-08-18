@@ -638,6 +638,9 @@
             "capacity-submit-button": "Save capacities by mesh",
             "level": "Level {index}",
             "previous-version-capacity": "Previous value: {previousVersionCapacity}",
+            "competences": {
+              "title": "Bounds of capacities by competence"
+            },
             "success-notification": "The scoring has been successfully updated",
             "title": "Bounds of capacity by mesh"
           },

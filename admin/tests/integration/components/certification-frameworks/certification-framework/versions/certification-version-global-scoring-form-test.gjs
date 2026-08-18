@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import CertificationVersionScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-scoring-form';
+import CertificationVersionScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-global-scoring-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
