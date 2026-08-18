@@ -12,7 +12,7 @@
     "level": "independent",
     "objectives": [
       "<p>Connaître le rôle et le fonctionnement de base d’un gestionnaire de mots de passe</p>",
-      "<p>Comprendre l’importance du mot de passe maître</p>",
+      "<p>Comprendre l’importance d'un mot de passe maître</p>",
       "<p>Savoir quel type de gestionnaire est adapté à ses besoins</p>"
     ],
     "tabletSupport": "comfortable"
@@ -46,7 +46,7 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>J’utilise le même mot de passe partout, comme ça pas de problème de mémoire. 1️⃣</p>",
+                    "content": "<p>J’utilise le même mot de passe partout : comme ça, pas de problème de mémoire. 1️⃣</p>",
                     "feedback": {
                       "diagnosis": "<p>Beaucoup de personnes font comme vous ! Mais si votre mot de passe est volé, ce sont tous vos comptes qui deviennent vulnérables.<br>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
                     }
@@ -55,7 +55,7 @@
                     "id": "2",
                     "content": "<p>Ma solution&nbsp;: la bonne vieille technique du stylo et du carnet. 📝</p>",
                     "feedback": {
-                      "diagnosis": "<p>Méthode “à l’ancienne”, efficace pour la mémoire… mais risquée si le carnet tombe entre de mauvaises mains.<br>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
+                      "diagnosis": "<p>Méthode «&nbsp;à l'ancienne », efficace pour la mémoire… mais risquée si le carnet tombe entre de mauvaises mains.<br>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
                     }
                   },
                   {
@@ -69,12 +69,12 @@
                     "id": "4",
                     "content": "<p>Je n’arrive pas à les retenir. 😩</p>",
                     "feedback": {
-                      "diagnosis": "<p>Vous n’êtes pas seul !&nbsp; Une solution existe&nbsp;: le&nbsp;<strong>gestionnaire de mots de passe</strong>. C’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
+                      "diagnosis": "<p>Vous n’êtes pas seul ! Une solution existe&nbsp;: le&nbsp;<strong>gestionnaire de mots de passe</strong>. C’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
                     }
                   },
                   {
                     "id": "5",
-                    "content": "<p>Aucune de ces propositions 🤷🏻‍♂️</p>",
+                    "content": "<p>Aucune de ces propositions. 🤷🏻‍♂️</p>",
                     "feedback": {
                       "diagnosis": "<p>Le plus sûr est d’utiliser un <strong>gestionnaire de mots de passe</strong>, c’est un <strong>coffre-fort numérique</strong> qui contient vos identifiants et mots de passe.</p>"
                     }
@@ -118,7 +118,7 @@
                 "id": "a8c95aaf-5301-4a68-bba9-406cf7d44e73",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Elio utilise un gestionnaire de mots de passe pour stocker ses mots de passe en toute sécurité.<br>Et pourtant il n’a peut-être pas si bien sécurisé tout ça ! 😱</p>"
+                "content": "<p>Elio utilise un gestionnaire de mots de passe pour stocker ses mots de passe en toute sécurité.<br>Et pourtant, il n’a peut-être pas si bien sécurisé tout ça ! 😱</p>"
               }
             },
             {
@@ -129,7 +129,7 @@
                 "isCompletionRequired": false,
                 "title": "Trouver le mot de passe",
                 "url": "https://epreuves.pix.fr/bloc-notes-mdp/bloc-notes-mdp.html?mode=module-gestionmdp-ind&lang=fr",
-                "instruction": "<p>Explorez son bureau pour trouver comment vous connecter au gestionnaire d’Elio, et trouvez combien de comptes Elio a enregistré dans son gestionnaire de mots de passe.</p>",
+                "instruction": "<p>Explorez son bureau pour trouver comment vous connecter au gestionnaire d’Elio.<br>Puis, trouvez combien de comptes Elio a enregistrés dans son gestionnaire de mots de passe.</p>",
                 "solution": "",
                 "height": 550
               }
@@ -158,11 +158,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>C’est exact !</p>",
-                    "diagnosis": "<p>Le gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>, uniquement si vous en protégez correctement l’accès.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort, et connu de vous seul</strong>.</p>"
+                    "diagnosis": "<p>Un gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>, uniquement si vous en protégez correctement l’accès.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort et connu de vous seul</strong>.</p>"
                   },
                   "invalid": {
                     "state": "<p>Ce n’est pas le bon nombre.</p>",
-                    "diagnosis": "<p>Le gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>, uniquement si vous en protégez correctement l’accès.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort, et connu de vous seul</strong>.</p>"
+                    "diagnosis": "<p>Un gestionnaire permet de <strong>stocker les identifiants et les mots de passe en sécurité</strong>, uniquement si vous en protégez correctement l’accès.<br>Le<strong> mot de passe maître</strong> est la<strong> seule clé </strong>qui y donne accès. Si votre mot de passe maître est accessible facilement, comme celui d’Elio, vos mots de passe sont en danger.<br>Le mot de passe maître doit donc être <strong>unique, fort et connu de vous seul</strong>.</p>"
                   }
                 }
               }
@@ -182,7 +182,7 @@
                 "id": "803b296c-fe71-4f77-a142-a59da70e3ae7",
                 "type": "expand",
                 "title": "🗝️ Indice 1",
-                "content": "<p>Pour trouver le nombre de comptes enregistrés, connectez-vous à son gestionnaire de mots de passe.</p>"
+                "content": "<p>Pour trouver le nombre de comptes enregistrés, connectez-vous à au gestionnaire de mots de passe d'Elio.</p>"
               }
             },
             {
@@ -216,7 +216,7 @@
                 "id": "6aebffaa-d63f-4449-bc40-5b0b86890242",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>⚠️ Attention<br></strong>Pour des raisons de sécurité, le mot de passe maître ne peut pas toujours être récupéré ou réinitialisé. Vous devez absolument le mémoriser !</p><p><strong><br>💡 Comment choisir son mot de passe maître ?<br></strong> Il est recommandé de créer un mot de passe particulièrement long, qu’on appelle communément une <strong>phrase de passe</strong>. Par exemple, une longue phrase que vous seul connaissez&nbsp;: «&nbsp;Mes 2 chats adorent manger des raviolis le dimanche !&nbsp;» Ce type de mot de passe est long, unique et facile à mémoriser.</p>"
+                "content": "<p><strong>⚠️ Attention !<br></strong>Pour des raisons de sécurité, un mot de passe maître ne peut pas toujours être récupéré ou réinitialisé. Vous devez absolument le mémoriser !</p><p><strong><br>💡 Comment choisir votre mot de passe maître ?<br></strong> Il est recommandé de créer un mot de passe particulièrement long, qu’on appelle généralement une <strong>phrase de passe</strong>. Par exemple, une longue phrase que vous seul connaissez&nbsp;: «&nbsp;Mes 2 chats adorent manger des raviolis le dimanche !&nbsp;». Ce type de mot de passe est long, unique et facile à mémoriser.</p>"
               }
             }
           ]
@@ -232,7 +232,7 @@
                 "id": "485724af-8190-4e21-9d9c-914d39a7430d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Elio a retenu la leçon, désormais il est le seul à connaître son mot de passe. Pour le retenir facilement, il s’est créé une phrase de passe.<br>Voyons comment le gestionnaire de mots de passe peut vous faciliter la vie au quotidien.</p>"
+                "content": "<p>Elio a retenu la leçon, désormais il est le seul à avoir accès à son mot de passe. Pour le retenir facilement, il a créé une phrase de passe.<br>Voyons comment un gestionnaire de mots de passe peut vous faciliter la vie au quotidien.</p>"
               }
             }
           ]
@@ -248,7 +248,7 @@
                 "id": "7bd2814d-37a9-4469-a4ab-30aff59dcc2a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Explorons plus en détails les fonctionnalités du gestionnaire de mots de passe d’Elio.</p>"
+                "content": "<p>Pour cela, explorons plus en détail les fonctionnalités du gestionnaire de mots de passe d’Elio.</p>"
               }
             },
             {
@@ -261,7 +261,7 @@
                       "id": "9e8f5cc7-66f4-4006-87d6-409dc2583c0b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Elio est connecté à son gestionnaire de mots de passe. Il est en train d’y créer une nouvelle entrée.<br>Il a déjà renseigné le nom du site et son email.<br>Il lui reste à choisir un mot de passe.</p>"
+                      "content": "<p>Elio est connecté à son gestionnaire de mots de passe. Il est en train d’y créer une nouvelle entrée.<br>Il a déjà renseigné le nom du site et son adresse mail.<br>Il lui reste à choisir un mot de passe.</p>"
                     },
                     {
                       "id": "83b0d3c0-a54d-43ca-9e5b-11c5c1d4da6d",
@@ -282,7 +282,7 @@
                       "id": "c4c8c103-1367-4bb9-83ef-dcebb988930a",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Maintenant, Elio ouvre son navigateur internet et se rend sur www.toptracteur.net. Il veut s’y connecter. </p><p>Comme il est déjà connecté à son gestionnaire de mot de passe, il n’a pas besoin de se rappeler de son mot de passe Toptracteur.</p>"
+                      "content": "<p>Maintenant, Elio ouvre son navigateur web et se rend sur le site www.toptracteur.pix.org. Il veut s’y connecter. </p><p>Comme Elio est déjà connecté à son gestionnaire de mot de passe, il n’a pas besoin de se rappeler de son mot de passe pour le site Toptracteur.</p>"
                     },
                     {
                       "id": "93b4249c-44d9-4a7c-b72d-7dcd03d352ef",
@@ -312,7 +312,7 @@
                 "id": "36621bc3-c10b-4537-8bb0-99890023ae6d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le gestionnaire de mots de passe permet&nbsp;:</p><ul><li>de <strong>créer automatiquement des mots de passe forts </strong>et uniques, </li><li>de les <strong>saisir facilement</strong> lors de vos connexions, pas besoin de les retenir ni d’aller les chercher. 😏 </li></ul>"
+                "content": "<p>Un gestionnaire de mots de passe permet&nbsp;:</p><ul><li>de <strong>créer automatiquement des mots de passe forts </strong>et uniques, </li><li>de les <strong>saisir facilement</strong> lors de vos connexions; pas besoin de les retenir ni d’aller les chercher. 😏 </li></ul>"
               }
             },
             {
@@ -337,7 +337,7 @@
                 "id": "18626659-cf05-40b8-b1f9-2c6755e79b06",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Elio utilise son gestionnaire de mots de passe uniquement sur son ordinateur, mais certains utilisateurs peuvent vouloir utiliser un gestionnaire sur l’ensemble de leurs appareils&nbsp;: ordinateur, smartphone, tablette… <br>À chaque usage son gestionnaire de mots de passe !&nbsp;</p>"
+                "content": "<p>Elio utilise son gestionnaire de mots de passe uniquement sur son ordinateur, mais certains utilisateurs peuvent vouloir utiliser un gestionnaire sur l’ensemble de leurs appareils&nbsp;: ordinateur, smartphone, tablette, etc.<br>À chaque usage son gestionnaire de mots de passe !&nbsp;</p>"
               }
             }
           ]
@@ -378,21 +378,21 @@
                           "id": "1",
                           "content": "<p>Un gestionnaire local</p>",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement, Adrienne utilise un gestionnaire local, ses <strong>données sont stockées sur son ordinateur</strong>, pas besoin de connexion internet pour y accéder !</p>"
+                            "diagnosis": "<p>Effectivement, Adrienne utilise un gestionnaire local. Ses <strong>données sont stockées sur son ordinateur</strong>, pas besoin de connexion internet pour y accéder !</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Un gestionnaire en ligne</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Adrienne utilise un gestionnaire local, ses <strong>données sont stockées sur son ordinateur</strong>, pas besoin de connexion internet pour y accéder !</p>"
+                            "diagnosis": "<p>Eh non. Adrienne utilise un gestionnaire local. Ses <strong>données sont stockées sur son ordinateur</strong>, pas besoin de connexion internet pour y accéder !</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Adrienne utilise un gestionnaire local, ses <strong>données sont stockées sur son ordinateur</strong>, pas besoin de connexion internet pour y accéder !</p>"
+                            "diagnosis": "<p>Adrienne utilise un gestionnaire local. Ses <strong>données sont stockées sur son ordinateur</strong>, pas besoin de connexion internet pour y accéder !</p>"
                           }
                         }
                       ],
@@ -458,21 +458,21 @@
                           "id": "1",
                           "content": "<p>Un gestionnaire local</p>",
                           "feedback": {
-                            "diagnosis": "<p>Effectivement, Marjan utilise un gestionnaire local sur son ordinateur portable, ses <strong>données sont stockées seulement sur son appareil</strong>.</p>"
+                            "diagnosis": "<p>Effectivement, Marjan utilise un gestionnaire local sur son ordinateur portable. Ses <strong>données sont stockées seulement sur son appareil</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Un gestionnaire en ligne</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Marjan utilise un gestionnaire local sur son ordinateur portable, ses <strong>données sont stockées seulement sur son appareil</strong>.</p>"
+                            "diagnosis": "<p>Eh non. Marjan utilise un gestionnaire local sur son ordinateur portable. Ses <strong>données sont stockées seulement sur son appareil</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Marjan utilise un gestionnaire local sur son ordinateur portable, ses <strong>données sont stockées seulement sur son appareil</strong>.</p>"
+                            "diagnosis": "<p>Marjan utilise un gestionnaire local sur son ordinateur portable. Ses <strong>données sont stockées seulement sur son appareil</strong>.</p>"
                           }
                         }
                       ],
@@ -495,7 +495,7 @@
                 "id": "cf0d145f-6e6c-423e-8eae-8d464531699e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p><strong>💡 Le choix d’un gestionnaire local ou en ligne dépend de votre usage.</strong><br>Il existe de très nombreux gestionnaires de mots de passe comme Keypass en local, ou Lockself, PassBolt, Bitwarden, Dashlane et 1Password en ligne.</p><p><br><strong>⚠️ Attention <br></strong>Il existe un autre type de gestionnaire de mot de passe&nbsp;: dans les <strong>navigateurs web </strong>. Ils proposent souvent d’enregistrer vos mots de passe pour aller plus vite… mais cette solution <strong>n’est pas suffisamment sécurisée</strong>. Les navigateurs sont une <strong>cible privilégiée des cyberattaquants</strong> et ne chiffrent pas toujours les données de façon fiable.</p>"
+                "content": "<p><strong>💡 Le choix d’un gestionnaire local ou en ligne dépend de votre usage.</strong><br>Il existe de très nombreux gestionnaires de mots de passe comme Keypass en local, ou Lockself, PassBolt, Bitwarden, Dashlane et 1Password en ligne.</p><p><br><strong>⚠️ Attention !<br></strong>Il existe un autre type de gestionnaire de mot de passe&nbsp;: dans les <strong>navigateurs web</strong>. Ils proposent souvent d’enregistrer vos mots de passe pour aller plus vite… mais cette solution <strong>n’est pas suffisamment sécurisée</strong>. Les navigateurs sont une <strong>cible privilégiée des pirates informatiques&nbsp;</strong>et ne chiffrent pas toujours les données de façon fiable.</p>"
               }
             }
           ]
@@ -655,7 +655,7 @@
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
-                    "diagnosis": "<p>Le gestionnaire que vous avez choisi ne correspond pas exactement aux besoins d’Alice. Regardez à nouveau le comparatif.</p>"
+                    "diagnosis": "<p>Le gestionnaire que vous avez choisi ne correspond pas exactement au besoin d’Alice. Regardez à nouveau le comparatif.</p>"
                   }
                 }
               }
@@ -719,7 +719,7 @@
                 "id": "49c32cbf-4c13-4f1f-a846-4e46dfe81f64",
                 "type": "expand",
                 "title": "🗝️ Indice 2",
-                "content": "<p>Le mot de passe maître du gestionnaire d’Elio est&nbsp;: «&nbsp;Avoir 5 chaussettes n’est pas normal, les chaussettes vont par paire !&nbsp;».</p>"
+                "content": "<p>Le mot de passe maître du gestionnaire d’Elio est&nbsp;: Avoir 5 chaussettes n’est pas normal, les chaussettes vont par paire !.</p>"
               }
             },
             {
