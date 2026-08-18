@@ -68,7 +68,7 @@ module(
 
         // then
         const minInputs = screen.getAllByLabelText(t(MIN_LABEL), { exact: false });
-      const maxInputs = screen.getAllByLabelText(t(MAX_LABEL), { exact: false });
+        const maxInputs = screen.getAllByLabelText(t(MAX_LABEL), { exact: false });
 
         assert.dom(minInputs[0]).hasValue('1');
         assert.dom(maxInputs[0]).hasValue('8');
@@ -149,7 +149,13 @@ module(
         );
 
         // then
-        assert.dom(screen.getByText(t('components.certification-frameworks.certification-framework.versions.scoring.cannot-be-lower-error'))).exists();
+        assert
+          .dom(
+            screen.getByText(
+              t('components.certification-frameworks.certification-framework.versions.scoring.cannot-be-lower-error'),
+            ),
+          )
+          .exists();
       });
     });
 
@@ -200,7 +206,11 @@ module(
 
         // then
         assert.ok(
-          pixToast.sendSuccessNotification.calledOnceWith({ message: t('components.certification-frameworks.certification-framework.versions.scoring.success-notification') }),
+          pixToast.sendSuccessNotification.calledOnceWith({
+            message: t(
+              'components.certification-frameworks.certification-framework.versions.scoring.success-notification',
+            ),
+          }),
         );
       });
 
@@ -222,9 +232,7 @@ module(
         await click(screen.getByRole('button', { name: t(SUBMIT_BUTTON_LABEL) }));
 
         // then
-        assert.ok(
-          pixToast.sendErrorNotification.calledOnceWith({ message: 'Erreur serveur' }),
-        );
+        assert.ok(pixToast.sendErrorNotification.calledOnceWith({ message: 'Erreur serveur' }));
       });
 
       test('it does not save when bounds are invalid', async function (assert) {

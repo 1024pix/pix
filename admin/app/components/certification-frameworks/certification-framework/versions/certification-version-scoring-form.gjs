@@ -6,7 +6,7 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-  import { t } from 'ember-intl';
+import { t } from 'ember-intl';
 import Card from 'pix-admin/components/card';
 
 export default class ScoringForm extends Component {
