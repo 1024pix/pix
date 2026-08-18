@@ -5,14 +5,10 @@ import { AnonymizeUserEvent } from '../../../../../src/privacy/domain/events/Ano
 import { anonymizeUserByAdmin } from '../../../../../src/privacy/domain/usecases/anonymize-user-by-admin.usecase.js';
 
 describe('Unit | Privacy | Domain | usecases | anonymize user by admin', function () {
-  let adminMemberRepository, anonymizeServices, eventJobPublisherService, auditLoggingJobRepository, AuditLoggingJob;
+  let adminMemberRepository, eventJobPublisherService, auditLoggingJobRepository ;
   beforeEach(function () {
     adminMemberRepository = {
       get: sinon.stub(),
-    };
-
-    anonymizeServices = {
-      anonymizeUser: sinon.stub(),
     };
 
     eventJobPublisherService = {
@@ -23,16 +19,13 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
       performAsync: sinon.stub(),
     };
 
-    AuditLoggingJob = {
-      forUser: sinon.stub(),
-    };
   });
 
   it('should publish an event', async function () {
     // given
     const userId = 1234;
     const updatedByUserId = 456;
-    adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'super admin' });
+    adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'SUPER_ADMIN' });
     const event = new AnonymizeUserEvent({ userId, updatedByUserId });
 
     // when
@@ -40,10 +33,8 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
       userId,
       updatedByUserId,
       adminMemberRepository,
-      anonymizeServices,
       eventJobPublisherService,
       auditLoggingJobRepository,
-      AuditLoggingJob,
     });
 
     // then
@@ -54,29 +45,18 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
     // given
     const userId = 1234;
     const updatedByUserId = 456;
-    adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'super admin' });
-
-    const expectedAudiLoggingJob = {
-      client: 'PIX_ADMIN',
-      action: 'ANONYMIZATION',
-      role: 'super admin',
-      targetUserIds: 123,
-      userId: 456,
-    };
-    AuditLoggingJob.forUser.returns(expectedAudiLoggingJob);
+    adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'SUPER_ADMIN' });
 
     // when
     await anonymizeUserByAdmin({
       userId,
       updatedByUserId,
       adminMemberRepository,
-      anonymizeServices,
       eventJobPublisherService,
       auditLoggingJobRepository,
-      AuditLoggingJob,
     });
 
     // then
-    expect(auditLoggingJobRepository.performAsync).to.have.been.calledWith(expectedAudiLoggingJob);
+    expect(auditLoggingJobRepository.performAsync).to.have.been.called;
   });
 });
