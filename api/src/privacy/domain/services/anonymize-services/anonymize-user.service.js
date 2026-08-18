@@ -31,7 +31,6 @@ export const anonymizeUser = async function ({
   resetPasswordDemandRepository,
   userLoginRepository,
   auditLoggingJobRepository,
-  userAcceptanceRepository,
   learnersApiRepository,
 }) {
   await DomainTransaction.execute(async () => {
@@ -59,8 +58,6 @@ export const anonymizeUser = async function ({
 
     // TODO: Retirer l'appel en double
     await _anonymizeLastUserApplicationConnections(lastUserApplicationConnectionsRepository, userId);
-
-    await userAcceptanceRepository.removeAllByUserId(userId);
 
     await _anonymizeUserLogin({ userId, userLoginRepository });
 
