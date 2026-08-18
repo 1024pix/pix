@@ -95,9 +95,29 @@ async function _checkPayloads(payloads) {
   const jobName = this._obj;
   const actualPayloads = jobs.map((job) => job.data);
 
+  const actualPayloadsWithoutCorrelactionContext = _withoutCorrelactionContext(actualPayloads);
+  const expectedPayloadsWithoutCorrelactionContext = _withoutCorrelactionContext(payloads);
+
+  assert.exists(
+    actualPayloadsWithoutCorrelactionContext,
+    `Payload actualPayloadWithoutCorreslationContext is undefined`,
+  );
+  assert.exists(
+    expectedPayloadsWithoutCorrelactionContext,
+    `Payload expectedPayloadWithoutCorreslationContext is undefined`,
+  );
   try {
-    sinon.assert.match(actualPayloads, payloads);
+    sinon.assert.match(actualPayloadsWithoutCorrelactionContext, expectedPayloadsWithoutCorrelactionContext);
   } catch {
     this.assert(false, `Job '${jobName}' was performed with a different payload`, undefined, payloads, actualPayloads);
   }
+}
+
+function _withoutCorrelactionContext(payloads) {
+  const newPayloads = [];
+  payloads.forEach((payload) => {
+    delete payload.correlationContext;
+    newPayloads.push(payload);
+  });
+  return newPayloads;
 }

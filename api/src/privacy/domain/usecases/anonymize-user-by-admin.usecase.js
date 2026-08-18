@@ -1,4 +1,5 @@
 import { UserNotFoundError } from '../../../shared/domain/errors.js';
+import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLoggingJob.js';
 
 /**
  * @param params
@@ -12,6 +13,7 @@ export const anonymizeUserByAdmin = async function ({
   adminMemberRepository,
   anonymizeServices,
   eventJobPublisherService,
+  auditLoggingJobRepository,
 }) {
   const anonymizedBy = await adminMemberRepository.get({
     userId: updatedByUserId,
@@ -20,10 +22,6 @@ export const anonymizeUserByAdmin = async function ({
     throw new UserNotFoundError(`Admin not found for id: ${updatedByUserId}`);
   }
 
-  const anonymizedByUserId = updatedByUserId;
-  const anonymizedByUserRole = anonymizedBy.role;
-  const client = 'PIX_ADMIN';
-
   await eventJobPublisherService.publishEvent('ANONYMIZE_USER_BY_ADMIN', {
     userId,
     updatedByUserId,
@@ -31,8 +29,16 @@ export const anonymizeUserByAdmin = async function ({
 
   await anonymizeServices.anonymizeUser({
     userId,
-    anonymizedByUserId,
-    anonymizedByUserRole,
-    client,
+    anonymizedByUserId: updatedByUserId,
   });
+
+  await auditLoggingJobRepository.performAsync(
+    AuditLoggingJob.forUser({
+      client: 'PIX_ADMIN',
+      action: 'ANONYMIZATION',
+      userId,
+      updatedByUserId: updatedByUserId,
+      role: anonymizedBy.role,
+    }),
+  );
 };

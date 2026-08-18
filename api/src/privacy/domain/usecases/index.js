@@ -1,4 +1,5 @@
 import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import { auditLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';
 import { adminMemberRepository } from '../../../team/infrastructure/repositories/admin-member.repository.js';
@@ -12,6 +13,7 @@ const repositories = {
   userRepository,
   emailRepository,
   adminMemberRepository,
+  auditLoggingJobRepository,
 };
 
 const services = {
