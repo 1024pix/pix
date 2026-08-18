@@ -2,6 +2,8 @@
  * @typedef {import('./index.js').SessionRepository} SessionRepository*
  */
 
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+
 /**
  * @param {object} params
  * @param {number} params.sessionId
@@ -23,5 +25,23 @@ export async function updateSession({
   description,
   sessionRepository,
 }) {
-  return sessionRepository.updateInfo({ id: sessionId, address, room, date, time, examiner, description });
+  const session = await sessionRepository.get({ id: sessionId });
+
+  if (!session) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+
+  session.updateInfo({ address, room, date, time, examiner, description });
+
+  await sessionRepository.updateInfo({
+    id: sessionId,
+    address,
+    room,
+    date,
+    time,
+    examiner,
+    description,
+  });
+
+  return session;
 }

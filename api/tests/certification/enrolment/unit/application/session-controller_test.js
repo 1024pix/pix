@@ -74,7 +74,7 @@ describe('Certification | Enrolment | Unit | Application | Controller | session-
       };
       sinon.stub(usecases, 'updateSession');
       const sessionSerializer = { serialize: sinon.stub() };
-      const sessionRepository = { get: sinon.stub() };
+      const updatedSession = Symbol('updatedSession');
       usecases.updateSession
         .withArgs({
           address: '1 rue des lauriers',
@@ -85,49 +85,14 @@ describe('Certification | Enrolment | Unit | Application | Controller | session-
           description: 'coucou',
           sessionId: 345,
         })
-        .resolves();
-      const updatedSession = Symbol('updatedSession');
-      sessionRepository.get.withArgs({ id: 345 }).resolves(updatedSession);
+        .resolves(updatedSession);
       sessionSerializer.serialize.withArgs(updatedSession).returns('json');
 
       // when
-      const response = await sessionController.update(request, hFake, { sessionSerializer, sessionRepository });
+      const response = await sessionController.update(request, hFake, { sessionSerializer });
 
       // then
       expect(response).to.equal('json');
-    });
-
-    context('when the updated session cannot be retrieved', function () {
-      it('should return a 404 response', async function () {
-        // given
-        const request = {
-          auth: { credentials: { userId: 1 } },
-          params: { sessionId: 345 },
-          payload: {
-            data: {
-              attributes: {
-                address: '1 rue des lauriers',
-                room: '2B',
-                date: '2021-01-01',
-                time: '14:00',
-                examiner: 'Louise',
-                description: 'coucou',
-              },
-            },
-          },
-        };
-        sinon.stub(usecases, 'updateSession').resolves();
-        const sessionSerializer = { serialize: sinon.stub() };
-        const sessionRepository = { get: sinon.stub() };
-        sessionRepository.get.withArgs({ id: 345 }).resolves(null);
-
-        // when
-        const response = await sessionController.update(request, hFake, { sessionSerializer, sessionRepository });
-
-        // then
-        expect(response.statusCode).to.equal(404);
-        expect(sessionSerializer.serialize).to.not.have.been.called;
-      });
     });
   });
 

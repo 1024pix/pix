@@ -25,16 +25,11 @@ async function createSession(request, h, dependencies = { sessionSerializer, ses
   return dependencies.sessionSerializer.serialize(session);
 }
 
-async function update(request, h, dependencies = { sessionSerializer, sessionRepository }) {
+async function update(request, h, dependencies = { sessionSerializer }) {
   const { address, room, date, time, examiner, description } = request.payload.data.attributes;
   const sessionId = request.params.sessionId;
 
-  await usecases.updateSession({ address, room, date, time, examiner, description, sessionId });
-  const updatedSession = await dependencies.sessionRepository.get({ id: sessionId });
-
-  if (!updatedSession) {
-    return h.response().code(404);
-  }
+  const updatedSession = await usecases.updateSession({ address, room, date, time, examiner, description, sessionId });
 
   return dependencies.sessionSerializer.serialize(updatedSession);
 }
