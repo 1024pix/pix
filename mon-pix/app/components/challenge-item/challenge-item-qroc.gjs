@@ -86,6 +86,7 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
                     @id="qroc_input"
                     name={{block.randomName}}
                     type="number"
+                    step="any"
                     min="0"
                     data-test="challenge-response-proposal-selector"
                     placeholder={{block.placeholder}}
