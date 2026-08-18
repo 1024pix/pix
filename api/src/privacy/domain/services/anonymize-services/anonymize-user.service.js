@@ -12,7 +12,6 @@ import { anonymizeGeneralizeDate } from '../../../../shared/infrastructure/utils
  * @param{MembershipRepository} params.membershipRepository
  * @param{CertificationCenterMembershipRepository} params.certificationCenterMembershipRepository
  * @param{LastUserApplicationConnectionsRepository} params.lastUserApplicationConnectionsRepository
- * @param{RefreshTokenRepository} params.refreshTokenRepository
  * @param{ResetPasswordDemandRepository} params.resetPasswordDemandRepository
  * @param{UserLoginRepository} params.userLoginRepository
  * @param{AuditLoggingJobRepository} params.auditLoggingJobRepository
@@ -27,7 +26,6 @@ export const anonymizeUser = async function ({
   membershipRepository,
   certificationCenterMembershipRepository,
   lastUserApplicationConnectionsRepository,
-  refreshTokenRepository,
   resetPasswordDemandRepository,
   userLoginRepository,
   auditLoggingJobRepository,
@@ -38,8 +36,6 @@ export const anonymizeUser = async function ({
 
     // TODO Check if it's done before, on pre-handlers
     await userRepository.get(anonymizedByUserId);
-
-    await refreshTokenRepository.revokeAllByUserId({ userId });
 
     if (user.email) {
       await resetPasswordDemandRepository.removeAllByEmail(user.email);
