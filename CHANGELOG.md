@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## [5.481.1](https://github.com/1024pix/pix/compare/v5.481.0...v5.481.1) (2026-08-18)
+
+### :building_construction: Tech
+
+- [#16932](https://github.com/1024pix/pix/pull/16932) Création de schémas JOI génériques pour les paramètres de requête objet dans Maddo
+- [#17136](https://github.com/1024pix/pix/pull/17136) Rendre la colonne Subscription de la table certification-candidate not nullable (PIX-23461)
+- [#17065](https://github.com/1024pix/pix/pull/17065) Suppression de la génération de positionnement V1
+
 # [5.481.0](https://github.com/1024pix/pix/compare/v5.480.0...v5.481.0) (2026-08-17)
 
 ### :rocket: Amélioration
