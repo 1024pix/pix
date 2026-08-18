@@ -1,5 +1,4 @@
 import { lastUserApplicationConnectionsRepository } from '../../../../identity-access-management/infrastructure/repositories/last-user-application-connections.repository.js';
-import { refreshTokenRepository } from '../../../../identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../../../identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as userLoginRepository from '../../../../identity-access-management/infrastructure/repositories/user-login-repository.js';
@@ -24,7 +23,6 @@ const repositories = {
   learnersApiRepository,
   membershipRepository,
   lastUserApplicationConnectionsRepository,
-  refreshTokenRepository,
   resetPasswordDemandRepository,
   userLoginRepository,
   userRepository,

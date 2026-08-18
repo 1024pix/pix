@@ -2,8 +2,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AnonymizeAuthenticationMethodsEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-authentication-methods.event-handler.js';
+import { RevokeAllAnonymizedUserTokenEventHandler } from '../../../../../src/identity-access-management/application/jobs/revoke-all-anonymized-user-token.event-handler.js';
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
+import { RemoveLegalDocumentByUserEventHandler } from '../../../../../src/legal-documents/application/remove-legal-document-by-user.event-handler.js';
 import { usecases } from '../../../../../src/privacy/domain/usecases/index.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
@@ -67,12 +69,6 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
     });
 
     // then
-    const handler = new AnonymizeAuthenticationMethodsEventHandler();
-    await expect(handler.jobName).to.have.performed.withEventPayload({
-      userId,
-      updatedByUserId: anonymizedByUserId,
-    });
-
     await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayload({
       client: 'PIX_ADMIN',
       action: 'ANONYMIZATION',
@@ -83,8 +79,21 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
       correlationContext: EMPTY_CORRELATION_INFO,
     });
 
-    const refreshTokens = await refreshTokenRepository.findAllByUserId(userId);
-    expect(refreshTokens).to.have.lengthOf(0);
+    const handler = new AnonymizeAuthenticationMethodsEventHandler();
+    await expect(handler.jobName).to.have.performed.withEventPayload({
+      userId,
+      updatedByUserId: anonymizedByUserId,
+    });
+
+    const removeLegalDocumentByUserEventHandler = new RemoveLegalDocumentByUserEventHandler();
+    await expect(removeLegalDocumentByUserEventHandler.jobName).to.have.performed.withEventPayload({
+      userId,
+    });
+
+    const revokeAllAnonymizedUserTokenEventHandler = new RevokeAllAnonymizedUserTokenEventHandler();
+    await expect(revokeAllAnonymizedUserTokenEventHandler.jobName).to.have.performed.withEventPayload({
+      userId,
+    });
 
     const resetPasswordDemands = await knex('reset-password-demands').whereRaw('LOWER("email") = LOWER(?)', user.email);
     expect(resetPasswordDemands).to.have.lengthOf(0);
