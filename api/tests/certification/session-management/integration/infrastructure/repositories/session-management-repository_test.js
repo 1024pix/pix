@@ -115,36 +115,6 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
     });
   });
 
-  describe('#isPublished', function () {
-    context('when the session has a published date', function () {
-      it('should return true', async function () {
-        //given
-        databaseBuilder.factory.buildSession({ id: 40, publishedAt: new Date() });
-        await databaseBuilder.commit();
-
-        // when
-        const isPublished = await sessionManagementRepository.isPublished({ id: 40 });
-
-        // then
-        expect(isPublished).to.be.equal(true);
-      });
-    });
-
-    context('when the session has no published date', function () {
-      it('should return tre', async function () {
-        //given
-        databaseBuilder.factory.buildSession({ id: 40, publishedAt: null });
-        await databaseBuilder.commit();
-
-        // when
-        const isPublished = await sessionManagementRepository.isPublished({ id: 40 });
-
-        // then
-        expect(isPublished).to.be.equal(false);
-      });
-    });
-  });
-
   describe('#doesUserHaveCertificationCenterMembershipForSession', function () {
     it('should return true if user has membership in the certification center that originated the session', async function () {
       // given

@@ -58,12 +58,6 @@ const isFinalized = async function ({ id }) {
   return Boolean(session);
 };
 
-const isPublished = async function ({ id }) {
-  const knexConn = DomainTransaction.getConnection();
-  const isPublished = await knexConn.select(1).from('sessions').where({ id }).whereNotNull('publishedAt').first();
-  return Boolean(isPublished);
-};
-
 const doesUserHaveCertificationCenterMembershipForSession = async function ({ userId, sessionId }) {
   const knexConn = DomainTransaction.getConnection();
   const sessions = await knexConn
@@ -150,7 +144,6 @@ export {
   hasNoStartedCertification,
   hasSomeCleaAcquired,
   isFinalized,
-  isPublished,
   unfinalize,
   updatePublishedAt,
 };
