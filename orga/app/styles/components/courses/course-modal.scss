@@ -2,6 +2,7 @@
 @use 'pix-design-tokens/shadows';
 
 .course-modal {
+  overflow: hidden;
   position: relative;
   display: flex;
   width: 100%;
@@ -20,32 +21,41 @@
     height: 100%;
   }
 
-  &__top-actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 100;
-    padding-top: var(--pix-spacing-4x);
-    padding-right: var(--pix-spacing-4x);
-
-    &__exit {
-      align-self: flex-end;
-      text-decoration: none;
-      background-color: var(--pix-orga-50);
-    }
-  }
+  $content-header-height: 4.5rem;
 
   &__course-content {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 10;
+    z-index: 1;
     display: flex;
     height: 100%;
     padding: var(--pix-spacing-4x);
-    padding-top: 4rem;
+    padding-top: $content-header-height;
     padding-left: var(--pix-spacing-6x);
     overflow-y: scroll;
+
+    $scrollbar-width: 0.5rem;
+
+    &__title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      width: calc(100% - $scrollbar-width);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--pix-spacing-4x);
+      padding-left: var(--pix-spacing-6x);
+      padding-right: calc(var(--pix-spacing-6x) - ($scrollbar-width * 2));
+      background-color: var(--pix-orga-50);
+
+      &__exit {
+        align-self: flex-end;
+        text-decoration: none;
+      }
+    }
   }
 
   &__competence {
@@ -111,6 +121,7 @@
     @extend %pix-shadow-orga;
 
     position: relative;
+    z-index: 100;
     display: flex;
     flex-basis: 24rem;
     flex-direction: column;
@@ -199,14 +210,6 @@
 
 .target-profile-detail {
   padding-bottom: var(--pix-spacing-6x);
-
-  &__header {
-    margin-bottom: var(--pix-spacing-6x);
-  }
-
-  &__description {
-    color: var(--pix-neutral-500);
-  }
 }
 
 .combined-course-blueprint-detail {
@@ -215,10 +218,7 @@
   gap: var(--pix-spacing-8x);
   margin-top: auto;
   margin-bottom: auto;
-
-  &__info {
-    color: var(--pix-neutral-500);
-  }
+  padding-top: var(--pix-spacing-4x);
 
   &__steps {
     display: flex;

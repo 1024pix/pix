@@ -84,7 +84,9 @@ export default class CourseModal extends Component {
             <PixTag @color={{this.courseInfo.color}}>
               {{t this.courseInfo.label}}
             </PixTag>
-            <h1 id="modal-title--{{this.id}}" class="course-modal__heading__name">{{@currentCourse.name}}</h1>
+            <h1 id="modal-title--{{this.id}}" class="course-modal__heading__name">
+              {{@currentCourse.name}}
+            </h1>
           </div>
 
           <div class="course-modal__body">
@@ -131,7 +133,17 @@ export default class CourseModal extends Component {
           </div>
         </div>
         <div class="course-modal__course-content__wrapper">
-          <div class="course-modal__top-actions">
+          <div class="course-modal__course-content__title">
+            {{#if this.isTargetProfile}}
+              <h3 class="pix-title-xs">
+                {{t "pages.catalogue.modal.target-profile-content.title"}}
+              </h3>
+            {{else if this.isCombinedCourseBlueprint}}
+              <h3 class="pix-title-xs">
+                {{t "pages.catalogue.modal.combined-course-content.title"}}
+              </h3>
+            {{/if}}
+
             <PixButton
               @variant="secondary"
               @triggerAction={{@closeModal}}

@@ -9,11 +9,6 @@ function getStepIndex(index) {
 
 <template>
   <div class="combined-course-blueprint-detail">
-    <div>
-      <h3 class="pix-title-xs">
-        {{t "pages.catalogue.modal.combined-course-content.title"}}
-      </h3>
-    </div>
     {{#each @combinedCourseBlueprint.steps as |step index|}}
       <div>
         <div class="combined-course-blueprint-step">

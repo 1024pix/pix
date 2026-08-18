@@ -29,11 +29,6 @@ export default class TargetProfileContent extends Component {
 
   <template>
     <div class="target-profile-detail">
-      <div class="target-profile-detail__header">
-        <h3 class="pix-title-xs">
-          {{t "pages.catalogue.modal.target-profile-content.title"}}
-        </h3>
-      </div>
       {{#each this.targetProfileCompetences as |competence|}}
         <div class="course-modal__competence">
           <div class="course-modal__competence__title">
