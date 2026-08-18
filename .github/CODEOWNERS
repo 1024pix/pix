@@ -77,8 +77,6 @@
 /api/tests/organizational-entities/ @1024pix/team-acquisition
 /api/tests/team/ @1024pix/team-acquisition
 
-/admin/ @1024pix/team-acquisition
-
 
 # ----- Team Combinix ------
 /api/src/quest/ @1024pix/team-tmp-combinix
