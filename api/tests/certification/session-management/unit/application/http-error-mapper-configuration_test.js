@@ -7,6 +7,7 @@ import {
   SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
+  SessionNotFinalizedError,
   SessionWithoutStartedCertificationError,
 } from '../../../../../src/certification/session-management/domain/errors.js';
 import {
@@ -70,6 +71,24 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       //then
       expect(error).to.be.instanceOf(BadRequestError);
       expect(error.message).to.equal(message);
+    });
+  });
+
+  context('when mapping "SessionNotFinalizedError"', function () {
+    it('returns a Conflict Http Error', function () {
+      //given
+      const httpErrorMapper = sessionDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === SessionNotFinalizedError.name,
+      );
+      const message = 'Test message error';
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new SessionNotFinalizedError(message));
+
+      //then
+      expect(error).to.be.instanceOf(ConflictError);
+      expect(error.message).to.equal(message);
+      expect(error.code).to.equal('SESSION_NOT_FINALIZED');
     });
   });
 

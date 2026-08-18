@@ -66,6 +66,13 @@ class InvalidSessionSupervisingLoginError extends DomainError {
   }
 }
 
+class SessionNotFinalizedError extends DomainError {
+  constructor(message = "La session n'est pas finalisée.") {
+    super(message);
+    this.code = 'SESSION_NOT_FINALIZED';
+  }
+}
+
 class SessionNotJoinable extends DomainError {
   constructor(blockedAccessDate) {
     super('Certification session is not joinable', 'SESSION_NOT_JOINABLE');
@@ -112,6 +119,7 @@ export {
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionFinalized,
+  SessionNotFinalizedError,
   SessionNotJoinable,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
