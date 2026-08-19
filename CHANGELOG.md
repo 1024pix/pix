@@ -1,5 +1,25 @@
 # Pix Changelog
 
+# [5.482.0](https://github.com/1024pix/pix/compare/v5.481.1...v5.482.0) (2026-08-19)
+
+### :rocket: Amélioration
+
+- [#17119](https://github.com/1024pix/pix/pull/17119) POC retours design catalogue (PIX-23847)
+- [#17157](https://github.com/1024pix/pix/pull/17157) Relecture finale CY_GestionMDP_IND
+- [#17156](https://github.com/1024pix/pix/pull/17156) Relecture MGO MEFTXT_NOV
+
+### :bug: Correction
+
+- [#17154](https://github.com/1024pix/pix/pull/17154) Empêcher l'enregistrement de réponses sur une évaluation terminée
+- [#17158](https://github.com/1024pix/pix/pull/17158) Réparer la modification d'un schéma de parcours (PIX-23905)
+- [#17152](https://github.com/1024pix/pix/pull/17152) Un message d'erreur apparait lorsqu'on entre un nombre decimal dans un champ input number (PIX-23692).
+
+### :building_construction: Tech
+
+- [#17155](https://github.com/1024pix/pix/pull/17155) Corriger les ids dupliquées sur les modules (PIX-23720)
+- [#17147](https://github.com/1024pix/pix/pull/17147) Mise à jour du fichier CODEOWNERS
+- [#17144](https://github.com/1024pix/pix/pull/17144) Sortir les erreurs jetées dans les repositories de `certification/enrolment` (PIX-23893).
+
 ## [5.481.1](https://github.com/1024pix/pix/compare/v5.481.0...v5.481.1) (2026-08-18)
 
 ### :building_construction: Tech
