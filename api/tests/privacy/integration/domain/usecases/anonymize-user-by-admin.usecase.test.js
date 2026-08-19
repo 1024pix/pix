@@ -13,6 +13,9 @@ import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import {
+  AnonymizeMembershipEventHandler
+} from "../../../../../src/team/application/membership/anonymize-membership.event-handler.js";
 
 describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', function () {
   const now = new Date('2024-04-05T03:04:05Z');
@@ -105,13 +108,18 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
       updatedByUserId: anonymizedByUserId,
     });
 
+    const anonymizeMembershipEventHandler =
+      new AnonymizeMembershipEventHandler();
+    await expect(
+      anonymizeMembershipEventHandler.jobName,
+    ).to.have.performed.withEventPayload({
+      userId,
+      updatedByUserId: anonymizedByUserId,
+    });
+
     const resetPasswordDemands = await knex('reset-password-demands').whereRaw('LOWER("email") = LOWER(?)', user.email);
     expect(resetPasswordDemands).to.have.lengthOf(0);
 
-    const enabledMemberships = await knex('memberships').where({ userId }).whereNull('disabledAt');
-    expect(enabledMemberships).to.have.lengthOf(0);
-    const disabledMemberships = await knex('memberships').where({ userId }).whereNotNull('disabledAt');
-    expect(disabledMemberships).to.have.lengthOf(1);
 
     const enabledCertificationCenterMemberships = await knex('certification-center-memberships')
       .where({ userId })
