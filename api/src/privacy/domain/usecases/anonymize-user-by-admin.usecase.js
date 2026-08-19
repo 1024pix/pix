@@ -1,3 +1,4 @@
+import { EVENTS } from '../../../shared/constants.js';
 import { UserNotFoundError } from '../../../shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLoggingJob.js';
 
@@ -22,7 +23,7 @@ export const anonymizeUserByAdmin = async function ({
     throw new UserNotFoundError(`Admin not found for id: ${updatedByUserId}`);
   }
 
-  await eventJobPublisherService.publishEvent('ANONYMIZE_USER_BY_ADMIN', {
+  await eventJobPublisherService.publishEvent(EVENTS.ANONYMIZE_USER_BY_ADMIN, {
     userId,
     updatedByUserId,
   });

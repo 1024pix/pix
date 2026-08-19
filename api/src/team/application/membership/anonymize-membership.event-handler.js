@@ -1,10 +1,10 @@
-import { EventHandler } from "../../../shared/application/jobs/event-handler.js";
-import { anonymizeGeneralizeDate } from "../../../shared/infrastructure/utils/date-utils.js";
-import * as membershipRepository from "../../infrastructure/repositories/membership.repository.js";
+import { EventHandler } from '../../../shared/application/jobs/event-handler.js';
+import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
+import * as membershipRepository from '../../infrastructure/repositories/membership.repository.js';
 
 export class AnonymizeMembershipEventHandler extends EventHandler {
   constructor() {
-    super("AnonymizeMembershipJob", "ANONYMIZE_USER_BY_ADMIN");
+    super('AnonymizeMembershipJob', 'ANONYMIZE_USER_BY_ADMIN');
   }
 
   async handle({ data, dependencies = { membershipRepository } }) {

@@ -1,3 +1,4 @@
+import { EVENTS } from '../../../../../src/shared/constants.js';
 import { publishEvent } from '../../../../../src/shared/infrastructure/events/event-job-publisher-service.js';
 import { expect } from '../../../../test-helper.js';
 
@@ -16,7 +17,7 @@ describe('Unit | Privacy | Domain | Services | event-job-publisher-service', fun
     it('publishes an event', async function () {
       // when
       const result = await publishEvent(
-        'ANONYMIZE_USER_BY_ADMIN',
+        EVENTS.ANONYMIZE_USER_BY_ADMIN,
         { userId: 1234, publishedByUserId: 456 },
         FakeJobClient,
       );
