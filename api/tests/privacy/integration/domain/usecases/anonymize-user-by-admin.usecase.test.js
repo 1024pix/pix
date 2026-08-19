@@ -13,6 +13,7 @@ import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
+import { AnonymizeCertificationCenterMembershipEventHandler } from '../../../../../src/team/application/certification-center-membership/anonymize-certification-center-membership.event-handler.js';
 import { AnonymizeMembershipEventHandler } from '../../../../../src/team/application/membership/anonymize-membership.event-handler.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
@@ -26,7 +27,6 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
   it(`revokes all user’s refresh tokens,
     removes all user’s password reset demands,
     disables all user’s organization memberships,
-    disables all user’s certification center memberships,
     disables all user’s student prescriptions,
     anonymizes user login info
     and anonymizes user`, async function () {
@@ -40,8 +40,6 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
 
     const userId = user.id;
     const anonymizedByUserId = admin.id;
-
-    databaseBuilder.factory.buildCertificationCenterMembership({ userId });
 
     const managingStudentsOrga = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
     databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId: managingStudentsOrga.id });
@@ -120,17 +118,14 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
       updatedByUserId: anonymizedByUserId,
     });
 
+    const anonymizeCertificationCenterMembershipEventHandler = new AnonymizeCertificationCenterMembershipEventHandler();
+    await expect(anonymizeCertificationCenterMembershipEventHandler.jobName).to.have.performed.withEventPayload({
+      userId,
+      updatedByUserId: anonymizedByUserId,
+    });
+
     const resetPasswordDemands = await knex('reset-password-demands').whereRaw('LOWER("email") = LOWER(?)', user.email);
     expect(resetPasswordDemands).to.have.lengthOf(0);
-
-    const enabledCertificationCenterMemberships = await knex('certification-center-memberships')
-      .where({ userId })
-      .whereNull('disabledAt');
-    expect(enabledCertificationCenterMemberships).to.have.lengthOf(0);
-    const disabledCertificationCenterMemberships = await knex('certification-center-memberships')
-      .where({ userId })
-      .whereNotNull('disabledAt');
-    expect(disabledCertificationCenterMemberships).to.have.lengthOf(1);
 
     const anonymizedUserLogin = await knex('user-logins').where({ id: userLogin.id }).first();
     expect(anonymizedUserLogin.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');

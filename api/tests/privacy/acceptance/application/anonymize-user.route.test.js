@@ -31,11 +31,6 @@ describe('Acceptance | Privacy | Application | Route | anonymize-user', function
         organizationId,
         userId: userId,
       });
-      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId,
-        userId: userId,
-      });
       databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId });
       await databaseBuilder.commit();
 
