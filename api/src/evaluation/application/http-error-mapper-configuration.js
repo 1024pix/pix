@@ -1,4 +1,5 @@
 import {
+  ConflictError,
   ForbiddenError,
   InternalServerError,
   PreconditionFailedError,
@@ -7,6 +8,7 @@ import {
   AcquiredBadgeForbiddenUpdateError,
   AlreadyRatedAssessmentError,
   AnswerEvaluationError,
+  AssessmentAlreadyEndedError,
   CompetenceResetError,
   ImproveCompetenceEvaluationForbiddenError,
 } from '../domain/errors.js';
@@ -34,6 +36,12 @@ const evaluationDomainErrorMappingConfiguration = [
     name: AnswerEvaluationError.name,
     httpErrorFn: (error) => {
       return new InternalServerError(error.message);
+    },
+  },
+  {
+    name: AssessmentAlreadyEndedError.name,
+    httpErrorFn: (error) => {
+      return new ConflictError(error.message, error.code);
     },
   },
   {

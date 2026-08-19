@@ -2,6 +2,7 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ChallengeAlreadyAnsweredError, EmptyAnswerError, ForbiddenAccess } from '../../../shared/domain/errors.js';
 import { ChallengeNotAskedError } from '../../../shared/domain/errors.js';
 import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
+import { AssessmentAlreadyEndedError } from '../errors.js';
 
 export async function saveAndCorrectAnswerForCampaign({
   answer,
@@ -21,6 +22,9 @@ export async function saveAndCorrectAnswerForCampaign({
 }) {
   if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');
+  }
+  if (!assessment.isStarted()) {
+    throw new AssessmentAlreadyEndedError();
   }
   if (!assessment.isCampaignParticipationAvailable() || !assessment?.campaign.isAccessible) {
     throw new ForbiddenAccess('Campaign does not accept any answer.');

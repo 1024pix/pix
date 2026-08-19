@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 
+import { AssessmentAlreadyEndedError } from '../../../../../src/evaluation/domain/errors.js';
 import * as correctionService from '../../../../../src/evaluation/domain/services/correction-service.js';
 import { saveAndCorrectAnswerForCampaign } from '../../../../../src/evaluation/domain/usecases/save-and-correct-answer-for-campaign.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
@@ -77,6 +78,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       method: Assessment.methods.SMART_RANDOM,
       campaignParticipationId,
       answers: [],
+      state: Assessment.states.STARTED,
       campaign,
     });
     campaignRepository.getCampaignIdByCampaignParticipationId
@@ -127,6 +129,34 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
 
       // then
       return expect(result).to.be.rejectedWith(ForbiddenAccess);
+    });
+  });
+
+  context('when the assessment is already ended', function () {
+    [
+      Assessment.states.COMPLETED,
+      Assessment.states.ABORTED,
+      Assessment.states.ENDED_BY_INVIGILATOR,
+      Assessment.states.ENDED_DUE_TO_FINALIZATION,
+      Assessment.states.ENDED_DUE_TO_DURATION_EXCEEDED,
+    ].forEach((state) => {
+      it(`should fail because AssessmentAlreadyEndedError when the assessment is "${state}"`, async function () {
+        // given
+        assessment.state = state;
+
+        // when
+        const error = await catchErr(saveAndCorrectAnswerForCampaign)({
+          answer,
+          userId,
+          assessment,
+          locale,
+          ...dependencies,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(AssessmentAlreadyEndedError);
+        expect(answerRepository.save).to.not.have.been.called;
+      });
     });
   });
 
@@ -183,6 +213,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
         type: Assessment.types.CAMPAIGN,
         answers: [],
+        state: Assessment.states.STARTED,
         campaign,
       });
 
@@ -222,6 +253,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         type: Assessment.types.CAMPAIGN,
         campaignParticipationId,
         answers: [],
+        state: Assessment.states.STARTED,
         campaign,
       });
       const answerSaved = domainBuilder.buildAnswer(emptyAnswer);
@@ -341,6 +373,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         method: Assessment.methods.SMART_RANDOM,
         campaignParticipationId,
         answers: [],
+        state: Assessment.states.STARTED,
         campaign,
       });
       answerSaved = domainBuilder.buildAnswer(answer);

@@ -9,6 +9,7 @@ import {
   CandidateNotAuthorizedToResumeCertificationTestError,
   CenterNotHabilitatedError,
   CertificationDurationExceededError,
+  CertificationTestEndedError,
   NextChallengeAlreadyComputingError,
   SessionNotJoinableError,
 } from '../domain/errors.js';
@@ -20,6 +21,10 @@ const evaluationDomainErrorMappingConfiguration = [
   },
   {
     name: CertificationDurationExceededError.name,
+    httpErrorFn: (error) => new ConflictError(error.message, error.code, error.meta),
+  },
+  {
+    name: CertificationTestEndedError.name,
     httpErrorFn: (error) => new ConflictError(error.message, error.code, error.meta),
   },
   {

@@ -1,3 +1,4 @@
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
@@ -74,7 +75,8 @@ async function _setupTestData(databaseBuilder, { competenceId, doesCandidateNeed
   });
 
   const assessment = databaseBuilder.factory.buildAssessment({
-    type: 'CERTIFICATION',
+    type: Assessment.types.CERTIFICATION,
+    state: Assessment.states.STARTED,
     userId,
     competenceId,
     certificationCourseId: certificationCourse.id,

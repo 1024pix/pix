@@ -21,6 +21,15 @@ export class CertificationDurationExceededError extends DomainError {
   }
 }
 
+export class CertificationTestEndedError extends DomainError {
+  constructor(
+    message = 'The certification test has ended, it is no longer possible to answer.',
+    code = 'CERTIFICATION_TEST_ENDED',
+  ) {
+    super(message, code);
+  }
+}
+
 export class CandidateNotAuthorizedToJoinSessionError extends DomainError {
   constructor(
     message = 'Votre surveillant n’a pas confirmé votre présence dans la salle de test. Vous ne pouvez donc pas encore commencer votre test de certification. Merci de prévenir votre surveillant.',
