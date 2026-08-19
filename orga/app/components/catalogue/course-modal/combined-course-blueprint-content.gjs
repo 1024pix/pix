@@ -8,10 +8,10 @@ function getStepIndex(index) {
 }
 
 <template>
-  <div class="combined-course-blueprint-detail">
+  <div class="combined-course-blueprint-content">
     {{#each @combinedCourseBlueprint.steps as |step index|}}
-      <div>
-        <div class="combined-course-blueprint-step">
+      <div class="combined-course-blueprint-step">
+        <div class="combined-course-blueprint-step__title">
           <h4 class="pix-title-xs">
             {{t "pages.catalogue.modal.combined-course-content.step" number=(getStepIndex index)}}
           </h4>
@@ -21,8 +21,7 @@ function getStepIndex(index) {
             </p>
           {{/if}}
         </div>
-        <div class="combined-course-blueprint-detail__steps">
-
+        <div class="combined-course-blueprint-step__items">
           {{#each step.items as |item|}}
             <CombinedCourseBlueprintItem @item={{item}} />
           {{/each}}

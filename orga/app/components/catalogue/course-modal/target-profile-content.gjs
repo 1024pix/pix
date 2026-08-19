@@ -28,10 +28,10 @@ export default class TargetProfileContent extends Component {
   };
 
   <template>
-    <div class="target-profile-detail">
+    <div class="target-profile-content">
       {{#each this.targetProfileCompetences as |competence|}}
-        <div class="course-modal__competence">
-          <div class="course-modal__competence__title">
+        <div class="target-profile-competence">
+          <div class="target-profile-competence__title">
             <p>{{this.getCompetenceIndexLabel competence.index}}</p>
             <h2>{{competence.name}}</h2>
           </div>
@@ -42,25 +42,25 @@ export default class TargetProfileContent extends Component {
             @data={{competence.tubes}}
           >
             <:columns as |tube context|>
-              <PixTableColumn @context={{context}} class="course-modal__competence__description__column">
+              <PixTableColumn @context={{context}} class="target-profile-competence__description__column">
                 <:header>
                   {{t "pages.catalogue.modal.tube-name-and-description"}}
                 </:header>
                 <:cell>
-                  <span class="course-modal__competence__description__title">
+                  <span class="target-profile-competence__description__title">
                     {{tube.practicalTitle}}
                   </span>
-                  <span class="course-modal__competence__description__text">
+                  <span class="target-profile-competence__description__text">
                     {{tube.practicalDescription}}
                   </span>
                 </:cell>
               </PixTableColumn>
-              <PixTableColumn @context={{context}} class="course-modal__competence__level__column">
+              <PixTableColumn @context={{context}} class="target-profile-competence__level__column">
                 <:header>
                   {{t "pages.catalogue.modal.max-level"}}
                 </:header>
                 <:cell>
-                  <span class="course-modal__competence__level__data">
+                  <span class="target-profile-competence__level__data">
                     {{#if tube.maxLevel}}
                       {{tube.maxLevel}}
                     {{else}}

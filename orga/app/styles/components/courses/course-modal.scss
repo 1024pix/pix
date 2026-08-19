@@ -2,7 +2,6 @@
 @use 'pix-design-tokens/shadows';
 
 .course-modal {
-  overflow: hidden;
   position: relative;
   display: flex;
   width: 100%;
@@ -11,6 +10,7 @@
   min-height: auto;
   max-height: 42.5rem;
   margin: 0 auto;
+  overflow: hidden;
   background-color: var(--pix-orga-50);
   border-radius: var(--pix-spacing-4x);
   margin-block: auto;
@@ -42,77 +42,18 @@
       top: 0;
       left: 0;
       z-index: 10;
-      width: calc(100% - $scrollbar-width);
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      width: calc(100% - $scrollbar-width);
       padding: var(--pix-spacing-4x);
-      padding-left: var(--pix-spacing-6x);
       padding-right: calc(var(--pix-spacing-6x) - ($scrollbar-width * 2));
+      padding-left: var(--pix-spacing-6x);
       background-color: var(--pix-orga-50);
 
       &__exit {
         align-self: flex-end;
         text-decoration: none;
-      }
-    }
-  }
-
-  &__competence {
-    padding-bottom: var(--pix-spacing-2x);
-
-    &__title {
-      margin-top: var(--pix-spacing-2x);
-      margin-bottom: var(--pix-spacing-2x);
-
-      p {
-        @extend %pix-body-s;
-      }
-
-      h2 {
-        @extend %pix-title-xxs;
-      }
-    }
-
-    &:last-child {
-      padding-bottom: var(--pix-spacing-6x);
-    }
-
-    &__title {
-      margin-top: var(--pix-spacing-2x);
-      margin-bottom: var(--pix-spacing-2x);
-    }
-
-    &__description {
-      &__column {
-        width: 75%;
-      }
-
-      &__title {
-        display: block;
-        margin-bottom: var(--pix-spacing-2x);
-        font-weight: var(--pix-font-bold);
-      }
-
-      &__text {
-        display: block;
-      }
-    }
-
-    &__level {
-      &__column {
-        width: 25%;
-
-        & .pix-table-header-container {
-          justify-content: center;
-          text-align: center;
-        }
-      }
-
-      &__data {
-        display: block;
-        width: 100%;
-        text-align: center;
       }
     }
   }
@@ -208,30 +149,92 @@
   }
 }
 
-.target-profile-detail {
+// TODO move these properties to stay consistent in the css file
+.target-profile-content {
   padding-bottom: var(--pix-spacing-6x);
 }
 
-.combined-course-blueprint-detail {
+.target-profile-competence {
+  padding-bottom: var(--pix-spacing-2x);
+
+  &__title {
+    margin-top: var(--pix-spacing-2x);
+    margin-bottom: var(--pix-spacing-2x);
+
+    p {
+      @extend %pix-body-s;
+    }
+
+    h2 {
+      @extend %pix-title-xxs;
+    }
+  }
+
+  &:last-child {
+    padding-bottom: var(--pix-spacing-6x);
+  }
+
+  &__title {
+    margin-top: var(--pix-spacing-2x);
+    margin-bottom: var(--pix-spacing-2x);
+  }
+
+  &__description {
+    &__column {
+      width: 75%;
+    }
+
+    &__title {
+      display: block;
+      margin-bottom: var(--pix-spacing-2x);
+      font-weight: var(--pix-font-bold);
+    }
+
+    &__text {
+      display: block;
+    }
+  }
+
+  &__level {
+    &__column {
+      width: 25%;
+
+      & .pix-table-header-container {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    &__data {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+
+.combined-course-blueprint-content {
   display: flex;
   flex-direction: column;
   gap: var(--pix-spacing-8x);
   margin-top: auto;
   margin-bottom: auto;
   padding-top: var(--pix-spacing-4x);
-
-  &__steps {
-    display: flex;
-    flex-direction: column;
-    gap: var(--pix-spacing-4x);
-  }
 }
 
 .combined-course-blueprint-step {
-  margin-bottom: var(--pix-spacing-4x);
+  &__title {
+    margin-bottom: var(--pix-spacing-4x);
+  }
 
   &__description {
     color: var(--pix-neutral-500);
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
   }
 }
 
