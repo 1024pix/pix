@@ -61,6 +61,12 @@ export async function registerCandidateParticipation({
     return candidate;
   }
 
+  if (session.hasReconciledCandidateTo({ userId })) {
+    throw new UserAlreadyLinkedToCandidateInSessionError(
+      'The user is already linked to a candidate with different personal info in the given session',
+    );
+  }
+
   await checkAroundCertificationCenter({
     centerRepository,
     userRepository,

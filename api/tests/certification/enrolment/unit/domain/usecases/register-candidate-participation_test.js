@@ -163,6 +163,56 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     expect(error).to.be.instanceOf(UserAlreadyLinkedToCandidateInSessionError);
   });
 
+  it('throws UserAlreadyLinkedToCandidateInSessionError when given user is already reconciled to an other candidate of the session', async function () {
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const matchingCandidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName: 'Brice',
+        lastName: 'Wine',
+        birthdate: '2000-03-23',
+      })
+      .withParameters({
+        sessionId,
+      });
+    const candidateAlreadyReconciledToUserBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .asReconciled({
+        userId: 123,
+      })
+      .withIdentity({
+        firstName: 'Tony',
+        lastName: 'Stark',
+        birthdate: '1994-07-18',
+      })
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([matchingCandidateBuilder, candidateAlreadyReconciledToUserBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Brice',
+      lastName: 'Wine',
+      birthdate: '2000-03-23',
+      userId: 123,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(UserAlreadyLinkedToCandidateInSessionError);
+    expect(candidateRepository.update).to.not.have.been.called;
+  });
+
   it('throws CertificationCandidateByPersonalInfoNotFoundError when given user personnal infos not matching', async function () {
     const userId = domainBuilder.certification.enrolment.buildUser().id;
     const sessionAuthorization = domainBuilder.certification.enrolment
