@@ -10,6 +10,7 @@ import {
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   MatchingReconciledStudentNotFoundError,
+  UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -111,7 +112,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     expect(error).to.be.instanceOf(SessionExpiredError);
   });
 
-  it('throws UserAlreadyLinkedToCandidateInSessionError when given user is already reconciled to an other candidate than matching', async function () {
+  it('throws UnexpectedUserAccountError when the matching candidate is already reconciled to an other user', async function () {
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
       .withParameters({ id: sessionId })
@@ -131,23 +132,10 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
       .withParameters({
         sessionId,
       });
-    const alreadyReconciledCandidateBuilder = domainBuilder.certification.enrolment
-      .candidateBuilder()
-      .asReconciled({
-        userId: 123,
-      })
-      .withIdentity({
-        firstName: 'Tony',
-        lastName: 'Stark',
-        birthdate: '1994-07-18',
-      })
-      .withParameters({
-        sessionId,
-      });
     const session = domainBuilder.certification.enrolment
       .sessionEnrolmentBuilder()
       .withParameters({ id: sessionId })
-      .addCandidatesBuilders([matchingCandidateBuilder, alreadyReconciledCandidateBuilder])
+      .addCandidatesBuilders([matchingCandidateBuilder])
       .build();
     sessionRepository.get.resolves(session);
 
@@ -160,7 +148,9 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
       ...dependencies,
     });
 
-    expect(error).to.be.instanceOf(UserAlreadyLinkedToCandidateInSessionError);
+    expect(error).to.be.instanceOf(UnexpectedUserAccountError);
+    expect(error.code).to.equal('UNEXPECTED_USER_ACCOUNT');
+    expect(candidateRepository.update).to.not.have.been.called;
   });
 
   it('throws UserAlreadyLinkedToCandidateInSessionError when given user is already reconciled to an other candidate of the session', async function () {
