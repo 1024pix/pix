@@ -8,7 +8,6 @@ import { anonymizeGeneralizeDate } from '../../../../shared/infrastructure/utils
  * @param{string} params.client
  * @param{UserRepository} params.userRepository
  * @param{CertificationCenterMembershipRepository} params.certificationCenterMembershipRepository
- * @param{LastUserApplicationConnectionsRepository} params.lastUserApplicationConnectionsRepository
  * @param{ResetPasswordDemandRepository} params.resetPasswordDemandRepository
  * @param{UserLoginRepository} params.userLoginRepository
  * @returns {Promise<void>}
@@ -18,17 +17,15 @@ export const anonymizeUser = async function ({
   anonymizedByUserId,
   userRepository,
   certificationCenterMembershipRepository,
-  lastUserApplicationConnectionsRepository,
   resetPasswordDemandRepository,
   userLoginRepository,
 }) {
   await DomainTransaction.execute(async () => {
+    const user = await userRepository.get(userId);
 
     if (user.email) {
       await resetPasswordDemandRepository.removeAllByEmail(user.email);
     }
-
-    await _anonymizeLastUserApplicationConnections(lastUserApplicationConnectionsRepository, userId);
 
     await _anonymizeCertificationCenterMemberships(certificationCenterMembershipRepository, userId, anonymizedByUserId);
 
@@ -61,15 +58,6 @@ async function _anonymizeCertificationCenterMemberships(
   });
 }
 
-async function _anonymizeLastUserApplicationConnections(lastUserApplicationConnectionsRepository, userId) {
-  const lastUserApplicationConnections = await lastUserApplicationConnectionsRepository.findByUserId(userId);
-
-  for (const lastUserApplicationConnection of lastUserApplicationConnections) {
-    const anonymized = lastUserApplicationConnection.anonymize();
-    await lastUserApplicationConnectionsRepository.upsert(anonymized);
-  }
-}
-
 async function _anonymizeUserLogin({ userId, userLoginRepository }) {
   const userLogin = await userLoginRepository.findByUserId(userId);
   if (!userLogin) return;
@@ -80,7 +68,6 @@ async function _anonymizeUserLogin({ userId, userLoginRepository }) {
 }
 
 async function _anonymizeUser({ userId, anonymizedByUserId, userRepository }) {
-
   const user = await userRepository.get(userId);
 
   const anonymizedUser = user.anonymize(anonymizedByUserId).mapToDatabaseDto();

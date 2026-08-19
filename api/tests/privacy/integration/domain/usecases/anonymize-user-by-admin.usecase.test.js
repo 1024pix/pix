@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AnonymizeAuthenticationMethodsEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-authentication-methods.event-handler.js';
+import { AnonymizeLastUserApplicationConnectionsEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-last-user-application-connections.event-handler.js';
 import { RevokeAllAnonymizedUserTokenEventHandler } from '../../../../../src/identity-access-management/application/jobs/revoke-all-anonymized-user-token.event-handler.js';
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
@@ -108,6 +109,13 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
 
     const anonymizeMembershipEventHandler = new AnonymizeMembershipEventHandler();
     await expect(anonymizeMembershipEventHandler.jobName).to.have.performed.withEventPayload({
+      userId,
+      updatedByUserId: anonymizedByUserId,
+    });
+
+    const anonymizeLastUserApplicationConnectionsEventHandler =
+      new AnonymizeLastUserApplicationConnectionsEventHandler();
+    await expect(anonymizeLastUserApplicationConnectionsEventHandler.jobName).to.have.performed.withEventPayload({
       userId,
       updatedByUserId: anonymizedByUserId,
     });

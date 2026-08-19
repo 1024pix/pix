@@ -45,12 +45,6 @@ describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonym
       lastAccessedAt: new Date('2023-03-23T23:23:23Z'),
     });
 
-    databaseBuilder.factory.buildLastUserApplicationConnection({
-      userId,
-      application: 'orga',
-      lastLoggedAt: new Date('2023-03-23T23:23:23Z'),
-    });
-
     const managingStudentsOrga = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
     databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId: managingStudentsOrga.id });
 
@@ -111,9 +105,6 @@ describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonym
     expect(anonymizedUser.lastTermsOfServiceValidatedAt).to.be.null;
     expect(anonymizedUser.lastPixCertifTermsOfServiceValidatedAt).to.be.null;
     expect(anonymizedUser.lastDataProtectionPolicySeenAt).to.be.null;
-
-    const lastUserApplicationConnection = await knex('last-user-application-connections').where({ userId }).first();
-    expect(lastUserApplicationConnection.lastLoggedAt.toISOString()).to.equal('2023-03-01T00:00:00.000Z');
   });
 
   context('when anonymizedByUserId does not exist', function () {
