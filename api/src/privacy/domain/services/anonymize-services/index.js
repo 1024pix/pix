@@ -1,6 +1,5 @@
 import { resetPasswordDemandRepository } from '../../../../identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import * as userLoginRepository from '../../../../identity-access-management/infrastructure/repositories/user-login-repository.js';
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../../dependencies.json' with { type: 'json' };
@@ -16,7 +15,6 @@ const repositories = {
   candidatesApiRepository,
   learnersApiRepository,
   resetPasswordDemandRepository,
-  userLoginRepository,
   userRepository,
   userTeamsApiRepository,
 };
