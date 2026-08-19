@@ -5,7 +5,8 @@ import { module, test } from 'qunit';
 
 import setupIntlRenderingTest, { t } from '../../../../../helpers/setup-intl-rendering';
 
-const TITLE_KEY = 'components.certification-frameworks.certification-framework.versions.scoring.competences.title';
+const TITLE_KEY =
+  'components.certification-frameworks.certification-framework.versions.scoring.competences.title';
 
 module(
   'Integration | Component | certification-frameworks | certification-framework | versions | Certification Version Competences Scoring Form',

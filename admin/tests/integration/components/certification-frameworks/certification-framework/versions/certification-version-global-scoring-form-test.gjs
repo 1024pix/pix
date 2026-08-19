@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import CertificationVersionScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-global-scoring-form';
+import CertificationVersionGlobalScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-global-scoring-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -35,7 +35,7 @@ function createCalibrationProposal(store, globalScoringConfiguration) {
 }
 
 module(
-  'Integration | Component | certification-frameworks/certification-framework/versions/certification-version-scoring-form',
+  'Integration | Component | certification-frameworks | certification-framework | versions | Certification Version Global Scoring Form',
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
@@ -64,7 +64,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -93,7 +93,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -243,7 +243,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -267,7 +267,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -291,7 +291,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -317,7 +317,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -351,7 +351,7 @@ module(
 
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -380,7 +380,7 @@ module(
 
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -413,7 +413,7 @@ module(
 
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -440,7 +440,7 @@ module(
 
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
