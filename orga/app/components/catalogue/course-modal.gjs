@@ -3,12 +3,15 @@ import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixOverlay from '@1024pix/pix-ui/components/pix-overlay';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { hash } from '@ember/helper';
+import { on } from '@ember/modifier';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { recordIdentifierFor } from '@warp-drive/core';
 import { t } from 'ember-intl';
 import { gt } from 'ember-truth-helpers';
 import SafeMarkdownToHtml from 'pix-orga/components/safe-markdown-to-html';
+import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
 
 import Badges from '../campaign/badges';
 import { COMBINED_COURSE_BLUEPRINT_OVERVIEW, getCourseInfo, TARGET_PROFILE_OVERVIEW } from './course-card.gjs';
@@ -17,6 +20,7 @@ import TargetProfileContent from './course-modal/target-profile-content.gjs';
 
 export default class CourseModal extends Component {
   @service currentUser;
+  @service pixMetrics;
 
   id = crypto.randomUUID();
 
@@ -63,6 +67,11 @@ export default class CourseModal extends Component {
     if (this.isTargetProfile) return this.args.currentCourse.description;
     if (this.isCombinedCourseBlueprint) return this.args.currentCourse.prescriberDescription;
     return '';
+  }
+
+  @action
+  trackCourseSelection() {
+    this.pixMetrics.trackEvent(EVENT_NAME.CATALOGUE.COURSE_SELECTION_CLICK);
   }
 
   <template>
@@ -115,6 +124,7 @@ export default class CourseModal extends Component {
               @isDisabled={{this.hasReachedPlacesLimit}}
               @size="small"
               class="course-modal__form-link"
+              {{on "click" this.trackCourseSelection}}
             >
               {{t "pages.catalogue.modal.select-course"}}
             </PixButtonLink>

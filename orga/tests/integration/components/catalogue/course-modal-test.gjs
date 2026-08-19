@@ -1,6 +1,8 @@
 import { render, within } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CourseModal from 'pix-orga/components/catalogue/course-modal';
+import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -328,9 +330,11 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
 
       //when
       const screen = await render(
-        <template><CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} /></template>,
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
       );
-      const submitButton = await screen.getByText(t('pages.catalogue.modal.select-course'));
+      const submitButton = await screen.getByRole('link', { name: t('pages.catalogue.modal.select-course') });
 
       //then
       assert.dom(submitButton).hasAttribute('aria-disabled', 'false');
@@ -343,13 +347,38 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
 
       //when
       const screen = await render(
-        <template><CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} /></template>,
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
       );
 
       const submitButton = await screen.getByText(t('pages.catalogue.modal.select-course'));
 
       // then
       assert.dom(submitButton).hasAttribute('aria-disabled', 'true');
+    });
+    test('it should track the event of selecting a course', async function (assert) {
+      //given
+      const store = this.owner.lookup('service:store');
+      const router = this.owner.lookup('service:-routing');
+      sinon.stub(router, 'transitionTo');
+      const pixMetrics = this.owner.lookup('service:pix-metrics');
+      sinon.stub(pixMetrics, 'trackEvent');
+
+      const currentCourse = store.createRecord('target-profile-overview', { id: 123, name: 'Ma super formation' });
+      sinon.stub(currentUser, 'placeStatistics').value({ hasReachedMaximumPlacesLimit: false });
+
+      //when
+      const screen = await render(
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
+      );
+      await click(screen.getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+
+      // then
+      sinon.assert.calledWithExactly(pixMetrics.trackEvent, EVENT_NAME.CATALOGUE.COURSE_SELECTION_CLICK);
+      assert.ok(true);
     });
   });
 
