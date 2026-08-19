@@ -126,6 +126,7 @@ export default class ModulixEmbed extends ModuleElement {
       this.reportInfo = {
         answer: message.state,
         elementId: this.args.embed.id,
+        type: this.args.embed.type,
       };
 
       this.args.onAnswer({
@@ -150,6 +151,7 @@ export default class ModulixEmbed extends ModuleElement {
     this.reportInfo = {
       answer: message.answer,
       elementId: this.args.embed.id,
+      type: this.args.embed.type,
     };
 
     this.args.onAnswer({
