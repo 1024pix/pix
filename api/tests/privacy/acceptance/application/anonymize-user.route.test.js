@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { AnonymizeAuthenticationMethodsEventHandler } from '../../../../src/identity-access-management/application/jobs/anonymize-authentication-methods.event-handler.js';
 import { RevokeAllAnonymizedUserTokenEventHandler } from '../../../../src/identity-access-management/application/jobs/revoke-all-anonymized-user-token.event-handler.js';
 import { RemoveLegalDocumentByUserEventHandler } from '../../../../src/legal-documents/application/remove-legal-document-by-user.event-handler.js';
+import { AnonymizeLearnersAndCampaignParticipationsEventHandler } from '../../../../src/prescription/learner-management/application/jobs/anonymize-learners-and-campaign-participations-event-handler.js';
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
@@ -85,6 +86,17 @@ describe('Acceptance | Privacy | Application | Route | anonymize-user', function
       expect(response.statusCode).to.equal(204);
 
       const handler = new RevokeAllAnonymizedUserTokenEventHandler();
+      await expect(handler.jobName).to.have.performed.withEventPayload({
+        userId,
+        updatedByUserId: superAdmin.id,
+      });
+    });
+
+    it('anonymize user learners and campaign participations', async function () {
+      // then
+      expect(response.statusCode).to.equal(204);
+
+      const handler = new AnonymizeLearnersAndCampaignParticipationsEventHandler();
       await expect(handler.jobName).to.have.performed.withEventPayload({
         userId,
         updatedByUserId: superAdmin.id,

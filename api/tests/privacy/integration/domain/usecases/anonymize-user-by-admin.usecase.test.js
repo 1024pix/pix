@@ -6,6 +6,7 @@ import { RevokeAllAnonymizedUserTokenEventHandler } from '../../../../../src/ide
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { RemoveLegalDocumentByUserEventHandler } from '../../../../../src/legal-documents/application/remove-legal-document-by-user.event-handler.js';
+import { AnonymizeLearnersAndCampaignParticipationsEventHandler } from '../../../../../src/prescription/learner-management/application/jobs/anonymize-learners-and-campaign-participations-event-handler.js';
 import { usecases } from '../../../../../src/privacy/domain/usecases/index.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
@@ -88,11 +89,20 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
     const removeLegalDocumentByUserEventHandler = new RemoveLegalDocumentByUserEventHandler();
     await expect(removeLegalDocumentByUserEventHandler.jobName).to.have.performed.withEventPayload({
       userId,
+      updatedByUserId: anonymizedByUserId,
     });
 
     const revokeAllAnonymizedUserTokenEventHandler = new RevokeAllAnonymizedUserTokenEventHandler();
     await expect(revokeAllAnonymizedUserTokenEventHandler.jobName).to.have.performed.withEventPayload({
       userId,
+      updatedByUserId: anonymizedByUserId,
+    });
+
+    const anonymizeLearnersAndCampaignParticipationsEventHandler =
+      new AnonymizeLearnersAndCampaignParticipationsEventHandler();
+    await expect(anonymizeLearnersAndCampaignParticipationsEventHandler.jobName).to.have.performed.withEventPayload({
+      userId,
+      updatedByUserId: anonymizedByUserId,
     });
 
     const resetPasswordDemands = await knex('reset-password-demands').whereRaw('LOWER("email") = LOWER(?)', user.email);
@@ -111,9 +121,6 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
       .where({ userId })
       .whereNotNull('disabledAt');
     expect(disabledCertificationCenterMemberships).to.have.lengthOf(1);
-
-    const organizationLearners = await knex('organization-learners').where({ userId });
-    expect(organizationLearners).to.have.lengthOf(0);
 
     const anonymizedUserLogin = await knex('user-logins').where({ id: userLogin.id }).first();
     expect(anonymizedUserLogin.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');

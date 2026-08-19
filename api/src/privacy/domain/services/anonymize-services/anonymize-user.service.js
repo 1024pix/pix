@@ -23,7 +23,6 @@ export const anonymizeUser = async function ({
   lastUserApplicationConnectionsRepository,
   resetPasswordDemandRepository,
   userLoginRepository,
-  learnersApiRepository,
 }) {
   await DomainTransaction.execute(async () => {
     const user = await userRepository.get(userId);
@@ -34,11 +33,6 @@ export const anonymizeUser = async function ({
     if (user.email) {
       await resetPasswordDemandRepository.removeAllByEmail(user.email);
     }
-
-    await _anonymizeOrganizationLearner({
-      userId,
-      learnersApiRepository,
-    });
 
     await _anonymizeMemberships({ membershipRepository, userId, updatedByUserId: anonymizedByUserId });
 
@@ -119,8 +113,4 @@ async function _anonymizeUser({ user, anonymizedByUserId, userRepository }) {
     { id: user.id, userAttributes: anonymizedUser },
     { preventUpdatedAt: true },
   );
-}
-
-async function _anonymizeOrganizationLearner({ userId, learnersApiRepository }) {
-  await learnersApiRepository.anonymizeByUserId({ userId });
 }
