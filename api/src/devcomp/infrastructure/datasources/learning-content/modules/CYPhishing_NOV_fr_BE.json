@@ -136,9 +136,9 @@
               "element": {
                 "id": "1b4050d7-f671-4b59-9698-2f1895ea3d53",
                 "type": "image",
-                "url": "https://assets.pix.org/modules/CYPhishingNov/colis.svg",
+                "url": "https://assets.pix.org/modules/CYPhishingNov/colis_fwb.svg",
                 "alt": "",
-                "alternativeText": "<p>Un smartphone affiche un SMS&nbsp;:«&nbsp;Nous avons essayé de livrer votre colis 00073679039. Confirmez votre adresse de livraison et payez les frais en ligne (2,99&nbsp;€)&nbsp;: http://bit.do/fHXym&nbsp;».</p>",
+                "alternativeText": "<p>Un smartphone affiche un SMS&nbsp;:</p><p>«&nbsp;[Bpost] Uw pakket is verzonden. Volg uw zending via&nbsp;: https://bpost-sortercentrum.com/bezorging.php </p><p>[Bpost] Votre colis est au centre de tri. Appuez sur le lien pour suivre le colis&nbsp;: https://bpost-sortercentrum.com/bezorging.php&nbsp;».</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -242,8 +242,8 @@
                       "type": "Texte + Image",
                       "content": "Alors, qu’est-ce que tu me conseilles de faire avec ce message ?",
                       "image": {
-                        "src": "https://assets.pix.org/modules/CYPhishingNov/msgyvette.svg",
-                        "alt": "SMS : CREDIT BANQUE\u0003ATTENTION votre compte va être bloqué définitivement suite à des opérations suspectes. Cliquez immédiatement sur le lien pour éviter la désactivation : http://blocbanque.fr"
+                        "src": "https://assets.pix.org/modules/CYPhishingNov/msgyvette_fwb.svg",
+                        "alt": "SMS : ING:  Veuillez procéder à la synchronisation de votre appareil de confiance avant le 11/05/2026 pour éviter le blocage de votre compte bancaire. Rendez-vous sur : https://ing-ebanking.com/id=be"
                       }
                     },
                     {
@@ -297,7 +297,7 @@
                   "notifications": [
                     {
                       "icon": "bubble",
-                      "sender": "Votre CAF",
+                      "sender": "Parentia",
                       "content": "Votre remboursement de 500 €... ",
                       "category": "Service public",
                       "time": {
@@ -324,7 +324,7 @@
                     },
                     {
                       "icon": "bubble",
-                      "sender": "06 39 98 65 47",
+                      "sender": "077 98 65 47",
                       "content": "Coucou c’est Clément, j’ai besoin...",
                       "category": "Particulier",
                       "time": {
@@ -435,7 +435,9 @@
                 "instruction": "<p>Pour chacun des cas ci-dessous&nbsp;: ouvrez et lisez le message d’arnaque, puis répondez à la question.</p>",
                 "functionalInstruction": "",
                 "tagName": "phishing-message",
-                "props": {}
+                "props": {
+                  "forcedLocale": "fr-BE"
+                }
               }
             }
           ]
@@ -746,9 +748,9 @@
                     {
                       "id": "ce11f07a-ed41-4114-ac49-d02728da0b6d",
                       "type": "image",
-                      "url": "https://assets.pix.org/modules/CYPhishingNov/mamanpapa.svg",
+                      "url": "https://assets.pix.org/modules/CYPhishingNov/mamanpapa_fwb.svg",
                       "alt": "Image décrite dans l’alternative textuelle",
-                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;: <br>«&nbsp;Bonjour maman/papa, c’est moi, mon téléphone est cassé, c’est mon nouveau numéro&nbsp;: +33774889453. Vous pouvez enregistrer ceci. Envoyez-moi un message sur WhatsApp le plus rapidement possible.&nbsp;»</p>",
+                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;: <br>«&nbsp;Bonjour maman/papa, c’est moi, mon téléphone est cassé, c’est mon nouveau numéro&nbsp;: 04 60 56 78 23. Vous pouvez enregistrer ceci. Envoyez-moi un message sur WhatsApp le plus rapidement possible.&nbsp;»</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -784,9 +786,9 @@
                     {
                       "id": "6027b26d-b674-406f-989c-7f519bb9f7df",
                       "type": "image",
-                      "url": "https://assets.pix.org/modules/CYPhishingNov/venteprivee.svg",
+                      "url": "https://assets.pix.org/modules/CYPhishingNov/venteprivee_fwb.svg",
                       "alt": "Image décrite dans l’alternative textuelle",
-                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;VENTE PRIVÉE ce jeudi dans votre magasin Mode chic, -20% sur toute la nouvelle collection pour fêter les 10 ans du magasin ! À très vite. STOP au 36184&nbsp;».</p>",
+                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;VENTE PRIVÉE ce jeudi dans votre magasin Mode chic, -20% sur toute la nouvelle collection pour fêter les 10 ans du magasin ! À très vite. STOP au 3618&nbsp;».</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -860,9 +862,9 @@
                     {
                       "id": "a089861d-b07d-416b-a184-feed5a563514",
                       "type": "image",
-                      "url": "https://assets.pix.org/modules/CYPhishingNov/ameli.svg",
+                      "url": "https://assets.pix.org/modules/CYPhishingNov/doccle-onss_fwb.svg",
                       "alt": "Image décrite dans l’alternative textuelle",
-                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;Dernière relance avant suspension de vos droits de la sécurité sociale AMELI. L’actualisation de votre dossier est disponible dès à présent sur votre espace client via ce lien&nbsp;: https://mesdroitsenligne.info.ca&nbsp;»</p>",
+                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;Vous avez un nouveau document de l’ONSS disponible sur Doccle. Cliquez sur le lien pour consulter le document&nbsp;: https://slagnadcccle.com </p><p>Cordialement,</p><p>L’équipe Doccle&nbsp;»</p>",
                       "legend": "",
                       "licence": ""
                     },
@@ -898,9 +900,9 @@
                     {
                       "id": "f05841d9-8296-4e73-b2ce-3e99504d1c97",
                       "type": "image",
-                      "url": "https://assets.pix.org/modules/CYPhishingNov/banquepostale.svg",
+                      "url": "https://assets.pix.org/modules/CYPhishingNov/banquebelfius_fwb.svg",
                       "alt": "Image décrite dans l’alternative textuelle",
-                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;Relevé La Banque Postale Le 01/09/2025 à 01h35 CCP 0637***8023 Solde +982.36&nbsp;€ -54.99&nbsp;€ -625.00&nbsp;€ -54.99&nbsp;€ -12.99&nbsp;€ Aucun crédit&nbsp;».</p>",
+                      "alternativeText": "<p>Un smartphone affiche le SMS suivant&nbsp;:<br>«&nbsp;Relevé Belfius Le 01/09/2025 à 01h35 CCP 0637***8023 Solde +982.36&nbsp;€ -54.99&nbsp;€ -625.00&nbsp;€ -54.99&nbsp;€ -12.99&nbsp;€ Aucun crédit&nbsp;».</p>",
                       "legend": "",
                       "licence": ""
                     },
