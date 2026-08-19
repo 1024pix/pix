@@ -23,19 +23,4 @@ describe('Unit | Privacy | Infrastructure | Repositories | learners-api', functi
       expect(result).to.be.true;
     });
   });
-
-  describe('#anonymizeByUserId', function () {
-    it('anonymize learners and theirs participations attached to a userId', async function () {
-      // given
-      const dependencies = {
-        learnersApi: {
-          anonymizeByUserId: sinon.stub(),
-        },
-      };
-      // when
-      await anonymizeByUserId({ userId: 123, dependencies });
-      // then
-      expect(dependencies.learnersApi.anonymizeByUserId).calledOnceWithExactly({ userId: 123 });
-    });
-  });
 });

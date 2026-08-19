@@ -17,7 +17,6 @@ describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonym
 
   it(`disables all user’s organization memberships,
     disables all user’s certification center memberships,
-    disables all user’s student prescriptions,
     anonymizes user’s legal document acceptances,
     anonymizes user login info,
     anonymizes last user application connections lastLoggedAt,
@@ -115,54 +114,6 @@ describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonym
 
     const lastUserApplicationConnection = await knex('last-user-application-connections').where({ userId }).first();
     expect(lastUserApplicationConnection.lastLoggedAt.toISOString()).to.equal('2023-03-01T00:00:00.000Z');
-  });
-
-  it('should anonymized user linked learner', async function () {
-    const user = databaseBuilder.factory.buildUser({
-      createdAt: new Date('2012-12-12T12:12:12Z'),
-      updatedAt: new Date('2023-03-23T23:23:23Z'),
-    });
-    const admin = databaseBuilder.factory.buildUser.withRole();
-    const userId = user.id;
-    const anonymizedByUserId = admin.id;
-
-    databaseBuilder.factory.buildMembership({
-      userId,
-      lastAccessedAt: new Date('2023-03-23T23:23:23Z'),
-    });
-
-    const managingStudentsOrga = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-    const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-      userId,
-      firstName: 'Jacqueline',
-      lastName: 'Colson',
-      email: 'jaquelinecolson@presque.fr',
-      organizationId: managingStudentsOrga.id,
-    });
-    const campaign = databaseBuilder.factory.buildCampaign({ organizationId: managingStudentsOrga.id });
-
-    databaseBuilder.factory.buildCampaignParticipation({
-      userId,
-      participantExternalId: 'jaquelinecolson',
-      campaignId: campaign.id,
-      organizationLearnerId: organizationLearner.id,
-    });
-    await databaseBuilder.commit();
-
-    // when
-    await anonymizeServices.anonymizeUser({
-      userId,
-      anonymizedByUserId,
-      anonymizedByUserRole: PIX_ADMIN.ROLES.SUPER_ADMIN,
-      client: 'PIX_ADMIN',
-    });
-
-    // then
-    const organizationLearners = await knex('organization-learners').where({ userId });
-    expect(organizationLearners).to.have.lengthOf(0);
-
-    const participations = await knex('campaign-participations').where({ userId });
-    expect(participations).lengthOf(0);
   });
 
   context('when anonymizedByUserId does not exist', function () {
