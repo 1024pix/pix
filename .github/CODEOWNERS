@@ -1,56 +1,48 @@
 
-# Directories maintained by team Devcomp
-# @1024pix/devcomp owns any file in the `/api/src/devcomp/` directory in the root of your repository and any of its subdirectories.
+# ----- Team Devcomp ------
 /api/db/seeds/data/team-devcomp/ @1024pix/team-devcomp
 /api/scripts/modulix/ @1024pix/team-devcomp
-/api/src/devcomp/application/ @1024pix/team-devcomp
-/api/src/devcomp/domain/ @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/datasources/conversion/ @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/datasources/learning-content/modules/bac-a-sable.json @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/datasources/learning-content/samples/ @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/datasources/learning-content/.gitignore @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/datasources/learning-content/module-datasource.js @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/datasources/learning-content/readme.md @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/factories/ @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/repositories/ @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/serializers/ @1024pix/team-devcomp
-/api/src/devcomp/infrastructure/utils/ @1024pix/team-devcomp
-/api/src/devcomp/routes.js @1024pix/team-devcomp
+/api/src/devcomp/ @1024pix/team-devcomp
 /api/tests/devcomp/ @1024pix/team-devcomp
+
+/admin/app/components/trainings/ @1024pix/team-devcomp
 
 /mon-pix/app/components/module/ @1024pix/team-devcomp
 /mon-pix/app/components/training/ @1024pix/team-devcomp
 /mon-pix/app/components/tutorial/ @1024pix/team-devcomp
 
-/admin/app/components/trainings/ @1024pix/team-devcomp
 
-
-# Directories maintained by team Certification
+# ----- Team Certification ------
 /api/db/seeds/data/team-certification/ @1024pix/team-certification
 /api/src/certification/ @1024pix/team-certification
-/api/scripts/certification/ @1024pix/team-certification
 /api/tests/certification/ @1024pix/team-certification
 
+/certif/ @1024pix/team-certification
 
-# Directories maintained by team Prescription
+
+# ----- Team Prescription ------
 /api/db/seeds/data/team-prescription/ @1024pix/team-prescription
 /api/src/prescription/ @1024pix/team-prescription
 /api/tests/prescription/ @1024pix/team-prescription
 
+/orga/ @1024pix/team-prescription
 
-# Directories maintained by team Accès
+
+# ----- Team Accès ------
 /audit-logger/ @1024pix/team-acces
 /api/db/seeds/data/team-acces/ @1024pix/team-acces
-/api/src/shared/domain/models/jobs/EventLoggingJob.js @1024pix/team-acces
-/api/src/shared/application/jobs/event-logging.job-controller.js @1024pix/team-acces
-/api/src/shared/infrastructure/repositories/jobs/event-logging-job.repository.js @1024pix/team-acces
-/api/src/shared/infrastructure/repositories/audit-logger-repository.js @1024pix/team-acces
-
-/api/src/authorization/ @1024pix/team-acces
 /api/src/identity-access-management/ @1024pix/team-acces
-
-/api/tests/authorization/ @1024pix/team-acces
+/api/src/privacy/ @1024pix/team-acces
+/api/src/legal-documents/ @1024pix/team-acces
+/api/src/communication/ @1024pix/team-acces
+/api/src/maddo/ @1024pix/team-acces
+/api/src/school/ @1024pix/team-acces
+/api/tests/privacy/ @1024pix/team-acces
 /api/tests/identity-access-management/ @1024pix/team-acces
+/api/tests/legal-documents/ @1024pix/team-acces
+/api/tests/maddo/ @1024pix/team-acces
+/api/tests/communication/ @1024pix/team-acces
+/api/tests/school/ @1024pix/team-acces
 
 /mon-pix/**signup** @1024pix/team-acces
 /mon-pix/**login** @1024pix/team-acces
@@ -79,16 +71,22 @@
 /admin/app/services/url-base.js @1024pix/team-acces
 
 
-# Directories maintained by team Acquisition
+# ----- Team Acquisition ------
 /api/src/organizational-entities/ @1024pix/team-acquisition
 /api/src/team/ @1024pix/team-acquisition
-
 /api/tests/organizational-entities/ @1024pix/team-acquisition
 /api/tests/team/ @1024pix/team-acquisition
 
 
-# Directories maintained by team Contenu
+# ----- Team Combinix ------
+/api/src/quest/ @1024pix/team-tmp-combinix
+/api/tests/quest/ @1024pix/team-tmp-combinix
+
+
+# ----- Team Contenu ------
 /api/src/learning-content/ @1024pix/team-contenu
+/api/src/evaluation/ @1024pix/team-contenu
+/api/src/llm/ @1024pix/team-contenu
 /api/src/shared/infrastructure/repositories/area-repository.js @1024pix/team-contenu
 /api/src/shared/infrastructure/repositories/challenge-repository.js @1024pix/team-contenu
 /api/src/shared/infrastructure/repositories/competence-repository.js @1024pix/team-contenu
@@ -98,6 +96,8 @@
 /api/src/shared/infrastructure/repositories/tube-repository.js @1024pix/team-contenu
 /api/src/shared/infrastructure/repositories/thematic-repository.js @1024pix/team-contenu
 /api/tests/learning-content/ @1024pix/team-contenu
+/api/tests/evaluation/ @1024pix/team-contenu
+/api/tests/llm/ @1024pix/team-contenu
 /api/tests/shared/integration/infrastructure/repositories/area-repository_test.js @1024pix/team-contenu
 /api/tests/shared/integration/infrastructure/repositories/challenge-repository_test.js @1024pix/team-contenu
 /api/tests/shared/integration/infrastructure/repositories/competence-repository_test.js @1024pix/team-contenu
@@ -108,10 +108,26 @@
 /api/tests/shared/integration/infrastructure/repositories/thematic-repository_test.js @1024pix/team-contenu
 
 
-# Directories maintained by team Captains
+# ----- Team Captains ------
+/api/.circleci/ @1024pix/team-captains
+/api/.github/ @1024pix/team-captains
+/api/scripts/ @1024pix/team-captains
 /api/db/migrations/ @1024pix/team-captains
 /api/datamart/migrations/ @1024pix/team-captains
+/api/datawarehouse/migrations/ @1024pix/team-captains
 
-# Directories that potentially concern Data's team
+
+# ----- Team Data ------
 /api/db/migrations/ @1024pix/team-data
 /api/datamart/migrations/ @1024pix/team-data
+/api/datawarehouse/migrations/ @1024pix/team-data
+
+
+# ----- Team Staff ------
+/api/config/ @1024pix/team-staff
+/api/src/shared/ @1024pix/team-staff
+/api/tests/shared/ @1024pix/team-staff
+/api/src/db-history/ @1024pix/team-staff
+/api/tests/db-history/ @1024pix/team-staff
+/api/src/deprecated/ @1024pix/team-staff
+/api/tests/deprecated/ @1024pix/team-staff
