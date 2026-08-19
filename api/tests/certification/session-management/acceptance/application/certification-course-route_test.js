@@ -93,7 +93,6 @@ describe('Certification | Session Management | Acceptance | Application | Routes
                 'last-name': 'The all mighty',
                 birthplace: null,
                 birthdate: '1989-10-24',
-                'external-id': 'xenoverse2',
                 sex: 'M',
                 'birth-country': 'FRANCE',
                 'birth-insee-code': '01091',

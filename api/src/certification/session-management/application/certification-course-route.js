@@ -15,6 +15,22 @@ const register = async function (server) {
           params: Joi.object({
             certificationCourseId: identifiersType.certificationCourseId,
           }),
+          payload: Joi.object({
+            data: {
+              type: Joi.string(),
+              id: Joi.number().integer(),
+              attributes: {
+                'first-name': Joi.string().allow(null),
+                'last-name': Joi.string().allow(null),
+                birthdate: Joi.string().allow(null),
+                birthplace: Joi.string().allow(null, ''),
+                sex: Joi.string().allow(null, ''),
+                'birth-country': Joi.string().allow(null, ''),
+                'birth-insee-code': Joi.string().allow(null, ''),
+                'birth-postal-code': Joi.string().allow(null, ''),
+              },
+            },
+          }),
         },
         handler: certificationCourseController.update,
         pre: [
