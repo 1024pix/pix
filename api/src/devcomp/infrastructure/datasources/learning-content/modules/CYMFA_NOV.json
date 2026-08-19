@@ -111,7 +111,7 @@
                 "id": "2e4c297f-d5fe-496e-949c-7a05ddfee2ee",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Prenons l’exemple de Zoé qui veut se connecter à un service en ligne.</p>"
+                "content": "<p>Prenons l’exemple de Zoé qui veut se connecter à son compte sur un service en ligne.</p>"
               }
             },
             {
@@ -133,34 +133,34 @@
                       "id": "108fc27f-64bd-4b92-a494-e2bb2e3fe1a3",
                       "type": "qcu-discovery",
                       "instruction": "<p>Quelle zone permet à Zoé d’inquer au service qui elle est ?</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Zone 1",
                           "feedback": {
-                            "diagnosis": "<p>Exactement. Dans cette zone, Zoé doit saisir son identifiant. L<strong>’identifiant</strong> permet au service de savoir qui souhaite se connecter.</p>"
+                            "diagnosis": "<p>Exactement. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant</strong> permet au service de savoir <strong>qui souhaite se connecter</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Zone 2",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. C’est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong>qui permet au service de savoir qui souhaite se connecter.</p>"
+                            "diagnosis": "<p>Eh non. C’est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong>qui permet au service de savoir <strong>qui souhaite se connecter</strong></p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Zone 3",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. C’est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong> permet au service de savoir qui souhaite se connecter.</p>"
+                            "diagnosis": "<p>Eh non. C’est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong> permet au service de savoir <strong>qui souhaite se connecter</strong>.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>C’est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong>qui permet au service de savoir qui souhaite se connecter.</p>"
+                            "diagnosis": "<p>C’est la zone 1. Dans cette zone, Zoé doit saisir son identifiant. L’<strong>identifiant </strong>qui permet au service de savoir <strong>qui souhaite se connecter</strong>.</p>"
                           }
                         }
                       ],
@@ -180,43 +180,37 @@
                       "licence": ""
                     },
                     {
-                      "id": "219c8bad-0865-4416-a889-fda3106be3cf",
-                      "type": "text",
-                      "tag": " ",
-                      "content": "<p>Zoé s’est identifiée grâce à son identifiant.</p>"
-                    },
-                    {
                       "id": "db06d1f9-6b81-4d22-b648-580482c942ef",
                       "type": "qcu-discovery",
                       "instruction": "<p> Quelle zone permet à Zoé de prouver qu’elle est bien la propriétaire du compte.</p>",
-                      "hasShortProposals": true,
+                      "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "Zone 1",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. C’est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
+                            "diagnosis": "<p>Eh non. C’est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que <strong>la personne qui cherche à se connecter est bien celle associée à l’identifiant</strong>.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Zone 2",
                           "feedback": {
-                            "diagnosis": "<p>Exactement. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
+                            "diagnosis": "<p>Exactement. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que <strong>la personne qui cherche à se connecter est bien celle associée à l’identifiant</strong>.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "Zone 3",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. C’est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
+                            "diagnosis": "<p>Eh non. C’est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que <strong>la personne qui cherche à se connecter est bien celle associée à l’identifiant</strong>.</p>"
                           }
                         },
                         {
                           "id": "4",
                           "content": "Je ne sais pas.",
                           "feedback": {
-                            "diagnosis": "<p>C’est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que la personne qui cherche à se connecter est bien celle associée à l’identifiant.</p>"
+                            "diagnosis": "<p>C’est la zone 2. Dans cette zone, Zoé doit saisir son mot de passe. Le <strong>mot de passe</strong> permet de prouver que <strong>la personne qui cherche à se connecter est bien celle associée à l’identifiant</strong>.</p>"
                           }
                         }
                       ],
@@ -825,7 +819,7 @@
                 "id": "ea9dfc1a-89c1-4d04-a807-5213a6cf9df9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Grâce à Tao, l’ancien président de l’association, Philomène a rattaché son numéro de téléphone à la boîte mail de l’association. C’est maintenant Philomène qui recevra le code de vérification quand elle se connectera.</p>"
+                "content": "<p>Grâce à Tao, l’ancien président de l’association, Philomène a rattaché son numéro de téléphone à la boîte mail de l’association.<br>C’est maintenant Philomène qui recevra le code de vérification quand elle se connectera.</p><p>À vous de jouer&nbsp;! Voici les informations pour se connecter à la boîte mail&nbsp;:</p><ul>    <li>Adresse mail&nbsp;: lassociation@pixmail.org</li>    <li>Mot de passe&nbsp;: Asso12Aniw0!</li></ul>"
               }
             },
             {
@@ -836,7 +830,7 @@
                 "isCompletionRequired": true,
                 "title": "Connexion à la boîte mail de l’association",
                 "url": "https://epreuves.pix.fr/papotix/papotix.html?lang=fr&mode=module_mfa_nov",
-                "instruction": "<p>À vous de jouer&nbsp;! Dans l’interface ci-dessous, aidez Philomène à se connecter à la boîte mail de l’association. </p><br><p>Voici les informations pour se connecter à la boîte mail&nbsp;: </p><ul>    <li>Adresse mail&nbsp;: lassociation@pixmail.org</li>    <li>Mot de passe&nbsp;: Asso12Aniw0!</li></ul>",
+                "instruction": "<p>Dans l’interface ci-dessous, aidez Philomène à se connecter à la boîte mail de l’association.</p> ",
                 "solution": "",
                 "height": 550
               }
