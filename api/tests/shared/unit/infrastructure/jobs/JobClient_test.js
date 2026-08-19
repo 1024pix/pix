@@ -6,6 +6,7 @@ import { ValidateSiecleFileJob } from '../../../../../src/prescription/learner-m
 import { AuditLoggingJobController } from '../../../../../src/shared/application/jobs/audit-logging.job-controller.js';
 import { JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
 import { config } from '../../../../../src/shared/config.js';
+import { EVENTS } from '../../../../../src/shared/constants.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
 import { JobExpireIn } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
@@ -271,7 +272,7 @@ describe('Unit | JobClient', function () {
 
         // then
         expect(pgBossStub.subscribe).to.have.been.calledWith(
-          'ANONYMIZE_USER_BY_ADMIN',
+          EVENTS.ANONYMIZE_USER_BY_ADMIN,
           'AnonymizeAuthenticationMethodsJob',
         );
       });

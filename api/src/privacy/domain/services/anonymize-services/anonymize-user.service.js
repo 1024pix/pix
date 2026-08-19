@@ -23,10 +23,6 @@ export const anonymizeUser = async function ({
   userLoginRepository,
 }) {
   await DomainTransaction.execute(async () => {
-    const user = await userRepository.get(userId);
-
-    // TODO Check if it's done before, on pre-handlers
-    await userRepository.get(anonymizedByUserId);
 
     if (user.email) {
       await resetPasswordDemandRepository.removeAllByEmail(user.email);
@@ -36,12 +32,9 @@ export const anonymizeUser = async function ({
 
     await _anonymizeCertificationCenterMemberships(certificationCenterMembershipRepository, userId, anonymizedByUserId);
 
-    // TODO: Retirer l'appel en double
-    await _anonymizeLastUserApplicationConnections(lastUserApplicationConnectionsRepository, userId);
-
     await _anonymizeUserLogin({ userId, userLoginRepository });
 
-    await _anonymizeUser({ user, anonymizedByUserId, userRepository });
+    await _anonymizeUser({ userId, anonymizedByUserId, userRepository });
   });
 };
 
@@ -86,7 +79,10 @@ async function _anonymizeUserLogin({ userId, userLoginRepository }) {
   await userLoginRepository.update(anonymizedUserLogin, { preventUpdatedAt: true });
 }
 
-async function _anonymizeUser({ user, anonymizedByUserId, userRepository }) {
+async function _anonymizeUser({ userId, anonymizedByUserId, userRepository }) {
+
+  const user = await userRepository.get(userId);
+
   const anonymizedUser = user.anonymize(anonymizedByUserId).mapToDatabaseDto();
 
   await userRepository.updateUserDetailsForAdministration(
