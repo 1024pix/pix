@@ -139,7 +139,7 @@
         {
           "id": "b29b05e1-be80-40a1-95cd-98460a6accd5",
           "type": "discovery",
-          "title": "Découverte 1",
+          "title": "Découverte 1-1",
           "components": [
             {
               "type": "stepper",
@@ -184,7 +184,14 @@
                   ]
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "id": "91a58c8d-af25-4361-9584-b6ca28ddb5f7",
+          "type": "discovery",
+          "title": "Découverte 1-2",
+          "components": [
             {
               "type": "element",
               "element": {
@@ -212,7 +219,7 @@
                     "diagnosis": "<p>Pour réaliser ces démarches, il est nécessaire de disposer à la fois d’un <strong>appareil numérique</strong> (un ordinateur, un smartphone ou une tablette) et d’une <strong>connexion internet</strong>.&nbsp;<br></p>"
                   },
                   "invalid": {
-                    "state": "<p>Pas tout à fait.<br></p>     ",
+                    "state": "<p>Pas tout à fait.<br></p>",
                     "diagnosis": "<p>Pour réaliser ces démarches, il est nécessaire de disposer à la fois d’un <strong>appareil numérique</strong> (un ordinateur, un smartphone ou une tablette) et d’une <strong>connexion internet</strong>.&nbsp;<br></p>"
                   }
                 },
