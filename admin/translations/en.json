@@ -639,7 +639,8 @@
             "level": "Level {index}",
             "previous-version-capacity": "Previous value: {previousVersionCapacity}",
             "competences": {
-              "title": "Bounds of capacities by competence"
+              "title": "Bounds of capacities by competence",
+              "level": "Level"
             },
             "success-notification": "The scoring has been successfully updated",
             "title": "Bounds of capacity by mesh"

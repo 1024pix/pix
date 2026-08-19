@@ -647,7 +647,8 @@
             "level": "Niveau {index}",
             "previous-version-capacity": "Ancienne valeur : {previousVersionCapacity}",
             "competences": {
-              "title": "Bornes de capacités par compétences"
+              "title": "Bornes de capacités par compétences",
+              "level": "Niveau"
             },
             "success-notification": "Le scoring a bien été mis à jour",
             "title": "Bornes de capacités par mailles"
