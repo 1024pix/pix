@@ -7,7 +7,6 @@ import { anonymizeGeneralizeDate } from '../../../../shared/infrastructure/utils
  * @param{string} params.anonymizedByUserId
  * @param{string} params.client
  * @param{UserRepository} params.userRepository
- * @param{MembershipRepository} params.membershipRepository
  * @param{CertificationCenterMembershipRepository} params.certificationCenterMembershipRepository
  * @param{LastUserApplicationConnectionsRepository} params.lastUserApplicationConnectionsRepository
  * @param{ResetPasswordDemandRepository} params.resetPasswordDemandRepository
@@ -18,7 +17,6 @@ export const anonymizeUser = async function ({
   userId,
   anonymizedByUserId,
   userRepository,
-  membershipRepository,
   certificationCenterMembershipRepository,
   lastUserApplicationConnectionsRepository,
   resetPasswordDemandRepository,
@@ -34,8 +32,6 @@ export const anonymizeUser = async function ({
       await resetPasswordDemandRepository.removeAllByEmail(user.email);
     }
 
-    await _anonymizeMemberships({ membershipRepository, userId, updatedByUserId: anonymizedByUserId });
-
     await _anonymizeLastUserApplicationConnections(lastUserApplicationConnectionsRepository, userId);
 
     await _anonymizeCertificationCenterMemberships(certificationCenterMembershipRepository, userId, anonymizedByUserId);
@@ -48,22 +44,6 @@ export const anonymizeUser = async function ({
     await _anonymizeUser({ user, anonymizedByUserId, userRepository });
   });
 };
-
-async function _anonymizeMemberships({ userId, anonymizedByUserId, membershipRepository }) {
-  // Anonymize last accessed at
-  const userMemberships = await membershipRepository.findByUserId(userId);
-
-  for (const membership of userMemberships) {
-    const anonymizedMembershipLastAccessedAt = anonymizeGeneralizeDate(membership.lastAccessedAt);
-    await membershipRepository.updateLastAccessedAt({
-      membershipId: membership.id,
-      lastAccessedAt: anonymizedMembershipLastAccessedAt,
-    });
-  }
-
-  // Disable Memberships
-  await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId: anonymizedByUserId });
-}
 
 async function _anonymizeCertificationCenterMemberships(
   certificationCenterMembershipRepository,
