@@ -129,7 +129,7 @@ export default class TrainingDetailsCard extends Component {
             <span class="training-details__label">{{t
                 "pages.trainings.training.form.recommendation-engine.delivery-mode.label"
               }}</span>
-            <span class="training-details__value">
+            <span>
               {{this.deliveryModeLabel}}
             </span>
           </div>
@@ -137,7 +137,7 @@ export default class TrainingDetailsCard extends Component {
             <span class="training-details__label">{{t
                 "pages.trainings.training.form.recommendation-engine.registration-required.label"
               }}</span>
-            <span class="training-details__value">{{if
+            <span>{{if
                 @training.registrationRequired
                 (t "common.words.yes")
                 (t "common.words.no")
