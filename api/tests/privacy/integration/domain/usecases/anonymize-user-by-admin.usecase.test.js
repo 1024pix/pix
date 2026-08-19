@@ -3,6 +3,7 @@ import sinon from 'sinon';
 
 import { AnonymizeAuthenticationMethodsEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-authentication-methods.event-handler.js';
 import { AnonymizeLastUserApplicationConnectionsEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-last-user-application-connections.event-handler.js';
+import { AnonymizeUserLoginEventHandler } from '../../../../../src/identity-access-management/application/jobs/anonymize-user-login.event-handler.js';
 import { RevokeAllAnonymizedUserTokenEventHandler } from '../../../../../src/identity-access-management/application/jobs/revoke-all-anonymized-user-token.event-handler.js';
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
@@ -43,15 +44,6 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
 
     const managingStudentsOrga = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
     databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId: managingStudentsOrga.id });
-
-    const userLogin = databaseBuilder.factory.buildUserLogin({
-      userId,
-      createdAt: new Date('2012-12-12T12:25:34Z'),
-      updatedAt: new Date('2023-03-23T09:44:30Z'),
-      lastLoggedAt: new Date('2023-02-18T18:18:02Z'),
-      temporaryBlockedUntil: new Date('2023-03-23T08:16:16Z'),
-      blockedAt: new Date('2023-03-23T09:44:30Z'),
-    });
 
     await databaseBuilder.commit();
 
@@ -124,15 +116,11 @@ describe('Integration | Privacy | Domain | UseCase | anonymize-user-by-admin', f
       updatedByUserId: anonymizedByUserId,
     });
 
-    const resetPasswordDemands = await knex('reset-password-demands').whereRaw('LOWER("email") = LOWER(?)', user.email);
-    expect(resetPasswordDemands).to.have.lengthOf(0);
-
-    const anonymizedUserLogin = await knex('user-logins').where({ id: userLogin.id }).first();
-    expect(anonymizedUserLogin.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');
-    expect(anonymizedUserLogin.updatedAt.toISOString()).to.equal('2023-03-01T00:00:00.000Z');
-    expect(anonymizedUserLogin.temporaryBlockedUntil).to.be.null;
-    expect(anonymizedUserLogin.blockedAt).to.be.null;
-    expect(anonymizedUserLogin.lastLoggedAt.toISOString()).to.equal('2023-02-01T00:00:00.000Z');
+    const anonymizeUserLoginEventHandler = new AnonymizeUserLoginEventHandler();
+    await expect(anonymizeUserLoginEventHandler.jobName).to.have.performed.withEventPayload({
+      userId,
+      updatedByUserId: anonymizedByUserId,
+    });
 
     const anonymizedUser = await knex('users').where({ id: user.id }).first();
     expect(anonymizedUser.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');
