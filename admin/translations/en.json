@@ -636,12 +636,15 @@
           "scoring": {
             "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
             "capacity-submit-button": "Save capacities by mesh",
+            "competences": {
+              "level": "Level",
+              "maximum-input-label": "Maximal capacity ",
+              "minimum-input-label": "Minimal capacity ",
+              "no-configuration": "No scoring configuration for this competence.",
+              "title": "Bounds of capacities by competence"
+            },
             "level": "Level {index}",
             "previous-version-capacity": "Previous value: {previousVersionCapacity}",
-            "competences": {
-              "title": "Bounds of capacities by competence",
-              "level": "Level"
-            },
             "success-notification": "The scoring has been successfully updated",
             "title": "Bounds of capacity by mesh"
           },

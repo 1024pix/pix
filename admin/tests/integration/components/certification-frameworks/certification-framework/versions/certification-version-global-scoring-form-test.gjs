@@ -133,7 +133,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @activeVersion={{activeVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
@@ -163,7 +163,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -189,7 +189,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -216,7 +216,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm
+            <CertificationVersionGlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />

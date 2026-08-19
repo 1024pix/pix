@@ -10,7 +10,7 @@
     margin-top: var(--pix-spacing-4x);
     text-wrap: pretty;
 
-    @media (max-width: 767px) {
+    @media (width <= 767px) {
       display: block;
 
       [role='tabpanel'][hidden] {
@@ -62,7 +62,7 @@
       }
     }
 
-    @media (max-width: 767px) {
+    @media (width <= 767px) {
       display: none;
     }
   }
@@ -70,17 +70,17 @@
   .versions-competences-scoring-tablist__competences-list {
     .pix-accordions-v2 {
       background: none;
-      box-shadow: none;
       border: none;
+      box-shadow: none;
     }
 
     .pix-accordions-v2__title {
       @extend %pix-subtitle-s;
 
       background: none;
-      box-shadow: none;
       border: none;
       outline: none;
+      box-shadow: none;
 
       &:hover,
       &:active,
@@ -88,16 +88,16 @@
       &:focus-visible,
       &[aria-expanded='true'] {
         background: none;
-        box-shadow: none;
         border: none;
         outline: none;
+        box-shadow: none;
       }
     }
 
     .pix-accordions-v2__content {
       background: none;
-      box-shadow: var(--pix-shadow-default);
       border: none;
+      box-shadow: var(--pix-shadow-default);
     }
   }
 
@@ -132,23 +132,23 @@
     @extend %pix-title-s;
 
     position: relative;
-    isolation: isolate;
     display: flex;
-    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
-    align-items: center;
     gap: var(--pix-spacing-2x);
+    align-items: center;
     align-self: stretch;
-    border-radius: var(--pix-radius-2x, 8px);
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
     color: var(--area-color-dark);
+    border-radius: var(--pix-radius-2x, 8px);
+    isolation: isolate;
 
     &::before {
       position: absolute;
-      inset: 0;
       z-index: -1;
-      border-radius: inherit;
       background-color: var(--area-color);
+      border-radius: inherit;
       opacity: 0.1;
       content: '';
+      inset: 0;
     }
   }
 

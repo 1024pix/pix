@@ -1,5 +1,5 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
+import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { fn } from '@ember/helper';
@@ -17,17 +17,10 @@ export default class CompetencesScoringForm extends Component {
     return [...this.args.draftVersion.areas].sort((a, b) => Number(a.code) - Number(b.code));
   }
 
-  get fakeLevels() {
-    return [
-      { competenceLevel: 0, bounds: { min: -8, max: -2 } },
-      { competenceLevel: 1, bounds: { min: -2, max: -1 } },
-      { competenceLevel: 2, bounds: { min: -1, max: 0.5 } },
-      { competenceLevel: 3, bounds: { min: 0.5, max: 1 } },
-      { competenceLevel: 4, bounds: { min: 1, max: 2 } },
-      { competenceLevel: 5, bounds: { min: 2, max: 3 } },
-      { competenceLevel: 6, bounds: { min: 3, max: 4 } },
-      { competenceLevel: 7, bounds: { min: 4, max: 8 } },
-    ];
+  @action
+  levelsForCompetence(competenceId) {
+    const config = this.args.calibrationScoringConfiguration.competencesScoringConfiguration ?? [];
+    return config.find(({ competenceId: id }) => id === competenceId)?.values ?? [];
   }
 
   @action
@@ -88,28 +81,36 @@ export default class CompetencesScoringForm extends Component {
                   <PixAccordions @isV2Version={{true}}>
                     <:title>{{competence.index}} - {{competence.name}}</:title>
                     <:content>
-                      <PixTable @variant="modulix" @data={{this.fakeLevels}}>
-                        <:columns as |level context|>
-                          <PixTableColumn @context={{context}} class='table__column--wide'>
-                            <:header>{{t
-                              "components.certification-frameworks.certification-framework.versions.scoring.competences.level"
-                            }}</:header>
-                            <:cell>{{level.competenceLevel}}</:cell>
-                          </PixTableColumn>
-                          <PixTableColumn @context={{context}}>
-                            <:header>{{t
-                              "components.certification-frameworks.certification-framework.versions.scoring.minimum-input-label"
-                            }}</:header>
-                            <:cell>{{level.bounds.min}}</:cell>
-                          </PixTableColumn>
-                          <PixTableColumn @context={{context}}>
-                            <:header>{{t
-                              "components.certification-frameworks.certification-framework.versions.scoring.maximum-input-label"
-                            }}</:header>
-                            <:cell>{{level.bounds.max}}</:cell>
-                          </PixTableColumn>
-                        </:columns>
-                      </PixTable>
+                      {{#let (this.levelsForCompetence competence.id) as |levels|}}
+                        {{#if levels.length}}
+                          <PixTable @variant="modulix" @data={{levels}}>
+                            <:columns as |level context|>
+                              <PixTableColumn @context={{context}} class='table__column--wide'>
+                                <:header>{{t
+                                    "components.certification-frameworks.certification-framework.versions.scoring.competences.level"
+                                  }}</:header>
+                                <:cell>{{level.competenceLevel}}</:cell>
+                              </PixTableColumn>
+                              <PixTableColumn @context={{context}}>
+                                <:header>{{t
+                                    "components.certification-frameworks.certification-framework.versions.scoring.competences.minimum-input-label"
+                                  }}</:header>
+                                <:cell>{{level.bounds.min}}</:cell>
+                              </PixTableColumn>
+                              <PixTableColumn @context={{context}}>
+                                <:header>{{t
+                                    "components.certification-frameworks.certification-framework.versions.scoring.competences.maximum-input-label"
+                                  }}</:header>
+                                <:cell>{{level.bounds.max}}</:cell>
+                              </PixTableColumn>
+                            </:columns>
+                          </PixTable>
+                        {{else}}
+                          <p>{{t
+                              "components.certification-frameworks.certification-framework.versions.scoring.competences.no-configuration"
+                            }}</p>
+                        {{/if}}
+                      {{/let}}
                     </:content>
                   </PixAccordions>
                 {{/each}}
