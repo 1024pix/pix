@@ -4,7 +4,6 @@
 
 // @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CertificationCandidateNotFoundError } from '../../../shared/domain/errors.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
 /**
@@ -57,8 +56,7 @@ export async function findByUserId({ userId }) {
  * @function
  * @param {Candidate} candidate
  *
- * @returns {Promise<void>}
- * @throws {CertificationCandidateNotFoundError} Certification candidate not found
+ * @returns {Promise<object|undefined>} the updated candidate, or undefined when no candidate was found
  */
 export async function update(candidate) {
   const candidateDataToSave = adaptModelToDb(candidate);
@@ -71,9 +69,7 @@ export async function update(candidate) {
     .update(candidateDataToSave)
     .returning('*');
 
-  if (!updatedCertificationCandidate) {
-    throw new CertificationCandidateNotFoundError();
-  }
+  return updatedCertificationCandidate;
 }
 
 /**

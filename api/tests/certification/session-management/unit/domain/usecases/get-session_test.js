@@ -83,10 +83,10 @@ describe('Unit | UseCase | get-session', function () {
   });
 
   context('when the session does not exist', function () {
-    it('should throw an error the session', async function () {
+    it('throws a NotFoundError', async function () {
       // given
       const sessionId = 123;
-      sessionManagementRepository.get.withArgs({ id: sessionId }).rejects(new NotFoundError());
+      sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(null);
 
       // when
       const err = await catchErr(getSession)({
@@ -95,7 +95,7 @@ describe('Unit | UseCase | get-session', function () {
       });
 
       // then
-      expect(err).to.be.an.instanceof(NotFoundError);
+      expect(err).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
     });
   });
 });

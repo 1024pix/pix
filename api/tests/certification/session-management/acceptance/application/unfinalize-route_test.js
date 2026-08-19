@@ -8,7 +8,7 @@ describe('Certification | Session Management | Acceptance | Application | Contro
     it('should return status 204', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser.withRole().id;
-      databaseBuilder.factory.buildSession({ id: 123 });
+      databaseBuilder.factory.buildSession({ id: 123, finalizedAt: new Date('2020-01-01') });
       databaseBuilder.factory.buildFinalizedSession({ sessionId: 123 });
       await databaseBuilder.commit();
 

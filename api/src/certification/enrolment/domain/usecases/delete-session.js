@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionStartedDeletionError } from '../errors.js';
 
 /**
@@ -10,6 +11,8 @@ import { SessionStartedDeletionError } from '../errors.js';
  * @param {object} params
  * @param {SessionRepository} params.sessionRepository
  * @param {SessionManagementRepository} params.sessionManagementRepository
+ * @throws {SessionStartedDeletionError} the session has already started
+ * @throws {NotFoundError} the session does not exist or its access is restricted
  */
 const deleteSession = async ({ sessionId, sessionRepository, sessionManagementRepository }) => {
   if (!(await sessionManagementRepository.hasNoStartedCertification({ id: sessionId }))) {
@@ -17,7 +20,11 @@ const deleteSession = async ({ sessionId, sessionRepository, sessionManagementRe
   }
 
   await DomainTransaction.execute(async () => {
-    await sessionRepository.remove({ id: sessionId });
+    const deletedSession = await sessionRepository.remove({ id: sessionId });
+
+    if (!deletedSession) {
+      throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+    }
   });
 };
 

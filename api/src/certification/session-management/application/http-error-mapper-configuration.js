@@ -16,6 +16,7 @@ import {
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionFinalized,
+  SessionNotFinalizedError,
   SessionNotJoinable,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
@@ -37,6 +38,10 @@ const sessionDomainErrorMappingConfiguration = [
   {
     name: SessionAlreadyPublishedError.name,
     httpErrorFn: (error) => new BadRequestError(error.message, error.code),
+  },
+  {
+    name: SessionNotFinalizedError.name,
+    httpErrorFn: (error) => new ConflictError(error.message, error.code),
   },
   {
     name: ChallengeToBeDeneutralizedNotFoundError.name,

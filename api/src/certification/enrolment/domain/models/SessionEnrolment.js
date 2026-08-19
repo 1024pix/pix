@@ -46,6 +46,24 @@ export class SessionEnrolment {
     return SESSION_STATUSES.CREATED;
   }
 
+  /**
+   * @param {object} params
+   * @param {string} params.address
+   * @param {string} params.room
+   * @param {string} params.date
+   * @param {string} params.time
+   * @param {string} params.examiner
+   * @param {string} params.description
+   */
+  updateInfo({ address, room, date, time, examiner, description }) {
+    this.address = address;
+    this.room = room;
+    this.date = date;
+    this.time = time;
+    this.examiner = examiner;
+    this.description = description;
+  }
+
   get isSco() {
     return this.certificationCenterType === CERTIFICATION_CENTER_TYPES.SCO;
   }

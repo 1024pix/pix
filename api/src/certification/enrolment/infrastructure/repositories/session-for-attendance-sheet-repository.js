@@ -1,5 +1,4 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCandidateForAttendanceSheet } from '../../domain/read-models/CertificationCandidateForAttendanceSheet.js';
 import { SessionForAttendanceSheet } from '../../domain/read-models/SessionForAttendanceSheet.js';
 
@@ -7,8 +6,7 @@ import { SessionForAttendanceSheet } from '../../domain/read-models/SessionForAt
  * @function
  * @param {object} params
  * @param {number} params.id
- * @returns {Promise<SessionForAttendanceSheet>}
- * @throws {NotFoundError}
+ * @returns {Promise<SessionForAttendanceSheet|null>} the session with its candidates, or null when the session does not exist or has no enrolled candidate
  */
 export async function getWithCertificationCandidates({ id }) {
   const knexConn = DomainTransaction.getConnection();
@@ -59,7 +57,7 @@ export async function getWithCertificationCandidates({ id }) {
     .first();
 
   if (!results || results.certificationCandidates === null) {
-    throw new NotFoundError("La session n'existe pas ou aucun candidat n'est inscrit à celle-ci");
+    return null;
   }
 
   return _toDomain(results);
