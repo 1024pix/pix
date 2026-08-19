@@ -9,7 +9,7 @@ import {
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../shared/domain/errors.js';
 import { CenterHabilitationError } from '../../../shared/domain/errors.js';
-import { SessionExpiredError } from '../errors.js';
+import { SessionExpiredError, WrongDomainExtensionForPixPlusError } from '../errors.js';
 
 /**
  * Candidate entry to a certification is a multi step process
@@ -19,6 +19,7 @@ import { SessionExpiredError } from '../errors.js';
  * @param {string} params.firstName
  * @param {string} params.lastName
  * @param {Date} params.birthdate
+ * @param {boolean} params.isFrenchDomainExtension
  * @param {Function} params.normalizeStringFnc
  * @returns {Promise<Candidate>}
  */
@@ -28,6 +29,7 @@ export async function registerCandidateParticipation({
   firstName,
   lastName,
   birthdate,
+  isFrenchDomainExtension,
   normalizeStringFnc,
   candidateRepository,
   centerRepository,
@@ -68,6 +70,8 @@ export async function registerCandidateParticipation({
     candidate,
     userId,
   });
+
+  checkFrenchDomainForPixPlus({ candidate, isFrenchDomainExtension });
 
   await checkIfUserIsCertifiable({ placementProfileService, userId });
 
@@ -143,6 +147,17 @@ async function checkAroundCertificationCenter({ centerRepository, userRepository
     if (!user.has({ organizationLearnerId: candidate.organizationLearnerId })) {
       throw new MatchingReconciledStudentNotFoundError();
     }
+  }
+}
+
+/**
+ * @param {object} params
+ * @param {Candidate} params.candidate
+ * @param {boolean} params.isFrenchDomainExtension
+ */
+function checkFrenchDomainForPixPlus({ candidate, isFrenchDomainExtension }) {
+  if (!candidate.hasCoreScopeSubscription() && !isFrenchDomainExtension) {
+    throw new WrongDomainExtensionForPixPlusError();
   }
 }
 

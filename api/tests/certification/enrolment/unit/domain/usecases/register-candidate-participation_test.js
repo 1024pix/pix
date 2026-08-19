@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { SessionExpiredError } from '../../../../../../src/certification/enrolment/domain/errors.js';
+import {
+  SessionExpiredError,
+  WrongDomainExtensionForPixPlusError,
+} from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/domain/usecases/register-candidate-participation.js';
 import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -346,6 +349,112 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     });
 
     expect(error).to.be.instanceOf(CenterHabilitationError);
+  });
+
+  it('throws WrongDomainExtensionForPixPlusError when candidate subscribed to a pixplus certif and is not on the french domain', async function () {
+    const firstName = 'Brice';
+    const lastName = 'Wine';
+    const birthdate = '2000-03-23';
+    const user = domainBuilder.certification.enrolment.buildUser();
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const candidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName,
+        lastName,
+        birthdate,
+      })
+      .withSubscription(Frameworks.DROIT)
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([candidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+    const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
+    const certificationCenter = domainBuilder.certification.enrolment.buildCenter({
+      habilitations: [{ key: Frameworks.DROIT }],
+      matchingOrganization: organization,
+    });
+    centerRepository.getById.resolves(certificationCenter);
+    userRepository.get.resolves(user);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName,
+      birthdate,
+      lastName,
+      userId: user.id,
+      sessionId,
+      isFrenchDomainExtension: false,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(WrongDomainExtensionForPixPlusError);
+    sinon.assert.notCalled(candidateRepository.update);
+    sinon.assert.notCalled(eventAdapter.onCandidateReconciled);
+  });
+
+  it('reconciles a candidate subscribed to a pixplus certif when on the french domain', async function () {
+    const firstName = 'Brice';
+    const lastName = 'Wine';
+    const birthdate = '2000-03-23';
+    const user = domainBuilder.certification.enrolment.buildUser();
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const candidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName,
+        lastName,
+        birthdate,
+      })
+      .withSubscription(Frameworks.DROIT)
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([candidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+    const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
+    const certificationCenter = domainBuilder.certification.enrolment.buildCenter({
+      habilitations: [{ key: Frameworks.DROIT }],
+      matchingOrganization: organization,
+    });
+    const placementProfile = domainBuilder.buildPlacementProfile.buildCertifiable({ userId: user.id });
+    centerRepository.getById.resolves(certificationCenter);
+    userRepository.get.resolves(user);
+    placementProfileService.getPlacementProfile.resolves(placementProfile);
+
+    const reconciledCandidate = await registerCandidateParticipation({
+      firstName,
+      birthdate,
+      lastName,
+      userId: user.id,
+      sessionId,
+      isFrenchDomainExtension: true,
+      ...dependencies,
+    });
+
+    expect(reconciledCandidate).to.deep.equal(
+      candidateBuilder.asReconciled({ at: new Date(), userId: user.id }).build(),
+    );
   });
 
   it('throws MatchingReconciledStudentNotFoundError when center is managing student and candidate orgaLearnerId doesnt match user orgaLearnerIds', async function () {
