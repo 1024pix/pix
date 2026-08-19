@@ -882,6 +882,7 @@
         "message": "Congratulazioni {fullName}, il tuo profilo Pix è certificabile."
       },
       "error-messages": {
+        "account-already-linked-to-another-candidate": "L'account con cui hai effettuato l'accesso è già collegato a un altro candidato di questa sessione. Verifica di aver effettuato l'accesso con il tuo account Pix o chiedi aiuto al tuo sorvegliante.",
         "generic": {
           "check-personal-info": "Verificare con il sorvegliante che i propri dati personali corrispondano a quelli riportati sul foglio di registrazione.",
           "check-session-number": "Controlla il numero della sessione.",

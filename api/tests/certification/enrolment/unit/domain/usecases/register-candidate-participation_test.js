@@ -210,6 +210,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     });
 
     expect(error).to.be.instanceOf(UserAlreadyLinkedToCandidateInSessionError);
+    expect(error.code).to.equal('USER_ALREADY_LINKED_TO_CANDIDATE_IN_SESSION');
     expect(candidateRepository.update).to.not.have.been.called;
   });
 

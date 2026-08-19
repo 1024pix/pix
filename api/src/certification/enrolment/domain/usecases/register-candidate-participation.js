@@ -64,6 +64,7 @@ export async function registerCandidateParticipation({
   if (session.hasReconciledCandidateTo({ userId })) {
     throw new UserAlreadyLinkedToCandidateInSessionError(
       'The user is already linked to a candidate with different personal info in the given session',
+      'USER_ALREADY_LINKED_TO_CANDIDATE_IN_SESSION',
     );
   }
 
