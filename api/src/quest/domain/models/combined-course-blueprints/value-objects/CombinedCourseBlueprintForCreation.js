@@ -10,8 +10,6 @@ const schema = Joi.object({
   description: Joi.string().allow(null),
   prescriberDescription: Joi.string().allow(null),
   illustration: Joi.string().uri().allow(null),
-  rewardId: Joi.number().allow(null),
-  rewardType: Joi.string().valid('attestations').allow(null),
   rewardRequirementsDescription: Joi.string().allow(null),
   quest: Joi.object().instance(Quest),
   surveyLink: Joi.string().uri().allow(null),
@@ -24,8 +22,6 @@ export class CombinedCourseBlueprintForCreation {
     description,
     prescriberDescription,
     illustration,
-    rewardId = null,
-    rewardType = null,
     rewardRequirementsDescription = null,
     quest,
     surveyLink = null,
@@ -35,8 +31,6 @@ export class CombinedCourseBlueprintForCreation {
     this.description = description;
     this.prescriberDescription = prescriberDescription;
     this.illustration = illustration;
-    this.rewardId = rewardId;
-    this.rewardType = rewardType;
     this.rewardRequirementsDescription = rewardRequirementsDescription;
     this.quest = quest;
     this.surveyLink = surveyLink;
