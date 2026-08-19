@@ -38,16 +38,15 @@
     $scrollbar-width: 0.5rem;
 
     &__title {
-      position: absolute;
+      position: sticky;
       top: 0;
-      left: 0;
       z-index: 10;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: calc(100% - $scrollbar-width);
+      width: 100%;
       padding: var(--pix-spacing-4x);
-      padding-right: calc(var(--pix-spacing-6x) - ($scrollbar-width * 2));
+      padding-right: var(--pix-spacing-6x);
       padding-left: var(--pix-spacing-6x);
       background-color: var(--pix-orga-50);
 
