@@ -50,7 +50,7 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
   });
 
   module('for a "targetProfile" type course', function () {
-    test('it shows the course content', async function (assert) {
+    test('it shows the course details', async function (assert) {
       //given
       const currentCourse = store.createRecord('target-profile-overview', {
         name: 'Ma super formation',
@@ -68,6 +68,25 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       assert.dom(screen.getByText(currentCourse.name)).exists();
       assert.dom(screen.getByText(currentCourse.description)).exists();
       assert.dom(screen.getByText(t('pages.catalogue.card.tag.target-profile'))).exists();
+    });
+
+    test('it shows target profile content title', async function (assert) {
+      //given
+      const currentCourse = store.createRecord('target-profile-overview', {
+        name: 'Ma super formation',
+        description: 'description',
+      });
+
+      //when
+      const screen = await render(
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
+      );
+
+      assert
+        .dom(screen.getByRole('heading', { level: 3, name: t('pages.catalogue.modal.target-profile-content.title') }))
+        .exists();
     });
 
     test('it shows the target profile tubes', async function (assert) {
@@ -165,8 +184,13 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
 
       // then
       assert
-        .dom(screen.getByRole('heading', { name: `${competencesPix[0].index} - ${competencesPix[0].name}` }))
+        .dom(
+          screen.getByText(
+            `${t('pages.catalogue.modal.target-profile-content.competence')} ${competencesPix[0].index}`,
+          ),
+        )
         .exists();
+      assert.dom(screen.getByRole('heading', { name: competencesPix[0].name })).exists();
 
       const firstCompetence = screen.getByRole('table', {
         name: `${competencesPix[0].index} - ${competencesPix[0].name}`,
@@ -178,7 +202,7 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
   });
 
   module('for a "combined-course-blueprint" type course', function () {
-    test('it shows the course content', async function (assert) {
+    test('it shows the course details', async function (assert) {
       //given
       const currentCourse = store.createRecord('combined-course-blueprint-overview', {
         name: 'Ma super formation',
@@ -199,6 +223,28 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       assert.dom(screen.queryByText(currentCourse.description)).doesNotExist();
       assert.dom(screen.getByText(t('pages.catalogue.card.tag.blueprint'))).exists();
     });
+
+    test('it shows combined course content title', async function (assert) {
+      //given
+      const currentCourse = store.createRecord('combined-course-blueprint-overview', {
+        name: 'Ma super formation',
+        description: 'description',
+        prescriberDescription: 'prescriberDescription',
+      });
+
+      //when
+      const screen = await render(
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(screen.getByRole('heading', { level: 3, name: t('pages.catalogue.modal.combined-course-content.title') }))
+        .exists();
+    });
+
     test('it shows the blueprint items', async function (assert) {
       //given
       const itemEval = store.createRecord('combined-course-blueprint-item', {

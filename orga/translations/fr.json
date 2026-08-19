@@ -816,7 +816,8 @@
         "label": "Quel est l'objectif de votre campagne ?",
         "profiles-collection": "Collecter les profils Pix des participants",
         "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix.",
-        "profiles-collection-info-certificability-calculation": "Le statut Certifiable est mis à jour automatiquement dans l’onglet '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Élèves'</a>'."
+        "profiles-collection-info-certificability-calculation": "Le statut Certifiable est mis à jour automatiquement dans l’onglet '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Élèves'</a>'.",
+        "title": "Objectif"
       },
       "settings": {
         "title": "Paramétrage"
@@ -1042,7 +1043,7 @@
         "simplified-access": "Accès sans compte",
         "tag": {
           "blueprint": "Parcours apprenant",
-          "target-profile": "Parcours"
+          "target-profile": "Parcours d'évaluation"
         },
         "tubes-count": "{count, plural, =0 {Aucun sujet} =1 {{count} sujet} other {{count} sujets}}"
       },
@@ -1074,17 +1075,20 @@
         "associated-badges": "Badges associés",
         "combined-course-content": {
           "aria-label-duration": "Durée estimée : {duration} minutes",
-          "description": "Les parcours apprenants articulent des évaluations et des modules d'apprentissage personnalisés, permettant une adaptation pédagogique fondée sur le niveau de chaque participant.",
           "duration": "≈ {duration} min",
           "module-info": "Les modules seront recommandés aux participants en fonction de leurs résultats.",
           "prescribed": "Prescrit",
           "recommended": "Recommandé",
           "step": "Étape n°{number}",
-          "title": "Parcours apprenants"
+          "title": "Contenu du parcours apprenant"
         },
         "max-level": "Niveau maximum",
         "open-modal": "Voir le détail du parcours {name}",
         "select-course": "Sélectionner ce parcours",
+        "target-profile-content": {
+          "competence": "Compétence",
+          "title": "Contenu du parcours d'évaluation"
+        },
         "tube-name-and-description": "Sujet et description",
         "tube-unavailable": "Sujet indisponible"
       },

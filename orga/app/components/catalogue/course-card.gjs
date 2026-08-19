@@ -20,7 +20,7 @@ export function getCourseInfo(courseType) {
         type: 'targetProfile',
         color: 'blue',
         label: 'pages.catalogue.card.tag.target-profile',
-        image: 'https://assets.pix.org/sites/orga/target-profile.svg',
+        image: 'https://assets.pix.org/sites/orga/target-profile.png',
       };
     case BLUEPRINT:
     case COMBINED_COURSE_BLUEPRINT_OVERVIEW:
@@ -28,7 +28,7 @@ export function getCourseInfo(courseType) {
         type: 'blueprint',
         color: 'yellow',
         label: 'pages.catalogue.card.tag.blueprint',
-        image: 'https://assets.pix.org/sites/orga/blueprint.svg',
+        image: 'https://assets.pix.org/sites/orga/blueprint.png',
       };
     default:
       return null;

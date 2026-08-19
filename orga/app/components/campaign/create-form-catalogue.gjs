@@ -60,7 +60,9 @@ export default class CreateForm extends Component {
         {{t "common.form.mandatory-fields"}}
       </p>
 
-      <CampaignGoals @campaign={{@campaign}} @errors={{@errors}} @hasBlueprints={{@hasBlueprints}} />
+      <FormSection @title={{t "pages.campaign-creation.purpose.title"}}>
+        <CampaignGoals @campaign={{@campaign}} @errors={{@errors}} @hasBlueprints={{@hasBlueprints}} />
+      </FormSection>
 
       {{#if this.displaysSettingsSection}}
         <FormSection @title={{t "pages.campaign-creation.settings.title"}}>
