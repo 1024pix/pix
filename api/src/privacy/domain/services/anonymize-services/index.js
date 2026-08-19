@@ -3,7 +3,6 @@ import * as userRepository from '../../../../identity-access-management/infrastr
 import * as userLoginRepository from '../../../../identity-access-management/infrastructure/repositories/user-login-repository.js';
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
-import { certificationCenterMembershipRepository } from '../../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import boundedContext from '../../../dependencies.json' with { type: 'json' };
 import * as campaignParticipationsApiRepository from '../../../infrastructure/repositories/campaign-participations-api.repository.js';
 import * as candidatesApiRepository from '../../../infrastructure/repositories/candidates-api.repository.js';
@@ -15,7 +14,6 @@ import { canSelfAnonymize } from './can-self-anonymize.service.js';
 const repositories = {
   campaignParticipationsApiRepository,
   candidatesApiRepository,
-  certificationCenterMembershipRepository,
   learnersApiRepository,
   resetPasswordDemandRepository,
   userLoginRepository,
