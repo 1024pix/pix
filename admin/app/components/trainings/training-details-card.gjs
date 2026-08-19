@@ -112,8 +112,8 @@ export default class TrainingDetailsCard extends Component {
             <span class="training-details__label">{{t
                 "pages.trainings.training.form.recommendation-engine.description.label"
               }}</span>
-            <span class="training-details__value"><SafeMarkdownToHtml
-                class="target-profile-details__description"
+            <span><SafeMarkdownToHtml
+                class="training-details__description"
                 @markdown={{@training.description}}
               /></span>
           </div>
@@ -121,7 +121,7 @@ export default class TrainingDetailsCard extends Component {
             <span class="training-details__label">
               {{t "pages.trainings.training.form.recommendation-engine.program.label"}}
             </span>
-            <span class="training-details__value">{{@training.program}}</span>
+            <span class="training-details__program">{{@training.program}}</span>
           </div>
         </div>
         <div class="training-details__block">

@@ -82,4 +82,9 @@
   &__list {
     list-style-type: disc;
   }
+
+  &__description, &__program {
+    width: 100%;
+    white-space: pre-line;
+  }
 }
