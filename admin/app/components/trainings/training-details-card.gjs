@@ -103,58 +103,56 @@ export default class TrainingDetailsCard extends Component {
         </div>
       </Card>
 
-      <Card
-        class="admin-form__card training-details__card"
-        @title={{t "pages.trainings.training.details.recommendationEngine"}}
-      >
-        <div class="training-details__block">
-          <div class="training-details__field">
-            <span class="training-details__label">{{t
-                "pages.trainings.training.form.recommendation-engine.description.label"
-              }}</span>
-            <span><SafeMarkdownToHtml
-                class="training-details__description"
-                @markdown={{@training.description}}
-              /></span>
+      {{#if @training.isUsedForRecommendationEngine}}
+        <Card
+          class="admin-form__card training-details__card"
+          @title={{t "pages.trainings.training.details.recommendationEngine"}}
+        >
+          <div class="training-details__block">
+            <div class="training-details__field">
+              <span class="training-details__label">{{t
+                  "pages.trainings.training.form.recommendation-engine.description.label"
+                }}</span>
+              <span><SafeMarkdownToHtml
+                  class="training-details__description"
+                  @markdown={{@training.description}}
+                /></span>
+            </div>
+            <div class="training-details__field">
+              <span class="training-details__label">
+                {{t "pages.trainings.training.form.recommendation-engine.program.label"}}
+              </span>
+              <span class="training-details__program">{{@training.program}}</span>
+            </div>
           </div>
-          <div class="training-details__field">
-            <span class="training-details__label">
-              {{t "pages.trainings.training.form.recommendation-engine.program.label"}}
-            </span>
-            <span class="training-details__program">{{@training.program}}</span>
+          <div class="training-details__block">
+            <div class="training-details__field">
+              <span class="training-details__label">{{t
+                  "pages.trainings.training.form.recommendation-engine.delivery-mode.label"
+                }}</span>
+              <span>
+                {{this.deliveryModeLabel}}
+              </span>
+            </div>
+            <div class="training-details__field">
+              <span class="training-details__label">{{t
+                  "pages.trainings.training.form.recommendation-engine.registration-required.label"
+                }}</span>
+              <span>{{if @training.registrationRequired (t "common.words.yes") (t "common.words.no")}}</span>
+            </div>
+            <div class="training-details__field">
+              <span class="training-details__label">
+                {{t "pages.trainings.training.form.recommendation-engine.objectives.label"}}
+              </span>
+              <ul class="training-details__value training-details__list">
+                {{#each this.formattedObjectives as |objective|}}
+                  <li>{{objective}}</li>
+                {{/each}}
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="training-details__block">
-          <div class="training-details__field">
-            <span class="training-details__label">{{t
-                "pages.trainings.training.form.recommendation-engine.delivery-mode.label"
-              }}</span>
-            <span>
-              {{this.deliveryModeLabel}}
-            </span>
-          </div>
-          <div class="training-details__field">
-            <span class="training-details__label">{{t
-                "pages.trainings.training.form.recommendation-engine.registration-required.label"
-              }}</span>
-            <span>{{if
-                @training.registrationRequired
-                (t "common.words.yes")
-                (t "common.words.no")
-              }}</span>
-          </div>
-          <div class="training-details__field">
-            <span class="training-details__label">
-              {{t "pages.trainings.training.form.recommendation-engine.objectives.label"}}
-            </span>
-            <ul class="training-details__value training-details__list">
-              {{#each this.formattedObjectives as |objective|}}
-                <li>{{objective}}</li>
-              {{/each}}
-            </ul>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      {{/if}}
     </section>
   </template>
 }
