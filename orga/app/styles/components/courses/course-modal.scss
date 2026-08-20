@@ -24,15 +24,10 @@
   $content-header-height: 4.5rem;
 
   &__course-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
     display: flex;
-    height: 100%;
+    height: calc(100% - $content-header-height);
     width: 100%;
-    padding: var(--pix-spacing-4x);
-    padding-top: $content-header-height;
+    padding-right: var(--pix-spacing-6x);
     padding-left: var(--pix-spacing-6x);
     overflow-y: scroll;
 
@@ -41,7 +36,6 @@
     &__title {
       position: sticky;
       top: 0;
-      z-index: 10;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -149,11 +143,6 @@
   }
 }
 
-// TODO move these properties to stay consistent in the css file
-.target-profile-content {
-  padding-bottom: var(--pix-spacing-6x);
-}
-
 .target-profile-competence {
   padding-bottom: var(--pix-spacing-2x);
 
@@ -224,6 +213,10 @@
 }
 
 .combined-course-blueprint-step {
+  &:last-child {
+    padding-bottom: var(--pix-spacing-6x);
+  }
+
   &__title {
     margin-bottom: var(--pix-spacing-4x);
   }
