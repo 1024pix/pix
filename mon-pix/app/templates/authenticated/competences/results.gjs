@@ -1,4 +1,3 @@
-import PixBackgroundHeader from '@1024pix/pix-ui/components/pix-background-header';
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
@@ -6,65 +5,63 @@ import ScorecardDetails from 'mon-pix/components/scorecard-details';
 <template>
   {{pageTitle (t "pages.competence-result.title")}}
 
-  <main id="main" role="main">
-    <PixBackgroundHeader>
-      <PixBlock>
-        <div class="competence-results-panel__header">
-          {{#if @model.scorecard.hasNotEarnedAnything}}
-            <div class="competence-results-panel-header__banner competence-results-panel-header__banner--too-bad">
-              <p class="competence-results-panel-header__banner-result-comment">{{t
-                  "pages.competence-result.header.too-bad"
-                }}</p>
-              <div class="competence-results-banner__subtitle competence-results-banner__subtitle--small">
-                {{t "pages.competence-result.header.too-bad-subtitle"}}
+  <main id="main" role="main" class="competence-results">
+    <PixBlock class="competence-results__banner">
+      <div class="competence-results-panel__header">
+        {{#if @model.scorecard.hasNotEarnedAnything}}
+          <div class="competence-results-panel-header__banner competence-results-panel-header__banner--too-bad">
+            <p class="competence-results-panel-header__banner-result-comment">{{t
+                "pages.competence-result.header.too-bad"
+              }}</p>
+            <div class="competence-results-banner__subtitle competence-results-banner__subtitle--small">
+              {{t "pages.competence-result.header.too-bad-subtitle"}}
+            </div>
+          </div>
+        {{else if @model.scorecard.hasNotReachedLevelOne}}
+          <div class="competence-results-panel-header__banner competence-results-panel-header__banner--not-bad">
+            <p class="competence-results-panel-header__banner-result-comment">{{t
+                "pages.competence-result.header.not-bad"
+              }}</p>
+            <div class="competence-results-banner__subtitle competence-results-banner__subtitle--left">
+              {{t "pages.competence-result.header.not-bad-subtitle"}}
+            </div>
+            <div class="competence-results-banner__text">
+              <div class="competence-results-banner-text__results">
+                <div class="competence-results-banner-text-results__label">{{t
+                    "pages.competence-result.header.you-have-earned"
+                  }}</div>
+                <div class="competence-results-banner-text-results__value">{{@model.scorecard.earnedPix}}
+                  {{t "common.pix"}}</div>
               </div>
             </div>
-          {{else if @model.scorecard.hasNotReachedLevelOne}}
-            <div class="competence-results-panel-header__banner competence-results-panel-header__banner--not-bad">
-              <p class="competence-results-panel-header__banner-result-comment">{{t
-                  "pages.competence-result.header.not-bad"
-                }}</p>
-              <div class="competence-results-banner__subtitle competence-results-banner__subtitle--left">
-                {{t "pages.competence-result.header.not-bad-subtitle"}}
+          </div>
+        {{else if @model.scorecard.hasReachedAtLeastLevelOne}}
+          <div class="competence-results-panel-header__banner competence-results-panel-header__banner--congrats">
+            <p class="competence-results-panel-header__banner-result-comment">{{t
+                "pages.competence-result.header.congratulations"
+              }}</p>
+            <div class="competence-results-banner__text competence-results-banner__text--spaced">
+              <div class="competence-results-banner-text__results competence-results-banner-text__results--spaced">
+                <div class="competence-results-banner-text-results__label">{{t
+                    "pages.competence-result.header.you-have-reached-level"
+                  }}</div>
+                <div class="competence-results-banner-text-results__value">{{t "common.level"}}
+                  {{@model.scorecard.level}}</div>
               </div>
-              <div class="competence-results-banner__text">
-                <div class="competence-results-banner-text__results">
-                  <div class="competence-results-banner-text-results__label">{{t
-                      "pages.competence-result.header.you-have-earned"
-                    }}</div>
-                  <div class="competence-results-banner-text-results__value">{{@model.scorecard.earnedPix}}
-                    {{t "common.pix"}}</div>
-                </div>
-              </div>
-            </div>
-          {{else if @model.scorecard.hasReachedAtLeastLevelOne}}
-            <div class="competence-results-panel-header__banner competence-results-panel-header__banner--congrats">
-              <p class="competence-results-panel-header__banner-result-comment">{{t
-                  "pages.competence-result.header.congratulations"
-                }}</p>
-              <div class="competence-results-banner__text competence-results-banner__text--spaced">
-                <div class="competence-results-banner-text__results competence-results-banner-text__results--spaced">
-                  <div class="competence-results-banner-text-results__label">{{t
-                      "pages.competence-result.header.you-have-reached-level"
-                    }}</div>
-                  <div class="competence-results-banner-text-results__value">{{t "common.level"}}
-                    {{@model.scorecard.level}}</div>
-                </div>
-                <div class="competence-results-banner-text__results competence-results-banner-text__results--spaced">
-                  <div class="competence-results-banner-text-results__label">{{t
-                      "pages.competence-result.header.you-have-earned"
-                    }}</div>
-                  <div class="competence-results-banner-text-results__value">{{@model.scorecard.earnedPix}}
-                    {{t "common.pix"}}</div>
-                </div>
+              <div class="competence-results-banner-text__results competence-results-banner-text__results--spaced">
+                <div class="competence-results-banner-text-results__label">{{t
+                    "pages.competence-result.header.you-have-earned"
+                  }}</div>
+                <div class="competence-results-banner-text-results__value">{{@model.scorecard.earnedPix}}
+                  {{t "common.pix"}}</div>
               </div>
             </div>
-          {{/if}}
-        </div>
-        {{#if @model.scorecard}}
-          <ScorecardDetails @scorecard={{@model.scorecard}} />
+          </div>
         {{/if}}
-      </PixBlock>
-    </PixBackgroundHeader>
+      </div>
+      {{#if @model.scorecard}}
+        <ScorecardDetails @scorecard={{@model.scorecard}} />
+      {{/if}}
+    </PixBlock>
   </main>
 </template>
