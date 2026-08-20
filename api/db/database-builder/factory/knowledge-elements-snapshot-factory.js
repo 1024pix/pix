@@ -11,7 +11,7 @@ function buildSnapshot({ id, knowledgeElementsAttributes, campaignParticipationI
   };
 
   return databaseBuffer.pushInsertable({
-    tableName: 'knowledge-element-snapshots',
+    tableName: 'knowledge-state-snapshots',
     values,
   });
 }
