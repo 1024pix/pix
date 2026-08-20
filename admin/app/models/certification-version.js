@@ -25,7 +25,7 @@ export default class CertificationVersion extends Model {
     return this.status === 'draft';
   }
 
-  get isCoreScoped() {
+  get isCoreScope() {
     return this.scope === 'CORE';
   }
 }
