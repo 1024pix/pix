@@ -1,5 +1,24 @@
 # Pix Changelog
 
+# [5.483.0](https://github.com/1024pix/pix/compare/v5.482.0...v5.483.0) (2026-08-20)
+
+### :rocket: Amélioration
+
+- [#17167](https://github.com/1024pix/pix/pull/17167) Ajouter le feature toggle newPixCertifLegalDocumentsVersioning (PIX-22440)
+- [#17160](https://github.com/1024pix/pix/pull/17160) Gérer le message `terminate` des embeds dans Modulix (PIX-23911)
+- [#17139](https://github.com/1024pix/pix/pull/17139) Plausible : Tracker les clics sur le bouton de sélection de parcours et de création de campagne du catalogue (PIX-23639)
+
+### :bug: Correction
+
+- [#17162](https://github.com/1024pix/pix/pull/17162) Ajouter une validation des données lors de la création d'un schéma de parcours combiné (PIX-23906)
+- [#17141](https://github.com/1024pix/pix/pull/17141) Reset de mot de passe impossible si l'email n'a pas la bonne casse (PIX-23878)
+
+### :building_construction: Tech
+
+- [#17149](https://github.com/1024pix/pix/pull/17149) Ajouter la validation de payload de la route d'update de certification-courses
+- [#17172](https://github.com/1024pix/pix/pull/17172) Ne plus utiliser PixBackgroundHeader dans la page de code session (PIX-23928).
+- [#17173](https://github.com/1024pix/pix/pull/17173) Retirer PixBackgroundHeader de la page de fin de compétence sur Pix App (PIX-23924).
+
 # [5.482.0](https://github.com/1024pix/pix/compare/v5.481.1...v5.482.0) (2026-08-19)
 
 ### :rocket: Amélioration
