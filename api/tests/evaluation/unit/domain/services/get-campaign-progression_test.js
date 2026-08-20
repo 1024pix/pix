@@ -16,7 +16,7 @@ describe('Evaluation | Unit | Domain | Services | get-campaign-progression', fun
   const skillIds = ['skillId1', 'skillId2'];
 
   let assessment;
-  let knowledgeElementForParticipationService;
+  let knowledgeStateForParticipationService;
   let dependencies;
 
   beforeEach(function () {
@@ -40,14 +40,14 @@ describe('Evaluation | Unit | Domain | Services | get-campaign-progression', fun
     const campaignRepository = { findSkillIds: sinon.stub() };
     campaignRepository.findSkillIds.withArgs({ campaignId }).resolves(skillIds);
 
-    knowledgeElementForParticipationService = {
-      findUniqByUserOrCampaignParticipationId: sinon.stub().resolves([]),
+    knowledgeStateForParticipationService = {
+      findByUserOrCampaignParticipationId: sinon.stub().resolves(domainBuilder.buildKnowledgeState()),
     };
 
     dependencies = {
       campaignParticipationRepository,
       campaignRepository,
-      knowledgeElementForParticipationService,
+      knowledgeStateForParticipationService,
       improvementService,
     };
   });
@@ -76,52 +76,40 @@ describe('Evaluation | Unit | Domain | Services | get-campaign-progression', fun
     });
   });
 
-  it('should limit the knowledge elements to those acquired before the participation was shared', async function () {
+  it('should limit the knowledge state to what was acquired before the participation was shared', async function () {
     // when
     await getCampaignProgression({ assessment, ...dependencies });
 
     // then
-    expect(
-      knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId,
-    ).to.have.been.calledWithExactly({
+    expect(knowledgeStateForParticipationService.findByUserOrCampaignParticipationId).to.have.been.calledWithExactly({
       userId,
       campaignParticipationId,
       limitDate: sharedAt,
     });
   });
 
-  it('should return the campaign skill ids and the knowledge elements still relevant for the assessment', async function () {
-    // given
-    const validatedKnowledgeElement = domainBuilder.buildKnowledgeElement.directlyValidated({
-      id: 1,
-      skillId: 'skillId1',
-      createdAt: new Date('2024-01-01'),
+  it('should return the campaign skill ids and the state still relevant for the assessment', async function () {
+    // given : un acquis validé de longue date, un échec récent, un échec trop
+    // vieux pour compter encore — chacun sur son tube, avec sa date.
+    const knowledgeState = domainBuilder.buildKnowledgeState({
+      tubes: [
+        { tubeId: 'skillId1', floor: 1, directLevels: [1], updatedAt: new Date('2024-01-01') },
+        { tubeId: 'skillId2', ceiling: 1, directLevels: [1], updatedAt: new Date('2024-01-14') },
+        { tubeId: 'skillId3', ceiling: 1, directLevels: [1], updatedAt: new Date('2024-01-01') },
+      ],
+      skills: ['skillId1', 'skillId2', 'skillId3'].map((id) =>
+        domainBuilder.buildSkill({ id, tubeId: id, difficulty: 1 }),
+      ),
     });
-    const recentlyInvalidatedKnowledgeElement = domainBuilder.buildKnowledgeElement.directlyInvalidated({
-      id: 2,
-      skillId: 'skillId2',
-      createdAt: new Date('2024-01-14'),
-    });
-    const longAgoInvalidatedKnowledgeElement = domainBuilder.buildKnowledgeElement.directlyInvalidated({
-      id: 3,
-      skillId: 'skillId2',
-      createdAt: new Date('2024-01-01'),
-    });
-    knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId.resolves([
-      validatedKnowledgeElement,
-      recentlyInvalidatedKnowledgeElement,
-      longAgoInvalidatedKnowledgeElement,
-    ]);
+    knowledgeStateForParticipationService.findByUserOrCampaignParticipationId.resolves(knowledgeState);
 
     // when
     const progression = await getCampaignProgression({ assessment, ...dependencies });
 
-    // then
+    // then : skillId1 et skillId2 sont encore évalués, l'échec ancien sur
+    // skillId3 est oublié — l'acquis redevient à évaluer.
     expect(progression.skillIds).to.deep.equal(skillIds);
-    expect(progression.knowledgeElements).to.deep.equal([
-      validatedKnowledgeElement,
-      recentlyInvalidatedKnowledgeElement,
-    ]);
+    expect(progression.completionRate).to.equal(1);
   });
 
   it('should flag the progression as completed when the assessment is completed', async function () {

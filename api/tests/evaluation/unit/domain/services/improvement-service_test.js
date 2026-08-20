@@ -3,81 +3,58 @@ import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | ImprovementService', function () {
-  let assessmentDate, oldKnowledgeElementsValidated, oldKnowledgeElementsInvalidated, recentKnowledgeElements;
-  let knowledgeElements;
+  let assessmentDate, knowledgeState;
+
+  const idsOf = (skills) => skills.map(({ id }) => id).toSorted();
 
   beforeEach(function () {
     assessmentDate = '2020-07-30';
 
-    //Data For Improvement Service
-    const fiveDaysBeforeAssesmentDate = '2020-07-25';
-    const threeDaysBeforeAssesmentDate = '2020-07-27';
-    const twoDaysBeforeAssesmentDate = '2020-07-28';
-    const twoDaysAfterAssesmentDate = '2020-08-02';
+    const fiveDaysBefore = new Date('2020-07-25');
+    const threeDaysBefore = new Date('2020-07-27');
+    const twoDaysBefore = new Date('2020-07-28');
+    const twoDaysAfter = new Date('2020-08-02');
 
-    oldKnowledgeElementsValidated = [
-      domainBuilder.buildKnowledgeElement({
-        skillId: 'validated5DaysBefore',
-        status: 'validated',
-        createdAt: fiveDaysBeforeAssesmentDate,
-      }),
-      domainBuilder.buildKnowledgeElement({
-        skillId: 'validated3DaysBefore',
-        status: 'validated',
-        createdAt: threeDaysBeforeAssesmentDate,
-      }),
-      domainBuilder.buildKnowledgeElement({
-        skillId: 'validated2DaysBefore',
-        status: 'validated',
-        createdAt: twoDaysBeforeAssesmentDate,
-      }),
-    ];
+    // Un acquis par tube : chaque verdict porte sa propre date.
+    const tubeOf = (skillId, { validated, updatedAt }) => ({
+      tubeId: skillId,
+      floor: validated ? 1 : 0,
+      ceiling: validated ? null : 1,
+      directLevels: [1],
+      updatedAt,
+    });
 
-    oldKnowledgeElementsInvalidated = [
-      domainBuilder.buildKnowledgeElement({
-        skillId: 'invalidated5DaysBefore',
-        status: 'invalidated',
-        createdAt: fiveDaysBeforeAssesmentDate,
-      }),
-      domainBuilder.buildKnowledgeElement({
-        skillId: 'invalidated3DaysBefore',
-        status: 'invalidated',
-        createdAt: threeDaysBeforeAssesmentDate,
-      }),
-      domainBuilder.buildKnowledgeElement({
-        skillId: 'invalidated2DaysBefore',
-        status: 'invalidated',
-        createdAt: twoDaysBeforeAssesmentDate,
-      }),
-    ];
-
-    recentKnowledgeElements = [
-      domainBuilder.buildKnowledgeElement({
-        skillId: 'invalidated2DaysAfter',
-        status: 'invalidated',
-        createdAt: twoDaysAfterAssesmentDate,
-      }),
-      domainBuilder.buildKnowledgeElement({
-        skillId: 'validated2DaysAfter',
-        status: 'validated',
-        createdAt: twoDaysAfterAssesmentDate,
-      }),
-    ];
-
-    knowledgeElements = [].concat(
-      ...oldKnowledgeElementsValidated,
-      ...oldKnowledgeElementsInvalidated,
-      ...recentKnowledgeElements,
-    );
+    knowledgeState = domainBuilder.buildKnowledgeState({
+      tubes: [
+        tubeOf('validated5DaysBefore', { validated: true, updatedAt: fiveDaysBefore }),
+        tubeOf('validated3DaysBefore', { validated: true, updatedAt: threeDaysBefore }),
+        tubeOf('validated2DaysBefore', { validated: true, updatedAt: twoDaysBefore }),
+        tubeOf('invalidated5DaysBefore', { validated: false, updatedAt: fiveDaysBefore }),
+        tubeOf('invalidated3DaysBefore', { validated: false, updatedAt: threeDaysBefore }),
+        tubeOf('invalidated2DaysBefore', { validated: false, updatedAt: twoDaysBefore }),
+        tubeOf('invalidated2DaysAfter', { validated: false, updatedAt: twoDaysAfter }),
+        tubeOf('validated2DaysAfter', { validated: true, updatedAt: twoDaysAfter }),
+      ],
+      skills: [
+        'validated5DaysBefore',
+        'validated3DaysBefore',
+        'validated2DaysBefore',
+        'invalidated5DaysBefore',
+        'invalidated3DaysBefore',
+        'invalidated2DaysBefore',
+        'invalidated2DaysAfter',
+        'validated2DaysAfter',
+      ].map((id) => domainBuilder.buildSkill({ id, tubeId: id, difficulty: 1 })),
+    });
   });
 
-  describe('#filterKnowledgeElements', function () {
-    context('when knowledgeElements are calculated for competence evaluation case', function () {
+  describe('#improveKnowledgeState', function () {
+    context('when knowledge state is read for a competence evaluation', function () {
       context('when assessment is not improving', function () {
-        it('should return the same list of knowledge-elements', function () {
+        it('should return the state untouched', function () {
           // when
-          const listOfKnowledgeElements = improvementService.filterKnowledgeElements({
-            knowledgeElements,
+          const improved = improvementService.improveKnowledgeState({
+            knowledgeState,
             isRetrying: false,
             isFromCampaign: false,
             isImproving: false,
@@ -85,15 +62,15 @@ describe('Unit | Service | ImprovementService', function () {
           });
 
           // then
-          expect(listOfKnowledgeElements).to.deep.equal(knowledgeElements);
+          expect(improved).to.equal(knowledgeState);
         });
       });
 
       context('when assessment is improving', function () {
-        it('should return all validated ke, and invalidated ke created less than 4 days', function () {
+        it('should keep every validation, and only the failures fresher than 4 days', function () {
           // when
-          const listOfKnowledgeElements = improvementService.filterKnowledgeElements({
-            knowledgeElements,
+          const improved = improvementService.improveKnowledgeState({
+            knowledgeState,
             isImproving: true,
             isRetrying: false,
             isFromCampaign: false,
@@ -101,64 +78,47 @@ describe('Unit | Service | ImprovementService', function () {
           });
 
           // then
-          expect(listOfKnowledgeElements.map(({ skillId }) => skillId)).to.deep.equal([
-            'validated5DaysBefore',
-            'validated3DaysBefore',
-            'validated2DaysBefore',
-            'invalidated3DaysBefore',
-            'invalidated2DaysBefore',
+          expect(idsOf(improved.validatedSkills())).to.deep.equal(idsOf(knowledgeState.validatedSkills()));
+          expect(idsOf(improved.invalidatedSkills())).to.deep.equal([
             'invalidated2DaysAfter',
-            'validated2DaysAfter',
+            'invalidated2DaysBefore',
+            'invalidated3DaysBefore',
           ]);
         });
       });
     });
 
-    context('when knowledgeElements are calculated for campaign case', function () {
-      it('should return all validated ke, and invalidated ke from less than 3 days, on retrying case', function () {
+    context('when knowledge state is read for a campaign', function () {
+      it('should keep every validation, and only the failures fresher than 3 days, on retrying case', function () {
         // when
-        const listOfKnowledgeElements = improvementService.filterKnowledgeElements({
-          knowledgeElements,
-          isRetrying: true,
+        const improved = improvementService.improveKnowledgeState({
+          knowledgeState,
           isImproving: false,
+          isRetrying: true,
           isFromCampaign: true,
           createdAt: assessmentDate,
-          minimumDelayInDaysBeforeRetrying: 3,
-          minimumDelayInDaysBeforeImproving: 4,
         });
 
         // then
-        expect(listOfKnowledgeElements.map(({ skillId }) => skillId)).to.exactlyContain([
-          'validated5DaysBefore',
-          'validated3DaysBefore',
-          'validated2DaysBefore',
-          'invalidated2DaysBefore',
+        expect(idsOf(improved.invalidatedSkills())).to.deep.equal([
           'invalidated2DaysAfter',
-          'validated2DaysAfter',
+          'invalidated2DaysBefore',
+          'invalidated3DaysBefore',
         ]);
       });
 
-      it('should return all validated ke, and invalidated ke from less 3 days, on improving case', function () {
+      it('should return the state untouched when neither improving nor retrying', function () {
         // when
-        const listOfKnowledgeElements = improvementService.filterKnowledgeElements({
-          knowledgeElements,
+        const improved = improvementService.improveKnowledgeState({
+          knowledgeState,
+          isImproving: false,
           isRetrying: false,
-          isImproving: true,
           isFromCampaign: true,
           createdAt: assessmentDate,
-          minimumDelayInDaysBeforeRetrying: 3,
-          minimumDelayInDaysBeforeImproving: 4,
         });
 
         // then
-        expect(listOfKnowledgeElements.map(({ skillId }) => skillId)).to.exactlyContain([
-          'validated5DaysBefore',
-          'validated3DaysBefore',
-          'validated2DaysBefore',
-          'invalidated2DaysBefore',
-          'invalidated2DaysAfter',
-          'validated2DaysAfter',
-        ]);
+        expect(improved).to.equal(knowledgeState);
       });
     });
   });

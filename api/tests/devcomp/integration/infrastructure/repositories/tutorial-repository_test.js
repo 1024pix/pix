@@ -5,7 +5,6 @@ import { UserSavedTutorial } from '../../../../../src/devcomp/domain/models/User
 import { TutorialForUser } from '../../../../../src/devcomp/domain/read-models/TutorialForUser.js';
 import * as tutorialRepository from '../../../../../src/devcomp/infrastructure/repositories/tutorial-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
@@ -653,7 +652,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill1',
           userId,
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
         });
         databaseBuilder.factory.learningContent.build({
           tutorials: [
@@ -727,12 +726,12 @@ describe('Integration | Repository | tutorial-repository', function () {
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill1',
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         });
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill4',
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         });
         await databaseBuilder.commit();
 
@@ -790,12 +789,12 @@ describe('Integration | Repository | tutorial-repository', function () {
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill1',
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         });
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill4',
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         });
         await databaseBuilder.commit();
 
@@ -816,7 +815,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill3',
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         });
         databaseBuilder.factory.learningContent.build({
           tutorials: [
@@ -863,12 +862,12 @@ describe('Integration | Repository | tutorial-repository', function () {
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill1',
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         });
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill2',
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         });
         databaseBuilder.factory.learningContent.build({
           tutorials: [
@@ -907,8 +906,8 @@ describe('Integration | Repository | tutorial-repository', function () {
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill3',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           const userSavedTutorialId = databaseBuilder.factory.buildUserSavedTutorial({
             userId,
@@ -961,22 +960,22 @@ describe('Integration | Repository | tutorial-repository', function () {
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill3',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
             createdAt: new Date('2000-01-01'),
           });
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill3',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
             createdAt: new Date('2000-01-02'),
           });
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkillWithoutTuto',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
             createdAt: new Date('2000-01-02'),
           });
           const userSavedTutorialId = databaseBuilder.factory.buildUserSavedTutorial({
@@ -1063,8 +1062,8 @@ describe('Integration | Repository | tutorial-repository', function () {
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill3',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           const expectedPagination = {
             page: 2,
@@ -1150,26 +1149,26 @@ describe('Integration | Repository | tutorial-repository', function () {
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill1InCompetence1',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill2InCompetence2',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill3InCompetence2',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill4InCompetence3',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           await databaseBuilder.commit();
           const expectedPagination = {
@@ -1257,26 +1256,26 @@ describe('Integration | Repository | tutorial-repository', function () {
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill1InCompetence1',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill2InCompetence2',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill3InCompetence2',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           databaseBuilder.factory.buildKnowledgeElement({
             skillId: 'recSkill4InCompetence3',
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
+            status: 'invalidated',
+            source: 'direct',
           });
           await databaseBuilder.commit();
 

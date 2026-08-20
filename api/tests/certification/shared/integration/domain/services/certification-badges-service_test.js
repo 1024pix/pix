@@ -28,24 +28,28 @@ const learningContent = [
                 id: listSkill[0],
                 nom: '@web1',
                 status: 'actif',
+                level: 1,
                 challenges: [],
               },
               {
                 id: listSkill[1],
                 nom: '@web2',
                 status: 'actif',
+                level: 2,
                 challenges: [],
               },
               {
                 id: listSkill[2],
-                nom: 'web3',
+                nom: '@web3',
                 status: 'actif',
+                level: 3,
                 challenges: [],
               },
               {
                 id: listSkill[3],
-                nom: 'web4',
+                nom: '@web4',
                 status: 'actif',
+                level: 4,
                 challenges: [],
               },
             ],
@@ -56,16 +60,31 @@ const learningContent = [
   },
 ];
 
-const _buildKnowledgeElements = ({ skillIds = [], userId, status, createdAt = new Date() }) => {
+/**
+ * Fait répondre l'utilisateur aux acquis donnés.
+ *
+ * L'historique s'exprime en réponses : c'est la seule source qui les situe dans
+ * le temps, l'état de connaissance ne décrivant que le présent.
+ */
+const _answer = ({ skillIds = [], userId, isOk, createdAt = new Date() }) => {
+  const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
   skillIds.forEach((skillId) => {
-    databaseBuilder.factory.buildKnowledgeElement({ userId, skillId, status, createdAt });
+    databaseBuilder.factory.buildAnsweredSkill({ userId, assessmentId, skillId, isOk, createdAt, withSkill: false });
   });
 };
+
+/**
+ * Le référentiel se déclare avant l'historique : c'est lui qui situe chaque
+ * acquis sur son tube et à son niveau.
+ */
+const _buildReferential = () =>
+  databaseBuilder.factory.learningContent.build(learningContentBuilder.fromAreas(learningContent));
 
 describe('Integration | Service | Certification-Badges Service', function () {
   describe('#findStillValidBadgeAcquisitions', function () {
     it('should return one badgeAcquisition', async function () {
       // given
+      _buildReferential();
       const { id: userId } = databaseBuilder.factory.buildUser();
 
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -85,17 +104,14 @@ describe('Integration | Service | Certification-Badges Service', function () {
         level: 2,
       });
 
-      _buildKnowledgeElements({ skillIds: ['web1', 'web2', 'web3'], userId, status: 'validated' });
-      _buildKnowledgeElements({ skillIds: ['web4'], userId, status: 'invalidated' });
+      _answer({ skillIds: ['web1', 'web2', 'web3'], userId, isOk: true });
+      _answer({ skillIds: ['web4'], userId, isOk: false });
 
       databaseBuilder.factory.buildBadgeCriterion({
         scope: 'CampaignParticipation',
         badgeId: badge.id,
         threshold: 40,
       });
-      await databaseBuilder.commit();
-      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-      databaseBuilder.factory.learningContent.build(learningContentObjects);
       await databaseBuilder.commit();
 
       // when
@@ -121,6 +137,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
       context('when a limit date is after the reset (now by default)', function () {
         it('should return no badge acquisition', async function () {
           // given
+          _buildReferential();
           const { id: userId } = databaseBuilder.factory.buildUser();
 
           const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -134,31 +151,20 @@ describe('Integration | Service | Certification-Badges Service', function () {
           databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge.id, campaignParticipationId });
 
           const beforeResetDate = new Date('2022-01-01');
-          _buildKnowledgeElements({
-            skillIds: ['web1', 'web2', 'web3'],
-            userId,
-            status: 'validated',
-            createdAt: beforeResetDate,
-          });
+          _answer({ skillIds: ['web1', 'web2', 'web3'], userId, isOk: true, createdAt: beforeResetDate });
+          _answer({ skillIds: ['web4'], userId, isOk: false, createdAt: beforeResetDate });
 
-          const resetDate = new Date();
-          _buildKnowledgeElements({
-            skillIds: ['web1', 'web2', 'web3'],
+          databaseBuilder.factory.buildKnowledgeReset({
             userId,
-            status: 'reset',
-            createdAt: resetDate,
+            competenceId: 'competenceId',
+            resetAt: new Date('2023-01-01'),
           });
-
-          _buildKnowledgeElements({ skillIds: ['web4'], userId, status: 'invalidated' });
 
           databaseBuilder.factory.buildBadgeCriterion({
             scope: 'CampaignParticipation',
             badgeId: badge.id,
             threshold: 40,
           });
-          await databaseBuilder.commit();
-          const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-          databaseBuilder.factory.learningContent.build(learningContentObjects);
           await databaseBuilder.commit();
 
           // when
@@ -172,8 +178,14 @@ describe('Integration | Service | Certification-Badges Service', function () {
       });
 
       context('when a limit date is before the reset', function () {
-        it('should return one badge acquisition', async function () {
+        // La remise à zéro efface l'état sans en garder trace : il n'existe
+        // plus rien à relire, même à une date antérieure. Pour que la
+        // certification lise le profil du rattachement malgré une remise à
+        // zéro survenue ensuite, il faudrait le figer au rattachement, comme
+        // le partage de campagne fige le sien.
+        it('should return no badge acquisition either', async function () {
           // given
+          _buildReferential();
           const { id: userId } = databaseBuilder.factory.buildUser();
 
           const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -201,27 +213,14 @@ describe('Integration | Service | Certification-Badges Service', function () {
             level: 2,
           });
 
-          _buildKnowledgeElements({
-            skillIds: ['web1', 'web2', 'web3'],
-            userId,
-            status: 'validated',
-            createdAt: beforeResetDate,
-          });
+          _answer({ skillIds: ['web1', 'web2', 'web3'], userId, isOk: true, createdAt: beforeResetDate });
 
-          _buildKnowledgeElements({
-            skillIds: ['web1', 'web2', 'web3'],
-            userId,
-            status: 'reset',
-            createdAt: resetDate,
-          });
+          databaseBuilder.factory.buildKnowledgeReset({ userId, competenceId: 'competenceId', resetAt: resetDate });
 
           databaseBuilder.factory.buildBadgeCriterion({
             badgeId: badge.id,
             threshold: 40,
           });
-          await databaseBuilder.commit();
-          const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-          databaseBuilder.factory.learningContent.build(learningContentObjects);
           await databaseBuilder.commit();
 
           // when
@@ -233,7 +232,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
           });
 
           // then
-          expect(badgeAcquisitions).not.to.be.empty;
+          expect(badgeAcquisitions).to.be.empty;
         });
       });
     });

@@ -5,18 +5,13 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 describe('Unit | Domain | Models | BadgeForCalculation', function () {
   describe('#shouldBeObtained', function () {
     context('when there are several criteria', function () {
-      let knowledgeElements;
+      let knowledgeState;
 
       beforeEach(function () {
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement.directlyValidated({ skillId: 'recSkill1' }),
-          domainBuilder.buildKnowledgeElement.directlyValidated({ skillId: 'recSkill2' }),
-          domainBuilder.buildKnowledgeElement.directlyInvalidated({ skillId: 'recSkill3' }),
-          domainBuilder.buildKnowledgeElement.directlyValidated({ skillId: 'recSkill4' }),
-          domainBuilder.buildKnowledgeElement.directlyValidated({ skillId: 'recSkill5' }),
-          domainBuilder.buildKnowledgeElement.directlyInvalidated({ skillId: 'recSkill6' }),
-          domainBuilder.buildKnowledgeElement.directlyInvalidated({ skillId: 'recSkill7' }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: ['recSkill1', 'recSkill2', 'recSkill4', 'recSkill5'],
+          invalidatedSkillIds: ['recSkill3', 'recSkill6', 'recSkill7'],
+        });
       });
 
       it('should be obtained when all criteria are fulfilled', async function () {
@@ -34,7 +29,7 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
         });
 
         // when
-        const shouldBeObtained = badgeForCalculation.shouldBeObtained(knowledgeElements);
+        const shouldBeObtained = badgeForCalculation.shouldBeObtained(knowledgeState);
 
         // then
         expect(shouldBeObtained).to.be.true;
@@ -55,7 +50,7 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
         });
 
         // when
-        const shouldBeObtained = badgeForCalculation.shouldBeObtained(knowledgeElements);
+        const shouldBeObtained = badgeForCalculation.shouldBeObtained(knowledgeState);
 
         // then
         expect(shouldBeObtained).to.be.false;
@@ -67,12 +62,10 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
     context('when badge criteria are all fulfilled', function () {
       it('should return 100', function () {
         // given
-        const knowledgeElements = [
-          { skillId: 1, isValidated: true },
-          { skillId: 2, isValidated: false },
-          { skillId: 3, isValidated: true },
-          { skillId: 4, isValidated: false },
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: [1, 3],
+          invalidatedSkillIds: [2, 4],
+        });
 
         const criteria1 = domainBuilder.buildBadgeCriterionForCalculation({
           threshold: 50,
@@ -87,7 +80,7 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
         });
 
         // when
-        const acquisitionPercentage = badgeForCalculation.getAcquisitionPercentage(knowledgeElements);
+        const acquisitionPercentage = badgeForCalculation.getAcquisitionPercentage(knowledgeState);
 
         // then
         expect(acquisitionPercentage).to.equal(100);
@@ -97,12 +90,10 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
     context('when badge criteria are not all fulfilled', function () {
       it('should return the right acquisition percentage', function () {
         // given
-        const knowledgeElements = [
-          { skillId: 1, isValidated: true },
-          { skillId: 2, isValidated: false },
-          { skillId: 3, isValidated: true },
-          { skillId: 4, isValidated: false },
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: [1, 3],
+          invalidatedSkillIds: [2, 4],
+        });
 
         const criteria1 = domainBuilder.buildBadgeCriterionForCalculation({
           threshold: 60,
@@ -117,7 +108,7 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
         });
 
         // when
-        const acquisitionPercentage = badgeForCalculation.getAcquisitionPercentage(knowledgeElements);
+        const acquisitionPercentage = badgeForCalculation.getAcquisitionPercentage(knowledgeState);
 
         // then
         expect(acquisitionPercentage).to.equal(92);
@@ -127,10 +118,9 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
     context('when no badge criteria are fulfilled', function () {
       it('should return 0', function () {
         // given
-        const knowledgeElements = [
-          { skillId: 1, isValidated: false },
-          { skillId: 2, isValidated: false },
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          invalidatedSkillIds: [1, 2],
+        });
 
         const criteria1 = domainBuilder.buildBadgeCriterionForCalculation({
           threshold: 60,
@@ -145,7 +135,7 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
         });
 
         // when
-        const acquisitionPercentage = badgeForCalculation.getAcquisitionPercentage(knowledgeElements);
+        const acquisitionPercentage = badgeForCalculation.getAcquisitionPercentage(knowledgeState);
 
         // then
         expect(acquisitionPercentage).to.equal(0);

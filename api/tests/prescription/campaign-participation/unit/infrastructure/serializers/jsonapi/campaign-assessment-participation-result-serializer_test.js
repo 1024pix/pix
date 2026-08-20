@@ -62,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
         campaignLearningContent,
         campaignParticipationId: 1,
         campaignId: 2,
-        validatedTargetedKnowledgeElementsCountByCompetenceId: { [competence.id]: 1 },
+        validatedTargetedSkillsCountByCompetenceId: { [competence.id]: 1 },
         status: SHARED,
       });
     });

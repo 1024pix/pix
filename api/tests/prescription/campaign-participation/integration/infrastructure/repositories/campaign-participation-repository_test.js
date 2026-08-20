@@ -10,7 +10,6 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import {
   OrganizationLearnerParticipationStatuses,
@@ -22,8 +21,17 @@ import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
+
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 
@@ -45,8 +53,20 @@ describe('Integration | Repository | Campaign Participation', function () {
           participantExternalId: 'participantExternalId',
         });
 
+        // L'instantané situe chaque acquis sur son tube : le référentiel doit
+        // être en place pour qu'il ne soit pas vide.
+        databaseBuilder.factory.learningContent.buildSkill({
+          id: 'recABC123',
+          name: '@tubeSnapshot2',
+          level: 2,
+          tubeId: 'tubeSnapshot',
+          competenceId: 'recCompetenceSnapshot',
+          status: 'actif',
+        });
         ke = databaseBuilder.factory.buildKnowledgeElement({
           userId: campaignParticipation.userId,
+          skillId: 'recABC123',
+          competenceId: 'recCompetenceSnapshot',
           createdAt: new Date('1985-09-01T00:00:00Z'),
         });
         sinon.useFakeTimers({ now: frozenTime, toFake: ['Date'] });
@@ -89,20 +109,20 @@ describe('Integration | Repository | Campaign Participation', function () {
         });
 
         // then
-        const snapshotInDB = await knex.pluck('snapshot').from('knowledge-element-snapshots');
+        // L'instantané retient l'état par tube, dont la liste des knowledge
+        // elements se redéduit.
+        const snapshotInDB = await knex.pluck('snapshot').from('knowledge-state-snapshots');
         expect(snapshotInDB).to.have.lengthOf(1);
-        expect(snapshotInDB).to.deep.equal([
-          [
-            {
-              competenceId: ke.competenceId,
-              createdAt: ke.createdAt.toISOString(),
-              earnedPix: 2,
-              skillId: ke.skillId,
-              source: ke.source,
-              status: ke.status,
-            },
-          ],
-        ]);
+        expect(snapshotInDB[0].version).to.equal(2);
+        expect(snapshotInDB[0].tubes).to.deep.equal({
+          tubeSnapshot: {
+            floor: 2,
+            ceiling: null,
+            directLevels: [2],
+            competenceId: ke.competenceId,
+            createdAt: ke.createdAt.toISOString(),
+          },
+        });
       });
 
       context('when there is a transaction', function () {
@@ -113,7 +133,7 @@ describe('Integration | Repository | Campaign Participation', function () {
             campaignParticipationRepository.updateWithSnapshot(campaignParticipation),
           )();
 
-          const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
+          const snapshotInDB = await knex.select('id').from('knowledge-state-snapshots');
           expect(snapshotInDB).to.have.lengthOf(1);
         });
 
@@ -128,7 +148,7 @@ describe('Integration | Repository | Campaign Participation', function () {
             // eslint-disable-next-line no-empty
           } catch {}
 
-          const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
+          const snapshotInDB = await knex.select('id').from('knowledge-state-snapshots');
           const participations = await knex.select('sharedAt').from('campaign-participations');
           expect(participations.sharedAt).to.be.undefined;
           expect(snapshotInDB).to.be.empty;
@@ -151,20 +171,20 @@ describe('Integration | Repository | Campaign Participation', function () {
           sharedAt: null,
           participantExternalId: 'participantExternalId',
         });
-        const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
+        const knowledgeElement1 = buildKeData({
           userId,
           createdAt: new Date('2019-03-01'),
           skillId: 'acquis1',
         });
-        const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
+        const knowledgeElement2 = buildKeData({
           userId,
           createdAt: new Date('2019-03-01'),
           skillId: 'acquis2',
         });
-        const knowledgeElementsBefore = new KnowledgeElementCollection([knowledgeElement1, knowledgeElement2]);
+        const knowledgeElementsBefore = toLegacySnapshot([knowledgeElement1, knowledgeElement2]);
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId: campaignParticipation.id,
-          snapshot: knowledgeElementsBefore.toSnapshot(),
+          snapshot: knowledgeElementsBefore,
         });
         await databaseBuilder.commit();
       });
@@ -195,7 +215,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       it('should left existing snapshot untouched', async function () {
         // given
         campaignParticipation.sharedAt = new Date();
-        const snapshotBefore = await knex('knowledge-element-snapshots')
+        const snapshotBefore = await knex('knowledge-state-snapshots')
           .select('snapshot')
           .where('campaignParticipationId', campaignParticipation.id);
 
@@ -203,7 +223,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
 
         // then
-        const snapshotAfter = await knex('knowledge-element-snapshots')
+        const snapshotAfter = await knex('knowledge-state-snapshots')
           .select('snapshot')
           .where('campaignParticipationId', campaignParticipation.id);
         expect(snapshotBefore).to.deepEqualInstance(snapshotAfter);

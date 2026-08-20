@@ -12,7 +12,6 @@ import {
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -34,7 +33,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     areaRepository,
     competenceEvaluationRepository,
     scorecardService,
-    knowledgeElementForParticipationService,
+    knowledgeStateForParticipationService,
     campaignRepository;
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
@@ -47,7 +46,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     nowDate.setMilliseconds(1);
     sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
-    sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     answerRepository = { save: sinon.stub() };
     challengeRepository = { get: sinon.stub() };
     scorecardService = { computeLevelUpInformation: sinon.stub() };
@@ -57,8 +55,8 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       get: sinon.stub(),
       getCampaignIdByCampaignParticipationId: sinon.stub(),
     };
-    knowledgeElementForParticipationService = {
-      findUniqByUserOrCampaignParticipationId: sinon.stub(),
+    knowledgeStateForParticipationService = {
+      findByUserOrCampaignParticipationId: sinon.stub(),
       save: sinon.stub(),
     };
     competenceRepository = { get: sinon.stub() };
@@ -101,7 +99,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       challengeRepository,
       competenceEvaluationRepository,
       campaignRepository,
-      knowledgeElementForParticipationService,
+      knowledgeStateForParticipationService,
       scorecardService,
       correctionService,
       areaRepository,
@@ -242,10 +240,9 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
       const skills = domainBuilder.buildSkillCollection();
       campaignRepository.findSkillsByCampaignParticipationId.resolves(skills);
-      knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
+      knowledgeStateForParticipationService.findByUserOrCampaignParticipationId
         .withArgs({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId })
-        .resolves([]);
-      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
+        .resolves(domainBuilder.buildKnowledgeState());
       challengeRepository.get.resolves(challenge);
       assessment = domainBuilder.buildAssessment({
         userId,
@@ -258,7 +255,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
       const answerSaved = domainBuilder.buildAnswer(emptyAnswer);
       answerRepository.save.resolves(answerSaved);
-      knowledgeElementForParticipationService.save.resolves();
+      knowledgeStateForParticipationService.save.resolves();
 
       // when
       const { result } = await saveAndCorrectAnswerForCampaign({
@@ -292,9 +289,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     });
 
     context('and assessment is a CAMPAIGN with SMART_RANDOM method', function () {
-      let firstKnowledgeElement;
-      let secondKnowledgeElement;
-      let knowledgeElement, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
+      let skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
 
       beforeEach(function () {
         // given
@@ -308,29 +303,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
           id: answer.challengeId,
           validator,
         });
-
-        knowledgeElement = domainBuilder.buildKnowledgeElement({
-          status: 'validated',
-          skillId: skillAlreadyValidated.id,
-          assessmentId: assessment.id,
-        });
-        firstKnowledgeElement = domainBuilder.buildKnowledgeElement({
-          earnedPix: 2,
-          assessmentId: assessment.id,
-          answerId: savedAnswer.id,
-        });
-        secondKnowledgeElement = domainBuilder.buildKnowledgeElement({
-          earnedPix: 1.8,
-          assessmentId: assessment.id,
-          answerId: savedAnswer.id,
-        });
         challengeRepository.get.resolves(challenge);
 
-        knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
+        knowledgeStateForParticipationService.findByUserOrCampaignParticipationId
           .withArgs({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId })
-          .resolves([knowledgeElement]);
+          .resolves(domainBuilder.buildKnowledgeState.fromAnswers([{ skill: skillAlreadyValidated, isOk: true }]));
         campaignRepository.findSkillsByCampaignParticipationId.resolves(skills);
-        KnowledgeElement.createKnowledgeElementsForAnswer.returns([firstKnowledgeElement, secondKnowledgeElement]);
         scorecardService.computeLevelUpInformation.resolves({});
       });
 
@@ -378,12 +356,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
       answerSaved = domainBuilder.buildAnswer(answer);
       answerSaved.timeSpent = 5;
-      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
-      knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
+      knowledgeStateForParticipationService.findByUserOrCampaignParticipationId
         .withArgs({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId })
-        .resolves([]);
+        .resolves(domainBuilder.buildKnowledgeState());
+      campaignRepository.findSkillsByCampaignParticipationId.resolves([]);
       answerRepository.save.resolves(answerSaved);
-      knowledgeElementForParticipationService.save.resolves();
+      knowledgeStateForParticipationService.save.resolves();
 
       await saveAndCorrectAnswerForCampaign({
         answer,

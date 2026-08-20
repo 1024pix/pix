@@ -3,10 +3,10 @@ import {
   getPredictedLevel,
 } from '../../../../../../src/evaluation/domain/services/algorithm-methods/cat-algorithm.js';
 import { expect } from '../../../../../test-helper.js';
-import { buildKnowledgeElement, buildSkill, buildTube } from '../../../../../tooling/domain-builder/factory/index.js';
+import { buildKnowledgeState, buildSkill, buildTube } from '../../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | Domain | services | cat-algorithm', function () {
-  let knowledgeElements;
+  let knowledgeState;
   let predictedLevel;
   let skills;
   let tubes;
@@ -14,7 +14,7 @@ describe('Unit | Domain | services | cat-algorithm', function () {
   // data used for the following tests have been extracted from production to recreate genuine simulation results
   before(function () {
     predictedLevel = 6.5;
-    knowledgeElements = [
+    const rawKnowledgeElements = [
       {
         id: 167869,
         source: 'direct',
@@ -285,7 +285,7 @@ describe('Unit | Domain | services | cat-algorithm', function () {
         status: 'validated',
         skillId: 'skillO9IBV1NC2tNmd',
       },
-    ].map(buildKnowledgeElement);
+    ];
     skills = [
       {
         id: 'rec1TZRdq2lKyLEaR',
@@ -985,12 +985,30 @@ describe('Unit | Domain | services | cat-algorithm', function () {
         name: 'utiliserVisio',
       },
     ].map(buildTube);
+
+    // L'état par tube équivalent : chaque acquis de cet extrait de production
+    // est seul dans son tube, la granularité d'un enregistrement par acquis.
+    const skillsById = new Map(
+      [...skills, ...tubes.flatMap(({ skills: tubeSkills }) => tubeSkills)].map((skill) => [skill.id, skill]),
+    );
+    knowledgeState = buildKnowledgeState({
+      tubes: rawKnowledgeElements.map(({ skillId, status, source }) => {
+        const difficulty = skillsById.get(skillId)?.difficulty ?? 1;
+        return {
+          tubeId: skillId,
+          floor: status === 'validated' ? difficulty : 0,
+          ceiling: status === 'validated' ? null : difficulty,
+          directLevels: source === 'direct' ? [difficulty] : [],
+        };
+      }),
+      skills: rawKnowledgeElements.map(({ skillId }) => ({ id: skillId, tubeId: skillId })),
+    });
   });
 
   describe('#getPredictedLevel', function () {
     it('should return expected predicted level ', async function () {
       // when
-      const predictedLevel = getPredictedLevel(knowledgeElements, skills);
+      const predictedLevel = getPredictedLevel(knowledgeState);
 
       // then
       expect(predictedLevel).to.equal(6.5);
@@ -1019,7 +1037,7 @@ describe('Unit | Domain | services | cat-algorithm', function () {
           predictedLevel,
           availableSkills: skills,
           tubes,
-          knowledgeElements,
+          knowledgeState,
         }),
       ).to.deep.equal(expectedMaxRewardingSkills);
     });

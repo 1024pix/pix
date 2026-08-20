@@ -5,16 +5,16 @@ import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | handle-badge-acquisition', function () {
-  let badgeForCalculationRepository, badgeAcquisitionRepository, knowledgeElementForParticipationService;
+  let badgeForCalculationRepository, badgeAcquisitionRepository, knowledgeStateForParticipationService;
   let args;
 
   beforeEach(function () {
     badgeForCalculationRepository = { findByCampaignParticipationId: sinon.stub() };
-    knowledgeElementForParticipationService = { findUniqByUserOrCampaignParticipationId: sinon.stub() };
+    knowledgeStateForParticipationService = { findByUserOrCampaignParticipationId: sinon.stub() };
     badgeAcquisitionRepository = { createOrUpdate: sinon.stub() };
     args = {
       badgeForCalculationRepository,
-      knowledgeElementForParticipationService,
+      knowledgeStateForParticipationService,
       badgeAcquisitionRepository,
     };
   });
@@ -23,7 +23,7 @@ describe('Unit | UseCase | handle-badge-acquisition', function () {
     it('should not attempt to create any badge acquisition', async function () {
       // given
       badgeForCalculationRepository.findByCampaignParticipationId.rejects('I should not be called');
-      knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId.rejects('I should not be called');
+      knowledgeStateForParticipationService.findByUserOrCampaignParticipationId.rejects('I should not be called');
       const assessmentCertification = domainBuilder.buildAssessment.ofTypeCertification();
       const assessmentCompetenceEvaluation = domainBuilder.buildAssessment.ofTypeCompetenceEvaluation();
 
@@ -49,9 +49,7 @@ describe('Unit | UseCase | handle-badge-acquisition', function () {
       it('should not attempt to create any badge acquisition', async function () {
         // given
         badgeForCalculationRepository.findByCampaignParticipationId.withArgs({ campaignParticipationId }).resolves([]);
-        knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId.rejects(
-          'I should not be called',
-        );
+        knowledgeStateForParticipationService.findByUserOrCampaignParticipationId.rejects('I should not be called');
 
         // when
         await handleBadgeAcquisition(args);
@@ -75,9 +73,9 @@ describe('Unit | UseCase | handle-badge-acquisition', function () {
         badgeForCalculationRepository.findByCampaignParticipationId
           .withArgs({ campaignParticipationId })
           .resolves([badgeObtained1, badgeNotObtained2, badgeObtained3]);
-        knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
+        knowledgeStateForParticipationService.findByUserOrCampaignParticipationId
           .withArgs({ userId, campaignParticipationId })
-          .resolves([domainBuilder.buildKnowledgeElement()]);
+          .resolves(domainBuilder.buildKnowledgeState());
 
         // when
         await handleBadgeAcquisition(args);

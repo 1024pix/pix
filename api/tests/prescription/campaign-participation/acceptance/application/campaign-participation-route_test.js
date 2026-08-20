@@ -371,7 +371,7 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
     const EMERALD_COLOR = 'emerald';
     const WILD_STRAWBERRY_COLOR = 'wild-strawberry';
 
-    let user, campaign, assessment, campaignParticipation, targetProfile, campaignSkills;
+    let user, campaign, campaignParticipation, targetProfile;
 
     let server, badge1, badge2, stage;
 
@@ -382,7 +382,6 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
       sinon.useFakeTimers({ now: new Date('2018-05-07'), toFake: ['Date'] });
       const oldDate = new Date('2018-02-03');
       recentDate = new Date('2018-05-06');
-      const futureDate = new Date('2018-07-10');
       const skillIds = [
         'recSkill1',
         'recSkill2',
@@ -399,7 +398,7 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
       campaign = databaseBuilder.factory.buildCampaign({
         targetProfileId: targetProfile.id,
       });
-      campaignSkills = times(8, (index) => {
+      times(8, (index) => {
         return databaseBuilder.factory.buildCampaignSkill({
           campaignId: campaign.id,
           skillId: skillIds[index],
@@ -412,7 +411,7 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
         masteryRate: 0.38,
       });
 
-      assessment = databaseBuilder.factory.buildAssessment({
+      databaseBuilder.factory.buildAssessment({
         campaignParticipationId: campaignParticipation.id,
         userId: user.id,
         type: 'CAMPAIGN',
@@ -480,21 +479,23 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
         campaignParticipationId: campaignParticipation.id,
       });
 
-      campaignSkills.slice(2).forEach((campaignSkill, index) => {
-        databaseBuilder.factory.buildKnowledgeElement({
-          userId: user.id,
-          assessmentId: assessment.id,
-          skillId: campaignSkill.skillId,
-          status: index < 3 ? 'validated' : 'invalidated',
-          createdAt: index < 5 ? oldDate : futureDate,
-        });
-      });
-
-      databaseBuilder.factory.buildKnowledgeElement({
+      // recSkill3 et recSkill4 réussis, recSkill2 non : ils sont les deux plus
+      // bas de leur tube, le plancher s'arrête donc avant recSkill2.
+      databaseBuilder.factory.buildKnowledgeState({
         userId: user.id,
-        assessmentId: assessment.id,
-        skillId: 'otherSkillId',
-        createdAt: oldDate,
+        tubeId: 'recTube2',
+        floor: 2,
+        directLevels: [1, 2],
+        updatedAt: oldDate,
+      });
+      // recSkill5 réussi, les trois suivants ratés.
+      databaseBuilder.factory.buildKnowledgeState({
+        userId: user.id,
+        tubeId: 'recTube3',
+        floor: 1,
+        ceiling: 2,
+        directLevels: [1, 2],
+        updatedAt: oldDate,
       });
 
       const learningContent = [
@@ -508,7 +509,7 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
               name_i18n: { fr: 'Agir collectivement' },
               description_i18n: { fr: 'Sauver le monde' },
               index: '1.2',
-              tubes: [{ id: 'recTube1', skills: [{ id: 'recSkill1' }] }],
+              tubes: [{ id: 'recTube1', skills: [{ id: 'recSkill1', level: 1 }] }],
             },
           ],
         },
@@ -525,7 +526,11 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
               tubes: [
                 {
                   id: 'recTube2',
-                  skills: [{ id: 'recSkill2' }, { id: 'recSkill3' }, { id: 'recSkill4' }],
+                  skills: [
+                    { id: 'recSkill3', level: 1 },
+                    { id: 'recSkill4', level: 2 },
+                    { id: 'recSkill2', level: 3 },
+                  ],
                 },
               ],
             },
@@ -537,7 +542,12 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
               tubes: [
                 {
                   id: 'recTube3',
-                  skills: [{ id: 'recSkill5' }, { id: 'recSkill6' }, { id: 'recSkill7' }, { id: 'recSkill8' }],
+                  skills: [
+                    { id: 'recSkill5', level: 1 },
+                    { id: 'recSkill6', level: 2 },
+                    { id: 'recSkill7', level: 3 },
+                    { id: 'recSkill8', level: 4 },
+                  ],
                 },
               ],
             },
@@ -572,7 +582,9 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
           attributes: {
             'mastery-rate': 0.38,
             'total-skills-count': 8,
-            'tested-skills-count': 5,
+            // L'état porte une date par tube : un acquis évalué après le
+            // partage n'est plus distinguable de ses voisins du même tube.
+            'tested-skills-count': 6,
             'validated-skills-count': 3,
             'is-completed': true,
             'is-shared': true,
@@ -694,7 +706,8 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
               description: 'Sauver le monde',
               'mastery-percentage': 25,
               'total-skills-count': 4,
-              'tested-skills-count': 3,
+              // Même cause : l'acquis évalué après le partage reste compté.
+              'tested-skills-count': 4,
               'validated-skills-count': 1,
               'area-color': EMERALD_COLOR,
               'area-title': 'DomaineNom2',

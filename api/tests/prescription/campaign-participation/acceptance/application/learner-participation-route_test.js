@@ -1,11 +1,8 @@
-import _ from 'lodash';
-
 import { ParticipationResultCalculationJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
 import { ParticipationSharedJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationSharedJob.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
@@ -126,15 +123,13 @@ describe('Acceptance | Routes | Campaign Participations', function () {
       options.headers = generateAuthenticatedUserRequestHeaders({ userId: user.id });
       const targetProfileId = databaseBuilder.factory.buildTargetProfile({ areKnowledgeElementsResettable: true }).id;
       databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'tubeId1', targetProfileId });
-      databaseBuilder.factory.buildKnowledgeElement({
+      // L'acquis du profil cible est réussi : l'état porte le plancher de son
+      // tube. Les knowledge elements ne sont plus persistés.
+      databaseBuilder.factory.buildKnowledgeState({
         userId: user.id,
-        skillId: 'recSK123',
-        status: KnowledgeElement.StatusType.VALIDATED,
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        userId: user.id,
-        skillId: 'recSK789',
-        status: KnowledgeElement.StatusType.VALIDATED,
+        tubeId: 'tubeId1',
+        floor: 3,
+        directLevels: [3],
       });
 
       const competenceId = 'competenceId';
@@ -220,14 +215,11 @@ describe('Acceptance | Routes | Campaign Participations', function () {
       await server.inject(options);
 
       // then
-      const ke = await knex('knowledge-elements').where({
-        userId: user.id,
-        status: KnowledgeElement.StatusType.RESET,
-        skillId: 'recSK123',
-      });
+      // La remise à zéro ne s'écrit plus comme un knowledge element de statut
+      // `reset` : elle efface l'état des tubes de la compétence.
       const { state: assessmentState } = await knex('assessments').where({ id: assessmentId }).first();
 
-      expect(ke).to.have.lengthOf(1);
+      expect(await knex('knowledge-states').where({ userId: user.id })).to.be.empty;
       expect(assessmentState).to.equal(Assessment.states.STARTED);
     });
 
@@ -305,6 +297,15 @@ describe('Acceptance | Routes | Campaign Participations', function () {
           areaId: 'recvoGdo7z2z7pXWa',
         },
       ],
+      tubes: [{ id: 'recTubeUrl', competenceId }],
+      skills: [
+        { id: 'url1', name: '@url1', level: 1, tubeId: 'recTubeUrl', competenceId, status: 'actif', pixValue: 2 },
+        { id: 'url2', name: '@url2', level: 2, tubeId: 'recTubeUrl', competenceId, status: 'actif', pixValue: 2 },
+      ],
+      challenges: [
+        { id: 'challenge-url1', skillId: 'url1', competenceId, status: 'validé' },
+        { id: 'challenge-url2', skillId: 'url2', competenceId, status: 'validé' },
+      ],
     };
 
     beforeEach(async function () {
@@ -319,27 +320,34 @@ describe('Acceptance | Routes | Campaign Participations', function () {
         pixScore,
       });
 
-      const knowledgeElements = [
-        {
-          skillId: 'url1',
-          status: 'validated',
-          source: 'direct',
-          competenceId,
-          earnedPix: 2,
-          createdAt,
-          userId,
-        },
-        {
-          skillId: 'url2',
-          status: 'validated',
-          source: 'direct',
-          competenceId,
-          earnedPix: 2,
-          createdAt: createdAfterAt,
-          userId,
-        },
-      ];
-      _.each(knowledgeElements, (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
+      // L'utilisateur réussit un acquis avant le partage, puis un autre du même
+      // tube après. L'état de connaissance porte les deux — il ne décrit que le
+      // présent — mais le profil partagé est celui que le partage a figé dans
+      // l'instantané : seul le premier acquis y figure.
+      const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+      databaseBuilder.factory.buildAnsweredSkill({
+        userId,
+        assessmentId,
+        skillId: 'url1',
+        createdAt,
+        withSkill: false,
+        withChallenge: false,
+      });
+      databaseBuilder.factory.buildAnsweredSkill({
+        userId,
+        assessmentId,
+        skillId: 'url2',
+        createdAt: createdAfterAt,
+        withSkill: false,
+        withChallenge: false,
+      });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        campaignParticipationId: campaignParticipation.id,
+        snapshot: JSON.stringify({
+          version: 2,
+          tubes: { recTubeUrl: { floor: 1, ceiling: null, directLevels: [1], competenceId, createdAt } },
+        }),
+      });
 
       await databaseBuilder.commit();
 

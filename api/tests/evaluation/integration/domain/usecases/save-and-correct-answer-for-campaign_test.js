@@ -4,15 +4,17 @@ import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import { CompetenceEvaluation } from '../../../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/constants.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
+import { deserializeSnapshot } from '../../../../../src/shared/domain/services/knowledge-state-snapshot.js';
+import * as knowledgeStateRepository from '../../../../../src/shared/infrastructure/repositories/knowledge-state-repository.js';
+import * as skillRepository from '../../../../../src/shared/infrastructure/repositories/skill-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Evaluation | Integration | Usecase | Save and correct answer for campaign', function () {
@@ -68,8 +70,8 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
         userId,
         assessmentId: someOtherAssessmentId,
         answerId: someAnswerId,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
+        status: 'validated',
+        source: 'direct',
         competenceId: 'maCompetenceId',
         createdAt: new Date('2020-01-01'),
       });
@@ -155,8 +157,8 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
         userId,
         assessmentId: someOtherAssessmentId,
         answerId: someAnswerId,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
+        status: 'validated',
+        source: 'direct',
         competenceId: 'maCompetenceId',
         createdAt: new Date('2020-01-01'),
       });
@@ -186,7 +188,7 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
   });
 
   context('for campaign of type assessment with method smart_random', function () {
-    it('should correct answer and save both answer and knowledge-elements', async function () {
+    it('should correct and save the answer, without persisting any knowledge element', async function () {
       // given
       const locale = 'fr';
       const userId = databaseBuilder.factory.buildUser().id;
@@ -245,18 +247,16 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
         }),
       );
 
-      const someAnswerId = databaseBuilder.factory.buildAnswer().id;
+      // Acquis validé lors d'un parcours antérieur, exprimé par une réponse.
       const someOtherAssessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
-      databaseBuilder.factory.buildKnowledgeElement({
-        skillId: skillIds[0],
-        earnedPix: PIX_COUNT_BY_LEVEL,
+      databaseBuilder.factory.buildAnsweredSkill({
         userId,
         assessmentId: someOtherAssessmentId,
-        answerId: someAnswerId,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
+        skillId: skillIds[0],
         competenceId: 'maCompetenceId',
+        isOk: true,
         createdAt: new Date('2020-01-01'),
+        withSkill: false,
       });
       await databaseBuilder.commit();
 
@@ -277,31 +277,11 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
       });
 
       // then
-      const keData = await knex('knowledge-elements')
-        .select(['source', 'status', 'skillId'])
-        .where({ userId })
-        .orderBy('skillId', 'createdAt');
-      sinon.assert.match(keData[0], {
-        source: KnowledgeElement.SourceType.DIRECT,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: skillIds[0],
-      });
-      sinon.assert.match(keData[1], {
-        source: KnowledgeElement.SourceType.INFERRED,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: skillIds[0],
-      });
-      sinon.assert.match(keData[2], {
-        source: KnowledgeElement.SourceType.INFERRED,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: skillIds[1],
-      });
-      sinon.assert.match(keData[3], {
-        source: KnowledgeElement.SourceType.DIRECT,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: skillIds[2],
-      });
-      expect(keData.length).to.equal(4);
+      const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
+      expect(knowledgeState.validatedSkills().map(({ id }) => id)).to.have.members(skillIds);
+      expect(knowledgeState.isDirect({ id: skillIds[0], tubeId: 'monTubeId', difficulty: 1 })).to.be.true;
+      expect(knowledgeState.isDirect({ id: skillIds[1], tubeId: 'monTubeId', difficulty: 2 })).to.be.false;
+      expect(knowledgeState.isDirect({ id: skillIds[2], tubeId: 'monTubeId', difficulty: 3 })).to.be.true;
       sinon.assert.match(savedAnswer, {
         id: sinon.match.number,
         result: AnswerStatus.OK,
@@ -374,21 +354,21 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
         }),
       );
       const someAnswerId = databaseBuilder.factory.buildAnswer().id;
-      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+      const knowledgeElement = {
         skillId: skillIds[0],
         earnedPix: PIX_COUNT_BY_LEVEL,
         userId,
         assessmentId: assessmentDB.id,
         answerId: someAnswerId,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
+        status: 'validated',
+        source: 'direct',
         competenceId: 'maCompetenceId',
         createdAt: new Date('2020-01-01'),
-      });
-      const knowledgeElementsBefore = new KnowledgeElementCollection([knowledgeElement]);
+      };
+      const knowledgeElementsBefore = toLegacySnapshot([knowledgeElement]);
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId,
-        snapshot: knowledgeElementsBefore.toSnapshot(),
+        snapshot: knowledgeElementsBefore,
       });
       await databaseBuilder.commit();
 
@@ -408,33 +388,19 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
       });
 
       // then
-      const knowledgeElements = await knex('knowledge-element-snapshots')
+      const snapshotRow = await knex('knowledge-state-snapshots')
         .select('snapshot')
         .where('campaignParticipationId', campaignParticipationId)
         .first();
 
-      expect(knowledgeElements.snapshot).lengthOf(3);
-      const expectedKnowledgeElements = knowledgeElements.snapshot.map(({ source, status, skillId }) => {
-        return { source, status, skillId };
-      });
+      // L'instantané retient l'état par tube : les trois acquis d'un même tube
+      // tiennent en une entrée.
+      expect(Object.keys(snapshotRow.snapshot.tubes)).lengthOf(1);
 
-      expect(expectedKnowledgeElements).deep.members([
-        {
-          source: KnowledgeElement.SourceType.DIRECT,
-          status: KnowledgeElement.StatusType.VALIDATED,
-          skillId: skillIds[0],
-        },
-        {
-          source: KnowledgeElement.SourceType.INFERRED,
-          status: KnowledgeElement.StatusType.VALIDATED,
-          skillId: skillIds[1],
-        },
-        {
-          source: KnowledgeElement.SourceType.DIRECT,
-          status: KnowledgeElement.StatusType.VALIDATED,
-          skillId: skillIds[2],
-        },
-      ]);
+      const allSkills = await skillRepository.list();
+      const stateFromSnapshot = deserializeSnapshot({ snapshot: snapshotRow.snapshot, allSkills });
+      expect(stateFromSnapshot.validatedSkills().map(({ id }) => id)).to.have.members(skillIds);
+      expect(stateFromSnapshot.isDirect({ id: skillIds[1], tubeId: 'monTubeId', difficulty: 2 })).to.be.false;
 
       sinon.assert.match(savedAnswer, {
         id: sinon.match.number,

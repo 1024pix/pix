@@ -6,15 +6,15 @@ import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecase
 import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/constants.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
+import * as knowledgeStateRepository from '../../../../../src/shared/infrastructure/repositories/knowledge-state-repository.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Evaluation | Integration | Usecase | Save and correct answer for competence evaluation', function () {
   const skillIds = ['monAcquisA_Id', 'monAcquisB_Id', 'monAcquisC_Id'];
 
-  it('should correct answer and save both answer and knowledge-elements', async function () {
+  it('should correct and save the answer, without persisting any knowledge element', async function () {
     // given
     const locale = 'fr';
     const competenceId = 'maCompetenceId';
@@ -61,18 +61,26 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
         level: index + 1,
       }),
     );
-    const someAnswerId = databaseBuilder.factory.buildAnswer().id;
-    const someOtherAssessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
-    databaseBuilder.factory.buildKnowledgeElement({
+    // Acquis déjà validé lors d'un parcours antérieur. Les knowledge elements
+    // étant dérivés des réponses, ce passé s'exprime par une réponse, pas par
+    // une ligne insérée à la main.
+    databaseBuilder.factory.learningContent.buildChallenge({
+      id: 'monEpreuvePrecedenteId',
       skillId: skillIds[0],
-      earnedPix: PIX_COUNT_BY_LEVEL,
+      competenceId: 'maCompetenceId',
+      locales: [locale],
+      status: 'validé',
+    });
+    const someOtherAssessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+    databaseBuilder.factory.buildAnsweredSkill({
       userId,
       assessmentId: someOtherAssessmentId,
-      answerId: someAnswerId,
-      status: KnowledgeElement.StatusType.VALIDATED,
-      source: KnowledgeElement.SourceType.DIRECT,
-      competenceId: 'maCompetenceId',
+      skillId: skillIds[0],
+      challengeId: 'monEpreuvePrecedenteId',
+      isOk: true,
       createdAt: new Date('2020-01-01'),
+      withSkill: false,
+      withChallenge: false,
     });
     await databaseBuilder.commit();
 
@@ -92,31 +100,11 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
     });
 
     // then
-    const keData = await knex('knowledge-elements')
-      .select(['source', 'status', 'skillId'])
-      .where({ userId })
-      .orderBy('skillId', 'createdAt');
-    sinon.assert.match(keData[0], {
-      source: KnowledgeElement.SourceType.DIRECT,
-      status: KnowledgeElement.StatusType.VALIDATED,
-      skillId: skillIds[0],
-    });
-    sinon.assert.match(keData[1], {
-      source: KnowledgeElement.SourceType.INFERRED,
-      status: KnowledgeElement.StatusType.VALIDATED,
-      skillId: skillIds[0],
-    });
-    sinon.assert.match(keData[2], {
-      source: KnowledgeElement.SourceType.INFERRED,
-      status: KnowledgeElement.StatusType.VALIDATED,
-      skillId: skillIds[1],
-    });
-    sinon.assert.match(keData[3], {
-      source: KnowledgeElement.SourceType.DIRECT,
-      status: KnowledgeElement.StatusType.VALIDATED,
-      skillId: skillIds[2],
-    });
-    expect(keData.length).to.equal(4);
+    const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
+    expect(knowledgeState.validatedSkills().map(({ id }) => id)).to.have.members(skillIds);
+    expect(knowledgeState.isDirect({ id: skillIds[0], tubeId: 'monTubeId', difficulty: 1 })).to.be.true;
+    expect(knowledgeState.isDirect({ id: skillIds[1], tubeId: 'monTubeId', difficulty: 2 })).to.be.false;
+    expect(knowledgeState.isDirect({ id: skillIds[2], tubeId: 'monTubeId', difficulty: 3 })).to.be.true;
     sinon.assert.match(savedAnswer, {
       id: sinon.match.number,
       result: AnswerStatus.OK,

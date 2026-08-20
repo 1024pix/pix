@@ -2,23 +2,28 @@ import sinon from 'sinon';
 
 import { getCompetenceLevel } from '../../../../../src/evaluation/domain/services/get-competence-level.js';
 import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Service | Get Competence Level', function () {
   describe('#getCompetenceLevel', function () {
     const userId = 'userId';
     const level = 3;
     let competenceLevel;
-    let knowledgeElementRepository;
+    let knowledgeStateRepository;
     let competenceId;
-    let knowledgeElements;
+    let knowledgeState;
     let scoringService;
 
     beforeEach(async function () {
       // given
       competenceId = 'competenceId';
-      knowledgeElements = Symbol('knowledgeElements');
-      knowledgeElementRepository = {
-        findUniqByUserIdAndCompetenceId: sinon.stub().resolves(knowledgeElements),
+      knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+        validatedSkillIds: ['skillA'],
+        invalidatedSkillIds: ['skillB'],
+        competenceId,
+      });
+      knowledgeStateRepository = {
+        findByUserId: sinon.stub().resolves(knowledgeState),
       };
       scoringService = {
         calculateScoringInformationForCompetence: sinon.stub().returns({ currentLevel: level }),
@@ -29,23 +34,21 @@ describe('Unit | Domain | Service | Get Competence Level', function () {
         userId,
         competenceId,
         dependencies: {
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           scoringService,
         },
       });
     });
 
-    it('should retrieve knowledgeElements for competence and user', function () {
+    it('should retrieve the knowledge state of the user', function () {
       // then
-      expect(knowledgeElementRepository.findUniqByUserIdAndCompetenceId).to.be.calledWith({
-        userId,
-        competenceId,
-      });
+      expect(knowledgeStateRepository.findByUserId).to.be.calledWith({ userId });
     });
 
-    it('should use scoringService to compute competence level', function () {
+    it('should use scoringService on the validated skills of the competence', function () {
       // then
-      expect(scoringService.calculateScoringInformationForCompetence).to.be.calledWith({ knowledgeElements });
+      const { validatedSkills } = scoringService.calculateScoringInformationForCompetence.firstCall.args[0];
+      expect(validatedSkills.map(({ id }) => id)).to.deep.equal(['skillA']);
     });
 
     it('should return competence level', function () {

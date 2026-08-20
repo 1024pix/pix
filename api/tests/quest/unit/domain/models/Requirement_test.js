@@ -9,7 +9,6 @@ import {
   ObjectRequirement,
   TYPES,
 } from '../../../../../src/quest/domain/models/quests/value-objects/Requirement.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Requirement ', function () {
@@ -649,46 +648,13 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
       ];
 
       beforeEach(function () {
+        // tubeA validé jusqu'au niveau 1, tubeB jusqu'au 2 : 3 niveaux
+        // validés sur les 5 couverts par les caps, soit 60 %
         successWith60MasteryPercentage = new Success({
-          knowledgeElements: [
-            {
-              status: KnowledgeElement.StatusType.VALIDATED,
-              skillId: 'skill1tubeA_V1',
-              createdAt: new Date('2025-03-17'),
-            },
-            {
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              skillId: 'skill2tubeA',
-              createdAt: new Date('2025-03-17'),
-            },
-            {
-              status: KnowledgeElement.StatusType.VALIDATED,
-              skillId: 'skill3tubeA',
-              createdAt: new Date('2025-03-17'),
-            },
-            {
-              status: KnowledgeElement.StatusType.VALIDATED,
-              skillId: 'skill4tubeA',
-              createdAt: new Date('2025-03-17'),
-            },
-            {
-              status: KnowledgeElement.StatusType.VALIDATED,
-              skillId: 'skill1tubeB',
-              createdAt: new Date('2025-03-17'),
-            },
-            {
-              status: KnowledgeElement.StatusType.VALIDATED,
-              skillId: 'skill2tubeB',
-              createdAt: new Date('2025-03-17'),
-            },
-            {
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              skillId: 'skill3tubeB',
-              createdAt: new Date('2025-03-17'),
-            },
-            { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillTubeC', createdAt: new Date('2025-03-17') },
-            { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillTubeD', createdAt: new Date('2025-03-17') },
-          ],
+          knowledgeState: {
+            validatedSkillIds: ['skill1tubeA_V1', 'skill1tubeB', 'skill2tubeB', 'skillTubeC', 'skillTubeD'],
+            floorByTubeId: { tubeA: 1, tubeB: 2, tubeC: 1, tubeD: 1 },
+          },
           campaignSkills: [
             { id: 'skill1tubeA_V1', tubeId: 'tubeA', difficulty: 1 },
             { id: 'skill2tubeA', tubeId: 'tubeA', difficulty: 2 },
@@ -703,70 +669,56 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
         });
       });
 
-      context(
-        'when two skills exist for a tube and a difficulty compute fulfillement taking in account only most recent knowledge element',
-        function () {
-          it('return true', function () {
-            // given
-            const success = new Success({
-              knowledgeElements: [
-                ...successWith60MasteryPercentage.knowledgeElements,
-                {
-                  status: KnowledgeElement.StatusType.INVALIDATED,
-                  skillId: 'skill1tubeA_V2',
-                  createdAt: new Date('2024-06-10'),
-                },
-              ],
-              campaignSkills: [
-                ...successWith60MasteryPercentage.campaignSkills,
-                { id: 'skill1tubeA_V2', tubeId: 'tubeA', difficulty: 1 },
-              ],
-            });
-            const requirement = new CappedTubesRequirement({
-              data: {
-                cappedTubes,
-                threshold: 60,
-              },
-            });
-
-            // when
-            const isFulfilled = requirement.isFulfilled(success);
-
-            // then
-            expect(isFulfilled).to.be.true;
+      context('when two skills exist for a tube and a difficulty', function () {
+        it('return true, counting one slot per difficulty whatever the number of versions', function () {
+          // given — une seconde version au même niveau ne change pas le décompte
+          const success = new Success({
+            knowledgeState: successWith60MasteryPercentage.knowledgeState,
+            campaignSkills: [
+              ...successWith60MasteryPercentage.campaignSkills,
+              { id: 'skill1tubeA_V2', tubeId: 'tubeA', difficulty: 1 },
+            ],
+          });
+          const requirement = new CappedTubesRequirement({
+            data: {
+              cappedTubes,
+              threshold: 60,
+            },
           });
 
-          it('return false', function () {
-            // given
-            const success = new Success({
-              knowledgeElements: [
-                ...successWith60MasteryPercentage.knowledgeElements,
-                {
-                  status: KnowledgeElement.StatusType.INVALIDATED,
-                  skillId: 'skill1tubeA_V2',
-                  createdAt: new Date('2025-12-24'),
-                },
-              ],
-              campaignSkills: [
-                ...successWith60MasteryPercentage.campaignSkills,
-                { id: 'skill1tubeA_V2', tubeId: 'tubeA', difficulty: 1 },
-              ],
-            });
-            const requirement = new CappedTubesRequirement({
-              data: {
-                cappedTubes,
-                threshold: 60,
-              },
-            });
+          // when
+          const isFulfilled = requirement.isFulfilled(success);
 
-            // when
-            const isFulfilled = requirement.isFulfilled(success);
+          // then
+          expect(isFulfilled).to.be.true;
+        });
 
-            // then
-            expect(isFulfilled).to.be.false;
+        it('return false when the level is no longer covered by the tube floor', function () {
+          // given — le niveau 1 de tubeA n'est plus validé : 2 niveaux sur 5, 40 %
+          const success = new Success({
+            knowledgeState: {
+              validatedSkillIds: ['skill1tubeB', 'skill2tubeB'],
+              floorByTubeId: { tubeB: 2 },
+            },
+            campaignSkills: [
+              ...successWith60MasteryPercentage.campaignSkills,
+              { id: 'skill1tubeA_V2', tubeId: 'tubeA', difficulty: 1 },
+            ],
           });
-        },
-      );
+          const requirement = new CappedTubesRequirement({
+            data: {
+              cappedTubes,
+              threshold: 60,
+            },
+          });
+
+          // when
+          const isFulfilled = requirement.isFulfilled(success);
+
+          // then
+          expect(isFulfilled).to.be.false;
+        });
+      });
 
       context("when dataInput's masteryPercentage is below threshold", function () {
         it('should return false', function () {

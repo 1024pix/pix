@@ -6,7 +6,6 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -40,15 +39,13 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         },
       ];
 
-      const knowledgeElements = [
-        domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
-        domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
-        domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
-      ];
+      const assessedSkillIds = ['skill1', 'skill2', 'skill4'];
+      const validatedSkillIds = ['skill1', 'skill4'];
       const participationResults = {
         campaignParticipationId: 12,
         isCompleted: true,
-        knowledgeElements,
+        assessedSkillIds,
+        validatedSkillIds,
         acquiredBadgeIds: [],
         sharedAt: new Date(),
         status: CampaignParticipationStatuses.SHARED,
@@ -107,20 +104,13 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
               },
             ];
 
-            const knowledgeElements = [
-              domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
-              domainBuilder.buildKnowledgeElement({
-                skillId: 'skill2',
-                status: KnowledgeElement.StatusType.INVALIDATED,
-              }),
-              domainBuilder.buildKnowledgeElement({ skillId: 'skill3', status: KnowledgeElement.StatusType.VALIDATED }),
-              domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
-              domainBuilder.buildKnowledgeElement({ skillId: 'skill5', status: KnowledgeElement.StatusType.VALIDATED }),
-            ];
+            const assessedSkillIds = ['skill1', 'skill2', 'skill3', 'skill4', 'skill5'];
+            const validatedSkillIds = ['skill1', 'skill3', 'skill4', 'skill5'];
             const participationResults = {
               campaignParticipationId: 12,
               isCompleted: true,
-              knowledgeElements,
+              assessedSkillIds,
+              validatedSkillIds,
               acquiredBadgeIds: [],
               sharedAt: null,
               status: CampaignParticipationStatuses.STARTED,
@@ -144,20 +134,13 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           it('returns 0', function () {
             const competences = [];
 
-            const knowledgeElements = [
-              domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
-              domainBuilder.buildKnowledgeElement({
-                skillId: 'skill2',
-                status: KnowledgeElement.StatusType.INVALIDATED,
-              }),
-              domainBuilder.buildKnowledgeElement({ skillId: 'skill3', status: KnowledgeElement.StatusType.VALIDATED }),
-              domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
-              domainBuilder.buildKnowledgeElement({ skillId: 'skill5', status: KnowledgeElement.StatusType.VALIDATED }),
-            ];
+            const assessedSkillIds = ['skill1', 'skill2', 'skill3', 'skill4', 'skill5'];
+            const validatedSkillIds = ['skill1', 'skill3', 'skill4', 'skill5'];
             const participationResults = {
               campaignParticipationId: 12,
               isCompleted: true,
-              knowledgeElements,
+              assessedSkillIds,
+              validatedSkillIds,
               acquiredBadgeIds: [],
               sharedAt: null,
               status: CampaignParticipationStatuses.STARTED,
@@ -207,13 +190,10 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         },
       ];
 
-      const knowledgeElements = [
-        domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
-        domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
-        domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
-      ];
+      const assessedSkillIds = ['skill1', 'skill2', 'skill4'];
+      const validatedSkillIds = ['skill1', 'skill4'];
 
-      const participationResults = { knowledgeElements, acquiredBadgeIds: [] };
+      const participationResults = { assessedSkillIds, validatedSkillIds, acquiredBadgeIds: [] };
 
       const assessmentResult = new AssessmentResult({
         participationResults,
@@ -265,15 +245,9 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           },
         ];
 
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
-          domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
-          domainBuilder.buildKnowledgeElement({ skillId: 'skill3', status: KnowledgeElement.StatusType.VALIDATED }),
-          domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
-          domainBuilder.buildKnowledgeElement({ skillId: 'skill5', status: KnowledgeElement.StatusType.VALIDATED }),
-          domainBuilder.buildKnowledgeElement({ skillId: 'skill6', status: KnowledgeElement.StatusType.VALIDATED }),
-        ];
-        const participationResults = { knowledgeElements, acquiredBadgeIds: [], masteryRate: '0.80' };
+        const assessedSkillIds = ['skill1', 'skill2', 'skill3', 'skill4', 'skill5', 'skill6'];
+        const validatedSkillIds = ['skill1', 'skill3', 'skill4', 'skill5', 'skill6'];
+        const participationResults = { assessedSkillIds, validatedSkillIds, acquiredBadgeIds: [], masteryRate: '0.80' };
 
         const stages = [
           {
@@ -340,7 +314,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             targetedSkillIds: ['skill1', 'skill2', 'skill3'],
           },
         ];
-        const participationResults = { knowledgeElements: [], acquiredBadgeIds: [1] };
+        const participationResults = { assessedSkillIds: [], validatedSkillIds: [], acquiredBadgeIds: [1] };
 
         const badgeResultsDTO = [
           {
@@ -391,7 +365,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: null,
@@ -416,7 +391,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.45',
           sharedAt: dayjs(now).subtract(3, 'days'),
@@ -442,7 +418,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.45',
           sharedAt: dayjs(now).subtract(5, 'days'),
@@ -468,7 +445,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.45',
           sharedAt: dayjs(now).subtract(4, 'days'),
@@ -497,7 +475,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -524,7 +503,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = false;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -551,7 +531,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: null,
@@ -577,7 +558,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -604,7 +586,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = true;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -630,18 +613,14 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isCampaignMultipleSendings = true;
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
-        const ke = domainBuilder.buildKnowledgeElement({
-          skillId: 'recSkillComp1',
-          status: KnowledgeElement.StatusType.VALIDATED,
-          createdAt: new Date('2020-01-01'),
-        });
         const targetedCompetence = {
           competence: { id: 'competence1' },
           area: {},
           targetedSkillIds: ['recSkillComp1'],
         };
         const participationResults = {
-          knowledgeElements: [ke],
+          assessedSkillIds: ['recSkillComp1'],
+          validatedSkillIds: ['recSkillComp1'],
           acquiredBadgeIds: [],
           masteryRate: '1',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -668,7 +647,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           sharedAt: new Date('2020-01-01T05:06:07Z'),
           status: CampaignParticipationStatuses.SHARED,
@@ -698,7 +678,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           const isOrganizationLearnerActive = true;
           const isCampaignArchived = false;
           const participationResults = {
-            knowledgeElements: [],
+            assessedSkillIds: [],
+            validatedSkillIds: [],
             acquiredBadgeIds: [],
             masteryRate: '0.45',
             sharedAt: new Date('2019-12-12'),
@@ -728,7 +709,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           const isOrganizationLearnerActive = true;
           const isCampaignArchived = false;
           const participationResults = {
-            knowledgeElements: [],
+            assessedSkillIds: [],
+            validatedSkillIds: [],
             acquiredBadgeIds: [],
             masteryRate: '0.34',
             sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -767,7 +749,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -796,7 +779,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = false;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -822,7 +806,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isTargetProfileResetAllowed = true;
         const isCampaignArchived = true;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -850,7 +835,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: null,
@@ -878,7 +864,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isTargetProfileResetAllowed = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -907,7 +894,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isTargetProfileResetAllowed = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-04T05:06:07Z'),
@@ -936,7 +924,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const isTargetProfileResetAllowed = true;
         const isCampaignArchived = false;
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           masteryRate: '0.34',
           sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -965,7 +954,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       const isTargetProfileResetAllowed = true;
       const isCampaignArchived = false;
       const participationResults = {
-        knowledgeElements: [],
+        assessedSkillIds: [],
+        validatedSkillIds: [],
         acquiredBadgeIds: [],
         masteryRate: '0.34',
         sharedAt: new Date('2020-01-01T05:06:07Z'),
@@ -992,7 +982,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when participation is deleted', function () {
       it('returns true', function () {
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           isDeleted: true,
         };
@@ -1014,7 +1005,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when campaign is archived', function () {
       it('returns true', function () {
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           isDeleted: false,
         };
@@ -1036,7 +1028,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when campaign is deleted', function () {
       it('returns true', function () {
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           isDeleted: false,
         };
@@ -1058,7 +1051,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when campaign is not archived and participation is not deleted', function () {
       it('returns false', function () {
         const participationResults = {
-          knowledgeElements: [],
+          assessedSkillIds: [],
+          validatedSkillIds: [],
           acquiredBadgeIds: [],
           isDeleted: false,
         };

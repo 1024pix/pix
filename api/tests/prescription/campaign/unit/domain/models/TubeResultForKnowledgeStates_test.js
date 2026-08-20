@@ -1,10 +1,9 @@
-import { TubeResultForKnowledgeElementSnapshots } from '../../../../../../src/prescription/campaign/domain/models/TubeResultForKnowledgeElementSnapshots.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
+import { TubeResultForKnowledgeStates } from '../../../../../../src/prescription/campaign/domain/models/TubeResultForKnowledgeStates.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', function () {
-  let competence, tube, knowledgeElementSnapshots;
+describe('Unit | Domain | Models | TubeResultForKnowledgeStates', function () {
+  let competence, tube, knowledgeStates;
 
   describe('Constructor', function () {
     beforeEach(function () {
@@ -47,51 +46,37 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
         description: 'description compétence 1',
       });
 
-      const user1ke1 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: 'recSkillWeb1',
-        userId: 1,
-      });
-      const user1ke2 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.INVALIDATED,
-        skillId: 'recSkillWeb2',
-        userId: 1,
-      });
-
-      const user2ke1 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: 'recSkillWeb1',
-        userId: 2,
-      });
-
-      const user2ke2 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: 'recSkillUrl1',
-        userId: 2,
-      });
-
-      knowledgeElementSnapshots = [
-        KnowledgeElement.toLatestUniqNonResetCollection([user1ke1, user1ke2]),
-        KnowledgeElement.toLatestUniqNonResetCollection([user2ke1, user2ke2]),
+      // user1 : niveau 1 réussi, niveau 2 raté — user2 : niveau 1 réussi, et un
+      // autre tube qui ne compte pas ici.
+      knowledgeStates = [
+        domainBuilder.buildKnowledgeState({
+          tubes: [{ tubeId: 'tube1', floor: 1, ceiling: 2, directLevels: [1, 2] }],
+        }),
+        domainBuilder.buildKnowledgeState({
+          tubes: [
+            { tubeId: 'tube1', floor: 1, ceiling: null, directLevels: [1] },
+            { tubeId: 'tube2', floor: 3, ceiling: null, directLevels: [3] },
+          ],
+        }),
       ];
     });
 
     describe('when there is participations', function () {
       it('should instanciate a model with correct data', function () {
         //when
-        const tubeResult = new TubeResultForKnowledgeElementSnapshots({
+        const tubeResult = new TubeResultForKnowledgeStates({
           tube,
           competence,
         });
 
-        tubeResult.addKnowledgeElementSnapshots(knowledgeElementSnapshots);
+        tubeResult.addKnowledgeStates(knowledgeStates);
         //then
         expect(tubeResult.id).equal(tube.id);
         expect(tubeResult.competenceId).equal(tube.competenceId);
         expect(tubeResult.title).equal(tube.practicalTitle);
         expect(tubeResult.description).equal(tube.practicalDescription);
         expect(tubeResult.maxLevel).equal(2);
-        // mean level = user1 (level 1: ok, level 2: ko), user2: (level 1: ok)
+        // mean level = user1 (niveau 1: ok, niveau 2: ko), user2 (niveau 1: ok)
         expect(tubeResult.meanLevel).equal(1);
         expect(tubeResult.competenceName).equal(competence.name);
       });
@@ -100,7 +85,7 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
     describe('when there is no participation', function () {
       it('should instanciate a model with correct data', function () {
         //when
-        const tubeResult = new TubeResultForKnowledgeElementSnapshots({
+        const tubeResult = new TubeResultForKnowledgeStates({
           tube,
           competence,
         });

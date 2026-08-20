@@ -300,8 +300,9 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | evaluate
               expect(evaluatedAnswer.isOk()).to.be.true;
               const answerExistsInDB = await knex('answers').select('*').where({ id: evaluatedAnswer.id }).first();
               expect(Boolean(answerExistsInDB)).to.be.true;
-              const keInDB = await knex('knowledge-elements').pluck('id');
-              expect(keInDB).to.have.length(0);
+              // La certification ne fait pas évoluer l'état de connaissance.
+              const states = await knex('knowledge-states').where({ userId });
+              expect(states).to.have.length(0);
             });
 
             it('updates the lastAnswerAt date to answer creation date', async function () {

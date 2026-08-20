@@ -37,7 +37,7 @@ describe('DeleteAnonymousCampaignParticipationsScript', function () {
   describe('Handle', function () {
     let script, logger, campaign;
 
-    /** One journey as the API writes it: user, learner, participation, assessment, answer and KE. */
+    /** One journey as the API writes it: user, learner, participation, assessment, answer and knowledge state. */
     function buildAnonymousJourney({ campaignId, createdAt = new Date('2026-07-21') }) {
       const userId = databaseBuilder.factory.buildUser({ isAnonymous: true }).id;
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId }).id;
@@ -75,7 +75,7 @@ describe('DeleteAnonymousCampaignParticipationsScript', function () {
         .undefined;
       expect(await knex('assessments').where({ id: journey.assessmentId }).first()).to.be.undefined;
       expect(await knex('answers').where({ id: journey.answerId }).first()).to.be.undefined;
-      expect(await knex('knowledge-elements').where({ userId: journey.userId }).first()).to.be.undefined;
+      expect(await knex('knowledge-states').where({ userId: journey.userId }).first()).to.be.undefined;
     });
 
     it('leaves the participants who have an account alone', async function () {
@@ -138,7 +138,7 @@ describe('DeleteAnonymousCampaignParticipationsScript', function () {
       const result = await script.handle({ options: { campaignCodes: ['ANONYM001'], dryRun: true }, logger });
 
       // then
-      // user + learner + participation + assessment + answer + knowledge-element
+      // user + learner + participation + assessment + answer + knowledge state
       expect(result.affectedRowCount).to.equal(6);
       expect(result.userIds).to.deep.equal([journey.userId]);
       expect(await knex('users').where({ id: journey.userId }).first()).to.exist;

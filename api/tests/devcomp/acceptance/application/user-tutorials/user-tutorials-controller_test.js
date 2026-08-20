@@ -1,4 +1,3 @@
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
@@ -188,6 +187,11 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                         },
                       ],
                     },
+                  ],
+                },
+                {
+                  id: 'recTube2',
+                  skills: [
                     {
                       id: 'recSkill2',
                       nom: '@web2',
@@ -205,6 +209,11 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
                         },
                       ],
                     },
+                  ],
+                },
+                {
+                  id: 'recTube4',
+                  skills: [
                     {
                       id: 'recSkill3',
                       nom: '@web3',
@@ -331,29 +340,29 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         databaseBuilder.factory.buildKnowledgeElement({
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
-          source: KnowledgeElement.SourceType.DIRECT,
+          status: 'invalidated',
+          source: 'direct',
           skillId: 'recSkill1',
         });
 
         databaseBuilder.factory.buildKnowledgeElement({
           userId,
-          status: KnowledgeElement.StatusType.VALIDATED,
-          source: KnowledgeElement.SourceType.INFERRED,
+          status: 'validated',
+          source: 'inferred',
           skillId: 'recSkill2',
         });
 
         databaseBuilder.factory.buildKnowledgeElement({
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
-          source: KnowledgeElement.SourceType.DIRECT,
+          status: 'invalidated',
+          source: 'direct',
           skillId: 'recSkill3',
         });
 
         databaseBuilder.factory.buildKnowledgeElement({
           userId,
-          status: KnowledgeElement.StatusType.INVALIDATED,
-          source: KnowledgeElement.SourceType.DIRECT,
+          status: 'invalidated',
+          source: 'direct',
           skillId: 'recSkill4',
         });
 

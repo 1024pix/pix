@@ -1,6 +1,5 @@
 import { campaignParticipationResultRepository } from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-result-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
@@ -46,12 +45,15 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           { id: 'recTube1', competenceId: 'rec1' },
           { id: 'recTube2', competenceId: 'rec2' },
         ],
+        // Les niveaux sont distincts au sein d'un tube, comme dans le référentiel.
+        // Ils décident de ce que l'inférence entraîne : `skill5` est au plus bas
+        // de son tube, le valider n'implique donc aucun autre acquis.
         skills: [
-          { id: 'skill1', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1' }, // skill previously validated in competence 1
-          { id: 'skill2', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1' }, // skill validated in competence 1
-          { id: 'skill3', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' }, // skill invalidated in competence 2
-          { id: 'skill4', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' }, // skill not tested
-          { id: 'skill5', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' }, // skill not in target profile
+          { id: 'skill1', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1', level: 1 }, // skill previously validated in competence 1
+          { id: 'skill2', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1', level: 2 }, // skill validated in competence 1
+          { id: 'skill3', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', level: 2 }, // skill invalidated in competence 2
+          { id: 'skill4', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', level: 3 }, // skill not tested
+          { id: 'skill5', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', level: 1 }, // skill not in target profile
         ],
       };
 
@@ -113,7 +115,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           skillId: 'skill1',
           competenceId: 'rec1',
           createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
         },
         {
           userId,
@@ -121,14 +123,14 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           skillId: 'skill3',
           competenceId: 'rec2',
           createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         },
         {
           userId,
           skillId: 'skill5',
           competenceId: 'rec2',
           createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
         },
       ];
       databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
@@ -141,8 +143,9 @@ describe('Integration | Repository | Campaign Participation Result', function ()
 
       expect(campaignAssessmentParticipationResult).to.deep.include({
         id: campaignParticipationId,
-        knowledgeElementsCount: 2,
-        testedSkillsCount: 2,
+        // Rater skill3 (niveau 2) invalide aussi skill4 (niveau 3) du même tube.
+        assessedSkillsCount: 3,
+        testedSkillsCount: 3,
         totalSkillsCount: 4,
         validatedSkillsCount: 1,
       });
@@ -171,7 +174,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           skillId: 'skill1',
           competenceId: 'rec1',
           createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
         },
         {
           userId,
@@ -179,7 +182,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           skillId: 'skill2',
           competenceId: 'rec1',
           createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
         },
         {
           userId,
@@ -187,7 +190,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           skillId: 'skill3',
           competenceId: 'rec2',
           createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         },
       ];
 
@@ -216,7 +219,8 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           index: '2.1',
           areaName: 'area2',
           areaColor: 'colorArea2',
-          testedSkillsCount: 1,
+          // Rater skill3 (niveau 2) invalide aussi skill4 (niveau 3) du même tube.
+          testedSkillsCount: 2,
           totalSkillsCount: 2,
           validatedSkillsCount: 0,
         },
@@ -247,7 +251,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
             skillId: 'skill1',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           },
           {
             userId,
@@ -255,14 +259,14 @@ describe('Integration | Repository | Campaign Participation Result', function ()
             skillId: 'skill2',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            status: 'invalidated',
           },
           {
             userId,
             skillId: 'skill5',
             competenceId: 'rec2',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           },
         ];
         knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
@@ -272,7 +276,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
 
         expect(campaignAssessmentParticipationResult).to.deep.include({
           id: campaignParticipationId,
-          knowledgeElementsCount: 2,
+          assessedSkillsCount: 2,
           testedSkillsCount: 2,
           totalSkillsCount: 4,
           validatedSkillsCount: 1,

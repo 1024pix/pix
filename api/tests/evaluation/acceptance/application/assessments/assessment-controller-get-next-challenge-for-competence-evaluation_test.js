@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
@@ -95,7 +94,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
           skillId: skillWeb2Id,
           assessmentId,
           answerId,
@@ -191,7 +190,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
           skillId: skillWeb2Id,
           assessmentId,
           answerId1,
@@ -199,8 +198,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           competenceId,
         });
         databaseBuilder.factory.buildKnowledgeElement({
-          source: KnowledgeElement.SourceType.INFERRED,
-          status: KnowledgeElement.StatusType.VALIDATED,
+          source: 'inferred',
+          status: 'validated',
           skillId: skillWeb1Id,
           assessmentId,
           answerId1,
@@ -208,7 +207,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           competenceId,
         });
         databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
           skillId: skillWeb3Id,
           assessmentId,
           answerId2,

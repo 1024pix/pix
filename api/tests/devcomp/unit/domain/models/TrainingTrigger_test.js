@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { TrainingTrigger } from '../../../../../src/devcomp/domain/models/TrainingTrigger.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -46,7 +45,10 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
         it('should return false', function () {
           // given
           const skills = Symbol('skills');
-          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const cappedSkills = [
+            { id: 'skill1', tubeId: 'skill1', difficulty: 1 },
+            { id: 'skill2', tubeId: 'skill2', difficulty: 1 },
+          ];
           const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
           const trainingTrigger = domainBuilder.buildTrainingTrigger({
             id: 1,
@@ -55,28 +57,14 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
             threshold: 100,
             triggerTubes,
           });
-          const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill1',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill1',
-              status: KnowledgeElement.StatusType.INVALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill2',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill2',
-              status: KnowledgeElement.StatusType.INVALIDATED,
-            }),
-          ];
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: ['skill1'],
+            invalidatedSkillIds: ['skill2'],
+          });
 
           // when
           const isFulfilled = trainingTrigger.isFulfilled({
-            knowledgeElements,
+            knowledgeState,
             skills,
           });
 
@@ -89,7 +77,10 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
         it('should return true', function () {
           // given
           const skills = Symbol('skills');
-          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const cappedSkills = [
+            { id: 'skill1', tubeId: 'skill1', difficulty: 1 },
+            { id: 'skill2', tubeId: 'skill2', difficulty: 1 },
+          ];
           const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
           const trainingTrigger = domainBuilder.buildTrainingTrigger({
             id: 1,
@@ -98,20 +89,13 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
             threshold: 90,
             triggerTubes,
           });
-          const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill1',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill2',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-          ];
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: ['skill1', 'skill2'],
+          });
 
           // when
           const isFulfilled = trainingTrigger.isFulfilled({
-            knowledgeElements,
+            knowledgeState,
             skills,
           });
 
@@ -124,7 +108,10 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
         it('should return true', function () {
           // given
           const skills = Symbol('skills');
-          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const cappedSkills = [
+            { id: 'skill1', tubeId: 'skill1', difficulty: 1 },
+            { id: 'skill2', tubeId: 'skill2', difficulty: 1 },
+          ];
           const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
           const trainingTrigger = domainBuilder.buildTrainingTrigger({
             id: 1,
@@ -133,20 +120,13 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
             threshold: 100,
             triggerTubes,
           });
-          const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill1',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill2',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-          ];
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: ['skill1', 'skill2'],
+          });
 
           // when
           const isFulfilled = trainingTrigger.isFulfilled({
-            knowledgeElements,
+            knowledgeState,
             skills,
           });
 
@@ -161,7 +141,10 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
         it('should return true', function () {
           // given
           const skills = Symbol('skills');
-          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const cappedSkills = [
+            { id: 'skill1', tubeId: 'skill1', difficulty: 1 },
+            { id: 'skill2', tubeId: 'skill2', difficulty: 1 },
+          ];
           const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
           const trainingTrigger = domainBuilder.buildTrainingTrigger({
             id: 1,
@@ -170,28 +153,14 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
             threshold: 100,
             triggerTubes,
           });
-          const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill1',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill1',
-              status: KnowledgeElement.StatusType.INVALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill2',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill2',
-              status: KnowledgeElement.StatusType.INVALIDATED,
-            }),
-          ];
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: ['skill1'],
+            invalidatedSkillIds: ['skill2'],
+          });
 
           // when
           const isFulfilled = trainingTrigger.isFulfilled({
-            knowledgeElements,
+            knowledgeState,
             skills,
           });
 
@@ -204,7 +173,10 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
         it('should return true', function () {
           // given
           const skills = Symbol('skills');
-          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const cappedSkills = [
+            { id: 'skill1', tubeId: 'skill1', difficulty: 1 },
+            { id: 'skill2', tubeId: 'skill2', difficulty: 1 },
+          ];
           const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
           const trainingTrigger = domainBuilder.buildTrainingTrigger({
             id: 1,
@@ -213,20 +185,13 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
             threshold: 90,
             triggerTubes,
           });
-          const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill1',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill2',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-          ];
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: ['skill1', 'skill2'],
+          });
 
           // when
           const isFulfilled = trainingTrigger.isFulfilled({
-            knowledgeElements,
+            knowledgeState,
             skills,
           });
 
@@ -239,7 +204,10 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
         it('should return true', function () {
           // given
           const skills = Symbol('skills');
-          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const cappedSkills = [
+            { id: 'skill1', tubeId: 'skill1', difficulty: 1 },
+            { id: 'skill2', tubeId: 'skill2', difficulty: 1 },
+          ];
           const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
           const trainingTrigger = domainBuilder.buildTrainingTrigger({
             id: 1,
@@ -248,20 +216,13 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
             threshold: 100,
             triggerTubes,
           });
-          const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill1',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: 'skill2',
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-          ];
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: ['skill1', 'skill2'],
+          });
 
           // when
           const isFulfilled = trainingTrigger.isFulfilled({
-            knowledgeElements,
+            knowledgeState,
             skills,
           });
 

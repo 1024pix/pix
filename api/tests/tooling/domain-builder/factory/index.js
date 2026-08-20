@@ -92,7 +92,7 @@ import { buildFramework } from './build-framework.js';
 import { buildHabilitation } from './build-habilitation.js';
 import { buildHint } from './build-hint.js';
 import { buildJurySession } from './build-jury-session.js';
-import { buildKnowledgeElement, buildKnowledgeElementSnapshot } from './build-knowledge-element.js';
+import { buildKnowledgeState } from './build-knowledge-state.js';
 import { buildLearningContent } from './build-learning-content.js';
 import { buildLegalDocument } from './build-legal-document.js';
 import { buildMembership } from './build-membership.js';
@@ -459,8 +459,7 @@ export {
   buildHint,
   buildJuryCertification,
   buildJurySession,
-  buildKnowledgeElement,
-  buildKnowledgeElementSnapshot,
+  buildKnowledgeState,
   buildLearningContent,
   buildLegalDocument,
   buildMembership,

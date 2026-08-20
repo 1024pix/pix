@@ -4,9 +4,9 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 
@@ -172,7 +172,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId: campaignParticipation.id,
-          snapshot: new KnowledgeElementCollection([ke1, ke2]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke1, ke2]),
         });
 
         await databaseBuilder.commit();
@@ -1165,9 +1165,15 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 });
 
 const buildLearningContentData = () => {
-  const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceId: 'recCompetence1', status: 'actif' };
+  const skillWeb1 = {
+    id: 'recSkillWeb1',
+    name: '@web1',
+    competenceId: 'recCompetence1',
+    status: 'actif',
+    pixValue: 40,
+  };
   const skillWeb2 = { id: 'recSkillWeb2', name: '@web2', competenceId: 'recCompetence1', status: 'actif' };
-  const skillUrl1 = { id: 'recSkillUrl1', name: '@url1', competenceId: 'recCompetence2', status: 'actif' };
+  const skillUrl1 = { id: 'recSkillUrl1', name: '@url1', competenceId: 'recCompetence2', status: 'actif', pixValue: 6 };
   const skillUrl8 = { id: 'recSkillUrl8', name: '@url8', competenceId: 'recCompetence2', status: 'actif' };
   const skills = [skillWeb1, skillWeb2, skillUrl1, skillUrl8];
 

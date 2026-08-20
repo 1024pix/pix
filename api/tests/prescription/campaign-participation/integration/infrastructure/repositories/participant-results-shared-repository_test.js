@@ -97,7 +97,11 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         ]);
 
         const learningContent = {
-          skills: [{ id: 'skill_1' }, { id: 'skill_2' }, { id: 'skill_3' }],
+          skills: [
+            { id: 'skill_1', pixValue: 0 },
+            { id: 'skill_2', pixValue: 3 },
+            { id: 'skill_3', pixValue: 1 },
+          ],
           competences: [],
         };
         databaseBuilder.factory.learningContent.build(learningContent);
@@ -125,11 +129,11 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
 
         const learningContent = {
           skills: [
-            { id: 'skill_1', competenceId: 'competence_1' },
-            { id: 'skill_2', competenceId: 'competence_2' },
-            { id: 'skill_3', competenceId: 'competence_3' },
-            { id: 'skill_4', competenceId: 'competence_4' },
-            { id: 'skill_5', competenceId: 'competence_5' },
+            { id: 'skill_1', competenceId: 'competence_1', pixValue: 8 },
+            { id: 'skill_2', competenceId: 'competence_2', pixValue: 9 },
+            { id: 'skill_3', competenceId: 'competence_3', pixValue: 10 },
+            { id: 'skill_4', competenceId: 'competence_4', pixValue: 11 },
+            { id: 'skill_5', competenceId: 'competence_5', pixValue: 12 },
           ],
           competences: [
             { id: 'competence_1', origin: 'Pix' },
@@ -161,11 +165,11 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
 
         const learningContent = {
           skills: [
-            { id: 'skill_1', competenceId: 'competence_1' },
-            { id: 'skill_2', competenceId: 'competence_2' },
-            { id: 'skill_3', competenceId: 'competence_3' },
-            { id: 'skill_4', competenceId: 'competence_4' },
-            { id: 'skill_5', competenceId: 'competence_5' },
+            { id: 'skill_1', competenceId: 'competence_1', pixValue: 8 },
+            { id: 'skill_2', competenceId: 'competence_2', pixValue: 9 },
+            { id: 'skill_3', competenceId: 'competence_3', pixValue: 10 },
+            { id: 'skill_4', competenceId: 'competence_4', pixValue: 11 },
+            { id: 'skill_5', competenceId: 'competence_5', pixValue: 12 },
           ],
           competences: [
             { id: 'competence_1', origin: 'Pix' },
@@ -231,9 +235,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
 
           const learningContent = {
             skills: [
-              { id: 'skill_1', status: 'actif' },
-              { id: 'skill_2', status: 'archivé' },
-              { id: 'skill_3', status: 'périmé' },
+              { id: 'skill_1', status: 'actif', pixValue: 1 },
+              { id: 'skill_2', status: 'archivé', pixValue: 3 },
+              { id: 'skill_3', status: 'périmé', pixValue: 5 },
             ],
             competences: [],
           };
@@ -263,9 +267,9 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
 
           const learningContent = {
             skills: [
-              { id: 'skill_1', status: 'actif' },
-              { id: 'skill_2', status: 'actif' },
-              { id: 'skill_3', status: 'actif' },
+              { id: 'skill_1', status: 'actif', pixValue: 1 },
+              { id: 'skill_2', status: 'actif', pixValue: 3 },
+              { id: 'skill_3', status: 'actif', pixValue: 0 },
             ],
             competences: [],
           };

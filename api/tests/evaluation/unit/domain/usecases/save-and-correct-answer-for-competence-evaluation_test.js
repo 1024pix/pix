@@ -12,7 +12,6 @@ import {
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -32,7 +31,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     competenceEvaluationRepository,
     skillRepository,
     scorecardService,
-    knowledgeElementRepository;
+    knowledgeStateRepository;
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
   const locale = 'fr';
@@ -44,7 +43,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     nowDate.setMilliseconds(1);
     sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
-    sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     answerRepository = { save: sinon.stub() };
     challengeRepository = { get: sinon.stub() };
     skillRepository = { findActiveByCompetenceId: sinon.stub() };
@@ -52,7 +50,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     competenceRepository = { get: sinon.stub() };
     areaRepository = { get: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
-    knowledgeElementRepository = { findUniqByUserId: sinon.stub(), batchSave: sinon.stub() };
+    knowledgeStateRepository = { findByUserId: sinon.stub(), save: sinon.stub() };
 
     competenceRepository.get.resolves(domainBuilder.buildCompetence({ id: 'competenceABC123' }));
     areaRepository.get.resolves(domainBuilder.buildArea());
@@ -85,7 +83,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       challengeRepository,
       competenceEvaluationRepository,
       skillRepository,
-      knowledgeElementRepository,
+      knowledgeStateRepository,
       scorecardService,
       correctionService,
       areaRepository,
@@ -198,7 +196,9 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         answers: [],
         state: Assessment.states.STARTED,
       });
-      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
+      knowledgeStateRepository.findByUserId
+        .withArgs({ userId: assessment.userId })
+        .resolves(domainBuilder.buildKnowledgeState());
 
       // when
       const error = await catchErr(saveAndCorrectAnswerForCompetenceEvaluation)({
@@ -225,8 +225,9 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
       const skills = domainBuilder.buildSkillCollection();
       skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
-      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
-      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
+      knowledgeStateRepository.findByUserId
+        .withArgs({ userId: assessment.userId })
+        .resolves(domainBuilder.buildKnowledgeState());
       challengeRepository.get.resolves(challenge);
       assessment = domainBuilder.buildAssessment({
         userId,
@@ -237,7 +238,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
       const answerSaved = domainBuilder.buildAnswer(emptyAnswer);
       answerRepository.save.resolves(answerSaved);
-      knowledgeElementRepository.batchSave.resolves();
+      knowledgeStateRepository.save.resolves();
 
       // when
       const { result } = await saveAndCorrectAnswerForCompetenceEvaluation({
@@ -256,9 +257,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
   context('when no answer already exists', function () {
     let completedAnswer;
     let savedAnswer;
-    let knowledgeElement;
-    let firstCreatedKnowledgeElement;
-    let secondCreatedKnowledgeElement;
     let skills;
 
     beforeEach(function () {
@@ -273,21 +271,18 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
       answerRepository.save.resolves(savedAnswer);
       assessment.competenceId = 'recABCD';
-      knowledgeElement = domainBuilder.buildKnowledgeElement();
-      firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ answerId: savedAnswer.id, earnedPix: 2 });
-      secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ answerId: savedAnswer.id, earnedPix: 1 });
       skills = domainBuilder.buildSkillCollection();
       skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
+      challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator, skill: skills[1] });
       challengeRepository.get.resolves(challenge);
-      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([knowledgeElement]);
-      KnowledgeElement.createKnowledgeElementsForAnswer.returns([
-        firstCreatedKnowledgeElement,
-        secondCreatedKnowledgeElement,
-      ]);
+      knowledgeStateRepository.findByUserId
+        .withArgs({ userId: assessment.userId })
+        .resolves(domainBuilder.buildKnowledgeState.fromAnswers([{ skill: skills[0], isOk: true }]));
+      knowledgeStateRepository.save.resolves();
       scorecardService.computeLevelUpInformation.resolves({});
     });
 
-    it('should save the answer and the knowledge elements', async function () {
+    it('should save the answer and write the tightened state, one line for the answered tube', async function () {
       // when
       await saveAndCorrectAnswerForCompetenceEvaluation({
         answer,
@@ -299,9 +294,10 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
 
       // then
       expect(answerRepository.save).to.be.calledWith({ answer: completedAnswer });
-      expect(knowledgeElementRepository.batchSave).to.be.calledWith({
-        knowledgeElements: [firstCreatedKnowledgeElement, secondCreatedKnowledgeElement],
-      });
+      expect(knowledgeStateRepository.save).to.have.been.calledOnce;
+      const { knowledgeState, tubeIds } = knowledgeStateRepository.save.firstCall.args[0];
+      expect(tubeIds).to.have.lengthOf(1);
+      expect(knowledgeState.isValidated(skills[1])).to.be.true;
     });
 
     it('should call repositories to get needed information', async function () {
@@ -316,7 +312,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
 
       // then
       expect(skillRepository.findActiveByCompetenceId).to.have.been.calledWithExactly(assessment.competenceId);
-      expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({
+      expect(knowledgeStateRepository.findByUserId).to.have.been.calledWithExactly({
         userId: assessment.userId,
       });
     });
@@ -395,10 +391,12 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       });
       answerSaved = domainBuilder.buildAnswer(answer);
       answerSaved.timeSpent = 5;
-      KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
-      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
+      skillRepository.findActiveByCompetenceId.resolves([]);
+      knowledgeStateRepository.findByUserId
+        .withArgs({ userId: assessment.userId })
+        .resolves(domainBuilder.buildKnowledgeState());
       answerRepository.save.resolves(answerSaved);
-      knowledgeElementRepository.batchSave.resolves();
+      knowledgeStateRepository.save.resolves();
 
       await saveAndCorrectAnswerForCompetenceEvaluation({
         answer,

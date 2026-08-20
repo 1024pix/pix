@@ -1,12 +1,21 @@
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { stageUsecases } from '../../../../../../src/prescription/stages/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
+
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
 
 describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', function () {
   let userId, assessment, stages, campaignParticipationId, targetProfileId, listSkill, learningContent;
@@ -33,19 +42,15 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
                 },
                 index: '1.1',
                 tubes: [
+                  // Un tube ne porte qu'un acquis par niveau — aucune exception
+                  // dans le référentiel. Les deux acquis de niveau 1 vivent
+                  // donc dans deux tubes distincts.
                   {
                     id: 'recTube0_0',
                     skills: [
                       {
                         id: listSkill[0],
                         nom: '@web1',
-                        status: 'actif',
-                        challenges: [],
-                        level: 1,
-                      },
-                      {
-                        id: listSkill[1],
-                        nom: '@web2',
                         status: 'actif',
                         challenges: [],
                         level: 1,
@@ -63,6 +68,18 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
                         status: 'actif',
                         challenges: [],
                         level: 3,
+                      },
+                    ],
+                  },
+                  {
+                    id: 'recTube0_1',
+                    skills: [
+                      {
+                        id: listSkill[1],
+                        nom: '@web2',
+                        status: 'actif',
+                        challenges: [],
+                        level: 1,
                       },
                     ],
                   },
@@ -120,10 +137,20 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
       });
       context('when some KEs are acquired', function () {
         beforeEach(async function () {
-          databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web1', status: 'validated' });
-          databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web2', status: 'validated' });
-          databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' });
-          databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' });
+          // web1 et web3 réussis, web4 raté ; web2 réussi dans son propre tube.
+          databaseBuilder.factory.buildKnowledgeState({
+            userId,
+            tubeId: 'recTube0_0',
+            floor: 2,
+            ceiling: 3,
+            directLevels: [2, 3],
+          });
+          databaseBuilder.factory.buildKnowledgeState({
+            userId,
+            tubeId: 'recTube0_1',
+            floor: 1,
+            directLevels: [1],
+          });
 
           return databaseBuilder.commit();
         });
@@ -258,7 +285,13 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
 
       context('when no KE is acquired', function () {
         beforeEach(async function () {
-          databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web1', status: 'invalidated' });
+          // Le premier acquis est raté : le plafond est à 1.
+          databaseBuilder.factory.buildKnowledgeState({
+            userId,
+            tubeId: 'recTube0_0',
+            ceiling: 1,
+            directLevels: [1],
+          });
           databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web2', status: 'invalidated' });
           databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'invalidated' });
           databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' });
@@ -315,13 +348,13 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
       context('when some KEs are acquired', function () {
         beforeEach(async function () {
           const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({ userId, skillId: 'web1', status: 'validated' }),
-            domainBuilder.buildKnowledgeElement({ userId, skillId: 'web2', status: 'validated' }),
-            domainBuilder.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' }),
-            domainBuilder.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' }),
+            buildKeData({ userId, skillId: 'web1', status: 'validated' }),
+            buildKeData({ userId, skillId: 'web2', status: 'validated' }),
+            buildKeData({ userId, skillId: 'web3', status: 'validated' }),
+            buildKeData({ userId, skillId: 'web4', status: 'invalidated' }),
           ];
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection(knowledgeElements).toSnapshot(),
+            snapshot: toLegacySnapshot(knowledgeElements),
             campaignParticipationId,
           });
 
@@ -459,13 +492,13 @@ describe('Evaluation | Integration | Usecase | Handle Stage Acquisition', functi
       context('when no KE is acquired', function () {
         beforeEach(async function () {
           const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({ userId, skillId: 'web1', status: 'invalidated' }),
-            domainBuilder.buildKnowledgeElement({ userId, skillId: 'web2', status: 'invalidated' }),
-            domainBuilder.buildKnowledgeElement({ userId, skillId: 'web3', status: 'invalidated' }),
-            domainBuilder.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' }),
+            buildKeData({ userId, skillId: 'web1', status: 'invalidated' }),
+            buildKeData({ userId, skillId: 'web2', status: 'invalidated' }),
+            buildKeData({ userId, skillId: 'web3', status: 'invalidated' }),
+            buildKeData({ userId, skillId: 'web4', status: 'invalidated' }),
           ];
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection(knowledgeElements).toSnapshot(),
+            snapshot: toLegacySnapshot(knowledgeElements),
             campaignParticipationId,
           });
 

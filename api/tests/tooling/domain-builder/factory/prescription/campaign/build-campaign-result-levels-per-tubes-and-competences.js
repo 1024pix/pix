@@ -1,9 +1,8 @@
 import { CampaignResultLevelsPerTubesAndCompetences } from '../../../../../../src/prescription/campaign/domain/models/CampaignResultLevelsPerTubesAndCompetences.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { buildArea } from '../../build-area.js';
 import { buildCompetence } from '../../build-competence.js';
 import { buildFramework } from '../../build-framework.js';
-import { buildKnowledgeElement } from '../../build-knowledge-element.js';
+import { buildKnowledgeState } from '../../build-knowledge-state.js';
 import { buildLearningContent } from '../../build-learning-content.js';
 import { buildSkill } from '../../build-skill.js';
 import { buildThematic } from '../../build-thematic.js';
@@ -56,28 +55,10 @@ function buildCampaignResultLevelsPerTubesAndCompetences() {
 
   const learningContent = buildLearningContent([framework]);
 
-  const user1ke1 = buildKnowledgeElement({
-    status: KnowledgeElement.StatusType.VALIDATED,
-    skillId: skill1.id,
-    userId: 1,
-  });
-
-  const user2ke1 = buildKnowledgeElement({
-    status: KnowledgeElement.StatusType.INVALIDATED,
-    skillId: skill2.id,
-    userId: 2,
-  });
-
-  const user3ke1 = buildKnowledgeElement({
-    status: KnowledgeElement.StatusType.INVALIDATED,
-    skillId: skill3.id,
-    userId: 3,
-  });
-
-  const keData = {
-    participationId1: KnowledgeElement.toLatestUniqNonResetCollection([user1ke1]),
-    participationId2: KnowledgeElement.toLatestUniqNonResetCollection([user2ke1]),
-    participationId3: KnowledgeElement.toLatestUniqNonResetCollection([user3ke1]),
+  const statesByParticipation = {
+    participationId1: buildKnowledgeState({ tubes: [{ tubeId: skill1.tubeId, floor: 1, directLevels: [1] }] }),
+    participationId2: buildKnowledgeState({ tubes: [{ tubeId: skill2.tubeId, ceiling: 2, directLevels: [2] }] }),
+    participationId3: buildKnowledgeState({ tubes: [{ tubeId: skill3.tubeId, ceiling: 3, directLevels: [3] }] }),
   };
 
   const campaignResult = new CampaignResultLevelsPerTubesAndCompetences({
@@ -85,7 +66,7 @@ function buildCampaignResultLevelsPerTubesAndCompetences() {
     learningContent,
   });
 
-  campaignResult.addKnowledgeElementSnapshots(keData);
+  campaignResult.addKnowledgeStates(statesByParticipation);
   return campaignResult;
 }
 export { buildCampaignResultLevelsPerTubesAndCompetences };

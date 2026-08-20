@@ -11,10 +11,10 @@ describe('Unit | Service | Scoring Service', function () {
   describe('#calculateScoringInformationForCompetence', function () {
     it('should return the information about pix score and level for given competence', function () {
       // given
-      const knowledgeElements = [
-        domainBuilder.buildKnowledgeElement({ earnedPix: 3.7 }),
-        domainBuilder.buildKnowledgeElement({ earnedPix: 4.4 }),
-        domainBuilder.buildKnowledgeElement({ earnedPix: 1.2 }),
+      const validatedSkills = [
+        domainBuilder.buildSkill({ id: 'skill1', pixValue: 3.7 }),
+        domainBuilder.buildSkill({ id: 'skill2', pixValue: 4.4 }),
+        domainBuilder.buildSkill({ id: 'skill3', pixValue: 1.2 }),
       ];
 
       const expectedScoring = {
@@ -25,7 +25,7 @@ describe('Unit | Service | Scoring Service', function () {
       };
 
       // when
-      const scoring = scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
+      const scoring = scoringService.calculateScoringInformationForCompetence({ validatedSkills });
 
       // then
       expect(scoring).to.deep.equal(expectedScoring);
@@ -33,10 +33,10 @@ describe('Unit | Service | Scoring Service', function () {
 
     it('should return the information about pix score and level for one competence blocked with max information', function () {
       // given
-      const knowledgeElements = [
-        domainBuilder.buildKnowledgeElement({ earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE }),
-        domainBuilder.buildKnowledgeElement({ earnedPix: PIX_COUNT_BY_LEVEL }),
-        domainBuilder.buildKnowledgeElement({ earnedPix: PIX_COUNT_BY_LEVEL }),
+      const validatedSkills = [
+        domainBuilder.buildSkill({ id: 'skill1', pixValue: MAX_REACHABLE_PIX_BY_COMPETENCE }),
+        domainBuilder.buildSkill({ id: 'skill2', pixValue: PIX_COUNT_BY_LEVEL }),
+        domainBuilder.buildSkill({ id: 'skill3', pixValue: PIX_COUNT_BY_LEVEL }),
       ];
 
       const expectedScoring = {
@@ -47,7 +47,7 @@ describe('Unit | Service | Scoring Service', function () {
       };
 
       // when
-      const scoring = scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
+      const scoring = scoringService.calculateScoringInformationForCompetence({ validatedSkills });
 
       // then
       expect(scoring).to.be.deep.equal(expectedScoring);
@@ -56,10 +56,10 @@ describe('Unit | Service | Scoring Service', function () {
     context('when we allow an excess in pix or level', function () {
       it('should return the information about pix score and level for one competence blocked not blocked', function () {
         // given
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE }),
-          domainBuilder.buildKnowledgeElement({ earnedPix: PIX_COUNT_BY_LEVEL }),
-          domainBuilder.buildKnowledgeElement({ earnedPix: PIX_COUNT_BY_LEVEL }),
+        const validatedSkills = [
+          domainBuilder.buildSkill({ id: 'skill1', pixValue: MAX_REACHABLE_PIX_BY_COMPETENCE }),
+          domainBuilder.buildSkill({ id: 'skill2', pixValue: PIX_COUNT_BY_LEVEL }),
+          domainBuilder.buildSkill({ id: 'skill3', pixValue: PIX_COUNT_BY_LEVEL }),
         ];
         const allowExcessLevel = true;
         const allowExcessPix = true;
@@ -72,7 +72,7 @@ describe('Unit | Service | Scoring Service', function () {
 
         // when
         const scoring = scoringService.calculateScoringInformationForCompetence({
-          knowledgeElements,
+          validatedSkills,
           allowExcessLevel,
           allowExcessPix,
         });
@@ -84,31 +84,31 @@ describe('Unit | Service | Scoring Service', function () {
   });
 
   describe('#calculatePixScore', function () {
-    it('returns the Pix score and limit the score', function () {
+    it('returns the Pix score and limit the score by competence', function () {
       const unreachableScore = MAX_REACHABLE_PIX_BY_COMPETENCE + 3000;
-      const maxEarnedPixByKnowledgeElement = MAX_REACHABLE_PIX_BY_COMPETENCE;
-      const belowMaxEarnedPix = 1;
-      const expectedPixScore = 2 * maxEarnedPixByKnowledgeElement + belowMaxEarnedPix;
+      const maxPixValue = MAX_REACHABLE_PIX_BY_COMPETENCE;
+      const belowMaxPixValue = 1;
+      const expectedPixScore = 2 * maxPixValue + belowMaxPixValue;
 
-      const knowledgeElements = [
-        domainBuilder.buildKnowledgeElement({
+      const validatedSkills = [
+        domainBuilder.buildSkill({
+          id: 'skill1.1',
           competenceId: 'competenceEarnedPixCapped',
-          skillId: 'skill1.1',
-          earnedPix: unreachableScore,
+          pixValue: unreachableScore,
         }),
-        domainBuilder.buildKnowledgeElement({
+        domainBuilder.buildSkill({
+          id: 'skill2.1',
           competenceId: 'competence2',
-          skillId: 'skill2.1',
-          earnedPix: maxEarnedPixByKnowledgeElement,
+          pixValue: maxPixValue,
         }),
-        domainBuilder.buildKnowledgeElement({
+        domainBuilder.buildSkill({
+          id: 'skill2.2',
           competenceId: 'competence3',
-          skillId: 'skill2.2',
-          earnedPix: belowMaxEarnedPix,
+          pixValue: belowMaxPixValue,
         }),
       ];
 
-      expect(scoringService.calculatePixScore(knowledgeElements)).to.be.equal(expectedPixScore);
+      expect(scoringService.calculatePixScore(validatedSkills)).to.be.equal(expectedPixScore);
     });
   });
 });

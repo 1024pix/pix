@@ -1,22 +1,21 @@
 import { BadgeCriterionForCalculation } from '../../../../../src/shared/domain/models/BadgeCriterionForCalculation.js';
 import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | BadgeCriterionForCalculation', function () {
   describe('#getAcquisitionPercentage', function () {
     context('when enough knowledge elements are valid to fulfill the criterion', function () {
       it('should return 100', function () {
         // given
-        const knowledgeElements = [
-          { skillId: 1, isValidated: true },
-          { skillId: 2, isValidated: true },
-          { skillId: 3, isValidated: false },
-          { skillId: 4 },
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: [1, 2],
+          invalidatedSkillIds: [3],
+        });
         const skillIds = [1, 2, 3];
         const badgeCriterion = new BadgeCriterionForCalculation({ skillIds, threshold: 60 });
 
         // when
-        const acquisitionPercentage = badgeCriterion.getAcquisitionPercentage(knowledgeElements);
+        const acquisitionPercentage = badgeCriterion.getAcquisitionPercentage(knowledgeState);
 
         // then
         expect(acquisitionPercentage).to.equal(100);
@@ -26,17 +25,15 @@ describe('Unit | Domain | Models | BadgeCriterionForCalculation', function () {
     context('when not enough knowledge elements are valid to fulfill the criterion', function () {
       it('should return badge criterion acquisition percentage', function () {
         // given
-        const knowledgeElements = [
-          { skillId: 1, isValidated: true },
-          { skillId: 2, isValidated: true },
-          { skillId: 3, isValidated: false },
-          { skillId: 4 },
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: [1, 2],
+          invalidatedSkillIds: [3],
+        });
         const skillIds = [1, 2, 3];
         const badgeCriterion = new BadgeCriterionForCalculation({ skillIds, threshold: 80 });
 
         // when
-        const acquisitionPercentage = badgeCriterion.getAcquisitionPercentage(knowledgeElements);
+        const acquisitionPercentage = badgeCriterion.getAcquisitionPercentage(knowledgeState);
 
         // then
         expect(acquisitionPercentage).to.equal(83);
@@ -46,17 +43,14 @@ describe('Unit | Domain | Models | BadgeCriterionForCalculation', function () {
     context('when no knowledge elements are valid to fulfill the criterion', function () {
       it('should return 0', function () {
         // given
-        const knowledgeElements = [
-          { skillId: 1, isValidated: false },
-          { skillId: 2, isValidated: false },
-          { skillId: 3, isValidated: false },
-          { skillId: 4 },
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          invalidatedSkillIds: [1, 2, 3],
+        });
         const skillIds = [1, 2, 3];
         const badgeCriterion = new BadgeCriterionForCalculation({ skillIds, threshold: 80 });
 
         // when
-        const acquisitionPercentage = badgeCriterion.getAcquisitionPercentage(knowledgeElements);
+        const acquisitionPercentage = badgeCriterion.getAcquisitionPercentage(knowledgeState);
 
         // then
         expect(acquisitionPercentage).to.equal(0);
@@ -68,17 +62,15 @@ describe('Unit | Domain | Models | BadgeCriterionForCalculation', function () {
     context('when enough knowledge elements are valid to fulfill the criterion', function () {
       it('should return true', function () {
         // given
-        const knowledgeElements = [
-          { skillId: 1, isValidated: true },
-          { skillId: 2, isValidated: true },
-          { skillId: 3, isValidated: false },
-          { skillId: 4 },
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: [1, 2],
+          invalidatedSkillIds: [3],
+        });
         const skillIds = [1, 2, 3];
         const badgeCriterion = new BadgeCriterionForCalculation({ skillIds, threshold: 60 });
 
         // when
-        const isFulfilled = badgeCriterion.isFulfilled(knowledgeElements);
+        const isFulfilled = badgeCriterion.isFulfilled(knowledgeState);
 
         // then
         expect(isFulfilled).to.be.true;
@@ -88,17 +80,15 @@ describe('Unit | Domain | Models | BadgeCriterionForCalculation', function () {
     context('when not enough knowledge elements are valid to fulfill the criterion', function () {
       it('should return false', function () {
         // given
-        const knowledgeElements = [
-          { skillId: 1, isValidated: true },
-          { skillId: 2, isValidated: true },
-          { skillId: 3, isValidated: false },
-          { skillId: 4 },
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: [1, 2],
+          invalidatedSkillIds: [3],
+        });
         const skillIds = [1, 2, 3];
         const badgeCriterion = new BadgeCriterionForCalculation({ skillIds, threshold: 80 });
 
         // when
-        const isFulfilled = badgeCriterion.isFulfilled(knowledgeElements);
+        const isFulfilled = badgeCriterion.isFulfilled(knowledgeState);
 
         // then
         expect(isFulfilled).to.be.false;
@@ -108,17 +98,14 @@ describe('Unit | Domain | Models | BadgeCriterionForCalculation', function () {
     context('when no knowledge elements are valid to fulfill the criterion', function () {
       it('should return false', function () {
         // given
-        const knowledgeElements = [
-          { skillId: 1, isValidated: false },
-          { skillId: 2, isValidated: false },
-          { skillId: 3, isValidated: false },
-          { skillId: 4 },
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          invalidatedSkillIds: [1, 2, 3],
+        });
         const skillIds = [1, 2, 3];
         const badgeCriterion = new BadgeCriterionForCalculation({ skillIds, threshold: 80 });
 
         // when
-        const isFulfilled = badgeCriterion.isFulfilled(knowledgeElements);
+        const isFulfilled = badgeCriterion.isFulfilled(knowledgeState);
 
         // then
         expect(isFulfilled).to.be.false;

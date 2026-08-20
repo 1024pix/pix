@@ -6,13 +6,12 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { ORGANIZATION_FEATURE, PIX_ADMIN } from '../../../../../../src/shared/constants.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Application | campaign-api', function () {
@@ -105,19 +104,19 @@ describe('Integration | Application | campaign-api', function () {
       });
 
       const validatedKe = databaseBuilder.factory.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: 'validated',
         skillId,
         userId: participation1.userId,
       });
       const invalidatedKe = databaseBuilder.factory.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.INVALIDATED,
+        status: 'invalidated',
         skillId: skillId2,
         userId: participation1.userId,
       });
 
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId: participation1.id,
-        snapshot: new KnowledgeElementCollection([validatedKe, invalidatedKe]).toSnapshot(),
+        snapshot: toLegacySnapshot([validatedKe, invalidatedKe]),
       });
 
       const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({

@@ -5,14 +5,21 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { SCOPES } from '../../../../../../src/shared/domain/models/BadgeDetails.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
+
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
 
 describe('Prescription Integration | UseCase | get-user-campaign-assessment-result', function () {
   let areaId, thematicId, competenceId, skillIds, tubeId, userId;
@@ -62,7 +69,7 @@ describe('Prescription Integration | UseCase | get-user-campaign-assessment-resu
         sharedAt: new Date(),
         status: CampaignParticipationStatuses.SHARED,
       }).id;
-      const assessmentDB = databaseBuilder.factory.buildAssessment({
+      databaseBuilder.factory.buildAssessment({
         userId,
         campaignParticipationId,
         type: Assessment.types.CAMPAIGN,
@@ -77,13 +84,13 @@ describe('Prescription Integration | UseCase | get-user-campaign-assessment-resu
           tubeId: 'monTubeId',
           level: index + 1,
         });
-        databaseBuilder.factory.buildKnowledgeElement({
-          skillId: id,
-          status: KnowledgeElement.StatusType.VALIDATED,
-          source: KnowledgeElement.SourceType.DIRECT,
-          userId,
-          assessmentId: assessmentDB.id,
-        });
+      });
+      // Les deux acquis du tube sont réussis : le plancher est au plus haut.
+      databaseBuilder.factory.buildKnowledgeState({
+        userId,
+        tubeId: 'monTubeId',
+        floor: skillIds.length,
+        directLevels: skillIds.map((_, index) => index + 1),
       });
       await databaseBuilder.commit();
 
@@ -149,20 +156,18 @@ describe('Prescription Integration | UseCase | get-user-campaign-assessment-resu
           status: CampaignParticipationStatuses.SHARED,
         }).id;
 
-        const assessmentDB = databaseBuilder.factory.buildAssessment({
+        databaseBuilder.factory.buildAssessment({
           userId,
           campaignParticipationId,
           type: Assessment.types.CAMPAIGN,
         });
 
-        skillIds.map((id) => {
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: id,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
-            userId,
-            assessmentId: assessmentDB.id,
-          });
+        // Les deux acquis du tube sont ratés : le plafond est au plus bas.
+        databaseBuilder.factory.buildKnowledgeState({
+          userId,
+          tubeId: 'monTubeId',
+          ceiling: 1,
+          directLevels: skillIds.map((_, index) => index + 1),
         });
         await databaseBuilder.commit();
 
@@ -223,7 +228,7 @@ describe('Prescription Integration | UseCase | get-user-campaign-assessment-resu
           campaignParticipationId,
         });
 
-        const assessmentDB = databaseBuilder.factory.buildAssessment({
+        databaseBuilder.factory.buildAssessment({
           userId,
           campaignParticipationId,
           type: Assessment.types.CAMPAIGN,
@@ -238,13 +243,13 @@ describe('Prescription Integration | UseCase | get-user-campaign-assessment-resu
             tubeId: 'monTubeId',
             level: index + 1,
           });
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: id,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            source: KnowledgeElement.SourceType.DIRECT,
-            userId,
-            assessmentId: assessmentDB.id,
-          });
+        });
+        // Les deux acquis du tube sont ratés : le plafond est au plus bas.
+        databaseBuilder.factory.buildKnowledgeState({
+          userId,
+          tubeId: 'monTubeId',
+          ceiling: 1,
+          directLevels: skillIds.map((_, index) => index + 1),
         });
         await databaseBuilder.commit();
 
@@ -306,18 +311,18 @@ describe('Prescription Integration | UseCase | get-user-campaign-assessment-resu
           tubeId: 'monTubeId',
           level: index + 1,
         });
-        return domainBuilder.buildKnowledgeElement({
+        return buildKeData({
           skillId: id,
-          status: KnowledgeElement.StatusType.VALIDATED,
-          source: KnowledgeElement.SourceType.DIRECT,
+          status: 'validated',
+          source: 'direct',
           userId,
           assessmentId: assessmentDB.id,
         });
       });
-      const knowledgeElementsBefore = new KnowledgeElementCollection(domainKEs);
+      const knowledgeElementsBefore = toLegacySnapshot(domainKEs);
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId,
-        snapshot: knowledgeElementsBefore.toSnapshot(),
+        snapshot: knowledgeElementsBefore,
       });
       await databaseBuilder.commit();
 

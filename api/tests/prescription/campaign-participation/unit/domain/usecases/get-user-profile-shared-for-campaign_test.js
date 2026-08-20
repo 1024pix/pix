@@ -14,7 +14,8 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
   const locale = 'fr';
 
   let campaignParticipationRepository;
-  let knowledgeElementRepository;
+  let knowledgeStateRepository;
+  let knowledgeStateSnapshotRepository;
   let competenceRepository;
   let areaRepository;
   let campaignRepository;
@@ -30,42 +31,47 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
   });
 
   context('When user has shared its profile for the campaign', function () {
+    let competences;
+    let area;
+
     beforeEach(function () {
       userId = Symbol('user id');
       campaignId = Symbol('campaign id');
       campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
-      knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
+      knowledgeStateRepository = { findByUserId: sinon.stub() };
+      knowledgeStateSnapshotRepository = { findByCampaignParticipationIds: sinon.stub() };
       competenceRepository = { listPixCompetencesOnly: sinon.stub() };
       areaRepository = { list: sinon.stub() };
       campaignRepository = { get: sinon.stub() };
       organizationLearnerRepository = { isActive: sinon.stub() };
       sinon.stub(Scorecard, 'buildFrom');
-    });
 
-    it('should return the shared profile for campaign', async function () {
-      const knowledgeElements = { competence1: [], competence2: [] };
-      const competences = [
+      competences = [
         { id: 'competence1', areaId: 'area' },
         { id: 'competence2', areaId: 'area' },
       ];
-      const area = domainBuilder.buildArea({ id: 'area' });
+      area = domainBuilder.buildArea({ id: 'area' });
       const campaign = { multipleSendings: false };
-      // given
       campaignParticipationRepository.findOneByCampaignIdAndUserId
         .withArgs({ userId, campaignId })
         .resolves(expectedCampaignParticipation);
-      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
-        .withArgs({ userId, limitDate: sharedAt })
-        .resolves(knowledgeElements);
       competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves(competences);
       areaRepository.list.withArgs({ locale: 'fr' }).resolves([area]);
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
       organizationLearnerRepository.isActive.withArgs({ campaignId, userId }).resolves(false);
+    });
+
+    it('should return the profile frozen in the snapshot written at sharing time', async function () {
+      // given
+      const snapshotState = domainBuilder.buildKnowledgeState.forSkills({
+        validatedSkillIds: ['skillComp1'],
+        competenceId: 'competence1',
+      });
+      knowledgeStateSnapshotRepository.findByCampaignParticipationIds.withArgs(['1']).resolves({ 1: snapshotState });
       Scorecard.buildFrom
-        .withArgs({ userId, knowledgeElements: knowledgeElements['competence1'], competence: competences[0], area })
-        .returns({ id: 'Score1', earnedPix: 10 });
-      Scorecard.buildFrom
-        .withArgs({ userId, knowledgeElements: knowledgeElements['competence2'], competence: competences[1], area })
+        .onFirstCall()
+        .returns({ id: 'Score1', earnedPix: 10 })
+        .onSecondCall()
         .returns({ id: 'Score2', earnedPix: 5 });
 
       // when
@@ -73,7 +79,8 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
         userId,
         campaignId,
         campaignParticipationRepository,
-        knowledgeElementRepository,
+        knowledgeStateRepository,
+        knowledgeStateSnapshotRepository,
         competenceRepository,
         areaRepository,
         campaignRepository,
@@ -82,6 +89,7 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
       });
 
       // then
+      expect(knowledgeStateRepository.findByUserId).to.not.have.been.called;
       expect(sharedProfile).to.deep.equal({
         id: '1',
         sharedAt,
@@ -94,6 +102,41 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
         maxReachableLevel: expectedMaxReachableLevel,
         maxReachablePixScore: expectedMaxReachablePixScore,
       });
+    });
+
+    it('should fall back on the current knowledge state when no snapshot exists', async function () {
+      // given
+      const liveState = domainBuilder.buildKnowledgeState.forSkills({
+        validatedSkillIds: ['skillComp1'],
+        competenceId: 'competence1',
+      });
+      knowledgeStateSnapshotRepository.findByCampaignParticipationIds.withArgs(['1']).resolves({});
+      knowledgeStateRepository.findByUserId.withArgs({ userId }).resolves(liveState);
+      Scorecard.buildFrom
+        .onFirstCall()
+        .returns({ id: 'Score1', earnedPix: 10 })
+        .onSecondCall()
+        .returns({ id: 'Score2', earnedPix: 0 });
+
+      // when
+      const sharedProfile = await getSharedCampaignParticipationProfile({
+        userId,
+        campaignId,
+        campaignParticipationRepository,
+        knowledgeStateRepository,
+        knowledgeStateSnapshotRepository,
+        competenceRepository,
+        areaRepository,
+        campaignRepository,
+        organizationLearnerRepository,
+        locale,
+      });
+
+      // then
+      expect(sharedProfile.scorecards).to.deep.equal([
+        { id: 'Score1', earnedPix: 10 },
+        { id: 'Score2', earnedPix: 0 },
+      ]);
     });
   });
 
@@ -108,7 +151,7 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
         userId,
         campaignId,
         campaignParticipationRepository,
-        knowledgeElementRepository,
+        knowledgeStateRepository,
         competenceRepository,
         campaignRepository,
         organizationLearnerRepository,
