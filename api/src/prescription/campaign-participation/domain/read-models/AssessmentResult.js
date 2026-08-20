@@ -20,21 +20,23 @@ class AssessmentResult {
     badgeResultsDTO,
     stages,
   }) {
-    const { knowledgeElements, sharedAt } = participationResults;
+    const { assessedSkillIds, validatedSkillIds, sharedAt } = participationResults;
 
     this.id = participationResults.campaignParticipationId;
     this.isCompleted = participationResults.isCompleted;
     this.isShared = participationResults.status === CampaignParticipationStatuses.SHARED;
     this.participantExternalId = participationResults.participantExternalId;
     this.totalSkillsCount = competences.flatMap(({ targetedSkillIds }) => targetedSkillIds).length;
-    this.testedSkillsCount = knowledgeElements.length;
-    this.validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
+    this.testedSkillsCount = assessedSkillIds.length;
+    this.validatedSkillsCount = validatedSkillIds.length;
     this.masteryRate = this._computeMasteryRate(this.totalSkillsCount, this.validatedSkillsCount);
 
     this.competenceResults = competences.map(({ competence, area, targetedSkillIds }) => {
-      const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => targetedSkillIds.includes(skillId));
-      const validatedSkillsCountForCompetence = competenceKnowledgeElements.filter(
-        ({ isValidated }) => isValidated,
+      const testedSkillsCountForCompetence = assessedSkillIds.filter((skillId) =>
+        targetedSkillIds.includes(skillId),
+      ).length;
+      const validatedSkillsCountForCompetence = validatedSkillIds.filter((skillId) =>
+        targetedSkillIds.includes(skillId),
       ).length;
       const masteryPercentage = Math.round((validatedSkillsCountForCompetence / targetedSkillIds.length) * 100);
       let reachedStage;
@@ -43,11 +45,12 @@ class AssessmentResult {
         reachedStage = acquiredStages.length;
       }
 
-      return _buildCompetenceResult({
+      return new CompetenceResult({
         competence,
         area,
-        targetedSkillIds,
-        competenceKnowledgeElements,
+        totalSkillsCount: targetedSkillIds.length,
+        testedSkillsCount: testedSkillsCountForCompetence,
+        validatedSkillsCount: validatedSkillsCountForCompetence,
         reachedStage,
         masteryPercentage,
       });
@@ -137,24 +140,6 @@ class AssessmentResult {
   _timeBeforeRetryingPassed(sharedAt) {
     return sharedAt && dayjs().diff(sharedAt, 'days', true) >= MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
-}
-
-function _buildCompetenceResult({
-  competence,
-  area,
-  targetedSkillIds,
-  competenceKnowledgeElements,
-  reachedStage,
-  masteryPercentage,
-}) {
-  return new CompetenceResult({
-    competence,
-    area,
-    totalSkillsCount: targetedSkillIds.length,
-    knowledgeElements: competenceKnowledgeElements,
-    reachedStage,
-    masteryPercentage,
-  });
 }
 
 export { AssessmentResult };

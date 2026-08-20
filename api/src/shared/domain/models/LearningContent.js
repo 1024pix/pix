@@ -70,52 +70,26 @@ class LearningContent {
     if (!frameworkId) return '';
     return this.findFramework(frameworkId).name;
   }
-  getKnowledgeElementsGroupedByCompetence(knowledgeElements) {
-    return this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
-  }
-
-  countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements) {
-    const validatedGroupedByCompetence = this._filterTargetedKnowledgeElementAndGroupByCompetence(
-      knowledgeElements,
-      (knowledgeElement) => knowledgeElement.isValidated,
-    );
-    return _.mapValues(validatedGroupedByCompetence, 'length');
-  }
-
-  _getTubeIdOfSkill(skillId) {
-    const skillTube = this.tubes.find((tube) => tube.hasSkill(skillId));
-
-    return skillTube ? skillTube.id : null;
-  }
-
-  _filterTargetedKnowledgeElementAndGroupByTube(knowledgeElements, knowledgeElementFilter = () => true) {
-    const knowledgeElementsGroupedByTube = {};
-    for (const tubeId of this.tubeIds) {
-      knowledgeElementsGroupedByTube[tubeId] = [];
-    }
-    for (const knowledgeElement of knowledgeElements) {
-      const tubeId = this._getTubeIdOfSkill(knowledgeElement.skillId);
-      if (tubeId && knowledgeElementFilter(knowledgeElement)) {
-        knowledgeElementsGroupedByTube[tubeId].push(knowledgeElement);
-      }
-    }
-
-    return knowledgeElementsGroupedByTube;
-  }
-
-  _filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, knowledgeElementFilter = () => true) {
-    const knowledgeElementsGroupedByCompetence = {};
+  /**
+   * Compte, par compétence du contenu ciblé, les acquis de la liste qui en
+   * font partie. Les acquis hors du contenu ciblé sont ignorés.
+   *
+   * @param {string[]} skillIds
+   * @returns {Object.<string, number>}
+   */
+  countTargetedSkillsByCompetence(skillIds) {
+    const countByCompetence = {};
     for (const competence of this.competences) {
-      knowledgeElementsGroupedByCompetence[competence.id] = [];
+      countByCompetence[competence.id] = 0;
     }
-    for (const knowledgeElement of knowledgeElements) {
-      const competenceId = this.findCompetenceIdOfSkill(knowledgeElement.skillId);
-      if (competenceId && knowledgeElementFilter(knowledgeElement)) {
-        knowledgeElementsGroupedByCompetence[competenceId].push(knowledgeElement);
+    for (const skillId of skillIds) {
+      const competenceId = this.findCompetenceIdOfSkill(skillId);
+      if (competenceId) {
+        countByCompetence[competenceId] += 1;
       }
     }
 
-    return knowledgeElementsGroupedByCompetence;
+    return countByCompetence;
   }
 
   get maxSkillDifficulty() {

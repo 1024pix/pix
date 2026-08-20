@@ -6,13 +6,13 @@ export class BadgeCriterionForCalculation {
     this.skillIds = skillIds;
   }
 
-  getAcquisitionPercentage(knowledgeElements) {
-    const masteryPercentage = getMasteryPercentage(knowledgeElements, this.skillIds, false);
+  getAcquisitionPercentage(knowledgeState) {
+    const masteryPercentage = getMasteryPercentage(knowledgeState, this.skillIds, false);
     const acquisitionPercentage = Math.round((masteryPercentage / this.threshold) * 100);
     return acquisitionPercentage > 100 ? 100 : acquisitionPercentage;
   }
 
-  isFulfilled(knowledgeElements) {
-    return this.getAcquisitionPercentage(knowledgeElements) === 100;
+  isFulfilled(knowledgeState) {
+    return this.getAcquisitionPercentage(knowledgeState) === 100;
   }
 }

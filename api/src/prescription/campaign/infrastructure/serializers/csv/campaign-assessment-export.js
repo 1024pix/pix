@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import * as improvementService from '../../../../../evaluation/domain/services/improvement-service.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../shared/constants.js';
+import { KnowledgeState } from '../../../../../shared/domain/models/KnowledgeState.js';
 import { serializeLine } from '../../../../../shared/infrastructure/helpers/csv.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
 import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
@@ -36,7 +37,7 @@ class CampaignAssessmentExport {
   export(
     {
       campaignParticipationInfos,
-      knowledgeElementForParticipationService,
+      knowledgeStateForParticipationService,
       badgeAcquisitionRepository,
       stageAcquisitionRepository,
     },
@@ -46,7 +47,6 @@ class CampaignAssessmentExport {
     },
   ) {
     this.stream.write(this.#buildHeader());
-    const targetedSkillIds = this.learningContent.skills.map((skill) => skill.id);
     const campaignParticipationInfoChunks = _.chunk(
       campaignParticipationInfos,
       constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
@@ -65,25 +65,25 @@ class CampaignAssessmentExport {
           stageAcquisitionRepository,
         });
 
-        const sharedKnowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementForParticipationService.findUniqByUsersOrCampaignParticipationIds({
+        const sharedKnowledgeStates = await knowledgeStateForParticipationService.findByUsersOrCampaignParticipationIds(
+          {
             participationInfos: sharedParticipations.map(({ campaignParticipationId }) => {
               return { campaignParticipationId };
             }),
             fetchFromSnapshot: true,
-          });
+          },
+        );
 
         const startedParticipations = campaignParticipationInfoChunk.filter(
           ({ isShared, isCompleted }) => !isShared && !isCompleted,
         );
 
-        const startedKnowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementForParticipationService.findUniqByUsersOrCampaignParticipationIds({
+        const startedKnowledgeStates =
+          await knowledgeStateForParticipationService.findByUsersOrCampaignParticipationIds({
             participationInfos: startedParticipations.map(({ userId, campaignParticipationId }) => {
               return { userId, campaignParticipationId };
             }),
             fetchFromSnapshot: this.campaign.isExam,
-            skillIds: targetedSkillIds,
           });
 
         const csvLines = campaignParticipationInfoChunk.map((campaignParticipationInfo) =>
@@ -92,8 +92,8 @@ class CampaignAssessmentExport {
             acquiredStages,
             campaignParticipationInfo,
             campaignParticipationInfoChunk,
-            sharedKnowledgeElementsByUserIdAndCompetenceId,
-            startedKnowledgeElementsByUserIdAndCompetenceId,
+            sharedKnowledgeStates,
+            startedKnowledgeStates,
           }),
         );
         this.stream.write(csvLines.join(''));
@@ -181,8 +181,8 @@ class CampaignAssessmentExport {
     campaignParticipationInfo,
     acquiredStages,
     acquiredBadges,
-    sharedKnowledgeElementsByUserIdAndCompetenceId,
-    startedKnowledgeElementsByUserIdAndCompetenceId,
+    sharedKnowledgeStates,
+    startedKnowledgeStates,
   }) {
     return new CampaignAssessmentResultLine({
       organization: this.organization,
@@ -194,10 +194,10 @@ class CampaignAssessmentExport {
       areas: this.areas,
       competences: this.competences,
       stageCollection: this.stageCollection,
-      participantKnowledgeElementsByCompetenceId: this.#getParticipantKnowledgeElementsByCompetenceId({
+      participantKnowledgeState: this.#getParticipantKnowledgeState({
         campaignParticipationInfo,
-        sharedKnowledgeElementsByUserIdAndCompetenceId,
-        startedKnowledgeElementsByUserIdAndCompetenceId,
+        sharedKnowledgeStates,
+        startedKnowledgeStates,
       }),
       acquiredStages:
         acquiredStages &&
@@ -212,53 +212,38 @@ class CampaignAssessmentExport {
     }).toCsvLine();
   }
 
-  #getParticipantKnowledgeElementsByCompetenceId({
-    campaignParticipationInfo,
-    sharedKnowledgeElementsByUserIdAndCompetenceId,
-    startedKnowledgeElementsByUserIdAndCompetenceId,
-  }) {
-    let participantKnowledgeElementsByCompetenceId;
-    if (!campaignParticipationInfo.userId) return this.learningContent.getKnowledgeElementsGroupedByCompetence([]);
+  #getParticipantKnowledgeState({ campaignParticipationInfo, sharedKnowledgeStates, startedKnowledgeStates }) {
+    if (!campaignParticipationInfo.userId) return new KnowledgeState();
 
     if (campaignParticipationInfo.isShared) {
-      const sharedResultInfo = sharedKnowledgeElementsByUserIdAndCompetenceId.find(
-        (knowledElementForSharedParticipation) => {
-          const sameParticipationId =
-            campaignParticipationInfo.campaignParticipationId ===
-            knowledElementForSharedParticipation.campaignParticipationId;
-
-          return sameParticipationId;
-        },
+      const sharedResultInfo = sharedKnowledgeStates.find(
+        (stateForSharedParticipation) =>
+          campaignParticipationInfo.campaignParticipationId === stateForSharedParticipation.campaignParticipationId,
       );
 
-      participantKnowledgeElementsByCompetenceId = this.learningContent.getKnowledgeElementsGroupedByCompetence(
-        sharedResultInfo.knowledgeElements,
-      );
-    } else if (campaignParticipationInfo.isCompleted === false) {
-      const othersResultInfo = startedKnowledgeElementsByUserIdAndCompetenceId.find(
-        (knowledElementForOtherParticipation) => {
-          const assessmentValidation =
-            !this.campaign.isExam && campaignParticipationInfo.userId === knowledElementForOtherParticipation.userId;
-          const examValidation =
-            this.campaign.isExam &&
-            campaignParticipationInfo.campaignParticipationId ===
-              knowledElementForOtherParticipation.campaignParticipationId;
+      return sharedResultInfo.knowledgeState;
+    }
 
-          return assessmentValidation || examValidation;
-        },
-      );
+    if (campaignParticipationInfo.isCompleted === false) {
+      const othersResultInfo = startedKnowledgeStates.find((stateForOtherParticipation) => {
+        const assessmentValidation =
+          !this.campaign.isExam && campaignParticipationInfo.userId === stateForOtherParticipation.userId;
+        const examValidation =
+          this.campaign.isExam &&
+          campaignParticipationInfo.campaignParticipationId === stateForOtherParticipation.campaignParticipationId;
 
-      const filteredKnowledgeElements = improvementService.filterKnowledgeElements({
-        knowledgeElements: othersResultInfo.knowledgeElements,
+        return assessmentValidation || examValidation;
+      });
+
+      return improvementService.improveKnowledgeState({
+        knowledgeState: othersResultInfo.knowledgeState,
         isFromCampaign: true,
         isImproving: true,
         createdAt: campaignParticipationInfo.createdAt,
       });
-
-      participantKnowledgeElementsByCompetenceId =
-        this.learningContent.getKnowledgeElementsGroupedByCompetence(filteredKnowledgeElements);
     }
-    return participantKnowledgeElementsByCompetenceId;
+
+    return new KnowledgeState();
   }
 
   #getAcquiredBadgesByCampaignParticipations({ campaignParticipationInfoChunk, badgeAcquisitionRepository }) {

@@ -10,13 +10,13 @@ import * as assessmentRepository from '../../../../shared/infrastructure/reposit
 import * as badgeForCalculationRepository from '../../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import { auditLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
-import * as knowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeStateRepository from '../../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
-import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as knowledgeStateSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-state-snapshot-repository.js';
 import * as organizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import knowledgeElementForParticipationService from '../../../shared/domain/services/knowledge-element-for-participation-service.js';
+import knowledgeStateForParticipationService from '../../../shared/domain/services/knowledge-state-for-participation-service.js';
 import * as compareStagesAndAcquiredStages from '../../../stages/domain/services/stage-and-stage-acquisition-comparison-service.js';
 import * as stageAcquisitionRepository from '../../../stages/infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageRepository from '../../../stages/infrastructure/repositories/stage-repository.js';
@@ -61,9 +61,9 @@ const dependencies = {
   competenceEvaluationRepository,
   competenceRepository,
   auditLoggingJobRepository,
-  knowledgeElementForParticipationService,
-  knowledgeElementRepository,
-  knowledgeElementSnapshotRepository,
+  knowledgeStateForParticipationService,
+  knowledgeStateRepository,
+  knowledgeStateSnapshotRepository,
   learningContentRepository,
   organizationLearnerRepository,
   organizationRepository,

@@ -1,10 +1,11 @@
 import uniqBy from 'lodash/uniqBy.js';
 
-import { KnowledgeElement } from '../../../../../shared/domain/models/KnowledgeElement.js';
-
 export class Success {
-  constructor({ knowledgeElements, campaignSkills = [], targetProfileSkills = [] }) {
-    this.knowledgeElements = knowledgeElements;
+  /**
+   * @param {KnowledgeStateDTO} knowledgeState
+   */
+  constructor({ knowledgeState, campaignSkills = [], targetProfileSkills = [] }) {
+    this.knowledgeState = knowledgeState;
     this.campaignSkills = campaignSkills;
     this.targetProfileSkills = targetProfileSkills;
   }
@@ -24,9 +25,8 @@ export class Success {
     if (!totalSkillsCount) {
       return 0;
     }
-    const validatedSkillsCount = this.knowledgeElements.filter(
-      (ke) => ke.status === KnowledgeElement.StatusType.VALIDATED && skillIds.includes(ke.skillId),
-    ).length;
+    const validatedSkillIds = new Set(this.knowledgeState.validatedSkillIds);
+    const validatedSkillsCount = skillIds.filter((skillId) => validatedSkillIds.has(skillId)).length;
     return Math.round((validatedSkillsCount * 100) / totalSkillsCount);
   }
 
@@ -40,19 +40,17 @@ export class Success {
       return 0;
     }
     const uniqCampaignSkills = this.skills;
-    const sortedKEByDateDesc = this.knowledgeElements.sort((keA, keB) => keB.createdAt - keA.createdAt);
     let total = 0;
     let validated = 0;
     for (const cappedTube of cappedTubes) {
+      const floor = this.knowledgeState.floorByTubeId[cappedTube.tubeId] ?? 0;
       const skillsInTubeWithinMaxDifficulty = uniqCampaignSkills.filter(
         ({ tubeId, difficulty }) => tubeId === cappedTube.tubeId && difficulty <= cappedTube.level,
       );
       const skillsByDifficulty = Object.groupBy(skillsInTubeWithinMaxDifficulty, ({ difficulty }) => difficulty);
-      for (const skills of Object.values(skillsByDifficulty)) {
+      for (const [difficulty] of Object.entries(skillsByDifficulty)) {
         ++total;
-        const skillIds = skills.map(({ id }) => id);
-        const ke = sortedKEByDateDesc.find(({ skillId }) => skillIds.includes(skillId));
-        if (ke?.status === KnowledgeElement.StatusType.VALIDATED) {
+        if (Number(difficulty) <= floor) {
           ++validated;
         }
       }

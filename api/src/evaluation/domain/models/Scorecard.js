@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import _ from 'lodash';
 
 import {
@@ -7,7 +8,6 @@ import {
   PIX_COUNT_BY_LEVEL,
 } from '../../../shared/constants.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
 import * as scoringService from '../services/scoring/scoring-service.js';
 import { CompetenceEvaluation } from './CompetenceEvaluation.js';
 
@@ -57,9 +57,12 @@ class Scorecard {
     return { userId: _.parseInt(userId), competenceId };
   }
 
+  /**
+   * @param {KnowledgeState} knowledgeState l'état de la seule compétence concernée
+   */
   static buildFrom({
     userId,
-    knowledgeElements,
+    knowledgeState,
     competence,
     area,
     competenceEvaluation,
@@ -67,13 +70,17 @@ class Scorecard {
     allowExcessLevel = false,
   }) {
     const { realTotalPixScoreForCompetence, pixScoreForCompetence, currentLevel, pixAheadForNextLevel } =
-      scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix, allowExcessLevel });
-    const remainingDaysBeforeReset = _.isEmpty(knowledgeElements)
+      scoringService.calculateScoringInformationForCompetence({
+        validatedSkills: knowledgeState.validatedSkills(),
+        allowExcessPix,
+        allowExcessLevel,
+      });
+    const remainingDaysBeforeReset = knowledgeState.isEmpty
       ? null
-      : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
-    const remainingDaysBeforeImproving = _.isEmpty(knowledgeElements)
+      : Scorecard.computeRemainingDaysBeforeReset(knowledgeState);
+    const remainingDaysBeforeImproving = knowledgeState.isEmpty
       ? null
-      : Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);
+      : Scorecard.computeRemainingDaysBeforeImproving(knowledgeState);
     return new Scorecard({
       id: `${userId}_${competence.id}`,
       name: competence.name,
@@ -85,22 +92,22 @@ class Scorecard {
       exactlyEarnedPix: realTotalPixScoreForCompetence,
       level: currentLevel,
       pixScoreAheadOfNextLevel: pixAheadForNextLevel,
-      status: _getScorecardStatus(competenceEvaluation, knowledgeElements),
+      status: _getScorecardStatus(competenceEvaluation, knowledgeState),
       remainingDaysBeforeReset,
       remainingDaysBeforeImproving,
     });
   }
 
-  static computeRemainingDaysBeforeReset(knowledgeElements) {
-    const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
-    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
+  static computeRemainingDaysBeforeReset(knowledgeState) {
+    const daysSinceLastMove = dayjs().diff(knowledgeState.lastMovedAt(), 'days', true);
+    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastMove);
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
 
-  static computeRemainingDaysBeforeImproving(knowledgeElements) {
-    const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
-    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING - daysSinceLastKnowledgeElement);
+  static computeRemainingDaysBeforeImproving(knowledgeState) {
+    const daysSinceLastMove = dayjs().diff(knowledgeState.lastMovedAt(), 'days', true);
+    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING - daysSinceLastMove);
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
@@ -162,9 +169,9 @@ class Scorecard {
   }
 }
 
-function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
+function _getScorecardStatus(competenceEvaluation, knowledgeState) {
   if (!competenceEvaluation || competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
-    return _.isEmpty(knowledgeElements) ? statuses.NOT_STARTED : statuses.STARTED;
+    return knowledgeState.isEmpty ? statuses.NOT_STARTED : statuses.STARTED;
   }
   const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
   if (stateOfAssessment === Assessment.states.COMPLETED) {

@@ -3,7 +3,7 @@
  *
  * A campaign with simplified access can be taken without an account: each journey creates an
  * anonymous user, an organization-learner, a campaign-participation, an assessment and its answers
- * with their knowledge-elements. Those accounts belong to nobody and cannot be recovered, so a
+ * with their knowledge states. Those accounts belong to nobody and cannot be recovered, so a
  * campaign that has served its purpose can be emptied of them entirely.
  *
  * None of the foreign keys involved is ON DELETE CASCADE: the rows have to be removed leaf-first,
@@ -29,7 +29,7 @@ const DELETION_PLAN = [
   // ── answers ──────────────────────────────────────────────────────────────────────────────────
   { table: 'certification-challenge-capacities', column: 'answerId', scope: 'assessmentIds', through: 'answers' },
   { table: 'flash-assessment-results', column: 'assessmentId', scope: 'assessmentIds' },
-  { table: 'knowledge-elements', column: 'userId', scope: 'userIds' },
+  { table: 'knowledge-states', column: 'userId', scope: 'userIds' },
   { table: 'answers', column: 'assessmentId', scope: 'assessmentIds' },
 
   // ── assessments ──────────────────────────────────────────────────────────────────────────────
@@ -52,7 +52,7 @@ const DELETION_PLAN = [
 
   // ── campaign participations ──────────────────────────────────────────────────────────────────
   { table: 'badge-acquisitions', column: 'campaignParticipationId', scope: 'campaignParticipationIds' },
-  { table: 'knowledge-element-snapshots', column: 'campaignParticipationId', scope: 'campaignParticipationIds' },
+  { table: 'knowledge-state-snapshots', column: 'campaignParticipationId', scope: 'campaignParticipationIds' },
   { table: 'pole-emploi-sendings', column: 'campaignParticipationId', scope: 'campaignParticipationIds' },
   { table: 'stage-acquisitions', column: 'campaignParticipationId', scope: 'campaignParticipationIds' },
   { table: 'user-recommended-trainings', column: 'campaignParticipationId', scope: 'campaignParticipationIds' },

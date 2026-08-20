@@ -1,7 +1,13 @@
 class CompetenceResult {
-  constructor({ competence, area, totalSkillsCount, knowledgeElements, reachedStage, masteryPercentage }) {
-    const validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
-
+  constructor({
+    competence,
+    area,
+    totalSkillsCount,
+    testedSkillsCount,
+    validatedSkillsCount,
+    reachedStage,
+    masteryPercentage,
+  }) {
     this.id = competence.id;
 
     this.areaColor = area.color;
@@ -12,7 +18,7 @@ class CompetenceResult {
     this.masteryPercentage = masteryPercentage || Math.round((validatedSkillsCount / totalSkillsCount) * 100);
     this.name = competence.name;
     this.reachedStage = reachedStage;
-    this.testedSkillsCount = knowledgeElements.length;
+    this.testedSkillsCount = testedSkillsCount;
     this.totalSkillsCount = totalSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
   }

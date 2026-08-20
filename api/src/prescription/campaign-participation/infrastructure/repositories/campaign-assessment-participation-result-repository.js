@@ -1,6 +1,6 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as knowledgeStateSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-state-snapshot-repository.js';
 import * as learningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import { CampaignAssessmentParticipationResult } from '../../domain/models/CampaignAssessmentParticipationResult.js';
 
@@ -51,16 +51,17 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
 }
 
 async function _buildCampaignAssessmentParticipationResults(result, campaignLearningContent) {
-  const snapshots = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds([
+  const snapshots = await knowledgeStateSnapshotRepository.findByCampaignParticipationIds([
     result.campaignParticipationId,
   ]);
-  const knowledgeElements = snapshots[result.campaignParticipationId] || [];
-  const validatedTargetedKnowledgeElementsCountByCompetenceId =
-    campaignLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements);
+  const knowledgeState = snapshots[result.campaignParticipationId];
+  const validatedSkillIds = knowledgeState ? knowledgeState.validatedSkills().map(({ id }) => id) : [];
+  const validatedTargetedSkillsCountByCompetenceId =
+    campaignLearningContent.countTargetedSkillsByCompetence(validatedSkillIds);
 
   return new CampaignAssessmentParticipationResult({
     ...result,
     campaignLearningContent,
-    validatedTargetedKnowledgeElementsCountByCompetenceId,
+    validatedTargetedSkillsCountByCompetenceId,
   });
 }

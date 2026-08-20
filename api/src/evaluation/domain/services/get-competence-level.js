@@ -1,4 +1,4 @@
-import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeStateRepository from '../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import * as scoringService from './scoring/scoring-service.js';
 
 const getCompetenceLevel = async function ({
@@ -6,15 +6,14 @@ const getCompetenceLevel = async function ({
   competenceId,
 
   dependencies = {
-    knowledgeElementRepository,
+    knowledgeStateRepository,
     scoringService,
   },
 }) {
-  const knowledgeElements = await dependencies.knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
-    userId,
-    competenceId,
+  const knowledgeState = await dependencies.knowledgeStateRepository.findByUserId({ userId });
+  const { currentLevel } = dependencies.scoringService.calculateScoringInformationForCompetence({
+    validatedSkills: knowledgeState.restrictedToCompetence(competenceId).validatedSkills(),
   });
-  const { currentLevel } = dependencies.scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
   return currentLevel;
 };
 

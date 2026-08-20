@@ -6,8 +6,8 @@ export async function fetchForCampaigns({
   answerRepository,
   campaignRepository,
   smartRandomChallengeRepository,
-  knowledgeElementForParticipationService,
-  knowledgeElementRepository,
+  knowledgeStateForParticipationService,
+  knowledgeStateRepository,
   campaignParticipationRepository,
   improvementService,
   locale,
@@ -20,13 +20,13 @@ export async function fetchForCampaigns({
   });
 
   const allAnswers = await answerRepository.findByAssessment(assessment.id);
-  const knowledgeElements = await _fetchKnowledgeElements({
+  const knowledgeState = await _fetchKnowledgeState({
     assessment,
     isRetrying,
     isFromCampaign: true,
     isImproving: true,
-    knowledgeElementForParticipationService,
-    knowledgeElementRepository,
+    knowledgeStateForParticipationService,
+    knowledgeStateRepository,
     improvementService,
   });
   const [skills, challenges] = await _fetchSkillsAndChallenges({
@@ -40,33 +40,33 @@ export async function fetchForCampaigns({
     lastAnswer: allAnswers?.at(-1) ?? null,
     targetSkills: skills,
     challenges,
-    knowledgeElements,
+    knowledgeState,
   };
 }
 
-async function _fetchKnowledgeElements({
+async function _fetchKnowledgeState({
   assessment,
   isRetrying = false,
   isFromCampaign = false,
   isImproving = false,
-  knowledgeElementForParticipationService,
-  knowledgeElementRepository,
+  knowledgeStateForParticipationService,
+  knowledgeStateRepository,
   improvementService,
 }) {
-  let knowledgeElements;
+  let knowledgeState;
   if (assessment.type === Assessment.types.CAMPAIGN) {
-    knowledgeElements = await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+    knowledgeState = await knowledgeStateForParticipationService.findByUserOrCampaignParticipationId({
       userId: assessment.userId,
       campaignParticipationId: assessment.campaignParticipationId,
     });
   } else {
-    knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
+    knowledgeState = await knowledgeStateRepository.findByUserId({
       userId: assessment.userId,
     });
   }
 
-  return improvementService.filterKnowledgeElements({
-    knowledgeElements,
+  return improvementService.improveKnowledgeState({
+    knowledgeState,
     isFromCampaign,
     isRetrying,
     isImproving: isImproving || assessment.isImproving,
@@ -84,7 +84,7 @@ export async function fetchForCompetenceEvaluations({
   assessment,
   answerRepository,
   smartRandomChallengeRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   skillRepository,
   improvementService,
   locale,
@@ -92,9 +92,9 @@ export async function fetchForCompetenceEvaluations({
   const allAnswers = await answerRepository.findByAssessment(assessment.id);
   const targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
   const challenges = await smartRandomChallengeRepository.findValidatedByCompetenceId(assessment.competenceId, locale);
-  const knowledgeElements = await _fetchKnowledgeElements({
+  const knowledgeState = await _fetchKnowledgeState({
     assessment,
-    knowledgeElementRepository,
+    knowledgeStateRepository,
     improvementService,
   });
 
@@ -103,6 +103,6 @@ export async function fetchForCompetenceEvaluations({
     lastAnswer: allAnswers?.at(-1) ?? null,
     targetSkills,
     challenges,
-    knowledgeElements,
+    knowledgeState,
   };
 }

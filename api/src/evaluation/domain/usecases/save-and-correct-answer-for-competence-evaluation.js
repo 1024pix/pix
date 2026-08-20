@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ChallengeAlreadyAnsweredError, EmptyAnswerError, ForbiddenAccess } from '../../../shared/domain/errors.js';
 import { ChallengeNotAskedError } from '../../../shared/domain/errors.js';
-import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
+import { tubeIdOf } from '../../../shared/domain/models/KnowledgeState.js';
 import { AssessmentAlreadyEndedError } from '../errors.js';
 
 export async function saveAndCorrectAnswerForCompetenceEvaluation({
@@ -17,7 +17,7 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
   competenceRepository,
   competenceEvaluationRepository,
   skillRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   correctionService,
 }) {
   if (assessment.userId !== userId) {
@@ -48,24 +48,26 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
   });
 
   const targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
-  const knowledgeElementsBefore = await knowledgeElementRepository.findUniqByUserId({ userId });
+  const knowledgeStateBefore = await knowledgeStateRepository.findByUserId({ userId });
   const savedAnswer = await DomainTransaction.execute(async () => {
     const answerToBeSaved = await answerRepository.save({ answer: correctedAnswer });
-    const knowledgeElementsToAdd = computeKnowledgeElements({
-      assessment,
-      answer: answerToBeSaved,
+    // Une réponse ne fait bouger qu'une ligne : le tube de l'acquis posé.
+    const { knowledgeState, touchedTubeIds } = stateWithAnswer({
+      knowledgeStateBefore,
       challenge,
       targetSkills,
-      knowledgeElementsBefore,
+      answer: answerToBeSaved,
     });
-    await knowledgeElementRepository.batchSave({ knowledgeElements: knowledgeElementsToAdd });
+    if (touchedTubeIds.length > 0) {
+      await knowledgeStateRepository.save({ userId, knowledgeState, tubeIds: touchedTubeIds });
+    }
     answerToBeSaved.levelup = await computeLevelUpInformation({
       answerSaved: answerToBeSaved,
       userId,
       competenceId: challenge.competenceId,
       locale,
-      knowledgeElementsBefore,
-      knowledgeElementsAdded: knowledgeElementsToAdd,
+      knowledgeStateBefore,
+      knowledgeStateAfter: knowledgeState,
       scorecardService,
       areaRepository,
       competenceRepository,
@@ -77,33 +79,21 @@ export async function saveAndCorrectAnswerForCompetenceEvaluation({
   return savedAnswer;
 }
 
-function computeKnowledgeElements({ assessment, answer, challenge, targetSkills, knowledgeElementsBefore }) {
-  const knowledgeElements = knowledgeElementsBefore.filter(
-    (knowledgeElement) => knowledgeElement.assessmentId === assessment.id,
-  );
-  return KnowledgeElement.createKnowledgeElementsForAnswer({
-    answer,
-    challenge,
-    previouslyFailedSkills: getSkillsFilteredByStatus(
-      knowledgeElements,
-      targetSkills,
-      KnowledgeElement.StatusType.INVALIDATED,
-    ),
-    previouslyValidatedSkills: getSkillsFilteredByStatus(
-      knowledgeElements,
-      targetSkills,
-      KnowledgeElement.StatusType.VALIDATED,
-    ),
-    targetSkills,
-    userId: assessment.userId,
-  });
-}
+function stateWithAnswer({ knowledgeStateBefore, challenge, targetSkills, answer }) {
+  const answeredSkill = targetSkills.find((skill) => skill.id === challenge.skill.id);
+  if (!answeredSkill) {
+    return { knowledgeState: knowledgeStateBefore, touchedTubeIds: [] };
+  }
 
-function getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
-  return knowledgeElements
-    .filter((knowledgeElement) => knowledgeElement.status === status)
-    .map((knowledgeElement) => knowledgeElement.skillId)
-    .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
+  const tubeSkills = targetSkills.filter((skill) => tubeIdOf(skill) === tubeIdOf(answeredSkill));
+  return {
+    knowledgeState: knowledgeStateBefore.withAnswer({
+      skill: answeredSkill,
+      isOk: answer.result.isOK(),
+      tubeSkills,
+    }),
+    touchedTubeIds: [tubeIdOf(answeredSkill)],
+  };
 }
 
 async function computeLevelUpInformation({
@@ -111,8 +101,8 @@ async function computeLevelUpInformation({
   userId,
   competenceId,
   locale,
-  knowledgeElementsBefore,
-  knowledgeElementsAdded,
+  knowledgeStateBefore,
+  knowledgeStateAfter,
   scorecardService,
   areaRepository,
   competenceRepository,
@@ -127,26 +117,13 @@ async function computeLevelUpInformation({
   const competenceEvaluationForCompetence = competenceEvaluations.find(
     (competenceEval) => competenceEval.competenceId === competenceId,
   );
-  const knowledgeElementsForCompetenceBefore = knowledgeElementsBefore.filter(
-    (knowledgeElement) => knowledgeElement.competenceId === competenceId,
-  );
-  const knowledgeElementsAddedForCompetence = knowledgeElementsAdded.filter(
-    (knowledgeElement) => knowledgeElement.competenceId === competenceId,
-  );
-  const knowledgeElementsForCompetenceAfter = [
-    ...knowledgeElementsAddedForCompetence,
-    ...knowledgeElementsForCompetenceBefore,
-  ];
-  const uniqKnowledgeElementsForCompetenceAfter = knowledgeElementsForCompetenceAfter.filter(
-    (ke, index) => knowledgeElementsForCompetenceAfter.findIndex(({ skillId }) => skillId === ke.skillId) === index,
-  );
   return scorecardService.computeLevelUpInformation({
     answer: answerSaved,
     userId,
     area,
     competence,
     competenceEvaluationForCompetence,
-    knowledgeElementsForCompetenceBefore,
-    knowledgeElementsForCompetenceAfter: uniqKnowledgeElementsForCompetenceAfter,
+    knowledgeStateForCompetenceBefore: knowledgeStateBefore.restrictedToCompetence(competenceId),
+    knowledgeStateForCompetenceAfter: knowledgeStateAfter.restrictedToCompetence(competenceId),
   });
 }

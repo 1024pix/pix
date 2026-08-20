@@ -17,7 +17,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
 import * as campaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
-import knowledgeElementForParticipationService from '../../../shared/domain/services/knowledge-element-for-participation-service.js';
+import knowledgeStateForParticipationService from '../../../shared/domain/services/knowledge-state-for-participation-service.js';
 import * as learningContentRepository from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import * as stageAcquisitionRepository from '../../../stages/infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionRepository from '../../../stages/infrastructure/repositories/stage-collection-repository.js';
@@ -38,12 +38,12 @@ import * as campaignRepository from '../../infrastructure/repositories/campaign-
 import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
-import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as knowledgeStateSnapshotRepository from '../../infrastructure/repositories/knowledge-state-snapshot-repository.js';
 import * as organizationMembershipRepository from '../../infrastructure/repositories/organization-membership-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 
 const dependencies = {
-  knowledgeElementForParticipationService,
+  knowledgeStateForParticipationService,
   assessmentRepository,
   adminMemberRepository,
   badgeForCalculationRepository,
@@ -68,7 +68,7 @@ const dependencies = {
   divisionRepository,
   auditLoggingJobRepository,
   groupRepository,
-  knowledgeElementSnapshotRepository,
+  knowledgeStateSnapshotRepository,
   learningContentRepository,
   membershipRepository,
   organizationFeatureApi,

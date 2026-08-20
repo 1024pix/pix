@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { FRENCH_SPOKEN, getBaseLocale } from '../../../shared/domain/services/locale-service.js';
-import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeStateRepository from '../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as paginateModule from '../../../shared/infrastructure/utils/paginate.js';
@@ -81,14 +81,20 @@ export async function findPaginatedFilteredRecommendedByUserId({
   page,
   lang = FRENCH_SPOKEN,
 } = {}) {
-  const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId({
-    userId,
-  });
+  const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
+  // Les échecs sur des questions réellement posées, du plus récent au plus ancien.
+  const invalidatedDirectSkills = knowledgeState
+    .invalidatedSkills()
+    .filter((skill) => knowledgeState.isDirect(skill))
+    .toSorted((a, b) => {
+      const dateOf = (skill) => knowledgeState.boundsOf(skill.tubeId ?? skill.id).updatedAt ?? 0;
+      return new Date(dateOf(b)) - new Date(dateOf(a));
+    });
 
   const [userSavedTutorials, tutorialEvaluations, skills] = await Promise.all([
     userSavedTutorialRepository.find({ userId }),
     tutorialEvaluationRepository.find({ userId }),
-    skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId)),
+    skillRepository.findOperativeByIds(invalidatedDirectSkills.map(({ id }) => id)),
   ]);
 
   let filteredSkills = [...skills];

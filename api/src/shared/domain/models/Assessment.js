@@ -141,10 +141,6 @@ class Assessment {
     return this.type === types.COMPETENCE_EVALUATION;
   }
 
-  hasKnowledgeElements() {
-    return this.isCompetenceEvaluation() || (this.isForCampaign() && this.isSmartRandom());
-  }
-
   isSmartRandom() {
     return this.method === methods.SMART_RANDOM;
   }

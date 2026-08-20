@@ -7,7 +7,7 @@ const getProgression = async function ({
   getCampaignProgression,
   assessmentRepository,
   competenceEvaluationRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   skillRepository,
   improvementService,
 }) {
@@ -25,10 +25,10 @@ const getProgression = async function ({
   if (assessment.isCompetenceEvaluation()) {
     const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessmentId);
     const skills = await skillRepository.findActiveByCompetenceId(competenceEvaluation.competenceId);
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
+    const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
 
-    const knowledgeElementsForProgression = improvementService.filterKnowledgeElements({
-      knowledgeElements,
+    const knowledgeStateForProgression = improvementService.improveKnowledgeState({
+      knowledgeState,
       isImproving: assessment.isImproving,
       createdAt: assessment.createdAt,
     });
@@ -36,7 +36,7 @@ const getProgression = async function ({
     progression = new Progression({
       id: progressionId,
       skillIds: skills?.map((skill) => skill.id) ?? [],
-      knowledgeElements: knowledgeElementsForProgression,
+      knowledgeState: knowledgeStateForProgression,
       isProfileCompleted: assessment.isCompleted(),
     });
   }

@@ -13,7 +13,7 @@ const findPaginatedFilteredOrganizationCampaigns = withTransaction(async functio
   campaignReportRepository,
   campaignParticipationRepository,
   learningContentRepository,
-  knowledgeElementSnapshotRepository,
+  knowledgeStateSnapshotRepository,
   withCoverRate,
 }) {
   const campaignReports = await campaignReportRepository.findPaginatedFilteredByOrganizationId({
@@ -31,7 +31,7 @@ const findPaginatedFilteredOrganizationCampaigns = withTransaction(async functio
     if (campaignReport.canComputeCoverRate) {
       const coverRate = await computeCoverRate(campaignReport.id, locale, {
         campaignParticipationRepository,
-        knowledgeElementSnapshotRepository,
+        knowledgeStateSnapshotRepository,
         learningContentRepository,
       });
       campaignReport.setCoverRate(coverRate);
@@ -45,7 +45,7 @@ export { findPaginatedFilteredOrganizationCampaigns };
 async function computeCoverRate(
   campaignReportId,
   locale,
-  { campaignParticipationRepository, knowledgeElementSnapshotRepository, learningContentRepository },
+  { campaignParticipationRepository, knowledgeStateSnapshotRepository, learningContentRepository },
 ) {
   const campaignParticipationIds = await campaignParticipationRepository.getSharedParticipationIds(campaignReportId);
   const campaignParticipationIdsChunks = _.chunk(campaignParticipationIds, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
@@ -57,9 +57,8 @@ async function computeCoverRate(
   });
 
   for (const chunk of campaignParticipationIdsChunks) {
-    const knowledgeElementsByParticipation =
-      await knowledgeElementSnapshotRepository.findByCampaignParticipationIds(chunk);
-    campaignResultLevelPerTubesAndCompetences.addKnowledgeElementSnapshots(knowledgeElementsByParticipation);
+    const knowledgeStatesByParticipation = await knowledgeStateSnapshotRepository.findByCampaignParticipationIds(chunk);
+    campaignResultLevelPerTubesAndCompetences.addKnowledgeStates(knowledgeStatesByParticipation);
   }
 
   return campaignResultLevelPerTubesAndCompetences;
