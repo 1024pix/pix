@@ -121,6 +121,17 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
       // then
       expect(session).to.be.null;
     });
+
+    it('returns null when the session has no certification center', async function () {
+      databaseBuilder.factory.buildSession({ id: 789, certificationCenterId: null });
+      await databaseBuilder.commit();
+
+      // when
+      const session = await sessionRepository.get({ id: 789 });
+
+      // then
+      expect(session).to.be.null;
+    });
   });
 
   describe('#updateInfo', function () {

@@ -88,6 +88,28 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     expect(error).to.be.instanceOf(NotFoundError);
   });
 
+  it('throws NotFoundError when the session is joinable but could not be loaded', async function () {
+    const userId = 123;
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+    sessionRepository.get.resolves(null);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Tony',
+      lastName: 'Stark',
+      birthdate: '1994-07-18',
+      userId,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(NotFoundError);
+  });
+
   it('throws SessionExpiredError when session has expired', async function () {
     const userId = 123;
     const sessionId = 456;
