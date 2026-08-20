@@ -30,8 +30,8 @@ describe('Unit | Service | certification-badges-service', function () {
         .withArgs({ userId, limitDate })
         .resolves([highestBadgeAcquisition1, highestBadgeAcquisition2, highestBadgeAcquisition3]);
 
-      const knowledgeElementRepository = {
-        findUniqByUserId: sinon.stub().resolves([domainBuilder.buildKnowledgeElement()]),
+      const knowledgeStateRepository = {
+        findByUserId: sinon.stub().resolves(domainBuilder.buildKnowledgeState()),
       };
       const badgeForCalculationRepository = {
         getByCertifiableBadgeAcquisition: sinon.stub(),
@@ -56,7 +56,7 @@ describe('Unit | Service | certification-badges-service', function () {
         limitDate,
         dependencies: {
           certifiableBadgeAcquisitionRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           badgeForCalculationRepository,
         },
       });
@@ -84,8 +84,8 @@ describe('Unit | Service | certification-badges-service', function () {
           .withArgs({ userId, limitDate })
           .resolves([highestBadgeAcquisition1]);
 
-        const knowledgeElementRepository = {
-          findUniqByUserId: sinon.stub().resolves([domainBuilder.buildKnowledgeElement()]),
+        const knowledgeStateRepository = {
+          findByUserId: sinon.stub().resolves(domainBuilder.buildKnowledgeState()),
         };
         const badgeForCalculationRepository = {
           getByCertifiableBadgeAcquisition: sinon.stub(),
@@ -98,7 +98,7 @@ describe('Unit | Service | certification-badges-service', function () {
           shouldGetOutdated: false,
           dependencies: {
             certifiableBadgeAcquisitionRepository,
-            knowledgeElementRepository,
+            knowledgeStateRepository,
             badgeForCalculationRepository,
           },
         });
@@ -129,8 +129,8 @@ describe('Unit | Service | certification-badges-service', function () {
         .withArgs({ userId, limitDate })
         .resolves([highestBadgeAcquisition]);
 
-      const knowledgeElementRepository = {
-        findUniqByUserId: sinon.stub().resolves([domainBuilder.buildKnowledgeElement()]),
+      const knowledgeStateRepository = {
+        findByUserId: sinon.stub().resolves(domainBuilder.buildKnowledgeState()),
       };
       const badgeForCalculationRepository = {
         getByCertifiableBadgeAcquisition: sinon.stub(),
@@ -146,7 +146,7 @@ describe('Unit | Service | certification-badges-service', function () {
         limitDate,
         dependencies: {
           certifiableBadgeAcquisitionRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           badgeForCalculationRepository,
         },
       });

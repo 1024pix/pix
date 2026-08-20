@@ -144,6 +144,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
               id: 'recSkill1',
               status: 'actif',
               competenceId: 'rec1',
+              pixValue: PIX_COUNT_BY_LEVEL,
             },
             {
               id: 'recSkill2',
@@ -206,6 +207,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         });
         const ke = databaseBuilder.factory.buildKnowledgeElement({
           userId: user.id,
+          skillId: 'recSkill1',
           earnedPix: PIX_COUNT_BY_LEVEL,
           competenceId: 'rec1',
           createdAt: new Date('2020-01-01'),

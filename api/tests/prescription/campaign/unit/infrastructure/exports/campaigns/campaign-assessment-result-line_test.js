@@ -1,9 +1,32 @@
 import { expect } from 'chai';
 
 import { CampaignAssessmentResultLine } from '../../../../../../../src/prescription/campaign/infrastructure/exports/campaigns/campaign-assessment-result-line.js';
-import { KnowledgeElement } from '../../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
+
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
+
+// Reconstitue l'état que ces verdicts décrivaient, dans le référentiel du test.
+const stateFromKnowledgeElements = (knowledgeElementsByCompetenceId, learningContent) => {
+  const skillsById = new Map(learningContent.skills.map((skill) => [skill.id, skill]));
+  return Object.values(knowledgeElementsByCompetenceId)
+    .flat()
+    .reduce(
+      (state, { skillId, status }) =>
+        state.withAnswer({
+          skill: skillsById.get(skillId) ?? { id: skillId, difficulty: 1 },
+          isOk: status === 'validated',
+        }),
+      domainBuilder.buildKnowledgeState(),
+    );
+};
 
 describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', function () {
   let translate;
@@ -50,9 +73,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [],
+              },
+              learningContent,
+            ),
             translate,
           });
 
@@ -101,9 +127,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [],
+              },
+              learningContent,
+            ),
             translate,
           });
 
@@ -153,9 +182,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [],
+              },
+              learningContent,
+            ),
             translate,
           });
 
@@ -204,9 +236,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [],
+              },
+              learningContent,
+            ),
             translate,
           });
 
@@ -259,9 +294,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [],
+              },
+              learningContent,
+            ),
             translate,
           });
 
@@ -313,9 +351,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [],
+              },
+              learningContent,
+            ),
             translate,
           });
 
@@ -368,9 +409,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
           competences,
           areas,
           stageCollection,
-          participantKnowledgeElementsByCompetenceId: {
-            [competences[0].id]: [],
-          },
+          participantKnowledgeState: stateFromKnowledgeElements(
+            {
+              [competences[0].id]: [],
+            },
+            learningContent,
+          ),
           translate,
         });
 
@@ -426,9 +470,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             targetProfile,
             learningContent,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [],
+              },
+              learningContent,
+            ),
             translate,
           });
 
@@ -481,9 +528,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             targetProfile,
             learningContent,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [],
+              },
+              learningContent,
+            ),
             translate,
           });
 
@@ -518,11 +568,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
       let participantKnowledgeElementsByCompetenceId;
 
       beforeEach(function () {
-        const skill1_2 = domainBuilder.buildSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
-        const skill2_1 = domainBuilder.buildSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
-        const skill3_1 = domainBuilder.buildSkill({ id: 'recSkill3_1', tubeId: 'recTube3' });
-        const skill3_2 = domainBuilder.buildSkill({ id: 'recSkill3_2', tubeId: 'recTube3' });
-        const skill1_1 = domainBuilder.buildSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
+        const skill1_2 = domainBuilder.buildSkill({ id: 'recSkill1_2', tubeId: 'recTube1', difficulty: 2 });
+        const skill2_1 = domainBuilder.buildSkill({ id: 'recSkill2_1', tubeId: 'recTube2', difficulty: 1 });
+        const skill3_1 = domainBuilder.buildSkill({ id: 'recSkill3_1', tubeId: 'recTube3', difficulty: 1 });
+        const skill3_2 = domainBuilder.buildSkill({ id: 'recSkill3_2', tubeId: 'recTube3', difficulty: 2 });
+        const skill1_1 = domainBuilder.buildSkill({ id: 'recSkill1_1', tubeId: 'recTube1', difficulty: 1 });
         const tube1 = domainBuilder.buildTube({
           id: 'recTube1',
           skills: [skill1_1, skill1_2],
@@ -556,26 +606,26 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
 
         learningContent = domainBuilder.buildLearningContent([framework]);
 
-        const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+        const knowledgeElement1 = buildKeData({
+          status: 'validated',
           earnedPix: 3,
           skillId: skill1_1.id,
           competenceId: competence1.id,
         });
-        const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.INVALIDATED,
+        const knowledgeElement2 = buildKeData({
+          status: 'invalidated',
           earnedPix: 2,
           skillId: skill2_1.id,
           competenceId: competence2.id,
         });
-        const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+        const knowledgeElement3 = buildKeData({
+          status: 'validated',
           earnedPix: 4,
           skillId: skill3_1.id,
           competenceId: competence3.id,
         });
-        const knowledgeElement4 = domainBuilder.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+        const knowledgeElement4 = buildKeData({
+          status: 'validated',
           earnedPix: 5,
           skillId: skill3_2.id,
           competenceId: competence3.id,
@@ -610,7 +660,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
               competences: learningContent.competences,
               areas: learningContent.areas,
               stageCollection,
-              participantKnowledgeElementsByCompetenceId,
+              participantKnowledgeState: stateFromKnowledgeElements(
+                participantKnowledgeElementsByCompetenceId,
+                learningContent,
+              ),
               translate,
             });
 
@@ -674,7 +727,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
               competences,
               areas,
               stageCollection,
-              participantKnowledgeElementsByCompetenceId,
+              participantKnowledgeState: stateFromKnowledgeElements(
+                participantKnowledgeElementsByCompetenceId,
+                learningContent,
+              ),
               translate,
             });
 
@@ -730,9 +786,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [],
+              },
+              learningContent,
+            ),
             acquiredBadges: [badge],
             translate,
           });
@@ -781,8 +840,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             campaignId: campaign.id,
             stages: [],
           });
-          const knowledgeElement = domainBuilder.buildKnowledgeElement({
-            status: KnowledgeElement.StatusType.VALIDATED,
+          const knowledgeElement = buildKeData({
+            status: 'validated',
             earnedPix: 3,
             skillId: learningContent.skills[0].id,
             competenceId: learningContent.competences[0].id,
@@ -796,9 +855,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [knowledgeElement],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [knowledgeElement],
+              },
+              learningContent,
+            ),
             acquiredBadges: [badge.title],
             translate,
           });
@@ -840,8 +902,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
           });
           const badge = 'badge title';
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [badge] });
-          const knowledgeElement = domainBuilder.buildKnowledgeElement({
-            status: KnowledgeElement.StatusType.VALIDATED,
+          const knowledgeElement = buildKeData({
+            status: 'validated',
             earnedPix: 3,
             skillId: learningContent.skills[0].id,
             competenceId: learningContent.competences[0].id,
@@ -855,9 +917,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId: {
-              [competences[0].id]: [knowledgeElement],
-            },
+            participantKnowledgeState: stateFromKnowledgeElements(
+              {
+                [competences[0].id]: [knowledgeElement],
+              },
+              learningContent,
+            ),
             translate,
           });
 
@@ -896,9 +961,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
       let learningContent, stageCollection, knowledgeElement1, knowledgeElement2, knowledgeElement3;
 
       beforeEach(function () {
-        const skill1 = domainBuilder.buildSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
-        const skill2 = domainBuilder.buildSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
-        const skill3 = domainBuilder.buildSkill({ id: 'recSkill1_3', tubeId: 'recTube1' });
+        const skill1 = domainBuilder.buildSkill({ id: 'recSkill1_1', tubeId: 'recTube1', difficulty: 1 });
+        const skill2 = domainBuilder.buildSkill({ id: 'recSkill1_2', tubeId: 'recTube1', difficulty: 2 });
+        const skill3 = domainBuilder.buildSkill({ id: 'recSkill1_3', tubeId: 'recTube1', difficulty: 3 });
         const tube = domainBuilder.buildTube({
           id: 'recTube1',
           skills: [skill1, skill2, skill3],
@@ -920,20 +985,20 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             domainBuilder.buildStage({ threshold: 99 }),
           ],
         });
-        knowledgeElement1 = domainBuilder.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+        knowledgeElement1 = buildKeData({
+          status: 'validated',
           earnedPix: 3,
           skillId: skill1.id,
           competenceId: competence.id,
         });
-        knowledgeElement2 = domainBuilder.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+        knowledgeElement2 = buildKeData({
+          status: 'validated',
           earnedPix: 2,
           skillId: skill2.id,
           competenceId: competence.id,
         });
-        knowledgeElement3 = domainBuilder.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.INVALIDATED,
+        knowledgeElement3 = buildKeData({
+          status: 'invalidated',
           earnedPix: 4,
           skillId: skill3.id,
           competenceId: competence.id,
@@ -962,7 +1027,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
               competences: learningContent.competences,
               stageCollection,
               acquiredStages: [{ id: 1 }, { id: 2 }, { id: 3 }],
-              participantKnowledgeElementsByCompetenceId,
+              participantKnowledgeState: stateFromKnowledgeElements(
+                participantKnowledgeElementsByCompetenceId,
+                learningContent,
+              ),
               translate,
             });
 
@@ -1016,7 +1084,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
               areas: learningContent.areas,
               stageCollection,
               acquiredStages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 3 }],
-              participantKnowledgeElementsByCompetenceId,
+              participantKnowledgeState: stateFromKnowledgeElements(
+                participantKnowledgeElementsByCompetenceId,
+                learningContent,
+              ),
               translate,
             });
 
@@ -1068,7 +1139,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentResultLine', functio
             competences,
             areas,
             stageCollection,
-            participantKnowledgeElementsByCompetenceId,
+            participantKnowledgeState: stateFromKnowledgeElements(
+              participantKnowledgeElementsByCompetenceId,
+              learningContent,
+            ),
             translate,
           });
 

@@ -341,43 +341,6 @@ describe('Unit | Domain | Models | Assessment', function () {
     });
   });
 
-  describe('#hasKnowledgeElements', function () {
-    it('should return true when the assessment is a CompetenceEvaluation', function () {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
-
-      // when/then
-      expect(assessment.hasKnowledgeElements()).to.be.true;
-    });
-
-    it('should return true when the assessment is a Campaign assessment with Smart Random Method', function () {
-      // given
-      const assessment = domainBuilder.buildAssessment({
-        type: Assessment.types.CAMPAIGN,
-        method: Assessment.methods.SMART_RANDOM,
-      });
-
-      // when/then
-      expect(assessment.hasKnowledgeElements()).to.be.true;
-    });
-
-    it('should return false when the assessment is not a CompetenceEvaluation nor Campaign', function () {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CERTIFICATION });
-
-      // when/then
-      expect(assessment.hasKnowledgeElements()).to.be.false;
-    });
-
-    it('should return false when the assessment has no type', function () {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: null });
-
-      // when/then
-      expect(assessment.hasKnowledgeElements()).to.be.false;
-    });
-  });
-
   describe('#start', function () {
     it('should set the status to "started"', function () {
       // given

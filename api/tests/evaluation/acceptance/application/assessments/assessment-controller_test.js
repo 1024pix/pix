@@ -56,17 +56,22 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill0_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill0_0',
-                  level: 2,
                   challenges: [{ id: 'recChallenge0_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill0_1',
+                  level: 2,
+                  pixValue: 8,
                   nom: '@recSkill0_1',
                   challenges: [{ id: 'recChallenge0_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill0_2',
+                  level: 3,
+                  pixValue: 8,
                   nom: '@recSkill0_2',
                   challenges: [{ id: 'recChallenge0_2_0', ...hardChallengeParams }],
                 },
@@ -83,16 +88,22 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill1_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill1_0',
                   challenges: [{ id: 'recChallenge1_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill1_1',
+                  level: 2,
+                  pixValue: 8,
                   nom: '@recSkill1_1',
                   challenges: [{ id: 'recChallenge1_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill1_2',
+                  level: 3,
+                  pixValue: 8,
                   nom: '@recSkill1_2',
                   challenges: [{ id: 'recChallenge1_2_0', ...hardChallengeParams }],
                 },
@@ -109,16 +120,22 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill2_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill2_0',
                   challenges: [{ id: 'recChallenge2_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill2_1',
+                  level: 2,
+                  pixValue: 8,
                   nom: '@recSkill2_1',
                   challenges: [{ id: 'recChallenge2_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill2_2',
+                  level: 3,
+                  pixValue: 8,
                   nom: '@recSkill2_2',
                   challenges: [{ id: 'recChallenge2_2_0', ...hardChallengeParams }],
                 },
@@ -135,16 +152,22 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill3_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill3_0',
                   challenges: [{ id: 'recChallenge3_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill3_1',
+                  level: 2,
+                  pixValue: 8,
                   nom: '@recSkill3_1',
                   challenges: [{ id: 'recChallenge3_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill3_2',
+                  level: 3,
+                  pixValue: 8,
                   nom: '@recSkill3_2',
                   challenges: [{ id: 'recChallenge3_2_0', ...hardChallengeParams }],
                 },
@@ -167,16 +190,22 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill4_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill4_0',
                   challenges: [{ id: 'recChallenge4_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill4_1',
+                  level: 2,
+                  pixValue: 8,
                   nom: '@recSkill4_1',
                   challenges: [{ id: 'recChallenge4_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill4_2',
+                  level: 3,
+                  pixValue: 8,
                   nom: '@recSkill4_2',
                   challenges: [{ id: 'recChallenge4_2_0', ...hardChallengeParams }],
                 },
@@ -193,6 +222,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill5_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill5_0',
                   challenges: [{ id: 'recChallenge5_0_0', ...easyChallengeParams }],
                 },
@@ -209,6 +240,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill6_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill6_0',
                   challenges: [{ id: 'recChallenge6_0_0', ...easyChallengeParams }],
                 },
@@ -225,6 +258,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill7_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill7_0',
                   challenges: [{ id: 'recChallenge7_0_0', ...easyChallengeParams }],
                 },
@@ -247,6 +282,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill8_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill8_0',
                   challenges: [{ id: 'recChallenge8_0_0', ...easyChallengeParams }],
                 },
@@ -263,6 +300,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill9_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill9_0',
                   challenges: [{ id: 'recChallenge9_0_0', ...easyChallengeParams }],
                 },
@@ -279,6 +318,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill10_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill10_0',
                   challenges: [{ id: 'recChallenge10_0_0', ...easyChallengeParams }],
                 },
@@ -295,6 +336,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill11_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill11_0',
                   challenges: [{ id: 'recChallenge11_0_0', ...easyChallengeParams }],
                 },
@@ -317,6 +360,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill12_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill12_0',
                   challenges: [{ id: 'recChallenge12_0_0', ...easyChallengeParams }],
                 },
@@ -333,6 +378,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill13_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill13_0',
                   challenges: [{ id: 'recChallenge13_0_0', ...easyChallengeParams }],
                 },
@@ -349,6 +396,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill14_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill14_0',
                   challenges: [{ id: 'recChallenge14_0_0', ...easyChallengeParams }],
                 },
@@ -371,6 +420,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill15_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill15_0',
                   challenges: [{ id: 'recChallenge15_0_0', ...easyChallengeParams }],
                 },
@@ -387,6 +438,8 @@ describe('Acceptance | Controller | assessment-controller', function () {
               skills: [
                 {
                   id: 'recSkill16_0',
+                  level: 1,
+                  pixValue: 8,
                   nom: '@recSkill16_0',
                   challenges: [{ id: 'recChallenge16_0_0', ...easyChallengeParams }],
                 },
@@ -636,7 +689,6 @@ describe('Acceptance | Controller | assessment-controller', function () {
               learningContent,
               userId: certifiableUserId,
               placementDate: limitDate,
-              earnedPix: 8,
             });
 
           certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
@@ -992,12 +1044,17 @@ async function _createAndCompleteCampaignParticipation({ user, campaign, badge, 
     userId: user.id,
     campaignParticipationId: campaignParticipation.id,
   });
-  databaseBuilder.factory.buildKnowledgeElement({
-    skillId: 'recSkill0_0',
-    assessmentId: campaignAssessment.id,
+  // L'acquis est validé par une réponse : les knowledge elements se dérivent
+  // désormais des réponses au lieu d'être persistés.
+  databaseBuilder.factory.buildAnsweredSkill({
     userId: user.id,
+    assessmentId: campaignAssessment.id,
+    skillId: 'recSkill0_0',
+    challengeId: 'recChallenge0_0_0',
     competenceId: 'recCompetence0',
     createdAt: new Date('2020-01-01'),
+    withSkill: false,
+    withChallenge: false,
   });
   databaseBuilder.factory.buildBadgeCriterion({
     threshold: 75,

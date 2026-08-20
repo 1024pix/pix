@@ -7,20 +7,20 @@ import { preventStubsToBeCalledUnexpectedly } from '../../../../tooling/test-uti
 
 describe('Quest | Unit | Infrastructure | repositories | success', function () {
   describe('#find', function () {
-    let knowledgeElementsApi_findFilteredMostRecentByUserStub;
+    let knowledgeStatesApi_getKnowledgeStateForUserStub;
     let skillsApi_findByIdsStub;
     let campaignsApi_findCampaignSkillIdsForCampaignParticipationsStub;
     let targetProfilesApi_findSkillsByTargetProfileIdsStub;
 
     beforeEach(function () {
-      knowledgeElementsApi_findFilteredMostRecentByUserStub = sinon.stub().named('findFilteredMostRecentByUser');
+      knowledgeStatesApi_getKnowledgeStateForUserStub = sinon.stub().named('getKnowledgeStateForUser');
       skillsApi_findByIdsStub = sinon.stub().named('findByIds');
       campaignsApi_findCampaignSkillIdsForCampaignParticipationsStub = sinon
         .stub()
         .named('findCampaignSkillIdsForCampaignParticipations');
       targetProfilesApi_findSkillsByTargetProfileIdsStub = sinon.stub();
       preventStubsToBeCalledUnexpectedly([
-        knowledgeElementsApi_findFilteredMostRecentByUserStub,
+        knowledgeStatesApi_getKnowledgeStateForUserStub,
         skillsApi_findByIdsStub,
         campaignsApi_findCampaignSkillIdsForCampaignParticipationsStub,
         targetProfilesApi_findSkillsByTargetProfileIdsStub,
@@ -30,7 +30,7 @@ describe('Quest | Unit | Infrastructure | repositories | success', function () {
     it('should return a Success model according to data fetched from diverse APIs', async function () {
       // given
       const userId = Symbol('userId');
-      const knowledgeElements = [{ skillId: 'A' }, { skillId: 'B' }];
+      const knowledgeState = { validatedSkillIds: ['A'], floorByTubeId: { AA: 1 } };
       const campaignParticipationIds = Symbol('campaignParticipationIds');
       const targetProfileIds = Symbol('targetProfileIds');
       const campaignSkillIds = Symbol('campaignSkillIds');
@@ -40,8 +40,8 @@ describe('Quest | Unit | Infrastructure | repositories | success', function () {
         { id: 'A', tubeId: 'AA' },
         { id: 'B', tubeId: 'BB' },
       ];
-      const knowledgeElementsApi = {
-        findFilteredMostRecentByUser: knowledgeElementsApi_findFilteredMostRecentByUserStub,
+      const knowledgeStatesApi = {
+        getKnowledgeStateForUser: knowledgeStatesApi_getKnowledgeStateForUserStub,
       };
       const skillsApi = {
         findByIds: skillsApi_findByIdsStub,
@@ -52,7 +52,7 @@ describe('Quest | Unit | Infrastructure | repositories | success', function () {
       const campaignsApi = {
         findCampaignSkillIdsForCampaignParticipations: campaignsApi_findCampaignSkillIdsForCampaignParticipationsStub,
       };
-      knowledgeElementsApi_findFilteredMostRecentByUserStub.withArgs({ userId }).resolves(knowledgeElements);
+      knowledgeStatesApi_getKnowledgeStateForUserStub.withArgs({ userId }).resolves(knowledgeState);
       campaignsApi.findCampaignSkillIdsForCampaignParticipations
         .withArgs(campaignParticipationIds)
         .resolves(campaignSkillIds);
@@ -65,14 +65,14 @@ describe('Quest | Unit | Infrastructure | repositories | success', function () {
         targetProfileIds,
         campaignParticipationIds,
         targetProfilesApi,
-        knowledgeElementsApi,
+        knowledgeStatesApi,
         campaignsApi,
         skillsApi,
       });
 
       // then
       expect(result).to.be.an.instanceof(Success);
-      expect(result.knowledgeElements).to.deepEqualArray(knowledgeElements);
+      expect(result.knowledgeState).to.deep.equal(knowledgeState);
       expect(result.skills).to.deepEqualArray(skills);
     });
   });

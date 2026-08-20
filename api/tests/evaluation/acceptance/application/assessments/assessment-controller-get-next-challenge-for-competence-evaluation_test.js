@@ -95,7 +95,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
           skillId: skillWeb2Id,
           assessmentId,
           answerId,
@@ -191,7 +191,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
           skillId: skillWeb2Id,
           assessmentId,
           answerId1,
@@ -199,8 +199,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           competenceId,
         });
         databaseBuilder.factory.buildKnowledgeElement({
-          source: KnowledgeElement.SourceType.INFERRED,
-          status: KnowledgeElement.StatusType.VALIDATED,
+          source: 'inferred',
+          status: 'validated',
           skillId: skillWeb1Id,
           assessmentId,
           answerId1,
@@ -208,7 +208,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           competenceId,
         });
         databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
           skillId: skillWeb3Id,
           assessmentId,
           answerId2,

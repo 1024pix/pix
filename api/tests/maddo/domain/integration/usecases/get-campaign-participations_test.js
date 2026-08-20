@@ -5,10 +5,9 @@ import { usecases } from '../../../../../src/maddo/domain/usecases/index.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../src/prescription/shared/domain/constants.ts';
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
+} from '../../../../../src/prescription/shared/domain/constants.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';
 
 describe('Integration | Maddo | UseCase | get-campaign-participations', function () {
   describe('#getCampaignParticipations', function () {
@@ -62,14 +61,14 @@ describe('Integration | Maddo | UseCase | get-campaign-participations', function
       });
 
       const ke = databaseBuilder.factory.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: 'validated',
         skillId,
         userId: user1.id,
       });
 
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId: participation1.id,
-        snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+        snapshot: toLegacySnapshot([ke]),
       });
 
       databaseBuilder.factory.buildCampaignParticipation({

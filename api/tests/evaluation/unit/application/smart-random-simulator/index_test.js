@@ -15,12 +15,12 @@ describe('Unit | Router | smart-random-simulator', function () {
       const payload = {
         data: {
           attributes: {
-            knowledgeElements: [
+            knowledgeState: [
               {
-                source: 'direct',
-                status: 'validated',
-                answerId: 12345678,
-                skillId: 'rec45678765',
+                tubeId: 'tube45678765',
+                floor: 3,
+                ceiling: null,
+                directLevels: [3],
               },
             ],
             answers: [

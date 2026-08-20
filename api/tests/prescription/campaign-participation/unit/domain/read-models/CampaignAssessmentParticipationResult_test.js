@@ -4,6 +4,15 @@ import { CampaignAssessmentParticipationResult } from '../../../../../../src/pre
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
+
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', function () {
@@ -44,7 +53,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
         const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 
         const validatedTargetedKnowledgeElementsByCompetenceId = {
-          competence1: [domainBuilder.buildKnowledgeElement({ skillId: 'someId', competenceId: 'competence1' })],
+          competence1: [buildKeData({ skillId: 'someId', competenceId: 'competence1' })],
         };
 
         const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({

@@ -6,10 +6,9 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.ts';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 
 const {
   buildStage,
@@ -95,19 +94,19 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       buildBadgeAcquisition({ campaignParticipationId: participation1.id, badgeId: badge1.id });
 
       const ke = buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: 'validated',
         skillId,
         userId: participation1.userId,
       });
       const ke2 = buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.INVALIDATED,
+        status: 'invalidated',
         skillId: skillId2,
         userId: participation1.userId,
       });
 
       buildKnowledgeElementSnapshot({
         campaignParticipationId: participation1.id,
-        snapshot: new KnowledgeElementCollection([ke, ke2]).toSnapshot(),
+        snapshot: toLegacySnapshot([ke, ke2]),
       });
 
       const organizationLearner2 = buildOrganizationLearner({
@@ -242,13 +241,13 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       });
 
       const firstParticipationKe = buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: 'validated',
         skillId: skill.id,
         userId: participation1.userId,
       });
       buildKnowledgeElementSnapshot({
         campaignParticipationId: participation1.id,
-        snapshot: new KnowledgeElementCollection([firstParticipationKe]).toSnapshot(),
+        snapshot: toLegacySnapshot([firstParticipationKe]),
       });
 
       const organizationLearner2 = buildOrganizationLearner({
@@ -264,13 +263,13 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       });
 
       const secondParticipationKe = buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.INVALIDATED,
+        status: 'invalidated',
         skillId: skill.id,
         userId: participation2.userId,
       });
       buildKnowledgeElementSnapshot({
         campaignParticipationId: participation2.id,
-        snapshot: new KnowledgeElementCollection([secondParticipationKe]).toSnapshot(),
+        snapshot: toLegacySnapshot([secondParticipationKe]),
       });
 
       const organizationLearner3 = buildOrganizationLearner({
@@ -396,13 +395,13 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       });
       buildKnowledgeElementSnapshot({
         campaignParticipationId: participation1.id,
-        snapshot: new KnowledgeElementCollection([
+        snapshot: toLegacySnapshot([
           buildKnowledgeElement({
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
             skillId: skill1.id,
             userId: participation1.userId,
           }),
-        ]).toSnapshot(),
+        ]),
       });
 
       const organizationLearner2 = buildOrganizationLearner({ organizationId: organizationLearner1.organizationId });
@@ -413,13 +412,13 @@ describe('Integration | UseCase | get-campaign-participations', function () {
       });
       buildKnowledgeElementSnapshot({
         campaignParticipationId: participation2.id,
-        snapshot: new KnowledgeElementCollection([
+        snapshot: toLegacySnapshot([
           buildKnowledgeElement({
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
             skillId: skill2.id,
             userId: participation2.userId,
           }),
-        ]).toSnapshot(),
+        ]),
       });
 
       await databaseBuilder.commit();
