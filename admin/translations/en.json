@@ -588,8 +588,7 @@
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Tubes in calibration only",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
             "report-title": "Check calibration report of ID {calibrationId} generated at",
-            "save-button-label": "Save calibration for ID {id}",
-            "save-success-message": "The update went smoothly!",
+            "save-success-message": "The ID has been saved",
             "scopes": {
               "CORE": "Pix Core",
               "DROIT": "Pix+ Law",

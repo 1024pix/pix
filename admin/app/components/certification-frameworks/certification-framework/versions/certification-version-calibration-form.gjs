@@ -76,6 +76,7 @@ export default class CalibrationForm extends Component {
     }
     this.showMoreInfoForLines = [];
     this.report = report;
+    await this.saveCalibrationId();
   }
 
   @action
@@ -163,20 +164,9 @@ export default class CalibrationForm extends Component {
             </DescriptionList.Item>
           {{/each}}
         </DescriptionList>
-        <PixButton
-          class="versions-calibration__save-button"
-          @triggerAction={{this.saveCalibrationId}}
-          @variant="primary-bis"
-        >{{t
-            "components.certification-frameworks.certification-framework.versions.calibration.save-button-label"
-            id=this.report.calibrationId
-          }}</PixButton>
       {{/if}}
     </Card>
     <section class="actions-container">
-      <PixButtonLink @route="authenticated.certification-frameworks.certification-framework" @variant="secondary">
-        {{t "common.actions.cancel"}}
-      </PixButtonLink>
       <PixButtonLink
         @route="authenticated.certification-frameworks.certification-framework.versions.version.scoring"
         @variant="primary"

@@ -596,8 +596,7 @@
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents dans la calibration uniquement",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents dans la version uniquement",
             "report-title": "Rapport de vérification de la calibration d'ID {calibrationId} généré le",
-            "save-button-label": "Enregistrer l'ID {id} de calibration",
-            "save-success-message": "La mise à jour s'est bien faite !",
+            "save-success-message": "L'ID de calibration a été enregistré.",
             "scopes": {
               "CORE": "Pix Cœur (transverse)",
               "DROIT": "Pix+ Droit",
