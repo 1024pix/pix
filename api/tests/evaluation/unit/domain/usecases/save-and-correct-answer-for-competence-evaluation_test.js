@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 
+import { AssessmentAlreadyEndedError } from '../../../../../src/evaluation/domain/errors.js';
 import * as correctionService from '../../../../../src/evaluation/domain/services/correction-service.js';
 import { saveAndCorrectAnswerForCompetenceEvaluation } from '../../../../../src/evaluation/domain/usecases/save-and-correct-answer-for-competence-evaluation.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
@@ -24,7 +25,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
   let validator;
   let correctAnswerValue;
   let answer;
-  let clock;
   let answerRepository,
     challengeRepository,
     competenceRepository,
@@ -43,7 +43,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
   beforeEach(function () {
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     nowDate.setMilliseconds(1);
-    clock = sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
+    sinon.useFakeTimers({ now: nowDate, toFake: ['Date'] });
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     answerRepository = { save: sinon.stub() };
     challengeRepository = { get: sinon.stub() };
@@ -67,6 +67,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       lastQuestionDate: nowDate,
       type: Assessment.types.COMPETENCE_EVALUATION,
       answers: [],
+      state: Assessment.states.STARTED,
     });
     answer = domainBuilder.buildAnswer({ assessmentId: assessment.id, value: correctAnswerValue, challengeId });
     answer.id = undefined;
@@ -92,10 +93,6 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     };
   });
 
-  afterEach(async function () {
-    clock.restore();
-  });
-
   context('when the user which want to save the answer is not the right user', function () {
     let answer;
 
@@ -116,6 +113,34 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
 
       // then
       return expect(result).to.be.rejectedWith(ForbiddenAccess);
+    });
+  });
+
+  context('when the assessment is already ended', function () {
+    [
+      Assessment.states.COMPLETED,
+      Assessment.states.ABORTED,
+      Assessment.states.ENDED_BY_INVIGILATOR,
+      Assessment.states.ENDED_DUE_TO_FINALIZATION,
+      Assessment.states.ENDED_DUE_TO_DURATION_EXCEEDED,
+    ].forEach((state) => {
+      it(`should fail because AssessmentAlreadyEndedError when the assessment is "${state}"`, async function () {
+        // given
+        assessment.state = state;
+
+        // when
+        const error = await catchErr(saveAndCorrectAnswerForCompetenceEvaluation)({
+          answer,
+          userId,
+          assessment,
+          locale,
+          ...dependencies,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(AssessmentAlreadyEndedError);
+        expect(answerRepository.save).to.not.have.been.called;
+      });
     });
   });
 
@@ -171,6 +196,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
         type: Assessment.types.COMPETENCE_EVALUATION,
         answers: [],
+        state: Assessment.states.STARTED,
       });
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
 
@@ -207,6 +233,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
         type: Assessment.types.COMPETENCE_EVALUATION,
         answers: [],
+        state: Assessment.states.STARTED,
       });
       const answerSaved = domainBuilder.buildAnswer(emptyAnswer);
       answerRepository.save.resolves(answerSaved);
@@ -364,6 +391,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
         userId,
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
         answers: [],
+        state: Assessment.states.STARTED,
       });
       answerSaved = domainBuilder.buildAnswer(answer);
       answerSaved.timeSpent = 5;

@@ -94,7 +94,6 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
         // then
         sinon.assert.notCalled(sessionService.invalidate);
         sinon.assert.calledOnce(RESTAdapter.prototype.handleResponse);
-        sinon.restore();
         assert.ok(true);
       });
     });

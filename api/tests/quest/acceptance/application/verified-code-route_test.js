@@ -1,12 +1,12 @@
-import { createServer } from '../../../../server.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 
 describe('Quest | Acceptance | Application | Verified Code Route ', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/verified-codes/{id}', function () {

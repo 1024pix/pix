@@ -42,7 +42,8 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
     let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers();
+      // InMemoryKeyValueStorage expires its keys with setTimeout
+      clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
     });
 
     it('should resolve with the generated key', async function () {
@@ -133,7 +134,8 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
 
     it('should not change the time to live', async function () {
       // given
-      const clock = sinon.useFakeTimers();
+      // InMemoryKeyValueStorage expires its keys with setTimeout
+      const clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
       const keyWithTtl = await inMemoryKeyValueStorage.save({
         value: {},
         expirationDelaySeconds: 1,
@@ -172,7 +174,8 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
   describe('#expire', function () {
     it('should add an expiration time to the list', async function () {
       // given
-      const clock = sinon.useFakeTimers();
+      // InMemoryKeyValueStorage expires its keys with setTimeout
+      const clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
       const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
 
       // when

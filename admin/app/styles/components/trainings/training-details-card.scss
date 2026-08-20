@@ -71,8 +71,6 @@
   }
 
   &__value {
-    color: var(--pix-neutral-700);
-
     a {
       color: var(--pix-primary-500);
       text-decoration: underline;
@@ -81,5 +79,10 @@
 
   &__list {
     list-style-type: disc;
+  }
+
+  &__description, &__program {
+    width: 100%;
+    white-space: pre-line;
   }
 }

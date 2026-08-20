@@ -15,10 +15,6 @@ module('Unit | Route | authenticated/combined-course-participations', function (
     };
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('model', function () {
     test('fetch model for combined course', async function (assert) {
       // given

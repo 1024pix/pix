@@ -132,6 +132,8 @@ const get = async function ({ organizationId }) {
       networkName: 'networks.name',
       networkHeadOrganizationId: 'headOrganizations.id',
       networkHeadOrganizationName: 'headOrganizations.name',
+      categoryLabel: 'structure_categories.label',
+      categoryId: 'structure_categories.id',
     })
     .leftJoin('users AS archivists', 'archivists.id', 'organizations.archivedBy')
     .leftJoin(
@@ -152,6 +154,8 @@ const get = async function ({ organizationId }) {
       'parentFctStructures.structure_id',
       'fct_structures.parent_structure_id',
     )
+    .leftJoin('structures', 'structures.id', 'fct_structures.structure_id')
+    .leftJoin('structure_categories', 'structure_categories.id', 'structures.category_id')
     .leftJoin('organizations AS parentOrganizations', 'parentOrganizations.id', 'parentFctStructures.organization_id')
     .leftJoin('networks', 'networks.id', 'fct_structures.network_id')
     .leftJoin('fct_structures as headFctStructures', function () {
@@ -589,6 +593,8 @@ function _toDomain(rawOrganization) {
     networkName: rawOrganization.networkName,
     networkHeadOrganizationId: rawOrganization.networkHeadOrganizationId,
     networkHeadOrganizationName: rawOrganization.networkHeadOrganizationName,
+    categoryLabel: rawOrganization.categoryLabel,
+    categoryId: rawOrganization.categoryId,
   });
 
   return organization;

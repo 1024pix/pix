@@ -17,15 +17,7 @@ module('Acceptance | Certifications page', function (hooks) {
     await authenticateSession(user.id);
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
-  module('When user arrives on certifications page', function (hooks) {
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
+  module('When user arrives on certifications page', function () {
     test('should display certification banner when it is time to', async function (assert) {
       sinon.useFakeTimers({ now: new Date('2001-04-01T10:42:00Z'), shouldAdvanceTime: true });
 

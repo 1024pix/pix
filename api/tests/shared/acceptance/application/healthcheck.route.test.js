@@ -1,13 +1,13 @@
 import Sinon from 'sinon';
 
-import { databaseConnections } from '../../../../db/database-connections.js';
-import { createServer } from '../../../../server.js';
+import { databaseConnectionRegistry } from '../../../../db/database-connection-registry.js';
 import { expect } from '../../../test-helper.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Shared | Application | Route | healthcheck', function () {
   let server;
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/healthcheck/forwarded-origin', function () {
@@ -42,7 +42,7 @@ describe('Acceptance | Shared | Application | Route | healthcheck', function () 
 
     it('returns an HTTP status code 503 database is not available given database error message', async function () {
       // given
-      Sinon.stub(databaseConnections, 'checkStatuses').throws({ message: 'database error.' });
+      Sinon.stub(databaseConnectionRegistry, 'checkStatuses').throws({ message: 'database error.' });
 
       // when
       const response = await server.inject({

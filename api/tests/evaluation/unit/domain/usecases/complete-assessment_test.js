@@ -13,7 +13,6 @@ describe('Unit | UseCase | complete-assessment', function () {
   let assessmentRepository;
   let certificationEvaluationRepository;
   const now = new Date('2019-01-01T05:06:07Z');
-  let clock;
 
   beforeEach(function () {
     assessmentRepository = {
@@ -25,11 +24,7 @@ describe('Unit | UseCase | complete-assessment', function () {
       completeCertificationAssessment: _.noop,
     };
 
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when assessment is already completed', function () {

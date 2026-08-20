@@ -1,5 +1,4 @@
 import { accountRecoveryRoutes } from './account-recovery/account-recovery.route.js';
-import { organizationLearnerAccountRecoveryRoutes } from './account-recovery/organization-learner-account-recovery.route.js';
 import { anonymizationAdminRoutes } from './anonymization/anonymization.admin.route.js';
 import { ltiRoutes } from './lti/lti.route.js';
 import { oidcProviderAdminRoutes } from './oidc-provider/oidc-provider.admin.route.js';
@@ -16,7 +15,6 @@ const allRoutes = [
   ...ltiRoutes,
   ...oidcProviderAdminRoutes,
   ...oidcProviderRoutes,
-  ...organizationLearnerAccountRecoveryRoutes,
   ...passwordRoutes,
   ...samlRoutes,
   ...tokenRoutes,

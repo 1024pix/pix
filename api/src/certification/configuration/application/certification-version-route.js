@@ -54,7 +54,7 @@ async function register(server) {
         handler: certificationVersionController.getVersionById,
         tags: ['api', 'admin'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Cette route est restreinte aux utilisateurs PixAdmin',
           'Elle permet de récupérer une version par son id',
         ],
       },
@@ -83,6 +83,7 @@ async function register(server) {
               attributes: Joi.object({
                 'start-date': Joi.date().allow(null).optional(),
                 'assessment-duration': Joi.number().required(),
+                'external-calibration-id': Joi.number().allow(null).required(),
                 'minimum-answers-required-for-validation': Joi.number().required(),
                 'maximum-assessment-length': Joi.number().required(),
                 'challenges-between-same-competence': Joi.number().required(),
@@ -198,6 +199,34 @@ async function register(server) {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
           "Elle permet de créer un nouveau millésime draft d'un référentiel de certification",
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationVersionId: identifiersType.certificationVersionId,
+            calibrationId: identifiersType.calibrationId,
+          }),
+        },
+        handler: certificationVersionController.generateCalibrationReport,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte au SUPER ADMIN',
+          "Elle permet d'obtenir un rapport de vérification qui précède la récupération d'une calibration",
         ],
       },
     },

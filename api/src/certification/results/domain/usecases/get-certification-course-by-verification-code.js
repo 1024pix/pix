@@ -7,9 +7,6 @@
  * @param {string} params.verificationCode
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  */
-export const getCertificationCourseByVerificationCode = async function ({
-  verificationCode,
-  certificationCourseRepository,
-}) {
+export async function getCertificationCourseByVerificationCode({ verificationCode, certificationCourseRepository }) {
   return certificationCourseRepository.getByVerificationCode({ verificationCode });
-};
+}

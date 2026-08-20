@@ -131,6 +131,7 @@ import { buildSkillLearningContentDataObject } from './build-skill-learning-cont
 import { buildSolution } from './build-solution.js';
 import { buildStage } from './build-stage.js';
 import { buildStageAcquisition } from './build-stage-acquisition.js';
+import { buildStructureCategory } from './build-structure-category.js';
 import { buildSupOrganizationLearner } from './build-sup-organization-learner.js';
 import { buildTag } from './build-tag.js';
 import { buildTargetProfile } from './build-target-profile.js';
@@ -162,6 +163,7 @@ import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildComplementaryCertification } from './certification/complementary-certification/build-complementary-certification.js';
 import { buildComplementaryCertificationBadge } from './certification/complementary-certification/build-complementary-certification-badge.js';
+import { calibrationBuilder } from './certification/configuration/build-calibration.js';
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
 import { certificationInfoBuilder } from './certification/configuration/build-certification-info.js';
 import { frameworkInfoBuilder } from './certification/configuration/build-framework-info.js';
@@ -177,7 +179,7 @@ import { buildComplementaryCertificationBadgeWithOffsetVersion as buildComplemen
 import { buildComplementaryCertificationCourseWithResultsEnrolment } from './certification/enrolment/build-complementary-certification-course-with-results.js';
 import { buildEditedCandidate } from './certification/enrolment/build-edited-candidate.js';
 import { buildPixCertification } from './certification/enrolment/build-pix-certification.js';
-import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
+import { sessionEnrolmentBuilder } from './certification/enrolment/build-session.js';
 import { sessionAuthorizationBuilder } from './certification/enrolment/build-session-authorization.js';
 import { buildUserEnrolment } from './certification/enrolment/build-user.js';
 import { buildUserCertificationEligibility } from './certification/enrolment/build-user-certification-eligibility.js';
@@ -189,6 +191,7 @@ import { buildCandidate } from './certification/evaluation/build-candidate.js';
 import { candidateAuthorizationBuilder } from './certification/evaluation/build-candidate-authorization.js';
 import { buildCertificationAssessmentHistory } from './certification/evaluation/build-certification-assessment-history.js';
 import { buildCertificationChallengeCapacity } from './certification/evaluation/build-certification-challenge-capacity.js';
+import { certificationCourseInfoBuilder } from './certification/evaluation/build-certification-course-info.js';
 import { buildChallengeCalibration } from './certification/evaluation/build-challenge-calibration.js';
 import { buildComplementaryCertificationScoringCriteria } from './certification/evaluation/build-complementary-certification-scoring-criteria.js';
 import { buildComplementaryCertificationScoringWithoutComplementaryReferential } from './certification/evaluation/build-complementary-certification-scoring-without-complementary-referential.js';
@@ -254,13 +257,13 @@ const certification = {
     buildScoBlockedAccessDateLycee,
     versionDetailsBuilder,
     frameworkInfoBuilder,
+    calibrationBuilder,
   },
   complementaryCertification: {
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,
     buildComplementaryCertification: buildComplementaryCertification,
   },
   enrolment: {
-    buildSession: buildSessionEnrolment,
     buildCenter,
     buildMatchingOrganization,
     buildHabilitation,
@@ -274,6 +277,7 @@ const certification = {
     buildPixCertification,
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadgeForEnrolment,
     sessionAuthorizationBuilder,
+    sessionEnrolmentBuilder,
   },
   evaluation: {
     buildCalibratedChallenge,
@@ -291,6 +295,7 @@ const certification = {
     buildCertificationChallengeCapacity,
     buildCertificationAssessmentHistory,
     candidateAuthorizationBuilder,
+    certificationCourseInfoBuilder,
   },
   sessionManagement: sessionManagementBuilders,
   shared: {
@@ -497,6 +502,7 @@ export {
   buildStageAcquisition,
   buildStageCollectionForTargetProfileManagement,
   buildStageCollectionForUserCampaignResults,
+  buildStructureCategory,
   buildSupOrganizationLearner,
   buildTag,
   buildTargetProfile,

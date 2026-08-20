@@ -2,12 +2,12 @@ import { EventEmitter } from 'node:events';
 
 import iconv from 'iconv-lite';
 
-import { createServer } from '../../../../../server.js';
 import { FregataHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/headers/fregata-header.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 EventEmitter.defaultMaxListeners = 60;
@@ -20,7 +20,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/organizations/{id}/sco-organization-learners/import-siecle', function () {

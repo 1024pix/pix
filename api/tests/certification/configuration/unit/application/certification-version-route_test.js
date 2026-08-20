@@ -9,10 +9,6 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Certification | Configuration | Application | Router | certification-version-route', function () {
-  afterEach(function () {
-    sinon.restore();
-  });
-
   describe('GET /api/certifications/{framework}/info', function () {
     context('when the user is not authenticated', function () {
       it('should reject access', async function () {
@@ -116,6 +112,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             attributes: {
               'start-date': new Date(),
               'assessment-duration': 1,
+              'external-calibration-id': null,
               'minimum-answers-required-for-validation': 1,
               'maximum-assessment-length': 1,
               'challenges-between-same-competence': 1,
@@ -129,7 +126,6 @@ describe('Unit | Certification | Configuration | Application | Router | certific
             type: 'certification-versions',
           },
         });
-
         // then
         expect(response.statusCode).to.equal(403);
         sinon.assert.notCalled(certificationVersionController.update);
@@ -263,6 +259,85 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         expect(response.statusCode).to.equal(200);
         sinon.assert.calledOnce(certificationVersionController.createDraft);
       });
+    });
+  });
+
+  describe('GET /api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report', function () {
+    context('when the user authenticated has no role', function () {
+      it('should return 403 HTTP status code', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        sinon.stub(certificationVersionController, 'generateCalibrationReport').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          `/api/admin/certification-versions/1/calibrations/2/report`,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(certificationVersionController.generateCalibrationReport);
+      });
+    });
+
+    context('when the params are invalid', function () {
+      it('should return 400 HTTP status code when version id is not valid', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        sinon.stub(certificationVersionController, 'generateCalibrationReport').returns('ok');
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          `/api/admin/certification-versions/NOT_AN_ID/calibrations/2/report`,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationVersionController.generateCalibrationReport);
+      });
+
+      it('should return 400 HTTP status code when calibration id is not valid', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        sinon.stub(certificationVersionController, 'generateCalibrationReport').returns('ok');
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          `/api/admin/certification-versions/1/calibrations/coucou/report`,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationVersionController.generateCalibrationReport);
+      });
+    });
+
+    it(`should return OK HTTP status code when everything is fine`, async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+      sinon.stub(certificationVersionController, 'generateCalibrationReport').returns({});
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', `/api/admin/certification-versions/1/calibrations/2/report`);
+      // then
+      expect(response.statusCode).to.equal(200);
+      sinon.assert.called(certificationVersionController.generateCalibrationReport);
     });
   });
 });

@@ -1,15 +1,15 @@
-import { createServer } from '../../../../server.js';
 import { COURSE_ITEM_TYPES } from '../../../../src/quest/domain/models/combined-courses/value-objects/CourseItem.js';
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Acceptance | Application | Course catalogue Route', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/organizations/{organizationId}/courses', function () {

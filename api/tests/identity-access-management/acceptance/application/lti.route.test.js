@@ -3,17 +3,17 @@ import querystring from 'node:querystring';
 import * as jose from 'jose';
 import nock from 'nock';
 
-import { createServer } from '../../../../server.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Identity Access Management | Route | Admin | lti', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/lti/keys', function () {

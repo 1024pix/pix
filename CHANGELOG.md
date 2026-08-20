@@ -1,5 +1,190 @@
 # Pix Changelog
 
+# [5.483.0](https://github.com/1024pix/pix/compare/v5.482.0...v5.483.0) (2026-08-20)
+
+### :rocket: Amélioration
+
+- [#17167](https://github.com/1024pix/pix/pull/17167) Ajouter le feature toggle newPixCertifLegalDocumentsVersioning (PIX-22440)
+- [#17160](https://github.com/1024pix/pix/pull/17160) Gérer le message `terminate` des embeds dans Modulix (PIX-23911)
+- [#17139](https://github.com/1024pix/pix/pull/17139) Plausible : Tracker les clics sur le bouton de sélection de parcours et de création de campagne du catalogue (PIX-23639)
+
+### :bug: Correction
+
+- [#17162](https://github.com/1024pix/pix/pull/17162) Ajouter une validation des données lors de la création d'un schéma de parcours combiné (PIX-23906)
+- [#17141](https://github.com/1024pix/pix/pull/17141) Reset de mot de passe impossible si l'email n'a pas la bonne casse (PIX-23878)
+
+### :building_construction: Tech
+
+- [#17149](https://github.com/1024pix/pix/pull/17149) Ajouter la validation de payload de la route d'update de certification-courses
+- [#17172](https://github.com/1024pix/pix/pull/17172) Ne plus utiliser PixBackgroundHeader dans la page de code session (PIX-23928).
+- [#17173](https://github.com/1024pix/pix/pull/17173) Retirer PixBackgroundHeader de la page de fin de compétence sur Pix App (PIX-23924).
+
+# [5.482.0](https://github.com/1024pix/pix/compare/v5.481.1...v5.482.0) (2026-08-19)
+
+### :rocket: Amélioration
+
+- [#17119](https://github.com/1024pix/pix/pull/17119) POC retours design catalogue (PIX-23847)
+- [#17157](https://github.com/1024pix/pix/pull/17157) Relecture finale CY_GestionMDP_IND
+- [#17156](https://github.com/1024pix/pix/pull/17156) Relecture MGO MEFTXT_NOV
+
+### :bug: Correction
+
+- [#17154](https://github.com/1024pix/pix/pull/17154) Empêcher l'enregistrement de réponses sur une évaluation terminée
+- [#17158](https://github.com/1024pix/pix/pull/17158) Réparer la modification d'un schéma de parcours (PIX-23905)
+- [#17152](https://github.com/1024pix/pix/pull/17152) Un message d'erreur apparait lorsqu'on entre un nombre decimal dans un champ input number (PIX-23692).
+
+### :building_construction: Tech
+
+- [#17155](https://github.com/1024pix/pix/pull/17155) Corriger les ids dupliquées sur les modules (PIX-23720)
+- [#17147](https://github.com/1024pix/pix/pull/17147) Mise à jour du fichier CODEOWNERS
+- [#17144](https://github.com/1024pix/pix/pull/17144) Sortir les erreurs jetées dans les repositories de `certification/enrolment` (PIX-23893).
+
+## [5.481.1](https://github.com/1024pix/pix/compare/v5.481.0...v5.481.1) (2026-08-18)
+
+### :building_construction: Tech
+
+- [#16932](https://github.com/1024pix/pix/pull/16932) Création de schémas JOI génériques pour les paramètres de requête objet dans Maddo
+- [#17136](https://github.com/1024pix/pix/pull/17136) Rendre la colonne Subscription de la table certification-candidate not nullable (PIX-23461)
+- [#17065](https://github.com/1024pix/pix/pull/17065) Suppression de la génération de positionnement V1
+
+# [5.481.0](https://github.com/1024pix/pix/compare/v5.480.0...v5.481.0) (2026-08-17)
+
+### :rocket: Amélioration
+
+- [#17134](https://github.com/1024pix/pix/pull/17134) relecture jennifer 1/2 virus_ind
+
+### :building_construction: Tech
+
+- [#17140](https://github.com/1024pix/pix/pull/17140) Correction de tests flakies
+- [#17138](https://github.com/1024pix/pix/pull/17138) Réutiliser le serveur dans les tests d'acceptance
+- [#17146](https://github.com/1024pix/pix/pull/17146) sinon.restore() entre chaque test dans les fronts
+
+# [5.480.0](https://github.com/1024pix/pix/compare/v5.479.0...v5.480.0) (2026-08-14)
+
+### :rocket: Amélioration
+
+- [#17135](https://github.com/1024pix/pix/pull/17135) Créer une route pour remonter la liste des catégories de structures (PIX-23559)
+
+# [5.479.0](https://github.com/1024pix/pix/compare/v5.478.1...v5.479.0) (2026-08-14)
+
+### :rocket: Amélioration
+
+- [#17125](https://github.com/1024pix/pix/pull/17125) Afficher la category de l'organisation dans sa page de détail (PIX-23555)
+- [#17128](https://github.com/1024pix/pix/pull/17128) Afficher les sessions les plus récentes en premier dans pix Admin (PIX-23836)
+- [#17000](https://github.com/1024pix/pix/pull/17000) Ajout d'un second batch pour answers history 
+- [#17110](https://github.com/1024pix/pix/pull/17110) Ajout de la sauvegarde de externalCalibrationId au modèle certification-version (PIX-23823)
+- [#17126](https://github.com/1024pix/pix/pull/17126) Ajouter la configuration pour avoir plausible sur PixAdmin (PIX-23777)
+- [#17090](https://github.com/1024pix/pix/pull/17090) integration medias et simulateur papotix finaux CY_MFA_NOV
+
+### :bug: Correction
+
+- [#17132](https://github.com/1024pix/pix/pull/17132) Corriger le script modulix:test (PIX-23879)
+- [#17127](https://github.com/1024pix/pix/pull/17127) Erreur du datamart-builder dans les tests unitaires
+- [#17123](https://github.com/1024pix/pix/pull/17123) Réparer la création d'un schéma de parcours (PIX-23854)
+- [#17109](https://github.com/1024pix/pix/pull/17109) Réparer la génération de mot de passe lors de l'import de session en masse (PIX-23835).
+
+### :building_construction: Tech
+
+- [#17131](https://github.com/1024pix/pix/pull/17131) Améliorer les tests d'API
+- [#17083](https://github.com/1024pix/pix/pull/17083) Déplacer le code spécifique à la récupération de compte SCO dans organization-learners
+- [#17121](https://github.com/1024pix/pix/pull/17121) Déplacer les seeds de calibration dans le contexte MADDO (PIX-23861).
+- [#17120](https://github.com/1024pix/pix/pull/17120) Exposer la catégorie de la structure dans le détail d'une organisation (PIX-23554)
+- [#17117](https://github.com/1024pix/pix/pull/17117) Nettoyage de quelques dépendances de certification
+- [#17116](https://github.com/1024pix/pix/pull/17116) Rassembler les pré-handlers du surveillant dans session-management
+- [#17068](https://github.com/1024pix/pix/pull/17068) Remplacement du Challenge de learning-content utilisé dans shared par un objet plat remappé par le BC
+- [#17122](https://github.com/1024pix/pix/pull/17122) Réparer une typo dans les tests e2e certif
+- [#17118](https://github.com/1024pix/pix/pull/17118) Retravailler la création des connexions aux bases
+- [#17130](https://github.com/1024pix/pix/pull/17130) S'assurer que la base est clean entre chaque tests
+- [#17133](https://github.com/1024pix/pix/pull/17133) Séparer la configuration des tests API par type de test
+- [#17129](https://github.com/1024pix/pix/pull/17129) Uniformiser l'utilisation de sinon.useFakeTimers dans les tests API
+
+## [5.478.1](https://github.com/1024pix/pix/compare/v5.478.0...v5.478.1) (2026-08-12)
+
+### :bug: Correction
+
+- [#17114](https://github.com/1024pix/pix/pull/17114) Gérer le cas ou la currentOrganization d'un prescripteur ne fait plus parti de ses memberships (PIX-23778)
+- [#17115](https://github.com/1024pix/pix/pull/17115) Vérifie que la session existe avant de passer au cas d'utilisation (PIX-23846)
+
+### :building_construction: Tech
+
+- [#17111](https://github.com/1024pix/pix/pull/17111) Augmentation de la taille des lots de copie sur les réplications parcoursup
+- [#17112](https://github.com/1024pix/pix/pull/17112) Corrige un problème dans les seeds : utilise la connexion au datamart directement
+
+# [5.478.0](https://github.com/1024pix/pix/compare/v5.477.0...v5.478.0) (2026-08-11)
+
+### :rocket: Amélioration
+
+- [#17104](https://github.com/1024pix/pix/pull/17104) Modifier les textes liés à l'abandon de candidat de certif (PIX-23785).
+
+### :bug: Correction
+
+- [#17101](https://github.com/1024pix/pix/pull/17101) Afficher la notif de passage de niveau au dessus de la bannière d'info (PIX-23827).
+
+### :building_construction: Tech
+
+- [#17102](https://github.com/1024pix/pix/pull/17102) Ajouter la colonne category_id sur la table structures (PIX-23552)
+- [#17103](https://github.com/1024pix/pix/pull/17103) Changement d'une route POST en route GET (PIX-23822)
+- [#17088](https://github.com/1024pix/pix/pull/17088) Oblige et modifie le style de déclaration de function pour le contexte `certification/evaluation`
+- [#17106](https://github.com/1024pix/pix/pull/17106) Remplacer `ember-cli-mirage` par `miragejs` sur Pix Certif.
+- [#17107](https://github.com/1024pix/pix/pull/17107) Suppression des occurrences inutiles de `reproducibilityRate` pour la V3 (PIX-21672).
+- [#17087](https://github.com/1024pix/pix/pull/17087) Supprime `ember-api-actions`de Pix Certif.
+
+### :arrow_up: Montée de version
+
+- [#17074](https://github.com/1024pix/pix/pull/17074) Update dependency npm-run-all2 to v9.0.3 (e2e)
+- [#17108](https://github.com/1024pix/pix/pull/17108) Update dependency oxfmt to ^0.62.0 (api)
+
+# [5.477.0](https://github.com/1024pix/pix/compare/v5.476.0...v5.477.0) (2026-08-10)
+
+### :rocket: Amélioration
+
+- [#16879](https://github.com/1024pix/pix/pull/16879) FRI CYVirus_NOV traitement retours panels
+- [#17013](https://github.com/1024pix/pix/pull/17013) Permettre au SuperAdmin de saisir un ID de calibration pour vérifier sa cohérence avec la version en cours de création (PIX-23773)
+
+### :bug: Correction
+
+- [#17092](https://github.com/1024pix/pix/pull/17092) Correction des seeds de certification
+
+### :building_construction: Tech
+
+- [#17100](https://github.com/1024pix/pix/pull/17100) Ajouter la table structures_categories (PIX-23551)
+- [#17085](https://github.com/1024pix/pix/pull/17085) Création d'un read-model dédié pour le candidat lors de son passage de test de certification
+- [#17084](https://github.com/1024pix/pix/pull/17084) Rassemble les route de creation de campagne (PIX-23812)
+- [#17053](https://github.com/1024pix/pix/pull/17053) Refactoring autour du modèle de Session dans le bounded context d'inscription
+- [#17081](https://github.com/1024pix/pix/pull/17081) Réparer les scripts impactés par la migration PgBoss
+- [#17089](https://github.com/1024pix/pix/pull/17089) Suppression du FT des épreuves focus
+- [#17056](https://github.com/1024pix/pix/pull/17056) Supprime ember-api-actions de mon-pix.
+
+### :arrow_up: Montée de version
+
+- [#17094](https://github.com/1024pix/pix/pull/17094) Update dependency @1024pix/pix-ui to ^61.4.1 (admin)
+- [#17095](https://github.com/1024pix/pix/pull/17095) Update dependency @1024pix/pix-ui to ^61.4.1 (certif)
+- [#17096](https://github.com/1024pix/pix/pull/17096) Update dependency @1024pix/pix-ui to ^61.4.1 (junior)
+- [#17097](https://github.com/1024pix/pix/pull/17097) Update dependency @1024pix/pix-ui to ^61.4.1 (mon-pix)
+- [#17098](https://github.com/1024pix/pix/pull/17098) Update dependency webpack to v5.109.2 (junior)
+
+# [5.476.0](https://github.com/1024pix/pix/compare/v5.475.0...v5.476.0) (2026-08-07)
+
+### :rocket: Amélioration
+
+- [#17009](https://github.com/1024pix/pix/pull/17009) Limite l'entrée en session de certification à 24 h après le début du premier démarrage d'un candidat (PIX-23788)
+- [#17086](https://github.com/1024pix/pix/pull/17086) Module Phishing_IND FWB avec les exemples contextualisés
+
+### :building_construction: Tech
+
+- [#17063](https://github.com/1024pix/pix/pull/17063) Déplacement du BaseChallenge depuis shared vers evaluation
+- [#17066](https://github.com/1024pix/pix/pull/17066) Enlever la dépendance prescription/campaign de IAM
+- [#16938](https://github.com/1024pix/pix/pull/16938) Migrer mon-pix vers WarpDrive
+- [#17082](https://github.com/1024pix/pix/pull/17082) Oblige et corrige la façon de déclarer des fonctions dans le contexte certification-result
+- [#17069](https://github.com/1024pix/pix/pull/17069) Supprimer getWithMemberships du contexte IAM
+- [#17067](https://github.com/1024pix/pix/pull/17067) Supprimer l'utilitaire en doublon get-data-buffer de prescription
+- [#17071](https://github.com/1024pix/pix/pull/17071) Supprimer la vérification de membership de centre de certif du contexte IAM
+
+### :arrow_up: Montée de version
+
+- [#17077](https://github.com/1024pix/pix/pull/17077) Update actions/setup-node action to v7 (workflows)
+- [#17075](https://github.com/1024pix/pix/pull/17075) Update dependency oxfmt to ^0.61.0 (api)
+
 # [5.475.0](https://github.com/1024pix/pix/compare/v5.474.0...v5.475.0) (2026-08-06)
 
 ### :rocket: Amélioration

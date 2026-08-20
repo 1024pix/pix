@@ -33,7 +33,6 @@ export async function getCertificationDetails({
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: candidate.userId,
     limitDate: candidate.reconciledAt,
-    version: certificationAssessment.version,
     allowExcessPixAndLevels: false,
   });
 

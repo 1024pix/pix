@@ -7,15 +7,10 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 
 describe('Unit | Team | Domain | UseCase | update-certification-center-membership', function () {
   let now;
-  let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now: new Date('2023-09-12'), toFake: ['Date'] });
-    now = new Date(clock.now);
-  });
-
-  afterEach(function () {
-    clock.restore();
+    now = new Date('2023-09-12');
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it("updates the user's role", async function () {

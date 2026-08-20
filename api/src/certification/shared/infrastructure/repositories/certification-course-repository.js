@@ -1,9 +1,9 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
-import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import { ComplementaryCertificationCourse } from '../../domain/models/ComplementaryCertificationCourse.js';
 
 export async function save({ certificationCourse }) {
   const knexConn = DomainTransaction.getConnection();

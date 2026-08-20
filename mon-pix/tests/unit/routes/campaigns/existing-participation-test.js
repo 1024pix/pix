@@ -21,10 +21,6 @@ module('Unit | Route | ExistingParticipation', function (hooks) {
     route.store = { queryRecord: sinon.stub() };
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#beforeModel', function () {
     test('should call session requireAuthenticationAndApprovedTermsOfService with transition', async function (assert) {
       //given

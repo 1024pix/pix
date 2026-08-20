@@ -588,8 +588,32 @@
         },
         "versions": {
           "calibration": {
-            "calibration-id-input-label": "ID de calibration (fourni par Data)*",
-            "verify-calibration-id-button": "Lancer la récupération de la calibration"
+            "calibration-id-input-label": "ID de calibration (fourni par Data)",
+            "label-for-CALIBRATED_CHALLENGE_COUNT": "Nombre d'épreuves calibrées",
+            "label-for-CALIBRATION_SCOPE": "Prévue pour le référentiel",
+            "label-for-CALIBRATION_STARTED_AT": "Démarrée le",
+            "label-for-CALIBRATION_STATUS": "Statut",
+            "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents dans la calibration uniquement",
+            "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents dans la version uniquement",
+            "report-title": "Rapport de vérification de la calibration d'ID {calibrationId} généré le",
+            "save-button-label": "Enregistrer l'ID {id} de calibration",
+            "save-success-message": "La mise à jour s'est bien faite !",
+            "scopes": {
+              "CORE": "Pix Cœur (transverse)",
+              "DROIT": "Pix+ Droit",
+              "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
+              "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
+              "EDU_CPE": "Pix+ Édu CPE",
+              "PRO_SANTE": "Pix+ Pro Santé"
+            },
+            "show-additional-info": "Montrer plus d'informations sur la ligne {lineNumber} du rapport",
+            "statuses": {
+              "INVALIDATED": "Invalidée",
+              "TO_VALIDATE": "À valider",
+              "VALIDATED": "Validée"
+            },
+            "title": "Calibration des épreuves",
+            "verify-calibration-id-button": "Vérifier la calibration"
           },
           "edit": {
             "assessment-duration-label": "Durée de l’épreuve (hh:mm) :",
@@ -1147,6 +1171,7 @@
             "undone": "Cette action est irréversible."
           }
         },
+        "category": "Catégorie",
         "code": "Code",
         "country": {
           "label": "Pays (code INSEE)",
@@ -1614,7 +1639,7 @@
           "title": "Détails",
           "v3": {
             "abort-reason": {
-              "candidate": "Abandon : Manque de temps ou départ prématuré",
+              "candidate": "Test non finalisé dans le délai imparti",
               "technical": "Problème technique"
             },
             "answer-status": {
@@ -1640,7 +1665,7 @@
             },
             "general-informations": {
               "labels": {
-                "abort-reason": "Raison de l'abandon",
+                "abort-reason": "Motif d'interruption",
                 "created-at": "Créée le",
                 "ended-by": "Certification terminée par",
                 "last-answer-at": "Dernière réponse le",

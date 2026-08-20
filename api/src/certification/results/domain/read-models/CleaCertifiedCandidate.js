@@ -1,4 +1,4 @@
-class CleaCertifiedCandidate {
+export class CleaCertifiedCandidate {
   constructor({
     firstName,
     lastName,
@@ -38,13 +38,11 @@ class CleaCertifiedCandidate {
   }
 
   get isBornInFrenchOutermostRegion() {
-    const INSEECodeFrenchOutermostRegion = ['97', '98'];
-
-    const isCodeStartsWithFrenchOutermostRegion = (birthCode) =>
-      INSEECodeFrenchOutermostRegion.some((frenchOutermostRegion) => birthCode?.startsWith(frenchOutermostRegion));
-
     return [this.birthPostalCode, this.birthINSEECode].some(isCodeStartsWithFrenchOutermostRegion);
   }
 }
 
-export { CleaCertifiedCandidate };
+function isCodeStartsWithFrenchOutermostRegion(birthCode) {
+  const INSEECodeFrenchOutermostRegion = ['97', '98'];
+  return INSEECodeFrenchOutermostRegion.some((frenchOutermostRegion) => birthCode?.startsWith(frenchOutermostRegion));
+}

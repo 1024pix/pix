@@ -1,6 +1,13 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "entry": ["**/scripts/**/*.js", "**/*job-controller.js", "datamart/**/*.js", "db/**/*.js", "tests/**/*.{cjs,js}"],
+  "entry": [
+    "**/scripts/**/*.js",
+    "**/*job-controller.js",
+    "datamart/**/*.js",
+    "datawarehouse/**/*.js",
+    "db/**/*.js",
+    "tests/**/*.{cjs,js}",
+  ],
   "ignoreDependencies": [
     "pg-query-stream", // https://knexjs.org/guide/interfaces.html#streams
     "json-autotranslate", // used by api/scripts/translate-language-files.js

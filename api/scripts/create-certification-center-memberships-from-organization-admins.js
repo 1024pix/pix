@@ -2,7 +2,8 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { disconnect, knex } from '../db/knex-database-connection.js';
+import { databaseConnectionRegistry } from '../db/database-connection-registry.js';
+import { knex } from '../db/knex-database-connection.js';
 import { Membership } from '../src/shared/domain/models/Membership.js';
 import { PromiseUtils } from '../src/shared/infrastructure/utils/promise-utils.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
@@ -100,7 +101,7 @@ async function main() {
       console.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnectionRegistry.disconnect();
     }
   }
 })();

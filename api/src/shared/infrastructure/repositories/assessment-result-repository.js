@@ -12,7 +12,9 @@ import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
-  const reproducibilityRateAsNumber = _.toNumber(assessmentResultDTO.reproducibilityRate) ?? null;
+  // le taux de reproductibilité n'existe pas en V3 : la colonne y est NULL et doit le rester
+  const reproducibilityRateAsNumber =
+    assessmentResultDTO.reproducibilityRate == null ? null : Number(assessmentResultDTO.reproducibilityRate);
   const commentForOrganization = new JuryComment({
     commentByAutoJury: assessmentResultDTO.commentByAutoJury,
     fallbackComment: assessmentResultDTO.commentForOrganization,

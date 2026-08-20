@@ -8,10 +8,6 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Components | Team::Modal::RemoveMemberModal', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('when the modal is open', function (hooks) {
     let screen;
     let closeRemoveMembershipModal, onRemoveButtonClicked;

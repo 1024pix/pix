@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
@@ -10,6 +9,7 @@ import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const competenceId = 'recCompetence';
@@ -98,7 +98,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
     await databaseBuilder.commit();
@@ -109,8 +109,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
     const userId = 1234;
 
     context('When there are still challenges to answer', function () {
-      let clock;
-
       beforeEach(async function () {
         const user = databaseBuilder.factory.buildUser({ id: userId });
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -183,14 +181,10 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         await databaseBuilder.commit();
 
-        clock = sinon.useFakeTimers({
+        sinon.useFakeTimers({
           now: Date.now(),
           toFake: ['Date'],
         });
-      });
-
-      afterEach(async function () {
-        clock.restore();
       });
 
       it('should save and return an assessment', async function () {

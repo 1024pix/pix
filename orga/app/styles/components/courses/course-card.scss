@@ -1,10 +1,5 @@
 @use 'pix-design-tokens/typography';
 
-.course-card .pix-card__image,
-.course-modal .pix-card__image {
-  padding: var(--pix-spacing-3x);
-}
-
 .course-card--targetProfile .pix-card__image,
 .course-modal--targetProfile .pix-card__image {
   background: var(--pix-orga-50);

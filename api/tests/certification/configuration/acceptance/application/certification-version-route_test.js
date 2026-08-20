@@ -1,12 +1,20 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
+import {
+  CALIBRATION_SCOPES,
+  CALIBRATION_STATUSES,
+} from '../../../../../src/certification/configuration/domain/models/Calibration.js';
+import {
+  ALERT_LEVELS,
+  REPORT_LABELS,
+} from '../../../../../src/certification/configuration/domain/models/CalibrationReport.js';
 import { VERSION_STATUSES } from '../../../../../src/certification/configuration/domain/models/Version.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Certification | Configuration | API | certification-version-route', function () {
@@ -14,7 +22,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   let superAdmin;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
   });
@@ -143,6 +151,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         attributes: {
           'start-date': new Date('2025-01-11'),
           'expiration-date': new Date('2026-01-01'),
+          'external-calibration-id': null,
           'assessment-duration': 100,
           'minimum-answers-required-for-validation': 20,
           'maximum-assessment-length': 32,
@@ -294,6 +303,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
             attributes: {
               'start-date': new Date('2020-02-02'),
               'assessment-duration': 1,
+              'external-calibration-id': null,
               'minimum-answers-required-for-validation': 2,
               'maximum-assessment-length': 3,
               'challenges-between-same-competence': 4,
@@ -393,14 +403,8 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   describe('POST /api/admin/certification-versions', function () {
     const now = new Date('2025-06-15T12:00:00Z');
 
-    let clock;
-
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return 201 HTTP status code and a new version as a draft and link his challenges', async function () {
@@ -482,6 +486,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'enable-passage-by-all-competences': true,
           status: VERSION_STATUSES.DRAFT,
           'expiration-date': null,
+          'external-calibration-id': null,
           'start-date': null,
           scope: SCOPES.CORE,
           comments: null,
@@ -582,6 +587,94 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           },
         },
       ]);
+    });
+  });
+
+  describe('GET /api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report', function () {
+    const now = new Date('2025-06-15T12:00:00Z');
+
+    beforeEach(function () {
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    it('should return 200 HTTP status code and a the calibration report', async function () {
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ id: 1, scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+        .insertToDB({ databaseBuilder });
+
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .withCalibratredChallenges([{ challengeId: 'challengeA', tubeId: 'tubeA' }])
+        .asValidated({ startedAt: new Date('2021-01-01') })
+        .withParameters({ id: 2 })
+        .insertToDB({ datamartBuilder });
+
+      const learningContent = {
+        skills: [
+          {
+            id: 'skillA',
+            tubeId: 'tubeA',
+          },
+        ],
+        challenges: [
+          {
+            id: 'challengeA',
+            skillId: 'skillA',
+          },
+        ],
+      };
+      databaseBuilder.factory.learningContent.build(learningContent);
+
+      await databaseBuilder.commit();
+      await datamartBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/admin/certification-versions/1/calibrations/2/report`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal({
+        type: 'calibration-reports',
+        id: '1_2',
+        attributes: {
+          'calibration-id': 2,
+          'generated-at': new Date(),
+          'report-lines': [
+            {
+              additionalContent: null,
+              alertLevel: null,
+              content: 1,
+              label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
+            },
+            {
+              additionalContent: "La calibration a été démarrée depuis plus d'1 an",
+              alertLevel: ALERT_LEVELS.HIGH,
+              content: new Date('2021-01-01'),
+              label: REPORT_LABELS.CALIBRATION_STARTED_AT,
+            },
+            {
+              additionalContent: null,
+              alertLevel: null,
+              content: SCOPES.CORE,
+              label: REPORT_LABELS.CALIBRATION_SCOPE,
+            },
+            {
+              additionalContent: null,
+              alertLevel: null,
+              content: CALIBRATION_STATUSES.VALIDATED,
+              label: REPORT_LABELS.CALIBRATION_STATUS,
+            },
+          ],
+        },
+      });
     });
   });
 });

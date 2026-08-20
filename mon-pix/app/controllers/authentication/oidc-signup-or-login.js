@@ -12,9 +12,9 @@ export default class OidcSignupOrLoginController extends Controller {
 
   @service url;
   @service oidcIdentityProviders;
-  @service store;
   @service router;
   @service currentDomain;
+  @service userOidcAuthenticationRequest;
 
   @tracked showOidcReconciliation = false;
   @tracked identityProviderSlug = null;
@@ -52,14 +52,13 @@ export default class OidcSignupOrLoginController extends Controller {
   async onLogin({ enteredEmail, enteredPassword }) {
     const identityProvider = this.oidcIdentityProviders.findBySlug(this.identityProviderSlug).code;
 
-    const authenticationRequest = this.store.createRecord('user-oidc-authentication-request', {
-      password: enteredPassword,
-      email: enteredEmail,
-      authenticationKey: this.authenticationKey,
-      identityProvider,
-    });
     const { email, username, authenticationMethods, fullNameFromPix, fullNameFromExternalIdentityProvider } =
-      await authenticationRequest.login();
+      await this.userOidcAuthenticationRequest.login({
+        password: enteredPassword,
+        email: enteredEmail,
+        authenticationKey: this.authenticationKey,
+        identityProvider,
+      });
     this.email = email;
     this.username = username;
     this.authenticationMethods = authenticationMethods;

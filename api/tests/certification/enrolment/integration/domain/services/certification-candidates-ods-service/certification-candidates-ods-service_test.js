@@ -28,8 +28,10 @@ const i18n = getI18n();
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
-  let userId;
-  let sessionId, session;
+  const userId = 123;
+  const certificationCenterId = 456;
+  const sessionId = 789;
+  let session;
   let mailCheck;
   let cleaComplementaryCertification;
   let eduComplementaryCertification;
@@ -43,17 +45,11 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       label: 'Pix+ Édu 1er degré',
       key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
     });
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-    userId = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildCertificationCenterMembership({
-      userId,
-      certificationCenterId,
-    });
-    const sessionData = databaseBuilder.factory.buildSession({
-      certificationCenterId,
-    });
-    sessionId = sessionData.id;
-    session = domainBuilder.certification.enrolment.buildSession(sessionData);
+    session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .createdBy({ userId, certificationCenterId })
+      .withParameters({ id: sessionId })
+      .insertToDB({ databaseBuilder });
 
     databaseBuilder.factory.buildCertificationCpfCountry({
       code: '99100',
@@ -301,8 +297,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     it('should return extracted and validated certification candidates with complementary certification', async function () {
       // given
       mailCheck.assertEmailDomainHasMx.resolves();
-
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: cleaComplementaryCertification.id,
@@ -313,21 +307,10 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         complementaryCertificationId: eduComplementaryCertification.id,
       });
 
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId,
-        certificationCenterId,
-      });
-      const sessionData = databaseBuilder.factory.buildSession({
-        certificationCenterId,
-      });
-      const session = domainBuilder.certification.enrolment.buildSession(sessionData);
-
       await databaseBuilder.commit();
 
       const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
-      const sessionId = sessionData.id;
       const expectedCandidates = [
         domainBuilder.certification.enrolment
           .candidateBuilder()
@@ -396,27 +379,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     it('should throw an error if candidate is registered for multiple certifications', async function () {
       // given
       mailCheck.assertEmailDomainHasMx.resolves();
-
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: cleaComplementaryCertification.id,
       });
-
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: eduComplementaryCertification.id,
       });
-
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId,
-        certificationCenterId,
-      });
-      const sessionData = databaseBuilder.factory.buildSession({
-        certificationCenterId,
-      });
-      const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
       await databaseBuilder.commit();
 

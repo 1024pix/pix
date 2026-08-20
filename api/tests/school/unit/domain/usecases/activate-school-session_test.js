@@ -4,15 +4,10 @@ import { activateSchoolSession } from '../../../../../src/school/domain/usecases
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | activate-school-session', function () {
-  let clock;
   const now = new Date('2022-11-28T12:00:00Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it('should update sessionExpirationDate to now + 4h', async function () {

@@ -1,14 +1,14 @@
-import { createServer } from '../../../../../server.js';
 import { Training } from '../../../../../src/devcomp/domain/models/Training.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | API | Campaign Participations', function () {
   let server, user;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     user = databaseBuilder.factory.buildUser();
   });
 

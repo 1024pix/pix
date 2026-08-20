@@ -53,14 +53,9 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
   describe('#findByOrganizationIdAndUpdatedAtOrderByDivision', function () {
     const afterBeginningOfThe2020SchoolYear = new Date('2020-10-15');
-    let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: afterBeginningOfThe2020SchoolYear, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: afterBeginningOfThe2020SchoolYear, toFake: ['Date'] });
     });
 
     it('should return instances of OrganizationLearner', async function () {

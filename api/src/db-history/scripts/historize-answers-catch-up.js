@@ -1,9 +1,8 @@
-import * as answersRepository from '../../../src/db-history/infrastructure/repositories/answers-repository.js';
+import { getAssessmentIdsByAssessmentTypeAndDateAndState } from '../../../src/db-history/infrastructure/repositories/assessments-repository.js';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { TARGET_STATE, TARGET_TYPES } from '../domain/constants.js';
 import { usecases } from '../domain/usecases/index.js';
-
 export class HistorizeAnswersCatchUpScript extends Script {
   constructor() {
     super({
@@ -28,11 +27,11 @@ export class HistorizeAnswersCatchUpScript extends Script {
     });
   }
 
-  async handle({ options, logger, dependencies = { answersRepository } }) {
+  async handle({ options, logger }) {
     const { dryRun, startDate, endDate } = options;
 
     logger.info(`Executing answers historization between ${startDate} and ${endDate}`);
-    let totalNumberOfAnswersToBeDeleted = 0;
+    let totalNumberOfAssessmentsProcessed = 0;
     const dateOfScriptExecutionEnding = new Date(endDate);
 
     for (
@@ -41,13 +40,13 @@ export class HistorizeAnswersCatchUpScript extends Script {
       currentDate.setDate(currentDate.getDate() + 1)
     ) {
       if (dryRun) {
-        const answersToBeDeleted = await dependencies.answersRepository.getAnswersByAssessmentTypeAndDateAndState({
+        const assessmentIds = await getAssessmentIdsByAssessmentTypeAndDateAndState({
           targetTypes: TARGET_TYPES,
-          targetDate: currentDate,
           targetState: TARGET_STATE,
+          targetDate: currentDate,
         });
-        logger.info(`dryRun mode: ${answersToBeDeleted.length} answer(s) would be deleted for ${currentDate}`);
-        totalNumberOfAnswersToBeDeleted += answersToBeDeleted.length;
+        totalNumberOfAssessmentsProcessed += assessmentIds.length;
+        logger.info(`dryRun mode: ${assessmentIds.length} assessments will be processed for ${currentDate}`);
       } else {
         try {
           logger.info(`Executing answers historization for ${currentDate}`);
@@ -61,7 +60,7 @@ export class HistorizeAnswersCatchUpScript extends Script {
     }
 
     if (dryRun) {
-      logger.info(`dryRun mode: ${totalNumberOfAnswersToBeDeleted} answer(s) would be deleted`);
+      logger.info(`dryRun mode: ${totalNumberOfAssessmentsProcessed} assessments have been processed`);
     }
   }
 }

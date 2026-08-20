@@ -6,7 +6,7 @@
  * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('./index.js').EventAdapter} EventAdapter
  */
-import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
+import { ForbiddenAccess, NotFoundError } from '../../../../shared/domain/errors.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { CannotEnrollScoCandidateError, UnknownCountryForStudentEnrolmentError } from '../errors.js';
@@ -21,6 +21,7 @@ const INSEE_PREFIX_CODE = '99';
  * @param {CountryRepository} params.countryRepository
  * @param {EventAdapter} params.eventAdapter
  * @param {SessionAuthorizationAdapter} params.sessionAuthorizationAdapter
+ * @throws {NotFoundError} the session does not exist or its access is restricted
  */
 export async function enrolStudentsToSession({
   sessionId,
@@ -38,6 +39,11 @@ export async function enrolStudentsToSession({
     return;
   }
   const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
+
+  if (!sessionAuthorization) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+
   if (!sessionAuthorization.canEnrollScoCandidate) {
     throw new CannotEnrollScoCandidateError();
   }

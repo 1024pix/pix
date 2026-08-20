@@ -138,7 +138,9 @@ export class SupWithHabilitationsSeed {
   }
 
   async #addCertifiableUsers() {
-    const { certifiableUsers } = await CommonCertifiableUser.getInstance({ databaseBuilder: this.databaseBuilder });
+    const { certifiableUsers } = await CommonCertifiableUser.getInstance({
+      databaseBuilder: this.databaseBuilder,
+    });
     return certifiableUsers;
   }
 
@@ -207,6 +209,8 @@ export class SupWithHabilitationsSeed {
       normalizeStringFnc: normalize,
     });
 
-    return enrolmentUseCases.getCandidate({ certificationCandidateId: candidateId });
+    return enrolmentUseCases.getCandidate({
+      certificationCandidateId: candidateId,
+    });
   }
 }

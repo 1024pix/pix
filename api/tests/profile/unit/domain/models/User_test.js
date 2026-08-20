@@ -5,18 +5,13 @@ import { normalizeAndRemoveAccents } from '../../../../../src/shared/infrastruct
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Profile | Domain | Models | User', function () {
-  let clock;
   const now = new Date('2022-12-25');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({
+    sinon.useFakeTimers({
       now,
       toFake: ['Date'],
     });
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   it('should return uppercased firstName', function () {

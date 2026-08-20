@@ -10,10 +10,6 @@ module('Unit | Route | Authentication | OIDC | flow', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#model', function (hooks) {
     hooks.beforeEach(function () {
       stubOidcIdentityProvidersService(this.owner, {

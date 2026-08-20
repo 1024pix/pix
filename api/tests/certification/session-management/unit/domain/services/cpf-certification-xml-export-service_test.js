@@ -16,17 +16,12 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 describe('Unit | Services | cpf-certification-xml-export-service', function () {
-  let clock;
   let uuidService;
 
   beforeEach(function () {
     const now = dayjs('2022-02-01T10:43:27Z').tz('Europe/Paris').toDate();
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     uuidService = { randomUUID: sinon.stub() };
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   describe('getXmlExport', function () {

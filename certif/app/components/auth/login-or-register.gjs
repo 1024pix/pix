@@ -86,7 +86,6 @@ export default class LoginOrRegister extends Component {
                   @isWithInvitation={{true}}
                   @certificationCenterInvitationId={{@certificationCenterInvitationId}}
                   @certificationCenterInvitationCode={{@certificationCenterInvitationCode}}
-                  @certificationCenterInvitation={{@certificationCenterInvitation}}
                 />
               {{/unless}}
             </div>

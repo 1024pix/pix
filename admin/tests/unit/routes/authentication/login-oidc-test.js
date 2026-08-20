@@ -30,10 +30,6 @@ module('Unit | Route | login-oidc', function (hooks) {
         oidcIdentityProvidersService.set('store', storeStub);
       });
 
-      hooks.afterEach(function () {
-        sinon.restore();
-      });
-
       module('when identity provider is not supported', function () {
         test('redirects the user to main login page', async function (assert) {
           // given
@@ -65,7 +61,6 @@ module('Unit | Route | login-oidc', function (hooks) {
           );
           sinon.assert.calledWith(replaceStub, 'https://oidc.example.net/connexion');
           assert.ok(true);
-          sinon.restore();
         });
       });
     });

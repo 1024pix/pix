@@ -1,5 +1,8 @@
 import { config } from '../../../../../src/shared/config.js';
 
+const INVIGILATOR_PASSWORD_LENGTH = 6;
+const INVIGILATOR_PASSWORD_CHARS = '23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?'.split('');
+
 function sample(array) {
   const len = array == null ? 0 : array.length;
   return len ? array[Math.floor(Math.random() * len)] : undefined;
@@ -27,8 +30,21 @@ function _generateSessionCode() {
   return code;
 }
 
+function _generateInvigilatorPassword() {
+  const chars = Array.from(INVIGILATOR_PASSWORD_CHARS);
+  for (let i = INVIGILATOR_PASSWORD_LENGTH; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (chars.length - 1));
+    [chars[i], chars[j]] = [chars[j], chars[i]];
+  }
+  return chars.slice(0, INVIGILATOR_PASSWORD_LENGTH).join('');
+}
+
 const getNewSessionCode = function () {
   return _generateSessionCode();
 };
 
-export { getNewSessionCode };
+const getNewInvigilatorPassword = function () {
+  return _generateInvigilatorPassword();
+};
+
+export { getNewInvigilatorPassword, getNewSessionCode };

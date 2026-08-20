@@ -15,7 +15,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
  * @param {object} params
  * @param {Array<Certificate>} params.certificates
  */
-const generate = async ({ certificates, i18n }) => {
+export async function generate({ certificates, i18n }) {
   const doc = new PDFDocument({
     size: 'A4',
     layout: 'landscape',
@@ -64,6 +64,4 @@ const generate = async ({ certificates, i18n }) => {
   doc.end();
 
   return doc;
-};
-
-export { generate };
+}

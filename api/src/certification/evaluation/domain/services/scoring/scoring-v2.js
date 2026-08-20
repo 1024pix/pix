@@ -10,7 +10,6 @@
  */
 
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
-import { AlgorithmEngineVersion } from '../../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { AnswerCollectionForScoring } from '../../../../shared/domain/models/AnswerCollectionForScoring.js';
 import { CompetenceMark } from '../../../../shared/domain/models/CompetenceMark.js';
 import { ReproducibilityRate } from '../../../../shared/domain/models/ReproducibilityRate.js';
@@ -34,7 +33,7 @@ import { CertificationContract } from '../CertificationContract.js';
  * @param {object} params.dependencies
  * @param {calculateCertificationAssessmentScore} params.dependencies.calculateCertificationAssessmentScore
  */
-export const handleV2CertificationScoring = async ({
+export async function handleV2CertificationScoring({
   event,
   certificationAssessment,
   assessmentResultRepository,
@@ -45,7 +44,7 @@ export const handleV2CertificationScoring = async ({
   scoringService,
   candidateRepository,
   dependencies = { calculateCertificationAssessmentScore },
-}) => {
+}) {
   const certificationAssessmentScore = await dependencies.calculateCertificationAssessmentScore({
     certificationAssessment,
     areaRepository,
@@ -76,7 +75,7 @@ export const handleV2CertificationScoring = async ({
   });
 
   return certificationCourse;
-};
+}
 
 /**
  * @param {object} params
@@ -84,7 +83,7 @@ export const handleV2CertificationScoring = async ({
  * @param {ScoringService} params.scoringService
  * @param {CandidateRepository} params.candidateRepository
  */
-export const calculateCertificationAssessmentScore = async function ({
+export async function calculateCertificationAssessmentScore({
   certificationAssessment,
   areaRepository,
   placementProfileService,
@@ -98,7 +97,6 @@ export const calculateCertificationAssessmentScore = async function ({
   const testedCompetences = await _getTestedCompetences({
     userId: certificationAssessment.userId,
     limitDate: candidate.reconciledAt,
-    version: AlgorithmEngineVersion.V2,
     placementProfileService,
   });
 
@@ -114,14 +112,14 @@ export const calculateCertificationAssessmentScore = async function ({
 
   const allAreas = await areaRepository.list();
   return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, allAreas, scoringService);
-};
+}
 
 /**
  * @param {object} params
  * @param {PlacementProfileService} params.placementProfileService
  */
-async function _getTestedCompetences({ userId, limitDate, version, placementProfileService }) {
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, version });
+async function _getTestedCompetences({ userId, limitDate, placementProfileService }) {
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
   const certifiableUserCompetences = placementProfile.userCompetences.filter((uc) => uc.isCertifiable());
   return certifiableUserCompetences.map((cuc) => {
     return {

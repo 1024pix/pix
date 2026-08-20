@@ -32,15 +32,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   let userInDB;
   let passwordAuthenticationMethodInDB;
 
-  let clock;
   const now = new Date('2022-12-24');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   function _insertUserWithOrganizationsAndCertificationCenterAccesses() {

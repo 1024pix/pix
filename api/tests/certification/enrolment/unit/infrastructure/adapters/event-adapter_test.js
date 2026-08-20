@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import * as eventAdapter from '../../../../../../src/certification/enrolment/infrastructure/adapters/event-adapter.js';
 import { EVENT_NAMES } from '../../../../../../src/certification/shared/domain/constants/event-names.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Enrolment | Unit | Adapter | event', function () {
@@ -46,7 +45,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
         sessionId: 'sessionId A',
         billingMode: 'billingMode A',
         prepaymentCode: 'prepaymentCode A',
-        accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
+        accessibilityAdjustmentNeeded: false,
       })
       .build();
     candidateB = domainBuilder.certification.enrolment
@@ -81,7 +80,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
         sessionId: 'sessionId B',
         billingMode: 'billingMode B',
         prepaymentCode: 'prepaymentCode B',
-        accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded B',
+        accessibilityAdjustmentNeeded: true,
       })
       .build();
     dependencies = {
@@ -93,7 +92,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
     it('send expected candidate data to event api', async function () {
       await eventAdapter.onCandidateEnrolledIndividually({ candidate: candidateA, dependencies });
 
-      expect(eventApi.pushEvents).to.have.been.calledWithExactly([
+      sinon.assert.calledWithExactly(eventApi.pushEvents, [
         {
           name: EVENT_NAMES.CANDIDATE_ENROLLED_INDIVIDUAL,
           candidateId: 123,
@@ -119,7 +118,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             billingMode: 'billingMode A',
             prepaymentCode: 'prepaymentCode A',
             subscription: 'CORE',
-            accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
+            accessibilityAdjustmentNeeded: false,
             userId: 'userId A',
             reconciledAt: 'reconciledAt A',
           },
@@ -132,7 +131,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
     it('send expected candidate data to event api', async function () {
       await eventAdapter.onCandidatesEnrolledWithImportSheet({ candidates: [candidateA, candidateB], dependencies });
 
-      expect(eventApi.pushEvents).to.have.been.calledWithExactly([
+      sinon.assert.calledWithExactly(eventApi.pushEvents, [
         {
           name: EVENT_NAMES.CANDIDATE_ENROLLED_ODS,
           candidateId: 123,
@@ -159,7 +158,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             billingMode: 'billingMode A',
             prepaymentCode: 'prepaymentCode A',
             subscription: 'CORE',
-            accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
+            accessibilityAdjustmentNeeded: false,
             reconciledAt: 'reconciledAt A',
           },
         },
@@ -189,7 +188,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             billingMode: 'billingMode B',
             prepaymentCode: 'prepaymentCode B',
             subscription: 'CORE',
-            accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded B',
+            accessibilityAdjustmentNeeded: true,
             reconciledAt: 'reconciledAt B',
           },
         },
@@ -204,7 +203,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
         dependencies,
       });
 
-      expect(eventApi.pushEvents).to.have.been.calledWithExactly([
+      sinon.assert.calledWithExactly(eventApi.pushEvents, [
         {
           name: EVENT_NAMES.CANDIDATE_ENROLLED_CSV,
           candidateId: 123,
@@ -231,7 +230,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             billingMode: 'billingMode A',
             prepaymentCode: 'prepaymentCode A',
             subscription: 'CORE',
-            accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
+            accessibilityAdjustmentNeeded: false,
             reconciledAt: 'reconciledAt A',
           },
         },
@@ -261,7 +260,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             billingMode: 'billingMode B',
             prepaymentCode: 'prepaymentCode B',
             subscription: 'CORE',
-            accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded B',
+            accessibilityAdjustmentNeeded: true,
             reconciledAt: 'reconciledAt B',
           },
         },
@@ -273,7 +272,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
     it('send expected candidate data to event api', async function () {
       await eventAdapter.onCandidatesEnrolledSco({ candidates: [candidateA, candidateB], dependencies });
 
-      expect(eventApi.pushEvents).to.have.been.calledWithExactly([
+      sinon.assert.calledWithExactly(eventApi.pushEvents, [
         {
           name: EVENT_NAMES.CANDIDATE_ENROLLED_SCO,
           candidateId: 123,
@@ -300,7 +299,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             billingMode: 'billingMode A',
             prepaymentCode: 'prepaymentCode A',
             subscription: 'CORE',
-            accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded A',
+            accessibilityAdjustmentNeeded: false,
             reconciledAt: 'reconciledAt A',
           },
         },
@@ -330,7 +329,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
             billingMode: 'billingMode B',
             prepaymentCode: 'prepaymentCode B',
             subscription: 'CORE',
-            accessibilityAdjustmentNeeded: 'accessibilityAdjustmentNeeded B',
+            accessibilityAdjustmentNeeded: true,
             reconciledAt: 'reconciledAt B',
           },
         },
@@ -342,7 +341,7 @@ describe('Certification | Enrolment | Unit | Adapter | event', function () {
     it('send expected candidate data to event api', async function () {
       await eventAdapter.onCandidateReconciled({ candidate: candidateA, dependencies });
 
-      expect(eventApi.pushEvents).to.have.been.calledWithExactly([
+      sinon.assert.calledWithExactly(eventApi.pushEvents, [
         {
           name: EVENT_NAMES.CANDIDATE_RECONCILED,
           candidateId: 123,

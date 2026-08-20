@@ -3,7 +3,7 @@ import Hapi from '@hapi/hapi';
 import { parse } from 'neoqs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
-import { databaseConnections } from './db/database-connections.js';
+import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { knex } from './db/knex-database-connection.js';
 import { livretScolaireRoute } from './src/certification/results/application/livret-scolaire-route.js';
 import { parcoursupRoute } from './src/certification/results/application/parcoursup-route.js';
@@ -166,7 +166,7 @@ const enableLegacyOpsMetrics = async function (server) {
   oppsy.on('ops', (data) => {
     server.log(['ops'], {
       ...data,
-      ...databaseConnections.getPoolMetrics(),
+      ...databaseConnectionRegistry.getPoolMetrics(),
     });
   });
 

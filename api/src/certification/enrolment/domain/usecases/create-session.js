@@ -1,60 +1,43 @@
 /**
- * @typedef {import ("./index.js").CenterRepository} CenterRepository
  * @typedef {import ("./index.js").SessionRepository} SessionRepository
- * @typedef {import ("./index.js").SessionValidator} SessionValidator
  * @typedef {import ("./index.js").SessionCodeService} SessionCodeService
  */
 
-import { AlreadyExistingEntityError } from '../../../../shared/domain/errors.js';
-import { SessionEnrolment } from '../models/SessionEnrolment.js';
-
 /**
  * @param {object} params
- * @param {CenterRepository} params.centerRepository
+ * @param {number} params.userId
+ * @param {certificationCenterId} params.certificationCenterId
+ * @param {string} params.address
+ * @param {string} params.room
+ * @param {string} params.date
+ * @param {string} params.time
+ * @param {string} params.examiner
+ * @param {string} params.description
  * @param {SessionRepository} params.sessionRepository
- * @param {SessionValidator} params.sessionValidator
  * @param {SessionCodeService} params.sessionCodeService
  */
-const createSession = async function ({
+export async function createSession({
   userId,
-  session,
-  centerRepository,
+  certificationCenterId,
+  address,
+  room,
+  date,
+  time,
+  examiner,
+  description,
   sessionRepository,
-  sessionValidator,
   sessionCodeService,
 }) {
-  sessionValidator.validate(session);
-
-  const certificationCenterId = session.certificationCenterId;
-
-  const sessionAlreadyExists = await sessionRepository.isSessionExistingByCertificationCenterId({
-    address: session.address,
-    room: session.room,
-    date: session.date,
-    time: session.time,
+  return sessionRepository.create({
+    userId,
     certificationCenterId,
+    address,
+    room,
+    date,
+    time,
+    examiner,
+    description,
+    accessCode: sessionCodeService.getNewSessionCode(),
+    invigilatorPassword: sessionCodeService.getNewInvigilatorPassword(),
   });
-  if (sessionAlreadyExists) {
-    throw new AlreadyExistingEntityError(
-      'Une session avec les mêmes informations existe déjà.',
-      'SESSION_ALREADY_EXISTS',
-    );
-  }
-
-  const accessCode = sessionCodeService.getNewSessionCode();
-  const { name: certificationCenterName } = await centerRepository.getById({
-    id: certificationCenterId,
-  });
-
-  const domainSession = new SessionEnrolment({
-    ...session,
-    accessCode,
-    certificationCenter: certificationCenterName,
-    certificationCandidates: [],
-    createdBy: userId,
-  });
-
-  return sessionRepository.save({ session: domainSession });
-};
-
-export { createSession };
+}

@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr } from '@warp-drive/legacy/model';
 
 export default class AccountRecoveryDemand extends Model {
@@ -11,32 +10,4 @@ export default class AccountRecoveryDemand extends Model {
   @attr('string') email;
   @attr('string') password;
   @attr('string') temporaryKey;
-
-  send = memberAction({
-    path: 'account-recovery',
-    type: 'post',
-    urlType: 'send-account-recovery-demand',
-    before() {
-      const payload = this.serialize();
-      delete payload.data.attributes.password;
-      delete payload.data.attributes['temporary-key'];
-      delete payload.data.attributes['has-sco-username'];
-      delete payload.data.attributes['has-gar-authentication-method'];
-      return payload;
-    },
-  });
-
-  update = memberAction({
-    path: 'account-recovery',
-    type: 'patch',
-    urlType: 'update-account',
-    before() {
-      const payload = this.serialize();
-      payload.data.attributes = {
-        password: this.password,
-        'temporary-key': this.temporaryKey,
-      };
-      return payload;
-    },
-  });
 }

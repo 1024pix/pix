@@ -1,14 +1,14 @@
-import { createServer } from '../../../../server.js';
 import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Acceptance | Application | Combined course blueprint Route ', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/admin/combined-course-blueprints', function () {
@@ -56,8 +56,8 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
               'internal-name': 'Mon schéma de parcours combiné',
               description: 'La description combinix',
               'prescriber-description': 'La description prescripteur',
-              illustration: 'illustration.svg',
-              'reward-id': attestation.id,
+              illustration: 'http://example.pix/illustration.svg',
+              'reward-id': `${attestation.id}`,
               'reward-type': 'ATTESTATION',
               'reward-requirements-description': 'Description of the reward requirements',
               content: [
@@ -86,6 +86,52 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.attributes.name).to.equal(payload.data.attributes.name);
+      });
+
+      it('should throw a validation error if an uri is mal-formatted', async function () {
+        // given
+        const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+        await databaseBuilder.commit();
+
+        const payload = {
+          data: {
+            type: 'combined-course-blueprints',
+            attributes: {
+              name: 'Mon parcours combiné',
+              'internal-name': 'Mon schéma de parcours combiné',
+              description: 'La description combinix',
+              'prescriber-description': 'La description prescripteur',
+              illustration: null,
+              'reward-id': null,
+              'reward-type': null,
+              'reward-requirements-description': 'Description of the reward requirements',
+              'survey-link': 'survey',
+              content: [
+                {
+                  type: 'module',
+                  value: 'e67ec5d0',
+                  shortId: 'short-e67ec5d0',
+                },
+              ],
+              'capped-tube-requirements': [{ threshold: 20, tubes: [{ tubeId: 'tube1', level: 5 }] }],
+            },
+          },
+        };
+        const options = {
+          method: 'POST',
+          url: `/api/admin/combined-course-blueprints`,
+          headers: generateAuthenticatedUserRequestHeaders({
+            userId: superAdmin.id,
+          }),
+          payload,
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+        expect(response.result.errors[0].detail).to.equal('"surveyLink" must be a valid uri');
       });
     });
   });
@@ -245,7 +291,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
               description: 'La description combinix',
               'prescriber-description': 'La description prescripteur',
               illustration: 'illustration.svg',
-              'reward-requirements': 'Description of the reward requirements',
+              'reward-requirements-description': 'Description of the reward requirements',
             },
           },
         };

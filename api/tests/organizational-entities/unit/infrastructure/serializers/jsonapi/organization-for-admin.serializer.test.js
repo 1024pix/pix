@@ -115,6 +115,8 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'country-name': organization.countryName,
             'organization-learner-type-name': organization.organizationLearnerType.name,
             'organization-learner-type-id': organization.organizationLearnerType.id,
+            'category-id': organization.categoryId,
+            'category-label': organization.categoryLabel,
           },
           relationships: {
             'organization-memberships': {

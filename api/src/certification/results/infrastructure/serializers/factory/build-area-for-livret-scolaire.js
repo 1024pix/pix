@@ -1,8 +1,6 @@
-const buildArea = function ({ id, name } = {}) {
+export function buildArea({ id, name } = {}) {
   return {
     id,
     name,
   };
-};
-
-export { buildArea };
+}

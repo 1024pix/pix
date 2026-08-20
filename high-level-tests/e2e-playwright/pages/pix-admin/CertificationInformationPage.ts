@@ -60,7 +60,7 @@ export class CertificationInformationPage {
       abortReason: await getStringValueFromDescriptionList(
         this.page,
         'pw-certification-general-information-description-list',
-        "Raison de l'abandon :",
+        "Motif d'interruption :",
         { optional: true },
       ),
       result: await getStringValueFromDescriptionList(

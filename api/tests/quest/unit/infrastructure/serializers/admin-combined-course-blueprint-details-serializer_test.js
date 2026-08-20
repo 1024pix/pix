@@ -53,7 +53,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
       internalName: 'Mon modèle de parcours',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       prescriberDescription: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      illustration: '/illustrations/image.svg',
+      illustration: 'http://example.pix/illustrations/image.svg',
       content: [
         {
           type: COMBINED_COURSE_ITEM_TYPES.MODULE,
@@ -63,7 +63,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
         { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: 123 },
       ],
       attestationLabel: '6ème',
-      surveyLink: 'survey-link-test',
+      surveyLink: 'http://example.pix/survey-link-test',
       rewardRequirementsDescription: 'description of requirements',
       organizationIds: [],
       rewardRequirements: [
@@ -86,7 +86,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
         attributes: {
           name: 'Mon parcours',
           'internal-name': 'Mon modèle de parcours',
-          illustration: '/illustrations/image.svg',
+          illustration: 'http://example.pix/illustrations/image.svg',
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
           'prescriber-description': 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
           content: [
@@ -100,7 +100,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           'created-at': adminCombinedCourseBlueprintDetails.createdAt,
           'updated-at': adminCombinedCourseBlueprintDetails.updatedAt,
           'attestation-label': '6ème',
-          'survey-link': 'survey-link-test',
+          'survey-link': 'http://example.pix/survey-link-test',
           'reward-requirements-description': 'description of requirements',
         },
         type: 'combined-course-blueprints',

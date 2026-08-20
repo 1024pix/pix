@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 
 import { sessionController } from '../../../../../src/certification/enrolment/application/session-controller.js';
-import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { expect } from '../../../../test-helper.js';
@@ -9,120 +8,91 @@ import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Enrolment | Unit | Application | Controller | session-controller', function () {
   describe('#createSession', function () {
-    let request;
-    let expectedSession;
-    let sessionSerializerStub;
-    const userId = 274939274;
-
-    beforeEach(function () {
-      expectedSession = new SessionEnrolment({
-        certificationCenter: 'Université de dressage de loutres',
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Antoine Toutvenant',
-        date: '2017-12-08',
-        time: '14:30',
-        description: 'ahah',
-        accessCode: 'ABCD12',
-      });
-
-      sinon.stub(usecases, 'createSession').resolves();
-      sessionSerializerStub = {
-        serialize: sinon.stub(),
-        deserialize: sinon.stub(),
-      };
-      sessionSerializerStub.deserialize.returns(expectedSession);
-
-      request = {
+    it('should return the created session', async function () {
+      // given
+      const request = {
+        auth: { credentials: { userId: 1 } },
+        params: { certificationCenterId: 345 },
         payload: {
           data: {
-            type: 'sessions',
             attributes: {
-              'certification-center': 'Université de dressage de loutres',
-              address: 'Nice',
-              room: '28D',
-              examiner: 'Antoine Toutvenant',
-              date: '2017-12-08',
-              time: '14:30',
-              description: 'ahah',
+              address: '1 rue des lauriers',
+              room: '2B',
+              date: '2021-01-01',
+              time: '14:00',
+              examiner: 'Louise',
+              description: 'coucou',
             },
           },
         },
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
       };
-    });
-
-    it('should create a session', async function () {
-      // when
-      await sessionController.createSession(request, hFake, { sessionSerializer: sessionSerializerStub });
-
-      // then
-      expect(usecases.createSession).to.have.been.calledWithExactly({ userId, session: expectedSession });
-    });
-
-    it('should return the created session in JSON API', async function () {
-      // given
-      const jsonApiSession = {
-        data: {
-          type: 'sessions',
-          id: 12,
-          attributes: {},
-        },
-      };
-      const savedSession = new SessionEnrolment({
-        id: '12',
-        certificationCenter: 'Université de dressage de loutres',
-      });
-
-      usecases.createSession.resolves(savedSession);
-      sessionSerializerStub.serialize.returns(jsonApiSession);
+      sinon.stub(usecases, 'createSession');
+      const sessionSerializer = { serialize: sinon.stub() };
+      const sessionRepository = { get: sinon.stub() };
+      usecases.createSession
+        .withArgs({
+          userId: 1,
+          certificationCenterId: 345,
+          address: '1 rue des lauriers',
+          room: '2B',
+          date: '2021-01-01',
+          time: '14:00',
+          examiner: 'Louise',
+          description: 'coucou',
+        })
+        .resolves(123);
+      const createdSession = Symbol('createdSession');
+      sessionRepository.get.withArgs({ id: 123 }).resolves(createdSession);
+      sessionSerializer.serialize.withArgs(createdSession).returns('json');
 
       // when
-      const response = await sessionController.createSession(request, hFake, {
-        sessionSerializer: sessionSerializerStub,
-      });
+      const response = await sessionController.createSession(request, hFake, { sessionSerializer, sessionRepository });
 
       // then
-      expect(response).to.deep.equal(jsonApiSession);
-      expect(sessionSerializerStub.serialize).to.have.been.calledWithExactly(savedSession);
+      expect(response).to.equal('json');
     });
   });
 
   describe('#update', function () {
-    let request, updatedSession;
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId: 1 } },
-        params: { sessionId: 345 },
-        payload: {},
-      };
-
-      updatedSession = {
-        id: request.params.sessionId,
-      };
-
-      sinon.stub(usecases, 'updateSession');
-    });
-
     it('should return the updated session', async function () {
       // given
-      const sessionSerializer = { serialize: sinon.stub(), deserialize: sinon.stub() };
-      sessionSerializer.deserialize.withArgs(request.payload).returns({});
+      const request = {
+        auth: { credentials: { userId: 1 } },
+        params: { sessionId: 345 },
+        payload: {
+          data: {
+            attributes: {
+              address: '1 rue des lauriers',
+              room: '2B',
+              date: '2021-01-01',
+              time: '14:00',
+              examiner: 'Louise',
+              description: 'coucou',
+            },
+          },
+        },
+      };
+      sinon.stub(usecases, 'updateSession');
+      const sessionSerializer = { serialize: sinon.stub() };
+      const updatedSession = Symbol('updatedSession');
       usecases.updateSession
-        .withArgs({ userId: request.auth.credentials.userId, session: updatedSession })
+        .withArgs({
+          address: '1 rue des lauriers',
+          room: '2B',
+          date: '2021-01-01',
+          time: '14:00',
+          examiner: 'Louise',
+          description: 'coucou',
+          sessionId: 345,
+        })
         .resolves(updatedSession);
-      sessionSerializer.serialize.withArgs(updatedSession).returns(updatedSession);
+      sessionSerializer.serialize.withArgs(updatedSession).returns('json');
 
       // when
       const response = await sessionController.update(request, hFake, { sessionSerializer });
 
       // then
-      expect(response).to.deep.equal(updatedSession);
+      expect(response).to.equal('json');
     });
   });
 
@@ -152,37 +122,42 @@ describe('Certification | Enrolment | Unit | Application | Controller | session-
   });
 
   describe('#get', function () {
-    const sessionId = 123;
-    let request;
-    const userId = 274939274;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'getSession');
-
-      request = {
-        auth: { credentials: { userId } },
-        params: {
-          sessionId,
-        },
+    it('should return the session', async function () {
+      // given
+      const request = {
+        auth: { credentials: { userId: 1 } },
+        params: { sessionId: 345 },
       };
+      const sessionSerializer = { serialize: sinon.stub() };
+      const sessionRepository = { get: sinon.stub() };
+      const session = Symbol('session');
+      sessionRepository.get.withArgs({ id: 345 }).resolves(session);
+      sessionSerializer.serialize.withArgs(session).returns('json');
+
+      // when
+      const response = await sessionController.get(request, hFake, { sessionSerializer, sessionRepository });
+
+      // then
+      expect(response).to.equal('json');
     });
 
-    context('when session exists', function () {
-      it('should reply serialized session informations', async function () {
+    context('when the session does not exist', function () {
+      it('should return a 404 response', async function () {
         // given
+        const request = {
+          auth: { credentials: { userId: 1 } },
+          params: { sessionId: 345 },
+        };
         const sessionSerializer = { serialize: sinon.stub() };
-        const foundSession = Symbol('foundSession');
-        const serializedSession = Symbol('serializedSession');
-        usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession });
-        sessionSerializer.serialize.withArgs({ session: foundSession }).returns(serializedSession);
+        const sessionRepository = { get: sinon.stub() };
+        sessionRepository.get.withArgs({ id: 345 }).resolves(null);
 
         // when
-        const response = await sessionController.get(request, hFake, {
-          sessionSerializer,
-        });
+        const response = await sessionController.get(request, hFake, { sessionSerializer, sessionRepository });
 
         // then
-        expect(response).to.deep.equal(serializedSession);
+        expect(response.statusCode).to.equal(404);
+        expect(sessionSerializer.serialize).to.not.have.been.called;
       });
     });
   });

@@ -74,7 +74,7 @@ export default class ToggableLoginForm extends Component {
 
     if (this.args.isWithInvitation) {
       try {
-        await this.args.certificationCenterInvitation.accept({
+        await this.store.adapterFor('certification-center-invitation').accept({
           id: this.args.certificationCenterInvitationId,
           code: this.args.certificationCenterInvitationCode,
           email,

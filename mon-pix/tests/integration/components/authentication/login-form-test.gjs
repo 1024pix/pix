@@ -109,8 +109,9 @@ module('Integration | Component | Authentication | LoginForm', function (hooks) 
       await clickByName(t(I18N_KEYS.submitButton));
 
       // then
-      assert.ok(storeService.createRecord.calledWith('reset-expired-password-demand', { passwordResetToken }));
-      assert.ok(routerService.replaceWith.calledWith('update-expired-password'));
+      assert.ok(
+        routerService.replaceWith.calledWith('update-expired-password', { queryParams: { passwordResetToken } }),
+      );
     });
 
     test('it displays error message for a user with a temporary blocked account', async function (assert) {

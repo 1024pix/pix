@@ -7,6 +7,7 @@ export default class NewRoute extends Route {
   @service intl;
   @service router;
   @service store;
+  @service featureToggles;
 
   queryParams = {
     source: { refreshModel: true },
@@ -22,8 +23,14 @@ export default class NewRoute extends Route {
 
   async model(params) {
     const organization = this.currentUser.organization;
-    await organization.targetProfiles;
-    await organization.combinedCourseBlueprints;
+    let combinedCourseBlueprints;
+
+    const targetProfiles = (await organization.targetProfiles) ?? undefined;
+
+    if (!this.featureToggles.featureToggles.displayCatalogue) {
+      combinedCourseBlueprints = (await organization.combinedCourseBlueprints) ?? undefined;
+    }
+
     const membersSortedByFullName = await this.store.findAll('member-identity', {
       adapterOptions: { organizationId: organization.id },
     });
@@ -32,7 +39,6 @@ export default class NewRoute extends Route {
     if (params?.source) {
       try {
         const from = await this.store.findRecord('campaign', params.source);
-
         campaignAttributes = pick(from, [
           'type',
           'title',
@@ -44,10 +50,10 @@ export default class NewRoute extends Route {
           'externalIdType',
           'customLandingPageText',
         ]);
-
         campaignAttributes.name = `${this.intl.t('pages.campaign-creation.copy-of')} ${from.name}`;
         if (campaignAttributes.targetProfileId) {
-          campaignAttributes.targetProfile = this.store.peekRecord(
+          params.courseId = campaignAttributes.targetProfileId;
+          campaignAttributes.targetProfile = await this.store.peekRecord(
             'target-profile',
             campaignAttributes.targetProfileId,
           );
@@ -63,8 +69,26 @@ export default class NewRoute extends Route {
       ...(campaignAttributes ?? campaignAttributes),
     });
 
-    const targetProfiles = (await organization.targetProfiles) ?? undefined;
-    const combinedCourseBlueprints = (await organization.combinedCourseBlueprints) ?? undefined;
+    if (this.featureToggles.featureToggles?.displayCatalogue) {
+      const courses = await this.store.findAll('course', {
+        backgroundReload: false,
+        adapterOptions: { organizationId: organization.id },
+      });
+      if (params?.courseId) {
+        campaign.course = courses.find(({ id }) => id === params.courseId);
+
+        if (campaign.course.type === 'targetProfile') {
+          campaign.setType('ASSESSMENT');
+        }
+        if (campaign.course.type === 'blueprint') {
+          campaign.setType('COMBINED_COURSE');
+        }
+      }
+
+      const hasBlueprints = courses.some((course) => course.type === 'blueprint');
+
+      return { campaign, membersSortedByFullName, hasBlueprints };
+    }
 
     return { campaign, membersSortedByFullName, targetProfiles, combinedCourseBlueprints };
   }
@@ -72,6 +96,7 @@ export default class NewRoute extends Route {
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.set('source', null);
+      controller.set('courseId', null);
     }
   }
 }

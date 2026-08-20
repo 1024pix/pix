@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { createPageQuerySchema } from '../../shared/application/query-schema/pagination-query-schema.js';
 import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { responseObjectErrorDoc } from '../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
 import { getOrganizationCampaigns, getOrganizations } from './organizations-controller.js';
@@ -48,15 +49,10 @@ const register = async function (server) {
             organizationId: identifiersType.organizationId,
           }),
           query: Joi.object({
-            page: Joi.object({
-              size: Joi.number().default(1000),
-              number: Joi.number().default(1),
-            })
-              .default({
-                size: 1000,
-                number: 1,
-              })
-              .description('Informations de pagination'),
+            page: createPageQuerySchema({
+              maxSize: 1000,
+              defaultValue: { number: 1, size: 1000 },
+            }),
           }),
         },
         pre: [organizationPreHandler, isOrganizationInJurisdictionPreHandler],

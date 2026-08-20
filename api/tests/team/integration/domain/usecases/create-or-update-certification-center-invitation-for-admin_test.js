@@ -14,18 +14,13 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Team | UseCase | create-or-update-certification-center-invitation-for-admin', function () {
-  let clock;
   const now = new Date('2022-09-25');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
+    sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
     sinon
       .stub(mailService, 'sendCertificationCenterInvitationEmail')
       .resolves(EmailingAttempt.success('stub@example.net'));
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   it('creates a new invitation if there isn’t an already pending existing one with given email', async function () {

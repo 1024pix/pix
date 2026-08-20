@@ -19,10 +19,6 @@ module('Integration | Component | download-session-results', function (hooks) {
     sinon.stub(fileSaver, 'save');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   test('should display component', async function (assert) {
     // given
     // when

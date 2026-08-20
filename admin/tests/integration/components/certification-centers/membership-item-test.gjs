@@ -18,10 +18,6 @@ module('Integration | Component |  certification-centers/membership-item', funct
     intl = this.owner.lookup('service:intl');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('displays a certification center membership table row item', function () {
     test('with last access date if exists', async function (assert) {
       // given

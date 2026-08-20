@@ -33,7 +33,6 @@ import { getCandidateTimeline } from './get-candidate-timeline.js';
 import { getCenter } from './get-center.js';
 import { getEnrolledCandidatesInSession } from './get-enrolled-candidates-in-session.js';
 import { getMassImportTemplateInformation } from './get-mass-import-template-information.js';
-import { getSession } from './get-session.js';
 import { getUserCertificationEligibility } from './get-user-certification-eligibility.js';
 import { hasBeenCandidate } from './has-been-candidate.js';
 import { importCertificationCandidatesFromCandidatesImportSheet } from './import-certification-candidates-from-candidates-import-sheet.js';
@@ -133,7 +132,6 @@ const usecasesWithoutInjectedDependencies = {
   getCenter,
   getEnrolledCandidatesInSession,
   getMassImportTemplateInformation,
-  getSession,
   getUserCertificationEligibility,
   hasBeenCandidate,
   importCertificationCandidatesFromCandidatesImportSheet,

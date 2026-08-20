@@ -7,15 +7,10 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Certification | Session Management | Integration | Application | Api | Session', function () {
   describe('#onCertificationStartedOrResumed', function () {
-    let clock;
     const now = new Date('2022-11-28T01:00:00Z');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('returns without altering any sessions when no session found for provided session id and without unauthorizing', async function () {

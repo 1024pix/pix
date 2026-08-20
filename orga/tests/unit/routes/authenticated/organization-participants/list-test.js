@@ -33,9 +33,6 @@ module('Unit | Route | authenticated/organization-participants/list', function (
     pageNumber: pageNumberSymbol,
     pageSize: pageSizeSymbol,
   };
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/organization-participants/list');
     store = this.owner.lookup('service:store');

@@ -61,6 +61,8 @@ class OrganizationForAdmin {
     networkName,
     networkHeadOrganizationId,
     networkHeadOrganizationName,
+    categoryLabel,
+    categoryId,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -162,7 +164,8 @@ class OrganizationForAdmin {
     } else {
       this.network = undefined;
     }
-
+    this.categoryLabel = categoryLabel;
+    this.categoryId = categoryId;
     this.#validate();
   }
 

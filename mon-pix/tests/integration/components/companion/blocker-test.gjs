@@ -12,10 +12,6 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Companion | blocker', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   test('it display children elements when extension is detected', async function (assert) {
     // given
     class PixCompanionStub extends Service {

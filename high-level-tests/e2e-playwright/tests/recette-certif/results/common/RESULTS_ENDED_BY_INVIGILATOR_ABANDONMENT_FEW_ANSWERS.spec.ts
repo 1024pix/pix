@@ -110,7 +110,7 @@ test(
         expect(certificationDetails.nbQuestionsAband).toBe(0);
         expect(certificationDetails.nbValidatedTechnicalIssues).toBe(0);
         expect(certificationDetails.testEndedBy).toBe('Le surveillant');
-        expect(certificationDetails.abortReason).toBe('Abandon : Manque de temps ou départ prématuré');
+        expect(certificationDetails.abortReason).toBe('Test non finalisé dans le délai imparti');
         snapshotHandler.push('adminCertificationDetails_result', certificationDetails.result ?? null);
         snapshotHandler.push('adminCertificationDetails_status', certificationDetails.status ?? null);
       });

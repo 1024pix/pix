@@ -1,4 +1,3 @@
-import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { toScope } from '../../../shared/domain/models/Frameworks.js';
 import * as versionRepository from '../../infrastructure/repositories/version-repository.js';
 import { Version } from './models/Version.js';
@@ -31,15 +30,7 @@ export async function getByFrameworkAndDate({ framework, date }) {
  * @returns {Promise<Version|null>}
  */
 export async function getById({ id }) {
-  let foundVersion;
-  try {
-    foundVersion = await versionRepository.getById({ id });
-  } catch (err) {
-    if (err instanceof NotFoundError) {
-      return null;
-    }
-    throw err;
-  }
-
+  const foundVersion = await versionRepository.getById({ id });
+  if (!foundVersion) return null;
   return new Version(foundVersion);
 }

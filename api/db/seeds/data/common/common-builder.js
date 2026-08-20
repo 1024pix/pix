@@ -6,6 +6,9 @@ import {
   ORGANIZATION_LEARNER_TYPE_PROFESSIONAL_ID,
   ORGANIZATION_LEARNER_TYPE_STUDENT_ID,
   ORGANIZATION_LEARNER_TYPE_TEACHER_ID,
+  STRUCTURE_CATEGORY_PRO_ID,
+  STRUCTURE_CATEGORY_SCO_ID,
+  STRUCTURE_CATEGORY_SUP_ID,
 } from '../team-acquisition/constants.js';
 import {
   COLLEGE_TAG,
@@ -39,6 +42,9 @@ export const commonBuilder = async function ({ databaseBuilder }) {
 
   // administration teams
   _createAdministrationTeams(databaseBuilder);
+
+  // structure categories
+  _createStructureCategories(databaseBuilder);
 
   // organization learner types
   _createOrganizationLearnerTypes(databaseBuilder);
@@ -79,6 +85,21 @@ function _createAdministrationSoloTeam(databaseBuilder) {
   databaseBuilder.factory.buildAdministrationTeam({
     id: ADMINISTRATION_TEAM_SOLO_ID,
     name: 'Team Solo',
+  });
+}
+
+function _createStructureCategories(databaseBuilder) {
+  databaseBuilder.factory.buildStructureCategory({
+    id: STRUCTURE_CATEGORY_SCO_ID,
+    label: 'Structure - Catégorie - SCO',
+  });
+  databaseBuilder.factory.buildStructureCategory({
+    id: STRUCTURE_CATEGORY_SUP_ID,
+    label: 'Structure - Catégorie - supérieur',
+  });
+  databaseBuilder.factory.buildStructureCategory({
+    id: STRUCTURE_CATEGORY_PRO_ID,
+    label: 'Structure - Catégorie - professionnelle',
   });
 }
 

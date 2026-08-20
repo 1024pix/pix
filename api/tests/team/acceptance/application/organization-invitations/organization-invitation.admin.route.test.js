@@ -1,8 +1,8 @@
-import { createServer } from '../../../../../server.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Team | Route | Admin | organization-invitation', function () {
@@ -10,7 +10,7 @@ describe('Acceptance | Team | Route | Admin | organization-invitation', function
     context('Expected output', function () {
       it('returns the matching organization-invitations as JSON API', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         databaseBuilder.factory.buildOrganizationInvitation({
@@ -34,7 +34,7 @@ describe('Acceptance | Team | Route | Admin | organization-invitation', function
     context('Resource access management', function () {
       it('responds with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
 
@@ -51,7 +51,7 @@ describe('Acceptance | Team | Route | Admin | organization-invitation', function
 
       it('responds with a 403 - forbidden access - if user is not ADMIN in organization', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
         const nonSuperAdminUserId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
@@ -72,7 +72,7 @@ describe('Acceptance | Team | Route | Admin | organization-invitation', function
   describe('DELETE /api/admin/organizations/{organizationId}/invitations/{invitationId}', function () {
     it('returns 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const organization = databaseBuilder.factory.buildOrganization();
@@ -100,7 +100,7 @@ describe('Acceptance | Team | Route | Admin | organization-invitation', function
   describe('POST /api/admin/organizations/{id}/invitations', function () {
     it('should return 201 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const organization = databaseBuilder.factory.buildOrganization();

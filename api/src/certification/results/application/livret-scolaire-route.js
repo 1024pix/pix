@@ -5,7 +5,7 @@ import { responseObjectErrorDoc } from '../../../shared/infrastructure/open-api-
 import { certificationsResultsDoc } from '../infrastructure/open-api-doc/livret-scolaire/certifications-results-doc.js';
 import { livretScolaireController } from './livret-scolaire-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -44,6 +44,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const livretScolaireRoute = { name: 'certification/results/livret-scolaire-api', register };

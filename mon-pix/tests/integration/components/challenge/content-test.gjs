@@ -47,10 +47,6 @@ module('Integration | Component | Challenge | Content', function (hooks) {
       );
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     module('on challenge skip', function () {
       test('should disable the live alert button', async function (assert) {
         // then

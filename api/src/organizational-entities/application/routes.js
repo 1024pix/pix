@@ -3,6 +3,7 @@ import { certificationCenterAdminRoute } from './certification-center/certificat
 import { networkAdminRoute } from './network/network.admin.route.js';
 import { organizationAdminRoute } from './organization/organization.admin.route.js';
 import { organizationLearnerTypeAdminRoute } from './organization-learner-type/organization-learner-type.admin.route.js';
+import { structureCategoryAdminRoute } from './structure-category/structure-category.admin.route.js';
 import { tagAdminRoute } from './tag/tag.admin.route.js';
 
 const organizationalEntitiesRoutes = [
@@ -11,6 +12,7 @@ const organizationalEntitiesRoutes = [
   networkAdminRoute,
   administrationTeamAdminRoute,
   organizationLearnerTypeAdminRoute,
+  structureCategoryAdminRoute,
   tagAdminRoute,
 ];
 

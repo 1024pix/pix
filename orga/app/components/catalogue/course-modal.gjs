@@ -3,12 +3,15 @@ import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixOverlay from '@1024pix/pix-ui/components/pix-overlay';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { hash } from '@ember/helper';
+import { on } from '@ember/modifier';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { recordIdentifierFor } from '@warp-drive/core';
 import { t } from 'ember-intl';
 import { gt } from 'ember-truth-helpers';
 import SafeMarkdownToHtml from 'pix-orga/components/safe-markdown-to-html';
+import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
 
 import Badges from '../campaign/badges';
 import { COMBINED_COURSE_BLUEPRINT_OVERVIEW, getCourseInfo, TARGET_PROFILE_OVERVIEW } from './course-card.gjs';
@@ -17,6 +20,7 @@ import TargetProfileContent from './course-modal/target-profile-content.gjs';
 
 export default class CourseModal extends Component {
   @service currentUser;
+  @service pixMetrics;
 
   id = crypto.randomUUID();
 
@@ -44,7 +48,7 @@ export default class CourseModal extends Component {
     if (this.hasReachedPlacesLimit) {
       return null;
     }
-    return 'authenticated.campaigns.new-catalogue';
+    return 'authenticated.campaigns.new';
   }
 
   get courseLevelLabel() {
@@ -65,6 +69,11 @@ export default class CourseModal extends Component {
     return '';
   }
 
+  @action
+  trackCourseSelection() {
+    this.pixMetrics.trackEvent(EVENT_NAME.CATALOGUE.COURSE_SELECTION_CLICK);
+  }
+
   <template>
     <PixOverlay
       @isVisible={{@isModalOpen}}
@@ -79,45 +88,33 @@ export default class CourseModal extends Component {
         aria-describedby="modal-content--{{this.id}}"
         aria-modal="true"
       >
-        <div class="course-modal__course-content">
-          {{#if this.isTargetProfile}}
-            <TargetProfileContent @currentCourse={{@currentCourse}} />
-          {{else if this.isCombinedCourseBlueprint}}
-            <CombinedCourseBlueprintContent @combinedCourseBlueprint={{@currentCourse}} />
-          {{/if}}
-        </div>
         <div class="course-modal__course-details">
-          <div class="course-modal__header">
-            <PixButton
-              @variant="tertiary"
-              @triggerAction={{@closeModal}}
-              @size="small"
-              @iconAfter="close"
-              class="course-modal__exit"
-            >
-              {{t "common.actions.exit"}}
-            </PixButton>
-          </div>
-          <div class="course-modal__body">
-            <div class="pix-card__image pix-card__image--orga">
-              <img src={{this.courseInfo.image}} aria-hidden="true" alt={{@currentCourse.type}} />
-            </div>
-            <PixTag @color={{this.courseInfo.color}} class="course-card__tag">
+          <div class="course-modal__heading">
+            <PixTag @color={{this.courseInfo.color}}>
               {{t this.courseInfo.label}}
             </PixTag>
-            <h1 id="modal-title--{{this.id}}" class="course-modal__body__name">{{@currentCourse.name}}</h1>
+            <h1 id="modal-title--{{this.id}}" class="course-modal__heading__name">
+              {{@currentCourse.name}}
+            </h1>
+          </div>
+
+          <div class="course-modal__body">
             <SafeMarkdownToHtml
               id="modal-content--{{this.id}}"
               class="course-modal__body__description"
               @markdown={{this.courseDescription}}
             />
+          </div>
 
+          <div class="course-modal__footer">
             {{#if (gt @currentCourse.badges.length 0)}}
-              <h2 class="course-modal__body__badges-title">
-                {{t "pages.catalogue.modal.associated-badges"}}
-              </h2>
-              <div class="course-modal__body__badges">
-                <Badges @badges={{@currentCourse.badges}} @hideBadgesAcquisition={{true}} />
+              <div class="course-modal__badges">
+                <h2 class="course-modal__badges__title">
+                  {{t "pages.catalogue.modal.associated-badges"}}
+                </h2>
+                <div class="course-modal__badges__container">
+                  <Badges @badges={{@currentCourse.badges}} @hideBadgesAcquisition={{true}} />
+                </div>
               </div>
             {{/if}}
 
@@ -126,12 +123,12 @@ export default class CourseModal extends Component {
               @query={{hash courseId=@currentCourse.id}}
               @isDisabled={{this.hasReachedPlacesLimit}}
               @size="small"
-              class="course-modal__body__form-link"
+              class="course-modal__form-link"
+              {{on "click" this.trackCourseSelection}}
             >
               {{t "pages.catalogue.modal.select-course"}}
             </PixButtonLink>
-          </div>
-          <div class="course-modal__footer">
+
             {{#if this.isTargetProfile}}
               <p class="course-modal__footer__text">
                 {{t this.courseLevelLabel}}
@@ -142,6 +139,36 @@ export default class CourseModal extends Component {
                   {{t "common.target-profile-details.simplified-access.with-account"}}
                 {{/if}}
               </p>
+            {{/if}}
+          </div>
+        </div>
+        <div class="course-modal__course-content__wrapper">
+          <div class="course-modal__course-content__title">
+            {{#if this.isTargetProfile}}
+              <h3 class="pix-title-xs">
+                {{t "pages.catalogue.modal.target-profile-content.title"}}
+              </h3>
+            {{else if this.isCombinedCourseBlueprint}}
+              <h3 class="pix-title-xs">
+                {{t "pages.catalogue.modal.combined-course-content.title"}}
+              </h3>
+            {{/if}}
+
+            <PixButton
+              @variant="secondary"
+              @triggerAction={{@closeModal}}
+              @size="small"
+              @iconAfter="close"
+              class="course-modal__top-actions__exit"
+            >
+              {{t "common.actions.exit"}}
+            </PixButton>
+          </div>
+          <div class="course-modal__course-content">
+            {{#if this.isTargetProfile}}
+              <TargetProfileContent @currentCourse={{@currentCourse}} />
+            {{else if this.isCombinedCourseBlueprint}}
+              <CombinedCourseBlueprintContent @combinedCourseBlueprint={{@currentCourse}} />
             {{/if}}
           </div>
         </div>

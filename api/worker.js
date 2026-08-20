@@ -1,11 +1,9 @@
-import { databaseConnections } from './db/database-connections.js';
+import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { checkJobGroups, JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config, schema as configSchema } from './src/shared/config.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
-import { quitAllStorages } from './src/shared/infrastructure/key-value-storages/index.js';
 import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metrics.js';
-import { quitMutex } from './src/shared/infrastructure/mutex/RedisMutex.js';
-import { close as closePubsub } from './src/shared/infrastructure/pubsub.js';
+import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
 import { child } from './src/shared/infrastructure/utils/logger.js';
 import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
 
@@ -24,6 +22,9 @@ async function main() {
   const jobGroups = [jobGroup];
   checkJobGroups(jobGroups);
 
+  const requiredDatabases = jobGroup === JobGroup.MADDO ? ['api', 'datamart', 'datawarehouse'] : ['api'];
+  await databaseConnectionRegistry.initialize(requiredDatabases);
+
   await JobClient.instance.initialize({ worker: true, jobGroups });
 
   process.on('SIGTERM', async () => {
@@ -39,12 +40,8 @@ async function exitOnSignal(signal) {
   isShuttingDown = true;
 
   logger.info(`Received signal: ${signal}.`);
-  await JobClient.instance.stop();
-  await databaseConnections.disconnect();
   await metrics.clearMetrics();
-  await closePubsub();
-  await quitAllStorages();
-  await quitMutex();
+  await releaseInfrastructure();
 }
 
 if (isRunningFromCli) {

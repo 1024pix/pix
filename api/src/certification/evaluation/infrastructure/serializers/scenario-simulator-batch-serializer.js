@@ -29,10 +29,12 @@ function serialize(scenarioSimulator = {}) {
 
 export const scenarioSimulatorBatchSerializer = { serialize };
 
-const _transformSimulationReport = (answer) => ({
-  ...answer,
-  challengeId: answer.challenge.id,
-  minimumCapability: answer.challenge.minimumCapability,
-  difficulty: answer.challenge.difficulty,
-  discriminant: answer.challenge.discriminant,
-});
+function _transformSimulationReport(answer) {
+  return {
+    ...answer,
+    challengeId: answer.challenge.id,
+    minimumCapability: answer.challenge.minimumCapability,
+    difficulty: answer.challenge.difficulty,
+    discriminant: answer.challenge.discriminant,
+  };
+}

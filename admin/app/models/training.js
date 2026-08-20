@@ -71,4 +71,8 @@ export default class Training extends Model {
   get sortedTargetProfileSummaries() {
     return sortBy(this.hasMany('targetProfileSummaries').value(), 'id');
   }
+
+  get isUsedForRecommendationEngine() {
+    return this.deliveryMode || this.objectives || this.description || this.program;
+  }
 }

@@ -7,19 +7,11 @@ import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Application | scoringAndCapacitySimulatorController', function () {
   describe('#simulateScoringOrCapacity', function () {
-    let clock;
     let now;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({
-        now: new Date(),
-        toFake: ['Date'],
-      });
-      now = new Date(clock.now);
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      now = new Date();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     describe('when given a capacity', function () {

@@ -2,13 +2,14 @@ import { createServer } from '../../../../server.js';
 import { createMaddoServer } from '../../../../server.maddo.js';
 import { config } from '../../../../src/shared/config.js';
 import { expect } from '../../../test-helper.js';
+import { getMaddoServer, getServer } from '../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Controller | Open Api', function () {
   let server;
 
   context('Internal API definitons', function () {
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
     });
 
     context('Pix API', function () {
@@ -31,8 +32,15 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation pages', function () {
+        let startedServer;
+
         beforeEach(async function () {
-          await server.start();
+          startedServer = await createServer();
+          await startedServer.start();
+        });
+
+        afterEach(async function () {
+          await startedServer.stop();
         });
 
         describe('GET /api/documentation', function () {
@@ -44,7 +52,7 @@ describe('Acceptance | Controller | Open Api', function () {
             };
 
             // when
-            const response = await server.inject(options);
+            const response = await startedServer.inject(options);
 
             // then
             expect(response.statusCode).to.equal(200);
@@ -73,8 +81,15 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation pages', function () {
+        let startedServer;
+
         beforeEach(async function () {
-          await server.start();
+          startedServer = await createServer();
+          await startedServer.start();
+        });
+
+        afterEach(async function () {
+          await startedServer.stop();
         });
 
         describe('GET /livret-scolaire/documentation', function () {
@@ -86,7 +101,7 @@ describe('Acceptance | Controller | Open Api', function () {
             };
 
             // when
-            const response = await server.inject(options);
+            const response = await startedServer.inject(options);
 
             // then
             expect(response.statusCode).to.equal(200);
@@ -115,8 +130,15 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation page', function () {
+        let startedServer;
+
         beforeEach(async function () {
-          await server.start();
+          startedServer = await createServer();
+          await startedServer.start();
+        });
+
+        afterEach(async function () {
+          await startedServer.stop();
         });
 
         describe('GET /pole-emploi/documentation', function () {
@@ -128,7 +150,7 @@ describe('Acceptance | Controller | Open Api', function () {
             };
 
             // when
-            const response = await server.inject(options);
+            const response = await startedServer.inject(options);
 
             // then
             expect(response.statusCode).to.equal(200);
@@ -157,8 +179,15 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation page', function () {
+        let startedServer;
+
         beforeEach(async function () {
-          await server.start();
+          startedServer = await createServer();
+          await startedServer.start();
+        });
+
+        afterEach(async function () {
+          await startedServer.stop();
         });
 
         describe('GET /authorization-server/documentation', function () {
@@ -170,7 +199,7 @@ describe('Acceptance | Controller | Open Api', function () {
             };
 
             // when
-            const response = await server.inject(options);
+            const response = await startedServer.inject(options);
 
             // then
             expect(response.statusCode).to.equal(200);
@@ -183,7 +212,7 @@ describe('Acceptance | Controller | Open Api', function () {
 
   context('API Manager definitions', function () {
     beforeEach(async function () {
-      server = await createMaddoServer();
+      server = await getMaddoServer();
     });
 
     context('Parcoursup', function () {
@@ -206,8 +235,15 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation page', function () {
+        let startedServer;
+
         beforeEach(async function () {
-          await server.start();
+          startedServer = await createMaddoServer();
+          await startedServer.start();
+        });
+
+        afterEach(async function () {
+          await startedServer.stop();
         });
 
         describe('GET /documentation/parcoursup', function () {
@@ -219,7 +255,7 @@ describe('Acceptance | Controller | Open Api', function () {
             };
 
             // when
-            const response = await server.inject(options);
+            const response = await startedServer.inject(options);
 
             // then
             expect(response.statusCode).to.equal(200);
@@ -249,8 +285,15 @@ describe('Acceptance | Controller | Open Api', function () {
       });
 
       context('Documentation page', function () {
+        let startedServer;
+
         beforeEach(async function () {
-          await server.start();
+          startedServer = await createMaddoServer();
+          await startedServer.start();
+        });
+
+        afterEach(async function () {
+          await startedServer.stop();
         });
 
         describe('GET /documentation/maddo', function () {
@@ -262,7 +305,7 @@ describe('Acceptance | Controller | Open Api', function () {
             };
 
             // when
-            const response = await server.inject(options);
+            const response = await startedServer.inject(options);
 
             // then
             expect(response.statusCode).to.equal(200);

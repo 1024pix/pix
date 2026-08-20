@@ -36,7 +36,7 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
   });
 
   module('for a "targetProfile" type course', function () {
-    test('it shows the "Parcours" type tag', async function (assert) {
+    test('it shows the "Parcours d\'évaluation" type tag', async function (assert) {
       const store = this.owner.lookup('service:store');
       const course = store.createRecord('course', { name: 'Ma formation', type: 'targetProfile', nbTubes: 3 });
 

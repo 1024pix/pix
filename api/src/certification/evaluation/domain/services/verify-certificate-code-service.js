@@ -17,7 +17,7 @@ function _generateCode() {
   return 'P-' + chars.slice(0, NB_CHAR).join('');
 }
 
-const generateCertificateVerificationCode = async function ({
+export async function generateCertificateVerificationCode({
   generateCode = _generateCode,
   dependencies = { certificationCourseRepository },
 } = {}) {
@@ -29,6 +29,4 @@ const generateCertificateVerificationCode = async function ({
     if (isCodeAvailable) return verificationCode;
   }
   throw new CertificateVerificationCodeGenerationTooManyTrials(NB_OF_TRIALS);
-};
-
-export { generateCertificateVerificationCode };
+}

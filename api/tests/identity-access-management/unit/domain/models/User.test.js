@@ -312,16 +312,36 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
     });
   });
 
+  describe('#hasSameEmailAs', function () {
+    it('returns true when email is the same', function () {
+      // given
+      const user = domainBuilder.buildUser({ email: 'test@example.com' });
+
+      // when
+      const result = user.hasSameEmailAs('TEST@example.com');
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('returns false when email is different', function () {
+      // given
+      const user = domainBuilder.buildUser({ email: 'test@example.com' });
+
+      // when
+      const result = user.hasSameEmailAs('test2@example.com');
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
   describe('#markEmailAsValid', function () {
-    let clock, now;
+    let now;
 
     beforeEach(function () {
       now = new Date('2024-06-11');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('marks user email as valid by setting a date on "emailConfirmedAt" attribute', function () {
@@ -406,15 +426,10 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
   });
 
   describe('#anonymize', function () {
-    let clock;
     const now = new Date('2023-09-19T01:02:03Z');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('anonymizes user info', function () {
@@ -447,15 +462,10 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
   });
 
   describe('#convertAnonymousToRealUser', function () {
-    let clock;
     const now = new Date('2023-09-19T01:02:03Z');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('upgrades anonymous user to real user', function () {

@@ -12,6 +12,7 @@ import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constan
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidatesError,
+  NotFoundError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
@@ -29,6 +30,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   let mailCheck;
   let normalizeStringFnc;
   let candidateToEnroll;
+  let sessionBuilder;
   let dependencies;
   const sessionId = 1;
   const cleaCertificationId = 123;
@@ -68,6 +70,10 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       ]),
     };
     mailCheck = { assertEmailDomainHasMx: sinon.stub() };
+    sessionBuilder = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .createdBy({ type: CERTIFICATION_CENTER_TYPES.PRO })
+      .withParameters({ id: sessionId });
 
     preventStubsToBeCalledUnexpectedly([
       sessionRepository.get,
@@ -97,8 +103,25 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
+  context('when session is not found', function () {
+    it('throws a NotFoundError', async function () {
+      // given
+      candidateToEnroll = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({ sessionId })
+        .build();
+      sessionAuthorizationAdapter.find.withArgs({ sessionId }).resolves(null);
+
+      // when
+      const error = await catchErr(addCandidateToSession)({
+        sessionId,
+        candidate: candidateToEnroll,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
+    });
   });
 
   context('when session cannot enrol any candidate', function () {
@@ -133,15 +156,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   });
 
   context('when session can accept new candidate to enroll', function () {
-    let session;
-
     beforeEach(function () {
-      session = domainBuilder.certification.enrolment.buildSession({
-        id: sessionId,
-        finalizedAt: null,
-        certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
-      });
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
       sessionAuthorizationAdapter.find
         .withArgs({ sessionId })
         .resolves(
@@ -152,6 +167,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     context('when candidate is not valid', function () {
       it('should throw a CertificationCandidatesError', async function () {
         // given
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionBuilder.build());
         candidateToEnroll = domainBuilder.certification.enrolment
           .candidateBuilder()
           .withParameters({
@@ -188,6 +204,14 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       context('when a candidate with the same personal info already enrolled in session', function () {
         it('should throw an CertificationCandidateByPersonalInfoTooManyMatchesError', async function () {
           // given
+          sessionBuilder.addCandidatesBuilders([
+            domainBuilder.certification.enrolment.candidateBuilder().withIdentity({
+              firstName: 'Les',
+              lastName: 'Fruits',
+              birthdate: '1990-01-04',
+            }),
+          ]);
+          sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionBuilder.build());
           candidateToEnroll = domainBuilder.certification.enrolment
             .candidateBuilder()
             .withIdentity({
@@ -199,16 +223,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
               ...candidateToEnroll,
             })
             .build();
-          candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
-            domainBuilder.certification.enrolment
-              .candidateBuilder()
-              .withIdentity({
-                firstName: 'Les',
-                lastName: 'Fruits',
-                birthdate: '1990-01-04',
-              })
-              .build(),
-          ]);
+
           // when
           const error = await catchErr(addCandidateToSession)({
             sessionId,
@@ -223,14 +238,14 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
 
       context('when no candidate is enrolled with the same personal info', function () {
         beforeEach(function () {
-          candidateRepository.findBySessionId
-            .withArgs({ sessionId })
-            .resolves([
-              domainBuilder.certification.enrolment
-                .candidateBuilder()
-                .withIdentity({ firstName: 'Tout autre chose' })
-                .build(),
-            ]);
+          sessionBuilder.addCandidatesBuilders([
+            domainBuilder.certification.enrolment.candidateBuilder().withIdentity({
+              firstName: 'Autre',
+              lastName: 'Légumes',
+              birthdate: '1992-02-03',
+            }),
+          ]);
+          sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionBuilder.build());
         });
 
         context('when birth information validation fails', function () {

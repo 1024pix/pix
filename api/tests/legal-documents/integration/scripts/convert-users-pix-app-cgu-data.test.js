@@ -41,18 +41,13 @@ describe('Integration | Legal documents | Scripts | convert-users-pix-app-cgu-da
   });
 
   describe('#handle', function () {
-    let clock;
     let legalDocumentVersion;
     let logger;
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now: new Date('2024-01-01'), toFake: ['Date'] });
+      sinon.useFakeTimers({ now: new Date('2024-01-01'), toFake: ['Date'] });
       legalDocumentVersion = databaseBuilder.factory.buildLegalDocumentVersion({ type: TOS, service: PIX_APP });
       logger = { info: sinon.stub() };
-    });
-
-    afterEach(async function () {
-      clock.restore();
     });
 
     it('converts Pix App user cgus to legal document user acceptances', async function () {

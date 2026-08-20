@@ -113,16 +113,13 @@ describe('Integration | Application | stage-collection-controller', function () 
       // then
       const currentStageCollection = await stageCollectionRepository.getByTargetProfileId(targetProfileId);
       const currentStages = currentStageCollection.toDTO();
-      const newStageIds = currentStageCollection.stages
-        .map(({ id }) => id)
-        .filter((value) => ![123, 456, 789].includes(value))
-        .sort();
+      const stageIdByTitle = (title) => currentStages.stages.find((stage) => stage.title === title)?.id;
 
       expect(currentStages.id).to.equal(targetProfileId);
       expect(currentStages.targetProfileId).to.equal(targetProfileId);
       expect(currentStages.stages).to.have.deep.members([
         {
-          id: newStageIds[0],
+          id: stageIdByTitle('Palier niveau 2 titre'),
           level: 2,
           threshold: null,
           isFirstSkill: false,
@@ -132,7 +129,7 @@ describe('Integration | Application | stage-collection-controller', function () 
           prescriberDescription: 'Palier niveau 2 description prescripteur',
         },
         {
-          id: newStageIds[1],
+          id: stageIdByTitle('Palier premier acquis titre'),
           level: null,
           threshold: null,
           isFirstSkill: true,

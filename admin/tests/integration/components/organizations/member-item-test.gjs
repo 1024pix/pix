@@ -20,10 +20,6 @@ module('Integration | Component | MemberItem', function (hooks) {
     currentUser.adminMember = { isSuperAdmin: true };
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   test('displays an organization member details', async function (assert) {
     // given
     const member = {

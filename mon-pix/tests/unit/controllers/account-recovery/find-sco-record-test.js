@@ -13,18 +13,14 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
         // given
         const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
         const studentInformation = { firstName: 'Jules' };
+        const service = this.owner.lookup('service:student-information');
         const submitStudentInformationStub = sinon.stub();
-        const createRecord = sinon
-          .stub()
-          .returns({ submitStudentInformation: submitStudentInformationStub.resolves() });
-        const store = { createRecord };
-        controller.set('store', store);
+        service.submitStudentInformation = submitStudentInformationStub.resolves();
 
         // when
         await controller.submitStudentInformation(studentInformation);
 
         // then
-        sinon.assert.calledWithExactly(createRecord, 'student-information', studentInformation);
         sinon.assert.calledOnce(submitStudentInformationStub);
         assert.ok(true);
       });
@@ -35,11 +31,8 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
           const errors = { errors: [{ status: '409' }] };
           const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
           const studentInformation = { firstName: 'Jules' };
-          const submitStudentInformationStub = sinon.stub().rejects(errors);
-          const store = {
-            createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }),
-          };
-          controller.set('store', store);
+          const service = this.owner.lookup('service:student-information');
+          service.submitStudentInformation = sinon.stub().rejects(errors);
 
           // when
           await controller.submitStudentInformation(studentInformation);
@@ -55,12 +48,8 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
           // given
           const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
           const studentInformation = { firstName: 'Jules' };
-          const submitStudentInformationStub = sinon.stub().resolves({});
-
-          const store = {
-            createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }),
-          };
-          controller.set('store', store);
+          const service = this.owner.lookup('service:student-information');
+          service.submitStudentInformation = sinon.stub().resolves({});
 
           // when
           await controller.submitStudentInformation(studentInformation);
@@ -78,6 +67,7 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
       test('should send account recovery email', async function (assert) {
         // given
         const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
+        const accountRecoveryDemandService = this.owner.lookup('service:account-recovery-demand');
         const studentInformationForAccountRecovery = {
           firstName: 'Philippe',
           lastName: 'Legoff',
@@ -85,10 +75,7 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
           ineIna: '123456789CC',
         };
         controller.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
-        const sendEmailStub = sinon.stub();
-        const createRecord = sinon.stub().returns({ send: sendEmailStub.resolves() });
-        const store = { createRecord };
-        controller.set('store', store);
+        accountRecoveryDemandService.send = sinon.stub().resolves();
         const email = 'new_email@example.net';
 
         // when
@@ -96,12 +83,7 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
 
         // then
         const expectedAccountRecoveryDemandAttributes = { ...studentInformationForAccountRecovery, email };
-        sinon.assert.calledWithExactly(
-          createRecord,
-          'account-recovery-demand',
-          expectedAccountRecoveryDemandAttributes,
-        );
-        sinon.assert.calledOnce(sendEmailStub);
+        sinon.assert.calledWithExactly(accountRecoveryDemandService.send, expectedAccountRecoveryDemandAttributes);
         assert.ok(true);
       });
     });

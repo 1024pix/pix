@@ -9,7 +9,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 /**
  * @param {object} params
  */
-const generate = ({ certificates, i18n, isFrenchDomainExtension }) => {
+export function generate({ certificates, i18n, isFrenchDomainExtension }) {
   const doc = new PDFDocument({
     size: 'A4',
   });
@@ -51,6 +51,4 @@ const generate = ({ certificates, i18n, isFrenchDomainExtension }) => {
   doc.end();
 
   return doc;
-};
-
-export { generate };
+}

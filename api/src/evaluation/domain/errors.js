@@ -19,6 +19,12 @@ class AcquiredBadgeForbiddenUpdateError extends DomainError {
   }
 }
 
+class AssessmentAlreadyEndedError extends DomainError {
+  constructor(message = "L'évaluation est terminée, il n'est plus possible d'y répondre.") {
+    super(message, 'ASSESSMENT_ENDED');
+  }
+}
+
 class AnswerEvaluationError extends DomainError {
   constructor(challenge) {
     super(`Problème lors de l'évaluation de la réponse du challenge: "${challenge.id}"`, '', challenge);
@@ -48,6 +54,7 @@ export {
   AcquiredBadgeForbiddenUpdateError,
   AlreadyRatedAssessmentError,
   AnswerEvaluationError,
+  AssessmentAlreadyEndedError,
   CertificationBadgeForbiddenDeletionError,
   CompetenceResetError,
   ImproveCompetenceEvaluationForbiddenError,

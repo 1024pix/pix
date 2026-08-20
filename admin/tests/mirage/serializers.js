@@ -4,6 +4,7 @@ import area from './serializers/area';
 import attachedCertificationCenter from './serializers/attached-certification-center';
 import autonomousCourseListItem from './serializers/autonomous-course-list-item';
 import badge from './serializers/badge';
+import calibrationReport from './serializers/calibration-report';
 import campaign from './serializers/campaign';
 import campaignParticipation from './serializers/campaign-participation';
 import certification from './serializers/certification';
@@ -39,6 +40,7 @@ export default {
   badge,
   campaign,
   campaignParticipation,
+  calibrationReport,
   certificationCandidate,
   certificationCenter,
   certificationCenterMembership,

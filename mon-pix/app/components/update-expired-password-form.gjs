@@ -96,6 +96,7 @@ export default class UpdateExpiredPasswordForm extends Component {
   @service session;
   @service url;
   @service errorMessages;
+  @service('reset-expired-password-demand') resetExpiredPasswordDemandService;
 
   @tracked validation = VALIDATION_MAP.default;
   @tracked newPassword = null;
@@ -139,9 +140,10 @@ export default class UpdateExpiredPasswordForm extends Component {
       this.validation = VALIDATION_MAP.default;
 
       try {
-        this.resetExpiredPasswordDemand.newPassword = this.newPassword;
-        const login = await this.resetExpiredPasswordDemand.updateExpiredPassword();
-        this.resetExpiredPasswordDemand.unloadRecord();
+        const login = await this.resetExpiredPasswordDemandService.updateExpiredPassword({
+          newPassword: this.newPassword,
+          passwordResetToken: this.passwordResetToken,
+        });
 
         try {
           await this.session.authenticateUser(login, this.newPassword);

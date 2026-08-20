@@ -4,7 +4,7 @@ import * as challengeRepository from '../../../shared/infrastructure/repositorie
 import { ChallengeToPlay } from '../../domain/models/ChallengeToPlay.js';
 
 export async function get(challengeId) {
-  const lcmsChallenge = await challengeRepository.get_proxy(challengeId);
+  const lcmsChallenge = await challengeRepository.getChallengeDto(challengeId);
   const { webComponentProps, webComponentTagName } = await loadWebComponentInfo(lcmsChallenge);
   return new ChallengeToPlay(lcmsChallenge, webComponentTagName, webComponentProps);
 }

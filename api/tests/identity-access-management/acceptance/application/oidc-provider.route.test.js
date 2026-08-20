@@ -2,13 +2,13 @@ import querystring from 'node:querystring';
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import { createServer } from '../../../../server.js';
 import { authenticationSessionService } from '../../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { AuthenticationSessionContent } from '../../../../src/shared/domain/models/AuthenticationSessionContent.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { createMockedTestOidcProviders } from '../../../tooling/mocks/openid-client.mock.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 const UUID_PATTERN = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
@@ -493,7 +493,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
     context('when user has no oidc authentication method', function () {
       it('returns 200 HTTP status', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
         databaseBuilder.factory.buildUser.withRawPassword({ email: 'eva.poree@example.net', rawPassword: 'pix123' });
         await databaseBuilder.commit();
 
@@ -910,6 +910,6 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
     ]);
 
     openidClientMock = openidClientMocks.at(0);
-    server = await createServer();
+    server = await getServer();
   }
 });

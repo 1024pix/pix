@@ -6,6 +6,7 @@ import { getForwardedOrigin, RequestedApplication } from '../../../shared/infras
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { scoOrganizationLearnerSerializer } from '../../learner-management/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
+import { studentInformationForAccountRecoverySerializer } from '../infrastructure/serializers/jsonapi/student-information-for-account-recovery.serializer.js';
 
 const createUserAndReconcileToOrganizationLearnerFromExternalUser = async function (
   request,
@@ -153,6 +154,34 @@ const unblockOrganizationLearnerAccount = async function (request, h) {
   return h.response().code(204);
 };
 
+async function checkScoAccountRecovery(request, h, dependencies = { studentInformationForAccountRecoverySerializer }) {
+  const studentInformation = await dependencies.studentInformationForAccountRecoverySerializer.deserialize(
+    request.payload,
+  );
+
+  const studentInformationForAccountRecovery = await usecases.checkScoAccountRecovery({
+    studentInformation,
+  });
+
+  return h.response(
+    dependencies.studentInformationForAccountRecoverySerializer.serialize(studentInformationForAccountRecovery),
+  );
+}
+
+const sendEmailForScoAccountRecovery = async function (
+  request,
+  h,
+  dependencies = { studentInformationForAccountRecoverySerializer },
+) {
+  const studentInformation = await dependencies.studentInformationForAccountRecoverySerializer.deserialize(
+    request.payload,
+  );
+
+  await usecases.sendEmailForAccountRecovery({ studentInformation });
+
+  return h.response().code(204);
+};
+
 const scoOrganizationLearnerController = {
   createUserAndReconcileToOrganizationLearnerFromExternalUser,
   createAndReconcileUserToOrganizationLearner,
@@ -161,6 +190,8 @@ const scoOrganizationLearnerController = {
   batchGenerateOrganizationLearnersUsernameWithTemporaryPassword,
   generateUsernameWithTemporaryPassword,
   generateUsername,
+  checkScoAccountRecovery,
+  sendEmailForScoAccountRecovery,
 };
 
 export { scoOrganizationLearnerController };

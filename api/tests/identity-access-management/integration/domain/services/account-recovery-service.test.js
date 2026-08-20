@@ -119,7 +119,7 @@ describe('Integration | Identity Access Management | Domain | Service | account-
     describe('when recovery demand has expired', function () {
       it('throws an error', async function () {
         // given
-        sinon.useFakeTimers({ now: new Date('2022-01-03') });
+        sinon.useFakeTimers({ now: new Date('2022-01-03'), toFake: ['Date'] });
         const user = databaseBuilder.factory.buildUser();
         const learner = databaseBuilder.factory.buildOrganizationLearner({ userId: user.id });
         const recoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({

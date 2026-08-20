@@ -85,9 +85,16 @@ export class CommonCertificationVersions {
           ],
           competencesScoringConfiguration: null,
         });
-        await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+        await seedVersionChallengesAndTubes({
+          databaseBuilder,
+          challengeIds,
+          versionId: currentVersion.id,
+        });
 
-        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
+        await this.#simulateCalibration({
+          databaseBuilder,
+          versionId: currentVersion.id,
+        });
         this.pixPlusDroitVersion.currentVersionId = currentVersion.id;
       }
     } catch (error) {
@@ -126,9 +133,16 @@ export class CommonCertificationVersions {
           competencesScoringConfiguration: null,
         });
 
-        await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+        await seedVersionChallengesAndTubes({
+          databaseBuilder,
+          challengeIds,
+          versionId: currentVersion.id,
+        });
 
-        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
+        await this.#simulateCalibration({
+          databaseBuilder,
+          versionId: currentVersion.id,
+        });
 
         this.pixPlusEdu1erDegreVersion.currentVersionId = currentVersion.id;
       }
@@ -167,9 +181,16 @@ export class CommonCertificationVersions {
           competencesScoringConfiguration: null,
         });
 
-        await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+        await seedVersionChallengesAndTubes({
+          databaseBuilder,
+          challengeIds,
+          versionId: currentVersion.id,
+        });
 
-        await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
+        await this.#simulateCalibration({
+          databaseBuilder,
+          versionId: currentVersion.id,
+        });
 
         this.pixPlusEdu2ndDegreVersion.currentVersionId = currentVersion.id;
       }
@@ -277,7 +298,11 @@ export class CommonCertificationVersions {
       globalScoringConfiguration: [{ bounds: { max: 8, min: 1 }, meshLevel: 0 }],
       competencesScoringConfiguration: null,
     });
-    await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: expiredVersion.id });
+    await seedVersionChallengesAndTubes({
+      databaseBuilder,
+      challengeIds,
+      versionId: expiredVersion.id,
+    });
 
     await databaseBuilder.commit();
 
@@ -324,9 +349,16 @@ export class CommonCertificationVersions {
       globalScoringConfiguration: GLOBAL_SCORING_CONFIGURATION,
       competencesScoringConfiguration,
     });
-    await seedVersionChallengesAndTubes({ databaseBuilder, challengeIds, versionId: currentVersion.id });
+    await seedVersionChallengesAndTubes({
+      databaseBuilder,
+      challengeIds,
+      versionId: currentVersion.id,
+    });
 
-    await this.#simulateCalibration({ databaseBuilder, versionId: currentVersion.id });
+    await this.#simulateCalibration({
+      databaseBuilder,
+      versionId: currentVersion.id,
+    });
 
     return currentVersion.id;
   }

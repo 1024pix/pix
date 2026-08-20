@@ -115,8 +115,8 @@ export default class LoginForm extends Component {
       const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
         const passwordResetToken = response.responseJSON.errors[0].meta;
-        this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
-        return this.router.replaceWith('update-expired-password');
+        this.router.replaceWith('update-expired-password', { queryParams: { passwordResetToken } });
+        return;
       }
       this._manageErrorsApi(response);
     }
@@ -135,8 +135,7 @@ export default class LoginForm extends Component {
       const shouldChangePassword = get(response, 'errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
         const passwordResetToken = response.errors[0].meta;
-        this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
-        this.router.replaceWith('update-expired-password');
+        this.router.replaceWith('update-expired-password', { queryParams: { passwordResetToken } });
         return;
       }
 

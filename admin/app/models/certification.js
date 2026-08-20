@@ -108,6 +108,10 @@ export default class Certification extends Model {
       }, []);
   }
 
+  get isV1() {
+    return this.version === 1;
+  }
+
   get isV3() {
     return this.version === 3;
   }

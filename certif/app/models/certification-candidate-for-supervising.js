@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr } from '@warp-drive/legacy/model';
 
 const assessmentStates = {
@@ -55,25 +54,4 @@ export default class CertificationCandidateForSupervising extends Model {
   get isEnrolledToDoubleCertification() {
     return this.subscription === 'CLEA';
   }
-
-  updateAuthorizedToStart = memberAction({
-    type: 'post',
-    urlType: 'updateAuthorizedToStart',
-    before(authorizedToStart) {
-      this.authorizedToStart = authorizedToStart;
-      return {
-        'authorized-to-start': authorizedToStart,
-      };
-    },
-  });
-
-  authorizeTestResume = memberAction({
-    type: 'post',
-    urlType: 'authorizeToResume',
-  });
-
-  endAssessmentByInvigilator = memberAction({
-    type: 'patch',
-    urlType: 'endAssessmentByInvigilator',
-  });
 }

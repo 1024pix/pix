@@ -20,8 +20,25 @@ const register = async function (server) {
           },
         ],
         validate: {
+          options: {
+            allowUnknown: true,
+          },
           params: Joi.object({
             certificationCenterId: identifiersType.certificationCenterId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                address: Joi.string().required(),
+                room: Joi.string().required(),
+                date: Joi.date().format('YYYY-MM-DD').required().empty(['', null]),
+                time: Joi.string()
+                  .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
+                  .required(),
+                examiner: Joi.string().required(),
+                description: Joi.string().optional().allow(null, ''),
+              },
+            },
           }),
         },
         handler: sessionController.createSession,
@@ -58,8 +75,25 @@ const register = async function (server) {
       path: '/api/sessions/{sessionId}',
       config: {
         validate: {
+          options: {
+            allowUnknown: true,
+          },
           params: Joi.object({
             sessionId: identifiersType.sessionId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                address: Joi.string().required(),
+                room: Joi.string().required(),
+                date: Joi.date().format('YYYY-MM-DD').required().empty(['', null]),
+                time: Joi.string()
+                  .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
+                  .required(),
+                examiner: Joi.string().required(),
+                description: Joi.string().optional().allow(null, ''),
+              },
+            },
           }),
         },
         pre: [
@@ -72,7 +106,7 @@ const register = async function (server) {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Modification d'une session de certification\n" +
-            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la session à modifier',
+            '- L‘utilisateur doit avoir les droits d‘accès au centre de certification lié à la session à modifier',
         ],
         tags: ['api', 'session'],
       },

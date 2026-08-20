@@ -1,16 +1,16 @@
-import { createServer } from '../../../../../server.js';
 import * as categories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Route | Get Organizations Places Statistics', function () {
   describe('GET /api/organizations/{id}/places-statistics', function () {
     it('should return statistics of organization places and http code 200', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const { userId, organizationId } = databaseBuilder.factory.buildMembership({
         organizationRole: Membership.roles.ADMIN,

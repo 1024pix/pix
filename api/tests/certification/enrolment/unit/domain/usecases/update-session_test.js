@@ -1,108 +1,86 @@
 import sinon from 'sinon';
 
 import { updateSession } from '../../../../../../src/certification/enrolment/domain/usecases/update-session.js';
-import { AlreadyExistingEntityError } from '../../../../../../src/shared/domain/errors.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | UseCase | update-session', function () {
-  let originalSession;
-  let sessionRepository;
-  let sessionValidator;
-
-  const certificationCenterId = 1;
-
-  beforeEach(function () {
-    sessionRepository = {
-      get: sinon.stub(),
-      update: sinon.stub(),
-      isSessionExistingByCertificationCenterId: sinon.stub(),
-    };
-    originalSession = domainBuilder.certification.enrolment.buildSession({
-      id: 1,
-      certificationCenter: 'Université de gastronomie Paul',
-      certificationCenterId: certificationCenterId,
-      address: 'Lyon',
-      room: '28D',
-      examiner: 'Joel R',
-      date: '2017-12-08',
-      time: '14:30',
-      description: 'miam',
-      accessCode: 'ABCD12',
-    });
-    sessionRepository.get.withArgs({ id: originalSession.id }).onCall(0).resolves(originalSession);
-    sessionRepository.update.resolves();
-    sessionRepository.isSessionExistingByCertificationCenterId.resolves(false);
-    sessionValidator = { validate: sinon.stub() };
-    sessionValidator.validate.withArgs(originalSession).returns();
-  });
-
-  context('when the updated session would be a duplicate of an existing session', function () {
-    it('should throw an AlreadyExistingEntityError', async function () {
+describe('Certification | Enrolment | Unit | UseCase | update-session', function () {
+  describe('when session does not exist', function () {
+    it('throws a NotFoundError', async function () {
       // given
-      const updatedSession = domainBuilder.certification.enrolment.buildSession({
-        id: 1,
-        certificationCenterId,
-        address: 'Lyon',
-        room: '28D',
-        date: '2017-12-08',
-        time: '10:00',
-      });
-      sessionValidator.validate.withArgs(updatedSession).returns();
-      sessionRepository.isSessionExistingByCertificationCenterId.resolves(true);
+      const sessionId = 345;
+      const sessionRepository = { get: sinon.stub() };
+      sessionRepository.get.withArgs({ id: sessionId }).resolves(null);
 
       // when
       const error = await catchErr(updateSession)({
-        session: updatedSession,
+        address: '1 rue des lauriers',
+        room: '2B',
+        date: '2021-01-01',
+        time: '14:00',
+        examiner: 'Louise',
+        description: 'coucou',
+        sessionId,
         sessionRepository,
-        sessionValidator,
       });
 
-      // then
-      expect(error).to.be.instanceOf(AlreadyExistingEntityError);
-      expect(sessionRepository.isSessionExistingByCertificationCenterId).to.have.been.calledWithExactly({
-        address: updatedSession.address,
-        room: updatedSession.room,
-        date: updatedSession.date,
-        time: updatedSession.time,
-        certificationCenterId,
-        excludeSessionId: updatedSession.id,
-      });
+      expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
     });
   });
 
-  context('when session exists', function () {
-    it('should update the session address only', async function () {
-      // given
-      const updatedSession = domainBuilder.certification.enrolment.buildSession({
-        id: 1,
-        certificationCenter: 'Pas la meme donnée mais je dois être ignorée',
-        certificationCenterId: certificationCenterId,
-        address: 'NEW ADDRESS',
-        room: '28D',
-        examiner: 'Joel R',
-        date: '2017-12-08',
-        time: '14:30',
-        description: 'miam',
-        accessCode: 'ABCD12',
-      });
-      const toBePersistedSession = domainBuilder.certification.enrolment.buildSession({
-        ...originalSession,
-        address: 'NEW ADDRESS',
-      });
-      sessionRepository.get.withArgs({ id: originalSession.id }).onCall(1).resolves('UPDATED SESSION');
+  it('submits the update of the session', async function () {
+    const sessionId = 345;
+    const sessionRepository = { get: sinon.stub(), updateInfo: sinon.fake.resolves() };
+    const sessionToUpdate = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({
+        id: sessionId,
+        address: '2 rue des rosiers',
+        room: '1A',
+        date: '2022-02-02',
+        time: '15:10',
+        examiner: 'Bernanrd',
+        description: 'au revoir',
+      })
+      .build();
 
-      // when
-      const updatedAndPersistedSession = await updateSession({
-        session: updatedSession,
-        sessionRepository,
-        sessionValidator,
-      });
+    sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToUpdate);
 
-      // then
-      expect(sessionRepository.update).to.have.been.calledWithExactly(toBePersistedSession);
-      expect(updatedAndPersistedSession).to.equal('UPDATED SESSION');
+    const session = await updateSession({
+      address: '1 rue des lauriers',
+      room: '2B',
+      date: '2021-01-01',
+      time: '14:00',
+      examiner: 'Louise',
+      description: 'coucou',
+      sessionId,
+      sessionRepository,
     });
+
+    sinon.assert.calledOnceWithExactly(sessionRepository.updateInfo, {
+      id: sessionId,
+      address: '1 rue des lauriers',
+      room: '2B',
+      date: '2021-01-01',
+      time: '14:00',
+      examiner: 'Louise',
+      description: 'coucou',
+    });
+    expect(session).to.deep.equal(
+      domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .withParameters({
+          id: sessionId,
+          address: '1 rue des lauriers',
+          room: '2B',
+          date: '2021-01-01',
+          time: '14:00',
+          examiner: 'Louise',
+          description: 'coucou',
+        })
+        .build(),
+    );
   });
 });

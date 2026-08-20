@@ -10,13 +10,12 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Certification | Enrolment | Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {
-    let clock;
     let sessionRepository;
     let sessionAuthorizationAdapter;
     let dependencies;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now: new Date('2023-01-01'),
         toFake: ['Date'],
       });
@@ -32,18 +31,23 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
       };
     });
 
-    afterEach(async function () {
-      clock.restore();
-      sinon.restore();
-    });
-
     context('when the parsed data is valid', function () {
       context('when the session has not started yet', function () {
         context('when there is no sessionId', function () {
           it('should return an empty sessionErrors array', async function () {
             // given
             const certificationCenterId = domainBuilder.buildCertificationCenter({}).id;
-            const session = _buildValidSessionWithoutId();
+            const session = domainBuilder.certification.enrolment
+              .sessionEnrolmentBuilder()
+              .withParameters({
+                address: 'Site 1',
+                room: 'salle 1',
+                date: '2050-01-01',
+                time: '14:00',
+                examiner: 'Pierre',
+                description: 'desc',
+              })
+              .build();
             sessionRepository.isSessionExistingByCertificationCenterId
               .withArgs({ ...session, certificationCenterId })
               .resolves(false);
@@ -74,8 +78,19 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
           describe('when sessionId is not valid', function () {
             it('should return a sessionErrors array that contains a sessionId invalid format error', async function () {
               // given
-              const session = _buildValidSessionWithId();
-              session.id = 'toto123$';
+              const session = domainBuilder.certification.enrolment
+                .sessionEnrolmentBuilder()
+                .withParameters({
+                  id: 'toto123$',
+                })
+                .build();
+              session.examiner = null;
+              session.address = null;
+              session.room = null;
+              session.date = null;
+              session.time = null;
+              session.examiner = null;
+              session.description = null;
 
               // when
               const sessionErrors = await sessionsImportValidationService.validateSession({
@@ -99,9 +114,20 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
           describe('when sessionId is valid', function () {
             it('should return an empty sessionErrors array', async function () {
               // given
-              const sessionId = 1;
-              const session = _buildValidSessionWithId(sessionId);
-              sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
+              const session = domainBuilder.certification.enrolment
+                .sessionEnrolmentBuilder()
+                .withParameters({
+                  id: 1,
+                })
+                .build();
+              session.examiner = null;
+              session.address = null;
+              session.room = null;
+              session.date = null;
+              session.time = null;
+              session.examiner = null;
+              session.description = null;
+              sessionRepository.get.withArgs({ id: 1 }).resolves(session);
               sessionAuthorizationAdapter.find
                 .withArgs({ sessionId: session.id })
                 .resolves(
@@ -131,7 +157,19 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
 
     context('when the session cannot be enrolled with more candidate through mass import', function () {
       it('should return an errorReport that contains an already started error', async function () {
-        const session = _buildValidSessionWithId(1234);
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            id: 1234,
+          })
+          .build();
+        session.examiner = null;
+        session.address = null;
+        session.room = null;
+        session.date = null;
+        session.time = null;
+        session.examiner = null;
+        session.description = null;
         sessionRepository.get.withArgs({ id: 1234 }).resolves(session);
         sessionAuthorizationAdapter.find
           .withArgs({ sessionId: session.id })
@@ -167,8 +205,17 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
       context('when at least one session is scheduled in the past', function () {
         it('should return a sessionErrors array that contains a no session scheduled in the past error', async function () {
           // given
-          const session = _buildValidSessionWithoutId();
-          session.date = '2020-03-12';
+          const session = domainBuilder.certification.enrolment
+            .sessionEnrolmentBuilder()
+            .withParameters({
+              address: 'Site 1',
+              room: 'salle 1',
+              date: '2019-01-01',
+              time: '14:00',
+              examiner: 'Pierre',
+              description: 'desc',
+            })
+            .build();
           sessionAuthorizationAdapter.find
             .withArgs({ sessionId: session.id })
             .resolves(
@@ -206,8 +253,18 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
           context('when there is a sessionId and session information', function () {
             it('should return a sessionErrors array that contains an already given ID error', async function () {
               // given
-              const session = _buildValidSessionWithoutId();
-              session.id = 1234;
+              const session = domainBuilder.certification.enrolment
+                .sessionEnrolmentBuilder()
+                .withParameters({
+                  id: 1234,
+                  address: 'Site 1',
+                  room: 'salle 1',
+                  date: '2050-01-01',
+                  time: '14:00',
+                  examiner: 'Pierre',
+                  description: 'desc',
+                })
+                .build();
               sessionRepository.get.withArgs({ id: 1234 }).resolves(session);
               sessionAuthorizationAdapter.find
                 .withArgs({ sessionId: session.id })
@@ -244,36 +301,34 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
       context('when the session does not exist for the certification center', function () {
         it('should return a sessionErrors array that contains a non-existent session id error', async function () {
           // given
-          const session = domainBuilder.certification.enrolment.buildSession({
-            id: 1234,
-            address: null,
-            room: null,
-            date: null,
-            time: null,
-            examiner: null,
-            description: null,
-            certificationCenterId: 10,
-            certificationCandidates: [],
-          });
-          sessionRepository.get.withArgs({ id: 1234 }).resolves(
-            domainBuilder.certification.enrolment.buildSession({
+          const sessionBuilder = domainBuilder.certification.enrolment
+            .sessionEnrolmentBuilder()
+            .withParameters({
               id: 1234,
-              certificationCenterId: 10,
-            }),
-          );
+            })
+            .createdBy({ certificationCenterId: 10 });
+          sessionRepository.get.withArgs({ id: 1234 }).resolves(sessionBuilder.build());
           sessionAuthorizationAdapter.find
-            .withArgs({ sessionId: session.id })
+            .withArgs({ sessionId: 1234 })
             .resolves(
               domainBuilder.certification.enrolment
                 .sessionAuthorizationBuilder()
                 .canEnrollMassImportCandidate()
-                .withParameters({ id: session.id, certificationCenterId: 11 })
+                .withParameters({ id: 1234, certificationCenterId: 11 })
                 .build(),
             );
+          const sessionToValidate = sessionBuilder.build();
+          sessionToValidate.examiner = null;
+          sessionToValidate.address = null;
+          sessionToValidate.room = null;
+          sessionToValidate.date = null;
+          sessionToValidate.time = null;
+          sessionToValidate.examiner = null;
+          sessionToValidate.description = null;
 
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
-            session,
+            session: sessionToValidate,
             candidatesData: [_buildValidCandidateData()],
             line: 1,
             certificationCenterId: 10,
@@ -294,10 +349,17 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
 
     context('when there is session information but no sessionId', function () {
       it('should return an empty sessionErrors array', async function () {
-        const session = domainBuilder.certification.enrolment.buildSession({
-          ..._createValidSessionData(),
-          id: null,
-        });
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            address: 'Site 1',
+            room: 'Salle 1',
+            date: '2023-03-12',
+            time: '01:00',
+            examiner: 'Pierre',
+            description: 'desc',
+          })
+          .build();
 
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
@@ -316,7 +378,17 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
     context('when there already is an existing session with the same data as a newly imported one', function () {
       it('should return a sessionErrors array that contains a session already existing error', async function () {
         // given
-        const session = _buildValidSessionWithoutId();
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            address: 'Site 1',
+            room: 'Salle 1',
+            date: '2023-03-12',
+            time: '01:00',
+            examiner: 'Pierre',
+            description: 'desc',
+          })
+          .build();
         sessionRepository.isSessionExistingByCertificationCenterId
           .withArgs({ ...session, certificationCenterId: 10 })
           .resolves(true);
@@ -344,8 +416,17 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
     describe('when session date is not valid', function () {
       it('should return a sessionErrors array that contains a session invalid date format error', async function () {
         // given
-        const session = _buildValidSessionWithoutId();
-        session.date = 'toto';
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            address: 'Site 1',
+            room: 'Salle 1',
+            date: 'toto',
+            time: '01:00',
+            examiner: 'Pierre',
+            description: 'desc',
+          })
+          .build();
 
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
@@ -370,8 +451,17 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
     describe('when session time is not valid', function () {
       it('should return a sessionErrors array that contains a invalid time format error', async function () {
         // given
-        const session = _buildValidSessionWithoutId();
-        session.time = 'toto';
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            address: 'Site 1',
+            room: 'Salle 1',
+            date: '2021-01-01',
+            time: 'toto',
+            examiner: 'Pierre',
+            description: 'desc',
+          })
+          .build();
 
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
@@ -396,7 +486,17 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
     context('when session has one invalid field', function () {
       it('should return a sessionErrors array that contains a session invalid field error', async function () {
         // given
-        const session = _buildValidSessionWithoutId();
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            address: 'Site 1',
+            room: 'salle 1',
+            date: '2050-01-01',
+            time: '14:00',
+            examiner: 'Pierre',
+            description: 'desc',
+          })
+          .build();
         session.room = null;
 
         // when
@@ -422,9 +522,19 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
     context('when session has more than one invalid fields', function () {
       it('should return a sessionErrors array that contains all session errors', async function () {
         // given
-        const session = _buildValidSessionWithoutId();
-        session.room = null;
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            address: 'SIte 1',
+            room: 'Salle 1',
+            date: '2050-01-01',
+            time: '14:00',
+            examiner: 'Pierre',
+            description: 'desc',
+          })
+          .build();
         session.address = null;
+        session.room = null;
 
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
@@ -446,7 +556,17 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
     context('when session has no candidates', function () {
       it('should return a non blocking sessionError', async function () {
         // given
-        const session = _buildValidSessionWithoutId();
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            address: 'Site 1',
+            room: 'Salle 1',
+            date: '2050-01-01',
+            time: '14:00',
+            examiner: 'Pierre',
+            description: 'desc',
+          })
+          .build();
 
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
@@ -971,40 +1091,6 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
     });
   });
 });
-
-function _createValidSessionData() {
-  return {
-    sessionId: undefined,
-    address: 'Site 1',
-    room: 'Salle 1',
-    date: '2023-03-12',
-    time: '01:00',
-    examiner: 'Pierre',
-    description: 'desc',
-    certificationCandidates: [],
-  };
-}
-
-function _buildValidSessionWithId(sessionId) {
-  return domainBuilder.certification.enrolment.buildSession({
-    id: sessionId,
-    address: null,
-    room: null,
-    date: null,
-    time: null,
-    examiner: null,
-    description: null,
-    certificationCandidates: [],
-  });
-}
-
-function _buildValidSessionWithoutId() {
-  return domainBuilder.certification.enrolment.buildSession({
-    id: null,
-    date: '2024-03-12',
-    certificationCandidates: [],
-  });
-}
 
 function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { candidateNumber: 0, lineNumber: 0 }) {
   return {

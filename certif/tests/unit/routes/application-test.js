@@ -14,10 +14,6 @@ module('Unit | Route | application', function (hooks) {
     sinon.stub(this.route.currentUser, 'load').resolves();
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('beforeModel', function () {
     test('sets best locale', async function (assert) {
       // given

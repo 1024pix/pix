@@ -16,15 +16,10 @@ const { PIX_ORGA } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;
 
 describe('Integration | Privacy | Domain | Services | AnonymizeServices | anonymize-user', function () {
-  let clock;
   const now = new Date('2024-04-05T03:04:05Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it(`deletes all user’s authentication methods,

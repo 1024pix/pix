@@ -1,4 +1,3 @@
-import { Challenge } from '../../../../../src/learning-content/domain/models/Challenge.js';
 import { CHALLENGE_STATUSES as STATUSES, CHALLENGE_TYPES as TYPES } from '../../../../../src/shared/constants.js';
 
 export const buildChallenge = function buildChallenge({
@@ -40,7 +39,7 @@ export const buildChallenge = function buildChallenge({
   hasEmbedInternalValidation = false,
   noValidationNeeded = false,
 } = {}) {
-  return new Challenge({
+  return {
     id,
     instruction,
     alternativeInstruction,
@@ -78,7 +77,7 @@ export const buildChallenge = function buildChallenge({
     skillId,
     hasEmbedInternalValidation,
     noValidationNeeded,
-  });
+  };
 };
 
 buildChallenge.TYPES = TYPES;

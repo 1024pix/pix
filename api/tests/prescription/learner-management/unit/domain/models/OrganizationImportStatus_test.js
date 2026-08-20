@@ -5,17 +5,11 @@ import { OrganizationImportStatus } from '../../../../../../src/prescription/lea
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | OrganizationImportStatus', function () {
-  let clock;
-
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({
+    sinon.useFakeTimers({
       now: new Date('2023-01-01'),
       toFake: ['Date'],
     });
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   it('should instantiate an OrganizationImportStatus', function () {

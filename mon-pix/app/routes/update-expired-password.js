@@ -2,21 +2,21 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
 export default class UpdateExpiredPasswordRoute extends Route {
-  @service store;
   @service session;
+
+  queryParams = {
+    passwordResetToken: {
+      refreshModel: true,
+    },
+  };
 
   beforeModel() {
     this.session.prohibitAuthentication('authenticated.user-dashboard');
   }
 
-  model() {
-    const resetExpiredPasswordDemands = this.store.peekAll('reset-expired-password-demand');
-    const resetExpiredPasswordDemand = resetExpiredPasswordDemands[0];
-
-    if (!resetExpiredPasswordDemand) {
-      return this.router.replaceWith('login');
-    }
-
-    return resetExpiredPasswordDemand;
+  model(params) {
+    return {
+      passwordResetToken: params.passwordResetToken,
+    };
   }
 }

@@ -1,15 +1,15 @@
-import { createServer } from '../../../../../server.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Route | Get Organizations Places Lots', function () {
   describe('GET /api/organizations/{id}/places-lots', function () {
     it('should call the controller to get organization places', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const { organizationId, userId } = databaseBuilder.factory.buildMembership({
         organizationRole: Membership.roles.ADMIN,

@@ -349,7 +349,7 @@ describe('Unit | DevComp | Repositories | ModuleRepository', function () {
                       if (ids.includes(component.element.id)) {
                         duplicateIds.add(component.element.id);
                       }
-                      if (component.element.type === 'flashcards') {
+                      if (component.element.type === 'flashcards' || component.element.type === 'qab') {
                         for (const card of component.element.cards) {
                           if (ids.includes(card.id)) {
                             duplicateIds.add(card.id);
@@ -365,7 +365,7 @@ describe('Unit | DevComp | Repositories | ModuleRepository', function () {
                           if (ids.includes(element.id)) {
                             duplicateIds.add(element.id);
                           }
-                          if (element.type === 'flashcards') {
+                          if (element.type === 'flashcards' || element.type === 'qab') {
                             for (const card of element.cards) {
                               if (ids.includes(card.id)) {
                                 duplicateIds.add(card.id);

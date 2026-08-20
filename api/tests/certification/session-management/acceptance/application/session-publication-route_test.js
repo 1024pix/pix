@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { status } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session-Management | Acceptance | Application | Routes | session-publication', function () {
@@ -13,7 +13,7 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
     let userId;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
     });
 
     context('when user does not have the role Super Admin', function () {
@@ -75,15 +75,9 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
           let certificationId;
           const now = new Date('2000-01-01T10:00:00Z');
 
-          let clock;
-
-          afterEach(async function () {
-            clock.restore();
-          });
-
           context('when the certification course contains challenges', function () {
             beforeEach(function () {
-              clock = sinon.useFakeTimers({
+              sinon.useFakeTimers({
                 now,
                 toFake: ['Date'],
               });
@@ -129,7 +123,7 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
 
           context('when the certification course does not contain challenges', function () {
             beforeEach(function () {
-              clock = sinon.useFakeTimers({
+              sinon.useFakeTimers({
                 now,
                 toFake: ['Date'],
               });
@@ -183,7 +177,7 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
     let userId;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
     });
 
     context('when user does not have the role Super Admin', function () {

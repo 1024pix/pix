@@ -6,7 +6,7 @@ import { ChallengeCalibration } from '../../domain/read-models/ChallengeCalibrat
  * @param {number} params.certificationCourseId
  * @returns {Promise<Array<ChallengeCalibration>>}
  */
-export const getByCertificationCourseId = async ({ certificationCourseId }) => {
+export async function getByCertificationCourseId({ certificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
   const challengeCalibrations = await knexConn('certification-challenges')
     .select({
@@ -19,7 +19,7 @@ export const getByCertificationCourseId = async ({ certificationCourseId }) => {
     .orderBy('createdAt', 'asc');
 
   return _toDomain(challengeCalibrations);
-};
+}
 
 /**
  * @param {Array<object>} challengeCalibrations

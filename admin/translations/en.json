@@ -580,8 +580,32 @@
         },
         "versions": {
           "calibration": {
-            "calibration-id-input-label": "Calibration ID (provided by Data)*",
-            "verify-calibration-id-button": "Start the calibration recovery process"
+            "calibration-id-input-label": "Calibration ID (provided by Data)",
+            "label-for-CALIBRATED_CHALLENGE_COUNT": "Count of calibrated challenges",
+            "label-for-CALIBRATION_SCOPE": "Planned for scope",
+            "label-for-CALIBRATION_STARTED_AT": "Started at",
+            "label-for-CALIBRATION_STATUS": "Status",
+            "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Tubes in calibration only",
+            "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
+            "report-title": "Check calibration report of ID {calibrationId} generated at",
+            "save-button-label": "Save calibration for ID {id}",
+            "save-success-message": "The update went smoothly!",
+            "scopes": {
+              "CORE": "Pix Core",
+              "DROIT": "Pix+ Law",
+              "EDU_1ER_DEGRE": "Pix+ Edu Primary School",
+              "EDU_2ND_DEGRE": "Pix+ Edu Secondary School",
+              "EDU_CPE": "Pix+ Edu CPE",
+              "PRO_SANTE": "Pix+ Pro Health"
+            },
+            "show-additional-info": "Show more info about line {lineNumber} of the report",
+            "statuses": {
+              "INVALIDATED": "Invalidated",
+              "TO_VALIDATE": "To validate",
+              "VALIDATED": "Validated"
+            },
+            "title": "Calibration of challenges",
+            "verify-calibration-id-button": "Check the calibration"
           },
           "edit": {
             "assessment-duration-label": "Assessment duration (hh:mm):",
@@ -1139,6 +1163,7 @@
             "undone": "This action cannot be undone."
           }
         },
+        "category": "Category",
         "code": "Code",
         "country": {
           "label": "Country (INSEE code)",
@@ -1611,7 +1636,7 @@
           "title": "Details",
           "v3": {
             "abort-reason": {
-              "candidate": "Withdrawal: Lack of time or early departure",
+              "candidate": "Test not completed within the allotted time",
               "technical": "Technical problem"
             },
             "answer-status": {
@@ -1637,7 +1662,7 @@
             },
             "general-informations": {
               "labels": {
-                "abort-reason": "Reason for withdrawal",
+                "abort-reason": "Reason for interruption",
                 "created-at": "Created on",
                 "ended-by": "Certification completed by",
                 "last-answer-at": "Last answer on",

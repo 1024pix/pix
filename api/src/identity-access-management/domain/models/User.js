@@ -100,6 +100,10 @@ class User {
     return false;
   }
 
+  hasSameEmailAs(email) {
+    return this.email?.toLowerCase() === email?.toLowerCase();
+  }
+
   markEmailAsValid() {
     this.emailConfirmedAt = new Date();
   }

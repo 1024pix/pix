@@ -95,11 +95,9 @@ export default class ImportController extends Controller {
   }
   @action
   async createSessions() {
-    const sessionMassImportReport = this.store.createRecord('sessions-mass-import-report', {
-      cachedValidatedSessionsKey: this.cachedValidatedSessionsKey,
-    });
     try {
-      await sessionMassImportReport.confirm({ cachedValidatedSessionsKey: this.cachedValidatedSessionsKey });
+      const adapter = await this.store.adapterFor('sessions-mass-import-report');
+      await adapter.confirm({ cachedValidatedSessionsKey: this.cachedValidatedSessionsKey });
       this.pixToast.sendSuccessNotification({
         message: this.intl.t('pages.sessions.import.success', {
           sessionsCount: this.sessionsCount,

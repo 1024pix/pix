@@ -1,13 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Route | Delete Organizations Places Lot', function () {
   describe('DELETE /api/admin/organizations/{id}/places/{placeId}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const organizationPlace = databaseBuilder.factory.buildOrganizationPlace();
@@ -28,7 +28,7 @@ describe('Acceptance | Route | Delete Organizations Places Lot', function () {
 
     it('should return 404 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const organizationPlace = databaseBuilder.factory.buildOrganizationPlace();
@@ -49,7 +49,7 @@ describe('Acceptance | Route | Delete Organizations Places Lot', function () {
 
     it('should return 409 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const organizationPlace = databaseBuilder.factory.buildOrganizationPlace({

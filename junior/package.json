@@ -1,6 +1,6 @@
 {
   "name": "junior",
-  "version": "5.475.0",
+  "version": "5.483.0",
   "private": false,
   "description": "Version de Pix à destination des élèves du premier degré",
   "repository": {
@@ -39,7 +39,7 @@
     "@1024pix/ember-testing-library": "^3.0.41",
     "@1024pix/epreuves-components": "^4.13.0",
     "@1024pix/eslint-plugin": "^2.1.21",
-    "@1024pix/pix-ui": "^61.3.1",
+    "@1024pix/pix-ui": "^61.4.1",
     "@1024pix/stylelint-config": "^5.1.37",
     "@babel/eslint-parser": "^7.28.6",
     "@babel/plugin-proposal-decorators": "^7.29.0",
@@ -103,7 +103,7 @@
     "stylelint": "^17.11.0",
     "stylelint-order": "^8.1.1",
     "tracked-built-ins": "^4.1.2",
-    "webpack": "5.108.4",
+    "webpack": "5.109.2",
     "xss": "^1.0.15"
   },
   "overrides": {

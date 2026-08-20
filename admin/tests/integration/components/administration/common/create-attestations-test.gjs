@@ -20,10 +20,6 @@ module('Integration | Component | administration/create-attestations', function 
     sinon.stub(requestManagerService, 'request');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('when all fields are filled', function () {
     test('it should enable submit button', async function (assert) {
       const screen = await render(<template><CreateAttestations /></template>);

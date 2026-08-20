@@ -20,7 +20,10 @@ describe('Unit | UseCase | get-session', function () {
     it('should get the session', async function () {
       // given
       const sessionId = 123;
-      const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+      const sessionToFind = domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .withParameters({ id: sessionId })
+        .build();
       sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
       sessionManagementRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
 
@@ -38,7 +41,10 @@ describe('Unit | UseCase | get-session', function () {
       it('should return hasSomeCleaAcquired to true', async function () {
         // given
         const sessionId = 123;
-        const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+        const sessionToFind = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({ id: sessionId })
+          .build();
         sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionManagementRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(true);
 
@@ -57,7 +63,10 @@ describe('Unit | UseCase | get-session', function () {
       it('should return hasSomeCleaAcquired to true', async function () {
         // given
         const sessionId = 123;
-        const sessionToFind = domainBuilder.certification.enrolment.buildSession({ id: sessionId });
+        const sessionToFind = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({ id: sessionId })
+          .build();
         sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
         sessionManagementRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
 
@@ -74,10 +83,10 @@ describe('Unit | UseCase | get-session', function () {
   });
 
   context('when the session does not exist', function () {
-    it('should throw an error the session', async function () {
+    it('throws a NotFoundError', async function () {
       // given
       const sessionId = 123;
-      sessionManagementRepository.get.withArgs({ id: sessionId }).rejects(new NotFoundError());
+      sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(null);
 
       // when
       const err = await catchErr(getSession)({
@@ -86,7 +95,7 @@ describe('Unit | UseCase | get-session', function () {
       });
 
       // then
-      expect(err).to.be.an.instanceof(NotFoundError);
+      expect(err).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
     });
   });
 });

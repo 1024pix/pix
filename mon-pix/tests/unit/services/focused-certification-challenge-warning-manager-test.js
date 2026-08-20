@@ -11,10 +11,6 @@ module('Unit | Service | focused-certification-challenge-warning-manager', funct
     getItemStub = sinon.stub(window.localStorage, 'getItem');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#setToConfirmed', function () {
     test('should set to true', function (assert) {
       // given

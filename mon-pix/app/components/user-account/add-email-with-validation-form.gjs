@@ -32,7 +32,7 @@ const ERROR_MESSAGES = {
 
 export default class AddEmailWithValidationForm extends Component {
   @service intl;
-  @service store;
+  @service emailVerificationCode;
   @tracked isLoading = false;
   @tracked globalError = null;
   @tracked email = '';
@@ -76,13 +76,11 @@ export default class AddEmailWithValidationForm extends Component {
     }
 
     try {
-      const emailVerificationCode = this.store.createRecord('email-verification-code', {
+      await this.emailVerificationCode.sendNewEmail({
         password: this.password,
         newEmail: this.email,
         action: 'add-email',
       });
-
-      await emailVerificationCode.sendNewEmail();
 
       this.args.showVerificationCode({
         newEmail: this.email,

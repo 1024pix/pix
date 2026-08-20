@@ -8,7 +8,7 @@ import {
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { enrolStudentsToSession } from '../../../../../../src/certification/enrolment/domain/usecases/enrol-students-to-session.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
+import { ForbiddenAccess, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
@@ -88,10 +88,6 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   context('when no ids provided', function () {
     it('does nothing if no student ids is given as input', async function () {
       await enrolStudentsToSession({
@@ -102,6 +98,21 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
 
       // then
       sinon.assert.notCalled(sessionAuthorizationAdapter.find);
+    });
+  });
+
+  context('when the session does not exist', function () {
+    it('throws a NotFoundError', async function () {
+      sessionAuthorizationAdapter.find.withArgs({ sessionId }).resolves(null);
+
+      const err = await catchErr(enrolStudentsToSession)({
+        ...dependencies,
+        sessionId,
+        studentIds: [michelStudentData.id, jeannetteStudentData.id],
+      });
+
+      // then
+      expect(err).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
     });
   });
 

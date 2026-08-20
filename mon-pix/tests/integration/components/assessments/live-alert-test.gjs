@@ -10,10 +10,6 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Assessments | live-alert', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   test('it displays challenge live alert', async function (assert) {
     // given
     const message = t('pages.challenge.live-alerts.companion.message');

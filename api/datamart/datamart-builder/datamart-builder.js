@@ -1,3 +1,4 @@
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { datamartBuffer } from './datamart-buffer.js';
 import { factory } from './factory/index.js';
 
@@ -6,25 +7,20 @@ import { factory } from './factory/index.js';
  * @property {Factory} factory
  */
 class DatamartBuilder {
-  constructor({ knex }) {
-    this.knex = knex;
+  constructor({ databaseConnection }) {
+    this.databaseConnection = databaseConnection;
+    this.knex = databaseConnection.knex;
     this.datamartBuffer = datamartBuffer;
     this.factory = factory;
   }
 
-  static async create({ knex }) {
-    const datamartBuilder = new DatamartBuilder({ knex });
-
-    try {
-      await datamartBuilder._init();
-    } catch {
-      // Error thrown only with unit tests
-    }
-
-    return datamartBuilder;
+  static async create({ databaseConnection }) {
+    return new DatamartBuilder({ databaseConnection });
   }
 
   async commit() {
+    if (!this.databaseConnection.isConfigured) return;
+
     try {
       const trx = await this.knex.transaction();
       for (const objectToInsert of this.datamartBuffer.objectsToInsert) {
@@ -32,8 +28,7 @@ class DatamartBuilder {
       }
       await trx.commit();
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(`Erreur dans datamartBuilder.commit() : ${err}`);
+      logger.error(`Erreur dans datamartBuilder.commit() : ${err}`);
       throw err;
     } finally {
       this.datamartBuffer.purge();
@@ -41,6 +36,8 @@ class DatamartBuilder {
   }
 
   async clean() {
+    if (!this.databaseConnection.isConfigured) return;
+
     let rawQuery = '';
 
     [
@@ -56,11 +53,7 @@ class DatamartBuilder {
       rawQuery += `DELETE FROM ${tableName};`;
     });
 
-    try {
-      await this.knex.raw(rawQuery);
-    } catch {
-      // ignore error
-    }
+    await this.knex.raw(rawQuery);
   }
 }
 

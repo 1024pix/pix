@@ -1,6 +1,6 @@
-import { createMaddoServer } from '../../../../../server.maddo.js';
 import { expect } from '../../../../test-helper.js';
 import { datamartBuilder } from '../../../../tooling/databases.js';
+import { getMaddoServer } from '../../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Results | Acceptance | Application | parcoursup-route', function () {
@@ -17,7 +17,7 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
     certificationResultData;
 
   beforeEach(async function () {
-    server = await createMaddoServer();
+    server = await getMaddoServer();
 
     PARCOURSUP_CLIENT_ID = 'test-parcoursupClientId';
     PARCOURSUP_SCOPE = 'parcoursup';

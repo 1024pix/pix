@@ -54,16 +54,11 @@ describe('Integration | Identity Access Management | Domain | UseCase | update-u
   });
 
   context('success cases', function () {
-    let clock;
     let now;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: new Date(), toFake: ['Date'] });
-      now = new Date(clock.now);
-    });
-
-    afterEach(function () {
-      clock.restore();
+      now = new Date();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     context('when user has no Pix authentication method', function () {

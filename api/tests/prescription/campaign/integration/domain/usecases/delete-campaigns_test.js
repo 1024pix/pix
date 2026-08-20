@@ -32,16 +32,11 @@ const {
 
 describe('Integration | UseCases | delete-campaign', function () {
   describe('success case', function () {
-    let clock;
     let now;
 
     beforeEach(function () {
       now = new Date('1992-07-07');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should not throw when user is admin of the organization', async function () {

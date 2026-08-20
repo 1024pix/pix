@@ -6,19 +6,14 @@ import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | remember-user-has-seen-data-protection-policy-information', function () {
   let userRepository;
-  let clock;
   let now;
 
   beforeEach(function () {
     now = new Date('2022-12-24');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     userRepository = {
       updateLastDataProtectionPolicySeenAt: sinon.stub(),
     };
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   it('updates the last data protection policy to now', async function () {
