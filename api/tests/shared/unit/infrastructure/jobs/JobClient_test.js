@@ -3,10 +3,10 @@ import sinon from 'sinon';
 
 import { ScheduleComputeOrganizationLearnersCertificabilityJobController } from '../../../../../src/prescription/learner-management/application/jobs/schedule-compute-organization-learners-certificability-job-controller.js';
 import { ValidateSiecleFileJob } from '../../../../../src/prescription/learner-management/domain/models/jobs/ValidateSiecleFileJob.js';
+import { AnonymizeUserEvent } from '../../../../../src/privacy/domain/events/AnonymizeUserEvent.js';
 import { AuditLoggingJobController } from '../../../../../src/shared/application/jobs/audit-logging.job-controller.js';
 import { JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
 import { config } from '../../../../../src/shared/config.js';
-import { EVENTS } from '../../../../../src/shared/constants.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
 import { JobExpireIn } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
@@ -272,8 +272,8 @@ describe('Unit | JobClient', function () {
 
         // then
         expect(pgBossStub.subscribe).to.have.been.calledWith(
-          EVENTS.ANONYMIZE_USER_BY_ADMIN,
-          'AnonymizeAuthenticationMethodsJob',
+          AnonymizeUserEvent.eventName,
+          'anonymize-user.event-queue',
         );
       });
     });

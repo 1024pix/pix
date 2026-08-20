@@ -1,15 +1,17 @@
+import { AnonymizeUserEvent } from '../../../privacy/domain/events/AnonymizeUserEvent.js';
 import { EventHandler } from '../../../shared/application/jobs/event-handler.js';
 import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
 import * as membershipRepository from '../../infrastructure/repositories/membership.repository.js';
 
 export class AnonymizeMembershipEventHandler extends EventHandler {
   constructor() {
-    super('AnonymizeMembershipJob', 'ANONYMIZE_USER_BY_ADMIN');
+    super('anonymize-user.membership.event-queue', AnonymizeUserEvent.eventName);
   }
 
   async handle({ data, dependencies = { membershipRepository } }) {
     // Anonymize last accessed at
-    const userMemberships = await dependencies.membershipRepository.findByUserId(data.userId);
+    const event = new AnonymizeUserEvent(data);
+    const userMemberships = await dependencies.membershipRepository.findByUserId(event.userId);
 
     for (const membership of userMemberships) {
       const anonymizedMembershipLastAccessedAt = anonymizeGeneralizeDate(membership.lastAccessedAt);
@@ -21,8 +23,8 @@ export class AnonymizeMembershipEventHandler extends EventHandler {
 
     // Disable Memberships
     await dependencies.membershipRepository.disableMembershipsByUserId({
-      userId: data.userId,
-      updatedByUserId: data.updatedByUserId,
+      userId: event.userId,
+      updatedByUserId: event.updatedByUserId,
     });
   }
 }

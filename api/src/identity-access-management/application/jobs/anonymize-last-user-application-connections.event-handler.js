@@ -1,15 +1,16 @@
+import { AnonymizeUserEvent } from '../../../privacy/domain/events/AnonymizeUserEvent.js';
 import { EventHandler } from '../../../shared/application/jobs/event-handler.js';
-import { EVENTS } from '../../../shared/constants.js';
 import { lastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
 
 export class AnonymizeLastUserApplicationConnectionsEventHandler extends EventHandler {
   constructor() {
-    super('AnonymizeLastUserApplicationConnectionsJob', EVENTS.ANONYMIZE_USER_BY_ADMIN);
+    super('anonymize-user.last-application-connections.event-queue', AnonymizeUserEvent.eventName);
   }
 
   async handle({ data, dependencies = { lastUserApplicationConnectionsRepository } }) {
+    const event = new AnonymizeUserEvent(data);
     const lastUserApplicationConnections = await dependencies.lastUserApplicationConnectionsRepository.findByUserId(
-      data.userId,
+      event.userId,
     );
 
     for (const lastUserApplicationConnection of lastUserApplicationConnections) {

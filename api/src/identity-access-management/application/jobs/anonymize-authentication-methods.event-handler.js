@@ -1,13 +1,14 @@
+import { AnonymizeUserEvent } from '../../../privacy/domain/events/AnonymizeUserEvent.js';
 import { EventHandler } from '../../../shared/application/jobs/event-handler.js';
-import { EVENTS } from '../../../shared/constants.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 
 export class AnonymizeAuthenticationMethodsEventHandler extends EventHandler {
   constructor() {
-    super('AnonymizeAuthenticationMethodsJob', EVENTS.ANONYMIZE_USER_BY_ADMIN);
+    super('anonymize-user.authentication-methods.event-queue', AnonymizeUserEvent.eventName);
   }
 
   async handle({ data, dependencies = { authenticationMethodRepository } }) {
-    await dependencies.authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId: data.userId });
+    const event = new AnonymizeUserEvent(data);
+    await dependencies.authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId: event.userId });
   }
 }
