@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AnonymizeUserEvent } from '../../../../../src/privacy/domain/events/AnonymizeUserEvent.js';
 import { anonymizeUserByAdmin } from '../../../../../src/privacy/domain/usecases/anonymize-user-by-admin.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Privacy | Domain | usecases | anonymize user by admin', function () {
   let adminMemberRepository, anonymizeServices, eventJobPublisherService, auditLoggingJobRepository, AuditLoggingJob;

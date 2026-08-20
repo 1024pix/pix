@@ -23,6 +23,7 @@ export class JobClient {
   /** @type {PgBoss} */
   #pgBoss = null;
   #isTestOnly = false;
+  #usesFixtureJobs = false;
   #isInitialized = false;
 
   static get instance() {
@@ -42,6 +43,7 @@ export class JobClient {
   ) {
     if (this.#isInitialized) return;
     this.#isTestOnly = isTestOnly;
+    this.#usesFixtureJobs = Boolean(pgBossFactory);
 
     const connectionString =
       process.env.NODE_ENV === 'test' ? process.env.TEST_JOBS_DATABASE_URL : process.env.JOBS_DATABASE_URL;
@@ -94,17 +96,25 @@ export class JobClient {
   }
 
   async #registerJobs(jobGroups = []) {
-    const jobControllerPattern = `${workerDirPath}/src/**/application/**/*job-controller.js`;
-    const eventHandlerPattern = `${workerDirPath}/src/**/application/**/*event-handler.js`;
+    const jobControllerPatterns = [`${workerDirPath}/src/**/application/**/*job-controller.js`];
+    const eventHandlerPatterns = [`${workerDirPath}/src/**/application/**/*event-handler.js`];
+    if (this.#usesFixtureJobs) {
+      jobControllerPatterns.push(`${workerDirPath}/tests/**/*job-controller.js`);
+      eventHandlerPatterns.push(`${workerDirPath}/tests/**/*event-handler.js`);
+    }
     const excludePattern = ['**/job-controller.js', '**/event-handler.js', '**/job-schedule-controller.js'];
 
-    logger.info(`Search for job handlers in ${jobControllerPattern}`);
-    const jobControllerFiles = await Array.fromAsync(glob(jobControllerPattern, { exclude: excludePattern }));
+    logger.info(`Search for job handlers in ${jobControllerPatterns}`);
+    let jobControllerFiles = [];
+    for (const pattern of jobControllerPatterns) {
+      jobControllerFiles = jobControllerFiles.concat(await Array.fromAsync(glob(pattern, { exclude: excludePattern })));
+    }
 
-    logger.info(`Search for event handlers in ${eventHandlerPattern}`);
-    const jobFiles = jobControllerFiles.concat(
-      await Array.fromAsync(glob(eventHandlerPattern, { exclude: excludePattern })),
-    );
+    logger.info(`Search for event handlers in ${eventHandlerPatterns}`);
+    let jobFiles = jobControllerFiles;
+    for (const pattern of eventHandlerPatterns) {
+      jobFiles = jobFiles.concat(await Array.fromAsync(glob(pattern, { exclude: excludePattern })));
+    }
     logger.info(`${jobFiles.length} job handlers files found.`);
 
     let jobModules = {};
@@ -119,9 +129,6 @@ export class JobClient {
     for (const [moduleName, ModuleClass] of Object.entries(jobModules)) {
       const job = new ModuleClass();
 
-      instrumentJobController(moduleName, ModuleClass);
-
-      // TODO A supprimer doublon ?
       instrumentJobController(moduleName, ModuleClass);
 
       if (!jobGroups.includes(job.jobGroup) && !this.#isTestOnly) continue;
@@ -150,7 +157,7 @@ export class JobClient {
 
           cronJobCount++;
         } else if (job.eventName) {
-          await this.subscribeEventHandler({ eventName: job.eventName, handlerName: job.jobName });
+          await this.#subscribeEventHandler({ eventName: job.eventName, handlerName: job.jobName });
           eventHandlerCount++;
         } else {
           jobRegisteredCount++;
@@ -162,6 +169,24 @@ export class JobClient {
         if (job.jobCron) {
           await this.#unscheduleCronJob(job.jobName);
           logger.info(`Job CRON "${job.jobName}" is unscheduled.`);
+        } else if (job.eventName) {
+          await this.#unsubscribeEventHandler({
+            eventName: job.eventName,
+            handlerName: job.jobName,
+          });
+          logger.info(`Event handler "${job.jobName}" unsubscribed from "${job.eventName}".`);
+
+          const stats = await this.#pgBoss.getQueueStats(job.jobName);
+
+          if (stats.queuedCount > 0) {
+            logger.info(`Event handler "${job.jobName}" has ${stats.queuedCount} pending events.`);
+            logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
+            await this.registerJob(job.jobName, ModuleClass);
+          } else {
+            await this.#pgBoss.deleteQueue(job.jobName);
+
+            logger.info(`Event handler "${job.jobName}" subscribed for "${job.eventName}". No pending events.`);
+          }
         }
       }
     }
@@ -225,8 +250,12 @@ export class JobClient {
     });
   }
 
-  async subscribeEventHandler({ eventName, handlerName }) {
+  async #subscribeEventHandler({ eventName, handlerName }) {
     return this.#pgBoss.subscribe(eventName, handlerName);
+  }
+
+  async #unsubscribeEventHandler({ eventName, handlerName }) {
+    return this.#pgBoss.unsubscribe(eventName, handlerName);
   }
 
   async #unscheduleCronJob(name) {
