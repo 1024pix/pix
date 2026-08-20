@@ -1,32 +1,24 @@
-@use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 
 .download-session-results {
   max-width: max-content;
-  margin: 0 auto 32px;
-  padding: 48px 24px;
+  margin: var(--pix-spacing-12x) auto var(--pix-spacing-8x);
+  padding: var(--pix-spacing-10x) 4vw;
+}
 
-  @include breakpoints.device-is('tablet') {
-    padding: 48px 60px;
+.download-session-results__form {
+  .form__title {
+    @extend %pix-title-m;
+
+    margin-bottom: var(--pix-spacing-4x);
+    text-align: center;
   }
 
-  &__form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .form__actions {
+    margin: var(--pix-spacing-8x) auto 0;
+  }
 
-    .form__title {
-      @extend %pix-title-m;
-
-      margin-bottom: var(--pix-spacing-4x);
-    }
-
-    .form__actions {
-      margin-top: var(--pix-spacing-6x);
-    }
-
-    .form__error {
-      margin-top: var(--pix-spacing-4x);
-    }
+  .form__error {
+    margin-top: var(--pix-spacing-4x);
   }
 }

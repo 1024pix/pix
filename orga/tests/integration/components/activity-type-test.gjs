@@ -50,34 +50,34 @@ module('Integration | Component | ActivityType', function (hooks) {
       assert.ok(screen.getByText(t('components.activity-type.explanation.COMBINED_COURSE')));
     });
 
-    test('it renders MODULE type with correct icon and label', async function (assert) {
+    test('it renders module type with correct icon and label', async function (assert) {
       // when
-      const screen = await render(<template><ActivityType @type="MODULE" /></template>);
+      const screen = await render(<template><ActivityType @type="module" /></template>);
 
       // then
       assert.dom('.activity-type').exists();
       assert.dom('.activity-type__icon--module').exists();
-      assert.ok(screen.getByText(t('components.activity-type.explanation.MODULE')));
+      assert.ok(screen.getByText(t('components.activity-type.explanation.module')));
     });
 
-    test('it renders FORMATION type with correct icon and label', async function (assert) {
+    test('it renders formation type with correct icon and label', async function (assert) {
       // when
-      const screen = await render(<template><ActivityType @type="FORMATION" /></template>);
+      const screen = await render(<template><ActivityType @type="formation" /></template>);
 
       // then
       assert.dom('.activity-type').exists();
       assert.dom('.activity-type__icon--formation').exists();
-      assert.ok(screen.getByText(t('components.activity-type.explanation.FORMATION')));
+      assert.ok(screen.getByText(t('components.activity-type.explanation.formation')));
     });
 
-    test('it renders CAMPAIGN type with assessment icon and label', async function (assert) {
+    test('it renders campaign type with assessment icon and label', async function (assert) {
       // when
-      const screen = await render(<template><ActivityType @type="CAMPAIGN" /></template>);
+      const screen = await render(<template><ActivityType @type="campaign" /></template>);
 
       // then
       assert.dom('.activity-type').exists();
       assert.dom('.activity-type__icon--assessment').exists();
-      assert.ok(screen.getByText(t('components.activity-type.explanation.CAMPAIGN')));
+      assert.ok(screen.getByText(t('components.activity-type.explanation.campaign')));
     });
   });
 

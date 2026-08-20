@@ -15,10 +15,6 @@ module('Integration | Component | administration/certification-centers-batch-arc
     sinon.stub(window, 'fetch');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('when batch archive succeeds', function () {
     test('it displays a success notification', async function (assert) {
       // given

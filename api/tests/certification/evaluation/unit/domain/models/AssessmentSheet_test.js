@@ -1,5 +1,9 @@
 import sinon from 'sinon';
 
+import {
+  CertificationDurationExceededError,
+  CertificationTestEndedError,
+} from '../../../../../../src/certification/evaluation/domain/errors.js';
 import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import {
   CertificationEndedByFinalizationError,
@@ -37,7 +41,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
   });
 
   context('#complete', function () {
-    let clock, assessmentSheetBaseData;
+    let assessmentSheetBaseData;
     const now = new Date();
 
     beforeEach(function () {
@@ -48,11 +52,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
         isRejectedForFraud: true,
         answers: [domainBuilder.buildAnswer()],
       };
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it(`should update state and assessmentUpdatedAt when assessment sheet is in state ${STATES.STARTED}`, function () {
@@ -156,6 +156,28 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
           });
 
           expect(assessmentSheet.hasBeenEndedDueToFinalization()).to.be.false;
+        });
+      });
+  });
+
+  context('#hasBeenEndedDueToDurationExceeded', function () {
+    it(`returns true when state is ${STATES.ENDED_DUE_TO_DURATION_EXCEEDED}`, function () {
+      const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+        state: STATES.ENDED_DUE_TO_DURATION_EXCEEDED,
+      });
+
+      expect(assessmentSheet.hasBeenEndedDueToDurationExceeded()).to.be.true;
+    });
+
+    Object.values(STATES)
+      .filter((state) => state !== STATES.ENDED_DUE_TO_DURATION_EXCEEDED)
+      .forEach((state) => {
+        it(`return false when state is ${state}`, async function () {
+          const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+            state,
+          });
+
+          expect(assessmentSheet.hasBeenEndedDueToDurationExceeded()).to.be.false;
         });
       });
   });
@@ -274,7 +296,10 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
       it('does not throw', function () {
         // given
         const answer = domainBuilder.buildAnswer();
-        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({ userId: 123 });
+        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          userId: 123,
+          state: STATES.STARTED,
+        });
 
         // then
         expect(() =>
@@ -328,11 +353,46 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
       });
     });
 
+    context('when the assessment has been ended due to duration exceeded', function () {
+      it('should throw a CertificationDurationExceededError error', function () {
+        // given
+        const answer = domainBuilder.buildAnswer();
+        const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+          userId: 123,
+          state: STATES.ENDED_DUE_TO_DURATION_EXCEEDED,
+        });
+
+        // when
+        expect(() => assessmentSheet.checkIfCandidateCanAnswer({ answer, userId: assessmentSheet.userId })).to.throw(
+          CertificationDurationExceededError,
+        );
+      });
+    });
+
+    context('when the assessment is no longer in progress', function () {
+      [STATES.COMPLETED, STATES.ABORTED].forEach((state) => {
+        it(`should throw a CertificationTestEndedError error when state is ${state}`, function () {
+          // given
+          const answer = domainBuilder.buildAnswer();
+          const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
+            userId: 123,
+            state,
+          });
+
+          // when
+          expect(() => assessmentSheet.checkIfCandidateCanAnswer({ answer, userId: assessmentSheet.userId })).to.throw(
+            CertificationTestEndedError,
+          );
+        });
+      });
+    });
+
     context('when the challenge is not expected to be answered', function () {
       it('should throw a ChallengeNotAskedError error', function () {
         // given
         const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
           userId: 123,
+          state: STATES.STARTED,
           lastChallengeId: 1,
         });
 
@@ -349,6 +409,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
         const answer = domainBuilder.buildAnswer();
         const assessmentSheet = domainBuilder.certification.evaluation.buildAssessmentSheet({
           userId: 123,
+          state: STATES.STARTED,
           answers: [answer],
         });
 
@@ -361,7 +422,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
   });
 
   context('#endDueToCertificationDurationExceeded', function () {
-    let clock, assessmentSheetBaseData;
+    let assessmentSheetBaseData;
     const now = new Date();
 
     beforeEach(function () {
@@ -372,11 +433,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | AssessmentSheet'
         isRejectedForFraud: true,
         answers: [domainBuilder.buildAnswer()],
       };
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it(`should set state to ${STATES.ENDED_DUE_TO_DURATION_EXCEEDED} and update assessmentUpdatedAt`, function () {

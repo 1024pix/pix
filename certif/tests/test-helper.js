@@ -3,6 +3,7 @@ import { clearAllCookies } from 'ember-cookies/test-support';
 import start from 'ember-exam/test-support/start';
 import * as QUnit from 'qunit';
 import { setup } from 'qunit-dom';
+import sinon from 'sinon';
 
 import Application from '../app';
 import config from '../config/environment';
@@ -15,6 +16,11 @@ Object.defineProperty(window.navigator, 'languages', { value: [BROWSER_LOCALE], 
 // Reset all cookies before each test to avoid side-effects
 QUnit.hooks.beforeEach(function () {
   clearAllCookies();
+});
+
+// Restore all sinon stubs after each test to avoid side-effects
+QUnit.hooks.afterEach(function () {
+  sinon.restore();
 });
 
 setApplication(Application.create(config.APP));

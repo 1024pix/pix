@@ -43,7 +43,6 @@ module('Unit | Instance Initializer | session', function () {
         assert.notOk(session);
         this.instance.destroy();
         this.application.destroy();
-        sinon.restore();
       });
     });
 
@@ -83,7 +82,6 @@ module('Unit | Instance Initializer | session', function () {
         assert.notOk(session);
         this.instance.destroy();
         this.application.destroy();
-        sinon.restore();
       });
     });
   });
@@ -121,7 +119,6 @@ module('Unit | Instance Initializer | session', function () {
         assert.notOk(session);
         this.instance.destroy();
         this.application.destroy();
-        sinon.restore();
       });
     });
 
@@ -157,7 +154,6 @@ module('Unit | Instance Initializer | session', function () {
         assert.notOk(session);
         this.instance.destroy();
         this.application.destroy();
-        sinon.restore();
       });
     });
 
@@ -193,7 +189,6 @@ module('Unit | Instance Initializer | session', function () {
         assert.notOk(session);
         this.instance.destroy();
         this.application.destroy();
-        sinon.restore();
       });
     });
   });

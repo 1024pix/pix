@@ -23,6 +23,7 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
       userId,
       competenceId,
       type: Assessment.types.COMPETENCE_EVALUATION,
+      state: Assessment.states.STARTED,
     });
     databaseBuilder.factory.buildCompetenceEvaluation({
       userId,

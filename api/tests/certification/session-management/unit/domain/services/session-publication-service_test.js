@@ -11,6 +11,7 @@ import {
   manageEmails,
   publishSession,
 } from '../../../../../../src/certification/session-management/domain/services/session-publication-service.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { EmailingAttempt } from '../../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
 import { expect } from '../../../../../test-helper.js';
@@ -31,7 +32,6 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
   const recipient2WithUpperCases = 'EMAIL2@EXAMPLE.NET';
 
   const certificationCenter = 'certificationCenter';
-  let clock;
   let candidateWithRecipient1,
     candidateWithRecipient2,
     candidate2WithRecipient2,
@@ -63,12 +63,8 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
       ],
       publishedAt: null,
     });
-    clock = sinon.useFakeTimers({ now: new Date('2019-01-01T05:06:07Z'), toFake: ['Date'] });
-    now = new Date(clock.now);
-  });
-
-  afterEach(function () {
-    clock.restore();
+    now = new Date('2019-01-01T05:06:07Z');
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#publishSession', function () {
@@ -199,6 +195,28 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
           // then
           expect(error).to.be.instanceOf(CertificationCourseNotPublishableError);
         });
+      });
+    });
+
+    context('when the session does not exist', function () {
+      it('throws an error', async function () {
+        // given
+        const sessionManagementRepository = {
+          get: sinon.stub(),
+        };
+        sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(null);
+
+        // when
+        const error = await catchErr(publishSession)({
+          sessionId: 'sessionId',
+          publishedAt: now,
+          certificationRepository: undefined,
+          finalizedSessionRepository: undefined,
+          sessionManagementRepository,
+        });
+
+        // then
+        expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
       });
     });
   });

@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { getChallengeLocales } from '../../../shared/domain/services/locale-service.js';
 import { scenarioSimulatorController } from './scenario-simulator-controller.js';
 
-const register = async (server) => {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -46,6 +46,6 @@ const register = async (server) => {
       },
     },
   ]);
-};
+}
 
 export const scenarioSimulatorRoute = { name: 'certification/evaluation/scenario-simulator-api', register };

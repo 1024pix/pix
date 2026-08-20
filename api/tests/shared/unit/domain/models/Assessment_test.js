@@ -56,15 +56,11 @@ describe('Unit | Domain | Models | Assessment', function () {
   });
 
   describe('#detachCampaignParticipation', function () {
-    let clock, now;
+    let now;
 
     beforeEach(function () {
       now = new Date(2023, 3, 3);
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return the same object without info on campaign and participation', function () {

@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
 
-const neutralizeChallenge = async function (request, h) {
+async function neutralizeChallenge(request, h) {
   const { challengeRecId, certificationCourseId } = request.payload.data.attributes;
   const { userId: juryId } = request.auth.credentials;
 
@@ -15,9 +15,9 @@ const neutralizeChallenge = async function (request, h) {
   });
 
   return h.response().code(204);
-};
+}
 
-const deneutralizeChallenge = async function (request, h) {
+async function deneutralizeChallenge(request, h) {
   const { challengeRecId, certificationCourseId } = request.payload.data.attributes;
   const { userId: juryId } = request.auth.credentials;
 
@@ -31,11 +31,9 @@ const deneutralizeChallenge = async function (request, h) {
   });
 
   return h.response().code(204);
-};
+}
 
-const certificationAdminController = {
+export const certificationAdminController = {
   neutralizeChallenge,
   deneutralizeChallenge,
 };
-
-export { certificationAdminController };

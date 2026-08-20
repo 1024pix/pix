@@ -3,7 +3,6 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 import { authenticate } from '../../helpers/authentication';
 import setupIntl from '../../helpers/setup-intl';
@@ -12,10 +11,6 @@ module('Acceptance | user-account | delete-account', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
-
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
 
   module('when user can self-delete their account', function () {
     test('it deletes their account', async function (assert) {

@@ -27,20 +27,15 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 describe('Integration | Application | Certification | Sessions Management | jobs | cpf-export-builder-job-controller', function () {
   let cpfCertificationResultRepository;
   let uploadCpfFiles;
-  let clock;
   const expectedFileName = 'pix-cpf-export-20220102-114327.xml.gz';
   let logger;
   let uuidService;
 
   beforeEach(function () {
     const now = dayjs('2022-01-02T10:43:27Z').tz('Europe/Paris').toDate();
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     logger = { error: noop, info: noop, trace: noop };
     uuidService = { randomUUID: sinon.stub() };
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   it('should build an xml export file and upload it to an external storage', async function () {

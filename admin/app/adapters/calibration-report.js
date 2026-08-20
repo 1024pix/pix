@@ -1,20 +1,10 @@
 import ApplicationAdapter from './application';
 
 export default class CalibrationReportAdapter extends ApplicationAdapter {
-  createRecord(store, type, snapshot) {
-    if (!snapshot.adapterOptions.calibrationId) {
-      return super.createRecord(...arguments);
-    }
-
-    const url = `${this.host}/${this.namespace}/certification-versions/${snapshot.adapterOptions.versionId}/calibration-report`;
-    const payload = {
-      data: {
-        attributes: {
-          calibrationId: snapshot.adapterOptions.calibrationId,
-        },
-      },
-    };
-
-    return this.ajax(url, 'POST', { data: payload });
+  urlForQueryRecord(query) {
+    const url = `${this.host}/${this.namespace}/certification-versions/${query.versionId}/calibrations/${query.calibrationId}/report`;
+    delete query.versionId;
+    delete query.calibrationId;
+    return url;
   }
 }

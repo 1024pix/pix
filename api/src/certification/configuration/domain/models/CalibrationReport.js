@@ -2,8 +2,7 @@
  * @typedef {import('./Version.js').Version} Version
  * @typedef {import('./Calibration.js').Calibration} Calibration
  */
-import { fromCalibrationScope } from '../../../shared/domain/models/Scopes.js';
-import { CALIBRATION_STATUSES } from './Calibration.js';
+import { CALIBRATION_STATUSES, fromCalibrationScope } from './Calibration.js';
 
 export class CalibrationReport {
   constructor({ versionId, calibrationId, generatedAt, reportLines }) {

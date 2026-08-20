@@ -1,51 +1,11 @@
 import * as sessionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import { BILLING_MODES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | certification | enrolment | SessionEnrolment', function () {
-  describe('#save', function () {
-    it('should persist and return the session', async function () {
-      databaseBuilder.factory.buildCertificationCenter({
-        id: 456,
-        name: 'Centre de certif fictif',
-        type: 'SCO',
-      });
-      databaseBuilder.factory.buildUser({
-        id: 123,
-      });
-      await databaseBuilder.commit();
-      const sessionToSave = domainBuilder.certification.enrolment
-        .sessionEnrolmentBuilder()
-        .createdBy({
-          userId: 123,
-          certificationCenterId: 456,
-          certificationCenterName: 'Centre de certif fictif',
-          certificationCenterType: 'SCO',
-        })
-        .withParameters({
-          date: '2026-01-01',
-          time: '19:30:05',
-          examiner: 'terminator',
-          room: 'CFA-330',
-          accessCode: 'SOME1ACCESS2CODE',
-          address: '2 rue des coquelicots',
-          description: 'une description pleine de sens',
-          invigilatorPassword: 'INVIG7',
-        })
-        .build();
-
-      const savedSession = await sessionRepository.save({ session: sessionToSave });
-
-      const readSession = await sessionRepository.get({ id: savedSession.id });
-      expect(readSession).to.deepEqualInstance(readSession);
-    });
-  });
-
   describe('#get', function () {
     it('returns the SessionEnrolment model with candidates', async function () {
       const candidateABuilder = domainBuilder.certification.enrolment
@@ -131,7 +91,7 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
       expect(actualSession).to.deepEqualInstance(expectedSession);
     });
 
-    it('should return a Not found error when no session was found', async function () {
+    it('returns null when no session was found', async function () {
       domainBuilder.certification.enrolment
         .sessionEnrolmentBuilder()
         .createdBy({
@@ -154,11 +114,23 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
         })
         .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
+
       // when
-      const error = await catchErr(sessionRepository.get)({ id: 777 });
+      const session = await sessionRepository.get({ id: 777 });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
+      expect(session).to.be.null;
+    });
+
+    it('returns null when the session has no certification center', async function () {
+      databaseBuilder.factory.buildSession({ id: 789, certificationCenterId: null });
+      await databaseBuilder.commit();
+
+      // when
+      const session = await sessionRepository.get({ id: 789 });
+
+      // then
+      expect(session).to.be.null;
     });
   });
 
@@ -324,25 +296,26 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.remove({ id: sessionId });
+          const result = await sessionRepository.remove({ id: sessionId });
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
           expect(foundSession).to.be.undefined;
+          expect(result).to.equal(1);
         });
       });
     });
 
     context('when session does not exist', function () {
-      it('should throw a not found error', async function () {
+      it('return null', async function () {
         // given
         const sessionId = 123456;
 
         // when
-        const error = await catchErr(sessionRepository.remove)({ id: sessionId });
+        const result = await sessionRepository.remove({ id: sessionId });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(result).to.be.null;
       });
     });
   });

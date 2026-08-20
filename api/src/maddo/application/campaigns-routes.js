@@ -1,5 +1,7 @@
 import Joi from 'joi';
 
+import { createPageQuerySchema } from '../../shared/application/query-schema/pagination-query-schema.js';
+import { createSortQuerySchema } from '../../shared/application/query-schema/sort-query-schema.js';
 import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { responseObjectErrorDoc } from '../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
 import { getCampaignParticipations } from './campaigns-controller.js';
@@ -18,18 +20,8 @@ const register = async function (server) {
           }),
           query: Joi.object({
             since: Joi.date().iso().optional(),
-            page: Joi.object({
-              number: Joi.number().integer().empty('').allow(null).optional(),
-              size: Joi.number().integer().max(200).empty('').allow(null).optional(),
-            }).default({}),
-            sort: Joi.array()
-              .items(
-                Joi.object({
-                  value: Joi.string().empty('').allow(null).optional(),
-                  type: Joi.string().valid('asc', 'desc').empty(['', null]).allow(null).optional(),
-                }),
-              )
-              .optional(),
+            page: createPageQuerySchema().optional(),
+            sort: createSortQuerySchema().optional(),
             authenticationRequestedData: Joi.alternatives(Joi.array().items(Joi.string()), Joi.string()).optional(),
           }),
         },

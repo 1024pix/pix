@@ -144,6 +144,30 @@ describe('Unit | Certification | Session | Domain | Models | SessionManagement',
     });
   });
 
+  context('#isFinalized', function () {
+    it('returns true when the session is finalized', function () {
+      // given
+      const session = domainBuilder.certification.sessionManagement.buildSessionManagement({ finalizedAt: new Date() });
+
+      // when
+      const isFinalized = session.isFinalized();
+
+      // then
+      expect(isFinalized).to.be.true;
+    });
+
+    it('returns false when the session is not finalized', function () {
+      // given
+      const session = domainBuilder.certification.sessionManagement.buildSessionManagement({ finalizedAt: null });
+
+      // when
+      const isFinalized = session.isFinalized();
+
+      // then
+      expect(isFinalized).to.be.false;
+    });
+  });
+
   describe('#get hasExpired', function () {
     it('returns false when session has no started certification', function () {
       const session = domainBuilder.certification.sessionManagement.buildSessionManagement({

@@ -51,9 +51,9 @@ export async function findPaginatedFiltered({ filters, page }) {
     .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
     .leftJoin({ 'jury-comment-authors': 'users' }, 'jury-comment-authors.id', 'sessions.juryCommentAuthorId')
     .modify(_setupFilters, filters)
-    .orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
-    .orderByRaw('?? ASC', 'finalizedAt')
-    .orderBy('id');
+    .orderByRaw('?? DESC NULLS FIRST', 'publishedAt')
+    .orderByRaw('?? DESC', 'finalizedAt')
+    .orderBy('sessions.date', 'DESC');
 
   const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
   const jurySessions = results.map(_toDomain);

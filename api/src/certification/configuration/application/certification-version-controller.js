@@ -20,7 +20,6 @@ async function getVersionById(request) {
 async function update(request, h) {
   const certificationVersionId = request.params.certificationVersionId;
   const updateCommand = await deserialize(request.payload);
-
   await usecases.updateVersion({
     ...updateCommand,
     id: certificationVersionId,
@@ -57,8 +56,7 @@ async function createDraft(request, h) {
 }
 
 async function generateCalibrationReport(request, h) {
-  const versionId = request.params.certificationVersionId;
-  const { calibrationId } = request.payload.data.attributes;
+  const { certificationVersionId: versionId, calibrationId } = request.params;
   const report = await usecases.generateCalibrationReportCheck({ versionId, calibrationId });
   return h.response(calibrationReportSerializer.serialize(report)).code(200);
 }

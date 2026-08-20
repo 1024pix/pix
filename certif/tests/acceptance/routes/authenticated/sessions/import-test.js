@@ -1,9 +1,9 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, settled, triggerEvent } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
+import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
 import {
@@ -383,15 +383,13 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
-                  );
-                });
-
-                this.server.post('/certification-centers/:id/sessions/confirm-for-mass-import', () => {
-                  return new Response(
-                    200,
-                    {},
-                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3 },
+                    {
+                      sessionsCount: 2,
+                      sessionsWithoutCandidatesCount: 0,
+                      candidatesCount: 3,
+                      cachedValidatedSessionsKey: 'cached-validated-sessions-key',
+                      errorReports: [],
+                    },
                   );
                 });
 
@@ -423,15 +421,13 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
                     return new Response(
                       200,
                       {},
-                      { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 1, errorReports: [] },
-                    );
-                  });
-
-                  this.server.post('/certification-centers/:id/sessions/confirm-for-mass-import', () => {
-                    return new Response(
-                      200,
-                      {},
-                      { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
+                      {
+                        sessionsCount: 1,
+                        sessionsWithoutCandidatesCount: 0,
+                        candidatesCount: 1,
+                        cachedValidatedSessionsKey: 'cached-validated-sessions-key',
+                        errorReports: [],
+                      },
                     );
                   });
 
@@ -474,15 +470,13 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
                     return new Response(
                       200,
                       {},
-                      { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
-                    );
-                  });
-
-                  this.server.post('/certification-centers/:id/sessions/confirm-for-mass-import', () => {
-                    return new Response(
-                      200,
-                      {},
-                      { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
+                      {
+                        sessionsCount: 2,
+                        sessionsWithoutCandidatesCount: 0,
+                        candidatesCount: 3,
+                        cachedValidatedSessionsKey: 'cached-validated-sessions-key',
+                        errorReports: [],
+                      },
                     );
                   });
 

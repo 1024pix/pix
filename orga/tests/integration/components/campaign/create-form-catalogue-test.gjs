@@ -3,6 +3,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { t } from 'ember-intl/test-support';
 import CreateForm from 'pix-orga/components/campaign/create-form-catalogue';
+import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -41,6 +42,25 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
   });
 
   module('when grouping fields into sections', function () {
+    test('it should always display "Objectif" section', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <CreateForm
+            @campaign={{data.campaign}}
+            @onSubmit={{createCampaignSpy}}
+            @onCancel={{cancelSpy}}
+            @errors={{data.errors}}
+            @membersSortedByFullName={{data.defaultMembers}}
+            @hasBlueprints={{true}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByRole('heading', { name: t('pages.campaign-creation.purpose.title') })).exists();
+    });
+
     test('it does not display a "Paramétrage" section until a goal is selected', async function (assert) {
       // when
       const screen = await render(
@@ -57,13 +77,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       );
 
       // then
-      assert
-        .dom(
-          screen.queryByRole('heading', {
-            name: t('pages.campaign-creation.settings.title'),
-          }),
-        )
-        .doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: t('pages.campaign-creation.settings.title') })).doesNotExist();
     });
 
     test('it does not display the "Personnalisation" section until a course is selected for an assessment goal', async function (assert) {
@@ -301,6 +315,38 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
 
     sinon.assert.calledWithExactly(createCampaignSpy, data.campaign);
     // then
+    assert.ok(true);
+  });
+
+  test('it should track the event of creating a course', async function (assert) {
+    // given
+    const pixMetrics = this.owner.lookup('service:pix-metrics');
+    sinon.stub(pixMetrics, 'trackEvent');
+
+    data.campaign.course = this.owner
+      .lookup('service:store')
+      .createRecord('course', { name: 'targetProfile1', id: '123', type: 'targetProfile' });
+    const createCampaignSpy = sinon.stub();
+
+    await render(
+      <template>
+        <CreateForm
+          @campaign={{data.campaign}}
+          @onSubmit={{createCampaignSpy}}
+          @onCancel={{cancelSpy}}
+          @errors={{data.errors}}
+          @membersSortedByFullName={{data.defaultMembers}}
+          @hasBlueprints={{true}}
+        />
+      </template>,
+    );
+    await clickByName(t('pages.campaign-creation.purpose.assessment'));
+    await fillByLabel(`${t('pages.campaign-creation.name.label')} *`, 'Ma campagne');
+
+    // when
+    await clickByName(t('pages.campaign-creation.actions.create'));
+
+    sinon.assert.calledWithExactly(pixMetrics.trackEvent, EVENT_NAME.CATALOGUE.CAMPAIGN_CREATION_CLICK);
     assert.ok(true);
   });
 

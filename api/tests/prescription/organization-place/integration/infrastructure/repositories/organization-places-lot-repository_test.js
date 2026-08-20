@@ -314,17 +314,11 @@ describe('Integration | Repository | Organization Places Lot', function () {
   });
 
   describe('#delete', function () {
-    let clock;
-
     beforeEach(function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now: Date.now(),
         toFake: ['Date'],
       });
-    });
-
-    afterEach(function () {
-      clock.restore();
     });
 
     it('should mark place as deleted', async function () {

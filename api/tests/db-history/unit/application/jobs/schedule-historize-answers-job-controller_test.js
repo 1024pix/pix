@@ -10,7 +10,7 @@ describe('DB-History | Unit | Application | Jobs | ScheduleHistorizeAnswersJobCo
     it('schedules answers historization usecase call', async function () {
       // given
       const now = new Date('2025-06-11T00:00:00Z');
-      const clock = sinon.useFakeTimers(now);
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
       sinon.stub(usecases, 'historizeAnswers');
       const scheduleHistorizeAnswersJobController = new ScheduleHistorizeAnswersJobController();
       const [expectedDate] = getDatesOneYearEarlier(now);
@@ -20,8 +20,6 @@ describe('DB-History | Unit | Application | Jobs | ScheduleHistorizeAnswersJobCo
 
       // then
       expect(usecases.historizeAnswers).to.have.been.calledWith({ targetDate: expectedDate });
-
-      clock.restore();
     });
   });
 
@@ -29,7 +27,7 @@ describe('DB-History | Unit | Application | Jobs | ScheduleHistorizeAnswersJobCo
     it('should not run the usecase ', async function () {
       // given
       const now = new Date('2024-02-29T00:00:00Z');
-      const clock = sinon.useFakeTimers(now);
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
       sinon.stub(usecases, 'historizeAnswers');
       const scheduleHistorizeAnswersJobController = new ScheduleHistorizeAnswersJobController();
 
@@ -38,8 +36,6 @@ describe('DB-History | Unit | Application | Jobs | ScheduleHistorizeAnswersJobCo
 
       // then
       expect(usecases.historizeAnswers).to.not.have.been.called;
-
-      clock.restore();
     });
   });
 
@@ -47,7 +43,7 @@ describe('DB-History | Unit | Application | Jobs | ScheduleHistorizeAnswersJobCo
     it('should run the usecase twice', async function () {
       // given
       const now = new Date('2025-03-01T00:00:00Z');
-      const clock = sinon.useFakeTimers(now);
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
       sinon.stub(usecases, 'historizeAnswers');
       const scheduleHistorizeAnswersJobController = new ScheduleHistorizeAnswersJobController();
       const expectedDates = getDatesOneYearEarlier(now);
@@ -60,8 +56,6 @@ describe('DB-History | Unit | Application | Jobs | ScheduleHistorizeAnswersJobCo
       expect(usecases.historizeAnswers).to.have.been.calledTwice;
       expect(usecaseCalls[0]).to.have.been.calledWith({ targetDate: expectedDates[0] });
       expect(usecaseCalls[1]).to.have.been.calledWith({ targetDate: expectedDates[1] });
-
-      clock.restore();
     });
   });
 });

@@ -1,13 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Organizational Entities | Application | Route | Admin | AdministrationTeam', function () {
   describe('GET /api/admin/administration-teams', function () {
     it('returns a list of administration teams with 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const team1 = databaseBuilder.factory.buildAdministrationTeam({ name: 'Team1' });
       const team2 = databaseBuilder.factory.buildAdministrationTeam({ name: 'Team2' });
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();

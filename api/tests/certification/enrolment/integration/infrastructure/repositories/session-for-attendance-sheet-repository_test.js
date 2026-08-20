@@ -1,11 +1,9 @@
 import { CertificationCandidateForAttendanceSheet } from '../../../../../../src/certification/enrolment/domain/read-models/CertificationCandidateForAttendanceSheet.js';
 import { SessionForAttendanceSheet } from '../../../../../../src/certification/enrolment/domain/read-models/SessionForAttendanceSheet.js';
 import * as sessionForAttendanceSheetRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-for-attendance-sheet-repository.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | Session-for-attendance-sheet', function () {
   describe('#getWithCertificationCandidates', function () {
@@ -190,31 +188,31 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
     });
 
     context('when no session was found', function () {
-      it('should return a Not found error', async function () {
+      it('returns null', async function () {
         // when
-        const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)({
+        const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates({
           id: 12434354,
         });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(session).to.be.null;
       });
     });
 
     context('when no certification candidates was found', function () {
-      it('should return a Not found error', async function () {
+      it('returns null', async function () {
         // given
         const sessionId = 1234;
         databaseBuilder.factory.buildSession({ id: sessionId });
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)({
+        const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates({
           id: sessionId,
         });
 
         // then<
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(session).to.be.null;
       });
     });
   });

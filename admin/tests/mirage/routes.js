@@ -123,7 +123,7 @@ export default function routes() {
     schema.certificationVersionSummaries.find(request.params.id).destroy();
   });
 
-  this.post('/admin/certification-versions/:id/calibration-report', (schema) => {
+  this.get('/admin/certification-versions/:id/calibrations/:calibrationId/report', (schema) => {
     return schema.calibrationReports.first();
   });
 

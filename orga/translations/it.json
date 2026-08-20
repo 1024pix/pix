@@ -296,21 +296,21 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Campagna di valutazione",
-        "CAMPAIGN": "Campagna di valutazione",
         "COMBINED_COURSE": "Percorso di apprendimento",
         "EXAM": "Modalità di interrogazione",
-        "FORMATION": "Formazione",
-        "MODULE": "Modulo",
-        "PROFILES_COLLECTION": "Campagna di raccolta profili"
+        "PROFILES_COLLECTION": "Campagna di raccolta profili",
+        "campaign": "Campagna di valutazione",
+        "formation": "Formazione",
+        "module": "Modulo"
       },
       "information": {
         "ASSESSMENT": "Valutazione",
-        "CAMPAIGN": "Valutazione",
         "COMBINED_COURSE": "Percorso di apprendimento",
         "EXAM": "Modalità di interrogazione",
-        "FORMATION": "Formazione",
-        "MODULE": "Modulo",
-        "PROFILES_COLLECTION": "Collezione di profili"
+        "PROFILES_COLLECTION": "Collezione di profili",
+        "campaign": "Valutazione",
+        "formation": "Formazione",
+        "module": "Modulo"
       }
     },
     "analysis-per-competence": {
@@ -816,7 +816,8 @@
         "label": "Qual è l'obiettivo della vostra campagna?",
         "profiles-collection": "Raccogliere i profili Pix dei partecipanti",
         "profiles-collection-info": "Una campagna di raccolta di profili viene utilizzata per recuperare il profilo dei partecipanti: livelli per abilità e punteggio pix.",
-        "profiles-collection-info-certificability-calculation": "Lo stato di certificabilità viene aggiornato automaticamente nella scheda '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Studenti'</a>'."
+        "profiles-collection-info-certificability-calculation": "Lo stato di certificabilità viene aggiornato automaticamente nella scheda '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Studenti'</a>'.",
+        "title": "Obiettivo"
       },
       "settings": {
         "title": "Impostazioni"
@@ -1042,7 +1043,7 @@
         "simplified-access": "Accesso senza account",
         "tag": {
           "blueprint": "Percorso di apprendimento",
-          "target-profile": "Percorso"
+          "target-profile": "Percorso di valutazione"
         },
         "tubes-count": "{count, plural, =0 {Nessun argomento} =1 {{count} argomento} other {{count} argomenti}}"
       },
@@ -1074,17 +1075,20 @@
         "associated-badges": "Badge associati",
         "combined-course-content": {
           "aria-label-duration": "Durata stimata: {duration} minuti",
-          "description": "I percorsi di apprendimento combinano valutazioni e moduli di apprendimento personalizzati, consentendo un insegnamento adattato al livello di ogni partecipante.",
           "duration": "≈ {duration} min",
           "module-info": "I moduli saranno consigliati ai partecipanti in base ai loro risultati.",
           "prescribed": "Prescritto",
           "recommended": "Consigliato",
           "step": "Passo {number}",
-          "title": "Percorsi di apprendimento"
+          "title": "Contenuto del percorso di apprendimento"
         },
         "max-level": "Livello max.",
         "open-modal": "Visualizza i dettagli del percorso {name}",
         "select-course": "Seleziona questo corso",
+        "target-profile-content": {
+          "competence": "Competenza",
+          "title": "Contenuto del percorso di valutazione"
+        },
         "tube-name-and-description": "Nome e descrizione dell'argomento",
         "tube-unavailable": "Argomento non disponibile"
       },

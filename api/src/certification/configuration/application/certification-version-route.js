@@ -83,6 +83,7 @@ async function register(server) {
               attributes: Joi.object({
                 'start-date': Joi.date().allow(null).optional(),
                 'assessment-duration': Joi.number().required(),
+                'external-calibration-id': Joi.number().allow(null).required(),
                 'minimum-answers-required-for-validation': Joi.number().required(),
                 'maximum-assessment-length': Joi.number().required(),
                 'challenges-between-same-competence': Joi.number().required(),
@@ -202,8 +203,8 @@ async function register(server) {
       },
     },
     {
-      method: 'POST',
-      path: '/api/admin/certification-versions/{certificationVersionId}/calibration-report',
+      method: 'GET',
+      path: '/api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report',
       config: {
         pre: [
           {
@@ -218,13 +219,7 @@ async function register(server) {
         validate: {
           params: Joi.object({
             certificationVersionId: identifiersType.certificationVersionId,
-          }),
-          payload: Joi.object({
-            data: Joi.object({
-              attributes: Joi.object({
-                calibrationId: Joi.number().integer().required(),
-              }).required(),
-            }),
+            calibrationId: identifiersType.calibrationId,
           }),
         },
         handler: certificationVersionController.generateCalibrationReport,

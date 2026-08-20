@@ -70,10 +70,10 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
       });
     });
 
-    module('when loading a report for a version', function () {
-      test('displays the report', async function (assert) {
-        const generatedAt = new Date('2026-08-08T14:00:00Z');
-        server.post('/admin/certification-versions/:id/calibration-report', (schema) => {
+    module('when loading a report for a version', function (hooks) {
+      const generatedAt = new Date('2026-08-08T14:00:00Z');
+      hooks.beforeEach(async function () {
+        server.get('/admin/certification-versions/:id/calibrations/:calibrationId/report', (schema) => {
           return schema.create('calibration-report', {
             id: 999,
             calibrationId: 1,
@@ -113,7 +113,9 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
           });
         });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      });
 
+      test('displays the report', async function (assert) {
         const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
         await fillByLabel('ID de calibration', 1, { exact: false });
         await clickByName('Vérifier la calibration');
@@ -131,14 +133,24 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
           .dom(screen.getByText(`Rapport de vérification de la calibration d'ID 1 généré le ${displayedGeneratedAt}`))
           .exists();
       });
-    });
-  });
+      test("it's possible to save the calibrationId", async function (assert) {
+        const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
+        await fillByLabel('ID de calibration', 1, { exact: false });
+        await clickByName('Vérifier la calibration');
 
-  module('when admin member doesn\'t have the role "SUPER ADMIN"', function () {
-    test('should be redirected to the framework-history list ', async function (assert) {
-      await authenticateAdminMemberWithRole({ isSuperAdmin: false })(server);
-      await visit(`/certification-frameworks/CORE/versions/14/calibration`);
-      assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
+        await settled();
+        await clickByName("Enregistrer l'ID 1 de calibration");
+
+        assert.dom(screen.getByText("La mise à jour s'est bien faite !")).exists();
+      });
+    });
+
+    module('when admin member doesn\'t have the role "SUPER ADMIN"', function () {
+      test('should be redirected to the framework-history list ', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: false })(server);
+        await visit(`/certification-frameworks/CORE/versions/14/calibration`);
+        assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
+      });
     });
   });
 });

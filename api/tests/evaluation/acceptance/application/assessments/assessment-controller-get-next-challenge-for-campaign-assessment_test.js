@@ -1,10 +1,10 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
@@ -70,7 +70,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);
     await databaseBuilder.commit();
@@ -81,8 +81,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
     const userId = 1234;
 
     context('When there still are challenges to answer', function () {
-      let clock;
-
       beforeEach(async function () {
         databaseBuilder.factory.buildUser({ id: userId });
         const campaign = databaseBuilder.factory.buildCampaign({ assessmentMethod: 'SMART_RANDOM' });
@@ -106,14 +104,10 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
         });
         await databaseBuilder.commit();
 
-        clock = sinon.useFakeTimers({
+        sinon.useFakeTimers({
           now: Date.now(),
           toFake: ['Date'],
         });
-      });
-
-      afterEach(async function () {
-        clock.restore();
       });
 
       it('should return an assessment', async function () {

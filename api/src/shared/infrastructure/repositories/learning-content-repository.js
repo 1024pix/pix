@@ -218,7 +218,7 @@ export class LearningContentRepository {
         .from(knexConn.raw(`unnest(?::${this.#idType}[]) with ordinality as ids(id, idx)`, [ids])) // eslint-disable-line knex/avoid-injections
         .leftJoin(this.#tableName, `${this.#tableName}.id`, 'ids.id')
         .orderBy('ids.idx');
-      return dtos.map((dto) => (dto.id ? dto : null));
+      return dtos.map((dto) => (dto.id ? deepFreeze(dto) : null));
     } finally {
       stopLoadCachePenaltyTimer();
     }
@@ -240,4 +240,17 @@ export class LearningContentRepository {
     }
     this.#findCache.clear();
   }
+}
+
+function deepFreeze(value) {
+  if (value === null || typeof value !== 'object' || Object.isFrozen(value)) {
+    return value;
+  }
+
+  Object.freeze(value);
+  for (const key of Object.keys(value)) {
+    deepFreeze(value[key]);
+  }
+
+  return value;
 }

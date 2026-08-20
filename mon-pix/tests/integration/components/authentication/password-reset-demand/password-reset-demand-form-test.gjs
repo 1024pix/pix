@@ -99,10 +99,6 @@ module('Integration | Component | Authentication | PasswordResetDemand | passwor
       sinon.stub(window, 'fetch');
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     module('when the password-reset-demand is successful', function () {
       test('it displays a "password reset demand received" info (without any error message)', async function (assert) {
         // given

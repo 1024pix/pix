@@ -131,6 +131,7 @@ import { buildSkillLearningContentDataObject } from './build-skill-learning-cont
 import { buildSolution } from './build-solution.js';
 import { buildStage } from './build-stage.js';
 import { buildStageAcquisition } from './build-stage-acquisition.js';
+import { buildStructureCategory } from './build-structure-category.js';
 import { buildSupOrganizationLearner } from './build-sup-organization-learner.js';
 import { buildTag } from './build-tag.js';
 import { buildTargetProfile } from './build-target-profile.js';
@@ -501,6 +502,7 @@ export {
   buildStageAcquisition,
   buildStageCollectionForTargetProfileManagement,
   buildStageCollectionForUserCampaignResults,
+  buildStructureCategory,
   buildSupOrganizationLearner,
   buildTag,
   buildTargetProfile,

@@ -7,15 +7,10 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Identity Access Management | Integration | Domain | UseCase | assert-user-is-blocked', function () {
-  let clock;
   const now = new Date('2024-04-05T03:04:05Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when the user is not blocked', function () {

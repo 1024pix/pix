@@ -168,7 +168,6 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function () {
           birthplace: 'Namek',
           birthdate: '1989-10-24',
           sex: 'M',
-          'external-id': 'xenoverse2',
           'birth-insee-code': '99100',
           'birth-postal-code': '75001',
           'birth-country': 'FRANCE',

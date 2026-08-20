@@ -366,7 +366,7 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
     it('returns certification center membership associated to the certification center', async function () {
       // given
       const now = new Date('2021-01-02');
-      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ updatedAt: now });
       const user = databaseBuilder.factory.buildUser();
@@ -413,7 +413,6 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
 
       expect(associatedUser).to.be.an.instanceOf(User);
       expect(pick(associatedUser, ['id', 'firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);
-      clock.restore();
     });
 
     it('returns certification center membership ordered by role, then lastName and firstName', async function () {
@@ -687,14 +686,9 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
 
   describe('#disableById', function () {
     const now = new Date('2019-01-01T05:06:07Z');
-    let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     context('When certification center membership exist', function () {
@@ -866,14 +860,9 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
   describe('#disableMembershipsByUserId', function () {
     const creationDate = new Date('2022-12-05');
     const now = new Date('2024-10-04');
-    let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     context('when there is multiple memberships for the specified user id', function () {

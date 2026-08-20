@@ -13,11 +13,10 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Campaign', function () {
   let campaign;
-  let clock;
   const now = new Date('2022-11-28T12:00:00Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     campaign = new Campaign({
       id: 1,
       type: CampaignTypes.ASSESSMENT,
@@ -29,10 +28,6 @@ describe('Campaign', function () {
       title: 'Minus One',
       multipleSendings: true,
     });
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   describe('#isDeleted', function () {

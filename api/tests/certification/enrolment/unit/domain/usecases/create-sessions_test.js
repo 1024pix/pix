@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
@@ -10,17 +9,17 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
-  let centerRepository;
   let candidateRepository;
   let sessionRepository;
+  let sessionCodeService;
   let eventAdapter;
   let dependencies;
   let temporarySessionsStorageForMassImportService;
 
   beforeEach(function () {
-    centerRepository = { getById: sinon.stub() };
     candidateRepository = { deleteBySessionId: sinon.stub(), save: sinon.stub() };
-    sessionRepository = { save: sinon.stub() };
+    sessionRepository = { create: sinon.stub() };
+    sessionCodeService = { getNewInvigilatorPassword: sinon.stub().returns('Y722GA') };
     eventAdapter = { onCandidatesEnrolledWithMassSessionsImport: sinon.stub() };
     temporarySessionsStorageForMassImportService = {
       getByKeyAndUserId: sinon.stub(),
@@ -28,9 +27,9 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
     };
 
     dependencies = {
-      centerRepository,
       candidateRepository,
       sessionRepository,
+      sessionCodeService,
       eventAdapter,
       temporarySessionsStorageForMassImportService,
     };
@@ -60,10 +59,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   context('when there are cached sessions matching the key', function () {
     context('when at least one of the sessions does NOT exist', function () {
       context('when session has no candidate', function () {
-        it('should only save the session', async function () {
+        it('should only create the session, with a freshly generated invigilator password', async function () {
           // given
-          const center = domainBuilder.certification.enrolment.buildCenter();
-          centerRepository.getById.withArgs({ id: center.id }).resolves(center);
           const temporaryCachedSessions = [
             {
               id: undefined,
@@ -75,7 +72,6 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               time: '01:00',
               examiner: 'Pierre',
               description: 'desc',
-              invigilatorPassword: 'Y722GA',
               accessCode: 'accessCode',
               certificationCandidates: [],
             },
@@ -84,29 +80,36 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           const sessionCreatorId = 1234;
           const cachedValidatedSessionsKey = 'uuid';
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
-          sessionRepository.save.resolves({ id: 1234 });
+          sessionRepository.create.resolves(1234);
 
           // when
           await createSessions({
             cachedValidatedSessionsKey,
             userId: sessionCreatorId,
-            certificationCenterId: center.id,
             ...dependencies,
           });
 
           // then
-          const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
-          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
+          expect(sessionRepository.create).to.have.been.calledOnceWithExactly({
+            userId: sessionCreatorId,
+            certificationCenterId: 567,
+            address: 'Site 1',
+            room: 'Salle 1',
+            examiner: 'Pierre',
+            date: '2023-03-12',
+            time: '01:00',
+            description: 'desc',
+            accessCode: 'accessCode',
+            invigilatorPassword: 'Y722GA',
+          });
           expect(candidateRepository.save).not.to.have.been.called;
           expect(eventAdapter.onCandidatesEnrolledWithMassSessionsImport).not.to.have.been.called;
         });
       });
 
       context('when session has at least one candidate', function () {
-        it('should save the session and the candidates', async function () {
+        it('should create the session and the candidates', async function () {
           // given
-          const center = domainBuilder.certification.enrolment.buildCenter({ id: 567 });
-          centerRepository.getById.withArgs({ id: center.id }).resolves(center);
           const candidate = domainBuilder.certification.enrolment
             .candidateBuilder()
             .withSubscription(Frameworks.DROIT)
@@ -116,23 +119,21 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             {
               id: undefined,
               certificationCenter: 'Centre de Certifix',
-              certificationCenterId: center.id,
+              certificationCenterId: 567,
               address: 'Site 1',
               room: 'Salle 1',
               date: '2023-03-12',
               time: '01:00',
               examiner: 'Pierre',
               description: 'desc',
-              invigilatorPassword: 'Y722GA',
               accessCode: 'accessCode',
               certificationCandidates: [candidate],
-              createdBy: sessionCreatorId,
             },
           ];
           temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
           const cachedValidatedSessionsKey = 'uuid';
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
-          sessionRepository.save.resolves({ id: 1234 });
+          sessionRepository.create.resolves(1234);
           const savedCandidate = domainBuilder.certification.enrolment
             .candidateBuilder()
             .withSubscription(Frameworks.DROIT)
@@ -147,13 +148,22 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           await createSessions({
             cachedValidatedSessionsKey,
             userId: sessionCreatorId,
-            certificationCenterId: center.id,
             ...dependencies,
           });
 
           // then
-          const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
-          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
+          expect(sessionRepository.create).to.have.been.calledOnceWithExactly({
+            userId: sessionCreatorId,
+            certificationCenterId: 567,
+            address: 'Site 1',
+            room: 'Salle 1',
+            examiner: 'Pierre',
+            date: '2023-03-12',
+            time: '01:00',
+            description: 'desc',
+            accessCode: 'accessCode',
+            invigilatorPassword: 'Y722GA',
+          });
           expect(candidateRepository.save).to.have.been.calledOnceWith({
             candidates: [savedCandidate],
           });
@@ -165,10 +175,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
     });
 
     context('when at least one of the sessions already exists', function () {
-      it('should delete previous candidates and save the new candidates', async function () {
+      it('should delete previous candidates and save the new candidates, without touching the session', async function () {
         // given
-        const center = domainBuilder.certification.enrolment.buildCenter();
-        centerRepository.getById.withArgs({ id: center.id }).resolves(center);
         const candidate = domainBuilder.certification.enrolment
           .candidateBuilder()
           .withSubscription(Frameworks.DROIT)
@@ -197,11 +205,12 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         await createSessions({
           cachedValidatedSessionsKey,
           userId: sessionCreatorId,
-          certificationCenterId: center.id,
           ...dependencies,
         });
 
         // then
+        expect(sessionRepository.create).not.to.have.been.called;
+        expect(sessionCodeService.getNewInvigilatorPassword).not.to.have.been.called;
         expect(candidateRepository.deleteBySessionId).to.have.been.calledOnceWith({
           sessionId: 1234,
         });
@@ -216,8 +225,6 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
     it('should delete cached sessions', async function () {
       // given
-      const center = domainBuilder.certification.enrolment.buildCenter();
-      centerRepository.getById.withArgs({ id: center.id }).resolves(center);
       const certificationCandidate = domainBuilder.certification.enrolment
         .candidateBuilder()
         .withSubscription(Frameworks.DROIT)
@@ -238,7 +245,6 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       await createSessions({
         cachedValidatedSessionsKey,
         userId: sessionCreatorId,
-        certificationCenterId: center.id,
         ...dependencies,
       });
 

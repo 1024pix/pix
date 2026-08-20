@@ -1,13 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Organizational Entities | Application | Route | Admin | OrganizationLearnerTypes', function () {
   describe('GET /api/admin/organization-learner-types', function () {
     it('returns a list of organization learner types with 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const organizationLearnerType1 = databaseBuilder.factory.buildOrganizationLearnerType({
         id: 123,
         name: 'Public 1',

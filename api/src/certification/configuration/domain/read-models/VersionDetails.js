@@ -12,6 +12,7 @@ export class VersionDetails {
     variationPercent,
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
+    externalCalibrationId,
     scope,
     status,
     comments,
@@ -29,6 +30,7 @@ export class VersionDetails {
     this.variationPercent = variationPercent;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube;
     this.enablePassageByAllCompetences = enablePassageByAllCompetences;
+    this.externalCalibrationId = externalCalibrationId;
     this.scope = scope;
     this.status = status;
     this.comments = comments;

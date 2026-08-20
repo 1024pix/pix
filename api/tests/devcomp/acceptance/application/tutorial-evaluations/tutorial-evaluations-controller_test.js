@@ -1,7 +1,7 @@
-import { createServer } from '../../../../../server.js';
 import { TutorialEvaluation } from '../../../../../src/devcomp/domain/models/TutorialEvaluation.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', function () {
@@ -22,7 +22,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
   };
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     await databaseBuilder.factory.buildUser({
       id: 4444,
       firstName: 'Classic',

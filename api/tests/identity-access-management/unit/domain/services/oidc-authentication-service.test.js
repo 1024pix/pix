@@ -29,10 +29,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     openidClient = createOpenIdClientMock(MOCK_OIDC_PROVIDER_CONFIG);
   });
 
-  afterEach(function () {
-    clock.restore();
-  });
-
   describe('constructor', function () {
     context('when no parameter provided', function () {
       it('creates an instance with default values', function () {

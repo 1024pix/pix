@@ -4,15 +4,10 @@ import { PlacesLot } from '../../../../../src/organizational-entities/domain/rea
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | ReadModels | PlacesLot', function () {
-  let clock;
   const now = new Date('2021-05-01');
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(async function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#count', function () {

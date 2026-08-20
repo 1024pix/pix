@@ -1,11 +1,14 @@
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
 const getTableName = (index, name) => `${index} - ${name}`;
 
 export default class TargetProfileContent extends Component {
+  @service intl;
+
   get targetProfileCompetences() {
     return this.args.currentCourse.frameworks
       .flatMap((framework) => framework.hasMany('areas').value())
@@ -20,11 +23,18 @@ export default class TargetProfileContent extends Component {
       });
   }
 
+  getCompetenceIndexLabel = (index) => {
+    return `${this.intl.t('pages.catalogue.modal.target-profile-content.competence')} ${index}`;
+  };
+
   <template>
-    <div>
+    <div class="target-profile-content">
       {{#each this.targetProfileCompetences as |competence|}}
-        <div class="course-modal__competence">
-          <h2>{{getTableName competence.index competence.name}}</h2>
+        <div class="target-profile-competence">
+          <div class="target-profile-competence__title">
+            <p>{{this.getCompetenceIndexLabel competence.index}}</p>
+            <h2>{{competence.name}}</h2>
+          </div>
           <PixTable
             @condensed={{true}}
             @variant="orga"
@@ -32,25 +42,25 @@ export default class TargetProfileContent extends Component {
             @data={{competence.tubes}}
           >
             <:columns as |tube context|>
-              <PixTableColumn @context={{context}} class="course-modal__competence__description__column">
+              <PixTableColumn @context={{context}} class="target-profile-competence__description__column">
                 <:header>
                   {{t "pages.catalogue.modal.tube-name-and-description"}}
                 </:header>
                 <:cell>
-                  <span class="course-modal__competence__description__title">
+                  <span class="target-profile-competence__description__title">
                     {{tube.practicalTitle}}
                   </span>
-                  <span class="course-modal__competence__description__text">
+                  <span class="target-profile-competence__description__text">
                     {{tube.practicalDescription}}
                   </span>
                 </:cell>
               </PixTableColumn>
-              <PixTableColumn @context={{context}} class="course-modal__competence__level__column">
+              <PixTableColumn @context={{context}} class="target-profile-competence__level__column">
                 <:header>
                   {{t "pages.catalogue.modal.max-level"}}
                 </:header>
                 <:cell>
-                  <span class="course-modal__competence__level__data">
+                  <span class="target-profile-competence__level__data">
                     {{#if tube.maxLevel}}
                       {{tube.maxLevel}}
                     {{else}}

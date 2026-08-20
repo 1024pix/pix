@@ -19,9 +19,6 @@ module('Unit | Services | locale-loader', function (hooks) {
     sinon.stub(intlService, 'addTranslations');
     sinon.stub(dayjs, 'locale');
   });
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
   test('loads daysjs language file from locale', async function (assert) {
     // when
     await localeLoaderService.load('de-AT');

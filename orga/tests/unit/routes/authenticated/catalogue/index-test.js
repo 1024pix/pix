@@ -5,10 +5,6 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/catalogue/index', function (hooks) {
   setupTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('beforeModel', function () {
     test('it should redirect to catalogue all list page', async function (assert) {
       // given

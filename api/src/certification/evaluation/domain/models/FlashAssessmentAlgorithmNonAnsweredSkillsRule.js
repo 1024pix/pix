@@ -10,9 +10,8 @@ export class FlashAssessmentAlgorithmNonAnsweredSkillsRule {
       .map((answer) => this._findChallengeForAnswer(allChallenges, answer))
       .map((challenge) => challenge.skill.id);
 
-    const isNonAnsweredSkill = (skill) => !alreadyAnsweredSkillsIds.includes(skill.id);
     const challengesForNonAnsweredSkills = availableChallenges.filter((challenge) =>
-      isNonAnsweredSkill(challenge.skill),
+      isNonAnsweredSkill(alreadyAnsweredSkillsIds, challenge.skill),
     );
 
     return challengesForNonAnsweredSkills;
@@ -25,4 +24,7 @@ export class FlashAssessmentAlgorithmNonAnsweredSkillsRule {
     }
     return challengeAssociatedToAnswer;
   }
+}
+function isNonAnsweredSkill(alreadyAnsweredSkillsIds, skill) {
+  return !alreadyAnsweredSkillsIds.includes(skill.id);
 }

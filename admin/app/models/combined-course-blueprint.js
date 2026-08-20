@@ -1,16 +1,22 @@
 import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 
+export const COMBINED_COURSE_ITEM_TYPES = {
+  MODULE: 'module',
+  CAMPAIGN: 'campaign',
+  FORMATION: 'formation',
+};
+
 export default class CombinedCourseBlueprint extends Model {
   @attr('string') name;
   @attr('string') internalName;
-  @attr('string') illustration;
-  @attr('string') description;
-  @attr('string') prescriberDescription;
+  @attr('nullable-string') illustration;
+  @attr('nullable-string') description;
+  @attr('nullable-string') prescriberDescription;
   @attr('string') attestationLabel;
   @attr() rewardId;
-  @attr('string') rewardRequirementsDescription;
-  @attr('string') rewardType;
-  @attr('string') surveyLink;
+  @attr('nullable-string') rewardRequirementsDescription;
+  @attr('nullable-string') rewardType;
+  @attr('nullable-string') surveyLink;
   @attr({ type: 'date', defaultValue: () => undefined }) createdAt;
   @attr({ defaultValue: () => [] }) content;
   @attr() cappedTubeRequirements;

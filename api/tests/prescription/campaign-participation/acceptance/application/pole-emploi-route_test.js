@@ -1,6 +1,6 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateValidRequestAuthorizationHeaderForApplication,
@@ -18,7 +18,7 @@ describe('Acceptance | API | Pole Emploi envois', function () {
   const POLE_EMPLOI_SOURCE = 'poleEmploi';
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/pole-emploi/envois', function () {

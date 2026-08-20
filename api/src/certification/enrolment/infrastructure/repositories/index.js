@@ -1,10 +1,8 @@
 import * as centerRepository from '../../../../organizational-entities/infrastructure/repositories/center-repository.js';
-import * as dataProtectionOfficerRepository from '../../../../organizational-entities/infrastructure/repositories/data-protection-officer.repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as sessionManagementRepository from '../../../session-management/infrastructure/repositories/session-management-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
-import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as candidateRepository from './candidate-repository.js';
 import * as certificationCpfCityRepository from './certification-cpf-city-repository.js';
@@ -14,6 +12,7 @@ import * as complementaryCertificationCourseRepository from './complementary-cer
 import * as divisionRepository from './division-repository.js';
 import * as sessionForAttendanceSheetRepository from './session-for-attendance-sheet-repository.js';
 import * as sessionRepository from './session-repository.js';
+import * as userRepository from './user-repository.js';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
@@ -26,7 +25,6 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {sessionManagementRepository} SessionManagementRepository
- * @typedef {dataProtectionOfficerRepository} DataProtectionOfficerRepository
  * @typedef {userRepository} UserRepository
  * @typedef {targetProfileHistoryRepository} TargetProfileHistoryRepository
  * @typedef {complementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
@@ -40,7 +38,6 @@ const repositoriesWithoutInjectedDependencies = {
   divisionRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
-  dataProtectionOfficerRepository,
   sessionForAttendanceSheetRepository,
   sessionManagementRepository,
   sessionRepository,

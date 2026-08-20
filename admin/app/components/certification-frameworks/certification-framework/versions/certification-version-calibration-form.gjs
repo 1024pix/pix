@@ -63,16 +63,14 @@ export default class CalibrationForm extends Component {
   @action
   async onGenerateReport(event) {
     event.preventDefault();
-    const report = this.store.createRecord('calibration-report');
+    let report;
     try {
-      await report.save({
-        adapterOptions: {
-          calibrationId: this.calibrationId,
-          versionId: this.args.draftVersion.id,
-        },
+      report = await this.store.queryRecord('calibration-report', {
+        calibrationId: this.calibrationId,
+        versionId: this.args.draftVersion.id,
       });
     } catch (error) {
-      report.deleteRecord();
+      this.report = null;
       this.pixToast.sendErrorNotification({ message: error.errors?.[0].detail });
       return;
     }
@@ -95,8 +93,28 @@ export default class CalibrationForm extends Component {
     return this.showMoreInfoForLines.some((lineExpanded) => lineExpanded === lineNumber);
   }
 
+  @action
+  async saveCalibrationId() {
+    try {
+      this.args.draftVersion.externalCalibrationId = this.report.calibrationId;
+      await this.args.draftVersion.save();
+      this.pixToast.sendSuccessNotification({
+        message: this.intl.t(
+          'components.certification-frameworks.certification-framework.versions.calibration.save-success-message',
+        ),
+      });
+    } catch (error) {
+      this.pixToast.sendErrorNotification({ message: error.errors?.[0].detail });
+      return;
+    }
+    return;
+  }
+
   <template>
-    <Card @title="Calibration des épreuves">
+    <Card
+      class="versions-calibration"
+      @title={{t "components.certification-frameworks.certification-framework.versions.calibration.title"}}
+    >
       <form id="version-calibration-form" class="versions-calibration__form" {{on "submit" this.onGenerateReport}}>
         <section>
           <PixInput
@@ -145,11 +163,25 @@ export default class CalibrationForm extends Component {
             </DescriptionList.Item>
           {{/each}}
         </DescriptionList>
+        <PixButton
+          class="versions-calibration__save-button"
+          @triggerAction={{this.saveCalibrationId}}
+          @variant="primary-bis"
+        >{{t
+            "components.certification-frameworks.certification-framework.versions.calibration.save-button-label"
+            id=this.report.calibrationId
+          }}</PixButton>
       {{/if}}
     </Card>
     <section class="actions-container">
       <PixButtonLink @route="authenticated.certification-frameworks.certification-framework" @variant="secondary">
         {{t "common.actions.cancel"}}
+      </PixButtonLink>
+      <PixButtonLink
+        @route="authenticated.certification-frameworks.certification-framework.versions.version.meshes-configuration"
+        @variant="primary"
+      >
+        {{t "common.actions.next"}}
       </PixButtonLink>
     </section>
   </template>

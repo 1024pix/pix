@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { triggerEvent } from '@ember/test-helpers';
+import { settled, triggerEvent, waitUntil } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import HeadInformation from 'pix-admin/components/organizations/head-information';
 import ENV from 'pix-admin/config/environment';
@@ -181,6 +181,8 @@ module('Integration | Component | organizations/header-information', function (h
             files: [file],
           },
         );
+        await waitUntil(() => notificationService.sendSuccessNotification.calledOnce);
+        await settled();
 
         // then
         assert.true(organization.save.calledOnce);
@@ -217,6 +219,7 @@ module('Integration | Component | organizations/header-information', function (h
             files: [file],
           },
         );
+        await waitUntil(() => notificationService.sendErrorNotification.calledOnce);
 
         // then
         assert.true(organization.rollbackAttributes.calledOnce);
@@ -251,6 +254,7 @@ module('Integration | Component | organizations/header-information', function (h
             files: [file],
           },
         );
+        await waitUntil(() => notificationService.sendErrorNotification.calledOnce);
 
         // then
         assert.true(organization.rollbackAttributes.calledOnce);

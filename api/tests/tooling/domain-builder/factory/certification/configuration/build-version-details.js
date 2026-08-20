@@ -78,6 +78,7 @@ class VersionDetailsBuilder {
     this.variationPercent = 0.66;
     this.limitToOneQuestionPerTube = true;
     this.enablePassageByAllCompetences = false;
+    this.externalCalibrationId = null;
     this.comments = null;
     this.areas = [];
   }
@@ -168,6 +169,7 @@ class VersionDetailsBuilder {
     challengesBetweenSameCompetence,
     defaultProbabilityToPickChallenge,
     defaultCandidateCapacity,
+    externalCalibrationId,
     variationPercent,
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
@@ -187,6 +189,7 @@ class VersionDetailsBuilder {
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube || this.limitToOneQuestionPerTube;
     this.enablePassageByAllCompetences = enablePassageByAllCompetences || this.enablePassageByAllCompetences;
     this.comments = comments ?? this.comments;
+    this.externalCalibrationId = externalCalibrationId ?? this.externalCalibrationId;
     return this;
   }
 
@@ -207,6 +210,7 @@ class VersionDetailsBuilder {
       scope: versionDetails.scope,
       startDate: versionDetails.startDate,
       expirationDate: versionDetails.expirationDate,
+      externalCalibrationId: versionDetails.externalCalibrationId,
       assessmentDuration: versionDetails.assessmentDuration,
       minimumAnswersRequiredToValidateACertification: versionDetails.minimumAnswersRequiredForValidation,
       globalScoringConfiguration: defaultGlobalScoringConfiguration,
@@ -311,6 +315,7 @@ class VersionDetailsBuilder {
       variationPercent: this.variationPercent,
       limitToOneQuestionPerTube: this.limitToOneQuestionPerTube,
       enablePassageByAllCompetences: this.enablePassageByAllCompetences,
+      externalCalibrationId: this.externalCalibrationId,
       comments: this.comments,
       status: this.status,
       areas: this.areas,

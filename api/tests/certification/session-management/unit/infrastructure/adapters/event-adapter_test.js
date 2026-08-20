@@ -4,11 +4,11 @@ import * as eventAdapter from '../../../../../../src/certification/session-manag
 import { EVENT_NAMES } from '../../../../../../src/certification/shared/domain/constants/event-names.js';
 
 describe('Certification | SessionManagement | Unit | Adapter | event', function () {
-  let eventApi, dependencies, clock;
+  let eventApi, dependencies;
   const now = new Date('2023-02-02');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     eventApi = {
       pushEvents: sinon.stub(),
     };
@@ -16,10 +16,6 @@ describe('Certification | SessionManagement | Unit | Adapter | event', function 
     dependencies = {
       eventApi,
     };
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   context('#onCandidateAuthorizedToStart', function () {

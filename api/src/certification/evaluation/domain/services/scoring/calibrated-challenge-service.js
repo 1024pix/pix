@@ -68,11 +68,11 @@ export async function findCalibratedChallenges({
  * @param {ChallengeCalibrationRepository} params.challengeCalibrationRepository
  * @returns {Promise<FindByCertificationCourseIdObject>}
  */
-const _findByCertificationCourseId = async ({
+async function _findByCertificationCourseId({
   compatibleChallenges,
   certificationCourseId,
   challengeCalibrationRepository,
-}) => {
+}) {
   const challengesCalibrations = await challengeCalibrationRepository.getByCertificationCourseId({
     certificationCourseId,
   });
@@ -81,7 +81,7 @@ const _findByCertificationCourseId = async ({
     return challengesCalibrations.find((calibration) => challenge.id === calibration.id);
   });
   return { allChallenges: compatibleChallenges, askedChallenges, challengesCalibrations };
-};
+}
 
 /**
  * @param {Array<ChallengeCalibration>} challengesCalibrations - only calibrations of challenges PRESENTED to candidate

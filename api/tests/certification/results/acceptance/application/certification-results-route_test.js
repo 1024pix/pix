@@ -1,19 +1,19 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { CertificationResultsLinkByEmailToken } from '../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkByEmailToken.js';
 import { CertificationResultsLinkToken } from '../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkToken.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Results | Acceptance | Application | Routes | certification results', function () {
   describe('GET /api/sessions/{sessionId}/certified-clea-candidate-data', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const dbf = databaseBuilder.factory;
 
       const user = dbf.buildUser();
@@ -63,7 +63,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
     context('when a valid token is given', function () {
       it('should return 200 HTTP status code', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
 
         const dbf = databaseBuilder.factory;
 
@@ -126,7 +126,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
     context('when a valid token is given', function () {
       it('should return 200 HTTP status code', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
 
         const dbf = databaseBuilder.factory;
 
@@ -194,7 +194,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           url: `/api/admin/sessions/${sessionId}/generate-results-download-link`,
           payload: {},
         };
-        const server = await createServer();
+        const server = await getServer();
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
         databaseBuilder.factory.buildSession({ id: 121 });
         await databaseBuilder.commit();
@@ -217,7 +217,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           url: `/api/admin/sessions/${sessionId}/generate-results-download-link`,
           payload: {},
         };
-        const server = await createServer();
+        const server = await getServer();
 
         // when
         options.headers = generateAuthenticatedUserRequestHeaders({ userId: 1111 });
@@ -237,7 +237,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           url: `/api/admin/sessions/${sessionId}/generate-results-download-link`,
           payload: {},
         };
-        const server = await createServer();
+        const server = await getServer();
 
         // when
         options.headers = {};
@@ -251,19 +251,14 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
 
   describe('GET /api/admin/sessions/download-selection-results', function () {
     const now = new Date('2026-01-01T05:06:07Z');
-    let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const { id: userId } = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
 

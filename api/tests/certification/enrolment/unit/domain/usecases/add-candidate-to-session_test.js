@@ -12,6 +12,7 @@ import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constan
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidatesError,
+  NotFoundError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
@@ -102,8 +103,25 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
+  context('when session is not found', function () {
+    it('throws a NotFoundError', async function () {
+      // given
+      candidateToEnroll = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({ sessionId })
+        .build();
+      sessionAuthorizationAdapter.find.withArgs({ sessionId }).resolves(null);
+
+      // when
+      const error = await catchErr(addCandidateToSession)({
+        sessionId,
+        candidate: candidateToEnroll,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
+    });
   });
 
   context('when session cannot enrol any candidate', function () {

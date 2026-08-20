@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { databaseConnectionRegistry } from '../../db/database-connection-registry.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 /**
  * Usage: node scripts/certification/import-certification-cpf-cities.js path/file.csv
@@ -433,7 +434,7 @@ async function main(filePath) {
       logger.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnectionRegistry.disconnect();
     }
   }
 })();

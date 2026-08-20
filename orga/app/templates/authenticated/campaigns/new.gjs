@@ -6,7 +6,7 @@ import PageTitle from 'pix-orga/components/ui/page-title';
 <template>
   {{pageTitle (t "pages.campaign-creation.title")}}
 
-  <PageTitle>
+  <PageTitle class="campaign-creation-form-title">
     <:title>{{t "pages.campaign-creation.title"}}</:title>
   </PageTitle>
 

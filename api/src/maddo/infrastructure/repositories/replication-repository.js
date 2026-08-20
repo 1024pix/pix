@@ -1,6 +1,7 @@
 export const replications = [
   {
     name: 'sco_certification_results',
+    chunkSize: 4500,
     before: async ({ datamartKnex }) => {
       await datamartKnex('sco_certification_results').truncate();
     },
@@ -28,6 +29,7 @@ export const replications = [
   },
   {
     name: 'certification_results',
+    chunkSize: 5000,
     before: async ({ datamartKnex }) => {
       await datamartKnex('certification_results').truncate();
     },
@@ -180,6 +182,65 @@ export const replications = [
     },
     to: ({ datamartKnex }, chunk) => {
       return datamartKnex('data_active_calibrated_challenges').insert(chunk);
+    },
+  },
+  {
+    name: 'data-scoring-meshes-all',
+    before: async ({ datamartKnex }) => {
+      await datamartKnex('data_scoring_meshes_all').truncate();
+    },
+    from: ({ datawarehouseKnex }) => {
+      return datawarehouseKnex('data_scoring_meshes_all').select('id', 'calibration_id', 'status');
+    },
+    to: ({ datamartKnex }, chunk) => {
+      return datamartKnex('data_scoring_meshes_all').insert(chunk);
+    },
+  },
+  {
+    name: 'data-scoring-meshes',
+    before: async ({ datamartKnex }) => {
+      await datamartKnex('data_scoring_meshes').truncate();
+    },
+    from: ({ datawarehouseKnex }) => {
+      return datawarehouseKnex('data_scoring_meshes').select(
+        'scoring_meshes_all_id',
+        'mesh',
+        'min_bound_curated_value',
+        'max_bound_curated_value',
+      );
+    },
+    to: ({ datamartKnex }, chunk) => {
+      return datamartKnex('data_scoring_meshes').insert(chunk);
+    },
+  },
+  {
+    name: 'data-scoring-thresholds-all',
+    before: async ({ datamartKnex }) => {
+      await datamartKnex('data_scoring_thresholds_all').truncate();
+    },
+    from: ({ datawarehouseKnex }) => {
+      return datawarehouseKnex('data_scoring_thresholds_all').select('id', 'calibration_id', 'status');
+    },
+    to: ({ datamartKnex }, chunk) => {
+      return datamartKnex('data_scoring_thresholds_all').insert(chunk);
+    },
+  },
+  {
+    name: 'data-scoring-thresholds',
+    before: async ({ datamartKnex }) => {
+      await datamartKnex('data_scoring_thresholds').truncate();
+    },
+    from: ({ datawarehouseKnex }) => {
+      return datawarehouseKnex('data_scoring_thresholds').select(
+        'scoring_thresholds_all_id',
+        'level',
+        'competence_id',
+        'min_bound_curated_value',
+        'max_bound_curated_value',
+      );
+    },
+    to: ({ datamartKnex }, chunk) => {
+      return datamartKnex('data_scoring_thresholds').insert(chunk);
     },
   },
 ];

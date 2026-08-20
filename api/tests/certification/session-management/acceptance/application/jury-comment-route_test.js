@@ -1,13 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Routes| jury-comment', function () {
   describe('PUT /api/admin/sessions/{sessionId}/comment', function () {
     it('should respond with 204', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const session = databaseBuilder.factory.buildSession();
       await databaseBuilder.commit();
@@ -36,7 +36,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
   describe('DELETE /api/admin/sessions/{sessionId}/comment', function () {
     it('should respond with 204', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const session = databaseBuilder.factory.buildSession();
       await databaseBuilder.commit();

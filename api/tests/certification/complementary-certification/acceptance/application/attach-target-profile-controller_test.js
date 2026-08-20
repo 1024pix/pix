@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { omit } = lodash;
@@ -11,7 +11,7 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('PUT /admin/complementary-certifications/{complementaryCertificationId}/badges/', function () {

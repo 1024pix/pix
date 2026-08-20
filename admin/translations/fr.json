@@ -596,6 +596,8 @@
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents dans la calibration uniquement",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents dans la version uniquement",
             "report-title": "Rapport de vérification de la calibration d'ID {calibrationId} généré le",
+            "save-button-label": "Enregistrer l'ID {id} de calibration",
+            "save-success-message": "La mise à jour s'est bien faite !",
             "scopes": {
               "CORE": "Pix Cœur (transverse)",
               "DROIT": "Pix+ Droit",
@@ -610,6 +612,7 @@
               "TO_VALIDATE": "À valider",
               "VALIDATED": "Validée"
             },
+            "title": "Calibration des épreuves",
             "verify-calibration-id-button": "Vérifier la calibration"
           },
           "edit": {
@@ -772,8 +775,8 @@
         "generalInfoCardTitle": "Informations générales",
         "notifications": {
           "addItemError": "Oups. Une erreur est survenue lors de l'ajout de la ressource.",
+          "campaignNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi",
           "error": "Oups. Une erreur est survenue lors de la création du schéma de parcours.",
-          "evaluationNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi",
           "moduleNotFound": "Il n'existe pas de module avec l'identifiant saisi",
           "success": "Création du schéma de parcours réussie !"
         },
@@ -1168,6 +1171,7 @@
             "undone": "Cette action est irréversible."
           }
         },
+        "category": "Catégorie",
         "code": "Code",
         "country": {
           "label": "Pays (code INSEE)",
@@ -1635,7 +1639,7 @@
           "title": "Détails",
           "v3": {
             "abort-reason": {
-              "candidate": "Abandon : Manque de temps ou départ prématuré",
+              "candidate": "Test non finalisé dans le délai imparti",
               "technical": "Problème technique"
             },
             "answer-status": {
@@ -1661,7 +1665,7 @@
             },
             "general-informations": {
               "labels": {
-                "abort-reason": "Raison de l'abandon",
+                "abort-reason": "Motif d'interruption",
                 "created-at": "Créée le",
                 "ended-by": "Certification terminée par",
                 "last-answer-at": "Dernière réponse le",

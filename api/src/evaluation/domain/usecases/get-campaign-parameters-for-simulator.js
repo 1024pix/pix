@@ -7,7 +7,7 @@ const getCampaignParametersForSimulator = async function ({
   const campaign = await campaignRepository.get(campaignId);
   const skills = await campaignRepository.findSkills({ campaignId: campaign.id });
   const skillMap = new Map(skills.map((skill) => [skill.id, skill]));
-  const challenges = await challengeRepository.findOperativeBySkillsAndLocales_proxy(skills, [locale]);
+  const challenges = await challengeRepository.findOperativeChallengeDtosBySkillsAndLocales(skills, [locale]);
   const sanitizedChallenges = challenges.map((challenge) => {
     const skill = skillMap.get(challenge.skillId);
     return {

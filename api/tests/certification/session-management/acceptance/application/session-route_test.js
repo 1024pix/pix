@@ -1,13 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Route | Session', function () {
   let server, options;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/admin/sessions', function () {
@@ -230,7 +230,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
   describe('GET /sessions/{sessionId}/management', function () {
     it('should respond with 200', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const userId = databaseBuilder.factory.buildUser().id;
 
       const { id: certificationCenterId, name: certificationCenter } = databaseBuilder.factory.buildCertificationCenter(

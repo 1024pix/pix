@@ -529,6 +529,49 @@ module('Integration | Component | Module | Embed', function (hooks) {
     });
   });
 
+  module('when embed sends a terminate message', function () {
+    test('should call onAnswer with message state', async function (assert) {
+      // given
+      const embed = {
+        id: 'id',
+        title: 'Simulateur',
+        isCompletionRequired: true,
+        url: 'https://example.org',
+        height: 800,
+      };
+      const passageId = '5729837548';
+      const onAnswerStub = sinon.stub();
+      const screen = await render(
+        <template><ModulixEmbed @embed={{embed}} @passageId={{passageId}} @onAnswer={{onAnswerStub}} /></template>,
+      );
+
+      // when
+      const iframe = screen.getByTitle('Simulateur');
+      const event = new MessageEvent('message', {
+        data: { type: 'terminate', from: 'pix', state: 'success' },
+        origin: 'https://epreuves.pix.fr',
+        source: iframe.contentWindow,
+      });
+      window.dispatchEvent(event);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      // then
+      sinon.assert.calledWith(onAnswerStub, {
+        userResponse: ['success'],
+        element: embed,
+      });
+      sinon.assert.calledWith(passageEventRecordStub, {
+        type: 'EMBED_ANSWERED',
+        data: {
+          answer: 'success',
+          elementId: embed.id,
+          status: 'ok',
+        },
+      });
+      assert.ok(true);
+    });
+  });
+
   module('when user clicks on reset button', function () {
     test('should focus on the iframe', async function (assert) {
       // given

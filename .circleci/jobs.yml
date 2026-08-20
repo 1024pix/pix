@@ -86,7 +86,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -116,7 +116,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -132,7 +132,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -145,7 +145,7 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -162,7 +162,7 @@ executors:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - image: postgres:16.9-alpine
-        command: [ 'postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+        command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -647,12 +647,14 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: test
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: test
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: http://localhost:9090
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_REGION: pix
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME: pix-answers-history-export-test
-            TEST_ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: 1000
+            ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: test
+            ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: test
+            ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: http://localhost:9090
+            ANSWERS_HISTORY_EXPORT_STORAGE_REGION: pix
+            ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME: pix-answers-history-export-test
+            ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: 1000
+            ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE: 1000
+            ANSWERS_HISTORY_ANSWER_BATCH_SIZE: 1000
           when: always
       - store_test_results:
           path: /home/circleci/test-results
@@ -663,7 +665,6 @@ jobs:
     executor:
       name: node-redis-postgres-s3-docker
     working_directory: ~/pix/api
-    parallelism: 3
     steps:
       - run:
           name: Skip if not needed
@@ -694,10 +695,7 @@ jobs:
             TEST_DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datawarehouse
       - run:
           name: Test
-          command: |
-            circleci tests glob 'tests/**/acceptance/**/*test.js' |
-            circleci tests split --split-by=filesize |
-            xargs npm run test:api:path -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          command: npm run test:api:acceptance -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
           environment:
             NODE_ENV: test
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
@@ -710,12 +708,14 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: test
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: test
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: http://localhost:9090
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_REGION: pix
-            TEST_ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME: pix-answers-history-export-test
-            TEST_ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: 1000
+            ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: test
+            ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: test
+            ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: http://localhost:9090
+            ANSWERS_HISTORY_EXPORT_STORAGE_REGION: pix
+            ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME: pix-answers-history-export-test
+            ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: 1000
+            ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE: 1000
+            ANSWERS_HISTORY_ANSWER_BATCH_SIZE: 1000
           when: always
       - store_test_results:
           path: /home/circleci/test-results
@@ -1178,15 +1178,15 @@ jobs:
           working_directory: ~/pix/api
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
-            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            DATAMART_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
             AUTH_SECRET: 'secret'
             LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
-          command: npm run db:prepare
+          command: npm run db:prepare && npm run datamart:prepare && npm run datawarehouse:prepare
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
@@ -1194,8 +1194,8 @@ jobs:
           background: true
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
-            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            DATAMART_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
@@ -1286,15 +1286,15 @@ jobs:
           working_directory: ~/pix/api
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
-            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            DATAMART_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'
             AUTH_SECRET: 'secret'
             LCMS_API_RELEASE_ID: '2509?forCI'
             IS_RUNNING_PLAYWRIGHT: 'true'
-          command: npm run db:prepare
+          command: npm run db:prepare && npm run datamart:prepare && npm run datawarehouse:prepare
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
@@ -1302,8 +1302,8 @@ jobs:
           background: true
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datamart'
-            DATAWAREHOUSE_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/circleci_datawarehouse'
+            DATAMART_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datamart'
+            DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
             START_JOB_IN_WEB_PROCESS: 'true'

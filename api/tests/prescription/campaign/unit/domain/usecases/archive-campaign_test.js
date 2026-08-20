@@ -5,21 +5,16 @@ import { archiveCampaign } from '../../../../../../src/prescription/campaign/dom
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | archive-campaign', function () {
-  let clock;
   let now;
   let campaignAdministrationRepository;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now: new Date('2022-01-01'), toFake: ['Date'] });
-    now = new Date(clock.now);
+    now = new Date('2022-01-01');
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     campaignAdministrationRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
     };
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   it('should update the campaign', async function () {

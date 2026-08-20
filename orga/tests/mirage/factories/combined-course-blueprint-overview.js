@@ -3,7 +3,7 @@ import { Factory } from 'miragejs';
 
 export default Factory.extend({
   name() {
-    return 'Parcours Apprenant';
+    return 'Parcours apprenant';
   },
   description() {
     return faker.lorem.sentence();

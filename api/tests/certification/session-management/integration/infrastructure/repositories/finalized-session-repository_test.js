@@ -162,7 +162,7 @@ describe('Integration | Repository | Finalized-session', function () {
 
   describe('#findFinalizedSessionsToPublish', function () {
     context('when there are publishable sessions', function () {
-      it('finds a list of publishable finalized session order by finalization date', async function () {
+      it('finds a list of publishable finalized session order by finalization date (most recent first)', async function () {
         // given
         const session1 = databaseBuilder.factory.buildSession();
         const session2 = databaseBuilder.factory.buildSession();
@@ -170,19 +170,19 @@ describe('Integration | Repository | Finalized-session', function () {
         const session4 = databaseBuilder.factory.buildSession();
         const session5 = databaseBuilder.factory.buildSession();
         const session6 = databaseBuilder.factory.buildSession({ version: 3 });
-        const publishableFinalizedSession1 = databaseBuilder.factory.buildFinalizedSession({
-          isPublishable: true,
-          publishedAt: null,
-          finalizedAt: new Date('2020-01-01'),
-          sessionId: session1.id,
-        });
-        const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({
+        const firstPublishableFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
           isPublishable: true,
           publishedAt: null,
           finalizedAt: new Date('2019-01-01'),
+          sessionId: session1.id,
+        });
+        const secondPublishableFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: true,
+          publishedAt: null,
+          finalizedAt: new Date('2020-01-01'),
           sessionId: session2.id,
         });
-        const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({
+        const thirdPublishableFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
           isPublishable: true,
           publishedAt: null,
           finalizedAt: new Date('2021-01-01'),
@@ -216,32 +216,32 @@ describe('Integration | Repository | Finalized-session', function () {
         expect(result).to.have.lengthOf(3);
         expect(result).to.have.deep.ordered.members([
           {
-            sessionId: publishableFinalizedSession2.sessionId,
-            finalizedAt: publishableFinalizedSession2.finalizedAt,
-            certificationCenterName: publishableFinalizedSession2.certificationCenterName,
-            sessionDate: publishableFinalizedSession2.date,
-            sessionTime: publishableFinalizedSession2.time,
-            isPublishable: publishableFinalizedSession2.isPublishable,
+            sessionId: firstPublishableFinalizedSession.sessionId,
+            finalizedAt: firstPublishableFinalizedSession.finalizedAt,
+            certificationCenterName: firstPublishableFinalizedSession.certificationCenterName,
+            sessionDate: firstPublishableFinalizedSession.date,
+            sessionTime: firstPublishableFinalizedSession.time,
+            isPublishable: firstPublishableFinalizedSession.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
           },
           {
-            sessionId: publishableFinalizedSession1.sessionId,
-            finalizedAt: publishableFinalizedSession1.finalizedAt,
-            certificationCenterName: publishableFinalizedSession1.certificationCenterName,
-            sessionDate: publishableFinalizedSession1.date,
-            sessionTime: publishableFinalizedSession1.time,
-            isPublishable: publishableFinalizedSession1.isPublishable,
+            sessionId: secondPublishableFinalizedSession.sessionId,
+            finalizedAt: secondPublishableFinalizedSession.finalizedAt,
+            certificationCenterName: secondPublishableFinalizedSession.certificationCenterName,
+            sessionDate: secondPublishableFinalizedSession.date,
+            sessionTime: secondPublishableFinalizedSession.time,
+            isPublishable: secondPublishableFinalizedSession.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
           },
           {
-            sessionId: publishableFinalizedSession3.sessionId,
-            finalizedAt: publishableFinalizedSession3.finalizedAt,
-            certificationCenterName: publishableFinalizedSession3.certificationCenterName,
-            sessionDate: publishableFinalizedSession3.date,
-            sessionTime: publishableFinalizedSession3.time,
-            isPublishable: publishableFinalizedSession3.isPublishable,
+            sessionId: thirdPublishableFinalizedSession.sessionId,
+            finalizedAt: thirdPublishableFinalizedSession.finalizedAt,
+            certificationCenterName: thirdPublishableFinalizedSession.certificationCenterName,
+            sessionDate: thirdPublishableFinalizedSession.date,
+            sessionTime: thirdPublishableFinalizedSession.time,
+            isPublishable: thirdPublishableFinalizedSession.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
           },
@@ -262,7 +262,7 @@ describe('Integration | Repository | Finalized-session', function () {
 
   describe('#findFinalizedSessionsWithRequiredAction', function () {
     context('when there are finalized sessions with required action', function () {
-      it('finds a list of finalized session with required action ordered by finalization date', async function () {
+      it('finds a list of finalized session with required action ordered by finalization date (oldest first)', async function () {
         // given
         const session1 = databaseBuilder.factory.buildSession();
         const session2 = databaseBuilder.factory.buildSession();
@@ -307,12 +307,12 @@ describe('Integration | Repository | Finalized-session', function () {
         expect(result).to.have.lengthOf(3);
         expect(result).to.have.deep.ordered.members([
           {
-            sessionId: firstFinalizedSession.sessionId,
-            finalizedAt: firstFinalizedSession.finalizedAt,
-            certificationCenterName: firstFinalizedSession.certificationCenterName,
-            sessionDate: firstFinalizedSession.date,
-            sessionTime: firstFinalizedSession.time,
-            isPublishable: firstFinalizedSession.isPublishable,
+            sessionId: thirdFinalizedSession.sessionId,
+            finalizedAt: thirdFinalizedSession.finalizedAt,
+            certificationCenterName: thirdFinalizedSession.certificationCenterName,
+            sessionDate: thirdFinalizedSession.date,
+            sessionTime: thirdFinalizedSession.time,
+            isPublishable: thirdFinalizedSession.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
           },
@@ -327,12 +327,12 @@ describe('Integration | Repository | Finalized-session', function () {
             assignedCertificationOfficerName: null,
           },
           {
-            sessionId: thirdFinalizedSession.sessionId,
-            finalizedAt: thirdFinalizedSession.finalizedAt,
-            certificationCenterName: thirdFinalizedSession.certificationCenterName,
-            sessionDate: thirdFinalizedSession.date,
-            sessionTime: thirdFinalizedSession.time,
-            isPublishable: thirdFinalizedSession.isPublishable,
+            sessionId: firstFinalizedSession.sessionId,
+            finalizedAt: firstFinalizedSession.finalizedAt,
+            certificationCenterName: firstFinalizedSession.certificationCenterName,
+            sessionDate: firstFinalizedSession.date,
+            sessionTime: firstFinalizedSession.time,
+            isPublishable: firstFinalizedSession.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
           },

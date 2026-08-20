@@ -1,17 +1,17 @@
-import { createServer } from '../../../../server.js';
 import { SCOPES } from '../../../../src/certification/shared/domain/models/Scopes.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Evaluation | Acceptance | scoring-and-capacity-simulator-route', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/admin/simulate-score-or-capacity', function () {

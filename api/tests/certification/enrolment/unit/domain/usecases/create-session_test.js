@@ -8,7 +8,10 @@ describe('Certification | Enrolment | Unit | UseCase | create-session', function
 
   beforeEach(function () {
     sessionRepository = { create: sinon.fake.resolves(123) };
-    sessionCodeService = { getNewSessionCode: sinon.fake.returns('MONSUPERCODE') };
+    sessionCodeService = {
+      getNewSessionCode: sinon.fake.returns('MONSUPERCODE'),
+      getNewInvigilatorPassword: sinon.fake.returns('Y722GA'),
+    };
     dependencies = { sessionCodeService, sessionRepository };
   });
 
@@ -38,7 +41,7 @@ describe('Certification | Enrolment | Unit | UseCase | create-session', function
         examiner: 'Louise',
         description: 'coucou',
         accessCode: 'MONSUPERCODE',
-        invigilatorPassword: sinon.match.string,
+        invigilatorPassword: 'Y722GA',
       }),
     );
   });

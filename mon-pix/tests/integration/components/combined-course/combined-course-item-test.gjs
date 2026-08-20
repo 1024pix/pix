@@ -68,7 +68,7 @@ module('Integration | Component | combined course item', function (hooks) {
   });
 
   module('image', function () {
-    test('should display default campaign image on type CAMPAIGN', async function (assert) {
+    test('should display default campaign image on type campaign', async function (assert) {
       // given
       const onClickStub = sinon.stub();
       const store = this.owner.lookup('service:store');
@@ -76,7 +76,7 @@ module('Integration | Component | combined course item', function (hooks) {
         id: 1,
         title: 'ma campagne',
         reference: 'ma-campagne',
-        type: 'CAMPAIGN',
+        type: 'campaign',
         isLocked: false,
       });
 
@@ -125,7 +125,7 @@ module('Integration | Component | combined course item', function (hooks) {
       assert.ok(screen.getByRole('presentation').hasAttribute('src', 'my-awesome-img.svg'));
     });
 
-    test('should display image from module on type FORMATION', async function (assert) {
+    test('should display image from module on type formation', async function (assert) {
       // given
       const onClickStub = sinon.stub();
       const store = this.owner.lookup('service:store');
@@ -133,7 +133,7 @@ module('Integration | Component | combined course item', function (hooks) {
         id: 1,
         title: 'ma campagne',
         reference: 'ma-campagne',
-        type: 'FORMATION',
+        type: 'formation',
         isLocked: false,
       });
 

@@ -15,15 +15,10 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 
 describe('Integration | Quest | Domain | UseCases | update-combined-course-progress', function () {
-  let clock;
   const now = new Date('2025-07-07');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when combined course is completed', function () {

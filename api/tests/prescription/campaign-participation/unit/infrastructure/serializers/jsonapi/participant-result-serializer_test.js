@@ -18,11 +18,11 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
     const isCampaignArchived = false;
     const sharedAt = new Date('2020-01-01');
     let participationResults, competences, stages, badgeResultsDTO, reachedStage;
-    let clock, now;
+    let now;
 
     beforeEach(function () {
       now = new Date('2020-01-04');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({
@@ -94,9 +94,6 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           acquisitionPercentage: null,
         },
       ];
-    });
-    afterEach(function () {
-      clock.restore();
     });
 
     it('should convert a CampaignParticipationResult model object into JSON API data', function () {

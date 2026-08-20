@@ -7,15 +7,11 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Team | Infrastructure | Repositories | CertificationCenterInvitationRepository', function () {
-  let clock, now;
+  let now;
 
   beforeEach(function () {
     now = new Date('2023-10-13');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#update', function () {
@@ -48,7 +44,6 @@ describe('Integration | Team | Infrastructure | Repositories | CertificationCent
         createdAt: invitation.createdAt,
         updatedAt: now,
       });
-      clock.restore();
     });
   });
 
@@ -72,7 +67,6 @@ describe('Integration | Team | Infrastructure | Repositories | CertificationCent
         .where({ id: certificationCenterInvitation.id })
         .first();
       expect(updatedCertificationCenterInvitation.updatedAt).to.deep.equal(now);
-      clock.restore();
     });
   });
 

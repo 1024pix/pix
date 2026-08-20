@@ -14,9 +14,6 @@ module('Unit | Route | application', function (hooks) {
     sinon.stub(this.route.locale, 'setBestLocale').resolves();
     sinon.stub(this.route.localeLoader, 'load').resolves();
   });
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
   module('model', function () {
     test('does not fetch sco organization banner', async function (assert) {
       // given

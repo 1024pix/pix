@@ -2,17 +2,17 @@ import crypto from 'node:crypto';
 
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | GET /api/admin/users/{userId}/participations', function () {
   let server, randomUUIDStub;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     randomUUIDStub = sinon.stub(crypto, 'randomUUID');
     randomUUIDStub.returns('1234');
   });

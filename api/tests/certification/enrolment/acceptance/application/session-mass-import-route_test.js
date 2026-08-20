@@ -1,11 +1,11 @@
 import lodash from 'lodash';
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/enrolment/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { omit } = lodash;
@@ -14,21 +14,15 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import', function () {
-    let clock;
-
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now: new Date('2023-01-01'),
         toFake: ['Date'],
       });
-    });
-
-    afterEach(async function () {
-      clock.restore();
     });
 
     context('when user validate sessions for import', function () {
@@ -177,7 +171,6 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
           date: '2023-01-01',
           time: '11:00',
           accessCode: 'accessCode',
-          invigilatorPassword: 'KV2CPA',
           certificationCandidates: [],
         };
         const newCachedSessionUUID = await temporarySessionsStorageForMassImportService.save({
@@ -185,7 +178,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
           userId,
         });
         await databaseBuilder.commit();
-        const server = await createServer();
+        const server = await getServer();
 
         const options = {
           method: 'POST',
@@ -201,7 +194,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
         const sessions = await knex('sessions');
         expect(sessions).to.have.lengthOf(1);
         expect(sessions[0].certificationCenter).to.equal(certificationCenter);
-        expect(sessions[0].invigilatorPassword).to.equal(sessionToSave.invigilatorPassword);
+        expect(sessions[0].invigilatorPassword).to.match(/^[23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?]{6}$/);
         expect(sessions[0].version).to.equal(3);
         expect(response.statusCode).to.equal(201);
       });
@@ -229,7 +222,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
         certificationCenterId,
       });
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await getServer();
 
       const options = {
         method: 'GET',

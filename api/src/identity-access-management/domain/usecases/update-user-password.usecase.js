@@ -34,7 +34,7 @@ export const updateUserPassword = withTransaction(async function ({
 
   await resetPasswordService.assertTemporaryKey(temporaryKey);
   const { email } = await resetPasswordService.verifyDemand(temporaryKey, resetPasswordDemandRepository);
-  if (email != user.email) {
+  if (!user.hasSameEmailAs(email)) {
     throw new UserNotAuthorizedToUpdatePasswordError();
   }
 

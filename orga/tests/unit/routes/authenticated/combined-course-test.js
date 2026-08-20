@@ -4,10 +4,6 @@ import sinon from 'sinon';
 
 module('Unit | Route | authenticated/combined-course', function (hooks) {
   setupTest(hooks);
-
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
   module('beforeModel', function () {
     test('user is redirected to index when he has no access', async function (assert) {
       // given

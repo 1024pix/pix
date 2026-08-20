@@ -1,6 +1,6 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | answer-controller-update', function () {
@@ -9,7 +9,7 @@ describe('Acceptance | Controller | answer-controller-update', function () {
     let options;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       const userId = databaseBuilder.factory.buildUser().id;
       const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
       const answer = databaseBuilder.factory.buildAnswer({

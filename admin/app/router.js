@@ -133,6 +133,7 @@ Router.map(function () {
           this.route('version', { path: '/:version_id' }, function () {
             this.route('edit');
             this.route('calibration');
+            this.route('meshes-configuration');
           });
         });
         this.route('target-profile', function () {

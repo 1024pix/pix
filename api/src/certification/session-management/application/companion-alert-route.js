@@ -2,8 +2,8 @@ import Joi from 'joi';
 
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { responseObjectErrorDoc } from '../../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
-import { assessmentInvigilatorAuthorization } from '../../shared/application/pre-handlers/session-invigilator-authorization.js';
 import { companionAlertController } from './companion-alert-controller.js';
+import { authorization } from './pre-handlers/authorization.js';
 
 function register(server) {
   server.route([
@@ -33,7 +33,7 @@ function register(server) {
         },
         pre: [
           {
-            method: assessmentInvigilatorAuthorization.verifyBySessionId,
+            method: authorization.checkUserHaveInvigilatorAccessForSession,
             assign: 'isInvigilatorForSession',
           },
         ],

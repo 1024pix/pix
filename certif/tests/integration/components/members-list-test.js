@@ -20,10 +20,6 @@ module('Integration | Component | MembersList', function (hooks) {
     sinon.stub(currentUser, 'currentAllowedCertificationCenterAccess').value({ name: 'Certif NextGen' });
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('For edit role button', function () {
     test('displays a modal', async function (assert) {
       // given

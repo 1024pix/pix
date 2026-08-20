@@ -3,7 +3,8 @@ import * as url from 'node:url';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-import { disconnect, knex } from '../../../db/knex-database-connection.js';
+import { databaseConnectionRegistry } from '../../../db/database-connection-registry.js';
+import { knex } from '../../../db/knex-database-connection.js';
 import { learningContentCache } from '../../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
@@ -16,7 +17,7 @@ async function main() {
     logger.error(err);
     throw err;
   } finally {
-    await disconnect();
+    await databaseConnectionRegistry.disconnect();
     await learningContentCache.quit();
   }
 }

@@ -169,4 +169,84 @@ describe('Certification | Session-Management | Integration | Application | Pre-H
       });
     });
   });
+
+  describe('#checkUserHaveInvigilatorAccessForSessionCandidate', function () {
+    let httpServerTest;
+
+    beforeEach(async function () {
+      const moduleUnderTest = {
+        name: 'security-test',
+        register: async function (server) {
+          server.route([
+            {
+              method: 'POST',
+              path: '/api/certification-candidates/{certificationCandidateId}/authorize-to-start',
+              handler: (r, h) => h.response().code(200),
+              config: {
+                pre: [
+                  {
+                    method: authorization.checkUserHaveInvigilatorAccessForSessionCandidate,
+                  },
+                ],
+              },
+            },
+          ]);
+        },
+      };
+      httpServerTest = new HttpTestServer();
+      await httpServerTest.register(moduleUnderTest);
+      httpServerTest.setupAuthentication();
+    });
+
+    context('when the user is authenticated and has invigilator access to the given session', function () {
+      it('should return 200', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter();
+        const { id: sessionId } = databaseBuilder.factory.buildSession({
+          certificationCenterId,
+        });
+        const { id: certificationCandidateId } = databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+        databaseBuilder.factory.buildInvigilatorAccess({ userId, sessionId });
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'POST',
+          url: `/api/certification-candidates/${certificationCandidateId}/authorize-to-start`,
+          headers: generateAuthenticatedUserRequestHeaders({ userId }),
+        };
+
+        // when
+        const response = await httpServerTest.requestObject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    context('when the user is authenticated and has no invigilator access to the given session', function () {
+      it('should return 403', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter();
+        const { id: sessionId } = databaseBuilder.factory.buildSession({
+          certificationCenterId,
+        });
+        const { id: certificationCandidateId } = databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'POST',
+          url: `/api/certification-candidates/${certificationCandidateId}/authorize-to-start`,
+          headers: generateAuthenticatedUserRequestHeaders({ userId }),
+        };
+
+        // when
+        const response = await httpServerTest.requestObject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
 });

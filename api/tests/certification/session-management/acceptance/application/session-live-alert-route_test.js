@@ -1,14 +1,14 @@
-import { createServer } from '../../../../../server.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session | Acceptance | Application | Routes | session-live-alert', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('PATCH /sessions/{sessionId}/candidates/{candidateId}/dismiss-live-alert', function () {
@@ -89,7 +89,7 @@ describe('Certification | Session | Acceptance | Application | Routes | session-
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(401);
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
@@ -181,7 +181,7 @@ describe('Certification | Session | Acceptance | Application | Routes | session-
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(401);
+        expect(response.statusCode).to.equal(403);
       });
     });
   });

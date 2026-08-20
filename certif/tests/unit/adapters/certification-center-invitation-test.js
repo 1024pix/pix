@@ -83,4 +83,41 @@ module('Unit | Adapter | certification-center-invitation', function (hooks) {
       assert.ok(adapter.ajax.calledWith(expectedUrl, 'POST', { data: payload }));
     });
   });
+
+  module('#accept', function (hooks) {
+    let adapter;
+
+    hooks.beforeEach(function () {
+      adapter = this.owner.lookup('adapter:certification-center-invitation');
+      sinon.stub(adapter, 'ajax');
+    });
+
+    hooks.afterEach(function () {
+      adapter.ajax.restore();
+    });
+
+    test('sends certification center invitation', async function (assert) {
+      // given
+      const email = 'naruto@konoha.net';
+      const code = 'ABC';
+      const id = 123;
+      const payload = {
+        data: {
+          id,
+          type: 'certification-center-invitations-accept',
+          attributes: {
+            code,
+            email,
+          },
+        },
+      };
+
+      // when
+      await adapter.accept({ id, code, email });
+
+      // then
+      const expectedUrl = 'http://localhost:3000/api/certification-center-invitations/123/accept';
+      assert.ok(adapter.ajax.calledWith(expectedUrl, 'POST', { data: payload }));
+    });
+  });
 });

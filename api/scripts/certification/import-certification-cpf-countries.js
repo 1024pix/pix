@@ -6,7 +6,8 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { databaseConnectionRegistry } from '../../db/database-connection-registry.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { normalizeAndSortChars } from '../../src/shared/infrastructure/utils/string-utils.js';
 import { parseCsv } from '../helpers/csvHelpers.js';
 
@@ -119,7 +120,7 @@ async function main(filePath) {
       console.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnectionRegistry.disconnect();
     }
   }
 })();

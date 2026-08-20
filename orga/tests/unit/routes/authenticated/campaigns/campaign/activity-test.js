@@ -11,10 +11,6 @@ module('Unit | Route | authenticated/campaigns/campaign/activity', function (hoo
     store = this.owner.lookup('service:store');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('model', function () {
     test('should fetch data', async function (assert) {
       //given

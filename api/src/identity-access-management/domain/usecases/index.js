@@ -1,7 +1,5 @@
-import * as organizationLearnerRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { config } from '../../../shared/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
-import { mailService } from '../../../shared/domain/services/mail-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
 import * as passwordValidator from '../../../shared/domain/validators/password-validator.js';
@@ -35,7 +33,6 @@ import { OidcAuthenticationServiceRegistry } from '../services/oidc-authenticati
 import * as passwordGeneratorService from '../services/password-generator.service.js';
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';
 import { resetPasswordService } from '../services/reset-password.service.js';
-import { scoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
 import * as userService from '../services/user-service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
 
@@ -55,7 +52,6 @@ const repositories = {
   ltiPlatformRegistrationRepository,
   oidcAuthenticationServiceRegistry,
   oidcProviderRepository,
-  organizationLearnerRepository,
   organizationRepository,
   refreshTokenRepository,
   resetPasswordDemandRepository,
@@ -68,16 +64,13 @@ const repositories = {
 const services = {
   authenticationSessionService,
   cryptoService,
-  mailService,
   obfuscationService,
   oidcAuthenticationServiceRegistry,
   passwordGeneratorService,
   pixAuthenticationService,
   resetPasswordService,
-  scoAccountRecoveryService,
   tokenService,
   userService,
-
   userReconciliationService,
 };
 const validators = {
@@ -105,7 +98,6 @@ import { authenticateForSaml } from './authenticate-for-saml.usecase.js';
 import { authenticateOidcUser } from './authenticate-oidc-user.usecase.js';
 import { authenticateUser } from './authenticate-user.usecase.js';
 import { changeUserLocale } from './change-user-locale.usecase.js';
-import { checkScoAccountRecovery } from './check-sco-account-recovery.usecase.js';
 import { createAccessTokenFromRefreshToken } from './create-access-token-from-refresh-token.usecase.js';
 import { createOidcUser } from './create-oidc-user.usecase.js';
 import { createResetPasswordDemand } from './create-reset-password-demand.usecase.js';
@@ -134,7 +126,6 @@ import { rememberUserHasSeenLastDataProtectionPolicyInformation } from './rememb
 import { removeAuthenticationMethod } from './remove-authentication-method.usecase.js';
 import { revokeAccessForUsers } from './revoke-access-for-users.usecase.js';
 import { revokeRefreshToken } from './revoke-refresh-token.usecase.js';
-import { sendEmailForAccountRecovery } from './send-email-for-account-recovery.usecase.js';
 import { sendVerificationCode } from './send-verification-code.usecase.js';
 import { unblockUserAccount } from './unblock-user-account.js';
 import { updateExpiredPassword } from './update-expired-password.usecase.js';
@@ -159,7 +150,6 @@ const usecasesWithoutInjectedDependencies = {
   authenticateOidcUser,
   authenticateUser,
   changeUserLocale,
-  checkScoAccountRecovery,
   createAccessTokenFromRefreshToken,
   createOidcUser,
   createResetPasswordDemand,
@@ -188,7 +178,6 @@ const usecasesWithoutInjectedDependencies = {
   removeAuthenticationMethod,
   revokeAccessForUsers,
   revokeRefreshToken,
-  sendEmailForAccountRecovery,
   sendVerificationCode,
   unblockUserAccount,
   updateExpiredPassword,

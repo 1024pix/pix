@@ -1,13 +1,14 @@
-import { createServer } from '../../../../../server.js';
 import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { ENGLISH_SPOKEN, FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
@@ -17,7 +18,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/answers', function () {
@@ -32,7 +33,8 @@ describe('Acceptance | Controller | answer-controller-save', function () {
 
     beforeEach(async function () {
       const assessment = databaseBuilder.factory.buildAssessment({
-        type: 'COMPETENCE_EVALUATION',
+        type: Assessment.types.COMPETENCE_EVALUATION,
+        state: Assessment.states.STARTED,
         competenceId: competenceId,
       });
       insertedAssessmentId = assessment.id;
@@ -278,6 +280,50 @@ describe('Acceptance | Controller | answer-controller-save', function () {
 
           // then
           expect(response.statusCode).to.equal(201);
+        });
+      });
+    });
+
+    context('when the assessment is already ended', function () {
+      [
+        Assessment.states.COMPLETED,
+        Assessment.states.ABORTED,
+        Assessment.states.ENDED_BY_INVIGILATOR,
+        Assessment.states.ENDED_DUE_TO_FINALIZATION,
+        Assessment.states.ENDED_DUE_TO_DURATION_EXCEEDED,
+      ].forEach((state) => {
+        it(`should return a 409 HTTP status code and save nothing when the assessment is "${state}"`, async function () {
+          // given
+          const endedAssessment = databaseBuilder.factory.buildAssessment({
+            type: Assessment.types.COMPETENCE_EVALUATION,
+            state,
+            competenceId,
+            lastChallengeId: challengeId,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/answers',
+            headers: generateAuthenticatedUserRequestHeaders({ userId: endedAssessment.userId }),
+            payload: {
+              data: {
+                type: 'answers',
+                attributes: { value: correctAnswer },
+                relationships: {
+                  assessment: { data: { type: 'assessments', id: endedAssessment.id } },
+                  challenge: { data: { type: 'challenges', id: challengeId } },
+                },
+              },
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0].code).to.equal('ASSESSMENT_ENDED');
+          const savedAnswers = await knex('answers').where({ assessmentId: endedAssessment.id });
+          expect(savedAnswers).to.be.empty;
         });
       });
     });

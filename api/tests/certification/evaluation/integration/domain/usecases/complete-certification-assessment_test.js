@@ -12,11 +12,11 @@ const { completeCertificationAssessment } = usecases;
 
 describe('Certification | Evaluation | Integration | Domain | UseCase | complete-certification-assessment', function () {
   const locale = 'someLocale';
-  let certificationCourseId, assessmentId, args, clock;
+  let certificationCourseId, assessmentId, args;
   const now = new Date();
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
       firstName: 'A',
       lastName: 'B',
@@ -35,10 +35,6 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | complete
       certificationCourseId,
       locale,
     };
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   context('when certification does not exist', function () {

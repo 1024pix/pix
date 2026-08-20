@@ -5,10 +5,13 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   createParquetArrayBuffer,
   deleteBatchAnswers,
-  getAnswersGroupedByAssessmentId,
+  getBatchesFromRange,
+  historizeAnswers,
 } from '../../../../../src/db-history/domain/usecases/historize-answers.js';
 import { usecases } from '../../../../../src/db-history/domain/usecases/index.js';
+import { AnswersHistoryRepository } from '../../../../../src/db-history/infrastructure/repositories/answers-history-repository.js';
 import * as answersRepository from '../../../../../src/db-history/infrastructure/repositories/answers-repository.js';
+import * as assessmentsRepository from '../../../../../src/db-history/infrastructure/repositories/assessments-repository.js';
 import { config } from '../../../../../src/shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { expect } from '../../../../test-helper.js';
@@ -56,6 +59,8 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       state: 'completed',
       type: 'CAMPAIGN',
     });
+    // each assessment carries a single answer, well below the configured answer batch size:
+    // the expected file count below therefore depends on the assessment ranges only
     databaseBuilder.factory.buildAnswer({
       assessmentId: assessmentWithAnswerToDelete.id,
     });
@@ -157,6 +162,90 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     expect(uploadedFiles[0].Key).to.match(/^answers\//);
   });
 
+  describe('batching configuration', function () {
+    // Guards the wiring between config.js and the use case: a mismatched property name or a
+    // missing env var used to yield undefined/NaN, which silently collapsed every answer into
+    // a single batch — which is exactly the OOM the batching is meant to prevent.
+    it('exposes an answer batch size the use case can batch on', function () {
+      const answerBatchSize = config.answersHistoryExport.storage.answerBatchSize;
+
+      expect(Number.isInteger(answerBatchSize), `answerBatchSize must be an integer, got ${answerBatchSize}`).to.be
+        .true;
+      expect(answerBatchSize).to.be.above(0);
+    });
+
+    it('exposes an assessment id range the use case can batch on', function () {
+      const assessmentIdRange = config.answersHistoryExport.storage.assessmentIdRange;
+
+      expect(Number.isInteger(assessmentIdRange), `assessmentIdRange must be an integer, got ${assessmentIdRange}`).to
+        .be.true;
+      expect(assessmentIdRange).to.be.above(0);
+    });
+
+    it('throws rather than processing everything at once when the answer batch size is missing', async function () {
+      sinon.stub(config.answersHistoryExport.storage, 'answerBatchSize').value(NaN);
+
+      const error = await catchErr(usecases.historizeAnswers)({ targetDate: new Date('2020-01-02') });
+
+      expect(error.message).to.equal(
+        'Configuration is invalid: ANSWERS_HISTORY_ANSWER_BATCH_SIZE must be a positive integer, but was: NaN',
+      );
+    });
+
+    it('throws rather than processing everything at once when the assessment id range is missing', async function () {
+      sinon.stub(config.answersHistoryExport.storage, 'assessmentIdRange').value(NaN);
+
+      const error = await catchErr(usecases.historizeAnswers)({ targetDate: new Date('2020-01-02') });
+
+      expect(error.message).to.equal(
+        'Configuration is invalid: ANSWERS_HISTORY_ASSESSMENT_ID_RANGE must be a positive integer, but was: NaN',
+      );
+    });
+  });
+
+  it('splits the answers of a single assessment range into one file per answer batch', async function () {
+    const logger = {
+      info: sinon.stub(),
+      error: sinon.stub(),
+    };
+    const targetDate = new Date('2020-01-02');
+    const { assessmentIdRange } = config.answersHistoryExport.storage;
+    // forced locally so the test stays fast: the production batch size would need thousands of rows
+    sinon.stub(config.answersHistoryExport.storage, 'answerBatchSize').value(2);
+
+    // both assessments fall in the same assessment range, hence the same parquet partition
+    const firstAssessmentId = assessmentIdRange * 50 + 1;
+    const secondAssessmentId = firstAssessmentId + 1;
+    for (const id of [firstAssessmentId, secondAssessmentId]) {
+      databaseBuilder.factory.buildAssessment({
+        id,
+        updatedAt: targetDate,
+        state: 'completed',
+        type: 'CAMPAIGN',
+      });
+    }
+
+    // 4 answers with a batch size of 2 means two batches, hence two files in that single partition,
+    // whatever the answer ids happen to be
+    databaseBuilder.factory.buildAnswer({ assessmentId: firstAssessmentId });
+    databaseBuilder.factory.buildAnswer({ assessmentId: firstAssessmentId });
+    databaseBuilder.factory.buildAnswer({ assessmentId: secondAssessmentId });
+    databaseBuilder.factory.buildAnswer({ assessmentId: secondAssessmentId });
+
+    await databaseBuilder.commit();
+    await usecases.historizeAnswers({ targetDate, logger });
+
+    const remainingAnswers = await knex('answers');
+    expect(remainingAnswers).to.have.length(0);
+
+    const { Contents: uploadedFiles } = await s3Client.listFiles();
+    expect(uploadedFiles).to.have.length(2);
+    const assessmentRangeEnd = firstAssessmentId + assessmentIdRange - 1;
+    for (const file of uploadedFiles) {
+      expect(file.Key).to.match(new RegExp(`^answers/${firstAssessmentId}_${assessmentRangeEnd}/`));
+    }
+  });
+
   describe('when target date is more recent than one year ago', function () {
     it('throws an error', async function () {
       //given
@@ -167,6 +256,89 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
 
       //then
       expect(error).to.deepEqualInstance(new Error(`Target date: ${targetDate} must be at least one year ago.`));
+    });
+  });
+
+  describe('when the answers cannot be deleted from the database', function () {
+    it('rolls the uploaded file back and reports the underlying cause', async function () {
+      // given
+      const logger = {
+        info: sinon.stub(),
+        error: sinon.stub(),
+      };
+      const targetDate = new Date('2020-01-02');
+      const assessment = databaseBuilder.factory.buildAssessment({
+        updatedAt: targetDate,
+        state: 'completed',
+        type: 'CAMPAIGN',
+      });
+      databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id });
+      await databaseBuilder.commit();
+
+      const databaseError = new Error('connection terminated unexpectedly');
+      const failingAnswersRepository = {
+        ...answersRepository,
+        deleteAnswersByIds: sinon.stub().rejects(databaseError),
+      };
+
+      // when
+      const error = await catchErr(historizeAnswers)({
+        answersRepository: failingAnswersRepository,
+        assessmentsRepository,
+        targetDate,
+        logger,
+      });
+
+      // then
+      expect(error.message).to.equal('An error occurred during the historization process');
+      expect(error.cause.message).to.equal('An error occurred during the answers deletion in DB');
+      expect(error.cause.cause).to.equal(databaseError);
+
+      const { Contents: uploadedFiles } = await s3Client.listFiles();
+      expect(uploadedFiles ?? []).to.have.length(0);
+
+      // the cause is what makes the failure diagnosable from the logs alone
+      expect(logger.error.lastCall.args[0]).to.include('An error occurred during the answers deletion in DB');
+    });
+  });
+
+  describe('when the rollback of the uploaded file fails', function () {
+    it('reports the deletion error instead of the historization one', async function () {
+      // given
+      const logger = {
+        info: sinon.stub(),
+        error: sinon.stub(),
+      };
+      const targetDate = new Date('2020-01-02');
+      const assessment = databaseBuilder.factory.buildAssessment({
+        updatedAt: targetDate,
+        state: 'completed',
+        type: 'CAMPAIGN',
+      });
+      databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id });
+      await databaseBuilder.commit();
+
+      const deletionError = new Error('Access Denied');
+      sinon.stub(AnswersHistoryRepository, 'createClient').returns({
+        sendFile: sinon.stub().resolves(),
+        deleteFile: sinon.stub().rejects(deletionError),
+      });
+      const failingAnswersRepository = {
+        ...answersRepository,
+        deleteAnswersByIds: sinon.stub().rejects(new Error('connection terminated unexpectedly')),
+      };
+
+      // when
+      const error = await catchErr(historizeAnswers)({
+        answersRepository: failingAnswersRepository,
+        assessmentsRepository,
+        targetDate,
+        logger,
+      });
+
+      // then
+      expect(error.message).to.equal('An error occurred during the deletion process');
+      expect(error.cause).to.equal(deletionError);
     });
   });
 
@@ -340,94 +512,25 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     });
   });
 
-  describe('getAnswersGroupedByAssessmentId', function () {
-    it('should group answers according to the assessments id range', function () {
-      const firstAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 100000,
-        value: 'value for first answer',
-        result: 'result for first answer',
-        challengeId: 'rec123ABC',
-        createdAt: new Date('2020-01-01'),
-        updatedAt: new Date('2020-01-02'),
-        timeout: null,
-        resultDetails: 'result details for first answer.',
-        isFocusedOut: false,
-        timeSpent: 30,
-      });
+  describe('getBatchesFromRange', function () {
+    it('should group assessment ids according to the assessments id range', function () {
+      const firstAssessmentId = 100000;
 
-      const secondAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 100001,
-        value: 'value for second answer',
-        result: 'result for second answer',
-        challengeId: 'rec123DEF',
-        createdAt: 'toDay',
-        updatedAt: new Date('2020-01-04'),
-        timeout: 10,
-        resultDetails: 'result details for second answer.',
-        isFocusedOut: true,
-        timeSpent: 50,
-      });
+      const secondAssessmentId = 100001;
 
-      const thirdAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 100002,
-        value: 'value for third answer',
-        result: 'result for third answer',
-        challengeId: 'rec123DEF',
-        createdAt: new Date('2020-01-03'),
-        updatedAt: new Date('2020-01-04'),
-        timeout: 10,
-        resultDetails: 'result details for third answer.',
-        isFocusedOut: true,
-        timeSpent: 50,
-      });
-      const answers = [firstAnswer, secondAnswer, thirdAnswer];
-      const groups = getAnswersGroupedByAssessmentId(answers, 1000);
+      const thirdAssessmentId = 100002;
+
+      const assessments = [firstAssessmentId, secondAssessmentId, thirdAssessmentId];
+      const groups = getBatchesFromRange(assessments, 1000);
+
       expect(groups).to.have.length(2);
-      expect(groups.get(99001)).to.deep.equal([firstAnswer]);
-      expect(groups.get(100001)).to.deep.equal([secondAnswer, thirdAnswer]);
+      expect(groups.get(99001)).to.deep.equal([firstAssessmentId]);
+      expect(groups.get(100001)).to.deep.equal([secondAssessmentId, thirdAssessmentId]);
     });
 
-    it('should not have empty group answers ', function () {
-      const firstAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 100000,
-        value: 'value for first answer',
-        result: 'result for first answer',
-        challengeId: 'rec123ABC',
-        createdAt: new Date('2020-01-01'),
-        updatedAt: new Date('2020-01-02'),
-        timeout: null,
-        resultDetails: 'result details for first answer.',
-        isFocusedOut: false,
-        timeSpent: 30,
-      });
-
-      const secondAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 200001,
-        value: 'value for second answer',
-        result: 'result for second answer',
-        challengeId: 'rec123DEF',
-        createdAt: 'toDay',
-        updatedAt: new Date('2020-01-04'),
-        timeout: 10,
-        resultDetails: 'result details for second answer.',
-        isFocusedOut: true,
-        timeSpent: 50,
-      });
-
-      const thirdAnswer = databaseBuilder.factory.buildAnswer({
-        assessmentId: 200002,
-        value: 'value for third answer',
-        result: 'result for third answer',
-        challengeId: 'rec123DEF',
-        createdAt: new Date('2020-01-03'),
-        updatedAt: new Date('2020-01-04'),
-        timeout: 10,
-        resultDetails: 'result details for third answer.',
-        isFocusedOut: true,
-        timeSpent: 50,
-      });
-      const answers = [firstAnswer, secondAnswer, thirdAnswer];
-      const groups = getAnswersGroupedByAssessmentId(answers, 1000);
+    it('should not have empty group assessments ', function () {
+      const assessmentIds = [100000, 200001, 200002];
+      const groups = getBatchesFromRange(assessmentIds, 1000);
       expect(groups).to.have.length(2);
       expect(groups.get(100001)).to.be.undefined;
     });

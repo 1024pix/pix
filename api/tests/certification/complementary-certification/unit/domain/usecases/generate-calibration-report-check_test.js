@@ -13,11 +13,11 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Configuration | Unit | UseCase | generate-calibration-report-check', function () {
-  let versionRepository, calibrationRepository, dependencies, clock;
+  let versionRepository, calibrationRepository, dependencies;
   const now = new Date('2025-06-15T12:00:00Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     versionRepository = {
       getById: sinon.stub(),
     };
@@ -30,10 +30,6 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
       versionRepository,
       calibrationRepository,
     };
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   context('when version does not exist', function () {

@@ -492,11 +492,10 @@ describe('Evaluation | Unit | Domain | Use Cases | update-assessment-with-next-c
 
     context('Assessment updates', function () {
       context('updating last question date', function () {
-        let clock;
         let assessment;
 
         beforeEach(function () {
-          clock = sinon.useFakeTimers(new Date('2023-10-05'));
+          sinon.useFakeTimers({ now: new Date('2023-10-05'), toFake: ['Date'] });
           assessment = domainBuilder.buildAssessment({
             state: Assessment.states.STARTED,
             id: assessmentId,
@@ -511,10 +510,6 @@ describe('Evaluation | Unit | Domain | Use Cases | update-assessment-with-next-c
           getNextChallengeForDemoStub.withArgs({ assessment }).resolves('someChallengeId');
           challengeToPlayRepository_getStub.withArgs('someChallengeId').resolves(nextChallenge);
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
-        });
-
-        afterEach(async function () {
-          clock.restore();
         });
 
         it(`should update the last question date`, async function () {

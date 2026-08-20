@@ -5,7 +5,7 @@ import { SessionExpiredError } from '../../../../../../src/certification/enrolme
 import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/domain/usecases/register-candidate-participation.js';
 import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
+import { NotFoundError, UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
@@ -25,11 +25,10 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     eventAdapter,
     sessionAuthorizationAdapter,
     dependencies;
-  let clock;
   const sessionId = 456;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now: new Date('2026-04-05T03:04:05Z') });
+    sinon.useFakeTimers({ now: new Date('2026-04-05T03:04:05Z'), toFake: ['Date'] });
     sessionAuthorizationAdapter = {
       find: sinon.stub(),
     };
@@ -71,9 +70,44 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     };
   });
 
-  afterEach(function () {
-    clock.restore();
-    sinon.restore();
+  it('throws NotFoundError when the session does not exist', async function () {
+    const userId = 123;
+    const sessionId = 456;
+
+    sessionAuthorizationAdapter.find.resolves(null);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Tony',
+      lastName: 'Stark',
+      birthdate: '1994-07-18',
+      userId,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(NotFoundError);
+  });
+
+  it('throws NotFoundError when the session is joinable but could not be loaded', async function () {
+    const userId = 123;
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+    sessionRepository.get.resolves(null);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Tony',
+      lastName: 'Stark',
+      birthdate: '1994-07-18',
+      userId,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(NotFoundError);
   });
 
   it('throws SessionExpiredError when session has expired', async function () {

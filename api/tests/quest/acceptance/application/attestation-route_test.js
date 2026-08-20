@@ -1,10 +1,10 @@
-import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { AttestationTemplateFixture } from '../../../tooling/fixtures/index.js';
 import { mockAttestationStorageUpload } from '../../../tooling/mocks/attestation-storage.mock.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import {
   convertFormDataToPayload,
   generateAuthenticatedUserRequestHeaders,
@@ -14,7 +14,7 @@ describe('Quest | Acceptance | Application | Attestation Route ', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/admin/attestations', function () {

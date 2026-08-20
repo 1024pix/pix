@@ -1,6 +1,6 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Organizational Entities | Application | Route | Admin | Network', function () {
@@ -11,7 +11,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | N
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
 
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/admin/networks', function () {
@@ -67,7 +67,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | N
   describe('GET /api/admin/networks/1', function () {
     it('returns a specific network with 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const { network } = databaseBuilder.factory.buildNetworkAndHeadOrganization({
         id: 1,
         name: 'Mon réseau',

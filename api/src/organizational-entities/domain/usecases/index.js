@@ -23,6 +23,7 @@ import * as organizationLearnerRepository from '../../infrastructure/repositorie
 import * as organizationLearnerTypeRepository from '../../infrastructure/repositories/organization-learner-type-repository.js';
 import * as organizationPlacesLotRepository from '../../infrastructure/repositories/organization-places-lot.repository.js';
 import * as organizationTagRepository from '../../infrastructure/repositories/organization-tag.repository.js';
+import * as structureCategoryRepository from '../../infrastructure/repositories/structure-category-repository.js';
 import { tagRepository } from '../../infrastructure/repositories/tag.repository.js';
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
 import * as organizationVerificationService from '../services/organization-verification.service.js';
@@ -81,6 +82,7 @@ const dependenciesToInject = {
   learnersApi,
   organizationRepository,
   organizationTagRepository,
+  structureCategoryRepository,
   tagRepository,
   targetProfileShareRepository,
   organizationVerificationService,
@@ -105,6 +107,7 @@ import { detachCertificationCenterFromOrganization } from './detach-certificatio
 import { detachParentOrganizationFromOrganization } from './detach-parent-organization-from-organization.usecase.js';
 import { findAllAdministrationTeams } from './find-all-administration-teams.usecase.js';
 import { findAllOrganizationLearnerTypes } from './find-all-organization-learner-types.refactor.js';
+import { findAllStructureCategories } from './find-all-structure-categories.usecase.js';
 import { findAllTags } from './find-all-tags.usecase.js';
 import { findAttachedCertificationCenterForAdmin } from './find-attached-certification-center-for-admin.usecase.js';
 import { findAttachedOrganizationsForAdmin } from './find-attached-organizations-for-admin.usecase.js';
@@ -152,6 +155,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredOrganizations,
   findAllAdministrationTeams,
   findAllOrganizationLearnerTypes,
+  findAllStructureCategories,
   getCenterForAdmin,
   getNetworkDetails,
   getOrganizationById,

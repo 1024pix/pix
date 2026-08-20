@@ -30,7 +30,6 @@ const { STARTED, SHARED } = CampaignParticipationStatuses;
 describe('Integration | Repository | Campaign Participation', function () {
   describe('#updateWithSnapshot', function () {
     context('when campaign is of type ASSESSMENT', function () {
-      let clock;
       let campaignParticipation;
       let ke;
       const frozenTime = new Date('1987-09-01T00:00:00Z');
@@ -50,13 +49,9 @@ describe('Integration | Repository | Campaign Participation', function () {
           userId: campaignParticipation.userId,
           createdAt: new Date('1985-09-01T00:00:00Z'),
         });
-        clock = sinon.useFakeTimers({ now: frozenTime, toFake: ['Date'] });
+        sinon.useFakeTimers({ now: frozenTime, toFake: ['Date'] });
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(function () {
-        clock.restore();
       });
 
       it('persists the campaign-participation changes shared status and date only', async function () {

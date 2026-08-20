@@ -39,6 +39,7 @@ class VersionBuilder {
     this.competencesScoringConfiguration = [];
     this.challengesConfiguration = null;
     this.comments = null;
+    this.externalCalibrationId = null;
     this.status = VERSION_STATUSES.DRAFT;
   }
 
@@ -113,6 +114,7 @@ class VersionBuilder {
     globalScoringConfiguration,
     competencesScoringConfiguration,
     challengesConfiguration,
+    externalCalibrationId,
     comments,
   } = {}) {
     this.id = id ?? this.id;
@@ -125,6 +127,7 @@ class VersionBuilder {
     this.competencesScoringConfiguration = competencesScoringConfiguration ?? this.competencesScoringConfiguration;
     this.challengesConfiguration = challengesConfiguration ?? this.challengesConfiguration;
     this.comments = comments ?? this.comments;
+    this.externalCalibrationId = externalCalibrationId ?? this.externalCalibrationId;
     return this;
   }
 
@@ -164,6 +167,7 @@ class VersionBuilder {
       globalScoringConfiguration: version.globalScoringConfiguration,
       competencesScoringConfiguration: version.competencesScoringConfiguration,
       challengesConfiguration: version.challengesConfiguration,
+      externalCalibrationId: version.externalCalibrationId,
       status: version.status,
       comments: version.comments,
     });
@@ -207,6 +211,7 @@ class VersionBuilder {
       globalScoringConfiguration: this.globalScoringConfiguration,
       competencesScoringConfiguration: this.competencesScoringConfiguration,
       challengesConfiguration,
+      externalCalibrationId: this.externalCalibrationId,
       comments: this.comments,
       status: this.status,
       tubeIds: this.tubeIds,
@@ -229,6 +234,7 @@ class VersionBuilder {
     this.globalScoringConfiguration = version.globalScoringConfiguration;
     this.competencesScoringConfiguration = version.competencesScoringConfiguration;
     this.challengesConfiguration = version.challengesConfiguration;
+    this.externalCalibrationId = version.externalCalibrationId;
     this.comments = null;
     this.status = VERSION_STATUSES.DRAFT;
     return this;

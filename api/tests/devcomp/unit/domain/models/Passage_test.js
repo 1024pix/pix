@@ -27,14 +27,8 @@ describe('Unit | Devcomp | Domain | Models | Passage', function () {
   });
 
   describe('#terminate', function () {
-    let clock;
-
     beforeEach(function () {
-      clock = sinon.useFakeTimers(new Date('2024-01-02'), 'Date');
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: new Date('2024-01-02'), toFake: ['Date'] });
     });
 
     it('should create a passage and keep attributes', function () {

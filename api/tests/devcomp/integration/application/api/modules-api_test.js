@@ -10,15 +10,11 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Devcomp | Application | Api | Modules', function () {
-  let clock, now;
+  let now;
 
   beforeEach(function () {
     now = new Date('2023-10-05T18:02:00Z');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#getModulesByIds', function () {

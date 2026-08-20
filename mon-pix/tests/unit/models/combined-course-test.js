@@ -46,7 +46,7 @@ module('Unit | Model | Combined Course', function (hooks) {
     test('returns true when there is an item of type module', function (assert) {
       const combinedCourseItem = store.createRecord('combined-course-item', {
         isCompleted: false,
-        type: 'MODULE',
+        type: 'module',
         redirection: '/modules/demo-combinix-1',
       });
       const combinedCourse = store.createRecord('combined-course');
@@ -68,15 +68,15 @@ module('Unit | Model | Combined Course', function (hooks) {
     test('returns false when items are of different types', function (assert) {
       const combinedCourseItem1 = store.createRecord('combined-course-item', {
         isCompleted: false,
-        type: 'CAMPAIGN',
+        type: 'campaign',
       });
       const combinedCourseItem2 = store.createRecord('combined-course-item', {
         isCompleted: false,
-        type: 'FORMATION',
+        type: 'formation',
       });
       const combinedCourseItem3 = store.createRecord('combined-course-item', {
         isCompleted: false,
-        type: 'MODULE',
+        type: 'module',
         redirection: '/modules/demo-combinix-2',
       });
 
@@ -87,11 +87,11 @@ module('Unit | Model | Combined Course', function (hooks) {
     test('returns true when items are of different types', function (assert) {
       const combinedCourseItem1 = store.createRecord('combined-course-item', {
         isCompleted: false,
-        type: 'CAMPAIGN',
+        type: 'campaign',
       });
       const combinedCourseItem2 = store.createRecord('combined-course-item', {
         isCompleted: false,
-        type: 'CAMPAIGN',
+        type: 'campaign',
       });
       const combinedCourse = store.createRecord('combined-course');
       combinedCourse.items = [combinedCourseItem1, combinedCourseItem2];

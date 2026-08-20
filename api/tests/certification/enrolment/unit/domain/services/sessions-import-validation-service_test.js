@@ -10,13 +10,12 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Certification | Enrolment | Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {
-    let clock;
     let sessionRepository;
     let sessionAuthorizationAdapter;
     let dependencies;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now: new Date('2023-01-01'),
         toFake: ['Date'],
       });
@@ -30,11 +29,6 @@ describe('Certification | Enrolment | Unit | Service | sessions import validatio
         sessionRepository,
         sessionAuthorizationAdapter,
       };
-    });
-
-    afterEach(async function () {
-      clock.restore();
-      sinon.restore();
     });
 
     context('when the parsed data is valid', function () {

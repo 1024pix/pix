@@ -8,14 +8,8 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | admin-target-profile-controller', function () {
-  let clock;
-
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now: new Date('2022-02-01'), toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now: new Date('2022-02-01'), toFake: ['Date'] });
   });
 
   describe('#updateTargetProfile', function () {

@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 
 export default class CertificationReport extends Model {
@@ -29,16 +28,4 @@ export default class CertificationReport extends Model {
       abortReason: this.abortReason,
     };
   }
-
-  abort = memberAction({
-    type: 'post',
-    urlType: 'abort-certification',
-    before(reason) {
-      return {
-        data: {
-          reason,
-        },
-      };
-    },
-  });
 }

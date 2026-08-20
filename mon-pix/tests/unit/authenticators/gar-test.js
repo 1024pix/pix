@@ -1,13 +1,8 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 module('Unit | Authenticator | gar', function (hooks) {
   setupTest(hooks);
-
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
 
   module('#authenticate', function () {
     test('should authenticate the user', async function (assert) {

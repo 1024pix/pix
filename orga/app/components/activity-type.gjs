@@ -7,7 +7,7 @@ const types = {
     icon: 'speed',
     class: 'assessment',
   },
-  CAMPAIGN: {
+  campaign: {
     icon: 'speed',
     class: 'assessment',
   },
@@ -23,11 +23,11 @@ const types = {
     icon: 'studyLesson',
     class: 'combined-course',
   },
-  MODULE: {
+  module: {
     icon: 'book',
     class: 'module',
   },
-  FORMATION: {
+  formation: {
     icon: 'lock',
     class: 'formation',
   },

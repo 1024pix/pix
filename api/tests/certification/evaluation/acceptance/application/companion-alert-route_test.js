@@ -1,8 +1,8 @@
-import { createServer } from '../../../../../server.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Evaluation | Acceptance | Application | Routes | companion-alert', function () {
@@ -13,7 +13,7 @@ describe('Certification | Evaluation | Acceptance | Application | Routes | compa
     let options;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       user = databaseBuilder.factory.buildUser();
       assessment = databaseBuilder.factory.buildAssessment({
         state: Assessment.states.STARTED,

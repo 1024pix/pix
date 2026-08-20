@@ -12,15 +12,10 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprint-by-id', function () {
-  let clock;
   const now = new Date('2022-11-28T12:00:00Z');
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it('should return a combined course blueprint for a given id', async function () {
@@ -141,14 +136,14 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
       name: 'Mon parcours combiné',
       internalName: 'Mon schéma de parcours combiné',
       description: 'Le but de ma quête',
-      illustration: 'images/illustration.svg',
+      illustration: 'http://example.pix/images/illustration.svg',
       createdAt: now,
       updatedAt: now,
       organizationIds: [],
       attestationLabel,
     });
     expect(combinedCourseBlueprintForCreation.content).to.deep.equal([
-      { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: targetProfileId },
+      { type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: targetProfileId },
       { type: COMBINED_COURSE_ITEM_TYPES.MODULE, value: '9beb922f-4d8e-495d-9c85-0e7265ca78d6', shortId: 'e074af34' },
     ]);
 

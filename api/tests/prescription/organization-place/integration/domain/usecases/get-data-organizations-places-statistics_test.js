@@ -9,15 +9,10 @@ import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCases | get-data-organizations-places-statistics', function () {
-  let clock;
   const now = new Date('2021-05-01');
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(async function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it('should return places statistics for all organizations', async function () {

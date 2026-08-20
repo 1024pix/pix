@@ -99,6 +99,16 @@ class OrganizationDescription extends Component {
                 (t "common.not-specified")
               }}</span>
           </div>
+          <div class="organization-information-section__field">
+            <span class="organization-information-section__label">{{t
+                "components.organizations.information-section-view.category"
+              }}</span>
+            <span class="organization-information-section__value">{{if
+                @organization.categoryLabel
+                @organization.categoryLabel
+                (t "common.not-specified")
+              }}</span>
+          </div>
         </div>
         <div class="organization-information-section__right-block">
           <div class="organization-information-section__field">

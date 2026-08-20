@@ -69,7 +69,7 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
       await databaseBuilder.commit();
     });
 
-    it('should return session informations in a session Object', async function () {
+    it('returns session information in a session Object', async function () {
       // when
       const actualSession = await sessionManagementRepository.get({ id: session.id });
 
@@ -78,12 +78,12 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
       expect(actualSession).to.deep.includes(expectedSessionValues);
     });
 
-    it('should return a Not found error when no session was found', async function () {
+    it('returns null when no session was found', async function () {
       // when
-      const error = await catchErr(sessionManagementRepository.get)({ id: 2 });
+      const session = await sessionManagementRepository.get({ id: 2 });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
+      expect(session).to.be.null;
     });
   });
 
@@ -112,36 +112,6 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
 
       // then
       expect(isFinalized).to.be.equal(false);
-    });
-  });
-
-  describe('#isPublished', function () {
-    context('when the session has a published date', function () {
-      it('should return true', async function () {
-        //given
-        databaseBuilder.factory.buildSession({ id: 40, publishedAt: new Date() });
-        await databaseBuilder.commit();
-
-        // when
-        const isPublished = await sessionManagementRepository.isPublished({ id: 40 });
-
-        // then
-        expect(isPublished).to.be.equal(true);
-      });
-    });
-
-    context('when the session has no published date', function () {
-      it('should return tre', async function () {
-        //given
-        databaseBuilder.factory.buildSession({ id: 40, publishedAt: null });
-        await databaseBuilder.commit();
-
-        // when
-        const isPublished = await sessionManagementRepository.isPublished({ id: 40 });
-
-        // then
-        expect(isPublished).to.be.equal(false);
-      });
     });
   });
 

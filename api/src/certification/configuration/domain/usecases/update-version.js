@@ -32,6 +32,7 @@ export async function updateVersion({
   defaultCandidateCapacity,
   limitToOneQuestionPerTube,
   enablePassageByAllCompetences,
+  externalCalibrationId,
   versionRepository,
 }) {
   const version = await versionRepository.getById({ id });
@@ -51,6 +52,7 @@ export async function updateVersion({
     defaultCandidateCapacity,
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
+    externalCalibrationId,
   });
 
   return versionRepository.save(version);

@@ -588,6 +588,8 @@
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Tubes in calibration only",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
             "report-title": "Check calibration report of ID {calibrationId} generated at",
+            "save-button-label": "Save calibration for ID {id}",
+            "save-success-message": "The update went smoothly!",
             "scopes": {
               "CORE": "Pix Core",
               "DROIT": "Pix+ Law",
@@ -602,6 +604,7 @@
               "TO_VALIDATE": "To validate",
               "VALIDATED": "Validated"
             },
+            "title": "Calibration of challenges",
             "verify-calibration-id-button": "Check the calibration"
           },
           "edit": {
@@ -764,8 +767,8 @@
         "generalInfoCardTitle": "General information",
         "notifications": {
           "addItemError": "Oops. Resource not found.",
+          "campaignNotFound": "No target profile found with given id",
           "error": "Oops. Something went wrong. Please try again.",
-          "evaluationNotFound": "No target profile found with given id",
           "moduleNotFound": "No module found with given short id",
           "success": "Combined course blueprint created successfully!"
         },
@@ -1160,6 +1163,7 @@
             "undone": "This action cannot be undone."
           }
         },
+        "category": "Category",
         "code": "Code",
         "country": {
           "label": "Country (INSEE code)",
@@ -1632,7 +1636,7 @@
           "title": "Details",
           "v3": {
             "abort-reason": {
-              "candidate": "Withdrawal: Lack of time or early departure",
+              "candidate": "Test not completed within the allotted time",
               "technical": "Technical problem"
             },
             "answer-status": {
@@ -1658,7 +1662,7 @@
             },
             "general-informations": {
               "labels": {
-                "abort-reason": "Reason for withdrawal",
+                "abort-reason": "Reason for interruption",
                 "created-at": "Created on",
                 "ended-by": "Certification completed by",
                 "last-answer-at": "Last answer on",

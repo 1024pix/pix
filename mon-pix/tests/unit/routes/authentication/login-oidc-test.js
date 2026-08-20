@@ -12,10 +12,6 @@ module('Unit | Route | login-oidc', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#beforeModel', function () {
     module('when receives error from identity provider', function () {
       test('it throws an error', function (assert) {

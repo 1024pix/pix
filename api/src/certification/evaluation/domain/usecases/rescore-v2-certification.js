@@ -44,14 +44,14 @@ const eventTypes = [
  * @throws {NotFinalizedSessionError}
  * @throws {SessionAlreadyPublishedError}
  */
-export const rescoreV2Certification = async ({
+export async function rescoreV2Certification({
   event,
   assessmentResultRepository,
   certificationAssessmentRepository,
   complementaryCertificationScoringCriteriaRepository,
   sessionRepository,
   services,
-}) => {
+}) {
   checkEventTypes(event, eventTypes);
 
   const certificationCourseId = event.certificationCourseId;
@@ -69,7 +69,7 @@ export const rescoreV2Certification = async ({
     complementaryCertificationScoringCriteriaRepository,
     services,
   });
-};
+}
 
 /**
  * @param {object} params
@@ -80,7 +80,7 @@ export const rescoreV2Certification = async ({
  * @throws {NotFinalizedSessionError}
  * @throws {SessionAlreadyPublishedError}
  */
-const _verifySessionIsPublishable = async ({ certificationCourseId, sessionRepository }) => {
+async function _verifySessionIsPublishable({ certificationCourseId, sessionRepository }) {
   const session = await sessionRepository.getByCertificationCourseId({ certificationCourseId });
 
   if (!session.isFinalized) {
@@ -90,7 +90,7 @@ const _verifySessionIsPublishable = async ({ certificationCourseId, sessionRepos
   if (session.isPublished) {
     throw new SessionAlreadyPublishedError();
   }
-};
+}
 
 async function _handleV2CertificationScoring({
   event,

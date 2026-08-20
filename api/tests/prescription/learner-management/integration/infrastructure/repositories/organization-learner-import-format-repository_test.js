@@ -111,16 +111,12 @@ describe('Integration | Repository | Organization Learner Management | Organizat
     });
   });
   describe('#save', function () {
-    let clock, userId;
+    let userId;
     const now = new Date('2022-02-02');
     const updatedAt = new Date('2020-01-01');
 
-    afterEach(function () {
-      clock.restore();
-    });
-
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       userId = databaseBuilder.factory.buildUser().id;
       // First format

@@ -14,7 +14,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | archive-cer
     const creationDate = new Date(2021, 1, 1);
     const lastUpdateBeforeArchive = new Date(2022, 2, 2);
     const now = new Date(2023, 3, 3);
-    const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     const pendingStatus = CertificationCenterInvitation.StatusType.PENDING;
     const superAdminUser = databaseBuilder.factory.buildUser();
     const user = databaseBuilder.factory.buildUser({});
@@ -103,8 +103,6 @@ describe('Integration | Organizational Entities | Domain | UseCase | archive-cer
     expect(disabledCertificationCenter2Membership.updatedAt).to.deep.equal(lastUpdateBeforeArchive);
 
     expect(deletedCertificationCenter2Invitation).to.be.empty;
-
-    clock.restore();
   });
 
   context('when certification center does not exist', function () {

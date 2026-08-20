@@ -1,6 +1,6 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Team | Application | Route | organization-member-identities', function () {
@@ -9,7 +9,7 @@ describe('Acceptance | Team | Application | Route | organization-member-identiti
   describe('GET /api/organizations/{id}/member-identities', function () {
     it('returns the members identities as JSON API', async function () {
       // given
-      server = await createServer();
+      server = await getServer();
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
       const member1 = databaseBuilder.factory.buildUser();

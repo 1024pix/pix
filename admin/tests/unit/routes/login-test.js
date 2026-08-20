@@ -10,11 +10,7 @@ module('Unit | Route | login', function (hooks) {
     assert.ok(route);
   });
 
-  module('model', function (hooks) {
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
+  module('model', function () {
     test('loads ready identity providers', async function (assert) {
       // given
       const route = this.owner.lookup('route:login');

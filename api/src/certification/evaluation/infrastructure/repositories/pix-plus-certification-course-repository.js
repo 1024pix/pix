@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { PixPlusCertificationCourse } from '../../domain/models/PixPlusCertificationCourse.js';
 
-const getByCertificationCourseId = async function (certificationCourseId) {
+export async function getByCertificationCourseId(certificationCourseId) {
   const knexConn = DomainTransaction.getConnection();
   const PIX_PLUS_START_DATE = '2025-07-01';
 
@@ -25,10 +25,8 @@ const getByCertificationCourseId = async function (certificationCourseId) {
   }
 
   return _toDomain(pixPlusCertificationCourse);
-};
+}
 
-const _toDomain = (pixPlusCertificationCourse) => {
+function _toDomain(pixPlusCertificationCourse) {
   return new PixPlusCertificationCourse(pixPlusCertificationCourse);
-};
-
-export { getByCertificationCourseId };
+}

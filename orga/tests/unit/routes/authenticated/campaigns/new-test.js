@@ -747,10 +747,6 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
       route = this.owner.lookup('route:authenticated/campaigns/new');
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     module('When places limit is reached', function () {
       test('should redirect to main campaign page', function (assert) {
         //given

@@ -1,7 +1,7 @@
 /**
  * @typedef {import ('../../domain/models/Candidate.js').Candidate} Candidate
  */
-import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
+import { NotFoundError, UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
@@ -39,11 +39,19 @@ export async function registerCandidateParticipation({
 }) {
   const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
 
+  if (!sessionAuthorization) {
+    throw new NotFoundError(`Session ${sessionId} does not exist`);
+  }
+
   if (!sessionAuthorization.canJoinSession) {
     throw new SessionExpiredError();
   }
 
   const session = await sessionRepository.get({ id: sessionId });
+
+  if (!session) {
+    throw new NotFoundError(`Session ${sessionId} does not exist`);
+  }
 
   const candidate = await checkAndGetCandidateFromSession({
     userId,

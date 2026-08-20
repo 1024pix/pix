@@ -86,15 +86,10 @@ describe('Integration | Shared | Infrastructure | Repositories | UserLoginReposi
   });
 
   describe('#update', function () {
-    let clock;
     const now = new Date('2022-11-24');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('returns the updated user-login', async function () {
@@ -189,15 +184,10 @@ describe('Integration | Shared | Infrastructure | Repositories | UserLoginReposi
   });
 
   describe('#updateLastLoggedAt', function () {
-    let clock;
     const now = new Date('2020-01-02');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     context('when a user-login exists for given user id', function () {
@@ -233,15 +223,10 @@ describe('Integration | Shared | Infrastructure | Repositories | UserLoginReposi
   });
 
   describe('#batchUnblock', function () {
-    let clock;
     const now = new Date('2025-05-05');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('resets account blocking for the given accounts', async function () {

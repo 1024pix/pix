@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
       };
 
       challengeRepository = {
-        findOperativeBySkillsAndLocales_proxy: sinon.stub(),
+        findOperativeChallengeDtosBySkillsAndLocales: sinon.stub(),
       };
     });
 
@@ -63,7 +63,9 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
         })
         .resolves(campaignSKills);
 
-      challengeRepository.findOperativeBySkillsAndLocales_proxy.withArgs(campaignSKills, ['fr']).resolves(challenges);
+      challengeRepository.findOperativeChallengeDtosBySkillsAndLocales
+        .withArgs(campaignSKills, ['fr'])
+        .resolves(challenges);
 
       // when
       const result = getCampaignParametersForSimulator({

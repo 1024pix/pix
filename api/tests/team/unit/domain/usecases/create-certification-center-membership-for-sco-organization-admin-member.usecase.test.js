@@ -14,11 +14,10 @@ describe('Unit | Team | Domain | UseCase | create-certification-center-membershi
   let membershipRepository;
   let certificationCenterRepository;
   let certificationCenterMembershipRepository;
-  let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(new Date('2023-11-01'));
-    now = new Date(clock.now);
+    now = new Date('2023-11-01');
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     membershipRepository = {
       get: sinon.stub(),
     };
@@ -31,10 +30,6 @@ describe('Unit | Team | Domain | UseCase | create-certification-center-membershi
       findByCertificationCenterIdAndUserId: sinon.stub(),
       update: sinon.stub(),
     };
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   context('when the organizationRole is ADMIN', function () {
