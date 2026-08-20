@@ -44,6 +44,10 @@ function convertString(joiStringDescribedSchema) {
     jsonSchema.options = { infoText: joiStringDescribedSchema.flags['description'] };
   }
 
+  if (hasFlag(joiStringDescribedSchema.flags, 'default')) {
+    jsonSchema.default = joiStringDescribedSchema.flags['default'];
+  }
+
   const emailRule = findRule(rules, 'email');
   if (emailRule !== undefined) {
     jsonSchema.format = 'email';
