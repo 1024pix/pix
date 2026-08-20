@@ -5,8 +5,8 @@ import ScorecardDetails from 'mon-pix/components/scorecard-details';
 <template>
   {{pageTitle (t "pages.competence-result.title")}}
 
-  <main id="main" role="main">
-    <PixBlock>
+  <main id="main" role="main" class="competence-results">
+    <PixBlock class="competence-results__banner">
       <div class="competence-results-panel__header">
         {{#if @model.scorecard.hasNotEarnedAnything}}
           <div class="competence-results-panel-header__banner competence-results-panel-header__banner--too-bad">
