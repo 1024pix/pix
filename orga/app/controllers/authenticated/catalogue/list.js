@@ -12,6 +12,10 @@ export default class CatalogueListController extends Controller {
   @tracked targetProfileId = null;
   @tracked blueprintId = null;
 
+  get isFiltered() {
+    return this.search !== '' || this.category !== '' || this.areas.length > 0 || this.competences.length > 0;
+  }
+
   @action
   updateFilter(fieldName, value) {
     this[fieldName] = value;

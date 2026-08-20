@@ -28,6 +28,21 @@ module('Integration | Component | Catalogue::List', function (hooks) {
     assert.dom(screen.getByText(t('pages.catalogue.empty-state'))).exists();
   });
 
+  test('it displays a different empty state when there are no items and filters are on', async function (assert) {
+    // given
+    const courses = [];
+    const updateFilter = sinon.stub();
+    const isFiltered = true;
+
+    // when
+    const screen = await render(
+      <template><List @courses={{courses}} @updateFilter={{updateFilter}} @isFiltered={{isFiltered}} /></template>,
+    );
+
+    // then
+    assert.dom(screen.getByText(t('pages.catalogue.empty-state-with-filters'))).exists();
+  });
+
   test('it shows all items', async function (assert) {
     // given
     const courses = [

@@ -1048,6 +1048,7 @@
         "tubes-count": "{count, plural, =0 {Nessun argomento} =1 {{count} argomento} other {{count} argomenti}}"
       },
       "empty-state": "Nessun percorso disponibile al momento. Contattare Pix per ottenerne.",
+      "empty-state-with-filters": "Nessun percorso corrisponde ai criteri di ricerca.",
       "filters": {
         "areas": {
           "empty": "Nessun dominio",

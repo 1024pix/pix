@@ -1048,6 +1048,7 @@
         "tubes-count": "{count, plural, =0 {Kein Thema} =1 {{count} thema} other {{count} themen}}"
       },
       "empty-state": "Derzeit sind keine Kurse verfügbar. Kontaktieren Sie Pix, um welche zu erhalten.",
+      "empty-state-with-filters": "Keine Kurse entsprechen Ihren Suchkriterien.",
       "filters": {
         "areas": {
           "empty": "Kein Bereich",

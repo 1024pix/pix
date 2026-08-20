@@ -10,6 +10,59 @@ module('Unit | Controller | authenticated/catalogue/list', function (hooks) {
     controller = this.owner.lookup('controller:authenticated/catalogue/list');
   });
 
+  module('#isFiltered', function () {
+    test('it should be false if no filter is filled', async function (assert) {
+      // given
+      controller.search = '';
+      controller.category = '';
+      controller.areas = [];
+      controller.competences = [];
+
+      // then
+      assert.false(controller.isFiltered);
+    });
+    test('it should be true if search filter is filled', async function (assert) {
+      // given
+      controller.search = 'Parcours';
+      controller.category = '';
+      controller.areas = [];
+      controller.competences = [];
+
+      // then
+      assert.true(controller.isFiltered);
+    });
+    test('it should be true if category filter is filled', async function (assert) {
+      // given
+      controller.search = '';
+      controller.category = 'Category';
+      controller.areas = [];
+      controller.competences = [];
+
+      // then
+      assert.true(controller.isFiltered);
+    });
+    test('it should be true if areas filter is filled', async function (assert) {
+      // given
+      controller.search = '';
+      controller.category = '';
+      controller.areas = ['Area1', 'Area2'];
+      controller.competences = [];
+
+      // then
+      assert.true(controller.isFiltered);
+    });
+    test('it should be true if competences filter is filled', async function (assert) {
+      // given
+      controller.search = '';
+      controller.category = '';
+      controller.areas = [];
+      controller.competences = ['Competence1', 'Competence2'];
+
+      // then
+      assert.true(controller.isFiltered);
+    });
+  });
+
   module('#updateFilter', function () {
     test('it should update controller field (search as example)', async function (assert) {
       // given
