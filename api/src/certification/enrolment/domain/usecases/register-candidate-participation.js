@@ -49,6 +49,10 @@ export async function registerCandidateParticipation({
 
   const session = await sessionRepository.get({ id: sessionId });
 
+  if (!session) {
+    throw new NotFoundError(`Session ${sessionId} does not exist`);
+  }
+
   const candidate = await checkAndGetCandidateFromSession({
     userId,
     firstName,
