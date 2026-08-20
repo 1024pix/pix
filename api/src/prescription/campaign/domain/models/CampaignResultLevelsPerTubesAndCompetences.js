@@ -1,5 +1,5 @@
-import { CompetenceResultForKnowledgeElementSnapshots } from './CompetenceResultForKnowledgeElementSnapshots.js';
-import { TubeResultForKnowledgeElementSnapshots } from './TubeResultForKnowledgeElementSnapshots.js';
+import { CompetenceResultForKnowledgeStates } from './CompetenceResultForKnowledgeStates.js';
+import { TubeResultForKnowledgeStates } from './TubeResultForKnowledgeStates.js';
 
 class CampaignResultLevelsPerTubesAndCompetences {
   #tubesWithLevels;
@@ -11,7 +11,7 @@ class CampaignResultLevelsPerTubesAndCompetences {
 
     this.#tubesWithLevels = learningContent.tubes.map((tube) => {
       const competence = this.learningContent.competences.find((competence) => competence.id === tube.competenceId);
-      return new TubeResultForKnowledgeElementSnapshots({
+      return new TubeResultForKnowledgeStates({
         tube,
         competence,
         area: this.learningContent.findAreaOfCompetence(competence),
@@ -20,7 +20,7 @@ class CampaignResultLevelsPerTubesAndCompetences {
 
     this.#competencesWithLevels = this.learningContent.competences.map(
       (competence) =>
-        new CompetenceResultForKnowledgeElementSnapshots({
+        new CompetenceResultForKnowledgeStates({
           competence,
         }),
     );
@@ -42,12 +42,13 @@ class CampaignResultLevelsPerTubesAndCompetences {
     return averageBy(this.levelsPerTube, 'meanLevel');
   }
 
-  addKnowledgeElementSnapshots(knowledgeElementSnapshots) {
+  /** @param {Object.<number, KnowledgeState>} knowledgeStatesByParticipation */
+  addKnowledgeStates(knowledgeStatesByParticipation) {
     this.#competencesWithLevels.forEach((competenceResult) =>
-      competenceResult.addKnowledgeElementSnapshots(Object.values(knowledgeElementSnapshots)),
+      competenceResult.addKnowledgeStates(Object.values(knowledgeStatesByParticipation)),
     );
     this.#tubesWithLevels.forEach((tubesWithLevel) =>
-      tubesWithLevel.addKnowledgeElementSnapshots(Object.values(knowledgeElementSnapshots)),
+      tubesWithLevel.addKnowledgeStates(Object.values(knowledgeStatesByParticipation)),
     );
   }
 }

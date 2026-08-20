@@ -4,7 +4,7 @@ import * as profileRewardRepository from '../../../profile/infrastructure/reposi
 import { AttestationStorage } from '../../../quest/infrastructure/storage/attestation-storage.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
-import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeStateRepository from '../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
 import * as stringUtils from '../../../shared/infrastructure/utils/string-utils.js';
@@ -20,7 +20,7 @@ const dependencies = {
   competenceRepository,
   areaRepository,
   competenceEvaluationRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   profileRewardRepository,
   userRepository: repositories.userRepository,
   organizationProfileRewardRepository,

@@ -1,27 +1,27 @@
 import _ from 'lodash';
 
-import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
-
 const findTutorials = async function ({
   userId,
   competenceId,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   skillRepository,
   tubeRepository,
   tutorialRepository,
   locale,
 }) {
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
-    userId,
-    competenceId,
-  });
-  const invalidatedDirectKnowledgeElements = _getInvalidatedDirectKnowledgeElements(knowledgeElements);
+  const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
+  const competenceState = knowledgeState.restrictedToCompetence(competenceId);
+  // Seuls les échecs sur des questions réellement posées appellent un tutoriel.
+  const invalidatedDirectSkillIds = competenceState
+    .invalidatedSkills()
+    .filter((skill) => competenceState.isDirect(skill))
+    .map(({ id }) => id);
 
-  if (invalidatedDirectKnowledgeElements.length === 0) {
+  if (invalidatedDirectSkillIds.length === 0) {
     return [];
   }
   const skills = await skillRepository.findActiveByCompetenceId(competenceId);
-  const failedSkills = _getFailedSkills(skills, invalidatedDirectKnowledgeElements);
+  const failedSkills = skills.filter((skill) => invalidatedDirectSkillIds.includes(skill.id));
 
   const skillsGroupedByTube = _getSkillsGroupedByTube(failedSkills);
   const easiestSkills = _getEasiestSkills(skillsGroupedByTube);
@@ -71,16 +71,4 @@ function _getSkillsGroupedByTube(failedSkills) {
   const uniqueSkills = Array.from(new Set(sortedSkills));
 
   return Object.groupBy(uniqueSkills, (uniqueSkill) => uniqueSkill.tubeName);
-}
-
-function _getFailedSkills(skills, invalidatedDirectKnowledgeElements) {
-  return _.filter(skills, (skill) => _.includes(_.map(invalidatedDirectKnowledgeElements, 'skillId'), skill.id));
-}
-
-function _getInvalidatedDirectKnowledgeElements(knowledgeElements) {
-  return _.filter(
-    knowledgeElements,
-    (knowledgeElement) =>
-      knowledgeElement.isInvalidated && knowledgeElement.source === KnowledgeElement.SourceType.DIRECT,
-  );
 }

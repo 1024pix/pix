@@ -1,4 +1,4 @@
-import * as knowledgeElementsApi from '../../evaluation/application/api/knowledge-elements-api.js';
+import * as knowledgeStatesApi from '../../evaluation/application/api/knowledge-states-api.js';
 import * as skillsApi from '../../learning-content/application/api/skills-api.js';
 import * as campaignsApi from '../../prescription/campaign/application/api/campaigns-api.js';
 import * as organizationLearnerWithParticipationApi from '../../prescription/organization-learner/application/api/organization-learners-with-participations-api.js';
@@ -94,7 +94,7 @@ export class ShareAttestationsToEligibleOrganizationsScript extends Script {
             userId: profileReward.userId,
             campaignParticipationIds,
             targetProfileIds,
-            knowledgeElementsApi,
+            knowledgeStatesApi,
             skillsApi,
             campaignsApi,
             targetProfilesApi,

@@ -3,15 +3,15 @@ import { calculatePixScore } from '../services/scoring/scoring-service.js';
 
 class SimulationParameters {
   /**
-   * @param {KnowledgeElement[]} knowledgeElements
+   * @param {KnowledgeState} knowledgeState
    * @param {Answer[]} answers
    * @param {Skill[]} skills
    * @param {Challenge[]} challenges
    * @param {('en'|'fr-fr'|'fr'|'nl')} locale
    * @param {number} assessmentId
    */
-  constructor({ knowledgeElements, answers, skills, challenges, locale, assessmentId } = {}) {
-    this.knowledgeElements = knowledgeElements;
+  constructor({ knowledgeState, answers, skills, challenges, locale, assessmentId } = {}) {
+    this.knowledgeState = knowledgeState;
     this.answers = answers;
     this.skills = skills;
     this.challenges = challenges;

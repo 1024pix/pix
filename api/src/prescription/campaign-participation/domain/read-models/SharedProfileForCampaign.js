@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-const { map, isEmpty } = lodash;
+const { map } = lodash;
 
 import { Scorecard } from '../../../../evaluation/domain/models/Scorecard.js';
 
@@ -10,7 +10,7 @@ class SharedProfileForCampaign {
     campaignAllowsRetry,
     isOrganizationLearnerActive,
     competences,
-    knowledgeElementsGroupedByCompetenceId,
+    knowledgeState,
     userId,
     allAreas,
     maxReachableLevel,
@@ -19,7 +19,7 @@ class SharedProfileForCampaign {
     this.id = campaignParticipation?.id;
     this.sharedAt = campaignParticipation?.sharedAt;
     this.pixScore = campaignParticipation?.pixScore || 0;
-    this.scorecards = this._buildScorecards(userId, competences, allAreas, knowledgeElementsGroupedByCompetenceId);
+    this.scorecards = this._buildScorecards(userId, competences, allAreas, knowledgeState);
     this.canRetry = this._computeCanRetry(
       campaignAllowsRetry,
       this.sharedAt,
@@ -30,16 +30,14 @@ class SharedProfileForCampaign {
     this.maxReachablePixScore = maxReachablePixScore;
   }
 
-  _buildScorecards(userId, competences, allAreas, knowledgeElementsGroupedByCompetenceId) {
-    if (isEmpty(knowledgeElementsGroupedByCompetenceId)) return [];
+  _buildScorecards(userId, competences, allAreas, knowledgeState) {
+    if (knowledgeState.isEmpty) return [];
     return map(competences, (competence) => {
-      const competenceId = competence.id;
       const area = allAreas.find((area) => area.id === competence.areaId);
-      const knowledgeElements = knowledgeElementsGroupedByCompetenceId[competenceId];
 
       return Scorecard.buildFrom({
         userId,
-        knowledgeElements,
+        knowledgeState: knowledgeState.restrictedToCompetence(competence.id),
         competence,
         area,
       });

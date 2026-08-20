@@ -2,7 +2,7 @@ const handleTrainingRecommendation = async function ({
   locale,
   assessment,
   campaignRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   trainingRepository,
   userRecommendedTrainingRepository,
 }) {
@@ -22,12 +22,12 @@ const handleTrainingRecommendation = async function ({
   const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId({
     campaignParticipationId,
   });
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
+  const knowledgeState = await knowledgeStateRepository.findByUserId({
     userId: assessment.userId,
   });
 
   for (const training of trainings) {
-    if (training.shouldBeObtained(knowledgeElements, campaignSkills)) {
+    if (training.shouldBeObtained(knowledgeState, campaignSkills)) {
       await userRecommendedTrainingRepository.save({
         userId: assessment.userId,
         trainingId: training.id,

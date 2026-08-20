@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { CompetenceResetError } from '../errors.js';
 import { Scorecard } from '../models/Scorecard.js';
 
@@ -10,23 +8,21 @@ const resetScorecard = async function ({
   competenceRepository,
   areaRepository,
   competenceEvaluationRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   assessmentRepository,
   campaignParticipationRepository,
   campaignRepository,
   locale,
 }) {
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
-    userId,
-    competenceId,
-  });
+  const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
+  const competenceState = knowledgeState.restrictedToCompetence(competenceId);
 
-  const nothingToReset = _.isEmpty(knowledgeElements);
+  const nothingToReset = competenceState.isEmpty;
   if (nothingToReset) {
     return null;
   }
 
-  const remainingDaysBeforeReset = Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
+  const remainingDaysBeforeReset = Scorecard.computeRemainingDaysBeforeReset(competenceState);
   if (remainingDaysBeforeReset > 0) {
     throw new CompetenceResetError(remainingDaysBeforeReset);
   }
@@ -44,7 +40,7 @@ const resetScorecard = async function ({
     campaignParticipationRepository,
     competenceRepository,
     competenceEvaluationRepository,
-    knowledgeElementRepository,
+    knowledgeStateRepository,
     campaignRepository,
   });
 
@@ -54,7 +50,7 @@ const resetScorecard = async function ({
     competenceRepository,
     areaRepository,
     competenceEvaluationRepository,
-    knowledgeElementRepository,
+    knowledgeStateRepository,
     locale,
   });
 };

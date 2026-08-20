@@ -1,10 +1,9 @@
 import * as scoringService from '../../../evaluation/domain/services/scoring/scoring-service.js';
-import * as knowledgeElementSnapshotRepository from '../../../prescription/campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as knowledgeStateSnapshotRepository from '../../../prescription/campaign/infrastructure/repositories/knowledge-state-snapshot-repository.js';
 import { PlacementProfile } from '../../domain/models/PlacementProfile.js';
 import { UserCompetence } from '../../domain/models/UserCompetence.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
-import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
-import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
+import * as knowledgeStateRepository from '../../infrastructure/repositories/knowledge-state-repository.js';
 
 async function getPlacementProfile({ userId, limitDate, allowExcessPixAndLevels = true, locale }) {
   const pixCompetences = await competenceRepository.listPixCompetencesOnly({ locale });
@@ -17,27 +16,22 @@ async function getPlacementProfile({ userId, limitDate, allowExcessPixAndLevels 
   });
 }
 
-function _createUserCompetencesV2({
-  knowledgeElementsByCompetence,
-  competences,
-  allowExcessPixAndLevels = true,
-  skills = [],
-}) {
-  const skillMap = new Map(skills.map((skill) => [skill.id, skill]));
-
+function _createUserCompetencesV2({ knowledgeState, competences, allowExcessPixAndLevels = true }) {
   return competences.map((competence) => {
-    const knowledgeElementsForCompetence = knowledgeElementsByCompetence[competence.id] || [];
+    const competenceState = knowledgeState.restrictedToCompetence(competence.id);
 
     const { pixScoreForCompetence, currentLevel } = scoringService.calculateScoringInformationForCompetence({
-      knowledgeElements: knowledgeElementsForCompetence,
+      validatedSkills: competenceState.validatedSkills(),
       allowExcessPix: allowExcessPixAndLevels,
       allowExcessLevel: allowExcessPixAndLevels,
     });
 
-    const directlyValidatedCompetenceSkills = _matchingDirectlyValidatedSkillsForCompetence(
-      knowledgeElementsForCompetence,
-      skillMap,
-    );
+    // La certification V2 ne retient que les acquis réellement réussis en réponse
+    // directe : les inférés ne donnent pas lieu à une question de certification.
+    const directlyValidatedCompetenceSkills = competenceState
+      .validatedSkills()
+      .filter((skill) => competenceState.isDirect(skill));
+
     return new UserCompetence({
       id: competence.id,
       areaId: competence.areaId,
@@ -51,18 +45,15 @@ function _createUserCompetencesV2({
 }
 
 async function _generatePlacementProfile({ userId, profileDate, competences, allowExcessPixAndLevels }) {
-  const knowledgeElementsByCompetence = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
+  const knowledgeState = await knowledgeStateRepository.findByUserId({
     userId,
     limitDate: profileDate,
   });
 
-  const skills = await skillRepository.list();
-
   const userCompetences = _createUserCompetencesV2({
-    knowledgeElementsByCompetence,
+    knowledgeState,
     competences,
     allowExcessPixAndLevels,
-    skills,
   });
 
   return new PlacementProfile({
@@ -74,28 +65,16 @@ async function _generatePlacementProfile({ userId, profileDate, competences, all
 
 async function getPlacementProfilesWithSnapshotting({ participations, competences, allowExcessPixAndLevels = true }) {
   const campaignParticipationIds = participations.map(({ campaignParticipationId }) => campaignParticipationId);
-  const knowledgeElementsParticipations =
-    await knowledgeElementSnapshotRepository.findCampaignParticipationKnowledgeElementSnapshots(
-      campaignParticipationIds,
-    );
+  const knowledgeStateParticipations =
+    await knowledgeStateSnapshotRepository.findCampaignParticipationKnowledgeStates(campaignParticipationIds);
 
   return participations.map((participation) => {
-    const keForParticipation = knowledgeElementsParticipations.find((knowledgeElementsParticipation) => {
-      return knowledgeElementsParticipation.campaignParticipationId === participation.campaignParticipationId;
+    const stateForParticipation = knowledgeStateParticipations.find((knowledgeStateParticipation) => {
+      return knowledgeStateParticipation.campaignParticipationId === participation.campaignParticipationId;
     });
 
-    const knowledgeElementsByCompetence = keForParticipation.knowledgeElements
-      ? keForParticipation.knowledgeElements.reduce((acc, ke) => {
-          if (!acc[ke.competenceId]) {
-            acc[ke.competenceId] = [];
-          }
-          acc[ke.competenceId].push(ke);
-          return acc;
-        }, {})
-      : {};
-
     const userCompetences = _createUserCompetencesV2({
-      knowledgeElementsByCompetence,
+      knowledgeState: stateForParticipation.knowledgeState,
       competences,
       allowExcessPixAndLevels,
     });
@@ -106,16 +85,6 @@ async function getPlacementProfilesWithSnapshotting({ participations, competence
       userCompetences,
     });
   });
-}
-
-function _matchingDirectlyValidatedSkillsForCompetence(knowledgeElementsForCompetence, skillMap) {
-  const competenceSkills = knowledgeElementsForCompetence
-    .filter((ke) => ke.isDirectlyValidated())
-    .map((ke) => {
-      return skillMap.get(ke.skillId);
-    });
-
-  return competenceSkills.filter(Boolean);
 }
 
 export { getPlacementProfile, getPlacementProfilesWithSnapshotting };

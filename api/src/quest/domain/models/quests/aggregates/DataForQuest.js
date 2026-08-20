@@ -52,10 +52,6 @@ export class DataForQuest {
    * Success
    */
 
-  get knowledgeElements() {
-    return this.#success.knowledgeElements;
-  }
-
   getMasteryPercentageForSkills(skillIds) {
     return this.#success.getMasteryPercentageForSkills(skillIds);
   }

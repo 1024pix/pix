@@ -1,6 +1,6 @@
-import { TubeResultForKnowledgeElementSnapshots } from './TubeResultForKnowledgeElementSnapshots.js';
+import { TubeResultForKnowledgeStates } from './TubeResultForKnowledgeStates.js';
 
-class CompetenceResultForKnowledgeElementSnapshots {
+class CompetenceResultForKnowledgeStates {
   #tubeResults;
 
   id;
@@ -11,9 +11,7 @@ class CompetenceResultForKnowledgeElementSnapshots {
   maxLevel = 0;
 
   constructor({ competence } = {}) {
-    this.#tubeResults = competence.tubes.map(
-      (tube) => new TubeResultForKnowledgeElementSnapshots({ tube, competence }),
-    );
+    this.#tubeResults = competence.tubes.map((tube) => new TubeResultForKnowledgeStates({ tube, competence }));
 
     this.id = competence.id;
     this.index = competence.index;
@@ -21,10 +19,9 @@ class CompetenceResultForKnowledgeElementSnapshots {
     this.description = competence.description;
   }
 
-  addKnowledgeElementSnapshots(knowledgeElementSnapshots) {
-    this.#tubeResults.forEach((tubesWithLevel) =>
-      tubesWithLevel.addKnowledgeElementSnapshots(knowledgeElementSnapshots),
-    );
+  /** @param {KnowledgeState[]} knowledgeStates un état par participation */
+  addKnowledgeStates(knowledgeStates) {
+    this.#tubeResults.forEach((tubesWithLevel) => tubesWithLevel.addKnowledgeStates(knowledgeStates));
     this.maxLevel = averageBy(this.#tubeResults, 'maxLevel');
     this.meanLevel = averageBy(this.#tubeResults, 'meanLevel');
   }
@@ -37,4 +34,4 @@ const averageBy = (collection, propName) => {
   return collection.reduce((acc, item) => acc + item[propName], 0) / collection.length;
 };
 
-export { CompetenceResultForKnowledgeElementSnapshots };
+export { CompetenceResultForKnowledgeStates };

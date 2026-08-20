@@ -8,7 +8,7 @@ export async function getNextChallengeForCompetenceEvaluation({
   algorithmDataFetcherService,
   answerRepository,
   smartRandomChallengeRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   skillRepository,
   improvementService,
 }) {
@@ -17,7 +17,7 @@ export async function getNextChallengeForCompetenceEvaluation({
     locale,
     answerRepository,
     smartRandomChallengeRepository,
-    knowledgeElementRepository,
+    knowledgeStateRepository,
     skillRepository,
     improvementService,
   });

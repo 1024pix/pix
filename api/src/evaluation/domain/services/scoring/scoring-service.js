@@ -6,12 +6,20 @@ import {
   PIX_COUNT_BY_LEVEL,
 } from '../../../../shared/constants.js';
 
+/**
+ * Score et niveau d'une compétence, depuis les acquis validés.
+ *
+ * La valeur d'un acquis (`pixValue`) se lit sur le référentiel courant : elle
+ * n'est figée nulle part, le score dit toujours la vérité du jour.
+ *
+ * @param {Skill[]} validatedSkills les acquis validés de la compétence
+ */
 function calculateScoringInformationForCompetence({
-  knowledgeElements,
+  validatedSkills,
   allowExcessPix = false,
   allowExcessLevel = false,
 }) {
-  const realTotalPixScoreForCompetence = _(knowledgeElements).sumBy('earnedPix');
+  const realTotalPixScoreForCompetence = _.sumBy(validatedSkills, 'pixValue');
   const pixScoreForCompetence = _getPixScoreForOneCompetence(realTotalPixScoreForCompetence, allowExcessPix);
   const currentLevel = _getCompetenceLevel(realTotalPixScoreForCompetence, allowExcessLevel);
   const pixAheadForNextLevel = _getPixScoreAheadOfNextLevel(pixScoreForCompetence);
@@ -51,12 +59,17 @@ function _getPixScoreAheadOfNextLevel(earnedPix) {
   return earnedPix % PIX_COUNT_BY_LEVEL;
 }
 
-function calculatePixScore(knowledgeElements) {
-  return _(knowledgeElements)
+/**
+ * Score global : la somme des scores par compétence, chacun plafonné.
+ *
+ * @param {Skill[]} validatedSkills
+ */
+function calculatePixScore(validatedSkills) {
+  return _(validatedSkills)
     .groupBy('competenceId')
     .values()
-    .map((knowledgeElementsByCompetence) =>
-      calculateScoringInformationForCompetence({ knowledgeElements: knowledgeElementsByCompetence }),
+    .map((validatedSkillsOfCompetence) =>
+      calculateScoringInformationForCompetence({ validatedSkills: validatedSkillsOfCompetence }),
     )
     .sumBy('pixScoreForCompetence');
 }

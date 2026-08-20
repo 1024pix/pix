@@ -9,7 +9,7 @@ const getResultLevelsPerTubesAndCompetences = async ({
   locale,
   campaignParticipationRepository,
   learningContentRepository,
-  knowledgeElementSnapshotRepository,
+  knowledgeStateSnapshotRepository,
 }) => {
   const campaignParticipationIds = await campaignParticipationRepository.getSharedParticipationIds(campaignId);
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
@@ -21,9 +21,8 @@ const getResultLevelsPerTubesAndCompetences = async ({
 
   const campaignParticipationIdsChunks = chunk(campaignParticipationIds, CHUNK_SIZE);
   for (const chunk of campaignParticipationIdsChunks) {
-    const knowledgeElementsByParticipation =
-      await knowledgeElementSnapshotRepository.findByCampaignParticipationIds(chunk);
-    campaignResult.addKnowledgeElementSnapshots(knowledgeElementsByParticipation);
+    const knowledgeStatesByParticipation = await knowledgeStateSnapshotRepository.findByCampaignParticipationIds(chunk);
+    campaignResult.addKnowledgeStates(knowledgeStatesByParticipation);
   }
 
   return campaignResult;

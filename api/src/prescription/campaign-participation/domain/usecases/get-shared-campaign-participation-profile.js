@@ -7,7 +7,8 @@ const getSharedCampaignParticipationProfile = async function ({
   campaignId,
   campaignParticipationRepository,
   campaignRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
+  knowledgeStateSnapshotRepository,
   competenceRepository,
   areaRepository,
   organizationLearnerRepository,
@@ -24,12 +25,14 @@ const getSharedCampaignParticipationProfile = async function ({
 
   const { multipleSendings: campaignAllowsRetry } = await campaignRepository.get(campaignId);
   const isOrganizationLearnerActive = await organizationLearnerRepository.isActive({ campaignId, userId });
-  const knowledgeElementsGroupedByCompetenceId = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId(
-    {
-      userId,
-      limitDate: campaignParticipation.sharedAt,
-    },
-  );
+
+  // Le profil partagé est celui que le partage a figé dans l'instantané.
+  // L'état de connaissance, lui, continue d'évoluer et ne sait plus dire ce
+  // qu'il valait à une date passée. Une participation non partagée n'a pas
+  // d'instantané et se lit sur l'état courant.
+  const snapshots = await knowledgeStateSnapshotRepository.findByCampaignParticipationIds([campaignParticipation.id]);
+  const knowledgeState =
+    snapshots[campaignParticipation.id] ?? (await knowledgeStateRepository.findByUserId({ userId }));
 
   const competences = await competenceRepository.listPixCompetencesOnly({ locale });
   const allAreas = await areaRepository.list({ locale });
@@ -41,7 +44,7 @@ const getSharedCampaignParticipationProfile = async function ({
     campaignAllowsRetry,
     isOrganizationLearnerActive,
     competences,
-    knowledgeElementsGroupedByCompetenceId,
+    knowledgeState,
     userId,
     allAreas,
     maxReachableLevel,
