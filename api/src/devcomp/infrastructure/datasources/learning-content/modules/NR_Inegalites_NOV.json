@@ -386,7 +386,7 @@
                     },
                     {
                       "id": "4134f9fb-6ceb-49b7-8fd7-0ff802c14e6b",
-                      "type": "qcu-declarative",
+                      "type": "qcu-discovery",
                       "instruction": "<p>Quel est le principal obstacle qui bloque Brahim dans sa démarche ?<br></p>",
                       "hasShortProposals": false,
                       "proposals": [
@@ -411,7 +411,8 @@
                             "diagnosis": "<p>Ici Brahim ne sait pas si il peut faire confiance à ce site internet, il décide donc ne rien faire par peur de se faire arnaquer.&nbsp;<br></p>"
                           }
                         }
-                      ]
+                      ],
+                      "solution": "1"
                     }
                   ]
                 },
