@@ -73,7 +73,11 @@ export default defineConfig([
   // Overridden rules for "tests" files
   {
     ...mocha.configs.recommended,
+<<<<<<< HEAD
     files: ['tests/**/*.{js,ts}'],
+=======
+    files: ['tests/**/*.js', 'poc/**/*_test.js'],
+>>>>>>> 6bde46e2f1 (Add death to the KE proof of concept)
     rules: {
       ...mocha.configs.recommended.rules,
       'mocha/no-exclusive-tests': 'error',
@@ -120,4 +124,61 @@ export default defineConfig([
       'func-style': ['error', 'declaration'],
     },
   },
+import { defineConfig } from 'eslint/config';
+import tseslint from 'typescript-eslint';
+  // Linter setup
+  { linterOptions: { reportUnusedDisableDirectives: 'error' } },
+  { plugins: { unicorn, knex } },
+  // Rules for "js" files
+      'unicorn/no-array-sort': ['error', { allowExpressionStatement: false }],
+      'n/no-process-env': ['error', { allowedVariables: ['NODE_ENV'] }],
+    },
+  },
+  // Rules for "ts" files
+  {
+    files: ['**/*.ts'],
+    extends: [tseslint.configs.recommendedTypeChecked],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    rules: {
+      'no-console': 'error',
+      'no-empty-function': 'off',
+      '@typescript-eslint/no-empty-function': 'error',
+      'knex/avoid-injections': 'error',
+      'unicorn/no-empty-file': 'error',
+      'unicorn/prefer-node-protocol': 'error',
+      'unicorn/no-array-sort': ['error', { allowExpressionStatement: false }],
+      'n/no-sync': ['error', { ignores: ['catchErrSync'] }],
+      'n/no-process-exit': 'error',
+      'n/no-unpublished-import': 'off',
+      'n/no-process-env': ['error', { allowedVariables: ['NODE_ENV'] }],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }],
+    files: ['scripts/**/*.{js,ts}'],
+    files: ['tests/**/*.js', 'poc/**/*_test.js'],
+      'mocha/no-root-hooks': 'error',
+  // Allow process.env for specific files
+  {
+    files: [
+      'tests/setup/*.{js,ts}',
+      'config/config.{js,ts}',
+      'config/seeds-config.{js,ts}',
+      'db/migrations/*.{js,ts}',
+      'src/shared/infrastructure/validate-environment-variables.{js,ts}',
+      'src/shared/infrastructure/open-telemetry/scalingo-detector.{js,ts}',
+      'scripts/*.{js,ts}',
+    ],
+    rules: {
+      'n/no-process-env': 'off',
+    },
+  },
+  // Overridden rules for "db/migrations" files : old migrations are never modified
+    files: ['db/migrations/**/*.{js,mjs}'],
+    rules: { 'no-useless-assignment': 'off' },
+  },
+  {
+    files: ['src/certification/**/*.{js,mjs,ts}'],
 ]);
