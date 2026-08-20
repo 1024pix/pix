@@ -5,7 +5,7 @@ import * as userRepository from '../../infrastructure/repositories/user.reposito
 
 export class AnonymizeUserEventHandler extends EventHandler {
   constructor() {
-    super('AnonymizeUserJob', AnonymizeUserEvent.eventName);
+    super('anonymize-user.event-queue', AnonymizeUserEvent.eventName);
   }
 
   async handle({ data, dependencies = { userRepository, resetPasswordDemandRepository } }) {

@@ -8,7 +8,7 @@ import { AnonymizeUserEvent } from '../events/AnonymizeUserEvent.js';
  * @param{number} params.userId
  * @returns {Promise<boolean>}
  */
-export const selfAnonymizeByUser = async function ({
+export async function selfAnonymizeByUser({
   userId,
   locale,
   userRepository,
@@ -35,21 +35,13 @@ export const selfAnonymizeByUser = async function ({
     }),
   );
 
-  const user = await userRepository.get(userId);
-
-  const anonymizedByUserId = userId;
-  const anonymizedByUserRole = 'USER';
-  const client = 'PIX_APP';
-
-  await anonymizeServices.anonymizeUser({ userId, anonymizedByUserId, anonymizedByUserRole, client });
-
-  if (user.email) {
+  if (email) {
     await emailRepository.sendEmailAsync(
       createSelfDeleteUserAccountEmail({
         locale: locale,
-        email: user.email,
-        firstName: user.firstName,
+        email,
+        firstName,
       }),
     );
   }
-};
+}
