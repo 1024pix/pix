@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
+import { AnonymizeUserEvent } from '../../../../../src/privacy/domain/events/AnonymizeUserEvent.js';
 import { anonymizeUserByAdmin } from '../../../../../src/privacy/domain/usecases/anonymize-user-by-admin.usecase.js';
-import { EVENTS } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Privacy | Domain | usecases | anonymize user by admin', function () {
@@ -33,6 +33,7 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
     const userId = 1234;
     const updatedByUserId = 456;
     adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'super admin' });
+    const event = new AnonymizeUserEvent({ userId, updatedByUserId });
 
     // when
     await anonymizeUserByAdmin({
@@ -46,10 +47,7 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
     });
 
     // then
-    expect(eventJobPublisherService.publishEvent).to.have.been.calledWith(EVENTS.ANONYMIZE_USER_BY_ADMIN, {
-      userId: 1234,
-      updatedByUserId: 456,
-    });
+    expect(eventJobPublisherService.publishEvent).to.have.been.calledWith(event);
   });
 
   it('should log anomymization with AuditLoggingJob object', async function () {

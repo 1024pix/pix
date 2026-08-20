@@ -995,6 +995,13 @@ class PasswordNotMatching extends DomainError {
   }
 }
 
+export class NotAnEventError extends DomainError {
+  constructor(message = 'Not an Event class', code = 'NOT_AN_EVENT_CLASS') {
+    super(message);
+    this.code = code;
+  }
+}
+
 export {
   AccountRecoveryDemandExpired,
   AccountRecoveryUserAlreadyConfirmEmail,

@@ -184,7 +184,3 @@ export const CLIENTS = {
 };
 
 export const CONCURRENCY_HEAVY_OPERATIONS = config.infra.concurrencyForHeavyOperations;
-
-export const EVENTS = {
-  ANONYMIZE_USER_BY_ADMIN: 'ANONYMIZE_USER_BY_ADMIN',
-};

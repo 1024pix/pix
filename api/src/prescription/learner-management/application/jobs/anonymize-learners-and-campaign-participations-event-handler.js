@@ -1,13 +1,14 @@
+import { AnonymizeUserEvent } from '../../../../privacy/domain/events/AnonymizeUserEvent.js';
 import { EventHandler } from '../../../../shared/application/jobs/event-handler.js';
-import { EVENTS } from '../../../../shared/constants.js';
-import * as usecases from '../../domain/usecases/index.js';
+import { usecases } from '../../domain/usecases/index.js';
 
 export class AnonymizeLearnersAndCampaignParticipationsEventHandler extends EventHandler {
   constructor() {
-    super('AnonymizeLearnersAndCampaignParticipationsJob', EVENTS.ANONYMIZE_USER_BY_ADMIN);
+    super('anonymize-user.learners-and-campaign-participations.event-queue', AnonymizeUserEvent.eventName);
   }
 
   async handle({ data, dependencies = { usecases } }) {
-    await dependencies.usecases.anonymizeUser({ userId: data.userId });
+    const event = new AnonymizeUserEvent(data);
+    await dependencies.usecases.anonymizeUser({ userId: event.userId });
   }
 }
