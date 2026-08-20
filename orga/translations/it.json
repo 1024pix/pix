@@ -296,21 +296,21 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Campagna di valutazione",
-        "CAMPAIGN": "Campagna di valutazione",
         "COMBINED_COURSE": "Percorso di apprendimento",
         "EXAM": "Modalità di interrogazione",
-        "FORMATION": "Formazione",
-        "MODULE": "Modulo",
-        "PROFILES_COLLECTION": "Campagna di raccolta profili"
+        "PROFILES_COLLECTION": "Campagna di raccolta profili",
+        "campaign": "Campagna di valutazione",
+        "formation": "Formazione",
+        "module": "Modulo"
       },
       "information": {
         "ASSESSMENT": "Valutazione",
-        "CAMPAIGN": "Valutazione",
         "COMBINED_COURSE": "Percorso di apprendimento",
         "EXAM": "Modalità di interrogazione",
-        "FORMATION": "Formazione",
-        "MODULE": "Modulo",
-        "PROFILES_COLLECTION": "Collezione di profili"
+        "PROFILES_COLLECTION": "Collezione di profili",
+        "campaign": "Valutazione",
+        "formation": "Formazione",
+        "module": "Modulo"
       }
     },
     "analysis-per-competence": {

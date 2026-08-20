@@ -296,21 +296,21 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Bewertungskampagne",
-        "CAMPAIGN": "Bewertungskampagne",
         "COMBINED_COURSE": "Lernpfad",
         "EXAM": "Testmodus [beta]",
-        "FORMATION": "Ausbildung",
-        "MODULE": "Modul",
-        "PROFILES_COLLECTION": "Kampagne zum Sammeln von Profilen"
+        "PROFILES_COLLECTION": "Kampagne zum Sammeln von Profilen",
+        "campaign": "Bewertungskampagne",
+        "formation": "Ausbildung",
+        "module": "Modul"
       },
       "information": {
         "ASSESSMENT": "Bewertung",
-        "CAMPAIGN": "Bewertung",
         "COMBINED_COURSE": "Lernpfad",
         "EXAM": "Testmodus [beta]",
-        "FORMATION": "Ausbildung",
-        "MODULE": "Modul",
-        "PROFILES_COLLECTION": "Sammeln von Profilen"
+        "PROFILES_COLLECTION": "Sammeln von Profilen",
+        "campaign": "Bewertung",
+        "formation": "Ausbildung",
+        "module": "Modul"
       }
     },
     "analysis-per-competence": {

@@ -119,7 +119,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       assert.strictEqual(blueprintStub.name, 'name');
       assert.strictEqual(blueprintStub.internalName, 'internalName');
       assert.deepEqual(blueprintStub.content, [
-        { type: 'evaluation', value: 1, label: 'super pc', image: 'imageUrl' },
+        { type: 'campaign', value: 1, label: 'super pc', image: 'imageUrl' },
         { type: 'module', value: 'full-id-module-123', shortId: 'module-123', label: 'module 123', image: 'image' },
       ]);
       assert.strictEqual(blueprintStub.illustration, 'illustrations/hello.svg');
@@ -437,7 +437,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         name: 'name',
         internalName: 'internalName',
         content: [
-          { type: 'evaluation', value: 1, label: 'super pc' },
+          { type: 'campaign', value: 1, label: 'super pc' },
           { type: 'module', value: 'full-id-module-123', shortId: 'module-123', label: 'module 123' },
         ],
         illustration: 'illustrations/hello.svg',
@@ -506,7 +506,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       assert.strictEqual(blueprint.name, 'updatedName');
       assert.strictEqual(blueprint.internalName, 'updatedInternalName');
       assert.deepEqual(blueprint.content, [
-        { type: 'evaluation', value: 1, label: 'super pc' },
+        { type: 'campaign', value: 1, label: 'super pc' },
         { type: 'module', value: 'full-id-module-123', shortId: 'module-123', label: 'module 123' },
       ]);
       assert.strictEqual(blueprint.illustration, 'illustrations/updatedHello.svg');
@@ -686,7 +686,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       //then
       assert.ok(
         pixToastErrorStub.calledOnceWith({
-          message: t('components.combined-course-blueprints.create.notifications.evaluationNotFound'),
+          message: t('components.combined-course-blueprints.create.notifications.campaignNotFound'),
         }),
       );
     });

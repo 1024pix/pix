@@ -18,7 +18,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
 
     const content = [
       { type: 'module', value: moduleId, shortId: '6a68bf32' },
-      { type: 'evaluation', value: targetProfileId },
+      { type: 'campaign', value: targetProfileId },
     ];
     const questInput = new QuestInput({
       items: content,
@@ -74,7 +74,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
 
     const content = [
       { type: 'module', value: '6282925d-4775-4bca-b513-4c3009ec5886', shortId: '6a68bf32' },
-      { type: 'evaluation', value: targetProfileId },
+      { type: 'campaign', value: targetProfileId },
     ];
     const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
       name: 'Mon épure',
@@ -109,8 +109,8 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     await databaseBuilder.commit();
 
     const content = [
-      { type: 'evaluation', value: targetProfileId },
-      { type: 'evaluation', value: 123 },
+      { type: 'campaign', value: targetProfileId },
+      { type: 'campaign', value: 123 },
     ];
     const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
       name: 'Mon épure',

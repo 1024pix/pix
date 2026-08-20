@@ -51,9 +51,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprintForCreation ',
     it('should return target profile ids from quest success requirements', function () {
       // given
       const items = [
-        { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: 12 },
+        { type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: 12 },
         { type: COMBINED_COURSE_ITEM_TYPES.MODULE, value: '6282925d-4775-4bca-b513-4c3009ec5886' },
-        { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: 34 },
+        { type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: 34 },
       ];
 
       values.quest = new QuestInput({ items }).toQuest();

@@ -143,7 +143,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
       attestationLabel,
     });
     expect(combinedCourseBlueprintForCreation.content).to.deep.equal([
-      { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: targetProfileId },
+      { type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: targetProfileId },
       { type: COMBINED_COURSE_ITEM_TYPES.MODULE, value: '9beb922f-4d8e-495d-9c85-0e7265ca78d6', shortId: 'e074af34' },
     ]);
 

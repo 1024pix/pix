@@ -18,7 +18,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       // given
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const content = [
-        { type: 'evaluation', value: targetProfileId },
+        { type: 'campaign', value: targetProfileId },
         { type: 'module', value: '6282925d-4775-4bca-b513-4c3009ec5886', shortId: '6a68bf32' },
       ];
       const combinedCourseBlueprint = new CombinedCourseBlueprint({

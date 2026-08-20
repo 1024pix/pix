@@ -65,7 +65,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
@@ -74,7 +74,7 @@ module('Integration | Component | combined-course/participation-detail', functio
         ],
         [
           {
-            type: 'MODULE',
+            type: 'module',
             title: 'Module 1',
             isLocked: false,
             isCompleted: false,
@@ -122,7 +122,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
@@ -159,7 +159,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
@@ -197,7 +197,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'MODULE',
+            type: 'module',
             title: 'Module 1',
             isLocked: false,
             isCompleted: false,
@@ -234,7 +234,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
@@ -273,7 +273,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
@@ -308,7 +308,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
@@ -344,7 +344,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
@@ -380,7 +380,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'MODULE',
+            type: 'module',
             title: 'Module 1',
             isLocked: false,
             isCompleted: false,
@@ -415,7 +415,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'FORMATION',
+            type: 'formation',
             title: 'Formation 1',
             isLocked: true,
             isCompleted: false,
@@ -450,7 +450,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'FORMATION',
+            type: 'formation',
             title: 'Formation 1',
             isLocked: true,
             isCompleted: false,
@@ -488,7 +488,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: true,
             isCompleted: false,
@@ -523,7 +523,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: true,
@@ -558,7 +558,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
@@ -593,7 +593,7 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
@@ -630,21 +630,21 @@ module('Integration | Component | combined-course/participation-detail', functio
       const itemsBySteps = [
         [
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 1',
             isLocked: false,
             isCompleted: false,
             participationStatus: 'NOT_STARTED',
           },
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 2',
             isLocked: false,
             isCompleted: true,
             participationStatus: 'STARTED',
           },
           {
-            type: 'CAMPAIGN',
+            type: 'campaign',
             title: 'Campaign 3',
             isLocked: true,
             isCompleted: false,

@@ -767,8 +767,8 @@
         "generalInfoCardTitle": "General information",
         "notifications": {
           "addItemError": "Oops. Resource not found.",
+          "campaignNotFound": "No target profile found with given id",
           "error": "Oops. Something went wrong. Please try again.",
-          "evaluationNotFound": "No target profile found with given id",
           "moduleNotFound": "No module found with given short id",
           "success": "Combined course blueprint created successfully!"
         },

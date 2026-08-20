@@ -81,7 +81,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       const combinedCourseItem = store.createRecord('combined-course-item', {
         id: 'formation_1_2',
         reference: 2,
-        type: 'FORMATION',
+        type: 'formation',
         isLocked: true,
       });
 
@@ -137,7 +137,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         id: 1,
         reference: 'CAMPAIGN1',
         title: 'my campaign',
-        type: 'CAMPAIGN',
+        type: 'campaign',
       });
       combinedCourse.items.push(combinedCourseItem);
 
@@ -167,7 +167,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         id: 1,
         title: 'ma campagne',
         reference: 'ABCDIAG1',
-        type: 'CAMPAIGN',
+        type: 'campaign',
         isCompleted: false,
         isLocked: false,
       });
@@ -231,7 +231,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         id: 1,
         title: 'ma campagne',
         reference: 'ABCDIAG1',
-        type: 'CAMPAIGN',
+        type: 'campaign',
       });
 
       const combinedCourse = store.createRecord('combined-course', {
@@ -264,7 +264,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         title: 'mon module',
         reference: 'mon-module',
         shortId: 'abc123',
-        type: 'MODULE',
+        type: 'module',
         redirection: 'une+url+chiffree',
       });
 
@@ -338,7 +338,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       title: 'mon module',
       reference: 'mon-module',
       shortId: 'abc123',
-      type: 'MODULE',
+      type: 'module',
       redirection: 'une+url+chiffree',
       isCompleted: false,
     });
@@ -497,7 +497,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         id: 2,
         title: 'mon module',
         reference: 'mon-module',
-        type: 'MODULE',
+        type: 'module',
         redirection: 'une+url+chiffree',
         isCompleted: true,
       });

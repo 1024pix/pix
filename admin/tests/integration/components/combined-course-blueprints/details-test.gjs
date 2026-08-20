@@ -26,7 +26,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
       rewardRequirementsDescription: 'Il faut obtenir tel niveau sur tel sujet',
       content: [
         { type: 'module', value: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a', shortId: 'abc-123' },
-        { type: 'evaluation', value: 123 },
+        { type: 'campaign', value: 123 },
       ],
     };
 
@@ -88,7 +88,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
       name: 'Parcours apprenant',
       content: [
         { type: 'module', value: 'abc-123' },
-        { type: 'evaluation', value: 123 },
+        { type: 'campaign', value: 123 },
       ],
     };
     // when
