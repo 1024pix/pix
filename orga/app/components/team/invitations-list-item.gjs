@@ -1,6 +1,4 @@
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixIconButton, PixTableColumn, PixTooltip } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

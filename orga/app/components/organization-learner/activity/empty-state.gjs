@@ -1,4 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
+import { PixBlock } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 
 const capitalize = (text = '') => text.charAt(0).toUpperCase() + text.slice(1);

@@ -1,8 +1,4 @@
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
+import { PixFilterBanner, PixMultiSelect, PixSearchInput, PixSelect, PixTabs } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';

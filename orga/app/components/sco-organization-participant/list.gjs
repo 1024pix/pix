@@ -1,5 +1,4 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
+import { PixPagination, PixTable } from '@1024pix/nebulix-ember';
 import { fn, uniqueId } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

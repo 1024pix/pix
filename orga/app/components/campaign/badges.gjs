@@ -1,4 +1,4 @@
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixTooltip } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 
 const isAcquired = (badge, acquiredBadges = []) => {

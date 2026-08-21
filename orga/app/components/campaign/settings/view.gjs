@@ -1,8 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixBlock, PixButton, PixButtonLink, PixIcon, PixTooltip } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

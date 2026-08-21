@@ -1,5 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { PixBlock, PixIcon } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import JoinRequestForm from 'pix-orga/components/authentication/join-request-form';

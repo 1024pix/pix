@@ -1,4 +1,4 @@
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixNotificationAlert } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';

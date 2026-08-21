@@ -1,4 +1,4 @@
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixNotificationAlert } from '@1024pix/nebulix-ember';
 import dayjs from 'dayjs';
 import { t } from 'ember-intl';
 import { STATUSES } from 'pix-orga/models/organization-places-lot.js';

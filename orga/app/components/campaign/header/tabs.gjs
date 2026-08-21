@@ -1,5 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
+import { PixButton, PixTabs } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';

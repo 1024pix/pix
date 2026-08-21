@@ -1,4 +1,4 @@
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import { PixCheckbox } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';

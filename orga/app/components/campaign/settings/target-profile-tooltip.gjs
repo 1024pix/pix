@@ -1,5 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixIcon, PixTooltip } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 
 import TargetProfileDetails from '../target-profile-details';

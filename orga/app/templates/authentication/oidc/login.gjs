@@ -1,5 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { PixButton, PixButtonLink } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import LoginForm from 'pix-orga/components/authentication/login-form';

@@ -1,5 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
+import { PixButton, PixButtonUpload } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 
 function fileTypes(supportedFormats, separator) {
