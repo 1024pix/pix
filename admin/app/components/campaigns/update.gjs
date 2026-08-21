@@ -1,9 +1,4 @@
-import PixBannerAlert from '@1024pix/pix-ui/components/pix-banner-alert';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
-import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import { PixBannerAlert, PixButton, PixCheckbox, PixInput, PixRadioButton, PixTextarea } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

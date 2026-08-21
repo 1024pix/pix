@@ -1,4 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { PixIcon } from '@1024pix/nebulix-ember';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import Breadcrumb from 'pix-admin/components/trainings/breadcrumb';
 import CreateOrUpdateTrainingForm from 'pix-admin/components/trainings/create-or-update-training-form';

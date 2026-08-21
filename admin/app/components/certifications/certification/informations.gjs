@@ -1,4 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
+import { PixBlock } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
 

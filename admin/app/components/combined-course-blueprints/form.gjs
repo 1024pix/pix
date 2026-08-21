@@ -1,11 +1,13 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import {
+  PixButton,
+  PixIconButton,
+  PixInput,
+  PixRadioButton,
+  PixTable,
+  PixTableColumn,
+  PixTag,
+  PixTextarea,
+} from '@1024pix/nebulix-ember';
 import { concat, fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

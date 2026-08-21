@@ -1,5 +1,4 @@
-import PixBannerAlert from '@1024pix/pix-ui/components/pix-banner-alert';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { PixBannerAlert, PixButtonLink } from '@1024pix/nebulix-ember';
 
 import Badges from './badges';
 import Stages from './stages';

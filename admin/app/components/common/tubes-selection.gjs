@@ -1,6 +1,4 @@
-import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixButtonUpload, PixMultiSelect, PixTag } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

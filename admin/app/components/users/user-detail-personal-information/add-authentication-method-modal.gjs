@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { PixButton, PixInput, PixModal } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 

@@ -1,9 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
-import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import { PixBlock, PixButton, PixButtonLink, PixInput, PixSegmentedControl, PixTextarea } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

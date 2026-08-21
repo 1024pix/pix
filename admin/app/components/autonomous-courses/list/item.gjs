@@ -1,5 +1,4 @@
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixTableColumn, PixTag } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';

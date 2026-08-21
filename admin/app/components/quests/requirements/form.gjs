@@ -1,6 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixBlock, PixButtonLink, PixSelect } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

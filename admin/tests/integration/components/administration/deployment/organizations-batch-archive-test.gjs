@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import PixToastContainer from '@1024pix/pix-ui/components/pix-toast-container';
+import { PixToastContainer } from '@1024pix/nebulix-ember';
 import { triggerEvent } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import OrganizationsBatchArchive from 'pix-admin/components/administration/deployment/organizations-batch-archive';

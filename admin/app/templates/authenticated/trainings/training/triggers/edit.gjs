@@ -1,4 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
+import { PixButton } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import EditTriggerThreshold from 'pix-admin/components/trainings/edit-trigger-threshold';
 <template>

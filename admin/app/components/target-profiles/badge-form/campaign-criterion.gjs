@@ -1,4 +1,4 @@
-import PixInput from '@1024pix/pix-ui/components/pix-input';
+import { PixInput } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 

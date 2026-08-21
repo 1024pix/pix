@@ -1,5 +1,4 @@
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixIconButton, PixTooltip } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import CopyableId from 'pix-admin/components/ui/copyable-id';
 

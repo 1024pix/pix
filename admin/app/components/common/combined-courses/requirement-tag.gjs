@@ -1,4 +1,4 @@
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixTag } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
