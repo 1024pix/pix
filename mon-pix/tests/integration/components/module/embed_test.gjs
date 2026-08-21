@@ -577,7 +577,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
       // given
       const embed = {
         id: 'id',
-        title: 'title',
+        title: 'embed title',
         isCompletionRequired: false,
         url: 'https://example.org',
         height: 800,
@@ -587,6 +587,9 @@ module('Integration | Component | Module | Embed', function (hooks) {
       // when
       await clickByName(t('pages.modulix.buttons.embed.start.ariaLabel'));
       await clickByName(t('pages.modulix.buttons.interactive-element.reset.ariaLabel'));
+
+      // WORKAROUND: waiting for load event to finished
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       // then
       const iframe = screen.getByTitle(embed.title);
