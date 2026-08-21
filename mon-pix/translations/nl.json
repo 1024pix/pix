@@ -882,6 +882,7 @@
         "message": "Gefeliciteerd {fullName}, je Pix-profiel is certificeerbaar."
       },
       "error-messages": {
+        "account-already-linked-to-another-candidate": "Het account waarmee u bent ingelogd, is al gekoppeld aan een andere kandidaat van deze sessie. Controleer of u bent ingelogd met uw eigen Pix-account of vraag de toezichthouder om hulp.",
         "generic": {
           "check-personal-info": "Controleer bij de toezichthouder of je persoonlijke gegevens overeenkomen met die op het inschrijfformulier.",
           "check-session-number": "Controleer het sessienummer.",

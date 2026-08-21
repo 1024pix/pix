@@ -178,6 +178,38 @@ module('Integration | Component | certification-joiner', function (hooks) {
       );
     });
 
+    test('should display an error message when the account is already linked to another candidate of the session', async function (assert) {
+      // given
+      const onStepChange = sinon.stub();
+      const screen = await render(<template><CertificationJoiner @onStepChange={{onStepChange}} /></template>);
+
+      await _fillInputsToJoinSession({ screen, t });
+
+      const store = this.owner.lookup('service:store');
+      const saveStub = sinon.stub();
+      saveStub.withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } }).throws({
+        errors: [
+          {
+            status: '403',
+            code: 'USER_ALREADY_LINKED_TO_CANDIDATE_IN_SESSION',
+          },
+        ],
+      });
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: saveStub, deleteRecord: function () {} });
+      store.createRecord = createRecordMock;
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
+
+      // then
+      assert.ok(
+        screen.getByText(
+          "Le compte avec lequel vous êtes connecté(e) est déjà rattaché à un(e) autre candidat(e) de cette session. Vérifiez que vous êtes connecté(e) à votre propre compte Pix ou demandez de l'aide au surveillant.",
+        ),
+      );
+    });
+
     test('should display an error message on candidate not found', async function (assert) {
       // given
       const onStepChange = sinon.stub();

@@ -453,6 +453,7 @@ class UserAlreadyExistsWithAuthenticationMethodError extends DomainError {
 class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   constructor(message = 'Cet utilisateur est déjà lié à un candidat de certification au sein de cette session.') {
     super(message);
+    this.code = 'USER_ALREADY_LINKED_TO_CANDIDATE_IN_SESSION';
   }
 }
 

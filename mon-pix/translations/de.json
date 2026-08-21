@@ -882,6 +882,7 @@
         "message": "Bravo {fullName}, dein Pix-Profil kann zertifiziert werden."
       },
       "error-messages": {
+        "account-already-linked-to-another-candidate": "Das Konto, mit dem du angemeldet bist, ist bereits mit einem/einer anderen Kandidaten/Kandidatin dieser Testung verknüpft. Vergewissere dich, dass du mit deinem eigenen Pix-Konto angemeldet bist, oder bitte die Aufsichtsperson um Hilfe.",
         "generic": {
           "check-personal-info": "Überprüfe bei der Aufsichtsperson, ob deine persönlichen Informationen mit dem Anmeldungsblatt übereinstimmen.",
           "check-session-number": "Überprüfe die Sitzungsnummer.",

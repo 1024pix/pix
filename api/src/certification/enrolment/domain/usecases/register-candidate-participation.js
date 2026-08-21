@@ -6,6 +6,7 @@ import {
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   MatchingReconciledStudentNotFoundError,
+  UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../shared/domain/errors.js';
 import { CenterHabilitationError } from '../../../shared/domain/errors.js';
@@ -65,6 +66,12 @@ export async function registerCandidateParticipation({
     return candidate;
   }
 
+  if (session.hasReconciledCandidateTo({ userId })) {
+    throw new UserAlreadyLinkedToCandidateInSessionError(
+      'The user is already linked to a candidate with different personal info in the given session',
+    );
+  }
+
   await checkAroundCertificationCenter({
     centerRepository,
     userRepository,
@@ -98,7 +105,7 @@ async function checkAndGetCandidateFromSession({
   });
 
   if (candidate.userId && candidate.userId !== userId) {
-    throw new UserAlreadyLinkedToCandidateInSessionError();
+    throw new UnexpectedUserAccountError({});
   }
 
   return candidate;
