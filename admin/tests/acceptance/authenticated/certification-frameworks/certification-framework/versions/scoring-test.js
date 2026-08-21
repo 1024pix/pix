@@ -51,6 +51,7 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
       id: 14,
       status: 'draft',
       globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+      calibrationScoringConfiguration: [{ bounds: { min: 2, max: 9 }, meshLevel: 0 }],
     });
   });
 

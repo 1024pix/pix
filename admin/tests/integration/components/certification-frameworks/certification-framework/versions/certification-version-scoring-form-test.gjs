@@ -15,7 +15,7 @@ const CAPACITY_LABEL =
 // Both bounds share the same label key, so they can only be told apart by DOM order:
 // each mesh level renders its min input first, then its max input.
 function getBoundsInputs(screen) {
-  const inputs = screen.getAllByRole('spinbutton');
+  const inputs = screen.queryAllByRole('spinbutton');
   return {
     min: inputs.filter((_input, index) => index % 2 === 0),
     max: inputs.filter((_input, index) => index % 2 === 1),
@@ -40,13 +40,13 @@ module(
     });
 
     module('levels display', function () {
-      test('it renders one section per mesh level', async function (assert) {
+      test('it renders one section per mesh level of the calibration', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [
+          calibrationScoringConfiguration: [
             { bounds: { min: 1, max: 8 }, meshLevel: 0 },
             { bounds: { min: 8, max: 15 }, meshLevel: 1 },
           ],
@@ -63,13 +63,17 @@ module(
         assert.dom(screen.queryByText(t(LEVEL_KEY, { index: 2 }))).doesNotExist();
       });
 
-      test('it pre-fills inputs with model data', async function (assert) {
+      test('it pre-fills inputs with the capacities of the calibration, not with the ones of the version', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
           globalScoringConfiguration: [
+            { bounds: { min: 20, max: 30 }, meshLevel: 0 },
+            { bounds: { min: 30, max: 40 }, meshLevel: 1 },
+          ],
+          calibrationScoringConfiguration: [
             { bounds: { min: 1, max: 8 }, meshLevel: 0 },
             { bounds: { min: 8, max: 15 }, meshLevel: 1 },
           ],
@@ -89,13 +93,32 @@ module(
         assert.dom(maxInputs[1]).hasValue('15');
       });
 
-      test('it labels each input with the capacity of the active version, not the one of the draft calibration', async function (assert) {
+      test('it renders nothing to fill in when the version points to no calibration', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [
+          globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+        });
+
+        // when
+        const screen = await render(
+          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+        );
+
+        // then
+        assert.strictEqual(getBoundsInputs(screen).min.length, 0);
+        assert.dom(screen.queryByText(t(LEVEL_KEY, { index: 0 }))).doesNotExist();
+      });
+
+      test('it labels each input with the capacity of the active version, not the one of the calibration', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const draftVersion = store.createRecord('certification-version', {
+          id: '1',
+          status: 'draft',
+          calibrationScoringConfiguration: [
             { bounds: { min: 1, max: 8 }, meshLevel: 0 },
             { bounds: { min: 8, max: 15 }, meshLevel: 1 },
           ],
@@ -131,7 +154,7 @@ module(
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [
+          calibrationScoringConfiguration: [
             { bounds: { min: 1, max: 8 }, meshLevel: 0 },
             { bounds: { min: 8, max: 15 }, meshLevel: 1 },
           ],
@@ -163,7 +186,7 @@ module(
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+          calibrationScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
 
         // when
@@ -188,7 +211,7 @@ module(
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+          calibrationScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
 
         // when
@@ -206,7 +229,7 @@ module(
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
+          calibrationScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
         });
 
         // when
@@ -224,7 +247,7 @@ module(
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 3, max: 3 }, meshLevel: 0 }],
+          calibrationScoringConfiguration: [{ bounds: { min: 3, max: 3 }, meshLevel: 0 }],
         });
 
         // when
@@ -244,7 +267,7 @@ module(
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
+          calibrationScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
         });
 
         // when
@@ -270,7 +293,7 @@ module(
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [
+          calibrationScoringConfiguration: [
             { bounds: { min: 1, max: 8 }, meshLevel: 0 },
             { bounds: { min: 8, max: 15 }, meshLevel: 1 },
           ],
@@ -289,13 +312,38 @@ module(
     });
 
     module('save notifications', function () {
+      test('it saves the displayed capacities as the configuration of the version', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const draftVersion = store.createRecord('certification-version', {
+          id: '1',
+          status: 'draft',
+          globalScoringConfiguration: [{ bounds: { min: 20, max: 30 }, meshLevel: 0 }],
+          calibrationScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+        });
+        sinon.stub(draftVersion, 'save').resolves();
+
+        const screen = await render(
+          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+        );
+        await fillIn(getBoundsInputs(screen).max[0], '10');
+
+        // when
+        await click(screen.getByRole('button', { name: t(SUBMIT_BUTTON_LABEL) }));
+
+        // then
+        assert.deepEqual(draftVersion.globalScoringConfiguration, [{ bounds: { min: 1, max: 10 }, meshLevel: 0 }]);
+        assert.deepEqual(draftVersion.calibrationScoringConfiguration, [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }]);
+        assert.ok(draftVersion.save.calledOnce);
+      });
+
       test('it shows a success notification when save succeeds', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+          calibrationScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
         sinon.stub(draftVersion, 'save').resolves();
 
@@ -322,7 +370,7 @@ module(
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+          calibrationScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
         sinon.stub(draftVersion, 'save').rejects({ errors: [{ detail: 'Erreur serveur' }] });
 
@@ -343,7 +391,7 @@ module(
         const draftVersion = store.createRecord('certification-version', {
           id: '1',
           status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
+          calibrationScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
         });
         sinon.stub(draftVersion, 'save').resolves();
 

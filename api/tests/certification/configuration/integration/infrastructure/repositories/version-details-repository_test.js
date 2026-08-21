@@ -128,7 +128,7 @@ describe('Certification | Configuration | Integration | Repository | Version Det
       expect(versionDetails).to.deepEqualInstance(expectedVersionDetails);
     });
 
-    it('reads the global scoring configuration from the calibration the version points to', async function () {
+    it('carries both the configuration of the version and the one of the calibration it points to', async function () {
       // given
       const externalCalibrationId = 456;
       const scoringMeshesAll = datamartBuilder.factory.buildScoringMeshesAll({
@@ -148,8 +148,7 @@ describe('Certification | Configuration | Integration | Repository | Version Det
         .withParameters({
           id: 123,
           externalCalibrationId,
-          // ignored: the version column is no longer the source of truth
-          globalScoringConfiguration: [{ meshLevel: 9, bounds: { min: -1, max: 1 } }],
+          globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -1, max: 1 } }],
         })
         .withLearningContent([
           {
@@ -192,7 +191,10 @@ describe('Certification | Configuration | Integration | Repository | Version Det
       const versionDetails = await versionDetailsRepository.getById(123);
 
       // then
-      expect(versionDetails.globalScoringConfiguration).to.deep.equal([{ meshLevel: 0, bounds: { min: -8, max: -2 } }]);
+      expect(versionDetails.globalScoringConfiguration).to.deep.equal([{ meshLevel: 0, bounds: { min: -1, max: 1 } }]);
+      expect(versionDetails.calibrationScoringConfiguration).to.deep.equal([
+        { meshLevel: 0, bounds: { min: -8, max: -2 } },
+      ]);
     });
   });
 });

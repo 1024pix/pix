@@ -77,6 +77,7 @@ class VersionDetailsBuilder {
     this.enablePassageByAllCompetences = false;
     this.externalCalibrationId = null;
     this.globalScoringConfiguration = [];
+    this.calibrationScoringConfiguration = [];
     this.comments = null;
     this.areas = [];
   }
@@ -155,6 +156,9 @@ class VersionDetailsBuilder {
    * @param {number} [params.variationPercent]
    * @param {boolean} [params.limitToOneQuestionPerTube]
    * @param {boolean} [params.enablePassageByAllCompetences]
+   * @param {Array<object>} [params.globalScoringConfiguration] - the configuration carried by the version itself
+   * @param {Array<object>} [params.calibrationScoringConfiguration] - the configuration read from the calibration, only
+   * available in memory: it lives in the datamart, not in the certification_versions row insertToDB writes
    * @param {string} [params.comments]
    * @returns {VersionDetailsBuilder}
    */
@@ -172,6 +176,7 @@ class VersionDetailsBuilder {
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
     globalScoringConfiguration,
+    calibrationScoringConfiguration,
     comments,
   } = {}) {
     this.id = id ?? this.id;
@@ -188,6 +193,7 @@ class VersionDetailsBuilder {
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube || this.limitToOneQuestionPerTube;
     this.enablePassageByAllCompetences = enablePassageByAllCompetences || this.enablePassageByAllCompetences;
     this.globalScoringConfiguration = globalScoringConfiguration ?? this.globalScoringConfiguration;
+    this.calibrationScoringConfiguration = calibrationScoringConfiguration ?? this.calibrationScoringConfiguration;
     this.comments = comments ?? this.comments;
     this.externalCalibrationId = externalCalibrationId ?? this.externalCalibrationId;
     return this;
@@ -317,6 +323,7 @@ class VersionDetailsBuilder {
       enablePassageByAllCompetences: this.enablePassageByAllCompetences,
       externalCalibrationId: this.externalCalibrationId,
       globalScoringConfiguration: this.globalScoringConfiguration,
+      calibrationScoringConfiguration: this.calibrationScoringConfiguration,
       comments: this.comments,
       status: this.status,
       areas: this.areas,

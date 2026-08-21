@@ -20,6 +20,7 @@ export function serialize(versionDetails) {
     scope: versionDetails.scope,
     status: versionDetails.status,
     globalScoringConfiguration: versionDetails.globalScoringConfiguration,
+    calibrationScoringConfiguration: versionDetails.calibrationScoringConfiguration,
     comments: versionDetails.comments,
     areas: versionDetails.areas,
   };
@@ -39,6 +40,7 @@ export function serialize(versionDetails) {
       'enablePassageByAllCompetences',
       'externalCalibrationId',
       'globalScoringConfiguration',
+      'calibrationScoringConfiguration',
       'comments',
       'scope',
       'status',

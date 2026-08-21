@@ -14,6 +14,7 @@ export class VersionDetails {
     enablePassageByAllCompetences,
     externalCalibrationId,
     globalScoringConfiguration,
+    calibrationScoringConfiguration,
     scope,
     status,
     comments,
@@ -33,6 +34,7 @@ export class VersionDetails {
     this.enablePassageByAllCompetences = enablePassageByAllCompetences;
     this.externalCalibrationId = externalCalibrationId;
     this.globalScoringConfiguration = globalScoringConfiguration;
+    this.calibrationScoringConfiguration = calibrationScoringConfiguration;
     this.scope = scope;
     this.status = status;
     this.comments = comments;

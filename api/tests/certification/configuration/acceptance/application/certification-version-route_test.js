@@ -18,8 +18,8 @@ import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 /**
- * Buffers, in the datamart, the validated scoring meshes set a certification version reads its global scoring
- * configuration from. Call `datamartBuilder.commit()` afterwards to actually persist it.
+ * Buffers, in the datamart, the validated scoring meshes set a calibration proposes to the certification versions
+ * pointing at it. Call `datamartBuilder.commit()` afterwards to actually persist it.
  *
  * @param {object} params
  * @param {number} params.calibrationId
@@ -162,6 +162,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           defaultCandidateCapacity: -3,
           defaultProbabilityToPickChallenge: 51,
           externalCalibrationId,
+          globalScoringConfiguration: [
+            {
+              bounds: {
+                min: -6,
+                max: -1,
+              },
+              meshLevel: 0,
+            },
+          ],
           comments: 'Some awesome comments',
         })
         .insertToDB({ databaseBuilder });
@@ -199,6 +208,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           status: VERSION_STATUSES.ARCHIVED,
           scope: SCOPES.CORE,
           'global-scoring-configuration': [
+            {
+              bounds: {
+                min: -6,
+                max: -1,
+              },
+              meshLevel: 0,
+            },
+          ],
+          'calibration-scoring-configuration': [
             {
               bounds: {
                 min: -8,
@@ -584,6 +602,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           scope: SCOPES.CORE,
           tubeIds: ['tubeA'],
           externalCalibrationId,
+          globalScoringConfiguration: [
+            {
+              bounds: {
+                min: -6,
+                max: -1,
+              },
+              meshLevel: 0,
+            },
+          ],
         })
         .insertToDB({ databaseBuilder });
 
@@ -630,6 +657,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'external-calibration-id': externalCalibrationId,
           'start-date': null,
           'global-scoring-configuration': [
+            {
+              bounds: {
+                min: -6,
+                max: -1,
+              },
+              meshLevel: 0,
+            },
+          ],
+          'calibration-scoring-configuration': [
             {
               bounds: {
                 min: -8,

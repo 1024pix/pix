@@ -39,6 +39,7 @@ export async function getById(id) {
       ),
       status: 'certification_versions.status',
       comments: 'certification_versions.comments',
+      globalScoringConfiguration: 'certification_versions.globalScoringConfiguration',
       externalCalibrationId: 'certification_versions.externalCalibrationId',
       tubeIds: knexConn.raw(`array_agg(certification_versions_tubes.tube_id)`),
     })
@@ -52,8 +53,9 @@ export async function getById(id) {
     return null;
   }
 
-  // The scoring configuration is owned by the calibration the version points to, not by the version itself.
-  const globalScoringConfiguration = await calibrationRepository.findGlobalScoringConfiguration({
+  // Alongside its own configuration, the version carries the one proposed by the calibration it points to, which
+  // Pix Admin pre-fills the scoring form with.
+  const calibrationScoringConfiguration = await calibrationRepository.findGlobalScoringConfiguration({
     calibrationId: versionData.externalCalibrationId,
   });
 
@@ -148,7 +150,7 @@ export async function getById(id) {
 
   return new VersionDetails({
     ...versionData,
-    globalScoringConfiguration,
+    calibrationScoringConfiguration,
     areas,
   });
 }

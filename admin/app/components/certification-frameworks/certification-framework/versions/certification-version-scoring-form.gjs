@@ -6,22 +6,29 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import Card from 'pix-admin/components/card';
 
 export default class ScoringForm extends Component {
   @service pixToast;
   @service intl;
+
+  /**
+   * The form is seeded with the capacities the calibration of the draft proposes, not with the ones the version
+   * already carries: they are only written onto the version on submit. Deep-copied so that editing an input does not
+   * silently mutate the record.
+   */
+  @tracked globalScoringConfiguration = (this.args.draftVersion.calibrationScoringConfiguration ?? []).map(
+    ({ meshLevel, bounds }) => ({ meshLevel, bounds: { ...bounds } }),
+  );
+
   get hasError() {
     return this.globalScoringConfiguration.some(({ bounds }) => bounds.max <= bounds.min);
   }
 
-  get globalScoringConfiguration() {
-    return this.args.draftVersion.globalScoringConfiguration;
-  }
-
   /**
-   * The draft reads its capacities from its calibration, so the "previous value" hint must come from the last active
+   * The inputs display the capacities of the calibration, so the "previous value" hint must come from the last active
    * version of the framework instead. Meshes are matched on their level, the active version and the calibration not
    * necessarily covering the same ones. Returns null when there is nothing to compare to — a framework without an
    * active version, or a mesh level that version did not have.
@@ -41,6 +48,7 @@ export default class ScoringForm extends Component {
     if (this.hasError) return;
 
     try {
+      this.args.draftVersion.globalScoringConfiguration = this.globalScoringConfiguration;
       await this.args.draftVersion.save();
       this.pixToast.sendSuccessNotification({
         message: this.intl.t(
@@ -61,7 +69,7 @@ export default class ScoringForm extends Component {
     if (isMax && newArray.at(index + 1)) {
       newArray.at(index + 1).bounds.min = Number(event.target.value);
     }
-    this.args.draftVersion.globalScoringConfiguration = newArray;
+    this.globalScoringConfiguration = newArray;
   }
 
   @action
