@@ -1,0 +1,959 @@
+{
+  "id": "013474f5-c327-42a5-ad5f-d3e9dd72ebc5",
+  "shortId": "028061f3",
+  "slug": "inegalite-numerique",
+  "title": "Les inégalités d’usages numériques : les bases",
+  "isBeta": true,
+  "visibility": "public",
+  "details": {
+    "image": "https://assets.pix.org/draft/modules/vg3Ro1F.png",
+    "description": "<p>Aujourd’hui, beaucoup de démarches importantes passent par des outils et services numériques&nbsp;: chercher un emploi, prendre rendez-vous, envoyer un document, acheter un billet de train, etc. </p><p>Mais tout le monde ne dispose pas des mêmes conditions pour utiliser facilement les outils et services numériques. Dans ce module, vous allez découvrir pourquoi certaines personnes sont plus en difficulté que d’autres face aux usages numériques.<br><br></p>",
+    "duration": 10,
+    "level": "novice",
+    "objectives": [
+      "<p>Identifier les conditions nécessaires pour utiliser des outils et services numériques</p>",
+      "<p>Repérer des situations d’inégalités d’usages numériques</p>",
+      "<p>Comprendre ce qu’est l’illectronisme</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "465c58be-9d33-4c67-a112-e798ea75515e",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "75eda75a-2f51-44e1-9fcf-c3cf6c62b141",
+          "type": "discovery",
+          "title": "Accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "6c5b5ecb-4341-49cc-bc46-dfb698a8720c",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Marie-Claude souhaite prendre rendez-vous chez un spécialiste. Elle téléphone au cabinet médical.&nbsp; </p><p>Écoutez le message que reçoit Marie-Claude sur le répondeur du cabinet médical.<br><br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "965303aa-d6e1-45be-8645-e04f29ac1a1c",
+                "type": "audio",
+                "title": "Répondeur du médecin de Marie-Claude",
+                "url": "https://assets.pix.org/draft/NR_Inegalite_NOV/eleven-labs_2026-08-13-t14_25_06_victoria-warm-and-calm_pvc_s50_f2-5.mp3",
+                "transcription": "<p>Bienvenue au cabinet médical de Jolieville. Pour prendre un rendez-vous, vous devez désormais passer par le site internet MonDocteur. Merci de votre compréhension.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "9d764cb4-4632-4195-b185-bebb7bf5744a",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Marie-Claude ouvre le site MonDocteur et clique sur «&nbsp;Prendre rendez-vous&nbsp;».&nbsp; </p><p>La page suivante s’affiche&nbsp;:&nbsp;</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "1c445101-1888-4283-96d3-6eda70d03d66",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/NR_Inegalite_NOV/chat-gpt-image-13-aout-2026-17_05_07.png",
+                "alt": "Image de la page de création de compte",
+                "alternativeText": "<p>On y demande les informations personnelles de la personne et son adresse mail.<br></p>",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "914512ad-16c5-4833-a14e-b915569b626a",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Elle commence à remplir le formulaire&nbsp;: elle renseigne son nom et son prénom. On lui demande ensuite son adresse mail. Mais Marie-Claude n’a pas d’adresse mail.<br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "fa7161d9-8d70-4a16-b629-7b966af11025",
+                "type": "qcu",
+                "instruction": "<p>D’après vous, que peut faire Marie-Claude ?&nbsp;<br><br></p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Elle peut finaliser sa démarche sans difficulté.</p>",
+                    "feedback": {
+                      "state": "<p>Eh non !</p>",
+                      "diagnosis": "<p>Sans adresse mail, Marie-Claude ne peut pas prendre de rendez-vous.<br>L’adresse mail est aujourd’hui indispensable pour accéder à de nombreux services du quotidien.&nbsp;<br><br></p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Elle est bloquée dans sa démarche.</p>",
+                    "feedback": {
+                      "state": "<p>Bien vu !</p>",
+                      "diagnosis": "<p>Sans adresse mail, Marie-Claude ne peut pas prendre de rendez-vous.<br>L’adresse mail est aujourd’hui indispensable pour accéder à de nombreux services du quotidien.&nbsp;<br><br></p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je ne sais pas.<br></p>",
+                    "feedback": {
+                      "state": "",
+                      "diagnosis": "<p>Sans adresse mail, Marie-Claude ne peut pas prendre de rendez-vous.<br>L’adresse mail est aujourd’hui indispensable pour accéder à de nombreux services du quotidien.&nbsp;</p>"
+                    }
+                  }
+                ],
+                "solution": "2"
+              }
+            }
+          ]
+        },
+        {
+          "id": "15bced95-31c6-4d89-bdb5-89bf2e0fe645",
+          "type": "transition",
+          "title": "Transition 0",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "6c31c99e-4498-4671-84cb-0e7ce77aaee6",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Au quotidien, nous sommes de plus en plus obligés d’utiliser des outils et services numériques pour réaliser des démarches en ligne. Beaucoup de démarches sont devenues difficiles, voire impossibles à réaliser autrement.</p><p>Mais pour utiliser des outils et services numériques, plusieurs conditions doivent être réunies.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a3219a89-7fd3-4f97-a92a-bafadcaf6555",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "b29b05e1-be80-40a1-95cd-98460a6accd5",
+          "type": "discovery",
+          "title": "Découverte 1-1",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p>Observez les situations suivantes, puis répondez à la question qui suit.&nbsp;<br></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "7aa0bded-b5e7-425b-8f1d-be2cef850aa3",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Solange veut rendre visite à sa mère. Elle souhaite réserver un billet de train en ligne.<br></p>"
+                    },
+                    {
+                      "id": "7e34c0cb-3588-4b02-b2fb-c6088b56e18f",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/NR_Inegalite_NOV/numerama-sncf-connect.jpg",
+                      "alt": "Image d’illustration",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "3db1c90e-a2f9-4d47-aecf-4c543e18565f",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Luc cherche un emploi. Il souhaite déposer des candidatures sur les plateformes de recrutement.<br><br></p>"
+                    },
+                    {
+                      "id": "c5676528-5aa7-407b-b38b-4229032a2082",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/NR_Inegalite_NOV/istockphoto-1496063598-612x612.jpg",
+                      "alt": "Image d’illustration",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "91a58c8d-af25-4361-9584-b6ca28ddb5f7",
+          "type": "discovery",
+          "title": "Découverte 1-2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "399c7804-b077-4ba4-8d7a-e191f8c4402e",
+                "type": "qcm",
+                "instruction": "<p>D’après vous, de quoi Solange et Luc ont-ils besoin pour réaliser ces démarches ? (2 bonnes réponses)</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Un ordinateur, un smartphone ou une tablette</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Un diplôme en informatique</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Une connexion internet</p>"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bien vu !&nbsp;<br></p>",
+                    "diagnosis": "<p>Pour réaliser ces démarches, il est nécessaire de disposer à la fois d’un <strong>appareil numérique</strong> (un ordinateur, un smartphone ou une tablette) et d’une <strong>connexion internet</strong>.&nbsp;<br></p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Pas tout à fait.<br></p>",
+                    "diagnosis": "<p>Pour réaliser ces démarches, il est nécessaire de disposer à la fois d’un <strong>appareil numérique</strong> (un ordinateur, un smartphone ou une tablette) et d’une <strong>connexion internet</strong>.&nbsp;<br></p>"
+                  }
+                },
+                "solutions": [
+                  "1",
+                  "3"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "94e2f250-73f2-4d87-ac5c-ecde8dfce3fe",
+          "type": "short-lesson",
+          "title": "Leçon 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "e45c0155-ac76-496e-bc7f-aa270041ea38",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Pour utiliser des outils et services numériques, il faut avoir&nbsp;: </p><ul><li>un<strong> appareil numérique</strong> (ordinateur, smartphone ou tablette) <strong>adapté et en bon état</strong>,<ul><li>Ce <strong>matériel </strong>peut être <strong>ancien, abîmé ou inadapté</strong>.</li><li>Certaines personnes <strong>n’ont pas les moyens d’acheter</strong> ou de réparer un appareil numérique.</li></ul></li><li>une <strong>connexion internet</strong> (wifi, abonnement mobile 4G/5G) suffisante.<ul><li>L’accès à <strong>internet </strong>peut être <strong>indisponible, de mauvaise qualité</strong> ou <strong>trop cher</strong>.</li></ul></li></ul>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "c91f4fc5-c172-4b21-9d1f-1f0587181221",
+                "type": "text",
+                "tag": "did-you-know",
+                "content": "<p>En 2024, 1 personne sur 3 dans le monde n’a pas accès à internet.<br></p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "d301f16b-0492-4567-a0c9-e7abc4c44d58",
+          "type": "transition",
+          "title": "Transition 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "f76c54ba-f76f-485a-b797-79059adea486",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Avoir un appareil et une connexion internet est nécessaire. Mais cela ne suffit pas, il faut aussi savoir utiliser les services numériques.<br></p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "613d6170-d3d0-4c27-90f6-02c6a849dbfb",
+          "type": "discovery",
+          "title": "Découverte 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a6a43709-e628-4ff4-9e56-d99228771a4f",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Une personne candidate à une offre d’emploi. L’entreprise pour laquelle elle postule n’accepte que les candidatures par mail et lui dit qu’elle trouvera toutes les informations pour postuler sur son site internet.&nbsp;<br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "52559149-9ec9-4aae-a830-eb6f07332582",
+                "type": "qcm-declarative",
+                "instruction": "<p>Selon vous, quelles compétences numériques peuvent être utiles dans cette situation ?<br></p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Utiliser un appareil (souris, clavier, écran tactile) et se connecter à internet</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Naviguer sur le web et faire une recherche en ligne pour retrouver l’adresse mail du service recrutement</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Identifier une information fiable dans les résultats de recherche en ligne</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Utiliser une messagerie (lire, envoyer un mail, gérer une pièce jointe)</p>"
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Remplir un formulaire en ligne et gérer ses mots de passe</p>"
+                  },
+                  {
+                    "id": "6",
+                    "content": "<p>Repérer une arnaque en ligne ou un site malveillant</p>"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": "<p>Toutes ces compétences peuvent être importantes. </p><p>Une démarche en ligne demande le plus souvent <strong>toutes ces connaissances et compétences à la fois</strong> et même certaines supplémentaires selon la situation.<br></p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "52fd1dc1-e81d-4c42-8183-68ae449aad54",
+          "type": "short-lesson",
+          "title": "Leçon 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a637c0d7-717a-4511-bf84-fe3c74ed7178",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Les usages numériques demandent <strong>plusieurs compétences</strong>. Ces compétences ne sont pas toujours apprises à l’école, au travail ou dans la vie quotidienne.&nbsp; </p><p>De plus, les outils et services numériques <strong>évoluent rapidement</strong>. </p><p>C’est pourquoi apprendre à se servir du numérique, ce n’est pas mémoriser tous les services. C’est surtout apprendre à se repérer, comprendre les situations et réutiliser les bons gestes. OU Ce n’est pas apprendre par cœur comment utiliser un outil ou service numérique, c’est avoir les compétences pour se repérer sur tous les outils et services numériques sites, peu importe leurs évolutions et changements d’interface.&nbsp;</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "fef68322-29a2-44d9-8240-70ac279bb56a",
+                "type": "text",
+                "tag": "did-you-know",
+                "content": "<p>Même en utilisant internet tous les jours, il est courant de se sentir perdu face à un service inconnu.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "a516d609-0f9f-4f3b-910c-c21bac2e29a1",
+          "type": "transition",
+          "title": "Transition 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "61f61964-ea73-4088-bd1b-bdc87a112b16",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Les difficultés rencontrées face aux outils et services numériques sont variées. Découvrons cela ensemble.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "b2a30153-adf2-4006-b728-5bbd2b011d6d",
+          "type": "discovery",
+          "title": "Découverte 3",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p>Pour chacune des situations suivantes, identifiez le principal obstacle rencontré par la personne<br><br></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "a4783d97-8a90-44e6-b9d6-160462020d93",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Brahim souhaite acheter des billets de train sur internet. Il sait naviguer sur le site et remplir le formulaire. Mais au moment de payer, il préfère abandonner. </p><p>Il a peur que quelqu’un vole les informations de sa carte bancaire.<br><br></p>"
+                    },
+                    {
+                      "id": "4134f9fb-6ceb-49b7-8fd7-0ff802c14e6b",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Quel est le principal obstacle qui bloque Brahim dans sa démarche ?<br></p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Le manque de confiance<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Bien vu ! </p><p>Ici, Brahim ne sait pas s’il peut faire confiance à ce site internet, il décide donc ne rien faire par peur de se faire arnaquer.&nbsp;<br></p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Il ne sait pas utiliser ce site internet.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non ! </p><p>Brahim sait utiliser le site. Mais il&nbsp;ne sait pas si il peut faire confiance à ce site internet, il décide donc ne rien faire par peur de se faire arnaquer.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Je ne sais pas.<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Ici Brahim ne sait pas si il peut faire confiance à ce site internet, il décide donc ne rien faire par peur de se faire arnaquer.&nbsp;<br></p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "432f7e6d-e41c-4de2-9f57-e77bee540179",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Diego souhaite acheter un nouvel ordinateur. Il compare les modèles, mais il ne comprend pas les différences. </p><p>Il ne sait pas lequel choisir et se sent perdu.</p><br>"
+                    },
+                    {
+                      "id": "bb436443-6666-4dcf-a7aa-90971afcb5cd",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Quel est le principal obstacle qui bloque Diego dans sa démarche ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>La peur de se faire arnaquer</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non ! </p><p>Diego n’a pas peur d’une arnaque. Il hésite parce qu’il ne comprend pas les différences entre les modèles et craint de choisir un ordinateur qui ne lui conviendra pas.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>La peur de mal faire</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non ! </p><p>Diego sait rechercher sur internet et comparer les ordinateurs. Son principal obstacle est la crainte de faire le mauvais choix parmi les différents modèles proposés.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>La peur de se tromper</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Bien vu ! </p><p>Diego ne comprend pas suffisamment les différences entre les modèles. Il a donc peur de choisir un ordinateur qui ne correspondrait pas à ses besoins.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "5d8d0147-b70d-499d-b180-04c5b17752f4",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Martine a oublié le mot de passe de son compte. Elle voit la fonction «&nbsp;Mot de passe oublié&nbsp;», mais ne sait pas comment l’utiliser pour retrouver l’accès à son compte.</p><p>Elle préfère ne pas continuer, car elle craint de faire une mauvaise manipulation.</p>"
+                    },
+                    {
+                      "id": "cc745cc9-74e7-41a6-86cb-29eb704eaf81",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Quel est le principal obstacle qui bloque Martine dans sa démarche ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>La peur de se faire arnaquer</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non ! </p><p>Martine ne craint pas qu’une personne attaque son compte. Elle hésite parce qu’elle ne sait pas comment utiliser la fonction de récupération du mot de passe et a peur de faire une mauvaise manipulation.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>La peur de mal faire</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Bien vu ! </p><p>Martine ne sait pas comment utiliser la fonction «&nbsp;Mot de passe oublié&nbsp;». Elle préfère donc ne rien faire, car elle craint d’effectuer une mauvaise manipulation.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>La peur de se tromper</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non ! </p><p>Martine n’hésite pas entre plusieurs possibilités. Elle est surtout bloquée par la peur de mal utiliser la fonction de récupération du mot de passe.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "1345a0cf-8001-4043-a227-b235590a7b0d",
+                "type": "qcu-discovery",
+                "instruction": "<p>Que montrent les différentes situations ci-dessus ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Ces personnes sont toutes totalement exclues des usages numériques.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non ! </p><p>Toutes ces personnes savent utiliser les services et appareils numériques à certains degrés mais se sont retrouvées bloquées pour différentes raison.&nbsp;<br><br>Les difficultés numériques peuvent être différentes selon les personnes et les situations.&nbsp;</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Ces personnes ont exactement les mêmes difficultés.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non ! </p><p>Les difficultés numériques peuvent être différentes selon les personnes et les situations.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Les difficultés numériques peuvent être très différentes selon les personnes et les situations.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bien vu ! </p><p>Toutes les personnes n’ont pas les mêmes difficultés, comme il faut savoir et savoir faire beaucoup de choses, les difficultés qui apparaissent sont variées.<br></p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je ne sais pas.<br></p>",
+                    "feedback": {
+                      "diagnosis": "<p>Les difficultés numériques peuvent être différentes selon les personnes et les situations.</p>"
+                    }
+                  }
+                ],
+                "solution": "3"
+              }
+            }
+          ]
+        },
+        {
+          "id": "8ed41f5c-0d98-4b46-b90e-b780e4783e36",
+          "type": "short-lesson",
+          "title": "Leçon 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "0cb9c445-6c89-4793-8ba6-3eee9ae90572",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Les inégalités d’usages numériques peuvent prendre plusieurs formes. </p><ul><li>Certaines personnes ont accès à internet, mais seulement avec un <strong>appareil peu adapté</strong>.</li><li>D’autres savent utiliser quelques services, mais sont bloquées par des démarches complexes.</li><li>D’autres encore évitent les démarches en ligne par <strong>peur de mal faire</strong>, de perdre de l’argent ou de transmettre des données personnelles.</li><li>Enfin, certaines personnes n’ont pas de <strong>compétences ou de moyens suffisants</strong> pour utiliser les outils numériques et les services en ligne de manière <strong>autonome</strong> dans des situations quotidiennes. On parle alors d’<strong>illectronisme</strong>.</li><li>Parfois, le manque d’équipement, les difficultés d’accès à internet et le manque de compétences se cumulent chez les mêmes personnes.<br><br></li></ul>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "77311b15-5a58-45c0-a94e-c4e7e595534f",
+                "type": "text",
+                "tag": "did-you-know",
+                "content": "<p>En France, 1 personne sur 3 a des usages limités des outils et services numériques.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "90672af5-29b6-4f47-81bb-0e6776c21430",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>Des <strong>structures </strong>(associations, services publics) existent pour<strong> aider les personnes en difficulté</strong>. Des professionnels qualifiés ou des bénévoles peuvent accompagner ces personnes pour réaliser leurs démarches en ligne, prendre confiance et développer leurs compétences.<br><br></p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bab42b5e-0464-448c-8382-3b4acdb033c1",
+      "type": "retain-the-essentials",
+      "grains": [
+        {
+          "id": "aa1f1734-c2f0-4a6b-afaf-059d1db32708",
+          "type": "summary",
+          "title": "Récapitulatif",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "2e25dd30-a7c6-405b-9b49-55ae966cfc07",
+                "type": "text",
+                "tag": " ",
+                "content": "<ul><li>Les <strong>usages numériques</strong> sont devenus <strong>incontournables</strong> dans de nombreuses démarches du quotidien.</li>    <li>        Pour utiliser les outils et services numériques, il faut&nbsp;:        <ul>            <li>du <strong>matériel</strong> et une <strong>connexion à internet</strong> ;</li>            <li>des <strong>compétences</strong>.</li>        </ul>    </li>    <li>Les <strong>inégalités d’usages numériques</strong> dépendent des ressources, des compétences, des situations et des aides disponibles. Elles se manifestent donc sous de nombreuses formes et peuvent aller jusqu’à l’incapacité à utiliser internet ou des outils numériques (<strong>illectronisme</strong>).</li></ul>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b7dbd06b-1230-4745-be6d-9cde70562fad",
+      "type": "practise",
+      "grains": [
+        {
+          "id": "25da0289-d65f-4699-bedb-b501e59aeac3",
+          "type": "activity",
+          "title": "Activité 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "0f16985f-b557-4321-83b4-295b9ede233d",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons si vous avez retenu l’essentiel.<br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "aad3d90a-1bad-4a9f-aa09-541d98c1024c",
+                "type": "qab",
+                "instruction": "<p>Pour chacune des affirmations suivantes, indiquez si elle est vraie ou fausse.<br><br></p>",
+                "cards": [
+                  {
+                    "id": "9acd0674-d3aa-4251-9df2-7f8b95761594",
+                    "text": "Une personne peut avoir accès à internet et rencontrer quand même des difficultés pour faire une démarche en ligne.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "87a56713-f437-46d1-af94-14a2af64203d",
+                    "text": "Les inégalités d’usages numériques concernent uniquement les personnes qui ne savent pas du tout utiliser internet.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "30d6645b-ebb8-4987-a6db-2dc8ad0803e5",
+                    "text": "Savoir utiliser une application ou un site suffit toujours pour être à l’aise avec tous les services numériques.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "8e73be6c-381e-4f9e-b98e-94d58a2c1d0c",
+                    "text": "Un appareil peu adapté ou une connexion instable peuvent limiter l’accès à certains services numériques.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "d476d723-19e9-40b3-bfff-44ba5ad977b0",
+                    "text": "Quand une personne ne fait pas une démarche en ligne, c’est forcément parce qu’elle ne veut pas utiliser le numérique.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": ""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "52a65b0b-1dd5-4359-af1b-e2f9868662a0",
+          "type": "activity",
+          "title": "Activité 2",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "<p>Etudiez les situations ci-dessous puis répondez aux questions.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "1b2f064d-6d7f-4615-bbe4-336e9e78e39e",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Mélissa souhaite consulter son compte d’assurance maladie pour suivre ses remboursements de frais de santé. Elle se rend sur le site web habituel.</p><p> Mélissa est perdue&nbsp;: elle ne retrouve plus le bouton permettant d’accéder à son compte.<br><br></p>"
+                    },
+                    {
+                      "id": "82b82870-5f03-4956-9ac6-1040be788e9d",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/NR_Inegalite_NOV/avant-apres.png",
+                      "alt": "Image d’illustration des changements de design du site internet",
+                      "alternativeText": "<p>2 images d’interface (avant/après)&nbsp;: le bouton “Se connecter” a été remplacé par “Mon espace personnel”</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "4776fabe-5fa2-4261-8ed4-e3c438eb3676",
+                      "type": "qcu",
+                      "instruction": "<p>Pourquoi Mélissa est-elle perdue sur ce site internet ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>C’est la première fois qu’elle va sur ce site web.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Mélissa connaît bien ce site. Observez attentivement l’interface du site web.<br></p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Le site web a été piraté.<br></p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.</p>",
+                            "diagnosis": "<p>Rien n’indique que le site web a été piraté, ce n’est pas ça qui bloque Mélissa.<br></p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>L’interface du site web a changé.<br></p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !</p>",
+                            "diagnosis": "<p>Les interfaces des services en ligne évoluent régulièrement&nbsp;: des boutons peuvent changer de place, de nom ou d’apparence. Ces changements peuvent perturber les utilisateurs, qui doivent alors retrouver leurs repères et adapter leurs habitudes.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "d150a6c6-90bf-4802-beb0-eb4a7b196932",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Mélissa est sur la page de connexion à son espace personnel. Elle entre son identifiant et son mot de passe comme d’habitude. Mais au moment de valider... impossible de finaliser la connexion !&nbsp; </p><p>Mélissa est bloquée. Un message apparaît à l’écran.<br><br></p>"
+                    },
+                    {
+                      "id": "24638be4-ba35-40f5-9f49-48ad10e06a58",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/NR_Inegalite_NOV/unnamed-4.png",
+                      "alt": "Illustration de la page de connexion de Mélissa",
+                      "alternativeText": "<p>Page de vérification de connexion demandant un code à six chiffres envoyé par SMS à un numéro se terminant par 60 pour se connecter au compte lassociation@gmail.com. Champ de saisie du code et bouton «&nbsp;Connexion&nbsp;».<br><br></p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "30b69619-f6fe-4f6f-b949-d7c35cc9b2de",
+                      "type": "qcu",
+                      "instruction": "<p>Pourquoi Mélissa ne parvient pas à se connecter ?<br></p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Le site web est victime d’un bug informatique.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.<br></p>",
+                            "diagnosis": "<p>Il ne s’agit pas d’un bug informatique. Le site web applique simplement une mesure de sécurité renforcée en envoyant un code par SMS.&nbsp;<br><br></p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Une vérification supplémentaire est demandée pour sécuriser sa connexion.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !&nbsp;<br></p>",
+                            "diagnosis": "<p>Le site utilise maintenant la validation en deux étapes. Après son mot de passe, Mélissa doit faire une deuxième vérification pour prouver que c’est bien elle. Comme c’est la première fois qu’elle rencontre ce système, elle est perdue et ne sait pas quoi faire.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Mélissa s’est trompée en saisissant son mot de passe.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.<br></p>",
+                            "diagnosis": "<p>Lorsque le mot de passe entré n’est pas correct, un message indique «&nbsp;Mot de passe invalide&nbsp;». Le site web applique simplement une mesure de sécurité renforcée en envoyant un code par SMS.&nbsp;<br></p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "5fa7433b-fd29-4f38-ad54-4f68c3005ec1",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Mélissa est sur la page de connexion à son espace personnel. Elle entre son identifiant et son mot de passe comme d’habitude. Mais au moment de valider... impossible de finaliser la connexion !&nbsp; </p><p>Mélissa est bloquée. Un message apparaît à l’écran.<br><br></p>"
+                    },
+                    {
+                      "id": "7b749265-11c5-4634-baa0-e9c7641db2b9",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/NR_Inegalite_NOV/unnamed-4.png",
+                      "alt": "Image d’illustration de l’interface de connexion",
+                      "alternativeText": "<p>Page de vérification de connexion demandant un code à six chiffres envoyé par SMS à un numéro se terminant par 60 pour se connecter au compte lassociation@gmail.com. Champ de saisie du code et bouton «&nbsp;Connexion&nbsp;».<br><br></p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "7df03fda-0173-4b85-83a8-5c606d0066c1",
+                      "type": "qcu",
+                      "instruction": "<p>Pourquoi Mélissa ne parvient pas à se connecter ?<br></p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Le site web est victime d’un bug informatique.</p>",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.<br></p>",
+                            "diagnosis": "<p>Il ne s’agit pas d’un bug informatique. Le site web applique simplement une mesure de sécurité renforcée en envoyant un code par SMS.&nbsp;<br><br></p> "
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Une vérification supplémentaire est demandée pour sécuriser sa connexion.</p>",
+                          "feedback": {
+                            "state": "<p>Bonne réponse !&nbsp;<br></p> ",
+                            "diagnosis": "<p>Le site utilise maintenant la validation en deux étapes. Après son mot de passe, Mélissa doit faire une deuxième vérification pour prouver que c’est bien elle. Comme c’est la première fois qu’elle rencontre ce système, elle est perdue et ne sait pas quoi faire.</p> "
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Mélissa s’est trompée en saisissant son mot de passe.</p> ",
+                          "feedback": {
+                            "state": "<p>Mauvaise réponse.<br></p> ",
+                            "diagnosis": "<p>Lorsque le mot de passe entré n’est pas correct, un message indique «&nbsp;Mot de passe invalide&nbsp;». Le site web applique simplement une mesure de sécurité renforcée en envoyant un code par SMS.&nbsp;<br></p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ae325fbd-73f0-4083-bfac-e79ca13b9e60",
+          "type": "activity",
+          "title": "Activité 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "11d3dbc2-0a03-464b-b583-afe9205e6a0e",
+                "type": "qcu",
+                "instruction": "<p>Quelle situation correspond le mieux à la définition d’illectronisme ?<br></p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Nour utilise internet tous les jours pour regarder des vidéos et envoyer des messages, mais se sent perdu face à une démarche en ligne qu’il ne connaît pas.</p>",
+                    "feedback": {
+                      "state": "<p>Mauvaise réponse.<br></p>",
+                      "diagnosis": "<p>L’illectronisme désigne une difficulté forte à utiliser les outils numériques et les services en ligne de manière autonome dans les situations du quotidien.&nbsp;<br><br></p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Mike sait utiliser internet, mais son téléphone est ancien. Certaines applications ne fonctionnent plus et la batterie se vide très vite.</p>",
+                    "feedback": {
+                      "state": "<p>Mauvaise réponse.<br></p>",
+                      "diagnosis": "<p>Mike sait utiliser internet, mais son téléphone est ancien. Certaines applications ne fonctionnent plus et la batterie se vide très vite.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Sacha ne possède pas d’ordinateur ni de smartphone. Sacha ne sait pas faire une recherche en ligne, envoyer un mail ou remplir un formulaire sans aide.</p>",
+                    "feedback": {
+                      "state": "<p>Bonne réponse !&nbsp;<br></p>",
+                      "diagnosis": "<p>Sacha ne possède pas d’ordinateur ni de smartphone. Sacha ne sait pas faire une recherche en ligne, envoyer un mail ou remplir un formulaire sans aide.</p>"
+                    }
+                  }
+                ],
+                "solution": "3"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8b9165a7-8427-46cf-af17-1b55ad7ae9b3",
+      "type": "go-further",
+      "grains": [
+        {
+          "id": "3df4dc0e-6c8e-491f-b1d3-2d387268724e",
+          "type": "challenge",
+          "title": "Transfert",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "18ff4668-f68e-41e3-bf76-5f952021b550",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Votre voisin semble avoir des difficultés avec le numérique. Il vous demande de l’aide.<br><br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "691b09a1-44ec-4a02-8bee-dc091f5f87f2",
+                "type": "qcu-declarative",
+                "instruction": "<p>Que faites-vous pour l’aider ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Je prends du temps pour lui montrer comment réaliser lui-même certaines démarches.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Identifier ce qui manque à une personne est le premier réflexe utile. Vous pouvez aussi l’orienter vers des<strong> structures d’accompagnement</strong>. L’essentiel&nbsp;: l’aider à <strong>gagner en autonomie</strong>, plutôt que de faire à sa place.<br><br></p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Je l’oriente vers une structure d’accompagnement.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Identifier ce qui manque à une personne est le premier réflexe utile. Vous pouvez aussi l’orienter vers des<strong> structures d’accompagnement</strong>. L’essentiel&nbsp;: l’aider à <strong>gagner en autonomie</strong>, plutôt que de faire à sa place.<br><br></p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je fais les démarches à sa place.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Identifier ce qui manque à une personne est le premier réflexe utile. Vous pouvez aussi l’orienter vers des structures d’accompagnement. L’essentiel&nbsp;: l’aider à gagner en autonomie, plutôt que de faire à sa place.<br><br><br></p>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}
