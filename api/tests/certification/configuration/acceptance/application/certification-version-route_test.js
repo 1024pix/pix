@@ -17,6 +17,30 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
+/**
+ * Buffers, in the datamart, the validated scoring meshes set a certification version reads its global scoring
+ * configuration from. Call `datamartBuilder.commit()` afterwards to actually persist it.
+ *
+ * @param {object} params
+ * @param {number} params.calibrationId
+ * @param {Array<{meshLevel: number, bounds: {min: number, max: number}}>} params.meshes
+ */
+function buildValidatedScoringMeshes({ calibrationId, meshes }) {
+  const scoringMeshesAll = datamartBuilder.factory.buildScoringMeshesAll({
+    calibrationId,
+    status: CALIBRATION_STATUSES.VALIDATED,
+  });
+
+  for (const { meshLevel, bounds } of meshes) {
+    datamartBuilder.factory.buildScoringMesh({
+      scoringMeshesAllId: scoringMeshesAll.id,
+      mesh: meshLevel,
+      minBoundCuratedValue: bounds.min,
+      maxBoundCuratedValue: bounds.max,
+    });
+  }
+}
+
 describe('Acceptance | Certification | Configuration | API | certification-version-route', function () {
   let server;
   let superAdmin;
@@ -75,6 +99,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   describe('GET /api/admin/certification-versions/{certificationVersionId}', function () {
     it('should return the version details with areas for a given id', async function () {
       // given
+      const externalCalibrationId = 2;
+      buildValidatedScoringMeshes({
+        calibrationId: externalCalibrationId,
+        meshes: [
+          { meshLevel: 1, bounds: { min: -2, max: 4 } },
+          { meshLevel: 0, bounds: { min: -8, max: -2 } },
+        ],
+      });
+
       const version = domainBuilder.certification.configuration
         .versionDetailsBuilder()
         .asArchived({ startDate: new Date('2025-01-11'), expirationDate: new Date('2026-01-01') })
@@ -128,20 +161,13 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           variationPercent: 0.5,
           defaultCandidateCapacity: -3,
           defaultProbabilityToPickChallenge: 51,
-          globalScoringConfiguration: [
-            {
-              bounds: {
-                min: -8,
-                max: -2,
-              },
-              meshLevel: 0,
-            },
-          ],
+          externalCalibrationId,
           comments: 'Some awesome comments',
         })
         .insertToDB({ databaseBuilder });
 
       await databaseBuilder.commit();
+      await datamartBuilder.commit();
 
       const options = {
         method: 'GET',
@@ -160,7 +186,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         attributes: {
           'start-date': new Date('2025-01-11'),
           'expiration-date': new Date('2026-01-01'),
-          'external-calibration-id': null,
+          'external-calibration-id': externalCalibrationId,
           'assessment-duration': 100,
           'minimum-answers-required-for-validation': 20,
           'maximum-assessment-length': 32,
@@ -179,6 +205,13 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
                 max: -2,
               },
               meshLevel: 0,
+            },
+            {
+              bounds: {
+                min: -2,
+                max: 4,
+              },
+              meshLevel: 1,
             },
           ],
           comments: 'Some awesome comments',
@@ -494,6 +527,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
     it('should return 201 HTTP status code and a new version as a draft and link his challenges', async function () {
       // given
+      const externalCalibrationId = 2;
+      buildValidatedScoringMeshes({
+        calibrationId: externalCalibrationId,
+        meshes: [
+          { meshLevel: 0, bounds: { min: -8, max: -2 } },
+          { meshLevel: 1, bounds: { min: -2, max: 4 } },
+        ],
+      });
+
       domainBuilder.certification.configuration.versionDetailsBuilder().insertLearningContentToDB({
         databaseBuilder,
         areas: [
@@ -535,7 +577,19 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           },
         ],
       });
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive()
+        .withParameters({
+          scope: SCOPES.CORE,
+          tubeIds: ['tubeA'],
+          externalCalibrationId,
+        })
+        .insertToDB({ databaseBuilder });
+
       await databaseBuilder.commit();
+      await datamartBuilder.commit();
+
       const options = {
         method: 'POST',
         url: `/api/admin/certification-versions`,
@@ -553,7 +607,9 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       // when
       const response = await server.inject(options);
 
-      const createdVersion = await knex('certification_versions').where({ scope: SCOPES.CORE }).first();
+      const createdVersion = await knex('certification_versions')
+        .where({ scope: SCOPES.CORE, status: VERSION_STATUSES.DRAFT })
+        .first();
       // then
       expect(response.statusCode).to.equal(201);
       expect(response.result.data).to.deep.equal({
@@ -571,9 +627,24 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'enable-passage-by-all-competences': true,
           status: VERSION_STATUSES.DRAFT,
           'expiration-date': null,
-          'external-calibration-id': null,
+          'external-calibration-id': externalCalibrationId,
           'start-date': null,
-          'global-scoring-configuration': [],
+          'global-scoring-configuration': [
+            {
+              bounds: {
+                min: -8,
+                max: -2,
+              },
+              meshLevel: 0,
+            },
+            {
+              bounds: {
+                min: -2,
+                max: 4,
+              },
+              meshLevel: 1,
+            },
+          ],
           scope: SCOPES.CORE,
           comments: null,
         },

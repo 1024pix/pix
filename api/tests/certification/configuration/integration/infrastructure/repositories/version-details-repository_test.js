@@ -1,7 +1,8 @@
+import { CALIBRATION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import * as versionDetailsRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/version-details-repository.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../../test-helper.js';
-import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { databaseBuilder, datamartBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Integration | Repository | Version Details', function () {
@@ -125,6 +126,73 @@ describe('Certification | Configuration | Integration | Repository | Version Det
 
       // then
       expect(versionDetails).to.deepEqualInstance(expectedVersionDetails);
+    });
+
+    it('reads the global scoring configuration from the calibration the version points to', async function () {
+      // given
+      const externalCalibrationId = 456;
+      const scoringMeshesAll = datamartBuilder.factory.buildScoringMeshesAll({
+        calibrationId: externalCalibrationId,
+        status: CALIBRATION_STATUSES.VALIDATED,
+      });
+      datamartBuilder.factory.buildScoringMesh({
+        scoringMeshesAllId: scoringMeshesAll.id,
+        mesh: 0,
+        minBoundCuratedValue: -8,
+        maxBoundCuratedValue: -2,
+      });
+
+      domainBuilder.certification.configuration
+        .versionDetailsBuilder()
+        .asActive({ startDate: new Date('2020-01-01') })
+        .withParameters({
+          id: 123,
+          externalCalibrationId,
+          // ignored: the version column is no longer the source of truth
+          globalScoringConfiguration: [{ meshLevel: 9, bounds: { min: -1, max: 1 } }],
+        })
+        .withLearningContent([
+          {
+            id: 'areaA',
+            frameworkId: 'frameworkA',
+            code: 'code Domaine A',
+            title: 'title FR Domaine A',
+            color: 'color Domaine A',
+            competences: [
+              {
+                id: 'competenceA',
+                name: 'name FR Competence A',
+                index: 'index Competence A',
+                thematics: [
+                  {
+                    id: 'thematicA',
+                    name: 'name FR Thematic A',
+                    index: 1,
+                    tubes: [
+                      {
+                        id: 'tubeA',
+                        name: 'Titre pratique Tube A',
+                        practicalTitle: 'practicalTitle FR Tube A',
+                        mobile: true,
+                        tablet: false,
+                        skills: [{ id: 'skillA', difficulty: 2 }],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ])
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
+      await datamartBuilder.commit();
+
+      // when
+      const versionDetails = await versionDetailsRepository.getById(123);
+
+      // then
+      expect(versionDetails.globalScoringConfiguration).to.deep.equal([{ meshLevel: 0, bounds: { min: -8, max: -2 } }]);
     });
   });
 });

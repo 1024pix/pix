@@ -144,6 +144,7 @@ export function buildCertificationVersion({
   competencesScoringConfiguration,
   challengesConfiguration,
   minimumAnswersRequiredToValidateACertification,
+  externalCalibrationId = null,
   status,
   comments,
 } = {}) {
@@ -155,6 +156,7 @@ export function buildCertificationVersion({
       startDate,
       expirationDate,
       assessmentDuration,
+      externalCalibrationId,
       globalScoringConfiguration: JSON.stringify(globalScoringConfiguration),
       competencesScoringConfiguration: JSON.stringify(competencesScoringConfiguration),
       challengesConfiguration: JSON.stringify(challengesConfiguration),

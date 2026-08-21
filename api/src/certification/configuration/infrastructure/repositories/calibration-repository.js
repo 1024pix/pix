@@ -1,7 +1,49 @@
 import { knex as datamartKnex } from '../../../../../datamart/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger, SCOPES } from '../../../../shared/infrastructure/utils/logger.js';
-import { CalibratedChallenge, Calibration } from '../../domain/models/Calibration.js';
+import { CalibratedChallenge, Calibration, CALIBRATION_STATUSES } from '../../domain/models/Calibration.js';
+
+/**
+ * Reads the global scoring configuration (the capacity meshes) carried by a calibration in the datamart.
+ * Only a validated scoring meshes set is usable; if a calibration holds several of them, the most recent prevails.
+ *
+ * @param {object} params
+ * @param {number|null} params.calibrationId
+ * @returns {Promise<Array<{meshLevel: number, bounds: {min: number, max: number}}>>} empty when the calibration
+ * carries no validated scoring meshes, or when there is no calibration at all
+ */
+export async function findGlobalScoringConfiguration({ calibrationId }) {
+  if (!calibrationId) return [];
+
+  try {
+    const scoringMeshesSet = await datamartKnex
+      .select('id')
+      .from('data_scoring_meshes_all')
+      .where({ calibration_id: calibrationId, status: CALIBRATION_STATUSES.VALIDATED })
+      .orderBy('id', 'desc')
+      .first();
+
+    if (!scoringMeshesSet) return [];
+
+    const scoringMeshes = await datamartKnex
+      .select({
+        meshLevel: 'mesh',
+        min: 'min_bound_curated_value',
+        max: 'max_bound_curated_value',
+      })
+      .from('data_scoring_meshes')
+      .where({ scoring_meshes_all_id: scoringMeshesSet.id })
+      .orderBy('mesh', 'asc');
+
+    return scoringMeshes.map(({ meshLevel, min, max }) => ({ meshLevel, bounds: { min, max } }));
+  } catch (err) {
+    logger.error(
+      { event: SCOPES.CERTIFICATION },
+      `Error while retrieving the scoring meshes of the calibration of ID ${calibrationId} from datamart : ${err}`,
+    );
+    throw err;
+  }
+}
 
 export async function find(calibrationId) {
   const knexConn = DomainTransaction.getConnection();

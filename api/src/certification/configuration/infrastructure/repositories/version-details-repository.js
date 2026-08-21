@@ -6,6 +6,7 @@ import * as skillRepository from '../../../../shared/infrastructure/repositories
 import * as thematicRepository from '../../../../shared/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import { VersionDetails } from '../../domain/read-models/VersionDetails.js';
+import * as calibrationRepository from './calibration-repository.js';
 
 export async function getById(id) {
   const knexConn = DomainTransaction.getConnection();
@@ -38,7 +39,6 @@ export async function getById(id) {
       ),
       status: 'certification_versions.status',
       comments: 'certification_versions.comments',
-      globalScoringConfiguration: 'certification_versions.globalScoringConfiguration',
       externalCalibrationId: 'certification_versions.externalCalibrationId',
       tubeIds: knexConn.raw(`array_agg(certification_versions_tubes.tube_id)`),
     })
@@ -51,6 +51,12 @@ export async function getById(id) {
   if (!versionData) {
     return null;
   }
+
+  // The scoring configuration is owned by the calibration the version points to, not by the version itself.
+  const globalScoringConfiguration = await calibrationRepository.findGlobalScoringConfiguration({
+    calibrationId: versionData.externalCalibrationId,
+  });
+
   let tubes = await tubeRepository.findByRecordIds(versionData.tubeIds, FRENCH_SPOKEN);
   tubes = tubes.map((tube) => ({
     id: tube.id,
@@ -142,6 +148,7 @@ export async function getById(id) {
 
   return new VersionDetails({
     ...versionData,
+    globalScoringConfiguration,
     areas,
   });
 }

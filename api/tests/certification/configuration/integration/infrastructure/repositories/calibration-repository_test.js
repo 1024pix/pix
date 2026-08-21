@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { CALIBRATION_SCOPES } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
+import {
+  CALIBRATION_SCOPES,
+  CALIBRATION_STATUSES,
+} from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import * as calibrationRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/calibration-repository.js';
 import { databaseBuilder, datamartBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -127,6 +130,84 @@ describe('Certification | Configuration | Integration | Repository | calibration
       // then
       expect(calibration).to.deep.equal(expectedCalibration);
       expect(calibration).to.be.instanceOf(expectedCalibration.constructor);
+    });
+  });
+
+  describe('#findGlobalScoringConfiguration', function () {
+    it('returns an empty configuration when the version points to no calibration', async function () {
+      // when
+      const globalScoringConfiguration = await calibrationRepository.findGlobalScoringConfiguration({
+        calibrationId: null,
+      });
+
+      // then
+      expect(globalScoringConfiguration).to.deep.equal([]);
+    });
+
+    it('returns an empty configuration when the calibration carries no validated scoring meshes', async function () {
+      // given
+      const notValidatedSet = datamartBuilder.factory.buildScoringMeshesAll({
+        calibrationId: 113,
+        status: CALIBRATION_STATUSES.TO_VALIDATE,
+      });
+      datamartBuilder.factory.buildScoringMesh({
+        scoringMeshesAllId: notValidatedSet.id,
+        mesh: 0,
+        minBoundCuratedValue: -8,
+        maxBoundCuratedValue: -2,
+      });
+      await datamartBuilder.commit();
+
+      // when
+      const globalScoringConfiguration = await calibrationRepository.findGlobalScoringConfiguration({
+        calibrationId: 113,
+      });
+
+      // then
+      expect(globalScoringConfiguration).to.deep.equal([]);
+    });
+
+    it('returns the validated scoring meshes of the calibration, ordered by mesh', async function () {
+      // given
+      const otherCalibrationSet = datamartBuilder.factory.buildScoringMeshesAll({
+        calibrationId: 114,
+        status: CALIBRATION_STATUSES.VALIDATED,
+      });
+      datamartBuilder.factory.buildScoringMesh({
+        scoringMeshesAllId: otherCalibrationSet.id,
+        mesh: 0,
+        minBoundCuratedValue: -1,
+        maxBoundCuratedValue: 1,
+      });
+
+      const validatedSet = datamartBuilder.factory.buildScoringMeshesAll({
+        calibrationId: 113,
+        status: CALIBRATION_STATUSES.VALIDATED,
+      });
+      datamartBuilder.factory.buildScoringMesh({
+        scoringMeshesAllId: validatedSet.id,
+        mesh: 1,
+        minBoundCuratedValue: -2,
+        maxBoundCuratedValue: 4.5,
+      });
+      datamartBuilder.factory.buildScoringMesh({
+        scoringMeshesAllId: validatedSet.id,
+        mesh: 0,
+        minBoundCuratedValue: -8,
+        maxBoundCuratedValue: -2,
+      });
+      await datamartBuilder.commit();
+
+      // when
+      const globalScoringConfiguration = await calibrationRepository.findGlobalScoringConfiguration({
+        calibrationId: 113,
+      });
+
+      // then
+      expect(globalScoringConfiguration).to.deep.equal([
+        { meshLevel: 0, bounds: { min: -8, max: -2 } },
+        { meshLevel: 1, bounds: { min: -2, max: 4.5 } },
+      ]);
     });
   });
 });
