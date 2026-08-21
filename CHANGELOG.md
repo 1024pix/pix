@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [5.484.1](https://github.com/1024pix/pix/compare/v5.484.0...v5.484.1) (2026-08-21)
+
+### :bug: Correction
+
+- [#17185](https://github.com/1024pix/pix/pull/17185) Ne pas renvoyer les profils cibles obsolètes dans le catalogue (PIX-23956)
+
 # [5.484.0](https://github.com/1024pix/pix/compare/v5.483.0...v5.484.0) (2026-08-21)
 
 ### :rocket: Amélioration
