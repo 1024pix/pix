@@ -633,8 +633,7 @@
             "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
             "capacity-submit-button": "Save capacities by mesh",
             "level": "Level {index}",
-            "maximum-input-label": "Maximal capacity",
-            "minimum-input-label": "Minimal capacity",
+            "previous-version-capacity": "Previous value: {previousVersionCapacity}",
             "success-notification": "The scoring has been successfully updated",
             "title": "Bounds of capacity by mesh"
           },

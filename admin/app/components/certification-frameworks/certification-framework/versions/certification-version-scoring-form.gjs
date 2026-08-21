@@ -91,7 +91,8 @@ export default class ScoringForm extends Component {
               {{on "change" (fn this.updateValue "min" mesh.meshLevel)}}
             >
               <:label>{{t
-                  "components.certification-frameworks.certification-framework.versions.scoring.minimum-input-label"
+                  "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
+                  previousVersionCapacity=mesh.bounds.min
                 }}</:label>
             </PixInput>
 
@@ -108,7 +109,8 @@ export default class ScoringForm extends Component {
               {{on "change" (fn this.updateValue "max" mesh.meshLevel)}}
             >
               <:label>{{t
-                  "components.certification-frameworks.certification-framework.versions.scoring.maximum-input-label"
+                  "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
+                  previousVersionCapacity=mesh.bounds.max
                 }}</:label>
             </PixInput>
           </section>

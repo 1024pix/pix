@@ -9,8 +9,22 @@ import setupIntlRenderingTest, { t } from '../../../../../helpers/setup-intl-ren
 const SUBMIT_BUTTON_LABEL =
   'components.certification-frameworks.certification-framework.versions.scoring.capacity-submit-button';
 const LEVEL_KEY = 'components.certification-frameworks.certification-framework.versions.scoring.level';
-const MIN_LABEL = 'components.certification-frameworks.certification-framework.versions.scoring.minimum-input-label';
-const MAX_LABEL = 'components.certification-frameworks.certification-framework.versions.scoring.maximum-input-label';
+const CAPACITY_LABEL =
+  'components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity';
+
+// Both bounds share the same label key, so they can only be told apart by DOM order:
+// each mesh level renders its min input first, then its max input.
+function getBoundsInputs(screen) {
+  const inputs = screen.getAllByRole('spinbutton');
+  return {
+    min: inputs.filter((_input, index) => index % 2 === 0),
+    max: inputs.filter((_input, index) => index % 2 === 1),
+  };
+}
+
+function labelOf(input) {
+  return input.labels[0];
+}
 
 module(
   'Integration | Component | certification-frameworks/certification-framework/versions/certification-version-scoring-form',
@@ -67,13 +81,38 @@ module(
         );
 
         // then
-        const minInputs = screen.getAllByLabelText(t(MIN_LABEL), { exact: false });
-        const maxInputs = screen.getAllByLabelText(t(MAX_LABEL), { exact: false });
+        const { min: minInputs, max: maxInputs } = getBoundsInputs(screen);
 
         assert.dom(minInputs[0]).hasValue('1');
         assert.dom(maxInputs[0]).hasValue('8');
         assert.dom(minInputs[1]).hasValue('8');
         assert.dom(maxInputs[1]).hasValue('15');
+      });
+
+      test('it labels each input with the capacity of the previous version', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const draftVersion = store.createRecord('certification-version', {
+          id: '1',
+          status: 'draft',
+          globalScoringConfiguration: [
+            { bounds: { min: 1, max: 8 }, meshLevel: 0 },
+            { bounds: { min: 8, max: 15 }, meshLevel: 1 },
+          ],
+        });
+
+        // when
+        const screen = await render(
+          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+        );
+
+        // then
+        const { min: minInputs, max: maxInputs } = getBoundsInputs(screen);
+
+        assert.dom(labelOf(minInputs[0])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 1 }));
+        assert.dom(labelOf(maxInputs[0])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 8 }));
+        assert.dom(labelOf(minInputs[1])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 8 }));
+        assert.dom(labelOf(maxInputs[1])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 15 }));
       });
     });
 
@@ -177,12 +216,10 @@ module(
         );
 
         // when
-        const maxInputs = screen.getAllByLabelText(t(MAX_LABEL), { exact: false });
-        await fillIn(maxInputs[0], '10');
+        await fillIn(getBoundsInputs(screen).max[0], '10');
 
         // then
-        const minInputs = screen.getAllByLabelText(t(MIN_LABEL), { exact: false });
-        assert.dom(minInputs[1]).hasValue('10');
+        assert.dom(getBoundsInputs(screen).min[1]).hasValue('10');
       });
     });
 
