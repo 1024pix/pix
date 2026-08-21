@@ -20,6 +20,21 @@ export default class ScoringForm extends Component {
     return this.args.draftVersion.globalScoringConfiguration;
   }
 
+  /**
+   * The draft reads its capacities from its calibration, so the "previous value" hint must come from the last active
+   * version of the framework instead. Meshes are matched on their level, the active version and the calibration not
+   * necessarily covering the same ones. Returns null when there is nothing to compare to — a framework without an
+   * active version, or a mesh level that version did not have.
+   */
+  @action
+  previousVersionCapacity(meshLevel, bound) {
+    return (
+      this.args.activeVersion?.globalScoringConfiguration?.find(
+        (activeVersionMesh) => activeVersionMesh.meshLevel === meshLevel,
+      )?.bounds[bound] ?? null
+    );
+  }
+
   @action
   async saveCapacityByMesh(event) {
     event.preventDefault();
@@ -92,7 +107,7 @@ export default class ScoringForm extends Component {
             >
               <:label>{{t
                   "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
-                  previousVersionCapacity=mesh.bounds.min
+                  previousVersionCapacity=(this.previousVersionCapacity mesh.meshLevel "min")
                 }}</:label>
             </PixInput>
 
@@ -110,7 +125,7 @@ export default class ScoringForm extends Component {
             >
               <:label>{{t
                   "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
-                  previousVersionCapacity=mesh.bounds.max
+                  previousVersionCapacity=(this.previousVersionCapacity mesh.meshLevel "max")
                 }}</:label>
             </PixInput>
           </section>

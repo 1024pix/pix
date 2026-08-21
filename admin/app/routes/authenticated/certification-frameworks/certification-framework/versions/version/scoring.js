@@ -6,12 +6,15 @@ export default class ScoringRoute extends Route {
   @service router;
 
   async model() {
+    const { activeVersion } = this.modelFor('authenticated.certification-frameworks.certification-framework.versions');
+
     const { version_id: versionId } = this.paramsFor(
       'authenticated.certification-frameworks.certification-framework.versions.version',
     );
     const draftVersion = await this.store.findRecord('certification-version', versionId);
 
     return {
+      activeVersion,
       draftVersion,
     };
   }

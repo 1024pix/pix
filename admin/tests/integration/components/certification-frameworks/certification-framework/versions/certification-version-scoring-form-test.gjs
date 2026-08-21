@@ -89,7 +89,7 @@ module(
         assert.dom(maxInputs[1]).hasValue('15');
       });
 
-      test('it labels each input with the capacity of the previous version', async function (assert) {
+      test('it labels each input with the capacity of the active version, not the one of the draft calibration', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const draftVersion = store.createRecord('certification-version', {
@@ -100,6 +100,71 @@ module(
             { bounds: { min: 8, max: 15 }, meshLevel: 1 },
           ],
         });
+        const activeVersion = store.createRecord('certification-version', {
+          id: '2',
+          status: 'active',
+          globalScoringConfiguration: [
+            { bounds: { min: 2, max: 9 }, meshLevel: 0 },
+            { bounds: { min: 9, max: 16 }, meshLevel: 1 },
+          ],
+        });
+
+        // when
+        const screen = await render(
+          <template>
+            <CertificationVersionScoringForm @draftVersion={{draftVersion}} @activeVersion={{activeVersion}} />
+          </template>,
+        );
+
+        // then
+        const { min: minInputs, max: maxInputs } = getBoundsInputs(screen);
+
+        assert.dom(labelOf(minInputs[0])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 2 }));
+        assert.dom(labelOf(maxInputs[0])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 9 }));
+        assert.dom(labelOf(minInputs[1])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 9 }));
+        assert.dom(labelOf(maxInputs[1])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 16 }));
+      });
+
+      test('it matches the meshes on their level rather than on their position', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const draftVersion = store.createRecord('certification-version', {
+          id: '1',
+          status: 'draft',
+          globalScoringConfiguration: [
+            { bounds: { min: 1, max: 8 }, meshLevel: 0 },
+            { bounds: { min: 8, max: 15 }, meshLevel: 1 },
+          ],
+        });
+        // the active version never had a level 0
+        const activeVersion = store.createRecord('certification-version', {
+          id: '2',
+          status: 'active',
+          globalScoringConfiguration: [{ bounds: { min: 9, max: 16 }, meshLevel: 1 }],
+        });
+
+        // when
+        const screen = await render(
+          <template>
+            <CertificationVersionScoringForm @draftVersion={{draftVersion}} @activeVersion={{activeVersion}} />
+          </template>,
+        );
+
+        // then
+        const { min: minInputs, max: maxInputs } = getBoundsInputs(screen);
+
+        assert.dom(labelOf(minInputs[1])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 9 }));
+        assert.dom(labelOf(maxInputs[1])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 16 }));
+      });
+
+      test('it renders without a capacity when the framework has no active version', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const draftVersion = store.createRecord('certification-version', {
+          id: '1',
+          status: 'draft',
+          globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+        });
 
         // when
         const screen = await render(
@@ -109,10 +174,10 @@ module(
         // then
         const { min: minInputs, max: maxInputs } = getBoundsInputs(screen);
 
-        assert.dom(labelOf(minInputs[0])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 1 }));
-        assert.dom(labelOf(maxInputs[0])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 8 }));
-        assert.dom(labelOf(minInputs[1])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 8 }));
-        assert.dom(labelOf(maxInputs[1])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 15 }));
+        assert.dom(minInputs[0]).hasValue('1');
+        assert.dom(maxInputs[0]).hasValue('8');
+        assert.dom(labelOf(minInputs[0])).doesNotIncludeText('1');
+        assert.dom(labelOf(maxInputs[0])).doesNotIncludeText('8');
       });
     });
 
