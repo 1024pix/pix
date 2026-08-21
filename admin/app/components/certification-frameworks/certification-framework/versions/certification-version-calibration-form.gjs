@@ -18,7 +18,7 @@ export default class CalibrationForm extends Component {
   @service store;
   @service pixToast;
   @service intl;
-  @tracked calibrationId = null;
+  @tracked calibrationId = this.args.draftVersion.externalCalibrationId ?? null;
   @tracked report = null;
   @tracked showMoreInfoForLines = [];
 
@@ -130,7 +130,9 @@ export default class CalibrationForm extends Component {
         <section>
           <PixInput
             type="number"
+            value={{this.calibrationId}}
             required={{true}}
+            min="0"
             @requiredLabel={{t "common.forms.mandatory"}}
             @errorMessage={{t
               "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
