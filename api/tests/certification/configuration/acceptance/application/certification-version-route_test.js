@@ -758,6 +758,18 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
               content: CALIBRATION_STATUSES.VALIDATED,
               label: REPORT_LABELS.CALIBRATION_STATUS,
             },
+            {
+              additionalContent: 'Aucun scoring par maille validé trouvé pour cette calibration',
+              alertLevel: ALERT_LEVELS.HIGH,
+              content: false,
+              label: REPORT_LABELS.MESH_SCORING_PRESENCE,
+            },
+            {
+              additionalContent: 'Aucun scoring par compétence validé trouvé pour cette calibration',
+              alertLevel: ALERT_LEVELS.HIGH,
+              content: false,
+              label: REPORT_LABELS.COMPETENCE_SCORING_PRESENCE,
+            },
           ],
         },
       });

@@ -12,7 +12,7 @@ export async function generateCalibrationReportCheck({
     throw new NotFoundError(`Cannot find version of id "${versionId}"`);
   }
 
-  const calibration = await calibrationRepository.find(calibrationId);
+  const calibration = await calibrationRepository.findForReport(calibrationId);
   if (!calibration) {
     throw new NotFoundError(`Cannot find calibration of external id "${calibrationId}"`);
   }

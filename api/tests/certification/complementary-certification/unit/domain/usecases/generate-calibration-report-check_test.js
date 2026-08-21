@@ -23,7 +23,7 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
     };
 
     calibrationRepository = {
-      find: sinon.stub(),
+      findForReport: sinon.stub(),
     };
 
     dependencies = {
@@ -52,7 +52,7 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
       versionRepository.getById
         .withArgs({ id: 1 })
         .resolves(domainBuilder.certification.configuration.versionBuilder().build());
-      calibrationRepository.find.withArgs(2).resolves(null);
+      calibrationRepository.findForReport.withArgs(2).resolves(null);
 
       const err = await catchErr(generateCalibrationReportCheck)({
         versionId: 1,
@@ -73,7 +73,7 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
           .withParameters({ id: 1, scope: SCOPES.CORE, tubeIds: ['tubeA'] })
           .build(),
       );
-      calibrationRepository.find.withArgs(2).resolves(
+      calibrationRepository.findForReport.withArgs(2).resolves(
         domainBuilder.certification.configuration
           .calibrationBuilder()
           .onScope({ scope: CALIBRATION_SCOPES.COEUR })
