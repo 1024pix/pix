@@ -412,7 +412,7 @@
                 "isCompletionRequired": false,
                 "title": "Exercice enregistrer sous",
                 "url": "https://epreuves.pix.fr/pixwriter-contrat/pixwriter-contrat.html?lang=fr",
-                "instruction": "<p>Dans le logiciel ci-dessous&nbsp;:&nbsp; </p><ul><li>Dans la barre des menus, sélectionnez «&nbsp;Enregistrer sous&nbsp;».</li><li>Nommez votre document «&nbsp;Discours&nbsp;».</li><li>Enregistrez «&nbsp;Discours&nbsp;» sur le Bureau.</li></ul>",
+                "instruction": "<p>[Simulateur non fonctionnel] Dans le logiciel ci-dessous&nbsp;:&nbsp; </p><ul><li>Dans la barre des menus, sélectionnez «&nbsp;Enregistrer sous&nbsp;».</li><li>Nommez votre document «&nbsp;Discours&nbsp;».</li><li>Enregistrez «&nbsp;Discours&nbsp;» sur le Bureau.</li></ul>",
                 "solution": "",
                 "height": 400
               }
@@ -551,7 +551,7 @@
                       "isCompletionRequired": true,
                       "title": "enregistrer",
                       "url": "https://epreuves.pix.fr/pixwriter-poeme/pixwriter-poeme.html?lang=fr#5c696574732c72767d7c78257243585b5741",
-                      "instruction": "<p>Dans le logiciel de traitement de texte ci-dessous, enregistrez les modifications de texte de Mina.</p>",
+                      "instruction": "<p>[Simulateur non fonctionnel] Dans le logiciel de traitement de texte ci-dessous, enregistrez les modifications de texte de Mina.</p>",
                       "solution": "courgette",
                       "height": 400
                     },
