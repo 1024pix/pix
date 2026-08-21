@@ -51,62 +51,14 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
   });
 
   module('when admin member has role "SUPER ADMIN"', function () {
-    module('when user edit and save the changes', function () {
-      test('should persist modifications on the version and be visible in details page', async function (assert) {
+    module('when user edit and save the changes for later', function () {
+      test('should persist modifications on the version and redirect to version list page', async function (assert) {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const screen = await visit(`/certification-frameworks/CORE`);
         await clickByName('Éditer la version 14');
 
-        await fillIn(
-          screen.getByLabelText(t(`${BASE_I18N_KEY}.start-date-label`), {
-            exact: false,
-          }),
-          '2026-01-01',
-        );
-        await fillIn(
-          screen.getByLabelText(t(`${BASE_I18N_KEY}.assessment-duration-label`), {
-            exact: false,
-          }),
-          '01:30',
-        );
-        await fillIn(
-          screen.getByLabelText(t(`${BASE_I18N_KEY}.default-probability-to-pick-challenge-label`), {
-            exact: false,
-          }),
-          '20',
-        );
-        await fillIn(
-          screen.getByLabelText(t(`${BASE_I18N_KEY}.variation-percent-label`), {
-            exact: false,
-          }),
-          '0.35',
-        );
-        await fillIn(
-          screen.getByLabelText(t(`${BASE_I18N_KEY}.default-candidate-capacity-label`), {
-            exact: false,
-          }),
-          '-2',
-        );
-        await fillIn(
-          screen.getByLabelText(t(`${BASE_I18N_KEY}.maximum-assessment-length-label`), {
-            exact: false,
-          }),
-          '22',
-        );
-        await fillIn(
-          screen.getByLabelText(t(`${BASE_I18N_KEY}.minimum-answers-required-for-validation-label`), {
-            exact: false,
-          }),
-          '11',
-        );
-        await fillIn(
-          screen.getByLabelText(t(`${BASE_I18N_KEY}.challenges-between-same-competence-label`), {
-            exact: false,
-          }),
-          '3',
-        );
-        await clickByName(new RegExp(t(`${BASE_I18N_KEY}.limit-to-one-question-per-tube-label`)));
-        await clickByName(new RegExp(t(`${BASE_I18N_KEY}.enable-passage-by-all-competences-label`)));
+        await correctlyFillOutForm(screen);
+
         await clickByName('Enregistrer pour plus tard');
 
         assert.dom(screen.getByText(t(`${BASE_I18N_KEY}.success-notification`))).exists();
@@ -170,12 +122,14 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
     });
 
     module('when trying to click on next button', function () {
-      test('redirects to calibration page', async function (assert) {
+      test('persist the information and redirects to calibration page', async function (assert) {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-        await visit(`/certification-frameworks/CORE/versions/14/edit`);
+        const screen = await visit(`/certification-frameworks/CORE/versions/14/edit`);
+        await correctlyFillOutForm(screen);
         await clickByName('Suivant');
         assert.strictEqual(currentURL(), '/certification-frameworks/CORE/versions/14/calibration');
+        assert.dom(screen.getByText(t(`${BASE_I18N_KEY}.success-notification`))).exists();
       });
     });
   });
@@ -188,3 +142,58 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
     });
   });
 });
+
+async function correctlyFillOutForm(screen) {
+  const BASE_I18N_KEY = 'components.certification-frameworks.certification-framework.versions.edit';
+
+  await fillIn(
+    screen.getByLabelText(t(`${BASE_I18N_KEY}.start-date-label`), {
+      exact: false,
+    }),
+    '2026-01-01',
+  );
+  await fillIn(
+    screen.getByLabelText(t(`${BASE_I18N_KEY}.assessment-duration-label`), {
+      exact: false,
+    }),
+    '01:30',
+  );
+  await fillIn(
+    screen.getByLabelText(t(`${BASE_I18N_KEY}.default-probability-to-pick-challenge-label`), {
+      exact: false,
+    }),
+    '20',
+  );
+  await fillIn(
+    screen.getByLabelText(t(`${BASE_I18N_KEY}.variation-percent-label`), {
+      exact: false,
+    }),
+    '0.35',
+  );
+  await fillIn(
+    screen.getByLabelText(t(`${BASE_I18N_KEY}.default-candidate-capacity-label`), {
+      exact: false,
+    }),
+    '-2',
+  );
+  await fillIn(
+    screen.getByLabelText(t(`${BASE_I18N_KEY}.maximum-assessment-length-label`), {
+      exact: false,
+    }),
+    '22',
+  );
+  await fillIn(
+    screen.getByLabelText(t(`${BASE_I18N_KEY}.minimum-answers-required-for-validation-label`), {
+      exact: false,
+    }),
+    '11',
+  );
+  await fillIn(
+    screen.getByLabelText(t(`${BASE_I18N_KEY}.challenges-between-same-competence-label`), {
+      exact: false,
+    }),
+    '3',
+  );
+  await clickByName(new RegExp(t(`${BASE_I18N_KEY}.limit-to-one-question-per-tube-label`)));
+  await clickByName(new RegExp(t(`${BASE_I18N_KEY}.enable-passage-by-all-competences-label`)));
+}
