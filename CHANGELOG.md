@@ -1,5 +1,32 @@
 # Pix Changelog
 
+# [5.484.0](https://github.com/1024pix/pix/compare/v5.483.0...v5.484.0) (2026-08-21)
+
+### :rocket: Amélioration
+
+- [#17165](https://github.com/1024pix/pix/pull/17165) Ajouter un placeholder par défaut pour les blocs Select des QROCM (PIX-23818)
+- [#17164](https://github.com/1024pix/pix/pull/17164) Fri phishing nov be inte medias
+- [#17179](https://github.com/1024pix/pix/pull/17179) relectures internes antivirus_av + objet classement (url pr)
+- [#17171](https://github.com/1024pix/pix/pull/17171) Rendre visible les retours à la ligne dans le tableau du moteur de reco sur Admin (PIX-23464)
+
+### :bug: Correction
+
+- [#17180](https://github.com/1024pix/pix/pull/17180) Ajout d'une erreur dans la réconciliation d'un candidat.
+- [#17170](https://github.com/1024pix/pix/pull/17170) Corriger la réinitialisation d'un embed sur les modules (PIX-23201)
+- [#17166](https://github.com/1024pix/pix/pull/17166) Erreur 500 lors d'une réconciliation déjà effectuée avec la même adresse email (PIX-23921).
+
+### :building_construction: Tech
+
+- [#17174](https://github.com/1024pix/pix/pull/17174) Ne plus utiliser PixBackgroundHeader dans la page de téléchargement de résultat de session (PIX-23935).
+- [#17177](https://github.com/1024pix/pix/pull/17177) Réplication datamart des tables liées au scoring des versions (PIX-23936).
+- [#17062](https://github.com/1024pix/pix/pull/17062) Standardiser la constante COMBINED_COURSE_ITEM_TYPES (PIX-22935)
+
+### :arrow_up: Montée de version
+
+- [#17181](https://github.com/1024pix/pix/pull/17181) Update dependency @1024pix/epreuves-components to ^4.17.7 (api)
+- [#17182](https://github.com/1024pix/pix/pull/17182) Update dependency @1024pix/epreuves-components to ^4.17.7 (junior)
+- [#17183](https://github.com/1024pix/pix/pull/17183) Update dependency @1024pix/epreuves-components to ^4.17.7 (mon-pix)
+
 # [5.483.0](https://github.com/1024pix/pix/compare/v5.482.0...v5.483.0) (2026-08-20)
 
 ### :rocket: Amélioration
