@@ -22,6 +22,11 @@ export default class CalibrationForm extends Component {
   @tracked report = null;
   @tracked showMoreInfoForLines = [];
 
+  get hasHighAlert() {
+    if (!this.report) return true;
+    return this.report.reportLines.some((line) => line.alertLevel === 'HIGH');
+  }
+
   get translatedReportLines() {
     const translatedReportLines = [];
     let i = 1;
@@ -175,6 +180,7 @@ export default class CalibrationForm extends Component {
       <PixButtonLink
         @route="authenticated.certification-frameworks.certification-framework.versions.version.scoring"
         @variant="primary"
+        @isDisabled={{this.hasHighAlert}}
       >
         {{t "common.actions.next"}}
       </PixButtonLink>
