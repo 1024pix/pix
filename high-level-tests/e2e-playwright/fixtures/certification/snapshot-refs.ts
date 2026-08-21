@@ -12,17 +12,17 @@ export const snapshotRefsFixtures = baseCertifTest.extend<{
   },
 
   snapshotPath: async ({ testRef }, use) => {
-    const pathStr = `recette-certif/${testRef}/${testRef}.json`;
+    const pathStr = `recette-certif/${testRef}/snapshot.json`;
     await use(pathStr);
   },
 
   csvResultPath: async ({ testRef }, use) => {
-    const pathStr = `recette-certif/${testRef}/${testRef}_csvresult.json`;
+    const pathStr = `recette-certif/${testRef}/csvresult.json`;
     await use(pathStr);
   },
 
   certificateBasePath: async ({ testRef }, use) => {
-    const pathStr = `recette-certif/${testRef}/${testRef}.certificat`;
+    const pathStr = `recette-certif/${testRef}/certificat`;
     await use(pathStr);
   },
 });
