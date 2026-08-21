@@ -11,7 +11,7 @@ const sourceMapConfig = {
 module.exports = async function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
-      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles', 'app/components'],
+      includePaths: ['node_modules/@1024pix/nebulix-ember/dist/styles', 'app/components'],
     },
     'ember-simple-auth': {
       useSessionSetupMethod: true,
