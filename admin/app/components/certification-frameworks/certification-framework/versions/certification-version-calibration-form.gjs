@@ -151,31 +151,40 @@ export default class CalibrationForm extends Component {
         </section>
       </form>
       {{#if this.report}}
-        {{t
-          "components.certification-frameworks.certification-framework.versions.calibration.report-title"
-          calibrationId=this.report.calibrationId
-        }}
-        {{formatDate this.report.generatedAt format="long"}}
-        <DescriptionList>
-          {{#each this.translatedReportLines as |line|}}
-            <DescriptionList.Item @label={{line.label}}>
-              {{line.content}}
-              {{#if line.alertLevel}}
-                <PixIconButton
-                  @ariaLabel={{t
-                    "components.certification-frameworks.certification-framework.versions.calibration.show-additional-info"
-                    lineNumber=line.lineNumber
-                  }}
-                  @iconName={{if (eq line.alertLevel "HIGH") "cancel" "warning"}}
-                  @triggerAction={{fn this.showMoreInfo line.lineNumber}}
-                />
-              {{/if}}
-              {{#if line.isExpanded}}
-                <p>{{line.additionalContent}}</p>
-              {{/if}}
-            </DescriptionList.Item>
-          {{/each}}
-        </DescriptionList>
+        <div class="versions-calibration__report">
+          <span class="versions-calibration__report__title">
+            {{t
+              "components.certification-frameworks.certification-framework.versions.calibration.report-title"
+              calibrationId=this.report.calibrationId
+            }}
+            {{formatDate this.report.generatedAt format="long"}}
+          </span>
+          <DescriptionList>
+            {{#each this.translatedReportLines as |line|}}
+              <DescriptionList.Item @label={{line.label}}>
+                {{line.content}}
+                {{#if line.alertLevel}}
+                  <PixIconButton
+                    class={{if
+                      (eq line.alertLevel "HIGH")
+                      "calibration-report__icon--high"
+                      "calibration-report__icon--low"
+                    }}
+                    @ariaLabel={{t
+                      "components.certification-frameworks.certification-framework.versions.calibration.show-additional-info"
+                      lineNumber=line.lineNumber
+                    }}
+                    @iconName={{if (eq line.alertLevel "HIGH") "cancel" "warning"}}
+                    @triggerAction={{fn this.showMoreInfo line.lineNumber}}
+                  />
+                {{/if}}
+                {{#if line.isExpanded}}
+                  <p class="calibration-report__additional-content">{{line.additionalContent}}</p>
+                {{/if}}
+              </DescriptionList.Item>
+            {{/each}}
+          </DescriptionList>
+        </div>
       {{/if}}
     </Card>
     <section class="actions-container">
