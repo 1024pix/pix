@@ -585,6 +585,8 @@
             "label-for-CALIBRATION_SCOPE": "Planned for scope",
             "label-for-CALIBRATION_STARTED_AT": "Started at",
             "label-for-CALIBRATION_STATUS": "Status",
+            "label-for-COMPETENCE_SCORING_PRESENCE": "Competences scoring presence",
+            "label-for-MESH_SCORING_PRESENCE": "Mesh scoring presence",
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Tubes in calibration only",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
             "report-title": "Check calibration report of ID {calibrationId} generated at",

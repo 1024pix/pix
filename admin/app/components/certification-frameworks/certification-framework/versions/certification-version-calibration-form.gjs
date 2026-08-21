@@ -50,6 +50,11 @@ export default class CalibrationForm extends Component {
             reportLine.content,
         );
       }
+      if (reportLine.label === 'MESH_SCORING_PRESENCE' || reportLine.label === 'COMPETENCE_SCORING_PRESENCE') {
+        translatedReportLine.content = reportLine.content
+          ? this.intl.t('common.words.yes')
+          : this.intl.t('common.words.no');
+      }
       translatedReportLines.push(translatedReportLine);
     }
     return translatedReportLines;

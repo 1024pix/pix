@@ -593,6 +593,8 @@
             "label-for-CALIBRATION_SCOPE": "Prévue pour le référentiel",
             "label-for-CALIBRATION_STARTED_AT": "Démarrée le",
             "label-for-CALIBRATION_STATUS": "Statut",
+            "label-for-COMPETENCE_SCORING_PRESENCE": "Présence du scoring par compétences",
+            "label-for-MESH_SCORING_PRESENCE": "Présence du scoring par maille",
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents dans la calibration uniquement",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents dans la version uniquement",
             "report-title": "Rapport de vérification de la calibration d'ID {calibrationId} généré le",
