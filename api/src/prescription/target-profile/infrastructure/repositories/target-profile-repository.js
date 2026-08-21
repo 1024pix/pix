@@ -74,6 +74,7 @@ const findSharedByOrganizationId = async (organizationId) =>
   DomainTransaction.getConnection()('target-profiles')
     .join('target-profile-shares', 'target-profiles.id', 'target-profile-shares.targetProfileId')
     .where('target-profile-shares.organizationId', organizationId)
+    .where('outdated', false)
     .select(
       'target-profiles.id',
       'target-profiles.name',
