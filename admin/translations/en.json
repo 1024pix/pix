@@ -629,6 +629,14 @@
             "title": "Creating a new version of the certification framework for {frameworkLabel}"
           },
           "page-title": "Creation of a new version of the certification in {scope} framework",
+          "scoring": {
+            "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
+            "capacity-submit-button": "Save capacities by mesh",
+            "level": "Level {index}",
+            "previous-version-capacity": "Previous value: {previousVersionCapacity}",
+            "success-notification": "The scoring has been successfully updated",
+            "title": "Bounds of capacity by mesh"
+          },
           "title": "Creating a Certification Release"
         }
       },

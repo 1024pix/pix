@@ -637,6 +637,14 @@
             "title": "Création d'une nouvelle version du référentiel de certification"
           },
           "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}",
+          "scoring": {
+            "cannot-be-lower-error": "La capacité maximale d'un niveau doit être strictement supérieur à sa capacité minimale.",
+            "capacity-submit-button": "Sauvegarder les capacités par mailles",
+            "level": "Niveau {index}",
+            "previous-version-capacity": "Ancienne valeur : {previousVersionCapacity}",
+            "success-notification": "Le scoring a bien été mis à jour",
+            "title": "Bornes de capacités par mailles"
+          },
           "title": "Création d'une version de certification"
         }
       },

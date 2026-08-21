@@ -16,6 +16,7 @@ export default class CertificationVersion extends Model {
   @attr('string') scope;
   @attr('string') comments;
   @attr('number') externalCalibrationId;
+  @attr() globalScoringConfiguration;
 
   @hasMany('area', { async: false, inverse: null }) areas;
 

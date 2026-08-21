@@ -130,7 +130,7 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
               id: 1,
               assessmentDuration: 11,
               minimumAnswersRequiredToValidateACertification: 11,
-              globalScoringConfiguration: ['some globalScoringConfiguration'],
+              globalScoringConfiguration: [{ bounds: { min: 1, max: 2 }, meshLevel: 0 }],
               competencesScoringConfiguration: ['some competencesScoringConfiguration'],
               challengesConfiguration: {
                 maximumAssessmentLength: 11,
@@ -159,7 +159,7 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
                 tubeIds: ['rec456'],
                 assessmentDuration: 11,
                 minimumAnswersRequiredToValidateACertification: 11,
-                globalScoringConfiguration: ['some globalScoringConfiguration'],
+                globalScoringConfiguration: [{ bounds: { min: 1, max: 2 }, meshLevel: 0 }],
                 competencesScoringConfiguration: ['some competencesScoringConfiguration'],
                 challengesConfiguration: {
                   maximumAssessmentLength: 11,
@@ -255,6 +255,15 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
         limitToOneQuestionPerTube: false,
         enablePassageByAllCompetences: false,
         externalCalibrationId: null,
+        globalScoringConfiguration: [
+          {
+            bounds: {
+              min: 1,
+              max: 8,
+            },
+            meshLevel: 0,
+          },
+        ],
       };
     });
 
@@ -284,6 +293,15 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
               limitToOneQuestionPerTube: validUpdateData.limitToOneQuestionPerTube,
               enablePassageByAllCompetences: validUpdateData.enablePassageByAllCompetences,
             },
+            globalScoringConfiguration: [
+              {
+                bounds: {
+                  min: 1,
+                  max: 8,
+                },
+                meshLevel: 0,
+              },
+            ],
           })
           .build();
         expect(version).to.deepEqualInstance(expectedVersion);
@@ -296,6 +314,38 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
         expect(() => version.update(validUpdateData)).to.throw(VersionNotDraftError);
         version = domainBuilder.certification.configuration.versionBuilder().asArchived().build();
         expect(() => version.update(validUpdateData)).to.throw(VersionNotDraftError);
+      });
+    });
+
+    context('when globalScoringConfiguration contains invalid bounds', function () {
+      it('throws an EntityValidationError when max is lower than min', function () {
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2025-05-05') })
+          .withParameters(baseVersionData)
+          .build();
+
+        expect(() =>
+          version.update({
+            ...validUpdateData,
+            globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
+          }),
+        ).to.throw(EntityValidationError);
+      });
+
+      it('throws an EntityValidationError when max equals min', function () {
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2025-05-05') })
+          .withParameters(baseVersionData)
+          .build();
+
+        expect(() =>
+          version.update({
+            ...validUpdateData,
+            globalScoringConfiguration: [{ bounds: { min: 3, max: 3 }, meshLevel: 0 }],
+          }),
+        ).to.throw(EntityValidationError);
       });
     });
   });

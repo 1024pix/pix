@@ -1,0 +1,36 @@
+.versions-scoring {
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 20px;
+    }
+
+    section {
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+
+      .pix-label {
+        font-size: 0.9rem;
+      }
+    }
+
+    div {
+      flex: 1.5
+    }
+  }
+
+}
+
+.actions-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
