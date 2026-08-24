@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../../../../../../src/certification/enrolment/domain/models/SessionMassImportReport.js';
 import { validateSessions } from '../../../../../../src/certification/enrolment/domain/usecases/validate-sessions.js';
 import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
@@ -126,23 +125,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   context('when sessions and candidates are valid', function () {
     it('return a sessions report', async function () {
       // given
-      const candidate1 = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData1,
-        id: null,
-        createdAt: null,
-        userId: null,
-        reconciledAt: null,
-        billingMode: BILLING_MODES.FREE,
-      });
       const session1 = { ...firstSession, candidates: [candidateData1] };
-      const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData2,
-        id: null,
-        createdAt: null,
-        userId: null,
-        reconciledAt: null,
-        billingMode: BILLING_MODES.FREE,
-      });
       const session2 = { ...secondSession, candidates: [candidateData2] };
 
       sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
@@ -155,7 +138,14 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         cpfBirthInformation,
       });
 
-      temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
+      temporarySessionsStorageForMassImportService = {
+        save: () => '',
+      };
+      sinon.replace(
+        temporarySessionsStorageForMassImportService,
+        'save',
+        sinon.fake.returns(cachedValidatedSessionsKey),
+      );
 
       sessionsImportValidationService.getUniqueCandidates.withArgs([candidateData1]).returns({
         uniqueCandidates: [candidateData1],
@@ -165,25 +155,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         uniqueCandidates: [candidateData2],
         duplicateCandidateErrors: [],
       });
-
-      const [expectedSession1, expectedSession2] = [
-        domainBuilder.certification.enrolment.buildSession({
-          ...firstSession,
-          certificationCenterId,
-          certificationCenter: certificationCenterName,
-          certificationCenterType: certificationCenterType,
-          accessCode,
-          certificationCandidates: [candidate1],
-        }),
-        domainBuilder.certification.enrolment.buildSession({
-          ...secondSession,
-          certificationCenterId,
-          certificationCenter: certificationCenterName,
-          certificationCenterType: certificationCenterType,
-          accessCode,
-          certificationCandidates: [candidate2],
-        }),
-      ];
 
       // when
       const sessionsMassImportReport = await validateSessions({
@@ -198,24 +169,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       });
 
       // then
-      expect(temporarySessionsStorageForMassImportService.save).to.have.been.calledWith({
-        sessions: [
-          sinon.match({
-            ...expectedSession1,
-            certificationCandidates: [candidate1],
-            createdBy: undefined,
-            invigilatorPassword: sinon.match.string,
-          }),
-          sinon.match({
-            ...expectedSession2,
-            certificationCandidates: [candidate2],
-            createdBy: undefined,
-            invigilatorPassword: sinon.match.string,
-          }),
-        ],
-        userId,
-      });
-
       expect(sessionsMassImportReport).to.deep.equal({
         cachedValidatedSessionsKey,
         sessionsCount: 2,
@@ -228,32 +181,35 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     context('when there is only sessionId and candidate information', function () {
       it('should validate the candidates in the session', async function () {
         // given
-        const candidate1 = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData1,
-          id: null,
-          createdAt: null,
-          userId: null,
-          reconciledAt: null,
-          billingMode: BILLING_MODES.FREE,
-        });
+        const candidate1 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({
+            ...candidateData1,
+            id: null,
+            createdAt: null,
+            billingMode: BILLING_MODES.FREE,
+          })
+          .build();
         const session1 = { ...firstSession, candidates: [candidateData1] };
-        const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData2,
-          id: null,
-          createdAt: null,
-          userId: null,
-          reconciledAt: null,
-          billingMode: BILLING_MODES.FREE,
-        });
+        const candidate2 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({
+            ...candidateData2,
+            id: null,
+            createdAt: null,
+            billingMode: BILLING_MODES.FREE,
+          })
+          .build();
         const candidateData3 = { ...candidateData2, lastName: 'Brun', firstName: 'Petit Ours' };
-        const candidate3 = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData3,
-          id: null,
-          createdAt: null,
-          userId: null,
-          reconciledAt: null,
-          billingMode: BILLING_MODES.FREE,
-        });
+        const candidate3 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({
+            ...candidateData3,
+            id: null,
+            createdAt: null,
+            billingMode: BILLING_MODES.FREE,
+          })
+          .build();
         const session2 = { sessionId: 2, candidates: [candidateData2, candidateData3] };
 
         sessionsImportValidationService.getUniqueCandidates.withArgs([candidateData1]).returns({
@@ -284,7 +240,14 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           subscription: Frameworks.CORE,
         });
 
-        temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
+        temporarySessionsStorageForMassImportService = {
+          save: () => '',
+        };
+        sinon.replace(
+          temporarySessionsStorageForMassImportService,
+          'save',
+          sinon.fake.returns(cachedValidatedSessionsKey),
+        );
 
         // when
         const sessionsMassImportReport = await validateSessions({
@@ -300,44 +263,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         });
 
         // then
-        const [expectedSession1, expectedSession2] = [
-          new SessionEnrolment({
-            ...session1,
-            id: 1,
-            certificationCenterId,
-            certificationCenter: certificationCenterName,
-            certificationCenterType: certificationCenterType,
-            accessCode,
-            certificationCandidates: [candidate1],
-          }),
-          new SessionEnrolment({
-            ...session2,
-            id: 2,
-            certificationCenterId,
-            certificationCenter: certificationCenterName,
-            certificationCenterType: certificationCenterType,
-            accessCode,
-            certificationCandidates: [candidate2, candidate3],
-          }),
-        ];
-
-        expect(temporarySessionsStorageForMassImportService.save).to.have.been.calledWith({
-          sessions: [
-            sinon.match({
-              ...expectedSession1,
-              certificationCandidates: [candidate1],
-              createdBy: undefined,
-              invigilatorPassword: sinon.match.string,
-            }),
-            sinon.match({
-              ...expectedSession2,
-              certificationCandidates: [candidate2, candidate3],
-              createdBy: undefined,
-              invigilatorPassword: sinon.match.string,
-            }),
-          ],
-          userId,
-        });
 
         expect(sessionsMassImportReport).to.deep.equal({
           cachedValidatedSessionsKey,
@@ -429,20 +354,24 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     context('when there is at least one duplicate candidate in a session', function () {
       it('should remove duplicate certification candidates from the session', async function () {
         // given
-        const candidate1 = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData1,
-          id: null,
-          createdAt: null,
-          userId: null,
-          billingMode: BILLING_MODES.FREE,
-        });
-        const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData2,
-          id: null,
-          createdAt: null,
-          userId: null,
-          billingMode: BILLING_MODES.FREE,
-        });
+        const candidate1 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({
+            ...candidateData1,
+            id: null,
+            createdAt: null,
+            billingMode: BILLING_MODES.FREE,
+          })
+          .build();
+        const candidate2 = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({
+            ...candidateData2,
+            id: null,
+            createdAt: null,
+            billingMode: BILLING_MODES.FREE,
+          })
+          .build();
         const sessionsData = [
           {
             ...firstSession,

@@ -71,8 +71,6 @@ const schema = Joi.object({
   }),
 });
 
-function validate(certificationCandidate, options = { allowUnknown: true }) {
+export function validate(certificationCandidate, options = { allowUnknown: true }) {
   return schema.validate(certificationCandidate, options);
 }
-
-export { validate };

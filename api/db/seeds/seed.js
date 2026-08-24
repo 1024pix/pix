@@ -1,6 +1,7 @@
 import { config } from '../../src/shared/config.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { DatabaseBuilder } from '../database-builder/database-builder.js';
+import { databaseConnection } from '../knex-database-connection.js';
 import { commonBuilder } from './data/common/common-builder.js';
 import { complementaryCertificationBuilder } from './data/common/complementary-certification-builder.js';
 import { featuresBuilder } from './data/common/feature-builder.js';
@@ -17,10 +18,10 @@ import { teamDevcompDataBuilder } from './data/team-devcomp/data-builder.js';
 import { teamEvaluationDataBuilder } from './data/team-evaluation/data-builder.js';
 import { teamPrescriptionDataBuilder } from './data/team-prescription/data-builder.js';
 
-export async function seed(knex) {
+export async function seed() {
   logger.info('START Seeding');
 
-  const databaseBuilder = new DatabaseBuilder({ knex });
+  const databaseBuilder = new DatabaseBuilder({ databaseConnection });
 
   // Learning content
   logger.info('Seeding: Learning content');

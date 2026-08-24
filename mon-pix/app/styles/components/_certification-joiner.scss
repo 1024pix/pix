@@ -1,4 +1,14 @@
+@use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
+
+.certification-join-page__block {
+  margin: var(--pix-spacing-3x) 0;
+  padding: var(--pix-spacing-4x) var(--pix-spacing-4x) var(--pix-spacing-12x) var(--pix-spacing-4x);
+
+  @include breakpoints.device-is('tablet') {
+    margin: var(--pix-spacing-6x) 0;
+  }
+}
 
 .certification-joiner {
   margin: var(--pix-spacing-8x) 0;

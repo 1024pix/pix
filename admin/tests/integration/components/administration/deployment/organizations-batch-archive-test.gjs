@@ -17,10 +17,6 @@ module('Integration | Component | administration/organizations-batch-archive', f
     sinon.stub(requestManagerService, 'request');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('when batch archive succeeds', function () {
     test('it displays the correct number of archived organizations in success notification', async function (assert) {
       // given

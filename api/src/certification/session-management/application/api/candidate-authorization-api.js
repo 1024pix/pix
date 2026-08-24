@@ -4,7 +4,7 @@ import * as candidateAuthorizationInfoRepository from '../../infrastructure/repo
  * @typedef {Object} DTOCandidateAuthorization
  * @property {number} id
  * @property {string} accessCode
- * @property {boolean} isSessionAccessible
+ * @property {boolean} isSessionJoinable
  * @property {number} userId
  * @property {boolean} authorizedToStart
  * @property {number} certificationId
@@ -39,7 +39,7 @@ export async function findByUserIdAndSessionId({
   return {
     id: candidateAuthorizationInfo.id,
     accessCode: candidateAuthorizationInfo.sessionAccessCode,
-    isSessionAccessible: candidateAuthorizationInfo.isSessionAccessible,
+    isSessionJoinable: candidateAuthorizationInfo.isSessionJoinable,
     userId: candidateAuthorizationInfo.reconciledUserId,
     reconciledAt: candidateAuthorizationInfo.reconciledAt,
     subscription: candidateAuthorizationInfo.subscription,

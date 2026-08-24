@@ -5,13 +5,14 @@
  */
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CandidateAlreadyLinkedToUserError } from '../../../../shared/domain/errors.js';
+import { CandidateAlreadyLinkedToUserError, NotFoundError } from '../../../../shared/domain/errors.js';
 
 /**
  * @param {object} params
  * @param {CandidateRepository} params.candidateRepository
  * @param {SessionRepository} params.sessionRepository
  * @param {EventAdapter} params.eventAdapter
+ * @throws {NotFoundError} the session does not exist or its access is restricted
  */
 export async function importCertificationCandidatesFromCandidatesImportSheet({
   sessionId,
@@ -23,15 +24,21 @@ export async function importCertificationCandidatesFromCandidatesImportSheet({
   centerRepository,
   sessionRepository,
   eventAdapter,
+  sessionAuthorizationAdapter,
   certificationCandidatesOdsService,
   certificationCpfService,
 }) {
-  const candidatesInSession = await candidateRepository.findBySessionId({ sessionId });
-  const session = await sessionRepository.get({ id: sessionId });
+  const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
 
-  if (session.hasReconciledCandidate({ candidates: candidatesInSession })) {
+  if (!sessionAuthorization) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+
+  if (!sessionAuthorization.canEnrollCandidateViaODS) {
     throw new CandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
+
+  const session = await sessionRepository.get({ id: sessionId });
 
   const candidates = await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
     i18n,

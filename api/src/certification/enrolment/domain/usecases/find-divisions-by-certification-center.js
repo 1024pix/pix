@@ -13,5 +13,5 @@ export async function findDivisionsByCertificationCenter({
     throw new NotFoundError('No organization found for this certification center');
   }
 
-  return divisionRepository.findByOrganizationIdForCurrentSchoolYear({ organizationId: activeOrganizationId });
+  return divisionRepository.findActiveDivisionsByOrganizationId({ organizationId: activeOrganizationId });
 }

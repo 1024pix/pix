@@ -3,10 +3,8 @@ import Hapi from '@hapi/hapi';
 import { parse } from 'neoqs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
-import { databaseConnections } from './db/database-connections.js';
+import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { knex } from './db/knex-database-connection.js';
-import { announcementRoutes } from './src/announcements/routes.js';
-import { bannerRoutes } from './src/banner/routes.js';
 import {
   attachTargetProfileRoutes,
   certificationConfigurationRoutes,
@@ -17,6 +15,9 @@ import { certificationEnrolmentRoutes } from './src/certification/enrolment/rout
 import { certificationEvaluationRoutes } from './src/certification/evaluation/routes.js';
 import { certificationResultRoutes } from './src/certification/results/routes.js';
 import { certificationSessionRoutes } from './src/certification/session-management/routes.js';
+import { announcementRoutes } from './src/communication/announcements/routes.js';
+import { bannerRoutes } from './src/communication/banner/routes.js';
+import { deprecatedRoutes } from './src/deprecated/application/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { evaluationRoutes } from './src/evaluation/routes.js';
 import { identityAccessManagementRoutes } from './src/identity-access-management/application/routes.js';
@@ -32,6 +33,7 @@ import { organizationLearnerFeatureRoutes } from './src/prescription/organizatio
 import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { stagesModuleRoutes } from './src/prescription/stages/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
+import { privacyRoutes } from './src/privacy/application/routes.js';
 import { profileRoutes } from './src/profile/routes.js';
 import { questRoutes } from './src/quest/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
@@ -41,7 +43,6 @@ import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metr
 import { instrumentHapiServer } from './src/shared/infrastructure/open-telemetry/hapi-tracing.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
-// bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
 import { swaggers } from './src/shared/swaggers.js';
 import { handleFailAction } from './src/shared/validate.js';
@@ -202,7 +203,7 @@ const enableLegacyOpsMetrics = async function (server) {
   oppsy.on('ops', (data) => {
     server.log(['ops'], {
       ...data,
-      ...databaseConnections.getPoolMetrics(),
+      ...databaseConnectionRegistry.getPoolMetrics(),
     });
   });
 
@@ -249,7 +250,9 @@ const setupRoutesAndPlugins = async function (server) {
   await server.register(
     [
       plugins,
+      deprecatedRoutes,
       identityAccessManagementRoutes,
+      privacyRoutes,
       organizationalEntitiesRoutes,
       sharedRoutes,
       profileRoutes,

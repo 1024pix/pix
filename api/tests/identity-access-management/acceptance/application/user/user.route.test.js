@@ -1,19 +1,18 @@
 import lodash from 'lodash';
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { userEmailRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
@@ -27,7 +26,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/users', function () {
@@ -98,7 +97,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         await server.inject(options);
 
         // then
-        const userFound = await userRepository.getByUsernameOrEmailWithRolesAndPassword(user.email);
+        const userFound = await userRepository.getByUsernameOrEmailWithPassword(user.email);
         expect(pick(userFound, pickedUserAttributes)).to.deep.equal(expectedUser);
         expect(userFound.authenticationMethods[0].authenticationComplement.password).to.exist;
       });
@@ -133,7 +132,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         const response = await server.inject(options);
 
         // then
-        const createdUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userAttributes.email);
+        const createdUser = await userRepository.getByUsernameOrEmailWithPassword(userAttributes.email);
         expect(createdUser.locale).to.equal(locale);
         expect(response.statusCode).to.equal(201);
       });
@@ -212,141 +211,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
     });
   });
 
-  describe('GET /api/users/me', function () {
-    let options;
-    let user;
-    let expectedCode;
-
-    beforeEach(async function () {
-      user = databaseBuilder.factory.buildUser();
-      const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', code: 'SOMECODE' });
-      const assessmentCampaign = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT' });
-      expectedCode = campaign.code;
-      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign.id,
-        status: 'STARTED',
-        userId: user.id,
-      });
-      databaseBuilder.factory.buildAssessment({
-        campaignParticipationId: campaignParticipationId,
-        type: Assessment.types.CAMPAIGN,
-        userId: user.id,
-      });
-      const participation = databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: assessmentCampaign.id,
-        userId: user.id,
-      });
-      databaseBuilder.factory.buildAssessment({
-        campaignParticipationId: participation.id,
-        type: Assessment.types.CAMPAIGN,
-        userId: user.id,
-      });
-      const { id: trainingId } = databaseBuilder.factory.buildTraining();
-      databaseBuilder.factory.buildUserRecommendedTraining({ userId: user.id, trainingId, campaignParticipationId });
-
-      options = {
-        method: 'GET',
-        url: '/api/users/me',
-        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-      };
-
-      return databaseBuilder.commit();
-    });
-
-    it('returns found user with 200 HTTP status code', async function () {
-      // given
-      const expectedUserJSONApi = {
-        data: {
-          type: 'users',
-          id: user.id.toString(),
-          attributes: {
-            'first-name': user.firstName,
-            'last-name': user.lastName,
-            email: user.email.toLowerCase(),
-            'email-confirmed': false,
-            username: user.username,
-            cgu: user.cgu,
-            lang: 'fr',
-            'is-anonymous': false,
-            'last-terms-of-service-validated-at': user.lastTermsOfServiceValidatedAt,
-            'must-validate-terms-of-service': user.mustValidateTermsOfService,
-            'has-seen-assessment-instructions': user.hasSeenAssessmentInstructions,
-            'has-seen-new-dashboard-info': user.hasSeenNewDashboardInfo,
-            'has-seen-focused-challenge-tooltip': user.hasSeenFocusedChallengeTooltip,
-            'has-seen-other-challenges-tooltip': user.hasSeenOtherChallengesTooltip,
-            'has-assessment-participations': true,
-            'code-for-last-profile-to-share': expectedCode,
-            'has-recommended-trainings': true,
-            'should-see-data-protection-policy-information-banner': true,
-            'last-data-protection-policy-seen-at': null,
-            'pix-app-terms-of-service-status': 'accepted',
-            'pix-app-terms-of-service-document-path': null,
-          },
-          relationships: {
-            'account-info': {
-              links: {
-                related: '/api/users/my-account',
-              },
-            },
-            profile: {
-              links: {
-                related: `/api/users/${user.id}/profile`,
-              },
-            },
-            'is-certifiable': {
-              links: {
-                related: `/api/users/${user.id}/is-certifiable`,
-              },
-            },
-            trainings: {
-              links: {
-                related: `/api/users/${user.id}/trainings`,
-              },
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal(expectedUserJSONApi);
-    });
-  });
-
-  describe('GET /api/users/my-account', function () {
-    it('returns 200 HTTP status code', async function () {
-      // given
-      await featureToggles.set('isSelfAccountDeletionEnabled', false);
-      const user = databaseBuilder.factory.buildUser();
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject({
-        method: 'GET',
-        url: '/api/users/my-account',
-        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-      });
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal({
-        data: {
-          type: 'account-infos',
-          id: user.id.toString(),
-          attributes: {
-            'can-self-delete-account': false,
-            email: user.email,
-            username: user.username,
-            'can-add-email-connection-method': false,
-          },
-        },
-      });
-    });
-  });
-
   describe('GET /api/users/{id}/authentication-methods', function () {
     it('returns 200 HTTP status code', async function () {
       // given
@@ -385,71 +249,46 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   });
 
   describe('PATCH /api/users/{id}/password-update', function () {
-    const temporaryKey = 'good-temporary-key';
-    let options, user;
-
-    beforeEach(async function () {
-      user = databaseBuilder.factory.buildUser.withRawPassword({
-        email: 'harry.cover@truc.so',
-        rawPassword: 'Password2020',
-      });
-      await databaseBuilder.commit();
-      await _insertPasswordResetDemand(temporaryKey, user.email);
-    });
-
-    describe('Error case', function () {
-      context('when temporary key is invalid', function () {
-        it('replies with an error', async function () {
-          // given
-          options = {
-            method: 'PATCH',
-            url: `/api/users/${user.id}/password-update?temporary-key=bad-temporary-key`,
-            payload: {
-              data: {
-                id: user.id,
-                attributes: {
-                  password: 'Password2021',
-                },
-              },
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(404);
+    it('returns a 204 HTTP status code', async function () {
+      // given
+      const temporaryKey = await resetPasswordService.generateTemporaryKey();
+      const user = databaseBuilder.factory.buildUser();
+      const userId = user.id;
+      const email = user.email;
+      const initialHashedPassword = 'example-of-an-hashed-password';
+      const authenticationMethod =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId,
+          hashedPassword: initialHashedPassword,
         });
-      });
-    });
 
-    describe('Success case', function () {
-      const newPassword = 'Password2021';
+      await databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
 
-      beforeEach(function () {
-        options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}/password-update?temporary-key=${temporaryKey}`,
-          payload: {
-            data: {
-              id: user.id,
-              attributes: {
-                password: newPassword,
-              },
+      await databaseBuilder.commit();
+
+      const newPassword = 'example-of-a-new-valid-password-az-AZ-01234';
+
+      // when
+      const response = await server.inject({
+        method: 'PATCH',
+        url: `/api/users/${userId}/password-update?temporary-key=${temporaryKey}`,
+        payload: {
+          data: {
+            id: userId,
+            attributes: {
+              password: newPassword,
             },
           },
-        };
+        },
       });
 
-      context('when password is updated', function () {
-        it('replies with 204 status code', async function () {
-          // when
-          const response = await server.inject(options);
+      // then
+      expect(response.statusCode).to.equal(204);
 
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
-      });
+      const updatedAuthenticationMethod = await knex('authentication-methods')
+        .where({ id: authenticationMethod.id })
+        .first();
+      expect(updatedAuthenticationMethod.authenticationComplement.password).not.to.equal(initialHashedPassword);
     });
   });
 
@@ -690,18 +529,13 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
   describe('PATCH /api/users/{id}/has-seen-last-data-protection-policy-information', function () {
     describe('Success case', function () {
-      let clock;
       const now = new Date('2022-12-07');
 
       beforeEach(async function () {
-        clock = sinon.useFakeTimers({
+        sinon.useFakeTimers({
           now,
           toFake: ['Date'],
         });
-      });
-
-      afterEach(function () {
-        clock.restore();
       });
 
       it('returns a response with HTTP status code 200', async function () {
@@ -835,7 +669,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   describe('PUT /api/users/{id}/email/verification-code', function () {
     it('returns 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const newEmail = 'new_email@example.net';
       const locale = 'fr-fr';
@@ -873,7 +707,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     it('returns 422 if email already exists', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const locale = 'fr-fr';
       const rawPassword = 'Password123';
@@ -911,7 +745,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     it('returns 403 if requested user is not the same as authenticated user', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const locale = 'fr-fr';
       const rawPassword = 'Password123';
@@ -950,7 +784,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     it('returns 400 if password is not valid', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const locale = 'fr-fr';
       const newEmail = 'new_email@example.net';
@@ -991,7 +825,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   describe('POST /api/users/{id}/update-email', function () {
     it('returns 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const code = '999999';
       const newEmail = 'judy.new_email@example.net';
@@ -1029,7 +863,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   describe('POST /api/users/{id}/add-email-connection-method', function () {
     it('returns 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const code = '999999';
       const newEmail = 'judy.new_email@example.net';
@@ -1078,115 +912,4 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       expect(pixAuthenticationMethod.authenticationComplement.password).to.deep.equal('ABCDEF1234');
     });
   });
-
-  describe('DELETE /api/users/me', function () {
-    let userId;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
-    });
-
-    it('anonymizes the user and returns a 204 HTTP status code', async function () {
-      // given
-      const options = {
-        method: 'DELETE',
-        url: '/api/users/me',
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-
-      const user = await knex('users').select().where({ id: userId }).first();
-      expect(user.hasBeenAnonymised).to.be.true;
-    });
-  });
-
-  describe('GET /api/certification-point-of-contacts/me', function () {
-    it('returns a 200 HTTP status code', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId: 'EX123' }).id;
-      const certificationCenterMembershipId = databaseBuilder.factory.buildCertificationCenterMembership({
-        userId,
-        certificationCenterId,
-      }).id;
-      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-        certificationCenterId,
-        complementaryCertificationId: complementaryCertification.id,
-      });
-
-      await databaseBuilder.commit();
-      const options = {
-        method: 'GET',
-        url: '/api/certification-point-of-contacts/me',
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data.id).to.equal(userId.toString());
-      expect(response.result.data.attributes.lang).to.equal('fr');
-
-      expect(response.result.data.relationships).to.deep.include({
-        'certification-center-memberships': {
-          data: [
-            {
-              id: certificationCenterMembershipId.toString(),
-              type: 'certification-center-membership',
-            },
-          ],
-        },
-      });
-
-      expect(response.result.included).to.deep.have.members([
-        {
-          attributes: {
-            'external-id': 'EX123',
-            habilitations: [
-              {
-                id: complementaryCertification.id,
-                label: complementaryCertification.label,
-                key: complementaryCertification.key,
-              },
-            ],
-            'is-access-blocked-aefe': false,
-            'is-access-blocked-agri': false,
-            'is-access-blocked-college': false,
-            'is-access-blocked-lycee': false,
-            'is-related-to-managing-students-organization': false,
-            name: 'some name',
-            'pix-certif-sco-blocked-access-date-college': null,
-            'pix-certif-sco-blocked-access-date-lycee': null,
-            'related-organization-tags': [],
-            type: 'SUP',
-          },
-          id: certificationCenterId.toString(),
-          type: 'allowed-certification-center-access',
-        },
-        {
-          id: certificationCenterMembershipId.toString(),
-          type: 'certification-center-membership',
-          attributes: {
-            'certification-center-id': certificationCenterId,
-            'user-id': userId,
-            role: 'MEMBER',
-          },
-        },
-      ]);
-    });
-  });
 });
-
-function _insertPasswordResetDemand(temporaryKey, email) {
-  const resetDemandRaw = { email, temporaryKey };
-  return knex('reset-password-demands').insert(resetDemandRaw);
-}

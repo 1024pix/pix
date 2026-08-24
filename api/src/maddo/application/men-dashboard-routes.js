@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { pageQuerySchema } from '../../shared/application/pagination-query-schema.js';
+import { createPageQuerySchema } from '../../shared/application/query-schema/pagination-query-schema.js';
 import { responseObjectErrorDoc } from '../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
 import {
   getMenDashboardCertificationDataset,
@@ -16,7 +16,7 @@ const register = async function (server) {
         auth: { access: { scope: 'men-dashboard' } },
         validate: {
           query: Joi.object({
-            page: pageQuerySchema,
+            page: createPageQuerySchema({ maxSize: 1000 }),
           }),
         },
         handler: getMenDashboardCertificationDataset,
@@ -24,7 +24,7 @@ const register = async function (server) {
           'Dataset contenant les statistiques sur la certification des élèves des établissements français pour ' +
           "l'année scolaire en cours par niveau scolaire et compétence.",
         notes: [
-          'Retourne toutes les données triées par UAI sous format paginé.',
+          "Retourne toutes les données triées par académie, département, UAI de l'établissement, niveau scolaire puis compétence, sous format paginé.",
           '**Cette route nécessite le scope men-dashboard.**',
         ],
         tags: ['api', 'men-dashboard', 'maddo'],
@@ -79,7 +79,7 @@ const register = async function (server) {
         auth: { access: { scope: 'men-dashboard' } },
         validate: {
           query: Joi.object({
-            page: pageQuerySchema,
+            page: createPageQuerySchema({ maxSize: 1000 }),
           }),
         },
         handler: getMenDashboardParticipationDataset,
@@ -87,7 +87,7 @@ const register = async function (server) {
           'Dataset contenant les statistiques de participation aux campagnes de rentrée des élèves des établissements français pour ' +
           "l'année scolaire en cours par niveau scolaire et compétence.",
         notes: [
-          'Retourne toutes les données triées par UAI sous format paginé.',
+          "Retourne toutes les données triées par académie, département, UAI de l'établissement, niveau scolaire puis compétence, sous format paginé.",
           '**Cette route nécessite le scope men-dashboard.**',
         ],
         tags: ['api', 'men-dashboard', 'maddo'],

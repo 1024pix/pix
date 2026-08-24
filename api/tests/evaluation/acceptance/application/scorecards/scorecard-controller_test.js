@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent } from '../../../../tooling/learning-content-builder/build-learning-content.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | scorecard-controller', function () {
@@ -100,7 +100,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
     };
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       databaseBuilder.factory.buildUser({ id: userId });
       databaseBuilder.factory.learningContent.build(learningContent);
       await databaseBuilder.commit();
@@ -462,7 +462,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
         databaseBuilder.factory.learningContent.build(learningContentObjects);
         await databaseBuilder.commit();
 
-        server = await createServer();
+        server = await getServer();
       });
 
       describe('Resource access management', function () {
@@ -529,7 +529,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
         beforeEach(async function () {
           options.headers = generateAuthenticatedUserRequestHeaders({ userId });
 
-          Sinon.useFakeTimers({
+          sinon.useFakeTimers({
             now: new Date('2019-01-10'),
             toFake: ['Date'],
           });

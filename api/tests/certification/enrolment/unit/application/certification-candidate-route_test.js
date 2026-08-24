@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
 import { certificationCandidateRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/certification-candidate-route.js';
+import { enrolmentSecurityPreHandlers } from '../../../../../src/certification/enrolment/application/securiy-pre-handlers.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
@@ -206,7 +207,7 @@ describe('Unit | Application | Sessions | Routes', function () {
     describe('when the user is not authorized', function () {
       it('should return 403', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'checkUserIsCandidate').callsFake((request, h) =>
+        sinon.stub(enrolmentSecurityPreHandlers, 'checkUserIsCandidate').callsFake((request, h) =>
           h
             .response({ errors: new Error('forbidden') })
             .code(403)
@@ -227,7 +228,7 @@ describe('Unit | Application | Sessions | Routes', function () {
 
     it('should return 200', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserIsCandidate').returns(true);
+      sinon.stub(enrolmentSecurityPreHandlers, 'checkUserIsCandidate').returns(true);
       sinon.stub(certificationCandidateController, 'validateCertificationInstructions').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

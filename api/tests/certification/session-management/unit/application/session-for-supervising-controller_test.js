@@ -46,7 +46,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
           lastName: 'tata',
           birthdate: '1984-05-28',
           extraTimePercentage: 3,
-          authorizedToStart: true,
+          authorizedToStartAt: new Date(),
           assessmentStatus: Assessment.states.STARTED,
           startDateTime: new Date('2022-10-01T13:30:00Z'),
           theoricalEndDateTime: new Date('2022-10-01T14:30:00Z'),
@@ -81,6 +81,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
             examiner: 'Antoine Toutvenant',
             room: '28D',
             time: '14:30:00',
+            'has-expired': true,
           },
           id: '12',
           relationships: {
@@ -110,6 +111,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
               subscription: 'CLEA',
               'is-still-eligible-to-double-certification': true,
               'user-id': 6789,
+              'has-exceeded-certification-duration': true,
               'challenge-live-alert': {
                 type: 'challenge',
                 status: CertificationChallengeLiveAlertStatus.ONGOING,

@@ -6,13 +6,14 @@ import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | revoke-access-for-users', function () {
-  it('revokes access token, refresh token and reset password', async function () {
+  it('revokes access token, refresh token and password', async function () {
     // given
+    const initialHashedPassword = 'example-of-an-hashed-password';
     const userId = databaseBuilder.factory.buildUser().id;
     const authenticationMethod =
       databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId,
-        hashedPassword: 'hashed-password',
+        hashedPassword: initialHashedPassword,
       });
     const refreshToken = RefreshToken.generate({
       userId,
@@ -37,7 +38,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-a
       .where({ id: authenticationMethod.id })
       .first();
     expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal('[revoked]');
-    expect(updatedAuthenticationMethod.authenticationComplement.revokedEncryptedPassword).to.equal('hashed-password');
+    expect(updatedAuthenticationMethod.authenticationComplement.revokedHashedPassword).to.equal(initialHashedPassword);
   });
 
   context('when a user does not have a Pix Authentication method and refresh token', function () {

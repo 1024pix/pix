@@ -14,6 +14,7 @@ import Header from 'pix-certif/components/session-supervising/header';
       @toggleCandidate={{@controller.toggleCandidate}}
       @candidates={{@model.certificationCandidates}}
       @sessionId={{@model.id}}
+      @hasSessionExpired={{@model.hasExpired}}
     />
   </div>
 </template>

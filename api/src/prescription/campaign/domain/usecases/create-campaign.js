@@ -3,7 +3,7 @@ import { UserNotAuthorizedToCreateCampaignError } from '../errors.js';
 
 export const createCampaign = withTransaction(async function ({
   campaign,
-  userRepository,
+  membershipRepository,
   campaignAdministrationRepository,
   accessCodeRepository,
   campaignCreatorRepository,
@@ -14,8 +14,8 @@ export const createCampaign = withTransaction(async function ({
   const ownerId = campaign.ownerId;
   const organizationId = campaign.organizationId;
 
-  await _checkUserIsAMemberOfOrganization({ userRepository, organizationId, userId });
-  await _checkUserIsAMemberOfOrganization({ userRepository, organizationId, userId: ownerId });
+  await _checkUserIsAMemberOfOrganization({ membershipRepository, organizationId, userId });
+  await _checkUserIsAMemberOfOrganization({ membershipRepository, organizationId, userId: ownerId });
 
   const generatedCampaignCode = await accessCodeGenerator.generateAvailableAccessCode((code) =>
     accessCodeRepository.isCodeAvailable({ code }),
@@ -33,10 +33,11 @@ export const createCampaign = withTransaction(async function ({
   return campaignAdministrationRepository.save(campaignForCreation);
 });
 
-async function _checkUserIsAMemberOfOrganization({ userRepository, organizationId, userId }) {
-  const userWithMemberships = await userRepository.getWithMemberships(userId);
+async function _checkUserIsAMemberOfOrganization({ membershipRepository, organizationId, userId }) {
+  const memberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId });
+  const isMember = memberships.length > 0;
 
-  if (!userWithMemberships.hasAccessToOrganization(organizationId)) {
+  if (!isMember) {
     throw new UserNotAuthorizedToCreateCampaignError(
       `User does not have an access to the organization ${organizationId}`,
     );

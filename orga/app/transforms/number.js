@@ -1,1 +1,1 @@
-export { NumberTransform as default } from '@ember-data/serializer/transform';
+export { NumberTransform as default } from '@warp-drive/legacy/serializer/transform';

@@ -3,12 +3,12 @@ import * as url from 'node:url';
 
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { mailCheck } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -22,7 +22,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
 
   describe('PUT /api/sessions/{sessionId}/enrol-students-to-session', function () {
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       userId = databaseBuilder.factory.buildUser().id;
       options = {
         method: 'POST',
@@ -86,6 +86,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({
           type: 'SCO',
           externalId,
+          isManagingStudents: true,
         });
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         country = databaseBuilder.factory.buildCertificationCpfCountry({
@@ -197,7 +198,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
   describe('GET /api/sessions/{sessionId}/candidates-import-sheet', function () {
     it('should respond with a 200 when session can be found', async function () {
       // given
-      server = await createServer();
+      server = await getServer();
       const user = databaseBuilder.factory.buildUser();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId: user.id, certificationCenterId });
@@ -232,7 +233,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
     let user, sessionIdAllowed;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       resolveMx = sinon.stub();
       resolveMx.resolves();
       mailCheck.setResolveMx(resolveMx);
@@ -377,15 +378,14 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
       });
     });
 
-    context('when at least one candidate is already linked to a user', function () {
+    context('when at least one candidate started the test', function () {
       it('should respond with a 403 when user cant import the candidates', async function () {
         // given
         const odsFileName = 'files/1.5/import-certification-candidates-reports-categorization-test-ok.ods';
         const odsFilePath = `${__dirname}/${odsFileName}`;
         const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
-        const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
+        databaseBuilder.factory.buildCertificationCourse({ sessionId: sessionIdAllowed });
         await databaseBuilder.commit();
 
         // when

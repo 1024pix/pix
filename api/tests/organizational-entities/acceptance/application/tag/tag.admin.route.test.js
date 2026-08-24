@@ -1,15 +1,15 @@
 import _ from 'lodash';
 
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Organizational Entities | Application | Route | Admin | Tag', function () {
   describe('GET /api/admin/tags', function () {
     it('returns a list of tags with 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const tag1 = databaseBuilder.factory.buildTag({ name: 'TAG1' });
       const tag2 = databaseBuilder.factory.buildTag({ name: 'TAG2' });
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
@@ -48,7 +48,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | T
 
     it('returns 403 HTTP status code when the user authenticated is not SuperAdmin', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 
@@ -71,7 +71,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | T
       it('returns the created tag with 201 HTTP status code', async function () {
         // given
         const tagName = 'SUPER TAG';
-        const server = await createServer();
+        const server = await getServer();
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
         await databaseBuilder.commit();
 
@@ -100,7 +100,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | T
     context('when authenticated user is not SuperAdmin', function () {
       it('return 403 HTTP status code', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
 
@@ -131,7 +131,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | T
     context('when an admin member with a role "SUPER_ADMIN" tries to access this resource', function () {
       it('returns a list of recently used tags with a 200 HTTP status code', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
 
         const basedTag = databaseBuilder.factory.buildTag({ name: 'konoha' });
         const mostUsedTag = databaseBuilder.factory.buildTag({ name: 'kumo' });
@@ -166,7 +166,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | T
     context('when an admin member with a role "CERTIF" tries to access this resource', function () {
       it('returns an error with a 403 HTTP status code', async function () {
         // given
-        const server = await createServer();
+        const server = await getServer();
 
         const basedTag = databaseBuilder.factory.buildTag({ name: 'konoha' });
         const mostUsedTag = databaseBuilder.factory.buildTag({ name: 'kumo' });

@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 
+import { campaignParticipationPreHandlers } from '../../../../src/prescription/campaign-participation/application/pre-handlers.js';
 import { questController } from '../../../../src/quest/application/quest-controller.js';
 import { questRoute as moduleUnderTest } from '../../../../src/quest/application/quest-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
@@ -10,7 +11,7 @@ describe('Quest | Unit | Router | quest-router', function () {
   describe('GET /api/campaign-participations/{campaignParticipationId}/quest-results', function () {
     it('should call checkCampaignParticipationBelongsToUser prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkCampaignParticipationBelongsToUser').returns(() => true);
+      sinon.stub(campaignParticipationPreHandlers, 'checkCampaignParticipationBelongsToUser').returns(() => true);
       sinon.stub(questController, 'getQuestResults').callsFake((request, h) => h.response());
 
       const httpTestServer = new HttpTestServer();
@@ -22,7 +23,7 @@ describe('Quest | Unit | Router | quest-router', function () {
       await httpTestServer.request('GET', `/api/campaign-participations/${campaignParticipationId}/quest-results`);
 
       // then
-      expect(securityPreHandlers.checkCampaignParticipationBelongsToUser).to.have.been.called;
+      expect(campaignParticipationPreHandlers.checkCampaignParticipationBelongsToUser).to.have.been.called;
     });
   });
 

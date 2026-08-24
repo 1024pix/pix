@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Team | Application | Routes | certification-center-membership ', function () {
@@ -11,7 +11,7 @@ describe('Acceptance | Team | Application | Routes | certification-center-member
   describe('GET /api/certification-centers/{certificationCenterId}/members', function () {
     it('returns 200 http status code', async function () {
       // given
-      server = await createServer();
+      server = await getServer();
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       const certificationCenterMember = databaseBuilder.factory.buildUser();
       const user2 = databaseBuilder.factory.buildUser();
@@ -45,7 +45,7 @@ describe('Acceptance | Team | Application | Routes | certification-center-member
     context('Success cases', function () {
       it('returns a 200 HTTP status code with the updated certification center membership', async function () {
         // given
-        server = await createServer();
+        server = await getServer();
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
         const user = databaseBuilder.factory.buildUser();
         const certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
@@ -224,7 +224,7 @@ describe('Acceptance | Team | Application | Routes | certification-center-member
   describe('POST /api/certif/certification-centers/{certificationCenterId}/update-referer', function () {
     it('should return 204 HTTP status', async function () {
       // given
-      server = await createServer();
+      server = await getServer();
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterMemberId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -282,7 +282,7 @@ describe('Acceptance | Team | Application | Routes | certification-center-member
 
     context('when parameters are valid', function () {
       it('returns a 204 HTTP status code', async function () {
-        server = await createServer();
+        server = await getServer();
 
         const pixCertifAdminUser = databaseBuilder.factory.buildUser.withCertificationCenterMembership({
           role: 'ADMIN',
@@ -336,7 +336,7 @@ describe('Acceptance | Team | Application | Routes | certification-center-member
     context('When user is member of the certification center', function () {
       it('updates user certification center membership lastAccessedAt', async function () {
         // given
-        server = await createServer();
+        server = await getServer();
 
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
 

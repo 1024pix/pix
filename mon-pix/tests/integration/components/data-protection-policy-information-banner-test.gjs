@@ -13,10 +13,6 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 module('Integration | Component | data-protection-policy-information-banner', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('when user is not logged in', function () {
     test('does not display the data protection policy banner', async function (assert) {
       // given

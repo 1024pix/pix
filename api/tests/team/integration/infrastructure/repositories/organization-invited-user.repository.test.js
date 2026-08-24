@@ -187,15 +187,10 @@ describe('Integration | Team | Infrastructure | Repository | OrganizationInvited
 
   describe('#save', function () {
     describe('when membership exists', function () {
-      let clock;
       const now = new Date('2021-05-27');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       it('updates membership role if invitation contains a new role', async function () {
@@ -329,15 +324,10 @@ describe('Integration | Team | Infrastructure | Repository | OrganizationInvited
     });
 
     describe('when membership does not exist', function () {
-      let clock;
       const now = new Date('2021-05-27');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       it('creates membership', async function () {

@@ -1,12 +1,20 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { WrongDomainExtensionForPixPlusError } from '../../../../../../src/certification/enrolment/domain/errors.js';
+import { SessionExpiredError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/domain/usecases/register-candidate-participation.js';
+import { CenterHabilitationError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
+import { NotFoundError, UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
+import {
+  CertificationCandidateByPersonalInfoNotFoundError,
+  CertificationCandidateByPersonalInfoTooManyMatchesError,
+  MatchingReconciledStudentNotFoundError,
+  UnexpectedUserAccountError,
+  UserAlreadyLinkedToCandidateInSessionError,
+} from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Usecase | register-candidate-participation', function () {
   let normalizeStringFnc,
@@ -14,40 +22,42 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     centerRepository,
     sessionRepository,
     userRepository,
-    verifyCandidateIdentityService,
-    reconcileCandidateService,
     placementProfileService,
     eventAdapter,
+    sessionAuthorizationAdapter,
     dependencies;
-
-  const candidateData = {
-    firstName: 'Brice',
-    lastName: 'Wine',
-    birthdate: new Date(),
-  };
   const sessionId = 456;
 
   beforeEach(function () {
-    normalizeStringFnc = sinon.stub();
-    candidateRepository = Symbol('candidateRepository');
-    centerRepository = Symbol('centerRepository');
-    sessionRepository = Symbol('sessionRepository');
-    userRepository = Symbol('userRepository');
-    eventAdapter = Symbol('eventAdapter');
+    sinon.useFakeTimers({ now: new Date('2026-04-05T03:04:05Z'), toFake: ['Date'] });
+    sessionAuthorizationAdapter = {
+      find: sinon.stub(),
+    };
+
+    normalizeStringFnc = (str) => str;
+
+    eventAdapter = {
+      onCandidateReconciled: sinon.stub(),
+    };
+    userRepository = {
+      get: sinon.stub(),
+    };
+
+    centerRepository = {
+      getById: sinon.stub(),
+    };
+
+    candidateRepository = {
+      update: sinon.stub(),
+    };
+
+    sessionRepository = {
+      get: sinon.stub(),
+    };
+
     placementProfileService = {
       getPlacementProfile: sinon.stub(),
     };
-    reconcileCandidateService = {
-      reconcileCandidate: sinon.stub(),
-    };
-    verifyCandidateIdentityService = {
-      verifyCandidateIdentity: sinon.stub(),
-    };
-
-    preventStubsToBeCalledUnexpectedly([
-      reconcileCandidateService.reconcileCandidate,
-      verifyCandidateIdentityService.verifyCandidateIdentity,
-    ]);
 
     dependencies = {
       normalizeStringFnc,
@@ -55,161 +65,506 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
       centerRepository,
       sessionRepository,
       userRepository,
-      verifyCandidateIdentityService,
-      reconcileCandidateService,
       placementProfileService,
       eventAdapter,
+      sessionAuthorizationAdapter,
     };
   });
 
-  context('when reconciliation is ok', function () {
-    context('when the candidate is already link to a user', function () {
-      it('should not link the candidate to the given user', async function () {
-        // given
-        const userId = domainBuilder.buildUser().id;
-        const alreadyLinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-          sessionId,
-          userId,
-          reconciledAt: new Date('2024-09-25'),
-        });
-        verifyCandidateIdentityService.verifyCandidateIdentity.resolves(alreadyLinkedCandidate);
+  it('throws NotFoundError when the session does not exist', async function () {
+    const userId = 123;
+    const sessionId = 456;
 
-        // when
-        await registerCandidateParticipation({
-          ...candidateData,
-          userId,
-          sessionId,
-          isFrenchDomainExtension: true,
-          ...dependencies,
-        });
+    sessionAuthorizationAdapter.find.resolves(null);
 
-        // then
-        sinon.assert.calledOnceWithExactly(verifyCandidateIdentityService.verifyCandidateIdentity, {
-          ...candidateData,
-          sessionId,
-          userId,
-          normalizeStringFnc,
-          candidateRepository,
-          centerRepository,
-          sessionRepository,
-          userRepository,
-        });
-      });
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Tony',
+      lastName: 'Stark',
+      birthdate: '1994-07-18',
+      userId,
+      sessionId,
+      ...dependencies,
     });
 
-    context('when the candidate has a complementary subscription and is on wrong domain', function () {
-      it('should throw WrongDomainExtensionForPixPlusError', async function () {
-        // given
-        const userId = domainBuilder.buildUser().id;
-        const candidateWithComplementary = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-          sessionId,
-          subscription: Frameworks.DROIT,
-        });
-        verifyCandidateIdentityService.verifyCandidateIdentity.resolves(candidateWithComplementary);
+    expect(error).to.be.instanceOf(NotFoundError);
+  });
 
-        // when
-        const error = await catchErr(registerCandidateParticipation)({
-          ...candidateData,
-          userId,
-          sessionId,
-          isFrenchDomainExtension: false,
-          ...dependencies,
-        });
+  it('throws NotFoundError when the session is joinable but could not be loaded', async function () {
+    const userId = 123;
 
-        // then
-        expect(error).to.be.instanceOf(WrongDomainExtensionForPixPlusError);
-      });
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+    sessionRepository.get.resolves(null);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Tony',
+      lastName: 'Stark',
+      birthdate: '1994-07-18',
+      userId,
+      sessionId,
+      ...dependencies,
     });
 
-    context('when the candidate is not yet linked to a user', function () {
-      let unlinkedCandidate;
-      let userId;
-      let clock;
-      const now = new Date('2023-02-02');
+    expect(error).to.be.instanceOf(NotFoundError);
+  });
 
-      beforeEach(function () {
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-        userId = domainBuilder.buildUser().id;
-        unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateData,
-        });
-      });
+  it('throws SessionExpiredError when session has expired', async function () {
+    const userId = 123;
+    const sessionId = 456;
 
-      afterEach(function () {
-        clock.restore();
-      });
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId, hasExpired: true, hasStarted: true, isFinalized: false })
+      .build();
 
-      context('when the candidate is not certifiable', function () {
-        it('throws UserNotAuthorizedToCertifyError', async function () {
-          // given
-          unlinkedCandidate.reconcile();
-          verifyCandidateIdentityService.verifyCandidateIdentity.resolves(unlinkedCandidate);
-          placementProfileService.getPlacementProfile.resolves({
-            isCertifiable: () => false,
-          });
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
 
-          // when
-          const err = await catchErr(registerCandidateParticipation)({
-            ...candidateData,
-            sessionId,
-            userId,
-            isFrenchDomainExtension: true,
-            ...dependencies,
-          });
-
-          // then
-          expect(err).to.be.instanceOf(UserNotAuthorizedToCertifyError);
-          sinon.assert.calledOnceWith(verifyCandidateIdentityService.verifyCandidateIdentity, {
-            ...candidateData,
-            userId,
-            sessionId,
-            normalizeStringFnc,
-            candidateRepository,
-            centerRepository,
-            sessionRepository,
-            userRepository,
-          });
-        });
-      });
-
-      it('verifies candidate subscriptions and reconcile candidate', async function () {
-        // given
-        unlinkedCandidate.reconcile();
-        verifyCandidateIdentityService.verifyCandidateIdentity.resolves(unlinkedCandidate);
-        reconcileCandidateService.reconcileCandidate.resolves(unlinkedCandidate);
-        placementProfileService.getPlacementProfile.resolves({
-          isCertifiable: () => true,
-        });
-
-        // when
-        await registerCandidateParticipation({
-          ...candidateData,
-          sessionId,
-          userId,
-          isFrenchDomainExtension: true,
-          ...dependencies,
-        });
-
-        // then
-        sinon.assert.calledOnceWith(verifyCandidateIdentityService.verifyCandidateIdentity, {
-          ...candidateData,
-          userId,
-          sessionId,
-          normalizeStringFnc,
-          candidateRepository,
-          centerRepository,
-          sessionRepository,
-          userRepository,
-        });
-        sinon.assert.calledOnceWith(reconcileCandidateService.reconcileCandidate, {
-          candidate: unlinkedCandidate,
-          userId,
-          candidateRepository,
-          eventAdapter,
-        });
-      });
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Tony',
+      lastName: 'Stark',
+      birthdate: '1994-07-18',
+      userId,
+      sessionId,
+      ...dependencies,
     });
+
+    expect(error).to.be.instanceOf(SessionExpiredError);
+  });
+
+  it('throws UnexpectedUserAccountError when the matching candidate is already reconciled to an other user', async function () {
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const matchingCandidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .asReconciled({
+        userId: 456,
+      })
+      .withIdentity({
+        firstName: 'Brice',
+        lastName: 'Wine',
+        birthdate: '2000-03-23',
+      })
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([matchingCandidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Brice',
+      lastName: 'Wine',
+      birthdate: '2000-03-23',
+      userId: 123,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(UnexpectedUserAccountError);
+    expect(error.code).to.equal('UNEXPECTED_USER_ACCOUNT');
+    expect(candidateRepository.update).to.not.have.been.called;
+  });
+
+  it('throws UserAlreadyLinkedToCandidateInSessionError when given user is already reconciled to an other candidate of the session', async function () {
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const matchingCandidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName: 'Brice',
+        lastName: 'Wine',
+        birthdate: '2000-03-23',
+      })
+      .withParameters({
+        sessionId,
+      });
+    const candidateAlreadyReconciledToUserBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .asReconciled({
+        userId: 123,
+      })
+      .withIdentity({
+        firstName: 'Tony',
+        lastName: 'Stark',
+        birthdate: '1994-07-18',
+      })
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([matchingCandidateBuilder, candidateAlreadyReconciledToUserBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Brice',
+      lastName: 'Wine',
+      birthdate: '2000-03-23',
+      userId: 123,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(UserAlreadyLinkedToCandidateInSessionError);
+    expect(error.code).to.equal('USER_ALREADY_LINKED_TO_CANDIDATE_IN_SESSION');
+    expect(candidateRepository.update).to.not.have.been.called;
+  });
+
+  it('throws CertificationCandidateByPersonalInfoNotFoundError when given user personnal infos not matching', async function () {
+    const userId = domainBuilder.certification.enrolment.buildUser().id;
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const candidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName: 'Brice',
+        lastName: 'Wine',
+        birthdate: '2000-03-23',
+      })
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([candidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Carole',
+      lastName: 'Pasdebol',
+      birthdate: '1996-05-14',
+      userId,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(CertificationCandidateByPersonalInfoNotFoundError);
+  });
+
+  it('throws CertificationCandidateByPersonalInfoTooManyMatchesError when given user personnal infos matching more than one user', async function () {
+    const userId = domainBuilder.certification.enrolment.buildUser().id;
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const candidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName: 'Brice',
+        lastName: 'Wine',
+        birthdate: '2000-03-23',
+      })
+      .withParameters({
+        sessionId,
+      });
+    const otherCandidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName: 'Brice',
+        lastName: 'Wine',
+        birthdate: '2000-03-23',
+      })
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([candidateBuilder, otherCandidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName: 'Brice',
+      lastName: 'Wine',
+      birthdate: '2000-03-23',
+      userId,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(CertificationCandidateByPersonalInfoTooManyMatchesError);
+  });
+
+  it('returns candidate if match with user identity and already reconciled', async function () {
+    const firstName = 'Brice';
+    const lastName = 'Wine';
+    const birthdate = '2000-03-23';
+    const userId = domainBuilder.certification.enrolment.buildUser().id;
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const alreadyLinkedCandidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .asReconciled({
+        userId,
+        reconciledAt: new Date('2024-09-25'),
+      })
+      .withIdentity({
+        firstName,
+        lastName,
+        birthdate,
+      })
+      .withParameters({
+        sessionId,
+      });
+    const otherCandidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName: 'Gary',
+        lastName: 'Bidule',
+        birthdate: '2000-03-23',
+      })
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([alreadyLinkedCandidateBuilder, otherCandidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+
+    // when
+    const reconciledCandidate = await registerCandidateParticipation({
+      firstName,
+      birthdate,
+      lastName,
+      userId,
+      sessionId,
+      ...dependencies,
+    });
+
+    // then
+    expect(reconciledCandidate).to.deep.equal(alreadyLinkedCandidateBuilder.build());
+  });
+
+  it('throws CenterHabilitationError when candidate subscribe to a pixplus certif and center is not habilited for it', async function () {
+    const firstName = 'Brice';
+    const lastName = 'Wine';
+    const birthdate = '2000-03-23';
+    const userId = domainBuilder.certification.enrolment.buildUser().id;
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const candidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName,
+        lastName,
+        birthdate,
+      })
+      .withSubscription(Frameworks.DROIT)
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([candidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+    const certificationCenter = domainBuilder.certification.enrolment.buildCenter({ habilitations: [] });
+    centerRepository.getById.resolves(certificationCenter);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName,
+      birthdate,
+      lastName,
+      userId,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(CenterHabilitationError);
+  });
+
+  it('throws MatchingReconciledStudentNotFoundError when center is managing student and candidate orgaLearnerId doesnt match user orgaLearnerIds', async function () {
+    const firstName = 'Brice';
+    const lastName = 'Wine';
+    const birthdate = '2000-03-23';
+    const user = domainBuilder.certification.enrolment.buildUser({ organizationLearnerId: [35] });
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const candidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName,
+        lastName,
+        birthdate,
+      })
+      .withSubscription(Frameworks.CORE)
+      .asScoCandidate({ organizationLearnerId: 12 })
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([candidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+    const organization = domainBuilder.buildOrganization({ isManagingStudents: true });
+    const certificationCenter = domainBuilder.certification.enrolment.buildCenter({
+      matchingOrganization: organization,
+    });
+    centerRepository.getById.resolves(certificationCenter);
+    userRepository.get.resolves(user);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName,
+      birthdate,
+      lastName,
+      userId: user.id,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(MatchingReconciledStudentNotFoundError);
+  });
+
+  it('throws UserNotAuthorizedToCertifyError if user is not certifiable', async function () {
+    const firstName = 'Brice';
+    const lastName = 'Wine';
+    const birthdate = '2000-03-23';
+    const user = domainBuilder.certification.enrolment.buildUser();
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const candidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName,
+        lastName,
+        birthdate,
+      })
+      .withSubscription(Frameworks.CORE)
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([candidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+    const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
+    const certificationCenter = domainBuilder.certification.enrolment.buildCenter({
+      habilitations: [{ key: Frameworks.CORE }],
+      matchingOrganization: organization,
+    });
+    const placementProfile = domainBuilder.buildPlacementProfile({ userId: user.id });
+    centerRepository.getById.resolves(certificationCenter);
+    userRepository.get.resolves(user);
+    placementProfileService.getPlacementProfile.resolves(placementProfile);
+
+    const error = await catchErr(registerCandidateParticipation)({
+      firstName,
+      birthdate,
+      lastName,
+      userId: user.id,
+      sessionId,
+      ...dependencies,
+    });
+
+    expect(error).to.be.instanceOf(UserNotAuthorizedToCertifyError);
+  });
+
+  it('returns reconciled candidate after update it and send event about reconciliation', async function () {
+    const firstName = 'Brice';
+    const lastName = 'Wine';
+    const birthdate = '2000-03-23';
+    const user = domainBuilder.certification.enrolment.buildUser();
+
+    const sessionAuthorization = domainBuilder.certification.enrolment
+      .sessionAuthorizationBuilder()
+      .withParameters({ id: sessionId })
+      .build();
+    sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
+
+    const candidateBuilder = domainBuilder.certification.enrolment
+      .candidateBuilder()
+      .withIdentity({
+        firstName,
+        lastName,
+        birthdate,
+      })
+      .withSubscription(Frameworks.CORE)
+      .withParameters({
+        sessionId,
+      });
+    const session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .withParameters({ id: sessionId })
+      .addCandidatesBuilders([candidateBuilder])
+      .build();
+    sessionRepository.get.resolves(session);
+    const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
+    const certificationCenter = domainBuilder.certification.enrolment.buildCenter({
+      habilitations: [{ key: Frameworks.CORE }],
+      matchingOrganization: organization,
+    });
+    const placementProfile = domainBuilder.buildPlacementProfile.buildCertifiable({ userId: user.id });
+    centerRepository.getById.resolves(certificationCenter);
+    userRepository.get.resolves(user);
+    placementProfileService.getPlacementProfile.resolves(placementProfile);
+
+    const reconciledCandidate = await registerCandidateParticipation({
+      firstName,
+      birthdate,
+      lastName,
+      userId: user.id,
+      sessionId,
+      ...dependencies,
+    });
+
+    sinon.assert.calledOnceWithExactly(candidateRepository.update, reconciledCandidate);
+    sinon.assert.calledOnceWithExactly(eventAdapter.onCandidateReconciled, {
+      candidate: reconciledCandidate,
+    });
+    expect(reconciledCandidate).to.deep.equal(
+      candidateBuilder.asReconciled({ at: new Date(), userId: user.id }).build(),
+    );
   });
 });

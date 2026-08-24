@@ -2,11 +2,7 @@ import Location from 'pix-admin/utils/location';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Utility | location', function (hooks) {
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
+module('Unit | Utility | location', function () {
   module('#getHref', function () {
     test('should return the full URL', function (assert) {
       // given

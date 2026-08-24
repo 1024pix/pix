@@ -10,61 +10,49 @@
   min-height: auto;
   max-height: 42.5rem;
   margin: 0 auto;
+  overflow: hidden;
   background-color: var(--pix-orga-50);
   border-radius: var(--pix-spacing-4x);
   margin-block: auto;
 
-  &__course-content {
-    display:flex;
+  &__course-content__wrapper {
+    position: relative;
     flex: 1;
-    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
-    overflow-y: scroll;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      -webkit-appearance: none;
-    }
+    height: 100%;
   }
 
-  &__competence {
-    padding-bottom: var(--pix-spacing-2x);
+  $content-header-height: 4.5rem;
 
-    & > h2 {
-      @extend %pix-title-xxs;
+  &__course-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    height: 100%;
+    padding: var(--pix-spacing-4x);
+    padding-top: $content-header-height;
+    padding-left: var(--pix-spacing-6x);
+    overflow-y: scroll;
 
-      margin-top: var(--pix-spacing-2x);
-      margin-bottom: var(--pix-spacing-2x);
-    }
+    $scrollbar-width: 0.5rem;
 
-    &__description {
-      &__column {
-        width: 75%;
-      }
+    &__title {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: var(--pix-spacing-4x);
+      padding-right: var(--pix-spacing-6x);
+      padding-left: var(--pix-spacing-6x);
+      background-color: var(--pix-orga-50);
 
-      &__title {
-        display: block;
-        margin-bottom: var(--pix-spacing-2x);
-        font-weight: var(--pix-font-bold);
-      }
-
-      &__text {
-        display: block;
-      }
-    }
-
-    &__level {
-      &__column {
-        width: 25%;
-
-        & .pix-table-header-container {
-          justify-content: center;
-        }
-      }
-
-      &__data {
-        display: block;
-        width: 100%;
-        text-align: center;
+      &__exit {
+        align-self: flex-end;
+        text-decoration: none;
       }
     }
   }
@@ -73,93 +61,53 @@
     @extend %pix-shadow-orga;
 
     position: relative;
+    z-index: 100;
     display: flex;
     flex-basis: 24rem;
     flex-direction: column;
     flex-grow: 0;
     flex-shrink: 0;
+    align-items: stretch;
     justify-content: center;
-    padding-top: var(--pix-spacing-10x);
-    padding-right: var(--pix-spacing-8x);
-    padding-bottom: 4.5rem;
-    padding-left: var(--pix-spacing-8x);
+    padding: var(--pix-spacing-6x);
     background-color: var(--pix-neutral-0);
     border-radius: var(--pix-spacing-4x);
-    border-top-left-radius: var(--pix-spacing-10x);
-    border-bottom-left-radius: var(--pix-spacing-10x);
+    border-top-right-radius: var(--pix-spacing-5x);
+    border-bottom-right-radius: var(--pix-spacing-5x);
   }
 
-  &__header {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 10;
-    padding-top: var(--pix-spacing-6x);
-    padding-right: var(--pix-spacing-8x);
-
-    &__exit {
-      align-self: flex-end;
-      text-decoration: none;
-    }
-  }
-
-  &__body {
-    position: relative;
-    z-index: 1;
+  &__heading {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
     gap: var(--pix-spacing-2x);
     align-items: flex-start;
+    justify-content: flex-end;
+    padding-bottom: var(--pix-spacing-4x);
 
     &__name {
       @extend %pix-title-xs;
     }
+  }
 
+  &__body {
     &__description {
-      @extend %pix-body-m;
+      @extend %pix-body-s;
 
       a {
         color: var(--pix-orga-500);
         text-decoration: underline;
       }
     }
-
-    &__badges-title {
-      @extend %pix-title-xxs;
-
-      margin-top: var(--pix-spacing-4x);
-    }
-
-    &__badges {
-      display: flex;
-      flex-wrap: wrap;
-      width: 100%;
-
-      .pix-tooltip {
-        flex: 0 0 2.25rem;
-
-        img {
-          width: calc(100% + 0.75rem);
-          height: auto;
-        }
-      }
-    }
-
-    &__form-link {
-      align-self: center;
-      margin-top: var(--pix-spacing-6x);
-    }
   }
 
   &__footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
-    width: 100%;
-    padding-right: var(--pix-spacing-8x);
-    padding-bottom: var(--pix-spacing-8x);
-    padding-left: var(--pix-spacing-8x);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: center;
 
     &__text {
       @extend %pix-body-s;
@@ -167,36 +115,130 @@
       text-align: center;
     }
   }
+
+  &__form-link {
+    align-self: center;
+    margin-top: var(--pix-spacing-4x);
+    margin-bottom: auto;
+  }
+
+  &__badges {
+    width: 100%;
+
+    &__title {
+      @extend %pix-title-xxs;
+
+      margin-top: var(--pix-spacing-4x);
+    }
+
+    &__container {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: var(--pix-spacing-2x);
+    }
+
+    .pix-tooltip {
+      flex: 0 0 2.25rem;
+
+      img {
+        width: calc(100% + 0.75rem);
+        height: auto;
+      }
+    }
+  }
 }
 
-.combined-course-blueprint-detail {
+// TODO move these properties to stay consistent in the css file
+.target-profile-content {
+  padding-bottom: var(--pix-spacing-6x);
+}
+
+.target-profile-competence {
+  padding-bottom: var(--pix-spacing-2x);
+
+  &__title {
+    margin-top: var(--pix-spacing-2x);
+    margin-bottom: var(--pix-spacing-2x);
+
+    p {
+      @extend %pix-body-s;
+    }
+
+    h2 {
+      @extend %pix-title-xxs;
+    }
+  }
+
+  &:last-child {
+    padding-bottom: var(--pix-spacing-6x);
+  }
+
+  &__title {
+    margin-top: var(--pix-spacing-2x);
+    margin-bottom: var(--pix-spacing-2x);
+  }
+
+  &__description {
+    &__column {
+      width: 75%;
+    }
+
+    &__title {
+      display: block;
+      margin-bottom: var(--pix-spacing-2x);
+      font-weight: var(--pix-font-bold);
+    }
+
+    &__text {
+      display: block;
+    }
+  }
+
+  &__level {
+    &__column {
+      width: 25%;
+
+      & .pix-table-header-container {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    &__data {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+
+.combined-course-blueprint-content {
   display: flex;
   flex-direction: column;
   gap: var(--pix-spacing-8x);
   margin-top: auto;
   margin-bottom: auto;
+  padding-top: var(--pix-spacing-4x);
+}
 
-  &__info {
+.combined-course-blueprint-step {
+  &__title {
+    margin-bottom: var(--pix-spacing-4x);
+  }
+
+  &__description {
     color: var(--pix-neutral-500);
   }
 
-  &__steps {
-    display:flex;
+  &__items {
+    display: flex;
     flex-direction: column;
     gap: var(--pix-spacing-4x);
   }
 }
 
-.combined-course-blueprint-step {
-  margin-bottom: var(--pix-spacing-4x);
-
-  &__description {
-    color: var(--pix-neutral-500);
-  }
-}
-
 .combined-course-blueprint-item {
-  display:flex;
+  display: flex;
   gap: var(--pix-spacing-4x);
   align-items: center;
   padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
@@ -205,9 +247,9 @@
     display: flex;
 
     img {
-    width: auto;
-    min-width: var(--pix-spacing-8x);
-    height: 42px;
+      width: auto;
+      min-width: var(--pix-spacing-8x);
+      height: 42px;
     }
 
     svg {
@@ -223,13 +265,13 @@
   }
 
   &__description {
-    display:flex;
+    display: flex;
     gap: var(--pix-spacing-4x);
     color: var(--pix-neutral-500);
   }
 
   &-duration {
-    display:flex;
+    display: flex;
     align-items: center;
 
     &__icon {

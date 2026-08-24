@@ -7,7 +7,7 @@ export async function findOrganizationIdsByClientApplication({
 }) {
   const jurisdiction = await clientApplicationRepository.getJurisdiction(clientId);
 
-  const tagsRules = jurisdiction.rules.filter((rule) => rule.name === 'tags');
+  const tagsRules = jurisdiction?.rules?.filter((rule) => rule.name === 'tags') ?? [];
 
   const rulesOrganizationIds = await PromiseUtils.mapSeries(tagsRules, (rule) =>
     organizationRepository.findIdsByTagNames(rule.value),

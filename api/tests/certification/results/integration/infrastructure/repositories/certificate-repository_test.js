@@ -1376,11 +1376,19 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           certificationAttestationDataRejected,
           AssessmentResult.status.REJECTED,
         );
-        databaseBuilder.factory.buildCertificationCandidate({
-          userId: 456,
-          sessionId: certificationAttestationDataRejected.sessionId,
-          organizationLearnerId: 55,
-        });
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId: 456,
+            doNotPersistUser: true,
+          })
+          .asScoCandidate({
+            organizationLearnerId: 55,
+          })
+          .withParameters({
+            sessionId: certificationAttestationDataRejected.sessionId,
+          })
+          .insertToDB({ databaseBuilder });
 
         await databaseBuilder.commit();
 
@@ -2864,11 +2872,21 @@ function _linkCertificationAttestationToOrganization({
       division,
       isDisabled,
     }).id;
-  databaseBuilder.factory.buildCertificationCandidate({
-    userId: certificationAttestationData.userId,
-    sessionId: certificationAttestationData.sessionId,
-    organizationLearnerId: srId,
-  });
+  domainBuilder.certification.enrolment
+    .candidateBuilder()
+    .asReconciled({
+      userId: certificationAttestationData.userId,
+      doNotPersistUser: true,
+    })
+    .asScoCandidate({
+      organizationLearnerId: srId,
+    })
+    .withParameters({
+      sessionId: certificationAttestationData.sessionId,
+    })
+    .insertToDB({
+      databaseBuilder,
+    });
 }
 
 async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({

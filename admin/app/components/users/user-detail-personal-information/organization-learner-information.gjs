@@ -9,6 +9,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
+import { learnerDetailsMetabaseLink } from 'pix-admin/components/organization-learners/list-table';
 
 export default class OrganizationLearnerInformation extends Component {
   @service accessControl;
@@ -25,6 +26,23 @@ export default class OrganizationLearnerInformation extends Component {
         @data={{@user.organizationLearners}}
       >
         <:columns as |organizationLearner context|>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              {{t "common.fields.id"}}
+            </:header>
+            <:cell>
+              <a href={{learnerDetailsMetabaseLink organizationLearner.id}} target="_blank" rel="noreferrer noopener">
+                <span
+                  aria-label={{t
+                    "components.organization-learners.list-table.view-learner"
+                    learner=organizationLearner.fullName
+                  }}
+                >
+                  {{organizationLearner.id}}
+                </span>
+              </a>
+            </:cell>
+          </PixTableColumn>
           <PixTableColumn @context={{context}} class="break-word">
             <:header>
               {{t "components.organization-learner-information.table.columns.firstName"}}

@@ -26,18 +26,29 @@ const get = async function ({ id }) {
       'assignedCertificationOfficerId',
       'createdBy',
     )
+    .select({
+      firstCertificationStartedAt: knexConn
+        .select('createdAt')
+        .from('certification-courses')
+        .where('certification-courses.sessionId', id)
+        .orderBy('createdAt', 'asc')
+        .first(),
+    })
     .from('sessions')
     .where({ id })
     .first();
+
   if (!foundSession) {
-    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+    return null;
   }
+
   const certificationCandidates = await knexConn
     .select('id', 'userId', 'reconciledAt', 'resultRecipientEmail')
     .from('certification-candidates')
     .groupBy('certification-candidates.id')
     .where({ sessionId: id })
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
+
   return new SessionManagement({ ...foundSession, certificationCandidates });
 };
 
@@ -45,12 +56,6 @@ const isFinalized = async function ({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const session = await knexConn.select('id').from('sessions').where({ id }).whereNotNull('finalizedAt').first();
   return Boolean(session);
-};
-
-const isPublished = async function ({ id }) {
-  const knexConn = DomainTransaction.getConnection();
-  const isPublished = await knexConn.select(1).from('sessions').where({ id }).whereNotNull('publishedAt').first();
-  return Boolean(isPublished);
 };
 
 const doesUserHaveCertificationCenterMembershipForSession = async function ({ userId, sessionId }) {
@@ -139,7 +144,6 @@ export {
   hasNoStartedCertification,
   hasSomeCleaAcquired,
   isFinalized,
-  isPublished,
   unfinalize,
   updatePublishedAt,
 };

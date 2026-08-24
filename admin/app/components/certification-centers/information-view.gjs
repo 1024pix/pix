@@ -1,7 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -10,7 +8,6 @@ import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
 import sortBy from 'lodash/sortBy';
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
-import ENV from 'pix-admin/config/environment';
 
 import HabilitationTag from './habilitation-tag';
 
@@ -42,11 +39,6 @@ export default class InformationView extends Component {
     });
   }
 
-  get externalURL() {
-    const urlDashboardPrefix = ENV.APP.CERTIFICATION_CENTER_DASHBOARD_URL;
-    return urlDashboardPrefix && urlDashboardPrefix + this.args.certificationCenter.id;
-  }
-
   @action
   toggleShowArchiveModal() {
     this.isArchiveModalOpen = !this.isArchiveModalOpen;
@@ -64,18 +56,6 @@ export default class InformationView extends Component {
   }
 
   <template>
-    <h1 class="certification-center-information-display__name">{{@certificationCenter.name}}</h1>
-
-    {{#if @certificationCenter.isArchived}}
-      <PixNotificationAlert class="certification-center-information-display__archived-warning" @type="warning">
-        {{t
-          "pages.certification-centers.information-view.is-archived-warning"
-          archivedAt=@certificationCenter.archivedAtFormatDate
-          archivedBy=@certificationCenter.archivistFullName
-        }}
-      </PixNotificationAlert>
-    {{/if}}
-
     <DescriptionList>
 
       <DescriptionList.Item @label={{t "pages.certification-centers.information-view.list.type"}}>
@@ -145,17 +125,6 @@ export default class InformationView extends Component {
           </PixButton>
         </li>
       {{/unless}}
-      <li>
-        <PixButtonLink
-          @variant="secondary"
-          @href={{this.externalURL}}
-          @size="small"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Tableau de bord
-        </PixButtonLink>
-      </li>
     </ul>
 
     {{#if this.isArchiveModalOpen}}

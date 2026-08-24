@@ -1,14 +1,14 @@
-import { createServer } from '../../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Configuration | Acceptance | API | complementary-certification-route', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/admin/complementary-certifications/', function () {
@@ -145,7 +145,7 @@ describe('Certification | Configuration | Acceptance | API | complementary-certi
   describe('GET /api/admin/complementary-certifications/{complementaryCertificationKey}/target-profiles', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const attachedAt = new Date('2019-01-01');
 

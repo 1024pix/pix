@@ -17,9 +17,10 @@ import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
  * @param {deps["sessionManagementRepository"]} params.sessionManagementRepository
  * @param {deps["sessionsImportValidationService"]} params.sessionsImportValidationService
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
+ * @param {deps["sessionAuthorizationAdapter"]} params.sessionAuthorizationAdapter
  */
 
-const validateSessions = async function ({
+export async function validateSessions({
   sessionsData,
   userId,
   certificationCenterId,
@@ -33,6 +34,7 @@ const validateSessions = async function ({
   i18n,
   sessionsImportValidationService,
   temporarySessionsStorageForMassImportService,
+  sessionAuthorizationAdapter,
 }) {
   const center = await centerRepository.getById({ id: certificationCenterId });
   const sessionsMassImportReport = new SessionMassImportReport();
@@ -60,6 +62,7 @@ const validateSessions = async function ({
       sessionRepository,
       certificationCourseRepository,
       sessionManagementRepository,
+      sessionAuthorizationAdapter,
     });
 
     sessionsMassImportReport.addErrorReports(sessionsErrors);
@@ -94,9 +97,7 @@ const validateSessions = async function ({
   sessionsMassImportReport.updateSessionsCounters(validatedSessions);
 
   return sessionsMassImportReport;
-};
-
-export { validateSessions };
+}
 
 async function _createValidCertificationCandidates({
   candidatesDTO,

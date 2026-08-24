@@ -1,143 +1,242 @@
-import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import * as sessionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { BILLING_MODES } from '../../../../../../src/certification/shared/domain/constants.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | certification | enrolment | SessionEnrolment', function () {
-  describe('#save', function () {
-    let session, certificationCenter, sessionCreator;
-
-    beforeEach(async function () {
-      certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
-      sessionCreator = databaseBuilder.factory.buildUser({});
-      session = new SessionEnrolment({
-        certificationCenter: certificationCenter.name,
-        certificationCenterId: certificationCenter.id,
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Michel Essentiel',
-        date: '2017-12-08',
-        time: '14:30:00',
-        description: 'Première certification EVER !!!',
-        examinerGlobalComment: 'No comment',
-        hasIncident: true,
-        hasJoiningIssue: true,
-        publishedAt: new Date('2017-12-07'),
-        resultsSentToPrescriberAt: new Date('2017-12-07'),
-        assignedCertificationOfficerId: null,
-        accessCode: 'XXXX',
-        invigilatorPassword: 'AB2C7A',
-        version: 2,
-        createdBy: sessionCreator.id,
-      });
-
+  describe('#get', function () {
+    it('returns the SessionEnrolment model with candidates', async function () {
+      const candidateABuilder = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(SCOPES.PIX_PLUS_DROIT)
+        .withIdentity({ firstName: 'firstName A', lastName: 'lastName A', birthdate: '1991-01-01' })
+        .asReconciled({ userId: 111, reconciledAt: new Date('2022-01-01') })
+        .withParameters({
+          id: 111,
+          firstName: 'firstName A',
+          lastName: 'lastName A',
+          sex: 'M',
+          birthPostalCode: 'birthPostalCode A',
+          birthINSEECode: 'birthINSEECode A',
+          birthCity: 'birthCity A',
+          birthProvinceCode: 'birthProvinceCode A',
+          birthCountry: 'birthCountry A',
+          email: 'email A',
+          resultRecipientEmail: 'resultRecipientEmail A',
+          externalId: 'externalId A',
+          birthdate: '1990-01-01',
+          extraTimePercentage: null,
+          createdAt: new Date('2021-01-01'),
+          organizationLearnerId: null,
+          billingMode: BILLING_MODES.FREE,
+          prepaymentCode: 'prepaymentCode A',
+          hasSeenCertificationInstructions: true,
+          accessibilityAdjustmentNeeded: true,
+        })
+        .withStartedTest({ certification: 111 });
+      const candidateBBuilder = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(SCOPES.CORE)
+        .withIdentity({ firstName: 'firstName B', lastName: 'lastName B', birthdate: '1995-05-05' })
+        .asReconciled({ userId: 222, reconciledAt: new Date('2023-03-03') })
+        .withParameters({
+          id: 222,
+          sex: 'F',
+          birthPostalCode: 'birthPostalCode B',
+          birthINSEECode: 'birthINSEECode B',
+          birthCity: 'birthCity B',
+          birthProvinceCode: 'birthProvinceCode B',
+          birthCountry: 'birthCountry B',
+          email: 'email B',
+          resultRecipientEmail: 'resultRecipientEmail B',
+          externalId: 'externalId B',
+          extraTimePercentage: 0.1,
+          createdAt: new Date('2021-02-02'),
+          organizationLearnerId: null,
+          billingMode: BILLING_MODES.PREPAID,
+          prepaymentCode: 'prepaymentCode B',
+          hasSeenCertificationInstructions: false,
+          BccessibilityAdjustmentNeeded: false,
+        });
+      const expectedSession = domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .createdBy({
+          userId: 123,
+          certificationCenterId: 456,
+          certificationCenterName: 'Centre de certif fictif',
+          certificationCenterType: 'SCO',
+        })
+        .finalized({ at: new Date('2021-01-01') })
+        .withParameters({
+          id: 789,
+          date: '2026-01-01',
+          time: '19:30:05',
+          examiner: 'terminator',
+          room: 'CFA-330',
+          accessCode: 'SOME1ACCESS2CODE',
+          address: '2 rue des coquelicots',
+          description: 'une description pleine de sens',
+          invigilatorPassword: 'INVIG7',
+        })
+        .addCandidatesBuilders([candidateABuilder, candidateBBuilder])
+        .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
-    });
 
-    it('should persist the session in db', async function () {
       // when
-      await sessionRepository.save({ session });
+      const actualSession = await sessionRepository.get({ id: 789 });
 
       // then
-      const sessionSaved = await knex('sessions').select();
-      expect(sessionSaved).to.have.lengthOf(1);
+      expect(actualSession).to.deepEqualInstance(expectedSession);
     });
 
-    it('should return the saved Session', async function () {
+    it('returns null when no session was found', async function () {
+      domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .createdBy({
+          userId: 123,
+          certificationCenterId: 456,
+          certificationCenterName: 'Centre de certif fictif',
+          certificationCenterType: 'SCO',
+        })
+        .finalized({ at: new Date('2021-01-01') })
+        .withParameters({
+          id: 789,
+          date: '2026-01-01',
+          time: '19:30:05',
+          examiner: 'terminator',
+          room: 'CFA-330',
+          accessCode: 'SOME1ACCESS2CODE',
+          address: '2 rue des coquelicots',
+          description: 'une description pleine de sens',
+          invigilatorPassword: 'INVIG7',
+        })
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
+
       // when
-      const savedSession = await sessionRepository.save({ session });
+      const session = await sessionRepository.get({ id: 777 });
 
       // then
-      expect(savedSession).to.be.an.instanceOf(SessionEnrolment);
-      expect(savedSession).to.have.property('id').and.not.null;
-      expect(savedSession).to.deepEqualInstance(new SessionEnrolment({ ...session, id: savedSession.id }));
+      expect(session).to.be.null;
+    });
+
+    it('returns null when the session has no certification center', async function () {
+      databaseBuilder.factory.buildSession({ id: 789, certificationCenterId: null });
+      await databaseBuilder.commit();
+
+      // when
+      const session = await sessionRepository.get({ id: 789 });
+
+      // then
+      expect(session).to.be.null;
     });
   });
 
-  describe('#get', function () {
-    let sessionDB;
-    let sessionCreator;
-
-    beforeEach(async function () {
-      // given
-      sessionCreator = databaseBuilder.factory.buildUser({});
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-        type: CERTIFICATION_CENTER_TYPES.PRO,
-      }).id;
-      sessionDB = databaseBuilder.factory.buildSession({
-        certificationCenterId,
-        certificationCenter: 'Tour Gamma',
-        address: 'rue de Bercy',
-        room: 'Salle A',
-        examiner: 'Monsieur Examinateur',
-        date: '2018-02-23',
-        time: '12:00:00',
-        description: 'CertificationPix pour les jeunes',
-        accessCode: 'NJR10',
-        createdBy: sessionCreator.id,
-      });
+  describe('#updateInfo', function () {
+    it('should update session in database', async function () {
+      domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .createdBy({
+          userId: 1,
+          certificationCenterId: 2,
+          certificationCenterName: 'mon centre',
+          certificationCenterType: 'SUP',
+        })
+        .withParameters({
+          id: 123,
+          address: '1 rue des lauriers OLD',
+          room: '2B OLD',
+          date: '2020-02-02',
+          time: '15:00:00',
+          examiner: 'Louise OLD',
+          description: 'coucou OLD',
+        })
+        .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
-    });
 
-    it('should return session informations in a session Object', async function () {
       // when
-      const actualSession = await sessionRepository.get({ id: sessionDB.id });
+      await sessionRepository.updateInfo({
+        id: 123,
+        address: '1 rue des lauriers',
+        room: '2B',
+        date: '2021-01-01',
+        time: '14:00:00',
+        examiner: 'Louise',
+        description: 'coucou',
+      });
 
       // then
+      const actualSession = await sessionRepository.get({ id: 123 });
       expect(actualSession).to.deepEqualInstance(
-        domainBuilder.certification.enrolment.buildSession({
-          ...sessionDB,
-          certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
-          certificationCandidates: [],
-        }),
+        domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            id: 123,
+            address: '1 rue des lauriers',
+            room: '2B',
+            date: '2021-01-01',
+            time: '14:00:00',
+            examiner: 'Louise',
+            description: 'coucou',
+          })
+          .createdBy({
+            userId: 1,
+            certificationCenterId: 2,
+            certificationCenterName: 'mon centre',
+            certificationCenterType: 'SUP',
+          })
+          .build(),
       );
     });
-
-    it('should return a Not found error when no session was found', async function () {
-      // when
-      const error = await catchErr(sessionRepository.get)({ id: 2 });
-
-      // then
-      expect(error).to.be.instanceOf(NotFoundError);
-    });
   });
 
-  describe('#update', function () {
-    let session;
+  describe('#create', function () {
+    it('should create session in database', async function () {
+      databaseBuilder.factory.buildCertificationCenter({ id: 1, name: 'Mon centre stylé', type: 'SUP' });
+      databaseBuilder.factory.buildCertificationCenter({ id: 2, name: 'Un centre inintéressant', type: 'PRO' });
+      databaseBuilder.factory.buildUser({ id: 123 });
+      await databaseBuilder.commit();
 
-    beforeEach(function () {
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-        type: CERTIFICATION_CENTER_TYPES.SUP,
-      }).id;
-      const savedSession = databaseBuilder.factory.buildSession({
-        certificationCenterId,
-      });
-      session = domainBuilder.certification.enrolment.buildSession({
-        ...savedSession,
-        certificationCenterType: CERTIFICATION_CENTER_TYPES.SUP,
-      });
-      session.room = 'New room';
-      session.examiner = 'New examiner';
-      session.address = 'New address';
-      session.accessCode = 'BABAAURHUM';
-      session.date = '2010-01-01';
-      session.time = '12:00:00';
-      session.description = 'New description';
-
-      return databaseBuilder.commit();
-    });
-
-    it('should update model in database', async function () {
       // when
-      await sessionRepository.update(session);
+      const sessionId = await sessionRepository.create({
+        userId: 123,
+        certificationCenterId: 1,
+        address: '1 rue des lauriers',
+        room: '2B',
+        date: '2021-01-01',
+        time: '14:00:00',
+        examiner: 'Louise',
+        description: 'coucou',
+        accessCode: 'MONCODE123',
+        invigilatorPassword: 'INVIGI',
+      });
 
       // then
-      const actualSession = await sessionRepository.get({ id: session.id });
-      expect(actualSession).to.deepEqualInstance(session);
+      const actualSession = await sessionRepository.get({ id: sessionId });
+      expect(actualSession).to.deepEqualInstance(
+        domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .withParameters({
+            id: sessionId,
+            address: '1 rue des lauriers',
+            room: '2B',
+            date: '2021-01-01',
+            time: '14:00:00',
+            examiner: 'Louise',
+            description: 'coucou',
+            invigilatorPassword: 'INVIGI',
+            accessCode: 'MONCODE123',
+          })
+          .createdBy({
+            userId: 123,
+            certificationCenterId: 1,
+            certificationCenterName: 'Mon centre stylé',
+            certificationCenterType: 'SUP',
+          })
+          .build(),
+      );
     });
   });
 
@@ -147,8 +246,14 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
         it('should remove candidates and delete the session', async function () {
           // given
           const sessionId = databaseBuilder.factory.buildSession().id;
-          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
-          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withParameters({ sessionId })
+            .insertToDB({ databaseBuilder });
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withParameters({ sessionId })
+            .insertToDB({ databaseBuilder });
 
           await databaseBuilder.commit();
 
@@ -191,25 +296,26 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.remove({ id: sessionId });
+          const result = await sessionRepository.remove({ id: sessionId });
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
           expect(foundSession).to.be.undefined;
+          expect(result).to.equal(1);
         });
       });
     });
 
     context('when session does not exist', function () {
-      it('should throw a not found error', async function () {
+      it('return null', async function () {
         // given
         const sessionId = 123456;
 
         // when
-        const error = await catchErr(sessionRepository.remove)({ id: sessionId });
+        const result = await sessionRepository.remove({ id: sessionId });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(result).to.be.null;
       });
     });
   });

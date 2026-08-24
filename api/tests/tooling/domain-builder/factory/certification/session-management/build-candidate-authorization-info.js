@@ -22,13 +22,13 @@ class CandidateAuthorizationInfoBuilder {
     this.sessionId = null;
     this.sessionAccessCode = 'ABC123';
     this.sessionFinalizedAt = null;
-    this.sessionPublishedAt = null;
+    this.sessionStartedAt = null;
     this.reconciledUserId = null;
     this.reconciledAt = null;
     this.subscription = Frameworks.CORE;
     this.certificationId = null;
     this.certificationStartedAt = null;
-    this.authorizedToStart = true;
+    this.authorizedToStartAt = new Date();
     this.centerHabilitations = {};
   }
 
@@ -52,14 +52,15 @@ class CandidateAuthorizationInfoBuilder {
    * @param {object} [params]
    * @param {number} [params.sessionId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)
    * @param {string} [params.accessCode]
-   * @param {boolean} [params.isAccessible]
+   * @param {Date} [params.startedAt]
+   * @param {Date} [params.finalizedAt]
    * @returns {CandidateAuthorizationInfoBuilder}
    */
-  withSession({ sessionId = null, accessCode = 'ABC123', isAccessible = true } = {}) {
+  withSession({ sessionId = null, accessCode = 'ABC123', finalizedAt = null, startedAt = null } = {}) {
     this.sessionId = sessionId;
     this.sessionAccessCode = accessCode;
-    this.sessionFinalizedAt = isAccessible ? null : new Date();
-    this.sessionPublishedAt = null;
+    this.sessionFinalizedAt = finalizedAt;
+    this.sessionStartedAt = startedAt;
     return this;
   }
 
@@ -82,7 +83,18 @@ class CandidateAuthorizationInfoBuilder {
    * @returns {CandidateAuthorizationInfoBuilder}
    */
   asAuthorizedToStart() {
-    this.authorizedToStart = true;
+    this.authorizedToStartAt = new Date();
+    return this;
+  }
+
+  /**
+   * As if the invigilator authorized the candidate a long time ago
+   *
+   * @returns {CandidateAuthorizationInfoBuilder}
+   */
+  asObsoleteAuthorizedToStart() {
+    this.authorizedToStartAt = new Date();
+    this.authorizedToStartAt.setMinutes(this.authorizedToStartAt.getMinutes() - 16);
     return this;
   }
 
@@ -92,7 +104,7 @@ class CandidateAuthorizationInfoBuilder {
    * @returns {CandidateAuthorizationInfoBuilder}
    */
   asNotAuthorizedToStart() {
-    this.authorizedToStart = false;
+    this.authorizedToStartAt = null;
     return this;
   }
 
@@ -161,7 +173,6 @@ class CandidateAuthorizationInfoBuilder {
       id: candidateAuthorizationInfo.sessionId ?? undefined,
       accessCode: candidateAuthorizationInfo.sessionAccessCode,
       finalizedAt: candidateAuthorizationInfo.sessionFinalizedAt,
-      publishedAt: candidateAuthorizationInfo.sessionPublishedAt,
       certificationCenterId,
     }).id;
     candidateAuthorizationInfo.sessionId = sessionId;
@@ -173,8 +184,7 @@ class CandidateAuthorizationInfoBuilder {
     const candidateId = databaseBuilder.factory.buildCertificationCandidate({
       id: candidateAuthorizationInfo.id ?? undefined,
       userId: candidateAuthorizationInfo.reconciledUserId,
-      authorizedToStart: candidateAuthorizationInfo.authorizedToStart,
-      authorizedToStartAt: candidateAuthorizationInfo.authorizedToStart ? new Date() : null,
+      authorizedToStartAt: candidateAuthorizationInfo.authorizedToStartAt,
       sessionId,
       subscription: candidateAuthorizationInfo.subscription,
       reconciledAt: candidateAuthorizationInfo.reconciledAt,
@@ -188,6 +198,13 @@ class CandidateAuthorizationInfoBuilder {
         createdAt: candidateAuthorizationInfo.certificationStartedAt,
       }).id;
       candidateAuthorizationInfo.certificationId = certificationId;
+    }
+
+    if (this.sessionStartedAt && this.sessionStartedAt !== candidateAuthorizationInfo.certificationStartedAt) {
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        createdAt: this.sessionStartedAt,
+      });
     }
     candidateAuthorizationInfo.id = candidateId;
 
@@ -205,8 +222,8 @@ class CandidateAuthorizationInfoBuilder {
       sessionId: this.sessionId,
       sessionAccessCode: this.sessionAccessCode,
       sessionFinalizedAt: this.sessionFinalizedAt,
-      sessionPublishedAt: this.sessionPublishedAt,
-      authorizedToStart: this.authorizedToStart,
+      sessionStartedAt: this.sessionStartedAt,
+      authorizedToStartAt: this.authorizedToStartAt,
       reconciledUserId: this.reconciledUserId,
       reconciledAt: this.reconciledAt,
       subscription: this.subscription,

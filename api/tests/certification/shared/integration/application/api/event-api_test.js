@@ -5,17 +5,15 @@ import { logger } from '../../../../../../src/shared/infrastructure/utils/logger
 import { knex } from '../../../../../tooling/databases.js';
 
 describe('Certification | Shared | Integration | Application | API | Event', function () {
-  let clock, warnSpy;
+  let warnSpy;
   const now = new Date('2023-02-02T00:00:00Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
     warnSpy = sinon.spy(logger, 'warn');
   });
 
   afterEach(function () {
-    clock.restore();
-    sinon.restore();
     return knex('certification_events').truncate();
   });
 

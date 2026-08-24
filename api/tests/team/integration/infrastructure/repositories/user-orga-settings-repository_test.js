@@ -40,22 +40,17 @@ describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', 
     'organizationLearnerTypeId',
   ];
 
-  let clock;
   const now = new Date('2022-12-01');
 
   let user;
   let organization;
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     user = databaseBuilder.factory.buildUser();
     organization = databaseBuilder.factory.buildOrganization();
     await databaseBuilder.commit();
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   describe('#create', function () {
@@ -160,12 +155,12 @@ describe('Integration | Team | Infrastructure | Repository | UserOrgaSettings', 
       );
     });
 
-    it("should return empty object when user-orga-settings doesn't exists", async function () {
+    it("should return null when user-orga-settings doesn't exists", async function () {
       // when
       const foundUserOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(user.id + 1);
 
       // then
-      expect(foundUserOrgaSettings).to.deep.equal({});
+      expect(foundUserOrgaSettings).to.be.null;
     });
   });
 

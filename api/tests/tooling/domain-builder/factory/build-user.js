@@ -1,6 +1,5 @@
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { buildAuthenticationMethod } from './build-authentication-method.js';
-import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
 import { buildMembership } from './build-membership.js';
 
 const buildUser = function ({
@@ -19,7 +18,6 @@ const buildUser = function ({
   hasSeenAssessmentInstructions = false,
   isAnonymous = false,
   memberships = [buildMembership()],
-  certificationCenterMemberships = [buildCertificationCenterMembership()],
   authenticationMethods = [buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword()],
   hasBeenAnonymised = false,
   hasBeenAnonymisedBy = null,
@@ -41,7 +39,6 @@ const buildUser = function ({
     hasSeenAssessmentInstructions,
     isAnonymous,
     memberships,
-    certificationCenterMemberships,
     authenticationMethods,
     hasBeenAnonymised,
     hasBeenAnonymisedBy,

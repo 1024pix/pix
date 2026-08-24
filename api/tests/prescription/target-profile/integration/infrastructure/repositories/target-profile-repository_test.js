@@ -256,6 +256,20 @@ describe('Integration | Repository | Target-profile', function () {
       // then
       expect(result).to.deep.equal([]);
     });
+
+    it('does not return outdated target profiles', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ outdated: true }).id;
+      databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await targetProfileRepository.findSharedByOrganizationId(organizationId);
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
   });
 
   describe('#findSkillsByIds', function () {

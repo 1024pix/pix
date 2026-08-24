@@ -1,6 +1,6 @@
 /**
  * @typedef {import('../../../shared/domain/models/CertificationChallengeWithType.js').CertificationChallengeWithType} CertificationChallengeWithType
- * @typedef {import('../../../../evaluation/domain/models/Answer.js').Answer} Answer
+ * @typedef {import('../../../shared/domain/models/CertificationAnswer.js').CertificationAnswer} CertificationAnswer
  */
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
@@ -42,7 +42,7 @@ export class CertificationAssessment {
    * @param {object} params
    * @param {Date} params.createdAt certification course creation date
    * @param {Array<CertificationChallengeWithType>} params.certificationChallenges
-   * @param {Array<Answer>} params.certificationAnswersByDate
+   * @param {Array<CertificationAnswer>} params.certificationAnswersByDate
    */
   constructor({
     id,

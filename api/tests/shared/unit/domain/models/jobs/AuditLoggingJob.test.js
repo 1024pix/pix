@@ -7,14 +7,9 @@ import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Model | Jobs | AuditLoggingJob', function () {
   const now = new Date(2024, 1, 1);
-  let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('AuditLoggingJob.forUser', function () {

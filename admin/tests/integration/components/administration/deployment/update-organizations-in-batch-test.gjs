@@ -24,10 +24,6 @@ module('Integration | Component |  administration/update-organizations-in-batch'
     sinon.stub(window, 'fetch');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('when import succeeds', function () {
     test('it displays a success notification', async function (assert) {
       // given

@@ -8,7 +8,7 @@ import { jwtApplicationAuthenticationStrategyName } from '../../../shared/infras
 import { responseObjectErrorDoc } from '../../../shared/infrastructure/open-api-doc/response-object-error-doc.js';
 import { parcoursupController } from './parcoursup-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -90,5 +90,5 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 export const parcoursupRoute = { name: 'certification/results/parcoursup-api', register };

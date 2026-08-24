@@ -38,7 +38,7 @@ describe('Certification | Evaluation | Unit | Adapter | Candidate authorization'
         candidateAuthorizationApi.findByUserIdAndSessionId.withArgs({ userId: 123, sessionId: 456 }).resolves({
           id: 789,
           accessCode: 'EXPEDITION33',
-          isSessionAccessible: true,
+          isSessionJoinable: true,
           userId: 123,
           reconciledAt: new Date('2023-12-11'),
           subscription: Frameworks.DROIT,
@@ -57,7 +57,7 @@ describe('Certification | Evaluation | Unit | Adapter | Candidate authorization'
         expect(candidateAuthorization).to.deepEqualInstance(
           domainBuilder.certification.evaluation
             .candidateAuthorizationBuilder()
-            .withSession({ accessCode: 'EXPEDITION33', isAccessible: true })
+            .withSession({ accessCode: 'EXPEDITION33', isJoinable: true })
             .reconciled({ userId: 123, at: new Date('2023-12-11') })
             .subscribedTo({ framework: Frameworks.DROIT, isCenterHabilitated: true })
             .asAuthorizedToStart()

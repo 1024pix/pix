@@ -1,0 +1,34 @@
+.certification-center-get-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-6x);
+
+  .page-section__header {
+    margin-top: var(--pix-spacing-6x);
+    margin-bottom: 0;
+    padding-top: var(--pix-spacing-3x);
+    padding-bottom: var(--pix-spacing-2x);
+    border-top: 1px solid var(--pix-neutral-100);
+  }
+
+  .certification-center {
+
+    &__section {
+      display: flex;
+
+      input {
+        width: 310px;
+      }
+    }
+  }
+
+  .error {
+    padding-top: 5px;
+    color: var(--pix-error-700);
+    font-size: 0.75rem;
+  }
+
+  &__navigation {
+    margin: 0
+  }
+}

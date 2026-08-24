@@ -16,7 +16,8 @@ import {
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionFinalized,
-  SessionNotAccessible,
+  SessionNotFinalizedError,
+  SessionNotJoinable,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
 } from '../domain/errors.js';
@@ -39,6 +40,10 @@ const sessionDomainErrorMappingConfiguration = [
     httpErrorFn: (error) => new BadRequestError(error.message, error.code),
   },
   {
+    name: SessionNotFinalizedError.name,
+    httpErrorFn: (error) => new ConflictError(error.message, error.code),
+  },
+  {
     name: ChallengeToBeDeneutralizedNotFoundError.name,
     httpErrorFn: (error) => new NotFoundError(error.message, error.code),
   },
@@ -47,7 +52,7 @@ const sessionDomainErrorMappingConfiguration = [
     httpErrorFn: (error) => new NotFoundError(error.message, error.code),
   },
   {
-    name: SessionNotAccessible.name,
+    name: SessionNotJoinable.name,
     httpErrorFn: (error) => new PreconditionFailedError(error.message, error.code, error.meta),
   },
   {

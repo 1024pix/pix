@@ -1,8 +1,6 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
-import _ from 'lodash';
-
 import { usecases } from '../../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../../../../../../src/certification/enrolment/infrastructure/candidates-import/fill-candidates-import-sheet.js';
 import * as readOdsUtils from '../../../../../../src/certification/enrolment/infrastructure/utils/ods/read-ods-utils.js';
@@ -11,6 +9,7 @@ import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constan
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const { promises } = fs;
 
@@ -65,73 +64,89 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         description: 'La super description',
       }).id;
 
-      _.each(
-        [
-          {
-            lastName: 'Jackson',
-            firstName: 'Michael',
-            sex: 'M',
-            birthPostalCode: '75018',
-            birthINSEECode: null,
-            birthCity: 'Paris',
-            birthCountry: 'France',
-            email: 'jackson@gmail.com',
-            resultRecipientEmail: 'destinataire@gmail.com',
-            birthdate: '2004-04-04',
-            sessionId,
-            externalId: 'ABC123',
-            extraTimePercentage: 0.6,
-          },
-          {
-            lastName: 'Jackson',
-            firstName: 'Janet',
-            sex: 'F',
-            birthPostalCode: null,
-            birthINSEECode: '2A004',
-            birthCity: 'Ajaccio',
-            birthCountry: 'France',
-            email: 'jaja@hotmail.fr',
-            resultRecipientEmail: 'destinataire@gmail.com',
-            birthdate: '2005-12-05',
-            sessionId,
-            externalId: 'DEF456',
-            extraTimePercentage: null,
-          },
-          {
-            lastName: 'Mercury',
-            firstName: 'Freddy',
-            sex: 'M',
-            birthPostalCode: '97180',
-            birthINSEECode: null,
-            birthCity: 'Sainte-Anne',
-            birthCountry: 'France',
-            email: null,
-            resultRecipientEmail: null,
-            birthdate: '1925-06-28',
-            sessionId,
-            externalId: 'GHI789',
-            extraTimePercentage: 1.5,
-          },
-          {
-            lastName: 'Gallagher',
-            firstName: 'Jack',
-            sex: 'M',
-            birthPostalCode: null,
-            birthINSEECode: '99132',
-            birthCity: 'Londres',
-            birthCountry: 'Angleterre',
-            email: 'jack@d.it',
-            resultRecipientEmail: 'destinataire@gmail.com',
-            birthdate: '1980-08-10',
-            sessionId,
-            externalId: null,
-            extraTimePercentage: 0.15,
-          },
-        ],
-        (candidate) => {
-          databaseBuilder.factory.buildCertificationCandidate(candidate);
-        },
-      );
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Jackson',
+          firstName: 'Michael',
+          birthdate: '2004-04-04',
+        })
+        .withParameters({
+          sex: 'M',
+          birthPostalCode: '75018',
+          birthINSEECode: null,
+          birthCity: 'Paris',
+          birthCountry: 'France',
+          email: 'jackson@gmail.com',
+          resultRecipientEmail: 'destinataire@gmail.com',
+          sessionId,
+          externalId: 'ABC123',
+          extraTimePercentage: 0.6,
+        })
+        .insertToDB({ databaseBuilder });
+
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          birthdate: '2005-12-05',
+        })
+        .withParameters({
+          sex: 'F',
+          birthPostalCode: null,
+          birthINSEECode: '2A004',
+          birthCity: 'Ajaccio',
+          birthCountry: 'France',
+          email: 'jaja@hotmail.fr',
+          resultRecipientEmail: 'destinataire@gmail.com',
+          sessionId,
+          externalId: 'DEF456',
+          extraTimePercentage: null,
+        })
+        .insertToDB({ databaseBuilder });
+
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Mercury',
+          firstName: 'Freddy',
+          birthdate: '1925-06-28',
+        })
+        .withParameters({
+          sex: 'M',
+          birthPostalCode: '97180',
+          birthINSEECode: null,
+          birthCity: 'Sainte-Anne',
+          birthCountry: 'France',
+          email: null,
+          resultRecipientEmail: null,
+          sessionId,
+          externalId: 'GHI789',
+          extraTimePercentage: 1.5,
+        })
+        .insertToDB({ databaseBuilder });
+
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Gallagher',
+          firstName: 'Jack',
+          birthdate: '1980-08-10',
+        })
+        .withParameters({
+          sex: 'M',
+          birthPostalCode: null,
+          birthINSEECode: '99132',
+          birthCity: 'Londres',
+          birthCountry: 'Angleterre',
+          email: 'jack@d.it',
+          resultRecipientEmail: 'destinataire@gmail.com',
+          sessionId,
+          externalId: null,
+          extraTimePercentage: 0.15,
+        })
+        .insertToDB({ databaseBuilder });
 
       await databaseBuilder.commit();
       // when
@@ -444,37 +459,87 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         description: 'La super description',
       }).id;
 
-      databaseBuilder.factory.buildCertificationCandidate({
-        firstName: 'Certif',
-        lastName: 'Gratos',
-        billingMode: 'FREE',
-        prepaymentCode: null,
-        sessionId,
-      });
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          firstName: 'Certif',
+          lastName: 'Gratos',
+          birthdate: '2000-01-04',
+        })
+        .withParameters({
+          billingMode: 'FREE',
+          prepaymentCode: null,
+          sessionId,
+          resultRecipientEmail: 'somerecipientmail@example.net',
+          externalId: 'externalId',
+          email: 'somemail@example.net',
+          extraTimePercentage: 0.3,
+          birthCountry: 'France',
+          birthINSEECode: 75101,
+          sex: 'M',
+        })
+        .insertToDB({ databaseBuilder });
 
-      databaseBuilder.factory.buildCertificationCandidate({
-        firstName: 'Candidat',
-        lastName: 'Qui Raque',
-        billingMode: 'PAID',
-        prepaymentCode: null,
-        sessionId,
-      });
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          firstName: 'Candidat',
+          lastName: 'Qui Raque',
+          birthdate: '2000-01-04',
+        })
+        .withParameters({
+          billingMode: 'PAID',
+          prepaymentCode: null,
+          sessionId,
+          resultRecipientEmail: 'somerecipientmail@example.net',
+          externalId: 'externalId',
+          email: 'somemail@example.net',
+          extraTimePercentage: 0.3,
+          birthCountry: 'France',
+          birthINSEECode: 75101,
+          sex: 'M',
+        })
+        .insertToDB({ databaseBuilder });
 
-      databaseBuilder.factory.buildCertificationCandidate({
-        firstName: 'A Man',
-        lastName: 'With A Code',
-        billingMode: 'PREPAID',
-        prepaymentCode: 'CODECODECODEC',
-        sessionId,
-      });
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          firstName: 'A Man',
+          lastName: 'With A Code',
+          birthdate: '2000-01-04',
+        })
+        .withParameters({
+          billingMode: 'PREPAID',
+          prepaymentCode: 'CODECODECODEC',
+          sessionId,
+          resultRecipientEmail: 'somerecipientmail@example.net',
+          externalId: 'externalId',
+          email: 'somemail@example.net',
+          extraTimePercentage: 0.3,
+          birthCountry: 'France',
+          birthINSEECode: 75101,
+          sex: 'M',
+        })
+        .insertToDB({ databaseBuilder });
 
-      databaseBuilder.factory.buildCertificationCandidate({
-        firstName: 'Yo',
-        lastName: 'Lo',
-        billingMode: null,
-        prepaymentCode: null,
-        sessionId,
-      });
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          firstName: 'Yo',
+          lastName: 'Lo',
+          birthdate: '01/04/2000',
+        })
+        .withParameters({
+          sessionId,
+          resultRecipientEmail: 'somerecipientmail@example.net',
+          externalId: 'externalId',
+          email: 'somemail@example.net',
+          extraTimePercentage: 0.3,
+          birthCountry: 'France',
+          birthINSEECode: 75101,
+          sex: 'M',
+        })
+        .insertToDB({ databaseBuilder });
 
       await databaseBuilder.commit();
       const { session, enrolledCandidates } = await usecases.getCandidateImportSheetData({ sessionId, userId });
@@ -538,14 +603,27 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
           description: 'La super description',
         }).id;
 
-        databaseBuilder.factory.buildCertificationCandidate({
-          firstName: 'Yo',
-          lastName: 'Lo',
-          billingMode: null,
-          prepaymentCode: null,
-          sessionId,
-          subscription: Frameworks.CLEA,
-        });
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            firstName: 'Yo',
+            lastName: 'Lo',
+            birthdate: '01/04/2000',
+          })
+          .withSubscription(Frameworks.CLEA)
+          .withParameters({
+            billingMode: null,
+            prepaymentCode: null,
+            sessionId,
+            sex: 'M',
+            birthINSEECode: '75101',
+            birthCountry: 'France',
+            email: 'somemail@example.net',
+            resultRecipientEmail: 'somerecipientmail@example.net',
+            externalId: 'externalId',
+            extraTimePercentage: 0.3,
+          })
+          .insertToDB({ databaseBuilder });
 
         await databaseBuilder.commit();
         const { session, enrolledCandidates, certificationCenterHabilitations } =

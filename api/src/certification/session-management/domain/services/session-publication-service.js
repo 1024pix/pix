@@ -3,6 +3,7 @@
  * @typedef {import('../../../../../src/certification/session-management/domain/usecases/index.js').MailService} MailService
  * @typedef {import('../../../../../src/certification/session-management/domain/usecases/index.js').SessionManagementRepository} SessionManagementRepository
  */
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import {
@@ -27,6 +28,10 @@ async function publishSession({
   sessionManagementRepository,
 }) {
   const session = await sessionManagementRepository.get({ id: sessionId });
+  if (!session) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+
   if (session.isPublished()) {
     throw new SessionAlreadyPublishedError();
   }

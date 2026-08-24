@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 import { assessmentStates } from 'pix-admin/models/certification';
 
 const ONE_HOUR_45_MINUTES_IN_MS = 1 * 60 * 60 * 1000 + 45 * 60 * 1000;
@@ -79,9 +79,11 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
   }
 
   get hasNotBeenCompletedByCandidate() {
-    return [assessmentStates.ENDED_BY_INVIGILATOR, assessmentStates.ENDED_DUE_TO_FINALIZATION].includes(
-      this.assessmentState,
-    );
+    return [
+      assessmentStates.ENDED_BY_INVIGILATOR,
+      assessmentStates.ENDED_DUE_TO_FINALIZATION,
+      assessmentStates.ENDED_DUE_TO_DURATION_EXCEEDED,
+    ].includes(this.assessmentState);
   }
 
   get result() {

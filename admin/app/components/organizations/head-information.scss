@@ -1,89 +1,37 @@
 @use 'pix-design-tokens/typography';
 @use 'pix-design-tokens/shadows';
 
-.organization__head-information {
-  @extend %pix-shadow-default;
+.organization-head-information {
 
-  display: flex;
-  gap: var(--pix-spacing-4x);
-  align-items: center;
-  padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
-  color: var(--pix-neutral-900);
-  background-color: var(--pix-neutral-0);
-  border-radius: var(--pix-spacing-4x);
 
-  .organization__logo {
-    width: 83px;
-    height: 83px;
+  &__file-upload {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    cursor: pointer;
 
-    .organization__logo-figure {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 75px;
-      height: 75px;
-      margin: 0;
-      border: 2px solid var(--pix-neutral-100);
-      border-radius: 3px;
-
-      > img {
-        max-width: 100%;
-        max-height: 100%;
-      }
-
-      > .file-upload {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: transparent;
-        cursor: pointer;
-      }
+    &:focus-within {
+      outline: 1.5px solid var(--pix-primary-700);
+      outline-offset: 1px;
     }
   }
 
-  .organization__title {
+  &__tags-list {
     display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    flex-wrap: wrap;
     gap: var(--pix-spacing-2x);
+    padding: 0;
+    list-style: none;
+  }
 
-    .organization__name {
-      @extend %pix-title-s;
-    }
-
-    .organization__id {
-      @extend %pix-title-xxs;
-
-      display: flex;
-      gap: var(--pix-spacing-2x);
-      align-items: center;
-
-      span {
-        font-weight: normal;
-      }
-    }
-
-    .organization-tags-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--pix-spacing-2x);
-      padding: 0;
-      list-style: none;
-    }
-
-    .organization__child-tag {
-      a {
-        color: var(--pix-success-700);
-        text-decoration: underline;
-      }
+  &__child-tag {
+    a {
+      color: var(--pix-success-700);
+      text-decoration: underline;
     }
   }
 
-  .organization__dashboard-button {
-    align-self: center;
-  }
 }

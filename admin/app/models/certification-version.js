@@ -1,4 +1,4 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 
 export default class CertificationVersion extends Model {
   @attr('date') startDate;
@@ -15,6 +15,8 @@ export default class CertificationVersion extends Model {
   @attr('string') status;
   @attr('string') scope;
   @attr('string') comments;
+  @attr('number') externalCalibrationId;
+  @attr() globalScoringConfiguration;
 
   @hasMany('area', { async: false, inverse: null }) areas;
 

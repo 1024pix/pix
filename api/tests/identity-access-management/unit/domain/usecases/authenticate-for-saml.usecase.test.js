@@ -51,7 +51,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
     };
     userRepository = {
       getBySamlId: sinon.stub(),
-      getForObfuscation: sinon.stub(),
+      get: sinon.stub(),
     };
     userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
@@ -106,7 +106,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
 
     it('saves last login date when authentication succeeds', async function () {
       // given
-      const clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now: new Date(),
         toFake: ['Date'],
       });
@@ -160,7 +160,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-fo
         application: requestedApplication.applicationName,
         lastLoggedAt: new Date(),
       });
-      clock.restore();
     });
 
     it("throws an UnexpectedUserAccountError (with expected user's username or email) when the authenticated user does not match the expected one", async function () {

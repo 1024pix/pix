@@ -19,6 +19,12 @@ class AcquiredBadgeForbiddenUpdateError extends DomainError {
   }
 }
 
+class AssessmentAlreadyEndedError extends DomainError {
+  constructor(message = "L'évaluation est terminée, il n'est plus possible d'y répondre.") {
+    super(message, 'ASSESSMENT_ENDED');
+  }
+}
+
 class AnswerEvaluationError extends DomainError {
   constructor(challenge) {
     super(`Problème lors de l'évaluation de la réponse du challenge: "${challenge.id}"`, '', challenge);
@@ -31,10 +37,25 @@ class AlreadyRatedAssessmentError extends DomainError {
   }
 }
 
+class AcquiredBadgeForbiddenDeletionError extends DomainError {
+  constructor(message = 'Il est interdit de supprimer un badge déjà acquis par un utilisateur.') {
+    super(message);
+  }
+}
+
+class CertificationBadgeForbiddenDeletionError extends DomainError {
+  constructor(message = 'Il est interdit de supprimer un badge lié à une certification.') {
+    super(message);
+  }
+}
+
 export {
+  AcquiredBadgeForbiddenDeletionError,
   AcquiredBadgeForbiddenUpdateError,
   AlreadyRatedAssessmentError,
   AnswerEvaluationError,
+  AssessmentAlreadyEndedError,
+  CertificationBadgeForbiddenDeletionError,
   CompetenceResetError,
   ImproveCompetenceEvaluationForbiddenError,
 };

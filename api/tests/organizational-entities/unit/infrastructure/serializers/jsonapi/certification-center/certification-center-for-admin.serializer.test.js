@@ -68,6 +68,32 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
       expect(deserializedCertificationCenterForAdmin).to.deepEqualInstance(expectedCertificationCenterForAdmin);
     });
 
+    it('should extract the organizationId when present in the JSON API data', function () {
+      // given
+      const createdBy = 123;
+      certificationCenterJsonApi.data.attributes['organization-id'] = 456;
+
+      // when
+      const deserializedCertificationCenterForAdmin = certificationCenterForAdminSerializer.deserialize({
+        data: certificationCenterJsonApi.data,
+        createdBy,
+      });
+
+      // then
+      const expectedCertificationCenterForAdmin = domainBuilder.buildCenterForAdmin({
+        center: {
+          ...centerForAdmin,
+          id: '123',
+          createdBy: 123,
+          organizationId: 456,
+        },
+        archivistFullName,
+        dataProtectionOfficer,
+      });
+
+      expect(deserializedCertificationCenterForAdmin).to.deepEqualInstance(expectedCertificationCenterForAdmin);
+    });
+
     describe('#serialize', function () {
       it('should convert a CertificationCenterForAdmin model object into JSON API data', function () {
         // given

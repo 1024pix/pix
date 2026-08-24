@@ -18,6 +18,9 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repositori
       .insertToDB({ databaseBuilder }).id;
     const session = databaseBuilder.factory.buildSession();
     const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+      firstName: 'a',
+      lastName: 'b',
+      birthdate: '01/01/2000',
       sessionId: session.id,
       userId,
       accessibilityAdjustmentNeeded: true,

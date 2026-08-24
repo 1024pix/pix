@@ -19,6 +19,10 @@ describe('Unit | Tooling | DatabaseBuilder | database-helpers', function () {
         insertSqlQuery:
           '/* path: /api/oidc/user/reconcile */ insert into "user-logins" ("lastLoggedAt", "userId") values ($1, $2) on conflict ("userId") do update set "lastLoggedAt" = excluded."lastLoggedAt", "userId" = excluded."userId"',
       },
+      {
+        expectedTableName: 'structures',
+        insertSqlQuery: '/* path: /api/admin/organizations */ insert into "structures" default values returning *',
+      },
     ].forEach(({ expectedTableName, insertSqlQuery }) => {
       context(`when receiving "${insertSqlQuery}" as insert SQL query`, function () {
         it(`returns "${expectedTableName}" as value`, function () {

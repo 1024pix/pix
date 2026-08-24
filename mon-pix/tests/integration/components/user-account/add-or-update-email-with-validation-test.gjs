@@ -47,11 +47,9 @@ module('Integration | Component | user-account | add-or-update-email-with-valida
   });
 
   module('when a verification code is requested', function (hooks) {
-    let store;
-
     hooks.beforeEach(function () {
-      store = this.owner.lookup('service:store');
-      store.createRecord = () => ({ sendNewEmail: sinon.stub() });
+      const service = this.owner.lookup('service:email-verification-code');
+      service.sendNewEmail = sinon.stub();
     });
 
     test('shows the verification code page with the submitted email', async function (assert) {

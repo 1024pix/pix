@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 
-import { createServer } from '../../../../../server.js';
 import { generateCertificateVerificationCode } from '../../../../../src/certification/evaluation/domain/services/verify-certificate-code-service.js';
 import {
   CERTIFICATE_STATUSES,
@@ -17,6 +16,7 @@ import { Membership } from '../../../../../src/shared/domain/models/Membership.j
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Results | Acceptance | Application | Certification', function () {
@@ -216,7 +216,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
   describe('GET /api/certifications/{certificationCourseId}', function () {
     it('should return 200 HTTP status code and the certification with the result competence tree included', async function () {
       // given
-      server = await createServer();
+      server = await getServer();
       const userId = databaseBuilder.factory.buildUser().id;
       ({ session, badge, certificationCourse, assessmentResult } = await _buildDatabaseForV2Certification({ userId }));
       databaseBuilder.factory.buildCompetenceMark({
@@ -335,7 +335,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
   describe('GET /api/certificate-summaries', function () {
     let certificationCenterId;
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
       userId = databaseBuilder.factory.buildUser().id;
       certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'SunnydaleHigh' }).id;
     });
@@ -477,7 +477,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
   describe('POST /api/shared-certifications', function () {
     beforeEach(async function () {
-      server = await createServer();
+      server = await getServer();
 
       const userId = databaseBuilder.factory.buildUser().id;
       ({ session, badge, certificationCourse, assessmentResult } = await _buildDatabaseForV2Certification({ userId }));
@@ -650,7 +650,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
           await databaseBuilder.commit();
 
-          const server = await createServer();
+          const server = await getServer();
 
           // when
           const response = await server.inject({
@@ -703,7 +703,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
           await databaseBuilder.commit();
 
-          const server = await createServer();
+          const server = await getServer();
 
           // when
           const response = await server.inject({
@@ -729,7 +729,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         const { certificationCourse } = await _buildDatabaseForV2Certification({ userId });
         await databaseBuilder.commit();
 
-        const server = await createServer();
+        const server = await getServer();
 
         // when
         const response = await server.inject({
@@ -802,7 +802,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         await databaseBuilder.commit();
 
-        const server = await createServer();
+        const server = await getServer();
 
         const options = {
           method: 'GET',
@@ -873,7 +873,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         await databaseBuilder.commit();
 
-        const server = await createServer();
+        const server = await getServer();
 
         const options = {
           method: 'GET',
@@ -903,7 +903,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         const { session } = await _buildDatabaseForV2Certification({ userId: superAdmin.id });
         await databaseBuilder.commit();
 
-        const server = await createServer();
+        const server = await getServer();
 
         // when
         const response = await server.inject({
@@ -929,7 +929,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         const { session } = await _buildDatabaseForV2Certification({ userId: superAdmin.id });
         await databaseBuilder.commit();
 
-        const server = await createServer();
+        const server = await getServer();
 
         // when
         const response = await server.inject({

@@ -6,7 +6,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
  * @param {string} params.division
  * @returns {Promise<Array<number>>} candidates identifiers of active students participants to certification sessions within given division
  */
-const findIdsByOrganizationIdAndDivision = function ({ organizationId, division }) {
+export function findIdsByOrganizationIdAndDivision({ organizationId, division }) {
   const knexConn = DomainTransaction.getConnection();
   const uniqLastCandidatesByOrganizationLearners = knexConn
     .select(
@@ -41,15 +41,17 @@ const findIdsByOrganizationIdAndDivision = function ({ organizationId, division 
     .pluck('id')
     .from(uniqLastCandidatesByOrganizationLearners)
     .where('uniqLastCandidatesByOrganizationLearners.session_number', 1);
-};
+}
 
-const _sessionHasBeenPublished = (builder) =>
-  builder.whereNotNull('sessions.publishedAt').where('certification-courses.isPublished', '=', true);
+function _sessionHasBeenPublished(builder) {
+  return builder.whereNotNull('sessions.publishedAt').where('certification-courses.isPublished', '=', true);
+}
 
-const _candidateJoinedTheSession = (builder) =>
-  builder.whereNotNull('certification-candidates.userId').whereNotNull('certification-courses.id');
+function _candidateJoinedTheSession(builder) {
+  return builder.whereNotNull('certification-candidates.userId').whereNotNull('certification-courses.id');
+}
 
-const _candidateIsAnActiveStudentOfTheDivision = ({ organizationId, division }) => {
+function _candidateIsAnActiveStudentOfTheDivision({ organizationId, division }) {
   return (builder) =>
     builder
       .whereNotNull('certification-candidates.organizationLearnerId')
@@ -58,6 +60,4 @@ const _candidateIsAnActiveStudentOfTheDivision = ({ organizationId, division }) 
         'learners.isDisabled': false,
       })
       .whereRaw('LOWER(learners.division) = ?', division.toLowerCase());
-};
-
-export { findIdsByOrganizationIdAndDivision };
+}

@@ -1,0 +1,162 @@
+import { certificationPointOfContactSerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/certification-point-of-contact.serializer.js';
+import { expect } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+
+describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {
+  describe('#serialize()', function () {
+    it('converts a CertificationPointOfContact model into JSON API data', function () {
+      // given
+      const habilitation1 = { id: 1, label: 'Certif comp 1', key: 'CERTIF_COMP_1' };
+      const habilitation2 = { id: 2, label: 'Certif comp 2', key: 'CERTIF_COMP_2' };
+
+      const allowedCertificationCenterAccess1 = domainBuilder.buildAllowedCertificationCenterAccess({
+        id: 123,
+        name: 'Sunnydale Center',
+        externalId: 'BUFFY_SLAYER',
+        type: 'PRO',
+        isRelatedToManagingStudentsOrganization: false,
+        relatedOrganizationTags: [],
+        habilitations: [habilitation1, habilitation2],
+        scoBlockedAccessDateCollege: '2022-06-01',
+        scoBlockedAccessDateLycee: '2022-08-01',
+      });
+
+      const allowedCertificationCenterAccess2 = domainBuilder.buildAllowedCertificationCenterAccess({
+        id: 456,
+        name: 'Hellmouth',
+        externalId: 'SPIKE',
+        type: 'SCO',
+        isRelatedToManagingStudentsOrganization: true,
+        relatedOrganizationTags: ['tag1'],
+        habilitations: [],
+        scoBlockedAccessDateCollege: '2022-06-01',
+        scoBlockedAccessDateLycee: '2022-08-01',
+      });
+
+      const certificationCenterMemberships = [
+        {
+          id: 1231,
+          certificationCenterId: 123,
+          userId: 789,
+          role: 'ADMIN',
+        },
+        {
+          id: 1232,
+          certificationCenterId: 456,
+          userId: 789,
+          role: 'MEMBER',
+        },
+      ];
+
+      const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
+        id: 789,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        email: 'buffy.summers@example.net',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [allowedCertificationCenterAccess1, allowedCertificationCenterAccess2],
+        certificationCenterMemberships,
+      });
+
+      // when
+      const jsonApi = certificationPointOfContactSerializer.serialize(certificationPointOfContact);
+
+      // then
+      expect(jsonApi).to.deep.equal({
+        data: {
+          id: '789',
+          type: 'certification-point-of-contact',
+          attributes: {
+            'first-name': 'Buffy',
+            'last-name': 'Summers',
+            email: 'buffy.summers@example.net',
+            lang: 'fr',
+            'pix-certif-terms-of-service-accepted': true,
+          },
+          relationships: {
+            'allowed-certification-center-accesses': {
+              data: [
+                {
+                  id: '123',
+                  type: 'allowed-certification-center-access',
+                },
+                {
+                  id: '456',
+                  type: 'allowed-certification-center-access',
+                },
+              ],
+            },
+            'certification-center-memberships': {
+              data: [
+                {
+                  id: '1231',
+                  type: 'certification-center-membership',
+                },
+                {
+                  id: '1232',
+                  type: 'certification-center-membership',
+                },
+              ],
+            },
+          },
+        },
+        included: [
+          {
+            id: '123',
+            type: 'allowed-certification-center-access',
+            attributes: {
+              name: 'Sunnydale Center',
+              'external-id': 'BUFFY_SLAYER',
+              type: 'PRO',
+              'is-related-to-managing-students-organization': false,
+              'is-access-blocked-college': false,
+              'is-access-blocked-lycee': false,
+              'is-access-blocked-aefe': false,
+              'is-access-blocked-agri': false,
+              'pix-certif-sco-blocked-access-date-college': '2022-06-01',
+              'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
+              'related-organization-tags': [],
+              habilitations: [habilitation1, habilitation2],
+            },
+          },
+          {
+            id: '456',
+            type: 'allowed-certification-center-access',
+            attributes: {
+              name: 'Hellmouth',
+              'external-id': 'SPIKE',
+              type: 'SCO',
+              'is-related-to-managing-students-organization': true,
+              'is-access-blocked-college': false,
+              'is-access-blocked-lycee': false,
+              'is-access-blocked-aefe': false,
+              'is-access-blocked-agri': false,
+              'pix-certif-sco-blocked-access-date-college': '2022-06-01',
+              'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
+              'related-organization-tags': ['tag1'],
+              habilitations: [],
+            },
+          },
+          {
+            id: '1231',
+            type: 'certification-center-membership',
+            attributes: {
+              'certification-center-id': 123,
+              'user-id': 789,
+              role: 'ADMIN',
+            },
+          },
+          {
+            id: '1232',
+            type: 'certification-center-membership',
+            attributes: {
+              'certification-center-id': 456,
+              'user-id': 789,
+              role: 'MEMBER',
+            },
+          },
+        ],
+      });
+    });
+  });
+});

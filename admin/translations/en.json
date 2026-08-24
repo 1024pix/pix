@@ -10,9 +10,11 @@
       "confirm-deletion": "Yes, delete",
       "confirm-title": "Please confirm",
       "copied": "Copied!",
+      "copy-id": "Copy ID",
       "deactivate": "Deactivate",
       "download-template": "Download template",
       "edit": "Edit",
+      "next": "Next",
       "save": "Save",
       "validate": "Validate"
     },
@@ -473,6 +475,7 @@
         }
       },
       "creation": {
+        "attached-organization-name": "Attached organization : {attachedOrganizationName}",
         "complementary-certifications-habilitations": "Habilitations to complementary certifications",
         "configuration": "Configuration",
         "dpo": {
@@ -576,6 +579,34 @@
           "status": "Status:"
         },
         "versions": {
+          "calibration": {
+            "calibration-id-input-label": "Calibration ID (provided by Data)",
+            "label-for-CALIBRATED_CHALLENGE_COUNT": "Count of calibrated challenges",
+            "label-for-CALIBRATION_SCOPE": "Planned for scope",
+            "label-for-CALIBRATION_STARTED_AT": "Started at",
+            "label-for-CALIBRATION_STATUS": "Status",
+            "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Tubes in calibration only",
+            "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
+            "report-title": "Check calibration report of ID {calibrationId} generated at",
+            "save-button-label": "Save calibration for ID {id}",
+            "save-success-message": "The update went smoothly!",
+            "scopes": {
+              "CORE": "Pix Core",
+              "DROIT": "Pix+ Law",
+              "EDU_1ER_DEGRE": "Pix+ Edu Primary School",
+              "EDU_2ND_DEGRE": "Pix+ Edu Secondary School",
+              "EDU_CPE": "Pix+ Edu CPE",
+              "PRO_SANTE": "Pix+ Pro Health"
+            },
+            "show-additional-info": "Show more info about line {lineNumber} of the report",
+            "statuses": {
+              "INVALIDATED": "Invalidated",
+              "TO_VALIDATE": "To validate",
+              "VALIDATED": "Validated"
+            },
+            "title": "Calibration of challenges",
+            "verify-calibration-id-button": "Check the calibration"
+          },
           "edit": {
             "assessment-duration-label": "Assessment duration (hh:mm):",
             "challenges-between-same-competence-label": "Number of questions between two questions assessing the same competency:",
@@ -598,6 +629,14 @@
             "title": "Creating a new version of the certification framework for {frameworkLabel}"
           },
           "page-title": "Creation of a new version of the certification in {scope} framework",
+          "scoring": {
+            "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
+            "capacity-submit-button": "Save capacities by mesh",
+            "level": "Level {index}",
+            "previous-version-capacity": "Previous value: {previousVersionCapacity}",
+            "success-notification": "The scoring has been successfully updated",
+            "title": "Bounds of capacity by mesh"
+          },
           "title": "Creating a Certification Release"
         }
       },
@@ -736,8 +775,8 @@
         "generalInfoCardTitle": "General information",
         "notifications": {
           "addItemError": "Oops. Resource not found.",
+          "campaignNotFound": "No target profile found with given id",
           "error": "Oops. Something went wrong. Please try again.",
-          "evaluationNotFound": "No target profile found with given id",
           "moduleNotFound": "No module found with given short id",
           "success": "Combined course blueprint created successfully!"
         },
@@ -754,14 +793,22 @@
       "labels": {
         "attestation": "Attestation",
         "created-at": "Creation date",
-        "description": " Description",
-        "description-sublabel": "This description will be seen by users",
+        "description": "Pix App description",
+        "description-sublabel": "This description will be seen by Pix App users at the beginning of the course",
         "illustration": "Illustration",
         "internal-name": "Internal name",
         "itemId": "Id",
         "module": "Module",
         "name": "External name",
-        "reward-requirements": "Reward requirements",
+        "prescriber-description": "Prescriber description",
+        "prescriber-description-sublabel": "This description will be seen by the prescribers in Pix Orga",
+        "reward-requirements": {
+          "add-new-tubes-selection": "Add a new selection of capped tubes",
+          "description": "Reward requirements",
+          "multiple-subsets-option": "on multiple sets of capped tubes",
+          "one-subset-option": "on the whole combined course blueprint",
+          "reward-criteria-choice": "Choose a reward requirement rule :"
+        },
         "survey-link": "Survey link url",
         "target-profile": "Target profile"
       },
@@ -780,6 +827,14 @@
       "organizations": {
         "detach-organization": "Are you sure you want to detach <strong>{organizationName}</strong> from combined course blueprint <strong>{name}</strong>",
         "detach-organization-success": "Blueprint is not shared with organization {name} anymore."
+      },
+      "reward-requirements": {
+        "levels": "Levels",
+        "requirements-group-name": "Requirements group",
+        "thematics": "Thematics",
+        "threshold": "Required success threshold",
+        "title": "Capped tubes requirements",
+        "tubes": "Tubes"
       },
       "survey-link": {
         "not-provided": "No survey link has been defined"
@@ -941,6 +996,7 @@
           "updated-at": "Updated at",
           "user-id": "User ID"
         },
+        "view-learner": "View more informations about the learner {learner} - external link",
         "view-organization": "View organization",
         "view-user": "View user"
       }
@@ -963,6 +1019,7 @@
           "input-sublabel": "ID of the center",
           "name": "Attach a certification center"
         },
+        "creation-button": "Create a certification center",
         "empty": "No certification center attached.",
         "notifications": {
           "attach-success": "The certification center has been successfully attached to the organization.",
@@ -1089,7 +1146,7 @@
         "required-fields-error": "Please fill in all required fields."
       },
       "head-information": {
-        "copy-id": "Copy ID",
+        "change-logo": "Change logo",
         "head-organization-tag": "Head of network",
         "network": "Network:",
         "notifications": {
@@ -1114,6 +1171,7 @@
             "undone": "This action cannot be undone."
           }
         },
+        "category": "Category",
         "code": "Code",
         "country": {
           "label": "Country (INSEE code)",
@@ -1496,6 +1554,15 @@
         "new-certification-center": "New certification center",
         "parent-page": "All certification centers"
       },
+      "get": {
+        "navbar": {
+          "aria-label": "Certification center navigation section",
+          "attached-organizations": "Attached organization",
+          "details": "Details",
+          "invitations": "Invitations",
+          "team": "Team"
+        }
+      },
       "information-view": {
         "habilitations": {
           "aria-label": {
@@ -1518,6 +1585,7 @@
       "navbar": {
         "aria-label": "Certification center navigation section",
         "attached-organizations": "Attached organization",
+        "details": "Details",
         "invitations": "Invitations",
         "team": "Team"
       },
@@ -1576,7 +1644,7 @@
           "title": "Details",
           "v3": {
             "abort-reason": {
-              "candidate": "Withdrawal: Lack of time or early departure",
+              "candidate": "Test not completed within the allotted time",
               "technical": "Technical problem"
             },
             "answer-status": {
@@ -1602,7 +1670,7 @@
             },
             "general-informations": {
               "labels": {
-                "abort-reason": "Reason for withdrawal",
+                "abort-reason": "Reason for interruption",
                 "created-at": "Created on",
                 "ended-by": "Certification completed by",
                 "last-answer-at": "Last answer on",

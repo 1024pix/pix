@@ -1,14 +1,14 @@
-import { createServer } from '../../../../../../server.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | stage-collection', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('PATCH api/admin/stage-collections/{id}', function () {

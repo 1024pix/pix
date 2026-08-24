@@ -296,21 +296,21 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Campaña de evaluación",
-        "CAMPAIGN": "Campaña de evaluación",
         "COMBINED_COURSE": "Ruta de aprendizaje",
         "EXAM": "Modo de consulta",
-        "FORMATION": "Formación",
-        "MODULE": "Módulo",
-        "PROFILES_COLLECTION": "Campaña de recogida de perfiles"
+        "PROFILES_COLLECTION": "Campaña de recogida de perfiles",
+        "campaign": "Campaña de evaluación",
+        "formation": "Formación",
+        "module": "Módulo"
       },
       "information": {
         "ASSESSMENT": "Evaluación",
-        "CAMPAIGN": "Evaluación",
         "COMBINED_COURSE": "Ruta de aprendizaje",
         "EXAM": "Modo de consulta",
-        "FORMATION": "Formación",
-        "MODULE": "Módulo",
-        "PROFILES_COLLECTION": "Colección de perfiles"
+        "PROFILES_COLLECTION": "Colección de perfiles",
+        "campaign": "Evaluación",
+        "formation": "Formación",
+        "module": "Módulo"
       }
     },
     "analysis-per-competence": {
@@ -816,7 +816,8 @@
         "label": "¿Cuál es el objetivo de su campaña?",
         "profiles-collection": "Recoger los perfiles Pix de los participantes",
         "profiles-collection-info": "Se utiliza una campaña de recogida de perfiles para recuperar el perfil de los participantes: niveles por habilidad y puntuación pix.",
-        "profiles-collection-info-certificability-calculation": "El estado certificable se actualiza automáticamente en la pestaña <'a href=\"/eleves\" class=\"{linkClasses}\"'>'Alumnos'</a>'."
+        "profiles-collection-info-certificability-calculation": "El estado certificable se actualiza automáticamente en la pestaña <'a href=\"/eleves\" class=\"{linkClasses}\"'>'Alumnos'</a>'.",
+        "title": "Objetivo"
       },
       "settings": {
         "title": "Configuración"
@@ -1042,7 +1043,7 @@
         "simplified-access": "Acceso sin cuenta",
         "tag": {
           "blueprint": "Ruta de aprendizaje",
-          "target-profile": "Cursos"
+          "target-profile": "Ruta de evaluación"
         },
         "tubes-count": "{count, plural, =0 {Sin temas} =1 {{count} tema} other {{count} temas}}"
       },
@@ -1074,17 +1075,20 @@
         "associated-badges": "Insignias relacionadas",
         "combined-course-content": {
           "aria-label-duration": "Duración estimada: {duration} minutos",
-          "description": "Las rutas de aprendizaje combinan evaluaciones y módulos de aprendizaje personalizados, permitiendo adaptar la enseñanza al nivel de cada participante.",
           "duration": "≈ {duration} min",
           "module-info": "Los módulos se recomendarán a los participantes en función de sus resultados.",
           "prescribed": "Prescrito",
           "recommended": "Recomendado",
           "step": "Paso {number}",
-          "title": "Rutas de aprendizaje"
+          "title": "Contenido de la ruta de aprendizaje"
         },
         "max-level": "Nivel máx.",
         "open-modal": "Ver detalles del curso {name}",
         "select-course": "Seleccionar este curso",
+        "target-profile-content": {
+          "competence": "Competencia",
+          "title": "Contenido de la ruta de evaluación"
+        },
         "tube-name-and-description": "Nombre y descripción del tema",
         "tube-unavailable": "Tema no disponible"
       },
@@ -1127,6 +1131,7 @@
         "breadcrumb": "Participación de {firstName} {lastName}",
         "column": {
           "campaign": "Campaña",
+          "mastery-rate": "Porcentaje de éxito",
           "module": "Módulo",
           "status": "Estado"
         },

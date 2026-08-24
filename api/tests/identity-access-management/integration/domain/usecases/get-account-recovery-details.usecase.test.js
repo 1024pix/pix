@@ -14,14 +14,9 @@ describe('Integration | Domain | Usecases | get-account-recovery-details', funct
   context('when user has no username and no GAR authentication method', function () {
     it('returns new email, firstName, hasScoUsername as false and hasGarAuthenticationMethod as false', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser.withRawPassword();
-      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-        userId: user.id,
-        firstName,
-      });
+      const user = databaseBuilder.factory.buildUser.withRawPassword({ firstName });
       databaseBuilder.factory.buildAccountRecoveryDemand({
         userId: user.id,
-        organizationLearnerId,
         temporaryKey,
         newEmail,
         used: false,
@@ -43,15 +38,9 @@ describe('Integration | Domain | Usecases | get-account-recovery-details', funct
     it('returns new email, firstName, hasScoUsername as true and hasGarAuthenticationMethod as false', async function () {
       // given
       const username = 'gertrude.0202';
-
-      const user = databaseBuilder.factory.buildUser.withRawPassword({ username });
-      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-        userId: user.id,
-        firstName,
-      });
+      const user = databaseBuilder.factory.buildUser.withRawPassword({ firstName, username });
       databaseBuilder.factory.buildAccountRecoveryDemand({
         userId: user.id,
-        organizationLearnerId,
         temporaryKey,
         newEmail,
         used: false,
@@ -72,15 +61,10 @@ describe('Integration | Domain | Usecases | get-account-recovery-details', funct
   context('when user has a GAR authentication method', function () {
     it('returns new email, firstName, hasScoUsername as false and hasGarAuthenticationMethod as true', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser.withRawPassword();
+      const user = databaseBuilder.factory.buildUser.withRawPassword({ firstName });
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
-      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-        userId: user.id,
-        firstName,
-      });
       databaseBuilder.factory.buildAccountRecoveryDemand({
         userId: user.id,
-        organizationLearnerId,
         temporaryKey,
         newEmail,
         used: false,

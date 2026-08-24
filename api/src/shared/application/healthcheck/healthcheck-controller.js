@@ -2,7 +2,7 @@ import os from 'node:os';
 
 import Boom from '@hapi/boom';
 
-import { databaseConnections } from '../../../../db/database-connections.js';
+import { databaseConnectionRegistry } from '../../../../db/database-connection-registry.js';
 import packageJSON from '../../../../package.json' with { type: 'json' };
 import { config } from '../../config.js';
 import { getBaseLocale } from '../../domain/services/locale-service.js';
@@ -30,7 +30,7 @@ const get = function (request) {
 
 const checkDbStatus = async function () {
   try {
-    await databaseConnections.checkStatuses();
+    await databaseConnectionRegistry.checkStatuses();
     return { message: 'Connection to databases ok' };
   } catch (error) {
     throw Boom.serverUnavailable(`Connection to databases failed: ${error.message}`);

@@ -8,10 +8,10 @@ import Breadcrumb from 'pix-orga/components/ui/breadcrumb';
 import PageTitle from 'pix-orga/components/ui/page-title';
 import ParticipationStatus from 'pix-orga/components/ui/participation-status';
 
-const ITEM_TYPES = {
-  CAMPAIGN: 'CAMPAIGN',
-  FORMATION: 'FORMATION',
-  MODULE: 'MODULE',
+const COMBINED_COURSE_ITEM_TYPES = {
+  CAMPAIGN: 'campaign',
+  FORMATION: 'formation',
+  MODULE: 'module',
 };
 
 export default class ParticipationDetail extends Component {
@@ -25,7 +25,7 @@ export default class ParticipationDetail extends Component {
   getColumnLabel = (items) => {
     if (!items || items.length === 0) return '';
     const firstItemType = items[0].type;
-    const key = firstItemType === ITEM_TYPES.CAMPAIGN ? 'campaign' : 'module';
+    const key = firstItemType === COMBINED_COURSE_ITEM_TYPES.CAMPAIGN ? 'campaign' : 'module';
     return this.intl.t(`pages.combined-course.participation-detail.column.${key}`);
   };
 
@@ -42,8 +42,18 @@ export default class ParticipationDetail extends Component {
     }
   };
 
+  getFormattedMasteryRate = (masteryRate) => {
+    const rate = masteryRate ?? 0;
+    return `${Math.trunc(rate * 100, 0)} %`;
+  };
+
+  isCampaign = (items) => {
+    const firstItemType = items[0].type;
+    return firstItemType === COMBINED_COURSE_ITEM_TYPES.CAMPAIGN;
+  };
+
   isFormation = (type) => {
-    return type === ITEM_TYPES.FORMATION;
+    return type === COMBINED_COURSE_ITEM_TYPES.FORMATION;
   };
 
   get breadcrumbLinks() {
@@ -114,6 +124,17 @@ export default class ParticipationDetail extends Component {
               </span>
             </:cell>
           </PixTableColumn>
+
+          {{#if (this.isCampaign items)}}
+            <PixTableColumn @context={{context}} class="participation-detail__mastery-rate-column">
+              <:header>
+                {{t "pages.combined-course.participation-detail.column.mastery-rate"}}
+              </:header>
+              <:cell>
+                {{this.getFormattedMasteryRate item.masteryRate}}
+              </:cell>
+            </PixTableColumn>
+          {{/if}}
 
           <PixTableColumn @context={{context}} class="participation-detail__status-column">
             <:header>

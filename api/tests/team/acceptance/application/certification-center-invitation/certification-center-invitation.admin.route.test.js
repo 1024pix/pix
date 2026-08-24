@@ -1,16 +1,16 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Team | Application | Route | Admin | Certification Center Invitation', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/admin/certification-centers/{certificationCenterId}/invitations', function () {
@@ -75,18 +75,13 @@ describe('Acceptance | Team | Application | Route | Admin | Certification Center
   });
 
   describe('POST /api/admin/certification-centers/{certificationCenterId}/invitations', function () {
-    let clock;
     const now = new Date('2021-05-01');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now,
         toFake: ['Date'],
       });
-    });
-
-    afterEach(async function () {
-      clock.restore();
     });
 
     it('returns 201 HTTP status code with created invitation', async function () {

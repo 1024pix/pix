@@ -168,16 +168,11 @@ describe('Integration | Repository | training-trigger-repository', function () {
     });
 
     context('when trigger already exists', function () {
-      let clock;
       let now;
 
       beforeEach(function () {
         now = new Date('2022-02-02');
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       it('should update it', async function () {

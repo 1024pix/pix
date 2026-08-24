@@ -2,7 +2,6 @@ import sinon from 'sinon';
 
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import {
-  CampaignParticipationLoggerContext,
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
@@ -13,6 +12,7 @@ import {
   CampaignParticipationDeletedError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { CampaignParticipationLoggerContext } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -21,15 +21,10 @@ const { SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Models | CampaignParticipation', function () {
   describe('delete', function () {
-    let clock;
     const now = new Date('2021-09-25');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
     });
 
     it('updates attributes deletedAt,deletedBy and userId', function () {
@@ -112,15 +107,10 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
   describe('share', function () {
     context('when the campaign is not archived nor deleted', function () {
-      let clock;
       const now = new Date('2021-09-25');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
-      });
-
-      afterEach(function () {
-        clock.restore();
+        sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
       });
 
       context('when the campaign is already shared', function () {

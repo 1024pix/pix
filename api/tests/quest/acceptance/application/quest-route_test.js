@@ -1,6 +1,5 @@
 import iconv from 'iconv-lite';
 
-import { createServer } from '../../../../server.js';
 import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
@@ -8,13 +7,14 @@ import {
 } from '../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Acceptance | Application | Quest Route ', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/campaign-participations/{campaignParticipationId}/quest-results', function () {

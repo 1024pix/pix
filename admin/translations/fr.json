@@ -10,9 +10,11 @@
       "confirm-deletion": "Oui, je supprime",
       "confirm-title": "Merci de confirmer",
       "copied": "Copié !",
+      "copy-id": "Copier l'ID",
       "deactivate": "Désactiver",
       "download-template": "Télécharger le template",
       "edit": "Modifier",
+      "next": "Suivant",
       "save": "Enregistrer",
       "validate": "Valider"
     },
@@ -480,6 +482,7 @@
         }
       },
       "creation": {
+        "attached-organization-name": "Organisation rattachée : {attachedOrganizationName}",
         "complementary-certifications-habilitations": "Habilitations aux certifications complémentaires",
         "configuration": "Paramétrage",
         "dpo": {
@@ -584,6 +587,34 @@
           "status": "Statut :"
         },
         "versions": {
+          "calibration": {
+            "calibration-id-input-label": "ID de calibration (fourni par Data)",
+            "label-for-CALIBRATED_CHALLENGE_COUNT": "Nombre d'épreuves calibrées",
+            "label-for-CALIBRATION_SCOPE": "Prévue pour le référentiel",
+            "label-for-CALIBRATION_STARTED_AT": "Démarrée le",
+            "label-for-CALIBRATION_STATUS": "Statut",
+            "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents dans la calibration uniquement",
+            "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents dans la version uniquement",
+            "report-title": "Rapport de vérification de la calibration d'ID {calibrationId} généré le",
+            "save-button-label": "Enregistrer l'ID {id} de calibration",
+            "save-success-message": "La mise à jour s'est bien faite !",
+            "scopes": {
+              "CORE": "Pix Cœur (transverse)",
+              "DROIT": "Pix+ Droit",
+              "EDU_1ER_DEGRE": "Pix+ Édu 1er degré",
+              "EDU_2ND_DEGRE": "Pix+ Édu 2nd degré",
+              "EDU_CPE": "Pix+ Édu CPE",
+              "PRO_SANTE": "Pix+ Pro Santé"
+            },
+            "show-additional-info": "Montrer plus d'informations sur la ligne {lineNumber} du rapport",
+            "statuses": {
+              "INVALIDATED": "Invalidée",
+              "TO_VALIDATE": "À valider",
+              "VALIDATED": "Validée"
+            },
+            "title": "Calibration des épreuves",
+            "verify-calibration-id-button": "Vérifier la calibration"
+          },
           "edit": {
             "assessment-duration-label": "Durée de l’épreuve (hh:mm) :",
             "challenges-between-same-competence-label": "Nombre de question entre 2 questions de la même compétence :",
@@ -606,6 +637,14 @@
             "title": "Création d'une nouvelle version du référentiel de certification"
           },
           "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}",
+          "scoring": {
+            "cannot-be-lower-error": "La capacité maximale d'un niveau doit être strictement supérieur à sa capacité minimale.",
+            "capacity-submit-button": "Sauvegarder les capacités par mailles",
+            "level": "Niveau {index}",
+            "previous-version-capacity": "Ancienne valeur : {previousVersionCapacity}",
+            "success-notification": "Le scoring a bien été mis à jour",
+            "title": "Bornes de capacités par mailles"
+          },
           "title": "Création d'une version de certification"
         }
       },
@@ -744,8 +783,8 @@
         "generalInfoCardTitle": "Informations générales",
         "notifications": {
           "addItemError": "Oups. Une erreur est survenue lors de l'ajout de la ressource.",
+          "campaignNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi",
           "error": "Oups. Une erreur est survenue lors de la création du schéma de parcours.",
-          "evaluationNotFound": "Il n'existe pas de profil cible avec l'identifiant saisi",
           "moduleNotFound": "Il n'existe pas de module avec l'identifiant saisi",
           "success": "Création du schéma de parcours réussie !"
         },
@@ -762,14 +801,22 @@
       "labels": {
         "attestation": "Attestation",
         "created-at": "Date de création",
-        "description": "Description",
-        "description-sublabel": "Cette description sera visible par les utilisateurs",
+        "description": "Description Pix App",
+        "description-sublabel": "Cette description sera visible par les utilisateurs de Pix App en début de parcours",
         "illustration": "Illustration",
         "internal-name": "Nom interne",
         "itemId": "Identifiant",
         "module": "Module",
         "name": "Nom externe",
-        "reward-requirements": "Description des critères d’obtention",
+        "prescriber-description": "Description prescripteur",
+        "prescriber-description-sublabel": "Cette description sera visible par les prescripteurs dans Pix Orga",
+        "reward-requirements": {
+          "add-new-tubes-selection": "Ajouter une nouvelle sélection de sujets",
+          "description": "Description des critères d’obtention",
+          "multiple-subsets-option": "sur une sélection de sujets du schéma de parcours",
+          "one-subset-option": "sur l'ensemble du schéma de parcours",
+          "reward-criteria-choice": "Définir un critère d'obtention :"
+        },
         "survey-link": "Url du questionnaire de fin de parcours",
         "target-profile": "Profil cible"
       },
@@ -788,6 +835,14 @@
       "organizations": {
         "detach-organization": "Etes-vous sûr de vouloir détacher l'organisation <strong>{organizationName}</strong> du schéma de parcours <strong>{name}</strong>",
         "detach-organization-success": "Le schéma de parcours n'est plus partagé avec l'organisation {name}."
+      },
+      "reward-requirements": {
+        "levels": "Niveaux",
+        "requirements-group-name": "Groupe de critères",
+        "thematics": "Thématiques",
+        "threshold": "Taux de réussite requis",
+        "title": "Critères de sujets cappés",
+        "tubes": "Sujets"
       },
       "survey-link": {
         "not-provided": "Aucun questionnaire paramétré"
@@ -949,6 +1004,7 @@
           "updated-at": "Date MAJ",
           "user-id": "User ID"
         },
+        "view-learner": "Voir plus d'informations sur le prescrit {learner} - lien externe",
         "view-organization": "Voir l'organisation",
         "view-user": "Voir l'utilisateur"
       }
@@ -971,6 +1027,7 @@
           "input-sublabel": "ID du centre",
           "name": "Rattacher un centre de certification"
         },
+        "creation-button": "Créer un centre de certification",
         "empty": "Aucun centre de certification rattaché.",
         "notifications": {
           "attach-success": "Le centre de certification a bien été rattaché à l'organisation.",
@@ -1097,7 +1154,7 @@
         "required-fields-error": "Veuillez remplir tous les champs obligatoires."
       },
       "head-information": {
-        "copy-id": "Copier l'ID",
+        "change-logo": "Changer le logo",
         "head-organization-tag": "Tête de réseau",
         "network": "Réseau :",
         "notifications": {
@@ -1122,6 +1179,7 @@
             "undone": "Cette action est irréversible."
           }
         },
+        "category": "Catégorie",
         "code": "Code",
         "country": {
           "label": "Pays (code INSEE)",
@@ -1510,6 +1568,7 @@
         "navbar": {
           "aria-label": "Navigation de la section centre de certification",
           "attached-organizations": "Lien orga",
+          "details": "Détails",
           "invitations": "Invitations",
           "team": "Équipe"
         }
@@ -1588,7 +1647,7 @@
           "title": "Détails",
           "v3": {
             "abort-reason": {
-              "candidate": "Abandon : Manque de temps ou départ prématuré",
+              "candidate": "Test non finalisé dans le délai imparti",
               "technical": "Problème technique"
             },
             "answer-status": {
@@ -1614,7 +1673,7 @@
             },
             "general-informations": {
               "labels": {
-                "abort-reason": "Raison de l'abandon",
+                "abort-reason": "Motif d'interruption",
                 "created-at": "Créée le",
                 "ended-by": "Certification terminée par",
                 "last-answer-at": "Dernière réponse le",

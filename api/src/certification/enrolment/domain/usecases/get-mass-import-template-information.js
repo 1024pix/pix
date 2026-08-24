@@ -1,6 +1,6 @@
 /**
  * @typedef {import("./index.js").CenterRepository} CenterRepository
- * @typedef {import("../models/Center.js").Center} Center
+ * @typedef {import("../../../../organizational-entities/domain/models/Center.js").Center} Center
  * @typedef {import("../../../../shared/domain/errors.js").NotFoundError} NotFoundError
  */
 

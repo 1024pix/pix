@@ -6,7 +6,6 @@
     "certification/evaluation",
     "certification/results",
     "certification/session-management",
-    "evaluation",
     "shared"
   ],
   "circular": "forbidden"

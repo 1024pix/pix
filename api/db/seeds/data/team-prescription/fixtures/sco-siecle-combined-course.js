@@ -50,6 +50,7 @@ export const SCO_SIECLE_COMBINED_COURSE = {
       group: null,
       status: OrganizationLearnerParticipationStatuses.STARTED,
       campaignStatus: CampaignParticipationStatuses.SHARED,
+      masteryRate: faker.number.float({ min: 0, max: 1 }),
     },
     {
       firstName: faker.person.firstName(),
@@ -59,6 +60,7 @@ export const SCO_SIECLE_COMBINED_COURSE = {
       group: null,
       status: OrganizationLearnerParticipationStatuses.STARTED,
       campaignStatus: CampaignParticipationStatuses.SHARED,
+      masteryRate: faker.number.float({ min: 0, max: 1 }),
     },
     {
       firstName: faker.person.firstName(),
@@ -68,6 +70,7 @@ export const SCO_SIECLE_COMBINED_COURSE = {
       group: null,
       status: OrganizationLearnerParticipationStatuses.STARTED,
       campaignStatus: CampaignParticipationStatuses.SHARED,
+      masteryRate: faker.number.float({ min: 0, max: 1 }),
     },
   ],
 };

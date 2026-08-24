@@ -7,6 +7,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
+    "strictNullChecks": true,
     "resolveJsonModule": true,
     "disableSizeLimit": true,
     "maxNodeModuleJsDepth": 0

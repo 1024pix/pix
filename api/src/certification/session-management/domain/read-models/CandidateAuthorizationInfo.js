@@ -1,5 +1,9 @@
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
-const MAXIMAL_CERTIFICATION_DURATION_IN_MS = 24 * 60 * 60 * 1000; // 24h
+import {
+  AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS,
+  MAXIMAL_CERTIFICATION_DURATION_IN_MS,
+  MAXIMAL_SESSION_DURATION_IN_MS,
+} from '../constants.js';
 
 export class CandidateAuthorizationInfo {
   constructor({
@@ -7,11 +11,11 @@ export class CandidateAuthorizationInfo {
     sessionId,
     sessionAccessCode,
     sessionFinalizedAt,
-    sessionPublishedAt,
+    sessionStartedAt,
     reconciledUserId,
     reconciledAt,
     subscription,
-    authorizedToStart,
+    authorizedToStartAt,
     certificationId,
     certificationStartedAt,
     centerHabilitations = {},
@@ -20,13 +24,15 @@ export class CandidateAuthorizationInfo {
     this.sessionId = sessionId;
     this.sessionAccessCode = sessionAccessCode;
     this.sessionFinalizedAt = sessionFinalizedAt;
-    this.sessionPublishedAt = sessionPublishedAt;
     this.reconciledUserId = reconciledUserId;
     this.reconciledAt = reconciledAt;
     this.subscription = subscription;
-    this.authorizedToStart = authorizedToStart;
+    this.authorizedToStartAt = authorizedToStartAt;
     this.certificationId = certificationId;
     this.certificationStartedAt = certificationStartedAt;
+    this.sessionIsOvertime = sessionStartedAt
+      ? computeElapsedTime(sessionStartedAt) > MAXIMAL_SESSION_DURATION_IN_MS
+      : false;
     this.centerHabilitations = {};
     for (const framework of Object.values(Frameworks)) {
       this.centerHabilitations[framework] =
@@ -34,13 +40,13 @@ export class CandidateAuthorizationInfo {
     }
   }
 
-  get isSessionAccessible() {
-    return !this.sessionFinalizedAt && !this.sessionPublishedAt;
+  get isSessionJoinable() {
+    return !this.sessionFinalizedAt && !this.sessionIsOvertime;
   }
 
   get hasExceededCertificationDuration() {
     if (this.certificationId) {
-      return Date.now() - this.certificationStartedAt.getTime() > MAXIMAL_CERTIFICATION_DURATION_IN_MS;
+      return this.#elapsedTimeSinceCertificationStarted() > MAXIMAL_CERTIFICATION_DURATION_IN_MS;
     }
     return false;
   }
@@ -48,4 +54,23 @@ export class CandidateAuthorizationInfo {
   get isCenterHabilitatedForCandidateSubscription() {
     return this.centerHabilitations[this.subscription];
   }
+
+  get authorizedToStart() {
+    if (this.authorizedToStartAt) {
+      return this.#elapsedTimeSinceInvigilatorAuthorizedToStart() < AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS;
+    }
+    return false;
+  }
+
+  #elapsedTimeSinceInvigilatorAuthorizedToStart() {
+    return Date.now() - this.authorizedToStartAt.getTime();
+  }
+
+  #elapsedTimeSinceCertificationStarted() {
+    return computeElapsedTime(this.certificationStartedAt);
+  }
+}
+
+function computeElapsedTime(from) {
+  return Date.now() - new Date(from).getTime();
 }

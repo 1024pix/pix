@@ -8,11 +8,11 @@
     "organizational-entities",
     "prescription/campaign",
     "prescription/campaign-participation",
-    "prescription/learner-management",
     "prescription/organization-learner",
     "prescription/shared",
     "prescription/target-profile",
     "profile",
+    "team",
     "shared"
   ],
   "circular": "temporary-allowed"

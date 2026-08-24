@@ -111,10 +111,16 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
   @onChangeAbortReason={{this.abort}}
 />`);
 
-    await click(screen.getByRole('button', { name: "Sélectionner la raison de l'abandon" }));
+    await click(
+      screen.getByRole('button', {
+        name: t(
+          'pages.session-finalization.reporting.uncompleted-reports-information.table.labels.abandonment-reason-label',
+        ),
+      }),
+    );
     await click(
       await screen.findByRole('option', {
-        name: 'Problème technique',
+        name: t('pages.session-finalization.reporting.uncompleted-reports-information.table.labels.technical-problem'),
       }),
     );
 

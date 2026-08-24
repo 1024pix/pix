@@ -13,7 +13,7 @@ module(
       // given
       const store = this.owner.lookup('service:store');
       const draftVersion = store.createRecord('certification-version', {
-        id: 456,
+        id: '456',
         startDate: new Date('2023-10-10'),
         assessmentDuration: 95,
         minimumAnswersRequiredForValidation: 20,
@@ -132,7 +132,7 @@ module(
       // given
       const store = this.owner.lookup('service:store');
       const draftVersion = store.createRecord('certification-version', {
-        id: 456,
+        id: '456',
         startDate: null,
         assessmentDuration: 95,
         minimumAnswersRequiredForValidation: 20,
@@ -171,7 +171,7 @@ module(
         // given
         const store = this.owner.lookup('service:store');
         const draftVersion = store.createRecord('certification-version', {
-          id: 456,
+          id: '456',
           status: 'draft',
           scope: 'DROIT',
         });
@@ -198,7 +198,7 @@ module(
         // given
         const store = this.owner.lookup('service:store');
         const activeVersion = store.createRecord('certification-version', {
-          id: 123,
+          id: '123',
           startDate: new Date('2026-01-01'),
           expirationDate: null,
           assessmentDuration: 123,
@@ -215,7 +215,7 @@ module(
         });
 
         const draftVersion = store.createRecord('certification-version', {
-          id: 124,
+          id: '124',
           status: 'draft',
           scope: 'DROIT',
         });
@@ -294,7 +294,7 @@ module(
         // given
         const store = this.owner.lookup('service:store');
         const activeVersion = store.createRecord('certification-version', {
-          id: 123,
+          id: '123',
           status: 'active',
           scope: 'DROIT',
           limitToOneQuestionPerTube: true,
@@ -302,7 +302,7 @@ module(
         });
 
         const draftVersion = store.createRecord('certification-version', {
-          id: 124,
+          id: '124',
           status: 'draft',
           scope: 'DROIT',
         });

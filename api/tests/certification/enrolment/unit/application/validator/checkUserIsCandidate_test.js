@@ -15,10 +15,13 @@ describe('Unit | Application | Validator | checkUserIsCandidateUseCase', functio
       };
 
       candidateRepositoryStub.get.withArgs({ certificationCandidateId }).resolves(
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId,
-          reconciledAt: new Date('2024-09-25'),
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled({
+            userId,
+            reconciledAt: new Date('2024-09-25'),
+          })
+          .build(),
       );
 
       // when
@@ -42,11 +45,9 @@ describe('Unit | Application | Validator | checkUserIsCandidateUseCase', functio
         get: sinon.stub(),
       };
 
-      candidateRepositoryStub.get.withArgs({ certificationCandidateId }).resolves(
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: null,
-        }),
-      );
+      candidateRepositoryStub.get
+        .withArgs({ certificationCandidateId })
+        .resolves(domainBuilder.certification.enrolment.candidateBuilder().build());
 
       // when
       const response = await checkUserIsCandidateUseCase.execute({

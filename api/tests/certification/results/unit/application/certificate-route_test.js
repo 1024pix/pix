@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { certificateController } from '../../../../../src/certification/results/application/certificate-controller.js';
 import { certificateRoute as moduleUnderTest } from '../../../../../src/certification/results/application/certificate-route.js';
+import { resultsSecurityPreHandlers } from '../../../../../src/certification/results/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -22,7 +23,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       // given
       const certificationCourseId = 3695;
       sinon
-        .stub(securityPreHandlers, 'checkUserOwnsCertificationCourse')
+        .stub(resultsSecurityPreHandlers, 'checkUserOwnsCertificationCourse')
         .callsFake((_, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -32,7 +33,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       const response = await httpTestServer.request('GET', `/api/certifications/${certificationCourseId}`);
 
       // then
-      sinon.assert.calledOnce(securityPreHandlers.checkUserOwnsCertificationCourse);
+      sinon.assert.calledOnce(resultsSecurityPreHandlers.checkUserOwnsCertificationCourse);
       expect(response.statusCode).to.equal(403);
     });
 
@@ -41,7 +42,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       const userId = 123;
       const certificationCourseId = 3695;
       sinon
-        .stub(securityPreHandlers, 'checkUserOwnsCertificationCourse')
+        .stub(resultsSecurityPreHandlers, 'checkUserOwnsCertificationCourse')
         .callsFake((_, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -53,7 +54,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       });
 
       // then
-      sinon.assert.calledOnce(securityPreHandlers.checkUserOwnsCertificationCourse);
+      sinon.assert.calledOnce(resultsSecurityPreHandlers.checkUserOwnsCertificationCourse);
       expect(response.statusCode).to.equal(403);
     });
   });
@@ -115,7 +116,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       // given
       const certificationCourseId = 3695;
       sinon
-        .stub(securityPreHandlers, 'checkUserOwnsCertificationCourse')
+        .stub(resultsSecurityPreHandlers, 'checkUserOwnsCertificationCourse')
         .callsFake((_, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -128,7 +129,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       );
 
       // then
-      sinon.assert.calledOnce(securityPreHandlers.checkUserOwnsCertificationCourse);
+      sinon.assert.calledOnce(resultsSecurityPreHandlers.checkUserOwnsCertificationCourse);
       expect(response.statusCode).to.equal(403);
     });
 
@@ -137,7 +138,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       const userId = 123;
       const certificationCourseId = 3695;
       sinon
-        .stub(securityPreHandlers, 'checkUserOwnsCertificationCourse')
+        .stub(resultsSecurityPreHandlers, 'checkUserOwnsCertificationCourse')
         .callsFake((_, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -153,7 +154,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       );
 
       // then
-      sinon.assert.calledOnce(securityPreHandlers.checkUserOwnsCertificationCourse);
+      sinon.assert.calledOnce(resultsSecurityPreHandlers.checkUserOwnsCertificationCourse);
       expect(response.statusCode).to.equal(403);
     });
   });

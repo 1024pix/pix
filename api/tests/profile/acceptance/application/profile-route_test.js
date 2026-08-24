@@ -1,7 +1,7 @@
-import { createServer } from '../../../../server.js';
 import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Profile | Acceptance | Router | profile-route', function () {
@@ -11,7 +11,7 @@ describe('Profile | Acceptance | Router | profile-route', function () {
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /admin/users/:id/profile', function () {

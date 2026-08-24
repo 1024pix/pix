@@ -96,7 +96,7 @@ export class PixPlusDroitV3Seed {
       email: user.email,
       sessionId: V3_PUBLISHED_PIX_DROIT_SESSION,
       userId: user.id,
-      authorizedToStart: true,
+      authorizedToStartAt: new Date(),
       billingMode: 'FREE',
       reconciledAt: now.toDate(),
       subscription: Frameworks.DROIT,

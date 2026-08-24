@@ -1,4 +1,5 @@
 import { ChallengeToPlay } from '../../../../../src/evaluation/domain/models/ChallengeToPlay.js';
+import { CHALLENGE_TYPES as TYPES } from '../../../../../src/shared/constants.js';
 import { buildChallenge } from '../learning-content/build-challenge.js';
 
 export const buildChallengeToPlay = function ({
@@ -6,7 +7,7 @@ export const buildChallengeToPlay = function ({
   instruction = 'foo instruction',
   alternativeInstruction = 'foo alternativeInstruction',
   proposals = 'foo proposals',
-  type = buildChallenge.TYPES.QCM,
+  type = TYPES.QCM,
   shuffled = true,
   illustrationAlt = 'foo illustrationAlt',
   illustrationUrl = 'foo illustrationUrl',
@@ -50,4 +51,4 @@ export const buildChallengeToPlay = function ({
   return new ChallengeToPlay(coreChallenge, webComponentTagName, webComponentProps);
 };
 
-buildChallengeToPlay.TYPES = buildChallenge.TYPES;
+buildChallengeToPlay.TYPES = TYPES;

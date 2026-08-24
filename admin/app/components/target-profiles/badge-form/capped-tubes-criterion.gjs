@@ -87,7 +87,7 @@ export default class CappedTubesCriterion extends Component {
   }
 
   <template>
-    <section class="badge-form-criterion">
+    <article class="badge-form-criterion" data-testid={{@id}}>
       <header>
         <h3>Critère d’obtention sur une sélection de sujets du profil cible</h3>
         <PixButton @variant="secondary" @size="small" @triggerAction={{@remove}}>
@@ -120,6 +120,6 @@ export default class CappedTubesCriterion extends Component {
           @displaySkillDifficultySelection={{this.displaySkillDifficultySelection}}
         />
       </main>
-    </section>
+    </article>
   </template>
 }

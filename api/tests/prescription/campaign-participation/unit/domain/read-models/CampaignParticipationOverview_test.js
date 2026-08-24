@@ -114,15 +114,10 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
   });
 
   describe('#computeCanRetry', function () {
-    let clock;
     const now = new Date('2023-01-15');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return true when all conditions are met', function () {
@@ -327,15 +322,10 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
   });
 
   describe('#_timeBeforeRetryingPassed', function () {
-    let clock;
     const now = new Date('2023-01-15');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should return true when delay has passed', function () {

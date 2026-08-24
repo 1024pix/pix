@@ -17,7 +17,7 @@ const upgradeToRealUser = async function ({
   legalDocumentApiRepository,
   cryptoService,
 }) {
-  const user = await userRepository.getFullById(userId);
+  const user = await userRepository.get(userId);
   if (!user.isAnonymous) {
     throw new UnauthorizedError('User must be anonymous', 'NOT_ANONYMOUS_USER');
   }

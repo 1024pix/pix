@@ -48,6 +48,15 @@ describe('Certification | Configuration | Integration | Domain | UseCase | updat
       defaultCandidateCapacity: 700,
       limitToOneQuestionPerTube: true,
       enablePassageByAllCompetences: true,
+      globalScoringConfiguration: [
+        {
+          bounds: {
+            min: 1,
+            max: 8,
+          },
+          meshLevel: 0,
+        },
+      ],
     });
 
     // then
@@ -61,7 +70,15 @@ describe('Certification | Configuration | Integration | Domain | UseCase | updat
           scope: SCOPES.PIX_PLUS_PRO_SANTE,
           assessmentDuration: 100,
           minimumAnswersRequiredToValidateACertification: 200,
-          globalScoringConfiguration: [],
+          globalScoringConfiguration: [
+            {
+              bounds: {
+                min: 1,
+                max: 8,
+              },
+              meshLevel: 0,
+            },
+          ],
           competencesScoringConfiguration: [],
           comments: 'Not Modified',
           challengesConfiguration: {

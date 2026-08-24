@@ -10,6 +10,10 @@ import { tracked } from '@glimmer/tracking';
 import formatDate from 'ember-intl/helpers/format-date';
 import t from 'ember-intl/helpers/t';
 
+export const learnerDetailsMetabaseLink = (learnerId) => {
+  return `https://metabase.pix.fr/dashboard/1718?id=${learnerId}`;
+};
+
 export default class AdminLearnerList extends Component {
   @service router;
 
@@ -55,6 +59,23 @@ export default class AdminLearnerList extends Component {
         class="table organization-learner-list"
       >
         <:columns as |organizationLearner context|>
+          <PixTableColumn @context={{context}}>
+            <:header>
+              {{t "common.fields.id"}}
+            </:header>
+            <:cell>
+              <a href={{learnerDetailsMetabaseLink organizationLearner.id}} target="_blank" rel="noreferrer noopener">
+                <span
+                  aria-label={{t
+                    "components.organization-learners.list-table.view-learner"
+                    learner=organizationLearner.fullName
+                  }}
+                >
+                  {{organizationLearner.id}}
+                </span>
+              </a>
+            </:cell>
+          </PixTableColumn>
           <PixTableColumn @context={{context}}>
             <:header>
               {{t "components.organization-learners.list-table.headers.first-name"}}

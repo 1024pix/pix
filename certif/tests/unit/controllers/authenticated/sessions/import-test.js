@@ -98,10 +98,8 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
   module('#createSessions', function () {
     test('should go back to step one and call the notifications service in case of an error', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const confirmStub = sinon.stub().rejects();
-      const createRecordStub = sinon.stub().returns({ confirm: confirmStub });
-      store.createRecord = createRecordStub;
+      const adapter = this.owner.lookup('adapter:sessions-mass-import-report');
+      adapter.confirm = sinon.stub().rejects();
       controller.pixToast = { sendErrorNotification: sinon.spy() };
       controller.set('cachedValidatedSessionsKey', 'uuid');
       sinon.stub(controller.router, 'transitionTo');
@@ -114,12 +112,11 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       sinon.assert.calledOnce(controller.pixToast.sendErrorNotification);
     });
 
-    test('should create session mass import report and confirm import', async function (assert) {
+    test('should confirm import', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const confirmStub = sinon.stub();
-      const createRecordStub = sinon.stub().returns({ confirm: confirmStub });
-      store.createRecord = createRecordStub;
+      const adapter = this.owner.lookup('adapter:sessions-mass-import-report');
+      adapter.confirm = sinon.stub().resolves();
+      controller.pixToast = { sendSuccessNotification: sinon.spy() };
       controller.set('cachedValidatedSessionsKey', 'uuid');
       sinon.stub(controller.router, 'transitionTo');
 
@@ -127,19 +124,19 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       await controller.createSessions();
 
       // then
-      sinon.assert.calledWithExactly(createRecordStub, 'sessions-mass-import-report', {
-        cachedValidatedSessionsKey: 'uuid',
-      });
-      sinon.assert.calledWithExactly(confirmStub, {
-        cachedValidatedSessionsKey: 'uuid',
-      });
-      assert.ok(true);
+      assert.ok(
+        adapter.confirm.calledWithExactly({
+          cachedValidatedSessionsKey: 'uuid',
+        }),
+      );
+      sinon.assert.calledOnce(controller.pixToast.sendSuccessNotification);
     });
 
     test('should redirect to sessions list', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      store.createRecord = sinon.stub().returns({ confirm: sinon.stub() });
+      const adapter = this.owner.lookup('adapter:sessions-mass-import-report');
+      adapter.confirm = sinon.stub().resolves();
+      controller.pixToast = { sendSuccessNotification: sinon.spy() };
       sinon.stub(controller.router, 'transitionTo');
 
       // when

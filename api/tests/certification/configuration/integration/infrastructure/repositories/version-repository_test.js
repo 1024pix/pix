@@ -3,11 +3,9 @@ import * as versionRepository from '../../../../../../src/certification/configur
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Configuration | Integration | Repository | Version', function () {
   describe('#save', function () {
@@ -273,15 +271,15 @@ describe('Certification | Configuration | Integration | Repository | Version', f
     });
 
     context('when the version does not exist', function () {
-      it('should throw a NotFoundError', async function () {
+      it('should return null', async function () {
         // given
         const nonExistentVersionId = 99999;
 
         // when
-        const error = await catchErr(versionRepository.getById)({ id: nonExistentVersionId });
+        const nullVersion = await versionRepository.getById({ id: nonExistentVersionId });
 
         // then
-        expect(error).to.deepEqualInstance(new NotFoundError(`Version with id ${nonExistentVersionId} not found`));
+        expect(nullVersion).to.be.null;
       });
     });
   });

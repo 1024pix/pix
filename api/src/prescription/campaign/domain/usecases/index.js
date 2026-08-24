@@ -1,4 +1,3 @@
-import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as userRecommendedTrainingRepository from '../../../../devcomp/infrastructure/repositories/user-recommended-training-repository.js';
 import * as improvementService from '../../../../evaluation/domain/services/improvement-service.js';
 import * as badgeAcquisitionRepository from '../../../../evaluation/infrastructure/repositories/badge-acquisition-repository.js';
@@ -7,14 +6,12 @@ import * as userRepository from '../../../../identity-access-management/infrastr
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import * as accessCodeGenerator from '../../../../shared/domain/services/access-code-generator.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
-import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import * as accessCodeRepository from '../../../../shared/infrastructure/repositories/access-code-repository.js';
 import { adminMemberRepository } from '../../../../shared/infrastructure/repositories/admin-member.repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as badgeForCalculationRepository from '../../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import { auditLoggingJobRepository } from '../../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
-import * as knowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as membershipRepository from '../../../../team/infrastructure/repositories/membership.repository.js';
@@ -38,10 +35,12 @@ import * as campaignParticipationsStatsRepository from '../../infrastructure/rep
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
+import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
-import { repositories as campaignRepositories } from '../../infrastructure/repositories/index.js';
 import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as organizationMembershipRepository from '../../infrastructure/repositories/organization-membership-repository.js';
+import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 
 const dependencies = {
   knowledgeElementForParticipationService,
@@ -62,29 +61,26 @@ const dependencies = {
   campaignProfilesCollectionParticipationSummaryRepository,
   campaignReportRepository,
   campaignRepository,
-  campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
+  campaignToJoinRepository,
   accessCodeGenerator,
   competenceRepository,
   improvementService,
   divisionRepository,
   auditLoggingJobRepository,
-  featureToggles,
   groupRepository,
-  knowledgeElementRepository,
   knowledgeElementSnapshotRepository,
   learningContentRepository,
   membershipRepository,
   organizationFeatureApi,
   organizationLearnerImportFormatRepository,
-  organizationMembershipRepository: campaignRepositories.organizationMembershipRepository,
+  organizationMembershipRepository,
   organizationRepository,
   placementProfileService,
   stageRepository,
   accessCodeRepository,
   stageCollectionRepository,
   stageAcquisitionRepository,
-  targetProfileRepository: campaignRepositories.targetProfileRepository, // TODO
-  tutorialRepository,
+  targetProfileRepository,
   userRepository,
   userRecommendedTrainingRepository,
 };

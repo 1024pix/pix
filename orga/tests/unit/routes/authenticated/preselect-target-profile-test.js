@@ -5,10 +5,6 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/preselect-target-profile', function (hooks) {
   setupTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('model', function () {
     test('fetch a frameworks', async function (assert) {
       // given

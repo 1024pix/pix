@@ -4,7 +4,6 @@ import * as url from 'node:url';
 import sinon from 'sinon';
 
 import * as certificationCandidatesOdsService from '../../../../../../../src/certification/enrolment/domain/services/certification-candidates-ods-service.js';
-import * as centerRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationCpfCityRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import { BILLING_MODES } from '../../../../../../../src/certification/shared/domain/constants.js';
@@ -12,6 +11,7 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../../src/certif
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import * as certificationCpfService from '../../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
+import * as centerRepository from '../../../../../../../src/organizational-entities/infrastructure/repositories/center-repository.js';
 import { CertificationCandidatesError } from '../../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../../../test-helper.js';
@@ -28,10 +28,11 @@ const i18n = getI18n();
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
-  let userId;
-  let sessionId, session;
+  const userId = 123;
+  const certificationCenterId = 456;
+  const sessionId = 789;
+  let session;
   let mailCheck;
-  let candidateList;
   let cleaComplementaryCertification;
   let eduComplementaryCertification;
 
@@ -44,17 +45,11 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       label: 'Pix+ Édu 1er degré',
       key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
     });
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-    userId = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildCertificationCenterMembership({
-      userId,
-      certificationCenterId,
-    });
-    const sessionData = databaseBuilder.factory.buildSession({
-      certificationCenterId,
-    });
-    sessionId = sessionData.id;
-    session = domainBuilder.certification.enrolment.buildSession(sessionData);
+    session = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .createdBy({ userId, certificationCenterId })
+      .withParameters({ id: sessionId })
+      .insertToDB({ databaseBuilder });
 
     databaseBuilder.factory.buildCertificationCpfCountry({
       code: '99100',
@@ -83,8 +78,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     await databaseBuilder.commit();
 
     mailCheck = { assertEmailDomainHasMx: sinon.stub() };
-
-    candidateList = _buildCandidateList({ sessionId });
   });
 
   it('should throw a CertificationCandidatesError if there is an error in the file', async function () {
@@ -252,13 +245,51 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    candidateList = _buildCandidateList({ sessionId });
-    const expectedCandidates = candidateList.map((candidate) => {
-      return domainBuilder.certification.enrolment.buildCandidate({
-        ...candidate,
-        subscription: Frameworks.CORE,
-      });
-    });
+    const expectedCandidates = [
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Gallagher',
+          firstName: 'Jack',
+          birthdate: '1980-08-10',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'Londres',
+          birthCountry: 'ANGLETERRE',
+          birthINSEECode: '99132',
+          sex: 'M',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jack@d.it',
+          extraTimePercentage: '0.15',
+          createdAt: null,
+        })
+        .build(),
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          birthdate: '2005-12-05',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          createdAt: null,
+          birthCity: 'AJACCIO',
+          birthCountry: 'FRANCE',
+          birthINSEECode: '2A004',
+          sex: 'F',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jaja@hotmail.fr',
+          externalId: 'DEF456',
+        })
+        .build(),
+    ];
+
+    expectedCandidates.forEach((c) => delete c.id);
+    actualCandidates.forEach((c) => delete c.id);
     expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 
@@ -266,8 +297,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     it('should return extracted and validated certification candidates with complementary certification', async function () {
       // given
       mailCheck.assertEmailDomainHasMx.resolves();
-
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: cleaComplementaryCertification.id,
@@ -278,33 +307,53 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         complementaryCertificationId: eduComplementaryCertification.id,
       });
 
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId,
-        certificationCenterId,
-      });
-      const sessionData = databaseBuilder.factory.buildSession({
-        certificationCenterId,
-      });
-      const session = domainBuilder.certification.enrolment.buildSession(sessionData);
-
       await databaseBuilder.commit();
 
       const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
-      candidateList = _buildCandidateList({
-        sessionId: sessionData.id,
-        billingModes: [BILLING_MODES.FREE, BILLING_MODES.FREE],
-      });
       const expectedCandidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateList[0],
-          subscription: Frameworks.EDU_1ER_DEGRE,
-        }),
-        domainBuilder.certification.enrolment.buildCandidate({
-          ...candidateList[1],
-          subscription: Frameworks.CLEA,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Gallagher',
+            firstName: 'Jack',
+            birthdate: '1980-08-10',
+          })
+          .withSubscription(Frameworks.EDU_1ER_DEGRE)
+          .withParameters({
+            birthCity: 'Londres',
+            birthCountry: 'ANGLETERRE',
+            birthINSEECode: '99132',
+            sex: 'M',
+            sessionId,
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jack@d.it',
+            extraTimePercentage: '0.15',
+            billingMode: BILLING_MODES.FREE,
+            createdAt: null,
+          })
+          .build(),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withIdentity({
+            lastName: 'Jackson',
+            firstName: 'Janet',
+            birthdate: '2005-12-05',
+          })
+          .withSubscription(Frameworks.CLEA)
+          .withParameters({
+            birthCity: 'AJACCIO',
+            birthCountry: 'FRANCE',
+            birthINSEECode: '2A004',
+            sex: 'F',
+            sessionId,
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jaja@hotmail.fr',
+            externalId: 'DEF456',
+            billingMode: BILLING_MODES.FREE,
+            createdAt: null,
+          })
+          .build(),
       ];
 
       // when
@@ -322,33 +371,22 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         });
 
       // then
+      expectedCandidates.forEach((c) => delete c.id);
+      actualCandidates.forEach((c) => delete c.id);
       expect(actualCandidates).to.deep.equal(expectedCandidates);
     });
 
     it('should throw an error if candidate is registered for multiple certifications', async function () {
       // given
       mailCheck.assertEmailDomainHasMx.resolves();
-
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: cleaComplementaryCertification.id,
       });
-
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: eduComplementaryCertification.id,
       });
-
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId,
-        certificationCenterId,
-      });
-      const sessionData = databaseBuilder.factory.buildSession({
-        certificationCenterId,
-      });
-      const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
       await databaseBuilder.commit();
 
@@ -383,16 +421,50 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     const odsFilePath = `${__dirname}/attendance_sheet_extract_with_billing_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
-    candidateList = _buildCandidateList({
-      billingModes: [BILLING_MODES.PAID, BILLING_MODES.FREE],
-      sessionId,
-    });
-    const expectedCandidates = candidateList.map((candidate) => {
-      return domainBuilder.certification.enrolment.buildCandidate({
-        ...candidate,
-        subscription: Frameworks.CORE,
-      });
-    });
+    const expectedCandidates = [
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Gallagher',
+          firstName: 'Jack',
+          birthdate: '1980-08-10',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'Londres',
+          birthCountry: 'ANGLETERRE',
+          birthINSEECode: '99132',
+          sex: 'M',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jack@d.it',
+          extraTimePercentage: '0.15',
+          createdAt: null,
+          billingMode: BILLING_MODES.PAID,
+        })
+        .build(),
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          birthdate: '2005-12-05',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'AJACCIO',
+          birthCountry: 'FRANCE',
+          birthINSEECode: '2A004',
+          sex: 'F',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jaja@hotmail.fr',
+          externalId: 'DEF456',
+          billingMode: BILLING_MODES.FREE,
+          createdAt: null,
+        })
+        .build(),
+    ];
 
     // when
     const actualCandidates =
@@ -408,6 +480,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         mailCheck,
       });
 
+    expectedCandidates.forEach((c) => delete c.id);
+    actualCandidates.forEach((c) => delete c.id);
     // then
     expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
@@ -434,64 +508,52 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    const expectedCandidates = candidateList.map((candidate) => {
-      return domainBuilder.certification.enrolment.buildCandidate({
-        ...candidate,
-        subscription: Frameworks.CORE,
-      });
-    });
+
+    const expectedCandidates = [
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Gallagher',
+          firstName: 'Jack',
+          birthdate: '1980-08-10',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'Londres',
+          birthCountry: 'ANGLETERRE',
+          birthINSEECode: '99132',
+          sex: 'M',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jack@d.it',
+          extraTimePercentage: '0.15',
+          createdAt: null,
+        })
+        .build(),
+
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          birthdate: '2005-12-05',
+        })
+        .withSubscription(Frameworks.CORE)
+        .withParameters({
+          birthCity: 'AJACCIO',
+          birthCountry: 'FRANCE',
+          birthINSEECode: '2A004',
+          sex: 'F',
+          sessionId,
+          resultRecipientEmail: 'destinataire@gmail.com',
+          email: 'jaja@hotmail.fr',
+          externalId: 'DEF456',
+          createdAt: null,
+        })
+        .build(),
+    ];
+    expectedCandidates.forEach((c) => delete c.id);
+    actualCandidates.forEach((c) => delete c.id);
     expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 });
-
-function _buildCandidateList({ billingModes = [], sessionId }) {
-  const candidates = [];
-  candidates.push({
-    id: null,
-    sessionId,
-    createdAt: null,
-    lastName: 'Gallagher',
-    firstName: 'Jack',
-    birthdate: '1980-08-10',
-    sex: 'M',
-    birthCity: 'Londres',
-    birthCountry: 'ANGLETERRE',
-    birthINSEECode: '99132',
-    birthPostalCode: null,
-    birthProvinceCode: null,
-    resultRecipientEmail: 'destinataire@gmail.com',
-    email: 'jack@d.it',
-    externalId: null,
-    extraTimePercentage: 0.15,
-    billingMode: billingModes[0] ? billingModes[0] : null,
-    prepaymentCode: null,
-    subscription: Frameworks.CORE,
-    organizationLearnerId: null,
-    userId: null,
-  });
-  candidates.push({
-    id: null,
-    sessionId,
-    createdAt: null,
-    lastName: 'Jackson',
-    firstName: 'Janet',
-    birthdate: '2005-12-05',
-    sex: 'F',
-    birthCity: 'AJACCIO',
-    birthCountry: 'FRANCE',
-    birthINSEECode: '2A004',
-    birthPostalCode: null,
-    birthProvinceCode: null,
-    resultRecipientEmail: 'destinataire@gmail.com',
-    email: 'jaja@hotmail.fr',
-    externalId: 'DEF456',
-    extraTimePercentage: null,
-    billingMode: billingModes[1] ? billingModes[1] : null,
-    prepaymentCode: null,
-    subscription: Frameworks.CORE,
-    organizationLearnerId: null,
-    userId: null,
-  });
-
-  return candidates;
-}

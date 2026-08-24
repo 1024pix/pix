@@ -6,14 +6,9 @@ import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Application | Jobs | AuditLoggingJobController', function () {
   const now = new Date(2024, 1, 1);
-  let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it('sets up the job controller configuration', async function () {

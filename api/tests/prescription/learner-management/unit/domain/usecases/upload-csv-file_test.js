@@ -20,8 +20,7 @@ const supOrganizationLearnerImportHeader = new SupHeader(i18n).columns.map((colu
 describe('Unit | UseCase | uploadCsvFile', function () {
   const organizationId = 1;
   const userId = 2;
-  let timer,
-    fakeDate,
+  let fakeDate,
     organizationImportRepositoryStub,
     importStorageStub,
     payload,
@@ -50,7 +49,7 @@ describe('Unit | UseCase | uploadCsvFile', function () {
     filepath = await createTempFile('file.csv', csvContent);
     payload = { path: filepath };
     fakeDate = new Date('2019-01-10');
-    timer = sinon.useFakeTimers({
+    sinon.useFakeTimers({
       now: fakeDate,
       toFake: ['Date'],
     });
@@ -82,7 +81,6 @@ describe('Unit | UseCase | uploadCsvFile', function () {
   });
 
   afterEach(async function () {
-    timer.restore();
     await removeTempFile(filepath);
   });
 

@@ -78,7 +78,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   });
 
   module('When there is a valid invitation and user is not member of certification center yet', function (hooks) {
-    const acceptCertificationCenterInvitationStub = sinon.stub();
+    let adapter;
     hooks.beforeEach(function () {
       SessionStub.prototype.authenticate = function (authenticator, email, password) {
         this.authenticator = authenticator;
@@ -87,14 +87,9 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
         return resolve();
       };
 
-      acceptCertificationCenterInvitationStub.resolves('response');
-      this.set('certificationCenterInvitation', {
-        id: '56',
-        status: 'PENDING',
-        certificationCenterName: 'Some Center',
-        email: 'marie.tim@example.net',
-        accept: acceptCertificationCenterInvitationStub,
-      });
+      adapter = this.owner.lookup('adapter:certification-center-invitation');
+      adapter.accept = sinon.stub();
+      adapter.accept.resolves('response');
     });
 
     module('when user click on login button', function () {
@@ -105,7 +100,6 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   @isWithInvitation='true'
   @certificationCenterInvitationId='1'
   @certificationCenterInvitationCode='C0D3'
-  @certificationCenterInvitation={{this.certificationCenterInvitation}}
 />`,
         );
 
@@ -116,7 +110,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
 
         // then
         assert.ok(
-          acceptCertificationCenterInvitationStub.calledWith({
+          adapter.accept.calledWith({
             id: '1',
             code: 'C0D3',
             email: 'email@example.net',
@@ -127,23 +121,15 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
       module('When there is an error in accepting invitation', function () {
         test('it should display a message error', async function (assert) {
           // given
-          const acceptCertificationCenterInvitationStub = sinon.stub();
-          acceptCertificationCenterInvitationStub.rejects({ errors: [{ code: 403, status: '403' }] });
-
-          this.set('certificationCenterInvitation', {
-            id: '56',
-            status: 'PENDING',
-            certificationCenterName: 'Some Center',
-            email: 'marie.tim@example.net',
-            accept: acceptCertificationCenterInvitationStub,
-          });
+          const adapter = this.owner.lookup('adapter:certification-center-invitation');
+          adapter.accept = sinon.stub();
+          adapter.accept.rejects({ errors: [{ code: 403, status: '403' }] });
 
           const screen = await render(
             hbs`<Auth::ToggableLoginForm
   @isWithInvitation='true'
   @certificationCenterInvitationId='1'
   @certificationCenterInvitationCode='C0D3'
-  @certificationCenterInvitation={{this.certificationCenterInvitation}}
 />`,
           );
 
@@ -159,15 +145,9 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
         module('When invitation has already been accepted by user', function () {
           test('it should call authentication service with appropriate parameters', async function (assert) {
             // given
-            const acceptCertificationCenterInvitationStub = sinon.stub();
-            acceptCertificationCenterInvitationStub.rejects({ errors: [{ code: 412, status: '412' }] });
-            this.set('certificationCenterInvitation', {
-              id: '56',
-              status: 'PENDING',
-              certificationCenterName: 'Some Center',
-              email: 'marie.tim@example.net',
-              accept: acceptCertificationCenterInvitationStub,
-            });
+            const adapter = this.owner.lookup('adapter:certification-center-invitation');
+            adapter.accept = sinon.stub();
+            adapter.accept.rejects({ errors: [{ code: 412, status: '412' }] });
 
             SessionStub.prototype.authenticate = function (authenticator, email, password) {
               this.authenticator = authenticator;
@@ -183,7 +163,6 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   @isWithInvitation='true'
   @certificationCenterInvitationId='1'
   @certificationCenterInvitationCode='C0D3'
-  @certificationCenterInvitation={{this.certificationCenterInvitation}}
 />`,
             );
 
@@ -201,15 +180,9 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
 
           test('it should display an error when authentication fails after 412', async function (assert) {
             // given
-            const acceptCertificationCenterInvitationStub = sinon.stub();
-            acceptCertificationCenterInvitationStub.rejects({ errors: [{ code: 412, status: '412' }] });
-            this.set('certificationCenterInvitation', {
-              id: '56',
-              status: 'PENDING',
-              certificationCenterName: 'Some Center',
-              email: 'marie.tim@example.net',
-              accept: acceptCertificationCenterInvitationStub,
-            });
+            const adapter = this.owner.lookup('adapter:certification-center-invitation');
+            adapter.accept = sinon.stub();
+            adapter.accept.rejects({ errors: [{ code: 412, status: '412' }] });
 
             SessionStub.prototype.authenticate = sinon.stub().rejects();
 
@@ -218,7 +191,6 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   @isWithInvitation='true'
   @certificationCenterInvitationId='1'
   @certificationCenterInvitationCode='C0D3'
-  @certificationCenterInvitation={{this.certificationCenterInvitation}}
 />`,
             );
 
@@ -239,21 +211,14 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   module('When the form is invalid', function () {
     test('it should not accept invitation when email is empty', async function (assert) {
       // given
-      const acceptStub = sinon.stub().resolves();
-      this.set('certificationCenterInvitation', {
-        id: '56',
-        status: 'PENDING',
-        certificationCenterName: 'Some Center',
-        email: 'marie.tim@example.net',
-        accept: acceptStub,
-      });
+      const adapter = this.owner.lookup('adapter:certification-center-invitation');
+      adapter.accept = sinon.stub();
 
       await render(
         hbs`<Auth::ToggableLoginForm
   @isWithInvitation='true'
   @certificationCenterInvitationId='1'
   @certificationCenterInvitationCode='C0D3'
-  @certificationCenterInvitation={{this.certificationCenterInvitation}}
 />`,
       );
 
@@ -262,7 +227,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
       await clickByName(loginLabel);
 
       // then
-      sinon.assert.notCalled(acceptStub);
+      sinon.assert.notCalled(adapter.accept);
       assert.ok(true);
     });
   });

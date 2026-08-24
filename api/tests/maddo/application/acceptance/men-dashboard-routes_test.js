@@ -1,13 +1,13 @@
-import { createMaddoServer } from '../../../../server.maddo.js';
 import { expect } from '../../../test-helper.js';
 import { datamartBuilder } from '../../../tooling/databases.js';
+import { getMaddoServer } from '../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Maddo | Route | Men | Dashboard', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createMaddoServer();
+    server = await getMaddoServer();
   });
 
   describe('GET /api/men/dashboard/certifications', function () {

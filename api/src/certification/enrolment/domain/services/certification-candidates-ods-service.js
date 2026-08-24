@@ -124,6 +124,7 @@ export async function extractCertificationCandidatesFromCandidatesImportSheet({
       createdAt: null,
       organizationLearnerId: null,
       userId: null,
+      reconciledAt: null,
     });
 
     try {

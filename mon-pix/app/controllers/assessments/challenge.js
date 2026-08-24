@@ -9,7 +9,6 @@ const timedOutPageTitle = 'pages.challenge.title.timed-out';
 const focusedPageTitle = 'pages.challenge.title.focused';
 const focusedOutPageTitle = 'pages.challenge.title.focused-out';
 import isInteger from 'lodash/isInteger';
-import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled', 'challengeId'];
@@ -88,7 +87,7 @@ export default class ChallengeController extends Controller {
   }
 
   get isFocusedChallenge() {
-    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.model.challenge.focused;
+    return this.model.challenge.focused;
   }
 
   @action

@@ -332,6 +332,12 @@ export default class CertificationVersionEditForm extends Component {
       <PixButtonLink @route="authenticated.certification-frameworks.certification-framework" @variant="secondary">
         {{t "common.actions.cancel"}}
       </PixButtonLink>
+      <PixButtonLink
+        @route="authenticated.certification-frameworks.certification-framework.versions.version.calibration"
+        @variant="primary"
+      >
+        {{t "common.actions.next"}}
+      </PixButtonLink>
     </section>
   </template>
 }

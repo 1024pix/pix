@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 import DownloadCombinedCourseBlueprint from 'pix-admin/components/combined-course-blueprints/download-combined-course-blueprint';
+import { COMBINED_COURSE_ITEM_TYPES } from 'pix-admin/models/combined-course-blueprint.js';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 
@@ -16,7 +17,7 @@ module('Integration | Component | CombinedCourseBlueprints::DownloadCombinedCour
       name: 'Parcours apprenant',
       description: 'Mon super parcours apprenant',
       illustration: 'http://pix.fr/mon-illu.png',
-      content: [{ type: 'module', value: 'abc-123' }],
+      content: [{ type: COMBINED_COURSE_ITEM_TYPES.MODULE, value: 'abc-123' }],
     };
 
     const creatorId = 456;

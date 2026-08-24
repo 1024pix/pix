@@ -9,10 +9,6 @@ import { catchErr } from '../../../tooling/test-utils/error.js';
 describe('Unit | Scripts | Duplicate Module', function () {
   describe('DuplicateModule', function () {
     describe('#handle', function () {
-      afterEach(function () {
-        sinon.restore();
-      });
-
       it('should read the source module, duplicate it, and write the result next to it', async function () {
         // given
         const moduleData = {

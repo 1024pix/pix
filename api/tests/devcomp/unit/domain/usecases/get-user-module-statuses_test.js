@@ -7,14 +7,9 @@ import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | get-user-module-statuses', function () {
   const now = new Date('2025-07-02T14:00:00Z');
-  let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it('should return a list of UserModuleStatuses', async function () {

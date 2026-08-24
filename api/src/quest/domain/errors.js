@@ -14,3 +14,15 @@ export class CombinedCoursesDisabledError extends FeatureDisabledError {
     super('Combined courses are temporarily disabled.');
   }
 }
+
+export class FrameworkNotFoundError extends DomainError {
+  constructor() {
+    super('Framework not found for specified capped tubes.');
+  }
+}
+
+export class MultipleFrameworksError extends DomainError {
+  constructor() {
+    super('Multiple frameworks found for specified capped tubes.');
+  }
+}

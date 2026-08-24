@@ -1,6 +1,5 @@
 import { getOwner, setOwner } from '@ember/application';
-import RequestManager from '@ember-data/request';
-import Fetch from '@ember-data/request/fetch';
+import { Fetch, RequestManager } from '@warp-drive/core';
 
 import AppInfoHandler from './request-manager-handlers/app-info-handler.js';
 import AuthHandler from './request-manager-handlers/auth-handler.js';

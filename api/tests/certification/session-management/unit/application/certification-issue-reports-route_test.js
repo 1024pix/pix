@@ -1,19 +1,23 @@
 import sinon from 'sinon';
 
-import { certificationIssueReportController } from '../../../../../src/certification/session-management/application/certification-issue-report-controller.js';
-import { certificationIssueReportRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/certification-issue-report-route.js';
+import { certificationIssueReportsController } from '../../../../../src/certification/session-management/application/certification-issue-reports-controller.js';
+import { certificationIssueReportsRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/certification-issue-reports-route.js';
+import { sessionManagementSecurityPreHandlers } from '../../../../../src/certification/session-management/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
-describe('Unit | Application | Certifications Issue Report | Route', function () {
+describe('Unit | Application | Certifications Issue Reports | Route', function () {
   describe('DELETE /api/certification-issue-reports/{id}', function () {
     it('should return a 200', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId')
+        .stub(
+          sessionManagementSecurityPreHandlers,
+          'checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId',
+        )
         .callsFake((request, h) => h.response(true));
-      sinon.stub(certificationIssueReportController, 'deleteCertification').returns('ok');
+      sinon.stub(certificationIssueReportsController, 'deleteCertification').returns('ok');
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -31,7 +35,10 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
         it('should return a 403', async function () {
           // given
           sinon
-            .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId')
+            .stub(
+              sessionManagementSecurityPreHandlers,
+              'checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId',
+            )
             .callsFake((request, h) =>
               h
                 .response({ errors: new Error('forbidden') })
@@ -56,7 +63,7 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
     context('when no resolution is given', function () {
       it('should return 204', async function () {
         // given
-        sinon.stub(certificationIssueReportController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));
+        sinon.stub(certificationIssueReportsController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
 
         const httpTestServer = new HttpTestServer();

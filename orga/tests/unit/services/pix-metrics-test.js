@@ -17,10 +17,6 @@ module('Unit | Service | PixMetrics', function (hooks) {
     sinon.stub(metricsService, 'trackEvent');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('trackPage', function () {
     test('it should redact id from url', function (assert) {
       // given

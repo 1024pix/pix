@@ -5,6 +5,9 @@ import {
   ADMINISTRATION_TEAM_ROCKET_ID,
   ORGANIZATION_LEARNER_TYPE_PROFESSIONAL_ID,
   ORGANIZATION_LEARNER_TYPE_STUDENT_ID,
+  STRUCTURE_CATEGORY_PRO_ID,
+  STRUCTURE_CATEGORY_SCO_ID,
+  STRUCTURE_CATEGORY_SUP_ID,
 } from '../team-acquisition/constants.js';
 import {
   AGRICULTURE_TAG,
@@ -65,6 +68,7 @@ async function _createScoOrganization(databaseBuilder) {
     ],
     administrationTeamId: ADMINISTRATION_TEAM_ALPHA_ID,
     organizationLearnerTypeId: ORGANIZATION_LEARNER_TYPE_STUDENT_ID,
+    categoryId: STRUCTURE_CATEGORY_SCO_ID,
   });
 
   await organization.createOrganization({
@@ -110,6 +114,7 @@ async function _createSupOrganization(databaseBuilder) {
     features: [{ id: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID }],
     administrationTeamId: ADMINISTRATION_TEAM_ALPHA_ID,
     organizationLearnerTypeId: ORGANIZATION_LEARNER_TYPE_STUDENT_ID,
+    categoryId: STRUCTURE_CATEGORY_SUP_ID,
   });
 }
 
@@ -141,6 +146,7 @@ async function _createProOrganization(databaseBuilder) {
     ],
     administrationTeamId: ADMINISTRATION_TEAM_ROCKET_ID,
     organizationLearnerTypeId: ORGANIZATION_LEARNER_TYPE_PROFESSIONAL_ID,
+    categoryId: STRUCTURE_CATEGORY_PRO_ID,
   });
 
   await organization.createOrganization({

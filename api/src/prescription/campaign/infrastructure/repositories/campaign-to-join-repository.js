@@ -1,9 +1,10 @@
+import * as organizationalEntitiesFeatureAPI from '../../../../organizational-entities/application/api/organization-features-api.js';
 import { CAMPAIGN_FEATURES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
 
-const getByCode = async function ({ code, organizationFeatureAPI }) {
+const getByCode = async function ({ code, organizationFeatureAPI = organizationalEntitiesFeatureAPI }) {
   const knexConn = DomainTransaction.getConnection();
 
   const result = await knexConn('campaigns')

@@ -50,6 +50,7 @@ const typesPositiveInteger32bits = [
   'autonomousCourseId',
   'badgeCriterionId',
   'badgeId',
+  'calibrationId',
   'campaignId',
   'campaignParticipationId',
   'certificationCandidateId',

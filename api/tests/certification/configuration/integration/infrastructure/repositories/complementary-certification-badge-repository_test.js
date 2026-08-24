@@ -181,8 +181,8 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
     });
   });
 
-  context('#findAttachableBadgesByIds', function () {
-    it('should return certifiable badges and eligible to a complementary', async function () {
+  context('#countAttachableBadges', function () {
+    it('should return the number of certifiable badges eligible to a complementary', async function () {
       // given
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildBadge({ id: 123, targetProfileId, key: 'key_xx', isCertifiable: true }).id;
@@ -191,115 +191,36 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
       await databaseBuilder.commit();
 
       // when
-      const results = await complementaryCertificationBadgeRepository.findAttachableBadgesByIds({
+      const results = await complementaryCertificationBadgeRepository.countAttachableBadges({
         ids: [123],
       });
 
       // then
-      expect(results).to.deep.equal([
-        {
-          altMessage: 'alt message',
-          complementaryCertificationBadge: null,
-          id: 123,
-          imageUrl: '/img_funny.svg',
-          isAlwaysVisible: false,
-          isCertifiable: true,
-          key: 'key_xx',
-          message: 'message',
-          targetProfileId,
-          title: 'title',
-        },
-      ]);
+      expect(results).to.equal(1);
     });
 
-    it('should not return inexistent badges', async function () {
-      // given
-      const nonExistingBadgeId = 123456789;
-      const nonExistingBadge = await knex('complementary-certification-badges').whereIn('id', [nonExistingBadgeId]);
-      expect(nonExistingBadge).to.be.empty;
-
-      // when
-      const results = await complementaryCertificationBadgeRepository.findAttachableBadgesByIds({
-        ids: [nonExistingBadgeId],
-      });
-
-      // then
-      expect(results).to.be.empty;
-    });
-
-    it('should not return badges tied to a complementary', async function () {
-      // given
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildBadge({ id: 123, targetProfileId, isCertifiable: true }).id;
-      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 456,
-        badgeId: 123,
-        complementaryCertificationId,
-        detachedAt: '2022-01-01',
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const results = await complementaryCertificationBadgeRepository.findAttachableBadgesByIds({
-        ids: [123],
-      });
-
-      // then
-      expect(results).to.be.empty;
-    });
-  });
-
-  describe('#isRelatedToCertification', function () {
-    describe('when the badge is not acquired', function () {
-      it('should return false', async function () {
+    context('when there is no attached badge', function () {
+      it('should return zero', async function () {
         // given
-        const badgeId = databaseBuilder.factory.buildBadge({ id: 1 }).id;
-        await databaseBuilder.commit();
-
-        // when
-        const isRelatedToCertification =
-          await complementaryCertificationBadgeRepository.isRelatedToCertification(badgeId);
-
-        // then
-        expect(isRelatedToCertification).to.be.false;
-      });
-    });
-
-    describe('when the badge is present in complementary-certification-badges', function () {
-      it('should return true', async function () {
-        // given
-        const badge = databaseBuilder.factory.buildBadge();
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        databaseBuilder.factory.buildBadge({ id: 123, targetProfileId, isCertifiable: true }).id;
         const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
         databaseBuilder.factory.buildComplementaryCertificationBadge({
-          badgeId: badge.id,
+          id: 456,
+          badgeId: 123,
           complementaryCertificationId,
-        }).id;
+          detachedAt: '2022-01-01',
+        });
+
         await databaseBuilder.commit();
 
         // when
-        const isRelatedToCertification = await complementaryCertificationBadgeRepository.isRelatedToCertification(
-          badge.id,
-        );
+        const results = await complementaryCertificationBadgeRepository.countAttachableBadges({
+          ids: [123],
+        });
 
         // then
-        expect(isRelatedToCertification).to.be.true;
-      });
-    });
-
-    describe('when the badge is present in both complementary-certification-badges and complementary-certification-course-results', function () {
-      it('should return true', async function () {
-        // given
-        const badgeId = databaseBuilder.factory.buildBadge().id;
-        databaseBuilder.factory.buildComplementaryCertificationBadge({ complementaryCertificationId: null, badgeId });
-        await databaseBuilder.commit();
-
-        // when
-        const isNotAssociated = await complementaryCertificationBadgeRepository.isRelatedToCertification(badgeId);
-
-        // then
-        expect(isNotAssociated).to.be.true;
+        expect(results).to.equal(0);
       });
     });
   });

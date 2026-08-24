@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { getInformationBanner } from '../../../../../src/banner/domain/usecases/get-information-banner.js';
+import { getInformationBanner } from '../../../../../src/communication/banner/domain/usecases/get-information-banner.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | Get Information Banner', function () {

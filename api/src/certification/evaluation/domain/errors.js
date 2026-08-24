@@ -21,6 +21,15 @@ export class CertificationDurationExceededError extends DomainError {
   }
 }
 
+export class CertificationTestEndedError extends DomainError {
+  constructor(
+    message = 'The certification test has ended, it is no longer possible to answer.',
+    code = 'CERTIFICATION_TEST_ENDED',
+  ) {
+    super(message, code);
+  }
+}
+
 export class CandidateNotAuthorizedToJoinSessionError extends DomainError {
   constructor(
     message = 'Votre surveillant n’a pas confirmé votre présence dans la salle de test. Vous ne pouvez donc pas encore commencer votre test de certification. Merci de prévenir votre surveillant.',
@@ -39,8 +48,8 @@ export class CandidateNotAuthorizedToResumeCertificationTestError extends Domain
   }
 }
 
-export class SessionNotAccessibleError extends DomainError {
-  constructor(message = 'Certification session is not accessible', code = 'SESSION_NOT_ACCESSIBLE') {
+export class SessionNotJoinableError extends DomainError {
+  constructor(message = 'Certification session is not joinable', code = 'SESSION_NOT_JOINABLE') {
     super(message, code);
   }
 }

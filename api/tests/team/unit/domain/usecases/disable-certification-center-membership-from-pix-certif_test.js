@@ -9,7 +9,6 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | disable-certification-center-membership', function () {
   let certificationCenterMembershipRepository;
-  let clock;
   const certificationCenterMembershipId = 100;
   const certificationCenterId = 101;
   const updatedByUserId = 10;
@@ -22,11 +21,7 @@ describe('Unit | UseCase | disable-certification-center-membership', function ()
       findById: sinon.stub(),
       update: sinon.stub(),
     };
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when certification-center-membership does not exist', function () {

@@ -25,11 +25,13 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
       reconciledUserId: 'certification-candidates.userId',
       reconciledAt: 'certification-candidates.reconciledAt',
       subscription: 'certification-candidates.subscription',
-      authorizedToStart: 'certification-candidates.authorizedToStart',
+      authorizedToStartAt: 'certification-candidates.authorizedToStartAt',
       sessionId: 'sessions.id',
+      sessionStartedAt: knexConn('certification-courses')
+        .min('createdAt')
+        .whereRaw('"certification-courses"."sessionId" = "sessions"."id"'),
       sessionAccessCode: 'sessions.accessCode',
       sessionFinalizedAt: 'sessions.finalizedAt',
-      sessionPublishedAt: 'sessions.publishedAt',
       certificationId: 'certification-courses.id',
       certificationStartedAt: 'certification-courses.createdAt',
       centerHabilitations: knexConn.raw(
@@ -39,7 +41,7 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
     .groupBy(
       'certification-candidates.id',
       'certification-candidates.userId',
-      'certification-candidates.authorizedToStart',
+      'certification-candidates.authorizedToStartAt',
       'certification-candidates.reconciledAt',
       'certification-candidates.subscription',
       'sessions.id',

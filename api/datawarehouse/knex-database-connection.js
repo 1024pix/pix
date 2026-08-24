@@ -1,10 +1,6 @@
-import { DatabaseConnection } from '../db/database-connection.js';
-import { databaseConnections } from '../db/database-connections.js';
-import { config } from '../src/shared/config.js';
-import knexConfigs from './knexfile.js';
+import { databaseConnectionRegistry } from '../db/database-connection-registry.js';
 
-const databaseConnection = new DatabaseConnection(knexConfigs[config.environment]);
+const databaseConnection = databaseConnectionRegistry.get('datawarehouse');
+const { knex } = databaseConnection;
 
-databaseConnections.addConnection(databaseConnection);
-
-export const knex = databaseConnection.knex;
+export { databaseConnection, knex };

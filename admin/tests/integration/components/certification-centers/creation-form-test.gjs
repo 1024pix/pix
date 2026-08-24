@@ -12,6 +12,13 @@ const habilitations = [
   { id: '2', key: 'S', label: 'Pix+Surf' },
 ];
 
+const attachedOrganization = {
+  id: '123',
+  name: 'Wayne Enterprises',
+  type: 'SCO',
+  externalId: 'WAYNE_123',
+};
+
 module('Integration | Component | certification-centers/creation-form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
@@ -69,6 +76,7 @@ module('Integration | Component | certification-centers/creation-form', function
       dataProtectionOfficerLastName: 'Hadis',
       dataProtectionOfficerEmail: 'jacques.hadis@example.com',
       habilitations: [{ id: '1', key: 'E', label: 'Pix+Edu' }],
+      organizationId: undefined,
     });
 
     const message = pixToast.sendSuccessNotification.getCall(0).args[0];
@@ -112,6 +120,7 @@ module('Integration | Component | certification-centers/creation-form', function
       dataProtectionOfficerLastName: '',
       dataProtectionOfficerEmail: '',
       habilitations: [{ id: '2', key: 'S', label: 'Pix+Surf' }],
+      organizationId: undefined,
     });
   });
 
@@ -134,6 +143,138 @@ module('Integration | Component | certification-centers/creation-form', function
     // then
     const record = store.createRecord.getCall(0).args[1];
     assert.deepEqual(record.externalId, null);
+  });
+
+  module('when there is no attached organization', function () {
+    test('it does not display the attached organization name', async function (assert) {
+      // given
+      const onCancel = () => {};
+
+      // when
+      const screen = await render(
+        <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.queryByRole('heading', {
+            name: t('components.certification-centers.creation.attached-organization-name', {
+              attachedOrganizationName: attachedOrganization.name,
+            }),
+            level: 2,
+          }),
+        )
+        .doesNotExist();
+    });
+
+    test('it does not disable the external id input', async function (assert) {
+      // given
+      const onCancel = () => {};
+
+      // when
+      const screen = await render(
+        <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+      );
+
+      // then
+      assert
+        .dom(screen.getByRole('textbox', { name: t('components.certification-centers.creation.external-id.label') }))
+        .isNotDisabled();
+    });
+  });
+
+  module('when there is an attached organization', function () {
+    test('it displays the attached organization name', async function (assert) {
+      // given
+      const onCancel = () => {};
+
+      // when
+      const screen = await render(
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @attachedOrganization={{attachedOrganization}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            name: t('components.certification-centers.creation.attached-organization-name', {
+              attachedOrganizationName: attachedOrganization.name,
+            }),
+            level: 2,
+          }),
+        )
+        .exists();
+    });
+
+    test("it prefills the name, the type and the external id (disabled) with the attached organization's ones", async function (assert) {
+      // given
+      const onCancel = () => {};
+
+      // when
+      const screen = await render(
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @attachedOrganization={{attachedOrganization}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(screen.getByRole('textbox', { name: `${t('components.certification-centers.creation.name.label')} *` }))
+        .hasValue('Wayne Enterprises');
+      assert.strictEqual(
+        screen.getByRole('button', { name: `${t('components.certification-centers.creation.type.label')} *` })
+          .innerText,
+        'Établissement scolaire',
+      );
+      assert
+        .dom(screen.getByRole('textbox', { name: t('components.certification-centers.creation.external-id.label') }))
+        .hasValue('WAYNE_123');
+      assert
+        .dom(screen.getByRole('textbox', { name: t('components.certification-centers.creation.external-id.label') }))
+        .isDisabled();
+    });
+
+    test('it creates a certification center attached to the organization', async function (assert) {
+      // given
+      const onCancel = () => {};
+      const screen = await render(
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @attachedOrganization={{attachedOrganization}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
+      );
+
+      // when
+      await click(screen.getByRole('button', { name: t('common.actions.add') }));
+
+      // then
+      const record = store.createRecord.getCall(0).args[1];
+      assert.deepEqual(record, {
+        name: 'Wayne Enterprises',
+        type: 'SCO',
+        externalId: 'WAYNE_123',
+        dataProtectionOfficerFirstName: '',
+        dataProtectionOfficerLastName: '',
+        dataProtectionOfficerEmail: '',
+        habilitations: [],
+        organizationId: '123',
+      });
+      assert.ok(router.transitionTo.called);
+    });
   });
 
   module('Errors', function () {

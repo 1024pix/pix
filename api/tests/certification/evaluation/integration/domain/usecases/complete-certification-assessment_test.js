@@ -12,12 +12,17 @@ const { completeCertificationAssessment } = usecases;
 
 describe('Certification | Evaluation | Integration | Domain | UseCase | complete-certification-assessment', function () {
   const locale = 'someLocale';
-  let certificationCourseId, assessmentId, args, clock;
+  let certificationCourseId, assessmentId, args;
   const now = new Date();
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
+    const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+      firstName: 'A',
+      lastName: 'B',
+      birthdate: '01/01/1999',
+    });
+
     certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
       abortReason: 'candidate',
       maxReachableLevelOnCertificationDate: 6,
@@ -30,10 +35,6 @@ describe('Certification | Evaluation | Integration | Domain | UseCase | complete
       certificationCourseId,
       locale,
     };
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   context('when certification does not exist', function () {

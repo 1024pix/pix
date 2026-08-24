@@ -17,7 +17,7 @@ async function getUserByUsernameAndPassword({
   userRepository,
   dependencies = { userLoginRepository, cryptoService },
 }) {
-  const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
+  const foundUser = await userRepository.getByUsernameOrEmailWithPassword(username);
 
   let userLogin = await dependencies.userLoginRepository.findByUserId(foundUser.id);
   if (!userLogin) {
@@ -26,7 +26,7 @@ async function getUserByUsernameAndPassword({
 
   try {
     const passwordHash = foundUser.passwordHash;
-    await dependencies.cryptoService.checkPassword({ password, passwordHash });
+    await dependencies.cryptoService.assertMatchPassword({ password, passwordHash });
   } catch (error) {
     if (error instanceof PasswordNotMatching) {
       userLogin.incrementFailureCount();

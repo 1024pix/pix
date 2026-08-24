@@ -4,7 +4,7 @@ import { databaseBuffer } from '../database-buffer.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildUser } from './build-user.js';
 
-const buildSession = function ({
+export function buildSession({
   id = databaseBuffer.getNextId(),
   accessCode = 'FMKP39',
   address = '3 rue des églantines',
@@ -68,6 +68,4 @@ const buildSession = function ({
     tableName: 'sessions',
     values,
   });
-};
-
-export { buildSession };
+}

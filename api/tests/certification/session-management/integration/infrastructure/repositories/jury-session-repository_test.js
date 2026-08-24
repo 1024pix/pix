@@ -186,33 +186,39 @@ describe('Integration | Repository | JurySession', function () {
     });
 
     context('orders', function () {
-      let firstSessionId;
-      let secondSessionId;
-      let thirdSessionId;
-      let fourthSessionId;
+      let firstPublishedSessionId,
+        secondPublishedSessionId,
+        firstFinalizedSessionId,
+        secondFinalizedSessionId,
+        firstCreatedSessionId,
+        secondCreatedSessionId;
 
       beforeEach(function () {
-        firstSessionId = databaseBuilder.factory.buildSession({
-          finalizedAt: new Date('2020-01-01T00:00:00Z'),
-          resultsSentToPrescriberAt: null,
+        firstPublishedSessionId = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2020-01-01T00:00:00Z'),
+          resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z'),
         }).id;
-        secondSessionId = databaseBuilder.factory.buildSession({
+        secondPublishedSessionId = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2021-01-02T00:00:00Z'),
+          resultsSentToPrescriberAt: new Date('2021-01-01T00:00:00Z'),
+        }).id;
+        firstFinalizedSessionId = databaseBuilder.factory.buildSession({
           finalizedAt: new Date('2020-01-02T00:00:00Z'),
-          resultsSentToPrescriberAt: null,
         }).id;
-        thirdSessionId = databaseBuilder.factory.buildSession({
-          finalizedAt: new Date('2020-01-02T00:00:00Z'),
-          resultsSentToPrescriberAt: new Date('2020-01-03T00:00:00Z'),
+        secondFinalizedSessionId = databaseBuilder.factory.buildSession({
+          finalizedAt: new Date('2021-01-02T00:00:00Z'),
         }).id;
-        fourthSessionId = databaseBuilder.factory.buildSession({
-          finalizedAt: null,
-          resultsSentToPrescriberAt: null,
+        firstCreatedSessionId = databaseBuilder.factory.buildSession({
+          date: new Date('2020-01-02T00:00:00Z'),
+        }).id;
+        secondCreatedSessionId = databaseBuilder.factory.buildSession({
+          date: new Date('2021-01-02T00:00:00Z'),
         }).id;
 
         return databaseBuilder.commit();
       });
 
-      it('should order sessions by returning first finalized but not published, then neither of those, and finally the processed ones', async function () {
+      it('should order sessions by returning first created, then finalized and finally published, from newest to oldest', async function () {
         // given
         const filters = {};
         const page = { number: 1, size: 10 };
@@ -224,10 +230,12 @@ describe('Integration | Repository | JurySession', function () {
         });
 
         // then
-        expect(matchingJurySessions[0].id).to.equal(firstSessionId);
-        expect(matchingJurySessions[1].id).to.equal(secondSessionId);
-        expect(matchingJurySessions[2].id).to.equal(thirdSessionId);
-        expect(matchingJurySessions[3].id).to.equal(fourthSessionId);
+        expect(matchingJurySessions[0].id).to.equal(secondCreatedSessionId);
+        expect(matchingJurySessions[1].id).to.equal(firstCreatedSessionId);
+        expect(matchingJurySessions[2].id).to.equal(secondFinalizedSessionId);
+        expect(matchingJurySessions[3].id).to.equal(firstFinalizedSessionId);
+        expect(matchingJurySessions[4].id).to.equal(secondPublishedSessionId);
+        expect(matchingJurySessions[5].id).to.equal(firstPublishedSessionId);
       });
     });
 
@@ -367,10 +375,11 @@ describe('Integration | Repository | JurySession', function () {
 
           // then
           expect(pagination).to.deep.equal(expectedPagination);
-          expect(jurySessions[0].id).to.equal(expectedSCOSession.id);
-          expect(jurySessions[1].id).to.equal(expectedSUPSession.id);
-          expect(jurySessions[2].id).to.equal(expectedPROSession.id);
-          expect(jurySessions).to.have.lengthOf(3);
+          expect(jurySessions.map(({ id }) => id)).to.have.members([
+            expectedSCOSession.id,
+            expectedSUPSession.id,
+            expectedPROSession.id,
+          ]);
         });
       });
 

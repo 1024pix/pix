@@ -7,12 +7,12 @@ import { UserOrgaSettings } from '../../domain/models/UserOrgaSettings.js';
 
 /**
  * @param {string} userId
- * @return {Promise<{}|UserOrgaSettings>}
+ * @return {Promise<UserOrgaSettings|null>}
  */
 const findOneByUserId = async function (userId) {
   const knexConn = DomainTransaction.getConnection();
   const userOrgaSettings = await knexConn('user-orga-settings').where({ userId }).first();
-  if (!userOrgaSettings) return {};
+  if (!userOrgaSettings) return null;
 
   const user = await knexConn('users').where('id', userId).first();
   const currentOrganization = await knexConn('organizations')

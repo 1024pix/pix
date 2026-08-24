@@ -1,8 +1,10 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
 
 import FormSection from '../ui/form-section';
 import AssessmentGoalCustomization from './create-form/assessment-goal-customization';
@@ -13,6 +15,8 @@ import ProfilesCollectionGoalCustomization from './create-form/profiles-collecti
 import ProfilesCollectionGoalSettings from './create-form/profiles-collection-goal-settings';
 
 export default class CreateForm extends Component {
+  @service pixMetrics;
+
   get isSubmitDisabled() {
     return !(this.isCampaignGoalProfileCollection || this.args.campaign.course);
   }
@@ -50,7 +54,13 @@ export default class CreateForm extends Component {
   @action
   onSubmit(event) {
     event.preventDefault();
+    this.trackCourseCreationClick();
     this.args.onSubmit(this.args.campaign);
+  }
+
+  @action
+  trackCourseCreationClick() {
+    this.pixMetrics.trackEvent(EVENT_NAME.CATALOGUE.CAMPAIGN_CREATION_CLICK);
   }
 
   <template>
@@ -60,7 +70,9 @@ export default class CreateForm extends Component {
         {{t "common.form.mandatory-fields"}}
       </p>
 
-      <CampaignGoals @campaign={{@campaign}} @errors={{@errors}} @hasBlueprints={{@hasBlueprints}} />
+      <FormSection @title={{t "pages.campaign-creation.purpose.title"}}>
+        <CampaignGoals @campaign={{@campaign}} @errors={{@errors}} @hasBlueprints={{@hasBlueprints}} />
+      </FormSection>
 
       {{#if this.displaysSettingsSection}}
         <FormSection @title={{t "pages.campaign-creation.settings.title"}}>

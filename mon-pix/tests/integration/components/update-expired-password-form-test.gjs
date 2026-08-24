@@ -48,11 +48,11 @@ module('Integration | Component | update-expired-password-form', function (hooks
     test('should save the new password, when button is clicked', async function (assert) {
       // given
       const resetExpiredPasswordDemand = EmberObject.create({
-        login: 'toto',
         password: 'Password123',
-        updateExpiredPassword: sinon.stub(),
         unloadRecord: sinon.stub(),
       });
+      const service = this.owner.lookup('service:reset-expired-password-demand');
+      service.updateExpiredPassword = sinon.stub().resolves('toto');
 
       const screen = await render(
         <template><UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{resetExpiredPasswordDemand}} /></template>,
@@ -79,9 +79,10 @@ module('Integration | Component | update-expired-password-form', function (hooks
       const session = this.owner.lookup('service:session');
 
       const resetExpiredPasswordDemand = EmberObject.create({
-        updateExpiredPassword: sinon.stub().resolves(login),
         unloadRecord: sinon.stub(),
       });
+      const service = this.owner.lookup('service:reset-expired-password-demand');
+      service.updateExpiredPassword = sinon.stub().resolves(login);
 
       const screen = await render(
         <template><UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{resetExpiredPasswordDemand}} /></template>,
@@ -94,7 +95,6 @@ module('Integration | Component | update-expired-password-form', function (hooks
 
       // then
       sinon.assert.calledWith(session.authenticateUser, login, NEW_VALID_PASSWORD);
-      sinon.assert.called(resetExpiredPasswordDemand.unloadRecord);
       assert.ok(true);
     });
 
@@ -106,9 +106,10 @@ module('Integration | Component | update-expired-password-form', function (hooks
       this.owner.register('service:session', SessionStub);
 
       const resetExpiredPasswordDemand = EmberObject.create({
-        updateExpiredPassword: sinon.stub().resolves('toto'),
         unloadRecord: sinon.stub(),
       });
+      const service = this.owner.lookup('service:reset-expired-password-demand');
+      service.updateExpiredPassword = sinon.stub().resolves('toto');
 
       const screen = await render(
         <template><UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{resetExpiredPasswordDemand}} /></template>,
@@ -130,9 +131,10 @@ module('Integration | Component | update-expired-password-form', function (hooks
       test('displays the password validation error', async function (assert) {
         // given
         const resetExpiredPasswordDemand = EmberObject.create({
-          updateExpiredPassword: sinon.stub().rejects({ errors: [{ status: '400' }] }),
           unloadRecord: sinon.stub(),
         });
+        const service = this.owner.lookup('service:reset-expired-password-demand');
+        service.updateExpiredPassword = sinon.stub().rejects({ errors: [{ status: '400' }] });
 
         const screen = await render(
           <template><UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{resetExpiredPasswordDemand}} /></template>,
@@ -152,9 +154,10 @@ module('Integration | Component | update-expired-password-form', function (hooks
       test('displays the unauthorized error message', async function (assert) {
         // given
         const resetExpiredPasswordDemand = EmberObject.create({
-          updateExpiredPassword: sinon.stub().rejects({ errors: [{ status: '401' }] }),
           unloadRecord: sinon.stub(),
         });
+        const service = this.owner.lookup('service:reset-expired-password-demand');
+        service.updateExpiredPassword = sinon.stub().rejects({ errors: [{ status: '401' }] });
 
         const screen = await render(
           <template><UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{resetExpiredPasswordDemand}} /></template>,
@@ -177,9 +180,10 @@ module('Integration | Component | update-expired-password-form', function (hooks
           errors: [{ code: 'PASSWORD_RESET_TOKEN_INVALID_OR_EXPIRED' }],
         };
 
-        const resetExpiredPasswordDemand = EmberObject.create({
-          updateExpiredPassword: sinon.stub().rejects(response),
-        });
+        const resetExpiredPasswordDemand = EmberObject.create({});
+
+        const service = this.owner.lookup('service:reset-expired-password-demand');
+        service.updateExpiredPassword = sinon.stub().rejects(response);
 
         const screen = await render(
           <template><UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{resetExpiredPasswordDemand}} /></template>,

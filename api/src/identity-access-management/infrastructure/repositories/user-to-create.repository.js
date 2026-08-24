@@ -85,8 +85,6 @@ function _toUserDomain(userDTO) {
     email: userDTO.email,
     emailConfirmedAt: userDTO.emailConfirmedAt,
     username: userDTO.username,
-    password: userDTO.password,
-    shouldChangePassword: Boolean(userDTO.shouldChangePassword),
     cgu: Boolean(userDTO.cgu),
     lang: userDTO.lang,
     locale: userDTO.locale,

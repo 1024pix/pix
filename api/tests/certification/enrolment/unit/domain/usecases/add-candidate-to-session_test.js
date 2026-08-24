@@ -1,5 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { CannotEnrollCandidateIndividuallyError } from '../../../../../../src/certification/enrolment/domain/errors.js';
+import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
 import { BILLING_MODES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
@@ -8,12 +11,11 @@ import { CpfBirthInformationValidation } from '../../../../../../src/certificati
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
+  NotFoundError,
 } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session', function () {
   let sessionRepository;
@@ -24,9 +26,11 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   let certificationCpfCityRepository;
   let complementaryCertificationRepository;
   let eventAdapter;
+  let sessionAuthorizationAdapter;
   let mailCheck;
   let normalizeStringFnc;
   let candidateToEnroll;
+  let sessionBuilder;
   let dependencies;
   const sessionId = 1;
   const cleaCertificationId = 123;
@@ -48,10 +52,13 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     eventAdapter = {
       onCandidateEnrolledIndividually: sinon.stub(),
     };
+    sessionAuthorizationAdapter = {
+      find: sinon.stub(),
+    };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
     complementaryCertificationRepository = {
-      findAll: sinon.stub().resolves([
+      findAll: sinon.fake.resolves([
         domainBuilder.certification.shared.buildComplementaryCertification({
           id: cleaCertificationId,
           key: ComplementaryCertificationKeys.CLEA,
@@ -63,6 +70,22 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       ]),
     };
     mailCheck = { assertEmailDomainHasMx: sinon.stub() };
+    sessionBuilder = domainBuilder.certification.enrolment
+      .sessionEnrolmentBuilder()
+      .createdBy({ type: CERTIFICATION_CENTER_TYPES.PRO })
+      .withParameters({ id: sessionId });
+
+    preventStubsToBeCalledUnexpectedly([
+      sessionRepository.get,
+      centerRepository.getById,
+      candidateRepository.findBySessionId,
+      candidateRepository.save,
+      certificationCpfService.getBirthInformation,
+      eventAdapter.onCandidateEnrolledIndividually,
+      sessionAuthorizationAdapter.find,
+      mailCheck.assertEmailDomainHasMx,
+    ]);
+
     centerRepository.getById.resolves(domainBuilder.certification.enrolment.buildCenter());
     normalizeStringFnc = (str) => str;
     dependencies = {
@@ -74,20 +97,20 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       certificationCpfCityRepository,
       complementaryCertificationRepository,
       eventAdapter,
+      sessionAuthorizationAdapter,
       mailCheck,
       normalizeStringFnc,
     };
   });
 
-  context('when session cannot accept any candidate', function () {
-    it('should throw a CertificationCandidateOnFinalizedSessionError', async function () {
+  context('when session is not found', function () {
+    it('throws a NotFoundError', async function () {
       // given
-      candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({ sessionId });
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(
-        domainBuilder.certification.enrolment.buildSession({
-          finalizedAt: new Date(),
-        }),
-      );
+      candidateToEnroll = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({ sessionId })
+        .build();
+      sessionAuthorizationAdapter.find.withArgs({ sessionId }).resolves(null);
 
       // when
       const error = await catchErr(addCandidateToSession)({
@@ -97,31 +120,60 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       });
 
       // then
-      expect(error).to.be.an.instanceOf(CertificationCandidateOnFinalizedSessionError);
-      expect(error.message).to.equal("Cette session a déjà été finalisée, l'ajout de candidat n'est pas autorisé");
-      expect(candidateRepository.save).not.to.have.been.called;
-      expect(eventAdapter.onCandidateEnrolledIndividually).not.to.have.been.called;
+      expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
+    });
+  });
+
+  context('when session cannot enrol any candidate', function () {
+    it('should throw a CertificationCandidateOnFinalizedSessionError', async function () {
+      // given
+      candidateToEnroll = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({ sessionId })
+        .build();
+      sessionAuthorizationAdapter.find
+        .withArgs({ sessionId })
+        .resolves(
+          domainBuilder.certification.enrolment
+            .sessionAuthorizationBuilder()
+            .cannotEnrollCandidateIndividually()
+            .build(),
+        );
+
+      // when
+      const error = await catchErr(addCandidateToSession)({
+        sessionId,
+        candidate: candidateToEnroll,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(CannotEnrollCandidateIndividuallyError);
+      expect(error.message).to.equal(
+        "La session a été finalisée ou a expiré, l'ajout de candidat n'est plus possible.",
+      );
     });
   });
 
   context('when session can accept new candidate to enroll', function () {
-    let session;
-
     beforeEach(function () {
-      session = domainBuilder.certification.enrolment.buildSession({
-        id: sessionId,
-        finalizedAt: null,
-        certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
-      });
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
+      sessionAuthorizationAdapter.find
+        .withArgs({ sessionId })
+        .resolves(
+          domainBuilder.certification.enrolment.sessionAuthorizationBuilder().canEnrollCandidateIndividually().build(),
+        );
     });
 
     context('when candidate is not valid', function () {
       it('should throw a CertificationCandidatesError', async function () {
         // given
-        candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-          email: 'toto@toto.fr;tutu@tutu.fr',
-        });
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionBuilder.build());
+        candidateToEnroll = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({
+            email: 'toto@toto.fr;tutu@tutu.fr',
+          })
+          .build();
 
         // when
         const error = await catchErr(addCandidateToSession)({
@@ -131,42 +183,46 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
         });
 
         // then
-        expect(error).to.deepEqualInstance(
-          new CertificationCandidatesError({
-            code: 'CANDIDATE_EMAIL_NOT_VALID',
-            meta: {
-              value: 'toto@toto.fr;tutu@tutu.fr',
-            },
-          }),
-        );
-        expect(candidateRepository.save).not.to.have.been.called;
-        expect(eventAdapter.onCandidateEnrolledIndividually).not.to.have.been.called;
+        expect(error).to.be.instanceOf(CertificationCandidatesError);
+        expect(error.code).to.equal('CANDIDATE_EMAIL_NOT_VALID');
+        expect(error.meta).to.deep.equal({
+          value: 'toto@toto.fr;tutu@tutu.fr',
+        });
       });
     });
 
     context('when candidate is valid', function () {
       beforeEach(function () {
-        candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-          billingMode: BILLING_MODES.FREE,
-        });
+        candidateToEnroll = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({
+            billingMode: BILLING_MODES.FREE,
+          })
+          .build();
       });
 
       context('when a candidate with the same personal info already enrolled in session', function () {
-        const personalInfo = {
-          firstName: 'Les',
-          lastName: 'Fruits',
-          birthdate: '1990-01-04',
-        };
-
         it('should throw an CertificationCandidateByPersonalInfoTooManyMatchesError', async function () {
           // given
-          candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateToEnroll,
-            ...personalInfo,
-          });
-          candidateRepository.findBySessionId
-            .withArgs({ sessionId })
-            .resolves([domainBuilder.certification.enrolment.buildCandidate({ ...personalInfo })]);
+          sessionBuilder.addCandidatesBuilders([
+            domainBuilder.certification.enrolment.candidateBuilder().withIdentity({
+              firstName: 'Les',
+              lastName: 'Fruits',
+              birthdate: '1990-01-04',
+            }),
+          ]);
+          sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionBuilder.build());
+          candidateToEnroll = domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withIdentity({
+              firstName: 'Les',
+              lastName: 'Fruits',
+              birthdate: '1990-01-04',
+            })
+            .withParameters({
+              ...candidateToEnroll,
+            })
+            .build();
 
           // when
           const error = await catchErr(addCandidateToSession)({
@@ -177,16 +233,19 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
 
           // then
           expect(error).to.be.instanceof(CertificationCandidateByPersonalInfoTooManyMatchesError);
-          expect(candidateRepository.save).not.to.have.been.called;
-          expect(eventAdapter.onCandidateEnrolledIndividually).not.to.have.been.called;
         });
       });
 
       context('when no candidate is enrolled with the same personal info', function () {
         beforeEach(function () {
-          candidateRepository.findBySessionId
-            .withArgs({ sessionId })
-            .resolves([domainBuilder.certification.enrolment.buildCandidate({ firstName: 'Tout autre chose' })]);
+          sessionBuilder.addCandidatesBuilders([
+            domainBuilder.certification.enrolment.candidateBuilder().withIdentity({
+              firstName: 'Autre',
+              lastName: 'Légumes',
+              birthdate: '1992-02-03',
+            }),
+          ]);
+          sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionBuilder.build());
         });
 
         context('when birth information validation fails', function () {
@@ -212,8 +271,6 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             // then
             expect(error).to.be.an.instanceOf(CertificationCandidatesError);
             expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED.code);
-            expect(candidateRepository.save).not.to.have.been.called;
-            expect(eventAdapter.onCandidateEnrolledIndividually).not.to.have.been.called;
           });
         });
 
@@ -233,11 +290,14 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             context('when candidate convocation email is not valid', function () {
               it('should throw a CertificationCandidatesError', async function () {
                 // given
-                candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-                  ...candidateToEnroll,
-                  email: 'jesuisunemail@incorrect.fr',
-                  resultRecipientEmail: 'jesuisunemail@correct.fr',
-                });
+                candidateToEnroll = domainBuilder.certification.enrolment
+                  .candidateBuilder()
+                  .withParameters({
+                    ...candidateToEnroll,
+                    email: 'jesuisunemail@incorrect.fr',
+                    resultRecipientEmail: 'jesuisunemail@correct.fr',
+                  })
+                  .build();
                 mailCheck.assertEmailDomainHasMx.withArgs('jesuisunemail@incorrect.fr').throws();
                 mailCheck.assertEmailDomainHasMx.withArgs('jesuisunemail@correct.fr').resolves();
 
@@ -249,24 +309,23 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
                 });
 
                 // then
-                const certificationCandidatesError = new CertificationCandidatesError({
-                  code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
-                  meta: { email: 'jesuisunemail@incorrect.fr' },
-                });
-                expect(error).to.deepEqualInstance(certificationCandidatesError);
-                expect(candidateRepository.save).not.to.have.been.called;
-                expect(eventAdapter.onCandidateEnrolledIndividually).not.to.have.been.called;
+                expect(error).to.be.instanceOf(CertificationCandidatesError);
+                expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code);
+                expect(error.meta).to.deep.equal({ value: 'jesuisunemail@incorrect.fr' });
               });
             });
 
             context('when candidate recipient email is not valid', function () {
               it('should throw a CertificationCandidatesError', async function () {
                 // given
-                candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
-                  ...candidateToEnroll,
-                  email: 'jesuisunemail@correct.fr',
-                  resultRecipientEmail: 'jesuisunemail@incorrect.fr',
-                });
+                candidateToEnroll = domainBuilder.certification.enrolment
+                  .candidateBuilder()
+                  .withParameters({
+                    ...candidateToEnroll,
+                    email: 'jesuisunemail@correct.fr',
+                    resultRecipientEmail: 'jesuisunemail@incorrect.fr',
+                  })
+                  .build();
                 mailCheck.assertEmailDomainHasMx.withArgs('jesuisunemail@incorrect.fr').throws();
                 mailCheck.assertEmailDomainHasMx.withArgs('jesuisunemail@correct.fr').resolves();
 
@@ -278,14 +337,11 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
                 });
 
                 // then
-                const certificationCandidatesError = new CertificationCandidatesError({
-                  code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
-                  meta: { email: 'jesuisunemail@incorrect.fr' },
-                });
-
-                expect(error).to.deepEqualInstance(certificationCandidatesError);
-                expect(candidateRepository.save).not.to.have.been.called;
-                expect(eventAdapter.onCandidateEnrolledIndividually).not.to.have.been.called;
+                expect(error).to.be.instanceOf(CertificationCandidatesError);
+                expect(error.code).to.equal(
+                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
+                );
+                expect(error.meta).to.deep.equal({ value: 'jesuisunemail@incorrect.fr' });
               });
             });
           });
@@ -297,7 +353,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
 
             it('should insert the candidate and return the ID', async function () {
               // given
-              const correctedCandidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
+              const correctedCandidateToEnroll = new Candidate({
                 ...candidateToEnroll,
                 sessionId,
                 birthCountry: 'COUNTRY',
@@ -306,6 +362,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
                 birthCity: 'CITY',
               });
               candidateRepository.save.resolves([correctedCandidateToEnroll]);
+              eventAdapter.onCandidateEnrolledIndividually.resolves();
 
               // when
               const id = await addCandidateToSession({
@@ -315,13 +372,13 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
               });
 
               // then
-              expect(candidateRepository.save).to.have.been.calledWithExactly({
+              sinon.assert.calledWithExactly(candidateRepository.save, {
                 candidates: [correctedCandidateToEnroll],
               });
-              expect(id).to.equal(correctedCandidateToEnroll.id);
-              expect(eventAdapter.onCandidateEnrolledIndividually).to.have.been.calledWithExactly({
+              sinon.assert.calledWithExactly(eventAdapter.onCandidateEnrolledIndividually, {
                 candidate: correctedCandidateToEnroll,
               });
+              expect(id).to.equal(correctedCandidateToEnroll.id);
             });
           });
         });

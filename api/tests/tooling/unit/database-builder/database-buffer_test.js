@@ -3,7 +3,7 @@ import { expect } from '../../../test-helper.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-buffer', function () {
   afterEach(function () {
-    databaseBuffer.objectsToInsert = [];
+    databaseBuffer.purge();
   });
 
   describe('#getNextId', function () {
@@ -48,7 +48,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', function () {
   describe('#purge', function () {
     it('should empty objectsToInsert array', function () {
       // given
-      databaseBuffer.objectsToInsert = ['someValue'];
+      databaseBuffer.objectsToInsert = { someTable: ['someValue'] };
 
       // when
       databaseBuffer.purge();

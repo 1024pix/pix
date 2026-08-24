@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 
 export const types = [
   { value: 'PRO', label: 'Organisation professionnelle' },
@@ -19,6 +19,7 @@ export default class CertificationCenter extends Model {
   @attr() dataProtectionOfficerFirstName;
   @attr() dataProtectionOfficerLastName;
   @attr() dataProtectionOfficerEmail;
+  @attr() organizationId;
 
   @hasMany('complementary-certification', { async: true, inverse: null }) habilitations;
   @hasMany('certification-center-membership', { async: true, inverse: 'certificationCenter' })

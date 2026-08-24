@@ -89,7 +89,7 @@ async function _saveCodeForEmailUpdate({
 
   try {
     const passwordHash = authenticationMethod?.authenticationComplement?.password;
-    await cryptoService.checkPassword({ password, passwordHash });
+    await cryptoService.assertMatchPassword({ password, passwordHash });
   } catch {
     throw new InvalidPasswordForUpdateEmailError();
   }

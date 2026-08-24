@@ -1,11 +1,10 @@
-import * as smartRandomChallengeRepository from '../../../evaluation/infrastructure/repositories/smart-random-challenge-repository.js';
+import * as complementaryCertificationBadgeRepository from '../../../evaluation/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as llmApi from '../../../llm/application/api/llm-api.js';
 import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import knowledgeElementForParticipationService from '../../../prescription/shared/domain/services/knowledge-element-for-participation-service.js';
 import * as targetProfileAdministrationRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
-import { fromDatasourceObject } from '../../../shared/infrastructure/adapters/solution-adapter.js';
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
@@ -24,57 +23,17 @@ import * as challengeToPlayRepository from '../../infrastructure/repositories/ch
 import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
-import * as algorithmDataFetcherService from '../services/algorithm-methods/data-fetcher.js';
 import * as smartRandomService from '../services/algorithm-methods/smart-random.js';
 import * as correctionService from '../services/correction-service.js';
 import { getCompetenceLevel } from '../services/get-competence-level.js';
-import * as getMasteryPercentageService from '../services/get-mastery-percentage-service.js';
 import * as improvementService from '../services/improvement-service.js';
+import { services as evaluationServices } from '../services/index.js';
 import { pickChallengeService } from '../services/pick-challenge-service.js';
 import * as scorecardService from '../services/scorecard-service.js';
-
-const dependencies = {
-  algorithmDataFetcherService,
-  fromDatasourceObject,
-  answerRepository,
-  correctionRepository: repositories.correctionRepository,
-  areaRepository,
-  assessmentRepository,
-  autonomousCourseRepository: repositories.autonomousCourseRepository,
-  autonomousCourseTargetProfileRepository: repositories.autonomousCourseTargetProfileRepository,
-  certificationEvaluationRepository: repositories.certificationEvaluationRepository,
-  badgeAcquisitionRepository,
-  badgeCriteriaRepository,
-  badgeForCalculationRepository,
-  badgeRepository,
-  campaignParticipationRepository,
-  campaignRepository,
-  challengeRepository,
-  competenceEvaluationRepository,
-  competenceRepository,
-  correctionService,
-  courseRepository,
-  feedbackRepository,
-  getCompetenceLevel,
-  improvementService,
-  knowledgeElementRepository,
-  llmApi,
-  pickChallengeService,
-  scorecardService,
-  skillRepository,
-  smartRandomService,
-  targetProfileAdministrationRepository,
-  targetProfileRepository,
-  userRepository: repositories.userRepository,
-  getMasteryPercentageService,
-  knowledgeElementForParticipationService,
-  smartRandomChallengeRepository,
-  challengeToPlayRepository,
-};
-
 import { completeAssessment } from './complete-assessment.js';
 import { copyTargetProfileBadges } from './copy-target-profile-badges.js';
 import { createBadge } from './create-badge.js';
+import { deleteUnassociatedBadge } from './delete-unassociated-badge.js';
 import { findAllPaginatedAutonomousCourses } from './find-all-paginated-autonomous-courses.js';
 import { findAnswerByAssessment } from './find-answer-by-assessment.js';
 import { findAnswerByChallengeAndAssessment } from './find-answer-by-challenge-and-assessment.js';
@@ -85,9 +44,6 @@ import { getAutonomousCourse } from './get-autonomous-course.js';
 import { getAutonomousCourseTargetProfiles } from './get-autonomous-course-target-profiles.js';
 import { getCampaignParametersForSimulator } from './get-campaign-parameters-for-simulator.js';
 import { getCorrectionForAnswer } from './get-correction-for-answer.js';
-import { getNextChallengeForCampaignAssessment } from './get-next-challenge-for-campaign-assessment.js';
-import { getNextChallengeForCompetenceEvaluation } from './get-next-challenge-for-competence-evaluation.js';
-import { getNextChallengeForDemo } from './get-next-challenge-for-demo.js';
 import { getNextChallengeForSimulator } from './get-next-challenge-for-simulator.js';
 import { getProgression } from './get-progression.js';
 import { getScorecard } from './get-scorecard.js';
@@ -104,15 +60,57 @@ import { saveAutonomousCourse } from './save-autonomous-course.js';
 import { saveFeedback } from './save-feedback.js';
 import { startEmbedLlmChat } from './start-embed-llm-chat.js';
 import { startOrResumeCompetenceEvaluation } from './start-or-resume-competence-evaluation.js';
+import { updateAssessmentWithNextChallenge } from './update-assessment-with-next-challenge.js';
 import { updateAutonomousCourse } from './update-autonomous-course.js';
 import { updateBadge } from './update-badge.js';
 import { updateBadgeCriterion } from './update-badge-criterion.js';
 import { updateLastQuestionState } from './update-last-question-state.js';
 
+const dependencies = {
+  answerRepository,
+  correctionRepository: repositories.correctionRepository,
+  areaRepository,
+  assessmentRepository,
+  autonomousCourseRepository: repositories.autonomousCourseRepository,
+  autonomousCourseTargetProfileRepository: repositories.autonomousCourseTargetProfileRepository,
+  certificationEvaluationRepository: repositories.certificationEvaluationRepository,
+  badgeAcquisitionRepository,
+  badgeCriteriaRepository,
+  badgeForCalculationRepository,
+  badgeRepository,
+  campaignParticipationRepository,
+  campaignRepository,
+  challengeRepository,
+  competenceEvaluationRepository,
+  competenceRepository,
+  complementaryCertificationBadgeRepository,
+  correctionService,
+  courseRepository,
+  feedbackRepository,
+  getCampaignProgression: evaluationServices.getCampaignProgression,
+  getCompetenceLevel,
+  getNextChallengeForCampaignAssessment: evaluationServices.getNextChallengeForCampaignAssessment,
+  getNextChallengeForCompetenceEvaluation: evaluationServices.getNextChallengeForCompetenceEvaluation,
+  getNextChallengeForDemo: evaluationServices.getNextChallengeForDemo,
+  improvementService,
+  knowledgeElementRepository,
+  llmApi,
+  pickChallengeService,
+  scorecardService,
+  skillRepository,
+  smartRandomService,
+  targetProfileAdministrationRepository,
+  targetProfileRepository,
+  userRepository: repositories.userRepository,
+  knowledgeElementForParticipationService,
+  challengeToPlayRepository,
+};
+
 const usecasesWithoutInjectedDependencies = {
   completeAssessment,
   copyTargetProfileBadges,
   createBadge,
+  deleteUnassociatedBadge,
   findAllPaginatedAutonomousCourses,
   findAnswerByAssessment,
   findAnswerByChallengeAndAssessment,
@@ -123,9 +121,6 @@ const usecasesWithoutInjectedDependencies = {
   getAutonomousCourse,
   getCampaignParametersForSimulator,
   getCorrectionForAnswer,
-  getNextChallengeForCampaignAssessment,
-  getNextChallengeForCompetenceEvaluation,
-  getNextChallengeForDemo,
   getNextChallengeForSimulator,
   getProgression,
   getScorecard,
@@ -142,6 +137,7 @@ const usecasesWithoutInjectedDependencies = {
   saveFeedback,
   startEmbedLlmChat,
   startOrResumeCompetenceEvaluation,
+  updateAssessmentWithNextChallenge,
   updateAutonomousCourse,
   updateBadgeCriterion,
   updateBadge,

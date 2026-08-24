@@ -2,6 +2,15 @@
 @use 'pix-design-tokens/typography';
 @use 'pix-design-tokens/fonts';
 
+.competence-results {
+  padding : 68px var(--pix-spacing-6x);
+
+  &__banner {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+}
+
 .competence-results-panel-header {
   &__banner {
     display: flex;

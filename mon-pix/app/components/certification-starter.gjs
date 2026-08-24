@@ -1,3 +1,4 @@
+import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixCode from '@1024pix/pix-ui/components/pix-code';
@@ -154,7 +155,7 @@ export default class CertificationStarter extends Component {
 
     const ERROR_MESSAGE_KEYS = {
       404: 'pages.certification-start.error-messages.access-code-error',
-      412: 'pages.certification-start.error-messages.session-not-accessible',
+      412: 'pages.certification-start.error-messages.session-not-joinable',
     };
 
     const FORBIDDEN_ERROR_MESSAGE_KEYS = {
@@ -180,7 +181,7 @@ export default class CertificationStarter extends Component {
   }
 
   <template>
-    <section class="certification-starter">
+    <PixBlock @shadow="heavy">
       <h1 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h1>
 
       {{#if @model.certificationCandidate.isRegisteredToDoubleCertification}}
@@ -282,6 +283,6 @@ export default class CertificationStarter extends Component {
             }}</a>.
         </p>
       </div>
-    </section>
+    </PixBlock>
   </template>
 }

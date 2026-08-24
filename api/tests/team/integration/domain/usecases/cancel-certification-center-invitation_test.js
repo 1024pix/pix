@@ -10,15 +10,10 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Team | Domain | UseCase | cancel-certification-center-invitation', function () {
   describe('when the invitation exists', function () {
-    let clock;
     const now = new Date('2022-09-25');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
     });
 
     describe('when the invitation is pending', function () {

@@ -5,12 +5,21 @@ import ApplicationAdapter from './application';
 export default class SessionsMassImportReportAdapter extends ApplicationAdapter {
   @service currentUser;
 
-  buildURL(modelName, id, snapshot, requestType, query) {
-    if (requestType === 'confirm-mass-import') {
-      const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
-      return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/sessions/confirm-for-mass-import`;
-    } else {
-      return super.buildURL(modelName, id, snapshot, requestType, query);
-    }
+  confirm({ cachedValidatedSessionsKey }) {
+    const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
+    const payload = {
+      data: {
+        attributes: {
+          cachedValidatedSessionsKey,
+        },
+      },
+    };
+    return this.ajax(
+      `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/sessions/confirm-for-mass-import`,
+      'POST',
+      {
+        data: payload,
+      },
+    );
   }
 }

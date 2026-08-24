@@ -1,4 +1,4 @@
-import Model, { belongsTo, hasMany } from '@ember-data/model';
+import Model, { belongsTo, hasMany } from '@warp-drive/legacy/model';
 
 export default class CombinedCourseParticipationDetail extends Model {
   @belongsTo('combined-course-participation', { async: false, inverse: null }) participation;

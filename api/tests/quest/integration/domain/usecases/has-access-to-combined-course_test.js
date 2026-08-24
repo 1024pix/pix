@@ -6,15 +6,10 @@ import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Application | Usecases | hasAccessToCombinedCourse', function () {
-  let clock;
   const now = new Date('2003-04-05T03:04:05Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when user has organization learner in combined course organization', function () {

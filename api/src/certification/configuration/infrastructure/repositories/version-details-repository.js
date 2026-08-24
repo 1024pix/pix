@@ -38,6 +38,8 @@ export async function getById(id) {
       ),
       status: 'certification_versions.status',
       comments: 'certification_versions.comments',
+      globalScoringConfiguration: 'certification_versions.globalScoringConfiguration',
+      externalCalibrationId: 'certification_versions.externalCalibrationId',
       tubeIds: knexConn.raw(`array_agg(certification_versions_tubes.tube_id)`),
     })
     .from('certification_versions')

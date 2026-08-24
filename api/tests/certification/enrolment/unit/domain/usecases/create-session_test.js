@@ -1,129 +1,48 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSession } from '../../../../../../src/certification/enrolment/domain/usecases/create-session.js';
-import { AlreadyExistingEntityError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | UseCase | create-session', function () {
-  let centerRepository;
-  let sessionRepository;
-  const userId = 'userId';
-  const certificationCenterId = 123;
-  const certificationCenterName = 'certificationCenterName';
-  const sessionToSave = {
-    certificationCenterId,
-    address: '12 rue de Paris',
-    room: 'Salle 201',
-    date: '2025-05-15',
-    time: '10:00',
-  };
+describe('Certification | Enrolment | Unit | UseCase | create-session', function () {
+  let sessionRepository, sessionCodeService, dependencies;
 
   beforeEach(function () {
-    centerRepository = { getById: sinon.stub() };
-    sessionRepository = {
-      save: sinon.stub(),
-      isSessionExistingByCertificationCenterId: sinon.stub(),
+    sessionRepository = { create: sinon.fake.resolves(123) };
+    sessionCodeService = {
+      getNewSessionCode: sinon.fake.returns('MONSUPERCODE'),
+      getNewInvigilatorPassword: sinon.fake.returns('Y722GA'),
     };
+    dependencies = { sessionCodeService, sessionRepository };
   });
 
-  describe('#save', function () {
-    context('when session is not valid', function () {
-      it('should throw an error', function () {
-        // given
-        const sessionValidatorStub = { validate: sinon.stub().throws() };
-
-        // when
-        const promise = createSession({
-          userId,
-          session: sessionToSave,
-          centerRepository,
-          sessionRepository,
-          sessionValidator: sessionValidatorStub,
-        });
-
-        // then
-        expect(promise).to.be.rejected;
-        expect(sessionValidatorStub.validate).to.have.been.calledWithExactly(sessionToSave);
-      });
+  it('should save the session with appropriate arguments and return the id', async function () {
+    const sessionId = await createSession({
+      userId: 123,
+      certificationCenterId: 456,
+      address: '1 rue des lauriers',
+      room: '2B',
+      date: '2021-01-01',
+      time: '14:00',
+      examiner: 'Louise',
+      description: 'coucou',
+      ...dependencies,
     });
 
-    context('when a session with the same information already exists', function () {
-      it('should throw an AlreadyExistingEntityError', async function () {
-        // given
-        const sessionValidatorStub = { validate: sinon.stub().returns() };
-        sessionRepository.isSessionExistingByCertificationCenterId.resolves(true);
-
-        // when
-        const error = await catchErr(createSession)({
-          userId,
-          session: sessionToSave,
-          centerRepository,
-          sessionRepository,
-          sessionValidator: sessionValidatorStub,
-          sessionCodeService: { getNewSessionCode: sinon.stub() },
-        });
-
-        // then
-        expect(error).to.be.instanceOf(AlreadyExistingEntityError);
-        expect(sessionRepository.isSessionExistingByCertificationCenterId).to.have.been.calledWithExactly({
-          address: sessionToSave.address,
-          room: sessionToSave.room,
-          date: sessionToSave.date,
-          time: sessionToSave.time,
-          certificationCenterId,
-        });
-      });
-    });
-
-    context('when session is valid', function () {
-      let accessCode;
-      let sessionValidatorStub;
-      let sessionCodeServiceStub;
-
-      beforeEach(function () {
-        accessCode = Symbol('accessCode');
-        sessionValidatorStub = { validate: sinon.stub().returns() };
-        sessionCodeServiceStub = { getNewSessionCode: sinon.stub().returns(accessCode) };
-        centerRepository.getById = sinon.stub();
-        sessionRepository.save = sinon.stub();
-        sessionRepository.save.resolves();
-        sessionRepository.isSessionExistingByCertificationCenterId.resolves(false);
-      });
-
-      it('should save the session with appropriate arguments', async function () {
-        // given
-        const center = domainBuilder.certification.enrolment.buildCenter({
-          id: certificationCenterId,
-          name: certificationCenterName,
-        });
-
-        centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(center);
-
-        // when
-        await createSession({
-          userId,
-          session: sessionToSave,
-          centerRepository,
-          sessionRepository,
-          sessionValidator: sessionValidatorStub,
-          sessionCodeService: sessionCodeServiceStub,
-        });
-
-        // then
-        const expectedSession = new SessionEnrolment({
-          ...sessionToSave,
-          certificationCenter: certificationCenterName,
-          accessCode,
-          invigilatorPassword: sinon.match.string,
-          createdBy: userId,
-          certificationCandidates: [],
-        });
-
-        expect(sessionRepository.save).to.have.been.calledWithExactly({ session: expectedSession });
-      });
-    });
+    expect(sessionId).to.equal(123);
+    sinon.assert.calledOnceWithExactly(
+      sessionRepository.create,
+      sinon.match({
+        userId: 123,
+        certificationCenterId: 456,
+        address: '1 rue des lauriers',
+        room: '2B',
+        date: '2021-01-01',
+        time: '14:00',
+        examiner: 'Louise',
+        description: 'coucou',
+        accessCode: 'MONSUPERCODE',
+        invigilatorPassword: 'Y722GA',
+      }),
+    );
   });
 });

@@ -1,4 +1,3 @@
-import { Badge } from '../../../../evaluation/domain/models/Badge.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 export async function getAllIdsByTargetProfileId({ targetProfileId }) {
@@ -28,9 +27,9 @@ export async function attach({ complementaryCertificationBadges }) {
     .transacting(knexConn.isTransaction ? knexConn : null);
 }
 
-export async function findAttachableBadgesByIds({ ids }) {
+export async function countAttachableBadges({ ids }) {
   const knexConn = DomainTransaction.getConnection();
-  const badges = await knexConn
+  const result = await knexConn
     .from('badges')
     .whereIn('badges.id', ids)
     .andWhere('badges.isCertifiable', true)
@@ -39,17 +38,9 @@ export async function findAttachableBadgesByIds({ ids }) {
         .select(1)
         .from('complementary-certification-badges')
         .whereRaw('"complementary-certification-badges"."badgeId" = "badges"."id"'),
-    );
-
-  return badges.map((badge) => {
-    return new Badge(badge);
-  });
-}
-
-export async function isRelatedToCertification(badgeId) {
-  const knexConn = DomainTransaction.getConnection();
-  const complementaryCertificationBadge = await knexConn('complementary-certification-badges')
-    .where({ badgeId })
+    )
+    .count('id')
     .first();
-  return !!complementaryCertificationBadge;
+
+  return result.count;
 }

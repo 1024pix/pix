@@ -8,18 +8,30 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
     it('should return candidate ids matching sessionId and resultRecipientEmail (case insensitive)', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
-      const candidate1 = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-        resultRecipientEmail: 'recipient@example.net',
-      });
-      const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-        resultRecipientEmail: 'RECIPIENT@example.net',
-      });
-      databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-        resultRecipientEmail: 'other@example.net',
-      });
+      const candidate1 = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({
+          sessionId,
+          resultRecipientEmail: 'recipient@example.net',
+        })
+        .insertToDB({ databaseBuilder });
+
+      const candidate2 = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({
+          sessionId,
+          resultRecipientEmail: 'RECIPIENT@example.net',
+        })
+        .insertToDB({ databaseBuilder });
+
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({
+          sessionId,
+          resultRecipientEmail: 'other@example.net',
+        })
+        .insertToDB({ databaseBuilder });
+
       await databaseBuilder.commit();
 
       // when

@@ -2,12 +2,9 @@ import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js'
 import { getUserLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { authenticationMethodsSerializer } from '../../infrastructure/serializers/jsonapi/authentication-methods.serializer.js';
-import { certificationPointOfContactSerializer } from '../../infrastructure/serializers/jsonapi/certification-point-of-contact.serializer.js';
 import { emailVerificationSerializer } from '../../infrastructure/serializers/jsonapi/email-verification.serializer.js';
 import { updateEmailSerializer } from '../../infrastructure/serializers/jsonapi/update-email.serializer.js';
-import { userAccountInfoSerializer } from '../../infrastructure/serializers/jsonapi/user-account-info.serializer.js';
 import { userSerializer } from '../../infrastructure/serializers/jsonapi/user-serializer.js';
-import { userWithActivitySerializer } from '../../infrastructure/serializers/jsonapi/user-with-activity.serializer.js';
 
 const acceptPixCertifTermsOfService = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
@@ -64,38 +61,6 @@ const changeUserLocale = async function (request, h, dependencies = { userSerial
   const updatedUser = await usecases.changeUserLocale({ userId: authenticatedUserId, locale });
 
   return dependencies.userSerializer.serialize(updatedUser);
-};
-
-/**
- * @param request
- * @param h
- * @param {{
- *   userWithActivitySerializer: UserWithActivitySerializer
- * }} dependencies
- * @return {Promise<*>}
- */
-const getCurrentUser = async function (request, h, dependencies = { userWithActivitySerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const result = await usecases.getCurrentUser({ authenticatedUserId });
-
-  return dependencies.userWithActivitySerializer.serialize(result);
-};
-
-/**
- * @param request
- * @param h
- * @param {{
- *   userAccountInfoSerializer: UserAccountInfoSerializer
- * }} dependencies
- * @return {Promise<*>}
- */
-const getCurrentUserAccountInfo = async function (request, h, dependencies = { userAccountInfoSerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const userAccountInfo = await usecases.getUserAccountInfo({ userId: authenticatedUserId });
-
-  return dependencies.userAccountInfoSerializer.serialize(userAccountInfo);
 };
 
 /**
@@ -204,15 +169,6 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
-const selfDeleteUserAccount = async function (request, h) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const locale = getUserLocale(request);
-
-  await usecases.selfDeleteUserAccount({ userId: authenticatedUserId, locale });
-
-  return h.response().code(204);
-};
-
 const sendVerificationCode = async function (request, h, dependencies = { emailVerificationSerializer }) {
   const locale = getUserLocale(request);
 
@@ -229,12 +185,6 @@ const validateUserAccountEmail = async function (request, h) {
   const location = await usecases.validateUserAccountEmail({ token, redirectUrl });
 
   return h.redirect(location);
-};
-
-const getCertificationPointOfContact = async function (request) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const certificationPointOfContact = await usecases.getCertificationPointOfContact({ userId: authenticatedUserId });
-  return certificationPointOfContactSerializer.serialize(certificationPointOfContact);
 };
 
 const rememberUserHasSeenChallengeTooltip = async function (request, h, dependencies = { userSerializer }) {
@@ -283,14 +233,10 @@ export const userController = {
   acceptPixAppTermsOfService,
   acceptPixOrgaTermsOfService,
   changeUserLocale,
-  getCertificationPointOfContact,
-  getCurrentUser,
-  getCurrentUserAccountInfo,
   getUserAuthenticationMethods,
   rememberUserHasSeenChallengeTooltip,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
   createUser,
-  selfDeleteUserAccount,
   sendVerificationCode,
   updatePassword,
   updateUserEmailWithValidation,

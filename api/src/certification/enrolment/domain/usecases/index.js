@@ -1,9 +1,6 @@
-// eslint-disable import/no-restricted-paths
-import * as divisionRepository from '../../../../prescription/campaign/infrastructure/repositories/division-repository.js';
 import * as organizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as countryRepository from '../../../../shared/infrastructure/repositories/country-repository.js';
-import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
@@ -13,14 +10,13 @@ import * as certificationCenterRepository from '../../../shared/infrastructure/r
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as eventAdapter from '../../infrastructure/adapters/event-adapter.js';
+import * as sessionAuthorizationAdapter from '../../infrastructure/adapters/session-authorization-adapter.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as eligibilityService from '../services/eligibility-service.js';
-import * as reconcileCandidateService from '../services/reconcile-candidate.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
-import * as verifyCandidateIdentityService from '../services/verify-candidate-identity.js';
 import { addCandidateToSession } from './add-candidate-to-session.js';
 import { candidateHasSeenCertificationInstructions } from './candidate-has-seen-certification-instructions.js';
 import { createSession } from './create-session.js';
@@ -37,7 +33,6 @@ import { getCandidateTimeline } from './get-candidate-timeline.js';
 import { getCenter } from './get-center.js';
 import { getEnrolledCandidatesInSession } from './get-enrolled-candidates-in-session.js';
 import { getMassImportTemplateInformation } from './get-mass-import-template-information.js';
-import { getSession } from './get-session.js';
 import { getUserCertificationEligibility } from './get-user-certification-eligibility.js';
 import { hasBeenCandidate } from './has-been-candidate.js';
 import { importCertificationCandidatesFromCandidatesImportSheet } from './import-certification-candidates-from-candidates-import-sheet.js';
@@ -65,10 +60,9 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
  * @typedef {import('../services/eligibility-service.js')} EligibilityService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
- * @typedef {import('../../../../shared/infrastructure/repositories/organization-repository.js')} organizationRepository
- * @typedef {import('../../../../prescription/campaign/infrastructure/repositories/division-repository.js')} divisionRepository
  * @typedef {import('../../../shared/infrastructure/repositories/certification-center-repository.js')} CertificationCenterRepository
  * @typedef {import('../../infrastructure/adapters/event-adapter.js')} EventAdapter
+ * @typedef {import('../../infrastructure/adapters/session-authorization-adapter.js')} SessionAuthorizationAdapter
  **/
 
 /**
@@ -95,10 +89,10 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
  * @typedef {EligibilityService} EligibilityService
  * @typedef {PlacementProfileService} PlacementProfileService
- * @typedef {organizationRepository} OrganizationRepository
- * @typedef {divisionRepository} DivisionRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').DivisionRepository} DivisionRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {eventAdapter} EventAdapter
+ * @typedef {sessionAuthorizationAdapter} SessionAuthorizationAdapter
  *
  **/
 const dependencies = {
@@ -110,18 +104,15 @@ const dependencies = {
   sessionValidator,
   attendanceSheetPdfUtils,
   certificationCpfService,
-  divisionRepository,
   certificationCandidatesOdsService,
   eligibilityService,
   placementProfileService,
-  organizationRepository,
   organizationLearnerRepository,
   certificationCourseRepository,
   certificationCenterRepository,
   countryRepository,
   eventAdapter,
-  verifyCandidateIdentityService,
-  reconcileCandidateService,
+  sessionAuthorizationAdapter,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -141,7 +132,6 @@ const usecasesWithoutInjectedDependencies = {
   getCenter,
   getEnrolledCandidatesInSession,
   getMassImportTemplateInformation,
-  getSession,
   getUserCertificationEligibility,
   hasBeenCandidate,
   importCertificationCandidatesFromCandidatesImportSheet,

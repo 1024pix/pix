@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (sessions) {
   return new Serializer('sessionForSupervising', {
-    attributes: ['room', 'examiner', 'accessCode', 'date', 'time', 'certificationCandidates', 'address'],
+    attributes: ['room', 'examiner', 'accessCode', 'date', 'time', 'certificationCandidates', 'address', 'hasExpired'],
     transform(record) {
       record.certificationCandidates = record.candidates;
       return record;
@@ -27,6 +27,7 @@ const serialize = function (sessions) {
         'theoricalEndDateTime',
         'subscription',
         'isStillEligibleToDoubleCertification',
+        'hasExceededCertificationDuration',
         'challengeLiveAlert',
         'companionLiveAlert',
       ],

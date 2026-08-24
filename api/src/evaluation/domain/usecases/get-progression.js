@@ -4,13 +4,11 @@ import { Progression } from '../models/Progression.js';
 const getProgression = async function ({
   progressionId,
   userId,
+  getCampaignProgression,
   assessmentRepository,
   competenceEvaluationRepository,
-  campaignParticipationRepository,
   knowledgeElementRepository,
-  knowledgeElementForParticipationService,
   skillRepository,
-  campaignRepository,
   improvementService,
 }) {
   const assessmentId = Progression.getAssessmentIdFromId(progressionId);
@@ -21,35 +19,7 @@ const getProgression = async function ({
   if (assessment.isForCampaign()) {
     if (!assessment.campaignParticipationId) throw new ForbiddenAccess('Campaign does not accept any answer.');
 
-    const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
-
-    const skillIds = await campaignRepository.findSkillIds({ campaignId: campaignParticipation.campaignId });
-
-    const knowledgeElementsBeforeSharedDate =
-      await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
-        userId,
-        campaignParticipationId: campaignParticipation.id,
-        limitDate: campaignParticipation.sharedAt,
-      });
-
-    const isRetrying = await campaignParticipationRepository.isRetrying({
-      campaignParticipationId: assessment.campaignParticipationId,
-    });
-
-    const knowledgeElementsForProgression = improvementService.filterKnowledgeElements({
-      knowledgeElements: knowledgeElementsBeforeSharedDate,
-      createdAt: assessment.createdAt,
-      isRetrying,
-      isFromCampaign: true,
-      isImproving: true,
-    });
-
-    progression = new Progression({
-      id: progressionId,
-      skillIds,
-      knowledgeElements: knowledgeElementsForProgression,
-      isProfileCompleted: assessment.isCompleted(),
-    });
+    progression = await getCampaignProgression({ assessment, progressionId });
   }
 
   if (assessment.isCompetenceEvaluation()) {

@@ -38,7 +38,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkAuthorizationToManageCampaign,
+            method: campaignSecurityPreHandlers.checkAuthorizationToManageCampaign,
             assign: 'isAdminOrCreatorFromTheCampaign',
           },
           {
@@ -79,7 +79,7 @@ const register = async function (server) {
       path: '/api/campaigns/{campaignId}/archive',
       config: {
         pre: [
-          { method: securityPreHandlers.checkAuthorizationToManageCampaign },
+          { method: campaignSecurityPreHandlers.checkAuthorizationToManageCampaign },
           {
             method: campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse,
             assign: 'campaignBelongsToCombinedCourse',
@@ -101,7 +101,7 @@ const register = async function (server) {
       method: 'DELETE',
       path: '/api/campaigns/{campaignId}/archive',
       config: {
-        pre: [{ method: securityPreHandlers.checkAuthorizationToManageCampaign }],
+        pre: [{ method: campaignSecurityPreHandlers.checkAuthorizationToManageCampaign }],
         validate: {
           params: Joi.object({
             campaignId: identifiersType.campaignId,

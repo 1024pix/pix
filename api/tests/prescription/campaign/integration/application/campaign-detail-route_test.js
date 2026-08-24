@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { campaignDetailController } from '../../../../../src/prescription/campaign/application/campaign-detail-controller.js';
 import { campaignDetailRoute as moduleUnderTest } from '../../../../../src/prescription/campaign/application/campaign-detail-route.js';
+import { campaignSecurityPreHandlers } from '../../../../../src/prescription/campaign/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -13,7 +14,7 @@ describe('Integration | Application | Route | campaign detail router', function 
     it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkOrganizationAccess').returns(true);
-      sinon.stub(securityPreHandlers, 'checkAuthorizationToAccessCampaign').returns(true);
+      sinon.stub(campaignSecurityPreHandlers, 'checkAuthorizationToAccessCampaign').returns(true);
       sinon
         .stub(campaignDetailController, 'getCsvProfilesCollectionResults')
         .callsFake((_, h) => h.response('ok').code(200));

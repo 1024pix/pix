@@ -1,1 +1,1 @@
-export { StringTransform as default } from '@ember-data/serializer/transform';
+export { StringTransform as default } from '@warp-drive/legacy/serializer/transform';

@@ -1,15 +1,16 @@
-import { createServer } from '../../../../../server.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session Management | Acceptance | Application | Routes | companion-alert', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('PATCH /api/sessions/{sessionId}/users/{userId}/clear-companion-alert', function () {
@@ -17,9 +18,11 @@ describe('Certification | Session Management | Acceptance | Application | Routes
       // given
       const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter();
       const { id: sessionId } = databaseBuilder.factory.buildSession({ certificationCenterId });
-      const { userId } = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-      });
+      const { userId } = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled()
+        .withParameters({ sessionId })
+        .insertToDB({ databaseBuilder });
       const { id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
         sessionId,
         userId,
@@ -80,7 +83,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(401);
+        expect(response.statusCode).to.equal(403);
       });
     });
   });

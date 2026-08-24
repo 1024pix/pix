@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
+import { CertificationAnswer } from '../../../../../../src/certification/shared/domain/models/CertificationAnswer.js';
 import * as certificationAssessmentRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
@@ -8,6 +9,7 @@ import { Assessment } from '../../../../../../src/shared/domain/models/Assessmen
 import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function () {
@@ -126,6 +128,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           assessmentId: expectedCertificationAssessmentId,
           createdAt: new Date('2020-06-24T00:00:00Z'),
           challengeId: 'recChalB',
+          result: 'ok',
+          value: 'first answer value',
         }).id;
 
         dbf.buildAnswer({
@@ -155,6 +159,13 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.lengthOf(2);
         expect(certificationAssessment.certificationChallenges).to.have.lengthOf(2);
+
+        const firstAnswer = certificationAssessment.certificationAnswersByDate[0];
+        expect(firstAnswer).to.be.an.instanceOf(CertificationAnswer);
+        expect(firstAnswer.id).to.equal(firstAnswerInTime);
+        expect(firstAnswer.challengeId).to.equal('recChalB');
+        expect(firstAnswer.value).to.equal('first answer value');
+        expect(firstAnswer.result).to.deep.equal(AnswerStatus.OK);
       });
 
       it('should return the certification answers ordered by date', async function () {
@@ -390,17 +401,21 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       // given
       const expectedState = Assessment.states.STARTED;
       const sessionId = databaseBuilder.factory.buildSession({}).id;
-      const firstUserId = databaseBuilder.factory.buildUser({}).id;
       const secondUserId = databaseBuilder.factory.buildUser({}).id;
 
-      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-        userId: firstUserId,
-      }).id;
+      const certificationCandidateId = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({
+          userId: 123,
+        })
+        .withParameters({
+          sessionId,
+        })
+        .insertToDB({ databaseBuilder }).id;
 
       const firstUserCertificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         sessionId,
-        userId: firstUserId,
+        userId: 123,
       }).id;
       const secondUserCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
         sessionId,
@@ -408,7 +423,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       }).id;
 
       const firstUserAssessmentId = databaseBuilder.factory.buildAssessment({
-        userId: firstUserId,
+        userId: 123,
         certificationCourseId: firstUserCertificationCourseId,
         state: expectedState,
         type: 'CERTIFICATION',
@@ -455,7 +470,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       // then
       expect(certificationAssessment).to.be.an.instanceOf(CertificationAssessment);
       expect(certificationAssessment.id).to.equal(firstUserAssessmentId);
-      expect(certificationAssessment.userId).to.equal(firstUserId);
+      expect(certificationAssessment.userId).to.equal(123);
       expect(certificationAssessment.certificationCourseId).to.equal(firstUserCertificationCourseId);
       expect(certificationAssessment.state).to.equal(expectedState);
       expect(certificationAssessment.version).to.equal(2);

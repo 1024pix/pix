@@ -1,12 +1,15 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationScoringCriteria } from '../../domain/models/ComplementaryCertificationScoringCriteria.js';
 
-export const findByCertificationCourseId = async function ({ certificationCourseId }) {
+export async function findByCertificationCourseId({ certificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn('complementary-certification-courses')
     .select({
       complementaryCertificationCourseId: 'complementary-certification-courses.id',
       complementaryCertificationBadgeId: 'complementary-certification-courses.complementaryCertificationBadgeId',
+      // Both reproducibility values are used only by V2 scoring
+      // V3 has no notion of reproducibility rate and only uses minimumEarnedPix, through DoubleCertificationScoring
+      // Both of these columns can only be removed on V2 scoring depreciation
       minimumReproducibilityRate: 'complementary-certifications.minimumReproducibilityRate',
       minimumReproducibilityRateLowerLevel: 'complementary-certifications.minimumReproducibilityRateLowerLevel',
       complementaryCertificationBadgeKey: 'badges.key',
@@ -44,4 +47,4 @@ export const findByCertificationCourseId = async function ({ certificationCourse
       });
     },
   );
-};
+}

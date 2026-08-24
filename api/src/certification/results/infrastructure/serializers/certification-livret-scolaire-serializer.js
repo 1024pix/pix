@@ -18,7 +18,7 @@ const attributes = [
   'certificationCenter',
 ];
 
-const serialize = function (certificate) {
+export function serialize(certificate) {
   return new Serializer('certificationsResults', {
     attributes: ['certifications', 'competences'],
     certifications: {
@@ -36,6 +36,4 @@ const serialize = function (certificate) {
       },
     },
   }).serialize(certificate);
-};
-
-export { serialize };
+}

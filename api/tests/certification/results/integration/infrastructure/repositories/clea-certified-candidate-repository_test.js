@@ -11,6 +11,9 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         const sessionId = databaseBuilder.factory.buildSession().id;
         const userId = databaseBuilder.factory.buildUser({}).id;
         databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'Odile',
+          lastName: 'Cerise',
+          birthdate: '10/08/1998',
           userId,
           sessionId,
           resultRecipientEmail: 'jean-mi@coco.fr',
@@ -18,6 +21,9 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
 
         const userId2 = databaseBuilder.factory.buildUser({}).id;
         databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'Caroline',
+          lastName: 'Solar',
+          birthdate: '05/08/1993',
           userId: userId2,
           sessionId,
           resultRecipientEmail: 'marie-mi@coco.fr',
@@ -123,6 +129,9 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
           const sessionId = databaseBuilder.factory.buildSession().id;
           const userId = databaseBuilder.factory.buildUser().id;
           databaseBuilder.factory.buildCertificationCandidate({
+            firstName: 'Jean-Mi',
+            lastName: 'Coco',
+            birthdate: '2001-02-07',
             userId,
             sessionId,
             resultRecipientEmail: 'jean-mi@coco.fr',

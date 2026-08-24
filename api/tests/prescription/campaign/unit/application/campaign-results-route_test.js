@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { campaignResultsController } from '../../../../../src/prescription/campaign/application/campaign-results-controller.js';
 import { campaignResultsRoute as moduleUnderTest } from '../../../../../src/prescription/campaign/application/campaign-results-route.js';
+import { campaignSecurityPreHandlers } from '../../../../../src/prescription/campaign/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -13,7 +14,7 @@ describe('Unit | Application | campaign-results-router ', function () {
         // given
         const checkOrganizationAccessStub = sinon.stub(securityPreHandlers, 'checkOrganizationAccess');
         const checkAuthorizationToAccessCampaignStub = sinon.stub(
-          securityPreHandlers,
+          campaignSecurityPreHandlers,
           'checkAuthorizationToAccessCampaign',
         );
         sinon.stub(campaignResultsController, 'findAssessmentParticipationResults');
@@ -48,7 +49,7 @@ describe('Unit | Application | campaign-results-router ', function () {
     beforeEach(function () {
       checkOrganizationAccessStub = sinon.stub(securityPreHandlers, 'checkOrganizationAccess').returns(true);
       checkAuthorizationToAccessCampaignStub = sinon
-        .stub(securityPreHandlers, 'checkAuthorizationToAccessCampaign')
+        .stub(campaignSecurityPreHandlers, 'checkAuthorizationToAccessCampaign')
         .returns((_, h) => h.response(true));
       sinon
         .stub(campaignResultsController, 'findProfilesCollectionParticipations')

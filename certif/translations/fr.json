@@ -19,18 +19,19 @@
       "validate": "Valider"
     },
     "api-error-messages": {
-      "CANDIDATE_NOT_ALLOWED_FOR_FINALIZED_SESSION": "Cette session a déjà été finalisée, l'ajout de candidat n'est pas autorisé.",
       "CANDIDATE_NOT_FOUND": "Une erreur est survenue, le candidat {firstName} {lastName} n'a pas été trouvé.",
       "EMPTY_CANDIDATES_IMPORT": "Le fichier semble vide. Veuillez vérifier le contenu du fichier importé ou nous contacter.",
+      "INDIVIDUAL_ENROL_NOT_ALLOWED": "Cette session est finalisée ou expirée, l'ajout de candidat n'est pas autorisé.",
       "INVALID_DOCUMENT": "La version du document est inconnue.<br />Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
+      "SCO_ENROL_NOT_ALLOWED": "Cette session est finalisée ou expirée, l'ajout de candidat n'est pas autorisé.",
       "SESSION_ALREADY_EXISTS": "Une session avec les mêmes informations (date, horaire, adresse et salle) existe déjà.",
       "SESSION_ALREADY_FINALIZED": "La session a déjà été finalisée.",
       "SESSION_CANNOT_BE_FINALIZED": "Erreur lors de la finalisation de session.",
       "SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED": "La session n'existe pas ou son accès est restreint.",
       "SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br />Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.",
       "SESSION_WITHOUT_STARTED_CERTIFICATION": "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer.",
-      "SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE": "Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.",
-      "UNTERMINATED_CERTIFICATION_WITHOUT_ABORT_REASON": "Une ou plusieurs certifications non terminées n'ont pas de \"Raison de l’abandon\" renseignées. La session ne peut donc pas être finalisée.",
+      "SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE": "Le champ “Motif d’interruption” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.",
+      "UNTERMINATED_CERTIFICATION_WITHOUT_ABORT_REASON": "Une ou plusieurs certifications non terminées n'ont pas de \"Motif d’interruption\" renseigné. La session ne peut donc pas être finalisée.",
       "authorize-resume-error": "Une erreur est survenue, {firstName} {lastName} n'a pas pu être autorisé à reprendre son test.",
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
       "certification-candidate": {
@@ -99,6 +100,7 @@
         "accessibility": "Accessibilité",
         "additional-certification": "Choix de la certification",
         "candidate-status": {
+          "certification-overtime": "Délai dépassé",
           "finished": "Terminé",
           "live-alerts": {
             "challenge": {
@@ -408,7 +410,7 @@
         "warning": "Attention :"
       },
       "errors": {
-        "no-abort-reason": "Une ou plusieurs certification(s) non terminée(s) n'ont pas de motif d'abandon. Veuillez les renseigner."
+        "no-abort-reason": "Une ou plusieurs certification(s) non terminée(s) n'ont pas de motif d'interruption. Veuillez les renseigner."
       },
       "issue-reports-modal": {
         "actions": {
@@ -440,12 +442,12 @@
         "title": "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident",
         "uncompleted-reports-information": {
           "description": "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
-          "extra-information": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
+          "extra-information": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner le motif d’interruption.",
           "table": {
             "labels": {
-              "abandonment": "Abandon : Manque de temps ou départ prématuré",
-              "abandonment-reason": "Raison de l'abandon",
-              "abandonment-reason-label": "Sélectionner la raison de l'abandon",
+              "abandonment": "Test non finalisé dans le délai imparti",
+              "abandonment-reason": "Motif d'interruption",
+              "abandonment-reason-label": "Sélectionner le motif d'interruption",
               "technical-problem": "Problème technique"
             },
             "tooltip": {
@@ -453,7 +455,7 @@
                 "enough-time-description": "Le candidat n'a pas eu le temps de répondre à toutes ses questions",
                 "left-deliberately-description": "Le candidat est parti volontairement avant la fin du test"
               },
-              "extra-information": "Description de la raison de l'abandon",
+              "extra-information": "Description du motif d'interruption",
               "technical-problem-description": "Le candidat a rencontré un problème technique l'empêchant de poursuivre son test jusqu’à la fin"
             }
           }
@@ -589,7 +591,7 @@
             "incorrect-data": "Le numéro de session et/ou le mot de passe saisis sont incorrects.",
             "mandatory-fields": "Les champs \"Numéro de la session\" et \"Mot de passe de session\" sont obligatoires.",
             "session-finalized": "La session a été finalisée. L'accès à son espace surveillant n'est plus possible.",
-            "session-not-accessible": "Ouverture de votre espace PixCertif le {date} (00h00, heure France métropolitaine)."
+            "session-not-joinable": "Ouverture de votre espace PixCertif le {date} (00h00, heure France métropolitaine)."
           },
           "session-number": "Numéro de la session",
           "session-password": {
@@ -702,8 +704,9 @@
                 "label": "Importer (.ods)"
               }
             },
-            "title": "Inscrire des candidats",
-            "warning": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br /> Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous."
+            "expired-warning": "La session a expiré, vous ne pouvez plus inscrire de candidats.",
+            "started-warning": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br /> Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.",
+            "title": "Inscrire des candidats"
           }
         },
         "downloads": {

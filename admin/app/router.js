@@ -92,7 +92,8 @@ Router.map(function () {
 
     this.route('certification-centers', function () {
       this.route('get', { path: '/:certification_center_id' }, function () {
-        this.route('team', { path: '/' });
+        this.route('details');
+        this.route('team');
         this.route('invitations');
         this.route('attached-organizations');
       });
@@ -131,6 +132,8 @@ Router.map(function () {
           this.route('new');
           this.route('version', { path: '/:version_id' }, function () {
             this.route('edit');
+            this.route('calibration');
+            this.route('scoring');
           });
         });
         this.route('target-profile', function () {

@@ -183,7 +183,7 @@ export class PixPlusDroitV2Seed {
       email: user.email,
       sessionId: V2_PUBLISHED_DOUBLE_CERTIFICATION_DROIT_SESSION,
       userId: user.id,
-      authorizedToStart: true,
+      authorizedToStartAt: new Date(),
       billingMode: 'FREE',
       reconciledAt: now.toDate(),
       subscription: Frameworks.DROIT,

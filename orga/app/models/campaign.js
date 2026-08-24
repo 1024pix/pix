@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 import ENV from 'pix-orga/config/environment';
 
 export default class Campaign extends Model {

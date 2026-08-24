@@ -17,7 +17,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
     let computeCertificabilityJobRepository;
     let organizationLearnerRepository;
     let logger;
-    let clock;
     let config;
     let fromUserActivityDate;
     let toUserActivityDate;
@@ -31,7 +30,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         });
 
       const now = dayjs('2023-10-02T21:00:01').tz('Europe/Paris').toDate();
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       config = {
         features: {
@@ -65,10 +64,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       logger = {
         info: sinon.stub(),
       };
-    });
-
-    afterEach(async function () {
-      clock.restore();
     });
 
     context('when computation is asynchronous', function () {

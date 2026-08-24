@@ -18,10 +18,16 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
           const candidate = databaseBuilder.factory.buildCertificationCandidate({
             lastName: 'Joplin',
             firstName: 'Janis',
+            birthdate: '2000-01-01',
+            externalId: 'foo externalId',
+            sex: 'F',
+            subscription: Frameworks.CORE,
+            birthCity: 'Perpignan',
+            birthCountry: 'France',
+            birthPostalCode: '66000',
             sessionId: session.id,
             userId: user.id,
             reconciledAt: new Date('2024-10-17'),
-            authorizedToStart: false,
           });
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
             userId: user.id,
@@ -59,10 +65,15 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
           const candidate = databaseBuilder.factory.buildCertificationCandidate({
             lastName: 'Hendrix',
             firstName: 'Jimi',
+            birthCity: 'Perpignan',
+            birthCountry: 'France',
+            birthPostalCode: '66000',
+            birthdate: '2000-01-01',
+            externalId: 'foo externalId',
+            sex: 'F',
             sessionId: session.id,
             userId: user.id,
             reconciledAt: new Date('2024-10-17'),
-            authorizedToStart: false,
             subscription: Frameworks.CLEA,
           });
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
@@ -102,9 +113,15 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
             lastName: 'Hendrix',
             firstName: 'Jimi',
             sessionId: session.id,
+            birthCity: 'Perpignan',
+            birthCountry: 'France',
+            birthPostalCode: '66000',
+            birthdate: '1995-01-01',
+            externalId: 'foo externalId',
+            sex: 'F',
+
             userId: user.id,
             reconciledAt: new Date('2024-10-17'),
-            authorizedToStart: false,
             subscription: Frameworks.DROIT,
           });
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
@@ -144,10 +161,10 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
         databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Joplin',
           firstName: 'Janis',
+          birthdate: '04/02/2000',
           sessionId: session.id,
           userId: user.id,
           reconciledAt: new Date('2024-10-10'),
-          authorizedToStart: false,
         });
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           userId: user.id,
@@ -180,10 +197,10 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
           databaseBuilder.factory.buildCertificationCandidate({
             lastName: 'Joplin',
             firstName: 'Janis',
+            birthdate: '01/02/1996',
             sessionId: otherSession.id,
             userId: user.id,
             reconciledAt: new Date('2024-10-01'),
-            authorizedToStart: false,
           });
           databaseBuilder.factory.buildCertificationCourse({
             userId: user.id,
@@ -195,10 +212,16 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
           const candidate = databaseBuilder.factory.buildCertificationCandidate({
             lastName: 'Joplin',
             firstName: 'Janis',
+            birthdate: '1996-01-02',
+            birthCity: 'Perpignan',
+            birthCountry: 'France',
+            birthPostalCode: '66000',
+            externalId: 'foo externalId',
+            sex: 'F',
+            subscription: 'CORE',
             sessionId: session.id,
             userId: user.id,
             reconciledAt: new Date('2024-10-18'),
-            authorizedToStart: false,
           });
           const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
             userId: user.id,
@@ -237,10 +260,17 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
         const session = databaseBuilder.factory.buildSession();
         const user = databaseBuilder.factory.buildUser();
         const candidate = databaseBuilder.factory.buildCertificationCandidate({
+          birthdate: '1996-01-02',
+          firstName: 'a',
+          lastName: 'b',
+          birthCity: 'Perpignan',
+          birthCountry: 'France',
+          birthPostalCode: '66000',
+          externalId: 'foo externalId',
+          sex: 'F',
           sessionId: session.id,
           userId: user.id,
           reconciledAt: new Date('2024-10-17'),
-          authorizedToStart: false,
           subscription: Frameworks.DROIT,
         });
 
@@ -268,10 +298,12 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
         const session = databaseBuilder.factory.buildSession();
         const user = databaseBuilder.factory.buildUser();
         databaseBuilder.factory.buildCertificationCandidate({
+          birthdate: '01/02/1996',
+          firstName: 'a',
+          lastName: 'b',
           sessionId: session.id,
           userId: user.id,
           reconciledAt: new Date('2024-10-17'),
-          authorizedToStart: false,
           subscription: Frameworks.DROIT,
         });
 

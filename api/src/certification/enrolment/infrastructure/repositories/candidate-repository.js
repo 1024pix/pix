@@ -4,7 +4,6 @@
 
 // @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CertificationCandidateNotFoundError } from '../../../shared/domain/errors.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
 /**
@@ -57,8 +56,7 @@ export async function findByUserId({ userId }) {
  * @function
  * @param {Candidate} candidate
  *
- * @returns {Promise<void>}
- * @throws {CertificationCandidateNotFoundError} Certification candidate not found
+ * @returns {Promise<object|undefined>} the updated candidate, or undefined when no candidate was found
  */
 export async function update(candidate) {
   const candidateDataToSave = adaptModelToDb(candidate);
@@ -71,9 +69,7 @@ export async function update(candidate) {
     .update(candidateDataToSave)
     .returning('*');
 
-  if (!updatedCertificationCandidate) {
-    throw new CertificationCandidateNotFoundError();
-  }
+  return updatedCertificationCandidate;
 }
 
 /**
@@ -154,7 +150,6 @@ function buildBaseReadQuery(knexConn) {
  * @property {string} billingMode
  * @property {string} prepaymentCode
  * @property {number} organizationLearnerId
- * @property {boolean} authorizedToStart
  * @property {boolean} hasSeenCertificationInstructions
  * @property {boolean} accessibilityAdjustmentNeeded
  * @property {number | null} extraTimePercentage
@@ -183,7 +178,6 @@ function adaptModelToDb(candidate) {
     externalId: candidate.externalId,
     birthdate: candidate.birthdate,
     extraTimePercentage: candidate.extraTimePercentage,
-    authorizedToStart: candidate.authorizedToStart,
     sessionId: candidate.sessionId,
     userId: candidate.userId,
     reconciledAt: candidate.reconciledAt,
@@ -216,7 +210,6 @@ function adaptModelToDb(candidate) {
  * @property {string} billingMode
  * @property {string} prepaymentCode
  * @property {number} organizationLearnerId
- * @property {boolean} authorizedToStart
  * @property {boolean} hasSeenCertificationInstructions
  * @property {boolean} accessibilityAdjustmentNeeded
  * @property {boolean} hasStartedTest

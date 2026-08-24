@@ -7,8 +7,6 @@
  * @param {number} params.userId
  * @param {CertificateSummaryRepository} params.certificateSummaryRepository
  */
-const findUserCertificateSummaries = function ({ userId, certificateSummaryRepository }) {
+export function findUserCertificateSummaries({ userId, certificateSummaryRepository }) {
   return certificateSummaryRepository.findByUserId({ userId });
-};
-
-export { findUserCertificateSummaries };
+}

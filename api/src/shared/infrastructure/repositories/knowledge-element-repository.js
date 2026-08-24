@@ -1,4 +1,3 @@
-import { KnowledgeElementCollection } from '../../../prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 
@@ -19,11 +18,7 @@ function _findByUserIdAndLimitDateQuery({ userId, limitDate, skillIds = [] }) {
 
 async function findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillIds }) {
   const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate, skillIds });
-
-  const keCollection = new KnowledgeElementCollection(
-    knowledgeElementRows.map((knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow)),
-  );
-  return keCollection.latestUniqNonResetKnowledgeElements;
+  return KnowledgeElement.toLatestUniqNonResetCollection(knowledgeElementRows);
 }
 
 const groupUniqKnowledgeElementsByUserId = ({ userIds, knowledgeElementRows }) => {
@@ -31,12 +26,10 @@ const groupUniqKnowledgeElementsByUserId = ({ userIds, knowledgeElementRows }) =
   for (const row of knowledgeElementRows) {
     knowledgeElementsByUserId.get(row.userId)?.push(new KnowledgeElement(row));
   }
-
   return userIds.map((userId) => {
-    const keCollection = new KnowledgeElementCollection(knowledgeElementsByUserId.get(userId));
     return {
       userId,
-      knowledgeElements: keCollection.latestUniqNonResetKnowledgeElements,
+      knowledgeElements: KnowledgeElement.toLatestUniqNonResetCollection(knowledgeElementsByUserId.get(userId)),
     };
   });
 };

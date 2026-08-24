@@ -1,0 +1,25 @@
+import * as checkAuthorizationToManageCampaignUsecase from '../../../../../../src/prescription/campaign/application/usecases/checkAuthorizationToManageCampaign.js';
+import { expect } from '../../../../../test-helper.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
+
+describe('Prescription | Campaign | Integration | Application | Usecases | checkAuthorizationToManageCampaign', function () {
+  describe('when the user is member in organization and owner of the campaign', function () {
+    it('returns true', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const user = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
+      const campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id, ownerId: user.id });
+      await databaseBuilder.commit();
+
+      // when
+      const hasAccess = await checkAuthorizationToManageCampaignUsecase.execute({
+        campaignId: campaign.id,
+        userId: user.id,
+      });
+
+      // then
+      expect(hasAccess).to.be.true;
+    });
+  });
+});

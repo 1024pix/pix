@@ -19,16 +19,12 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
   let authenticationMethodRepository;
   let prescriptionOrganizationLearnerRepository;
   let userRepository;
+  let membershipRepository;
 
-  let userMember;
   let userStudent;
   let student;
 
   beforeEach(function () {
-    userMember = {
-      id: 1,
-      hasAccessToOrganization: sinon.stub().returns(true),
-    };
     userStudent = {
       id: 2,
       username: 'first.last0112',
@@ -55,8 +51,10 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     };
     userRepository = {
       get: sinon.stub().resolves(userStudent),
-      getWithMemberships: sinon.stub().resolves(userMember),
       updatePassword: sinon.stub().resolves(),
+    };
+    membershipRepository = {
+      findByUserIdAndOrganizationId: sinon.stub().resolves([{ id: 'memberid' }]),
     };
   });
 
@@ -71,10 +69,14 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       authenticationMethodRepository,
       prescriptionOrganizationLearnerRepository,
       userRepository,
+      membershipRepository,
     });
 
     // then
-    expect(userRepository.getWithMemberships).to.have.been.calledWithExactly(userId);
+    expect(membershipRepository.findByUserIdAndOrganizationId).to.have.been.calledWithExactly({
+      userId,
+      organizationId,
+    });
   });
 
   it('should get student by his id', async function () {
@@ -88,6 +90,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       authenticationMethodRepository,
       prescriptionOrganizationLearnerRepository,
       userRepository,
+      membershipRepository,
     });
 
     // then
@@ -107,6 +110,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       authenticationMethodRepository,
       prescriptionOrganizationLearnerRepository,
       userRepository,
+      membershipRepository,
     });
 
     // then
@@ -129,6 +133,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       authenticationMethodRepository,
       prescriptionOrganizationLearnerRepository,
       userRepository,
+      membershipRepository,
     });
 
     // then
@@ -138,7 +143,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
   describe('When the user member is not part of student organization', function () {
     it('should return UserNotAuthorizedToUpdatePasswordError', async function () {
       // given
-      userMember.hasAccessToOrganization.returns(false);
+      membershipRepository.findByUserIdAndOrganizationId = sinon.stub().resolves([]);
 
       // when
       const error = await catchErr(updateOrganizationLearnerDependentUserPassword)({
@@ -150,6 +155,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
         authenticationMethodRepository,
         prescriptionOrganizationLearnerRepository,
         userRepository,
+        membershipRepository,
       });
 
       // then
@@ -175,6 +181,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
         authenticationMethodRepository,
         prescriptionOrganizationLearnerRepository,
         userRepository,
+        membershipRepository,
       });
 
       // then
@@ -197,6 +204,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
         authenticationMethodRepository,
         prescriptionOrganizationLearnerRepository,
         userRepository,
+        membershipRepository,
       });
 
       // then
@@ -218,6 +226,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
         authenticationMethodRepository,
         prescriptionOrganizationLearnerRepository,
         userRepository,
+        membershipRepository,
       });
 
       // then

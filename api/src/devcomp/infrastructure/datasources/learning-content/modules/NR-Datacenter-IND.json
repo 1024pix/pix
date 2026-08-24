@@ -593,13 +593,13 @@
                   "cardList": [
                     {
                       "name": "Les objets connectés",
-                      "description": "Chaque objet envoie en permanence des données vers Internet. Ces flux massifs doivent être stockés, analysés et sécurisés.",
+                      "description": "Les objets envoient des données vers Internet. Ces flux massifs doivent être stockés et analysés.",
                       "icon": "https://assets.pix.org/modules/NR_Datacenter_IND/nr_datacenter_ind_flashcard_obj_connectes_v2.svg",
                       "image": "https://assets.pix.org/modules/NR_Datacenter_IND/nr_datacenter_ind_flashcard_obj_connectes_v2.svg"
                     },
                     {
                       "name": "La cryptomonnaie",
-                      "description": "Des milliers de transactions en continue demandent énormément de puissance de calcul, donc beaucoup de centres de données.",
+                      "description": "Des milliers de transactions en continue demandent énormément de puissance de calcul.",
                       "icon": "https://assets.pix.org/modules/NR_Datacenter_IND/nr_datacenter_ind_flashcard_cryptom_v2.svg",
                       "image": "https://assets.pix.org/modules/NR_Datacenter_IND/nr_datacenter_ind_flashcard_cryptom_v2.svg"
                     },
@@ -611,7 +611,7 @@
                     },
                     {
                       "name": "L’IA générative ",
-                      "description": "Pour produire ses réponses, l’IA générative fait de nombreux calculs qui mobilisent les serveurs des centres de données.",
+                      "description": "Pour produire ses réponses, l’IA générative fait de nombreux calculs.",
                       "icon": "https://assets.pix.org/modules/NR_Datacenter_IND/nr_datacenter_ind_flashcard_ia_v2.svg",
                       "image": "https://assets.pix.org/modules/NR_Datacenter_IND/nr_datacenter_ind_flashcard_ia_v2.svg"
                     }
@@ -623,40 +623,43 @@
               "type": "element",
               "element": {
                 "id": "0d766e7a-a253-4a2e-8601-cfc3cb38dfb8",
-                "type": "qcu-discovery",
-                "instruction": "<p>Éric lit l'information suivante sur un site d’actualité&nbsp;:</p><p> «&nbsp;<em>L’essor des nouvelles technologies, l’IA générative en tête, pourrait faire exploser la consommation énergétique des centres de données dans les prochaines années.</em>&nbsp;»</p><p>Que faut-il comprendre de cette information ?</p><br>",
+                "type": "qcm",
+                "instruction": "<p>D'après ce que vous avez lu ci-dessus, quelles technologies nécessitent un centre de données ?</p><br>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Les nouveaux usages numériques n’influencent pas la consommation d’énergie des centres de données.</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Eh non !&nbsp;Les évolutions technologiques successives amènent à des usages toujours plus consommateurs d’énergie.</p>"
-                    }
+                    "content": "<p>Les objets connectés</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>L’usage des nouvelles technologies augmente la consommation d’énergie des centres de données.</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Tout à fait !&nbsp;Les évolutions technologiques successives amènent à des usages toujours plus consommateurs d’énergie.</p>"
-                    }
+                    "content": "<p>La cryptomonnaie</p>"
                   },
                   {
                     "id": "3",
-                    "content": "<p>L’IA générative permet de réduire la consommation énergétique des centres de données.</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Eh non ! Les évolutions technologiques, et en particulier l’IA générative, amènent à des usages toujours plus consommateurs d’énergie.</p>"
-                    }
+                    "content": "<p>Le streaming</p>"
                   },
                   {
                     "id": "4",
-                    "content": "<p>Je ne sais pas.<br></p>",
-                    "feedback": {
-                      "diagnosis": "<p>Les évolutions technologiques successives, et en particulier l’IA générative, amènent à des usages toujours plus consommateurs d’énergie.</p>"
-                    }
+                    "content": "<p>L'IA générative<br></p>"
                   }
                 ],
-                "solution": "2"
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bien vu !</p>",
+                    "diagnosis": "<p>Toutes les nouvelles technologies citées ont besoin des centres de données pour fonctionner.</p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Eh non.</p>",
+                    "diagnosis": "<p>Toutes les nouvelles technologies citées ont besoin des centres de données pour fonctionner.<br></p>"
+                  }
+                },
+                "solutions": [
+                  "1",
+                  "2",
+                  "3",
+                  "4"
+                ]
               }
             }
           ]

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
+import * as sessionRepository from '../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import pickChallengeService from '../../../../../src/certification/evaluation/domain/services/pick-challenge-service.js';
 import { usecases as evaluationUseCases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { usecases as flashUseCases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
@@ -24,7 +25,7 @@ export default async function publishSessionWithValidatedCertification({
   candidatesIds,
   pixScoreTarget,
 }) {
-  const session = await enrolmentUseCases.getSession({ sessionId });
+  const session = await sessionRepository.get({ id: sessionId });
 
   const version = await knex('certification_versions').where('expirationDate', null).andWhere('scope', 'CORE').first();
 
@@ -33,14 +34,12 @@ export default async function publishSessionWithValidatedCertification({
   for (const candidateId of candidatesIds) {
     const candidate = await enrolmentUseCases.getCandidate({ certificationCandidateId: candidateId });
 
-    const { certificationCourse } = await evaluationUseCases.retrieveLastOrCreateCertificationCourse({
+    const { certificationCourseInfo } = await evaluationUseCases.startOrResumeCertification({
       sessionId,
       accessCode: session.accessCode,
       userId: candidate.userId,
       locale: 'fr',
     });
-
-    const assessment = certificationCourse._assessment;
 
     // We simulate a certification in order to get the right capacity for a specific pix score
     const { capacity } = await evaluationUseCases.simulateCapacityFromScore({
@@ -77,7 +76,7 @@ export default async function publishSessionWithValidatedCertification({
         associatedSkillId: simulatedChallenge.challenge.skill.id,
         challengeId: simulatedChallenge.challenge.id,
         competenceId: simulatedChallenge.challenge.skill.competenceId,
-        courseId: certificationCourse._id,
+        courseId: certificationCourseInfo.id,
         createdAt: getNewSecondPad(),
         updatedAt: getNewSecondPad(),
         isNeutralized: false,
@@ -90,7 +89,7 @@ export default async function publishSessionWithValidatedCertification({
       databaseBuilder.factory.buildAnswer({
         value: 'dummy value',
         result: simulatedChallenge.answerStatus,
-        assessmentId: assessment.id,
+        assessmentId: certificationCourseInfo.assessmentId,
         challengeId: simulatedChallenge.challenge.id,
         createdAt: getNewSecondPad(),
         updatedAt: getNewSecondPad(),
@@ -105,11 +104,11 @@ export default async function publishSessionWithValidatedCertification({
     await databaseBuilder.commit();
 
     await knex('certification-courses')
-      .where('id', certificationCourse._id)
+      .where('id', certificationCourseInfo.id)
       .update({ lastAnswerAt: lastAnswerCreatedAt.toDate() });
 
     const report = new CertificationReport({
-      certificationCourseId: certificationCourse._id,
+      certificationCourseId: certificationCourseInfo.id,
       isCompleted: false,
       abortReason: ABORT_REASONS.TECHNICAL,
     });

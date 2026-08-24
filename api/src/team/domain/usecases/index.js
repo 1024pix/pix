@@ -1,5 +1,4 @@
 import * as mailService from '../../../../src/shared/domain/services/mail-service.js';
-import * as sharedMembershipRepository from '../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as certificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { refreshTokenRepository } from '../../../identity-access-management/infrastructure/repositories/refresh-token.repository.js';
@@ -9,7 +8,6 @@ import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 import { certificationCenterInvitedUserRepository } from '../../infrastructure/repositories/certification-center-invited-user.repository.js';
 import { certificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
-import { repositories } from '../../infrastructure/repositories/index.js';
 import * as membershipRepository from '../../infrastructure/repositories/membership.repository.js';
 import { organizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
 import { organizationInvitedUserRepository } from '../../infrastructure/repositories/organization-invited-user.repository.js';
@@ -25,7 +23,6 @@ const dependencies = {
   certificationCenterInvitedUserRepository,
   certificationCenterRepository,
   certificationCenterInvitationRepository,
-  prescriberRepository: repositories.prescriberRepository,
   membershipRepository,
   userOrgaSettingsRepository,
   certificationCenterInvitationService,
@@ -36,7 +33,6 @@ const dependencies = {
   organizationMemberIdentityRepository,
   organizationRepository,
   refreshTokenRepository,
-  sharedMembershipRepository,
   userOrganizationsForAdminRepository,
   userRepository,
 };
@@ -73,7 +69,6 @@ import { getCertificationCenterInvitation } from './get-certification-center-inv
 import { getOrganizationInvitation } from './get-organization-invitation.js';
 import { getOrganizationMemberIdentities } from './get-organization-member-identities.usecase.js';
 import { getOrganizationMembership } from './get-organization-membership.js';
-import { getPrescriber } from './get-prescriber.js';
 import { getUserTeamsInfo } from './get-user-teams-info.usecase.js';
 import { resendCertificationCenterInvitation } from './resend-certification-center-invitation.usecase.js';
 import { resendOrganizationInvitation } from './resend-organization-invitation.usecase.js';
@@ -118,7 +113,6 @@ const usecasesWithoutInjectedDependencies = {
   getOrganizationInvitation,
   getOrganizationMemberIdentities,
   getOrganizationMembership,
-  getPrescriber,
   getUserTeamsInfo,
   resendCertificationCenterInvitation,
   resendOrganizationInvitation,

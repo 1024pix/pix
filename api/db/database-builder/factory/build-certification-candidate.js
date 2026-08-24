@@ -1,11 +1,9 @@
-import _ from 'lodash';
-
 import { Frameworks } from '../../../src/certification/shared/domain/models/Frameworks.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildSession } from './build-session.js';
 import { buildUser } from './build-user.js';
 
-const buildCertificationCandidate = function ({
+export function buildCertificationCandidate({
   id = databaseBuffer.getNextId(),
   firstName = 'first-name',
   lastName = 'last-name',
@@ -24,7 +22,6 @@ const buildCertificationCandidate = function ({
   extraTimePercentage = 0.3,
   userId,
   organizationLearnerId = null,
-  authorizedToStart = false,
   billingMode = null,
   prepaymentCode = null,
   hasSeenCertificationInstructions = false,
@@ -33,8 +30,13 @@ const buildCertificationCandidate = function ({
   subscription = Frameworks.CORE,
   authorizedToStartAt = null,
 } = {}) {
-  sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
-  userId = _.isUndefined(userId) ? buildUser().id : userId;
+  if (!sessionId) {
+    sessionId = buildSession().id;
+  }
+
+  if (!userId && reconciledAt) {
+    userId = buildUser().id;
+  }
   reconciledAt = userId && !reconciledAt ? new Date('2020-01-02') : reconciledAt;
 
   const values = {
@@ -56,7 +58,6 @@ const buildCertificationCandidate = function ({
     createdAt,
     userId,
     organizationLearnerId,
-    authorizedToStart,
     billingMode,
     prepaymentCode,
     hasSeenCertificationInstructions,
@@ -90,7 +91,6 @@ const buildCertificationCandidate = function ({
     createdAt,
     userId,
     organizationLearnerId,
-    authorizedToStart,
     billingMode,
     prepaymentCode,
     hasSeenCertificationInstructions,
@@ -98,6 +98,4 @@ const buildCertificationCandidate = function ({
     reconciledAt,
     subscription,
   };
-};
-
-export { buildCertificationCandidate };
+}

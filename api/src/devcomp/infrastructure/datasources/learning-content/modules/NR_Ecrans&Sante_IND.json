@@ -1,0 +1,1227 @@
+{
+  "id": "9c78bcf4-93a0-4529-9947-11343f1d8ba1",
+  "shortId": "d9b666fb",
+  "slug": "hyper-connexion",
+  "title": "Hyperconnexion : quels risques pour la santé ?",
+  "isBeta": true,
+  "visibility": "public",
+  "details": {
+    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "description": "<p>Combien de fois avez-vous consulté votre smartphone aujourd’hui ? Au travail, à la maison ou dans les transports, de nombreuses personnes sont connectées tout au long de la journée. Ce phénomène touche de plus en plus de monde, avec des effets concrets sur la santé.<br>Avec ce module, apprenez à reconnaître ce phénomène d’hyperconnexion. Vous allez aussi découvrir ce qui peut favoriser l’hyperconnexion.</p>",
+    "duration": 10,
+    "level": "independent",
+    "objectives": [
+      "<p>Comprendre le phénomène d’hyperconnexion</p>",
+      "<p>Connaître des risques de l’hyperconnexion pour la santé</p>",
+      "<p>Savoir que certaines fonctionnalités favorisent l’hyperconnexion</p>"
+    ],
+    "tabletSupport": "obstructed"
+  },
+  "sections": [
+    {
+      "id": "2667cffb-1612-4b11-97b5-b787362a21bc",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "caa6df4d-e696-4b43-aa2b-7ed91bdce07a",
+          "type": "discovery",
+          "title": "Accroche#1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "cd77b4e6-e13c-4971-8ce5-35ce428fd736",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Léa et Diego discutent de leurs habitudes numériques. En explorant les paramètres de son smartphone, Léa est surprise.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "35e66ec0-1f45-4ec0-a3d5-b1f88233b64f",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "Conversation entre Léa et Diego à propos de leurs habitudes numériques",
+                  "messages": [
+                    {
+                      "userName": "Léa",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Tu savais qu’on pouvait voir combien de fois on déverrouille son smartphone par jour ?"
+                    },
+                    {
+                      "userName": "Diego",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Ah bon ? Et ça donne quoi ?"
+                    },
+                    {
+                      "userName": "Léa",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "94 fois aujourd’hui... 😳 "
+                    },
+                    {
+                      "userName": "Diego",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "94 fois ?! C’est énorme ! "
+                    },
+                    {
+                      "userName": "Léa",
+                      "direction": "incoming",
+                      "type": "Texte + Image",
+                      "content": "Et pourtant c’est vrai, regarde ! ",
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/capture-d-ecran-2026-08-04-105347.png",
+                        "alt": "Capture d’écran des paramètres du smartphone de Léa"
+                      }
+                    }
+                  ],
+                  "animationSpeed": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "62832e83-9003-42cf-afb4-5a2adc8bcf77",
+          "type": "discovery",
+          "title": "Accroche#2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "c91a181b-f3ca-4660-9fcb-630c69660f88",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Certaines personnes <strong>consultent leur smartphone une centaine de fois par jour</strong>, souvent même sans s’en rendre compte.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "0378c621-f5b9-472c-8565-c63731640224",
+                "type": "qcu-declarative",
+                "instruction": "<p>Et vous, vous arrive-t-il de consulter votre smartphone sans raison particulière ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Oui</p>",
+                    "feedback": {
+                      "diagnosis": "<p>C’est une situation fréquente. </p><br><p>💡 La plupart des smartphones proposent des paramètres pour suivre votre utilisation (temps d’écran, nombre de déverrouillages, etc.). Si ces paramètres sont disponibles sur votre appareil, vous pouvez les consulter pour comparer votre perception (ce que vous pensez) avec votre utilisation réelle (ce que vous faites vraiment).</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Non</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Il n’est pas toujours facile d’évaluer ses propres habitudes numériques.</p><br><p>💡 La plupart des smartphones proposent des paramètres pour suivre votre utilisation (temps d’écran, nombre de déverrouillages, etc.). Si ces paramètres sont disponibles sur votre appareil, vous pouvez les consulter pour comparer votre perception (ce que vous pensez) avec votre utilisation réelle (ce que vous faites vraiment).</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je n’ai pas de smartphone.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Ce n’est pas un problème. Cela ne concerne pas uniquement les smartphones mais aussi l’utilisation d’autres appareils numériques (ordinateur, tablette).</p><br><p>💡 La plupart des appareils numériques proposent des paramètres pour suivre votre utilisation (temps d’écran, nombre de déverrouillages, etc.). Si ces paramètres sont disponibles sur votre appareil, vous pouvez les consulter pour comparer votre perception (ce que vous pensez) avec votre utilisation réelle (ce que vous faites vraiment).</p>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "500a3454-3fff-49ff-be1a-2aafc1991811",
+          "type": "transition",
+          "title": "Transition de l’accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "17a6bddf-2d2a-440f-98ac-dd8897f5db23",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Consulter son smartphone sans raison particulière permet d’illustrer un phénomène de plus en plus&nbsp;:&nbsp;l’<strong>hyperconnexion</strong>. Mais ce phénomène ne se résume pas à un seul comportement.</p><br><p>Pour mieux comprendre ce qu’est l’hyperconnexion, observons certaines situations du quotidien.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "62c52f81-954a-4e34-b4ab-0f4b2abcdf1a",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "be4a4682-6e12-41c4-ac56-ddfdda799a26",
+          "type": "discovery",
+          "title": "Découverte #1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "b4c92e0d-07b7-4a0e-929c-fb9aaea9ae84",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>L’hyperconnexion peut se manifester de différentes façons d’une personne à une autre.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "e5e8140c-6288-434a-a1b7-31208118a0b4",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Observez les situations suivantes puis répondez à la question qui suit.</p>",
+                "functionalInstruction": "",
+                "tagName": "pix-carousel",
+                "props": {
+                  "type": "image-text",
+                  "slides": [
+                    {
+                      "title": "Situation 1",
+                      "description": "",
+                      "text": "Au cinéma, Malaurie répond immédiatement aux messages d’une amie qui lui demande ce qu’elle a prévu ce weekend.",
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/decouverte1_situation1.png",
+                        "alt": ""
+                      }
+                    },
+                    {
+                      "title": "Situation 2",
+                      "description": "",
+                      "text": "Pendant qu’il travaille, Maël interrompt régulièrement sa tâche dès qu’une notification apparaît.",
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/decouverte1_situation2.png",
+                        "alt": ""
+                      }
+                    },
+                    {
+                      "title": "Situation 3",
+                      "description": "",
+                      "text": "Le soir ou le weekend, Bianca consulte plusieurs fois ses mails professionnels sur son ordinateur. ",
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/decouverte1_situation3.png",
+                        "alt": ""
+                      }
+                    },
+                    {
+                      "title": "Situation 4",
+                      "description": "",
+                      "text": "Toutes les heures, Siham consulte ses réseaux sociaux sur sa tablette pour être sûre de ne manquer aucune information.",
+                      "image": {
+                        "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/decouverte1_situation4.png",
+                        "alt": ""
+                      }
+                    }
+                  ],
+                  "randomSlides": false,
+                  "titleLevel": 2,
+                  "disableAnimation": false,
+                  "disableStyleAroundImage": false,
+                  "enableLoop": false,
+                  "imageTextDisplay": "1:1"
+                }
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "475722b7-9542-4ed8-b05d-b87c985578e6",
+                "type": "qcu-discovery",
+                "instruction": "<p>Quel point commun observez-vous entre ces quatre personnes ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Elles passent de longues heures sur les écrans sans faire de pause.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Pas forcément. Ici, certaines consultations sont courtes, répétées et interrompent plutôt une autre activité déjà en cours.</p><p>Certains comportements peuvent devenir des <strong>gestes automatiques</strong>. Quand ils deviennent <strong>difficiles à contrôle</strong>r ou qu’ils <strong>empiètent sur d’autres activités du quotidien</strong>, ils peuvent être des <strong>signes d’une hyperconnexion</strong>.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Elles consultent leurs écrans seulement quand c’est nécessaire.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Pas vraiment. Ici, il n’est pas toujours indispensable de consulter immédiatement ses mails en dehors des horaires de travail ou ses messages lorsqu’on est déjà occupé.</p><p>Certains comportements peuvent devenir des <strong>gestes automatiques</strong>. Quand ils deviennent <strong>difficiles à contrôle</strong>r ou qu’ils <strong>empiètent sur d’autres activités du quotidien</strong>, ils peuvent être des <strong>signes d’une hyperconnexion</strong>.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Elles consultent souvent leurs écrans de façon automatique.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Effectivement. Certains comportements peuvent devenir des <strong>gestes automatiques</strong>. Quand ils deviennent <strong>difficiles à contrôle</strong>r ou qu’ils <strong>empiètent sur d’autres activités du quotidien</strong>, ils peuvent être des <strong>signes d’une hyperconnexion</strong>.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Elles utilisent uniquement leur smartphone.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Pas seulement. Ici, ces personnes utilisent différents appareils numériques.</p><p>Certains comportements peuvent devenir des <strong>gestes automatiques</strong>. Quand ils deviennent <strong>difficiles à contrôle</strong>r ou qu’ils <strong>empiètent sur d’autres activités du quotidien</strong>, ils peuvent être des <strong>signes d’une hyperconnexion</strong>.</p>"
+                    }
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Je ne sais pas.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Ces situations sont différentes mais elles montrent surtout des personnes qui consultent leurs écran de façon automatique.</p><p>Certains comportements peuvent devenir des <strong>gestes automatiques</strong>. Quand ils deviennent <strong>difficiles à contrôle</strong>r ou qu’ils <strong>empiètent sur d’autres activités du quotidien</strong>, ils peuvent être des <strong>signes d’une hyperconnexion</strong>.</p>"
+                    }
+                  }
+                ],
+                "solution": "3"
+              }
+            }
+          ]
+        },
+        {
+          "id": "a263b80d-f192-4cb9-bb1a-05208aedcace",
+          "type": "short-lesson",
+          "title": "Points clés #1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "1ded3533-3b93-4492-a885-9a25ac6af538",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>L’hyperconnexion désigne le fait d’être <strong>connecté quasiment en permanence</strong> aux appareils numériques et aux services en ligne (smartphone, réseaux sociaux, messageries, etc.).</p><br><p>Cette connexion continue expose à de <strong>nombreuses sollicitations numériques</strong>, comme des informations en ligne ou des messages, souvent signalées par des notifications. Il devient alors très <strong>difficile de faire des pauses</strong> ou de <strong>se déconnecter des écrans</strong> (même lorsque l’on est occupé à autre chose).</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "7fe01799-9288-470c-924d-e7d398ed17f6",
+          "type": "transition",
+          "title": "Transition #1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "2053713c-69a8-4dd7-aa83-b2927129b599",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "transition #1",
+                  "messages": [
+                    {
+                      "userName": "Léa",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Du coup, j’ai l’impression que c’est de ma faute si je regarde sans arrêt mon smartphone… Je n’ai aucune excuse. 😔"
+                    },
+                    {
+                      "userName": "Diego",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Je crois que ce n’est pas seulement une question de volonté justement. "
+                    }
+                  ],
+                  "animationSpeed": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ddeeb0ee-982d-4147-9e9c-90d19e03bf71",
+          "type": "discovery",
+          "title": "Découverte #2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "9c8e7977-d52b-4f9b-afce-26821b2b2357",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Essayons de comprendre ce qui peut favoriser l’hyperconnexion.</p>"
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "<p><strong></strong><br></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "3a85ae1f-4783-4f45-8d7a-16f8b50af1ac",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p><strong>Comparez les interfaces d’application ci-dessous, puis répondez à la question qui suit.</strong></p>"
+                    },
+                    {
+                      "id": "aa3da0da-cae3-4e8a-9c35-b86b6d52162f",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/decouverte2_application.gif",
+                      "alt": "à compléter",
+                      "alternativeText": "<p>à compléter</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "31902b19-5417-4ec1-909e-cdca3a375877",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Selon vous, lequel de ces modes d’affichage peut favoriser l’hyperconnexion ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Celui de l’application A</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non&nbsp;! C’est le mode d’affichage de l’application B, appelé <strong>défilement infini</strong> (ou <em>scroll</em> infini en anglais) et qui permet d’afficher du contenu en continu. Conçu pour fluidifier la navigation, il supprime  les repères qui permettent de s’arrêter ou de faire une pause.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Celui de l’application B</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh oui&nbsp;! Le mode d’affichage de l’application B est appelé <strong>défilement infini</strong> (ou <em>scroll</em> infini en anglais) et permet d’afficher du contenu en continu. Conçu pour fluidifier la navigation, il supprime les repères qui permettent de s’arrêter ou de faire une pause.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Celui de l’application C</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non&nbsp;! C’est le mode d’affichage de l’application B, appelé <strong>défilement infini</strong> (ou <em>scroll</em> infini en anglais) et qui permet d’afficher du contenu en continu. Conçu pour fluidifier la navigation, il supprime les repères qui permettent de s’arrêter ou de faire une pause.</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>C’est le mode d’affichage de l’application B, appelé <strong>défilement infini</strong> (ou <em>scroll</em> infini en anglais) et qui permet d’afficher du contenu en continu. Conçu pour fluidifier la navigation, il supprime les repères qui permettent de s’arrêter ou de faire une pause.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "f5b44aea-0f75-494f-a6ba-2a6d713b03fc",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p><strong>Comparez les plateformes de streaming vidéo ci-dessous, puis répondez à la question qui suit.</strong></p>"
+                    },
+                    {
+                      "id": "041fd9fc-15fd-4f11-9f14-1162c179d2cb",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/plateforme-video-a.gif",
+                      "alt": "à compléter",
+                      "alternativeText": "<p>Plateforme A&nbsp;: Un nouvel épisode démarre automatiquement quelques secondes après la fin du précédent.</p><p>Plateforme B&nbsp;: Lorsqu’un épisode se termine, il faut cliquer sur un bouton pour lancer un nouvel épisode.</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "47b99004-570e-408c-a082-2a60d59440a9",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Selon vous, lequel de ces modes de lecture des vidéos peut favoriser l’hyperconnexion ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Celui de la plateforme vidéo A</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh oui ! Sur la plateforme A, aucune action de l’utilisateur n’est nécessaire, la prochaine vidéo démarre automatiquement. Alors que sur la plateforme B, l’utilisateur peut plus facilement décider de continuer à regarder des vidéos ou s’arrêter. </p><p>La <strong>lecture automatique</strong> réduit les occasions de décider de s’arrêter et peut conduire à regarder plus de vidéos que prévu. Cela peut favoriser un comportement de visionnage compulsif (<em>binge-watching&nbsp;</em>en anglais).</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Celui de la plateforme vidéo B</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non ! Sur la plateforme B, l’utilisateur peut plus facilement décider de continuer à regarder des vidéos ou s’arrêter. Alors que sur la plateforme A, aucune action de l’utilisateur n’est nécessaire, la prochaine vidéo démarre automatiquement. </p><p>La <strong>lecture automatique</strong> réduit les occasions de décider de s’arrêter et peut conduire à regarder plus de vidéos que prévu. Cela peut favoriser un comportement de visionnage compulsif (<em>binge-watching&nbsp;</em>en anglais).</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Je ne sais pas.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>C’est la plateforme A car la prochaine vidéo démarre automatiquement. Aucune action de l’utilisateur n’est nécessaire. Alors que sur la plateforme B, l’utilisateur peut plus facilement décider de continuer à regarder des vidéos ou s’arrêter.</p><p>La <strong>lecture automatique</strong> réduit les occasions de décider de s’arrêter et peut conduire à regarder plus de vidéos que prévu. Cela peut favoriser un comportement de visionnage compulsif (<em>binge-watching&nbsp;</em>en anglais).</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "a79194df-46b3-4416-bf18-f51745eaba32",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p><strong>Comparez l’affichage des notifications sur les écrans de verrouillage des smartphones ci-dessous, puis répondez à la question qui suit.</strong></p>"
+                    },
+                    {
+                      "id": "49c63872-6de5-47d4-a6c4-33a3ca0d2d23",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/decouverte2_notification.png",
+                      "alt": "à compléter",
+                      "alternativeText": "<p>Smartphone A (Toujours)&nbsp;:&nbsp;les notifications et leur contenu sont signalés et visibles sur l’écran verrouillé. L’écran s’allume lorsqu’une notification est reçue.</p><p>Smartphone B (Lorsqu’il est déverrouillé)&nbsp;: les notifications sont signalées sur l’écran verrouillé, mais leur contenu est masqué. L’écran reste éteint lorsqu’une notification est reçue. Il faut déverrouiller le smartphone pour lire le contenu.</p><p>Smartphone C (Jamais)&nbsp;: les notifications ne s’affichent pas sur l’écran verrouillé&nbsp;: elles sont complètement masquées (même pas signalées). L’écran reste éteint lorsqu’une notification est reçue. Il faut directement accéder aux applications pour consulter les notifications.</p>",
+                      "legend": "",
+                      "licence": ""
+                    },
+                    {
+                      "id": "c3826ede-7dd4-438a-a5cd-778c200ae13c",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Selon vous, lequel des ces modes d’affichage des notifications peut favoriser l’hyperconnexion ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Celui du smartphone A</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh oui&nbsp;! Ici, les notifications s’affichent directement sur l’écran de verrouillage, qui s’allume automatiquement dès leur réception. <strong>Plus une notification est visible immédiatement, plus elle risque d’inciter à consulter</strong> son smartphone ou une application.</p><br><p>Le smartphone B masque le contenu des notifications mais leur présence reste signalée sur l’écran verrouillé, ce qui peut aussi donner envie de déverrouiller le smartphone pour les consulter. Sur le smartphone C, les notifications ne sont pas directement visibles et nécessitent une ou plusieurs actions supplémentaires pour être consultées.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Celui du smartphone B</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Moins que le smartphone A. Le smartphone B nécessite une action supplémentaire pour consulter le contenu des notification (déverrouillage) mais leur présence reste signalée sur l’écran verrouillé, ce qui peut donner envie de déverrouiller le smartphone pour les consulter. </p><br><p><strong>Plus une notification est visible immédiatement, plus elle risque d’inciter à consulter</strong> son smartphone ou une application. C’est le cas du smartphone A qui affiche directement les notifications sur l’écran de verrouillage et qui s’allume automatiquement dès leur réception. Sur le smartphone C, les notifications ne sont pas directement visibles et nécessitent une ou plusieurs actions supplémentaires pour être consultées.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Celui du smartphone C</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non ! Sur le smartphone C, les notifications ne sont pas directement visibles et nécessitent une ou plusieurs actions supplémentaires pour être consultées.</p><br><p><strong>Plus une notification est visible immédiatement, plus elle risque d’inciter à consulter</strong> son smartphone ou une application. Les smartphones A et B sont plus susceptibles d’inciter à consulter son téléphone. En particulier le smartphone A qui affiche directement le contenu des notifications sur l’écran de verrouillage et qui s’allume automatiquement dès leur réception.</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Je ne sais pas.<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Plus une notification est visible immédiatement, plus elle risque d’inciter à consulter</strong> son smartphone ou une application. Les smartphones A et B sont plus susceptibles d’inciter à consulter son téléphone. En particulier le smartphone A qui affiche directement le contenu des notifications sur l’écran de verrouillage et qui s’allume automatiquement dès leur réception.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "9d32dc10-8279-43ca-a607-a7d81acc386f",
+          "type": "short-lesson",
+          "title": "Points clés #2",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "f9020757-d4ca-4001-b786-13ec4ba6c38f",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Certaines applications et services en ligne sont conçus pour<strong> capter et retenir notre attention</strong> le plus longtemps possible. Ils utilisent pour cela plusieurs <strong>fonctionnalités</strong> qui peuvent favoriser l’hyperconnexion&nbsp;: </p><ul>    <li>Le <strong>défilement infini</strong>&nbsp;: sur les réseaux sociaux ou les fils d’actualité, les contenus se chargent sans fin.</li>    <li>La <strong>lecture automatique</strong>&nbsp;: une nouvelle vidéo démarre automatiquement après la précédente, sans action de l’utilisateur.</li>    <li>Les <strong>notifications</strong>&nbsp;: sons, vibrations, pastilles rouges, etc., attirent immédiatement l’attention.</li></ul>"
+                    },
+                    {
+                      "id": "97df5a33-8d15-4009-ba1e-77d063b5dbbd",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/plateforme-video-a-5.gif",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "420374d6-4435-4aa7-b215-0288e54ad590",
+                      "type": "text",
+                      "tag": "further-information",
+                      "content": "<p>⚠️ Attention aux notifications que vous recevez lorsque vous conduisez ou traversez la rue&nbsp;: elles peuvent détourner votre regard et vous mettre en danger.</p>"
+                    },
+                    {
+                      "id": "42d16ee8-53d8-426f-8a9a-d4b65bd94227",
+                      "type": "text",
+                      "tag": "did-you-know",
+                      "content": "<p>En 2013, un réseau social transforme la manière de communiquer en ligne en lançant les <em>stories</em>, des contenus à durée de vie limitée, qui s’effacent au bout de 24 heures. Ce format a rapidement été adopté par d’autres grandes plateformes en ligne. Ce format joue sur la peur de manquer une information, un événement ou une interaction sociale, ce qui peut favoriser l’hyperconnexion.</p>"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "d2bd2bd9-1d3b-4bb0-99de-bb22380e3eb5",
+          "type": "transition",
+          "title": "Transition #2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "f8091215-180a-48a9-9be2-eca3709b537f",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "transition #2",
+                  "messages": [
+                    {
+                      "userName": "Léa",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Tous ces écrans n’existaient pas avant. Je me demande bien ce que ça fait sur notre santé tout ça maintenant ? 🤔"
+                    },
+                    {
+                      "userName": "Diego",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Ça m’arrive de me sentir perdu après avoir passé trop de temps sur mon smartphone pour ma part."
+                    },
+                    {
+                      "userName": "Léa",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "Moi, j’ai l’impression de ne plus être exactement comme avant."
+                    }
+                  ],
+                  "animationSpeed": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "cc394737-b9f9-472a-8110-e3f0db5c1726",
+          "type": "discovery",
+          "title": "Découverte #3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "7490e995-40d5-4a8a-b52a-b1df3a0ea236",
+                "type": "text",
+                "tag": " ",
+                "content": "<p><strong>Observez les effets de l’hyperconnexion sur le quotidien d’Olivia, puis répondez à la question qui suit.</strong></p><p><em>[tableau à remplacer par un carrousel-image&nbsp;: 1 activité par step avant/après, format BD ?]</em></p><p>    <br></p><table style=\"width: 100.264%;\">    <thead>        <tr>            <th scope=\"\\&quot;col\\&quot;\" class=\"\\&quot;width-15\\&quot;\" style=\"width: 27.9946%;\">Activité</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 34.9933%;\">Avant</th>            <th scope=\"\\&quot;col\\&quot;\" style=\"width: 36.8775%;\">Après</th>        </tr>    </thead>    <tbody>        <tr>            <th>Regarder un film <br><em>(attention)</em></th>            <td>Olivia regarde le film jusqu’au bout sans interruption.</td>            <td>Olivia interrompt régulièrement le film pour consulter son smartphone.</td>        </tr>        <tr>            <th>Préparer une présentation <br><em>(tâche complexe</em>)</th>            <td>Olivia réussit à terminer sa présentation en 2h, même si elle doit s’y reprendre à plusieurs fois.</td>            <td>Olivia perd régulièrement le fil de ses idées et met plusieurs jours à terminer sa présentation.</td>        </tr>        <tr>            <th>Retenir des consignes<br><em>(mémoire)</em></th>            <td>Olivia retient facilement les informations importantes.</td>            <td>Olivia oublie plus souvent certaines informations ou ce qu’elle était en train de faire.</td>        </tr>        <tr>            <th>Discussion à table&nbsp;<br><em>(bien-être mental)</em></th>            <td>Olivia discute avec ses proches de manière détendue et calme.</td>            <td>Olivia perd plus facilement patience  et s’agace quand on lui pose des questions.<br></td>        </tr>    </tbody></table>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "e126cf57-b9ff-44e1-b55e-9b54b453279f",
+                "type": "qcm",
+                "instruction": "<p>Qu’est-ce qui a changé dans le quotidien d’Olivia ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Olivia ressent davantage de stress ou de fatigue.</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Olivia oublie facilement des informations.</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Olivia sait faire plus de choses à la fois.</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Olivia a plus de mal à rester concentrée.</p>"
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Olivia travaille plus efficacement.</p>"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Eh oui.</p>",
+                    "diagnosis": "<p>L’accumulation d’informations peut donner une sensation de <strong>surcharge mentale</strong>. Cette surcharge peut <strong>réduire notre capacité de concentration</strong>, favoriser les <strong>oublis</strong> ou donner une impression de <strong>confusion mentale</strong>. Certaines personnes peuvent également <strong>ressentir du stress, de l’anxiété</strong> ou être atteintes de <strong>troubles de l’humeur</strong>.</p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Eh non.</p>",
+                    "diagnosis": "<p>L’accumulation d’informations peut donner une sensation de <strong>surcharge mentale</strong>. Cette surcharge peut <strong>réduire notre capacité de concentration</strong>, favoriser les <strong>oublis</strong> ou donner une impression de <strong>confusion mentale</strong>. Certaines personnes peuvent également <strong>ressentir du stress, de l’anxiété</strong> ou être atteintes de <strong>troubles de l’humeur</strong>.</p>"
+                  }
+                },
+                "solutions": [
+                  "1",
+                  "2",
+                  "4"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "fd1254f0-e8af-4bf4-9613-a300a8ed36ba",
+          "type": "short-lesson",
+          "title": "Points clés #3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "168ced54-3d6c-4b7d-9828-a3e0b32496d4",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>L’hyperconnexion peut <strong>nuire à notre bien-être et à notre santé mentale</strong> (surcharge mentale, problèmes de concentration et de mémoire, troubles de l’humeur, etc.)</p><br><p>L’hyperconnexion maintient le cerveau dans un état de<strong> sollicitation continue</strong>&nbsp;: il doit sans cesse passer d’une information à une autre. Ainsi, l<strong>’attention se fragmente</strong>, c’est-à-dire qu’elle est régulièrement interrompue&nbsp;: il devient donc plus difficile de rester concentré durablement sur une même tâche.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "3d9a5337-0b5c-4b74-b71b-0e76f129aa01",
+                "type": "text",
+                "tag": "further-information",
+                "content": "<p>Les écrans peuvent aussi avoir des effets sur la <strong>santé physique</strong> et sur les <strong>relations aux autres</strong>.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "37350a34-67f9-4e69-9d38-8e259beb8c6b",
+          "type": "transition",
+          "title": "Transition #3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "34f51752-0c74-403a-a922-dad3a009360e",
+                "type": "custom",
+                "title": "",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "message-conversation",
+                "props": {
+                  "conversationTitle": "transition #3",
+                  "messages": [
+                    {
+                      "userName": "Léa",
+                      "direction": "incoming",
+                      "type": "Texte",
+                      "content": "J’aimerais bien réussir à moins regarder mon smartphone quand même ! "
+                    },
+                    {
+                      "userName": "Diego",
+                      "direction": "outgoing",
+                      "type": "Texte",
+                      "content": "Moi aussi ! Je crois qu’il existe des réglages dans notre smartphone ou nos applications pour nous aider. 💡"
+                    }
+                  ],
+                  "animationSpeed": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "3e5d6ce9-b387-4bcb-9a30-147eec5193b0",
+          "type": "discovery",
+          "title": "Découverte #4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "1ce882d4-aef9-4f5a-8a80-bde7ce89d7af",
+                "type": "qab",
+                "instruction": "<p>Pour chacun des conseils suivants, indiquez s’il s’agit d’une bonne ou d’une mauvaise idée pour limiter les effets de l’hyperconnexion.</p>",
+                "cards": [
+                  {
+                    "id": "2e4a3d4e-b091-4f9f-a247-76348db6e806",
+                    "text": "Essayer de se concentrer sur une seule activité à la fois. ",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Bonne idée",
+                    "proposalB": "Mauvaise idée",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "dae4f659-9ff6-43c7-b1e4-5ec8faae6ca4",
+                    "text": "Garder les applications les plus consultées sur l’écran d’accueil.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Bonne idée",
+                    "proposalB": "Mauvaise idée",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "d946e449-69d9-497c-bca2-d704a7111850",
+                    "text": "Activer le mode « Concentration » pendant le travail.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Bonne idée",
+                    "proposalB": "Mauvaise idée",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "65c89101-90c6-4a6e-a6f9-4c5771e2d7d0",
+                    "text": "Désactiver les notifications non essentielles.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Bonne idée",
+                    "proposalB": "Mauvaise idée",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "0de0177d-2beb-4bb7-ace9-a954e79c175e",
+                    "text": "Activer la lecture automatique des vidéos",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Bonne idée",
+                    "proposalB": "Mauvaise idée",
+                    "solution": "B"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": "<p>Il n’est <strong>pas toujours possible de désactiver toutes les fonctionnalités</strong> qui captent notre attention. Malgré tout, certains réglages disponibles permettent de mieux maîtriser quand et comment les applications sollicitent notre attention (et donc limiter l’hyperconnexion).</p><p>Connaître l’existance de ces fonctionnalités permet également  de prendre conscience de leurs conséquences sur notre quotidien.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "66030626-2e00-4a23-b696-2fbf52f70837",
+          "type": "short-lesson",
+          "title": "Points clés #4",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "ce0a9280-961e-4e27-a119-bed667ca1930",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Il existe plusieurs façons de limiter l’hyperconnexion&nbsp;: </p><ul>    <li><strong>En agissant sur ses habitudes</strong> pour reprendre le contrôle sur ses écrans.</li>    <li><strong>En agissant sur son environnement numérique</strong>&nbsp;pour limiter des habitudes favoriser par certaines fonctionnalités.</li></ul><p>L’objectif n’est pas de se déconnecter totalement, mais de <strong>choisir quand et comment se connecter</strong>, de façon consciente et réfléchie, pour limiter les risques liés à l’hyperconnexion.</p>"
+                    },
+                    {
+                      "id": "0154e12c-8347-4c47-832d-bde4a33b596b",
+                      "type": "text",
+                      "tag": "did-you-know",
+                      "content": "<p>En France, il existe un <strong>droit à la déconnexion</strong> (Code du Travail)&nbsp;:&nbsp;c’est un principe qui autorise un salarié à ne pas être connecté aux outils numériques professionnels en dehors des horaires de travail.</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "4f1d2034-51f3-4ac5-b4ba-6d353d0ce16c",
+                      "type": "text",
+                      "tag": "tip",
+                      "content": "<p>Voici quelques réglages qui permettent de réduire les sollicitations quand ils sont disponibles dans les paramètres de votre smartphone (ou de vos autres appareils ou de vos applications)&nbsp;: </p><p><em>[format expérimental&nbsp;: si ça passe</em>🥳<em> sinon juste liste à puces ou tout dans le QAB]</em></p>"
+                    },
+                    {
+                      "id": "add8ccb1-dfde-42f3-8aca-5c170ba9c4b4",
+                      "type": "custom",
+                      "title": "",
+                      "instruction": "",
+                      "functionalInstruction": "",
+                      "tagName": "pix-carousel",
+                      "props": {
+                        "type": "image",
+                        "slides": [
+                          {
+                            "title": "Désactiver les notifications non essentielles. ",
+                            "description": "<ul><li>Sur Android : Paramètres > Notifications</li><li>Sur iPhone : Réglages > Notifications</li></ul>",
+                            "displayWidth": 0,
+                            "image": {
+                              "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/notif.png",
+                              "alt": ""
+                            },
+                            "license": {
+                              "name": "",
+                              "attribution": "",
+                              "url": ""
+                            }
+                          },
+                          {
+                            "title": "Désactiver la lecture automatique des vidéos.",
+                            "description": "Depuis les paramètres de l’application concernée ou directement depuis le lecteur vidéo lorsque le bouton est proposé.",
+                            "displayWidth": 0,
+                            "image": {
+                              "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/lecture.png",
+                              "alt": ""
+                            },
+                            "license": {
+                              "name": "",
+                              "attribution": "",
+                              "url": ""
+                            }
+                          },
+                          {
+                            "title": "Limiter son temps d’écran. ",
+                            "description": "<ul><li>Sur Android : Paramètres > Bien-être numérique</li><li>Sur iPhone : Réglages > Temps d’écran</li></ul>",
+                            "displayWidth": 0,
+                            "image": {
+                              "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/temps.png",
+                              "alt": ""
+                            },
+                            "license": {
+                              "name": "",
+                              "attribution": "",
+                              "url": ""
+                            }
+                          },
+                          {
+                            "title": "Désinstaller certaines applications de son smartphone.",
+                            "description": "<ul><li>Sur Android : Paramètres > Applications.</li><li>Sur iPhone : Réglages > Général > Stockage iPhone.</li><li>Directement depuis l’écran d’accueil ou encore depuis le magasin d’applications.</li></ul>",
+                            "displayWidth": 0,
+                            "image": {
+                              "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/appli.png",
+                              "alt": ""
+                            },
+                            "license": {
+                              "name": "",
+                              "attribution": "",
+                              "url": ""
+                            }
+                          },
+                          {
+                            "title": "Utiliser un mode « Concentration » ou « Ne pas déranger ». ",
+                            "description": "Sur smartphone : <ul><li>Android : Paramètres > Bien-être numérique</li><li>iPhone : Réglages > Concentration</li></ul>",
+                            "displayWidth": 0,
+                            "image": {
+                              "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/mode.png",
+                              "alt": ""
+                            },
+                            "license": {
+                              "name": "",
+                              "attribution": "",
+                              "url": ""
+                            }
+                          }
+                        ],
+                        "randomSlides": false,
+                        "titleLevel": 2,
+                        "disableAnimation": false,
+                        "disableStyleAroundImage": false,
+                        "enableLoop": false,
+                        "imageTextDisplay": "1:2"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9900d3e4-e112-4540-8685-433cecfe3663",
+      "type": "retain-the-essentials",
+      "grains": [
+        {
+          "id": "c895e097-5444-4841-ac4e-4978fca38c6d",
+          "type": "summary",
+          "title": "Récap",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "eb08e904-f054-494c-b950-961cadc5792c",
+                "type": "text",
+                "tag": " ",
+                "content": "<ul>    <li>L’hyperconnexion désigne le fait d’être <strong>connecté quasiment en permanence</strong> aux outils numériques.</li><br>    <li>L’hyperconnexion expose à de <strong>nombreuses sollicitations numériques</strong> et se caractérise par une grande <strong>difficulté à faire des pauses</strong> ou à <strong>se déconnecter&nbsp;</strong>des écrans.</li><br>    <li>Certaines <strong>fonctionnalités</strong> des services en ligne (comme les <strong>notifications</strong>, le <strong>défilement infini</strong> ou la <strong>lecture automatique</strong> de vidéos) peuvent favoriser l’hyperconnexion.</li><br>    <li>Il est possible d’ajuster certains <strong>réglages</strong> dans les paramètres des appareils ou des applications pour limiter certaines fonctionnalités (ou les désactiver).</li><br>    <li>L’hyperconnexion peut <strong>nuire à notre bien-être</strong> et à <strong>notre santé mentale</strong> (stress, anxiété, etc.).</li></ul>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f810fc3c-6fb5-4091-be19-b01634b894a6",
+      "type": "practise",
+      "grains": [
+        {
+          "id": "947869dd-f1ab-41e7-a4cd-63b65e0752ba",
+          "type": "activity",
+          "title": "Activité #1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "82feaf60-df96-495e-aa00-b4f0e7fb9ecd",
+                "type": "qab",
+                "instruction": "<p>Pour chacune des affirmations suivantes concernant l’hyperconnexion, indiquez si elle est vraie ou fausse.</p>",
+                "cards": [
+                  {
+                    "id": "4793a89d-bf59-4221-86ca-033b0e6a3b16",
+                    "text": "L’hyperconnexion se caractérise par une connexion numérique quasi permanente.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "bd932862-3494-433a-a1c4-6a1da4efb0f4",
+                    "text": "L’hyperconnexion dépend uniquement du temps passé devant un écran.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "df3ec975-279c-4c5b-9853-aa412ab2ebe2",
+                    "text": "L’hyperconnexion rend difficile la capacité à se déconnecter des écrans.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "ac808b01-7ef0-41f6-9a65-e98adb199d2b",
+                    "text": "L’hyperconnexion améliore la concentration et le bien-être.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "78079c3b-331c-4453-befd-61756db4faaf",
+                    "text": "L’hyperconnexion est favorisée par certaines fonctionnalités conçues pour capter notre attention.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": ""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "91eb39e0-03c0-4737-aea2-678a09fcfa07",
+          "type": "activity",
+          "title": "Activité #2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "7403ba89-ed46-4c7b-a3df-b00b84cefba4",
+                "type": "custom",
+                "title": "",
+                "instruction": "<p>Voici le quotidien numérique de Rayan et Laura. Lisez leurs habitudes puis répondez à la question qui suit.</p>",
+                "functionalInstruction": "",
+                "tagName": "pix-carousel",
+                "props": {
+                  "type": "text",
+                  "slides": [
+                    {
+                      "title": "Le quotidien de Rayan",
+                      "description": "",
+                      "text": "Rayan utilise son smartphone pour consulter la météo le matin après son petit-déjeuner, envoyer quelques messages à ses proches dans la journée et regarder une série le soir. Il pose son smartphone pendant les repas."
+                    },
+                    {
+                      "title": "Le quotidien de Laura",
+                      "description": "",
+                      "text": "Laura vérifie son smartphone dès le réveil, consulte ses mails professionnels pendant le dîner, répond immédiatement à chaque notification et se sent anxieuse quand elle n’a pas son smartphone à portée de main."
+                    }
+                  ],
+                  "randomSlides": false,
+                  "titleLevel": 2,
+                  "disableAnimation": false,
+                  "disableStyleAroundImage": false,
+                  "enableLoop": false,
+                  "imageTextDisplay": ""
+                }
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "6d8f35bb-e2ac-4a45-b70e-6237001dd693",
+                "type": "qcu",
+                "instruction": "<p>Laquelle de ces deux personnes présente des signes d’hyperconnexion ?</p>",
+                "hasShortProposals": true,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "Rayan",
+                    "feedback": {
+                      "state": "<p>Mauvaise réponse.</p>",
+                      "diagnosis": "<p>Rayan utilise son smartphone à différents moments de la journée, mais rien n’indique que ses comportements sont automatiques, difficiles à contrôler ou qu’ils perturbent ses autres activités.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "Laura",
+                    "feedback": {
+                      "state": "<p>Bonne réponse&nbsp;! 🎉</p>",
+                      "diagnosis": "<p>Plusieurs comportements de Laura peuvent être des signes d’hyperconnexion. Cela empiète sur ses activités du quotidien provoquant des effets négatifs sur sa qualité de vie.</p>"
+                    }
+                  }
+                ],
+                "solution": "2"
+              }
+            }
+          ]
+        },
+        {
+          "id": "888420a9-cbc8-4aca-9376-59a6ee3bfbad",
+          "type": "activity",
+          "title": "Activité #3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "550acd1c-c131-4ca5-be37-83a1352d2ccb",
+                "type": "text",
+                "tag": "context",
+                "content": "<p>Le smartphone de Lina vibre&nbsp;: elle reçoit une notification d’un de ses réseaux sociaux. Lina décide de s’accorder une pause de 5 minutes. Elle ouvre l’application «&nbsp;juste pour regarder les dernières nouveautés&nbsp;». Une heure plus tard, elle se rend compte qu’elle a enchaîné les réels sans s’en apercevoir, jusqu’à suivre les aventures d’un étonnant chat japonais... 🐱</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "6deb82b6-6bae-45be-8597-9605887ac5bf",
+                "type": "qcm",
+                "instruction": "<p>Quelles fonctionnalités expliquent le comportement de Lina ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Le défilement infini (ou <em>scroll</em> infini)</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>La lecture automatique</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Les notifications</p>"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bonne réponse ! 🎉</p>",
+                    "diagnosis": "<p>Une notification a attiré l’attention de Lina et l’a incitée à ouvrir l’application. Elle a enchaîné les contenus jusqu’à perdre la notion du temps à cause du défilement infini.</p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Mauvaise réponse.</p>",
+                    "diagnosis": "<p>Vous pouvez réessayer. Pour rappel&nbsp;:</p><ul>    <li>Les <strong>notifications</strong>&nbsp;: peuvent donner envie d’ouvrir une application.</li>    <li>Le <strong>défilement infini</strong>&nbsp;: favorise une consultation prolongée en proposant des contenus en continu.</li>    <li>La <strong>lecture automatique</strong>&nbsp;: une nouvelle vidéo démarre automatiquement, sans action de l’utilisateur.</li></ul>"
+                  }
+                },
+                "solutions": [
+                  "1",
+                  "3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3e228c9c-cb11-4e79-9b88-369943b34561",
+      "type": "go-further",
+      "grains": [
+        {
+          "id": "3966f679-9ec1-446d-a6f0-e1cf5a8d66e5",
+          "type": "challenge",
+          "title": "Transfert",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "7bdb0b11-a173-4466-b8b6-8c64f71b54a0",
+                "type": "qcu-declarative",
+                "instruction": "<p>À votre tour ! Quelle sera votre prochaine action pour tenter de domestiquer vos écrans ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Je désactive la lecture automatique des vidéos.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bonne idée ! C’est une action facile à mettre en place qui permet d’éviter le visionnage compulsif.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>J’active le mode «&nbsp;Concentration&nbsp;» ou «&nbsp;Ne pas déranger&nbsp;» sur mon appareil.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bonne idée ! Cela permet d’éviter les interruptions et de rester plus facilement concentré sur ce que vous faites.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je désinstalle certaines applications de mon smartphone sur lesquelles je passe trop de temps.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bonne idée ! C’est une action plus importante qui peut fortement réduire les tentations.</p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je me désabonne de certaines newsletters et de pages sur les réseaux sociaux.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bonne idée ! C’est une action qui permet de reprendre le contrôle sur le contenu que vous consommez.</p>"
+                    }
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Je désactive les notifications non essentielles sur mon smartphone.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bon réflexe ! Vous éviterez ainsi d’être interrompu de manière intempestive.</p>"
+                    }
+                  },
+                  {
+                    "id": "6",
+                    "content": "<p>Je ne sais pas encore.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Ce n’est pas grave ! L’essentiel est d’avoir identifié quelques pistes d’action. Vous pourrez choisir celles qui vous semblent les plus adaptées à votre quotidien.</p>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}

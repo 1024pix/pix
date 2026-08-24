@@ -13,18 +13,20 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Shared | Integration | Repository | Certification Course', function () {
   describe('#save', function () {
-    let certificationCourseData, certificationCourse, userId, sessionId, candidateId;
+    let certificationCourseData, certificationCourse, sessionId, candidateId;
 
     beforeEach(function () {
-      userId = databaseBuilder.factory.buildUser().id;
       sessionId = databaseBuilder.factory.buildSession({ version: 3 }).id;
-      candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+      candidateId = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({ sessionId })
+        .insertToDB({ databaseBuilder }).id;
       const version = domainBuilder.certification.configuration
         .versionBuilder()
         .withParameters({ scope: SCOPES.CORE, tubeIds: [] })
         .build();
       certificationCourseData = {
-        userId,
+        userId: 123,
         sessionId,
         version: 3,
         lang: 'fr',
@@ -47,7 +49,12 @@ describe('Certification | Shared | Integration | Repository | Certification Cour
         framework: Frameworks.CORE,
       };
 
-      databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId });
+      domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({ userId: 123 })
+        .asReconciled({ userId: 123 })
+        .withParameters({ sessionId })
+        .insertToDB({ databaseBuilder });
       certificationCourse = domainBuilder.buildCertificationCourse.unpersisted(certificationCourseData);
 
       return databaseBuilder.commit();
@@ -101,7 +108,7 @@ describe('Certification | Shared | Integration | Repository | Certification Cour
 
   describe('#get', function () {
     const description = 'Un commentaire du surveillant';
-    let sessionId, expectedCertificationCourse, userId;
+    let userId, sessionId, expectedCertificationCourse;
 
     context('When the certification course exists', function () {
       context('When the certification course is v2', function () {
@@ -465,15 +472,14 @@ describe('Certification | Shared | Integration | Repository | Certification Cour
 });
 
 function _buildCertificationCourse({ createdAt, description, version = 2 }) {
-  const userId = databaseBuilder.factory.buildUser().id;
   const sessionId = databaseBuilder.factory.buildSession().id;
-  const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-    userId,
-    sessionId,
-    accessibilityAdjustmentNeeded: true,
-  });
+  const certificationCandidate = domainBuilder.certification.enrolment
+    .candidateBuilder()
+    .asReconciled({ userId: 456 })
+    .withParameters({ accessibilityAdjustmentNeeded: true, sessionId })
+    .insertToDB({ databaseBuilder });
   const expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
-    userId,
+    userId: 456,
     sessionId,
     createdAt,
     firstName: 'Timon',
@@ -484,7 +490,7 @@ function _buildCertificationCourse({ createdAt, description, version = 2 }) {
     isRejectedForFraud: true,
     version,
   });
-  const anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+  const anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId: 456 }).id;
   _.each(
     [
       { courseId: expectedCertificationCourse.id },
@@ -535,7 +541,7 @@ function _buildCertificationCourse({ createdAt, description, version = 2 }) {
   });
 
   return {
-    userId,
+    userId: 456,
     sessionId,
     expectedCertificationCourse,
     certificationCandidate,

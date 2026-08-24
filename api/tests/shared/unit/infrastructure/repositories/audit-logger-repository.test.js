@@ -10,14 +10,8 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 const { auditLogger } = config;
 
 describe('Unit | Shared | Infrastructure | Repositories | audit-logger-repository', function () {
-  let clock;
-
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now: new Date('2023-08-18T08:31:21Z'), toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now: new Date('2023-08-18T08:31:21Z'), toFake: ['Date'] });
   });
 
   describe('#logEvent', function () {

@@ -16,7 +16,6 @@ export class Candidate {
    * @param {Date} params.reconciledAt
    * @param {boolean} [params.accessibilityAdjustmentNeeded]
    * @param {Frameworks} params.subscriptionFramework
-   * @param {boolean} params.authorizedToStart
    */
   constructor({
     id,
@@ -34,7 +33,6 @@ export class Candidate {
     accessibilityAdjustmentNeeded,
     reconciledAt,
     subscriptionFramework,
-    authorizedToStart,
   }) {
     this.id = id;
     this.userId = userId;
@@ -51,6 +49,5 @@ export class Candidate {
     this.accessibilityAdjustmentNeeded = !!accessibilityAdjustmentNeeded;
     this.reconciledAt = reconciledAt;
     this.subscriptionFramework = subscriptionFramework;
-    this.authorizedToStart = authorizedToStart;
   }
 }

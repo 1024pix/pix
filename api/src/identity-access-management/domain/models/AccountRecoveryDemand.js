@@ -1,3 +1,5 @@
+import { config } from '../../../shared/config.js';
+
 export class AccountRecoveryDemand {
   /**
    * @param {{
@@ -16,9 +18,16 @@ export class AccountRecoveryDemand {
     this.organizationLearnerId = organizationLearnerId;
     this.userId = userId;
     this.oldEmail = oldEmail;
-    this.newEmail = newEmail.toLowerCase();
+    this.newEmail = newEmail?.toLowerCase();
     this.temporaryKey = temporaryKey;
     this.used = used;
     this.createdAt = createdAt;
+  }
+
+  get hasExpired() {
+    const lifetimeInMinutes = parseInt(config.features.scoAccountRecoveryKeyLifetimeMinutes) || 60 * 24;
+    const lifetimeInMilliseconds = lifetimeInMinutes * 60 * 1000;
+    const expirationDate = new Date(this.createdAt.getTime() + lifetimeInMilliseconds);
+    return expirationDate < new Date();
   }
 }

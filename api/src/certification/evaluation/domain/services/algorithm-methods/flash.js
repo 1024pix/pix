@@ -221,12 +221,16 @@ export function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
     .map((answer) => _findChallengeForAnswer(challenges, answer))
     .map((challenge) => challenge.skill.id);
 
-  const isNonAnsweredSkill = (skill) => !alreadyAnsweredSkillsIds.includes(skill.id);
-  const challengesForNonAnsweredSkills = challenges.filter((challenge) => isNonAnsweredSkill(challenge.skill));
+  const challengesForNonAnsweredSkills = challenges.filter((challenge) =>
+    isNonAnsweredSkill(alreadyAnsweredSkillsIds, challenge.skill),
+  );
 
   return challengesForNonAnsweredSkills;
 }
 
+function isNonAnsweredSkill(alreadyAnsweredSkillsIds, skill) {
+  return !alreadyAnsweredSkillsIds.includes(skill.id);
+}
 /**
  * @private
  * @param {number} previousCapacity

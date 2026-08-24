@@ -49,9 +49,9 @@ describe('Unit | Usecase | authenticate-application', function () {
         clientApplicationRepository.findByClientId.withArgs(payload.clientId).resolves(application);
 
         const cryptoService = {
-          checkPassword: sinon.stub(),
+          assertMatchPassword: sinon.stub(),
         };
-        cryptoService.checkPassword
+        cryptoService.assertMatchPassword
           .withArgs({ password: payload.clientSecret, passwordHash: application.clientSecret })
           .rejects(new PasswordNotMatching());
 
@@ -81,9 +81,9 @@ describe('Unit | Usecase | authenticate-application', function () {
           clientApplicationRepository.findByClientId.withArgs(payload.clientId).resolves(application);
 
           const cryptoService = {
-            checkPassword: sinon.stub(),
+            assertMatchPassword: sinon.stub(),
           };
-          cryptoService.checkPassword
+          cryptoService.assertMatchPassword
             .withArgs({ password: payload.clientSecret, passwordHash: application.clientSecret })
             .resolves();
 
@@ -119,9 +119,9 @@ describe('Unit | Usecase | authenticate-application', function () {
           clientApplicationRepository.findByClientId.withArgs(payload.clientId).resolves(application);
 
           const cryptoService = {
-            checkPassword: sinon.stub(),
+            assertMatchPassword: sinon.stub(),
           };
-          cryptoService.checkPassword
+          cryptoService.assertMatchPassword
             .withArgs({ password: payload.clientSecret, passwordHash: application.clientSecret })
             .resolves();
 

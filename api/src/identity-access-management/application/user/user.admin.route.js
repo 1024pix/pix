@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { BadRequestError, sendJsonApiError } from '../../../shared/application/errors/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { getSupportedLanguages, getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
@@ -148,60 +147,6 @@ export const userAdminRoutes = [
         "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant",
       ],
       tags: ['api', 'admin', 'identity-access-management'],
-    },
-  },
-  {
-    method: 'GET',
-    path: '/api/admin/users/{id}',
-    config: {
-      validate: {
-        params: Joi.object({
-          id: identifiersType.userId,
-        }),
-        failAction: (request, h) => {
-          return sendJsonApiError(new BadRequestError("L'identifiant de l'utilisateur n'est pas au bon format."), h);
-        },
-      },
-      pre: [
-        {
-          method: (request, h) =>
-            securityPreHandlers.hasAtLeastOneAccessOf([
-              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-              securityPreHandlers.checkAdminMemberHasRoleCertif,
-              securityPreHandlers.checkAdminMemberHasRoleSupport,
-              securityPreHandlers.checkAdminMemberHasRoleMetier,
-            ])(request, h),
-        },
-      ],
-      handler: (request, h) => userAdminController.getUserDetails(request, h),
-      notes: [
-        '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
-          "- Elle permet de récupérer le détail d'un utilisateur dans un contexte d'administration",
-      ],
-      tags: ['api', 'admin', 'identity-access-management', 'user'],
-    },
-  },
-  {
-    method: 'POST',
-    path: '/api/admin/users/{id}/anonymize',
-    config: {
-      validate: {
-        params: Joi.object({
-          id: identifiersType.userId,
-        }),
-      },
-      pre: [
-        {
-          method: (request, h) =>
-            securityPreHandlers.hasAtLeastOneAccessOf([
-              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-              securityPreHandlers.checkAdminMemberHasRoleSupport,
-            ])(request, h),
-        },
-      ],
-      handler: (request, h) => userAdminController.anonymizeUser(request, h),
-      notes: ["- Permet à un administrateur d'anonymiser un utilisateur"],
-      tags: ['api', 'admin', 'identity-access-management', 'user'],
     },
   },
   {

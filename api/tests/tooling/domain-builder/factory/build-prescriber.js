@@ -1,8 +1,8 @@
+import { Prescriber } from '../../../../src/deprecated/domain/models/Prescriber.js';
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { Organization } from '../../../../src/organizational-entities/domain/models/Organization.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { UserOrgaSettings } from '../../../../src/team/domain/models/UserOrgaSettings.js';
-import { Prescriber } from '../../../../src/team/domain/read-models/Prescriber.js';
 
 /*
  * /!\ We can not use standard entity builders because of bidirectional relationships (a.k.a. cyclic dependencies)

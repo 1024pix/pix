@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import RSVP from 'rsvp';
 
 export default class CertificationCentersGetRoute extends Route {
   @service store;
@@ -10,10 +9,10 @@ export default class CertificationCentersGetRoute extends Route {
     const certificationCenter = await this.store.findRecord('certification-center', params.certification_center_id);
     const habilitations = await this.store.findAll('complementary-certification');
 
-    return RSVP.hash({
+    return {
       certificationCenter,
       habilitations,
-    });
+    };
   }
 
   @action

@@ -1,8 +1,8 @@
-import { Habilitation } from '../../../certification/enrolment/domain/models/Habilitation.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
+import { Habilitation } from '../../domain/models/Habilitation.js';
 
 export async function getById({ id }) {
   const knexConn = DomainTransaction.getConnection();

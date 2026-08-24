@@ -17,15 +17,11 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
   const hasIncident = true;
   const hasJoiningIssue = true;
   const examinerGlobalComment = 'Le meilleur global comment de tous les temps';
-  let sessionId, clock;
+  let sessionId;
   const now = new Date('2026-01-01');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when session does not exist', function () {

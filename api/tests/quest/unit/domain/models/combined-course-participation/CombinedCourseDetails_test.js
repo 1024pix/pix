@@ -5,7 +5,7 @@ import {
   CombinedCourseParticipationStatuses,
   CombinedCourseStatuses,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { REWARD_TYPES } from '../../../../../../src/quest/domain/constants.js';
+import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../../src/quest/domain/constants.js';
 import { CombinedCourseDetails } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
 import { CombinedCourseReward } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import { CombinedCourseParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
@@ -16,7 +16,6 @@ import {
 } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import {
   CampaignCombinedCourseItem,
-  COMBINED_COURSE_ITEM_TYPES,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
 } from '../../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';

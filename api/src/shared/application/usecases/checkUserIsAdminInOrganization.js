@@ -1,4 +1,4 @@
-import * as membershipRepository from '../../infrastructure/repositories/membership-repository.js';
+import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
 
 const execute = function (userId, organizationId, dependencies = { membershipRepository }) {
   return dependencies.membershipRepository

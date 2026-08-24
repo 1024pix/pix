@@ -84,6 +84,10 @@ const assessmentStateMap = {
     label: 'pages.certifications.certification.details.v3.assessment-state.ended-due-to-finalization',
     color: tertiaryColor,
   },
+  [assessmentStates.ENDED_DUE_TO_DURATION_EXCEEDED]: {
+    label: 'pages.certifications.certification.details.v3.assessment-state.ended-due-to-finalization',
+    color: tertiaryColor,
+  },
 };
 
 export default class DetailsV3 extends Component {

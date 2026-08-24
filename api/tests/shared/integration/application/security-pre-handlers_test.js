@@ -1,6 +1,7 @@
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/constants.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
@@ -189,99 +190,6 @@ describe('Integration | Application | SecurityPreHandlers', function () {
         const response = await httpServerTest.requestObject(options);
 
         expect(response.statusCode).to.equal(200);
-      });
-    });
-  });
-
-  describe('#checkCertificationCenterIsNotScoManagingStudents', function () {
-    let httpServerTest;
-
-    beforeEach(async function () {
-      const moduleUnderTest = {
-        name: 'security-test',
-        register: async function (server) {
-          server.route([
-            {
-              method: 'GET',
-              path: '/framework/{certificationCenterId}',
-              handler: (r, h) => h.response().code(200),
-              config: {
-                pre: [
-                  {
-                    method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
-                  },
-                ],
-              },
-            },
-          ]);
-        },
-      };
-      httpServerTest = new HttpTestServer();
-      await httpServerTest.register(moduleUnderTest);
-      httpServerTest.setupAuthentication();
-    });
-
-    it('returns ok when the certification center has no organization', async function () {
-      const { id: userId } = databaseBuilder.factory.buildUser();
-      const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter();
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'GET',
-        url: `/framework/${certificationCenterId}`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      const response = await httpServerTest.requestObject(options);
-
-      expect(response.statusCode).to.equal(200);
-    });
-
-    context('when the certification center is linked to an organization', function () {
-      context('when organization is sco not managing students', function () {
-        it('returns 200', async function () {
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter({
-            type: 'SCO',
-            externalId: 'XXX',
-          });
-          databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'XXX', isManagingStudents: false });
-
-          await databaseBuilder.commit();
-
-          const options = {
-            method: 'GET',
-            url: `/framework/${certificationCenterId}`,
-            headers: generateAuthenticatedUserRequestHeaders({ userId }),
-          };
-
-          const response = await httpServerTest.requestObject(options);
-
-          expect(response.statusCode).to.equal(200);
-        });
-      });
-
-      context('when organization is sco managing students', function () {
-        it('returns 403', async function () {
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter({
-            type: 'SCO',
-            externalId: 'XXX',
-          });
-          databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'XXX', isManagingStudents: true });
-
-          await databaseBuilder.commit();
-
-          const options = {
-            method: 'GET',
-            url: `/framework/${certificationCenterId}`,
-            headers: generateAuthenticatedUserRequestHeaders({ userId }),
-          };
-
-          const response = await httpServerTest.requestObject(options);
-
-          expect(response.statusCode).to.equal(403);
-        });
       });
     });
   });
@@ -497,116 +405,6 @@ describe('Integration | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#checkOrganizationLearnerBelongsToOrganization', function () {
-    let httpServerTest;
-
-    beforeEach(async function () {
-      const moduleUnderTest = {
-        name: 'security-test',
-        register: async function (server) {
-          server.route([
-            {
-              method: 'PATCH',
-              path: '/api/organizations/{organizationId}/organization-learners/{organizationLearnerId}',
-              handler: (r, h) => h.response().code(200),
-              config: {
-                pre: [
-                  {
-                    method: (request, h) =>
-                      securityPreHandlers.checkOrganizationLearnerBelongsToOrganization(request, h),
-                  },
-                ],
-              },
-            },
-          ]);
-        },
-      };
-      httpServerTest = new HttpTestServer();
-      await httpServerTest.register(moduleUnderTest);
-      httpServerTest.setupAuthentication();
-    });
-
-    describe('when organization learner belongs to the organization', function () {
-      it('returns 200', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser();
-        const organization = databaseBuilder.factory.buildOrganization();
-        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'John',
-          lastName: 'Doe',
-        });
-        await databaseBuilder.commit();
-
-        const options = {
-          method: 'PATCH',
-          url: `/api/organizations/${organization.id}/organization-learners/${organizationLearner.id}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-        };
-
-        // when
-        const response = await httpServerTest.requestObject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-
-    describe('when organization learner does not belong to the organization', function () {
-      it('returns 404', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser();
-        const targetOrganization = databaseBuilder.factory.buildOrganization();
-        const otherOrganization = databaseBuilder.factory.buildOrganization();
-        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: otherOrganization.id,
-          firstName: 'John',
-          lastName: 'Doe',
-        });
-        await databaseBuilder.commit();
-
-        const options = {
-          method: 'PATCH',
-          url: `/api/organizations/${targetOrganization.id}/organization-learners/${organizationLearner.id}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-        };
-
-        // when
-        const response = await httpServerTest.requestObject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-    });
-
-    describe('when organization learner is deleted', function () {
-      it('returns 403', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser();
-        const organization = databaseBuilder.factory.buildOrganization();
-        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          firstName: 'John',
-          lastName: 'Doe',
-          deletedAt: new Date(),
-        });
-        await databaseBuilder.commit();
-
-        const options = {
-          method: 'PATCH',
-          url: `/api/organizations/${organization.id}/organization-learners/${organizationLearner.id}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-        };
-
-        // when
-        const response = await httpServerTest.requestObject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-  });
-
   describe('#checkOrganizationIsNotManagingStudents', function () {
     let httpServerTest;
 
@@ -667,4 +465,243 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('#checkRequestedUserIsAuthenticatedUser', function () {
+    let httpServerTest;
+
+    beforeEach(async function () {
+      httpServerTest = await registerRoute({
+        method: 'GET',
+        path: '/test_route/{userId}',
+        handler: (r, h) => h.response({}).code(200),
+        config: {
+          pre: [
+            {
+              method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            },
+          ],
+        },
+      });
+    });
+
+    it('should return a well formed JSON API error when user in query params is not the same as authenticated', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/test_route/3',
+        headers: generateAuthenticatedUserRequestHeaders({ userId: 2 }),
+      };
+
+      // when
+      const response = await httpServerTest.requestObject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      expect(response.result).to.deep.equal(jsonApiError403);
+    });
+  });
+
+  describe('#checkUserIsAdminInSCOOrganizationAndManagesStudents', function () {
+    let httpServerTest;
+
+    beforeEach(async function () {
+      httpServerTest = await registerRoute({
+        method: 'GET',
+        path: '/test_route/{organizationId}',
+        handler: (r, h) => h.response({}).code(200),
+        config: {
+          pre: [
+            {
+              method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
+            },
+          ],
+        },
+      });
+    });
+
+    it('respond 403 when the user is not member of the SCO organization managing students', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/test_route/${organizationId}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      };
+
+      const response = await httpServerTest.requestObject(options);
+
+      expect(response.statusCode).to.equal(403);
+      expect(response.result).to.deep.equal(jsonApiError403);
+    });
+
+    it('respond 200 when the user is admin in the orga and it is SCO orga managing students', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/test_route/${organizationId}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      };
+
+      const response = await httpServerTest.requestObject(options);
+
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('#checkUserIsAdminInSUPOrganizationAndManagesStudents', function () {
+    let httpServerTest;
+
+    beforeEach(async function () {
+      httpServerTest = await registerRoute({
+        method: 'GET',
+        path: '/test_route/{organizationId}',
+        handler: (r, h) => h.response({}).code(200),
+        config: {
+          pre: [
+            {
+              method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+            },
+          ],
+        },
+      });
+    });
+
+    it('respond 403 when the user is not member of the SUP organization managing students', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/test_route/${organizationId}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      };
+
+      const response = await httpServerTest.requestObject(options);
+
+      expect(response.statusCode).to.equal(403);
+      expect(response.result).to.deep.equal(jsonApiError403);
+    });
+
+    it('respond 200 when the user is admin in the organization and which id not a SUP organization managing students', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/test_route/${organizationId}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      };
+
+      const response = await httpServerTest.requestObject(options);
+
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('#checkUserIsAdminOfCertificationCenter', function () {
+    let httpServerTest;
+    let userId;
+    let certificationCenterId;
+    let options;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+
+      await databaseBuilder.commit();
+
+      httpServerTest = await registerRoute({
+        method: 'GET',
+        path: '/test_route/certification-centers/admin/{certificationCenterId}',
+        handler: (r, h) => h.response({}).code(200),
+        config: {
+          pre: [
+            {
+              method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
+            },
+          ],
+        },
+      });
+
+      options = {
+        method: 'GET',
+        url: `/test_route/certification-centers/admin/${certificationCenterId}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      };
+    });
+
+    it('returns 200 when user is admin of the certification-center', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+        role: 'ADMIN',
+        disabledAt: null,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await httpServerTest.requestObject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('returns 403 when user is not admin of the certification-center', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId, role: 'MEMBER' });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await httpServerTest.requestObject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
 });
+
+const jsonApiError403 = {
+  errors: [
+    {
+      code: 403,
+      title: 'Forbidden access',
+      detail: 'Missing or insufficient permissions.',
+    },
+  ],
+};
+
+async function registerRoute(route) {
+  const httpServerTest = new HttpTestServer();
+  await httpServerTest.register({
+    name: 'security-test',
+    register: async function (server) {
+      server.route(route);
+    },
+  });
+  httpServerTest.setupAuthentication();
+  return httpServerTest;
+}

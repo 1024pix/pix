@@ -7,37 +7,48 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 const TWENTY_FOUR_HOURS_IN_MS = 24 * 60 * 60 * 1000;
 
 describe('Certification | Session-management | Unit | Domain | Read-models | CandidateAuthorizationInfo', function () {
-  describe('#isSessionAccessible', function () {
-    it('returns true when session is accessible', function () {
+  const now = new Date('2026-01-02T00:00:00Z');
+
+  beforeEach(function () {
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
+  });
+
+  describe('#isSessionJoinable', function () {
+    it('returns true when session is neither finalized nor overtime', function () {
+      const twentyThreeHoursBefore = new Date();
+      twentyThreeHoursBefore.setHours(twentyThreeHoursBefore.getHours() - 23);
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
-        .withSession({ isAccessible: true })
+        .withSession({ finalizedAt: null, startedAt: twentyThreeHoursBefore })
         .build();
 
-      expect(candidateAuthorizationInfo.isSessionAccessible).to.be.true;
+      expect(candidateAuthorizationInfo.isSessionJoinable).to.be.true;
     });
-    it('returns false when session is not accessible', function () {
+
+    it('returns false when session is finalized', function () {
+      const twentyThreeHoursBefore = new Date();
+      twentyThreeHoursBefore.setHours(twentyThreeHoursBefore.getHours() - 23);
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
-        .withSession({ isAccessible: false })
+        .withSession({ finalizedAt: new Date(), startedAt: twentyThreeHoursBefore })
         .build();
 
-      expect(candidateAuthorizationInfo.isSessionAccessible).to.be.false;
+      expect(candidateAuthorizationInfo.isSessionJoinable).to.be.false;
+    });
+
+    it('returns false when session has been started more than 24 hours before and thus is overtime', function () {
+      const twentyFiveHoursBefore = new Date();
+      twentyFiveHoursBefore.setHours(twentyFiveHoursBefore.getHours() - 25);
+      const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .candidateAuthorizationInfoBuilder()
+        .withSession({ finalizedAt: null, startedAt: twentyFiveHoursBefore })
+        .build();
+
+      expect(candidateAuthorizationInfo.isSessionJoinable).to.be.false;
     });
   });
 
   describe('#hasExceededCertificationDuration', function () {
-    let clock;
-    const now = new Date('2026-01-02T00:00:00Z');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
     it('returns false when candidate has not started a certification', function () {
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
@@ -97,6 +108,35 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
         .build();
 
       expect(candidateAuthorizationInfo.isCenterHabilitatedForCandidateSubscription).to.be.false;
+    });
+  });
+
+  describe('#get authorizedToStart', function () {
+    it('returns true when candidate has been authorized to start within the last 15 minutes', function () {
+      const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .candidateAuthorizationInfoBuilder()
+        .asAuthorizedToStart()
+        .build();
+
+      expect(candidateAuthorizationInfo.authorizedToStart).to.be.true;
+    });
+
+    it('returns false when candidate is not authorized to start', function () {
+      const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .candidateAuthorizationInfoBuilder()
+        .asNotAuthorizedToStart()
+        .build();
+
+      expect(candidateAuthorizationInfo.authorizedToStart).to.be.false;
+    });
+
+    it('returns false when candidate was authorized beyond 15 minutes ago', function () {
+      const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .candidateAuthorizationInfoBuilder()
+        .asObsoleteAuthorizedToStart()
+        .build();
+
+      expect(candidateAuthorizationInfo.authorizedToStart).to.be.false;
     });
   });
 });

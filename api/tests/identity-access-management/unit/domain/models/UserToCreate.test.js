@@ -74,7 +74,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserToCreate', fu
     it('creates a user', function () {
       // given
       const now = new Date('2022-04-01');
-      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       // when
       const user = UserToCreate.create({ email: '  anneMAIL@example.net ', locale: 'fr-FR' });
@@ -84,7 +84,6 @@ describe('Unit | Identity Access Management | Domain | Model | UserToCreate', fu
       expect(user.updatedAt).to.deep.equal(now);
       expect(user.createdAt).to.deep.equal(now);
       expect(user.locale).to.equal('fr-FR');
-      clock.restore();
     });
   });
 
@@ -92,7 +91,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserToCreate', fu
     it('should create a user from pole emploi', function () {
       // given
       const now = new Date('2022-04-01');
-      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       // when
       const user = UserToCreate.createWithTermsOfServiceAccepted({ email: '  anneMAIL@example.net ' });
@@ -102,7 +101,6 @@ describe('Unit | Identity Access Management | Domain | Model | UserToCreate', fu
       expect(user.lastTermsOfServiceValidatedAt).to.deep.equal(now);
       expect(user.updatedAt).to.deep.equal(now);
       expect(user.createdAt).to.deep.equal(now);
-      clock.restore();
     });
   });
 
@@ -110,7 +108,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserToCreate', fu
     it('should create an anonymous user', function () {
       // given
       const now = new Date('2022-04-01');
-      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       // when
       const user = UserToCreate.createAnonymous({ email: '  anneMAIL@example.net ' });
@@ -119,7 +117,6 @@ describe('Unit | Identity Access Management | Domain | Model | UserToCreate', fu
       expect(user.isAnonymous).to.equal(true);
       expect(user.updatedAt).to.deep.equal(now);
       expect(user.createdAt).to.deep.equal(now);
-      clock.restore();
     });
   });
 });

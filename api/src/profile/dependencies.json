@@ -11,5 +11,5 @@
     "quest",
     "shared"
   ],
-  "circular": "temporary-allowed"
+  "circular": "forbidden"
 }

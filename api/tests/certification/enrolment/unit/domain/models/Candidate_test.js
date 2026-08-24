@@ -5,7 +5,6 @@ import { Frameworks } from '../../../../../../src/certification/shared/domain/mo
 import { CertificationCandidatesError } from '../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../../test-helper.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr, catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 const FIRST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code;
@@ -38,7 +37,6 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       userId: 777,
       sessionId: 888,
       organizationLearnerId: 999,
-      authorizedToStart: false,
       complementaryCertificationId: null,
       billingMode: BILLING_MODES.FREE,
       prepaymentCode: null,
@@ -54,13 +52,13 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       const birthPostalCode = 'updatedBirthPostalCode';
       const birthCity = 'updatedBirthCity';
 
-      const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+      const candidate = new Candidate(candidateData);
 
       // when
       candidate.updateBirthInformation({ birthCountry, birthINSEECode, birthPostalCode, birthCity });
 
       // then
-      const expectedCandidate = domainBuilder.certification.enrolment.buildCandidate({
+      const expectedCandidate = new Candidate({
         ...candidateData,
         birthCountry: 'updatedBirthCountry',
         birthINSEECode: 'updatedBirthINSEECode',
@@ -75,7 +73,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     it('should link candidate to a user', function () {
       // given
       const userId = 123;
-      const candidate = domainBuilder.certification.enrolment.buildCandidate();
+      const candidate = new Candidate({ ...candidateData, userId: undefined });
 
       // when
       candidate.reconcile(userId);
@@ -90,7 +88,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     context('when all required fields are presents', function () {
       it('should not throw when object is valid', function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+        const candidate = new Candidate(candidateData);
 
         // when, then
         candidate.validate();
@@ -111,7 +109,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
         });
 
         // when
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        const candidate = new Candidate({
           ...candidateData,
           [field.name]: 123,
         });
@@ -127,8 +125,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       ].forEach((field) => {
         it(`should throw an error when field ${field.name} is not present`, async function () {
           //given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
-          candidate[field.name] = undefined;
+          const candidate = new Candidate({ ...candidateData, [field.name]: undefined });
           const certificationCandidatesError = new CertificationCandidatesError({
             code: field.code,
           });
@@ -142,10 +139,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
         it(`should throw an error when field ${field.name} contains only spaces`, async function () {
           //given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            [field.name]: ' ',
-          });
+          const candidate = new Candidate({ ...candidateData, [field.name]: ' ' });
           const certificationCandidatesError = new CertificationCandidatesError({
             code: field.code,
           });
@@ -158,8 +152,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
         });
 
         it(`should throw an error when field ${field.name} is not present because null`, async function () {
-          // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          const candidate = new Candidate({
             ...candidateData,
             [field.name]: null,
           });
@@ -178,7 +171,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should throw an error when field sessionId is not a number', async function () {
       //given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         sessionId: 'salut',
       });
@@ -196,8 +189,10 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should throw an error when field sessionId is not present', async function () {
       //given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
-      candidate.sessionId = undefined;
+      const candidate = new Candidate({
+        ...candidateData,
+        sessionId: undefined,
+      });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_SESSION_ID_REQUIRED',
       });
@@ -211,7 +206,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should throw an error when field sessionId is not present because null', async function () {
       //given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         sessionId: null,
       });
@@ -228,7 +223,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should throw an error when field externalId is not a string', async function () {
       //given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         externalId: 1235,
       });
@@ -246,7 +241,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should throw an error when birthdate is not a date', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         birthdate: 'je mange des légumes',
       });
@@ -264,7 +259,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should throw an error when birthdate is not a valid format', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         birthdate: '2020/02/01',
       });
@@ -282,7 +277,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should throw an error when birthdate is null', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         birthdate: null,
       });
@@ -299,8 +294,11 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should throw an error when birthdate is not present', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
-      candidate.birthdate = undefined;
+      const candidate = new Candidate({
+        ...candidateData,
+        birthdate: undefined,
+      });
+
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_BIRTHDATE_REQUIRED',
       });
@@ -313,7 +311,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
 
     it('should throw an error when field extraTimePercentage is not a number', async function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         extraTimePercentage: 'salut',
       });
@@ -331,7 +329,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should throw an error when sex is neither M nor F', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         sex: 'salut',
       });
@@ -349,7 +347,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should return a report when email is not a valid format', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         email: 'email@example.net, anotheremail@example.net',
       });
@@ -367,7 +365,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should return a report when resultRecipientEmail is not a valid format', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         resultRecipientEmail: 'email@example.net, anotheremail@example.net',
       });
@@ -387,7 +385,10 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       context('success cases', function () {
         Object.values(Frameworks).forEach((subscription) => {
           it(`should validate when subscription is ${subscription}`, function () {
-            const candidate = domainBuilder.certification.enrolment.buildCandidate({ ...candidateData, subscription });
+            const candidate = new Candidate({
+              ...candidateData,
+              subscription,
+            });
             candidate.validate();
           });
         });
@@ -395,8 +396,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
       context('ko cases', function () {
         it('should not validate when subscription is an unknown value', async function () {
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({ ...candidateData });
-          candidate.subscription = 'UNKNOWN_FRAMEWORK';
+          const candidate = new Candidate({ ...candidateData, subscription: 'UNKNOWN_FRAMEWORK' });
           const error = await catchErr(candidate.validate, candidate)();
           expect(error).to.be.instanceOf(CertificationCandidatesError);
         });
@@ -407,7 +407,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       context('when the billing mode is null', function () {
         it('should not throw an error', async function () {
           // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          const candidate = new Candidate({
             ...candidateData,
             billingMode: null,
           });
@@ -426,7 +426,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     context('when the certification center is not SCO', function () {
       it('should throw an error if billingMode is null', async function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        const candidate = new Candidate({
           ...candidateData,
           billingMode: null,
         });
@@ -445,7 +445,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
       it('should throw an error if billingMode is not an expected value', async function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        const candidate = new Candidate({
           ...candidateData,
           billingMode: 'NOT_ALLOWED_VALUE',
         });
@@ -466,7 +466,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
         it(`should not throw if billing mode is an expected value ${billingMode}`, async function () {
           // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          const candidate = new Candidate({
             ...candidateData,
             billingMode,
             prepaymentCode: billingMode === BILLING_MODES.PREPAID ? '12345' : undefined,
@@ -485,7 +485,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       context('when billingMode is not PREPAID', function () {
         it('should throw an error if prepaymentCode is not null', async function () {
           // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          const candidate = new Candidate({
             ...candidateData,
             billingMode: 'PAID',
             prepaymentCode: 'NOT_NULL',
@@ -507,7 +507,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       context('when billingMode is PREPAID', function () {
         it('should not throw an error if prepaymentCode is not null', function () {
           // given
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          const candidate = new Candidate({
             ...candidateData,
             billingMode: 'PREPAID',
             prepaymentCode: 'NOT_NULL',
@@ -529,7 +529,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     context('when all required fields are presents', function () {
       it('should return nothing', function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+        const candidate = new Candidate(candidateData);
 
         // when
         const report = candidate.validateForMassSessionImport();
@@ -550,7 +550,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     ].forEach(({ field, expectedCode }) => {
       it(`should return a report when field ${field} is not present`, async function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+        const candidate = new Candidate(candidateData);
         delete candidate[field];
 
         // when
@@ -562,7 +562,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
       it(`should return a report when field ${field} is null`, async function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        const candidate = new Candidate({
           ...candidateData,
           [field]: null,
         });
@@ -577,7 +577,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should return a report when birthdate is not a valid format', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         birthdate: '2020/02/01',
       });
@@ -591,7 +591,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should return a report when birthdate is null', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         birthdate: null,
       });
@@ -606,7 +606,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     context('when extraTimePercentage field is presents', function () {
       it('should return a report when field extraTimePercentage is not a number', async function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        const candidate = new Candidate({
           ...candidateData,
           extraTimePercentage: 'salut',
         });
@@ -620,7 +620,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
       it('should throw an error when field extraTimePercentage is greater than 10', async function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        const candidate = new Candidate({
           ...candidateData,
           extraTimePercentage: 11,
         });
@@ -635,7 +635,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should return a report when sex is neither M nor F', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         sex: 'something_else',
       });
@@ -649,7 +649,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should return a report when sex is null', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         sex: null,
       });
@@ -666,7 +666,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
         context('when the billing mode is null', function () {
           it('should return nothing', async function () {
             // given
-            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            const candidate = new Candidate({
               ...candidateData,
               billingMode: null,
             });
@@ -683,7 +683,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
         context('when the billing mode is not null', function () {
           it('should return a report', async function () {
             // given
-            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            const candidate = new Candidate({
               ...candidateData,
               billingMode: 'FREE',
             });
@@ -703,7 +703,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
           it('should return a report', async function () {
             // given
             const isSco = false;
-            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            const candidate = new Candidate({
               ...candidateData,
               billingMode: null,
             });
@@ -719,7 +719,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
         context('when the billing mode is not an expected value', function () {
           it('should return a report', async function () {
             // given
-            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            const candidate = new Candidate({
               ...candidateData,
               billingMode: 'NOT_ALLOWED_VALUE',
             });
@@ -737,7 +737,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
           ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
             it(`should return nothing for ${billingMode}`, async function () {
               // given
-              const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              const candidate = new Candidate({
                 ...candidateData,
                 billingMode,
               });
@@ -756,7 +756,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
           context('when prepaymentCode is not null', function () {
             it('should return a report', async function () {
               // given
-              const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              const candidate = new Candidate({
                 ...candidateData,
                 billingMode: 'PAID',
                 prepaymentCode: 'NOT_NULL',
@@ -776,7 +776,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
         context('when billingMode is PREPAID', function () {
           it('should return nothing if prepaymentCode is not null', function () {
             // given
-            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            const candidate = new Candidate({
               ...candidateData,
               billingMode: 'PREPAID',
               prepaymentCode: 'NOT_NULL',
@@ -791,7 +791,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
           it('should return report if prepaymentCode is null', function () {
             // given
-            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            const candidate = new Candidate({
               ...candidateData,
               billingMode: 'PREPAID',
               prepaymentCode: '',
@@ -810,7 +810,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     context('when there are multiple errors', function () {
       it('should return multiple message', function () {
         // given
-        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        const candidate = new Candidate({
           ...candidateData,
           billingMode: 'FREE',
         });
@@ -842,15 +842,15 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     it('should return false when candidate is not reconciled', function () {
       // given
       const notReconciledCandidates = [
-        domainBuilder.certification.enrolment.buildCandidate({
+        new Candidate({
           userId: null,
           reconciledAt: null,
         }),
-        domainBuilder.certification.enrolment.buildCandidate({
+        new Candidate({
           userId: 123,
           reconciledAt: null,
         }),
-        domainBuilder.certification.enrolment.buildCandidate({
+        new Candidate({
           userId: null,
           reconciledAt: new Date(),
         }),
@@ -866,7 +866,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
     it('should return true when candidate is reconciled', function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         userId: 123,
         reconciledAt: new Date(),
       });
@@ -883,7 +883,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     it('should return true when candidate is reconciled to given userId', function () {
       // given
       const userId = 123;
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         userId,
         reconciledAt: new Date(),
       });
@@ -899,15 +899,15 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       // given
       const userId = 123;
       const notReconciledToUser123 = [
-        domainBuilder.certification.enrolment.buildCandidate({
+        new Candidate({
           userId: 456,
           reconciledAt: new Date(),
         }),
-        domainBuilder.certification.enrolment.buildCandidate({
+        new Candidate({
           userId,
           reconciledAt: null,
         }),
-        domainBuilder.certification.enrolment.buildCandidate({
+        new Candidate({
           userId: null,
           reconciledAt: new Date(),
         }),
@@ -924,7 +924,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     it('should return false when candidate is not reconciled to anyone', function () {
       // given
       const userId = 123;
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         userId: null,
       });
 
@@ -939,7 +939,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
   describe('convertExtraTimePercentageToDecimal', function () {
     it('should convert extraTimePercentageToDecimal integer to decimal', function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = new Candidate({
         ...candidateData,
         extraTimePercentage: 20,
       });
@@ -954,63 +954,63 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
   describe('hasCoreFrameworkSubscription', function () {
     it('should return false when subscription is not CORE', function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CLEA });
+      const candidate = new Candidate({ subscription: Frameworks.CLEA });
       expect(candidate.hasCoreFrameworkSubscription()).to.be.false;
     });
 
     it('should return true when subscription is CORE', function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CORE });
+      const candidate = new Candidate({ subscription: Frameworks.CORE });
       expect(candidate.hasCoreFrameworkSubscription()).to.be.true;
     });
   });
 
   describe('hasCoreScopeSubscription', function () {
     it('should return false when subscription is not CORE or CLEA', function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.DROIT });
+      const candidate = new Candidate({ subscription: Frameworks.DROIT });
       expect(candidate.hasCoreScopeSubscription()).to.be.false;
     });
 
     it('should return true when subscription is CORE', function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CORE });
+      const candidate = new Candidate({ subscription: Frameworks.CORE });
       expect(candidate.hasCoreScopeSubscription()).to.be.true;
     });
     it('should return true when subscription is CLEA', function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CLEA });
+      const candidate = new Candidate({ subscription: Frameworks.CLEA });
       expect(candidate.hasCoreScopeSubscription()).to.be.true;
     });
   });
 
   describe('#isRegisteredToDoubleCertification', function () {
     it('returns true when candidate subscription is CLEA', function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.CLEA });
+      const candidate = new Candidate({ subscription: Frameworks.CLEA });
       expect(candidate.isRegisteredToDoubleCertification()).to.be.true;
     });
 
     it('returns false when candidate subscription is not CLEA', function () {
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({ subscription: Frameworks.DROIT });
+      const candidate = new Candidate({ subscription: Frameworks.DROIT });
       expect(candidate.isRegisteredToDoubleCertification()).to.be.false;
     });
   });
 
   describe('#static sortByLastNameAndFirstName', function () {
     it('sorts candidates alphabetically by last name then first name', function () {
-      const michelJacques = domainBuilder.certification.enrolment.buildCandidate({
+      const michelJacques = new Candidate({
         firstName: 'Michel',
         lastName: 'Jacques',
       });
-      const jeannetteJacques = domainBuilder.certification.enrolment.buildCandidate({
+      const jeannetteJacques = new Candidate({
         firstName: 'Jeanette',
         lastName: 'Jacques',
       });
-      const fredericMercure = domainBuilder.certification.enrolment.buildCandidate({
+      const fredericMercure = new Candidate({
         firstName: 'Frédéric',
         lastName: 'Mercure',
       });
-      const francoisMercure = domainBuilder.certification.enrolment.buildCandidate({
+      const francoisMercure = new Candidate({
         firstName: 'François',
         lastName: 'Mercure',
       });
-      const fridaMercure = domainBuilder.certification.enrolment.buildCandidate({
+      const fridaMercure = new Candidate({
         firstName: 'Frida',
         lastName: 'Mercure',
       });

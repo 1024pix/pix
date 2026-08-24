@@ -64,7 +64,7 @@ module('Acceptance | Authentication redirections', function (hooks) {
         await authenticateByUsername(user);
 
         // then
-        assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+        assert.strictEqual(currentURL(), `/mise-a-jour-mot-de-passe-expire?passwordResetToken=${user.id}`);
       });
     });
   });

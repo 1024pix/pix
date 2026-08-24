@@ -49,7 +49,6 @@ module('Integration | Component | certification-centers/information-view', funct
     // then
     assert.dom(screen.getByText(t('pages.certification-centers.information-view.list.type'))).exists();
     assert.dom(screen.getByText(t('pages.certification-centers.information-view.list.external-id'))).exists();
-    assert.dom(screen.getByText('Centre SCO')).exists();
     assert.dom(screen.getByText('AX129')).exists();
     assert.dom(screen.getByText('Lucky Number')).exists();
     assert.dom(screen.getByText('lucky@example.net')).exists();
@@ -57,29 +56,5 @@ module('Integration | Component | certification-centers/information-view', funct
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non habilité pour Cléa')).exists();
     assert.dom(screen.getByText('27/07/2023')).exists();
-  });
-
-  test('it should show button to direct user to metabase dashboard', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const certificationCenter = store.createRecord('certification-center', {
-      name: 'Centre SCO',
-      type: 'SCO',
-      externalId: 'AX129',
-    });
-
-    // when
-    const screen = await render(
-      <template>
-        <InformationView
-          @certificationCenter={{certificationCenter}}
-          @toggleEditMode={{toggleEditMode}}
-          @toggleShowArchiveModal={{toggleShowArchiveModal}}
-        />
-      </template>,
-    );
-
-    // then
-    assert.dom(screen.getByText('Tableau de bord')).exists();
   });
 });

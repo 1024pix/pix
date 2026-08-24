@@ -1,20 +1,15 @@
 import _ from 'lodash';
 
-import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
-import { createCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/create-campaign.js';
-import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
-import * as campaignCreatorRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
+import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../../src/shared/constants.js';
-import * as accessCodeGenerator from '../../../../../../src/shared/domain/services/access-code-generator.js';
-import * as accessCodeRepository from '../../../../../../src/shared/infrastructure/repositories/access-code-repository.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Integration | UseCases | create-campaign', function () {
+describe('Integration | Prescription | Campaign | UseCases | create-campaign', function () {
   let userId;
   let organizationId;
   let targetProfileId;
@@ -55,84 +50,55 @@ describe('Integration | UseCases | create-campaign', function () {
     const expectedAttributes = ['type', 'name', 'customLandingPageText'];
 
     // when
-    const result = await createCampaign({
-      campaign,
-      userRepository,
-      campaignAdministrationRepository,
-      campaignCreatorRepository,
-      accessCodeGenerator,
-      accessCodeRepository,
-    });
+    const result = await usecases.createCampaign({ campaign });
 
     // then
     expect(result).to.be.an.instanceOf(Campaign);
     expect(_.pick(result, expectedAttributes)).to.deep.equal(_.pick(campaign, expectedAttributes));
     expect(result.code).to.have.lengthOf.above(0);
   });
+
   it('should throw an error if creator is not from organization', async function () {
     // given
-    const user = databaseBuilder.factory.buildUser();
-    databaseBuilder.factory.buildUser({ id: 14 });
-    const owner = databaseBuilder.factory.buildUser({ id: 15 });
+    const userFromAnotherOrganization = databaseBuilder.factory.buildUser();
+    databaseBuilder.factory.buildMembership({ userId: userFromAnotherOrganization.id });
 
     const organization = databaseBuilder.factory.buildOrganization();
-    const userOrganization = databaseBuilder.factory.buildOrganization();
-    databaseBuilder.factory.buildMembership({
-      organizationId: userOrganization.id,
-      userId: user.id,
-    });
-
-    databaseBuilder.factory.buildMembership({
-      organizationId: organization.id,
-      userId: owner.id,
-    });
+    const owner = databaseBuilder.factory.buildUser();
+    databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: owner.id });
 
     const campaignData = {
-      creatorId: 14,
-      ownerId: 15,
+      creatorId: userFromAnotherOrganization.id,
+      ownerId: owner.id,
       organizationId: organization.id,
     };
-
     await databaseBuilder.commit();
+
     // when
-    const error = await catchErr(createCampaign)({
-      campaign: campaignData,
-      userRepository,
-    });
+    const error = await catchErr(usecases.createCampaign)({ campaign: campaignData });
 
     // then
     expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
   });
+
   it('should throw an error if owner is not from organization', async function () {
     // given
-    const user = databaseBuilder.factory.buildUser();
-    const creator = databaseBuilder.factory.buildUser({ id: 14 });
-    databaseBuilder.factory.buildUser({ id: 15 });
+    const ownerFromAnotherOrganization = databaseBuilder.factory.buildUser();
+    databaseBuilder.factory.buildMembership({ userId: ownerFromAnotherOrganization.id });
 
+    const creator = databaseBuilder.factory.buildUser();
     const organization = databaseBuilder.factory.buildOrganization();
-    const userOrganization = databaseBuilder.factory.buildOrganization();
-    databaseBuilder.factory.buildMembership({
-      organizationId: userOrganization.id,
-      userId: user.id,
-    });
-
-    databaseBuilder.factory.buildMembership({
-      organizationId: organization.id,
-      userId: creator.id,
-    });
+    databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: creator.id });
 
     const campaignData = {
-      creatorId: 14,
-      ownerId: 15,
+      creatorId: creator.id,
+      ownerId: ownerFromAnotherOrganization.id,
       organizationId: organization.id,
     };
-
     await databaseBuilder.commit();
+
     // when
-    const error = await catchErr(createCampaign)({
-      campaign: campaignData,
-      userRepository,
-    });
+    const error = await catchErr(usecases.createCampaign)({ campaign: campaignData });
 
     // then
     expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
@@ -184,13 +150,7 @@ describe('Integration | UseCases | create-campaign', function () {
       };
 
       // when
-      await catchErr(createCampaign)(campaignToSave, {
-        userRepository,
-        campaignAdministrationRepository,
-        campaignCreatorRepository,
-        accessCodeGenerator,
-        accessCodeRepository,
-      });
+      await catchErr(usecases.createCampaign)({ campaign: campaignToSave });
 
       // then
       const skillIds = await knex('campaign_skills').pluck('skillId');
@@ -198,6 +158,7 @@ describe('Integration | UseCases | create-campaign', function () {
       expect(skillIds).to.be.empty;
       expect(campaignIds).to.be.empty;
     });
+
     it('should save a new campaign of type ASSESSMENT', async function () {
       // given
       const campaign = {
@@ -216,14 +177,7 @@ describe('Integration | UseCases | create-campaign', function () {
       const expectedAttributes = ['type', 'title', 'externalIdLabel', 'name', 'customLandingPageText'];
 
       // when
-      const result = await createCampaign({
-        campaign,
-        userRepository,
-        campaignAdministrationRepository,
-        campaignCreatorRepository,
-        accessCodeGenerator,
-        accessCodeRepository,
-      });
+      const result = await usecases.createCampaign({ campaign });
 
       // then
       expect(result).to.be.an.instanceOf(Campaign);
@@ -231,6 +185,7 @@ describe('Integration | UseCases | create-campaign', function () {
       expect(_.pick(result, expectedAttributes)).to.deep.equal(_.pick(campaign, expectedAttributes));
     });
   });
+
   describe('type EXAM', function () {
     it('should not save anything if something goes wrong between campaign creation and skills computation', async function () {
       // given
@@ -277,14 +232,7 @@ describe('Integration | UseCases | create-campaign', function () {
       };
 
       // when
-      // when
-      await catchErr(createCampaign)(campaignToSave, {
-        userRepository,
-        campaignAdministrationRepository,
-        campaignCreatorRepository,
-        accessCodeGenerator,
-        accessCodeRepository,
-      });
+      await catchErr(usecases.createCampaign)({ campaign: campaignToSave });
 
       // then
       const skillIds = await knex('campaign_skills').pluck('skillId');
@@ -292,6 +240,7 @@ describe('Integration | UseCases | create-campaign', function () {
       expect(skillIds).to.be.empty;
       expect(campaignIds).to.be.empty;
     });
+
     it('should save a new campaign of type EXAM', async function () {
       const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.CAMPAIGN_WITHOUT_USER_PROFILE).id;
 
@@ -314,14 +263,7 @@ describe('Integration | UseCases | create-campaign', function () {
       const expectedAttributes = ['type', 'title', 'externalIdLabel', 'name', 'customLandingPageText'];
 
       // when
-      const result = await createCampaign({
-        campaign,
-        userRepository,
-        campaignAdministrationRepository,
-        campaignCreatorRepository,
-        accessCodeGenerator,
-        accessCodeRepository,
-      });
+      const result = await usecases.createCampaign({ campaign });
 
       // then
       expect(result).to.be.an.instanceOf(Campaign);

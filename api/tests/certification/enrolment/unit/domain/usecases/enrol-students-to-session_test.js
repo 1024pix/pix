@@ -1,27 +1,28 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { UnknownCountryForStudentEnrolmentError } from '../../../../../../src/certification/enrolment/domain/errors.js';
+import {
+  CannotEnrollScoCandidateError,
+  UnknownCountryForStudentEnrolmentError,
+} from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { enrolStudentsToSession } from '../../../../../../src/certification/enrolment/domain/usecases/enrol-students-to-session.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
+import { ForbiddenAccess, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session', function () {
   let organizationLearnerRepository;
-  let centerRepository;
   let countryRepository;
-  let sessionRepository;
   let candidateRepository;
   const certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
   const certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
   let certificationCpfService;
   let eventAdapter;
+  let sessionAuthorizationAdapter;
   let dependencies;
   const sessionId = 123,
-    certificationCenterId = 456,
     organizationId = 789;
   const michelStudentData = {
     id: 1,
@@ -48,54 +49,46 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
     organizationLearnerRepository = {
       findByIds: sinon.stub(),
     };
-    centerRepository = {
-      getById: sinon.stub(),
-    };
-    sessionRepository = {
-      get: sinon.stub(),
-    };
     candidateRepository = {
       findBySessionId: sinon.stub(),
       save: sinon.stub(),
     };
     countryRepository = {
-      findAll: sinon.stub(),
+      findAll: sinon.fake.resolves([
+        domainBuilder.buildCountry({
+          code: '99100',
+          name: 'FRANCE',
+        }),
+      ]),
     };
     certificationCpfService = {
       getBirthInformation: sinon.stub(),
     };
     eventAdapter = { onCandidatesEnrolledSco: sinon.stub() };
+    sessionAuthorizationAdapter = { find: sinon.stub() };
 
-    sessionRepository.get
-      .withArgs({ id: sessionId })
-      .resolves(domainBuilder.certification.enrolment.buildSession({ id: sessionId, certificationCenterId }));
-    centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
-      domainBuilder.certification.enrolment.buildCenter({
-        matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
-          id: organizationId,
-        }),
-      }),
-    );
-    const country = domainBuilder.buildCountry({
-      code: '99100',
-      name: 'FRANCE',
-    });
-    countryRepository.findAll.resolves([country]);
+    preventStubsToBeCalledUnexpectedly([
+      organizationLearnerRepository.findByIds,
+      candidateRepository.findBySessionId,
+      candidateRepository.save,
+      certificationCpfService.getBirthInformation,
+      eventAdapter.onCandidatesEnrolledSco,
+      sessionAuthorizationAdapter.find,
+    ]);
 
     dependencies = {
       organizationLearnerRepository,
-      centerRepository,
-      sessionRepository,
       candidateRepository,
       countryRepository,
       certificationCpfCityRepository,
       certificationCpfCountryRepository,
       certificationCpfService,
       eventAdapter,
+      sessionAuthorizationAdapter,
     };
   });
 
-  context('success case', function () {
+  context('when no ids provided', function () {
     it('does nothing if no student ids is given as input', async function () {
       await enrolStudentsToSession({
         ...dependencies,
@@ -104,8 +97,55 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       });
 
       // then
-      expect(candidateRepository.save).to.not.have.been.called;
-      expect(eventAdapter.onCandidatesEnrolledSco).to.not.have.been.called;
+      sinon.assert.notCalled(sessionAuthorizationAdapter.find);
+    });
+  });
+
+  context('when the session does not exist', function () {
+    it('throws a NotFoundError', async function () {
+      sessionAuthorizationAdapter.find.withArgs({ sessionId }).resolves(null);
+
+      const err = await catchErr(enrolStudentsToSession)({
+        ...dependencies,
+        sessionId,
+        studentIds: [michelStudentData.id, jeannetteStudentData.id],
+      });
+
+      // then
+      expect(err).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
+    });
+  });
+
+  context('when adding candidate to session is not allowed', function () {
+    it('throws a CannotEnrollScoCandidateError', async function () {
+      sessionAuthorizationAdapter.find
+        .withArgs({ sessionId })
+        .resolves(
+          domainBuilder.certification.enrolment.sessionAuthorizationBuilder().cannotEnrollScoCandidate().build(),
+        );
+
+      const err = await catchErr(enrolStudentsToSession)({
+        ...dependencies,
+        sessionId,
+        studentIds: [michelStudentData.id, jeannetteStudentData.id],
+      });
+
+      // then
+      expect(err).to.be.instanceOf(CannotEnrollScoCandidateError);
+    });
+  });
+
+  context('success case', function () {
+    beforeEach(function () {
+      sessionAuthorizationAdapter.find
+        .withArgs({ sessionId })
+        .resolves(
+          domainBuilder.certification.enrolment
+            .sessionAuthorizationBuilder()
+            .canEnrollScoCandidate()
+            .withParameters({ scoIsManagingStudentsOrganizationId: organizationId })
+            .build(),
+        );
     });
 
     it('enrols students to the session', async function () {
@@ -150,6 +190,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         }),
       ];
       candidateRepository.save.resolves(savedCandidates);
+      eventAdapter.onCandidatesEnrolledSco.resolves();
 
       // when
       await enrolStudentsToSession({
@@ -159,7 +200,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       });
 
       // then
-      expect(candidateRepository.save).to.have.been.calledWithExactly({
+      sinon.assert.calledWithExactly(candidateRepository.save, {
         candidates: [
           new Candidate({
             firstName: 'Michel',
@@ -187,16 +228,19 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
           }),
         ],
       });
-      expect(eventAdapter.onCandidatesEnrolledSco).to.have.been.calledWithExactly({ candidates: savedCandidates });
+      sinon.assert.calledWithExactly(eventAdapter.onCandidatesEnrolledSco, { candidates: savedCandidates });
     });
 
     it('prevents from enrolling twice the same student if a student is already enrolled', async function () {
       // given
       const studentIds = [michelStudentData.id, jeannetteStudentData.id];
       candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
-        domainBuilder.certification.enrolment.buildCandidate({
-          organizationLearnerId: 1,
-        }),
+        domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asScoCandidate({
+            organizationLearnerId: 1,
+          })
+          .build(),
       ]);
       const jeanetteLearner = domainBuilder.buildOrganizationLearner({
         ...jeannetteStudentData,
@@ -221,6 +265,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         }),
       ];
       candidateRepository.save.resolves(savedCandidates);
+      eventAdapter.onCandidatesEnrolledSco.resolves();
 
       // when
       await enrolStudentsToSession({
@@ -230,7 +275,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       });
 
       // then
-      expect(candidateRepository.save).to.have.been.calledWithExactly({
+      sinon.assert.calledWithExactly(candidateRepository.save, {
         candidates: [
           new Candidate({
             firstName: 'Jeannette',
@@ -246,11 +291,23 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
           }),
         ],
       });
-      expect(eventAdapter.onCandidatesEnrolledSco).to.have.been.calledWithExactly({ candidates: savedCandidates });
+      sinon.assert.calledWithExactly(eventAdapter.onCandidatesEnrolledSco, { candidates: savedCandidates });
     });
   });
 
   context('when some students to enroll do not belong to organization', function () {
+    beforeEach(function () {
+      sessionAuthorizationAdapter.find
+        .withArgs({ sessionId })
+        .resolves(
+          domainBuilder.certification.enrolment
+            .sessionAuthorizationBuilder()
+            .canEnrollScoCandidate()
+            .withParameters({ scoIsManagingStudentsOrganizationId: organizationId })
+            .build(),
+        );
+    });
+
     it('rejects enrolment', async function () {
       // given
       const studentIds = [michelStudentData.id, jeannetteStudentData.id];
@@ -278,12 +335,21 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
 
       // then
       expect(error).to.be.instanceof(ForbiddenAccess);
-      expect(candidateRepository.save).to.not.have.been.called;
-      expect(eventAdapter.onCandidatesEnrolledSco).to.not.have.been.called;
     });
   });
 
   context('birth place data check', function () {
+    beforeEach(function () {
+      sessionAuthorizationAdapter.find
+        .withArgs({ sessionId })
+        .resolves(
+          domainBuilder.certification.enrolment
+            .sessionAuthorizationBuilder()
+            .canEnrollScoCandidate()
+            .withParameters({ scoIsManagingStudentsOrganizationId: organizationId })
+            .build(),
+        );
+    });
     context('when student birth country is not found', function () {
       it('rejects enrolment', async function () {
         // given
@@ -318,8 +384,6 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         expect(error.message).to.equal(
           "L'élève Jeannette Leto a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix",
         );
-        expect(candidateRepository.save).to.not.have.been.called;
-        expect(eventAdapter.onCandidatesEnrolledSco).to.not.have.been.called;
       });
     });
 
@@ -383,6 +447,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
           }),
         ];
         candidateRepository.save.resolves(savedCandidates);
+        eventAdapter.onCandidatesEnrolledSco.resolves();
 
         // when
         await enrolStudentsToSession({
@@ -392,7 +457,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         });
 
         // then
-        expect(candidateRepository.save).to.have.been.calledWithExactly({
+        sinon.assert.calledWithExactly(candidateRepository.save, {
           candidates: [
             new Candidate({
               firstName: 'Michel',
@@ -420,7 +485,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
             }),
           ],
         });
-        expect(eventAdapter.onCandidatesEnrolledSco).to.have.been.calledWithExactly({
+        sinon.assert.calledWithExactly(eventAdapter.onCandidatesEnrolledSco, {
           candidates: savedCandidates,
         });
       });

@@ -1,9 +1,9 @@
-import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { usecases } from '../learner-management/domain/usecases/index.js';
 
-export class DeleteOrganizationLearnersFromOrganizationScript extends Script {
+export class DeleteOrganizationLearnersFromOrganizationScript extends ScriptWithJob {
   constructor() {
     super({
       description: 'Deletes organization-learners and potentially anonymize them',
@@ -31,7 +31,7 @@ export class DeleteOrganizationLearnersFromOrganizationScript extends Script {
     });
   }
 
-  async handle({ options, logger }) {
+  async handle({ options, logger, jobClient }) {
     const date = options.date;
     const organizationId = options.organizationId;
     const executeAnonymization = options.executeAnonymization;
@@ -39,6 +39,9 @@ export class DeleteOrganizationLearnersFromOrganizationScript extends Script {
     if (date && isNaN(Date.parse(date))) {
       throw new Error("La date passée en paramètre n'est pas valide");
     }
+
+    await super.handle({ jobClient });
+
     logger.info(`Delete learner from organization : ${options.organizationId}.`);
     if (date) {
       logger.info(`Delete learner before ${options.date}`);

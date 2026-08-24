@@ -1,7 +1,9 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
@@ -129,8 +131,15 @@ export default class AttachedCertificationCenter extends Component {
         </:columns>
       </PixTable>
     {{else}}
-      <AttachedCertificationCenterForm @onFormSubmitted={{this.handleAttachCertificationCenter}} />
-
+      <div class="attached-certification-center-form-container">
+        <PixButtonLink
+          @iconBefore="add"
+          @variant="secondary"
+          @route="authenticated.certification-centers.new"
+          @query={{hash attachedOrganizationId=@organizationId}}
+        >{{t "components.organizations.attached-certification-center.creation-button"}}</PixButtonLink>
+        <AttachedCertificationCenterForm @onFormSubmitted={{this.handleAttachCertificationCenter}} />
+      </div>
     {{/if}}
 
     <PixModal

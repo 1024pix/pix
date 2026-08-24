@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 
 export const assessmentStates = {
   COMPLETED: 'completed',
@@ -7,6 +7,7 @@ export const assessmentStates = {
   ABORTED: 'aborted',
   ENDED_BY_INVIGILATOR: 'endedByInvigilator',
   ENDED_DUE_TO_FINALIZATION: 'endedDueToFinalization',
+  ENDED_DUE_TO_DURATION_EXCEEDED: 'endedDueToDurationExceeded',
 };
 
 export const assessmentResultStatus = {
@@ -105,6 +106,10 @@ export default class Certification extends Model {
         result.push(indexedCompetences[value]);
         return result;
       }, []);
+  }
+
+  get isV1() {
+    return this.version === 1;
   }
 
   get isV3() {

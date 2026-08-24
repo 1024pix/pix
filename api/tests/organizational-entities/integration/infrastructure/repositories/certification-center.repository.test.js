@@ -11,15 +11,11 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Organizational Entities | Infrastructure | Repository | Certification Center', function () {
-  let clock, now;
+  let now;
 
   beforeEach(function () {
     now = new Date('2021-11-16');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('#getById', function () {

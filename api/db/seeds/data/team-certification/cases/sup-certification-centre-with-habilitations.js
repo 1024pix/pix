@@ -138,7 +138,9 @@ export class SupWithHabilitationsSeed {
   }
 
   async #addCertifiableUsers() {
-    const { certifiableUsers } = await CommonCertifiableUser.getInstance({ databaseBuilder: this.databaseBuilder });
+    const { certifiableUsers } = await CommonCertifiableUser.getInstance({
+      databaseBuilder: this.databaseBuilder,
+    });
     return certifiableUsers;
   }
 
@@ -193,7 +195,6 @@ export class SupWithHabilitationsSeed {
     await this.databaseBuilder.knex
       .from('certification-candidates')
       .update({
-        authorizedToStart: true,
         authorizedToStartAt: new Date(),
       })
       .where({ id: candidateId });
@@ -208,6 +209,8 @@ export class SupWithHabilitationsSeed {
       normalizeStringFnc: normalize,
     });
 
-    return enrolmentUseCases.getCandidate({ certificationCandidateId: candidateId });
+    return enrolmentUseCases.getCandidate({
+      certificationCandidateId: candidateId,
+    });
   }
 }

@@ -71,7 +71,7 @@ const register = async function (server) {
       path: '/api/campaigns/{campaignId}/campaign-participations/{campaignParticipationId}',
       config: {
         pre: [
-          { method: securityPreHandlers.checkAuthorizationToManageCampaign },
+          { method: campaignSecurityPreHandlers.checkAuthorizationToManageCampaign },
           { method: campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse },
         ],
         validate: {
@@ -152,7 +152,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/campaigns/{campaignId}/organization-learners/{organizationLearnerId}/participations',
       config: {
-        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
+        pre: [{ method: campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign }],
         validate: {
           params: Joi.object({
             campaignId: identifiersType.campaignId,

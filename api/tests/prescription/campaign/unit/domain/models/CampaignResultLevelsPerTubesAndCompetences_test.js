@@ -1,5 +1,4 @@
 import { CampaignResultLevelsPerTubesAndCompetences } from '../../../../../../src/prescription/campaign/domain/models/CampaignResultLevelsPerTubesAndCompetences.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -103,8 +102,8 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
       });
 
       keData = {
-        participationId1: new KnowledgeElementCollection([user1ke1, user1ke2]).latestUniqNonResetKnowledgeElements,
-        participationId2: new KnowledgeElementCollection([user2ke1, user2ke2]).latestUniqNonResetKnowledgeElements,
+        participationId1: KnowledgeElement.toLatestUniqNonResetCollection([user1ke1, user1ke2]),
+        participationId2: KnowledgeElement.toLatestUniqNonResetCollection([user2ke1, user2ke2]),
       };
     });
 

@@ -14,10 +14,6 @@ module('Integration | Component | Banner::Certification', function (hooks) {
       sinon.useFakeTimers({ now: new Date('2001-04-01T10:42:00Z') });
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     module('when prescriber’s organization is of type SCO that manages students', function () {
       class CurrentUserStub extends Service {
         organization = { isSco: true };

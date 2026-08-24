@@ -1,13 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Organization Entities | Admin | Route | Certification Centers', function () {
   let superAdmin, request, server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
   });
@@ -174,6 +174,35 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
           'adrienne.quepourra@example.net',
         );
         expect(response.result.data.id).to.be.ok;
+      });
+
+      it('attaches the created certification center to the organization when an organization-id is given', async function () {
+        // given
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/admin/certification-centers',
+          headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+          payload: {
+            data: {
+              type: 'certification-center',
+              attributes: {
+                name: 'Nouveau Centre de Certif',
+                type: 'SCO',
+                'data-protection-officer-email': 'adrienne.quepourra@example.net',
+                'organization-id': organization.id,
+              },
+            },
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        const fctStructure = await knex('fct_structures').where({ organization_id: organization.id }).first();
+        expect(fctStructure.certification_center_id).to.equal(Number(response.result.data.id));
       });
     });
 
@@ -547,7 +576,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
   describe('GET /api/admin/certification-centers/{certificationCenterId}/attached-organizations', function () {
     it('should return the organizations attached to a given certification center and http code 200', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       databaseBuilder.factory.buildOrganizationWithStructure({

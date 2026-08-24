@@ -167,74 +167,6 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
     });
   });
 
-  describe('isLinkedToOrganizations', function () {
-    it('should be true if user has a role in an organization', function () {
-      // given
-      const user = domainBuilder.buildUser({
-        memberships: [domainBuilder.buildMembership()],
-      });
-
-      // when
-      const isLinked = user.isLinkedToOrganizations();
-
-      //then
-      expect(isLinked).to.be.true;
-    });
-
-    it('should be false is user has no role in no organization', function () {
-      // given
-      const user = new User(undefined);
-
-      // when
-      const isLinked = user.isLinkedToOrganizations();
-
-      //then
-      expect(isLinked).to.be.false;
-    });
-  });
-
-  describe('hasAccessToOrganization', function () {
-    it('should be false is user has no access to no organizations', function () {
-      // given
-      const user = new User(undefined);
-      const organizationId = 12345;
-
-      // when
-      const hasAccess = user.hasAccessToOrganization(organizationId);
-
-      //then
-      expect(hasAccess).to.be.false;
-    });
-
-    it('should be false is the user has access to many organizations, but not the one asked', function () {
-      // given
-      const organizationId = 12345;
-      const user = domainBuilder.buildUser();
-      user.memberships.push(domainBuilder.buildMembership());
-      user.memberships[0].organization.id = 93472;
-      user.memberships[1].organization.id = 74569;
-
-      // when
-      const hasAccess = user.hasAccessToOrganization(organizationId);
-
-      //then
-      expect(hasAccess).to.be.false;
-    });
-
-    it('should be true if the user has an access to the given organizationId', function () {
-      // given
-      const organizationId = 12345;
-      const user = domainBuilder.buildUser();
-      user.memberships[0].organization.id = 12345;
-
-      // when
-      const hasAccess = user.hasAccessToOrganization(organizationId);
-
-      //then
-      expect(hasAccess).to.be.true;
-    });
-  });
-
   describe('#email', function () {
     it('should normalize email', function () {
       // given
@@ -380,16 +312,36 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
     });
   });
 
+  describe('#hasSameEmailAs', function () {
+    it('returns true when email is the same', function () {
+      // given
+      const user = domainBuilder.buildUser({ email: 'test@example.com' });
+
+      // when
+      const result = user.hasSameEmailAs('TEST@example.com');
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('returns false when email is different', function () {
+      // given
+      const user = domainBuilder.buildUser({ email: 'test@example.com' });
+
+      // when
+      const result = user.hasSameEmailAs('test2@example.com');
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
   describe('#markEmailAsValid', function () {
-    let clock, now;
+    let now;
 
     beforeEach(function () {
       now = new Date('2024-06-11');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('marks user email as valid by setting a date on "emailConfirmedAt" attribute', function () {
@@ -474,15 +426,10 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
   });
 
   describe('#anonymize', function () {
-    let clock;
     const now = new Date('2023-09-19T01:02:03Z');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('anonymizes user info', function () {
@@ -515,15 +462,10 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
   });
 
   describe('#convertAnonymousToRealUser', function () {
-    let clock;
     const now = new Date('2023-09-19T01:02:03Z');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(async function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('upgrades anonymous user to real user', function () {

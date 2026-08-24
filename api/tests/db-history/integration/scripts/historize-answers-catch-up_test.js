@@ -63,13 +63,13 @@ describe('Integration | Scripts | Prod | historize-answers-catch-up', function (
         `Executing answers historization between ${options.startDate} and ${options.endDate}`,
       );
       expect(loggerCalls[1].args[0]).to.equal(
-        `dryRun mode: 0 answer(s) would be deleted for ${new Date(options.startDate)}`,
+        `dryRun mode: 0 assessments will be processed for ${new Date(options.startDate)}`,
       );
-      expect(loggerCalls[2].args[0]).to.equal(`dryRun mode: 2 answer(s) would be deleted for ${middleDate}`);
+      expect(loggerCalls[2].args[0]).to.equal(`dryRun mode: 1 assessments will be processed for ${middleDate}`);
       expect(loggerCalls[3].args[0]).to.equal(
-        `dryRun mode: 1 answer(s) would be deleted for ${new Date(options.endDate)}`,
+        `dryRun mode: 1 assessments will be processed for ${new Date(options.endDate)}`,
       );
-      expect(loggerCalls[4].args[0]).to.equal(`dryRun mode: 3 answer(s) would be deleted`);
+      expect(loggerCalls[4].args[0]).to.equal(`dryRun mode: 2 assessments have been processed`);
     });
   });
 

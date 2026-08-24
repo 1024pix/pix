@@ -296,21 +296,21 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Campaign of type assessment",
-        "CAMPAIGN": "Campaign of type assessment",
         "COMBINED_COURSE": "Learning program",
         "EXAM": "Exam mode",
-        "FORMATION": "Training",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Campaign of type profiles collection"
+        "PROFILES_COLLECTION": "Campaign of type profiles collection",
+        "campaign": "Campaign of type assessment",
+        "formation": "Training",
+        "module": "Module"
       },
       "information": {
         "ASSESSMENT": "Assessment",
-        "CAMPAIGN": "Assessment",
         "COMBINED_COURSE": "Learning program",
         "EXAM": "Exam mode",
-        "FORMATION": "Training",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Profiles collection"
+        "PROFILES_COLLECTION": "Profiles collection",
+        "campaign": "Assessment",
+        "formation": "Training",
+        "module": "Module"
       }
     },
     "analysis-per-competence": {
@@ -816,7 +816,8 @@
         "label": "What is the purpose of your campaign?",
         "profiles-collection": "Collect the participants' Pix profiles",
         "profiles-collection-info": "A profile collection campaign retrieves the participants’ Pix profile: their level for each competence and their pix score.",
-        "profiles-collection-info-certificability-calculation": "The “Eligible for certification” status is updated automatically in the '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Students'</a>' tab."
+        "profiles-collection-info-certificability-calculation": "The “Eligible for certification” status is updated automatically in the '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Students'</a>' tab.",
+        "title": "Purpose"
       },
       "settings": {
         "title": "Settings"
@@ -1042,7 +1043,7 @@
         "simplified-access": "Access without an account",
         "tag": {
           "blueprint": "Learning course",
-          "target-profile": "Course"
+          "target-profile": "Assessment course"
         },
         "tubes-count": "{count, plural, =0 {No topic} =1 {{count} topic} other {{count} topics}}"
       },
@@ -1074,17 +1075,20 @@
         "associated-badges": "Related badges",
         "combined-course-content": {
           "aria-label-duration": "Estimated duration: {duration} minutes",
-          "description": "Learning courses combine assessments and personalised learning modules, enabling teaching to be tailored to each participant's level.",
           "duration": "≈ {duration} min",
           "module-info": "Modules will be recommended to participants based on their results.",
           "prescribed": "Prescribed",
           "recommended": "Recommended",
           "step": "Step {number}",
-          "title": "Learning courses"
+          "title": "Learning course content"
         },
         "max-level": "Max level.",
         "open-modal": "View {name} details",
         "select-course": "Select course",
+        "target-profile-content": {
+          "competence": "Competence",
+          "title": "Assessment course content"
+        },
         "tube-name-and-description": "Topic name and description",
         "tube-unavailable": "Unavailable topic"
       },
@@ -1127,6 +1131,7 @@
         "breadcrumb": "Participation of {firstName} {lastName}",
         "column": {
           "campaign": "Campaign",
+          "mastery-rate": "Pass rate",
           "module": "Module",
           "status": "Status"
         },

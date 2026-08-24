@@ -51,8 +51,8 @@ export default class LoginSessionInvigilator extends Component {
         case 'SESSION_FINALIZED':
           this.formError = this.intl.t('pages.session-supervising.login.form.errors.session-finalized');
           break;
-        case 'SESSION_NOT_ACCESSIBLE':
-          this.formError = this.intl.t('pages.session-supervising.login.form.errors.session-not-accessible', {
+        case 'SESSION_NOT_JOINABLE':
+          this.formError = this.intl.t('pages.session-supervising.login.form.errors.session-not-joinable', {
             date: dayjsUtcFormat([error.meta?.blockedAccessDate, 'DD/MM/YYYY'], {}),
           });
           break;

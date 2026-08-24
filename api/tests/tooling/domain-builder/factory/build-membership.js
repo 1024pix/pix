@@ -31,11 +31,18 @@ const buildMembership = function ({
   organizationRole = Membership.roles.MEMBER,
   user = _buildUser(),
   lastAccessedAt = null,
+  disabledAt = null,
 } = {}) {
-  const membership = new Membership({ id, organization, organizationRole, user, lastAccessedAt });
-
-  membership.user.memberships.push(membership);
-
+  const membership = new Membership({
+    id,
+    organizationId: organization.id,
+    organization,
+    organizationRole,
+    userId: user.id,
+    user,
+    lastAccessedAt,
+    disabledAt,
+  });
   return membership;
 };
 

@@ -2,11 +2,7 @@ import Location from 'pix-certif/utils/location';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Utility | location (certif)', function (hooks) {
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
+module('Unit | Utility | location (certif)', function () {
   module('#getHref', function () {
     test('should return the full URL', function (assert) {
       // given

@@ -7,15 +7,10 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Certification | Session Management | Integration | Application | Api | Session', function () {
   describe('#onCertificationStartedOrResumed', function () {
-    let clock;
     const now = new Date('2022-11-28T01:00:00Z');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('returns without altering any sessions when no session found for provided session id and without unauthorizing', async function () {
@@ -43,13 +38,12 @@ describe('Certification | Session Management | Integration | Application | Api |
 
       // then
       const { date: sessionDate } = await knex('sessions').select('date').where('id', 2).first();
-      const { authorizedToStartAt, authorizedToStart } = await knex('certification-candidates')
-        .select('authorizedToStartAt', 'authorizedToStart')
+      const { authorizedToStartAt } = await knex('certification-candidates')
+        .select('authorizedToStartAt')
         .where('id', 987)
         .first();
       expect(sessionDate).to.equal('2020-01-01');
       expect(authorizedToStartAt).to.deep.equal(new Date('2020-02-02'));
-      expect(authorizedToStart).to.be.true;
     });
 
     it('returns without altering the session when conditions were not reunited for date to be updated but still unauthorizing candidate', async function () {
@@ -77,13 +71,12 @@ describe('Certification | Session Management | Integration | Application | Api |
 
       // then
       const { date: sessionDate } = await knex('sessions').select('date').where('id', 2).first();
-      const { authorizedToStartAt, authorizedToStart } = await knex('certification-candidates')
-        .select('authorizedToStartAt', 'authorizedToStart')
+      const { authorizedToStartAt } = await knex('certification-candidates')
+        .select('authorizedToStartAt')
         .where('id', 987)
         .first();
       expect(sessionDate).to.equal('2020-01-01');
       expect(authorizedToStartAt).to.be.null;
-      expect(authorizedToStart).to.be.false;
     });
 
     it('returns and updated the session date when conditions are reunited for date to be updated and unauthorize candidate', async function () {
@@ -111,13 +104,12 @@ describe('Certification | Session Management | Integration | Application | Api |
 
       // then
       const { date: sessionDate } = await knex('sessions').select('date').where('id', 2).first();
-      const { authorizedToStartAt, authorizedToStart } = await knex('certification-candidates')
-        .select('authorizedToStartAt', 'authorizedToStart')
+      const { authorizedToStartAt } = await knex('certification-candidates')
+        .select('authorizedToStartAt')
         .where('id', 987)
         .first();
       expect(sessionDate).to.equal('2022-11-27');
       expect(authorizedToStartAt).to.be.null;
-      expect(authorizedToStart).to.be.false;
     });
   });
 });

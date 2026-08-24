@@ -7,18 +7,13 @@ import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Certification | Results | UseCase | get-selected-sessions-results-zip', function () {
-  let clock;
   const now = new Date('2026-05-01');
 
   beforeEach(async function () {
-    clock = sinon.useFakeTimers({
+    sinon.useFakeTimers({
       now,
       toFake: ['Date'],
     });
-  });
-
-  afterEach(async function () {
-    clock.restore();
   });
 
   it('returns a ZIP file with expected CSVs in it', async function () {

@@ -7,7 +7,7 @@ import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Shared | Domain | Services | Crypto', function () {
-  describe('#checkPassword', function () {
+  describe('#assertMatchPassword', function () {
     describe('when password and hash are matching', function () {
       it('should resolve to undefined', async function () {
         // given
@@ -16,7 +16,7 @@ describe('Unit | Shared | Domain | Services | Crypto', function () {
         const passwordHash = bcrypt.hashSync(password, 1);
 
         // when
-        const result = await cryptoService.checkPassword({
+        const result = await cryptoService.assertMatchPassword({
           password,
           passwordHash,
         });
@@ -33,7 +33,7 @@ describe('Unit | Shared | Domain | Services | Crypto', function () {
         const passwordHash = 'ABCDEF1234';
 
         // when
-        const error = await catchErr(cryptoService.checkPassword)({
+        const error = await catchErr(cryptoService.assertMatchPassword)({
           password,
           passwordHash,
         });
@@ -51,7 +51,7 @@ describe('Unit | Shared | Domain | Services | Crypto', function () {
         const passwordHash = bcrypt.hashSync('my-real-password', 1);
 
         try {
-          await cryptoService.checkPassword({
+          await cryptoService.assertMatchPassword({
             password,
             passwordHash,
           });

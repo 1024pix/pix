@@ -39,26 +39,16 @@ describe('Unit | Identity Access Management | Serializer | JSONAPI | user-for-ad
               username: userModelObject.username,
               cgu: userModelObject.cgu,
               lang: userModelObject.lang,
+              locale: userModelObject.locale,
               'is-anonymous': userModelObject.isAnonymous,
               'last-terms-of-service-validated-at': userModelObject.lastTermsOfServiceValidatedAt,
               'must-validate-terms-of-service': userModelObject.mustValidateTermsOfService,
               'pix-certif-terms-of-service-accepted': userModelObject.pixCertifTermsOfServiceAccepted,
+              'last-data-protection-policy-seen-at': userModelObject.lastDataProtectionPolicySeenAt,
               'has-seen-assessment-instructions': userModelObject.hasSeenAssessmentInstructions,
               'has-seen-new-dashboard-info': userModelObject.hasSeenNewDashboardInfo,
               'has-seen-focused-challenge-tooltip': userModelObject.hasSeenFocusedChallengeTooltip,
               'has-seen-other-challenges-tooltip': userModelObject.hasSeenOtherChallengesTooltip,
-            },
-            relationships: {
-              memberships: {},
-              'pix-score': {},
-              profile: {
-                links: {
-                  related: `/api/admin/users/${userModelObject.id}/profile`,
-                },
-              },
-              scorecards: {},
-              'campaign-participations': {},
-              'is-certifiable': {},
             },
           },
         };

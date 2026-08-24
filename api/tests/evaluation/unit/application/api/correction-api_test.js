@@ -8,14 +8,9 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 describe('Evaluation | Unit | Application | API | correction-api', function () {
   describe('#correctAnswer', function () {
     const now = new Date('2025-06-15T12:00:00Z');
-    let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('corrects the answer and return the corrected versions of the answer', async function () {

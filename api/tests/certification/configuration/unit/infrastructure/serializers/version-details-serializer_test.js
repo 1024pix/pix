@@ -122,11 +122,13 @@ describe('Certification | Configuration | Unit | Serializer | version-details-se
             scope: SCOPES.PIX_PLUS_PRO_SANTE,
             status: VERSION_STATUSES.ARCHIVED,
             'challenges-between-same-competence': 2,
+            'external-calibration-id': null,
             'default-probability-to-pick-challenge': 40,
             'default-candidate-capacity': -2,
             'variation-percent': 0.66,
             'limit-to-one-question-per-tube': true,
             'enable-passage-by-all-competences': true,
+            'global-scoring-configuration': [],
           },
           relationships: {
             areas: {

@@ -48,7 +48,7 @@ export default class AuthenticatedCertificationsController extends Controller {
       await this.fileSaver.save({ url, token });
     } catch (error) {
       if (_isErrorNotFound(error)) {
-        this.notifications.info(
+        this.notifications.sendError(
           this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
           { autoClear: false },
         );
@@ -79,13 +79,13 @@ export default class AuthenticatedCertificationsController extends Controller {
       await this.fileSaver.save({ url, token });
     } catch (error) {
       if (_isErrorNotFound(error)) {
-        this.notifications.info(
+        this.notifications.sendError(
           this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
           { autoClear: false },
         );
       }
       if (_isErrorNoResults(error)) {
-        this.notifications.info(
+        this.notifications.sendError(
           this.intl.t('pages.certifications.errors.no-certificates', { selectedDivision: this.selectedDivision }),
           { autoClear: false },
         );

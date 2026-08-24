@@ -2,13 +2,13 @@ import sinon from 'sinon';
 
 import { ANONYMIZATION_RULE } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
-import {
-  CampaignParticipationLoggerContext,
-  CampaignTypes,
-  OrganizationLearnerLoggerContext,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CLIENTS, ORGANIZATION_FEATURE, PIX_ORGA } from '../../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import {
+  CampaignParticipationLoggerContext,
+  OrganizationLearnerLoggerContext,
+} from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { expect } from '../../../../../test-helper.js';
@@ -34,7 +34,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
   let campaignParticipation1;
   const participantExternalId = 'foo';
   let adminUserId;
-  let now, clock;
+  let now;
 
   beforeEach(async function () {
     adminUserId = buildUser().id;
@@ -59,11 +59,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
     await databaseBuilder.commit();
 
     now = new Date('2023-03-03');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('when no organization learner is provided', function () {

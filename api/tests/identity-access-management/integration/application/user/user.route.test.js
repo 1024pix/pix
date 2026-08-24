@@ -1,8 +1,9 @@
 import sinon from 'sinon';
 
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
-import { userController } from '../../../../../src/identity-access-management/application/user/user.controller.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
+import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
+import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { config } from '../../../../../src/shared/config.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -210,6 +211,79 @@ describe('Integration | Identity Access Management | Application | Route | User'
     });
   });
 
+  describe('PATCH /api/users/{id}/password-update', function () {
+    context('when the password reset demand is expired', function () {
+      it('throws an InvalidTemporaryKeyError', async function () {
+        // given
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        const userId = user.id;
+        const email = user.email;
+
+        sinon.stub(config.passwordResetDemand, 'lifespan').value(0);
+        const temporaryKey = await resetPasswordService.generateTemporaryKey();
+        databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
+
+        await databaseBuilder.commit();
+
+        const newPassword = 'example-of-a-new-password';
+
+        const payload = {
+          data: {
+            id: userId,
+            attributes: {
+              password: newPassword,
+            },
+          },
+        };
+        const url = `/api/users/${userId}/password-update?temporary-key=${temporaryKey}`;
+
+        // when
+        const response = await httpTestServer.request('PATCH', url, payload, null);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    context('when user has a revokedHashedPassword', function () {
+      context('when the given password is the same as the previous password', function () {
+        it('throws a RevokedPasswordCannotBeReusedError', async function () {
+          // given
+          const initialPassword = 'example-of-a-valid-password-az-AZ-01234';
+          const temporaryKey = await resetPasswordService.generateTemporaryKey();
+          const user = databaseBuilder.factory.buildUser.withRawPassword({ rawPassword: initialPassword });
+          const userId = user.id;
+          const email = user.email;
+
+          await databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
+
+          await databaseBuilder.commit();
+
+          await usecases.revokeAccessForUsers({ userIds: [userId] });
+
+          const newPassword = initialPassword;
+          const payload = {
+            data: {
+              id: userId,
+              attributes: {
+                password: newPassword,
+              },
+            },
+          };
+          const url = `/api/users/${userId}/password-update?temporary-key=${temporaryKey}`;
+
+          // when
+          const response = await httpTestServer.request('PATCH', url, payload, null);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+          expect(response.result.errors[0].code).to.equal('REVOKED_PASSWORD_CANNOT_BE_REUSED');
+        });
+      });
+    });
+  });
+
   describe('GET /api/user/validate-email', function () {
     context('when redirect_url is invalid', function () {
       it('should return HTTP 400 if not a URI', async function () {
@@ -288,65 +362,6 @@ describe('Integration | Identity Access Management | Application | Route | User'
       // then
       expect(result.statusCode).to.equal(403);
       expect(result.result.errors[0].code).to.equal('EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND');
-    });
-  });
-
-  describe('DELETE /api/users/me', function () {
-    context('when user is not authenticated', function () {
-      it('returns a 401 HTTP status code', async function () {
-        // given
-        const url = '/api/users/me';
-
-        // when
-        const response = await httpTestServer.request('DELETE', url);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-    });
-
-    context('when user cannot self delete their account', function () {
-      beforeEach(async function () {
-        await featureToggles.set('isSelfAccountDeletionEnabled', false);
-      });
-
-      it('returns a 403 HTTP status code', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        await databaseBuilder.commit();
-
-        const url = '/api/users/me';
-        const headers = generateAuthenticatedUserRequestHeaders({ userId });
-
-        // when
-        const response = await httpTestServer.request('DELETE', url, null, null, headers);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-  });
-
-  describe('GET /api/certification-point-of-contacts/me', function () {
-    it('returns controller success response HTTP code', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
-
-      const headers = generateAuthenticatedUserRequestHeaders({ userId });
-      sinon.stub(userController, 'getCertificationPointOfContact').callsFake((request, h) => h.response().code(200));
-
-      // when
-      const result = await httpTestServer.request(
-        'GET',
-        '/api/certification-point-of-contacts/me',
-        null,
-        null,
-        headers,
-      );
-
-      // then
-      expect(result.statusCode).to.equal(200);
     });
   });
 

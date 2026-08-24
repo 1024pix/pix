@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 import pick from 'lodash/pick';
 
 export default class Organization extends Model {
@@ -32,6 +32,8 @@ export default class Organization extends Model {
   @attr('string') countryName;
   @attr() organizationLearnerTypeId;
   @attr('string') organizationLearnerTypeName;
+  @attr() categoryId;
+  @attr('string') categoryLabel;
 
   @hasMany('organization-membership', { async: true, inverse: 'organization' }) organizationMemberships;
   @hasMany('target-profile-summary', { async: true, inverse: null }) targetProfileSummaries;

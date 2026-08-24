@@ -2,7 +2,8 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { databaseConnectionRegistry } from '../../db/database-connection-registry.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { OrganizationLearner } from '../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../src/shared/domain/errors.js';
@@ -54,7 +55,7 @@ async function main() {
       console.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnectionRegistry.disconnect();
     }
   }
 })();

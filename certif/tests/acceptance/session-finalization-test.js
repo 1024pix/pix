@@ -1,7 +1,8 @@
 import { visit, visit as visitScreen, within } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
@@ -432,7 +433,7 @@ module('Acceptance | Session Finalization', function (hooks) {
           assert
             .dom(
               screen.getByText(
-                'Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.',
+                t('common.api-error-messages.SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE'),
               ),
             )
             .exists();

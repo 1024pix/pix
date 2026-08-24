@@ -10,8 +10,6 @@
  *
  * @returns {PrivateCertificate}
  **/
-const getPrivateCertificate = async function ({ certificationCourseId, locale, certificateRepository }) {
+export async function getPrivateCertificate({ certificationCourseId, locale, certificateRepository }) {
   return certificateRepository.getPrivateCertificate(certificationCourseId, { locale });
-};
-
-export { getPrivateCertificate };
+}

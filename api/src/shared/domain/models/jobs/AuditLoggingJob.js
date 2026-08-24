@@ -1,10 +1,16 @@
 import Joi from 'joi';
 
-import {
-  CampaignParticipationLoggerContext,
-  OrganizationLearnerLoggerContext,
-} from '../../../../prescription/shared/domain/constants.js';
 import { EntityValidationError } from '../../errors.js';
+
+export const CampaignParticipationLoggerContext = {
+  DELETION: 'CAMPAIGN_PARTICIPATION_DELETION',
+  ANONYMIZATION: 'CAMPAIGN_PARTICIPATION_ANONYMIZATION',
+};
+
+export const OrganizationLearnerLoggerContext = {
+  DELETION: 'ORGANIZATION_LEARNER_DELETION',
+  ANONYMIZATION: 'ORGANIZATION_LEARNER_ANONYMIZATION',
+};
 
 const CLIENTS = ['PIX_ADMIN', 'PIX_APP', 'PIX_ORGA', 'SCRIPT'];
 const ACTIONS = [

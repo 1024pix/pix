@@ -19,18 +19,19 @@
       "validate": "Validate"
     },
     "api-error-messages": {
-      "CANDIDATE_NOT_ALLOWED_FOR_FINALIZED_SESSION": "This session has already been finalised and no new candidates may be added.",
       "CANDIDATE_NOT_FOUND": "An error has occurred, the candidate {firstName} {lastName} hasn't been found.",
       "EMPTY_CANDIDATES_IMPORT": "The file appears to be empty. Please check the content of the uploaded file or contact us.",
+      "INDIVIDUAL_ENROL_NOT_ALLOWED": "This session is either finalized or expired and no new candidates may be added.",
       "INVALID_DOCUMENT": "This version of the document is unknown.<br />Please download and import the candidate list template again",
+      "SCO_ENROL_NOT_ALLOWED": "This session is either finalized or expired and no new candidates may be added.",
       "SESSION_ALREADY_EXISTS": "A session with the same information (date, time, address and room) already exists.",
       "SESSION_ALREADY_FINALIZED": "Cannot finalise session more than once.",
       "SESSION_CANNOT_BE_FINALIZED": "Error during the finalisation of the session.",
       "SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED": "The session doesn't exist or it's access is restricted.",
       "SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER": "The session has begun, you can’t upload a candidates' list anymore.<br />If you want to edit the list, you can enrol a candidate directly in the table below.",
       "SESSION_WITHOUT_STARTED_CERTIFICATION": "This session hasn't started, you can't finalise it. However, you may delete it.",
-      "SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE": "The field \"Reason for abandonment\" has been filled in for a candidate who has finished their certification exam in between. The session therefore can't be finalised. Please refresh the page before finalising.",
-      "UNTERMINATED_CERTIFICATION_WITHOUT_ABORT_REASON": "One or more unterminated certifications have missing \"Abandon reason\". The session cannot be finalised",
+      "SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE": "The field \"Reason for interruption\" has been filled in for a candidate who has finished their certification exam in between. The session therefore can't be finalised. Please refresh the page before finalising.",
+      "UNTERMINATED_CERTIFICATION_WITHOUT_ABORT_REASON": "One or more unterminated certifications have missing \"Reason for interruption\". The session cannot be finalised",
       "authorize-resume-error": "An error has occurred, {firstName} {lastName} couldn't be allowed to resume his/her Pix certification exam.",
       "bad-request-error": "The data entered was not in the correct format.",
       "certification-candidate": {
@@ -99,6 +100,7 @@
         "accessibility": "Accessibility",
         "additional-certification": "Certification selection",
         "candidate-status": {
+          "certification-overtime": "Time limit reached",
           "finished": "Finished",
           "live-alerts": {
             "challenge": {
@@ -408,7 +410,7 @@
         "warning": "Warning :"
       },
       "errors": {
-        "no-abort-reason": "One or more unfinished certification(s) don't have a reason for abandonment. Please fill them in."
+        "no-abort-reason": "One or more unfinished certification(s) don't have a reason for interruption. Please fill them in."
       },
       "issue-reports-modal": {
         "actions": {
@@ -440,12 +442,12 @@
         "title": "Reporting: Signal, for each candidate, the incidents inputted into the incident report",
         "uncompleted-reports-information": {
           "description": "These candidates haven’t finished their Pix certification exam or the invigilator has ended their exam",
-          "extra-information": "List of candidates who haven’t finished their certification exam, ordered by birth name, with a link to add a reporting if needed and a drop-down list enabling you to select the reason for abandonment",
+          "extra-information": "List of candidates who haven’t finished their certification exam, ordered by birth name, with a link to add a reporting if needed and a drop-down list enabling you to select the reason for interruption",
           "table": {
             "labels": {
-              "abandonment": "Abandonment : lack of time or early departure",
-              "abandonment-reason": "Reason for abandonment",
-              "abandonment-reason-label": "Select the reason for abandonment",
+              "abandonment": "Test not completed within the allotted time",
+              "abandonment-reason": "Reason for interruption",
+              "abandonment-reason-label": "Select the reason for interruption",
               "technical-problem": "Technical problem"
             },
             "tooltip": {
@@ -453,7 +455,7 @@
                 "enough-time-description": "The candidate didn’t have enough time to answer all the questions",
                 "left-deliberately-description": "The candidate left deliberately before the end of the exam"
               },
-              "extra-information": "Reason for abandonment's description",
+              "extra-information": "Reason for interruption's description",
               "technical-problem-description": "The candidate encountered a technical problem that prevented him from finishing his exam"
             }
           }
@@ -589,7 +591,7 @@
             "incorrect-data": "The session number and/or the session password entered are incorrect.",
             "mandatory-fields": "The fields “Session number” and “Session password” are required.",
             "session-finalized": "The session has been finalized. Access to its invigilator space is no longer possible.",
-            "session-not-accessible": "Opening of your PixCertif space on {date} (00:00, Metropolitan France time)."
+            "session-not-joinable": "Opening of your PixCertif space on {date} (00:00, Metropolitan France time)."
           },
           "session-number": "Session number",
           "session-password": {
@@ -702,8 +704,9 @@
                 "label": "Upload (.ods)"
               }
             },
-            "title": "Enrol candidates",
-            "warning": "The session has begun, you can’t upload a candidates' list anymore.<br />If you want to edit the list, you can enrol a candidate directly in the table below."
+            "expired-warning": "The session has expired, you can no longer enrol.",
+            "started-warning": "The session has begun, you can’t upload a candidates' list anymore.<br />If you want to edit the list, you can enrol a candidate directly in the table below.",
+            "title": "Enrol candidates"
           }
         },
         "downloads": {

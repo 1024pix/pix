@@ -53,13 +53,14 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
     expect(result).to.deep.equal({
       createdAt: combinedCourseBlueprint.createdAt,
       description: combinedCourseBlueprint.description,
+      prescriberDescription: combinedCourseBlueprint.prescriberDescription,
       id: combinedCourseBlueprint.id,
       illustration: combinedCourseBlueprint.illustration,
       internalName: combinedCourseBlueprint.internalName,
       name: combinedCourseBlueprint.name,
       updatedAt: combinedCourseBlueprint.updatedAt,
       surveyLink: null,
-      rewardRequirements: null,
+      rewardRequirementsDescription: null,
       organizationIds: [],
       items: [
         new CampaignCombinedCourseBlueprintItem({
@@ -115,13 +116,14 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
     expect(result).to.deep.equal({
       createdAt: combinedCourseBlueprint.createdAt,
       description: combinedCourseBlueprint.description,
+      prescriberDescription: combinedCourseBlueprint.prescriberDescription,
       id: combinedCourseBlueprint.id,
       illustration: combinedCourseBlueprint.illustration,
       internalName: combinedCourseBlueprint.internalName,
       name: combinedCourseBlueprint.name,
       updatedAt: combinedCourseBlueprint.updatedAt,
       surveyLink: null,
-      rewardRequirements: null,
+      rewardRequirementsDescription: null,
       organizationIds: [],
       items: [
         new CampaignCombinedCourseBlueprintItem({
@@ -167,13 +169,14 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
     expect(result).to.deep.equal({
       createdAt: combinedCourseBlueprint.createdAt,
       description: combinedCourseBlueprint.description,
+      prescriberDescription: combinedCourseBlueprint.prescriberDescription,
       id: combinedCourseBlueprint.id,
       illustration: combinedCourseBlueprint.illustration,
       internalName: combinedCourseBlueprint.internalName,
       name: combinedCourseBlueprint.name,
       updatedAt: combinedCourseBlueprint.updatedAt,
       surveyLink: null,
-      rewardRequirements: null,
+      rewardRequirementsDescription: null,
       organizationIds: [],
       items: [
         new ModuleCombinedCourseBlueprintItem({

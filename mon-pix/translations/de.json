@@ -227,7 +227,8 @@
         },
         "errors": {
           "expired-demand": "Es tut uns leid, aber dein Antrag zum Zurücksetzen des Passworts wurde bereits verwendet oder ist abgelaufen. Bitte versuche es erneut.",
-          "forbidden": "Es ist ein Fehler aufgetreten, bitte wende dich an den Support."
+          "forbidden": "Es ist ein Fehler aufgetreten, bitte wende dich an den Support.",
+          "revoked-password-cannot-be-reused": "Das soeben von Ihnen eingegebene Passwort wurde von unseren Teams aus Sicherheitsgründen gesperrt. Verwenden Sie es nicht erneut. Bitte wählen Sie ein neues Passwort."
         },
         "fields": {
           "password": {
@@ -881,6 +882,7 @@
         "message": "Bravo {fullName}, dein Pix-Profil kann zertifiziert werden."
       },
       "error-messages": {
+        "account-already-linked-to-another-candidate": "Das Konto, mit dem du angemeldet bist, ist bereits mit einem/einer anderen Kandidaten/Kandidatin dieser Testung verknüpft. Vergewissere dich, dass du mit deinem eigenen Pix-Konto angemeldet bist, oder bitte die Aufsichtsperson um Hilfe.",
         "generic": {
           "check-personal-info": "Überprüfe bei der Aufsichtsperson, ob deine persönlichen Informationen mit dem Anmeldungsblatt übereinstimmen.",
           "check-session-number": "Überprüfe die Sitzungsnummer.",
@@ -889,7 +891,7 @@
         "language-not-supported": "Die Pix-Zertifizierung ist derzeit nicht in {userLanguage} verfügbar. '<br>' Die derzeit verfügbaren Sprachen, um die Zertifizierung zu absolvieren, sind : {availableLanguages}. '<br>' Du kannst eine andere Sprache von der Seite",
         "language-not-supported-link": "Mein Konto",
         "missing-center-habilitation": "Du bist für die Zertifizierung {subscription} angemeldet. '<br><br><strong>'Deine Zertifizierungsstelle ist nicht mehr berechtigt, diese Zertifizierung abzunehmen'</strong>'. '<br><br>' Bitte wende dich an deine Aufsichtsperson.",
-        "session-not-accessible": "Die Testung, an der du versuchst teilzunehmen, ist nicht mehr zugänglich.",
+        "session-not-joinable": "Die Testung, an der du versuchst teilzunehmen, ist nicht mehr zugänglich.",
         "wrong-account": "Die eingegebenen Informationen beziehen sich auf einen Kandidaten/eine Kandidatin, der/die sich für die Testung angemeldet hat und bereits mit einem anderen Konto angemeldet ist. Vergewissere dich, dass du mit dem Konto verbunden bist, das die Zertifizierung gestartet hat.",
         "wrong-account-sco": "Du verwendest derzeit ein Konto, das nicht mit deiner Organisation verknüpft ist.\nMelde dich bei dem Konto an, mit dem du deine Laufwege absolviert hast, oder bitte die Aufsichtsperson um Hilfe.",
         "wrong-account-sco-link": {
@@ -967,7 +969,7 @@
         "duration-exceeded": "Die maximale Dauer deines Zertifizierungstests wurde überschritten. Du kannst ihn nicht mehr fortsetzen.",
         "generic": "Ein unerwarteter Serverfehler ist aufgetreten.",
         "missing-code": "Dein Zugangscode ist nicht ausgefüllt.",
-        "session-not-accessible": "Die Zertifizierungssitzung ist nicht mehr zugänglich.",
+        "session-not-joinable": "Die Zertifizierungssitzung ist nicht mehr zugänglich.",
         "unknown": {
           "summary-label": "Weitere Details anzeigen :"
         }

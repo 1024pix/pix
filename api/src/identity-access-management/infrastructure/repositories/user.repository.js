@@ -1,22 +1,14 @@
 import { InvalidOrAlreadyUsedEmailError } from '../../../identity-access-management/domain/errors.js';
-import * as organizationFeaturesApi from '../../../organizational-entities/application/api/organization-features-api.js';
-import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
-import { OrganizationLearnerForAdmin } from '../../../prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
-import * as organizationLearnerImportFormatRepository from '../../../prescription/learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   AlreadyExistingEntityError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
 } from '../../../shared/domain/errors.js';
-import { Membership } from '../../../shared/domain/models/Membership.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import { QUERY_TYPES } from '../../domain/constants/user-query.js';
-import { LastUserApplicationConnection } from '../../domain/models/LastUserApplicationConnection.js';
 import { User } from '../../domain/models/User.js';
-import { UserDetailsForAdmin } from '../../domain/models/UserDetailsForAdmin.js';
-import { UserLogin } from '../../domain/models/UserLogin.js';
 
 const getByEmail = async function (email) {
   const knexConn = DomainTransaction.getConnection();
@@ -27,28 +19,7 @@ const getByEmail = async function (email) {
   return new User(foundUser);
 };
 
-/**
- * @param userId
- * @return {Promise<User>}
- * @throws {UserNotFoundError}
- */
-const getFullById = async function (userId) {
-  const knexConn = DomainTransaction.getConnection();
-  const userDTO = await knexConn('users').where({ id: userId }).first();
-  if (!userDTO) {
-    throw new UserNotFoundError();
-  }
-
-  const membershipsDTO = await knexConn('memberships').where({ userId: userDTO.id, disabledAt: null });
-  const authenticationMethodsDTO = await knexConn('authentication-methods').where({
-    userId: userDTO.id,
-    identityProvider: 'PIX',
-  });
-
-  return _toDomainFromDTO({ userDTO, membershipsDTO, authenticationMethodsDTO });
-};
-
-const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
+const getByUsernameOrEmailWithPassword = async function (username) {
   const knexConn = DomainTransaction.getConnection();
   const userDTO = await knexConn('users')
     .whereRaw('LOWER("email") = ?', username.toLowerCase())
@@ -59,13 +30,12 @@ const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
     throw new UserNotFoundError();
   }
 
-  const membershipsDTO = await knexConn('memberships').where({ userId: userDTO.id, disabledAt: null });
   const authenticationMethodsDTO = await knexConn('authentication-methods').where({
     userId: userDTO.id,
     identityProvider: 'PIX',
   });
 
-  return _toDomainFromDTO({ userDTO, membershipsDTO, authenticationMethodsDTO });
+  return _toDomainFromDTO({ userDTO, authenticationMethodsDTO });
 };
 
 /**
@@ -88,79 +58,6 @@ const getByIds = async function (userIds) {
   return dbUsers.map((dbUser) => new User(dbUser));
 };
 
-const getForObfuscation = async function (userId) {
-  const knexConn = DomainTransaction.getConnection();
-  const foundUser = await knexConn.select('id', 'email', 'username').from('users').where({ id: userId }).first();
-  if (!foundUser) {
-    throw new UserNotFoundError(`User not found for ID ${userId}`);
-  }
-  return new User({ id: foundUser.id, email: foundUser.email, username: foundUser.username });
-};
-
-const getUserDetailsForAdmin = async function (userId) {
-  const knexConn = DomainTransaction.getConnection();
-  const userDTO = await knexConn('users')
-    .leftJoin('user-logins', 'user-logins.userId', 'users.id')
-    .leftJoin('users AS anonymisedBy', 'anonymisedBy.id', 'users.hasBeenAnonymisedBy')
-    .select([
-      'users.*',
-      'user-logins.id AS userLoginId',
-      'user-logins.failureCount',
-      'user-logins.temporaryBlockedUntil',
-      'user-logins.blockedAt',
-      'user-logins.lastLoggedAt AS lastLoggedAt',
-      'anonymisedBy.firstName AS anonymisedByFirstName',
-      'anonymisedBy.lastName AS anonymisedByLastName',
-    ])
-    .where({ 'users.id': userId })
-    .first();
-
-  if (!userDTO) {
-    throw new UserNotFoundError(`User not found for ID ${userId}`);
-  }
-
-  const lastUserApplicationConnectionsDTO = await knexConn('last-user-application-connections').where({ userId });
-
-  const authenticationMethodsDTO = await knexConn('authentication-methods')
-    .select([
-      'authentication-methods.id',
-      'authentication-methods.identityProvider',
-      'authentication-methods.authenticationComplement',
-      'authentication-methods.lastLoggedAt',
-    ])
-    .join('users', 'users.id', 'authentication-methods.userId')
-    .where({ userId });
-
-  const organizationLearnersDTO = await knexConn('view-active-organization-learners')
-    .select([
-      'view-active-organization-learners.*',
-      'organizations.name AS organizationName',
-      'organizations.isManagingStudents AS organizationIsManagingStudents',
-    ])
-    .join('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
-    .where({ userId })
-    .orderBy('id');
-
-  for (const learner of organizationLearnersDTO) {
-    const features = await organizationFeaturesApi.getAllFeaturesFromOrganization(learner.organizationId);
-    learner.hasImportFeature = features.hasLearnersImportFeature;
-    if (learner.hasImportFeature) {
-      const importFormat = await organizationLearnerImportFormatRepository.get(learner.organizationId);
-      learner.additionalColumns = importFormat.extraColumns;
-    }
-  }
-
-  const pixAdminRolesDTO = await knexConn('pix-admin-roles').where({ userId });
-
-  return _fromKnexDTOToUserDetailsForAdmin({
-    userDTO,
-    organizationLearnersDTO,
-    authenticationMethodsDTO,
-    pixAdminRolesDTO,
-    lastUserApplicationConnectionsDTO,
-  });
-};
-
 const findPaginatedFiltered = async function ({ filter, page, queryType = QUERY_TYPES.CONTAINS }) {
   const knexConn = DomainTransaction.getConnection();
   const query = knexConn('users')
@@ -173,44 +70,6 @@ const findPaginatedFiltered = async function ({ filter, page, queryType = QUERY_
 
   const users = results.map((userDTO) => new User(userDTO));
   return { models: users, pagination };
-};
-
-const getWithMemberships = async function (userId) {
-  const knexConn = DomainTransaction.getConnection();
-  const userDTO = await knexConn('users').where({ id: userId }).first();
-
-  if (!userDTO) {
-    throw new UserNotFoundError();
-  }
-
-  const membershipsDTO = await knexConn('memberships')
-    .select(
-      'memberships.*',
-      'organizations.name AS organizationName',
-      'organizations.type AS organizationType',
-      'organizations.externalId AS organizationExternalId',
-      'organizations.isManagingStudents AS organizationIsManagingStudents',
-    )
-    .join('organizations', 'organizations.id', 'memberships.organizationId')
-    .where({ userId: userDTO.id, disabledAt: null });
-
-  return _toDomainFromDTO({ userDTO, membershipsDTO });
-};
-
-const isUserAllowedToAccessCertificationCenter = async function (userId, certificationCenterId) {
-  const knexConn = DomainTransaction.getConnection();
-  const user = await knexConn('users').where({ id: userId }).first();
-  if (!user) throw new UserNotFoundError(`User not found for ID ${userId}`);
-
-  const userIsMemberOfThisCertificationCenter = await knexConn('certification-center-memberships')
-    .where({
-      userId,
-      certificationCenterId,
-    })
-    .whereNull('disabledAt')
-    .first();
-
-  return Boolean(userIsMemberOfThisCertificationCenter);
 };
 
 const getBySamlId = async function (samlId) {
@@ -435,12 +294,7 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} getByEmail
  * @property {function} getByIds
  * @property {function} getBySamlId
- * @property {function} getByUsernameOrEmailWithRolesAndPassword
- * @property {function} getForObfuscation
- * @property {function} getFullById
- * @property {function} getUserDetailsForAdmin
- * @property {function} isUserAllowedToAccessCertificationCenter
- * @property {function} getWithMemberships
+ * @property {function} getByUsernameOrEmailWithPassword
  * @property {function} isUserExistingByEmail
  * @property {function} isUsernameAvailable
  * @property {function} update
@@ -467,12 +321,7 @@ export {
   getByEmail,
   getByIds,
   getBySamlId,
-  getByUsernameOrEmailWithRolesAndPassword,
-  getForObfuscation,
-  getFullById,
-  getUserDetailsForAdmin,
-  getWithMemberships,
-  isUserAllowedToAccessCertificationCenter,
+  getByUsernameOrEmailWithPassword,
   isUserExistingByEmail,
   isUsernameAvailable,
   update,
@@ -488,87 +337,6 @@ export {
   updateWithEmailConfirmed,
 };
 
-function _fromKnexDTOToUserDetailsForAdmin({
-  userDTO,
-  organizationLearnersDTO,
-  authenticationMethodsDTO,
-  pixAdminRolesDTO,
-  lastUserApplicationConnectionsDTO,
-}) {
-  const organizationLearners = organizationLearnersDTO.map(
-    (organizationLearnerDTO) =>
-      new OrganizationLearnerForAdmin({
-        id: organizationLearnerDTO.id,
-        firstName: organizationLearnerDTO.firstName,
-        lastName: organizationLearnerDTO.lastName,
-        birthdate: organizationLearnerDTO.birthdate,
-        division: organizationLearnerDTO.division,
-        group: organizationLearnerDTO.group,
-        organizationId: organizationLearnerDTO.organizationId,
-        organizationName: organizationLearnerDTO.organizationName,
-        createdAt: organizationLearnerDTO.createdAt,
-        updatedAt: organizationLearnerDTO.updatedAt,
-        isDisabled: organizationLearnerDTO.isDisabled,
-        organizationIsManagingStudents:
-          organizationLearnerDTO.organizationIsManagingStudents || organizationLearnerDTO.hasImportFeature,
-        additionalInformations: organizationLearnerDTO.attributes,
-        additionalColumns: organizationLearnerDTO.additionalColumns,
-      }),
-  );
-  const userLogin = new UserLogin({
-    id: userDTO.userLoginId,
-    userId: userDTO.userId,
-    failureCount: userDTO.failureCount,
-    temporaryBlockedUntil: userDTO.temporaryBlockedUntil,
-    blockedAt: userDTO.blockedAt,
-  });
-
-  const lastApplicationConnections = lastUserApplicationConnectionsDTO.map(
-    (lastUserApplicationConnectionDTO) => new LastUserApplicationConnection(lastUserApplicationConnectionDTO),
-  );
-
-  const authenticationMethods = authenticationMethodsDTO.map((authenticationMethod) => {
-    const isPixAuthenticationMethodWithAuthenticationComplement =
-      authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code &&
-      authenticationMethod.authenticationComplement;
-    if (isPixAuthenticationMethodWithAuthenticationComplement) {
-      // eslint-disable-next-line no-unused-vars -- extract password so that it's not returned/displayed
-      const { password, ...authenticationComplement } = authenticationMethod.authenticationComplement;
-      return {
-        ...authenticationMethod,
-        authenticationComplement,
-      };
-    }
-
-    return authenticationMethod;
-  });
-
-  return new UserDetailsForAdmin({
-    id: userDTO.id,
-    firstName: userDTO.firstName,
-    lastName: userDTO.lastName,
-    username: userDTO.username,
-    email: userDTO.email,
-    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
-    lang: userDTO.lang,
-    locale: userDTO.locale,
-    lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
-    lastLoggedAt: userDTO.lastLoggedAt,
-    emailConfirmedAt: userDTO.emailConfirmedAt,
-    organizationLearners,
-    authenticationMethods,
-    userLogin,
-    hasBeenAnonymised: userDTO.hasBeenAnonymised,
-    hasBeenAnonymisedBy: userDTO.hasBeenAnonymisedBy,
-    updatedAt: userDTO.updatedAt,
-    createdAt: userDTO.createdAt,
-    anonymisedByFirstName: userDTO.anonymisedByFirstName,
-    anonymisedByLastName: userDTO.anonymisedByLastName,
-    isPixAgent: pixAdminRolesDTO.length > 0,
-    lastApplicationConnections,
-  });
-}
-
 /**
  * @param userDTO
  * @param membershipsDTO
@@ -576,31 +344,17 @@ function _fromKnexDTOToUserDetailsForAdmin({
  * @return {User}
  * @private
  */
-function _toDomainFromDTO({ userDTO, membershipsDTO = [], authenticationMethodsDTO = [] }) {
-  const memberships = membershipsDTO.map((membershipDTO) => {
-    let organization;
-    if (membershipDTO.organizationName) {
-      organization = new Organization({
-        id: membershipDTO.organizationId,
-        name: membershipDTO.organizationName,
-        type: membershipDTO.organizationType,
-        externalId: membershipDTO.organizationExternalId,
-        isManagingStudents: membershipDTO.organizationIsManagingStudents,
-      });
-    }
-    return new Membership({ ...membershipDTO, organization });
-  });
+function _toDomainFromDTO({ userDTO, authenticationMethodsDTO = [] }) {
   return new User({
     id: userDTO.id,
     cgu: userDTO.cgu,
-    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
     email: userDTO.email,
     emailConfirmedAt: userDTO.emailConfirmedAt,
     username: userDTO.username,
     firstName: userDTO.firstName,
-    knowledgeElements: userDTO.knowledgeElements,
     lastName: userDTO.lastName,
     lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
+    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
     lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
     hasSeenAssessmentInstructions: userDTO.hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo: userDTO.hasSeenNewDashboardInfo,
@@ -610,10 +364,6 @@ function _toDomainFromDTO({ userDTO, membershipsDTO = [], authenticationMethodsD
     lang: userDTO.lang,
     locale: userDTO.locale,
     isAnonymous: userDTO.isAnonymous,
-    pixScore: userDTO.pixScore,
-    scorecards: userDTO.scorecards,
-    campaignParticipations: userDTO.campaignParticipations,
-    memberships,
     authenticationMethods: authenticationMethodsDTO,
   });
 }

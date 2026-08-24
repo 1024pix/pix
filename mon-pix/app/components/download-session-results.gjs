@@ -1,4 +1,3 @@
-import PixBackgroundHeader from '@1024pix/pix-ui/components/pix-background-header';
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
@@ -40,25 +39,29 @@ export default class DownloadSessionResults extends Component {
   }
 
   <template>
-    <PixBackgroundHeader id="main">
-      <PixBlock class="download-session-results">
-        <form class="download-session-results__form" autocomplete="off">
+    <PixBlock class="download-session-results">
+      <form class="download-session-results__form" autocomplete="off">
 
-          <h1 class="form__title">
-            {{t "pages.download-session-results.title"}}
-          </h1>
+        <h1 class="form__title">
+          {{t "pages.download-session-results.title"}}
+        </h1>
 
-          <PixButton @type="submit" @triggerAction={{this.downloadSessionResults}} @size="large" class="form__actions">
-            {{t "pages.download-session-results.button.label"}}
-          </PixButton>
+        <PixButton
+          @type="submit"
+          @triggerAction={{this.downloadSessionResults}}
+          @size="large"
+          @iconBefore="download"
+          class="form__actions"
+        >
+          {{t "pages.download-session-results.button.label"}}
+        </PixButton>
 
-          {{#if this.errorMessage}}
-            <PixNotificationAlert @type="error" class="form__error">
-              {{this.errorMessage}}
-            </PixNotificationAlert>
-          {{/if}}
-        </form>
-      </PixBlock>
-    </PixBackgroundHeader>
+        {{#if this.errorMessage}}
+          <PixNotificationAlert @type="error" class="form__error">
+            {{this.errorMessage}}
+          </PixNotificationAlert>
+        {{/if}}
+      </form>
+    </PixBlock>
   </template>
 }

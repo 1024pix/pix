@@ -11,7 +11,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       internalName: 'Nom interne',
       content: [
         {
-          type: 'evaluation',
+          type: 'campaign',
           value: 1,
           label: 'Profil cilble 1',
         },
@@ -45,9 +45,10 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
             'created-at': undefined,
             illustration: null,
             description: null,
+            'prescriber-description': null,
             content: [
               {
-                type: 'evaluation',
+                type: 'campaign',
                 value: 1,
               },
             ],
@@ -64,7 +65,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
             ],
             'reward-id': 5,
             'reward-type': 'ATTESTATION',
-            'reward-requirements': null,
+            'reward-requirements-description': null,
             'survey-link': 'http://survey-link-test.fr',
           },
         },
@@ -80,7 +81,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       internalName: 'Nom interne',
       content: [
         {
-          type: 'evaluation',
+          type: 'campaign',
           value: 1,
           label: 'Profil cilble 1',
         },
@@ -112,8 +113,9 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
           'internal-name': 'Nom interne',
           illustration: null,
           description: null,
+          'prescriber-description': null,
           'survey-link': 'http://survey-link-test.fr',
-          'reward-requirements': null,
+          'reward-requirements-description': null,
         },
       },
     });

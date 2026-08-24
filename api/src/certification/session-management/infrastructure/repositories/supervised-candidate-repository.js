@@ -2,11 +2,14 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 
 export async function authorizeToStart(candidateId) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification-candidates')
+  const [result] = await knexConn('certification-candidates')
     .where({
       id: candidateId,
     })
-    .update({ authorizedToStart: true, authorizedToStartAt: new Date() });
+    .update({ authorizedToStartAt: new Date() })
+    .returning('authorizedToStartAt');
+
+  return result.authorizedToStartAt;
 }
 
 export async function unauthorizeToStart(candidateId) {
@@ -15,5 +18,5 @@ export async function unauthorizeToStart(candidateId) {
     .where({
       id: candidateId,
     })
-    .update({ authorizedToStart: false, authorizedToStartAt: null });
+    .update({ authorizedToStartAt: null });
 }

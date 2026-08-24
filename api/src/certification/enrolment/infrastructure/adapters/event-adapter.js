@@ -2,6 +2,10 @@ import * as eventApi from '../../../shared/application/api/event-api.js';
 import { EVENT_NAMES } from '../../../shared/domain/constants/event-names.js';
 
 /**
+ @typedef {import ('../../domain/models/Candidate.js').Candidate} Candidate
+ */
+
+/**
  * @param {object} params
  * @param {Candidate} params.candidate
  */
@@ -71,7 +75,6 @@ async function pushCandidateEvents({ candidates, name, dependencies = { eventApi
     birthdate: candidate.birthdate,
     extraTimePercentage: candidate.extraTimePercentage,
     createdAt: candidate.createdAt,
-    authorizedToStart: candidate.authorizedToStart,
     sessionId: candidate.sessionId,
     userId: candidate.userId,
     organizationLearnerId: candidate.organizationLearnerId,

@@ -7,7 +7,9 @@
     "certification/results",
     "certification/shared",
     "identity-access-management",
-    "shared"
+    "organizational-entities",
+    "shared",
+    "team"
   ],
   "circular": "forbidden"
 }

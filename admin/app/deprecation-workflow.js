@@ -4,19 +4,11 @@ setupDeprecationWorkflow({
   workflow: [
     {
       handler: 'silence',
-      matchId: 'warp-drive.deprecate-tracking-package',
-    },
-    {
-      handler: 'silence',
       matchId: 'importing-inject-from-ember-service',
     },
     {
       handler: 'silence',
       matchId: 'warp-drive:deprecate-legacy-request-methods',
-    },
-    {
-      handler: 'silence',
-      matchId: 'warp-drive.ember-inflector',
     },
   ],
 });

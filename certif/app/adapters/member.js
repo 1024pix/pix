@@ -32,12 +32,18 @@ export default class MemberAdapter extends ApplicationAdapter {
     return this.ajax(url, 'DELETE', { data: payload });
   }
 
-  buildURL(modelName, id, snapshot, requestType, query) {
-    if (requestType === 'update-referer') {
-      const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
-      return `${this.host}/${this.namespace}/certif/certification-centers/${certificationCenterId}/update-referer`;
-    } else {
-      return super.buildURL(modelName, id, snapshot, requestType, query);
-    }
+  updateReferer({ userId, isReferer }) {
+    const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
+    const payload = {
+      data: {
+        attributes: {
+          userId,
+          isReferer,
+        },
+      },
+    };
+    const url = `${this.host}/${this.namespace}/certif/certification-centers/${certificationCenterId}/update-referer`;
+
+    return this.ajax(url, 'POST', { data: payload });
   }
 }

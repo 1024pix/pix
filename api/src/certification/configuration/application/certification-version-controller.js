@@ -3,6 +3,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Deserializer } = jsonapiSerializer;
 
 import { usecases } from '../domain/usecases/index.js';
+import * as calibrationReportSerializer from '../infrastructure/serializers/calibration-report-serializer.js';
 import { certificationInfoSerializer } from '../infrastructure/serializers/certification-info-serializer.js';
 import * as versionDetailsSerializer from '../infrastructure/serializers/version-details-serializer.js';
 
@@ -19,7 +20,6 @@ async function getVersionById(request) {
 async function update(request, h) {
   const certificationVersionId = request.params.certificationVersionId;
   const updateCommand = await deserialize(request.payload);
-
   await usecases.updateVersion({
     ...updateCommand,
     id: certificationVersionId,
@@ -55,6 +55,12 @@ async function createDraft(request, h) {
   return h.response(versionDetailsSerializer.serialize(versionDetails)).code(201);
 }
 
+async function generateCalibrationReport(request, h) {
+  const { certificationVersionId: versionId, calibrationId } = request.params;
+  const report = await usecases.generateCalibrationReportCheck({ versionId, calibrationId });
+  return h.response(calibrationReportSerializer.serialize(report)).code(200);
+}
+
 async function getInfo(request) {
   const framework = request.params.framework;
 
@@ -65,16 +71,15 @@ async function getInfo(request) {
   return certificationInfoSerializer.serialize(certificationInfo);
 }
 
-const certificationVersionController = {
+export const certificationVersionController = {
   createDraft,
   getVersionById,
   deleteCertificationVersion,
   update,
   updateComments,
   getInfo,
+  generateCalibrationReport,
 };
-
-export { certificationVersionController };
 
 function deserialize(json) {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });

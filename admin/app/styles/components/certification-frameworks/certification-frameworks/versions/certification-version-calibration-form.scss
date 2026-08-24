@@ -1,0 +1,29 @@
+.versions-calibration {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    section {
+      display: flex;
+      gap: 1.5rem;
+      align-items: end;
+      justify-content: space-between;
+
+      div {
+        flex: 1.5;
+      }
+    }
+  }
+
+  &__save-button {
+    width: fit-content;
+  }
+}
+
+.actions-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}

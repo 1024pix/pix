@@ -31,7 +31,7 @@ function _checkApplication(application, clientId) {
 
 async function _checkClientSecret(application, clientSecret, cryptoService) {
   try {
-    await cryptoService.checkPassword({ password: clientSecret, passwordHash: application.clientSecret });
+    await cryptoService.assertMatchPassword({ password: clientSecret, passwordHash: application.clientSecret });
   } catch {
     logger.warn({ clientId: application.clientId }, 'The client secret is invalid.');
     throw new ApplicationWithInvalidCredentialsError();

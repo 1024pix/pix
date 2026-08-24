@@ -22,8 +22,8 @@ describe('Certification | session-management | Unit | Domain | Errors', function
     expect(errors.ChallengeToBeNeutralizedNotFoundError).to.exist;
   });
 
-  it('should export a SessionNotAccessible error', function () {
-    expect(errors.SessionNotAccessible).to.exist;
+  it('should export a SessionNotJoinable error', function () {
+    expect(errors.SessionNotJoinable).to.exist;
   });
 
   it('should export a SessionFinalized error', function () {

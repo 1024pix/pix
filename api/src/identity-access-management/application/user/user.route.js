@@ -42,7 +42,6 @@ export const userRoutes = [
       tags: ['api', 'user', 'verification-code'],
     },
   },
-
   {
     method: 'POST',
     path: '/api/users',
@@ -87,42 +86,6 @@ export const userRoutes = [
       handler: (request, h) => userController.createUser(request, h),
       notes: ['- **Cette route est publique**\n' + '- Crée un compte utilisateur'],
       tags: ['identity-access-management', 'api', 'user'],
-    },
-  },
-  {
-    method: 'GET',
-    path: '/api/users/me',
-    config: {
-      handler: (request, h) => userController.getCurrentUser(request, h),
-      notes: [
-        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération de l’utilisateur courant\n',
-      ],
-      tags: ['identity-access-management', 'api', 'user'],
-    },
-  },
-  {
-    method: 'DELETE',
-    path: '/api/users/me',
-    config: {
-      handler: (request, h) => userController.selfDeleteUserAccount(request, h),
-      notes: [
-        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Permet à l’utilisateur authentifié de supprimer son compte',
-      ],
-      tags: ['identity-access-management', 'api', 'user'],
-    },
-  },
-  {
-    method: 'GET',
-    path: '/api/users/my-account',
-    config: {
-      handler: (request, h) => userController.getCurrentUserAccountInfo(request, h),
-      notes: [
-        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des informations du compte utilisateur authentifié\n',
-      ],
-      tags: ['identity-access-management', 'api', 'user', 'my-account'],
     },
   },
   {
@@ -454,18 +417,6 @@ export const userRoutes = [
       },
       notes: ["- Ajoute une méthode de connexion par adresse email à la suite d'une demande de l'utilisateur"],
       tags: ['api', 'user', 'add-email'],
-    },
-  },
-  {
-    method: 'GET',
-    path: '/api/certification-point-of-contacts/me',
-    config: {
-      handler: (request, h) => userController.getCertificationPointOfContact(request, h),
-      notes: [
-        '- **Cette route est restreinte aux utilisateurs authentifiés*' * '\n' +
-          '- Récupération d’un référent de certification.',
-      ],
-      tags: ['api', 'identity-access-management', 'user', 'certification', 'certification-point-of-contact'],
     },
   },
   {

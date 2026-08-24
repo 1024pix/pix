@@ -1,6 +1,6 @@
 import * as certificationChallengeLiveAlertRepository from '../../../../certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import * as certificationCompanionAlertRepository from '../../../../certification/shared/infrastructure/repositories/certification-companion-alert-repository.js';
 import * as correctionApi from '../../../../evaluation/application/api/correction-api.js';
-import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
@@ -14,7 +14,6 @@ import * as sessionManagementCertificationChallengeRepository from '../../../sha
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as sharedCompetenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
-import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as candidateAuthorizationAdapter from '../../infrastructure/adapters/candidate-authorization-adapter.js';
 import * as sessionAdapter from '../../infrastructure/adapters/session-adapter.js';
@@ -22,11 +21,9 @@ import * as assessmentSheetRepository from '../../infrastructure/repositories/as
 import * as calibratedChallengeRepository from '../../infrastructure/repositories/calibrated-challenge-repository.js';
 import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import * as certificationAssessmentHistoryRepository from '../../infrastructure/repositories/certification-assessment-history-repository.js';
-import * as certificationCompanionAlertRepository from '../../infrastructure/repositories/certification-companion-alert-repository.js';
-import * as challengeCalibrationRepository from '../../infrastructure/repositories/challenge-calibration-repository.js';
+import * as certificationCourseInfoRepository from '../../infrastructure/repositories/certification-course-info-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
-import * as pixPlusCertificationCourseRepository from '../../infrastructure/repositories/pix-plus-certification-course-repository.js';
 import * as scoringConfigurationRepository from '../../infrastructure/repositories/scoring-configuration-repository.js';
 import * as sessionRepository from '../../infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../services/algorithm-methods/flash.js';
@@ -37,15 +34,15 @@ import { createCompanionAlert } from './create-companion-alert.js';
 import { createLiveAlert } from './create-live-alert.js';
 import { deneutralizeChallenge } from './deneutralize-challenge.js';
 import { evaluateAndSaveAnswer } from './evaluate-and-save-answer.js';
-import { getCertificationCourse } from './get-certification-course.js';
+import { getAssessmentLiveAlerts } from './get-assessment-live-alerts.js';
 import { getNextChallenge } from './get-next-challenge.js';
 import { neutralizeChallenge } from './neutralize-challenge.js';
 import { rescoreV2Certification } from './rescore-v2-certification.js';
-import { retrieveLastOrCreateCertificationCourse } from './retrieve-last-or-create-certification-course.js';
 import { scoreV3Certification } from './score-v3-certification.js';
 import { simulateCapacityFromScore } from './simulate-capacity-from-score.js';
 import { simulateFlashAssessmentScenario } from './simulate-flash-assessment-scenario.js';
 import { simulateScoreFromCapacity } from './simulate-score-from-capacity.js';
+import { startOrResumeCertification } from './start-or-resume-certification.js';
 
 /**
  * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
@@ -58,6 +55,7 @@ import { simulateScoreFromCapacity } from './simulate-score-from-capacity.js';
  * @typedef {complementaryCertificationScoringCriteriaRepository} ComplementaryCertificationScoringCriteriaRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
+ * @typedef {certificationCourseInfoRepository} CertificationCourseInfoRepository
  * @typedef {sharedChallengeRepository} SharedChallengeRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
@@ -80,7 +78,6 @@ const dependencies = {
   assessmentSheetRepository,
   sessionRepository,
   sessionManagementCertificationChallengeRepository,
-  challengeCalibrationRepository,
   candidateRepository,
   assessmentRepository,
   verifyCertificateCodeService,
@@ -89,17 +86,15 @@ const dependencies = {
   calibratedChallengeRepository,
   sharedCompetenceMarkRepository,
   sharedChallengeRepository,
-  userRepository,
   flashAlgorithmService,
   certificationBadgesService,
   pickChallengeService,
-  placementProfileService,
   certificationCompanionAlertRepository,
   certificationCourseRepository,
+  certificationCourseInfoRepository,
   certificationAssessmentRepository,
   complementaryCertificationScoringCriteriaRepository,
   certificationChallengeLiveAlertRepository,
-  pixPlusCertificationCourseRepository,
   correctionApi,
   versionApi,
   candidateAuthorizationAdapter,
@@ -112,10 +107,9 @@ const usecasesWithoutInjectedDependencies = {
   createCompanionAlert,
   deneutralizeChallenge,
   getNextChallenge,
-  getCertificationCourse,
   neutralizeChallenge,
   rescoreV2Certification,
-  retrieveLastOrCreateCertificationCourse,
+  startOrResumeCertification,
   simulateFlashAssessmentScenario,
   scoreV3Certification,
   completeCertificationAssessment,
@@ -123,6 +117,7 @@ const usecasesWithoutInjectedDependencies = {
   simulateScoreFromCapacity,
   evaluateAndSaveAnswer,
   createLiveAlert,
+  getAssessmentLiveAlerts,
 };
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 

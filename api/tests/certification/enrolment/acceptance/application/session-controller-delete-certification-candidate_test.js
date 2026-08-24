@@ -1,13 +1,14 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | session-controller-delete-certification-candidate', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('#deleteCandidate', function () {
@@ -31,7 +32,11 @@ describe('Acceptance | Controller | session-controller-delete-certification-cand
 
     context('when the candidate is linked', function () {
       beforeEach(function () {
-        certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+        certificationCandidateId = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .asReconciled()
+          .withParameters({ sessionId })
+          .insertToDB({ databaseBuilder }).id;
         options.url = `/api/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`;
         return databaseBuilder.commit();
       });
@@ -47,7 +52,10 @@ describe('Acceptance | Controller | session-controller-delete-certification-cand
 
     context('when the candidate is not linked', function () {
       beforeEach(function () {
-        certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null }).id;
+        certificationCandidateId = domainBuilder.certification.enrolment
+          .candidateBuilder()
+          .withParameters({ sessionId })
+          .insertToDB({ databaseBuilder }).id;
         options.url = `/api/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`;
         return databaseBuilder.commit();
       });

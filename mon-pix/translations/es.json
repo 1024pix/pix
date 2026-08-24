@@ -227,7 +227,8 @@
         },
         "errors": {
           "expired-demand": "Lo sentimos, pero tu solicitud de restablecimiento de contraseña ya ha sido utilizada o ha caducado. Por favor, vuelve a intentarlo.",
-          "forbidden": "Se ha producido un error, ponte en contacto con el servicio de asistencia."
+          "forbidden": "Se ha producido un error, ponte en contacto con el servicio de asistencia.",
+          "revoked-password-cannot-be-reused": "Nuestros equipos han revocado la contraseña que acabas de introducir como medida de seguridad. No la vuelvas a utilizar. Elige una nueva contraseña."
         },
         "fields": {
           "password": {
@@ -881,6 +882,7 @@
         "message": "Enhorabuena {fullName}, tu perfil Pix se puede certificar."
       },
       "error-messages": {
+        "account-already-linked-to-another-candidate": "La cuenta con la que te has conectado ya está vinculada a otro candidato de esta sesión. Comprueba que te has conectado con tu propia cuenta Pix o pide ayuda al supervisor.",
         "generic": {
           "check-personal-info": "Comprueba con el supervisor que tus datos personales coinciden con los de la hoja de registro.",
           "check-session-number": "Comprueba el número de sesión.",
@@ -889,7 +891,7 @@
         "language-not-supported": "La certificación Pix aún no está disponible en {userLanguage}. '<br>' Los idiomas disponibles actualmente para la certificación son: {availableLanguages}. '<br>' Puedes elegir otro idioma en la página",
         "language-not-supported-link": "Mi cuenta",
         "missing-center-habilitation": "Estás inscrito en la certificación {subscription}. '<br><br><strong>'Tu centro de certificación ya no está autorizado para realizar esta certificación'</strong>'. '<br><br>' Por favor, ponte en contacto con tu supervisor.",
-        "session-not-accessible": "La sesión a la que intentas unirte ya no está disponible.",
+        "session-not-joinable": "La sesión a la que intentas unirte ya no está disponible.",
         "wrong-account": "La información introducida corresponde a un candidato registrado en la sesión y que ya está conectado con otra cuenta. Comprueba que te has conectado con la cuenta que inició la certificación.",
         "wrong-account-sco": "Actualmente estás utilizando una cuenta que no está vinculada a tu centro. Conéctate a la cuenta con la que completaste tus test o pide ayuda al supervisor.",
         "wrong-account-sco-link": {
@@ -967,7 +969,7 @@
         "duration-exceeded": "Se ha superado la duración máxima de tu prueba de certificación. Ya no puedes reanudarla.",
         "generic": "Acaba de producirse un error inesperado en el servidor.",
         "missing-code": "No has introducido tu código de acceso.",
-        "session-not-accessible": "La sesión de certificación ya no está disponible.",
+        "session-not-joinable": "La sesión de certificación ya no está disponible.",
         "unknown": {
           "summary-label": "Ver más detalles:"
         }

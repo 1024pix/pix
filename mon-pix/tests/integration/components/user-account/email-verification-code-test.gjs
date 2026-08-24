@@ -47,52 +47,14 @@ module('Integration | Component | user-account | email-verification-code', funct
       );
     });
 
-    test('prevents multiple requests to resend verification code', async function (assert) {
-      // given
-      const email = 'toto@example.net';
-      const password = 'pix123';
-      const actionType = 'update-email';
-
-      const store = this.owner.lookup('service:store');
-      store.createRecord = sinon.stub();
-      store.createRecord
-        .withArgs('email-verification-code', { password, newEmail: email, action: actionType })
-        .returns({
-          sendNewEmail: () => new Promise(() => {}),
-        });
-
-      // when
-      const screen = await render(
-        <template><EmailVerificationCode @email={{email}} @password={{password}} @action={{actionType}} /></template>,
-      );
-
-      await click(
-        screen.getByRole('button', {
-          name: t('pages.user-account.email-verification.send-back-the-code'),
-        }),
-      );
-
-      // then
-      assert.true(
-        screen.getByRole('button', {
-          name: t('pages.user-account.email-verification.send-back-the-code'),
-          hidden: true,
-        }).disabled,
-      );
-    });
-
     test('shows confirmation message when resending code message', async function (assert) {
       // given
       const email = 'toto@example.net';
       const password = 'pix123';
       const actionType = 'update-email';
 
-      const store = this.owner.lookup('service:store');
-      const sendNewEmailStub = sinon.stub();
-      store.createRecord = sinon.stub();
-      store.createRecord
-        .withArgs('email-verification-code', { password, newEmail: email, action: actionType })
-        .returns({ sendNewEmail: sendNewEmailStub });
+      const service = this.owner.lookup('service:email-verification-code');
+      service.sendNewEmail = sinon.stub().resolves();
 
       // when
       const screen = await render(
@@ -118,8 +80,6 @@ module('Integration | Component | user-account | email-verification-code', funct
   module('on validate button click', function () {
     test('when no code has been entered', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      store.createRecord = sinon.stub();
       const email = 'toto@example.net';
       const screen = await render(<template><EmailVerificationCode @email={{email}} /></template>);
 
@@ -132,18 +92,16 @@ module('Integration | Component | user-account | email-verification-code', funct
 
       // then
       assert.ok(screen.getByText(t('pages.user-account.email-verification.errors.no-code', { numInputs: 6 })));
-      sinon.assert.notCalled(store.createRecord);
     });
 
     module('after entering code', function () {
       test('shows invalid code message when receiving INVALID_VERIFICATION_CODE error code', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
         const displayEmailUpdateMessage = sinon.stub();
         const email = 'toto@example.net';
-        const verifyCode = sinon.stub().throws({ errors: [{ code: 'INVALID_VERIFICATION_CODE' }] });
-        store.createRecord = () => ({ verifyCode });
+        const service = this.owner.lookup('service:email-verification-code');
+        service.verifyCode = sinon.stub().throws({ errors: [{ code: 'INVALID_VERIFICATION_CODE' }] });
 
         const screen = await render(
           <template>
@@ -173,18 +131,17 @@ module('Integration | Component | user-account | email-verification-code', funct
 
       test('shows demand expired message when receiving EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND error code', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
         const displayEmailUpdateMessage = sinon.stub();
         const email = 'toto@example.net';
-        const verifyCode = sinon.stub().throws({
+        const service = this.owner.lookup('service:email-verification-code');
+        service.verifyCode = sinon.stub().throws({
           errors: [
             {
               code: 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND',
             },
           ],
         });
-        store.createRecord = () => ({ verifyCode });
 
         const screen = await render(
           <template>
@@ -216,18 +173,17 @@ module('Integration | Component | user-account | email-verification-code', funct
 
       test('shows email already exists message when receiving INVALID_OR_ALREADY_USED_EMAIL error code', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
         const displayEmailUpdateMessage = sinon.stub();
         const email = 'toto@example.net';
-        const verifyCode = sinon.stub().throws({
+        const service = this.owner.lookup('service:email-verification-code');
+        service.verifyCode = sinon.stub().throws({
           errors: [
             {
               code: 'INVALID_OR_ALREADY_USED_EMAIL',
             },
           ],
         });
-        store.createRecord = () => ({ verifyCode });
 
         const screen = await render(
           <template>
@@ -257,12 +213,11 @@ module('Integration | Component | user-account | email-verification-code', funct
 
       test('shows error message when receiving 500', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
         const disableEmailEditionMode = sinon.stub();
         const displayEmailUpdateMessage = sinon.stub();
         const email = 'toto@example.net';
-        const verifyCode = sinon.stub().throws({ errors: [{ status: '500' }] });
-        store.createRecord = () => ({ verifyCode });
+        const service = this.owner.lookup('service:email-verification-code');
+        service.verifyCode = sinon.stub().throws({ errors: [{ status: '500' }] });
 
         const screen = await render(
           <template>

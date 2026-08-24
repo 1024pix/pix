@@ -7,7 +7,7 @@ import {
   CenterNotHabilitatedError,
   CertificationDurationExceededError,
   NextChallengeAlreadyComputingError,
-  SessionNotAccessibleError,
+  SessionNotJoinableError,
 } from '../../../../../src/certification/evaluation/domain/errors.js';
 import {
   ConflictError,
@@ -88,20 +88,20 @@ describe('Unit | Certification | Evaluation | Application | HttpErrorMapperConfi
     });
   });
 
-  context('when mapping "SessionNotAccessible"', function () {
+  context('when mapping "SessionNotJoinable"', function () {
     it('returns an Precondition failed Http Error', function () {
       //given
       const httpErrorMapper = evaluationDomainErrorMappingConfiguration.find(
-        (httpErrorMapper) => httpErrorMapper.name === SessionNotAccessibleError.name,
+        (httpErrorMapper) => httpErrorMapper.name === SessionNotJoinableError.name,
       );
 
       //when
-      const error = httpErrorMapper.httpErrorFn(new SessionNotAccessibleError());
+      const error = httpErrorMapper.httpErrorFn(new SessionNotJoinableError());
 
       //then
       expect(error).to.be.instanceOf(PreconditionFailedError);
-      expect(error.message).to.equal('Certification session is not accessible');
-      expect(error.code).to.equal('SESSION_NOT_ACCESSIBLE');
+      expect(error.message).to.equal('Certification session is not joinable');
+      expect(error.code).to.equal('SESSION_NOT_JOINABLE');
     });
   });
 

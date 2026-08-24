@@ -81,7 +81,7 @@
                   },
                   {
                     "id": "3",
-                    "content": "<p>Analyser les résultats grâce aux informations visibles.</p>",
+                    "content": "<p>Utiliser les informations disponibles pour choisir le bon résultat.</p>",
                     "feedback": {
                       "diagnosis": "<p>Effectivement ! Face à une liste de résultats de recherche, il faut regarder avant de cliquer. Tous les résultats ne se valent pas toujours.</p>"
                     }

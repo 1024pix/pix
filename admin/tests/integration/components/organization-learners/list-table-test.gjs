@@ -19,6 +19,7 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
     // given
     const organizationLearners = [
       store.createRecord('admin-organization-learner', {
+        id: 321,
         firstName: 'firstname1',
         lastName: 'lastname1',
         birthdate: '2000-01-01',
@@ -45,6 +46,7 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
     const table = screen.getByRole('table', { name: t('components.organization-learners.list-table.caption') });
     const rows = within(table).getAllByRole('row');
 
+    assert.ok(screen.getByText('321'));
     assert.dom(within(table).getByRole('cell', { name: 'firstname1' })).exists();
     assert.dom(within(table).getByRole('cell', { name: 'lastname1' })).exists();
     assert.dom(within(table).getByRole('cell', { name: '01/01/2000' })).exists();
@@ -128,6 +130,29 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
     });
   });
 
+  module('learner link', function () {
+    test('it should display learner link', async function (assert) {
+      //given
+      const organizationLearner = store.createRecord('admin-organization-learner', {
+        id: 456,
+        userId: 123,
+        firstName: 'bob',
+        lastName: 'Henri',
+      });
+      const organizationLearners = [organizationLearner];
+      //when
+      const screen = await render(<template><ListTable @organizationLearners={{organizationLearners}} /></template>);
+
+      // then
+      const table = screen.getByRole('table', { name: t('components.organization-learners.list-table.caption') });
+
+      const link = within(table).getByRole('link', {
+        name: t('components.organization-learners.list-table.view-learner', { learner: organizationLearner.fullName }),
+      });
+      assert.ok(link.getAttribute('href').endsWith('456'));
+    });
+  });
+
   module('user link', function () {
     test('it should display user link', async function (assert) {
       //given
@@ -159,7 +184,7 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
       // then
       const table = screen.getByRole('table', { name: t('components.organization-learners.list-table.caption') });
 
-      assert.dom(within(table).queryByRole('link', { aria: `Voir l'utilisateur` })).doesNotExist();
+      assert.dom(within(table).queryByRole('link', { name: `Voir l'utilisateur` })).doesNotExist();
     });
   });
 

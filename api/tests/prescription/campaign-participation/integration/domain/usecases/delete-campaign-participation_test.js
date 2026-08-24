@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-import { CampaignParticipationLoggerContext } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { CampaignParticipationLoggerContext } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { expect } from '../../../../../test-helper.js';
@@ -20,7 +20,7 @@ const {
 } = databaseBuilder.factory;
 
 describe('Integration | UseCases | delete-campaign-participation', function () {
-  let clock, now;
+  let now;
   let adminUserId;
   let campaignId;
   let userId;
@@ -30,7 +30,7 @@ describe('Integration | UseCases | delete-campaign-participation', function () {
 
   beforeEach(async function () {
     now = new Date('2023-03-03');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     adminUserId = databaseBuilder.factory.buildUser().id;
     userId = databaseBuilder.factory.buildUser().id;
@@ -48,10 +48,6 @@ describe('Integration | UseCases | delete-campaign-participation', function () {
     }).id;
 
     await databaseBuilder.commit();
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   it('should delete all campaignParticipations with anonymization', async function () {

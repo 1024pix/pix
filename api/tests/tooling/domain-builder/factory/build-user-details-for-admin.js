@@ -1,4 +1,4 @@
-import { UserDetailsForAdmin } from '../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
+import { UserDetailsForAdmin } from '../../../../src/deprecated/domain/models/UserDetailsForAdmin.js';
 import { STATUS } from '../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 
 const buildUserDetailsForAdmin = function ({

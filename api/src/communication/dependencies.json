@@ -1,0 +1,1 @@
+{ "name": "communication", "dependsOn": ["shared"], "circular": "forbidden" }

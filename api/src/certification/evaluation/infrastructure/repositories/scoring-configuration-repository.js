@@ -5,7 +5,7 @@ import * as versionApi from '../../../configuration/application/api/version-api.
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { V3CertificationScoring } from '../../domain/models/V3CertificationScoring.js';
 
-export const getLatestByDateAndLocale = async ({ locale, date }) => {
+export async function getLatestByDateAndLocale({ locale, date }) {
   const certificationVersion = await versionApi.getByFrameworkAndDate({ date, framework: Frameworks.CORE });
 
   if (
@@ -29,9 +29,9 @@ export const getLatestByDateAndLocale = async ({ locale, date }) => {
     minimumAnswersRequiredToValidateACertification: certificationVersion.minimumAnswersRequiredToValidateACertification,
     versionId: certificationVersion.id,
   });
-};
+}
 
-export const getLatestByVersion = async ({ version }) => {
+export async function getLatestByVersion({ version }) {
   const allAreas = await areaRepository.list();
   const competenceList = await competenceRepository.list();
 
@@ -43,4 +43,4 @@ export const getLatestByVersion = async ({ version }) => {
     minimumAnswersRequiredToValidateACertification: version.minimumAnswersRequiredToValidateACertification,
     versionId: version.id,
   });
-};
+}

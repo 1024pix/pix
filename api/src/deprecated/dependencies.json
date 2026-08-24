@@ -1,0 +1,15 @@
+{
+  "name": "deprecated",
+  "dependsOn": [
+    "devcomp",
+    "identity-access-management",
+    "legal-documents",
+    "organizational-entities",
+    "prescription/campaign-participation",
+    "prescription/learner-management",
+    "shared",
+    "privacy",
+    "team"
+  ],
+  "circular": "forbidden"
+}

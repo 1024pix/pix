@@ -8,7 +8,9 @@ const sourceMapConfig = {
   default: 'eval-source-map',
 };
 
-module.exports = function (defaults) {
+module.exports = async function (defaults) {
+  const { setConfig } = await import('@warp-drive/build-config');
+
   const app = new EmberApp(defaults, {
     sassOptions: {
       includePaths: ['node_modules/@1024pix/pix-ui/addon/styles', 'app/components'],
@@ -22,9 +24,6 @@ module.exports = function (defaults) {
     },
     'ember-simple-auth': {
       useSessionSetupMethod: true,
-    },
-    emberData: {
-      polyfillUUID: true,
     },
   });
   // Use `app.import` to add additional libraries to the generated
@@ -41,6 +40,13 @@ module.exports = function (defaults) {
   // along with the exports of each module as its value.
 
   const { Webpack } = require('@embroider/webpack');
+
+  setConfig(app, __dirname, {
+    deprecations: {
+      DEPRECATE_TRACKING_PACKAGE: false,
+    },
+    polyfillUUID: true,
+  });
 
   return require('@embroider/compat').compatBuild(app, Webpack, {
     staticAddonTestSupportTrees: true,

@@ -14,10 +14,6 @@ module('Unit | Adapters | user-orga-setting', function (hooks) {
     adapter.set('ajax', ajaxStub);
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#urlForUpdateRecord', function () {
     test('it should build update url from user id', async function (assert) {
       // when

@@ -12,7 +12,7 @@ export class CampaignCombinedCourseBlueprintItem extends CombinedCourseBlueprint
     super({ id, name });
   }
   get type() {
-    return COMBINED_COURSE_ITEM_TYPES.EVALUATION;
+    return COMBINED_COURSE_ITEM_TYPES.CAMPAIGN;
   }
 }
 

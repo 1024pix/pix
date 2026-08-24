@@ -7,5 +7,6 @@ export default class SessionForSupervising extends Model {
   @attr('string') room;
   @attr('string') accessCode;
   @attr('string') address;
+  @attr('boolean') hasExpired;
   @hasMany('certification-candidate-for-supervising', { async: false, inverse: null }) certificationCandidates;
 }

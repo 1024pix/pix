@@ -10,7 +10,8 @@
     "prescription/stages",
     "profile",
     "quest",
+    "team",
     "shared"
   ],
-  "circular": "temporary-allowed"
+  "circular": "forbidden"
 }

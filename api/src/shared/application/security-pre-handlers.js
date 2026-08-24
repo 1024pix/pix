@@ -1,10 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import * as checkUserIsCandidateUseCase from '../../certification/enrolment/application/usecases/check-user-is-candidate.js';
-import * as centerRepository from '../../certification/enrolment/infrastructure/repositories/center-repository.js';
-import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import { Organization } from '../../organizational-entities/domain/models/Organization.js';
-import * as checkCampaignParticipationBelongsToUserUsecase from '../../prescription/campaign/application/usecases/checkCampaignParticipationBelongsToUser.js';
 import { PIX_ADMIN } from '../../shared/constants.js';
 import { ForbiddenAccess } from '../domain/errors.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
@@ -16,13 +12,10 @@ import * as checkAdminMemberHasRoleCertifUseCase from './usecases/checkAdminMemb
 import * as checkAdminMemberHasRoleMetierUseCase from './usecases/checkAdminMemberHasRoleMetier.js';
 import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin.js';
 import * as checkAdminMemberHasRoleSupportUseCase from './usecases/checkAdminMemberHasRoleSupport.js';
-import * as checkAuthorizationToAccessCampaignUsecase from './usecases/checkAuthorizationToAccessCampaign.js';
-import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
 import * as checkOrganizationDoesNotHaveFeatureUseCase from './usecases/checkOrganizationDoesNotHaveFeature.js';
 import * as checkOrganizationHasFeatureUseCase from './usecases/checkOrganizationHasFeature.js';
 import * as checkOrganizationIsNotManagingStudentsUseCase from './usecases/checkOrganizationIsNotManagingStudents.js';
 import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/checkOrganizationIsScoAndManagingStudent.js';
-import * as checkOrganizationLearnerBelongsToOrganizationUseCase from './usecases/checkOrganizationLearnerBelongsToOrganization.js';
 import * as checkUserBelongsToLearnersOrganizationUseCase from './usecases/checkUserBelongsToLearnersOrganization.js';
 import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
 import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
@@ -32,8 +25,6 @@ import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/
 import * as checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization.js';
 import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkUserIsAdminOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
-import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
-import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 
@@ -58,25 +49,6 @@ function _replyNotFoundError(h) {
   });
 
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-}
-
-async function checkUserIsCandidate(
-  request,
-  h,
-  dependencies = {
-    checkUserIsCandidateUseCase,
-  },
-) {
-  const userId = request.auth.credentials.userId;
-  const certificationCandidateId = request.params.certificationCandidateId;
-
-  const isUserCandidate = await dependencies.checkUserIsCandidateUseCase.execute({ userId, certificationCandidateId });
-
-  if (!isUserCandidate) {
-    return _replyForbiddenError(h);
-  }
-
-  return h.response(true);
 }
 
 async function checkAdminMemberHasRoleSuperAdmin(
@@ -294,57 +266,6 @@ function checkUserIsMemberOfCertificationCenter(
     .catch(() => _replyForbiddenError(h));
 }
 
-async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
-  request,
-  h,
-  dependencies = { checkUserIsMemberOfCertificationCenterSessionUsecase, certificationIssueReportRepository },
-) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const certificationIssueReportId = request.params.id;
-
-  try {
-    const certificationIssueReport = await dependencies.certificationIssueReportRepository.get({
-      id: certificationIssueReportId,
-    });
-    const isMemberOfSession = await dependencies.checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
-      userId,
-      certificationCourseId: certificationIssueReport.certificationCourseId,
-    });
-    return isMemberOfSession ? h.response(true) : _replyForbiddenError(h);
-  } catch {
-    return _replyForbiddenError(h);
-  }
-}
-
-async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
-  request,
-  h,
-  dependencies = {
-    checkUserIsMemberOfCertificationCenterSessionUsecase,
-  },
-) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const certificationCourseId = request.params.certificationCourseId;
-
-  try {
-    const isMemberOfSession = await dependencies.checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
-      userId,
-      certificationCourseId,
-    });
-    return isMemberOfSession ? h.response(true) : _replyForbiddenError(h);
-  } catch {
-    return _replyForbiddenError(h);
-  }
-}
-
 async function checkUserBelongsToScoOrganizationAndManagesStudents(
   request,
   h,
@@ -371,39 +292,6 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(
   }
 
   return _replyForbiddenError(h);
-}
-
-async function checkCertificationCenterIsNotScoManagingStudents(
-  request,
-  h,
-  dependencies = {
-    checkOrganizationIsScoAndManagingStudentUsecase,
-    checkUserIsMemberOfCertificationCenterUsecase,
-    centerRepository,
-  },
-) {
-  if (_noCredentials(request)) {
-    return _replyForbiddenError(h);
-  }
-
-  const certificationCenterId =
-    request?.params?.certificationCenterId || request?.payload?.data?.attributes?.certificationCenterId;
-
-  const organizationId = await dependencies.centerRepository.findActiveScoOrganizationId({ certificationCenterId });
-
-  if (!organizationId) {
-    return h.response(true);
-  }
-
-  const isOrganizationScoManagingStudent = await dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute({
-    organizationId,
-  });
-
-  if (isOrganizationScoManagingStudent) {
-    return _replyForbiddenError(h);
-  }
-
-  return h.response(true);
 }
 
 async function checkUserDoesNotBelongsToScoOrganizationManagingStudents(
@@ -549,38 +437,6 @@ async function checkUserBelongsToOrganization(request, h, dependencies = { check
   return _replyForbiddenError(h);
 }
 
-async function checkAuthorizationToManageCampaign(
-  request,
-  h,
-  dependencies = { checkAuthorizationToManageCampaignUsecase },
-) {
-  const userId = request.auth.credentials.userId;
-  const campaignId = request.params.campaignId || request.params.id;
-  const isAdminOrOwnerOfTheCampaign = await dependencies.checkAuthorizationToManageCampaignUsecase.execute({
-    userId,
-    campaignId,
-  });
-
-  if (isAdminOrOwnerOfTheCampaign) return h.response(true);
-  return _replyForbiddenError(h);
-}
-
-async function checkAuthorizationToAccessCampaign(
-  request,
-  h,
-  dependencies = { checkAuthorizationToAccessCampaignUsecase },
-) {
-  const userId = request.auth.credentials.userId;
-  const campaignId = request.params.campaignId || request.params.id;
-  const belongsToOrganization = await dependencies.checkAuthorizationToAccessCampaignUsecase.execute({
-    userId,
-    campaignId,
-  });
-
-  if (belongsToOrganization) return h.response(true);
-  return _replyForbiddenError(h);
-}
-
 function hasAtLeastOneAccessOf(securityChecks) {
   return async (request, h) => {
     const responses = await PromiseUtils.map(securityChecks, (securityCheck) => securityCheck(request, h));
@@ -595,29 +451,6 @@ function validateAllAccess(securityChecks) {
     const hasAccess = responses.every((response) => !response.source?.errors);
     return hasAccess ? hasAccess : _replyForbiddenError(h);
   };
-}
-
-async function checkUserOwnsCertificationCourse(
-  request,
-  h,
-  dependencies = { checkUserOwnsCertificationCourseUseCase },
-) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const certificationCourseId = request.params.certificationCourseId;
-
-  try {
-    const ownsCertificationCourse = await dependencies.checkUserOwnsCertificationCourseUseCase.execute({
-      userId,
-      certificationCourseId,
-    });
-    return ownsCertificationCourse ? h.response(true) : _replyForbiddenError(h);
-  } catch {
-    return _replyForbiddenError(h);
-  }
 }
 
 async function checkUserCanDisableHisOrganizationMembership(
@@ -647,17 +480,6 @@ async function checkUserCanDisableHisOrganizationMembership(
   } catch {
     return _replyForbiddenError(h);
   }
-}
-
-async function checkCampaignParticipationBelongsToUser(request, h) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const { campaignParticipationId } = request.params;
-  await checkCampaignParticipationBelongsToUserUsecase.execute({ userId, campaignParticipationId });
-  return h.response(true);
 }
 
 function makeCheckOrganizationHasFeature(featureKey) {
@@ -748,47 +570,24 @@ function checkOrganizationDoesNotHaveFeature(featureKey) {
   };
 }
 
-async function checkOrganizationLearnerBelongsToOrganization(
-  request,
-  h,
-  dependencies = { checkOrganizationLearnerBelongsToOrganizationUseCase },
-) {
-  const organizationId = request.params.organizationId;
-  const organizationLearnerId = request.params.organizationLearnerId;
-
-  try {
-    const organizationLearnerBelongsToOrganization =
-      await dependencies.checkOrganizationLearnerBelongsToOrganizationUseCase.execute(
-        organizationId,
-        organizationLearnerId,
-      );
-    return organizationLearnerBelongsToOrganization ? h.response(true) : _replyNotFoundError(h);
-  } catch {
-    return _replyForbiddenError(h);
-  }
-}
-
 export const securityPreHandlers = {
   hasAtLeastOneAccessOf,
   validateAllAccess,
+  replyNotFoundError: _replyNotFoundError,
+  replyForbiddenError: _replyForbiddenError,
   checkAdminMemberHasRoleCertif,
   checkAdminMemberHasRoleMetier,
   checkAdminMemberHasRoleSuperAdmin,
   checkAdminMemberHasRoleSupport,
-  checkAuthorizationToManageCampaign,
-  checkAuthorizationToAccessCampaign,
-  checkCertificationCenterIsNotScoManagingStudents,
   checkOrganizationHasFeature,
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
-  checkCampaignParticipationBelongsToUser,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
   checkUserCanDisableHisOrganizationMembership,
   checkUserDoesNotBelongsToScoOrganizationManagingStudents,
   checkOrganizationIsNotManagingStudents,
-  checkOrganizationLearnerBelongsToOrganization,
   checkUserIsAdminInOrganization,
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
@@ -796,11 +595,7 @@ export const securityPreHandlers = {
   checkUserIsAdminOfCertificationCenter,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
-  checkUserIsCandidate,
   checkUserIsMemberOfCertificationCenter,
-  checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
-  checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
-  checkUserOwnsCertificationCourse,
   makeCheckOrganizationHasFeature,
   checkOrganizationAccess,
 };

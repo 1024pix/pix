@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@warp-drive/legacy/model';
 
 export const SECTION_TITLE_ICONS = {
   'question-yourself': 'doorOpen',

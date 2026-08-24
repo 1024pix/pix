@@ -225,7 +225,9 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
   describe('DELETE /api/campaigns/{campaignId}/campaign-participations/{campaignParticipationId}', function () {
     it('should call the required pre handler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkAuthorizationToManageCampaign').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(campaignSecurityPreHandlers, 'checkAuthorizationToManageCampaign')
+        .callsFake((request, h) => h.response(true));
       sinon
         .stub(campaignSecurityPreHandlers, 'checkCampaignBelongsToCombinedCourse')
         .callsFake((request, h) => h.response(true));
@@ -242,7 +244,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       const response = await httpTestServer.request(method, url);
 
       // then
-      expect(securityPreHandlers.checkAuthorizationToManageCampaign.called).true;
+      expect(campaignSecurityPreHandlers.checkAuthorizationToManageCampaign.called).true;
       expect(campaignSecurityPreHandlers.checkCampaignBelongsToCombinedCourse.called).true;
       expect(response.statusCode).to.equal(204);
     });
@@ -358,7 +360,9 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
   describe('GET /api/campaigns/{campaignId}/organization-learners/{organizationLearnerId}/participations', function () {
     it('should call expected prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkAuthorizationToAccessCampaign').callsFake((request, h) => h.response('ok'));
+      sinon
+        .stub(campaignSecurityPreHandlers, 'checkAuthorizationToAccessCampaign')
+        .callsFake((request, h) => h.response('ok'));
       sinon.stub(campaignParticipationController, 'getCampaignParticipationsForOrganizationLearner').returns('ok');
 
       const httpTestServer = new HttpTestServer();
@@ -368,7 +372,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       await httpTestServer.request('GET', '/api/campaigns/2/organization-learners/1/participations');
 
       // then
-      expect(securityPreHandlers.checkAuthorizationToAccessCampaign.called).to.be.true;
+      expect(campaignSecurityPreHandlers.checkAuthorizationToAccessCampaign.called).to.be.true;
     });
   });
 

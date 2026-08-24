@@ -103,6 +103,10 @@ function buildSeedsContext(value) {
 const schema = Joi.object({
   MADDO: Joi.boolean().optional().default(false),
   ACCESS_TOKEN_LIFESPAN: Joi.string().optional(),
+  // only the answers historization job needs those two ANSWERS_HISTORY values, hence optional here: the job itself
+  // rejects a missing or non-positive value rather than silently skipping its batching
+  ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: Joi.number().integer().min(1).optional(),
+  ANSWERS_HISTORY_ANSWER_BATCH_SIZE: Joi.number().integer().min(1).optional(),
   AUTH_SECRET: Joi.string().required(),
   AUTONOMOUS_COURSES_ORGANIZATION_ID: Joi.number().requiredForApi(),
   API_DATA_URL: Joi.string().uri().optional(),
@@ -145,6 +149,7 @@ const schema = Joi.object({
   FT_ENABLE_TEXT_TO_SPEECH_BUTTON: Joi.string().optional().valid('true', 'false'),
   KNEX_ASYNC_STACKTRACE_ENABLED: Joi.string().optional().valid('true', 'false'),
   LCMS_API_KEY: Joi.string().requiredForApi(),
+  LCMS_API_OAUTH_BASIC_TOKEN: Joi.string(),
   LCMS_API_URL: Joi.string().uri().requiredForApi(),
   LCMS_API_RELEASE_ID: Joi.any(),
   LLM_CHAT_TEMPORARY_STORAGE_EXP_DELAY_SECONDS: Joi.string().optional(),
@@ -196,6 +201,8 @@ const configuration = (function () {
           forcePathStyle: true,
         },
         assessmentIdRange: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
+        assessmentIdBatchSize: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE),
+        answerBatchSize: parseInt(process.env.ANSWERS_HISTORY_ANSWER_BATCH_SIZE),
       },
     },
     import: {
@@ -330,7 +337,6 @@ const configuration = (function () {
       databaseHistory: {
         scheduleHistorizeAnswers: {
           cron: process.env.SCHEDULE_HISTORIZE_ANSWERS_JOB_CRON || '0 0 29 2 *',
-          chunkSize: process.env.SCHEDULE_HISTORIZE_ANSWERS_CHUNK_SIZE || 1000,
         },
       },
     },
@@ -374,6 +380,7 @@ const configuration = (function () {
         (process.env.IS_RUNNING_PLAYWRIGHT === 'true' && process.env.PLAYWRIGHT_LCMS_API_KEY) ||
         process.env.CYPRESS_LCMS_API_KEY ||
         process.env.LCMS_API_KEY,
+      oauthBasicToken: process.env.LCMS_API_OAUTH_BASIC_TOKEN,
       releaseId: process.env.LCMS_API_RELEASE_ID || null,
     },
     llm: {
@@ -601,6 +608,7 @@ const configuration = (function () {
 
     config.lcms.apiKey = 'test-api-key';
     config.lcms.url = 'https://lcms-test.pix.fr/api';
+    config.lcms.oauthBasicToken = 'dGVzdC1wYXNzd29yZA=='; // test-password
 
     config.llm.configurationEditorApi.getConfigurationUrl = 'https://llm-test.pix.fr/api/configurations';
     config.llm.inferenceApi.postPromptUrl = 'https://llm-test.pix.fr/api/chat';
@@ -707,20 +715,6 @@ const configuration = (function () {
           bucket: process.env.TEST_IMPORT_STORAGE_BUCKET_NAME,
           forcePathStyle: true,
         },
-      },
-    };
-
-    config.answersHistoryExport = {
-      storage: {
-        client: {
-          accessKeyId: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID,
-          secretAccessKey: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY,
-          endpoint: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT,
-          region: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_REGION,
-          bucket: process.env.TEST_ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME,
-          forcePathStyle: true,
-        },
-        assessmentIdRange: parseInt(process.env.TEST_ANSWERS_HISTORY_ASSESSMENT_ID_RANGE),
       },
     };
 

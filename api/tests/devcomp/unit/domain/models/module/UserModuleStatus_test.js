@@ -9,10 +9,9 @@ import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | UserModuleStatus', function () {
   let userId, moduleId, passages;
-  let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now: new Date('2024-05-01'), toFake: ['Date'] });
+    sinon.useFakeTimers({ now: new Date('2024-05-01'), toFake: ['Date'] });
     userId = '1';
     moduleId = '66f6dea7-1bb3-4ec2-b33d-1c5e7bde3675';
 
@@ -42,10 +41,6 @@ describe('Unit | Devcomp | Domain | Models | Module | UserModuleStatus', functio
         terminatedAt: null,
       }),
     ];
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   it('should init and keep attributes', function () {

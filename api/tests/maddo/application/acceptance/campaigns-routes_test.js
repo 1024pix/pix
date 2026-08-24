@@ -1,17 +1,17 @@
-import { createMaddoServer } from '../../../../server.maddo.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { getMaddoServer } from '../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Maddo | Route | Campaigns', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createMaddoServer();
+    server = await getMaddoServer();
   });
 
   describe('GET /api/campaigns/{campaignId}/participations', function () {
@@ -671,6 +671,84 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
         expect(response.result.campaignParticipations[0].createdAt).to.deep.equal(participationCreatedFirst.createdAt);
         expect(response.result.campaignParticipations[1].createdAt).to.deep.equal(participationCreatedSecond.createdAt);
         expect(response.result.campaignParticipations[2].createdAt).to.deep.equal(participationCreatedLast.createdAt);
+      });
+    });
+
+    context('when no juridictions are defined for client id', function () {
+      it('returns a 403 forbidden error', async function () {
+        // given
+        const orga = databaseBuilder.factory.buildOrganization({ name: 'orga-in-jurisdiction' });
+        const client = databaseBuilder.factory.buildClientApplication({ clientId: 'client', jurisdiction: null });
+
+        const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
+        const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
+        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+        const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
+        const skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
+        const campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.ASSESSMENT,
+          organizationId: orga.id,
+        });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/campaigns/${campaign.id}/participations`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeaderForApplication(
+              client.clientId,
+              'pix-client',
+              'campaigns meta',
+            ),
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when the tag juridiction is not the same as the organization one', function () {
+      it('returns a 403 forbidden error', async function () {
+        // given
+        const tag1 = databaseBuilder.factory.buildTag({ name: 'tag1' });
+        const tag2 = databaseBuilder.factory.buildTag({ name: 'tag2' });
+        const orga = databaseBuilder.factory.buildOrganization({ name: 'orga-in-jurisdiction' });
+        databaseBuilder.factory.buildOrganizationTag({ organizationId: orga.id, tagId: tag1.id });
+        const client = databaseBuilder.factory.buildClientApplication({
+          clientId: 'client',
+          jurisdiction: { rules: [{ name: 'tags', value: [tag2.name] }] },
+        });
+
+        const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
+        const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
+        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+        const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
+        const skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
+        const campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.ASSESSMENT,
+          organizationId: orga.id,
+        });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/campaigns/${campaign.id}/participations`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeaderForApplication(
+              client.clientId,
+              'pix-client',
+              'campaigns meta',
+            ),
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
       });
     });
 

@@ -205,7 +205,6 @@ export class ScoManagingStudent {
     await this.databaseBuilder.knex
       .from('certification-candidates')
       .update({
-        authorizedToStart: true,
         authorizedToStartAt: new Date(),
       })
       .where({ id: registeredCandidate.id });

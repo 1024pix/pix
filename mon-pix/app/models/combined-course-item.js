@@ -1,9 +1,9 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@warp-drive/legacy/model';
 
 export const CombinedCourseItemTypes = {
-  CAMPAIGN: 'CAMPAIGN',
-  FORMATION: 'FORMATION',
-  MODULE: 'MODULE',
+  CAMPAIGN: 'campaign',
+  FORMATION: 'formation',
+  MODULE: 'module',
 };
 
 export const CombinedCourseAssets = {

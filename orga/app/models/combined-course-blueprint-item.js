@@ -1,8 +1,9 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr } from '@warp-drive/legacy/model';
 
 export const CombinedCourseBlueprintItemTypes = {
   EVALUATION: 'evaluation',
   MODULE: 'module',
+  CAMPAIGN: 'campaign',
 };
 
 export const CombinedCourseBlueprintAssets = {

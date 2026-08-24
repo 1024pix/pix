@@ -33,6 +33,10 @@ export default class CertificationCandidatesController extends Controller {
     return certificationCandidatesCount > 0;
   }
 
+  get disableEnrollCandidate() {
+    return this.model.sessionManagement.hasExpired;
+  }
+
   get shouldDisplayScoStudentRegistration() {
     return this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents;
   }

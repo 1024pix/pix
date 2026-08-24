@@ -14,6 +14,7 @@ import autonomousCourseListItem from './models/autonomous-course-list-item';
 import autonomousCourseTargetProfile from './models/autonomous-course-target-profile';
 import badge from './models/badge';
 import badgeCriterion from './models/badge-criterion';
+import calibrationReport from './models/calibration-report';
 import campaign from './models/campaign';
 import campaignParticipation from './models/campaign-participation';
 import certification from './models/certification';
@@ -93,6 +94,7 @@ export default {
   badgeCriterion,
   campaign,
   campaignParticipation,
+  calibrationReport,
   certification,
   certificationCandidate,
   certificationCandidateTimeline,

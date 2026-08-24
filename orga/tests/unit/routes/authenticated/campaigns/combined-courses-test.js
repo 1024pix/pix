@@ -15,10 +15,6 @@ module('Unit | Route | authenticated/campaigns/combined-courses', function (hook
     currentUser = this.owner.lookup('service:current-user');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('model', function () {
     test('should query combined-courses with organizationId and pagination params', async function (assert) {
       // given

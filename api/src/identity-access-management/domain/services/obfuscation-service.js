@@ -15,7 +15,7 @@ export async function getObfuscatedAuthenticationMethod(
   userId,
   dependencies = { userRepository, authenticationMethodRepository },
 ) {
-  const user = await dependencies.userRepository.getForObfuscation(userId);
+  const user = await dependencies.userRepository.get(userId);
 
   const garAuthenticationMethod = await dependencies.authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId: user.id,

@@ -35,7 +35,6 @@ const FORBIDDEN_ERRORS = [
   SharedDomainErrors.UserNotAuthorizedToGetCampaignResultsError,
   SharedDomainErrors.UserNotAuthorizedToCreateResourceError,
   SharedDomainErrors.CancelledInvitationError,
-  SharedDomainErrors.CertificationCandidateOnFinalizedSessionError,
   SharedDomainErrors.UserNotAuthorizedToAccessEntityError,
   SharedDomainErrors.UserAlreadyLinkedToCandidateInSessionError,
   SharedDomainErrors.UserNotAuthorizedToCertifyError,

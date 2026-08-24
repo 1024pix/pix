@@ -1,9 +1,8 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+import { databaseConnectionRegistry } from '../../db/database-connection-registry.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-
-let databaseConnection;
 
 const commandLineArguments = yargs(hideBin(process.argv))
   .option('name', {
@@ -13,9 +12,9 @@ const commandLineArguments = yargs(hideBin(process.argv))
   })
   .help().argv;
 const databaseToEmpty = commandLineArguments.name;
+const connectionName = databaseToEmpty === 'db' ? 'api' : databaseToEmpty;
 try {
-  const importedFile = await import(`../../${databaseToEmpty}/knex-database-connection.js`);
-  databaseConnection = importedFile.databaseConnection;
+  const databaseConnection = databaseConnectionRegistry.get(connectionName);
   logger.info(`Emptying all tables of database ${databaseToEmpty}...`);
   await databaseConnection.emptyAllTables();
   logger.info('Done!');
@@ -23,5 +22,5 @@ try {
   logger.error(error);
   process.exitCode = 1;
 } finally {
-  await databaseConnection.disconnect();
+  await databaseConnectionRegistry.disconnect();
 }

@@ -1,4 +1,5 @@
-import * as centerRepository from '../../../certification/enrolment/infrastructure/repositories/center-repository.js';
+import * as campaignStatsApi from '../../../prescription/campaign/application/api/campaign-stats-api.js';
+import * as campaignsApi from '../../../prescription/campaign/application/api/campaigns-api.js';
 import * as learnersApi from '../../../prescription/learner-management/application/api/learners-api.js';
 import * as schoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
 import * as accessCodeGenerator from '../../../shared/domain/services/access-code-generator.js';
@@ -9,18 +10,20 @@ import * as organizationRepository from '../../../shared/infrastructure/reposito
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as administrationTeamRepository from '../../infrastructure/repositories/administration-team-repository.js';
+import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 import * as certificationCenterRepository from '../../infrastructure/repositories/certification-center.repository.js';
 import { certificationCenterApiRepository } from '../../infrastructure/repositories/certification-center-api.repository.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin.repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation.repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer.repository.js';
-import { repositories as organizationalEntitiesRepositories } from '../../infrastructure/repositories/index.js';
 import * as networkRepository from '../../infrastructure/repositories/network.repository.js';
 import * as organizationFeatureRepository from '../../infrastructure/repositories/organization-feature-repository.js';
+import { organizationForAdminRepository } from '../../infrastructure/repositories/organization-for-admin.repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner.repository.js';
 import * as organizationLearnerTypeRepository from '../../infrastructure/repositories/organization-learner-type-repository.js';
 import * as organizationPlacesLotRepository from '../../infrastructure/repositories/organization-places-lot.repository.js';
 import * as organizationTagRepository from '../../infrastructure/repositories/organization-tag.repository.js';
+import * as structureCategoryRepository from '../../infrastructure/repositories/structure-category-repository.js';
 import { tagRepository } from '../../infrastructure/repositories/tag.repository.js';
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
 import * as organizationVerificationService from '../services/organization-verification.service.js';
@@ -28,11 +31,13 @@ import * as organizationCreationValidator from '../validators/organization-creat
 import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles.js';
 
 /**
+ * @typedef {import ('../../../prescription/campaign/application/api/campaigns-api.js')} campaignsApi
+ * @typedef {import ('../../../prescription/campaign/application/api/campaign-stats-api.js')} campaignStatsApi
  * @typedef {import ('../../../prescription/learner-management/application/api/learners-api.js')} learnersApi
  * @typedef {import ('../../../shared/infrastructure/repositories/admin-member.repository.js')} AdminMemberRepository
  * @typedef {import ('../../infrastructure/repositories/certification-center-api.repository.js')} certificationCenterApiRepository
  * @typedef {import ('../../infrastructure/repositories/certification-center.repository.js')} CertificationCenterRepository
- * @typedef {import ('../../../certification/enrolment/infrastructure/repositories/center-repository.js')} CenterRepository
+ * @typedef {import ('../../infrastructure/repositories/center-repository.js')} CenterRepository
  * @typedef {import ('../../infrastructure/repositories/certification-center-for-admin-repository.js')} CertificationCenterForAdminRepository
  * @typedef {import ('../../infrastructure/repositories/complementary-certification-habilitation-repository.js')} ComplementaryCertificationHabilitationRepository
  * @typedef {import ('../../infrastructure/repositories/data-protection-officer-repository.js')} DataProtectionOfficerRepository
@@ -57,6 +62,8 @@ const dependenciesToInject = {
   organizationValidator,
   organizationCreationValidator,
   accessCodeGenerator,
+  campaignsApi,
+  campaignStatsApi,
   centerRepository,
   certificationCenterRepository,
   certificationCenterForAdminRepository,
@@ -66,7 +73,7 @@ const dependenciesToInject = {
   certificationCenterApiRepository,
   complementaryCertificationHabilitationRepository,
   networkRepository,
-  organizationForAdminRepository: organizationalEntitiesRepositories.organizationForAdminRepository,
+  organizationForAdminRepository,
   organizationFeatureRepository,
   organizationLearnerRepository,
   organizationLearnerTypeRepository,
@@ -75,6 +82,7 @@ const dependenciesToInject = {
   learnersApi,
   organizationRepository,
   organizationTagRepository,
+  structureCategoryRepository,
   tagRepository,
   targetProfileShareRepository,
   organizationVerificationService,
@@ -99,6 +107,7 @@ import { detachCertificationCenterFromOrganization } from './detach-certificatio
 import { detachParentOrganizationFromOrganization } from './detach-parent-organization-from-organization.usecase.js';
 import { findAllAdministrationTeams } from './find-all-administration-teams.usecase.js';
 import { findAllOrganizationLearnerTypes } from './find-all-organization-learner-types.refactor.js';
+import { findAllStructureCategories } from './find-all-structure-categories.usecase.js';
 import { findAllTags } from './find-all-tags.usecase.js';
 import { findAttachedCertificationCenterForAdmin } from './find-attached-certification-center-for-admin.usecase.js';
 import { findAttachedOrganizationsForAdmin } from './find-attached-organizations-for-admin.usecase.js';
@@ -146,6 +155,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredOrganizations,
   findAllAdministrationTeams,
   findAllOrganizationLearnerTypes,
+  findAllStructureCategories,
   getCenterForAdmin,
   getNetworkDetails,
   getOrganizationById,

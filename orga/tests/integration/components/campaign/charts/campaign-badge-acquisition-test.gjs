@@ -14,10 +14,6 @@ module('Integration | Component | Campaign::Charts::BadgeAcquisitionCards', func
     adapter = store.adapterFor('campaign-stats');
   });
 
-  hooks.afterEach(async function () {
-    sinon.restore();
-  });
-
   module('When the campaign has badges acquired', function (hooks) {
     hooks.beforeEach(async function () {
       sinon.stub(adapter, 'getBadgeAcquisitions').resolves({

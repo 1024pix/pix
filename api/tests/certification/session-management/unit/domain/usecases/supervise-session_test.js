@@ -4,7 +4,7 @@ import {
   CertificationCenterIsArchivedError,
   InvalidSessionSupervisingLoginError,
   SessionFinalized,
-  SessionNotAccessible,
+  SessionNotJoinable,
 } from '../../../../../../src/certification/session-management/domain/errors.js';
 import { InvigilatorSession } from '../../../../../../src/certification/session-management/domain/read-models/InvigilatorSession.js';
 import { superviseSession } from '../../../../../../src/certification/session-management/domain/usecases/supervise-session.js';
@@ -132,7 +132,7 @@ describe('Unit | UseCase | supervise-session', function () {
   });
 
   context('when certification center has SCO blocked access', function () {
-    it('should throw SessionNotAccessible when college is blocked', async function () {
+    it('should throw SessionNotJoinable when college is blocked', async function () {
       // given
       const sessionId = 123;
       const certificationCenterId = 456;
@@ -161,7 +161,7 @@ describe('Unit | UseCase | supervise-session', function () {
       });
 
       // then
-      expect(error).to.be.an.instanceOf(SessionNotAccessible);
+      expect(error).to.be.an.instanceOf(SessionNotJoinable);
     });
   });
 

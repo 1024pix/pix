@@ -18,16 +18,11 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 const verifyEmailTemporaryStorage = temporaryStorage.withPrefix('verify-email:');
 
 describe('Integration | Identity Access Management | Domain | UseCase | updateUserEmailWithValidation', function () {
-  let clock;
   const now = new Date('2024-12-25');
 
   beforeEach(function () {
     verifyEmailTemporaryStorage.flushAll();
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(async function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   it('updates the user email checking the verification code', async function () {

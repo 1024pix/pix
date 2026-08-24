@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { OrganizationLearnerLoggerContext } from '../../../shared/domain/constants.js';
+import { OrganizationLearnerLoggerContext } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
 
 const STATUS = {
   STUDENT: 'ST',

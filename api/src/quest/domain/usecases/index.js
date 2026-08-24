@@ -1,9 +1,9 @@
 import * as organizationLearnerPrescriptionRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as accessCodeGenerator from '../../../shared/domain/services/access-code-generator.js';
-import * as membershipRepository from '../../../shared/infrastructure/repositories/membership-repository.js';
 import * as organizationFeatureRepository from '../../../shared/infrastructure/repositories/organization-feature-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as combinedCourseBlueprintRepository from '../../infrastructure/repositories/combined-course-blueprints/combined-course-blueprint-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
@@ -29,7 +29,6 @@ const dependencies = {
   accessCodeRepository: repositories.accessCodeRepository,
   attestationRepository: repositories.attestationRepository,
   eligibilityRepository: repositories.eligibilityRepository,
-  rewardRepository: repositories.rewardRepository,
   successRepository: repositories.successRepository,
   questRepository: repositories.questRepository,
   combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
@@ -51,6 +50,7 @@ const dependencies = {
   campaignParticipationRepository: repositories.campaignParticipationRepository,
   profileRewardRepository: repositories.profileRewardRepository,
   combinedCourseBlueprintShareRepository: repositories.combinedCourseBlueprintShareRepository,
+  learningContentRepository: repositories.learningContentRepository,
   accessCodeGenerator,
   logger,
 };

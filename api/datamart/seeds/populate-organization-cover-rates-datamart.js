@@ -1,8 +1,9 @@
 import { DatamartBuilder } from '../../datamart/datamart-builder/datamart-builder.js';
 import { PRO_ORGANIZATION_ID } from '../../db/seeds/data/common/constants.js';
+import { databaseConnection } from '../knex-database-connection.js';
 
-export async function seed(knex) {
-  const datamartBuilder = new DatamartBuilder({ knex });
+export async function seed() {
+  const datamartBuilder = new DatamartBuilder({ databaseConnection });
   organizationCoverRates.forEach((coverRate) => datamartBuilder.factory.buildOrganizationsCoverRates(coverRate));
   await datamartBuilder.commit();
 }

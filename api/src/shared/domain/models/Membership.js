@@ -10,7 +10,9 @@ class Membership {
     id,
     organizationRole = roles.MEMBER,
     updatedByUserId,
+    organizationId,
     organization,
+    userId,
     user,
     lastAccessedAt,
     disabledAt,
@@ -19,7 +21,9 @@ class Membership {
     this.organizationRole = organizationRole;
     this.updatedByUserId = updatedByUserId;
     this.organization = organization;
+    this.organizationId = organization?.id ?? organizationId;
     this.user = user;
+    this.userId = user?.id ?? userId;
     this.lastAccessedAt = lastAccessedAt;
     this.disabledAt = disabledAt;
   }

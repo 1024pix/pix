@@ -13,6 +13,7 @@ export class CenterForAdmin {
    * @param {number} params.center.createdBy
    * @param {Date} params.center.updatedAt
    * @param {Date} params.center.archivedAt
+   * @param {number} [params.center.organizationId]
    * @param {number} params.archivistFullName
    * @param {string} params.dataProtectionOfficer.firstName
    * @param {string} params.dataProtectionOfficer.lastName
@@ -28,6 +29,7 @@ export class CenterForAdmin {
     this.createdBy = center.createdBy;
     this.updatedAt = center.updatedAt;
     this.archivedAt = center.archivedAt;
+    this.organizationId = center.organizationId;
     this.archivistFullName = archivistFullName;
     this.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
     this.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;

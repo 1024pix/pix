@@ -123,6 +123,10 @@ export default function routes() {
     schema.certificationVersionSummaries.find(request.params.id).destroy();
   });
 
+  this.get('/admin/certification-versions/:id/calibrations/:calibrationId/report', (schema) => {
+    return schema.calibrationReports.first();
+  });
+
   this.get('/admin/certification-frameworks', (schema) => {
     return schema.certificationFrameworks.all();
   });
@@ -230,6 +234,8 @@ export default function routes() {
       email: null,
       username: null,
       authenticationMethods: [],
+      organizationMemberships: [],
+      certificationCenterMemberships: [],
     });
   });
   this.post('/admin/users/:id/remove-authentication', (schema, request) => {

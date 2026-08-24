@@ -107,6 +107,7 @@ export default class CandidateList extends Component {
                 @onCandidateTestResumeAuthorization={{this.authorizeTestResume}}
                 @onInvigilatorEndAssessment={{this.endAssessmentByInvigilator}}
                 @sessionId={{@sessionId}}
+                @hasSessionExpired={{@hasSessionExpired}}
               />
             {{/each}}
           </ul>

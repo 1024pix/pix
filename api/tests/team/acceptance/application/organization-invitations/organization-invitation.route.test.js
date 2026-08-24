@@ -1,11 +1,11 @@
 import lodash from 'lodash';
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
@@ -17,7 +17,7 @@ describe('Acceptance | Team | Application | Controller | organization-invitation
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/organization-invitations/{id}', function () {
@@ -524,18 +524,13 @@ describe('Acceptance | Team | Application | Controller | organization-invitation
   });
 
   describe('PATCH /api/organizations/{id}/resend-invitation', function () {
-    let clock;
     const now = new Date('2022-12-25');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({
+      sinon.useFakeTimers({
         now,
         toFake: ['Date'],
       });
-    });
-
-    afterEach(async function () {
-      clock.restore();
     });
 
     it('should return the matching organization invitation as JSON API', async function () {
@@ -596,7 +591,7 @@ describe('Acceptance | Team | Application | Controller | organization-invitation
   describe('DELETE /api/organizations/{id}/invitations/{invitationId}', function () {
     it('returns 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
 
       const adminUser = databaseBuilder.factory.buildUser();
       const organization = databaseBuilder.factory.buildOrganization();

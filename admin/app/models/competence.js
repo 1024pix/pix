@@ -1,4 +1,4 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 import sortBy from 'lodash/sortBy';
 
 export default class Competence extends Model {

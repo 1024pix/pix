@@ -23,12 +23,11 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
   let cpfCertificationResultRepository;
   let cpfCertificationXmlExportService;
   let loggerSpy;
-  let clock;
   let logger;
 
   beforeEach(function () {
     const now = dayjs('2022-01-01T10:43:27Z').tz('Europe/Paris').toDate();
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     cpfCertificationResultRepository = {
       findByBatchId: sinon.stub(),
@@ -41,10 +40,6 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
     usecases.uploadCpfFiles = sinon.stub();
     logger = { error: noop, info: noop };
     loggerSpy = sinon.spy(logger, 'error');
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   describe('when there are data to export', function () {

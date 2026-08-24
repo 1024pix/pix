@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/session-for-supervising-serializer.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCompanionLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', function () {
@@ -19,6 +20,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
             examiner: 'Antoine Toutvenant',
             room: '28D',
             time: '14:30:00',
+            'has-expired': true,
           },
           id: '12',
           relationships: {
@@ -48,6 +50,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               subscription: 'CLEA',
               'is-still-eligible-to-double-certification': true,
               'user-id': 6789,
+              'has-exceeded-certification-duration': true,
               'challenge-live-alert': {
                 type: 'challenge',
                 status: CertificationChallengeLiveAlertStatus.ONGOING,
@@ -85,7 +88,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
           lastName: 'tata',
           birthdate: '1984-05-28',
           extraTimePercentage: 2,
-          authorizedToStart: true,
+          authorizedToStartAt: new Date(),
           assessmentStatus: Assessment.states.STARTED,
           startDateTime: new Date('2022-10-01T13:30:00Z'),
           theoricalEndDateTime: new Date('2022-10-01T14:30:00Z'),

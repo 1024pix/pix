@@ -1,16 +1,16 @@
-import { createServer } from '../../../../../server.js';
 import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | Certification | Enrolment | session-controller-post-certification-candidate', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('#add', function () {
@@ -20,14 +20,17 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
     let candidate;
 
     beforeEach(function () {
-      candidate = domainBuilder.certification.enrolment.buildCandidate({
-        birthCountry: 'FRANCE',
-        birthINSEECode: '75115',
-        birthPostalCode: null,
-        birthCity: null,
-        billingMode: BILLING_MODES.FREE,
-        subscription: Frameworks.CLEA,
-      });
+      candidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(Frameworks.CLEA)
+        .withParameters({
+          birthCountry: 'FRANCE',
+          birthINSEECode: '75115',
+          birthPostalCode: null,
+          birthCity: null,
+          billingMode: BILLING_MODES.FREE,
+        })
+        .build();
       userId = databaseBuilder.factory.buildUser().id;
 
       databaseBuilder.factory.buildOrganization({

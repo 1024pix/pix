@@ -32,11 +32,13 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
   context('when the  candidate is found and not linked to a user', function () {
     it('should call update method with correct data', async function () {
       // given
-      const foundCandidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: null,
-        accessibilityAdjustmentNeeded: false,
-        createdAt,
-      });
+      const foundCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({
+          accessibilityAdjustmentNeeded: false,
+          createdAt,
+        })
+        .build();
       candidateRepository.get.withArgs({ certificationCandidateId: editedCandidate.id }).resolves(foundCandidate);
       candidateRepository.update.resolves();
 
@@ -47,10 +49,13 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
       });
 
       // then
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...foundCandidate,
-        accessibilityAdjustmentNeeded: editedCandidate.accessibilityAdjustmentNeeded,
-      });
+      const candidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({
+          ...foundCandidate,
+          accessibilityAdjustmentNeeded: editedCandidate.accessibilityAdjustmentNeeded,
+        })
+        .build();
 
       expect(candidateRepository.update).to.have.been.calledOnceWithExactly(candidate);
     });
@@ -75,12 +80,17 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
   context('when the candidate is reconciled', function () {
     it('should call update method with correct data', async function () {
       // given
-      const foundCandidate = domainBuilder.certification.enrolment.buildCandidate({
-        id: editedCandidate.id,
-        accessibilityAdjustmentNeeded: false,
-        userId: 123,
-        reconciledAt: new Date('2024-09-25'),
-      });
+      const foundCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .asReconciled({
+          userId: 123,
+          reconciledAt: new Date('2024-09-25'),
+        })
+        .withParameters({
+          id: editedCandidate.id,
+          accessibilityAdjustmentNeeded: false,
+        })
+        .build();
       candidateRepository.get.withArgs({ certificationCandidateId: editedCandidate.id }).resolves(foundCandidate);
 
       // when

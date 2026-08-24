@@ -8,15 +8,11 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Organizational Entities | Domain | UseCase | archive-organizations-in-batch', function () {
-  let now, clock;
+  let now;
 
   beforeEach(function () {
     now = new Date('2025-01-01');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  afterEach(function () {
-    clock.restore();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   context('success', function () {

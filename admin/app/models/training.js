@@ -1,4 +1,4 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@warp-drive/legacy/model';
 import sortBy from 'lodash/sortBy';
 
 import formatList from '../utils/format-select-options';
@@ -70,5 +70,9 @@ export default class Training extends Model {
 
   get sortedTargetProfileSummaries() {
     return sortBy(this.hasMany('targetProfileSummaries').value(), 'id');
+  }
+
+  get isUsedForRecommendationEngine() {
+    return this.deliveryMode || this.objectives || this.description || this.program;
   }
 }

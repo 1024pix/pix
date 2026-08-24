@@ -13,12 +13,8 @@ describe('LLM | Integration | Infrastructure | Repositories | chat', function ()
     let clock, now;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(new Date('2025-09-26'));
-      now = new Date(clock.now);
-    });
-
-    afterEach(function () {
-      clock.restore();
+      now = new Date('2025-09-26');
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     context('when there is no chats or messages existing in database with chat id passed in parameter', function () {

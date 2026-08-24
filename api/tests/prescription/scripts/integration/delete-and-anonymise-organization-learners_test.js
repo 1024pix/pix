@@ -39,11 +39,11 @@ describe('DeleteAndAnonymiseOrganizationLearnerScript', function () {
     });
 
     describe('anonymise organization learners', function () {
-      let learner, otherLearner, campaign, organization, clock, now;
+      let learner, otherLearner, campaign, organization, now;
 
       beforeEach(async function () {
         now = new Date('2024-01-17');
-        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+        sinon.useFakeTimers({ now, toFake: ['Date'] });
 
         databaseBuilder.factory.buildUser({ id: ENGINEERING_USER_ID });
         organization = databaseBuilder.factory.buildOrganization();
@@ -60,10 +60,6 @@ describe('DeleteAndAnonymiseOrganizationLearnerScript', function () {
         });
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(function () {
-        clock.restore();
       });
 
       it('delete organization learners', async function () {

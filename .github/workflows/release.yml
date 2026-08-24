@@ -13,7 +13,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version-file: 'package.json'
 
@@ -23,6 +23,7 @@ jobs:
           changelogTitle: "# Pix Changelog"
         env:
           GITHUB_TOKEN: ${{ secrets.PIX_SERVICE_RELEASE_ACTION_TOKEN }}
+
       - name: Notify to a slack channel
         if: env.new_release_published == 'true'
         uses: slackapi/slack-github-action@v4.0.0
@@ -32,3 +33,13 @@ jobs:
           payload: |
             channel: ${{ secrets.SLACK_RELEASE_CHANNEL_ID }}
             text: "Coucou 🙃, je lance la mise en recette de la v${{ env.new_release_version }} !"
+
+      - name: Warn when no release was published
+        if: env.new_release_published != 'true'
+        uses: slackapi/slack-github-action@v4.0.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_RELEASE_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_RELEASE_CHANNEL_ID }}
+            text: "⚠️ Aucune version n'a été publiée, rien ne sera déployé en recette. Il s'agit le plus souvent d'une race condition : la branche a bougé pendant la release, il faut relancer le job ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. Peut-être n'y avait-il rien à publier."

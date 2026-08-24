@@ -16,10 +16,6 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
     controller = this.owner.lookup('controller:authenticated/team/list/invitations');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#cancelInvitation', function () {
     test('cancel invitation and displays a success notification', async function (assert) {
       // given

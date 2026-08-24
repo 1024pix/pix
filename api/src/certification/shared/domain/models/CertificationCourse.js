@@ -2,7 +2,7 @@
  * @typedef {import('../../../../shared/domain/models/Assessment.js').Assessment} Assessment
  * @typedef {import('../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  * @typedef {import('./CertificationIssueReport.js').CertificationIssueReport} CertificationIssueReport
- * @typedef {import('../../../session-management/domain/models/ComplementaryCertificationCourse.js').ComplementaryCertificationCourse} ComplementaryCertificationCourse
+ * @typedef {import('./ComplementaryCertificationCourse.js').ComplementaryCertificationCourse} ComplementaryCertificationCourse
  * @typedef {import('./AlgorithmEngineVersion.js').AlgorithmEngineVersion} AlgorithmEngineVersion
  */
 import JoiDate from '@joi/date';
@@ -150,13 +150,6 @@ export class CertificationCourse {
     });
   }
 
-  withAssessment(assessment) {
-    return new CertificationCourse({
-      ...this.toDTO(),
-      assessment: assessment,
-    });
-  }
-
   rejectForFraud() {
     this._isRejectedForFraud = true;
   }
@@ -167,10 +160,6 @@ export class CertificationCourse {
 
   isRejectedForFraud() {
     return this._isRejectedForFraud;
-  }
-
-  adjustForAccessibility(isAdjustmentNeeded) {
-    this._isAdjustedForAccessibility = !!isAdjustmentNeeded;
   }
 
   abort(reason) {
@@ -285,10 +274,6 @@ export class CertificationCourse {
 
   getNumberOfChallenges() {
     return this._numberOfChallenges ?? this._challenges?.length ?? 0;
-  }
-
-  setNumberOfChallenges(numberOfChallenges) {
-    this._numberOfChallenges = numberOfChallenges;
   }
 
   /**

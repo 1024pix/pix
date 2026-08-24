@@ -1,4 +1,4 @@
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -335,15 +335,13 @@ module('Acceptance | Route | routes/authenticated/sessions/certification | neutr
       });
 
       // when
-      await visit(`/sessions/certification/${certificationId}/neutralization`);
+      const screen = await visit(`/sessions/certification/${certificationId}/neutralization`);
 
       // then
-      const firstRowContent = document.querySelector('tr:nth-child(1) td:nth-child(2)').innerText;
-      const secondRowContent = document.querySelector('tr:nth-child(2) td:nth-child(2)').innerText;
-      const thirdRowContent = document.querySelector('tr:nth-child(3) td:nth-child(2)').innerText;
-      assert.strictEqual(firstRowContent, 'recCGEqqWBQnzD3NZ');
-      assert.strictEqual(secondRowContent, 'recABCEdeef1234');
-      assert.strictEqual(thirdRowContent, 'recZXYW4321');
+      const [, row1, row2, row3] = screen.getAllByRole('row');
+      assert.dom(within(row1).getByText('recCGEqqWBQnzD3NZ')).exists();
+      assert.dom(within(row2).getByText('recABCEdeef1234')).exists();
+      assert.dom(within(row3).getByText('recZXYW4321')).exists();
     });
   });
 });

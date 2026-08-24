@@ -131,7 +131,7 @@ module('Integration | Component | Login session invigilator | Form', function (h
         const blockedAccessDate = '2025-09-01';
         const authenticateInvigilator = sinon
           .stub()
-          .rejects({ errors: [{ code: 'SESSION_NOT_ACCESSIBLE', meta: { blockedAccessDate } }] });
+          .rejects({ errors: [{ code: 'SESSION_NOT_JOINABLE', meta: { blockedAccessDate } }] });
 
         // when
         const screen = await render(
@@ -153,7 +153,7 @@ module('Integration | Component | Login session invigilator | Form', function (h
         assert
           .dom(
             within(screen.getByRole('alert')).getByText(
-              t('pages.session-supervising.login.form.errors.session-not-accessible', { date: '01/09/2025' }),
+              t('pages.session-supervising.login.form.errors.session-not-joinable', { date: '01/09/2025' }),
             ),
           )
           .exists();

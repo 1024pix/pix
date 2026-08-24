@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { sessionMassImportController } from '../../../../../src/certification/enrolment/application/session-mass-import-controller.js';
 import { sessionMassImportRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/session-mass-import-route.js';
+import { organizationalEntitiesSecurityPreHandlers } from '../../../../../src/organizational-entities/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -25,7 +26,7 @@ describe('Unit | Router | session-mass-import-route', function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((_, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
+        .stub(organizationalEntitiesSecurityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
         .callsFake((_request, h) => h.response(true));
       sinon.stub(sessionMassImportController, 'validateSessions').returns('ok');
       const certificationCenterId = 123;
@@ -53,7 +54,7 @@ describe('Unit | Router | session-mass-import-route', function () {
             .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
             .callsFake((_, h) => h.response(true));
           sinon
-            .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
+            .stub(organizationalEntitiesSecurityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
             .callsFake((_request, h) => Promise.resolve(h.response().code(403).takeover()));
           sinon.stub(sessionMassImportController, 'validateSessions').returns('ok');
           const certificationCenterId = 123;
@@ -81,7 +82,7 @@ describe('Unit | Router | session-mass-import-route', function () {
             .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
             .callsFake((_, h) => h.response(true));
           sinon
-            .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
+            .stub(organizationalEntitiesSecurityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
             .callsFake((_request, h) => Promise.resolve(h.response().code(200).takeover()));
           sinon.stub(sessionMassImportController, 'validateSessions').returns('ok');
           const certificationCenterId = 123;
@@ -109,7 +110,7 @@ describe('Unit | Router | session-mass-import-route', function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((_, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
+        .stub(organizationalEntitiesSecurityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
         .callsFake((_, h) => h.response(true));
       sinon.stub(sessionMassImportController, 'getTemplate').returns('ok');
       const httpTestServer = new HttpTestServer();

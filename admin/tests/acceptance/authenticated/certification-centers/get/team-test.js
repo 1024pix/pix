@@ -35,7 +35,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
     });
 
     // when
-    const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
 
     // then
     const table = screen.getByRole('table', {
@@ -68,7 +68,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
     });
 
     // when
-    const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
     await clickByName('Désactiver');
 
     // then
@@ -86,7 +86,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
       });
 
       // when
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Ajouter un membre' })).exists();
@@ -103,7 +103,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
         type: 'SCO',
       });
       const spacesEmail = ' ';
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', spacesEmail);
@@ -122,7 +122,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'an invalid email');
@@ -142,7 +142,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'test@example.net');
@@ -163,7 +163,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
         type: 'SCO',
       });
       const email = 'test@example.net';
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
       await fillByLabel('Adresse e-mail du nouveau membre', email);
       const input = screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' });
       await triggerEvent(input, 'focusout');
@@ -196,7 +196,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
         role: 'MEMBER',
         user,
       });
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
       const table = screen.getByRole('table', {
         name: t('components.memberships-section.table.caption'),
       });
@@ -230,7 +230,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
         role: 'MEMBER',
         user,
       });
-      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}/team`);
       const table = screen.getByRole('table', {
         name: t('components.memberships-section.table.caption'),
       });

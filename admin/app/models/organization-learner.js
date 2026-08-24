@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@warp-drive/legacy/model';
 
 export default class OrganizationLearner extends Model {
   @attr() firstName;
@@ -14,4 +14,8 @@ export default class OrganizationLearner extends Model {
   @attr() canBeDissociated;
 
   @belongsTo('user', { async: true, inverse: 'organizationLearners' }) user;
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }

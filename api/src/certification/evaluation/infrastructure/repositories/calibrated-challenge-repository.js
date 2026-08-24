@@ -28,7 +28,14 @@ export async function findActiveFlashCompatible({ locale, version }) {
 
   const certificationChallengeIds = calibrations.map(({ challengeId }) => challengeId);
 
-  const findCallback = async (lcmsKnex) => {
+  const lcmsChallengeDtos = await getInstance().find(cacheKey, findCallback(certificationChallengeIds, locale));
+
+  const calibratedSkillsMap = await loadCalibratedSkillsMap(lcmsChallengeDtos);
+  return toDomainMap({ lcmsChallengeDtos, calibrations, calibratedSkillsMap });
+}
+
+function findCallback(certificationChallengeIds, locale) {
+  return (lcmsKnex) => {
     return lcmsKnex
       .select('id', 'skillId', 'accessibility1', 'accessibility2')
       .whereIn('id', certificationChallengeIds)
@@ -36,11 +43,6 @@ export async function findActiveFlashCompatible({ locale, version }) {
       .whereRaw('?=ANY(??)', [locale, 'locales'])
       .orderBy('id');
   };
-
-  const lcmsChallengeDtos = await getInstance().find(cacheKey, findCallback);
-
-  const calibratedSkillsMap = await loadCalibratedSkillsMap(lcmsChallengeDtos);
-  return toDomainMap({ lcmsChallengeDtos, calibrations, calibratedSkillsMap });
 }
 
 /**

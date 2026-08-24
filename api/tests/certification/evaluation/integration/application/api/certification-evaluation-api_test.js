@@ -5,6 +5,7 @@ import { NextChallengeAlreadyComputingError } from '../../../../../../src/certif
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { executeInContext } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { expect } from '../../../../../test-helper.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 import { wait } from '../../../../../tooling/test-utils/wait.js';
 
@@ -144,6 +145,30 @@ describe('Integration | Application | Certification | Evaluation | API', functio
         expect(result1).to.equal('challenge123');
         expect(result2).to.deepEqualInstance(new NextChallengeAlreadyComputingError());
       });
+    });
+  });
+
+  describe('#getAssessmentLiveAlerts', function () {
+    it('returns the challenge and companion live alerts of the given assessment only', async function () {
+      // given
+      const assessmentId = databaseBuilder.factory.buildAssessment().id;
+      const otherAssessmentId = databaseBuilder.factory.buildAssessment().id;
+      const challengeLiveAlert = databaseBuilder.factory.buildCertificationChallengeLiveAlert({ assessmentId });
+      const companionLiveAlert = databaseBuilder.factory.buildCertificationCompanionLiveAlert({ assessmentId });
+      databaseBuilder.factory.buildCertificationChallengeLiveAlert({ assessmentId: otherAssessmentId });
+      databaseBuilder.factory.buildCertificationCompanionLiveAlert({ assessmentId: otherAssessmentId });
+      await databaseBuilder.commit();
+
+      // when
+      const { challengeLiveAlerts, companionLiveAlerts } = await certificationEvaluationApi.getAssessmentLiveAlerts({
+        assessmentId,
+      });
+
+      // then
+      expect(challengeLiveAlerts).to.have.lengthOf(1);
+      expect(challengeLiveAlerts[0].id).to.equal(challengeLiveAlert.id);
+      expect(companionLiveAlerts).to.have.lengthOf(1);
+      expect(companionLiveAlerts[0].id).to.equal(companionLiveAlert.id);
     });
   });
 });

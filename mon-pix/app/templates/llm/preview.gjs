@@ -31,7 +31,7 @@ export default class LLMPreviewComponent extends Component {
     {{pageTitle (t "pages.llm-preview.title")}}
 
     <main class="main" role="main">
-      <PixBackgroundHeader id="main" class="certification-start-page__header">
+      <PixBackgroundHeader id="main" class="llm-preview__header">
         <PageTitle>
           <:title>{{t "pages.llm-preview.title"}}</:title>
         </PageTitle>

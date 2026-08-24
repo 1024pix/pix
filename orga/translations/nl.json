@@ -296,21 +296,21 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Beoordelingscampagne",
-        "CAMPAIGN": "Evaluatiecampagne",
         "COMBINED_COURSE": "Leetraject",
         "EXAM": "Vraagmodus",
-        "FORMATION": "Training",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Campagne profielenverzameling"
+        "PROFILES_COLLECTION": "Campagne profielenverzameling",
+        "campaign": "Evaluatiecampagne",
+        "formation": "Training",
+        "module": "Module"
       },
       "information": {
         "ASSESSMENT": "Beoordeling",
-        "CAMPAIGN": "Beoordeling",
         "COMBINED_COURSE": "Leetraject",
         "EXAM": "Vraagmodus",
-        "FORMATION": "Training",
-        "MODULE": "Module",
-        "PROFILES_COLLECTION": "Profielverzameling"
+        "PROFILES_COLLECTION": "Profielverzameling",
+        "campaign": "Beoordeling",
+        "formation": "Training",
+        "module": "Module"
       }
     },
     "analysis-per-competence": {
@@ -816,7 +816,8 @@
         "label": "Wat is het doel van je campagne?",
         "profiles-collection": "Pix-profielen van deelnemers verzamelen",
         "profiles-collection-info": "Een campagne voor het verzamelen van profielen wordt gebruikt om het profiel van de deelnemers te achterhalen: niveaus per vaardigheid en pix-score.",
-        "profiles-collection-info-certificability-calculation": "De certificeerbare status wordt automatisch bijgewerkt in het tabblad '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Studenten'</a>'."
+        "profiles-collection-info-certificability-calculation": "De certificeerbare status wordt automatisch bijgewerkt in het tabblad '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Studenten'</a>'.",
+        "title": "Doel"
       },
       "settings": {
         "title": "Instellingen"
@@ -1042,7 +1043,7 @@
         "simplified-access": "Toegang zonder account",
         "tag": {
           "blueprint": "Leertraject",
-          "target-profile": "Traject"
+          "target-profile": "Beoordelingstraject"
         },
         "tubes-count": "{count, plural, =0 {Geen onderwerp} =1 {{count} onderwerp} other {{count} onderwerpen}}"
       },
@@ -1074,17 +1075,20 @@
         "associated-badges": "Gerelateerde badges",
         "combined-course-content": {
           "aria-label-duration": "Geschatte duur: {duration} minuten",
-          "description": "Leertrajecten vormen individuele evaluaties en leermodules, waardoor pedagogische aanpassing mogelijk is op basis van het niveau van elke deelnemer.",
           "duration": "≈ {duration} min",
           "module-info": "Modules worden aanbevolen aan deelnemers op basis van hun resultaten.",
           "prescribed": "Voorgeschreven",
           "recommended": "Aanbevolen",
           "step": "Stap nr. {number}",
-          "title": "Leertrajecten"
+          "title": "Inhoud van het leertraject"
         },
         "max-level": "Max. niveau",
         "open-modal": "Bekijk de details van het traject",
         "select-course": "Deze cursus selecteren",
+        "target-profile-content": {
+          "competence": "Competentie",
+          "title": "Inhoud van het beoordelingstraject"
+        },
         "tube-name-and-description": "Naam en beschrijving van het onderwerp",
         "tube-unavailable": "Onderwerp niet beschikbaar"
       },
@@ -1127,6 +1131,7 @@
         "breadcrumb": "Deelname van {firstName} {lastName}",
         "column": {
           "campaign": "Campagne",
+          "mastery-rate": "succespercentage",
           "module": "Module",
           "status": "Status"
         },

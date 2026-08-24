@@ -190,6 +190,9 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
       });
 
       const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Jean',
+        lastName: 'Peuplus',
+        birthdate: '04/23/2000',
         sessionId: session.id,
         userId: certifiableUserId,
       }).id;
@@ -392,6 +395,9 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
       });
 
       const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Jean',
+        lastName: 'Peuplus',
+        birthdate: '04/23/2000',
         sessionId: session.id,
         userId: certifiableUserId,
         subscription: eduCertificationVersion.scope,
@@ -482,6 +488,9 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
         });
 
         const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'Jean',
+          lastName: 'Peuplus',
+          birthdate: '04/23/2000',
           sessionId: session.id,
           userId: certifiableUserId,
           subscription: droitCertificationVersion.scope,
@@ -564,6 +573,9 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
       });
 
       const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Jean',
+        lastName: 'Peuplus',
+        birthdate: '04/23/2000',
         sessionId: session.id,
         userId: certifiableUserId,
       }).id;

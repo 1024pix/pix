@@ -5,7 +5,8 @@ import { MembershipUpdateError } from '../../src/shared/domain/errors.js';
 const { times } = lodash;
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { databaseConnectionRegistry } from '../../db/database-connection-registry.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { UserCantBeCreatedError } from '../../src/identity-access-management/domain/errors.js';
 import { ForbiddenAccess } from '../../src/shared/domain/errors.js';
 
@@ -90,7 +91,7 @@ async function main() {
       console.error(error);
       process.exitCode = 1;
     } finally {
-      await disconnect();
+      await databaseConnectionRegistry.disconnect();
     }
   }
 })();

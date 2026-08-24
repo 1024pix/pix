@@ -4,6 +4,7 @@ import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { MissingAttributesError, NotFoundError } from '../../../shared/domain/errors.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
+import * as organizationApi from '../../../team/application/api/organization.js';
 import { AttachedOrganization } from '../../domain/models/AttachedOrganization.js';
 import { OrganizationForAdmin } from '../../domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../domain/models/OrganizationLearnerType.js';
@@ -22,7 +23,7 @@ const ORGANIZATION_INVITATIONS_TABLE_NAME = 'organization-invitations';
  * @param {string|number} params.archivedBy
  * @return {Promise<void|MissingAttributesError|NotFoundError>}
  */
-const archive = async function ({ id, archivedBy, campaignApi, learnerApi }) {
+const archive = async function ({ id, archivedBy }) {
   const knexConnection = DomainTransaction.getConnection();
   const organization = await knexConnection(ORGANIZATIONS_TABLE_NAME).where({ id }).first();
   if (!organization) {
@@ -36,12 +37,6 @@ const archive = async function ({ id, archivedBy, campaignApi, learnerApi }) {
   const archiveDate = new Date();
 
   await knexConnection(ORGANIZATION_INVITATIONS_TABLE_NAME).where({ organizationId: id }).delete();
-
-  await learnerApi.deleteOrganizationLearnerBeforeImportFeature({
-    userId: archivedBy,
-    organizationId: id,
-  });
-  await campaignApi.deleteActiveCampaigns({ userId: archivedBy, organizationId: id });
 
   await knexConnection('memberships')
     .where({ organizationId: id, disabledAt: null })
@@ -137,6 +132,8 @@ const get = async function ({ organizationId }) {
       networkName: 'networks.name',
       networkHeadOrganizationId: 'headOrganizations.id',
       networkHeadOrganizationName: 'headOrganizations.name',
+      categoryLabel: 'structure_categories.label',
+      categoryId: 'structure_categories.id',
     })
     .leftJoin('users AS archivists', 'archivists.id', 'organizations.archivedBy')
     .leftJoin(
@@ -157,6 +154,8 @@ const get = async function ({ organizationId }) {
       'parentFctStructures.structure_id',
       'fct_structures.parent_structure_id',
     )
+    .leftJoin('structures', 'structures.id', 'fct_structures.structure_id')
+    .leftJoin('structure_categories', 'structure_categories.id', 'structures.category_id')
     .leftJoin('organizations AS parentOrganizations', 'parentOrganizations.id', 'parentFctStructures.organization_id')
     .leftJoin('networks', 'networks.id', 'fct_structures.network_id')
     .leftJoin('fct_structures as headFctStructures', function () {
@@ -358,7 +357,6 @@ const findPaginatedFiltered = async function ({ filter, page }) {
  * @param {string} params.role
  * @param {string} params.locale
  * @param {OrganizationRepository} params.organizationRepository
- * @param {OrganizationApi} params.organizationApi
  * @returns {Promise<void>}
  */
 const createProOrganizationInvitation = async function ({
@@ -367,7 +365,6 @@ const createProOrganizationInvitation = async function ({
   role,
   locale,
   organizationRepository,
-  organizationApi,
 }) {
   await organizationApi.createProOrganizationInvitation({
     organizationId,
@@ -376,15 +373,6 @@ const createProOrganizationInvitation = async function ({
     locale,
     organizationRepository,
   });
-};
-
-/**
- * @type {function}
- * @param {number} organizationId
- * @return {Promise<{totalParticipantsCount: number}>}
- */
-const getOrganizationParticipantsStatistics = async ({ campaignStatsApi, organizationId }) => {
-  return campaignStatsApi.getOrganizationParticipantsStatistics(organizationId);
 };
 
 /**
@@ -605,6 +593,8 @@ function _toDomain(rawOrganization) {
     networkName: rawOrganization.networkName,
     networkHeadOrganizationId: rawOrganization.networkHeadOrganizationId,
     networkHeadOrganizationName: rawOrganization.networkHeadOrganizationName,
+    categoryLabel: rawOrganization.categoryLabel,
+    categoryId: rawOrganization.categoryId,
   });
 
   return organization;
@@ -628,7 +618,6 @@ export const organizationForAdminRepository = {
   findPaginatedFiltered,
   findChildrenByParentOrganizationId,
   get,
-  getOrganizationParticipantsStatistics,
   save,
   update,
 };

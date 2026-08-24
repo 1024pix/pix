@@ -8,7 +8,8 @@ import { usecases } from '../domain/usecases/index.js';
 import * as certifiedProfileRepository from '../infrastructure/repositories/certified-profile-repository.js';
 import * as certifiedProfileSerializer from '../infrastructure/serializers/certified-profile-serializer.js';
 import { getCleaCertifiedCandidateCsv } from '../infrastructure/utils/csv/certification-results/get-clea-certified-candidate-csv.js';
-const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencies = { getCleaCertifiedCandidateCsv }) {
+
+async function getCleaCertifiedCandidateDataCsv(request, h, dependencies = { getCleaCertifiedCandidateCsv }) {
   const sessionId = request.params.sessionId;
   const { session, cleaCertifiedCandidateData } = await usecases.getCleaCertifiedCandidateBySession({ sessionId });
   const csvResult = await dependencies.getCleaCertifiedCandidateCsv({
@@ -24,9 +25,9 @@ const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencie
     .response(csvResult)
     .header('Content-Type', 'text/csv;charset=utf-8')
     .header('Content-Disposition', `attachment; filename=${fileName}`);
-};
+}
 
-const getSessionResultsByRecipientEmail = async function (request, h) {
+async function getSessionResultsByRecipientEmail(request, h) {
   const i18n = getI18nFromRequest(request);
 
   const token = request.params.token;
@@ -47,9 +48,9 @@ const getSessionResultsByRecipientEmail = async function (request, h) {
     .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
     .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
-};
+}
 
-const postSessionResultsToDownload = async function (request, h) {
+async function postSessionResultsToDownload(request, h) {
   const i18n = getI18nFromRequest(request);
 
   const { sessionId } = CertificationResultsLinkToken.decode(request.payload.token);
@@ -65,9 +66,9 @@ const postSessionResultsToDownload = async function (request, h) {
     .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
     .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
-};
+}
 
-const getCertifiedProfile = async function (
+async function getCertifiedProfile(
   request,
   h,
   dependencies = { certifiedProfileRepository, certifiedProfileSerializer },
@@ -76,18 +77,18 @@ const getCertifiedProfile = async function (
   //TODO add passthrough usecase to remove link between application and infrastructure
   const certifiedProfile = await dependencies.certifiedProfileRepository.get(certificationCourseId);
   return dependencies.certifiedProfileSerializer.serialize(certifiedProfile);
-};
+}
 
-const generateSessionResultsDownloadLink = function (request, h, dependencies = { sessionResultsLinkService }) {
+function generateSessionResultsDownloadLink(request, h, dependencies = { sessionResultsLinkService }) {
   const i18n = getI18nFromRequest(request);
 
   const sessionId = request.params.sessionId;
   const sessionResultsLink = dependencies.sessionResultsLinkService.generateResultsLink({ sessionId, i18n });
 
   return h.response({ sessionResultsLink });
-};
+}
 
-const downloadSelectedSessionsResults = async function (request, h) {
+async function downloadSelectedSessionsResults(request, h) {
   const i18n = getI18nFromRequest(request);
   const { sessionIds } = request.query;
 
@@ -97,9 +98,9 @@ const downloadSelectedSessionsResults = async function (request, h) {
     .response(zip.content)
     .header('Content-Type', 'application/zip')
     .header('Content-Disposition', `attachment; filename=${zip.filename}`);
-};
+}
 
-const certificationResultsController = {
+export const certificationResultsController = {
   downloadSelectedSessionsResults,
   getCleaCertifiedCandidateDataCsv,
   getSessionResultsByRecipientEmail,
@@ -107,5 +108,3 @@ const certificationResultsController = {
   getCertifiedProfile,
   generateSessionResultsDownloadLink,
 };
-
-export { certificationResultsController };

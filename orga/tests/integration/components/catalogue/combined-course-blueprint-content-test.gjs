@@ -7,26 +7,6 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Catalogue | Course Modale::CombinedCourseBlueprintContent', function (hooks) {
   setupIntlRenderingTest(hooks);
-  test('it shows combined course explanation', async function (assert) {
-    const store = this.owner.lookup('service:store');
-
-    //given
-    const blueprint = store.createRecord('combined-course-blueprint-overview', {
-      name: 'Le module EDU',
-      illustration: 'mon-image.svg',
-      description: 'description',
-      items: [],
-    });
-
-    const screen = await render(
-      <template><CombinedCourseBlueprintContent @combinedCourseBlueprint={{blueprint}} /></template>,
-    );
-
-    assert
-      .dom(screen.getByRole('heading', { level: 3, name: t('pages.catalogue.modal.combined-course-content.title') }))
-      .exists();
-    assert.dom(screen.getByText(t('pages.catalogue.modal.combined-course-content.description'))).exists();
-  });
   test('it shows explanation for module step', async function (assert) {
     const store = this.owner.lookup('service:store');
 

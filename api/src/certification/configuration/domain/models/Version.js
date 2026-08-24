@@ -26,10 +26,24 @@ export class Version {
     expirationDate: Joi.date().allow(null).optional(),
     assessmentDuration: Joi.number().required(),
     minimumAnswersRequiredToValidateACertification: Joi.number().required(),
-    globalScoringConfiguration: Joi.array().allow(null).optional(),
+    globalScoringConfiguration: Joi.array()
+      .items(
+        Joi.object({
+          bounds: Joi.object({
+            min: Joi.number().required(),
+            max: Joi.number().required(),
+          }).custom((value, helpers) => {
+            if (value.max <= value.min) return helpers.error('any.invalid');
+            return value;
+          }),
+          meshLevel: Joi.number().required(),
+        }).optional(),
+      )
+      .min(0),
     competencesScoringConfiguration: Joi.array().allow(null).optional(),
     challengesConfiguration: Joi.object().instance(FlashAssessmentAlgorithmConfiguration).required(),
     comments: Joi.string().allow(null).optional(),
+    externalCalibrationId: Joi.number().allow(null).optional(),
     status: Joi.string()
       .required()
       .valid(...Object.values(VERSION_STATUSES)),
@@ -44,6 +58,7 @@ export class Version {
    * @param {Date|null} [params.expirationDate] - When this version expires (null if current)
    * @param {number} params.assessmentDuration - Assessment duration in minutes
    * @param {number} params.minimumAnswersRequiredToValidateACertification
+   * @param {number} params.externalCalibrationId
    * @param {string} params.comments
    * @param {Array<string>} params.tubeIds
    * @param {VERSION_STATUSES.DRAFT | VERSION_STATUSES.ACTIVE | VERSION_STATUSES.ARCHIVED} params.status
@@ -61,6 +76,7 @@ export class Version {
     globalScoringConfiguration,
     competencesScoringConfiguration,
     challengesConfiguration,
+    externalCalibrationId,
     comments,
     status,
     tubeIds,
@@ -77,6 +93,7 @@ export class Version {
     this.comments = comments === '' ? null : comments;
     this.status = status;
     this.tubeIds = tubeIds;
+    this.externalCalibrationId = externalCalibrationId;
   }
 
   validate() {
@@ -97,6 +114,8 @@ export class Version {
     defaultCandidateCapacity,
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
+    externalCalibrationId,
+    globalScoringConfiguration,
   }) {
     if (!this.isDraft) {
       throw new VersionNotDraftError();
@@ -113,6 +132,8 @@ export class Version {
       limitToOneQuestionPerTube,
       enablePassageByAllCompetences,
     });
+    this.externalCalibrationId = externalCalibrationId;
+    this.globalScoringConfiguration = globalScoringConfiguration;
     this.validate();
   }
 
@@ -151,6 +172,7 @@ export class Version {
       globalScoringConfiguration: version?.globalScoringConfiguration ?? [],
       competencesScoringConfiguration: version?.competencesScoringConfiguration ?? [],
       status: VERSION_STATUSES.DRAFT,
+      externalCalibrationId: version?.externalCalibrationId ?? null,
       comments: null,
       tubeIds,
     });

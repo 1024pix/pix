@@ -1,4 +1,4 @@
-import { BaseChallenge } from '../../../shared/domain/models/BaseChallenge.js';
+import { BaseChallenge } from './BaseChallenge.js';
 
 /**
  * @class ChallengeToPlay

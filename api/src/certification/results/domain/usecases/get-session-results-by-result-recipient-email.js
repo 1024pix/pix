@@ -1,4 +1,4 @@
-const getSessionResultsByResultRecipientEmail = async function ({
+export async function getSessionResultsByResultRecipientEmail({
   sessionId,
   resultRecipientEmail,
   certificationResultRepository,
@@ -9,6 +9,4 @@ const getSessionResultsByResultRecipientEmail = async function ({
   return await certificationResultRepository.findByCertificationCandidateIds({
     certificationCandidateIds: resultRecipient.candidateIds,
   });
-};
-
-export { getSessionResultsByResultRecipientEmail };
+}

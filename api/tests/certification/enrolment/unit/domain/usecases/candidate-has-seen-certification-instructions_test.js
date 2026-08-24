@@ -19,13 +19,25 @@ describe('Unit | UseCase | candidate-has-seen-certification-instructions', funct
   context('when the candidate is found', function () {
     it('should proceed to update candidate', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        id: 187,
-        createdAt: new Date('2020-01-01T00:00:00Z'),
-        hasSeenCertificationInstructions: false,
-      });
+      const candidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({
+          id: 187,
+          createdAt: new Date('2020-01-01T00:00:00Z'),
+          hasSeenCertificationInstructions: false,
+        })
+        .build();
+
+      const expectedCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withParameters({
+          id: 187,
+          createdAt: new Date('2020-01-01T00:00:00Z'),
+          hasSeenCertificationInstructions: true,
+        })
+        .build();
       candidateRepository.get.withArgs({ certificationCandidateId: 187 }).resolves(candidate);
-      candidateRepository.update.resolves();
+      candidateRepository.update.withArgs(expectedCandidate).resolves();
 
       // when
       const result = await candidateHasSeenCertificationInstructions({
@@ -34,12 +46,6 @@ describe('Unit | UseCase | candidate-has-seen-certification-instructions', funct
       });
 
       // then
-      const expectedCandidateUpdated = domainBuilder.certification.enrolment.buildCandidate({
-        id: 187,
-        createdAt: new Date('2020-01-01T00:00:00Z'),
-        hasSeenCertificationInstructions: true,
-      });
-      expect(candidateRepository.update).to.have.been.calledOnceWithExactly(expectedCandidateUpdated);
       expect(result.hasSeenCertificationInstructions).to.be.true;
     });
 

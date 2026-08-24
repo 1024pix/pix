@@ -62,15 +62,11 @@ describe('Certification | SessionManagement | Unit | Domain | Models | Session',
   });
 
   context('#finalize', function () {
-    let clock, now;
+    let now;
 
     beforeEach(function () {
       now = new Date('2024-11-16');
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('finalizes the session and the certification courses', function () {

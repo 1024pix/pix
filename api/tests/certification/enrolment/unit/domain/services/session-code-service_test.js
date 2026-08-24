@@ -11,4 +11,14 @@ describe('Unit | Service | CodeSession', function () {
       expect(result).to.match(/[B,C,D,F,G,H,J,K,M,P,Q,R,T,V,W,X,Y]{4}[2,3,4,6,7,8,9]{2}/);
     });
   });
+
+  describe('#getNewInvigilatorPassword', function () {
+    it('should return a 6 characters password made of non ambiguous characters', function () {
+      // when
+      const result = sessionCodeService.getNewInvigilatorPassword();
+
+      // then
+      expect(result).to.match(/^[23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?]{6}$/);
+    });
+  });
 });

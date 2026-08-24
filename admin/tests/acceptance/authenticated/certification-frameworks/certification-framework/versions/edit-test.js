@@ -168,6 +168,16 @@ module('Acceptance | Certification Framework | item | Framework | edit', functio
         assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
       });
     });
+
+    module('when trying to click on next button', function () {
+      test('redirects to calibration page', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        await visit(`/certification-frameworks/CORE/versions/14/edit`);
+        await clickByName('Suivant');
+        assert.strictEqual(currentURL(), '/certification-frameworks/CORE/versions/14/calibration');
+      });
+    });
   });
 
   module('when admin member doesn\'t have the role "SUPER ADMIN"', function () {

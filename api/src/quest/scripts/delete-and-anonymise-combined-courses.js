@@ -1,13 +1,11 @@
-import { JobGroup } from '../../shared/application/jobs/job-controller.js';
 import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
-import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
-import { JobClient } from '../../shared/infrastructure/jobs/JobClient.js';
 import { usecases } from '../domain/usecases/index.js';
 
 // Définition du script
-export class DeleteAndAnonymiseCombinedCoursesScript extends Script {
+export class DeleteAndAnonymiseCombinedCoursesScript extends ScriptWithJob {
   constructor() {
     super({
       description: 'Deletes combined courses and anonymize possible existing participations of learners',
@@ -27,18 +25,14 @@ export class DeleteAndAnonymiseCombinedCoursesScript extends Script {
     });
   }
 
-  async handle({ options, logger, dependencies = { usecases, jobClient: JobClient.instance } }) {
+  async handle({ options, logger, dependencies = { usecases }, jobClient }) {
     logger.info(
       { event: 'DeleteAndAnonymizeCombinedCoursesScript' },
       `Deletes ${options.combinedCourseIds.length} combined courses and anonymize possible existing participations`,
     );
-    await dependencies.jobClient.initialize({
-      jobGroups: [JobGroup.DEFAULT],
-    });
 
-    this.onFinished = async () => {
-      await dependencies.jobClient.stop();
-    };
+    await super.handle({ jobClient });
+
     await DomainTransaction.execute(async () => {
       const knexConn = DomainTransaction.getConnection();
 

@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { Certificate } from '../../domain/read-models/livret-scolaire/Certificate.js';
 
-const getCertificatesByOrganizationUAI = async function (uai) {
+export async function getCertificatesByOrganizationUAI(uai) {
   const knexConn = DomainTransaction.getConnection();
   const result = await knexConn
     .select({
@@ -90,6 +90,4 @@ const getCertificatesByOrganizationUAI = async function (uai) {
     .orderBy('id', 'ASC');
 
   return result.map(Certificate.from);
-};
-
-export { getCertificatesByOrganizationUAI };
+}

@@ -7,7 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import PasswordChecklist from './password-checklist';
 
 export default class NewPasswordInput extends Component {
-  @tracked value = '';
+  @tracked value;
 
   get isInvalid() {
     const { validationStatus } = this.args;
@@ -25,6 +25,7 @@ export default class NewPasswordInput extends Component {
   <template>
     <PixInputPassword
       @id={{@id}}
+      @value={{if @useExternalValue @value undefined}}
       @errorMessage={{@errorMessage}}
       @validationStatus={{@validationStatus}}
       {{on "input" this.handlePasswordChange}}
@@ -36,6 +37,6 @@ export default class NewPasswordInput extends Component {
       <:label>{{yield to="label"}}</:label>
     </PixInputPassword>
 
-    <PasswordChecklist id="password-checklist" @rules={{@rules}} @value={{this.value}} />
+    <PasswordChecklist id="password-checklist" @rules={{@rules}} @value={{if @useExternalValue @value this.value}} />
   </template>
 }

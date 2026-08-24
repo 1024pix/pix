@@ -62,18 +62,11 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
     context(
       'when all certification latest assessment result are validated, rejected or certification is cancelled',
       function () {
-        let clock, now;
+        let now;
 
         beforeEach(function () {
-          clock = sinon.useFakeTimers({
-            now: new Date('2022-12-25'),
-            toFake: ['Date'],
-          });
-          now = new Date(clock.now);
-        });
-
-        afterEach(async function () {
-          clock.restore();
+          now = new Date('2022-12-25');
+          sinon.useFakeTimers({ now, toFake: ['Date'] });
         });
 
         it('should set certifications as published within the session and update pixCertificationStatus according to assessment result status', async function () {

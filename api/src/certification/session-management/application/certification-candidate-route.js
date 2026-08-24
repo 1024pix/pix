@@ -2,8 +2,8 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { assessmentInvigilatorAuthorization } from '../../shared/application/pre-handlers/session-invigilator-authorization.js';
 import { certificationCandidateController } from './certification-candidate-controller.js';
+import { authorization } from './pre-handlers/authorization.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
@@ -23,7 +23,7 @@ const register = async function (server) {
         },
         pre: [
           {
-            method: assessmentInvigilatorAuthorization.verifyByCertificationCandidateId,
+            method: authorization.checkUserHaveInvigilatorAccessForSessionCandidate,
             assign: 'authorizationCheck',
           },
         ],
@@ -46,7 +46,7 @@ const register = async function (server) {
         },
         pre: [
           {
-            method: assessmentInvigilatorAuthorization.verifyByCertificationCandidateId,
+            method: authorization.checkUserHaveInvigilatorAccessForSessionCandidate,
             assign: 'authorizationCheck',
           },
         ],
@@ -64,7 +64,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: assessmentInvigilatorAuthorization.verifyByCertificationCandidateId,
+            method: authorization.checkUserHaveInvigilatorAccessForSessionCandidate,
             assign: 'authorizationCheck',
           },
         ],

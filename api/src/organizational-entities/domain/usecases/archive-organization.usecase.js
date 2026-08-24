@@ -5,6 +5,8 @@ import { statuses } from '../read-models/PlacesLot.js';
 const archiveOrganization = withTransaction(async function ({
   organizationId,
   userId,
+  campaignsApi,
+  learnersApi,
   organizationForAdminRepository,
   organizationPlacesLotRepository,
 }) {
@@ -19,6 +21,10 @@ const archiveOrganization = withTransaction(async function ({
   }
 
   await organizationForAdminRepository.archive({ id: organizationId, archivedBy: userId });
+
+  await learnersApi.deleteOrganizationLearnerBeforeImportFeature({ userId, organizationId });
+  await campaignsApi.deleteActiveCampaigns({ userId, organizationId });
+
   return await organizationForAdminRepository.get({ organizationId });
 });
 

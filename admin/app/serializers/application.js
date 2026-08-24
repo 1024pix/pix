@@ -1,4 +1,4 @@
-import JSONAPISerializer from '@ember-data/serializer/json-api';
+import { JSONAPISerializer } from '@warp-drive/legacy/serializer/json-api';
 
 export default class ApplicationSerializer extends JSONAPISerializer {
   // This bypasses extractErrors emberData behavior which relies on the property being a function.

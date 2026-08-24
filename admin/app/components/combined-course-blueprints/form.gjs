@@ -6,7 +6,7 @@ import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
-import { fn } from '@ember/helper';
+import { concat, fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
@@ -17,7 +17,7 @@ import { t } from 'ember-intl';
 import { and, eq, gt, not, or } from 'ember-truth-helpers';
 
 import Card from '../card';
-import TubesSelection from '../common/tubes-selection';
+import CappedTubesCriterion from '../target-profiles/badge-form/capped-tubes-criterion';
 import SelectAttestation from './select-attestation';
 
 export default class CombinedCourseBlueprintForm extends Component {
@@ -25,12 +25,15 @@ export default class CombinedCourseBlueprintForm extends Component {
   @service store;
   @service intl;
   @service router;
-  @tracked itemType = 'evaluation';
+  @tracked itemType = 'campaign';
   @tracked itemValue = '';
   @tracked blueprint;
-  @tracked selectedTubes;
   @tracked itemAddDisabled = true;
   @tracked itemToAdd = null;
+  @tracked hasUniqueCappedTubesSubset = false;
+  @tracked hasMultipleCappedTubeSubsets = false;
+  @tracked cappedTubeRequirements = [{}];
+  @tracked areas;
 
   constructor() {
     super(...arguments);
@@ -40,6 +43,11 @@ export default class CombinedCourseBlueprintForm extends Component {
         this.blueprint.unloadRecord();
       }
     });
+    if (!this.args.updateMode) {
+      Promise.resolve(this.args.model.frameworks).then(async () => {
+        await this.refreshAreas();
+      });
+    }
   }
 
   @action
@@ -72,11 +80,12 @@ export default class CombinedCourseBlueprintForm extends Component {
       } else {
         const targetProfile = await this.store.findRecord('target-profile', this.itemValue);
         this.itemToAdd = {
-          type: 'evaluation',
+          type: 'campaign',
           value: Number(this.itemValue),
           label: targetProfile.internalName,
           image: targetProfile.imageUrl,
         };
+        await this.refreshAreas();
       }
     } catch (responseError) {
       this.#handleErrorForResource(this.itemType, responseError);
@@ -100,10 +109,9 @@ export default class CombinedCourseBlueprintForm extends Component {
   async save() {
     try {
       await this.blueprint.save({
-        adapterOptions:
-          this.selectedTubes && this.selectedTubes.length
-            ? { cappedTubeRequirements: [{ tubes: this.selectedTubes, threshold: this.threshold }] }
-            : null,
+        adapterOptions: this.validCappedTubeRequirements.length
+          ? { cappedTubeRequirements: this.validCappedTubeRequirements }
+          : null,
       });
       this.pixToast.sendSuccessNotification({
         message: this.args.updateMode
@@ -120,7 +128,7 @@ export default class CombinedCourseBlueprintForm extends Component {
         });
       }
       return responseError.errors
-        .filter((error) => ['400', '404', '412'].includes(error.status))
+        .filter((error) => ['400', '404', '412', '422'].includes(error.status))
         .forEach((error) => this.pixToast.sendErrorNotification({ message: error.detail }));
     }
   }
@@ -139,9 +147,9 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   setItemType(e) {
     this.itemType = e.target.value;
-    if (this.itemValue === '') {
-      this.itemAddDisabled = true;
-    }
+    this.itemValue = '';
+    this.itemAddDisabled = true;
+    this.itemToAdd = null;
   }
 
   @action
@@ -166,23 +174,42 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  removeRequirement(value) {
-    this.blueprint.content = this.blueprint.content.filter(
-      (item) => item.id !== value.id || item.shortId !== value.shortId,
-    );
+  removeRequirement(index) {
+    this.blueprint.content = this.blueprint.content.filter((item, i) => i !== index);
+  }
+
+  async refreshAreas() {
+    const framework = this.args.model.frameworks.find((framework) => framework.name === 'Pix');
+    if (framework.areas.isFulfilled) {
+      await framework.areas.reload();
+    }
+    this.areas = Promise.resolve(await framework.areas).then((areasByFramework) => areasByFramework.flat());
+  }
+
+  get validCappedTubeRequirements() {
+    return this.cappedTubeRequirements.filter((requirement) => requirement.tubes?.length && requirement.threshold);
   }
 
   @action
-  updateTubes(tubes) {
-    this.selectedTubes = tubes.map(({ id, level }) => ({
-      tubeId: id,
-      level,
-    }));
+  onCappedTubesThresholdChange(criterion, e) {
+    criterion.threshold = e.target.value;
   }
 
   @action
-  onThresholdChange(e) {
-    this.threshold = e.target.value;
+  onCappedTubesNameChange(criterion, e) {
+    criterion.name = e.target.value;
+  }
+
+  @action
+  onCappedTubesSelectionChange(criterion, selection) {
+    criterion.tubes = selection.map(({ id, level }) => ({ tubeId: id, level }));
+  }
+
+  @action
+  removeCappedTubeCriterion(index) {
+    const updatedCappedTubeRequirements = [...this.cappedTubeRequirements];
+    updatedCappedTubeRequirements.splice(index, 1);
+    this.cappedTubeRequirements = updatedCappedTubeRequirements;
   }
 
   @action
@@ -192,7 +219,24 @@ export default class CombinedCourseBlueprintForm extends Component {
 
   @action
   getItemColor(type) {
-    return type === 'evaluation' ? 'purple' : 'blue';
+    return type === 'campaign' ? 'purple' : 'blue';
+  }
+
+  @action
+  hasUniqueCappedTubesSubsetChange(e) {
+    this.hasUniqueCappedTubesSubset = e.target.checked;
+    this.hasMultipleCappedTubeSubsets = false;
+  }
+
+  @action
+  hasMultipleCappedTubeSubsetsChange(e) {
+    this.hasMultipleCappedTubeSubsets = e.target.checked;
+    this.hasUniqueCappedTubesSubset = false;
+  }
+
+  @action
+  addCappedTubeSubset() {
+    this.cappedTubeRequirements = [...this.cappedTubeRequirements, {}];
   }
 
   <template>
@@ -221,6 +265,7 @@ export default class CombinedCourseBlueprintForm extends Component {
           @updateMode={{@updateMode}}
           @handleKeyPress={{this.handleKeyPress}}
           @removeRequirement={{this.removeRequirement}}
+          @itemValue={{this.itemValue}}
           @itemAddDisabled={{this.itemAddDisabled}}
           @itemToAdd={{this.itemToAdd}}
           @getItemColor={{this.getItemColor}}
@@ -232,17 +277,26 @@ export default class CombinedCourseBlueprintForm extends Component {
           @blueprint={{this.blueprint}}
           @setData={{this.setData}}
           @updateMode={{@updateMode}}
-          @model={{@model}}
-          @updateTubes={{this.updateTubes}}
-          @onThresholdChange={{this.onThresholdChange}}
-          @selectedTubes={{this.selectedTubes}}
+          @areas={{this.areas}}
+          @onCappedTubesThresholdChange={{this.onCappedTubesThresholdChange}}
+          @onCappedTubesNameChange={{this.onCappedTubesNameChange}}
+          @onCappedTubesSelectionChange={{this.onCappedTubesSelectionChange}}
+          @removeCappedTubeCriterion={{this.removeCappedTubeCriterion}}
+          @cappedTubeRequirements={{this.cappedTubeRequirements}}
+          @hasMultipleCappedTubeSubsets={{this.hasMultipleCappedTubeSubsets}}
+          @hasMultipleCappedTubeSubsetsChange={{this.hasMultipleCappedTubeSubsetsChange}}
+          @hasUniqueCappedTubesSubset={{this.hasUniqueCappedTubesSubset}}
+          @hasUniqueCappedTubesSubsetChange={{this.hasUniqueCappedTubesSubsetChange}}
+          @addCappedTubeSubset={{this.addCappedTubeSubset}}
         />
       {{/if}}
 
       <fieldset class="controls">
-        <PixButton class="combined-course-blueprint-form__button" @triggerAction={{this.save}} @variant="secondary">{{t
-            "common.actions.cancel"
-          }}</PixButton>
+        <PixButton
+          class="combined-course-blueprint-form__button"
+          @triggerAction={{this.goToListPage}}
+          @variant="secondary"
+        >{{t "common.actions.cancel"}}</PixButton>
         <PixButton class="combined-course-blueprint-form__button" @triggerAction={{this.save}} @variant="success">{{if
             @updateMode
             (t "components.combined-course-blueprints.update.updateButton")
@@ -299,6 +353,19 @@ const GeneralInfoSection = <template>
         {{t "components.combined-course-blueprints.labels.description"}}
       </:label>
     </PixTextarea>
+
+    <PixTextarea
+      @id="prescriber-description"
+      @value={{@blueprint.prescriberDescription}}
+      {{on "change" (fn @setData "prescriberDescription")}}
+      rows="10"
+      @subLabel={{t "components.combined-course-blueprints.labels.prescriber-description-sublabel"}}
+    >
+      <:label>
+        {{t "components.combined-course-blueprints.labels.prescriber-description"}}
+      </:label>
+    </PixTextarea>
+
     <PixInput @id="surveyLink" @value={{@blueprint.surveyLink}} {{on "change" (fn @setData "surveyLink")}} rows="10">
       <:label>
         {{t "components.combined-course-blueprints.labels.survey-link"}}
@@ -326,8 +393,8 @@ const ContentSection = <template>
           <legend>{{t "components.combined-course-blueprints.create.fieldsetElement"}}</legend>
           <PixRadioButton
             name="itemType"
-            @value="evaluation"
-            checked={{if (eq @itemType "evaluation") "checked"}}
+            @value="campaign"
+            checked={{if (eq @itemType "campaign") "checked"}}
             {{on "change" @setItemType}}
           >
             <:label>{{t "components.combined-course-blueprints.labels.target-profile"}}</:label>
@@ -369,7 +436,7 @@ const ContentSection = <template>
                   href="https://app.recette.pix.fr/modules/{{@requirement.shortId}}/slug/details"
                 >{{@itemToAdd.label}}</a>
               {{/if}}
-              {{#if (eq @itemToAdd.type "evaluation")}}
+              {{#if (eq @itemToAdd.type "campaign")}}
                 <LinkTo
                   @route="authenticated.target-profiles.target-profile.details"
                   @model={{@requirement.value}}
@@ -395,7 +462,7 @@ const ContentSection = <template>
         <div>
           {{#if (gt @blueprint.content.length 0)}}
             <PixTable @variant="admin" @data={{@blueprint.content}} class="table">
-              <:columns as |row context|>
+              <:columns as |row context index|>
                 <PixTableColumn @context={{context}}>
                   <:header>
                     {{t "components.combined-course-blueprints.items.item-type-header"}}
@@ -424,8 +491,9 @@ const ContentSection = <template>
                   <:cell>
                     <PixIconButton
                       @iconName="delete"
-                      @triggerAction={{fn @removeRequirement row}}
+                      @triggerAction={{fn @removeRequirement index}}
                       @ariaLabel="Supprimer"
+                      data-testid="delete-{{index}}"
                     />
                   </:cell>
                 </PixTableColumn>
@@ -448,30 +516,59 @@ const RewardRequirementsSection = <template>
   >
     <PixTextarea
       @id="reward-requirements"
-      @value={{@blueprint.rewardRequirements}}
-      {{on "change" (fn @setData "rewardRequirements")}}
+      @value={{@blueprint.rewardRequirementsDescription}}
+      {{on "change" (fn @setData "rewardRequirementsDescription")}}
       rows="10"
     >
       <:label>
-        {{t "components.combined-course-blueprints.labels.reward-requirements"}}
+        {{t "components.combined-course-blueprints.labels.reward-requirements.description"}}
       </:label>
     </PixTextarea>
 
     {{#unless @updateMode}}
       {{#if @blueprint.rewardId}}
-        <TubesSelection @frameworks={{@model.frameworks}} @onChange={{@updateTubes}} />
-        {{#if @selectedTubes.length}}
-          <PixInput
-            @id="blueprintThreshold"
-            class="combined-course-blueprint-form__threshold"
-            type="number"
-            min="0"
-            max="100"
-            @requiredLabel={{t "common.forms.mandatory"}}
-            {{on "change" @onThresholdChange}}
+        <fieldset class="badge-form-criteria-choice">
+          <p>{{t "components.combined-course-blueprints.labels.reward-requirements.reward-criteria-choice"}}</p>
+          <PixRadioButton
+            name="subsetNumberChoice"
+            @checked={{@hasUniqueCappedTubesSubset}}
+            {{on "change" @hasUniqueCappedTubesSubsetChange}}
           >
-            <:label>Taux de réussite requis</:label>
-          </PixInput>
+            <:label>{{t "components.combined-course-blueprints.labels.reward-requirements.one-subset-option"}}</:label>
+          </PixRadioButton>
+          <PixRadioButton
+            name="subsetNumberChoice"
+            @checked={{@hasMultipleCappedTubeSubsets}}
+            {{on "change" @hasMultipleCappedTubeSubsetsChange}}
+          >
+            <:label>{{t
+                "components.combined-course-blueprints.labels.reward-requirements.multiple-subsets-option"
+              }}</:label>
+          </PixRadioButton>
+        </fieldset>
+
+        {{#if (or @hasMultipleCappedTubeSubsets @hasUniqueCappedTubesSubset)}}
+          {{#each @cappedTubeRequirements as |criterion index|}}
+            <CappedTubesCriterion
+              @id={{concat "cappedTubeCriterion" index}}
+              @areas={{@areas}}
+              @onThresholdChange={{fn @onCappedTubesThresholdChange criterion}}
+              @onNameChange={{fn @onCappedTubesNameChange criterion}}
+              @onTubesSelectionChange={{fn @onCappedTubesSelectionChange criterion}}
+              @remove={{fn @removeCappedTubeCriterion index}}
+            />
+          {{/each}}
+          {{#if @hasMultipleCappedTubeSubsets}}
+            <PixButton
+              class="badge-form-criterion__add"
+              @variant="primary"
+              @size="small"
+              @triggerAction={{@addCappedTubeSubset}}
+              @iconBefore="add"
+            >
+              {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
+            </PixButton>
+          {{/if}}
         {{/if}}
       {{/if}}
     {{/unless}}

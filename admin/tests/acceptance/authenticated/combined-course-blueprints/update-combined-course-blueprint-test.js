@@ -25,7 +25,7 @@ module('Acceptance | Combined course blueprint | Update', function (hooks) {
       id: 123,
       internalName: 'internal-name',
       attestationLabel: 'attestation',
-      rewardRequirements: 'oldRewardRequirements',
+      rewardRequirementsDescription: 'oldRewardRequirements',
     });
 
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
@@ -66,10 +66,25 @@ module('Acceptance | Combined course blueprint | Update', function (hooks) {
 
     await fillIn(
       screen.getByLabelText(t('components.combined-course-blueprints.labels.description-sublabel'), { exact: false }),
-      'description',
+      'description prescrit',
     );
+
     await fillIn(
-      screen.getByRole('textbox', { name: t('components.combined-course-blueprints.labels.reward-requirements') }),
+      screen.getByLabelText(t('components.combined-course-blueprints.labels.prescriber-description-sublabel'), {
+        exact: false,
+      }),
+      'description prescripteur',
+    );
+
+    await fillIn(
+      screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link'), { exact: false }),
+      'https://link.example.net',
+    );
+
+    await fillIn(
+      screen.getByRole('textbox', {
+        name: t('components.combined-course-blueprints.labels.reward-requirements.description'),
+      }),
       'New reward requirements',
     );
 

@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, findAll } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
+import { COMBINED_COURSE_ITEM_TYPES } from 'pix-admin/models/combined-course-blueprint';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -21,7 +22,7 @@ module('Acceptance | Combined course blueprint | List', function (hooks) {
       description: "Un parcours sur l'IA pour le collège",
       content: [
         {
-          type: 'evaluation',
+          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
           value: 1234,
         },
         {

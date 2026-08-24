@@ -89,13 +89,6 @@ class CertificationEndedByFinalizationError extends DomainError {
   }
 }
 
-class CertificationCandidateOnFinalizedSessionError extends DomainError {
-  constructor(message = "Cette session a déjà été finalisée, l'ajout de candidat n'est pas autorisé") {
-    super(message);
-    this.code = 'CANDIDATE_NOT_ALLOWED_FOR_FINALIZED_SESSION';
-  }
-}
-
 class CandidateAlreadyLinkedToUserError extends DomainError {
   constructor(message = 'At least one candidate is already linked to a user.') {
     super(message);
@@ -167,12 +160,6 @@ class ChallengeNotAskedError extends DomainError {
 
 class CsvParsingError extends DomainError {
   constructor(message = "Les données n'ont pas pu être parsées.") {
-    super(message);
-  }
-}
-
-class CertificationBadgeForbiddenDeletionError extends DomainError {
-  constructor(message = 'Il est interdit de supprimer un badge lié à une certification.') {
     super(message);
   }
 }
@@ -466,6 +453,7 @@ class UserAlreadyExistsWithAuthenticationMethodError extends DomainError {
 class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   constructor(message = 'Cet utilisateur est déjà lié à un candidat de certification au sein de cette session.') {
     super(message);
+    this.code = 'USER_ALREADY_LINKED_TO_CANDIDATE_IN_SESSION';
   }
 }
 
@@ -950,12 +938,6 @@ class OrganizationLearnerCannotBeDissociatedError extends DomainError {
   }
 }
 
-class AcquiredBadgeForbiddenDeletionError extends DomainError {
-  constructor(message = 'Il est interdit de supprimer un badge déjà acquis par un utilisateur.') {
-    super(message);
-  }
-}
-
 class NoSkillsInCampaignError extends DomainError {
   constructor(message = 'La campagne ne contient aucun acquis opérationnel.') {
     super(message);
@@ -1016,7 +998,6 @@ class PasswordNotMatching extends DomainError {
 export {
   AccountRecoveryDemandExpired,
   AccountRecoveryUserAlreadyConfirmEmail,
-  AcquiredBadgeForbiddenDeletionError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingEntityError,
   AlreadyExistingInvitationError,
@@ -1040,10 +1021,8 @@ export {
   CancelledInvitationError,
   CandidateAlreadyLinkedToUserError,
   CertificateVerificationCodeGenerationTooManyTrials,
-  CertificationBadgeForbiddenDeletionError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
   CertificationCandidatesError,

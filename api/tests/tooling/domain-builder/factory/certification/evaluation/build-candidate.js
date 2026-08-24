@@ -1,7 +1,7 @@
 import { Candidate } from '../../../../../../src/certification/evaluation/domain/models/Candidate.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 
-export const buildEvaluationCandidate = function ({
+export const buildCandidate = function ({
   id = 123,
   userId = 456,
   sessionId = 789,
@@ -17,7 +17,6 @@ export const buildEvaluationCandidate = function ({
   accessibilityAdjustmentNeeded = false,
   reconciledAt = new Date('2024-10-18'),
   subscriptionFramework = Frameworks.CORE,
-  authorizedToStart = true,
 } = {}) {
   return new Candidate({
     id,
@@ -35,6 +34,5 @@ export const buildEvaluationCandidate = function ({
     accessibilityAdjustmentNeeded,
     reconciledAt,
     subscriptionFramework,
-    authorizedToStart,
   });
 };
