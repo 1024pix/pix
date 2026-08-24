@@ -19,6 +19,7 @@ import { deleteVersion } from './delete-version.js';
 import { exportScoWhitelist } from './export-sco-whitelist.js';
 import { findComplementaryCertifications } from './find-complementary-certifications.js';
 import { generateCalibrationReportCheck } from './generate-calibration-report-check.js';
+import { getCalibrationScoringConfiguration } from './get-calibration-scoring-configuration.js';
 import { getComplementaryCertificationForTargetProfileAttachmentRepository } from './get-complementary-certification-for-target-profile-attachment.js';
 import { getComplementaryCertificationTargetProfileHistory } from './get-complementary-certification-target-profile-history.js';
 import { getInfo } from './get-info.js';
@@ -70,6 +71,7 @@ const usecasesWithoutInjectedDependencies = {
   deleteVersion,
   exportScoWhitelist,
   findComplementaryCertifications,
+  getCalibrationScoringConfiguration,
   getComplementaryCertificationForTargetProfileAttachmentRepository,
   getComplementaryCertificationTargetProfileHistory,
   getInfo,

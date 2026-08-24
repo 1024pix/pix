@@ -3,6 +3,8 @@ import {
   Calibration,
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
+  CalibrationScoringMesh,
+  CalibrationScoringMeshSet,
 } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 
 /**
@@ -11,6 +13,13 @@ import {
  * @property {number} delta
  * @property {string} challengeId
  * @property {string} tubeId
+ */
+
+/**
+ * @typedef {Object} ScoringMeshData
+ * @property {number} mesh
+ * @property {number} minBoundCuratedValue
+ * @property {number} maxBoundCuratedValue
  */
 
 /**
@@ -32,6 +41,8 @@ class CalibrationBuilder {
     this.status = CALIBRATION_STATUSES.VALIDATED;
     this.scope = CALIBRATION_SCOPES.COEUR;
     this.calibratedChallengesData = [];
+    this.scoringMeshesData = null;
+    this.scoringMeshesStatus = CALIBRATION_STATUSES.VALIDATED;
   }
 
   /**
@@ -113,6 +124,21 @@ class CalibrationBuilder {
   }
 
   /**
+   * Attaches a scoring mesh set to the calibration. Without this call the calibration carries no set
+   * at all, which is the nominal state of a calibration whose meshes Data has not delivered yet.
+   *
+   * @param {ScoringMeshData[]} scoringMeshesData
+   * @param {object} [params]
+   * @param {typeof CALIBRATION_STATUSES[keyof typeof CALIBRATION_STATUSES]} [params.status] - status of the SET, independent from the calibration one
+   * @returns {CalibrationBuilder}
+   */
+  withScoringMeshes(scoringMeshesData, { status = CALIBRATION_STATUSES.VALIDATED } = {}) {
+    this.scoringMeshesData = scoringMeshesData;
+    this.scoringMeshesStatus = status;
+    return this;
+  }
+
+  /**
    * Buffers the calibration row and any subsequent data into the DATAMART builder
    * then returns the built domain Calibration carrying the persisted id.
    * Call `datamartBuilder.commit()` afterwards to actually persist.
@@ -142,6 +168,22 @@ class CalibrationBuilder {
       });
     });
 
+    if (this.scoringMeshesData) {
+      const persistedScoringMeshesAll = datamartBuilder.factory.buildScoringMeshesAll({
+        calibrationId: persistedCalibration.id,
+        status: this.scoringMeshesStatus,
+      });
+
+      this.scoringMeshesData.forEach((scoringMeshData) => {
+        datamartBuilder.factory.buildScoringMesh({
+          scoringMeshesAllId: persistedScoringMeshesAll.id,
+          mesh: scoringMeshData.mesh,
+          minBoundCuratedValue: scoringMeshData.minBoundCuratedValue,
+          maxBoundCuratedValue: scoringMeshData.maxBoundCuratedValue,
+        });
+      });
+    }
+
     return calibration;
   }
 
@@ -155,12 +197,22 @@ class CalibrationBuilder {
       (calibratedChallengeData) => new CalibratedChallenge(calibratedChallengeData),
     );
 
+    const scoringMeshSet = new CalibrationScoringMeshSet(
+      this.scoringMeshesData
+        ? {
+            status: this.scoringMeshesStatus,
+            meshes: this.scoringMeshesData.map((scoringMeshData) => new CalibrationScoringMesh(scoringMeshData)),
+          }
+        : undefined,
+    );
+
     return new Calibration({
       id: this.id,
       startedAt: this.startedAt,
       status: this.status,
       scope: this.scope,
       calibratedChallenges,
+      scoringMeshSet,
     });
   }
 }

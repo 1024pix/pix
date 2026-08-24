@@ -241,6 +241,35 @@ async function register(server) {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/scoring-configuration',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationVersionId: identifiersType.certificationVersionId,
+            calibrationId: identifiersType.calibrationId,
+          }),
+        },
+        handler: certificationVersionController.getCalibrationScoringConfiguration,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte au SUPER ADMIN',
+          "Elle permet d'obtenir la configuration de scoring globale proposée par une calibration, afin de pré-remplir le formulaire de scoring d'une version draft",
+          "Elle renvoie un état de disponibilité : la maille de scoring est livrée par Data après la calibration, et n'est pas livrée pour tous les référentiels",
+        ],
+      },
+    },
   ]);
 }
 

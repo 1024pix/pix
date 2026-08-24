@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
+  SCORING_MESH_AVAILABILITIES,
 } from '../../../../../src/certification/configuration/domain/models/Calibration.js';
 import {
   ALERT_LEVELS,
@@ -770,9 +771,131 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
               content: false,
               label: REPORT_LABELS.COMPETENCE_SCORING_PRESENCE,
             },
+            {
+              additionalContent:
+                "Les bornes de capacités par mailles de cette calibration n'ont pas encore été livrées",
+              alertLevel: ALERT_LEVELS.LOW,
+              content: SCORING_MESH_AVAILABILITIES.PENDING,
+              label: REPORT_LABELS.SCORING_MESH_AVAILABILITY,
+            },
           ],
         },
       });
+    });
+  });
+
+  describe('GET /api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/scoring-configuration', function () {
+    beforeEach(function () {
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .withParameters({ id: 1, scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+        .insertToDB({ databaseBuilder });
+    });
+
+    it('returns the global scoring configuration proposed by the calibration', async function () {
+      // given
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .asValidated({ startedAt: new Date('2026-03-04') })
+        .withParameters({ id: 2 })
+        .withScoringMeshes([
+          { mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 },
+          { mesh: 1, minBoundCuratedValue: -1.4, maxBoundCuratedValue: 0.6 },
+        ])
+        .insertToDB({ datamartBuilder });
+
+      await databaseBuilder.commit();
+      await datamartBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/admin/certification-versions/1/calibrations/2/scoring-configuration`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal({
+        type: 'calibration-scoring-configurations',
+        id: '1_2',
+        attributes: {
+          'calibration-id': 2,
+          availability: SCORING_MESH_AVAILABILITIES.AVAILABLE,
+          'global-scoring-configuration': [
+            { meshLevel: 0, bounds: { min: -4.67, max: -1.4 } },
+            { meshLevel: 1, bounds: { min: -1.4, max: 0.6 } },
+          ],
+        },
+      });
+    });
+
+    it('returns a 200 with a pending availability when Data has not delivered the meshes', async function () {
+      // given
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .asValidated({ startedAt: new Date('2026-03-04') })
+        .withParameters({ id: 2 })
+        .insertToDB({ datamartBuilder });
+
+      await databaseBuilder.commit();
+      await datamartBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/admin/certification-versions/1/calibrations/2/scoring-configuration`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.attributes).to.deep.equal({
+        'calibration-id': 2,
+        availability: SCORING_MESH_AVAILABILITIES.PENDING,
+        'global-scoring-configuration': [],
+      });
+    });
+
+    it('returns a 404 when the calibration does not exist', async function () {
+      // given
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/admin/certification-versions/1/calibrations/404/scoring-configuration`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('returns a 403 when the user is not a super admin', async function () {
+      // given
+      const certifUser = databaseBuilder.factory.buildUser.withRole({ role: 'CERTIF' });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/admin/certification-versions/1/calibrations/2/scoring-configuration`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: certifUser.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 });

@@ -3,7 +3,7 @@
  * @typedef {import('./Calibration.js').CalibrationForReport} CalibrationForReport
  */
 import { SCOPES } from '../../../shared/domain/models/Scopes.js';
-import { CALIBRATION_STATUSES, fromCalibrationScope } from './Calibration.js';
+import { CALIBRATION_STATUSES, fromCalibrationScope, SCORING_MESH_AVAILABILITIES } from './Calibration.js';
 
 export class CalibrationReport {
   constructor({ versionId, calibrationId, generatedAt, reportLines }) {
@@ -32,6 +32,7 @@ export const REPORT_LABELS = Object.freeze({
   CALIBRATION_SCOPE: 'CALIBRATION_SCOPE',
   MESH_SCORING_PRESENCE: 'MESH_SCORING_PRESENCE',
   COMPETENCE_SCORING_PRESENCE: 'COMPETENCE_SCORING_PRESENCE',
+  SCORING_MESH_AVAILABILITY: 'SCORING_MESH_AVAILABILITY',
 });
 
 export const ALERT_LEVELS = Object.freeze({
@@ -55,6 +56,7 @@ export function buildReport({ version, calibration }) {
   computeReportForStatus(calibration, reportLines);
   computeReportForMeshScoring(version, calibration, reportLines);
   computeReportForCompetenceScoring(version, calibration, reportLines);
+  computeReportForScoringMeshAvailability(calibration, reportLines);
   return new CalibrationReport({
     versionId: version.id,
     calibrationId: calibration.id,
@@ -132,6 +134,25 @@ function computeReportForScope(version, calibration, reportLines) {
       content: adaptedCalibrationScope,
       alertLevel,
       additionalContent,
+    }),
+  );
+}
+
+function computeReportForScoringMeshAvailability(calibration, reportLines) {
+  const availability = calibration.scoringMeshSet.availability;
+  const additionalContentByAvailability = {
+    [SCORING_MESH_AVAILABILITIES.AVAILABLE]: null,
+    [SCORING_MESH_AVAILABILITIES.PENDING]:
+      "Les bornes de capacités par mailles de cette calibration n'ont pas encore été livrées",
+    [SCORING_MESH_AVAILABILITIES.NOT_VALIDATED]:
+      'Les bornes de capacités par mailles de cette calibration ne sont pas validées',
+  };
+  reportLines.push(
+    new CalibrationReportLine({
+      label: REPORT_LABELS.SCORING_MESH_AVAILABILITY,
+      content: availability,
+      alertLevel: availability === SCORING_MESH_AVAILABILITIES.AVAILABLE ? null : ALERT_LEVELS.LOW,
+      additionalContent: additionalContentByAvailability[availability],
     }),
   );
 }

@@ -4,6 +4,7 @@ const { Deserializer } = jsonapiSerializer;
 
 import { usecases } from '../domain/usecases/index.js';
 import * as calibrationReportSerializer from '../infrastructure/serializers/calibration-report-serializer.js';
+import * as calibrationScoringConfigurationSerializer from '../infrastructure/serializers/calibration-scoring-configuration-serializer.js';
 import { certificationInfoSerializer } from '../infrastructure/serializers/certification-info-serializer.js';
 import * as versionDetailsSerializer from '../infrastructure/serializers/version-details-serializer.js';
 
@@ -61,6 +62,15 @@ async function generateCalibrationReport(request, h) {
   return h.response(calibrationReportSerializer.serialize(report)).code(200);
 }
 
+async function getCalibrationScoringConfiguration(request, h) {
+  const { certificationVersionId: versionId, calibrationId } = request.params;
+  const calibrationScoringConfiguration = await usecases.getCalibrationScoringConfiguration({
+    versionId,
+    calibrationId,
+  });
+  return h.response(calibrationScoringConfigurationSerializer.serialize(calibrationScoringConfiguration)).code(200);
+}
+
 async function getInfo(request) {
   const framework = request.params.framework;
 
@@ -79,6 +89,7 @@ export const certificationVersionController = {
   updateComments,
   getInfo,
   generateCalibrationReport,
+  getCalibrationScoringConfiguration,
 };
 
 function deserialize(json) {

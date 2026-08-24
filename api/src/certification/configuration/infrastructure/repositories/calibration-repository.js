@@ -1,7 +1,13 @@
 import { knex as datamartKnex } from '../../../../../datamart/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger, SCOPES } from '../../../../shared/infrastructure/utils/logger.js';
-import { CalibratedChallenge, Calibration, CalibrationForReport } from '../../domain/models/Calibration.js';
+import {
+  CalibratedChallenge,
+  Calibration,
+  CalibrationForReport,
+  CalibrationScoringMesh,
+  CalibrationScoringMeshSet,
+} from '../../domain/models/Calibration.js';
 
 export async function findForReport(calibrationId) {
   const knexConn = DomainTransaction.getConnection();
@@ -98,9 +104,12 @@ export async function find(calibrationId) {
       );
     }
 
+    const scoringMeshSet = await _findScoringMeshSet(calibrationId);
+
     return new Calibration({
       ...generalInfo,
       calibratedChallenges,
+      scoringMeshSet,
     });
   } catch (err) {
     logger.error(
@@ -109,4 +118,44 @@ export async function find(calibrationId) {
     );
     throw err;
   }
+}
+
+/**
+ * Data may not have delivered any scoring mesh set for this calibration, which is a nominal state:
+ * an empty set is returned rather than null.
+ *
+ * @param {number} calibrationId
+ * @returns {Promise<CalibrationScoringMeshSet>}
+ */
+async function _findScoringMeshSet(calibrationId) {
+  const meshSetData = await datamartKnex
+    .select({ id: 'id', status: 'status' })
+    .from('data_scoring_meshes_all')
+    .where({ calibration_id: calibrationId })
+    .orderBy('id', 'desc')
+    .first();
+
+  if (!meshSetData) return new CalibrationScoringMeshSet();
+
+  const meshesData = await datamartKnex
+    .select({
+      mesh: 'mesh',
+      minBoundCuratedValue: 'min_bound_curated_value',
+      maxBoundCuratedValue: 'max_bound_curated_value',
+    })
+    .from('data_scoring_meshes')
+    .where({ scoring_meshes_all_id: meshSetData.id })
+    .orderBy('mesh', 'asc');
+
+  return new CalibrationScoringMeshSet({
+    status: meshSetData.status,
+    meshes: meshesData.map(
+      (meshData) =>
+        new CalibrationScoringMesh({
+          mesh: Number(meshData.mesh),
+          minBoundCuratedValue: Number(meshData.minBoundCuratedValue),
+          maxBoundCuratedValue: Number(meshData.maxBoundCuratedValue),
+        }),
+    ),
+  });
 }
