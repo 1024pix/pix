@@ -68,6 +68,12 @@ async function getCalibrationScoringConfiguration(request, h) {
   return h.response(calibrationScoringConfigurationSerializer.serialize(calibrationScoringConfiguration)).code(200);
 }
 
+async function activateVersion(request, h) {
+  const id = request.params.certificationVersionId;
+  await usecases.activateVersion({ id });
+  return h.response().code(204);
+}
+
 async function getInfo(request) {
   const framework = request.params.framework;
 
@@ -79,6 +85,7 @@ async function getInfo(request) {
 }
 
 export const certificationVersionController = {
+  activateVersion,
   createDraft,
   getVersionById,
   deleteCertificationVersion,

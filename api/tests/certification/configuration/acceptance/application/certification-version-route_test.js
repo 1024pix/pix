@@ -25,6 +25,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
     server = await getServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
+    await datamartBuilder.clean();
   });
 
   describe('GET /api/certifications/{framework}/info', function () {
@@ -923,6 +924,60 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       // then
       expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('PATCH /api/admin/certification-versions/{certificationVersionId}/activation', function () {
+    it('activates the draft version, archives the active one, and persists calibrated challenges', async function () {
+      // given
+      const activeVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2024-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 10 })
+        .insertToDB({ databaseBuilder });
+      const draftVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2025-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 11, externalCalibrationId: 2 })
+        .insertToDB({ databaseBuilder });
+
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .withCalibratredChallenges([{ challengeId: 'challengeA', tubeId: 'tubeA' }])
+        .asValidated({ startedAt: new Date('2024-06-01') })
+        .withParameters({ id: 2 })
+        .insertToDB({ datamartBuilder });
+
+      databaseBuilder.factory.learningContent.build({
+        skills: [{ id: 'skillA', tubeId: 'tubeA' }],
+        challenges: [{ id: 'challengeA', skillId: 'skillA' }],
+      });
+
+      await databaseBuilder.commit();
+      await datamartBuilder.commit();
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/certification-versions/${draftVersion.id}/activation`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+
+      const activatedVersion = await knex('certification_versions').where({ id: draftVersion.id }).first();
+      expect(activatedVersion.status).to.equal(VERSION_STATUSES.ACTIVE);
+
+      const archivedVersion = await knex('certification_versions').where({ id: activeVersion.id }).first();
+      expect(archivedVersion.status).to.equal(VERSION_STATUSES.ARCHIVED);
+
+      const savedChallenges = await knex('certification-frameworks-challenges').where({ versionId: draftVersion.id });
+      expect(savedChallenges).to.have.lengthOf(1);
+      expect(savedChallenges[0].challengeId).to.equal('challengeA');
     });
   });
 });
