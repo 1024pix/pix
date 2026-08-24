@@ -182,25 +182,30 @@ export class CombinedCourseBlueprint {
   }
 
   generateItems({ targetProfiles, modules, recommendableModules }) {
-    this.items = this.quest.successRequirements.map((requirement) => {
-      if (requirement.requirement_type === TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS) {
-        const targetProfile = targetProfiles.find(
-          (targetProfile) => targetProfile.id === parseInt(requirement.data.targetProfileId.data),
-        );
-        return new CampaignCombinedCourseBlueprintItem({ id: targetProfile.id, name: targetProfile.name });
-      }
-      if (requirement.requirement_type === TYPES.OBJECT.PASSAGES) {
-        const module = modules.find((module) => module.id === requirement.data.moduleId.data);
-        const recommendableModule = recommendableModules.find(({ moduleId }) => moduleId === module.id);
+    this.items = this.quest.successRequirements
+      .filter(
+        ({ requirement_type }) =>
+          requirement_type === TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS || requirement_type === TYPES.OBJECT.PASSAGES,
+      )
+      .map((requirement) => {
+        if (requirement.requirement_type === TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS) {
+          const targetProfile = targetProfiles.find(
+            (targetProfile) => targetProfile.id === parseInt(requirement.data.targetProfileId.data),
+          );
+          return new CampaignCombinedCourseBlueprintItem({ id: targetProfile.id, name: targetProfile.name });
+        }
+        if (requirement.requirement_type === TYPES.OBJECT.PASSAGES) {
+          const module = modules.find((module) => module.id === requirement.data.moduleId.data);
+          const recommendableModule = recommendableModules.find(({ moduleId }) => moduleId === module.id);
 
-        return new ModuleCombinedCourseBlueprintItem({
-          id: module.id,
-          name: module.title,
-          duration: module.duration,
-          image: module.image,
-          isRecommendable: Boolean(recommendableModule),
-        });
-      }
-    });
+          return new ModuleCombinedCourseBlueprintItem({
+            id: module.id,
+            name: module.title,
+            duration: module.duration,
+            image: module.image,
+            isRecommendable: Boolean(recommendableModule),
+          });
+        }
+      });
   }
 }

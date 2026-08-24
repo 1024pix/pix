@@ -567,5 +567,73 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         }),
       ]);
     });
+
+    it('should not generate items from capped tubes requirements', function () {
+      // given
+      const targetProfileId = 1;
+      const moduleId = 'step1-module1';
+
+      values.quest = new Quest({
+        rewardId: null,
+        rewardType: null,
+        eligibilityRequirements: [],
+        successRequirements: [
+          {
+            requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+            data: { cappedTubes: [{ tubeId: 'tubeA', level: 1 }], threshold: 100 },
+          },
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            targetProfileId: targetProfileId,
+          }),
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+            moduleId: moduleId,
+          }),
+        ],
+      });
+      const targetProfiles = [
+        {
+          id: targetProfileId,
+          name: 'Step1 Diag1',
+        },
+      ];
+      const modules = [
+        {
+          id: 'step1-module1',
+          title: 'Module 1',
+          image: 'illustration.svg',
+          duration: 5,
+        },
+      ];
+      const recommendableModules = [
+        {
+          moduleId: 'step1-module2',
+          targetProfileIds: [targetProfileId],
+        },
+      ];
+
+      // when
+      const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
+      combinedCourseBlueprint.generateItems({
+        targetProfiles,
+        modules,
+        recommendableModules,
+      });
+
+      // then
+      expect(combinedCourseBlueprint.items).to.have.lengthOf(2);
+      expect(combinedCourseBlueprint.items).deep.equal([
+        new CampaignCombinedCourseBlueprintItem({
+          id: targetProfileId,
+          name: 'Step1 Diag1',
+        }),
+        new ModuleCombinedCourseBlueprintItem({
+          id: moduleId,
+          name: 'Module 1',
+          duration: 5,
+          image: 'illustration.svg',
+          isRecommendable: false,
+        }),
+      ]);
+    });
   });
 });
