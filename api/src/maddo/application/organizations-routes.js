@@ -49,6 +49,7 @@ const register = async function (server) {
             organizationId: identifiersType.organizationId,
           }),
           query: Joi.object({
+            withArchived: Joi.boolean().allow(null).optional(),
             page: createPageQuerySchema({
               maxSize: 1000,
               defaultValue: { number: 1, size: 1000 },
