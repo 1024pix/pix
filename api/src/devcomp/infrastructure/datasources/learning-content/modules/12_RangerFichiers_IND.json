@@ -6,7 +6,7 @@
   "isBeta": true,
   "visibility": "public",
   "details": {
-    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "image": "https://assets.pix.org/modules/CY_RangerFichiers_IND/picto_ranger_fichiers_ind.svg",
     "description": "<p>Photos, documents, téléchargements… quand les fichiers s’accumulent sur un ordinateur, il devient difficile de s’y retrouver. 🤯<br>Dans ce module, découvrez comment organiser vos fichiers et vos dossiers à l’aide d’un gestionnaire de fichiers et apprenez à les trouver grâce à leur chemin d’accès.</p>",
     "duration": 10,
     "level": "independent",
@@ -604,7 +604,7 @@
                     {
                       "id": "ddca2aad-f878-4132-9ed6-aae608c0e649",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/RangerFichiers_IND/placeholder-gestionnaires.png",
+                      "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/pt_cle_3.svg",
                       "alt": "",
                       "alternativeText": "<p>à rédiger<br></p>",
                       "legend": "",
