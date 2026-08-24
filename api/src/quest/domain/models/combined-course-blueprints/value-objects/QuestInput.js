@@ -34,6 +34,7 @@ const cappedTubesSchema = Joi.array().items(
   Joi.object({
     tubes: Joi.array().items(Joi.object({ tubeId: Joi.string(), level: Joi.number().integer() })),
     threshold: Joi.number().integer(),
+    name: Joi.string().allow(null),
   }),
 );
 
@@ -84,6 +85,7 @@ export class QuestInput {
       return buildRequirement({
         requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
         data: {
+          name: requirement.name,
           threshold: requirement.threshold,
           cappedTubes: requirement.tubes,
         },

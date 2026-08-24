@@ -21,7 +21,7 @@ const serialize = function (adminCombinedCourseBlueprintDetails) {
     rewardRequirements: {
       ref: 'id',
       included: true,
-      attributes: ['cappedTubesThreshold', 'areas'],
+      attributes: ['name', 'cappedTubesThreshold', 'areas'],
       areas: {
         ref: 'id',
         included: true,

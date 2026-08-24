@@ -876,6 +876,7 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
             data: {
               cappedTubes: [{ tubeId: 'tubeA', level: 3 }],
               threshold: 70,
+              name: undefined,
             },
           },
         ],

@@ -71,6 +71,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           id: 'reward-requirements-1',
           areas: [area],
           cappedTubesThreshold: '50',
+          name: 'requirements group name',
         },
       ],
       quest,
@@ -178,6 +179,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
         },
         {
           attributes: {
+            name: 'requirements group name',
             'capped-tubes-threshold': '50',
           },
           id: 'reward-requirements-1',

@@ -60,6 +60,7 @@ export class CombinedCourseBlueprint {
     return this.quest.successRequirements
       .filter((requirement) => requirement.requirement_type === REQUIREMENT_TYPES.CAPPED_TUBES)
       .map((requirement) => ({
+        name: requirement.data.name,
         threshold: requirement.data.threshold,
         cappedTubes: requirement.data.cappedTubes,
       }));

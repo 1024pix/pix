@@ -109,6 +109,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
       content: [],
       rewardRequirements: [
         {
+          name: 'requirements group name',
           cappedTubesThreshold: 50,
           areas: [
             {
@@ -124,15 +125,35 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
 
     //then
     assert.ok(await screen.queryByText(t('components.combined-course-blueprints.reward-requirements.title')));
+    assert.ok(await screen.queryByText('requirements group name'));
+    const expectedThreshold = t('components.combined-course-blueprints.reward-requirements.threshold') + ': 50%';
+    assert.ok(await screen.queryByText(expectedThreshold));
+    assert.ok(await screen.queryByText('Area Test Title'));
+  });
 
+  test('should display default reward requirements group name if not provided', async function (assert) {
+    //given
+    const combinedCourseBlueprint = {
+      id: 123,
+      internalName: 'Modèle de parcours apprenant',
+      createdAt: new Date('2025-12-25'),
+      name: 'Parcours apprenant',
+      content: [],
+      rewardRequirements: [
+        {
+          cappedTubesThreshold: 50,
+          areas: [{ title: 'Area Test Title' }],
+        },
+      ],
+    };
+
+    //when
+    const screen = await render(<template><Details @model={{combinedCourseBlueprint}} /></template>);
+
+    //then
     const expectedGroupName =
       t('components.combined-course-blueprints.reward-requirements.requirements-group-name') + ' 1';
     assert.ok(await screen.queryByText(expectedGroupName));
-
-    const expectedThreshold = t('components.combined-course-blueprints.reward-requirements.threshold') + ': 50%';
-    assert.ok(await screen.queryByText(expectedThreshold));
-
-    assert.ok(await screen.queryByText('Area Test Title'));
   });
 
   test('should not display reward requirements if not provided', async function (assert) {

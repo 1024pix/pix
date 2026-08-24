@@ -145,6 +145,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
             data: {
               cappedTubes: [{ tubeId: 'tubeId1', level: 1 }],
               threshold: 50,
+              name: 'requirements group name',
             },
           },
           {
@@ -175,10 +176,12 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
         {
           cappedTubes: [{ tubeId: 'tubeId1', level: 1 }],
           threshold: 50,
+          name: 'requirements group name',
         },
         {
           cappedTubes: [{ tubeId: 'tubeId2', level: 4 }],
           threshold: 60,
+          name: undefined,
         },
       ]);
     });

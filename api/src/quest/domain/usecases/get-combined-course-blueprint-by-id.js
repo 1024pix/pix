@@ -27,6 +27,7 @@ export const getCombinedCourseBlueprintById = async ({
   const rewardRequirements = await Promise.all(
     combinedCourseBlueprint.rewardRequirements.map(async (requirements, index) => {
       const threshold = requirements?.threshold;
+      const name = requirements?.name;
       const cappedTubeRequirementIds = requirements.cappedTubes.map((cappedTube) => cappedTube.tubeId);
       const cappedTubesLevelById = new Map(requirements.cappedTubes.map(({ tubeId, level }) => [tubeId, level]));
 
@@ -69,6 +70,7 @@ export const getCombinedCourseBlueprintById = async ({
         id: combinedCourseBlueprint.id + '-reward-requirement-' + index,
         areas: formattedAreas,
         cappedTubesThreshold: threshold,
+        name,
       };
     }),
   );

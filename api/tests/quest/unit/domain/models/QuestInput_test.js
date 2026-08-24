@@ -75,6 +75,7 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
         cappedTubeRequirements: [
           {
             threshold: 20,
+            name: 'requirements group name',
             tubes: [
               { tubeId: 'tube1', level: 5 },
               { tubeId: 'tube2', level: 3 },
@@ -106,6 +107,7 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
           requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
           data: {
             threshold: 20,
+            name: 'requirements group name',
             cappedTubes: [
               { tubeId: 'tube1', level: 5 },
               { tubeId: 'tube2', level: 3 },
@@ -144,7 +146,9 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
           { type: 'module', value: moduleId, shortId },
           { type: 'campaign', value: targetProfileId },
         ],
-        cappedTubeRequirements: [{ tubes: [{ level: 1, tubeId: 'abc' }], threshold: 20 }],
+        cappedTubeRequirements: [
+          { tubes: [{ level: 1, tubeId: 'abc' }], threshold: 20, name: 'requirements group name' },
+        ],
       }).toQuest();
       const modulesById = { [moduleId]: [{ shortId }] };
 
