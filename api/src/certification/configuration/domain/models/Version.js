@@ -149,6 +149,18 @@ export class Version {
     return this.status === VERSION_STATUSES.DRAFT;
   }
 
+  activate(activationDate) {
+    if (!this.isDraft) throw new VersionNotDraftError();
+    this.status = VERSION_STATUSES.ACTIVE;
+    this.startDate = activationDate;
+    this.expirationDate = null;
+  }
+
+  archive(archivingDate) {
+    this.status = VERSION_STATUSES.ARCHIVED;
+    this.expirationDate = archivingDate;
+  }
+
   static buildDraftFromActiveVersion({ scope, version, tubeIds }) {
     const draftVersion = new Version({
       id: null,

@@ -3,6 +3,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
+import * as calibratedChallengesRepository from '../../infrastructure/repositories/calibrated-challenges-repository.js';
 import * as calibrationRepository from '../../infrastructure/repositories/calibration-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 import * as certificationInfoRepository from '../../infrastructure/repositories/certification-info-repository.js';
@@ -13,6 +14,7 @@ import * as organizationRepository from '../../infrastructure/repositories/organ
 import * as ScoBlockedAccessDatesRepository from '../../infrastructure/repositories/sco-blocked-access-dates-repository.js';
 import * as versionDetailsRepository from '../../infrastructure/repositories/version-details-repository.js';
 import * as versionRepository from '../../infrastructure/repositories/version-repository.js';
+import { activateVersion } from './activate-version.js';
 import { attachBadges } from './attach-badges.js';
 import { createDraft } from './create-draft.js';
 import { deleteVersion } from './delete-version.js';
@@ -48,8 +50,10 @@ import { updateVersionComment } from './update-version-comment.js';
  * @typedef {versionRepository} VersionRepository
  * @typedef {versionDetailsRepository} VersionDetailsRepository
  * @typedef {calibrationRepository} CalibrationRepository
+ * @typedef {calibratedChallengesRepository} CalibratedChallengesRepository
  **/
 const dependencies = {
+  calibratedChallengesRepository,
   attachableTargetProfileRepository,
   centerRepository,
   ScoBlockedAccessDatesRepository,
@@ -66,6 +70,7 @@ const dependencies = {
 };
 
 const usecasesWithoutInjectedDependencies = {
+  activateVersion,
   attachBadges,
   createDraft,
   deleteVersion,

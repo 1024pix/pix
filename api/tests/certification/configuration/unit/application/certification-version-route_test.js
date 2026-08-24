@@ -371,7 +371,10 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('PATCH', `/api/admin/certification-versions/NOT_AN_ID/activation`);
+        const response = await httpTestServer.request(
+          'PATCH',
+          `/api/admin/certification-versions/NOT_AN_ID/activation`,
+        );
 
         // then
         expect(response.statusCode).to.equal(400);
