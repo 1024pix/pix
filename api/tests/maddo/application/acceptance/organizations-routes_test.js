@@ -83,12 +83,26 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
       await databaseBuilder.commit();
     });
 
-    it('returns the list of all campaigns belonging to organization in the client jurisdiction with an HTTP status code 200', async function () {
+    it('returns all campaigns (not archived, not deleted) of organization in client jurisdiction with status 200', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      const campaign1InJurisdiction = databaseBuilder.factory.buildCampaign({
+      const campaign1 = databaseBuilder.factory.buildCampaign({
         organizationId: orgaInJurisdiction.id,
         targetProfileId: targetProfile.id,
+      });
+      databaseBuilder.factory.buildCampaign({
+        organizationId: orgaInJurisdiction.id,
+        targetProfileId: targetProfile.id,
+        archivedAt: new Date('2026-01-01'),
+      });
+      databaseBuilder.factory.buildCampaign({
+        organizationId: orgaInJurisdiction.id,
+        targetProfileId: targetProfile.id,
+        deletedAt: new Date('2026-01-01'),
+      });
+      const campaign2 = databaseBuilder.factory.buildCampaign({
+        type: CampaignTypes.PROFILES_COLLECTION,
+        organizationId: orgaInJurisdiction.id,
       });
       databaseBuilder.factory.buildCampaign({
         organizationId: orgaAlsoInJurisdiction.id,
@@ -117,29 +131,59 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
       });
       expect(response.result.campaigns).to.deep.equal([
         new Campaign({
-          id: campaign1InJurisdiction.id,
-          name: campaign1InJurisdiction.name,
-          type: campaign1InJurisdiction.type,
+          id: campaign1.id,
+          name: campaign1.name,
+          type: campaign1.type,
           targetProfileName: targetProfile.name,
-          code: campaign1InJurisdiction.code,
-          createdAt: campaign1InJurisdiction.createdAt,
-          archivedAt: campaign1InJurisdiction.archivedAt,
+          code: campaign1.code,
+          createdAt: campaign1.createdAt,
+          archivedAt: null,
+        }),
+        new Campaign({
+          id: campaign2.id,
+          name: campaign2.name,
+          type: campaign2.type,
+          targetProfileName: null,
+          code: campaign2.code,
+          createdAt: campaign2.createdAt,
+          archivedAt: null,
+          tubes: null,
         }),
       ]);
     });
 
-    context('when organization contains profile collection campaigns', function () {
-      it('returns the list of all campaigns belonging to organization in the client jurisdiction with an HTTP status code 200', async function () {
+    context('with param withArchived true', function () {
+      it('returns all campaigns (archived or not, but not deleted) of organization in client jurisdiction with status 200', async function () {
         // given
-        const campaign1InJurisdiction = databaseBuilder.factory.buildCampaign({
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const campaign1 = databaseBuilder.factory.buildCampaign({
+          organizationId: orgaInJurisdiction.id,
+          targetProfileId: targetProfile.id,
+        });
+        const campaign2 = databaseBuilder.factory.buildCampaign({
+          organizationId: orgaInJurisdiction.id,
+          targetProfileId: targetProfile.id,
+          archivedAt: new Date('2026-01-01'),
+        });
+        databaseBuilder.factory.buildCampaign({
+          organizationId: orgaInJurisdiction.id,
+          targetProfileId: targetProfile.id,
+          deletedAt: new Date('2026-01-01'),
+        });
+        const campaign3 = databaseBuilder.factory.buildCampaign({
           type: CampaignTypes.PROFILES_COLLECTION,
           organizationId: orgaInJurisdiction.id,
         });
+        databaseBuilder.factory.buildCampaign({
+          organizationId: orgaAlsoInJurisdiction.id,
+        });
+        databaseBuilder.factory.buildCampaign({ organizationId: orgaNotInJurisdiction.id });
+
         await databaseBuilder.commit();
 
         const options = {
           method: 'GET',
-          url: `/api/organizations/${orgaInJurisdiction.id}/campaigns`,
+          url: `/api/organizations/${orgaInJurisdiction.id}/campaigns?withArchived=true`,
           headers: {
             authorization: generateValidRequestAuthorizationHeaderForApplication(clientId, 'pix-client', 'campaigns'),
           },
@@ -150,15 +194,38 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.result.page).to.deep.equal({
+          number: 1,
+          size: 1000,
+          count: 1,
+        });
         expect(response.result.campaigns).to.deep.equal([
           new Campaign({
-            id: campaign1InJurisdiction.id,
-            name: campaign1InJurisdiction.name,
-            type: campaign1InJurisdiction.type,
+            id: campaign1.id,
+            name: campaign1.name,
+            type: campaign1.type,
+            targetProfileName: targetProfile.name,
+            code: campaign1.code,
+            createdAt: campaign1.createdAt,
+            archivedAt: null,
+          }),
+          new Campaign({
+            id: campaign2.id,
+            name: campaign2.name,
+            type: campaign2.type,
+            targetProfileName: targetProfile.name,
+            code: campaign2.code,
+            createdAt: campaign2.createdAt,
+            archivedAt: campaign2.archivedAt,
+          }),
+          new Campaign({
+            id: campaign3.id,
+            name: campaign3.name,
+            type: campaign3.type,
             targetProfileName: null,
-            code: campaign1InJurisdiction.code,
-            createdAt: campaign1InJurisdiction.createdAt,
-            archivedAt: campaign1InJurisdiction.archivedAt,
+            code: campaign3.code,
+            createdAt: campaign3.createdAt,
+            archivedAt: null,
             tubes: null,
           }),
         ]);
@@ -166,7 +233,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
     });
 
     context('pagination management', function () {
-      it('returns the list of n first campaigns belonging to organization in the client jurisdiction with an HTTP status code 200', async function () {
+      it('returns the n first campaigns of organization in client jurisdiction with status 200', async function () {
         // given
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         const campaign1InJurisdiction = databaseBuilder.factory.buildCampaign({
