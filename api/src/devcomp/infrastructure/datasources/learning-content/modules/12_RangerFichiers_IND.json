@@ -160,7 +160,7 @@
                 "id": "ef363e08-9e60-4f74-9c98-5a98c565b84d",
                 "type": "image",
                 "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/arbo_dec1.svg",
-                "alt": "schéma d’une organisation de dossiers et de fichiers",
+                "alt": "exemple d’arborescence décrit en détail dans l’alternative textuelle",
                 "alternativeText": "<p>Arborescence de fichiers&nbsp;:</p><ol><li>«&nbsp;Mon ordinateur&nbsp;»<ol><li> dossier «&nbsp;Documents&nbsp;»<ol><li>  dossier «&nbsp;Professionnel&nbsp;» <ol><li>dossier «&nbsp;Archives&nbsp;»</li><li>fichier «&nbsp;Facture&nbsp;» </li></ol></li></ol></li><li>dossier «&nbsp;Images&nbsp;»<ol><li>dossier «&nbsp;Maison&nbsp;» </li><li>dossier «&nbsp;Famille&nbsp;»<ol><li>fichier «&nbsp;Neige&nbsp;»</li><li>fichier «&nbsp;Campagne&nbsp;»</li></ol></li></ol></li></ol></li></ol>",
                 "legend": "",
                 "licence": ""
@@ -322,7 +322,7 @@
                 "id": "64198e11-91df-48a0-b6c3-ae4bb0d49577",
                 "type": "image",
                 "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/arbo_dec2.svg",
-                "alt": "schéma d’une arborescence de dossiers et de fichiers",
+                "alt": "exemple d’arborescence décrit en détail dans l’alternative textuelle",
                 "alternativeText": "<p>Arborescence de fichiers&nbsp;:</p><ol><li>    «&nbsp;Mon ordinateur&nbsp;» <ol><li>dossier «&nbsp;Documents&nbsp;»</li><li>    dossier «&nbsp;Images» <ol><li>dossier «&nbsp;Captures» </li><li>dossier «&nbsp;Photos&nbsp;»<ol><li>    dossier «&nbsp;2024&nbsp;» </li><li>dossier «&nbsp;2025&nbsp;»<ol><li>    fichiers «&nbsp;Photo1&nbsp;» </li><li>dossier «&nbsp;Juin&nbsp;»</li><li>    dossier «&nbsp;Juillet&nbsp;»<ol><li>fichier «&nbsp;Anniv2025&nbsp;»</li><li>    fichier «&nbsp;Barbecue&nbsp;»</li><li>fichier «&nbsp;Clara&nbsp;»</li></ol></li></ol></li></ol></li></ol></li></ol></li></ol>",
                 "legend": "",
                 "licence": ""
@@ -726,8 +726,8 @@
                       "id": "172b04f1-7f1a-427c-959f-e1af692d7f5a",
                       "type": "image",
                       "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/arbo_lecon4.svg",
-                      "alt": "à écrire",
-                      "alternativeText": "",
+                      "alt": "exemples d’arborescence décrits en détail dans l’alternative textuelle",
+                      "alternativeText": "<p>Deux méthodes d’organisation d’une arborescence de fichiers </p><p>Méthode 1&nbsp;: </p><ol>    <li> «&nbsp;Images&nbsp;»        <ol>            <li>                dossier «&nbsp;2023&nbsp;»                <ol>                    <li>                        fichier «&nbsp;Jonquilles&nbsp;»                    </li>                    <li>                        fichier «&nbsp;Maison&nbsp;»                    </li>                    <li>                        fichier «&nbsp;Lion&nbsp;»                    </li>                </ol>            </li>            <li>                dossier «&nbsp;2024&nbsp;»<ol>                    <li>                        fichier «&nbsp;Château&nbsp;»                    </li>                    <li>                        fichier «&nbsp;Zèbre&nbsp;»                    </li>                </ol>            </li>            <li>                dossier «&nbsp;2025&nbsp;»                <ol>                    <li>                        fichier «&nbsp;Perroquets&nbsp;»                    </li>                    <li>                        fichier «&nbsp;Rose&nbsp;»                    </li>                    <li>                        fichier «&nbsp;Mimosa&nbsp;»</li>                </ol>            </li><li>dossier&nbsp;«&nbsp;2026&nbsp;»<ol><li>fichier&nbsp;«&nbsp;Caniche&nbsp;»</li></ol></li>        </ol>        </li></ol><p>Méthode 2&nbsp;: </p><ol><li> «&nbsp;Images&nbsp;»<ol><li>            dossier «&nbsp;Animaux&nbsp;»<ol><li>            fichier «&nbsp;Lion&nbsp;»</li><li>            fichier «&nbsp;Zèbre&nbsp;»</li><li>            fichier «&nbsp;Perroquets&nbsp;»</li><li>            fichier «&nbsp;Caniche&nbsp;»</li></ol></li><li>            dossier «&nbsp;Architecture&nbsp;»<ol><li>            fichier «&nbsp;Maison&nbsp;»</li><li>            fichier «&nbsp;Château&nbsp;»</li></ol></li><li>            dossier «&nbsp;Fleurs&nbsp;»<ol><li>            fichier «&nbsp;Jonquilles&nbsp;»</li><li>            fichier «&nbsp;Rose&nbsp;»</li><li>            fichier «&nbsp;Mimosa&nbsp;»</li></ol></li></ol></li></ol>            ",
                       "legend": "",
                       "licence": ""
                     },
