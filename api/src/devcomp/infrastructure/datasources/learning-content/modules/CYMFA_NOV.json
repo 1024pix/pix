@@ -48,7 +48,7 @@
                     "id": "1",
                     "content": "<p>L’adresse mail et le nom de l’ancien président de l’association</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! Pour <strong>accéder à un compte de service en ligne</strong>, l’utilisateur a besoin d’un <strong>identifiant </strong>et d’un <strong>mot de passe</strong>.</p><p>Dans le cas de Philomène, les deux éléments indispensables sont l’adresse mail, qui sert d’identifiant, et le mot de passe de la boîte mail.&nbsp;</p>"
+                      "diagnosis": "<p>Eh non ! Pour <strong>accéder à un compte de service en ligne</strong>, l’utilisateur a besoin d’un <strong>identifiant </strong>et d’un <strong>mot de passe</strong>.</p><p>Dans le cas de Philomène, les deux éléments indispensables sont l’adresse mail, qui sert d’identifiant, et le mot de passe de la boîte mail.</p>"
                     }
                   },
                   {
@@ -69,7 +69,7 @@
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pour <strong>accéder à un compte de service en ligne</strong>, l’utilisateur a&nbsp;besoin d’un <strong>identifiant </strong>et d’un <strong>mot de passe</strong>.</p><p>Dans le cas de Philomène, les deux éléments indispensables sont l’adresse mail, qui sert d’identifiant, et le mot de passe de la boîte mail.</p>"
+                      "diagnosis": "<p>Pour <strong>accéder à un compte de service en ligne</strong>, l’utilisateur a besoin d’un <strong>identifiant </strong>et d’un <strong>mot de passe</strong>.</p><p>Dans le cas de Philomène, les deux éléments indispensables sont l’adresse mail, qui sert d’identifiant, et le mot de passe de la boîte mail.</p>"
                     }
                   }
                 ],
@@ -265,7 +265,7 @@
                 "id": "6c6416ff-196c-4bb5-bc13-7a7400b360f9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Philomène vient de récupérer l’adresse mail et&nbsp;le mot de passe de&nbsp;la boîte mail de l’association.<br>Mais au moment de se connecter, impossible ! Philomène est bloquée.<br>L’écran ci-dessous s’affiche.</p>"
+                "content": "<p>Philomène vient de récupérer l’adresse mail et le mot de passe de la boîte mail de l’association.<br>Mais au moment de se connecter, impossible&nbsp;! Philomène est bloquée.<br>L’écran ci-dessous s’affiche.</p>"
               }
             },
             {
