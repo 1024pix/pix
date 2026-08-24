@@ -128,10 +128,6 @@ module('Integration | Component | Challenge | Item', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     async function renderItem() {
       const noop = () => {};
       const screen = await render(

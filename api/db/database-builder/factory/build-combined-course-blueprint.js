@@ -11,7 +11,7 @@ const buildCombinedCourseBlueprint = function ({
   internalName = 'Mon schéma de parcours combiné',
   description = 'Le but de ma quête',
   prescriberDescription = 'Le but de ma quête pour le prescripteur',
-  illustration = 'images/illustration.svg',
+  illustration = 'http://example.pix/images/illustration.svg',
   createdAt = new Date(),
   updatedAt,
   questId,

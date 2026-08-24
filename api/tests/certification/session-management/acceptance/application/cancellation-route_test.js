@@ -1,4 +1,3 @@
-import { createServer } from '../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
@@ -9,6 +8,7 @@ import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Session-management | Acceptance | Application | Routes | cancellation', function () {
@@ -16,7 +16,7 @@ describe('Certification | Session-management | Acceptance | Application | Routes
   const challengeId = 'k_challenge_id';
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
 
     const learningContent = [
       {

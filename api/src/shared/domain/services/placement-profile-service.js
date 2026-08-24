@@ -1,76 +1,20 @@
-import { AlgorithmEngineVersion } from '../../../certification/shared/domain/models/AlgorithmEngineVersion.js';
 import * as scoringService from '../../../evaluation/domain/services/scoring/scoring-service.js';
 import * as knowledgeElementSnapshotRepository from '../../../prescription/campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { PlacementProfile } from '../../domain/models/PlacementProfile.js';
 import { UserCompetence } from '../../domain/models/UserCompetence.js';
-import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
-import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
-import { PromiseUtils } from '../../infrastructure/utils/promise-utils.js';
 
-async function getPlacementProfile({
-  userId,
-  limitDate,
-  version = AlgorithmEngineVersion.V2,
-  allowExcessPixAndLevels = true,
-  locale,
-}) {
+async function getPlacementProfile({ userId, limitDate, allowExcessPixAndLevels = true, locale }) {
   const pixCompetences = await competenceRepository.listPixCompetencesOnly({ locale });
 
-  if (!AlgorithmEngineVersion.isV1(version)) {
-    return _generatePlacementProfile({
-      userId,
-      profileDate: limitDate,
-      competences: pixCompetences,
-      allowExcessPixAndLevels,
-    });
-  }
-  return _generatePlacementProfileV1({ userId, profileDate: limitDate, competences: pixCompetences });
-}
-
-async function _createUserCompetencesV1({ competences, userLastAssessments, limitDate }) {
-  return PromiseUtils.mapSeries(competences, async (competence) => {
-    const assessment = userLastAssessments.find((userAssessment) => userAssessment.competenceId === competence.id);
-    let estimatedLevel = 0;
-    let pixScore = 0;
-    if (assessment) {
-      const assessmentResultLevelAndPixScore =
-        await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({
-          assessmentId: assessment.id,
-          limitDate,
-        });
-      estimatedLevel = assessmentResultLevelAndPixScore.level;
-      pixScore = assessmentResultLevelAndPixScore.pixScore;
-    }
-    return new UserCompetence({
-      id: competence.id,
-      areaId: competence.areaId,
-      index: competence.index,
-      name: competence.name,
-      estimatedLevel,
-      pixScore,
-    });
-  });
-}
-
-async function _generatePlacementProfileV1({ userId, profileDate, competences }) {
-  const placementProfile = new PlacementProfile({
+  return _generatePlacementProfile({
     userId,
-    profileDate,
+    profileDate: limitDate,
+    competences: pixCompetences,
+    allowExcessPixAndLevels,
   });
-  const userLastAssessments = await assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser(
-    placementProfile.userId,
-    placementProfile.profileDate,
-  );
-  placementProfile.userCompetences = await _createUserCompetencesV1({
-    competences,
-    userLastAssessments,
-    limitDate: placementProfile.profileDate,
-  });
-
-  return placementProfile;
 }
 
 function _createUserCompetencesV2({

@@ -1,8 +1,4 @@
-export const COMBINED_COURSE_ITEM_TYPES = {
-  CAMPAIGN: 'CAMPAIGN',
-  MODULE: 'MODULE',
-  FORMATION: 'FORMATION',
-};
+import { COMBINED_COURSE_ITEM_TYPES } from '../../../constants.js';
 
 class CombinedCourseItem {
   constructor({

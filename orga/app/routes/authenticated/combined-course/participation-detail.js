@@ -14,14 +14,14 @@ export default class CombinedCourseParticipationDetailsRoute extends Route {
 
   sortItemsByStep = (items) =>
     items.reduce((itemsBySteps, item) => {
-      if (itemsBySteps.length === 0 || ['FORMATION'].includes(item.type)) {
+      if (itemsBySteps.length === 0 || ['formation'].includes(item.type)) {
         itemsBySteps.push([item]);
         return itemsBySteps;
       }
 
       const lastStep = itemsBySteps[itemsBySteps.length - 1];
 
-      if (lastStep[0].type === item.type || (lastStep[0].type === 'FORMATION' && item.type === 'MODULE')) {
+      if (lastStep[0].type === item.type || (lastStep[0].type === 'formation' && item.type === 'module')) {
         lastStep.push(item);
         return itemsBySteps;
       }

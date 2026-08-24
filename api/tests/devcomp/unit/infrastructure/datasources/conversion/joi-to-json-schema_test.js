@@ -26,6 +26,12 @@ describe('Unit | Infrastructure | Datasources | Conversion | joi-to-json-schema'
       expect(jsonSchema).to.deep.equal({ type: 'string', format: null, options: null });
     });
 
+    it('should convert Joi.string.default to JSON Schema with default', function () {
+      const joiSchema = Joi.string().default('courgette');
+      const jsonSchema = convertJoiToJsonSchema(joiSchema);
+      expect(jsonSchema).to.deep.equal({ type: 'string', format: null, default: 'courgette', options: null });
+    });
+
     it('should convert Joi.string.min to JSON Schema with minLength', function () {
       const joiSchema = Joi.string().min(8);
       const jsonSchema = convertJoiToJsonSchema(joiSchema);

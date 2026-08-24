@@ -1136,10 +1136,6 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.certificability = [];
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     test('displays action bar', async function (assert) {
       // given
       const students = [

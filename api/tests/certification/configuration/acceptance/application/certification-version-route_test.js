@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { createServer } from '../../../../../server.js';
 import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
@@ -15,6 +14,7 @@ import { SCOPES } from '../../../../../src/certification/shared/domain/models/Sc
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Certification | Configuration | API | certification-version-route', function () {
@@ -22,7 +22,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   let superAdmin;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     await databaseBuilder.commit();
   });
@@ -128,6 +128,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           variationPercent: 0.5,
           defaultCandidateCapacity: -3,
           defaultProbabilityToPickChallenge: 51,
+          globalScoringConfiguration: [
+            {
+              bounds: {
+                min: -8,
+                max: -2,
+              },
+              meshLevel: 0,
+            },
+          ],
           comments: 'Some awesome comments',
         })
         .insertToDB({ databaseBuilder });
@@ -163,6 +172,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'enable-passage-by-all-competences': true,
           status: VERSION_STATUSES.ARCHIVED,
           scope: SCOPES.CORE,
+          'global-scoring-configuration': [
+            {
+              bounds: {
+                min: -8,
+                max: -2,
+              },
+              meshLevel: 0,
+            },
+          ],
           comments: 'Some awesome comments',
         },
         relationships: {
@@ -312,6 +330,15 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
               'default-candidate-capacity': 7,
               'limit-to-one-question-per-tube': true,
               'enable-passage-by-all-competences': true,
+              'global-scoring-configuration': [
+                {
+                  bounds: {
+                    min: 1,
+                    max: 8,
+                  },
+                  meshLevel: 0,
+                },
+              ],
             },
             type: 'certification-versions',
           },
@@ -323,6 +350,64 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       // then
       expect(response.statusCode).to.equal(204);
+    });
+
+    it('returns a 422 when globalScoringConfiguration contains bounds where max is lower than or equal to min', async function () {
+      // given
+      const version = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2025-01-11') })
+        .withParameters({
+          scope: SCOPES.CORE,
+          tubeIds: ['tubeA'],
+          id: 123,
+          assessmentDuration: 100,
+          minimumAnswersRequiredToValidateACertification: 20,
+          challengesConfiguration: {
+            maximumAssessmentLength: 32,
+            challengesBetweenSameCompetence: 2,
+            limitToOneQuestionPerTube: true,
+            enablePassageByAllCompetences: true,
+            variationPercent: 0.5,
+            defaultCandidateCapacity: -3,
+            defaultProbabilityToPickChallenge: 51,
+          },
+        })
+        .insertToDB({ databaseBuilder });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/certification-versions/${version.id}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+        payload: {
+          data: {
+            id: version.id,
+            attributes: {
+              'start-date': new Date('2020-02-02'),
+              'assessment-duration': 1,
+              'external-calibration-id': null,
+              'minimum-answers-required-for-validation': 2,
+              'maximum-assessment-length': 3,
+              'challenges-between-same-competence': 4,
+              'default-probability-to-pick-challenge': 5,
+              'variation-percent': 0.6,
+              'default-candidate-capacity': 7,
+              'limit-to-one-question-per-tube': true,
+              'enable-passage-by-all-competences': true,
+              'global-scoring-configuration': [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
+            },
+            type: 'certification-versions',
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(422);
     });
   });
 
@@ -488,6 +573,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'expiration-date': null,
           'external-calibration-id': null,
           'start-date': null,
+          'global-scoring-configuration': [],
           scope: SCOPES.CORE,
           comments: null,
         },

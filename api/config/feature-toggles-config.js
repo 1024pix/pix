@@ -130,4 +130,11 @@ export default {
     defaultValue: false,
     tags: ['backend', 'pix-api'],
   },
+  newPixCertifLegalDocumentsVersioning: {
+    type: 'boolean',
+    description: 'Enable new Pix Certif legal documents versioning for pix',
+    defaultValue: false,
+    devDefaultValues: { test: false, reviewApp: false },
+    tags: ['team-acces', 'pix-api', 'backend'],
+  },
 };

@@ -29,10 +29,6 @@ module('Unit | Route | authenticated/sco-organization-participants/list', functi
     divisionSort: divisionSortSymbol,
   };
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/sco-organization-participants/list');
     store = this.owner.lookup('service:store');

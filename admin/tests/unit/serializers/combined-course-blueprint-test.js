@@ -11,7 +11,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       internalName: 'Nom interne',
       content: [
         {
-          type: 'evaluation',
+          type: 'campaign',
           value: 1,
           label: 'Profil cilble 1',
         },
@@ -48,7 +48,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
             'prescriber-description': null,
             content: [
               {
-                type: 'evaluation',
+                type: 'campaign',
                 value: 1,
               },
             ],
@@ -81,7 +81,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       internalName: 'Nom interne',
       content: [
         {
-          type: 'evaluation',
+          type: 'campaign',
           value: 1,
           label: 'Profil cilble 1',
         },

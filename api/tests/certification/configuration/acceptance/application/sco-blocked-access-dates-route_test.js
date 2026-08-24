@@ -1,14 +1,14 @@
-import { createServer } from '../../../../../server.js';
 import { ScoOrganizationTagName } from '../../../../../src/certification/configuration/domain/models/ScoOrganizationTagName.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Configuration | Acceptance | API | sco-blocked-access-dates-route', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('PATCH /api/admin/sco-blocked-access-dates', function () {

@@ -24,10 +24,6 @@ module('Integration | Component |  administration/anonymize-gar-import', functio
     sinon.stub(window, 'fetch');
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('when import fully succeeds', function () {
     test('it displays a success notification', async function (assert) {
       // given

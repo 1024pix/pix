@@ -1,43 +1,35 @@
-/* stylelint-disable declaration-colon-newline-after */
-/* stylelint-disable function-parentheses-newline-inside */
-/* stylelint-disable no-descending-specificity */
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 @use 'pix-design-tokens/fonts';
-@use 'pix-design-tokens/colors';
-
-.certification-starter {
-  @include breakpoints.device-is('desktop') {
-    padding: 50px 70px 40px;
-  }
-}
 
 .certification-start-page {
-  &__header .pix-background-header__background {
-    background: colors.$pix-primary-certif-gradient;
+  display: grid;
+  align-items: center;
+  max-width: 880px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding-block: var(--pix-spacing-8x);
+
+  @include breakpoints.device-is('mobile') {
+    margin: var(--pix-spacing-4x);
   }
 
-  &__block {
-    margin: var(--pix-spacing-3x) 0;
-    padding: var(--pix-spacing-4x) var(--pix-spacing-4x) var(--pix-spacing-12x) var(--pix-spacing-4x);
-
-    @include breakpoints.device-is('tablet') {
-      margin: var(--pix-spacing-6x) 0;
-    }
-  }
+  @include breakpoints.device-is('tablet') {
+    margin-top: calc(var(--pix-app-layout-top) * -1);
+ }
 
   &__information {
+    @extend %pix-body-s;
+
     margin-top: var(--pix-spacing-3x);
     text-align: center;
-
-    @extend %pix-body-s;
   }
 
   &__title {
-    margin-bottom: var(--pix-spacing-6x);
-    text-align: center;
-
     @extend %pix-title-m;
+
+    margin-block: var(--pix-spacing-6x);
+    text-align: center;
 
     @include breakpoints.device-is('tablet') {
       margin-bottom: var(--pix-spacing-10x);
@@ -63,12 +55,12 @@
     &-items {
       &__eligible,
       &__non-eligible {
+        @extend %pix-body-s;
+
         display: flex;
         gap: var(--pix-spacing-1x);
         align-items: center;
         font-weight: 500;
-
-        @extend %pix-body-s;
       }
 
       &__eligible-icon {
@@ -90,11 +82,11 @@
 }
 
 .certification-start-page__cgu {
-  margin: var(--pix-spacing-2x) var(--pix-spacing-10x);
+  @extend %pix-body-xs;
+
+  margin-block: var(--pix-spacing-2x) var(--pix-spacing-6x);
   line-height: 18px;
   text-align: justify;
-
-  @extend %pix-body-xs;
 }
 
 .certification-start__form {
@@ -121,7 +113,7 @@
 }
 
 .certification-start-form__code {
-  padding-top: var(--pix-spacing-6x);
+  padding-top: var(--pix-spacing-4x);
 
   .label {
     margin-bottom: var(--pix-spacing-3x);

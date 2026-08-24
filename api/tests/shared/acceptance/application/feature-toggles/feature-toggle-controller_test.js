@@ -1,11 +1,11 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Shared | Application | Controller | feature-toggle', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/feature-toggles', function () {

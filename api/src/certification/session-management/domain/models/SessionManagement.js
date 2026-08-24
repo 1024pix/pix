@@ -67,6 +67,10 @@ export class SessionManagement {
     return this.publishedAt !== null;
   }
 
+  isFinalized() {
+    return this.finalizedAt !== null;
+  }
+
   get hasExpired() {
     const hasACertificationOnGoing = Boolean(this.firstCertificationStartedAt);
     if (hasACertificationOnGoing) {

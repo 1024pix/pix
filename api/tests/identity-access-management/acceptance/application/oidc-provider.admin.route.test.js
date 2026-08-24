@@ -1,11 +1,11 @@
 import jsonwebtoken from 'jsonwebtoken';
 
-import { createServer } from '../../../../server.js';
 import { authenticationSessionService } from '../../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { createMockedTestOidcProviders } from '../../../tooling/mocks/openid-client.mock.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Identity Access Management | Route | Admin | oidc-provider', function () {
@@ -14,7 +14,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
   describe('GET /api/admin/oidc-providers/import/template', function () {
     it('returns a 200 HTTP status code and a JSON formatted string', async function () {
       // given
-      server = await createServer();
+      server = await getServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
@@ -38,7 +38,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
   describe('POST /api/admin/oidc-providers/import', function () {
     it('imports oidc providers and returns an HTTP status code 204', async function () {
       // given
-      server = await createServer();
+      server = await getServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
@@ -121,7 +121,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
           source: 'idp',
         },
       ]);
-      server = await createServer();
+      server = await getServer();
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
@@ -172,7 +172,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
   describe('POST /api/admin/oidc/user/reconcile', function () {
     beforeEach(async function () {
       await createMockedTestOidcProviders([{ application: 'admin', applicationTld: '.fr' }]);
-      server = await createServer();
+      server = await getServer();
     });
 
     it('returns an accessToken with a 200 HTTP status code', async function () {
@@ -249,7 +249,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
   context('when the OIDC provider has a connectionMethodCode', function () {
     beforeEach(async function () {
       await createMockedTestOidcProviders([{ application: 'admin', applicationTld: '.fr' }]);
-      server = await createServer();
+      server = await getServer();
     });
 
     describe('POST /api/admin/oidc/user/reconcile', function () {
@@ -262,7 +262,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
             connectionMethodCode: 'OIDC_EXAMPLE_NET',
           },
         ]);
-        server = await createServer();
+        server = await getServer();
       });
 
       it('returns an accessToken with a 200 HTTP status code', async function () {

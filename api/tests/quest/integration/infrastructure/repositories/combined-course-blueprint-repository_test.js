@@ -18,7 +18,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       // given
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const content = [
-        { type: 'evaluation', value: targetProfileId },
+        { type: 'campaign', value: targetProfileId },
         { type: 'module', value: '6282925d-4775-4bca-b513-4c3009ec5886', shortId: '6a68bf32' },
       ];
       const combinedCourseBlueprint = new CombinedCourseBlueprint({
@@ -27,7 +27,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
           internalName: 'Ia combined course blueprint',
           description: "L'ia c'est magique",
           prescriberDescription: "Parcours sur l'IA",
-          illustration: 'illustration/ia.svg',
+          illustration: 'http://example.pix/illustration/ia.svg',
           content,
           organizationIds: [],
           quest: new QuestInput({ items: content }).toQuest(),
@@ -168,7 +168,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         internalName: 'Ia combined course blueprint',
         description: "L'ia c'est magique",
         prescriberDescription: "Parcours sur l'IA",
-        illustration: 'illustration/ia.svg',
+        illustration: 'http://example.pix/illustration/ia.svg',
         surveyUrl: 'https://survey.com',
       });
 
@@ -176,18 +176,16 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
 
       const updatedContent = [{ type: 'module', value: '6282925d-4775-4bca-b513-4c3009ec5886', shortId: '6a68bf32' }];
       const combinedCourseBlueprintWithoutTargetProfile = new CombinedCourseBlueprint({
-        ...new CombinedCourseBlueprintForCreation({
-          id: combinedCourseBlueprintInDb.id,
-          name: 'Updated Combined course IA',
-          internalName: 'Updated Ia combined course blueprint',
-          description: "Updated L'ia c'est magique",
-          prescriberDescription: "Updated parcours sur l'IA",
-          illustration: 'updated-illustration/ia.svg',
-          surveyLink: 'https://updated-survey.com',
-          content: updatedContent,
-          organizationIds: [],
-          quest: new QuestInput({ items: updatedContent }).toQuest(),
-        }),
+        id: combinedCourseBlueprintInDb.id,
+        name: 'Updated Combined course IA',
+        internalName: 'Updated Ia combined course blueprint',
+        description: "Updated L'ia c'est magique",
+        prescriberDescription: "Updated parcours sur l'IA",
+        illustration: 'http://example.pix/updated-illustration/ia.svg',
+        surveyLink: 'https://updated-survey.com',
+        content: updatedContent,
+        organizationIds: [],
+        quest: new QuestInput({ items: updatedContent }).toQuest(),
       });
 
       // when
@@ -202,7 +200,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       expect(results[0].internalName).equal('Updated Ia combined course blueprint');
       expect(results[0].description).equal("Updated L'ia c'est magique");
       expect(results[0].prescriberDescription).equal("Updated parcours sur l'IA");
-      expect(results[0].illustration).equal('updated-illustration/ia.svg');
+      expect(results[0].illustration).equal('http://example.pix/updated-illustration/ia.svg');
       expect(results[0].surveyLink).equal('https://updated-survey.com');
       expect(results[0].quest.toDTO().successRequirements).deep.equal([
         {

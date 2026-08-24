@@ -1,5 +1,5 @@
+import { COMBINED_COURSE_ITEM_TYPES } from '../constants.js';
 import { OrganizationLearnerParticipation } from '../models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { COMBINED_COURSE_ITEM_TYPES } from '../models/combined-course-participations/value-objects/CombinedCourseItem.js';
 
 export async function updateCombinedCourseProgress({
   userId,

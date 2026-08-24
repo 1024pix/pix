@@ -5,10 +5,6 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/catalogue/list', function (hooks) {
   setupTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('beforeModel', function () {
     ['all', 'targetProfile', 'blueprint'].forEach((type) => {
       test(`it should not redirect if param type=${type}`, async function (assert) {

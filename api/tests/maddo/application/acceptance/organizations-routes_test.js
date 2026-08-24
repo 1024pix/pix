@@ -1,16 +1,16 @@
-import { createMaddoServer } from '../../../../server.maddo.js';
 import { Campaign } from '../../../../src/maddo/domain/models/Campaign.js';
 import { Organization } from '../../../../src/maddo/domain/models/Organization.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { getMaddoServer } from '../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Maddo | Route | Organizations', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createMaddoServer();
+    server = await getMaddoServer();
   });
 
   describe('GET /api/organizations', function () {

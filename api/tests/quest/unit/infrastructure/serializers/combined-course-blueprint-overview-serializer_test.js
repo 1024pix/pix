@@ -84,7 +84,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprin
           type: 'combined-course-blueprint-items',
           attributes: {
             name: 'Diagnostic',
-            type: 'evaluation',
+            type: 'campaign',
           },
         },
         {

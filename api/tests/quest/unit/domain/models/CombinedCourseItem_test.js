@@ -1,6 +1,6 @@
+import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/constants.js';
 import {
   CampaignCombinedCourseItem,
-  COMBINED_COURSE_ITEM_TYPES,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
 } from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';

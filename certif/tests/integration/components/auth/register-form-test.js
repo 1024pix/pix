@@ -160,10 +160,6 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       store = this.owner.lookup('service:store');
     });
 
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     async function _fillValidForm() {
       await fillByLabel(firstNameInputLabel, 'Alain');
       await fillByLabel(lastNameInputLabel, 'Ternational');

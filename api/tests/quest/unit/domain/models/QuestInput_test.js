@@ -44,9 +44,9 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
       ]);
     });
 
-    it('should build a quest from an evaluation item', function () {
+    it('should build a quest from a campaign item', function () {
       const targetProfileId = 42;
-      const questInput = new QuestInput({ items: [{ type: 'evaluation', value: targetProfileId }] });
+      const questInput = new QuestInput({ items: [{ type: 'campaign', value: targetProfileId }] });
 
       const quest = questInput.toQuest();
 
@@ -70,7 +70,7 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
       const questInput = new QuestInput({
         items: [
           { type: 'module', value: moduleId },
-          { type: 'evaluation', value: targetProfileId },
+          { type: 'campaign', value: targetProfileId },
         ],
         cappedTubeRequirements: [
           {
@@ -142,7 +142,7 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
       const quest = new QuestInput({
         items: [
           { type: 'module', value: moduleId, shortId },
-          { type: 'evaluation', value: targetProfileId },
+          { type: 'campaign', value: targetProfileId },
         ],
         cappedTubeRequirements: [{ tubes: [{ level: 1, tubeId: 'abc' }], threshold: 20 }],
       }).toQuest();
@@ -152,7 +152,7 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
 
       expect(items).to.deep.equal([
         { type: 'module', value: moduleId, shortId },
-        { type: 'evaluation', value: targetProfileId },
+        { type: 'campaign', value: targetProfileId },
       ]);
     });
 
@@ -162,7 +162,7 @@ describe('Quest | Unit | Domain | Models | QuestInput', function () {
       const targetProfileId = 42;
       const originalContent = [
         { type: 'module', value: moduleId, shortId },
-        { type: 'evaluation', value: targetProfileId },
+        { type: 'campaign', value: targetProfileId },
       ];
       const quest = new QuestInput({ items: originalContent }).toQuest();
       const modulesById = { [moduleId]: [{ shortId }] };

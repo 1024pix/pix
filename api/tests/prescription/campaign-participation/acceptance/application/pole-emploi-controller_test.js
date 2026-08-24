@@ -1,13 +1,13 @@
-import { createServer } from '../../../../../server.js';
 import { generateCursor } from '../../../../../src/prescription/campaign-participation/domain/services/pole-emploi-service.js';
 import { expect } from '../../../../test-helper.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Application | Pole Emploi Controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/pole-emploi/envois', function () {

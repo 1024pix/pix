@@ -1,5 +1,150 @@
 # Pix Changelog
 
+# [5.485.0](https://github.com/1024pix/pix/compare/v5.484.1...v5.485.0) (2026-08-24)
+
+### :rocket: Amélioration
+
+- [#17145](https://github.com/1024pix/pix/pull/17145) Ajoute la page de configuration de scoring pour la création d'un référentiel de certification (PIX-23863)
+- [#17105](https://github.com/1024pix/pix/pull/17105) MDX-138 IAGenPrompt_AVA retours harmo lexix
+- [#17161](https://github.com/1024pix/pix/pull/17161) MDX-250 Premiere inte Nr_Inegalite_Nov
+- [#17190](https://github.com/1024pix/pix/pull/17190) Modification image eval_ind
+
+### :arrow_up: Montée de version
+
+- [#17186](https://github.com/1024pix/pix/pull/17186) Update dependency @1024pix/pix-ui to v62 (admin)
+- [#17076](https://github.com/1024pix/pix/pull/17076) Update dependency undici to v8.10.0 (api)
+
+## [5.484.1](https://github.com/1024pix/pix/compare/v5.484.0...v5.484.1) (2026-08-21)
+
+### :bug: Correction
+
+- [#17185](https://github.com/1024pix/pix/pull/17185) Ne pas renvoyer les profils cibles obsolètes dans le catalogue (PIX-23956)
+
+# [5.484.0](https://github.com/1024pix/pix/compare/v5.483.0...v5.484.0) (2026-08-21)
+
+### :rocket: Amélioration
+
+- [#17165](https://github.com/1024pix/pix/pull/17165) Ajouter un placeholder par défaut pour les blocs Select des QROCM (PIX-23818)
+- [#17164](https://github.com/1024pix/pix/pull/17164) Fri phishing nov be inte medias
+- [#17179](https://github.com/1024pix/pix/pull/17179) relectures internes antivirus_av + objet classement (url pr)
+- [#17171](https://github.com/1024pix/pix/pull/17171) Rendre visible les retours à la ligne dans le tableau du moteur de reco sur Admin (PIX-23464)
+
+### :bug: Correction
+
+- [#17180](https://github.com/1024pix/pix/pull/17180) Ajout d'une erreur dans la réconciliation d'un candidat.
+- [#17170](https://github.com/1024pix/pix/pull/17170) Corriger la réinitialisation d'un embed sur les modules (PIX-23201)
+- [#17166](https://github.com/1024pix/pix/pull/17166) Erreur 500 lors d'une réconciliation déjà effectuée avec la même adresse email (PIX-23921).
+
+### :building_construction: Tech
+
+- [#17174](https://github.com/1024pix/pix/pull/17174) Ne plus utiliser PixBackgroundHeader dans la page de téléchargement de résultat de session (PIX-23935).
+- [#17177](https://github.com/1024pix/pix/pull/17177) Réplication datamart des tables liées au scoring des versions (PIX-23936).
+- [#17062](https://github.com/1024pix/pix/pull/17062) Standardiser la constante COMBINED_COURSE_ITEM_TYPES (PIX-22935)
+
+### :arrow_up: Montée de version
+
+- [#17181](https://github.com/1024pix/pix/pull/17181) Update dependency @1024pix/epreuves-components to ^4.17.7 (api)
+- [#17182](https://github.com/1024pix/pix/pull/17182) Update dependency @1024pix/epreuves-components to ^4.17.7 (junior)
+- [#17183](https://github.com/1024pix/pix/pull/17183) Update dependency @1024pix/epreuves-components to ^4.17.7 (mon-pix)
+
+# [5.483.0](https://github.com/1024pix/pix/compare/v5.482.0...v5.483.0) (2026-08-20)
+
+### :rocket: Amélioration
+
+- [#17167](https://github.com/1024pix/pix/pull/17167) Ajouter le feature toggle newPixCertifLegalDocumentsVersioning (PIX-22440)
+- [#17160](https://github.com/1024pix/pix/pull/17160) Gérer le message `terminate` des embeds dans Modulix (PIX-23911)
+- [#17139](https://github.com/1024pix/pix/pull/17139) Plausible : Tracker les clics sur le bouton de sélection de parcours et de création de campagne du catalogue (PIX-23639)
+
+### :bug: Correction
+
+- [#17162](https://github.com/1024pix/pix/pull/17162) Ajouter une validation des données lors de la création d'un schéma de parcours combiné (PIX-23906)
+- [#17141](https://github.com/1024pix/pix/pull/17141) Reset de mot de passe impossible si l'email n'a pas la bonne casse (PIX-23878)
+
+### :building_construction: Tech
+
+- [#17149](https://github.com/1024pix/pix/pull/17149) Ajouter la validation de payload de la route d'update de certification-courses
+- [#17172](https://github.com/1024pix/pix/pull/17172) Ne plus utiliser PixBackgroundHeader dans la page de code session (PIX-23928).
+- [#17173](https://github.com/1024pix/pix/pull/17173) Retirer PixBackgroundHeader de la page de fin de compétence sur Pix App (PIX-23924).
+
+# [5.482.0](https://github.com/1024pix/pix/compare/v5.481.1...v5.482.0) (2026-08-19)
+
+### :rocket: Amélioration
+
+- [#17119](https://github.com/1024pix/pix/pull/17119) POC retours design catalogue (PIX-23847)
+- [#17157](https://github.com/1024pix/pix/pull/17157) Relecture finale CY_GestionMDP_IND
+- [#17156](https://github.com/1024pix/pix/pull/17156) Relecture MGO MEFTXT_NOV
+
+### :bug: Correction
+
+- [#17154](https://github.com/1024pix/pix/pull/17154) Empêcher l'enregistrement de réponses sur une évaluation terminée
+- [#17158](https://github.com/1024pix/pix/pull/17158) Réparer la modification d'un schéma de parcours (PIX-23905)
+- [#17152](https://github.com/1024pix/pix/pull/17152) Un message d'erreur apparait lorsqu'on entre un nombre decimal dans un champ input number (PIX-23692).
+
+### :building_construction: Tech
+
+- [#17155](https://github.com/1024pix/pix/pull/17155) Corriger les ids dupliquées sur les modules (PIX-23720)
+- [#17147](https://github.com/1024pix/pix/pull/17147) Mise à jour du fichier CODEOWNERS
+- [#17144](https://github.com/1024pix/pix/pull/17144) Sortir les erreurs jetées dans les repositories de `certification/enrolment` (PIX-23893).
+
+## [5.481.1](https://github.com/1024pix/pix/compare/v5.481.0...v5.481.1) (2026-08-18)
+
+### :building_construction: Tech
+
+- [#16932](https://github.com/1024pix/pix/pull/16932) Création de schémas JOI génériques pour les paramètres de requête objet dans Maddo
+- [#17136](https://github.com/1024pix/pix/pull/17136) Rendre la colonne Subscription de la table certification-candidate not nullable (PIX-23461)
+- [#17065](https://github.com/1024pix/pix/pull/17065) Suppression de la génération de positionnement V1
+
+# [5.481.0](https://github.com/1024pix/pix/compare/v5.480.0...v5.481.0) (2026-08-17)
+
+### :rocket: Amélioration
+
+- [#17134](https://github.com/1024pix/pix/pull/17134) relecture jennifer 1/2 virus_ind
+
+### :building_construction: Tech
+
+- [#17140](https://github.com/1024pix/pix/pull/17140) Correction de tests flakies
+- [#17138](https://github.com/1024pix/pix/pull/17138) Réutiliser le serveur dans les tests d'acceptance
+- [#17146](https://github.com/1024pix/pix/pull/17146) sinon.restore() entre chaque test dans les fronts
+
+# [5.480.0](https://github.com/1024pix/pix/compare/v5.479.0...v5.480.0) (2026-08-14)
+
+### :rocket: Amélioration
+
+- [#17135](https://github.com/1024pix/pix/pull/17135) Créer une route pour remonter la liste des catégories de structures (PIX-23559)
+
+# [5.479.0](https://github.com/1024pix/pix/compare/v5.478.1...v5.479.0) (2026-08-14)
+
+### :rocket: Amélioration
+
+- [#17125](https://github.com/1024pix/pix/pull/17125) Afficher la category de l'organisation dans sa page de détail (PIX-23555)
+- [#17128](https://github.com/1024pix/pix/pull/17128) Afficher les sessions les plus récentes en premier dans pix Admin (PIX-23836)
+- [#17000](https://github.com/1024pix/pix/pull/17000) Ajout d'un second batch pour answers history 
+- [#17110](https://github.com/1024pix/pix/pull/17110) Ajout de la sauvegarde de externalCalibrationId au modèle certification-version (PIX-23823)
+- [#17126](https://github.com/1024pix/pix/pull/17126) Ajouter la configuration pour avoir plausible sur PixAdmin (PIX-23777)
+- [#17090](https://github.com/1024pix/pix/pull/17090) integration medias et simulateur papotix finaux CY_MFA_NOV
+
+### :bug: Correction
+
+- [#17132](https://github.com/1024pix/pix/pull/17132) Corriger le script modulix:test (PIX-23879)
+- [#17127](https://github.com/1024pix/pix/pull/17127) Erreur du datamart-builder dans les tests unitaires
+- [#17123](https://github.com/1024pix/pix/pull/17123) Réparer la création d'un schéma de parcours (PIX-23854)
+- [#17109](https://github.com/1024pix/pix/pull/17109) Réparer la génération de mot de passe lors de l'import de session en masse (PIX-23835).
+
+### :building_construction: Tech
+
+- [#17131](https://github.com/1024pix/pix/pull/17131) Améliorer les tests d'API
+- [#17083](https://github.com/1024pix/pix/pull/17083) Déplacer le code spécifique à la récupération de compte SCO dans organization-learners
+- [#17121](https://github.com/1024pix/pix/pull/17121) Déplacer les seeds de calibration dans le contexte MADDO (PIX-23861).
+- [#17120](https://github.com/1024pix/pix/pull/17120) Exposer la catégorie de la structure dans le détail d'une organisation (PIX-23554)
+- [#17117](https://github.com/1024pix/pix/pull/17117) Nettoyage de quelques dépendances de certification
+- [#17116](https://github.com/1024pix/pix/pull/17116) Rassembler les pré-handlers du surveillant dans session-management
+- [#17068](https://github.com/1024pix/pix/pull/17068) Remplacement du Challenge de learning-content utilisé dans shared par un objet plat remappé par le BC
+- [#17122](https://github.com/1024pix/pix/pull/17122) Réparer une typo dans les tests e2e certif
+- [#17118](https://github.com/1024pix/pix/pull/17118) Retravailler la création des connexions aux bases
+- [#17130](https://github.com/1024pix/pix/pull/17130) S'assurer que la base est clean entre chaque tests
+- [#17133](https://github.com/1024pix/pix/pull/17133) Séparer la configuration des tests API par type de test
+- [#17129](https://github.com/1024pix/pix/pull/17129) Uniformiser l'utilisation de sinon.useFakeTimers dans les tests API
+
 ## [5.478.1](https://github.com/1024pix/pix/compare/v5.478.0...v5.478.1) (2026-08-12)
 
 ### :bug: Correction

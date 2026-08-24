@@ -1,4 +1,3 @@
-import { createServer } from '../../../../../server.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { types } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
@@ -6,13 +5,14 @@ import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Enrolment | Acceptance | Routes | session-route', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('POST /api/certification-centers/{certificationCenterId}/session', function () {
@@ -292,7 +292,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
   describe('DELETE /sessions/{sessionId}', function () {
     it('should respond with 204', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const userId = databaseBuilder.factory.buildUser().id;
 
       const { id: certificationCenterId, name: certificationCenter } =
@@ -326,7 +326,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
   describe('GET /sessions/{sessionId}', function () {
     it('should respond with 200', async function () {
       // given
-      const server = await createServer();
+      const server = await getServer();
       const userId = databaseBuilder.factory.buildUser().id;
 
       const { id: certificationCenterId, name: certificationCenter } =

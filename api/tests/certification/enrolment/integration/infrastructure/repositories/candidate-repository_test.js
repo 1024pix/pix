@@ -1,11 +1,9 @@
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import * as candidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/candidate-repository.js';
-import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Certification | Enrolment | Repository | Candidate', function () {
   describe('#get', function () {
@@ -147,59 +145,41 @@ describe('Integration | Certification | Enrolment | Repository | Candidate', fun
   });
 
   describe('#update', function () {
-    context('when the candidate exists', function () {
-      it('should update the candidate', async function () {
-        // when
-        const certificationCandidate = domainBuilder.certification.enrolment
-          .candidateBuilder()
-          .withIdentity({ firstName: 'toto' })
-          .insertToDB({ databaseBuilder });
+    it('updates the candidate', async function () {
+      // when
+      const certificationCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withIdentity({ firstName: 'toto' })
+        .insertToDB({ databaseBuilder });
 
-        await databaseBuilder.commit();
+      await databaseBuilder.commit();
 
-        // when
-        await candidateRepository.update({ ...certificationCandidate, firstName: 'tutu' });
+      // when
+      await candidateRepository.update({ ...certificationCandidate, firstName: 'tutu' });
 
-        const candidate = await candidateRepository.get({
-          certificationCandidateId: certificationCandidate.id,
-        });
-
-        // then
-        expect(candidate).to.be.instanceOf(Candidate);
-        expect(candidate.firstName).to.equal('tutu');
+      const candidate = await candidateRepository.get({
+        certificationCandidateId: certificationCandidate.id,
       });
 
-      it('should update its subscription', async function () {
-        // given
-        const certificationCandidate = domainBuilder.certification.enrolment
-          .candidateBuilder()
-          .withSubscription(Frameworks.DROIT)
-          .insertToDB({ databaseBuilder });
-        await databaseBuilder.commit();
-
-        // when
-        await candidateRepository.update({ ...certificationCandidate, subscription: Frameworks.EDU_1ER_DEGRE });
-
-        // then
-        const updated = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
-        expect(updated.subscription).to.equal(Frameworks.EDU_1ER_DEGRE);
-      });
+      // then
+      expect(candidate).to.be.instanceOf(Candidate);
+      expect(candidate.firstName).to.equal('tutu');
     });
 
-    context('when the candidate does not exist', function () {
-      it('should throw', async function () {
-        // when
-        const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate(
-          { firstName: 'candidate unknown' },
-        );
+    it('updates its subscription', async function () {
+      // given
+      const certificationCandidate = domainBuilder.certification.enrolment
+        .candidateBuilder()
+        .withSubscription(Frameworks.DROIT)
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
 
-        certificationCandidateToUpdate.firstName = 'tutu';
+      // when
+      await candidateRepository.update({ ...certificationCandidate, subscription: Frameworks.EDU_1ER_DEGRE });
 
-        const error = await catchErr(candidateRepository.update)(certificationCandidateToUpdate);
-
-        // then
-        expect(error).to.be.instanceOf(CertificationCandidateNotFoundError);
-      });
+      // then
+      const updated = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
+      expect(updated.subscription).to.equal(Frameworks.EDU_1ER_DEGRE);
     });
   });
 

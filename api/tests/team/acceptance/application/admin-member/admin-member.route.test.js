@@ -1,7 +1,7 @@
-import { createServer } from '../../../../../server.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -12,7 +12,7 @@ describe('Acceptance | Team | Route | Admin-member', function () {
       // given
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await getServer();
 
       // when
       const response = await server.inject({
@@ -30,7 +30,7 @@ describe('Acceptance | Team | Route | Admin-member', function () {
         // given
         const user = databaseBuilder.factory.buildUser();
         await databaseBuilder.commit();
-        const server = await createServer();
+        const server = await getServer();
 
         // when
         const response = await server.inject({
@@ -59,7 +59,7 @@ describe('Acceptance | Team | Route | Admin-member', function () {
       });
 
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await getServer();
 
       // when
       const response = await server.inject({
@@ -91,7 +91,7 @@ describe('Acceptance | Team | Route | Admin-member', function () {
           email: '11.01@example.net',
         });
         await databaseBuilder.commit();
-        const server = await createServer();
+        const server = await getServer();
 
         // when
         const { statusCode, result } = await server.inject({
@@ -127,7 +127,7 @@ describe('Acceptance | Team | Route | Admin-member', function () {
         role: ROLES.SUPPORT,
       });
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await getServer();
 
       // when
       const response = await server.inject({
@@ -159,7 +159,7 @@ describe('Acceptance | Team | Route | Admin-member', function () {
       });
 
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await getServer();
 
       // when
       const response = await server.inject({

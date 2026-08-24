@@ -373,7 +373,7 @@
                     "input": "0",
                     "type": "select",
                     "display": "inline",
-                    "placeholder": "",
+                    "placeholder": "- Sélectionner -",
                     "ariaLabel": "choisir le mot dans le menu déroulant",
                     "tolerances": [],
                     "options": [
@@ -400,7 +400,7 @@
                     "input": "1",
                     "type": "select",
                     "display": "inline",
-                    "placeholder": "",
+                    "placeholder": "- Sélectionner -",
                     "ariaLabel": "choisir le mot dans le menu déroulant",
                     "tolerances": [],
                     "options": [
@@ -427,7 +427,7 @@
                     "input": "2",
                     "type": "select",
                     "display": "inline",
-                    "placeholder": "",
+                    "placeholder": "- Sélectionner -",
                     "ariaLabel": "choisir le mot dans le menu déroulant",
                     "tolerances": [],
                     "options": [

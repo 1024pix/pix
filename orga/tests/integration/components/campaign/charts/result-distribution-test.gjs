@@ -16,10 +16,6 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
     adapter = store.adapterFor('campaign-stats');
   });
 
-  hooks.afterEach(async function () {
-    sinon.restore();
-  });
-
   module('when the campaign has no stages', function (hooks) {
     hooks.beforeEach(async function () {
       dataFetcher = sinon.stub(adapter, 'getParticipationsByMasteryRate');

@@ -5,11 +5,7 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/campaigns/{campaignId}/profils/{campaignParticipationId}', function (hooks) {
   setupTest(hooks);
 
-  module('Before model', function (hooks) {
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
+  module('Before model', function () {
     module('When places limit is reached', function () {
       test('should redirect on main campaign page', function (assert) {
         //given

@@ -27,10 +27,6 @@ module('Unit | Route | Entry Point', function (hooks) {
     route.currentUser = { user: {} };
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('#beforeModel', function () {
     test('should invalidate session when a user is connected and anonymous', async function (assert) {
       //given

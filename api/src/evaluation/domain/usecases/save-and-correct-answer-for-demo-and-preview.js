@@ -3,6 +3,7 @@ import {
   ChallengeNotAskedError,
   EmptyAnswerError,
 } from '../../../shared/domain/errors.js';
+import { AssessmentAlreadyEndedError } from '../errors.js';
 
 export async function saveAndCorrectAnswerForDemoAndPreview({
   answer,
@@ -12,6 +13,9 @@ export async function saveAndCorrectAnswerForDemoAndPreview({
   challengeRepository,
   correctionService,
 }) {
+  if (!assessment.isStarted()) {
+    throw new AssessmentAlreadyEndedError();
+  }
   if (assessment.answers.some((existingAnswer) => existingAnswer.challengeId === answer.challengeId)) {
     throw new ChallengeAlreadyAnsweredError();
   }

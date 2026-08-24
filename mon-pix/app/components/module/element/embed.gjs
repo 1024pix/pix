@@ -56,8 +56,23 @@ export default class ModulixEmbed extends ModuleElement {
 
   @action
   resetEmbed() {
-    this.iframe.setAttribute('src', this.args.embed.url);
-    this.iframe.focus();
+    const tmpSrc = this.iframe.src;
+
+    const loadListener = () => {
+      const isFirstOnLoad = this.iframe.src === 'about:blank';
+      if (isFirstOnLoad) {
+        // First onload: when we reset the iframe
+        this.iframe.setAttribute('src', tmpSrc);
+      } else {
+        // Second onload: when we re-assign the iframe's src to its original value
+        this.iframe.focus();
+        this.iframe.removeEventListener('load', loadListener);
+      }
+    };
+
+    this.iframe.addEventListener('load', loadListener);
+
+    this.iframe.setAttribute('src', 'about:blank');
 
     this.passageEvents.record({
       type: 'EMBED_RETRIED',
@@ -121,12 +136,37 @@ export default class ModulixEmbed extends ModuleElement {
     }
 
     if (!this.args.embed.isCompletionRequired) return;
+
+    if (message.type === 'terminate') {
+      this.reportInfo = {
+        answer: message.state,
+        elementId: this.args.embed.id,
+        type: this.args.embed.type,
+      };
+
+      this.args.onAnswer({
+        userResponse: [message.state],
+        element: this.args.embed,
+      });
+
+      this.passageEvents.record({
+        type: 'EMBED_ANSWERED',
+        data: {
+          answer: message.state,
+          elementId: this.args.embed.id,
+          status: message.state === 'error' ? 'ko' : 'ok',
+        },
+      });
+      return;
+    }
+
     if (message.type) return;
     if (!message.answer) return;
 
     this.reportInfo = {
       answer: message.answer,
       elementId: this.args.embed.id,
+      type: this.args.embed.type,
     };
 
     this.args.onAnswer({

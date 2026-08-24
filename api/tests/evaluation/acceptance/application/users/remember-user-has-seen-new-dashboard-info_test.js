@@ -1,6 +1,6 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Controller | users-controller-has-seen-new-dashboard-info', function () {
@@ -9,7 +9,7 @@ describe('Acceptance | Controller | users-controller-has-seen-new-dashboard-info
   let options;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
 
     user = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false });
 

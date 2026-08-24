@@ -1,9 +1,8 @@
-import { createServer } from '../../../../server.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/constants.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
+import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | Application | SecurityPreHandlers', function () {
@@ -20,7 +19,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
@@ -30,39 +29,6 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
         method: 'PATCH',
         url: '/api/cache',
         headers: generateAuthenticatedUserRequestHeaders(),
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      expect(response.result).to.deep.equal(jsonApiError403);
-    });
-  });
-
-  describe('#checkRequestedUserIsAuthenticatedUser', function () {
-    beforeEach(async function () {
-      server.route({
-        method: 'GET',
-        path: '/test_route/{userId}',
-        handler: (r, h) => h.response({}).code(200),
-        config: {
-          pre: [
-            {
-              method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            },
-          ],
-        },
-      });
-    });
-
-    it('should return a well formed JSON API error when user in query params is not the same as authenticated', async function () {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/test_route/3',
-        headers: generateAuthenticatedUserRequestHeaders({ userId: 2 }),
       };
 
       // when
@@ -196,120 +162,6 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#checkUserIsAdminInSCOOrganizationAndManagesStudents', function () {
-    beforeEach(async function () {
-      server.route({
-        method: 'GET',
-        path: '/test_route/{organizationId}',
-        handler: (r, h) => h.response({}).code(200),
-        config: {
-          pre: [
-            {
-              method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
-            },
-          ],
-        },
-      });
-    });
-
-    it('respond 403 when the user is not member of the SCO organization managing students', async function () {
-      const userId = databaseBuilder.factory.buildUser().id;
-      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
-
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'GET',
-        url: `/test_route/${organizationId}`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      const response = await server.inject(options);
-
-      expect(response.statusCode).to.equal(403);
-      expect(response.result).to.deep.equal(jsonApiError403);
-    });
-
-    it('respond 200 when the user is admin in the orga and it is SCO orga managing students', async function () {
-      const userId = databaseBuilder.factory.buildUser().id;
-      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
-      databaseBuilder.factory.buildMembership({
-        userId,
-        organizationId,
-        organizationRole: Membership.roles.ADMIN,
-      });
-
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'GET',
-        url: `/test_route/${organizationId}`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      const response = await server.inject(options);
-
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  describe('#checkUserIsAdminInSUPOrganizationAndManagesStudents', function () {
-    beforeEach(async function () {
-      server.route({
-        method: 'GET',
-        path: '/test_route/{organizationId}',
-        handler: (r, h) => h.response({}).code(200),
-        config: {
-          pre: [
-            {
-              method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
-            },
-          ],
-        },
-      });
-    });
-
-    it('respond 403 when the user is not member of the SUP organization managing students', async function () {
-      const userId = databaseBuilder.factory.buildUser().id;
-      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
-
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'GET',
-        url: `/test_route/${organizationId}`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      const response = await server.inject(options);
-
-      expect(response.statusCode).to.equal(403);
-      expect(response.result).to.deep.equal(jsonApiError403);
-    });
-
-    it('respond 200 when the user is admin in the organization and which id not a SUP organization managing students', async function () {
-      const userId = databaseBuilder.factory.buildUser().id;
-      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
-      databaseBuilder.factory.buildMembership({
-        userId,
-        organizationId,
-        organizationRole: Membership.roles.ADMIN,
-      });
-
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'GET',
-        url: `/test_route/${organizationId}`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-
-      const response = await server.inject(options);
-
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('#hasAtLeastOneAccessOf', function () {
     let userId;
     let organizationId;
@@ -348,75 +200,6 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       // then
       expect(response.statusCode).to.equal(403);
       expect(response.result).to.deep.equal(jsonApiError403);
-    });
-  });
-
-  describe('#checkUserIsAdminOfCertificationCenter', function () {
-    let userId;
-    let certificationCenterId;
-    let options;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-
-      databaseBuilder.factory.options = {
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-        method: 'GET',
-        url: `/api/organizations/${certificationCenterId}/invitations`,
-      };
-
-      await databaseBuilder.commit();
-
-      server.route({
-        method: 'GET',
-        path: '/test_route/certification-centers/admin/{certificationCenterId}',
-        handler: (r, h) => h.response({}).code(200),
-        config: {
-          pre: [
-            {
-              method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
-            },
-          ],
-        },
-      });
-
-      options = {
-        method: 'GET',
-        url: `/test_route/certification-centers/admin/${certificationCenterId}`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
-    });
-
-    it('returns 200 when user is admin of the certification-center', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId,
-        certificationCenterId,
-        role: 'ADMIN',
-        disabledAt: null,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('returns 403 when user is not admin of the certification-center', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId, role: 'MEMBER' });
-
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
     });
   });
 

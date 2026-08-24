@@ -19,6 +19,7 @@ export function serialize(versionDetails) {
     externalCalibrationId: versionDetails.externalCalibrationId,
     scope: versionDetails.scope,
     status: versionDetails.status,
+    globalScoringConfiguration: versionDetails.globalScoringConfiguration,
     comments: versionDetails.comments,
     areas: versionDetails.areas,
   };
@@ -37,6 +38,7 @@ export function serialize(versionDetails) {
       'limitToOneQuestionPerTube',
       'enablePassageByAllCompetences',
       'externalCalibrationId',
+      'globalScoringConfiguration',
       'comments',
       'scope',
       'status',

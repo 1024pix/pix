@@ -1,4 +1,3 @@
-import { createServer } from '../../../../../server.js';
 import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
@@ -6,6 +5,7 @@ import {
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { STARTED } = CampaignParticipationStatuses;
@@ -16,7 +16,7 @@ describe('Acceptance | API | campaign-detail-route', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('GET /api/campaigns', function () {

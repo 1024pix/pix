@@ -11,11 +11,7 @@ module('Unit | Route | authenticated/campaigns/campaign/settings', function (hoo
   });
 
   module('beforeModel', function () {
-    module('When campaign is from combined course', function (hooks) {
-      hooks.afterEach(function () {
-        sinon.restore();
-      });
-
+    module('When campaign is from combined course', function () {
       test('should redirect on main campaign page', function (assert) {
         //given
         const campaignId = Symbol('CampaignId');
@@ -41,11 +37,7 @@ module('Unit | Route | authenticated/campaigns/campaign/settings', function (hoo
       });
     });
 
-    module('When campaign is not from combined course', function (hooks) {
-      hooks.afterEach(function () {
-        sinon.restore();
-      });
-
+    module('When campaign is not from combined course', function () {
       test('should not redirect on main campaign page', function (assert) {
         //given
         const campaignId = Symbol('CampaignId');

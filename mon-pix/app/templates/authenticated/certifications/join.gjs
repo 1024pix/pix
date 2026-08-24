@@ -10,7 +10,7 @@ import CertificationNotCertifiable from 'mon-pix/components/certification-not-ce
 
   <main id="main" class="global-page-container" role="main">
     {{#if @controller.model.isCertifiable}}
-      <PixBlock class="certification-start-page__block">
+      <PixBlock class="certification-join-page__block">
         <CertificationBanners
           @certificationEligibility={{@controller.model}}
           @fullName={{@controller.currentUser.user.fullName}}

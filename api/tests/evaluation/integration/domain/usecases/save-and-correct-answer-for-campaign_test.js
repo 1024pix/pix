@@ -28,6 +28,7 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
         // campaignParticipationId are nullify when campaign is deleted
         campaignParticipationId: null,
         type: Assessment.types.CAMPAIGN,
+        state: Assessment.states.STARTED,
       });
       databaseBuilder.factory.learningContent.buildArea({
         id: 'monAreaId',
@@ -114,6 +115,7 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
         userId,
         campaignParticipationId: participation.id,
         type: Assessment.types.CAMPAIGN,
+        state: Assessment.states.STARTED,
       });
       databaseBuilder.factory.learningContent.buildArea({
         id: 'monAreaId',
@@ -206,6 +208,7 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
         userId,
         campaignParticipationId,
         type: Assessment.types.CAMPAIGN,
+        state: Assessment.states.STARTED,
       });
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId,
@@ -334,6 +337,7 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
         userId,
         campaignParticipationId,
         type: Assessment.types.CAMPAIGN,
+        state: Assessment.states.STARTED,
       });
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId,

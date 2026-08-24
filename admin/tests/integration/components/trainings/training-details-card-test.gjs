@@ -9,152 +9,186 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Trainings::TrainingDetailsCard', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  const training = {
-    title: 'Un contenu formatif',
-    internalTitle: 'Mon titre interne',
-    link: 'https://un-contenu-formatif',
-    type: 'webinaire',
-    locales: ['fr-fr'],
-    editorName: 'Un éditeur de contenu formatif',
-    editorLogoUrl: 'http://localhost:4202/logo-placeholder.png',
-    duration: {
-      days: 2,
-    },
-    isRecommendable: true,
-    description: 'Une description du contenu formatif',
-    deliveryMode: 'remote',
-    registrationRequired: true,
-    objectives: 'Objectif 1;Objectif 2',
-    program: 'Un programme détaillé',
-  };
+  let owner;
 
-  test('it should display the details', async function (assert) {
-    // when
-    const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
-
-    // then
-    assert.dom(screen.getByText(training.title)).exists();
-    assert.dom(screen.getByText('https://un-contenu-formatif')).exists();
-    assert.dom(screen.getByText('Webinaire')).exists();
-    assert.dom(screen.getByText('2j')).exists();
-    assert.dom(screen.getByText('Franco-français (fr-fr)')).exists();
-    assert.dom(screen.getByText('Un éditeur de contenu formatif')).exists();
-    assert.dom(screen.getByText('http://localhost:4202/logo-placeholder.png')).exists();
+  hooks.beforeEach(function () {
+    owner = this.owner;
   });
 
-  test('it should display "Déclenchable" when training is recommendable', async function (assert) {
-    // given
-    training.isRecommendable = true;
-    const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
-
-    // then
-    assert.dom(screen.getByText(t('pages.trainings.training.details.status-label.enabled'))).exists();
-  });
-
-  test('it should display "Non déclenchable" when training is not recommendable', async function (assert) {
-    // given
-    training.isRecommendable = false;
-    const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
-
-    // then
-    assert.dom(screen.getByText(t('pages.trainings.training.details.status-label.disabled'))).exists();
-  });
-
-  module('Duration formatting', function () {
-    [
-      { duration: { days: 2 }, expectedResult: '2j' },
-      { duration: { hours: 2 }, expectedResult: '2h' },
-      { duration: { minutes: 2 }, expectedResult: '2min' },
-      { duration: { hours: 10, minutes: 2 }, expectedResult: '10h 2min' },
-      { duration: { days: 1, hours: 4 }, expectedResult: '1j 4h' },
-      { duration: { days: 1, minutes: 30 }, expectedResult: '1j 30min' },
-      { duration: { days: 1, hours: 4, minutes: 30 }, expectedResult: '1j 4h 30min' },
-    ].forEach(function ({ duration, expectedResult }) {
-      test(`should display "${expectedResult}" for duration ${JSON.stringify(duration)}`, async function (assert) {
-        // given
-        const trainingWithDuration = {
-          title: 'Un contenu formatif',
-          internalTitle: 'Mon titre interne',
-          link: 'https://un-contenu-formatif',
-          type: 'webinaire',
-          locales: ['fr-fr'],
-          editorName: 'Un éditeur de contenu formatif',
-          editorLogoUrl: 'http://localhost:4202/logo-placeholder.png',
-          duration,
-          isRecommendable: true,
-        };
-
-        // when
-        const screen = await render(<template><TrainingDetailsCard @training={{trainingWithDuration}} /></template>);
-
-        // then
-        assert.dom(screen.getByText(expectedResult)).exists();
-      });
+  function createTraining({
+    isRecommendable = true,
+    duration = { days: 2 },
+    locales = ['fr-fr'],
+    type = 'webinaire',
+    link = 'https://un-contenu-formatif',
+  } = {}) {
+    const store = owner.lookup('service:store');
+    return store.createRecord('training', {
+      title: 'Un contenu formatif',
+      internalTitle: 'Mon titre interne',
+      link,
+      type,
+      locales,
+      editorName: 'Un éditeur de contenu formatif',
+      editorLogoUrl: 'http://localhost:4202/logo-placeholder.png',
+      duration,
+      isRecommendable,
+      description: '',
+      deliveryMode: '',
+      registrationRequired: true,
+      objectives: '',
+      program: '',
     });
-  });
+  }
 
-  module('when there is one value in locales', function () {
-    test('it should display locales with a singular label', async function (assert) {
-      // given
-      const trainingWithOneLocale = { ...training, locales: ['fr'] };
-
-      // when
-      const screen = await render(<template><TrainingDetailsCard @training={{trainingWithOneLocale}} /></template>);
-
-      // then
-      assert.dom(screen.getByText(t('pages.trainings.training.details.locales', { count: 1 }))).exists();
-      assert.dom(screen.getByText('Francophone (fr)')).exists();
+  function createTrainingWithRecommandationEngine({ registrationRequired = true } = {}) {
+    const store = owner.lookup('service:store');
+    return store.createRecord('training', {
+      title: 'Un contenu formatif de moteur de recommandation',
+      internalTitle: 'Mon titre interne',
+      link: 'https://un-contenu-formatif',
+      type: 'webinaire',
+      locales: ['fr-fr'],
+      editorName: 'Un éditeur de contenu formatif',
+      editorLogoUrl: 'http://localhost:4202/logo-placeholder.png',
+      duration: {
+        days: 2,
+      },
+      isRecommendable: true,
+      description: 'Une description du contenu formatif',
+      deliveryMode: 'remote',
+      registrationRequired,
+      objectives: 'Objectif 1;Objectif 2',
+      program: 'Un programme détaillé',
     });
-  });
+  }
 
-  module('when there are multiple value in locales', function () {
-    test('it should display locales with a plural label', async function (assert) {
+  module('Training details table', function () {
+    test('it should display the details', async function (assert) {
       // given
-      const trainingWithMultipleLocales = { ...training, locales: ['fr', 'en'] };
-
-      // when
-      const screen = await render(
-        <template><TrainingDetailsCard @training={{trainingWithMultipleLocales}} /></template>,
-      );
-
-      // then
-      assert.dom(screen.getByText(t('pages.trainings.training.details.locales', { count: 2 }))).exists();
-      assert.dom(screen.getByText('Francophone (fr), Anglophone (en)')).exists();
-    });
-  });
-
-  module('when training type is modulix', function () {
-    test('should display a link to a Pix App module', async function (assert) {
-      // given
-      const domainService = this.owner.lookup('service:current-domain');
-      sinon.stub(domainService, 'getExtension').returns('fr');
-
-      const training = {
-        title: 'Un contenu formatif',
-        internalTitle: 'Mon titre interne',
-        link: '/modules/123/soleil',
-        type: 'modulix',
-        locales: ['fr-fr'],
-        editorName: 'Un éditeur de contenu formatif',
-        editorLogoUrl: 'http://localhost:4202/logo-placeholder.png',
-        duration: {
-          days: 2,
-        },
-        isRecommendable: true,
-      };
+      const training = createTraining();
 
       // when
       const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
 
       // then
-      assert
-        .dom(screen.getByRole('link', { name: 'https://app.pix.fr/modules/123/soleil (nouvelle fenêtre)' }))
-        .exists();
+      assert.dom(screen.getByText(training.title)).exists();
+      assert.dom(screen.getByText('https://un-contenu-formatif')).exists();
+      assert.dom(screen.getByText('Webinaire')).exists();
+      assert.dom(screen.getByText('2j')).exists();
+      assert.dom(screen.getByText('Franco-français (fr-fr)')).exists();
+      assert.dom(screen.getByText('Un éditeur de contenu formatif')).exists();
+      assert.dom(screen.getByText('http://localhost:4202/logo-placeholder.png')).exists();
+    });
+
+    test('it should display "Déclenchable" when training is recommendable', async function (assert) {
+      // given
+      const training = createTraining();
+
+      const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
+
+      // then
+      assert.dom(screen.getByText(t('pages.trainings.training.details.status-label.enabled'))).exists();
+    });
+
+    test('it should display "Non déclenchable" when training is not recommendable', async function (assert) {
+      // given
+      const training = createTraining({ isRecommendable: false });
+
+      const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
+
+      // then
+      assert.dom(screen.getByText(t('pages.trainings.training.details.status-label.disabled'))).exists();
+    });
+
+    module('Duration formatting', function () {
+      [
+        { duration: { days: 2 }, expectedResult: '2j' },
+        { duration: { hours: 2 }, expectedResult: '2h' },
+        { duration: { minutes: 2 }, expectedResult: '2min' },
+        { duration: { hours: 10, minutes: 2 }, expectedResult: '10h 2min' },
+        { duration: { days: 1, hours: 4 }, expectedResult: '1j 4h' },
+        { duration: { days: 1, minutes: 30 }, expectedResult: '1j 30min' },
+        { duration: { days: 1, hours: 4, minutes: 30 }, expectedResult: '1j 4h 30min' },
+      ].forEach(function ({ duration, expectedResult }) {
+        test(`should display "${expectedResult}" for duration ${JSON.stringify(duration)}`, async function (assert) {
+          // given
+          const training = createTraining({ duration });
+
+          // when
+          const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
+
+          // then
+          assert.dom(screen.getByText(expectedResult)).exists();
+        });
+      });
+    });
+
+    module('when there is one value in locales', function () {
+      test('it should display locales with a singular label', async function (assert) {
+        // given
+        const training = createTraining({ locales: ['fr'] });
+
+        // when
+        const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
+
+        // then
+        assert.dom(screen.getByText(t('pages.trainings.training.details.locales', { count: 1 }))).exists();
+        assert.dom(screen.getByText('Francophone (fr)')).exists();
+      });
+    });
+
+    module('when there are multiple value in locales', function () {
+      test('it should display locales with a plural label', async function (assert) {
+        // given
+        const training = createTraining({ locales: ['fr', 'en'] });
+
+        // when
+        const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
+
+        // then
+        assert.dom(screen.getByText(t('pages.trainings.training.details.locales', { count: 2 }))).exists();
+        assert.dom(screen.getByText('Francophone (fr), Anglophone (en)')).exists();
+      });
+    });
+
+    module('when training type is modulix', function () {
+      test('should display a link to a Pix App module', async function (assert) {
+        // given
+        const domainService = this.owner.lookup('service:current-domain');
+        sinon.stub(domainService, 'getExtension').returns('fr');
+
+        const training = createTraining({ type: 'modulix', link: '/modules/123/soleil' });
+
+        // when
+        const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
+
+        // then
+        assert
+          .dom(screen.getByRole('link', { name: 'https://app.pix.fr/modules/123/soleil (nouvelle fenêtre)' }))
+          .exists();
+      });
+    });
+
+    module('when training is not used for recommendation engine', function () {
+      test('it should not display the details', async function (assert) {
+        // given
+        const training = createTraining();
+
+        // when
+        const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
+
+        // then
+        assert.dom(screen.queryByText(t('pages.trainings.training.details.recommendationEngine'))).doesNotExist();
+      });
     });
   });
 
-  module('Recommendation engine card', function () {
+  module('Recommendation engine table', function () {
     test('it should display the details', async function (assert) {
+      // given
+      const training = createTrainingWithRecommandationEngine();
+
       // when
       const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
 
@@ -174,12 +208,10 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
     module('when registrationRequired is false', function () {
       test('it should display "Non"', async function (assert) {
         // given
-        const trainingWithRegistration = { ...training, registrationRequired: false };
+        const training = createTrainingWithRecommandationEngine({ registrationRequired: false });
 
         // when
-        const screen = await render(
-          <template><TrainingDetailsCard @training={{trainingWithRegistration}} /></template>,
-        );
+        const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
 
         // then
         assert.dom(screen.getByText(t('common.words.no'))).exists();
@@ -189,12 +221,10 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
     module('when registrationRequired is true', function () {
       test('it should display "Oui"', async function (assert) {
         // given
-        const trainingWithRegistration = { ...training, registrationRequired: true };
+        const training = createTrainingWithRecommandationEngine();
 
         // when
-        const screen = await render(
-          <template><TrainingDetailsCard @training={{trainingWithRegistration}} /></template>,
-        );
+        const screen = await render(<template><TrainingDetailsCard @training={{training}} /></template>);
 
         // then
         assert.dom(screen.getByText(t('common.words.yes'))).exists();

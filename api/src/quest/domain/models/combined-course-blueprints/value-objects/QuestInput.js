@@ -9,12 +9,12 @@ import { CombinedCourseBlueprint } from '../entities/CombinedCourseBlueprint.js'
 const itemsSchema = Joi.array()
   .items(
     Joi.object({
-      type: Joi.string().valid(COMBINED_COURSE_ITEM_TYPES.EVALUATION, COMBINED_COURSE_ITEM_TYPES.MODULE).required(),
+      type: Joi.string().valid(COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, COMBINED_COURSE_ITEM_TYPES.MODULE).required(),
       value: Joi.alternatives()
         .conditional('type', {
           switch: [
             {
-              is: COMBINED_COURSE_ITEM_TYPES.EVALUATION,
+              is: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
               then: Joi.number().integer(),
             },
             {
@@ -108,7 +108,7 @@ export class QuestInput {
     );
     return items.map((requirement) => {
       if (requirement.requirement_type === REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS) {
-        return { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: requirement.data.targetProfileId.data };
+        return { type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: requirement.data.targetProfileId.data };
       }
       const moduleId = requirement.data.moduleId.data;
       const shortId = modulesById[moduleId][0].shortId;

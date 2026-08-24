@@ -5,10 +5,6 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/combined-course', function (hooks) {
   setupTest(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('beforeModel', function () {
     test('user is redirected to index when he has no access', async function (assert) {
       // given
@@ -40,13 +36,13 @@ module('Unit | Route | authenticated/combined-course', function (hooks) {
       assert.deepEqual(result, []);
     });
 
-    test('should group consecutive CAMPAIGN items together in the same step', async function (assert) {
+    test('should group consecutive campaign items together in the same step', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated/combined-course/participation-detail');
       const itemsToSort = [
-        { reference: 'CAMPAIGN-1', type: 'CAMPAIGN' },
-        { reference: 'CAMPAIGN-2', type: 'CAMPAIGN' },
-        { reference: 'CAMPAIGN-3', type: 'CAMPAIGN' },
+        { reference: 'campaign-1', type: 'campaign' },
+        { reference: 'campaign-2', type: 'campaign' },
+        { reference: 'campaign-3', type: 'campaign' },
       ];
 
       // when
@@ -56,20 +52,20 @@ module('Unit | Route | authenticated/combined-course', function (hooks) {
       assert.strictEqual(result.length, 1);
       assert.deepEqual(result, [
         [
-          { reference: 'CAMPAIGN-1', type: 'CAMPAIGN' },
-          { reference: 'CAMPAIGN-2', type: 'CAMPAIGN' },
-          { reference: 'CAMPAIGN-3', type: 'CAMPAIGN' },
+          { reference: 'campaign-1', type: 'campaign' },
+          { reference: 'campaign-2', type: 'campaign' },
+          { reference: 'campaign-3', type: 'campaign' },
         ],
       ]);
     });
 
-    test('should group consecutive MODULE items together in the same step', async function (assert) {
+    test('should group consecutive module items together in the same step', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated/combined-course/participation-detail');
       const itemsToSort = [
-        { reference: 'MODULE-1', type: 'MODULE' },
-        { reference: 'MODULE-2', type: 'MODULE' },
-        { reference: 'MODULE-3', type: 'MODULE' },
+        { reference: 'module-1', type: 'module' },
+        { reference: 'module-2', type: 'module' },
+        { reference: 'module-3', type: 'module' },
       ];
 
       // when
@@ -79,20 +75,20 @@ module('Unit | Route | authenticated/combined-course', function (hooks) {
       assert.strictEqual(result.length, 1);
       assert.deepEqual(result, [
         [
-          { reference: 'MODULE-1', type: 'MODULE' },
-          { reference: 'MODULE-2', type: 'MODULE' },
-          { reference: 'MODULE-3', type: 'MODULE' },
+          { reference: 'module-1', type: 'module' },
+          { reference: 'module-2', type: 'module' },
+          { reference: 'module-3', type: 'module' },
         ],
       ]);
     });
 
-    test('should group FORMATION and MODULE items together in the same step', async function (assert) {
+    test('should group formation and module items together in the same step', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated/combined-course/participation-detail');
       const itemsToSort = [
-        { reference: 'FORMATION-1', type: 'FORMATION' },
-        { reference: 'MODULE-1', type: 'MODULE' },
-        { reference: 'MODULE-2', type: 'MODULE' },
+        { reference: 'formation-1', type: 'formation' },
+        { reference: 'module-1', type: 'module' },
+        { reference: 'module-2', type: 'module' },
       ];
 
       // when
@@ -102,21 +98,21 @@ module('Unit | Route | authenticated/combined-course', function (hooks) {
       assert.strictEqual(result.length, 1);
       assert.deepEqual(result, [
         [
-          { reference: 'FORMATION-1', type: 'FORMATION' },
-          { reference: 'MODULE-1', type: 'MODULE' },
-          { reference: 'MODULE-2', type: 'MODULE' },
+          { reference: 'formation-1', type: 'formation' },
+          { reference: 'module-1', type: 'module' },
+          { reference: 'module-2', type: 'module' },
         ],
       ]);
     });
 
-    test('should create a new step when a CAMPAIGN item appears after MODULE items', async function (assert) {
+    test('should create a new step when a campaign item appears after module items', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated/combined-course/participation-detail');
       const itemsToSort = [
-        { reference: 'MODULE-1', type: 'MODULE' },
-        { reference: 'MODULE-2', type: 'MODULE' },
-        { reference: 'CAMPAIGN-1', type: 'CAMPAIGN' },
-        { reference: 'MODULE-3', type: 'MODULE' },
+        { reference: 'module-1', type: 'module' },
+        { reference: 'module-2', type: 'module' },
+        { reference: 'campaign-1', type: 'campaign' },
+        { reference: 'module-3', type: 'module' },
       ];
 
       // when
@@ -126,20 +122,20 @@ module('Unit | Route | authenticated/combined-course', function (hooks) {
       assert.strictEqual(result.length, 3);
       assert.deepEqual(result, [
         [
-          { reference: 'MODULE-1', type: 'MODULE' },
-          { reference: 'MODULE-2', type: 'MODULE' },
+          { reference: 'module-1', type: 'module' },
+          { reference: 'module-2', type: 'module' },
         ],
-        [{ reference: 'CAMPAIGN-1', type: 'CAMPAIGN' }],
-        [{ reference: 'MODULE-3', type: 'MODULE' }],
+        [{ reference: 'campaign-1', type: 'campaign' }],
+        [{ reference: 'module-3', type: 'module' }],
       ]);
     });
 
-    test('should create a new step when FORMATION items are not consecutive with MODULE items', async function (assert) {
+    test('should create a new step when formation items are not consecutive with module items', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated/combined-course/participation-detail');
       const itemsToSort = [
-        { reference: 'FORMATION-1', type: 'FORMATION' },
-        { reference: 'FORMATION-2', type: 'FORMATION' },
+        { reference: 'formation-1', type: 'formation' },
+        { reference: 'formation-2', type: 'formation' },
       ];
 
       // when
@@ -148,8 +144,8 @@ module('Unit | Route | authenticated/combined-course', function (hooks) {
       // then
       assert.strictEqual(result.length, 2);
       assert.deepEqual(result, [
-        [{ reference: 'FORMATION-1', type: 'FORMATION' }],
-        [{ reference: 'FORMATION-2', type: 'FORMATION' }],
+        [{ reference: 'formation-1', type: 'formation' }],
+        [{ reference: 'formation-2', type: 'formation' }],
       ]);
     });
   });

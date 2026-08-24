@@ -882,6 +882,7 @@
         "message": "Well done, {fullName}, your Pix profile can now be certified."
       },
       "error-messages": {
+        "account-already-linked-to-another-candidate": "The account you are logged in with is already linked to another candidate in this session. Please check that you are logged into your own Pix account or ask the invigilator for help.",
         "generic": {
           "check-personal-info": "Check with the invigilator that your personal information matches the sign-in sheet.",
           "check-session-number": "Check the session number.",

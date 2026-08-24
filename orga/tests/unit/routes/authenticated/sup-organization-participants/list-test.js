@@ -27,10 +27,6 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
     lastnameSort: lastnameSortSymbol,
   };
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/sup-organization-participants/list');
     store = this.owner.lookup('service:store');

@@ -25,7 +25,7 @@ export default class CombinedCourseBlueprintForm extends Component {
   @service store;
   @service intl;
   @service router;
-  @tracked itemType = 'evaluation';
+  @tracked itemType = 'campaign';
   @tracked itemValue = '';
   @tracked blueprint;
   @tracked itemAddDisabled = true;
@@ -80,7 +80,7 @@ export default class CombinedCourseBlueprintForm extends Component {
       } else {
         const targetProfile = await this.store.findRecord('target-profile', this.itemValue);
         this.itemToAdd = {
-          type: 'evaluation',
+          type: 'campaign',
           value: Number(this.itemValue),
           label: targetProfile.internalName,
           image: targetProfile.imageUrl,
@@ -128,7 +128,7 @@ export default class CombinedCourseBlueprintForm extends Component {
         });
       }
       return responseError.errors
-        .filter((error) => ['400', '404', '412'].includes(error.status))
+        .filter((error) => ['400', '404', '412', '422'].includes(error.status))
         .forEach((error) => this.pixToast.sendErrorNotification({ message: error.detail }));
     }
   }
@@ -219,7 +219,7 @@ export default class CombinedCourseBlueprintForm extends Component {
 
   @action
   getItemColor(type) {
-    return type === 'evaluation' ? 'purple' : 'blue';
+    return type === 'campaign' ? 'purple' : 'blue';
   }
 
   @action
@@ -393,8 +393,8 @@ const ContentSection = <template>
           <legend>{{t "components.combined-course-blueprints.create.fieldsetElement"}}</legend>
           <PixRadioButton
             name="itemType"
-            @value="evaluation"
-            checked={{if (eq @itemType "evaluation") "checked"}}
+            @value="campaign"
+            checked={{if (eq @itemType "campaign") "checked"}}
             {{on "change" @setItemType}}
           >
             <:label>{{t "components.combined-course-blueprints.labels.target-profile"}}</:label>
@@ -436,7 +436,7 @@ const ContentSection = <template>
                   href="https://app.recette.pix.fr/modules/{{@requirement.shortId}}/slug/details"
                 >{{@itemToAdd.label}}</a>
               {{/if}}
-              {{#if (eq @itemToAdd.type "evaluation")}}
+              {{#if (eq @itemToAdd.type "campaign")}}
                 <LinkTo
                   @route="authenticated.target-profiles.target-profile.details"
                   @model={{@requirement.value}}

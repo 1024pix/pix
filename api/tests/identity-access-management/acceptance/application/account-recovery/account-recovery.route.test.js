@@ -1,12 +1,12 @@
-import { createServer } from '../../../../../server.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { getServer } from '../../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Identity Access Management | Application | Route | account-recovery', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await getServer();
   });
 
   describe('PATCH /api/account-recovery', function () {

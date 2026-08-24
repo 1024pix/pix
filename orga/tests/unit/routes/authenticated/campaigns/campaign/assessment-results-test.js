@@ -83,11 +83,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
     });
   });
 
-  module('beforeModel', function (hooks) {
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
+  module('beforeModel', function () {
     module('When places limit is reached', function () {
       test('should redirect to main campaign page', function (assert) {
         //given

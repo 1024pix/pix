@@ -7,12 +7,20 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails ', function () {
   describe('#constructor', function () {
     it('should set content alongside inherited properties', function () {
-      const items = [{ type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: 12 }];
+      const items = [{ type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: 12 }];
       const quest = new QuestInput({ items }).toQuest();
       const rewardRequirements = [{ threshold: 50, areas: [domainBuilder.buildArea()] }];
-      const content = [{ type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: 12 }];
+      const content = [{ type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: 12 }];
+      const name = 'external name';
+      const internalName = 'internal name';
 
-      const details = new AdminCombinedCourseBlueprintDetails({ quest, rewardRequirements, content });
+      const details = new AdminCombinedCourseBlueprintDetails({
+        quest,
+        rewardRequirements,
+        content,
+        name,
+        internalName,
+      });
 
       expect(details.content).to.deep.equal(content);
       expect(details.quest).to.equal(quest);
@@ -28,10 +36,10 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails '
       const targetProfileId = 42;
       const items = [
         { type: COMBINED_COURSE_ITEM_TYPES.MODULE, value: moduleId },
-        { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: targetProfileId },
+        { type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: targetProfileId },
       ];
       const quest = new QuestInput({ items }).toQuest();
-      const combinedCourseBlueprint = { id: 1, name: 'test', quest };
+      const combinedCourseBlueprint = { id: 1, name: 'test', internalName: 'internal', quest };
       const modulesById = { [moduleId]: [{ shortId }] };
       const area1 = domainBuilder.buildArea();
       const area2 = domainBuilder.buildArea();
@@ -52,7 +60,7 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails '
       expect(details.attestationLabel).to.equal('Mon attestation');
       expect(details.content).to.deep.equal([
         { type: COMBINED_COURSE_ITEM_TYPES.MODULE, value: moduleId, shortId },
-        { type: COMBINED_COURSE_ITEM_TYPES.EVALUATION, value: targetProfileId },
+        { type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: targetProfileId },
       ]);
       expect(details.rewardRequirements).to.be.lengthOf(2);
     });

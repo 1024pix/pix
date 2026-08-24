@@ -18,6 +18,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @param {number} params.defaultCandidateCapacity
  * @param {boolean} params.limitToOneQuestionPerTube
  * @param {boolean} params.enablePassageByAllCompetences
+ * @param {object} params.globalScoringConfiguration
  * @param {VersionRepository} params.versionRepository
  */
 export async function updateVersion({
@@ -34,6 +35,7 @@ export async function updateVersion({
   enablePassageByAllCompetences,
   externalCalibrationId,
   versionRepository,
+  globalScoringConfiguration,
 }) {
   const version = await versionRepository.getById({ id });
 
@@ -53,6 +55,7 @@ export async function updateVersion({
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
     externalCalibrationId,
+    globalScoringConfiguration,
   });
 
   return versionRepository.save(version);

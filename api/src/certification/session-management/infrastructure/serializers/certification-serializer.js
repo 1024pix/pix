@@ -16,7 +16,6 @@ export function serializeFromCertificationCourse(certificationCourse) {
       'birthplace',
       'birthdate',
       'sex',
-      'externalId',
       'birthINSEECode',
       'birthPostalCode',
       'birthCountry',

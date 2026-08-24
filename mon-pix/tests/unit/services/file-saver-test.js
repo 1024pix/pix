@@ -45,10 +45,6 @@ module('Unit | Service | file-saver', function (hooks) {
         });
       });
 
-      hooks.afterEach(function () {
-        sinon.restore();
-      });
-
       test('should override the HTTP method', async function (assert) {
         // given
         const expectedMethod = 'PATCH';

@@ -20,10 +20,6 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks);
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   module('connection method details', function () {
     test("displays user's email and username", async function (assert) {
       // given

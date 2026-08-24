@@ -126,10 +126,6 @@ module('Integration | Component | tube:list', function (hooks) {
     ];
   });
 
-  hooks.afterEach(function () {
-    sinon.restore();
-  });
-
   test('it should display frameworks title', async function (assert) {
     // given
     const frameworks = allFrameworks.slice();

@@ -1,7 +1,4 @@
-import {
-  defaultCompetencesScoringConfiguration,
-  defaultGlobalScoringConfiguration,
-} from '../../../../../../db/database-builder/factory/build-certification-version.js';
+import { defaultCompetencesScoringConfiguration } from '../../../../../../db/database-builder/factory/build-certification-version.js';
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { VersionDetails } from '../../../../../../src/certification/configuration/domain/read-models/VersionDetails.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -79,6 +76,7 @@ class VersionDetailsBuilder {
     this.limitToOneQuestionPerTube = true;
     this.enablePassageByAllCompetences = false;
     this.externalCalibrationId = null;
+    this.globalScoringConfiguration = [];
     this.comments = null;
     this.areas = [];
   }
@@ -173,6 +171,7 @@ class VersionDetailsBuilder {
     variationPercent,
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
+    globalScoringConfiguration,
     comments,
   } = {}) {
     this.id = id ?? this.id;
@@ -188,6 +187,7 @@ class VersionDetailsBuilder {
     this.variationPercent = variationPercent ?? this.variationPercent;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube || this.limitToOneQuestionPerTube;
     this.enablePassageByAllCompetences = enablePassageByAllCompetences || this.enablePassageByAllCompetences;
+    this.globalScoringConfiguration = globalScoringConfiguration ?? this.globalScoringConfiguration;
     this.comments = comments ?? this.comments;
     this.externalCalibrationId = externalCalibrationId ?? this.externalCalibrationId;
     return this;
@@ -213,7 +213,7 @@ class VersionDetailsBuilder {
       externalCalibrationId: versionDetails.externalCalibrationId,
       assessmentDuration: versionDetails.assessmentDuration,
       minimumAnswersRequiredToValidateACertification: versionDetails.minimumAnswersRequiredForValidation,
-      globalScoringConfiguration: defaultGlobalScoringConfiguration,
+      globalScoringConfiguration: versionDetails.globalScoringConfiguration,
       competencesScoringConfiguration: defaultCompetencesScoringConfiguration,
       challengesConfiguration: {
         maximumAssessmentLength: versionDetails.maximumAssessmentLength,
@@ -316,6 +316,7 @@ class VersionDetailsBuilder {
       limitToOneQuestionPerTube: this.limitToOneQuestionPerTube,
       enablePassageByAllCompetences: this.enablePassageByAllCompetences,
       externalCalibrationId: this.externalCalibrationId,
+      globalScoringConfiguration: this.globalScoringConfiguration,
       comments: this.comments,
       status: this.status,
       areas: this.areas,

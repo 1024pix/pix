@@ -45,7 +45,7 @@ export class DatabaseBuilder {
     this.#databaseBuffer = databaseBuffer;
     this.#emptyFirst = emptyFirst;
 
-    this.#addListeners();
+    if (this.#databaseConnection.isConfigured) this.#addListeners();
   }
 
   static async create({ databaseConnection, emptyFirst = true }) {

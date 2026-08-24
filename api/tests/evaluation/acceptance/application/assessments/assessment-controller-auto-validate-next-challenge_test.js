@@ -49,6 +49,7 @@ describe('Evaluation | Acceptance | Assessment | assessment-controller-auto-vali
     originalEnvValue = settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled;
     settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
 
+    // use `createServer` instead of `getServer` because the feature toggle adds a route at server creation
     server = await createServer();
     const learningContentObjects = learningContentBuilder(learningContent);
     databaseBuilder.factory.learningContent.build(learningContentObjects);

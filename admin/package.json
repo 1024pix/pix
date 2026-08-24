@@ -1,6 +1,6 @@
 {
   "name": "pix-admin",
-  "version": "5.478.1",
+  "version": "5.485.0",
   "private": false,
   "description": "Interface d'administration pour les membres de Pix.",
   "license": "AGPL-3.0",
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@1024pix/ember-testing-library": "^3.0.41",
     "@1024pix/eslint-plugin": "^2.1.21",
-    "@1024pix/pix-ui": "^61.4.1",
+    "@1024pix/pix-ui": "^62.3.0",
     "@1024pix/stylelint-config": "^5.1.37",
     "@babel/eslint-parser": "^7.28.5",
     "@ember-intl/v1-compat": "^1.0.0",

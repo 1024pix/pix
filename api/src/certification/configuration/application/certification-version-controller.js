@@ -71,7 +71,7 @@ async function getInfo(request) {
   return certificationInfoSerializer.serialize(certificationInfo);
 }
 
-const certificationVersionController = {
+export const certificationVersionController = {
   createDraft,
   getVersionById,
   deleteCertificationVersion,
@@ -80,8 +80,6 @@ const certificationVersionController = {
   getInfo,
   generateCalibrationReport,
 };
-
-export { certificationVersionController };
 
 function deserialize(json) {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });

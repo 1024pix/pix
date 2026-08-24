@@ -4,8 +4,10 @@ export const REWARD_TYPES = { ATTESTATION: 'attestations' };
 
 export const COMBINED_COURSE_ITEM_TYPES = {
   MODULE: 'module',
-  EVALUATION: 'evaluation',
+  CAMPAIGN: 'campaign',
+  FORMATION: 'formation',
 };
+
 export const QUEST_HEADER = {
   columns: [
     new CsvColumn({

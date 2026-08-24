@@ -190,10 +190,6 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       const adapter = store.adapterFor('session');
       getDownloadLinkStub = sinon.stub(adapter, 'getDownloadLink');
     });
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
     test('it should retrieve link from api and copy it', async function (assert) {
       // given
       const session = sinon.stub();
