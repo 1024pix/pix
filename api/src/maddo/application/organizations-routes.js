@@ -46,14 +46,17 @@ const register = async function (server) {
         auth: { access: { scope: 'campaigns' } },
         validate: {
           params: Joi.object({
-            organizationId: identifiersType.organizationId,
+            organizationId: identifiersType.organizationId.description("ID de l'organisation"),
           }),
           query: Joi.object({
-            withArchived: Joi.boolean().allow(null).optional(),
+            withArchived: Joi.boolean()
+              .allow(null)
+              .optional()
+              .description('Permet de récupérer les campagnes archivées en plus des campagnes non archivées.'),
             page: createPageQuerySchema({
               maxSize: 1000,
               defaultValue: { number: 1, size: 1000 },
-            }),
+            }).description('Pagination (numéro et taille de la page)'),
           }),
         },
         pre: [organizationPreHandler, isOrganizationInJurisdictionPreHandler],
