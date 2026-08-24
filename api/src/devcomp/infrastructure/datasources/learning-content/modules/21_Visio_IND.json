@@ -649,7 +649,7 @@
                     {
                       "id": "4e009730-3426-4ea6-928a-117a2f83cfac",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/21_Visio_IND/cs_visio_ind_lecon_3.png",
+                      "url": "https://assets.pix.org/draft/modules/21_Visio_IND/cs_visio_ind_lecon_3_v2.svg",
                       "alt": "",
                       "alternativeText": "<ul>\n    <li><strong>un onglet de votre navigateur web&nbsp;</strong>:<ul>\n            <li>✔️&nbsp;Les participants verront uniquement le contenu de l’onglet partagé.</li>\n            <li>❌&nbsp;Les participants ne verront pas les contenus des autres onglets ou fenêtres ouverts sur votre ordinateur.</li>\n        </ul>\n    </li>\n    <li><strong>une fenêtre de votre ordinateur</strong> :<ul>\n            <li>✔️&nbsp;Les participants verront l’ensemble de la fenêtre partagée (si c’est la fenêtre du navigateur, ils verront lorsque vous changez d’onglet).</li>\n            <li>❌ Les participants ne verront pas les contenus des autres fenêtres ouvertes sur votre ordinateur.</li>\n        </ul>\n    </li>\n    <li><strong>tout votre écran</strong> :<ul>\n            <li>✔️&nbsp;Les participants verront tout ce qui se passe sur votre&nbsp;écran d’ordinateur.</li>\n        </ul>\n    </li>\n</ul>",
                       "legend": "",
