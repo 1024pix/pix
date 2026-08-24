@@ -159,7 +159,7 @@
               "element": {
                 "id": "ef363e08-9e60-4f74-9c98-5a98c565b84d",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RangerFichiers_IND/arbo-decouverte1.png",
+                "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/arbo_dec1.svg",
                 "alt": "schéma d’une organisation de dossiers et de fichiers",
                 "alternativeText": "à écrire",
                 "legend": "",
@@ -321,7 +321,7 @@
               "element": {
                 "id": "64198e11-91df-48a0-b6c3-ae4bb0d49577",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RangerFichiers_IND/arbo-decouverte2.png",
+                "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/arbo_dec2.svg",
                 "alt": "schéma d’une arborescence de dossiers et de fichiers",
                 "alternativeText": "à écrire",
                 "legend": "",
@@ -725,7 +725,7 @@
                     {
                       "id": "172b04f1-7f1a-427c-959f-e1af692d7f5a",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/RangerFichiers_IND/arbo-lecon3.png",
+                      "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/arbo_lecon4.svg",
                       "alt": "à écrire",
                       "alternativeText": "",
                       "legend": "",
