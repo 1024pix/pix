@@ -1,6 +1,4 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { PixPagination, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

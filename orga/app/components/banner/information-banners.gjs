@@ -1,4 +1,4 @@
-import PixBannerAlert from '@1024pix/pix-ui/components/pix-banner-alert';
+import { PixBannerAlert } from '@1024pix/nebulix-ember';
 
 import textWithMultipleLang from '../../helpers/text-with-multiple-lang.js';
 

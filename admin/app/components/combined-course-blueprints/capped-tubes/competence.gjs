@@ -1,4 +1,4 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
+import { PixAccordions } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 

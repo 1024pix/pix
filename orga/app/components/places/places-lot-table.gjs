@@ -1,6 +1,4 @@
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixTable, PixTableColumn, PixTag } from '@1024pix/nebulix-ember';
 import { formatDate, t } from 'ember-intl';
 import { eq, gt } from 'ember-truth-helpers';
 

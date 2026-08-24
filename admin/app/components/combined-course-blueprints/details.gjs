@@ -1,5 +1,4 @@
-import PixBreadcrumb from '@1024pix/pix-ui/components/pix-breadcrumb';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { PixBreadcrumb, PixButtonLink } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';

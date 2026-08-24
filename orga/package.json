@@ -41,7 +41,7 @@
   "devDependencies": {
     "@1024pix/ember-testing-library": "^3.0.41",
     "@1024pix/eslint-plugin": "^2.1.21",
-    "@1024pix/pix-ui": "61.4.0",
+    "@1024pix/nebulix-ember": "^0.1.1",
     "@1024pix/stylelint-config": "^5.1.37",
     "@babel/eslint-parser": "^7.28.6",
     "@babel/plugin-proposal-decorators": "^7.27.1",
@@ -108,8 +108,6 @@
     "npm-run-all2": "^9.0.0",
     "p-queue": "^9.0.0",
     "patternomaly": "^1.3.2",
-    "postcss": "^8.5.10",
-    "postcss-url": "^10.1.3",
     "prettier": "^3.8.1",
     "prettier-plugin-ember-template-tag": "^2.1.3",
     "qunit": "^2.23.1",

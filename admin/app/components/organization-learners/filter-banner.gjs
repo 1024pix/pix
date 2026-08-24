@@ -1,6 +1,4 @@
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
+import { PixFilterBanner, PixInput, PixSegmentedControl } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

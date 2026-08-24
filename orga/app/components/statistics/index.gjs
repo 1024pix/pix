@@ -1,9 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { PixBlock, PixButton, PixPagination, PixSelect, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';

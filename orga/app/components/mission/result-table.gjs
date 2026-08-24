@@ -1,9 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixIcon, PixPagination, PixTable, PixTableColumn, PixTag, PixTooltip } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 import getService from 'pix-orga/helpers/get-service';
 

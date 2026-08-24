@@ -1,5 +1,4 @@
-import PixAppLayout from '@1024pix/pix-ui/components/pix-app-layout';
-import PixToastContainer from '@1024pix/pix-ui/components/pix-toast-container';
+import { PixAppLayout, PixToastContainer } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import Sidebar from 'pix-admin/components/layout/sidebar';
 <template>

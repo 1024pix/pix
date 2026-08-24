@@ -1,9 +1,11 @@
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import {
+  PixFilterBanner,
+  PixPagination,
+  PixSearchInput,
+  PixTable,
+  PixTableColumn,
+  PixTag,
+} from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { formatDate, t } from 'ember-intl';

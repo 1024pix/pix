@@ -1,5 +1,4 @@
-import PixIndicatorCard from '@1024pix/pix-ui/components/pix-indicator-card';
-import PixStars from '@1024pix/pix-ui/components/pix-stars';
+import { PixIndicatorCard, PixStars } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';

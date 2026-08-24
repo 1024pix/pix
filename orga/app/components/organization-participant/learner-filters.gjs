@@ -1,5 +1,4 @@
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
+import { PixFilterBanner, PixSearchInput } from '@1024pix/nebulix-ember';
 import { get } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

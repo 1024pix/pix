@@ -1,8 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixButton, PixCheckbox, PixModal, PixMultiSelect, PixSelect } from '@1024pix/nebulix-ember';
 import { concat, fn, get } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

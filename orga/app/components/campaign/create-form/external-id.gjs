@@ -1,5 +1,4 @@
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
+import { PixInput, PixRadioButton } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

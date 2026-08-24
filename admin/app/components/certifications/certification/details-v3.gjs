@@ -1,11 +1,13 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import {
+  PixButton,
+  PixIcon,
+  PixIconButton,
+  PixModal,
+  PixTable,
+  PixTableColumn,
+  PixTag,
+  PixTooltip,
+} from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';

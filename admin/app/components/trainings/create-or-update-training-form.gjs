@@ -1,10 +1,12 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTextArea from '@1024pix/pix-ui/components/pix-textarea';
+import {
+  PixButton,
+  PixCheckbox,
+  PixInput,
+  PixMultiSelect,
+  PixSegmentedControl,
+  PixSelect,
+  PixTextarea,
+} from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -340,15 +342,15 @@ export default class CreateOrUpdateTrainingForm extends Component {
             <:viewA>{{t "common.words.no"}}</:viewA>
             <:viewB>{{t "common.words.yes"}}</:viewB>
           </PixSegmentedControl>
-          <PixTextArea
+          <PixTextarea
             @id="trainingDescription"
             rows="4"
             value={{this.form.description}}
             {{on "change" (fn this.updateForm "description")}}
           >
             <:label>{{t "pages.trainings.training.form.recommendation-engine.description.label"}}</:label>
-          </PixTextArea>
-          <PixTextArea
+          </PixTextarea>
+          <PixTextarea
             @id="trainingObjectives"
             @subLabel={{t "pages.trainings.training.form.recommendation-engine.objectives.sub-label"}}
             rows="6"
@@ -356,15 +358,15 @@ export default class CreateOrUpdateTrainingForm extends Component {
             {{on "change" (fn this.updateForm "objectives")}}
           >
             <:label>{{t "pages.trainings.training.form.recommendation-engine.objectives.label"}}</:label>
-          </PixTextArea>
-          <PixTextArea
+          </PixTextarea>
+          <PixTextarea
             @id="trainingProgram"
             rows="6"
             value={{this.form.program}}
             {{on "change" (fn this.updateForm "program")}}
           >
             <:label>{{t "pages.trainings.training.form.recommendation-engine.program.label"}}</:label>
-          </PixTextArea>
+          </PixTextarea>
         </Card>
       </section>
       <section class="admin-form__actions">

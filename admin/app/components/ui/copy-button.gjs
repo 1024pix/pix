@@ -1,5 +1,4 @@
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixIconButton, PixTooltip } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

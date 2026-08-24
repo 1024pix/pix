@@ -1,4 +1,4 @@
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixSelect } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 <template>
   {{#if @isEditionMode}}

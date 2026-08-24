@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixButton, PixModal, PixNotificationAlert } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { not } from 'ember-truth-helpers';

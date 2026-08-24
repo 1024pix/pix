@@ -1,6 +1,4 @@
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
+import { PixFilterBanner, PixMultiSelect, PixSearchInput } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import ResultTable from 'pix-orga/components/mission/result-table';
 import DivisionsFilter from 'pix-orga/components/ui/divisions-filter';

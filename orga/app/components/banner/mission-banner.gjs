@@ -1,5 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixIcon, PixNotificationAlert } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
 import CopyPasteButton from 'pix-orga/components/copy-paste-button';

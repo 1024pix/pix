@@ -1,6 +1,4 @@
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixCheckbox, PixInput, PixSelect } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';

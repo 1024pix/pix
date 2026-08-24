@@ -1,7 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixButton, PixIconButton, PixSelect, PixTooltip } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

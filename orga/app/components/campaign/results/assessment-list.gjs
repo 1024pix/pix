@@ -1,6 +1,4 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { PixPagination, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
 import { array, fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';

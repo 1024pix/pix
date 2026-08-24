@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixButton, PixIconButton, PixSelect } from '@1024pix/nebulix-ember';
 
 <template>
   <div class="certification-information-pix-edu">

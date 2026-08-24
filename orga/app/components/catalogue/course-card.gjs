@@ -1,5 +1,4 @@
-import PixCard from '@1024pix/pix-ui/components/pix-card';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixCard, PixTag } from '@1024pix/nebulix-ember';
 import { concat, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { LinkTo } from '@ember/routing';

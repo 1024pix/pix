@@ -1,6 +1,4 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { PixAccordions, PixButton, PixButtonLink } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

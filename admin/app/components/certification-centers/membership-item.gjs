@@ -1,4 +1,4 @@
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { PixTableColumn } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';

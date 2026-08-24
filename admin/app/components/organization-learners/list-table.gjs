@@ -1,7 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { PixIcon, PixPagination, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';

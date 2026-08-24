@@ -1,10 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixButton, PixIcon, PixIconButton, PixModal, PixTable, PixTableColumn, PixTag } from '@1024pix/nebulix-ember';
 import { concat, fn, get } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

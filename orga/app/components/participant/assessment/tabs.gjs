@@ -1,4 +1,4 @@
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
+import { PixTabs } from '@1024pix/nebulix-ember';
 import { array } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';

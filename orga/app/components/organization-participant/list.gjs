@@ -1,10 +1,12 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import {
+  PixButton,
+  PixCheckbox,
+  PixIcon,
+  PixPagination,
+  PixTable,
+  PixTableColumn,
+  PixTooltip,
+} from '@1024pix/nebulix-ember';
 import { fn, uniqueId } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action, get } from '@ember/object';

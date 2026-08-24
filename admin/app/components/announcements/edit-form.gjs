@@ -1,6 +1,4 @@
-import PixBannerAlert from '@1024pix/pix-ui/components/pix-banner-alert';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixTextArea from '@1024pix/pix-ui/components/pix-textarea';
+import { PixBannerAlert, PixButton, PixTextarea } from '@1024pix/nebulix-ember';
 import { fn, get } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -54,14 +52,14 @@ export default class AnnouncementsEditForm extends Component {
     </PixBannerAlert>
     {{#each this.locales as |locale|}}
       <div class="announcements-edit-form">
-        <PixTextArea
+        <PixTextarea
           @id="announcement-content-{{locale}}"
           rows="6"
           value={{get this.content locale}}
           {{on "input" (fn this.updateContent locale)}}
         >
           <:label>{{locale}}</:label>
-        </PixTextArea>
+        </PixTextarea>
       </div>
     {{/each}}
     <PixButton @triggerAction={{this.save}} @isLoading={{this.isSaving}}>
