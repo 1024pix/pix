@@ -1,5 +1,19 @@
 # Pix Changelog
 
+# [5.485.0](https://github.com/1024pix/pix/compare/v5.484.1...v5.485.0) (2026-08-24)
+
+### :rocket: Amélioration
+
+- [#17145](https://github.com/1024pix/pix/pull/17145) Ajoute la page de configuration de scoring pour la création d'un référentiel de certification (PIX-23863)
+- [#17105](https://github.com/1024pix/pix/pull/17105) MDX-138 IAGenPrompt_AVA retours harmo lexix
+- [#17161](https://github.com/1024pix/pix/pull/17161) MDX-250 Premiere inte Nr_Inegalite_Nov
+- [#17190](https://github.com/1024pix/pix/pull/17190) Modification image eval_ind
+
+### :arrow_up: Montée de version
+
+- [#17186](https://github.com/1024pix/pix/pull/17186) Update dependency @1024pix/pix-ui to v62 (admin)
+- [#17076](https://github.com/1024pix/pix/pull/17076) Update dependency undici to v8.10.0 (api)
+
 ## [5.484.1](https://github.com/1024pix/pix/compare/v5.484.0...v5.484.1) (2026-08-21)
 
 ### :bug: Correction
