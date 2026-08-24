@@ -587,6 +587,7 @@
             "label-for-CALIBRATION_STATUS": "Status",
             "label-for-COMPETENCE_SCORING_PRESENCE": "Validated competences scoring present",
             "label-for-MESH_SCORING_PRESENCE": "Validated mesh scoring present",
+            "label-for-SCORING_MESH_AVAILABILITY": "Bounds of capacity by mesh",
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Tubes in calibration only",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
             "report-title": "Calibration report of ID {calibrationId} generated at",
@@ -632,9 +633,12 @@
           },
           "page-title": "Creation of a new version of the certification in {scope} framework",
           "scoring": {
+            "calibration-proposal-NOT_VALIDATED": "The bounds of capacity by mesh of calibration {calibrationId} exist but have not been validated by Data yet.",
+            "calibration-proposal-PENDING": "The bounds of capacity by mesh of calibration {calibrationId} have not been delivered by Data yet. They are not produced for every framework.",
             "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
             "capacity-submit-button": "Save capacities by mesh",
             "level": "Level {index}",
+            "no-calibration-attached": "No calibration is attached to this version: the bounds have to be filled in manually.",
             "previous-version-capacity": "Previous value: {previousVersionCapacity}",
             "success-notification": "The scoring has been successfully updated",
             "title": "Bounds of capacity by mesh"

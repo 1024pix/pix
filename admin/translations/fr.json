@@ -595,9 +595,11 @@
             "label-for-CALIBRATION_STATUS": "Statut",
             "label-for-COMPETENCE_SCORING_PRESENCE": "Présence d'un scoring par compétences validé",
             "label-for-MESH_SCORING_PRESENCE": "Présence d'un scoring par maille validé",
+            "label-for-SCORING_MESH_AVAILABILITY": "Bornes de capacités par mailles",
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents uniquement dans la calibration",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents uniquement dans la version",
             "report-title": "Rapport de la calibration d'ID {calibrationId} générée le",
+            "save-button-label": "Enregistrer l'ID {id} de calibration",
             "save-success-message": "L'ID de calibration a été enregistré.",
             "scopes": {
               "CORE": "Pix Cœur (transverse)",
@@ -640,9 +642,12 @@
           },
           "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}",
           "scoring": {
+            "calibration-proposal-NOT_VALIDATED": "Les bornes de capacités par mailles de la calibration {calibrationId} existent mais ne sont pas encore validées par Data.",
+            "calibration-proposal-PENDING": "Les bornes de capacités par mailles de la calibration {calibrationId} n'ont pas encore été livrées par Data. Elles ne sont pas produites pour tous les référentiels.",
             "cannot-be-lower-error": "La capacité maximale d'un niveau doit être strictement supérieur à sa capacité minimale.",
             "capacity-submit-button": "Sauvegarder les capacités par mailles",
             "level": "Niveau {index}",
+            "no-calibration-attached": "Aucune calibration n'est rattachée à cette version : les bornes doivent être saisies manuellement.",
             "previous-version-capacity": "Ancienne valeur : {previousVersionCapacity}",
             "success-notification": "Le scoring a bien été mis à jour",
             "title": "Bornes de capacités par mailles"

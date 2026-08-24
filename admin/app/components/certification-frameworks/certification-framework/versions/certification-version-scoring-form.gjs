@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -12,18 +13,78 @@ import Card from 'pix-admin/components/card';
 export default class ScoringForm extends Component {
   @service pixToast;
   @service intl;
+
+  /**
+   * Bounds proposed by the calibration, copied once so that the rows keep their identity across
+   * renders while the admin edits them.
+   *
+   * They deliberately do NOT land on the draft version record before the form is submitted: routes
+   * sharing that record roll back its dirty attributes when they exit, which would wipe the values
+   * as soon as another version route is left.
+   */
+  calibrationBounds;
+
+  constructor() {
+    super(...arguments);
+
+    const { calibrationScoringConfiguration } = this.args;
+    this.calibrationBounds = calibrationScoringConfiguration?.isAvailable
+      ? calibrationScoringConfiguration.globalScoringConfiguration.map(({ meshLevel, bounds }) => ({
+          meshLevel,
+          bounds: { min: bounds.min, max: bounds.max },
+        }))
+      : [];
+  }
+
   get hasError() {
     return this.globalScoringConfiguration.some(({ bounds }) => bounds.max <= bounds.min);
   }
 
+  /**
+   * What the admin already saved on the draft always wins over the calibration proposal, otherwise
+   * their adjustments would be overwritten on every visit.
+   */
   get globalScoringConfiguration() {
-    return this.args.draftVersion.globalScoringConfiguration;
+    const savedConfiguration = this.args.draftVersion.globalScoringConfiguration;
+    return savedConfiguration?.length ? savedConfiguration : this.calibrationBounds;
+  }
+
+  /**
+   * The bounds in force on the active version, displayed as a reference next to the editable ones.
+   * They come from the API database, unlike the proposal which comes from the datamart.
+   */
+  get activeVersionConfiguration() {
+    return this.args.activeVersion?.globalScoringConfiguration ?? [];
+  }
+
+  /**
+   * The bounds proposed by the calibration already seed the form, so the only thing left to say is
+   * why they are missing when they are.
+   */
+  get calibrationProposalUnavailabilityMessage() {
+    const calibrationId = this.args.draftVersion.externalCalibrationId;
+
+    if (!calibrationId) {
+      return this.intl.t(
+        'components.certification-frameworks.certification-framework.versions.scoring.no-calibration-attached',
+      );
+    }
+    if (this.args.calibrationScoringConfiguration?.isAvailable) return null;
+
+    const availability = this.args.calibrationScoringConfiguration?.availability ?? 'PENDING';
+    return this.intl.t(
+      `components.certification-frameworks.certification-framework.versions.scoring.calibration-proposal-${availability}`,
+      { calibrationId },
+    );
   }
 
   @action
   async saveCapacityByMesh(event) {
     event.preventDefault();
     if (this.hasError) return;
+
+    // The displayed bounds may still be the untouched calibration ones: commit them to the record.
+    this.args.draftVersion.globalScoringConfiguration = this.globalScoringConfiguration;
 
     try {
       await this.args.draftVersion.save();
@@ -69,11 +130,23 @@ export default class ScoringForm extends Component {
     return this.globalScoringConfiguration.at(index).bounds.max > this.globalScoringConfiguration.at(index).bounds.min;
   }
 
+  @action
+  activeVersionBound(meshLevel, name) {
+    const bounds = this.activeVersionConfiguration.find((mesh) => mesh.meshLevel === meshLevel)?.bounds;
+    return bounds ? bounds[name] : '—';
+  }
+
   <template>
     <Card
       class="versions-scoring"
       @title={{t "components.certification-frameworks.certification-framework.versions.scoring.title"}}
     >
+      {{#if this.calibrationProposalUnavailabilityMessage}}
+        <PixNotificationAlert @type="warning" @withIcon={{true}}>
+          <p>{{this.calibrationProposalUnavailabilityMessage}}</p>
+        </PixNotificationAlert>
+      {{/if}}
+
       <form id="version-scoring-form" class="versions-scoring__form" {{on "submit" this.saveCapacityByMesh}}>
         {{#each this.globalScoringConfiguration as |mesh|}}
           <h3>{{t
@@ -92,7 +165,7 @@ export default class ScoringForm extends Component {
             >
               <:label>{{t
                   "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
-                  previousVersionCapacity=mesh.bounds.min
+                  previousVersionCapacity=(this.activeVersionBound mesh.meshLevel "min")
                 }}</:label>
             </PixInput>
 
@@ -110,7 +183,7 @@ export default class ScoringForm extends Component {
             >
               <:label>{{t
                   "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
-                  previousVersionCapacity=mesh.bounds.max
+                  previousVersionCapacity=(this.activeVersionBound mesh.meshLevel "max")
                 }}</:label>
             </PixInput>
           </section>

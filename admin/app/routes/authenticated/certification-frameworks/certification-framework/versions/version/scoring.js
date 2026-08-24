@@ -6,14 +6,36 @@ export default class ScoringRoute extends Route {
   @service router;
 
   async model() {
+    const { activeVersion } = this.modelFor('authenticated.certification-frameworks.certification-framework.versions');
+
     const { version_id: versionId } = this.paramsFor(
       'authenticated.certification-frameworks.certification-framework.versions.version',
     );
     const draftVersion = await this.store.findRecord('certification-version', versionId);
 
     return {
+      activeVersion,
       draftVersion,
+      calibrationScoringConfiguration: await this.loadCalibrationScoringConfiguration(draftVersion),
     };
+  }
+
+  /**
+   * The proposal lives in the datamart: it may not have been delivered yet, and a datamart outage
+   * must not take the whole page down. A failure is downgraded to "no proposal", a state the form
+   * already knows how to render.
+   */
+  async loadCalibrationScoringConfiguration(draftVersion) {
+    if (!draftVersion.externalCalibrationId) return null;
+
+    try {
+      return await this.store.queryRecord('calibration-scoring-configuration', {
+        versionId: draftVersion.id,
+        calibrationId: draftVersion.externalCalibrationId,
+      });
+    } catch {
+      return null;
+    }
   }
 
   afterModel(model) {

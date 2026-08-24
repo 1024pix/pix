@@ -127,6 +127,10 @@ export default function routes() {
     return schema.calibrationReports.first();
   });
 
+  this.get('/admin/certification-versions/:id/calibrations/:calibrationId/scoring-configuration', (schema) => {
+    return schema.calibrationScoringConfigurations.first();
+  });
+
   this.get('/admin/certification-frameworks', (schema) => {
     return schema.certificationFrameworks.all();
   });

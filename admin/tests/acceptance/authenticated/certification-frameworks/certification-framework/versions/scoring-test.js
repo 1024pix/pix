@@ -48,6 +48,11 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     );
     server.create('certification-framework', { id: 'CORE', versionSummaries });
     server.create('certification-version', {
+      id: 13,
+      status: 'active',
+      globalScoringConfiguration: [{ bounds: { min: -4, max: 2 }, meshLevel: 0 }],
+    });
+    server.create('certification-version', {
       id: 14,
       status: 'draft',
       globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
@@ -75,6 +80,124 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
         assert
           .dom(
             screen.getByText(t('components.certification-frameworks.certification-framework.versions.scoring.title')),
+          )
+          .exists();
+      });
+    });
+
+    module('when the draft version has no calibration attached', function () {
+      test('tells the admin the bounds have to be filled in manually', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        const screen = await visit(`/certification-frameworks/CORE/versions/14/scoring`);
+
+        assert
+          .dom(
+            screen.getByText(
+              t('components.certification-frameworks.certification-framework.versions.scoring.no-calibration-attached'),
+            ),
+          )
+          .exists();
+      });
+    });
+
+    module('when the attached calibration carries a scoring configuration', function (hooks) {
+      hooks.beforeEach(function () {
+        server.db.certificationVersions.update('14', { externalCalibrationId: 1 });
+        server.get('/admin/certification-versions/:id/calibrations/:calibrationId/scoring-configuration', (schema) => {
+          return schema.create('calibration-scoring-configuration', {
+            id: '14_1',
+            calibrationId: 1,
+            availability: 'AVAILABLE',
+            globalScoringConfiguration: [
+              { bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 },
+              { bounds: { min: -1.4, max: 0.6 }, meshLevel: 1 },
+            ],
+          });
+        });
+      });
+
+      test('keeps the configuration already saved on the draft version', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        const screen = await visit(`/certification-frameworks/CORE/versions/14/scoring`);
+
+        assert.dom(screen.getByDisplayValue('8')).exists();
+        assert.dom(screen.queryByDisplayValue('-4.67')).doesNotExist();
+      });
+
+      module('when the draft version has no configuration saved yet', function (hooks) {
+        hooks.beforeEach(function () {
+          server.db.certificationVersions.update('14', { globalScoringConfiguration: [] });
+        });
+
+        test('fills the form with the calibration values on page load', async function (assert) {
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+          const screen = await visit(`/certification-frameworks/CORE/versions/14/scoring`);
+
+          assert.dom(screen.getByDisplayValue('-4.67')).exists();
+          assert.dom(screen.getByDisplayValue('0.6')).exists();
+        });
+
+        test('fills the form even when the version is already in the store', async function (assert) {
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+          // the edit page loads the very same record, so reaching scoring from there hits the store cache
+          await visit(`/certification-frameworks/CORE/versions/14/edit`);
+          const screen = await visit(`/certification-frameworks/CORE/versions/14/scoring`);
+
+          assert.dom(screen.getByDisplayValue('-4.67')).exists();
+          assert.dom(screen.getByDisplayValue('0.6')).exists();
+        });
+
+        test('persists the calibration bounds when submitting without editing them', async function (assert) {
+          let patchedAttributes;
+          server.patch('/admin/certification-versions/:id', (schema, request) => {
+            patchedAttributes = JSON.parse(request.requestBody).data.attributes;
+            return schema.certificationVersions.find(request.params.id);
+          });
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+          await visit(`/certification-frameworks/CORE/versions/14/scoring`);
+          await clickByName(
+            t('components.certification-frameworks.certification-framework.versions.scoring.capacity-submit-button'),
+          );
+
+          assert.deepEqual(patchedAttributes['global-scoring-configuration'], [
+            { bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 },
+            { bounds: { min: -1.4, max: 0.6 }, meshLevel: 1 },
+          ]);
+        });
+      });
+    });
+
+    module('when the attached calibration has no scoring configuration yet', function (hooks) {
+      hooks.beforeEach(function () {
+        server.db.certificationVersions.update('14', { externalCalibrationId: 1 });
+        server.get('/admin/certification-versions/:id/calibrations/:calibrationId/scoring-configuration', (schema) => {
+          return schema.create('calibration-scoring-configuration', {
+            id: '14_1',
+            calibrationId: 1,
+            availability: 'PENDING',
+            globalScoringConfiguration: [],
+          });
+        });
+      });
+
+      test('tells the admin the bounds have not been delivered yet', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        const screen = await visit(`/certification-frameworks/CORE/versions/14/scoring`);
+
+        assert
+          .dom(
+            screen.getByText(
+              t(
+                'components.certification-frameworks.certification-framework.versions.scoring.calibration-proposal-PENDING',
+                { calibrationId: 1 },
+              ),
+            ),
           )
           .exists();
       });

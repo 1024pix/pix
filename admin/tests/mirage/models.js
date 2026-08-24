@@ -15,6 +15,7 @@ import autonomousCourseTargetProfile from './models/autonomous-course-target-pro
 import badge from './models/badge';
 import badgeCriterion from './models/badge-criterion';
 import calibrationReport from './models/calibration-report';
+import calibrationScoringConfiguration from './models/calibration-scoring-configuration';
 import campaign from './models/campaign';
 import campaignParticipation from './models/campaign-participation';
 import certification from './models/certification';
@@ -95,6 +96,7 @@ export default {
   campaign,
   campaignParticipation,
   calibrationReport,
+  calibrationScoringConfiguration,
   certification,
   certificationCandidate,
   certificationCandidateTimeline,
