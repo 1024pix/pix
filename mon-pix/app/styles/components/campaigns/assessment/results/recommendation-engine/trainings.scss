@@ -53,6 +53,17 @@
         overflow-x: hidden;
       }
     }
+
+    // Width is set inline by the component at desktop breakpoints (see
+    // updateSpacerWidth in trainings.gjs), which reserves enough trailing
+    // space so an incomplete last page can still reach the left edge
+    // instead of being clamped back to a scroll position that re-reveals a
+    // previous card. This default only applies below the desktop breakpoint,
+    // where scrolling is native (no navigation buttons, no inline style).
+    &-spacer {
+      flex-shrink: 0;
+      width: 1px;
+    }
   }
 }
 

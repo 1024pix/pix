@@ -229,6 +229,48 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
           )
           .exists();
       });
+
+      test('it partially displays the upcoming card - clicking the button displays it in full and hides the previous cards', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const trainings = createManyTrainings(store, 7);
+        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+        const nextButton = screen.getByRole('button', {
+          name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+        });
+
+        // clicks to the intermediate page (cards 3, 4, 5 + a peek of card 6)
+        await click(nextButton);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // then card 6 straddles the list's right edge, not fully shown
+        const lists = screen.getAllByRole('list');
+        const cards = lists[0].children;
+        const listRect = lists[0].getBoundingClientRect();
+        const peekingLastCardRect = cards[6].getBoundingClientRect();
+
+        assert.true(peekingLastCardRect.left < listRect.right);
+        assert.true(peekingLastCardRect.right > listRect.right);
+
+        assert.dom(nextButton).doesNotHaveAttribute('aria-disabled');
+
+        // clicks to the final page
+        await click(nextButton);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // then card 6 is fully shown, alone, and card 5 is fully hidden
+        const roundingTolerance = 1;
+        const previousCardRect = cards[5].getBoundingClientRect();
+        const lastCardRect = cards[6].getBoundingClientRect();
+
+        assert.true(previousCardRect.right <= listRect.left + roundingTolerance);
+        assert.true(lastCardRect.right <= listRect.right + roundingTolerance);
+
+        const nextButtonOnFinalPage = screen.getByRole('button', {
+          name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+        });
+        assert.dom(nextButtonOnFinalPage).hasAttribute('aria-disabled', 'true');
+      });
     });
   });
 });

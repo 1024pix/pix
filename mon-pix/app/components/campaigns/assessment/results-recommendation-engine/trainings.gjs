@@ -2,6 +2,7 @@ import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { service } from '@ember/service';
+import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -17,6 +18,7 @@ export default class Trainings extends Component {
   @service intl;
 
   @tracked currentPageFirstCardIndex = 0;
+  @tracked spacerWidth = null;
 
   titleId = `results-recommendation-engine-training-title-${guidFor(this)}`;
 
@@ -24,6 +26,7 @@ export default class Trainings extends Component {
 
   registerList = modifier((element) => {
     this.list = element;
+    this.updateSpacerWidth();
     window.addEventListener('resize', this.resyncScrollPosition);
 
     return () => {
@@ -37,6 +40,10 @@ export default class Trainings extends Component {
 
   get cards() {
     return this.list.children;
+  }
+
+  get spacerStyle() {
+    return this.spacerWidth === null ? null : htmlSafe(`width: ${this.spacerWidth}px`);
   }
 
   get isPreviousButtonDisabled() {
@@ -75,6 +82,7 @@ export default class Trainings extends Component {
 
   @action
   resyncScrollPosition() {
+    this.updateSpacerWidth();
     this.goToCardIndex(this.currentPageFirstCardIndex, 'instant');
   }
 
@@ -82,6 +90,26 @@ export default class Trainings extends Component {
     this.currentPageFirstCardIndex = index;
     const targetCard = this.cards[index];
     this.list.scrollTo({ left: targetCard.offsetLeft, behavior });
+  }
+
+  // The list can show more than TRAININGS_PER_PAGE cards at once (a peek of
+  // the next card is visible by design). The trailing spacer must cover that
+  // extra peeked width, otherwise the browser clamps scrollTo() short of the
+  // last card's offsetLeft and a previous card re-appears on the left.
+  //
+  // Only needed while scrolling is JS-driven (list--locked sets
+  // overflow-x: hidden at the desktop breakpoint, see trainings.scss). Below
+  // that breakpoint, scrolling is native and this spacer stays at its CSS
+  // default. Reading the computed overflow-x instead of duplicating the
+  // breakpoint value keeps the SCSS as the single source of truth.
+  updateSpacerWidth() {
+    if (!this.isNavigationVisible || getComputedStyle(this.list).overflowX !== 'hidden') {
+      this.spacerWidth = null;
+      return;
+    }
+
+    const [firstCard] = this.cards;
+    this.spacerWidth = Math.max(0, this.list.clientWidth - firstCard.offsetWidth);
   }
 
   <template>
@@ -134,6 +162,13 @@ export default class Trainings extends Component {
               @onModalAccordionClick={{@onModalAccordionClick}}
             /></li>
         {{/each}}
+        {{#if this.isNavigationVisible}}
+          <li
+            class="results-recommendation-engine-training__list-spacer"
+            aria-hidden="true"
+            style={{this.spacerStyle}}
+          ></li>
+        {{/if}}
       </ul>
     </section>
   </template>
