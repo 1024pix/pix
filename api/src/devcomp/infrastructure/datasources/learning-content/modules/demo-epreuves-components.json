@@ -21,35 +21,6 @@
       "type": "blank",
       "grains": [
         {
-          "id": "0115b2d7-83a4-4ee3-acff-7198f5172853",
-          "type": "discovery",
-          "title": "Embed Auto",
-          "components": [
-            {
-              "type": "element",
-              "element": {
-                "id": "54d93d01-03f5-4297-b89c-6ea57b444f54",
-                "type": "text",
-                "content": "<p>Embed Auto</p>",
-                "tag": " "
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "8d7d05d6-3d48-4acc-b8d6-51042dc27bda",
-                "type": "embed",
-                "isCompletionRequired": true,
-                "title": "Embed Auto",
-                "url": "https://epreuves.pix.fr/fr/ui-kit/qcm-qcu-select/example-qcm.html",
-                "instruction": "<p>Sélectionnez un élément et validez votre choix, le bouton 'Continuer' va apparaître.</p><br>",
-                "solution": "",
-                "height": 0
-              }
-            }
-          ]
-        },
-        {
           "id": "b3ac67ab-9ff8-4a30-86b0-9fa8a2c57c1b",
           "type": "discovery",
           "title": "analyse-mails-phishing",
