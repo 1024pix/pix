@@ -119,7 +119,7 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-1.png",
+                        "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte1_slide1.svg",
                         "alt": "<p>Activité&nbsp;: parcourir 100 kilomètres en voiture.</p><p>Gaz émis&nbsp;: dioxyde de carbone (CO2).</p>"
                       },
                       "license": {
@@ -133,7 +133,7 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-2.png",
+                        "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte1_slide2.svg",
                         "alt": "<p>Activité&nbsp;: produire 1 kg de viande de boeuf.</p><p>Gaz émis&nbsp;: méthane (CH4) et&nbsp;dioxyde de carbone (CO2).</p>"
                       },
                       "license": {
@@ -147,7 +147,7 @@
                       "description": "",
                       "displayWidth": 0,
                       "image": {
-                        "src": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec1-3.png",
+                        "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte1_slide3.svg",
                         "alt": "<p>Activité&nbsp;: produire 100 kg de carottes.</p><p>Gaz émis&nbsp;: méthane (CH4) et protoxyde d’azote&nbsp;(NO2).</p>"
                       },
                       "license": {
@@ -354,50 +354,50 @@
                 "tagName": "clickable-image",
                 "props": {
                   "image": {
-                    "src": "https://assets.pix.org/modules/nr-evaluation-nov/draft-image-cliquable_nr-evaluation-nov.png",
+                    "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte2_img_clic.svg",
                     "alt": "Parcours d’un smaprthone de sa fabrication à son utilisation",
-                    "width": 0,
-                    "height": 0
+                    "width": 1000,
+                    "height": 800
                   },
                   "areas": [
                     {
                       "coords": {
                         "x1": 15,
-                        "y1": 50,
-                        "x2": 210,
-                        "y2": 210
+                        "y1": 15,
+                        "x2": 115,
+                        "y2": 115
                       },
                       "spot": {
-                        "x": 8,
-                        "y": 58
+                        "x": 0,
+                        "y": 0
                       },
                       "info": "L’ordinateur de Benoît est d’abord fabriqué dans une usine. Cela nécessite beaucoup d’énergie et de matières premières.",
                       "tooltipPosition": "bottom"
                     },
                     {
                       "coords": {
-                        "x1": 120,
-                        "y1": 240,
-                        "x2": 310,
-                        "y2": 400
+                        "x1": 65,
+                        "y1": 150,
+                        "x2": 220,
+                        "y2": 230
                       },
                       "spot": {
-                        "x": -50,
-                        "y": -40
+                        "x": 0,
+                        "y": 0
                       },
                       "info": "Une fois fabriqué, l’ordinateur de Benoît est transporté jusque chez lui, en bateau puis en camion.",
                       "tooltipPosition": "bottom"
                     },
                     {
                       "coords": {
-                        "x1": 375,
-                        "y1": 10,
-                        "x2": 740,
-                        "y2": 320
+                        "x1": 170,
+                        "y1": 15,
+                        "x2": 280,
+                        "y2": 120
                       },
                       "spot": {
-                        "x": 28,
-                        "y": -25
+                        "x": 0,
+                        "y": 0
                       },
                       "info": "Benoît doit recharger régulièrement la batterie de son ordinateur. Cela consomme de l’électricité, produite dans une centrale électrique.",
                       "tooltipPosition": "bottom"
@@ -532,7 +532,7 @@
                     {
                       "id": "38702e96-863c-4247-a519-698a45d51f14",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec3_part1.png",
+                      "url": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte3_slide1.svg",
                       "alt": "",
                       "alternativeText": "<p>Extrait du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone d’un smartphone</p><ul>    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>    </ul><ul><br></ul>",
                       "legend": "",
@@ -576,7 +576,7 @@
                     {
                       "id": "865b01d0-a5a8-4ce9-bc0d-c6444ad32425",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec3_part2_v2.png",
+                      "url": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte3_slide2.svg",
                       "alt": "",
                       "alternativeText": "<p>Extrait du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone des équipements numériques&nbsp;:</p><ul>    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>    <li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li>    <li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li></ul>",
                       "legend": "",
@@ -620,7 +620,7 @@
                     {
                       "id": "c7c42c29-5e04-4654-a517-ef21e5d464eb",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/NR_Eval_NOV/draft_nr-eval-nov_dec3_part3.png",
+                      "url": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte3_slide3.svg",
                       "alt": "",
                       "alternativeText": "<p>Extraits du logiciel de calcul d’empreinte carbone.</p><p>Empreintes carbone des équipements numériques&nbsp;:</p><ul>    <li>Smartphone&nbsp;: 80,2kg CO₂eq dont&nbsp; 79,3kg CO₂eq à la fabrication et 0,89 kg CO₂eq à l’utilisation et fin de vie</li>    <li>Ordinateur portable&nbsp;: 193kg&nbsp;CO₂eq&nbsp;dont 182 kg CO₂eq à la fabrication et 10,3kgCO₂eq à l’usage et fin de vie</li>    <li>Télévision&nbsp;: 370kg&nbsp;CO₂eq&nbsp;dont 328kg CO₂eq à la fabrication et 41,5 kg CO₂eq à l’usage et fin de vie</li></ul><p>Empreintes carbone d’activités de référence&nbsp;:</p><ul>    <li>4 allers-retours Paris-Berlin en TGV&nbsp;: 29,3kg&nbsp;CO₂eq</li>    <li>100kg de bananes&nbsp;: 90,9kg&nbsp;CO₂eq</li>    <li>Fabrication de&nbsp;10 jeans&nbsp;: 251kg&nbsp;CO₂eq</li></ul>",
                       "legend": "",
