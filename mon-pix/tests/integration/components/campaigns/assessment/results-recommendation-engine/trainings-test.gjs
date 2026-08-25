@@ -95,46 +95,86 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
   });
 
   module('carousel navigation', function () {
-    test('it renders the navigation buttons with the previous button disabled', async function (assert) {
+    test('it does not render navigation buttons when there are 3 trainings or less', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const trainings = createManyTrainings(store, 10);
+      const trainings = createManyTrainings(store, 3);
 
       // when
       const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
 
       // then
-      const previousButton = screen.getByRole('button', {
-        name: t('pages.skill-review.recommended-engine.trainings.previous-button-aria-label'),
-      });
-      const nextButton = screen.getByRole('button', {
-        name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
-      });
-      assert.dom(previousButton).hasAttribute('aria-disabled', 'true');
-      assert.dom(nextButton).doesNotHaveAttribute('aria-disabled');
+      assert
+        .dom(
+          screen.queryByRole('button', {
+            name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+          }),
+        )
+        .doesNotExist();
+      assert
+        .dom(
+          screen.queryByRole('button', {
+            name: t('pages.skill-review.recommended-engine.trainings.previous-button-aria-label'),
+          }),
+        )
+        .doesNotExist();
     });
 
-    module('when clicking the next button', function () {
-      test('it scrolls the list forward and enables the previous button', async function (assert) {
+    module('when there are more than 3 trainings', function () {
+      test('it renders the navigation buttons with the previous button disabled', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const trainings = createManyTrainings(store, 10);
-        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
-        const nextButton = screen.getByRole('button', {
-          name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
-        });
 
         // when
-        await click(nextButton);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
 
         // then
-        const lists = screen.getAllByRole('list');
-        assert.notStrictEqual(lists[0].scrollLeft, 0);
         const previousButton = screen.getByRole('button', {
           name: t('pages.skill-review.recommended-engine.trainings.previous-button-aria-label'),
         });
-        assert.dom(previousButton).doesNotHaveAttribute('aria-disabled');
+        const nextButton = screen.getByRole('button', {
+          name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+        });
+        assert.dom(previousButton).hasAttribute('aria-disabled', 'true');
+        assert.dom(nextButton).doesNotHaveAttribute('aria-disabled');
+      });
+
+      test('it locks manual scrolling on the list', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const trainings = createManyTrainings(store, 10);
+
+        // when
+        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+
+        // then
+        const lists = screen.getAllByRole('list');
+        assert.dom(lists[0]).hasClass('results-recommendation-engine-training__list--locked');
+      });
+
+      module('when clicking the next button', function () {
+        test('it scrolls the list forward and enables the previous button', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const trainings = createManyTrainings(store, 10);
+          const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+          const nextButton = screen.getByRole('button', {
+            name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+          });
+
+          // when
+          await click(nextButton);
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
+          // then
+          const lists = screen.getAllByRole('list');
+          assert.notStrictEqual(lists[0].scrollLeft, 0);
+          const previousButton = screen.getByRole('button', {
+            name: t('pages.skill-review.recommended-engine.trainings.previous-button-aria-label'),
+          });
+          assert.dom(previousButton).doesNotHaveAttribute('aria-disabled');
+        });
       });
     });
   });

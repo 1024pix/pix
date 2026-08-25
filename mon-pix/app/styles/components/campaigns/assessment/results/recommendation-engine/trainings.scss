@@ -43,6 +43,12 @@
     overflow-y: hidden;
     scrollbar-width: none;
     scroll-behavior: smooth;
+
+    &--locked {
+      @include breakpoints.device-is('desktop') {
+        overflow-x: hidden;
+      }
+    }
   }
 }
 

@@ -25,6 +25,10 @@ export default class Trainings extends Component {
     };
   });
 
+  get isNavigationVisible() {
+    return this.args.trainings.length > TRAININGS_PER_PAGE;
+  }
+
   get cards() {
     return this.list.children;
   }
@@ -75,23 +79,29 @@ export default class Trainings extends Component {
             }}</p>
         </div>
 
-        <div class="results-recommendation-engine-training__navigation">
-          <PixIconButton
-            @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.previous-button-aria-label"}}
-            @iconName="chevronLeft"
-            @isDisabled={{this.isPreviousButtonDisabled}}
-            @triggerAction={{this.scrollToPreviousTrainings}}
-          />
-          <PixIconButton
-            @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.next-button-aria-label"}}
-            @iconName="chevronRight"
-            @isDisabled={{this.isNextButtonDisabled}}
-            @triggerAction={{this.scrollToNextTrainings}}
-          />
-        </div>
+        {{#if this.isNavigationVisible}}
+          <div class="results-recommendation-engine-training__navigation">
+            <PixIconButton
+              @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.previous-button-aria-label"}}
+              @iconName="chevronLeft"
+              @isDisabled={{this.isPreviousButtonDisabled}}
+              @triggerAction={{this.scrollToPreviousTrainings}}
+            />
+            <PixIconButton
+              @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.next-button-aria-label"}}
+              @iconName="chevronRight"
+              @isDisabled={{this.isNextButtonDisabled}}
+              @triggerAction={{this.scrollToNextTrainings}}
+            />
+          </div>
+        {{/if}}
       </div>
 
-      <ul class="results-recommendation-engine-training__list" {{this.registerList}}>
+      <ul
+        class="results-recommendation-engine-training__list
+          {{if this.isNavigationVisible 'results-recommendation-engine-training__list--locked'}}"
+        {{this.registerList}}
+      >
         {{#each @trainings as |training|}}
           <li class="results-recommendation-engine-training-list__item"><TrainingCard
               @training={{training}}
