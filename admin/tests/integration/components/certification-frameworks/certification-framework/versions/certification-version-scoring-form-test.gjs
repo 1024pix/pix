@@ -26,6 +26,15 @@ function labelOf(input) {
   return input.labels[0];
 }
 
+// The route redirects away when the calibration proposes no bound, so the form always receives one.
+function createCalibrationProposal(store, globalScoringConfiguration) {
+  return store.createRecord('calibration-scoring-configuration', {
+    id: '5',
+    calibrationId: 5,
+    globalScoringConfiguration: globalScoringConfiguration ?? [{ bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 }],
+  });
+}
+
 module(
   'Integration | Component | certification-frameworks/certification-framework/versions/certification-version-scoring-form',
   function (hooks) {
@@ -51,10 +60,16 @@ module(
             { bounds: { min: 8, max: 15 }, meshLevel: 1 },
           ],
         });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // then
@@ -74,10 +89,16 @@ module(
             { bounds: { min: 8, max: 15 }, meshLevel: 1 },
           ],
         });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // then
@@ -108,11 +129,16 @@ module(
             { bounds: { min: 9, max: 16 }, meshLevel: 1 },
           ],
         });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
           <template>
-            <CertificationVersionScoringForm @draftVersion={{draftVersion}} @activeVersion={{activeVersion}} />
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @activeVersion={{activeVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
           </template>,
         );
 
@@ -133,10 +159,16 @@ module(
           status: 'draft',
           globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // then
@@ -153,11 +185,7 @@ module(
           externalCalibrationId: 5,
           globalScoringConfiguration: [],
         });
-        const calibrationScoringConfiguration = store.createRecord('calibration-scoring-configuration', {
-          id: '5',
-          calibrationId: 5,
-          globalScoringConfiguration: [{ bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 }],
-        });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
@@ -184,11 +212,7 @@ module(
           externalCalibrationId: 5,
           globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
-        const calibrationScoringConfiguration = store.createRecord('calibration-scoring-configuration', {
-          id: '5',
-          calibrationId: 5,
-          globalScoringConfiguration: [{ bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 }],
-        });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
@@ -215,10 +239,16 @@ module(
           status: 'draft',
           globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // then
@@ -233,10 +263,16 @@ module(
           status: 'draft',
           globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
         });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // then
@@ -251,10 +287,16 @@ module(
           status: 'draft',
           globalScoringConfiguration: [{ bounds: { min: 3, max: 3 }, meshLevel: 0 }],
         });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // then
@@ -271,10 +313,16 @@ module(
           status: 'draft',
           globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
         });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         // when
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // then
@@ -300,9 +348,15 @@ module(
             { bounds: { min: 8, max: 15 }, meshLevel: 1 },
           ],
         });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // when
@@ -323,9 +377,15 @@ module(
           globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
         sinon.stub(draftVersion, 'save').resolves();
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // when
@@ -350,9 +410,15 @@ module(
           globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
         sinon.stub(draftVersion, 'save').rejects({ errors: [{ detail: 'Erreur serveur' }] });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // when
@@ -371,9 +437,15 @@ module(
           globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
         });
         sinon.stub(draftVersion, 'save').resolves();
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
 
         const screen = await render(
-          <template><CertificationVersionScoringForm @draftVersion={{draftVersion}} /></template>,
+          <template>
+            <CertificationVersionScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
         );
 
         // when

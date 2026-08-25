@@ -632,11 +632,9 @@
           },
           "page-title": "Creation of a new version of the certification in {scope} framework",
           "scoring": {
-            "calibration-proposal-unavailable": "No validated bounds are available for calibration {calibrationId}.",
             "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
             "capacity-submit-button": "Save capacities by mesh",
             "level": "Level {index}",
-            "no-calibration-attached": "No calibration is attached to this version: the bounds have to be filled in manually.",
             "previous-version-capacity": "Previous value: {previousVersionCapacity}",
             "success-notification": "The scoring has been successfully updated",
             "title": "Bounds of capacity by mesh"

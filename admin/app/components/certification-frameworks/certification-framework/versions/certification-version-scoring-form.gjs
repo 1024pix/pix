@@ -1,7 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -27,13 +26,12 @@ export default class ScoringForm extends Component {
   constructor() {
     super(...arguments);
 
-    const { calibrationScoringConfiguration } = this.args;
-    this.calibrationBounds = calibrationScoringConfiguration?.hasProposal
-      ? calibrationScoringConfiguration.globalScoringConfiguration.map(({ meshLevel, bounds }) => ({
-          meshLevel,
-          bounds: { min: bounds.min, max: bounds.max },
-        }))
-      : [];
+    this.calibrationBounds = this.args.calibrationScoringConfiguration.globalScoringConfiguration.map(
+      ({ meshLevel, bounds }) => ({
+        meshLevel,
+        bounds: { min: bounds.min, max: bounds.max },
+      }),
+    );
   }
 
   get hasError() {
@@ -55,26 +53,6 @@ export default class ScoringForm extends Component {
    */
   get activeVersionConfiguration() {
     return this.args.activeVersion?.globalScoringConfiguration ?? [];
-  }
-
-  /**
-   * The bounds proposed by the calibration already seed the form, so the only thing left to say is
-   * why they are missing when they are.
-   */
-  get calibrationProposalUnavailabilityMessage() {
-    const calibrationId = this.args.draftVersion.externalCalibrationId;
-
-    if (!calibrationId) {
-      return this.intl.t(
-        'components.certification-frameworks.certification-framework.versions.scoring.no-calibration-attached',
-      );
-    }
-    if (this.args.calibrationScoringConfiguration?.hasProposal) return null;
-
-    return this.intl.t(
-      'components.certification-frameworks.certification-framework.versions.scoring.calibration-proposal-unavailable',
-      { calibrationId },
-    );
   }
 
   @action
@@ -140,12 +118,6 @@ export default class ScoringForm extends Component {
       class="versions-scoring"
       @title={{t "components.certification-frameworks.certification-framework.versions.scoring.title"}}
     >
-      {{#if this.calibrationProposalUnavailabilityMessage}}
-        <PixNotificationAlert @type="warning" @withIcon={{true}}>
-          <p>{{this.calibrationProposalUnavailabilityMessage}}</p>
-        </PixNotificationAlert>
-      {{/if}}
-
       <form id="version-scoring-form" class="versions-scoring__form" {{on "submit" this.saveCapacityByMesh}}>
         {{#each this.globalScoringConfiguration as |mesh|}}
           <h3>{{t

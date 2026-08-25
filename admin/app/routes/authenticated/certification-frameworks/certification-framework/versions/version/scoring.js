@@ -38,7 +38,7 @@ export default class ScoringRoute extends Route {
   }
 
   afterModel(model) {
-    if (!model.draftVersion.isDraft) {
+    if (!model.draftVersion.isDraft || !model.calibrationScoringConfiguration?.globalScoringConfiguration?.length) {
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
     }
   }

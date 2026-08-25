@@ -55,7 +55,16 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     server.create('certification-version', {
       id: 14,
       status: 'draft',
+      externalCalibrationId: 1,
       globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+    });
+    server.create('calibration-scoring-configuration', {
+      id: '1',
+      calibrationId: 1,
+      globalScoringConfiguration: [
+        { bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 },
+        { bounds: { min: -1.4, max: 0.6 }, meshLevel: 1 },
+      ],
     });
   });
 
@@ -86,36 +95,17 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     });
 
     module('when the draft version has no calibration attached', function () {
-      test('tells the admin the bounds have to be filled in manually', async function (assert) {
+      test('redirects to the framework page', async function (assert) {
+        server.db.certificationVersions.update('14', { externalCalibrationId: null });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-        const screen = await visit(`/certification-frameworks/CORE/versions/14/scoring`);
+        await visit(`/certification-frameworks/CORE/versions/14/scoring`);
 
-        assert
-          .dom(
-            screen.getByText(
-              t('components.certification-frameworks.certification-framework.versions.scoring.no-calibration-attached'),
-            ),
-          )
-          .exists();
+        assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
       });
     });
 
-    module('when the attached calibration carries a scoring configuration', function (hooks) {
-      hooks.beforeEach(function () {
-        server.db.certificationVersions.update('14', { externalCalibrationId: 1 });
-        server.get('/admin/calibrations/:calibrationId/scoring-configuration', (schema) => {
-          return schema.create('calibration-scoring-configuration', {
-            id: '1',
-            calibrationId: 1,
-            globalScoringConfiguration: [
-              { bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 },
-              { bounds: { min: -1.4, max: 0.6 }, meshLevel: 1 },
-            ],
-          });
-        });
-      });
-
+    module('when the attached calibration carries a scoring configuration', function () {
       test('keeps the configuration already saved on the draft version', async function (assert) {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
@@ -173,31 +163,15 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
 
     module('when the attached calibration has no scoring configuration yet', function (hooks) {
       hooks.beforeEach(function () {
-        server.db.certificationVersions.update('14', { externalCalibrationId: 1 });
-        server.get('/admin/calibrations/:calibrationId/scoring-configuration', (schema) => {
-          return schema.create('calibration-scoring-configuration', {
-            id: '1',
-            calibrationId: 1,
-            globalScoringConfiguration: [],
-          });
-        });
+        server.db.calibrationScoringConfigurations.update('1', { globalScoringConfiguration: [] });
       });
 
-      test('tells the admin the bounds have not been delivered yet', async function (assert) {
+      test('redirects to the framework page', async function (assert) {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-        const screen = await visit(`/certification-frameworks/CORE/versions/14/scoring`);
+        await visit(`/certification-frameworks/CORE/versions/14/scoring`);
 
-        assert
-          .dom(
-            screen.getByText(
-              t(
-                'components.certification-frameworks.certification-framework.versions.scoring.calibration-proposal-unavailable',
-                { calibrationId: 1 },
-              ),
-            ),
-          )
-          .exists();
+        assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
       });
     });
 
