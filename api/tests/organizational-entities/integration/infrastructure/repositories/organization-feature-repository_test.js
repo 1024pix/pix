@@ -104,7 +104,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
       ];
 
       // when
-      expect(await organizationFeatureRepository.saveInBatch(organizationFeatures)).to.not.throws;
+      await expect(organizationFeatureRepository.saveInBatch(organizationFeatures)).to.be.fulfilled;
     });
 
     it('throws an error if organization does not exists', async function () {
