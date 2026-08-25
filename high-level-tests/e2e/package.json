@@ -43,8 +43,8 @@
     "cypress-on-fix": "^1.1.0",
     "cypress-split": "^1.24.14",
     "cypress-visual-regression": "^5.0.2",
-    "eslint": "^10.0.0",
-    "eslint-plugin-cypress": "^6.0.0",
+    "eslint": "^10.9.0",
+    "eslint-plugin-cypress": "^6.4.4",
     "npm-run-all2": "9.0.3"
   },
   "dependencies": {

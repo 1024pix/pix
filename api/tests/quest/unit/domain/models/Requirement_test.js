@@ -138,13 +138,13 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
       it('should throw if args are not valid', function () {
         expect(() => {
           new ComposedRequirement({ data: [] });
-        }).to.throw;
+        }).to.throw();
       });
 
       it('should throw without args', function () {
         expect(() => {
           new ComposedRequirement();
-        }).to.throw;
+        }).to.throw();
       });
 
       it('should not throw if args are valid', function () {
@@ -165,7 +165,7 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
               },
             ],
           });
-        }).to.throw;
+        }).to.not.throw();
       });
     });
 
