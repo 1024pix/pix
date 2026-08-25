@@ -1,47 +1,52 @@
 [
   {
-    "id": 1,
     "userId": 4,
     "tubeId": "recWlYOH61aFXbij9",
     "floor": 5,
     "ceiling": null,
-    "directLevels": [5],
+    "directLevels": [
+      5
+    ],
     "updatedAt": "2019-04-21T06:00:00Z"
   },
   {
-    "id": 2,
     "userId": 4,
     "tubeId": "recR9y2U4RBJdhZ1c",
     "floor": 0,
     "ceiling": 2,
-    "directLevels": [2],
+    "directLevels": [
+      2
+    ],
     "updatedAt": "2019-04-21T06:00:00Z"
   },
   {
-    "id": 3,
     "userId": 5,
     "tubeId": "recWlYOH61aFXbij9",
     "floor": 5,
     "ceiling": null,
-    "directLevels": [5],
+    "directLevels": [
+      5
+    ],
     "updatedAt": "2019-04-21T06:00:00Z"
   },
   {
-    "id": 4,
     "userId": 5,
     "tubeId": "recR9y2U4RBJdhZ1c",
     "floor": 2,
     "ceiling": null,
-    "directLevels": [2],
+    "directLevels": [
+      2
+    ],
     "updatedAt": "2019-04-21T06:00:00Z"
   },
   {
-    "id": 5,
     "userId": 6,
     "tubeId": "recWlYOH61aFXbij9",
     "floor": 5,
     "ceiling": null,
-    "directLevels": [5],
+    "directLevels": [
+      5
+    ],
     "updatedAt": "2019-04-21T06:00:00Z"
   }
 ]

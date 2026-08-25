@@ -17,14 +17,16 @@ const TABLE_NAME = 'knowledge-states';
  */
 export async function up(knex) {
   return knex.schema.createTable(TABLE_NAME, (table) => {
-    table.increments('id').primary();
     table.integer('userId').references('users.id').notNullable();
     table.string('tubeId').notNullable();
     table.integer('floor').notNullable().defaultTo(0);
     table.integer('ceiling').nullable();
     table.specificType('directLevels', 'integer[]').notNullable().defaultTo('{}');
     table.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
-    table.unique(['userId', 'tubeId']);
+    // Pas de colonne technique : le couple (userId, tubeId) est la clé, et
+    // c'est lui que l'écriture applicative upserte. Un serial ne servirait à
+    // rien et son compteur serait consommé par chaque upsert, même en update.
+    table.primary(['userId', 'tubeId']);
   });
 }
 
