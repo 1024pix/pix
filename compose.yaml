@@ -14,7 +14,7 @@ services:
       - '${PIX_CACHE_PORT:-6379}:6379'
 
   s3:
-    image: adobe/s3mock:5.1.0
+    image: adobe/s3mock:5.1.0@sha256:65cf60155a2e235fe7d5bf6c633747d6fc7ed93f9f5a6727d86470026b83c2a2
     container_name: pix-api-s3
     environment:
       - COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS=pix-import-dev, pix-import-test, pix-attestations-dev, pix-attestations-test, pix-answers-history-export-test
@@ -22,7 +22,7 @@ services:
       - '${PIX_S3_PORT:-9090}:9090'
 
   mailpit:
-    image: axllent/mailpit:latest
+    image: axllent/mailpit:latest@sha256:c96991d9bef73594c246d89ca81411d4e916f03e76a7d2d72fa2ab5dd3c9ce24
     container_name: pix-api-smtp-server
     ports:
       - '${PIX_MAILPIT_WEB_PORT:-1025}:1025'

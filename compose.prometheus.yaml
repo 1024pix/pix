@@ -1,13 +1,13 @@
 services:
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus@sha256:5ce7540c3c00ef4ab0c9d2c995c6a5b9c421f44b4a115d97a2c7af3b1c21cbb0
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
   prometheus-pushgateway:
-    image: prom/pushgateway
+    image: prom/pushgateway@sha256:74fa117cef2d7e383112d25139ff1c2d2e309c35389a9e0554a47136a1482e48
     ports:
       - "${PIX_PROMETHEUS_PUSHGATEWAY_PORT:-9991}:9091"
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana@sha256:3fd54ae1214669f8355f065ec9f6445d5279a3d77095ab048ca045685272429b
     ports:
       - "${PIX_GRAFANA_PORT:-3210}:3000"
