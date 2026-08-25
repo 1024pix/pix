@@ -43,6 +43,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
         {
           requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
           data: {
+            name: 'requirements group name 1',
             threshold: requirement1Threshold,
             cappedTubes: [{ level: tube1Level, tubeId: tube1Id }],
           },
@@ -50,6 +51,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
         {
           requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
           data: {
+            name: 'requirements group name 2',
             threshold: requirement2Threshold,
             cappedTubes: [{ level: tube2Level, tubeId: tube2Id }],
           },
@@ -153,6 +155,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
     const [firstRequirement, secondRequirement] = rewardRequirements;
     expect(firstRequirement.id).to.equal('1-reward-requirement-0');
     expect(firstRequirement.cappedTubesThreshold).to.equal(requirement1Threshold);
+    expect(firstRequirement.name).to.equal('requirements group name 1');
     expect(firstRequirement.areas).to.have.lengthOf(1);
     expect(firstRequirement.areas[0].id).to.equal(expectedArea.id);
     expect(firstRequirement.areas[0].competences[0].id).to.equal(expectedCompetence.id);
@@ -168,6 +171,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
 
     expect(secondRequirement.id).to.equal('1-reward-requirement-1');
     expect(secondRequirement.cappedTubesThreshold).to.equal(requirement2Threshold);
+    expect(secondRequirement.name).to.equal('requirements group name 2');
     expect(secondRequirement.areas).to.have.lengthOf(1);
     expect(secondRequirement.areas[0].id).to.equal(expectedArea2.id);
     expect(secondRequirement.areas[0].competences[0].id).to.equal(expectedCompetence.id);

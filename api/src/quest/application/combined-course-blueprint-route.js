@@ -57,6 +57,7 @@ const register = async function (server) {
                     Joi.object({
                       tubes: Joi.array().items(Joi.object({ tubeId: Joi.string(), level: Joi.number().integer() })),
                       threshold: Joi.number(),
+                      name: Joi.string().empty('').allow(null).optional(),
                     }),
                   )
                   .allow(null),

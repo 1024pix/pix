@@ -67,7 +67,9 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
                   shortId: 'short-e67ec5d0',
                 },
               ],
-              'capped-tube-requirements': [{ threshold: 20, tubes: [{ tubeId: 'tube1', level: 5 }] }],
+              'capped-tube-requirements': [
+                { name: 'requirements group name', threshold: 20, tubes: [{ tubeId: 'tube1', level: 5 }] },
+              ],
             },
           },
         };

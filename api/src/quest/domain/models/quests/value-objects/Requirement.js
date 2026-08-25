@@ -205,12 +205,14 @@ const cappedTubesRequirementSchema = Joi.object({
       .items(Joi.object({ tubeId: Joi.string().required(), level: Joi.number().required() }))
       .required(),
     threshold: Joi.number().min(0).max(100).required(),
+    name: Joi.string().allow(null),
   }).required(),
 });
 
 export class CappedTubesRequirement extends BaseRequirement {
   #cappedTubes;
   #threshold;
+  #name;
 
   constructor(args) {
     const { data } = args;
@@ -218,6 +220,7 @@ export class CappedTubesRequirement extends BaseRequirement {
 
     this.#cappedTubes = data.cappedTubes;
     this.#threshold = data.threshold;
+    this.#name = data.name;
 
     this.#validate(args);
   }
@@ -237,6 +240,7 @@ export class CappedTubesRequirement extends BaseRequirement {
     return {
       cappedTubes: Object.freeze(this.#cappedTubes),
       threshold: this.#threshold,
+      name: this.#name,
     };
   }
 

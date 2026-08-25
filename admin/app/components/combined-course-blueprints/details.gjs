@@ -21,7 +21,10 @@ export default class Details extends Component {
     return this.currentUser.adminMember.isSuperAdmin;
   }
 
-  displayRequirementsGroupName = (index) => {
+  displayRequirementsGroupName = (name, index) => {
+    if (name && name !== '') {
+      return name;
+    }
     return `${this.intl.t('components.combined-course-blueprints.reward-requirements.requirements-group-name')} ${index + 1}`;
   };
 
@@ -126,7 +129,7 @@ export default class Details extends Component {
                 {{#each @model.rewardRequirements as |rewardRequirement index|}}
                   <div class="card">
                     <div class="card__title">
-                      {{this.displayRequirementsGroupName index}}
+                      {{this.displayRequirementsGroupName rewardRequirement.name index}}
                     </div>
                     <div class="card__content">
                       <p>{{t "components.combined-course-blueprints.reward-requirements.threshold"}}:

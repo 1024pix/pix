@@ -24,6 +24,7 @@ export const PRO_COMBINED_COURSE = {
             { tubeId: 'recpQLhHdOTQAx6UL', level: 1 },
           ],
           threshold: 50,
+          name: 'Groupe de sujets 1',
         },
       },
       {
@@ -31,6 +32,7 @@ export const PRO_COMBINED_COURSE = {
         data: {
           cappedTubes: [{ tubeId: 'recMPzW9BRjRdOisX', level: 1 }],
           threshold: 70,
+          name: 'Groupe de sujets 2',
         },
       },
     ],

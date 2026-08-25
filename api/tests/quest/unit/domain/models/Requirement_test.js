@@ -635,6 +635,7 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
             data: {
               cappedTubes: [{ tubeId: '1', level: 2 }],
               threshold: 50,
+              name: 'requirements group name',
             },
           });
         }).not.to.throw();
@@ -833,6 +834,7 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
               { tubeId: 'tubeB', level: 5 },
             ],
             threshold: 70,
+            name: 'requirements group name',
           },
         });
 
@@ -848,6 +850,36 @@ describe('Quest | Unit | Domain | Models | Requirement ', function () {
               { tubeId: 'tubeB', level: 5 },
             ],
             threshold: 70,
+            name: 'requirements group name',
+          },
+        });
+      });
+
+      it('should have an undefined name if not provided', function () {
+        // given
+        const requirement = new CappedTubesRequirement({
+          data: {
+            cappedTubes: [
+              { tubeId: 'tubeA', level: 2 },
+              { tubeId: 'tubeB', level: 5 },
+            ],
+            threshold: 70,
+          },
+        });
+
+        // when
+        const DTO = requirement.toDTO();
+
+        // then
+        expect(DTO).to.deep.equal({
+          requirement_type: TYPES.CAPPED_TUBES,
+          data: {
+            cappedTubes: [
+              { tubeId: 'tubeA', level: 2 },
+              { tubeId: 'tubeB', level: 5 },
+            ],
+            threshold: 70,
+            name: undefined,
           },
         });
       });

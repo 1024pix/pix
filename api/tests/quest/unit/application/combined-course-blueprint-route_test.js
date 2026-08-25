@@ -55,7 +55,9 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
             'reward-type': REWARD_TYPES.ATTESTATION,
             'reward-requirements-description': 'Description of the reward requirements',
             content: [{ type: 'module', value: 'e67ec5d0', shortId: 'short-e67ec5d0' }],
-            'capped-tube-requirements': [{ threshold: 20, tubes: [{ tubeId: 'tube1', level: 5 }] }],
+            'capped-tube-requirements': [
+              { name: 'requirements group name', threshold: 20, tubes: [{ tubeId: 'tube1', level: 5 }] },
+            ],
           },
         },
       };
