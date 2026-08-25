@@ -1,6 +1,10 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 
+.oidc-signup-or-login-page {
+  padding-top: 68px;
+}
+
 .oidc-signup-or-login-form {
   display: flex;
   flex-direction: column;

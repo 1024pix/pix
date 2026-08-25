@@ -1,4 +1,3 @@
-import PixBackgroundHeader from '@1024pix/pix-ui/components/pix-background-header';
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
@@ -9,7 +8,7 @@ import LocaleSwitcher from 'mon-pix/components/locale-switcher';
 <template>
   {{pageTitle (t "pages.oidc-signup-or-login.title")}}
 
-  <PixBackgroundHeader>
+  <div class="global-page-container oidc-signup-or-login-page">
     <PixBlock @shadow="light" class="oidc-signup-or-login-form">
       <a href={{@controller.showcase.url}} class="oidc-signup-or-login-form__logo">
         <img src="/images/pix-logo.svg" alt="{{@controller.showcase.linkText}}" />
@@ -40,5 +39,5 @@ import LocaleSwitcher from 'mon-pix/components/locale-switcher';
     {{#if @controller.isInternationalDomain}}
       <LocaleSwitcher />
     {{/if}}
-  </PixBackgroundHeader>
+  </div>
 </template>
