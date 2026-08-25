@@ -72,7 +72,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
       expect(combinedCourseReward.status).equal(CombinedCourseRewardStatuses.NOT_STARTED);
     });
 
-    it('should have status obtained when combined course is not started and reward is obtained', function () {
+    it('should have status not started when combined course is not started and reward is obtained', function () {
       // given
       const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
         name,
@@ -89,7 +89,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
       const combinedCourseReward = new CombinedCourseReward({ combinedCourseDetails, reward: attestationDetails });
 
       // then
-      expect(combinedCourseReward.status).equal(CombinedCourseRewardStatuses.OBTAINED);
+      expect(combinedCourseReward.status).equal(CombinedCourseRewardStatuses.NOT_STARTED);
     });
 
     it('should have status started when combined course is started and reward is not obtained', function () {
@@ -122,7 +122,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
       expect(combinedCourseReward.status).equal(CombinedCourseRewardStatuses.STARTED);
     });
 
-    it('should have status obtained when combined course is started and reward is obtained', function () {
+    it('should have status started when combined course is started and reward is obtained', function () {
       // given
       const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
         name,
@@ -149,7 +149,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {
       const combinedCourseReward = new CombinedCourseReward({ combinedCourseDetails, reward: attestationDetails });
 
       // then
-      expect(combinedCourseReward.status).equal(CombinedCourseRewardStatuses.OBTAINED);
+      expect(combinedCourseReward.status).equal(CombinedCourseRewardStatuses.STARTED);
     });
 
     it('should have status obtained when combined course is completed and reward is obtained', function () {

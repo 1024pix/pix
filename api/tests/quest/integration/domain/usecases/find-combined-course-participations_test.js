@@ -103,7 +103,7 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
         nbModulesCompleted: 0,
         nbCampaigns: 1,
         nbCampaignsCompleted: 0,
-        rewardStatus: CombinedCourseRewardStatuses.OBTAINED,
+        rewardStatus: CombinedCourseRewardStatuses.STARTED,
       },
       {
         id: participation2.id,

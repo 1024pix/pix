@@ -73,7 +73,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
           type: 'combined-course-rewards',
           id: '456',
           attributes: {
-            status: CombinedCourseRewardStatuses.OBTAINED,
+            status: CombinedCourseRewardStatuses.NOT_STARTED,
             type: REWARD_TYPES.ATTESTATION,
             'requirements-description': 'Description of reward requirements',
             label: 'rewardLabel',
