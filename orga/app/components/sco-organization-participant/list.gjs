@@ -1,4 +1,3 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import { fn, uniqueId } from '@ember/helper';
 import { action } from '@ember/object';
@@ -7,6 +6,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq, not } from 'ember-truth-helpers';
+import Pagination from 'pix-orga/components/ui/pagination';
 import ENV from 'pix-orga/config/environment';
 
 import { CONNECTION_TYPES } from '../../helpers/connection-types';
@@ -333,7 +333,7 @@ const Filters = <template>
 
 const PixPaginationControl = <template>
   <InElement @destinationId={{@destinationId}} @waitForElement={{true}}>
-    <PixPagination @pagination={{@pagination}} @onChange={{@onChange}} @locale={{@locale}} />
+    <Pagination @pagination={{@pagination}} @onChange={{@onChange}} />
   </InElement>
 </template>;
 

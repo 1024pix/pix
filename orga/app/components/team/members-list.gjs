@@ -1,9 +1,9 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import Pagination from 'pix-orga/components/ui/pagination';
 
 import MembersListItem from './members-list-item';
 
@@ -47,7 +47,7 @@ export default class MembersList extends Component {
     {{/unless}}
 
     {{#if @members}}
-      <PixPagination @pagination={{@members.meta}} @locale={{this.locale.currentLanguage}} />
+      <Pagination @pagination={{@members.meta}} />
     {{/if}}
   </template>
 }

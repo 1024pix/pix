@@ -1,6 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { fn, uniqueId } from '@ember/helper';
@@ -13,6 +12,7 @@ import { tracked } from '@glimmer/tracking';
 import { formatDate, t } from 'ember-intl';
 import { not } from 'ember-truth-helpers';
 import ActivityType from 'pix-orga/components/activity-type';
+import Pagination from 'pix-orga/components/ui/pagination';
 
 import InElement from '../in-element';
 import SelectableList from '../selectable-list';
@@ -235,7 +235,7 @@ const Filters = <template>
 
 const PixPaginationControl = <template>
   <InElement @destinationId={{@destinationId}} @waitForElement={{true}}>
-    <PixPagination @pagination={{@pagination}} @onChange={{@onChange}} @locale={{@locale}} />
+    <Pagination @pagination={{@pagination}} @onChange={{@onChange}} />
   </InElement>
 </template>;
 

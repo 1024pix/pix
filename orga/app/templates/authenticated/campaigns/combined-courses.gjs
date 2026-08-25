@@ -1,8 +1,8 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';
 import ListHeader from 'pix-orga/components/campaign/list-header';
 import CombinedCourseList from 'pix-orga/components/combined-course/list';
+import Pagination from 'pix-orga/components/ui/pagination';
 
 <template>
   {{pageTitle (t "pages.campaign.tab.combined-courses")}}
@@ -10,6 +10,6 @@ import CombinedCourseList from 'pix-orga/components/combined-course/list';
   <article>
     <ListHeader />
     <CombinedCourseList @combinedCourses={{@model.combinedCourses}} />
-    <PixPagination @pagination={{@model.combinedCourses.meta}} />
+    <Pagination @pagination={{@model.combinedCourses.meta}} />
   </article>
 </template>

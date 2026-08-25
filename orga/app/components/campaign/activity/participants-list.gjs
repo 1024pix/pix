@@ -1,5 +1,4 @@
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { array, fn } from '@ember/helper';
@@ -10,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { or } from 'ember-truth-helpers';
+import Pagination from 'pix-orga/components/ui/pagination';
 
 import ParticipationStatus from '../../ui/participation-status';
 import ParticipationFilters from '../filter/participation-filters';
@@ -169,7 +169,7 @@ export default class ParticipantsList extends Component {
     {{/unless}}
 
     {{#if @participations}}
-      <PixPagination @pagination={{@participations.meta}} @locale={{this.locale.currentLanguage}} />
+      <Pagination @pagination={{@participations.meta}} />
     {{/if}}
 
     <DeleteParticipationModal

@@ -1,11 +1,10 @@
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { t } from 'ember-intl';
-import getService from 'pix-orga/helpers/get-service';
+import Pagination from 'pix-orga/components/ui/pagination';
 
 function indexNumber(index) {
   return { number: index + 1 };
@@ -104,9 +103,7 @@ function getMissionResultColor(result) {
       </:columns>
     </PixTable>
 
-    {{#let (getService "service:locale") as |locale|}}
-      <PixPagination @pagination={{@missionLearners.meta}} @locale={{locale.currentLanguage}} />
-    {{/let}}
+    <Pagination @pagination={{@missionLearners.meta}} />
   {{else}}
     <div class="table__empty content-text">
       {{t "pages.missions.mission.table.result.no-data"}}

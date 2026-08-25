@@ -1,5 +1,4 @@
 import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
@@ -8,11 +7,11 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { formatDate, t } from 'ember-intl';
 import MultiSelectFilter from 'pix-orga/components/ui/multi-select-filter';
+import Pagination from 'pix-orga/components/ui/pagination';
 import ENV from 'pix-orga/config/environment';
 
 export default class AttestationList extends Component {
   @service intl;
-  @service locale;
 
   debounceTime = ENV.pagination.debounce;
 
@@ -115,6 +114,6 @@ export default class AttestationList extends Component {
       </:columns>
     </PixTable>
 
-    <PixPagination @pagination={{@participantStatuses.meta}} @locale={{this.locale.currentLanguage}} />
+    <Pagination @pagination={{@participantStatuses.meta}} />
   </template>
 }

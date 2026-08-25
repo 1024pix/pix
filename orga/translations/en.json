@@ -262,6 +262,15 @@
     "notification": {
       "close": "Close the notification"
     },
+    "pagination": {
+      "beforeResultsPerPageLabel": "See",
+      "multiplePageElementCountLabel": "{start, number}-{end, number} of {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
+      "nextPageLabel": "Go to next page",
+      "pageNumberLabel": "Page {current, number} / {total, number}",
+      "previousPageLabel": "Go to previous page",
+      "selectPageSizeLabel": "Select the number of items by page",
+      "singlePageElementCountLabel": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}"
+    },
     "result": {
       "accessibility-description": "Results obtained = {percentage, number, ::percent},that is success rate {stage} of {totalStage}",
       "percentage": "{value, number, ::percent}",

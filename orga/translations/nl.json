@@ -262,6 +262,15 @@
     "notification": {
       "close": "Melding sluiten"
     },
+    "pagination": {
+      "beforeResultsPerPageLabel": "Zie",
+      "multiplePageElementCountLabel": "{start, number}-{end, number} van {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
+      "nextPageLabel": "Ga naar volgende pagina",
+      "pageNumberLabel": "Pagina {current, number} / {total, number}",
+      "previousPageLabel": "Ga naar vorige pagina",
+      "selectPageSizeLabel": "Selecteer het aantal items per pagina",
+      "singlePageElementCountLabel": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}"
+    },
     "result": {
       "accessibility-description": "Verkregen resultaat = {percentage, number, ::percent}, ofwel de succesratio {stage} op {totalStage}",
       "percentage": "{value, number, ::percent}",
