@@ -1,4 +1,8 @@
+@use 'pix-design-tokens/typography';
+
 .versions-calibration {
+  color: var(--pix-neutral-800);
+
   &__form {
     display: flex;
     flex-direction: column;
@@ -16,8 +20,38 @@
     }
   }
 
+  &__report {
+    margin-top: 1rem;
+
+    &__title {
+      @extend %pix-title-xs;
+    }
+  }
+
   &__save-button {
     width: fit-content;
+  }
+}
+
+.calibration-report {
+  &__icon--high {
+    color: var(--pix-information-dark);
+  }
+
+  &__icon--low {
+    color: var(--pix-information-light);
+  }
+
+  &__additional-content {
+    color: var(--pix-neutral-500);
+  }
+}
+
+.versions-calibration .description-list {
+  dt,
+  dd {
+    display: flex;
+    align-items: center;
   }
 }
 

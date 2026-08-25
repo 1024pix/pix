@@ -60,16 +60,6 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
       });
     });
 
-    module('when clicking on cancel button', function () {
-      test('redirects to certification-framework page', async function (assert) {
-        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-
-        await visit(`/certification-frameworks/CORE/versions/14/calibration`);
-        await clickByName('Annuler');
-        assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
-      });
-    });
-
     module('when loading a report for a version', function (hooks) {
       const generatedAt = new Date('2026-08-08T14:00:00Z');
       hooks.beforeEach(async function () {
@@ -129,19 +119,16 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
           minute: 'numeric',
           second: 'numeric',
         });
-        assert
-          .dom(screen.getByText(`Rapport de vérification de la calibration d'ID 1 généré le ${displayedGeneratedAt}`))
-          .exists();
+        assert.dom(screen.getByText(`Rapport de la calibration d'ID 1 générée le ${displayedGeneratedAt}`)).exists();
       });
-      test("it's possible to save the calibrationId", async function (assert) {
+      test('it saves the calibrationId', async function (assert) {
         const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
         await fillByLabel('ID de calibration', 1, { exact: false });
         await clickByName('Vérifier la calibration');
 
         await settled();
-        await clickByName("Enregistrer l'ID 1 de calibration");
 
-        assert.dom(screen.getByText("La mise à jour s'est bien faite !")).exists();
+        assert.dom(screen.getByText("L'ID de calibration a été enregistré.")).exists();
       });
     });
 

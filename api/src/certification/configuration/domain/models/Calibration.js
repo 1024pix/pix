@@ -42,6 +42,19 @@ export class Calibration {
   }
 }
 
+export class CalibrationForReport {
+  constructor({ id, startedAt, status, scope, challengeCount, tubeIds, hasMeshScoring, hasCompetenceScoring }) {
+    this.id = id;
+    this.startedAt = startedAt;
+    this.status = status;
+    this.scope = scope;
+    this.challengeCount = challengeCount;
+    this.tubeIds = tubeIds;
+    this.hasMeshScoring = hasMeshScoring;
+    this.hasCompetenceScoring = hasCompetenceScoring;
+  }
+}
+
 export class CalibratedChallenge {
   constructor({ challengeId, tubeId, alpha, delta }) {
     this.challengeId = challengeId;

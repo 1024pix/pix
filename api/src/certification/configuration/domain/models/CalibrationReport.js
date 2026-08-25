@@ -1,7 +1,8 @@
 /**
  * @typedef {import('./Version.js').Version} Version
- * @typedef {import('./Calibration.js').Calibration} Calibration
+ * @typedef {import('./Calibration.js').CalibrationForReport} CalibrationForReport
  */
+import { SCOPES } from '../../../shared/domain/models/Scopes.js';
 import { CALIBRATION_STATUSES, fromCalibrationScope } from './Calibration.js';
 
 export class CalibrationReport {
@@ -29,6 +30,8 @@ export const REPORT_LABELS = Object.freeze({
   CALIBRATION_STARTED_AT: 'CALIBRATION_STARTED_AT',
   CALIBRATION_STATUS: 'CALIBRATION_STATUS',
   CALIBRATION_SCOPE: 'CALIBRATION_SCOPE',
+  MESH_SCORING_PRESENCE: 'MESH_SCORING_PRESENCE',
+  COMPETENCE_SCORING_PRESENCE: 'COMPETENCE_SCORING_PRESENCE',
 });
 
 export const ALERT_LEVELS = Object.freeze({
@@ -40,7 +43,7 @@ export const ALERT_LEVELS = Object.freeze({
  *
  * @param {object} params
  * @param {Version} params.version
- * @param {Calibration} params.calibration
+ * @param {CalibrationForReport} params.calibration
  * @returns CalibrationReport
  */
 export function buildReport({ version, calibration }) {
@@ -50,6 +53,8 @@ export function buildReport({ version, calibration }) {
   computeReportForStartDate(now, calibration, reportLines);
   computeReportForScope(version, calibration, reportLines);
   computeReportForStatus(calibration, reportLines);
+  computeReportForMeshScoring(version, calibration, reportLines);
+  computeReportForCompetenceScoring(version, calibration, reportLines);
   return new CalibrationReport({
     versionId: version.id,
     calibrationId: calibration.id,
@@ -138,6 +143,40 @@ function computeReportForStatus(calibration, reportLines) {
     new CalibrationReportLine({
       label: REPORT_LABELS.CALIBRATION_STATUS,
       content: calibration.status,
+      alertLevel,
+      additionalContent,
+    }),
+  );
+}
+
+function computeReportForMeshScoring(version, calibration, reportLines) {
+  let alertLevel = null;
+  let additionalContent = null;
+  if (!calibration.hasMeshScoring) {
+    alertLevel = version.scope === SCOPES.CORE ? ALERT_LEVELS.HIGH : ALERT_LEVELS.LOW;
+    additionalContent = 'Aucun scoring par maille validé trouvé pour cette calibration';
+  }
+  reportLines.push(
+    new CalibrationReportLine({
+      label: REPORT_LABELS.MESH_SCORING_PRESENCE,
+      content: calibration.hasMeshScoring,
+      alertLevel,
+      additionalContent,
+    }),
+  );
+}
+
+function computeReportForCompetenceScoring(version, calibration, reportLines) {
+  let alertLevel = null;
+  let additionalContent = null;
+  if (!calibration.hasCompetenceScoring && version.scope === SCOPES.CORE) {
+    alertLevel = ALERT_LEVELS.HIGH;
+    additionalContent = 'Aucun scoring par compétence validé trouvé pour cette calibration';
+  }
+  reportLines.push(
+    new CalibrationReportLine({
+      label: REPORT_LABELS.COMPETENCE_SCORING_PRESENCE,
+      content: calibration.hasCompetenceScoring,
       alertLevel,
       additionalContent,
     }),

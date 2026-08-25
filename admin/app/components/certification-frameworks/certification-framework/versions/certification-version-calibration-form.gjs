@@ -18,9 +18,14 @@ export default class CalibrationForm extends Component {
   @service store;
   @service pixToast;
   @service intl;
-  @tracked calibrationId = null;
+  @tracked calibrationId = this.args.draftVersion.externalCalibrationId ?? null;
   @tracked report = null;
   @tracked showMoreInfoForLines = [];
+
+  get hasHighAlert() {
+    if (!this.report) return true;
+    return this.report.reportLines.some((line) => line.alertLevel === 'HIGH');
+  }
 
   get translatedReportLines() {
     const translatedReportLines = [];
@@ -50,6 +55,11 @@ export default class CalibrationForm extends Component {
             reportLine.content,
         );
       }
+      if (reportLine.label === 'MESH_SCORING_PRESENCE' || reportLine.label === 'COMPETENCE_SCORING_PRESENCE') {
+        translatedReportLine.content = reportLine.content
+          ? this.intl.t('common.words.yes')
+          : this.intl.t('common.words.no');
+      }
       translatedReportLines.push(translatedReportLine);
     }
     return translatedReportLines;
@@ -76,6 +86,7 @@ export default class CalibrationForm extends Component {
     }
     this.showMoreInfoForLines = [];
     this.report = report;
+    await this.saveCalibrationId();
   }
 
   @action
@@ -119,7 +130,9 @@ export default class CalibrationForm extends Component {
         <section>
           <PixInput
             type="number"
+            value={{this.calibrationId}}
             required={{true}}
+            min="0"
             @requiredLabel={{t "common.forms.mandatory"}}
             @errorMessage={{t
               "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
@@ -138,48 +151,47 @@ export default class CalibrationForm extends Component {
         </section>
       </form>
       {{#if this.report}}
-        {{t
-          "components.certification-frameworks.certification-framework.versions.calibration.report-title"
-          calibrationId=this.report.calibrationId
-        }}
-        {{formatDate this.report.generatedAt format="long"}}
-        <DescriptionList>
-          {{#each this.translatedReportLines as |line|}}
-            <DescriptionList.Item @label={{line.label}}>
-              {{line.content}}
-              {{#if line.alertLevel}}
-                <PixIconButton
-                  @ariaLabel={{t
-                    "components.certification-frameworks.certification-framework.versions.calibration.show-additional-info"
-                    lineNumber=line.lineNumber
-                  }}
-                  @iconName={{if (eq line.alertLevel "HIGH") "cancel" "warning"}}
-                  @triggerAction={{fn this.showMoreInfo line.lineNumber}}
-                />
-              {{/if}}
-              {{#if line.isExpanded}}
-                <p>{{line.additionalContent}}</p>
-              {{/if}}
-            </DescriptionList.Item>
-          {{/each}}
-        </DescriptionList>
-        <PixButton
-          class="versions-calibration__save-button"
-          @triggerAction={{this.saveCalibrationId}}
-          @variant="primary-bis"
-        >{{t
-            "components.certification-frameworks.certification-framework.versions.calibration.save-button-label"
-            id=this.report.calibrationId
-          }}</PixButton>
+        <div class="versions-calibration__report">
+          <span class="versions-calibration__report__title">
+            {{t
+              "components.certification-frameworks.certification-framework.versions.calibration.report-title"
+              calibrationId=this.report.calibrationId
+            }}
+            {{formatDate this.report.generatedAt format="long"}}
+          </span>
+          <DescriptionList>
+            {{#each this.translatedReportLines as |line|}}
+              <DescriptionList.Item @label={{line.label}}>
+                {{line.content}}
+                {{#if line.alertLevel}}
+                  <PixIconButton
+                    class={{if
+                      (eq line.alertLevel "HIGH")
+                      "calibration-report__icon--high"
+                      "calibration-report__icon--low"
+                    }}
+                    @ariaLabel={{t
+                      "components.certification-frameworks.certification-framework.versions.calibration.show-additional-info"
+                      lineNumber=line.lineNumber
+                    }}
+                    @iconName={{if (eq line.alertLevel "HIGH") "cancel" "warning"}}
+                    @triggerAction={{fn this.showMoreInfo line.lineNumber}}
+                  />
+                {{/if}}
+                {{#if line.isExpanded}}
+                  <p class="calibration-report__additional-content">{{line.additionalContent}}</p>
+                {{/if}}
+              </DescriptionList.Item>
+            {{/each}}
+          </DescriptionList>
+        </div>
       {{/if}}
     </Card>
     <section class="actions-container">
-      <PixButtonLink @route="authenticated.certification-frameworks.certification-framework" @variant="secondary">
-        {{t "common.actions.cancel"}}
-      </PixButtonLink>
       <PixButtonLink
         @route="authenticated.certification-frameworks.certification-framework.versions.version.scoring"
         @variant="primary"
+        @isDisabled={{this.hasHighAlert}}
       >
         {{t "common.actions.next"}}
       </PixButtonLink>
