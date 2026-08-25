@@ -1,7 +1,13 @@
 import { knex as datamartKnex } from '../../../../../datamart/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger, SCOPES } from '../../../../shared/infrastructure/utils/logger.js';
-import { CalibratedChallenge, Calibration, CalibrationForReport } from '../../domain/models/Calibration.js';
+import {
+  CalibratedChallenge,
+  Calibration,
+  CALIBRATION_STATUSES,
+  CalibrationForReport,
+  CalibrationScoringMesh,
+} from '../../domain/models/Calibration.js';
 
 export async function findForReport(calibrationId) {
   const knexConn = DomainTransaction.getConnection();
@@ -98,9 +104,12 @@ export async function find(calibrationId) {
       );
     }
 
+    const scoringMeshes = await _findScoringMeshes(calibrationId);
+
     return new Calibration({
       ...generalInfo,
       calibratedChallenges,
+      scoringMeshes,
     });
   } catch (err) {
     logger.error(
@@ -109,4 +118,38 @@ export async function find(calibrationId) {
     );
     throw err;
   }
+}
+
+/**
+ * @param {number} calibrationId
+ * @returns {Promise<Array<CalibrationScoringMesh>>}
+ */
+async function _findScoringMeshes(calibrationId) {
+  const meshSetData = await datamartKnex
+    .select({ id: 'id' })
+    .from('data_scoring_meshes_all')
+    .where({ calibration_id: calibrationId, status: CALIBRATION_STATUSES.VALIDATED })
+    .orderBy('id', 'desc')
+    .first();
+
+  if (!meshSetData) return [];
+
+  const meshesData = await datamartKnex
+    .select({
+      mesh: 'mesh',
+      minBoundCuratedValue: 'min_bound_curated_value',
+      maxBoundCuratedValue: 'max_bound_curated_value',
+    })
+    .from('data_scoring_meshes')
+    .where({ scoring_meshes_all_id: meshSetData.id })
+    .orderBy('mesh', 'asc');
+
+  return meshesData.map(
+    (meshData) =>
+      new CalibrationScoringMesh({
+        mesh: Number(meshData.mesh),
+        minBoundCuratedValue: Number(meshData.minBoundCuratedValue),
+        maxBoundCuratedValue: Number(meshData.maxBoundCuratedValue),
+      }),
+  );
 }

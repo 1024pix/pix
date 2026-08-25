@@ -16,12 +16,17 @@ export const CALIBRATION_SCOPES = Object.freeze({
 });
 
 export class Calibration {
-  constructor({ id, startedAt, status, scope, calibratedChallenges }) {
+  /**
+   * @param {object} params
+   * @param {Array<CalibrationScoringMesh>} [params.scoringMeshes]
+   */
+  constructor({ id, startedAt, status, scope, calibratedChallenges, scoringMeshes = [] }) {
     this.id = id;
     this.startedAt = startedAt;
     this.status = status;
     this.scope = scope;
     this.calibratedChallenges = calibratedChallenges;
+    this.scoringMeshes = scoringMeshes;
   }
 
   get challengeCount() {
@@ -61,6 +66,14 @@ export class CalibratedChallenge {
     this.tubeId = tubeId;
     this.alpha = alpha;
     this.delta = delta;
+  }
+}
+
+export class CalibrationScoringMesh {
+  constructor({ mesh, minBoundCuratedValue, maxBoundCuratedValue }) {
+    this.mesh = mesh;
+    this.minBoundCuratedValue = minBoundCuratedValue;
+    this.maxBoundCuratedValue = maxBoundCuratedValue;
   }
 }
 

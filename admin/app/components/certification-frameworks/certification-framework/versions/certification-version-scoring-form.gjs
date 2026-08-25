@@ -12,18 +12,28 @@ import Card from 'pix-admin/components/card';
 export default class ScoringForm extends Component {
   @service pixToast;
   @service intl;
+
   get hasError() {
     return this.globalScoringConfiguration.some(({ bounds }) => bounds.max <= bounds.min);
   }
 
   get globalScoringConfiguration() {
-    return this.args.draftVersion.globalScoringConfiguration;
+    const savedConfiguration = this.args.draftVersion.globalScoringConfiguration;
+    return savedConfiguration?.length
+      ? savedConfiguration
+      : this.args.calibrationScoringConfiguration.globalScoringConfiguration;
+  }
+
+  get activeVersionConfiguration() {
+    return this.args.activeVersion?.globalScoringConfiguration ?? [];
   }
 
   @action
   async saveCapacityByMesh(event) {
     event.preventDefault();
     if (this.hasError) return;
+
+    this.args.draftVersion.globalScoringConfiguration = this.globalScoringConfiguration;
 
     try {
       await this.args.draftVersion.save();
@@ -69,6 +79,12 @@ export default class ScoringForm extends Component {
     return this.globalScoringConfiguration.at(index).bounds.max > this.globalScoringConfiguration.at(index).bounds.min;
   }
 
+  @action
+  activeVersionBound(meshLevel, name) {
+    const bounds = this.activeVersionConfiguration.find((mesh) => mesh.meshLevel === meshLevel)?.bounds;
+    return bounds ? bounds[name] : '—';
+  }
+
   <template>
     <Card
       class="versions-scoring"
@@ -76,7 +92,9 @@ export default class ScoringForm extends Component {
     >
       <form id="version-scoring-form" class="versions-scoring__form" {{on "submit" this.saveCapacityByMesh}}>
         {{#each this.globalScoringConfiguration as |mesh|}}
-          <h3>{{t
+          <h3>
+
+            {{t
               "components.certification-frameworks.certification-framework.versions.scoring.level"
               index=mesh.meshLevel
             }}</h3>
@@ -92,7 +110,7 @@ export default class ScoringForm extends Component {
             >
               <:label>{{t
                   "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
-                  previousVersionCapacity=mesh.bounds.min
+                  previousVersionCapacity=(this.activeVersionBound mesh.meshLevel "min")
                 }}</:label>
             </PixInput>
 
@@ -110,7 +128,7 @@ export default class ScoringForm extends Component {
             >
               <:label>{{t
                   "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
-                  previousVersionCapacity=mesh.bounds.max
+                  previousVersionCapacity=(this.activeVersionBound mesh.meshLevel "max")
                 }}</:label>
             </PixInput>
           </section>

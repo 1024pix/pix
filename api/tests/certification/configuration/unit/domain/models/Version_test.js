@@ -132,6 +132,7 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
               minimumAnswersRequiredToValidateACertification: 11,
               globalScoringConfiguration: [{ bounds: { min: 1, max: 2 }, meshLevel: 0 }],
               competencesScoringConfiguration: ['some competencesScoringConfiguration'],
+              externalCalibrationId: 3,
               challengesConfiguration: {
                 maximumAssessmentLength: 11,
                 challengesBetweenSameCompetence: 11,
@@ -159,8 +160,9 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
                 tubeIds: ['rec456'],
                 assessmentDuration: 11,
                 minimumAnswersRequiredToValidateACertification: 11,
-                globalScoringConfiguration: [{ bounds: { min: 1, max: 2 }, meshLevel: 0 }],
-                competencesScoringConfiguration: ['some competencesScoringConfiguration'],
+                globalScoringConfiguration: [],
+                externalCalibrationId: null,
+                competencesScoringConfiguration: [],
                 challengesConfiguration: {
                   maximumAssessmentLength: 11,
                   challengesBetweenSameCompetence: 11,

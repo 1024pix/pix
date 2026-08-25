@@ -169,10 +169,10 @@ export class Version {
         limitToOneQuestionPerTube: version?.challengesConfiguration?.limitToOneQuestionPerTube ?? true,
         enablePassageByAllCompetences: version?.challengesConfiguration?.enablePassageByAllCompetences ?? true,
       }),
-      globalScoringConfiguration: version?.globalScoringConfiguration ?? [],
-      competencesScoringConfiguration: version?.competencesScoringConfiguration ?? [],
+      globalScoringConfiguration: [],
+      competencesScoringConfiguration: [],
       status: VERSION_STATUSES.DRAFT,
-      externalCalibrationId: version?.externalCalibrationId ?? null,
+      externalCalibrationId: null,
       comments: null,
       tubeIds,
     });

@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 
-import { CALIBRATION_SCOPES } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
+import {
+  CALIBRATION_SCOPES,
+  CALIBRATION_STATUSES,
+  CalibrationScoringMesh,
+} from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import * as calibrationRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/calibration-repository.js';
 import { databaseBuilder, datamartBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -127,6 +131,93 @@ describe('Certification | Configuration | Integration | Repository | calibration
       // then
       expect(calibration).to.deep.equal(expectedCalibration);
       expect(calibration).to.be.instanceOf(expectedCalibration.constructor);
+    });
+
+    context('scoring meshes', function () {
+      it('returns no mesh when Data has not delivered any mesh set', async function () {
+        // given
+        await domainBuilder.certification.configuration
+          .calibrationBuilder()
+          .asValidated({ startedAt: new Date('2026-03-04') })
+          .withParameters({ id: 113 })
+          .insertToDB({ datamartBuilder });
+
+        await datamartBuilder.commit();
+
+        // when
+        const calibration = await calibrationRepository.find(113);
+
+        // then
+        expect(calibration.scoringMeshes).to.deep.equal([]);
+      });
+
+      it('returns the meshes ordered by mesh, with their curated bounds', async function () {
+        // given
+        await domainBuilder.certification.configuration
+          .calibrationBuilder()
+          .asValidated({ startedAt: new Date('2026-03-04') })
+          .withParameters({ id: 113 })
+          .withScoringMeshes([
+            { mesh: 1, minBoundCuratedValue: -1.4, maxBoundCuratedValue: 0.6 },
+            { mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 },
+          ])
+          .insertToDB({ datamartBuilder });
+
+        await datamartBuilder.commit();
+
+        // when
+        const calibration = await calibrationRepository.find(113);
+
+        // then
+        expect(calibration.scoringMeshes).to.deep.equal([
+          new CalibrationScoringMesh({ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }),
+          new CalibrationScoringMesh({ mesh: 1, minBoundCuratedValue: -1.4, maxBoundCuratedValue: 0.6 }),
+        ]);
+      });
+
+      it('ignores a mesh set that is not validated, even on a validated calibration', async function () {
+        // given
+        await domainBuilder.certification.configuration
+          .calibrationBuilder()
+          .asValidated({ startedAt: new Date('2026-03-04') })
+          .withParameters({ id: 113 })
+          .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }], {
+            status: CALIBRATION_STATUSES.TO_VALIDATE,
+          })
+          .insertToDB({ datamartBuilder });
+
+        await datamartBuilder.commit();
+
+        // when
+        const calibration = await calibrationRepository.find(113);
+
+        // then
+        expect(calibration.status).to.equal(CALIBRATION_STATUSES.VALIDATED);
+        expect(calibration.scoringMeshes).to.deep.equal([]);
+      });
+
+      it('does not pick the mesh set of another calibration', async function () {
+        // given
+        await domainBuilder.certification.configuration
+          .calibrationBuilder()
+          .asValidated({ startedAt: new Date('2026-03-04') })
+          .withParameters({ id: 113 })
+          .insertToDB({ datamartBuilder });
+        await domainBuilder.certification.configuration
+          .calibrationBuilder()
+          .asValidated({ startedAt: new Date('2026-03-04') })
+          .withParameters({ id: 115 })
+          .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }])
+          .insertToDB({ datamartBuilder });
+
+        await datamartBuilder.commit();
+
+        // when
+        const calibration = await calibrationRepository.find(113);
+
+        // then
+        expect(calibration.scoringMeshes).to.deep.equal([]);
+      });
     });
   });
 });

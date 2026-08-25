@@ -90,10 +90,8 @@ describe('Certification | Configuration | Unit | UseCase | create-certification-
               tubeIds,
               assessmentDuration: 111,
               minimumAnswersRequiredToValidateACertification: 222,
-              globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -1.4 } }],
-              competencesScoringConfiguration: [
-                { competence: '1.1', values: [{ bounds: { max: -2, min: -10 }, competenceLevel: 0 }] },
-              ],
+              globalScoringConfiguration: [],
+              competencesScoringConfiguration: [],
             })
             .build(),
         );
