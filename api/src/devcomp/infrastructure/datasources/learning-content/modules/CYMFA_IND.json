@@ -12,7 +12,7 @@
     "level": "independent",
     "objectives": [
       "<p>Comprendre le principe de l’authentification multifacteur</p>",
-      "<p>Différencier les trois types de facteurs d’authentification</p>",
+      "<p>Faire la différence entre les trois types de facteurs d’authentification</p>",
       "<p>Connaître les limites des trois types de facteurs d’authentification</p>"
     ],
     "tabletSupport": "comfortable"
@@ -122,35 +122,35 @@
               "element": {
                 "id": "b3974328-a664-4a04-98df-4da773b4b831",
                 "type": "qcu-declarative",
-                "instruction": "<p>Comme Giulia, vous avez probablement déjà rencontré cette méthode d’authentification. Quel terme était utilisé pour désigner cette méthode ?</p>",
+                "instruction": "<p>Comme Giulia, vous avez probablement déjà rencontré cette méthode d’authentification. Quel nom était utilisé pour désigner cette méthode ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>L’authentification multifacteur</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est effectivement une expression très courante ! <br>En réalité, les trois termes proposés ici sont <strong>souvent utilisés pour désigner la même chose</strong> ! Cela signifie que deux étapes d’authentification sont nécessaires pour prouver l’identité de l’utilisateur.</p>"
+                      "diagnosis": "<p>C’est effectivement une expression très courante ! <br>En réalité, les trois noms proposés ici sont <strong>souvent utilisés pour désigner la même chose</strong> ! Cela signifie que deux étapes d’authentification sont nécessaires pour prouver l’identité d’un utilisateur.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>La double authentification</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est effectivement une expression très courante ! <br>En réalité, les trois termes proposés ici sont <strong>souvent utilisés pour désigner la même chose</strong> ! Cela signifie que deux étapes d’authentification sont nécessaires pour prouver l’identité de l’utilisateur.</p>"
+                      "diagnosis": "<p>C’est effectivement une expression très courante ! <br>En réalité, les trois noms proposés ici sont <strong>souvent utilisés pour désigner la même chose</strong> ! Cela signifie que deux étapes d’authentification sont nécessaires pour prouver l’identité d’un utilisateur.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>La validation en deux étapes</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est effectivement une expression très courante ! <br>En réalité, les trois termes proposés ici sont <strong>souvent utilisés pour désigner la même chose</strong> ! Cela signifie que deux étapes d’authentification sont nécessaires pour prouver l’identité de l’utilisateur.</p>"
+                      "diagnosis": "<p>C’est effectivement une expression très courante ! <br>En réalité, les trois noms proposés ici sont <strong>souvent utilisés pour désigner la même chose</strong> ! Cela signifie que deux étapes d’authentification sont nécessaires pour prouver l’identité d’un utilisateur.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>En réalité, les trois termes proposés ici sont <strong>souvent utilisés pour désigner la même chose</strong> ! Cela signifie que deux étapes d’authentification sont nécessaires pour prouver l’identité de l’utilisateur.</p>"
+                      "diagnosis": "<p>En réalité, les trois noms proposés ici sont <strong>souvent utilisés pour désigner la même chose</strong> ! Cela signifie que deux étapes d’authentification sont nécessaires pour prouver l’identité d’un utilisateur.</p>"
                     }
                   }
                 ]
@@ -201,7 +201,7 @@
                 "id": "513eadab-7c62-4820-bfd2-835d4609afed",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Un facteur d’authentification est un <strong>moyen de prouver son identité</strong>. Ces facteurs d’authentification peuvent être de <strong>différents types</strong>.</p><p><br><strong>Pour chacune des situations suivantes, classez le moyen utilisé dans la catégorie qui lui correspond&nbsp;:</strong></p>"
+                "content": "<p>Un facteur d’authentification est un <strong>moyen de prouver son identité</strong>. Ces facteurs d’authentification peuvent être de <strong>différents types</strong>.</p><p><br><strong>Pour chacune des situations suivantes, identifiez la catégorie correspondant au moyen utilisé pour s’authentifier.</strong></p>"
               }
             },
             {
@@ -272,7 +272,7 @@
                       "id": "ff89e18a-7596-4a87-bdaa-8db47d7f419d",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Otis a reçu un code sur son téléphone pour accéder à la vidéo à la demande sur sa télévision.</p>"
+                      "content": "<p>Otis a reçu un code sur son téléphone pour accéder à la vidéo à la demande (VOD) sur sa télévision.</p>"
                     },
                     {
                       "id": "36c6b727-9149-4b9a-8d11-c850ba4b47c2",
@@ -284,21 +284,21 @@
                           "id": "1",
                           "content": "<p>Quelque chose qu’il connaît.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Et non. <br>Le code envoyé par message utilise <strong>un objet que personne d’autre ne possède </strong>à part Otis. Ici c’est un smartphone, mais cela pourrait être une montre ou un ordinateur. Plus précisément, c’est le numéro de téléphone d’Otis qui est unique.</p>"
+                            "diagnosis": "<p>Et non. </p><p>Le code est envoyé par message sur <strong>quelque chose que personne d’autre ne possède</strong> à part Otis. Ici, c’est le numéro de téléphone d’Otis qui est unique. Il reçoit le code sur son smartphone, mais il&nbsp; pourrait le recevoir sur une montre ou un ordinateur.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Quelque chose qu’il possède.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Exactement ! <br>Le code envoyé par message utilise<strong> un objet que personne d’autre ne possède</strong> à part Otis. Ici c’est un smartphone, mais cela pourrait être une montre ou un ordinateur. Plus précisément, c’est le numéro de téléphone d’Otis qui est unique.</p>"
+                            "diagnosis": "<p>Exactement !</p><p>Le code est envoyé par message sur <strong>quelque chose que personne d’autre ne possède</strong> à part Otis. Ici, c’est le numéro de téléphone d’Otis qui est unique. Il reçoit le code sur son smartphone, mais il&nbsp; pourrait le recevoir sur une montre ou un ordinateur.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Quelque chose qu’il est.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Et non. <br>Le code envoyé par message utilise <strong>un objet que personne d’autre ne possède </strong>à part Otis. Ici c’est un smartphone, mais cela pourrait être une montre ou un ordinateur. Plus précisément, c’est le numéro de téléphone d’Otis qui est unique.</p>"
+                            "diagnosis": "<p>Et non.</p><p>Le code est envoyé par message sur <strong>quelque chose que personne d’autre ne possède</strong> à part Otis. Ici, c’est le numéro de téléphone d’Otis qui est unique. Il reçoit le code sur son smartphone, mais il&nbsp; pourrait le recevoir sur une montre ou un ordinateur.</p>"
                           }
                         }
                       ],
@@ -370,7 +370,7 @@
                 "id": "0c73ed69-90b6-442f-9aa1-716b7f7a2da3",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Un facteur d’authentification est un <strong>moyen de prouver son identité</strong>. <br></p><h5>Comment différencier les trois types de facteurs d’authentification ? </h5><ul>    <li> Les facteurs de connaissance, par exemple&nbsp;: un mot passe. 💬</li>    <li> Les facteurs de possession, par exemple&nbsp;: une adresse mail. 👜 </li>    <li> Les facteurs biométriques, par exemple&nbsp;: une empreinte digitale. 🙋</li></ul>"
+                "content": "<p>Un facteur d’authentification est un <strong>moyen de prouver son identité</strong>.</p><p><br></p><h5>Quels sont les  trois types de facteurs d’authentification ? </h5><ul>    <li> Les facteurs de connaissance, par exemple&nbsp;: un mot passe. 💬</li>    <li> Les facteurs de possession, par exemple&nbsp;: une adresse mail. 👜 </li>    <li> Les facteurs biométriques, par exemple&nbsp;: une empreinte digitale. 🙋</li></ul>"
               }
             }
           ]
@@ -446,11 +446,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Exactement !</p>",
-                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains exigent le changement régulier de votre mot de passe.</p>"
+                          "diagnosis": "<ul><li>Un mot de passe est parfois être partagé, deviné ou réutilisé par plusieurs personnes. </li><li>Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;</li><li>Certains sites ou outils exigent le changement régulier de votre mot de passe.</li></ul>"
                         },
                         "invalid": {
                           "state": "<p>Pas tout à fait.</p>",
-                          "diagnosis": "<p>Un mot de passe peut être partagé, deviné ou réutilisé par plusieurs personnes. Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;D’ailleurs, certains exigent le changement régulier de votre mot de passe.</p>"
+                          "diagnosis": "<ul>    <li>Un mot de passe est parfois être partagé, deviné ou réutilisé par plusieurs personnes. </li>    <li>Il peut aussi être oublié, mais il reste généralement facile à modifier.&nbsp;</li>    <li>Certains sites ou outils exigent le changement régulier de votre mot de passe.</li></ul>"
                         }
                       },
                       "solutions": [
@@ -498,11 +498,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Exactement !</p>",
-                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
+                          "diagnosis": "<ul><li>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). </li><li>S’il n’y a pas assez de réseau, le code ne peut pas être reçu. </li><li>En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais un changement de téléphone est possible.</li></ul>"
                         },
                         "invalid": {
                           "state": "<p>Pas exactement.</p>",
-                          "diagnosis": "<p>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). S’il n’y a pas assez de réseau, le code ne peut pas être reçu. En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais ce moyen peut être remplacé.</p>"
+                          "diagnosis": "<ul>    <li>Un code SMS dépend du téléphone et de sa ligne téléphonique (son numéro). </li>    <li>S’il n’y a pas assez de réseau, le code ne peut pas être reçu. </li>    <li>En cas de perte ou de vol du téléphone, une autre personne peut recevoir le code, mais un changement de téléphone est possible.</li></ul>"
                         }
                       },
                       "solutions": [
@@ -549,11 +549,11 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Exactement !</p>",
-                          "diagnosis": "Une empreinte digitale ne peut pas se modifier comme un mot de passe. Elle est propre à la personne et ne peut pas être oubliée, mais elle peut devenir inutilisable en cas de blessure."
+                          "diagnosis": "<ul><li>Une empreinte digitale ne peut pas se modifier comme un mot de passe. </li><li>Elle est propre à chaque personne et ne peut pas être oubliée.&nbsp;</li><li>Elle peut devenir inutilisable en cas de blessure.</li></ul>"
                         },
                         "invalid": {
                           "state": "<p>Pas exactement.</p>",
-                          "diagnosis": "Une empreinte digitale ne peut pas se modifier comme un mot de passe. Elle est propre à la personne et ne peut pas être oubliée, mais elle peut devenir inutilisable en cas de blessure."
+                          "diagnosis": "<ul>    <li>Une empreinte digitale ne peut pas se modifier comme un mot de passe. </li>    <li>Elle est propre à chaque personne et ne peut pas être oubliée.&nbsp;</li>    <li>Elle peut devenir inutilisable en cas de blessure.</li></ul>"
                         }
                       },
                       "solutions": [
@@ -578,7 +578,7 @@
                 "id": "10d652ae-fb1f-4e20-8e2e-08686f539a7d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Chaque type de facteur a des avantages et des inconvénients.<strong> Ils ont tous des limites</strong> en matière de sécurité.</p><h5>Malgré ces limites, comment renforcer la sécurité des accès ?&nbsp; </h5><p>Pour éviter une <strong>usurpation d’identité</strong>, c’est-à-dire que quelqu’un vous vole vos accès et se fasse passer pour vous, les services en ligne demandent plusieurs facteurs d’authentification <strong>de natures différentes </strong>afin d’augmenter le niveau de sécurité globale.&nbsp;🔒&nbsp;🔒</p>"
+                "content": "<p>Chaque type de facteur a des avantages et des inconvénients.<strong>&nbsp;Mais ils ont tous des limites</strong> en matière de sécurité.</p><h5>Malgré ces limites, comment renforcer la sécurité des accès ?&nbsp; </h5><p>Pour éviter une <strong>usurpation d’identité</strong>, c’est-à-dire que quelqu’un vous vole vos accès et se fasse passer pour vous, les services en ligne demandent plusieurs facteurs d’authentification <strong>de natures différentes </strong>afin d’augmenter le niveau de sécurité globale.&nbsp;🔒&nbsp;🔒</p>"
               }
             },
             {
@@ -587,7 +587,7 @@
                 "id": "c890eaca-8f8e-4355-81da-b34bac3343e3",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Certaines méthodes d’authentification sont <strong>complexes et coûteuses à mettre en place</strong>. Par exemple, c’est pour ça que l’authentification par iris de l’œil n’est pas répandue. Elle coûte très cher. 💶</p>"
+                "content": "<p>Certaines authentifications sont <strong>complexes et coûteuses à mettre en place</strong>. Par exemple, c’est pour ça que l’authentification par iris de l’œil n’est pas répandue. Elle coûte très cher. 💶</p>"
               }
             }
           ]
@@ -623,11 +623,11 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Une messagerie professionnelle</p>"
+                    "content": "<p>Une messagerie personnelle ou professionnelle</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>Une plateforme de réservation (terrains de tennis, restaurants, etc.)</p>"
+                    "content": "<p>Une plateforme de réservation (bibliothèque, sport, restaurant, etc.)</p>"
                   },
                   {
                     "id": "3",
@@ -655,7 +655,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>Beaucoup de services en ligne imposent l’authentification multifacteur. Ce sont notamment des services qui comportent des données personnelles ou des informations sensibles (informations bancaires, médicales, administratives, etc.)</p>"
+                  "diagnosis": "<p>Beaucoup de services en ligne imposent l’authentification multifacteur. Ce sont notamment des services qui comportent des données personnelles ou des informations sensibles (informations bancaires, médicales, administratives, etc.).</p>"
                 }
               }
             }
@@ -672,7 +672,7 @@
                 "id": "c10935b1-81bb-41fd-b911-97d09ec4f67e",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>Et si l’authentification multifacteur n’est pas activée ?</h5><ul>    <li>Si le service <strong>propose </strong>la MFA, vous pouvez la configurer <strong>vous-même dans les paramètres</strong> de votre compte. ⚙️</li>    <li>Si le service <strong>impose </strong>désormais la MFA, vous serez invité à la <strong>configurer </strong>lors de votre <strong>prochaine connexion</strong>. ‼️</li>    <li>Certains services ne proposent pas la MFA, ou pas encore. 📅</li></ul><p><br>Activer l’authentification multifacteur soi-même ou quand elle est proposée, c’est <strong>ajouter une sécurité supplémentaire</strong>&nbsp;à votre compte et aux informations qu’il contient. 🔒</p>"
+                "content": "<h5>Comment faire si l’authentification multifacteur (MFA) n’est pas activée pour se connecter ?</h5><ul>    <li>Si un service en ligne&nbsp;<strong>propose </strong>la MFA, vous pouvez la configurer <strong>vous-même dans les paramètres</strong> de votre compte. ⚙️</li>    <li>Si un service en ligne&nbsp;<strong>impose </strong>désormais la MFA, vous serez invité à la <strong>configurer </strong>lors de votre <strong>prochaine connexion</strong>. ‼️</li>    <li>Certains services ne proposent pas la MFA, ou pas encore. 📅</li></ul><p><br>Activer l’authentification multifacteur vous-même ou quand elle vous est proposée, c’est <strong>ajouter une sécurité supplémentaire</strong>&nbsp;à votre compte et aux informations qu’il contient. 🔒</p>"
               }
             }
           ]
@@ -694,7 +694,7 @@
                 "id": "c88354b1-ec04-4922-898c-15bbeba3cdd5",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul>    <li>Il y a trois types de facteurs d’authentification&nbsp;: <strong>ce que je connais</strong> (facteur de connaissance), <strong>ce que je possède </strong>(facteur de possession), et <strong>ce que je suis </strong>(facteur biométrique). 💬👜🙋</li><li>L’authentification multifacteur, c’est quand un service vous demande <strong>au moins deux facteurs d’authentification</strong> à la suite pour prouver votre identité. 2️⃣</li><li>Une authentification multifacteur est <strong>plus sécurisée si les facteurs demandés sont de natures différentes</strong>, car leurs limites de sécurité sont différentes. 🔒🔒</li><li>Beaucoup de services en ligne qui gèrent des données personnelles imposent l’<strong>authentification multifacteur par défaut</strong>. D’autres services en ligne vous proposent de <strong>l’activer manuellement</strong> pour mieux vous protéger. ⚙️</li></ul>"
+                "content": "<ul>    <li>Il y a trois types de facteurs d’authentification&nbsp;: <strong>ce qu’on connaît</strong> (facteur de connaissance), <strong>ce qu’on possède </strong>(facteur de possession) et <strong>ce qu’on est </strong>(facteur biométrique). 💬👜🙋</li><li>L’authentification multifacteur, c’est quand un service vous demande <strong>au moins deux facteurs d’authentification</strong> à la suite pour prouver votre identité. 2️⃣</li><li>Une authentification multifacteur est <strong>plus sécurisée si les facteurs demandés sont de natures différentes</strong>, car leurs limites de sécurité sont différentes. 🔒🔒</li><li>Beaucoup de services en ligne qui gèrent des données personnelles imposent l’<strong>authentification multifacteur par défaut</strong>. D’autres services en ligne vous proposent de <strong>la configurer vous-même</strong> pour mieux vous protéger. ⚙️</li></ul>"
               }
             }
           ]
@@ -715,7 +715,7 @@
               "element": {
                 "id": "94d9a539-eb01-4c2a-9389-83151c24a622",
                 "type": "qcu",
-                "instruction": "<p>Complétez la phrase suivante&nbsp;: Dans le cas d’une authentification multifacteur, pour se connecter, il faut…</p>",
+                "instruction": "<p>Complétez la phrase suivante&nbsp;: </p><p>Dans le cas d’une authentification multifacteur, pour se connecter, il faut…</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -739,7 +739,7 @@
                     "content": "<p>fournir un mot de passe contenant plusieurs types de caractères.</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Un mot de passe, même un mot de passe fort, est un facteur d’authentification simple. Un facteur est un moyen de s’authentifier, une authentification multifacteur signifie donc plusieurs facteurs. N’hésitez pas à réessayer.</p>"
+                      "diagnosis": "<p>Un mot de passe, même  fort, est un facteur d’authentification simple. </p><p>Un facteur est un moyen de s’authentifier, une authentification multifacteur signifie donc plusieurs facteurs. N’hésitez pas à réessayer.</p>"
                     }
                   },
                   {
@@ -747,7 +747,7 @@
                     "content": "<p>posséder plusieurs comptes.</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>L’authentification multifacteur ne nécessite pas d’avoir plusieurs comptes. Un facteur est un moyen de s’authentifier, une authentification multifacteur signifie donc plusieurs facteurs. N’hésitez pas à réessayer.</p>"
+                      "diagnosis": "<p>L’authentification multifacteur ne nécessite pas d’avoir plusieurs comptes. </p><p>Un facteur est un moyen de s’authentifier, une authentification multifacteur signifie donc plusieurs facteurs. N’hésitez pas à réessayer.</p>"
                     }
                   }
                 ],
@@ -776,26 +776,30 @@
                     "type": "select",
                     "input": "catégorie",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "catégorie",
                     "tolerances": [],
                     "options": [
                       {
                         "id": "0",
-                        "content": "Facteur de connaissance"
+                        "content": "facteur de connaissance"
                       },
                       {
                         "id": "1",
-                        "content": "Facteur de possession"
+                        "content": "facteur de possession"
                       },
                       {
                         "id": "2",
-                        "content": "Facteur biométrique"
+                        "content": "facteur biométrique"
                       }
                     ],
                     "solutions": [
                       "0"
                     ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>.</p>"
                   },
                   {
                     "type": "text",
@@ -805,21 +809,21 @@
                     "type": "select",
                     "input": "catégorie",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "catégorie",
                     "tolerances": [],
                     "options": [
                       {
                         "id": "3",
-                        "content": "Facteur de connaissance"
+                        "content": "facteur de connaissance"
                       },
                       {
                         "id": "4",
-                        "content": "Facteur de possession"
+                        "content": "facteur de possession"
                       },
                       {
                         "id": "5",
-                        "content": "Facteur biométrique"
+                        "content": "facteur biométrique"
                       }
                     ],
                     "solutions": [
@@ -828,32 +832,40 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>Un <strong>code à 6 chiffres reçu par sms</strong> est un</p>"
+                    "content": "<p>.</p>"
+                  },
+                  {
+                    "type": "text",
+                    "content": "<br><p>Un <strong>code à 6 chiffres reçu par SMS</strong> est un</p>"
                   },
                   {
                     "type": "select",
                     "input": "catégorie",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "catégorie",
                     "tolerances": [],
                     "options": [
                       {
                         "id": "6",
-                        "content": "Facteur de connaissance"
+                        "content": "facteur de connaissance"
                       },
                       {
                         "id": "7",
-                        "content": "Facteur de possession"
+                        "content": "facteur de possession"
                       },
                       {
                         "id": "8",
-                        "content": "Facteur biométrique"
+                        "content": "facteur biométrique"
                       }
                     ],
                     "solutions": [
                       "7"
                     ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>.</p>"
                   },
                   {
                     "type": "text",
@@ -863,26 +875,30 @@
                     "type": "select",
                     "input": "catégorie",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "catégorie",
                     "tolerances": [],
                     "options": [
                       {
                         "id": "9",
-                        "content": "Facteur de connaissance"
+                        "content": "facteur de connaissance"
                       },
                       {
                         "id": "10",
-                        "content": "Facteur de possession"
+                        "content": "facteur de possession"
                       },
                       {
                         "id": "11",
-                        "content": "Facteur biométrique"
+                        "content": "facteur biométrique"
                       }
                     ],
                     "solutions": [
                       "9"
                     ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>.</p>"
                   },
                   {
                     "type": "text",
@@ -892,26 +908,30 @@
                     "type": "select",
                     "input": "catégorie",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "catégorie",
                     "tolerances": [],
                     "options": [
                       {
                         "id": "12",
-                        "content": "Facteur de connaissance"
+                        "content": "facteur de connaissance"
                       },
                       {
                         "id": "13",
-                        "content": "Facteur de possession"
+                        "content": "facteur de possession"
                       },
                       {
                         "id": "14",
-                        "content": "Facteur biométrique"
+                        "content": "facteur biométrique"
                       }
                     ],
                     "solutions": [
                       "14"
                     ]
+                  },
+                  {
+                    "type": "text",
+                    "content": "<p>.</p>"
                   },
                   {
                     "type": "text",
@@ -921,21 +941,21 @@
                     "type": "select",
                     "input": "catégorie",
                     "display": "inline",
-                    "placeholder": "- Sélectionnez - ",
+                    "placeholder": "- Sélectionner - ",
                     "ariaLabel": "catégorie",
                     "tolerances": [],
                     "options": [
                       {
                         "id": "15",
-                        "content": "Facteur de connaissance"
+                        "content": "facteur de connaissance"
                       },
                       {
                         "id": "16",
-                        "content": "Facteur de possession"
+                        "content": "facteur de possession"
                       },
                       {
                         "id": "17",
-                        "content": "Facteur biométrique"
+                        "content": "facteur biométrique"
                       }
                     ],
                     "solutions": [
@@ -954,7 +974,7 @@
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
-                    "diagnosis": "<p>Rappelez-vous&nbsp;: un facteur de connaissance, c’est «&nbsp;ce que je sais&nbsp;», un facteur de possession c’est «&nbsp;ce que je possède&nbsp;» et un facteur biométrique c’est «&nbsp;ce que je suis&nbsp;». Vous pouvez réessayer.</p>"
+                    "diagnosis": "<p>Rappelez-vous&nbsp;: un facteur de connaissance, c’est «&nbsp;ce qu'on connaît », un facteur de possession, c’est «&nbsp;ce qu'on possède&nbsp;» et un facteur biométrique, c’est «&nbsp;ce qu'on est&nbsp;». Vous pouvez réessayer.</p>"
                   }
                 }
               }
@@ -979,7 +999,7 @@
                     "content": "<p>un code PIN et un schéma de déverrouillage</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Ce sont deux facteurs de connaissance, leurs limites sont donc similaires (oublié, partagé, deviné, utilisé par d’autres, etc.). Vous pouvez réessayer.</p>"
+                      "diagnosis": "<p>Ce sont deux facteurs de connaissance, leurs limites sont donc similaires (ils peuvent être oubliés, partagés, devinés, utilisés par d’autres, etc.). Vous pouvez réessayer.</p>"
                     }
                   },
                   {
@@ -987,7 +1007,7 @@
                     "content": "<p>un mot de passe et une question secrète</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Ce sont deux facteurs de connaissance, leurs limites sont donc similaires (oublié, partagé, deviné, utilisé par d’autres, etc.). Vous pouvez réessayer.</p>"
+                      "diagnosis": "<p>Ce sont deux facteurs de connaissance, leurs limites sont donc similaires (ils peuvent être oubliés, partagés, devinés, utilisés par d’autres, etc.). Vous pouvez réessayer.</p>"
                     }
                   },
                   {
@@ -1003,7 +1023,7 @@
                     "content": "<p>une détection du visage et une empreinte digitale</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Ce sont deux facteurs biométriques, leurs limites sont donc similaires (peut devenir inutilisable en cas de blessure ou d’accident, difficile à changer, etc.). Vous pouvez réessayer.</p>"
+                      "diagnosis": "<p>Ce sont deux facteurs biométriques, leurs limites sont donc similaires (ils peuvent devenir inutilisables en cas de blessure ou d’accident, ils sont difficiles à changer, etc.). Vous pouvez réessayer.</p>"
                     }
                   }
                 ],
