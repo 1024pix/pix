@@ -4,8 +4,8 @@ import { logger, SCOPES } from '../../../../shared/infrastructure/utils/logger.j
 import {
   CalibratedChallenge,
   Calibration,
-  CalibrationForReport,
   CALIBRATION_STATUSES,
+  CalibrationForReport,
   CalibrationScoringMesh,
 } from '../../domain/models/Calibration.js';
 
