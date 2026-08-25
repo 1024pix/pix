@@ -2336,6 +2336,8 @@
         },
         "trainings": {
           "description": "The solutions listed below are recommended to you based on your level.",
+          "next-button-aria-label": "See next trainings",
+          "previous-button-aria-label": "See previous trainings",
           "title": "Go further, at your own pace."
         }
       },

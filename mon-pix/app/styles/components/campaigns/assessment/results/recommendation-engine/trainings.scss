@@ -3,14 +3,21 @@
 @use 'pix-design-tokens/breakpoints';
 
 .results-recommendation-engine-training {
+  position: relative;
+
   &:focus-visible {
     outline: var(--pix-neutral-900) solid 2px;
   }
 
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--pix-spacing-10x);
+  }
+
   &__title {
     @extend %pix-title-s;
-
-    margin-top: var(--pix-spacing-10x);
   }
 
   &__description {
@@ -20,14 +27,28 @@
     color: var(--pix-neutral-500);
   }
 
+  &__navigation {
+    display: none;
+
+    @include breakpoints.device-is('desktop') {
+      display: flex;
+      gap: var(--pix-spacing-2x);
+    }
+  }
+
   &__list {
     display: flex;
-    gap: var(--pix-spacing-8x);
     margin-top: var(--pix-spacing-4x);
-    padding: 3px 5px 7px;
-    overflow-y: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: none;
     scroll-behavior: smooth;
+  }
+}
+
+.results-recommendation-engine-training-list {
+  &__item {
+    padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
   }
 }
 
@@ -37,6 +58,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   gap: var(--pix-spacing-4x);
   justify-content: space-between;
   width: 20.6rem;

@@ -2336,6 +2336,8 @@
         },
         "trainings": {
           "description": "Les solutions listées ci-dessous vous sont recommandées en fonction de votre niveau.",
+          "next-button-aria-label": "Voir les formations suivantes",
+          "previous-button-aria-label": "Voir les formations précédentes",
           "title": "Allez plus loin, à votre rythme."
         }
       },
