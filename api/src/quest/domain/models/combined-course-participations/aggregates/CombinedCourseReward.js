@@ -19,9 +19,6 @@ export class CombinedCourseReward {
   }
 
   #computeStatus({ combinedCourseDetails }) {
-    if (this.data.obtainedAt) {
-      return CombinedCourseRewardStatuses.OBTAINED;
-    }
     if (combinedCourseDetails.status === CombinedCourseStatuses.NOT_STARTED) {
       return CombinedCourseRewardStatuses.NOT_STARTED;
     }
@@ -29,6 +26,9 @@ export class CombinedCourseReward {
       return CombinedCourseRewardStatuses.STARTED;
     }
     if (combinedCourseDetails.status === CombinedCourseStatuses.COMPLETED) {
+      if (this.data.obtainedAt) {
+        return CombinedCourseRewardStatuses.OBTAINED;
+      }
       return CombinedCourseRewardStatuses.NOT_OBTAINED;
     }
   }

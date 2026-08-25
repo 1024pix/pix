@@ -368,7 +368,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
         combinedCourseId,
         organizationLearnerId,
-        status: OrganizationLearnerParticipationStatuses.STARTED,
+        status: OrganizationLearnerParticipationStatuses.COMPLETED,
       });
       databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
         combinedCourseId,
