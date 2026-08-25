@@ -1,5 +1,21 @@
 # Pix Changelog
 
+# [5.486.0](https://github.com/1024pix/pix/compare/v5.485.0...v5.486.0) (2026-08-25)
+
+### :rocket: Amélioration
+
+- [#17198](https://github.com/1024pix/pix/pull/17198) Ajout du paramètre `withArchived` à la route Maddo de récupération des campagnes d'une organisation (PIX-23973)
+- [#17194](https://github.com/1024pix/pix/pull/17194) Ajout images définitives 31_RangerFichiers_IND
+- [#17184](https://github.com/1024pix/pix/pull/17184) Ajoute la présence du scoring à l'étape de calibration (PIX-23910)
+- [#16983](https://github.com/1024pix/pix/pull/16983) MDX-104 NR_Evaluation_NOV intégration media finaux
+- [#17151](https://github.com/1024pix/pix/pull/17151) qcm image autovalid mfa nov
+- [#17137](https://github.com/1024pix/pix/pull/17137) relecture jennifer 1 structurertexte nov
+
+### :bug: Correction
+
+- [#17188](https://github.com/1024pix/pix/pull/17188) Corrige des comportements du formulaire d'édition d'une version (PIX-23909)
+- [#17195](https://github.com/1024pix/pix/pull/17195) Pouvoir créer des schémas de parcours avec des groupes nommés de critères de sujets cappés (PIX-23972)
+
 # [5.485.0](https://github.com/1024pix/pix/compare/v5.484.1...v5.485.0) (2026-08-24)
 
 ### :rocket: Amélioration
