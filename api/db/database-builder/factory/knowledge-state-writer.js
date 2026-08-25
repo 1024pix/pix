@@ -62,7 +62,6 @@ export const recordSkillOutcome = ({ userId, skillId, isOk, createdAt }) => {
     return databaseBuffer.pushInsertable({
       tableName: 'knowledge-states',
       values: {
-        id: databaseBuffer.getNextId(),
         userId,
         tubeId,
         floor: isOk ? level : 0,

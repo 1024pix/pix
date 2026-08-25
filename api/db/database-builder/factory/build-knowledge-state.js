@@ -8,7 +8,6 @@ import { databaseBuffer } from '../database-buffer.js';
  * réponses ont été purgées.
  */
 const buildKnowledgeState = function ({
-  id = databaseBuffer.getNextId(),
   userId,
   tubeId,
   floor = 0,
@@ -30,7 +29,7 @@ const buildKnowledgeState = function ({
 
   return databaseBuffer.pushInsertable({
     tableName: 'knowledge-states',
-    values: { id, ...values },
+    values,
   });
 };
 
