@@ -629,6 +629,7 @@
             "sublabel": "Valeur de la version active : {value}",
             "submit-button": "Enregistrer pour plus tard",
             "success-notification": "Les modifications sur la version ont été enregistrées avec succès.",
+            "title": "Configuration de l'algorithme de déroulé du test",
             "validation-message-error": "Ce champ doit être rempli",
             "variation-percent-label": "Capage de la progression de la capacité :"
           },

@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { triggerEvent } from '@ember/test-helpers';
 import CertificationVersionEditForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-edit-form';
 import { module, test } from 'qunit';
 
@@ -128,7 +129,7 @@ module(
         .isChecked();
     });
 
-    test('it should inform user when empty input is required', async function (assert) {
+    test('it should not show errors on load but disable buttons when a required field is empty', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const draftVersion = store.createRecord('certification-version', {
@@ -149,14 +150,16 @@ module(
 
       const screen = await render(<template><CertificationVersionEditForm @draftVersion={{draftVersion}} /></template>);
 
-      // then
+      // then: no error visible on initial render
       assert
         .dom(
-          screen.getByText(
+          screen.queryByText(
             t('components.certification-frameworks.certification-framework.versions.edit.validation-message-error'),
           ),
         )
-        .exists();
+        .doesNotExist();
+
+      // and both action buttons are disabled
       assert
         .dom(
           screen.getByRole('button', {
@@ -164,6 +167,23 @@ module(
           }),
         )
         .hasAttribute('aria-disabled');
+      assert.dom(screen.getByRole('button', { name: t('common.actions.next') })).hasAttribute('aria-disabled');
+
+      // when the user focuses then leaves the empty startDate field
+      const startDateInput = screen.getByLabelText(
+        t('components.certification-frameworks.certification-framework.versions.edit.start-date-label'),
+        { exact: false },
+      );
+      await triggerEvent(startDateInput, 'focusout');
+
+      // then the error message is shown
+      assert
+        .dom(
+          screen.getByText(
+            t('components.certification-frameworks.certification-framework.versions.edit.validation-message-error'),
+          ),
+        )
+        .exists();
     });
 
     module('when there is no activeVersion', function () {

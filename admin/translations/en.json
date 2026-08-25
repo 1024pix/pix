@@ -621,6 +621,7 @@
             "sublabel": "Value of the active version: {value}",
             "submit-button": "Save for later",
             "success-notification": "Changes to the version have been saved successfully.",
+            "title": "Configuration of the test's execution algorithm",
             "validation-message-error": "This field is mandatory",
             "variation-percent-label": "Ability progression cap:"
           },
