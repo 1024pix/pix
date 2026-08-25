@@ -156,21 +156,21 @@
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Je veux créer une association professionnelle. Par où commencer ?</p>",
+                    "content": "<p>Je veux organiser une journée de team building avec mon équipe, par où commencer ?</p>",
                     "feedback": {
                       "diagnosis": "<p>En effet, le <strong>prompt</strong>, c’est la <strong>question posée</strong> ou la <strong>consigne donnée</strong> au <strong>logiciel d’IA générative</strong>.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Pour créer votre association professionnelle, commencez par ces étapes&nbsp;:</p><ul><li>Précisez votre objet&nbsp;: quel domaine ? pour qui ? dans quel but ?</li><li>Réunissez au moins deux personnes&nbsp;: il faut être au moins deux pour créer une association.</li><li>Rédigez les statuts&nbsp;: comment fonctionne-t-elle ? qui décide quoi ?</li><li>Déclarez l’association sur le site officiel de l’administration.</li><li>Ouvrez un compte bancaire au nom de l’association.</li><li>Lancez vos activités&nbsp;: trouvez un local, communiquez et démarrez.</li></ul><p>Si vous le souhaitez, je peux vous aider à rédiger les statuts ou à préparer votre dossier.</p>",
+                    "content": "<p>Commencez par définir vos objectifs : cohésion d'équipe, amélioration de la communication, etc. Ensuite, évaluez le budget et le temps disponible. Choisissez une activité adaptée à vos objectifs et à la dynamique de votre équipe. Pensez à des activités variées comme des ateliers créatifs, des jeux de rôle, ou des défis sportifs. Assurez-vous que l'activité est inclusive et accessible à tous. Planifiez la logistique : lieu, matériel, nourriture, etc. Communiquez clairement les détails à votre équipe. Enfin, prévoyez un débriefing pour discuter des apprentissages et des prochaines étapes.</p>",
                     "feedback": {
                       "diagnosis": "<p>Non. C’est la réponse donnée par le logiciel d’IA générative. Le <strong>prompt</strong>, c’est la<strong> question posée</strong>ou la<strong> consigne donnée</strong> au <strong>logiciel d’IA générative</strong>.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Poser une question.</p>",
+                    "content": "<p>Poser une question</p>",
                     "feedback": {
                       "diagnosis": "<p>Pas tout à fait ! C’est le champ de saisie, la zone pour écrire les prompts ! Le <strong>prompt</strong>, c’est la<strong> question posée</strong> ou la<strong> consigne donnée</strong> au <strong>logiciel d’IA générative</strong>.</p>"
                     }
