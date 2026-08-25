@@ -94,6 +94,19 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     });
   });
 
+  test('it exposes the section as a region labelled by its title', async function (assert) {
+    // given
+    const trainings = [];
+
+    // when
+    await render(<template><Trainings @trainings={{trainings}} /></template>);
+
+    // then
+    const heading = document.querySelector('.results-recommendation-engine-training__title');
+    const region = document.querySelector('.results-recommendation-engine-training');
+    assert.strictEqual(region.getAttribute('aria-labelledby'), heading.id);
+  });
+
   module('carousel navigation', function () {
     test('it does not render navigation buttons when there are 3 trainings or less', async function (assert) {
       // given
@@ -175,6 +188,46 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
           });
           assert.dom(previousButton).doesNotHaveAttribute('aria-disabled');
         });
+      });
+
+      test('it announces the visible page to assistive technologies', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const trainings = createManyTrainings(store, 10);
+        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+        const nextButton = screen.getByRole('button', {
+          name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+        });
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              t('pages.skill-review.recommended-engine.trainings.pagination-announcement', {
+                from: 1,
+                to: 3,
+                total: 10,
+              }),
+            ),
+          )
+          .exists();
+
+        // when
+        await click(nextButton);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              t('pages.skill-review.recommended-engine.trainings.pagination-announcement', {
+                from: 4,
+                to: 6,
+                total: 10,
+              }),
+            ),
+          )
+          .exists();
       });
     });
   });

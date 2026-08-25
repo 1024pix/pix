@@ -1,5 +1,7 @@
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import { action } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -12,7 +14,11 @@ export const TRAININGS_LIST_ID = 'results-recommendation-engine-training-list';
 const TRAININGS_PER_PAGE = 3;
 
 export default class Trainings extends Component {
+  @service intl;
+
   @tracked currentPageFirstCardIndex = 0;
+
+  titleId = `results-recommendation-engine-training-title-${guidFor(this)}`;
 
   list = null;
 
@@ -39,6 +45,18 @@ export default class Trainings extends Component {
 
   get isNextButtonDisabled() {
     return this.currentPageFirstCardIndex + TRAININGS_PER_PAGE >= this.args.trainings.length;
+  }
+
+  get paginationAnnouncement() {
+    const total = this.args.trainings.length;
+    const from = this.currentPageFirstCardIndex + 1;
+    const to = Math.min(this.currentPageFirstCardIndex + TRAININGS_PER_PAGE, total);
+
+    return this.intl.t('pages.skill-review.recommended-engine.trainings.pagination-announcement', {
+      from,
+      to,
+      total,
+    });
   }
 
   get scrollBehavior() {
@@ -68,14 +86,15 @@ export default class Trainings extends Component {
 
   <template>
     <section
-      id={{TRAININGS_LIST_ID}}
+     id={{TRAININGS_LIST_ID}}
       tabindex="-1"
-      class="results-recommendation-engine-training"
+     class="results-recommendation-engine-training"
+      aria-labelledby={{this.titleId}}
       {{onIntersect @onFullyVisible threshold=1}}
     >
       <div class="results-recommendation-engine-training__header">
         <div>
-          <h2 class="results-recommendation-engine-training__title">{{t
+          <h2 id={{this.titleId}} class="results-recommendation-engine-training__title">{{t
               "pages.skill-review.recommended-engine.trainings.title"
             }}</h2>
           <p class="results-recommendation-engine-training__description">{{t
@@ -98,6 +117,7 @@ export default class Trainings extends Component {
               @triggerAction={{this.scrollToNextTrainings}}
             />
           </div>
+          <p class="sr-only" aria-live="polite">{{this.paginationAnnouncement}}</p>
         {{/if}}
       </div>
 

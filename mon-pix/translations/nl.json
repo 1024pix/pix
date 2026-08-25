@@ -2337,6 +2337,7 @@
         "trainings": {
           "description": "De onderstaande oplossingen worden je aanbevolen op basis van je niveau.",
           "next-button-aria-label": "Volgende opleidingen bekijken",
+          "pagination-announcement": "Opleidingen {from} tot {to} van {total} weergegeven",
           "previous-button-aria-label": "Vorige opleidingen bekijken",
           "title": "Ga verder, op je eigen tempo."
         }
