@@ -1,6 +1,10 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 
+.fill-in-participant-external-id-page {
+  padding-top: 68px;
+}
+
 .fill-in-participant-external-id {
   display: flex;
   flex-direction: column;
