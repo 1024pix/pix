@@ -4,7 +4,6 @@ import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
   CalibrationScoringMesh,
-  SCORING_MESH_AVAILABILITIES,
 } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import * as calibrationRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/calibration-repository.js';
 import { databaseBuilder, datamartBuilder } from '../../../../../tooling/databases.js';
@@ -134,8 +133,8 @@ describe('Certification | Configuration | Integration | Repository | calibration
       expect(calibration).to.be.instanceOf(expectedCalibration.constructor);
     });
 
-    context('scoring mesh set', function () {
-      it('returns a pending set when Data has not delivered any mesh set', async function () {
+    context('scoring meshes', function () {
+      it('returns no mesh when Data has not delivered any mesh set', async function () {
         // given
         await domainBuilder.certification.configuration
           .calibrationBuilder()
@@ -149,8 +148,7 @@ describe('Certification | Configuration | Integration | Repository | calibration
         const calibration = await calibrationRepository.find(113);
 
         // then
-        expect(calibration.scoringMeshSet.availability).to.equal(SCORING_MESH_AVAILABILITIES.PENDING);
-        expect(calibration.scoringMeshSet.meshes).to.deep.equal([]);
+        expect(calibration.scoringMeshes).to.deep.equal([]);
       });
 
       it('returns the meshes ordered by mesh, with their curated bounds', async function () {
@@ -171,14 +169,13 @@ describe('Certification | Configuration | Integration | Repository | calibration
         const calibration = await calibrationRepository.find(113);
 
         // then
-        expect(calibration.scoringMeshSet.availability).to.equal(SCORING_MESH_AVAILABILITIES.AVAILABLE);
-        expect(calibration.scoringMeshSet.meshes).to.deep.equal([
+        expect(calibration.scoringMeshes).to.deep.equal([
           new CalibrationScoringMesh({ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }),
           new CalibrationScoringMesh({ mesh: 1, minBoundCuratedValue: -1.4, maxBoundCuratedValue: 0.6 }),
         ]);
       });
 
-      it('carries the set own status, which is independent from the calibration one', async function () {
+      it('ignores a mesh set that is not validated, even on a validated calibration', async function () {
         // given
         await domainBuilder.certification.configuration
           .calibrationBuilder()
@@ -196,7 +193,7 @@ describe('Certification | Configuration | Integration | Repository | calibration
 
         // then
         expect(calibration.status).to.equal(CALIBRATION_STATUSES.VALIDATED);
-        expect(calibration.scoringMeshSet.availability).to.equal(SCORING_MESH_AVAILABILITIES.NOT_VALIDATED);
+        expect(calibration.scoringMeshes).to.deep.equal([]);
       });
 
       it('does not pick the mesh set of another calibration', async function () {
@@ -219,7 +216,7 @@ describe('Certification | Configuration | Integration | Repository | calibration
         const calibration = await calibrationRepository.find(113);
 
         // then
-        expect(calibration.scoringMeshSet.meshes).to.deep.equal([]);
+        expect(calibration.scoringMeshes).to.deep.equal([]);
       });
     });
   });

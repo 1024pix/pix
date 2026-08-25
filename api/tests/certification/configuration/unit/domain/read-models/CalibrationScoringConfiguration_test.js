@@ -1,9 +1,5 @@
 import { expect } from 'chai';
 
-import {
-  CALIBRATION_STATUSES,
-  SCORING_MESH_AVAILABILITIES,
-} from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import { CalibrationScoringConfiguration } from '../../../../../../src/certification/configuration/domain/read-models/CalibrationScoringConfiguration.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -27,17 +23,15 @@ describe('Unit | Certification | Configuration | Domain | Read-models | Calibrat
       expect(calibrationScoringConfiguration).to.deep.equal(
         new CalibrationScoringConfiguration({
           calibrationId: 113,
-          availability: SCORING_MESH_AVAILABILITIES.AVAILABLE,
           globalScoringConfiguration: [
             { meshLevel: 0, bounds: { min: -4.67, max: -1.4 } },
             { meshLevel: 1, bounds: { min: -1.4, max: 0.6 } },
           ],
         }),
       );
-      expect(calibrationScoringConfiguration.isAvailable).to.be.true;
     });
 
-    it('returns an empty configuration when Data has not delivered the meshes yet', function () {
+    it('returns an empty configuration when the calibration carries no mesh', function () {
       // given
       const calibration = domainBuilder.certification.configuration
         .calibrationBuilder()
@@ -48,26 +42,6 @@ describe('Unit | Certification | Configuration | Domain | Read-models | Calibrat
       const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({ calibration });
 
       // then
-      expect(calibrationScoringConfiguration.availability).to.equal(SCORING_MESH_AVAILABILITIES.PENDING);
-      expect(calibrationScoringConfiguration.globalScoringConfiguration).to.deep.equal([]);
-      expect(calibrationScoringConfiguration.isAvailable).to.be.false;
-    });
-
-    it('does not expose the meshes of a set that is not validated', function () {
-      // given
-      const calibration = domainBuilder.certification.configuration
-        .calibrationBuilder()
-        .withParameters({ id: 113 })
-        .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }], {
-          status: CALIBRATION_STATUSES.TO_VALIDATE,
-        })
-        .build();
-
-      // when
-      const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({ calibration });
-
-      // then
-      expect(calibrationScoringConfiguration.availability).to.equal(SCORING_MESH_AVAILABILITIES.NOT_VALIDATED);
       expect(calibrationScoringConfiguration.globalScoringConfiguration).to.deep.equal([]);
     });
   });

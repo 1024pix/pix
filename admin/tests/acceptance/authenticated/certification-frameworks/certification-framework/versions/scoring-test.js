@@ -108,7 +108,6 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
           return schema.create('calibration-scoring-configuration', {
             id: '1',
             calibrationId: 1,
-            availability: 'AVAILABLE',
             globalScoringConfiguration: [
               { bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 },
               { bounds: { min: -1.4, max: 0.6 }, meshLevel: 1 },
@@ -179,7 +178,6 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
           return schema.create('calibration-scoring-configuration', {
             id: '1',
             calibrationId: 1,
-            availability: 'PENDING',
             globalScoringConfiguration: [],
           });
         });
@@ -194,7 +192,7 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
           .dom(
             screen.getByText(
               t(
-                'components.certification-frameworks.certification-framework.versions.scoring.calibration-proposal-PENDING',
+                'components.certification-frameworks.certification-framework.versions.scoring.calibration-proposal-unavailable',
                 { calibrationId: 1 },
               ),
             ),

@@ -4,7 +4,6 @@ import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
   CalibrationScoringMesh,
-  CalibrationScoringMeshSet,
 } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 
 /**
@@ -127,6 +126,9 @@ class CalibrationBuilder {
    * Attaches a scoring mesh set to the calibration. Without this call the calibration carries no set
    * at all, which is the nominal state of a calibration whose meshes Data has not delivered yet.
    *
+   * A set left in a non-validated status is persisted as such, but the built calibration carries no
+   * mesh: only a validated set reaches the domain.
+   *
    * @param {ScoringMeshData[]} scoringMeshesData
    * @param {object} [params]
    * @param {typeof CALIBRATION_STATUSES[keyof typeof CALIBRATION_STATUSES]} [params.status] - status of the SET, independent from the calibration one
@@ -197,14 +199,11 @@ class CalibrationBuilder {
       (calibratedChallengeData) => new CalibratedChallenge(calibratedChallengeData),
     );
 
-    const scoringMeshSet = new CalibrationScoringMeshSet(
-      this.scoringMeshesData
-        ? {
-            status: this.scoringMeshesStatus,
-            meshes: this.scoringMeshesData.map((scoringMeshData) => new CalibrationScoringMesh(scoringMeshData)),
-          }
-        : undefined,
-    );
+    // Mirrors the repository, which only ever hands over the meshes of a validated set.
+    const scoringMeshes =
+      this.scoringMeshesStatus === CALIBRATION_STATUSES.VALIDATED
+        ? (this.scoringMeshesData ?? []).map((scoringMeshData) => new CalibrationScoringMesh(scoringMeshData))
+        : [];
 
     return new Calibration({
       id: this.id,
@@ -212,7 +211,7 @@ class CalibrationBuilder {
       status: this.status,
       scope: this.scope,
       calibratedChallenges,
-      scoringMeshSet,
+      scoringMeshes,
     });
   }
 }

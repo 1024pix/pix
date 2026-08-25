@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 
-import { SCORING_MESH_AVAILABILITIES } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import { getCalibrationScoringConfiguration } from '../../../../../../src/certification/configuration/domain/usecases/get-calibration-scoring-configuration.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
@@ -28,7 +27,7 @@ describe('Certification | Configuration | Unit | UseCase | get-calibration-scori
     });
   });
 
-  context('when the calibration carries a validated scoring mesh set', function () {
+  context('when the calibration carries scoring meshes', function () {
     it('returns the proposed global scoring configuration', async function () {
       calibrationRepository.find.withArgs(113).resolves(
         domainBuilder.certification.configuration
@@ -43,15 +42,14 @@ describe('Certification | Configuration | Unit | UseCase | get-calibration-scori
         calibrationRepository,
       });
 
-      expect(calibrationScoringConfiguration.availability).to.equal(SCORING_MESH_AVAILABILITIES.AVAILABLE);
       expect(calibrationScoringConfiguration.globalScoringConfiguration).to.deep.equal([
         { meshLevel: 0, bounds: { min: -4.67, max: -1.4 } },
       ]);
     });
   });
 
-  context('when Data has not delivered the scoring mesh set', function () {
-    it('returns a pending configuration rather than throwing', async function () {
+  context('when the calibration carries no scoring mesh', function () {
+    it('returns an empty configuration rather than throwing', async function () {
       calibrationRepository.find
         .withArgs(113)
         .resolves(domainBuilder.certification.configuration.calibrationBuilder().withParameters({ id: 113 }).build());
@@ -61,7 +59,6 @@ describe('Certification | Configuration | Unit | UseCase | get-calibration-scori
         calibrationRepository,
       });
 
-      expect(calibrationScoringConfiguration.availability).to.equal(SCORING_MESH_AVAILABILITIES.PENDING);
       expect(calibrationScoringConfiguration.globalScoringConfiguration).to.deep.equal([]);
     });
   });

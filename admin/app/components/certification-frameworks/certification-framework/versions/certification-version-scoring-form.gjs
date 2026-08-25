@@ -28,7 +28,7 @@ export default class ScoringForm extends Component {
     super(...arguments);
 
     const { calibrationScoringConfiguration } = this.args;
-    this.calibrationBounds = calibrationScoringConfiguration?.isAvailable
+    this.calibrationBounds = calibrationScoringConfiguration?.hasProposal
       ? calibrationScoringConfiguration.globalScoringConfiguration.map(({ meshLevel, bounds }) => ({
           meshLevel,
           bounds: { min: bounds.min, max: bounds.max },
@@ -69,11 +69,10 @@ export default class ScoringForm extends Component {
         'components.certification-frameworks.certification-framework.versions.scoring.no-calibration-attached',
       );
     }
-    if (this.args.calibrationScoringConfiguration?.isAvailable) return null;
+    if (this.args.calibrationScoringConfiguration?.hasProposal) return null;
 
-    const availability = this.args.calibrationScoringConfiguration?.availability ?? 'PENDING';
     return this.intl.t(
-      `components.certification-frameworks.certification-framework.versions.scoring.calibration-proposal-${availability}`,
+      'components.certification-frameworks.certification-framework.versions.scoring.calibration-proposal-unavailable',
       { calibrationId },
     );
   }

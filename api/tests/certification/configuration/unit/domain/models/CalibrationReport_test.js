@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
-  SCORING_MESH_AVAILABILITIES,
 } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import {
   ALERT_LEVELS,
@@ -352,79 +351,6 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
               alertLevel: ALERT_LEVELS.HIGH,
               label: REPORT_LABELS.CALIBRATION_STATUS,
               content: CALIBRATION_STATUSES.TO_VALIDATE,
-            },
-          ]);
-        });
-      });
-    });
-
-    context('computing info related to the scoring mesh set availability', function () {
-      let calibrationBuilder, version;
-      beforeEach(function () {
-        calibrationBuilder = domainBuilder.certification.configuration
-          .calibrationBuilder()
-          .onScope({ scope: CALIBRATION_SCOPES.COEUR })
-          .asValidated({ startedAt: new Date() })
-          .withCalibratredChallenges([{ tubeId: 'tubeA' }]);
-        version = domainBuilder.certification.configuration
-          .versionBuilder()
-          .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
-          .build();
-      });
-
-      context('when Data delivered a validated scoring mesh set', function () {
-        it('adds a dedicated report line with no alert level', function () {
-          const calibration = calibrationBuilder
-            .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }])
-            .build();
-
-          const report = buildReport({ version, calibration });
-
-          expect(report.reportLines).to.deep.include.members([
-            {
-              additionalContent: null,
-              alertLevel: null,
-              label: REPORT_LABELS.SCORING_MESH_AVAILABILITY,
-              content: SCORING_MESH_AVAILABILITIES.AVAILABLE,
-            },
-          ]);
-        });
-      });
-
-      context('when Data has not delivered any scoring mesh set', function () {
-        it('adds a dedicated report line with low alert level, since some scopes never get one', function () {
-          const calibration = calibrationBuilder.build();
-
-          const report = buildReport({ version, calibration });
-
-          expect(report.reportLines).to.deep.include.members([
-            {
-              additionalContent:
-                "Les bornes de capacités par mailles de cette calibration n'ont pas encore été livrées",
-              alertLevel: ALERT_LEVELS.LOW,
-              label: REPORT_LABELS.SCORING_MESH_AVAILABILITY,
-              content: SCORING_MESH_AVAILABILITIES.PENDING,
-            },
-          ]);
-        });
-      });
-
-      context('when the delivered scoring mesh set is not validated', function () {
-        it('adds a dedicated report line with low alert level', function () {
-          const calibration = calibrationBuilder
-            .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }], {
-              status: CALIBRATION_STATUSES.TO_VALIDATE,
-            })
-            .build();
-
-          const report = buildReport({ version, calibration });
-
-          expect(report.reportLines).to.deep.include.members([
-            {
-              additionalContent: 'Les bornes de capacités par mailles de cette calibration ne sont pas validées',
-              alertLevel: ALERT_LEVELS.LOW,
-              label: REPORT_LABELS.SCORING_MESH_AVAILABILITY,
-              content: SCORING_MESH_AVAILABILITIES.NOT_VALIDATED,
             },
           ]);
         });

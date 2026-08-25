@@ -1,9 +1,6 @@
 import { expect } from 'chai';
 
-import {
-  CALIBRATION_STATUSES,
-  SCORING_MESH_AVAILABILITIES,
-} from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
+import { CalibrationScoringMesh } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Certification | Configuration | Domain | Models | Calibration', function () {
@@ -44,55 +41,32 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration',
     });
   });
 
-  describe('#scoringMeshSet', function () {
-    describe('#availability', function () {
-      it('returns PENDING when Data has not delivered any scoring mesh set', function () {
-        const calibration = domainBuilder.certification.configuration.calibrationBuilder().build();
+  describe('#scoringMeshes', function () {
+    it('is empty when Data has not delivered any scoring mesh', function () {
+      const calibration = domainBuilder.certification.configuration.calibrationBuilder().build();
 
-        expect(calibration.scoringMeshSet.availability).to.equal(SCORING_MESH_AVAILABILITIES.PENDING);
-        expect(calibration.scoringMeshSet.isAvailable).to.be.false;
-      });
+      expect(calibration.scoringMeshes).to.deep.equal([]);
+    });
 
-      it('returns PENDING when the delivered set holds no mesh', function () {
-        const calibration = domainBuilder.certification.configuration
-          .calibrationBuilder()
-          .withScoringMeshes([])
-          .build();
+    it('carries the delivered meshes', function () {
+      const calibration = domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }])
+        .build();
 
-        expect(calibration.scoringMeshSet.availability).to.equal(SCORING_MESH_AVAILABILITIES.PENDING);
-      });
+      expect(calibration.scoringMeshes).to.deep.equal([
+        new CalibrationScoringMesh({ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }),
+      ]);
+    });
 
-      it('returns NOT_VALIDATED when the delivered set is not validated', function () {
-        const calibration = domainBuilder.certification.configuration
-          .calibrationBuilder()
-          .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }], {
-            status: CALIBRATION_STATUSES.TO_VALIDATE,
-          })
-          .build();
+    it('does not depend on the calibration own status', function () {
+      const calibration = domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .asInvalidated()
+        .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }])
+        .build();
 
-        expect(calibration.scoringMeshSet.availability).to.equal(SCORING_MESH_AVAILABILITIES.NOT_VALIDATED);
-        expect(calibration.scoringMeshSet.isAvailable).to.be.false;
-      });
-
-      it('returns AVAILABLE when the delivered set is validated and holds meshes', function () {
-        const calibration = domainBuilder.certification.configuration
-          .calibrationBuilder()
-          .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }])
-          .build();
-
-        expect(calibration.scoringMeshSet.availability).to.equal(SCORING_MESH_AVAILABILITIES.AVAILABLE);
-        expect(calibration.scoringMeshSet.isAvailable).to.be.true;
-      });
-
-      it('does not depend on the calibration own status', function () {
-        const calibration = domainBuilder.certification.configuration
-          .calibrationBuilder()
-          .asInvalidated()
-          .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }])
-          .build();
-
-        expect(calibration.scoringMeshSet.availability).to.equal(SCORING_MESH_AVAILABILITIES.AVAILABLE);
-      });
+      expect(calibration.scoringMeshes).to.have.lengthOf(1);
     });
   });
 });

@@ -3,8 +3,6 @@
  * @typedef {import('../models/Calibration.js').CalibrationScoringMesh} CalibrationScoringMesh
  */
 
-import { SCORING_MESH_AVAILABILITIES } from '../models/Calibration.js';
-
 /**
  * The global scoring configuration a draft version could adopt, as proposed by a calibration.
  *
@@ -16,12 +14,10 @@ export class CalibrationScoringConfiguration {
   /**
    * @param {object} params
    * @param {number} params.calibrationId
-   * @param {typeof SCORING_MESH_AVAILABILITIES[keyof typeof SCORING_MESH_AVAILABILITIES]} params.availability
-   * @param {Array<{meshLevel: number, bounds: {min: number, max: number}}>} params.globalScoringConfiguration - empty unless available
+   * @param {Array<{meshLevel: number, bounds: {min: number, max: number}}>} params.globalScoringConfiguration - empty when the calibration carries no validated mesh
    */
-  constructor({ calibrationId, availability, globalScoringConfiguration }) {
+  constructor({ calibrationId, globalScoringConfiguration }) {
     this.calibrationId = calibrationId;
-    this.availability = availability;
     this.globalScoringConfiguration = globalScoringConfiguration;
   }
 
@@ -34,17 +30,10 @@ export class CalibrationScoringConfiguration {
    * @returns {CalibrationScoringConfiguration}
    */
   static fromCalibration({ calibration }) {
-    const { scoringMeshSet } = calibration;
-
     return new CalibrationScoringConfiguration({
       calibrationId: calibration.id,
-      availability: scoringMeshSet.availability,
-      globalScoringConfiguration: scoringMeshSet.isAvailable ? scoringMeshSet.meshes.map(_toMeshLevelBounds) : [],
+      globalScoringConfiguration: calibration.scoringMeshes.map(_toMeshLevelBounds),
     });
-  }
-
-  get isAvailable() {
-    return this.availability === SCORING_MESH_AVAILABILITIES.AVAILABLE;
   }
 }
 

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
-  SCORING_MESH_AVAILABILITIES,
 } from '../../../../../src/certification/configuration/domain/models/Calibration.js';
 import {
   ALERT_LEVELS,
@@ -771,13 +770,6 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
               content: false,
               label: REPORT_LABELS.COMPETENCE_SCORING_PRESENCE,
             },
-            {
-              additionalContent:
-                "Les bornes de capacités par mailles de cette calibration n'ont pas encore été livrées",
-              alertLevel: ALERT_LEVELS.LOW,
-              content: SCORING_MESH_AVAILABILITIES.PENDING,
-              label: REPORT_LABELS.SCORING_MESH_AVAILABILITY,
-            },
           ],
         },
       });
@@ -817,7 +809,6 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         id: '2',
         attributes: {
           'calibration-id': 2,
-          availability: SCORING_MESH_AVAILABILITIES.AVAILABLE,
           'global-scoring-configuration': [
             { meshLevel: 0, bounds: { min: -4.67, max: -1.4 } },
             { meshLevel: 1, bounds: { min: -1.4, max: 0.6 } },
@@ -826,7 +817,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       });
     });
 
-    it('returns a 200 with a pending availability when Data has not delivered the meshes', async function () {
+    it('returns a 200 with an empty configuration when Data has not delivered the meshes', async function () {
       // given
       await domainBuilder.certification.configuration
         .calibrationBuilder()
@@ -851,7 +842,6 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.attributes).to.deep.equal({
         'calibration-id': 2,
-        availability: SCORING_MESH_AVAILABILITIES.PENDING,
         'global-scoring-configuration': [],
       });
     });

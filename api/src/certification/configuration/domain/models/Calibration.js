@@ -15,31 +15,18 @@ export const CALIBRATION_SCOPES = Object.freeze({
   PRO_SANTE: 'PRO_SANTE',
 });
 
-export const SCORING_MESH_AVAILABILITIES = Object.freeze({
-  AVAILABLE: 'AVAILABLE',
-  PENDING: 'PENDING',
-  NOT_VALIDATED: 'NOT_VALIDATED',
-});
-
 export class Calibration {
   /**
    * @param {object} params
-   * @param {CalibrationScoringMeshSet} [params.scoringMeshSet] - defaults to an empty, thus pending, set
+   * @param {Array<CalibrationScoringMesh>} [params.scoringMeshes] - empty until Data delivers a validated mesh set
    */
-  constructor({
-    id,
-    startedAt,
-    status,
-    scope,
-    calibratedChallenges,
-    scoringMeshSet = new CalibrationScoringMeshSet(),
-  }) {
+  constructor({ id, startedAt, status, scope, calibratedChallenges, scoringMeshes = [] }) {
     this.id = id;
     this.startedAt = startedAt;
     this.status = status;
     this.scope = scope;
     this.calibratedChallenges = calibratedChallenges;
-    this.scoringMeshSet = scoringMeshSet;
+    this.scoringMeshes = scoringMeshes;
   }
 
   get challengeCount() {
@@ -83,48 +70,16 @@ export class CalibratedChallenge {
 }
 
 /**
- * One mesh of a scoring mesh set, as curated by Data. Bounds are expressed in capacity.
+ * One mesh of the scoring mesh set curated by Data. Bounds are expressed in capacity.
+ *
+ * Data delivers the set asynchronously, after the calibration itself, and does not deliver it at all
+ * for some scopes: a calibration carrying no mesh is a nominal state, not an error.
  */
 export class CalibrationScoringMesh {
   constructor({ mesh, minBoundCuratedValue, maxBoundCuratedValue }) {
     this.mesh = mesh;
     this.minBoundCuratedValue = minBoundCuratedValue;
     this.maxBoundCuratedValue = maxBoundCuratedValue;
-  }
-}
-
-/**
- * The scoring mesh set attached to a calibration.
- *
- * Data delivers it asynchronously, after the calibration itself, and does not deliver it at all for
- * some scopes: an empty set is a nominal state, not an error.
- */
-export class CalibrationScoringMeshSet {
-  /**
-   * @param {object} [params]
-   * @param {typeof CALIBRATION_STATUSES[keyof typeof CALIBRATION_STATUSES]|null} [params.status] - null when Data has not delivered any set yet
-   * @param {Array<CalibrationScoringMesh>} [params.meshes]
-   */
-  constructor({ status = null, meshes = [] } = {}) {
-    this.status = status;
-    this.meshes = meshes;
-  }
-
-  /**
-   * @returns {typeof SCORING_MESH_AVAILABILITIES[keyof typeof SCORING_MESH_AVAILABILITIES]}
-   */
-  get availability() {
-    if (this.status === null || this.meshes.length === 0) {
-      return SCORING_MESH_AVAILABILITIES.PENDING;
-    }
-    if (this.status !== CALIBRATION_STATUSES.VALIDATED) {
-      return SCORING_MESH_AVAILABILITIES.NOT_VALIDATED;
-    }
-    return SCORING_MESH_AVAILABILITIES.AVAILABLE;
-  }
-
-  get isAvailable() {
-    return this.availability === SCORING_MESH_AVAILABILITIES.AVAILABLE;
   }
 }
 
