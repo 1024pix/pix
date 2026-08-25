@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run external action
-        uses: 1024pix/notify-team-on-config-file-change@v1
+        uses: 1024pix/notify-team-on-config-file-change@02299b32cd0f60339213b9b1307615b64d22d9d0 # v1
         with:
           GITHUB_TOKEN: ${{ github.token }}
           SLACK_BOT_TOKEN: ${{ secrets.PIX_BOT_RUN_SLACK_TOKEN }}

@@ -10,6 +10,6 @@ jobs:
       pull-requests: read
     steps:
       - name: Block Autosquash Commits
-        uses: xt0rted/block-autosquash-commits-action@v2
+        uses: xt0rted/block-autosquash-commits-action@79880c36b4811fe549cfffe20233df88876024e7 # v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

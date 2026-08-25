@@ -31,7 +31,7 @@ jobs:
         id: extract_branch
 
       - name: Trigger CircleCI
-        uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.2.0
+        uses: CircleCI-Public/trigger-circleci-pipeline-action@a81cd720792a6088debd7f182b552845abb86f1b # v1.2.0
         with:
           target-branch: ${{ steps.extract_branch.outputs.branch }}
         env:
