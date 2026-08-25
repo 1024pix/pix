@@ -974,7 +974,7 @@
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
-                    "diagnosis": "<p>Rappelez-vous&nbsp;: un facteur de connaissance, c’est «&nbsp;ce qu'on connaît », un facteur de possession, c’est «&nbsp;ce qu'on possède&nbsp;» et un facteur biométrique, c’est «&nbsp;ce qu'on est&nbsp;». Vous pouvez réessayer.</p>"
+                    "diagnosis": "<p>Rappelez-vous&nbsp;: un facteur de connaissance, c’est «&nbsp;ce qu’on connaît », un facteur de possession, c’est «&nbsp;ce qu’on possède&nbsp;» et un facteur biométrique, c’est «&nbsp;ce qu’on est&nbsp;». Vous pouvez réessayer.</p>"
                   }
                 }
               }
