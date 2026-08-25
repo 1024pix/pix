@@ -263,13 +263,12 @@
       "close": "Close the notification"
     },
     "pagination": {
-      "beforeResultsPerPageLabel": "See",
-      "multiplePageElementCountLabel": "{start, number}-{end, number} of {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
-      "nextPageLabel": "Go to next page",
-      "pageNumberLabel": "Page {current, number} / {total, number}",
-      "previousPageLabel": "Go to previous page",
-      "selectPageSizeLabel": "Select the number of items by page",
-      "singlePageElementCountLabel": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}"
+      "nextPage": "Go to next page",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}} other {{start, number}-{end, number} of {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}}}",
+      "pageNumber": "Page {current, number} / {total, number}",
+      "pageSize": "Select the number of items by page",
+      "previousPage": "Go to previous page",
+      "title": "See"
     },
     "result": {
       "accessibility-description": "Results obtained = {percentage, number, ::percent},that is success rate {stage} of {totalStage}",

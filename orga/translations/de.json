@@ -262,6 +262,14 @@
     "notification": {
       "close": "Benachrichtigung schließen"
     },
+    "pagination": {
+      "nextPage": "Zur nächsten Seite wechseln",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 Elemente} =1 {1 Element} other {{total, number} Elemente}}} other {{start, number}-{end, number} von  {total, plural, =0 {0 Elemente} =1 {1 Element} other {{total, number} Elemente}}}}",
+      "pageNumber": "Seite  {current, number} / {total, number}",
+      "pageSize": "Anzahl der Elemente pro Seite",
+      "previousPage": "Zur vorherigen Seite wechseln",
+      "title": "Siehe"
+    },
     "result": {
       "accessibility-description": "Ergebnis erhalten = {percentage, number, ::percent}, d. h. die Stufe {stage} auf {totalStage}.",
       "percentage": "{value, number, ::percent}",

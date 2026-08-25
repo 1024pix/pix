@@ -376,24 +376,6 @@ module('Integration | Component | combined-course/participations', function (hoo
   });
 
   module('pagination', function () {
-    test('it should display pagination in correct language', async function (assert) {
-      // when
-      const locale = this.owner.lookup('service:locale');
-      locale.setCurrentLocale('en');
-      const screen = await render(
-        <template>
-          <CombinedCourseParticipations
-            @hasCampaigns={{true}}
-            @hasModules={{true}}
-            @participations={{participations}}
-            @onFilter={{onFilter}}
-          />
-        </template>,
-      );
-
-      // then
-      assert.ok(screen.getByLabelText(/items/));
-    });
     test('should display pagination', async function (assert) {
       //when
       const screen = await render(

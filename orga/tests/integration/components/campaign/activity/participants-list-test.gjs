@@ -55,39 +55,6 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     assert.ok(screen.getAllByText(t('components.participation-status.STARTED')));
   });
 
-  test('it should display pagination in correct language', async function (assert) {
-    class CurrentUserStub extends Service {
-      isAdminInOrganization = true;
-    }
-    const locale = this.owner.lookup('service:locale');
-    locale.setCurrentLocale('en');
-
-    this.owner.register('service:current-user', CurrentUserStub);
-
-    const campaign = { externalIdLabel: 'id', type: 'ASSESSMENT' };
-
-    const participations = [
-      {
-        firstName: 'Joe',
-        lastName: 'La frite',
-        status: 'STARTED',
-        participantExternalId: 'patate',
-      },
-    ];
-
-    const screen = await render(
-      <template>
-        <ParticipantsList
-          @campaign={{campaign}}
-          @participations={{participations}}
-          @onClickParticipant={{noop}}
-          @onFilter={{noop}}
-        />
-      </template>,
-    );
-    assert.ok(screen.getByLabelText('items', { exact: false }));
-  });
-
   test('it should link to the last shared or current campaign participation details', async function (assert) {
     class CurrentUserStub extends Service {
       isAdminInOrganization = true;

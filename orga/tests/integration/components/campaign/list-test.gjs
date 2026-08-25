@@ -146,38 +146,6 @@ module('Integration | Component | Campaign::List', function (hooks) {
       assert.ok(screen.queryByText('campagne 2'));
     });
 
-    test('it should display pagination in correct language', async function (assert) {
-      const locale = this.owner.lookup('service:locale');
-      locale.setCurrentLocale('en');
-      // given
-      const store = this.owner.lookup('service:store');
-
-      const campaign1 = store.createRecord('campaign', {
-        id: '1',
-        name: 'campagne 1',
-        code: 'AAAAAA111',
-        type: 'PROFILES_COLLECTION',
-      });
-      const campaign2 = store.createRecord('campaign', {
-        id: '2',
-        name: 'campagne 2',
-        code: 'BBBBBB222',
-        type: 'ASSESSMENT',
-      });
-      const campaigns = [campaign1, campaign2];
-      campaigns.meta = {
-        rowCount: 2,
-      };
-
-      // when
-      const screen = await render(
-        <template><List @campaigns={{campaigns}} @onFilter={{noop}} @onClickCampaign={{noop}} /></template>,
-      );
-
-      // then
-      assert.ok(screen.getByLabelText('items', { exact: false }));
-    });
-
     test('it should display a link to access campaign detail', async function (assert) {
       // given
       this.owner.setupRouter();

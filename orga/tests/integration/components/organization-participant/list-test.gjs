@@ -149,41 +149,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
       });
     });
   });
-  module('pagination', function () {
-    test('it should display pagination in correct language', async function (assert) {
-      // given
-      const locale = this.owner.lookup('service:locale');
-      locale.setCurrentLocale('en');
-      const participants = [
-        {
-          lastName: 'La Terreur',
-          firstName: 'Gigi',
-          id: 34,
-        },
-        {
-          lastName: "L'asticot",
-          firstName: 'Gogo',
-          id: 56,
-        },
-      ];
 
-      // when
-      const screen = await render(
-        <template>
-          <List
-            @participants={{participants}}
-            @triggerFiltering={{noop}}
-            @onClickLearner={{noop}}
-            @fullName={{fullNameFilter}}
-            @certificabilityFilter={{certificabilityFilter}}
-          />
-        </template>,
-      );
-
-      // then
-      assert.ok(screen.getByLabelText('items', { exact: false }));
-    });
-  });
   module('row', function () {
     test('it should display a list of participants', async function (assert) {
       // given

@@ -262,6 +262,14 @@
     "notification": {
       "close": "Chiudi la notifica"
     },
+    "pagination": {
+      "nextPage": "Vai alla pagina successiva",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 elementi} =1 {1 elemento} other {{total, number} elementi}}} other {{start, number}-{end, number} su {total, plural, =0 {0 elementi} =1 {1 elemento} other {{total, number} elementi}}}}",
+      "pageNumber": "Pagina {current, number} / {total, number}",
+      "pageSize": "Numero di elementi da visualizzare per pagina",
+      "previousPage": "Vai alla pagina precedente",
+      "title": "Vedi"
+    },
     "result": {
       "accessibility-description": "Risultato ottenuto = {percentage, number, ::percent}, cioè il cuscinetto {stage} su {totalStage}.",
       "percentage": "{value, number, ::percent}",

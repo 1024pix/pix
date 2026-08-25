@@ -1,36 +1,51 @@
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
-import { t } from 'ember-intl';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
 
-function firstItemPosition(pagination) {
-  if (!pagination) return 0;
+export default class Pagination extends Component {
+  @service intl;
 
-  const { page, pageSize } = pagination;
-  return (page - 1) * pageSize + 1;
+  get firstItemPosition() {
+    if (!this.args.pagination) return 0;
+
+    const { page, pageSize } = this.args.pagination;
+    return (page - 1) * pageSize + 1;
+  }
+
+  get lastItemPosition() {
+    if (!this.args.pagination) return 0;
+    const { rowCount, pageSize } = this.args.pagination;
+
+    return Math.min(rowCount, this.firstItemPosition + pageSize - 1);
+  }
+
+  get texts() {
+    if (!this.args.pagination) return {};
+
+    return {
+      title: this.intl.t('common.pagination.title'),
+      pageSize: this.intl.t('common.pagination.pageSize'),
+      pageElementCount: this.intl.t('common.pagination.pageElementCount', {
+        totalPage: this.args.pagination.pageCount,
+        total: this.args.pagination.rowCount,
+        start: this.firstItemPosition,
+        end: this.lastItemPosition,
+      }),
+      pageNumber: this.intl.t('common.pagination.pageNumber', {
+        current: this.args.pagination.page,
+        total: this.args.pagination.pageCount,
+      }),
+      previousPage: this.intl.t('common.pagination.previousPage'),
+      nextPage: this.intl.t('common.pagination.nextPage'),
+    };
+  }
+
+  <template>
+    <PixPagination
+      @pagination={{@pagination}}
+      @onChange={{@onChange}}
+      @texts={{this.texts}}
+      @pageOptions={{@pageOptions}}
+    />
+  </template>
 }
-
-function lastItemPosition(pagination) {
-  if (!pagination) return 0;
-  const { rowCount, pageSize } = pagination;
-
-  return Math.min(rowCount, firstItemPosition(pagination) + pageSize - 1);
-}
-
-<template>
-  <PixPagination
-    @pagination={{@pagination}}
-    @onChange={{@onChange}}
-    @beforeResultsPerPageLabel={{t "common.pagination.beforeResultsPerPageLabel"}}
-    @selectPageSizeLabel={{t "common.pagination.selectPageSizeLabel"}}
-    @singlePageElementCountLabel={{t "common.pagination.singlePageElementCountLabel" total=@pagination.rowCount}}
-    @multiplePageElementCountLabel={{t
-      "common.pagination.multiplePageElementCountLabel"
-      total=@pagination.rowCount
-      start=(firstItemPosition @pagination)
-      end=(lastItemPosition @pagination)
-    }}
-    @pageNumberLabel={{t "common.pagination.pageNumberLabel" current=@pagination.page total=@pagination.pageCount}}
-    @previousPageLabel={{t "common.pagination.previousPageLabel"}}
-    @nextPageLabel={{t "common.pagination.nextPageLabel"}}
-    @pageOptions={{@pageOptions}}
-  />
-</template>
