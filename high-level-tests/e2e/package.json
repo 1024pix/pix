@@ -48,7 +48,7 @@
     "npm-run-all2": "9.0.3"
   },
   "dependencies": {
-    "jsonwebtoken": "8.5.1"
+    "jsonwebtoken": "9.0.0"
   },
   "overrides": {
     "flatted": ">=3.4.2"

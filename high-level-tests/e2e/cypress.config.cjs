@@ -1,4 +1,5 @@
 const { defineConfig } = require("cypress");
+const jsonwebtoken = require("jsonwebtoken");
 const preprocessor = require("@badeball/cypress-cucumber-preprocessor");
 const browserify = require("@cypress/browserify-preprocessor");
 const {
@@ -25,6 +26,18 @@ async function setupNodeEvents(cypressOn, config) {
   );
 
   on("task", {
+    // jsonwebtoken >= 9 relies on crypto.createSecretKey, which the browserify
+    // shim does not provide: tokens must be signed here, in the Node process.
+    "jwt:sign"({ payload, options }) {
+      const secret = process.env.AUTH_SECRET;
+      if (!secret) {
+        throw new Error(
+          `AUTH_SECRET is missing: set it in the environment running Cypress, or in ${API_ENV_FILE}, with the same value as the API.`,
+        );
+      }
+
+      return jsonwebtoken.sign(payload, secret, options);
+    },
     async "db:fixture"(data) {
       const file = require(`./cypress/fixtures/${data}.json`);
       const { knex } = await import("../../api/db/knex-database-connection.js");
