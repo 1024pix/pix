@@ -13,44 +13,17 @@ export default class ScoringForm extends Component {
   @service pixToast;
   @service intl;
 
-  /**
-   * Bounds proposed by the calibration, copied once so that the rows keep their identity across
-   * renders while the admin edits them.
-   *
-   * They deliberately do NOT land on the draft version record before the form is submitted: routes
-   * sharing that record roll back its dirty attributes when they exit, which would wipe the values
-   * as soon as another version route is left.
-   */
-  calibrationBounds;
-
-  constructor() {
-    super(...arguments);
-
-    this.calibrationBounds = this.args.calibrationScoringConfiguration.globalScoringConfiguration.map(
-      ({ meshLevel, bounds }) => ({
-        meshLevel,
-        bounds: { min: bounds.min, max: bounds.max },
-      }),
-    );
-  }
-
   get hasError() {
     return this.globalScoringConfiguration.some(({ bounds }) => bounds.max <= bounds.min);
   }
 
-  /**
-   * What the admin already saved on the draft always wins over the calibration proposal, otherwise
-   * their adjustments would be overwritten on every visit.
-   */
   get globalScoringConfiguration() {
     const savedConfiguration = this.args.draftVersion.globalScoringConfiguration;
-    return savedConfiguration?.length ? savedConfiguration : this.calibrationBounds;
+    return savedConfiguration?.length
+      ? savedConfiguration
+      : this.args.calibrationScoringConfiguration.globalScoringConfiguration;
   }
 
-  /**
-   * The bounds in force on the active version, displayed as a reference next to the editable ones.
-   * They come from the API database, unlike the proposal which comes from the datamart.
-   */
   get activeVersionConfiguration() {
     return this.args.activeVersion?.globalScoringConfiguration ?? [];
   }
@@ -120,7 +93,9 @@ export default class ScoringForm extends Component {
     >
       <form id="version-scoring-form" class="versions-scoring__form" {{on "submit" this.saveCapacityByMesh}}>
         {{#each this.globalScoringConfiguration as |mesh|}}
-          <h3>{{t
+          <h3>
+
+            {{t
               "components.certification-frameworks.certification-framework.versions.scoring.level"
               index=mesh.meshLevel
             }}</h3>
