@@ -1,4 +1,3 @@
-const jsonwebtoken = require('jsonwebtoken');
 const { addCompareSnapshotCommand } = require('cypress-visual-regression/dist/command');
 require('@testing-library/cypress/add-commands');
 
@@ -50,45 +49,49 @@ Cypress.Commands.add('loginOrga', (username, password) => {
   cy.wait(["@getCurrentUser"]);
 });
 
+function signToken(payload, options) {
+  return cy.task('jwt:sign', { payload, options });
+}
+
 Cypress.Commands.add('loginExternalPlatformForTheFirstTime', () => {
-  const externalUserToken = jsonwebtoken.sign(
+  signToken(
     {
       first_name: 'Daenerys',
       last_name: 'Targaryen',
       saml_id: 'SamlIdOfDaenerys',
       source: 'external',
     },
-    Cypress.env('AUTH_SECRET'),
     { expiresIn: '1h' }
-  );
-
-  cy.visitMonPix(`/campagnes/?externalUser=${externalUserToken}`);
+  ).then((externalUserToken) => {
+    cy.visitMonPix(`/campagnes/?externalUser=${externalUserToken}`);
+  });
 });
 
 Cypress.Commands.add('loginExternalPlatformForTheSecondTime', () => {
   cy.intercept('/api/users/me').as('getCurrentUser');
-  const token = jsonwebtoken.sign(
+  signToken(
     {
       user_id: 1,
       source: 'external',
       aud: Cypress.env('APP_URL'),
     },
-    Cypress.env('AUTH_SECRET'),
     { expiresIn: '1h' }
-  );
-  cy.visitMonPix(`/connexion/gar#${token}`);
+  ).then((token) => {
+    cy.visitMonPix(`/connexion/gar#${token}`);
+  });
   cy.wait(['@getCurrentUser']);
 });
 
 Cypress.Commands.add('loginWithAlmostExpiredToken', () => {
   cy.intercept('/api/users/me').as('getCurrentUser');
-  const token = jsonwebtoken.sign({
+  signToken({
     user_id: 1,
     aud: Cypress.env('APP_URL'),
-  }, Cypress.env('AUTH_SECRET'), {
+  }, {
     expiresIn: '4s',
+  }).then((token) => {
+    cy.visitMonPix(`/connexion/gar#${token}`);
   });
-  cy.visitMonPix(`/connexion/gar#${token}`);
   cy.wait(['@getCurrentUser']);
 });
 
