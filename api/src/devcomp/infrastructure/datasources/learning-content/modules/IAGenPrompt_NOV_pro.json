@@ -35,13 +35,13 @@
                 "instruction": "",
                 "tagName": "message-conversation",
                 "props": {
-                  "conversationTitle": "Association professionnelle",
+                  "conversationTitle": "Organiser un team building",
                   "messages": [
                     {
                       "userName": "Agnès",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "J’aimerais créer une association professionnelle, mais je ne sais pas du tout par où commencer…"
+                      "content": "J’aimerais organiser une journée de team building avec mon équipe, mais je ne sais pas du tout par où commencer…"
                     },
                     {
                       "userName": "Maëlle",
@@ -86,7 +86,7 @@
                 "id": "8abd23d0-226d-4d6d-bf01-1a65d24b627d",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Agnès a suivi le conseil de son collègue. Elle a demandé à un logiciel d’IA générative par où commencer pour créer son association professionnelle. Voici sa discussion avec le logiciel.</p>"
+                "content": "<p>Agnès a suivi le conseil de son collègue. Elle a demandé à un logiciel d’IA générative par où commencer pour organiser sa journée de team building. Voici sa discussion avec le logiciel.</p>"
               }
             }
           ]
@@ -105,7 +105,7 @@
                 "tagName": "clickable-image",
                 "props": {
                   "image": {
-                    "src": "https://assets.pix.org/modules/mon-premier-prompt/demande-asso-yoga-hd-zoome.png",
+                    "src": "https://assets.pix.org/draft/iagen-prompt-nov-pro/iagen-prompt-nov-pro_dec1_draft.png",
                     "alt": "IA générative ChatPIX",
                     "width": 1149,
                     "height": 849
@@ -115,7 +115,7 @@
                       "coords": {
                         "x1": 330,
                         "y1": 15,
-                        "x2": 1125,
+                        "x2": 1060,
                         "y2": 105
                       },
                       "info": "Ce texte est le prompt envoyé. C’est la question posée ou la consigne donnée au logiciel d’IA générative par l’utilisateur.",
@@ -125,8 +125,8 @@
                       "coords": {
                         "x1": 20,
                         "y1": 115,
-                        "x2": 1075,
-                        "y2": 515
+                        "x2": 975,
+                        "y2": 400
                       },
                       "info": "Ce texte est la réponse apportée par le logiciel d’IA générative.",
                       "tooltipPosition": "bottom"
@@ -134,9 +134,9 @@
                     {
                       "coords": {
                         "x1": 20,
-                        "y1": 660,
-                        "x2": 1130,
-                        "y2": 810
+                        "y1": 515,
+                        "x2": 1060,
+                        "y2": 680
                       },
                       "info": "Cette zone est le champ de saisie. C’est ici qu’on écrit les prompts.",
                       "tooltipPosition": "bottom"
