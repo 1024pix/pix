@@ -11,11 +11,13 @@ export async function computeScorecard({
   areaRepository,
   competenceEvaluationRepository,
   knowledgeStateRepository,
+  competenceScoreRepository,
   allowExcessPix = false,
   allowExcessLevel = false,
   locale,
 }) {
   const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
+  const pixByCompetence = await competenceScoreRepository.findByUserId({ userId });
   const competence = await competenceRepository.get({ id: competenceId, locale });
   const competenceEvaluations = await competenceEvaluationRepository.findByUserId(userId);
 
@@ -27,6 +29,7 @@ export async function computeScorecard({
     competenceEvaluation,
     competence,
     area,
+    exactlyEarnedPix: pixByCompetence.get(competenceId),
     allowExcessPix,
     allowExcessLevel,
   });

@@ -18,6 +18,7 @@ describe('Profile | Unit | UseCase | get-user-profile', function () {
   let competenceRepository;
   let areaRepository;
   let knowledgeStateRepository;
+  let competenceScoreRepository;
   let competenceEvaluationRepository;
   const scorecard = { id: 'foo' };
   const locale = 'fr';
@@ -26,6 +27,7 @@ describe('Profile | Unit | UseCase | get-user-profile', function () {
     competenceRepository = { listPixCompetencesOnly: sinon.stub() };
     areaRepository = { list: sinon.stub() };
     knowledgeStateRepository = { findByUserId: sinon.stub() };
+    competenceScoreRepository = { findByUserId: sinon.stub().resolves(new Map()) };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
     sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
   });
@@ -107,6 +109,7 @@ describe('Profile | Unit | UseCase | get-user-profile', function () {
         const userProfile = await getUserProfile({
           userId,
           knowledgeStateRepository,
+          competenceScoreRepository,
           competenceRepository,
           areaRepository,
           competenceEvaluationRepository,

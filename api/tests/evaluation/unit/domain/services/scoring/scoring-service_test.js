@@ -83,6 +83,35 @@ describe('Unit | Service | Scoring Service', function () {
     });
   });
 
+  describe('#calculateScoringInformationFromPix', function () {
+    it('derives score, level and progression from a raw pix total', function () {
+      // given: the competence score balance, frozen at the last action
+      const exactlyEarnedPix = 9.3;
+
+      // when
+      const scoring = scoringService.calculateScoringInformationFromPix({ exactlyEarnedPix });
+
+      // then: same rules as the skills-based computation
+      expect(scoring).to.deep.equal({
+        realTotalPixScoreForCompetence: 9.3,
+        pixScoreForCompetence: 9,
+        currentLevel: 1,
+        pixAheadForNextLevel: 1,
+      });
+    });
+
+    it('caps score and level like the skills-based computation', function () {
+      // when
+      const scoring = scoringService.calculateScoringInformationFromPix({
+        exactlyEarnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE + PIX_COUNT_BY_LEVEL * 2,
+      });
+
+      // then
+      expect(scoring.pixScoreForCompetence).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
+      expect(scoring.currentLevel).to.equal(MAX_REACHABLE_LEVEL);
+    });
+  });
+
   describe('#calculatePixScore', function () {
     it('returns the Pix score and limit the score by competence', function () {
       const unreachableScore = MAX_REACHABLE_PIX_BY_COMPETENCE + 3000;

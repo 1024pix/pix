@@ -9,10 +9,12 @@ const getUserProfile = async function ({
   areaRepository,
   competenceEvaluationRepository,
   knowledgeStateRepository,
+  competenceScoreRepository,
   locale,
 }) {
-  const [knowledgeState, competences, competenceEvaluations] = await Promise.all([
+  const [knowledgeState, pixByCompetence, competences, competenceEvaluations] = await Promise.all([
     knowledgeStateRepository.findByUserId({ userId }),
+    competenceScoreRepository.findByUserId({ userId }),
     competenceRepository.listPixCompetencesOnly({ locale }),
     competenceEvaluationRepository.findByUserId(userId),
   ]);
@@ -28,6 +30,7 @@ const getUserProfile = async function ({
       competence,
       area,
       competenceEvaluation,
+      exactlyEarnedPix: pixByCompetence.get(competenceId),
     });
   });
 
