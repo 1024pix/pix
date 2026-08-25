@@ -20,11 +20,6 @@ export default class ScoringRoute extends Route {
     };
   }
 
-  /**
-   * The proposal lives in the datamart: it may not have been delivered yet, and a datamart outage
-   * must not take the whole page down. A failure is downgraded to "no proposal", a state the form
-   * already knows how to render.
-   */
   async loadCalibrationScoringConfiguration(draftVersion) {
     if (!draftVersion.externalCalibrationId) return null;
 

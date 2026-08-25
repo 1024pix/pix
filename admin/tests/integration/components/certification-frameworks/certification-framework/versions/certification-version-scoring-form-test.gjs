@@ -26,7 +26,6 @@ function labelOf(input) {
   return input.labels[0];
 }
 
-// The route redirects away when the calibration proposes no bound, so the form always receives one.
 function createCalibrationProposal(store, globalScoringConfiguration) {
   return store.createRecord('calibration-scoring-configuration', {
     id: '5',

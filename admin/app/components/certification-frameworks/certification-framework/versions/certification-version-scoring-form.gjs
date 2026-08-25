@@ -33,7 +33,6 @@ export default class ScoringForm extends Component {
     event.preventDefault();
     if (this.hasError) return;
 
-    // The displayed bounds may still be the untouched calibration ones: commit them to the record.
     this.args.draftVersion.globalScoringConfiguration = this.globalScoringConfiguration;
 
     try {
