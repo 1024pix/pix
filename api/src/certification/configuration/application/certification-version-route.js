@@ -265,7 +265,6 @@ async function register(server) {
         notes: [
           'Cette route est restreinte au SUPER ADMIN',
           "Elle permet d'obtenir la configuration de scoring globale proposée par une calibration, afin de pré-remplir le formulaire de scoring d'une version draft",
-          "Elle renvoie un état de disponibilité : la maille de scoring est livrée par Data après la calibration, et n'est pas livrée pour tous les référentiels",
         ],
       },
     },

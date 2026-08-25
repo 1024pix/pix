@@ -121,9 +121,6 @@ export async function find(calibrationId) {
 }
 
 /**
- * Only a validated mesh set is worth exposing: a set Data has not delivered yet and one it has not
- * validated yet are both answered with no mesh at all, which is a nominal state.
- *
  * @param {number} calibrationId
  * @returns {Promise<Array<CalibrationScoringMesh>>}
  */

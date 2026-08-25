@@ -18,7 +18,7 @@ export const CALIBRATION_SCOPES = Object.freeze({
 export class Calibration {
   /**
    * @param {object} params
-   * @param {Array<CalibrationScoringMesh>} [params.scoringMeshes] - empty until Data delivers a validated mesh set
+   * @param {Array<CalibrationScoringMesh>} [params.scoringMeshes]
    */
   constructor({ id, startedAt, status, scope, calibratedChallenges, scoringMeshes = [] }) {
     this.id = id;
@@ -69,12 +69,6 @@ export class CalibratedChallenge {
   }
 }
 
-/**
- * One mesh of the scoring mesh set curated by Data. Bounds are expressed in capacity.
- *
- * Data delivers the set asynchronously, after the calibration itself, and does not deliver it at all
- * for some scopes: a calibration carrying no mesh is a nominal state, not an error.
- */
 export class CalibrationScoringMesh {
   constructor({ mesh, minBoundCuratedValue, maxBoundCuratedValue }) {
     this.mesh = mesh;

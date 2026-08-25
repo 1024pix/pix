@@ -124,10 +124,7 @@ class CalibrationBuilder {
 
   /**
    * Attaches a scoring mesh set to the calibration. Without this call the calibration carries no set
-   * at all, which is the nominal state of a calibration whose meshes Data has not delivered yet.
-   *
-   * A set left in a non-validated status is persisted as such, but the built calibration carries no
-   * mesh: only a validated set reaches the domain.
+   * at all, which is the nominal state of a draft calibration.
    *
    * @param {ScoringMeshData[]} scoringMeshesData
    * @param {object} [params]
@@ -199,7 +196,6 @@ class CalibrationBuilder {
       (calibratedChallengeData) => new CalibratedChallenge(calibratedChallengeData),
     );
 
-    // Mirrors the repository, which only ever hands over the meshes of a validated set.
     const scoringMeshes =
       this.scoringMeshesStatus === CALIBRATION_STATUSES.VALIDATED
         ? (this.scoringMeshesData ?? []).map((scoringMeshData) => new CalibrationScoringMesh(scoringMeshData))
