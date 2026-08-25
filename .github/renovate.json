@@ -1,5 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>1024pix/renovate-config:default"],
+  "extends": ["github>1024pix/renovate-config:js-project"],
   "enabled": true
 }
