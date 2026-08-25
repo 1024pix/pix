@@ -15,6 +15,7 @@ describe('Unit | Service | ScorecardService', function () {
     let competenceRepository;
     let areaRepository;
     let knowledgeStateRepository;
+    let competenceScoreRepository;
     let competenceEvaluationRepository;
     let buildFromStub;
     let competenceId;
@@ -28,6 +29,7 @@ describe('Unit | Service | ScorecardService', function () {
       knowledgeStateRepository = {
         findByUserId: sinon.stub(),
       };
+      competenceScoreRepository = { findByUserId: sinon.stub().resolves(new Map()) };
       competenceEvaluationRepository = { findByUserId: sinon.stub() };
       buildFromStub = sinon.stub(Scorecard, 'buildFrom');
     });
@@ -79,6 +81,7 @@ describe('Unit | Service | ScorecardService', function () {
           competenceRepository,
           competenceEvaluationRepository,
           knowledgeStateRepository,
+          competenceScoreRepository,
         });
 
         //then
@@ -93,6 +96,33 @@ describe('Unit | Service | ScorecardService', function () {
         });
         const { knowledgeState: stateGivenToScorecard } = buildFromStub.firstCall.args[0];
         expect(stateGivenToScorecard.validatedSkills().map(({ id }) => id)).to.have.members(['skillA', 'skillB']);
+      });
+
+      it('passes the competence score balance to the scorecard', async function () {
+        // given
+        const competence = domainBuilder.buildCompetence({ id: 1, areaId: 'area' });
+        competenceRepository.get.resolves(competence);
+        areaRepository.get.resolves(domainBuilder.buildArea({ id: 'area' }));
+        knowledgeStateRepository.findByUserId.resolves(domainBuilder.buildKnowledgeState());
+        competenceEvaluationRepository.findByUserId.resolves([]);
+        competenceScoreRepository.findByUserId
+          .withArgs({ userId: authenticatedUserId })
+          .resolves(new Map([[1, 12.5]]));
+        buildFromStub.returns(domainBuilder.buildUserScorecard());
+
+        // when
+        await scorecardService.computeScorecard({
+          userId: authenticatedUserId,
+          competenceId,
+          areaRepository,
+          competenceRepository,
+          competenceEvaluationRepository,
+          knowledgeStateRepository,
+          competenceScoreRepository,
+        });
+
+        // then
+        expect(buildFromStub).to.have.been.calledWithMatch({ exactlyEarnedPix: 12.5 });
       });
     });
   });

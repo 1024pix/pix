@@ -9,6 +9,7 @@ const resetScorecard = async function ({
   areaRepository,
   competenceEvaluationRepository,
   knowledgeStateRepository,
+  competenceScoreRepository,
   assessmentRepository,
   campaignParticipationRepository,
   campaignRepository,
@@ -51,6 +52,7 @@ const resetScorecard = async function ({
     areaRepository,
     competenceEvaluationRepository,
     knowledgeStateRepository,
+    competenceScoreRepository,
     locale,
   });
 };

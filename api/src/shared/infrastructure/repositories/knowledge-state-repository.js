@@ -11,6 +11,7 @@
 
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { keepOneVersionPerSkill, KnowledgeState, tubeIdOf } from '../../domain/models/KnowledgeState.js';
+import * as competenceScoreRepository from './competence-score-repository.js';
 import * as skillRepository from './skill-repository.js';
 
 const TABLE_NAME = 'knowledge-states';
@@ -82,6 +83,45 @@ export const save = async ({ userId, knowledgeState, tubeIds }) => {
     .insert(rows)
     .onConflict(['userId', 'tubeId'])
     .merge(['floor', 'ceiling', 'directLevels', 'updatedAt']);
+
+  await refreshCompetenceScores({ userId, tubeIds: rows.map(({ tubeId }) => tubeId) });
+};
+
+/**
+ * Rafraîchit le solde (competence-scores) des compétences que ces tubes portent.
+ *
+ * Le score affiché est figé à l'action : chaque écriture de position — et
+ * seulement elle — le recalcule, sur le référentiel du jour. Entre deux
+ * actions, le référentiel peut bouger, le solde ne bouge pas.
+ *
+ * Le calcul repart des lignes en base plutôt que de l'état passé en argument :
+ * celui-ci peut n'être hydraté que du périmètre du parcours (une campagne),
+ * quand le solde doit compter tous les acquis validés de la compétence.
+ */
+const refreshCompetenceScores = async ({ userId, tubeIds }) => {
+  const allSkills = await skillRepository.list();
+  const touched = new Set(tubeIds);
+  const competenceIds = new Set(
+    allSkills.filter((skill) => touched.has(tubeIdOf(skill))).map(({ competenceId }) => competenceId),
+  );
+  if (competenceIds.size === 0) {
+    return;
+  }
+
+  const competenceTubeIds = [
+    ...new Set(allSkills.filter((skill) => competenceIds.has(skill.competenceId)).map(tubeIdOf)),
+  ];
+  const knexConn = DomainTransaction.getConnection();
+  const rows = await knexConn(TABLE_NAME).where({ userId }).whereIn('tubeId', competenceTubeIds);
+  const state = toKnowledgeState({ rows, allSkills });
+
+  for (const competenceId of competenceIds) {
+    const pix = state
+      .restrictedToCompetence(competenceId)
+      .validatedSkills()
+      .reduce((sum, { pixValue }) => sum + (pixValue ?? 0), 0);
+    await competenceScoreRepository.save({ userId, competenceId, pix });
+  }
 };
 
 /**
@@ -92,6 +132,8 @@ export const save = async ({ userId, knowledgeState, tubeIds }) => {
  * pour chaque tube.
  */
 export const forgetCompetence = async ({ userId, competenceId }) => {
+  await competenceScoreRepository.forgetCompetence({ userId, competenceId });
+
   const allSkills = await skillRepository.list();
   const tubeIds = [...new Set(allSkills.filter((skill) => skill.competenceId === competenceId).map(tubeIdOf))];
   if (tubeIds.length === 0) {

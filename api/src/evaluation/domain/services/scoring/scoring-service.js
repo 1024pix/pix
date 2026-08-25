@@ -9,8 +9,10 @@ import {
 /**
  * Score et niveau d'une compétence, depuis les acquis validés.
  *
- * La valeur d'un acquis (`pixValue`) se lit sur le référentiel courant : elle
- * n'est figée nulle part, le score dit toujours la vérité du jour.
+ * La valeur d'un acquis (`pixValue`) se lit sur le référentiel courant : c'est
+ * la projection vive de la position. Le score affiché à l'utilisateur ne la
+ * suit pas en direct — il est figé à sa dernière action (table competence-scores) et
+ * passe par calculateScoringInformationFromPix.
  *
  * @param {Skill[]} validatedSkills les acquis validés de la compétence
  */
@@ -19,12 +21,25 @@ function calculateScoringInformationForCompetence({
   allowExcessPix = false,
   allowExcessLevel = false,
 }) {
-  const realTotalPixScoreForCompetence = _.sumBy(validatedSkills, 'pixValue');
-  const pixScoreForCompetence = _getPixScoreForOneCompetence(realTotalPixScoreForCompetence, allowExcessPix);
-  const currentLevel = _getCompetenceLevel(realTotalPixScoreForCompetence, allowExcessLevel);
+  return calculateScoringInformationFromPix({
+    exactlyEarnedPix: _.sumBy(validatedSkills, 'pixValue'),
+    allowExcessPix,
+    allowExcessLevel,
+  });
+}
+
+/**
+ * Score et niveau d'une compétence, depuis un total de pix bruts — celui de la
+ * solde de la compétence, figé à la dernière action de l'utilisateur.
+ *
+ * @param {number} exactlyEarnedPix somme brute des pixValue, avant arrondi et plafonnement
+ */
+function calculateScoringInformationFromPix({ exactlyEarnedPix, allowExcessPix = false, allowExcessLevel = false }) {
+  const pixScoreForCompetence = _getPixScoreForOneCompetence(exactlyEarnedPix, allowExcessPix);
+  const currentLevel = _getCompetenceLevel(exactlyEarnedPix, allowExcessLevel);
   const pixAheadForNextLevel = _getPixScoreAheadOfNextLevel(pixScoreForCompetence);
   return {
-    realTotalPixScoreForCompetence,
+    realTotalPixScoreForCompetence: exactlyEarnedPix,
     pixScoreForCompetence,
     currentLevel,
     pixAheadForNextLevel,
@@ -74,4 +89,10 @@ function calculatePixScore(validatedSkills) {
     .sumBy('pixScoreForCompetence');
 }
 
-export { calculatePixScore, calculateScoringInformationForCompetence, getBlockedLevel, getBlockedPixScore };
+export {
+  calculatePixScore,
+  calculateScoringInformationForCompetence,
+  calculateScoringInformationFromPix,
+  getBlockedLevel,
+  getBlockedPixScore,
+};

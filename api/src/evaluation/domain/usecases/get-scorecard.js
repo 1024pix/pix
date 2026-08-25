@@ -9,6 +9,7 @@ const getScorecard = async function ({
   areaRepository,
   competenceEvaluationRepository,
   knowledgeStateRepository,
+  competenceScoreRepository,
   locale,
 }) {
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
@@ -24,6 +25,7 @@ const getScorecard = async function ({
     areaRepository,
     competenceEvaluationRepository,
     knowledgeStateRepository,
+    competenceScoreRepository,
     locale,
   });
 };

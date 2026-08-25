@@ -1,3 +1,5 @@
+import { KnowledgeState } from '../../../../../src/shared/domain/models/KnowledgeState.js';
+import * as competenceScoreRepository from '../../../../../src/shared/infrastructure/repositories/competence-score-repository.js';
 import * as knowledgeStateRepository from '../../../../../src/shared/infrastructure/repositories/knowledge-state-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -147,6 +149,69 @@ describe('Integration | Repository | knowledgeStateRepository', function () {
       // then
       const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
       expect(knowledgeState.tubeIds).to.deep.equal(['aGarder']);
+    });
+  });
+
+  describe('the competence score balance', function () {
+    it('is recomputed on every position write, against the current referential', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const [, skillLevel2] = buildTube({ tubeId: 'web', competenceId: 'recComp1', levels: [1, 2, 3] });
+      await databaseBuilder.commit();
+
+      const before = await knowledgeStateRepository.findByUserId({ userId });
+      const after = before.withAnswer({ skill: { ...skillLevel2, difficulty: 2, tubeId: 'web' }, isOk: true });
+
+      // when
+      await knowledgeStateRepository.save({ userId, knowledgeState: after, tubeIds: ['web'] });
+
+      // then: web1 and web2 validated, 4 pix each
+      const pixByCompetence = await competenceScoreRepository.findByUserId({ userId });
+      expect(pixByCompetence.get('recComp1')).to.equal(8);
+    });
+
+    it('counts the whole competence, beyond the hydrated scope of the saved state', async function () {
+      // given: the competence has two tubes, one already validated by the user
+      const userId = databaseBuilder.factory.buildUser().id;
+      const [, skillLevel2] = buildTube({ tubeId: 'web', competenceId: 'recComp1', levels: [1, 2, 3] });
+      buildTube({ tubeId: 'mail', competenceId: 'recComp1', levels: [1, 2] });
+      databaseBuilder.factory.buildKnowledgeState({ userId, tubeId: 'mail', floor: 1, directLevels: [1] });
+      await databaseBuilder.commit();
+
+      // the saved state only carries the answered tube, as in a campaign assessment
+      const narrowState = new KnowledgeState().withAnswer({
+        skill: { ...skillLevel2, difficulty: 2, tubeId: 'web' },
+        isOk: true,
+      });
+
+      // when
+      await knowledgeStateRepository.save({ userId, knowledgeState: narrowState, tubeIds: ['web'] });
+
+      // then: web1 + web2 + mail1, 4 pix each
+      const pixByCompetence = await competenceScoreRepository.findByUserId({ userId });
+      expect(pixByCompetence.get('recComp1')).to.equal(12);
+    });
+
+    it('is erased when the competence is reset, and only then', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const [skillX] = buildTube({ tubeId: 'aOublier', competenceId: 'recCompX', levels: [1] });
+      const [skillY] = buildTube({ tubeId: 'aGarder', competenceId: 'recCompY', levels: [1] });
+      await databaseBuilder.commit();
+
+      const before = await knowledgeStateRepository.findByUserId({ userId });
+      const after = before
+        .withAnswer({ skill: { ...skillX, difficulty: 1, tubeId: 'aOublier' }, isOk: true })
+        .withAnswer({ skill: { ...skillY, difficulty: 1, tubeId: 'aGarder' }, isOk: true });
+      await knowledgeStateRepository.save({ userId, knowledgeState: after });
+
+      // when
+      await knowledgeStateRepository.forgetCompetence({ userId, competenceId: 'recCompX' });
+
+      // then
+      const pixByCompetence = await competenceScoreRepository.findByUserId({ userId });
+      expect(pixByCompetence.has('recCompX')).to.be.false;
+      expect(pixByCompetence.get('recCompY')).to.equal(4);
     });
   });
 });

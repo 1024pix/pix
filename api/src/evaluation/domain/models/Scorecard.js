@@ -59,6 +59,9 @@ class Scorecard {
 
   /**
    * @param {KnowledgeState} knowledgeState l'état de la seule compétence concernée
+   * @param {number} [exactlyEarnedPix] le solde de la compétence (table competence-scores) : le score figé à la
+   *   dernière action de l'utilisateur. Sans elle, le score se projette sur le
+   *   référentiel courant — il suivrait alors ses mouvements.
    */
   static buildFrom({
     userId,
@@ -66,15 +69,18 @@ class Scorecard {
     competence,
     area,
     competenceEvaluation,
+    exactlyEarnedPix,
     allowExcessPix = false,
     allowExcessLevel = false,
   }) {
     const { realTotalPixScoreForCompetence, pixScoreForCompetence, currentLevel, pixAheadForNextLevel } =
-      scoringService.calculateScoringInformationForCompetence({
-        validatedSkills: knowledgeState.validatedSkills(),
-        allowExcessPix,
-        allowExcessLevel,
-      });
+      exactlyEarnedPix === undefined
+        ? scoringService.calculateScoringInformationForCompetence({
+            validatedSkills: knowledgeState.validatedSkills(),
+            allowExcessPix,
+            allowExcessLevel,
+          })
+        : scoringService.calculateScoringInformationFromPix({ exactlyEarnedPix, allowExcessPix, allowExcessLevel });
     const remainingDaysBeforeReset = knowledgeState.isEmpty
       ? null
       : Scorecard.computeRemainingDaysBeforeReset(knowledgeState);

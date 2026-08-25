@@ -4,6 +4,7 @@ import * as profileRewardRepository from '../../../profile/infrastructure/reposi
 import { AttestationStorage } from '../../../quest/infrastructure/storage/attestation-storage.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
+import * as competenceScoreRepository from '../../../shared/infrastructure/repositories/competence-score-repository.js';
 import * as knowledgeStateRepository from '../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
@@ -20,6 +21,7 @@ const dependencies = {
   competenceRepository,
   areaRepository,
   competenceEvaluationRepository,
+  competenceScoreRepository,
   knowledgeStateRepository,
   profileRewardRepository,
   userRepository: repositories.userRepository,

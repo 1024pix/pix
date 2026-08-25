@@ -15,6 +15,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
   const userId = 456;
   const competenceEvaluationRepository = {};
   const knowledgeStateRepository = {};
+  const competenceScoreRepository = {};
   const competenceRepository = {};
   const areaRepository = {};
   const assessmentRepository = {};
@@ -61,6 +62,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
           areaRepository,
           competenceEvaluationRepository,
           knowledgeStateRepository,
+          competenceScoreRepository,
           locale,
         })
         .resolves(scorecard);
@@ -80,6 +82,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         areaRepository,
         competenceEvaluationRepository,
         knowledgeStateRepository,
+        competenceScoreRepository,
         campaignRepository,
         locale,
       });
@@ -125,6 +128,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
           areaRepository,
           competenceEvaluationRepository,
           knowledgeStateRepository,
+          competenceScoreRepository,
           locale,
         })
         .resolves(scorecard);
@@ -140,6 +144,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         areaRepository,
         competenceEvaluationRepository,
         knowledgeStateRepository,
+        competenceScoreRepository,
         locale,
       });
 

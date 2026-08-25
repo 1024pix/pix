@@ -69,6 +69,23 @@ describe('Unit | Domain | Models | Scorecard', function () {
         expect(actualScorecard.exactlyEarnedPix).to.equal(9.1);
       });
 
+      it('displays the competence score balance when provided, not the live projection', function () {
+        // given: the referential moved, the live projection is worth 9.1 — the balance, 12.5
+        const scorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState: stateWithPix([5.5, 3.6]),
+          competenceEvaluation,
+          competence,
+          area,
+          exactlyEarnedPix: 12.5,
+        });
+
+        // then: the score frozen at the last action prevails
+        expect(scorecard.exactlyEarnedPix).to.equal(12.5);
+        expect(scorecard.earnedPix).to.equal(12);
+        expect(scorecard.level).to.equal(1);
+      });
+
       it('should have a level computed from the number of pixes', function () {
         expect(actualScorecard.earnedPix).to.equal(9);
       });
