@@ -244,16 +244,16 @@
                   ],
                   "prompts": [
                     {
-                      "prompt": "Pont",
-                      "response": "<p>Le mot <strong>pont</strong> peut avoir plusieurs sens selon ce que vous voulez dire. Voici les plus courants :</p><p>1. <strong>Sens physiques / concrets</strong></p><ul><li><strong>Construction qui permet de traverser</strong> une rivière, une route, une vallée.</li><li><strong>Partie d’un navire :</strong> le pont d’un bateau.</li><li><strong>Partie d’un instrument de musique</strong> (violon, guitare…).</li><li><strong>En anatomie</strong> : un pont entre deux parties (ex : pont nasal).</li></ul><p>2. <strong>Sens figurés / expressions</strong></p><ul><li>Prendre un jour de congé entre un jour férié et le week-end.</li><li>Établir un contact, une passerelle.</li></ul>"
+                      "prompt": "Idée",
+                      "response": "<p>Une idée est une pensée ou une conception mentale. Elle peut être abstraite ou concrète, originale ou commune. Les idées sont à la base de l'innovation, de la créativité et du progrès. Elles peuvent être partagées, discutées et développées pour devenir des projets ou des réalisations.</ul>"
                     },
                     {
-                      "prompt": "Faire le pont",
-                      "response": "<p><strong>«&nbsp;Faire le pont&nbsp;»</strong> est une expression française qui signifie <strong>profiter d’un jour férié</strong> qui tombe un mardi ou un jeudi <strong>pour faire un long week-end</strong>, en prenant le lundi ou le vendredi comme jour de congé.</p><p>C’est souvent utilisé dans le contexte du <strong>travail</strong>, du <strong>calendrier scolaire</strong>ou des <strong>vacances</strong>.</p><p>Si vous le souhaitez, je peux aussi vous expliquer l’origine de l’expression.</p>"
+                      "prompt": "Team building",
+                      "response": "<p>Activités pour renforcer les liens entre collègues. Jeux, défis, ateliers favorisent la communication, la collaboration et la cohésion d'équipe. Améliore la productivité et l'ambiance au travail. Essentiel pour une équipe performante et soudée.</p>"
                     },
                     {
-                      "prompt": "Rédige un message pour proposer à mon équipe de faire le pont le vendredi 9 mai.",
-                      "response": "<p>Voici une proposition de message :</p><p><strong>Objet : Proposition de pont le vendredi 9 mai</strong></p><p>Bonjour à toutes et à tous,</p><p>Je vous propose de faire le pont le vendredi 9 mai afin de bénéficier d’un week-end prolongé. Merci de me confirmer vos disponibilités afin d’assurer la continuité du service.</p><p>Bien cordialement.</p>"
+                      "prompt": "Donne moi des idées d'activités de team building.",
+                      "response": "<p><ol><li>Escape Game : Résoudre des énigmes en équipe pour s'échapper d'une pièce.</li> <li>Chasse au trésor : Organiser une chasse avec des indices pour renforcer la collaboration.</li> <li>Atelier cuisine : Cuisiner ensemble pour améliorer la communication et la créativité.</li> <li>Jeux olympiques internes : Organiser des compétitions sportives amusantes.</li> <li>Construction de Lego : Créer des structures en équipe pour stimuler l'imagination.</li> <li>Jeux de rôle : Simuler des scénarios professionnels pour améliorer les compétences.</li> <li>Randonnée ou sortie nature : Partager une activité physique en plein air.</li> <li>Atelier peinture : Peindre ensemble pour libérer la créativité.</li> <li>Jeux de société géants : Jouer à des versions géantes de jeux classiques.</li> <li>Volontariat d'entreprise : Travailler ensemble sur un projet caritatif.</li></ol></p>"
                     }
                   ]
                 },
