@@ -41,6 +41,10 @@ export default class Trainings extends Component {
     return this.currentPageFirstCardIndex + TRAININGS_PER_PAGE >= this.args.trainings.length;
   }
 
+  get scrollBehavior() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+  }
+
   @action
   scrollToPreviousTrainings() {
     this.goToCardIndex(Math.max(this.currentPageFirstCardIndex - TRAININGS_PER_PAGE, 0));
@@ -56,7 +60,7 @@ export default class Trainings extends Component {
     this.goToCardIndex(this.currentPageFirstCardIndex, 'instant');
   }
 
-  goToCardIndex(index, behavior = 'smooth') {
+  goToCardIndex(index, behavior = this.scrollBehavior) {
     this.currentPageFirstCardIndex = index;
     const targetCard = this.cards[index];
     this.list.scrollTo({ left: targetCard.offsetLeft, behavior });

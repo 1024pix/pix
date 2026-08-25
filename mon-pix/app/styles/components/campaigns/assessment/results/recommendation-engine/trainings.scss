@@ -44,6 +44,10 @@
     scrollbar-width: none;
     scroll-behavior: smooth;
 
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
+
     &--locked {
       @include breakpoints.device-is('desktop') {
         overflow-x: hidden;
