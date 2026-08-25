@@ -243,7 +243,7 @@ async function register(server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/scoring-configuration',
+      path: '/api/admin/calibrations/{calibrationId}/scoring-configuration',
       config: {
         pre: [
           {
@@ -257,7 +257,6 @@ async function register(server) {
         ],
         validate: {
           params: Joi.object({
-            certificationVersionId: identifiersType.certificationVersionId,
             calibrationId: identifiersType.calibrationId,
           }),
         },

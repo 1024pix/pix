@@ -30,7 +30,6 @@ export default class ScoringRoute extends Route {
 
     try {
       return await this.store.queryRecord('calibration-scoring-configuration', {
-        versionId: draftVersion.id,
         calibrationId: draftVersion.externalCalibrationId,
       });
     } catch {

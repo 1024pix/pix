@@ -784,14 +784,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
     });
   });
 
-  describe('GET /api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/scoring-configuration', function () {
-    beforeEach(function () {
-      domainBuilder.certification.configuration
-        .versionBuilder()
-        .withParameters({ id: 1, scope: SCOPES.CORE, tubeIds: ['tubeA'] })
-        .insertToDB({ databaseBuilder });
-    });
-
+  describe('GET /api/admin/calibrations/{calibrationId}/scoring-configuration', function () {
     it('returns the global scoring configuration proposed by the calibration', async function () {
       // given
       await domainBuilder.certification.configuration
@@ -810,7 +803,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       const options = {
         method: 'GET',
-        url: `/api/admin/certification-versions/1/calibrations/2/scoring-configuration`,
+        url: `/api/admin/calibrations/2/scoring-configuration`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
 
@@ -821,7 +814,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       expect(response.statusCode).to.equal(200);
       expect(response.result.data).to.deep.equal({
         type: 'calibration-scoring-configurations',
-        id: '1_2',
+        id: '2',
         attributes: {
           'calibration-id': 2,
           availability: SCORING_MESH_AVAILABILITIES.AVAILABLE,
@@ -847,7 +840,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       const options = {
         method: 'GET',
-        url: `/api/admin/certification-versions/1/calibrations/2/scoring-configuration`,
+        url: `/api/admin/calibrations/2/scoring-configuration`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
 
@@ -869,7 +862,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       const options = {
         method: 'GET',
-        url: `/api/admin/certification-versions/1/calibrations/404/scoring-configuration`,
+        url: `/api/admin/calibrations/404/scoring-configuration`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
 
@@ -887,7 +880,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       const options = {
         method: 'GET',
-        url: `/api/admin/certification-versions/1/calibrations/2/scoring-configuration`,
+        url: `/api/admin/calibrations/2/scoring-configuration`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: certifUser.id }),
       };
 

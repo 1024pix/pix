@@ -63,11 +63,8 @@ async function generateCalibrationReport(request, h) {
 }
 
 async function getCalibrationScoringConfiguration(request, h) {
-  const { certificationVersionId: versionId, calibrationId } = request.params;
-  const calibrationScoringConfiguration = await usecases.getCalibrationScoringConfiguration({
-    versionId,
-    calibrationId,
-  });
+  const { calibrationId } = request.params;
+  const calibrationScoringConfiguration = await usecases.getCalibrationScoringConfiguration({ calibrationId });
   return h.response(calibrationScoringConfigurationSerializer.serialize(calibrationScoringConfiguration)).code(200);
 }
 

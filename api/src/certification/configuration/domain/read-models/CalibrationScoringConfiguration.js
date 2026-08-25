@@ -15,13 +15,11 @@ import { SCORING_MESH_AVAILABILITIES } from '../models/Calibration.js';
 export class CalibrationScoringConfiguration {
   /**
    * @param {object} params
-   * @param {number} params.versionId
    * @param {number} params.calibrationId
    * @param {typeof SCORING_MESH_AVAILABILITIES[keyof typeof SCORING_MESH_AVAILABILITIES]} params.availability
    * @param {Array<{meshLevel: number, bounds: {min: number, max: number}}>} params.globalScoringConfiguration - empty unless available
    */
-  constructor({ versionId, calibrationId, availability, globalScoringConfiguration }) {
-    this.versionId = versionId;
+  constructor({ calibrationId, availability, globalScoringConfiguration }) {
     this.calibrationId = calibrationId;
     this.availability = availability;
     this.globalScoringConfiguration = globalScoringConfiguration;
@@ -32,15 +30,13 @@ export class CalibrationScoringConfiguration {
    * speaks (mesh level, bounds).
    *
    * @param {object} params
-   * @param {number} params.versionId
    * @param {Calibration} params.calibration
    * @returns {CalibrationScoringConfiguration}
    */
-  static fromCalibration({ versionId, calibration }) {
+  static fromCalibration({ calibration }) {
     const { scoringMeshSet } = calibration;
 
     return new CalibrationScoringConfiguration({
-      versionId,
       calibrationId: calibration.id,
       availability: scoringMeshSet.availability,
       globalScoringConfiguration: scoringMeshSet.isAvailable ? scoringMeshSet.meshes.map(_toMeshLevelBounds) : [],

@@ -104,9 +104,9 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     module('when the attached calibration carries a scoring configuration', function (hooks) {
       hooks.beforeEach(function () {
         server.db.certificationVersions.update('14', { externalCalibrationId: 1 });
-        server.get('/admin/certification-versions/:id/calibrations/:calibrationId/scoring-configuration', (schema) => {
+        server.get('/admin/calibrations/:calibrationId/scoring-configuration', (schema) => {
           return schema.create('calibration-scoring-configuration', {
-            id: '14_1',
+            id: '1',
             calibrationId: 1,
             availability: 'AVAILABLE',
             globalScoringConfiguration: [
@@ -175,9 +175,9 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     module('when the attached calibration has no scoring configuration yet', function (hooks) {
       hooks.beforeEach(function () {
         server.db.certificationVersions.update('14', { externalCalibrationId: 1 });
-        server.get('/admin/certification-versions/:id/calibrations/:calibrationId/scoring-configuration', (schema) => {
+        server.get('/admin/calibrations/:calibrationId/scoring-configuration', (schema) => {
           return schema.create('calibration-scoring-configuration', {
-            id: '14_1',
+            id: '1',
             calibrationId: 1,
             availability: 'PENDING',
             globalScoringConfiguration: [],

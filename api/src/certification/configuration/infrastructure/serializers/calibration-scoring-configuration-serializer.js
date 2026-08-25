@@ -7,7 +7,7 @@ export function serialize(calibrationScoringConfiguration) {
     attributes: ['calibrationId', 'availability', 'globalScoringConfiguration'],
     transform: (calibrationScoringConfiguration) => {
       return {
-        id: `${calibrationScoringConfiguration.versionId}_${calibrationScoringConfiguration.calibrationId}`,
+        id: `${calibrationScoringConfiguration.calibrationId}`,
         calibrationId: calibrationScoringConfiguration.calibrationId,
         availability: calibrationScoringConfiguration.availability,
         globalScoringConfiguration: calibrationScoringConfiguration.globalScoringConfiguration,

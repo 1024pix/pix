@@ -21,15 +21,11 @@ describe('Unit | Certification | Configuration | Domain | Read-models | Calibrat
         .build();
 
       // when
-      const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({
-        versionId: 42,
-        calibration,
-      });
+      const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({ calibration });
 
       // then
       expect(calibrationScoringConfiguration).to.deep.equal(
         new CalibrationScoringConfiguration({
-          versionId: 42,
           calibrationId: 113,
           availability: SCORING_MESH_AVAILABILITIES.AVAILABLE,
           globalScoringConfiguration: [
@@ -49,10 +45,7 @@ describe('Unit | Certification | Configuration | Domain | Read-models | Calibrat
         .build();
 
       // when
-      const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({
-        versionId: 42,
-        calibration,
-      });
+      const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({ calibration });
 
       // then
       expect(calibrationScoringConfiguration.availability).to.equal(SCORING_MESH_AVAILABILITIES.PENDING);
@@ -71,10 +64,7 @@ describe('Unit | Certification | Configuration | Domain | Read-models | Calibrat
         .build();
 
       // when
-      const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({
-        versionId: 42,
-        calibration,
-      });
+      const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({ calibration });
 
       // then
       expect(calibrationScoringConfiguration.availability).to.equal(SCORING_MESH_AVAILABILITIES.NOT_VALIDATED);

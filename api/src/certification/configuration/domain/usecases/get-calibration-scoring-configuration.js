@@ -1,5 +1,4 @@
 /**
- * @typedef {import ('./index.js').VersionRepository} VersionRepository
  * @typedef {import ('./index.js').CalibrationRepository} CalibrationRepository
  */
 
@@ -12,27 +11,15 @@ import { CalibrationScoringConfiguration } from '../read-models/CalibrationScori
  * scoring meshes after the calibration itself, and never delivers them for some scopes.
  *
  * @param {object} params
- * @param {number} params.versionId
  * @param {number} params.calibrationId
- * @param {VersionRepository} params.versionRepository
  * @param {CalibrationRepository} params.calibrationRepository
  * @returns {Promise<CalibrationScoringConfiguration>}
  */
-export async function getCalibrationScoringConfiguration({
-  versionId,
-  calibrationId,
-  versionRepository,
-  calibrationRepository,
-}) {
-  const version = await versionRepository.getById({ id: versionId });
-  if (!version) {
-    throw new NotFoundError(`Cannot find version of id "${versionId}"`);
-  }
-
+export async function getCalibrationScoringConfiguration({ calibrationId, calibrationRepository }) {
   const calibration = await calibrationRepository.find(calibrationId);
   if (!calibration) {
     throw new NotFoundError(`Cannot find calibration of external id "${calibrationId}"`);
   }
 
-  return CalibrationScoringConfiguration.fromCalibration({ versionId, calibration });
+  return CalibrationScoringConfiguration.fromCalibration({ calibration });
 }

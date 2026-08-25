@@ -154,7 +154,7 @@ module(
           globalScoringConfiguration: [],
         });
         const calibrationScoringConfiguration = store.createRecord('calibration-scoring-configuration', {
-          id: '1_5',
+          id: '5',
           calibrationId: 5,
           availability: 'AVAILABLE',
           globalScoringConfiguration: [{ bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 }],
@@ -186,7 +186,7 @@ module(
           globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
         });
         const calibrationScoringConfiguration = store.createRecord('calibration-scoring-configuration', {
-          id: '1_5',
+          id: '5',
           calibrationId: 5,
           availability: 'AVAILABLE',
           globalScoringConfiguration: [{ bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 }],
