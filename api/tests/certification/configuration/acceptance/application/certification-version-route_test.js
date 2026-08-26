@@ -676,14 +676,14 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
     });
   });
 
-  describe('GET /api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report', function () {
+  describe('GET /api/admin/certification-versions/{certificationVersionId}/latest-calibration-report', function () {
     const now = new Date('2025-06-15T12:00:00Z');
 
     beforeEach(function () {
       sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
-    it('should return 200 HTTP status code and a the calibration report', async function () {
+    it('should return 200 HTTP status code and the report of the latest calibration of the version scope', async function () {
       domainBuilder.certification.configuration
         .versionBuilder()
         .withParameters({ id: 1, scope: SCOPES.CORE, tubeIds: ['tubeA'] })
@@ -695,6 +695,20 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
         .withCalibratredChallenges([{ challengeId: 'challengeA', tubeId: 'tubeA' }])
         .asValidated({ startedAt: new Date('2021-01-01') })
         .withParameters({ id: 2 })
+        .insertToDB({ datamartBuilder });
+
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .asValidated({ startedAt: new Date('2020-01-01') })
+        .withParameters({ id: 3 })
+        .insertToDB({ datamartBuilder });
+
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .onScope({ scope: CALIBRATION_SCOPES.DROIT })
+        .asValidated({ startedAt: new Date('2025-01-01') })
+        .withParameters({ id: 4 })
         .insertToDB({ datamartBuilder });
 
       const learningContent = {
@@ -718,7 +732,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       const options = {
         method: 'GET',
-        url: `/api/admin/certification-versions/1/calibrations/2/report`,
+        url: `/api/admin/certification-versions/1/latest-calibration-report`,
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
 

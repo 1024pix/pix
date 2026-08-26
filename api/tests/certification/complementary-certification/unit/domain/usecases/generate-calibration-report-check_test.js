@@ -23,7 +23,7 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
     };
 
     calibrationRepository = {
-      findForReport: sinon.stub(),
+      findLatestForReport: sinon.stub(),
     };
 
     dependencies = {
@@ -38,7 +38,6 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
 
       const err = await catchErr(generateCalibrationReportCheck)({
         versionId: 1,
-        calibrationId: 2,
         ...dependencies,
       });
 
@@ -47,33 +46,37 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
     });
   });
 
-  context('when calibration does not exist', function () {
+  context('when no calibration exists for the scope of the version', function () {
     it('throws a NotFound error', async function () {
       versionRepository.getById
         .withArgs({ id: 1 })
-        .resolves(domainBuilder.certification.configuration.versionBuilder().build());
-      calibrationRepository.findForReport.withArgs(2).resolves(null);
+        .resolves(
+          domainBuilder.certification.configuration
+            .versionBuilder()
+            .withParameters({ id: 1, scope: SCOPES.PIX_PLUS_DROIT })
+            .build(),
+        );
+      calibrationRepository.findLatestForReport.withArgs({ scope: SCOPES.PIX_PLUS_DROIT }).resolves(null);
 
       const err = await catchErr(generateCalibrationReportCheck)({
         versionId: 1,
-        calibrationId: 2,
         ...dependencies,
       });
 
       expect(err).to.be.instanceOf(NotFoundError);
-      expect(err.message).to.equal('Cannot find calibration of external id "2"');
+      expect(err.message).to.equal('Cannot find any calibration for scope "DROIT"');
     });
   });
 
   context('when version and calibration found', function () {
-    it('returns the corresponding report', async function () {
+    it('returns the report of the latest calibration of the version scope', async function () {
       versionRepository.getById.withArgs({ id: 1 }).resolves(
         domainBuilder.certification.configuration
           .versionBuilder()
           .withParameters({ id: 1, scope: SCOPES.CORE, tubeIds: ['tubeA'] })
           .build(),
       );
-      calibrationRepository.findForReport.withArgs(2).resolves(
+      calibrationRepository.findLatestForReport.withArgs({ scope: SCOPES.CORE }).resolves(
         domainBuilder.certification.configuration
           .calibrationBuilder()
           .onScope({ scope: CALIBRATION_SCOPES.COEUR })
@@ -85,7 +88,6 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
 
       const report = await generateCalibrationReportCheck({
         versionId: 1,
-        calibrationId: 2,
         ...dependencies,
       });
 

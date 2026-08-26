@@ -580,7 +580,7 @@
         },
         "versions": {
           "calibration": {
-            "calibration-id-input-label": "Calibration ID (provided by Data)",
+            "description": "The most recent calibration provided by Data for this scope will be retrieved, then checked.",
             "label-for-CALIBRATED_CHALLENGE_COUNT": "Count of calibrated challenges",
             "label-for-CALIBRATION_SCOPE": "Target scope",
             "label-for-CALIBRATION_STARTED_AT": "Started calibration at",
@@ -606,7 +606,7 @@
               "VALIDATED": "Validated"
             },
             "title": "Calibration of challenges",
-            "verify-calibration-id-button": "Check the calibration"
+            "verify-latest-calibration-button": "Retrieve the latest calibration"
           },
           "edit": {
             "assessment-duration-label": "Assessment duration (hh:mm):",

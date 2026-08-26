@@ -1,4 +1,4 @@
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { currentURL, settled } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -63,7 +63,7 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
     module('when loading a report for a version', function (hooks) {
       const generatedAt = new Date('2026-08-08T14:00:00Z');
       hooks.beforeEach(async function () {
-        server.get('/admin/certification-versions/:id/calibrations/:calibrationId/report', (schema) => {
+        server.get('/admin/certification-versions/:id/latest-calibration-report', (schema) => {
           return schema.create('calibration-report', {
             id: 999,
             calibrationId: 1,
@@ -107,8 +107,7 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
 
       test('displays the report', async function (assert) {
         const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
-        await fillByLabel('ID de calibration', 1, { exact: false });
-        await clickByName('Vérifier la calibration');
+        await clickByName('Récupérer la dernière calibration');
 
         await settled();
         const displayedGeneratedAt = generatedAt.toLocaleString('fr-FR', {
@@ -121,10 +120,9 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
         });
         assert.dom(screen.getByText(`Rapport de la calibration d'ID 1 générée le ${displayedGeneratedAt}`)).exists();
       });
-      test('it saves the calibrationId', async function (assert) {
+      test('it saves the calibrationId returned by the API', async function (assert) {
         const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
-        await fillByLabel('ID de calibration', 1, { exact: false });
-        await clickByName('Vérifier la calibration');
+        await clickByName('Récupérer la dernière calibration');
 
         await settled();
 

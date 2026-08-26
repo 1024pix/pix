@@ -1,9 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
 import { fn } from '@ember/helper';
-import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -18,7 +16,6 @@ export default class CalibrationForm extends Component {
   @service store;
   @service pixToast;
   @service intl;
-  @tracked calibrationId = this.args.draftVersion.externalCalibrationId ?? null;
   @tracked report = null;
   @tracked showMoreInfoForLines = [];
 
@@ -66,17 +63,10 @@ export default class CalibrationForm extends Component {
   }
 
   @action
-  updateCalibrationId(event) {
-    this.calibrationId = Number(event.target.valueAsNumber);
-  }
-
-  @action
-  async onGenerateReport(event) {
-    event.preventDefault();
+  async onGenerateReport() {
     let report;
     try {
       report = await this.store.queryRecord('calibration-report', {
-        calibrationId: this.calibrationId,
         versionId: this.args.draftVersion.id,
       });
     } catch (error) {
@@ -126,30 +116,15 @@ export default class CalibrationForm extends Component {
       class="versions-calibration"
       @title={{t "components.certification-frameworks.certification-framework.versions.calibration.title"}}
     >
-      <form id="version-calibration-form" class="versions-calibration__form" {{on "submit" this.onGenerateReport}}>
-        <section>
-          <PixInput
-            type="number"
-            value={{this.calibrationId}}
-            required={{true}}
-            min="0"
-            @requiredLabel={{t "common.forms.mandatory"}}
-            @errorMessage={{t
-              "components.certification-frameworks.certification-framework.versions.edit.validation-message-error"
-            }}
-            {{on "change" this.updateCalibrationId}}
-          >
-            <:label>{{t
-                "components.certification-frameworks.certification-framework.versions.calibration.calibration-id-input-label"
-              }}
-            </:label>
-          </PixInput>
-          <PixButton @type="submit" form="version-calibration-form" @variant="primary">{{t
-              "components.certification-frameworks.certification-framework.versions.calibration.verify-calibration-id-button"
-            }}
-          </PixButton>
-        </section>
-      </form>
+      <section class="versions-calibration__form">
+        <p class="versions-calibration__form__description">
+          {{t "components.certification-frameworks.certification-framework.versions.calibration.description"}}
+        </p>
+        <PixButton @variant="primary" @triggerAction={{this.onGenerateReport}}>{{t
+            "components.certification-frameworks.certification-framework.versions.calibration.verify-latest-calibration-button"
+          }}
+        </PixButton>
+      </section>
       {{#if this.report}}
         <div class="versions-calibration__report">
           <span class="versions-calibration__report__title">

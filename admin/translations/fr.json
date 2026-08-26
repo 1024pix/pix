@@ -588,7 +588,7 @@
         },
         "versions": {
           "calibration": {
-            "calibration-id-input-label": "ID de calibration (fourni par Data)",
+            "description": "La calibration la plus récente fournie par Data pour ce référentiel sera récupérée, puis vérifiée.",
             "label-for-CALIBRATED_CHALLENGE_COUNT": "Nombre d'épreuves calibrées",
             "label-for-CALIBRATION_SCOPE": "Référentiel cible",
             "label-for-CALIBRATION_STARTED_AT": "Calibration démarrée le",
@@ -615,7 +615,7 @@
               "VALIDATED": "Validée"
             },
             "title": "Calibration des épreuves",
-            "verify-calibration-id-button": "Vérifier la calibration"
+            "verify-latest-calibration-button": "Récupérer la dernière calibration"
           },
           "edit": {
             "assessment-duration-label": "Durée de l’épreuve (hh:mm) :",

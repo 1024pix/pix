@@ -5,18 +5,12 @@
 
   &__form {
     display: flex;
-    flex-direction: column;
     gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
 
-    section {
-      display: flex;
-      gap: 1.5rem;
-      align-items: end;
-      justify-content: space-between;
-
-      div {
-        flex: 1.5;
-      }
+    &__description {
+      flex: 1.5;
     }
   }
 

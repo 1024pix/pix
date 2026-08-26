@@ -1,20 +1,15 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { buildReport } from '../models/CalibrationReport.js';
 
-export async function generateCalibrationReportCheck({
-  versionId,
-  calibrationId,
-  versionRepository,
-  calibrationRepository,
-}) {
+export async function generateCalibrationReportCheck({ versionId, versionRepository, calibrationRepository }) {
   const version = await versionRepository.getById({ id: versionId });
   if (!version) {
     throw new NotFoundError(`Cannot find version of id "${versionId}"`);
   }
 
-  const calibration = await calibrationRepository.findForReport(calibrationId);
+  const calibration = await calibrationRepository.findLatestForReport({ scope: version.scope });
   if (!calibration) {
-    throw new NotFoundError(`Cannot find calibration of external id "${calibrationId}"`);
+    throw new NotFoundError(`Cannot find any calibration for scope "${version.scope}"`);
   }
 
   return buildReport({ version, calibration });

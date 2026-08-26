@@ -7,18 +7,30 @@ import {
   CALIBRATION_STATUSES,
   CalibrationForReport,
   CalibrationScoringMesh,
+  toCalibrationScope,
 } from '../../domain/models/Calibration.js';
 
-export async function findForReport(calibrationId) {
+/**
+ * @param {object} params
+ * @param {SCOPES} params.scope
+ * @returns {Promise<CalibrationForReport|null>}
+ */
+export async function findLatestForReport({ scope }) {
   const knexConn = DomainTransaction.getConnection();
   try {
     const generalInfo = await datamartKnex
       .select({ id: 'id', startedAt: 'calibration_date', status: 'status', scope: 'scope' })
       .from('data_calibrations')
-      .where({ id: calibrationId })
+      .where({ scope: toCalibrationScope(scope) })
+      .orderBy([
+        { column: 'calibration_date', order: 'desc' },
+        { column: 'id', order: 'desc' },
+      ])
       .first();
 
     if (!generalInfo) return null;
+
+    const calibrationId = generalInfo.id;
 
     const [challengeIds, meshScoringRow, competenceScoringRow] = await Promise.all([
       datamartKnex
@@ -55,7 +67,7 @@ export async function findForReport(calibrationId) {
   } catch (err) {
     logger.error(
       { event: SCOPES.CERTIFICATION },
-      `Error while retrieving the calibration data of ID ${calibrationId} from datamart : ${err}`,
+      `Error while retrieving the latest calibration data of scope ${scope} from datamart : ${err}`,
     );
     throw err;
   }

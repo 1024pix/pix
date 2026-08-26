@@ -77,18 +77,33 @@ export class CalibrationScoringMesh {
   }
 }
 
+const CALIBRATION_SCOPE_BY_SCOPE = Object.freeze({
+  [SCOPES.CORE]: CALIBRATION_SCOPES.COEUR,
+  [SCOPES.PIX_PLUS_EDU_1ER_DEGRE]: CALIBRATION_SCOPES.EDU_1ER_DEGRE,
+  [SCOPES.PIX_PLUS_EDU_2ND_DEGRE]: CALIBRATION_SCOPES.EDU_2ND_DEGRE,
+  [SCOPES.PIX_PLUS_EDU_CPE]: CALIBRATION_SCOPES.EDU_CPE,
+  [SCOPES.PIX_PLUS_DROIT]: CALIBRATION_SCOPES.DROIT,
+  [SCOPES.PIX_PLUS_PRO_SANTE]: CALIBRATION_SCOPES.PRO_SANTE,
+});
+
+const SCOPE_BY_CALIBRATION_SCOPE = Object.freeze(
+  Object.fromEntries(
+    Object.entries(CALIBRATION_SCOPE_BY_SCOPE).map(([scope, calibrationScope]) => [calibrationScope, scope]),
+  ),
+);
+
 /**
  * @param {typeof CALIBRATION_SCOPES[keyof typeof CALIBRATION_SCOPES]} calibrationScope
  * @returns {SCOPES}
  */
 export function fromCalibrationScope(calibrationScope) {
-  const mapping = {
-    [CALIBRATION_SCOPES.COEUR]: SCOPES.CORE,
-    [CALIBRATION_SCOPES.EDU_1ER_DEGRE]: SCOPES.PIX_PLUS_EDU_1ER_DEGRE,
-    [CALIBRATION_SCOPES.EDU_2ND_DEGRE]: SCOPES.PIX_PLUS_EDU_2ND_DEGRE,
-    [CALIBRATION_SCOPES.EDU_CPE]: SCOPES.PIX_PLUS_EDU_CPE,
-    [CALIBRATION_SCOPES.DROIT]: SCOPES.PIX_PLUS_DROIT,
-    [CALIBRATION_SCOPES.PRO_SANTE]: SCOPES.PIX_PLUS_PRO_SANTE,
-  };
-  return mapping[calibrationScope];
+  return SCOPE_BY_CALIBRATION_SCOPE[calibrationScope];
+}
+
+/**
+ * @param {SCOPES} scope
+ * @returns {typeof CALIBRATION_SCOPES[keyof typeof CALIBRATION_SCOPES]}
+ */
+export function toCalibrationScope(scope) {
+  return CALIBRATION_SCOPE_BY_SCOPE[scope];
 }
