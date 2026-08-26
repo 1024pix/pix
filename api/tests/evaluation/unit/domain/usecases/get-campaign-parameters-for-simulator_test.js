@@ -8,6 +8,8 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
   describe('#getCampaignParametersForSimulator', function () {
     let campaignRepository;
     let challengeRepository;
+    let competenceRepository;
+    let areaRepository;
 
     beforeEach(function () {
       campaignRepository = {
@@ -17,6 +19,14 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
 
       challengeRepository = {
         findOperativeChallengeDtosBySkillsAndLocales: sinon.stub(),
+      };
+
+      competenceRepository = {
+        findByRecordIds: sinon.stub().resolves([]),
+      };
+
+      areaRepository = {
+        findByRecordIds: sinon.stub().resolves([]),
       };
     });
 
@@ -73,6 +83,8 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
         locale: 'fr',
         campaignRepository,
         challengeRepository,
+        competenceRepository,
+        areaRepository,
       });
 
       // then
@@ -107,7 +119,95 @@ describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {
             responsive: 'Tablette',
           },
         ],
+        competences: [],
       });
+    });
+
+    it('should return the competences covered by the campaign skills, ordered by index and coloured by area', async function () {
+      // given
+      const skills = [
+        domainBuilder.buildSkill({ id: 'skillId1', competenceId: 'competenceId21' }),
+        domainBuilder.buildSkill({ id: 'skillId2', competenceId: 'competenceId2' }),
+        domainBuilder.buildSkill({ id: 'skillId3', competenceId: 'competenceId2' }),
+      ];
+      campaignRepository.get.withArgs(12).resolves({ id: 12 });
+      campaignRepository.findSkills.withArgs({ campaignId: 12 }).resolves(skills);
+      challengeRepository.findOperativeChallengeDtosBySkillsAndLocales.resolves([]);
+
+      competenceRepository.findByRecordIds
+        .withArgs({ competenceIds: ['competenceId21', 'competenceId2'], locale: 'fr' })
+        .resolves([
+          domainBuilder.buildCompetence({
+            id: 'competenceId21',
+            index: '21.1',
+            name: 'Pix+Édu - Communiquer',
+            areaId: 'areaId21',
+          }),
+          domainBuilder.buildCompetence({
+            id: 'competenceId2',
+            index: '2.4',
+            name: "S'insérer dans le monde numérique",
+            areaId: 'areaId2',
+          }),
+        ]);
+
+      areaRepository.findByRecordIds
+        .withArgs({ areaIds: ['areaId21', 'areaId2'], locale: 'fr' })
+        .resolves([
+          domainBuilder.buildArea({ id: 'areaId2', color: 'emerald' }),
+          domainBuilder.buildArea({ id: 'areaId21', color: null }),
+        ]);
+
+      // when
+      const { competences } = await getCampaignParametersForSimulator({
+        campaignId: 12,
+        locale: 'fr',
+        campaignRepository,
+        challengeRepository,
+        competenceRepository,
+        areaRepository,
+      });
+
+      // then
+      expect(competences).to.deep.equal([
+        {
+          id: 'competenceId2',
+          index: '2.4',
+          name: "S'insérer dans le monde numérique",
+          areaColor: 'emerald',
+        },
+        {
+          id: 'competenceId21',
+          index: '21.1',
+          name: 'Pix+Édu - Communiquer',
+          areaColor: null,
+        },
+      ]);
+    });
+
+    it('should ignore skills without competence', async function () {
+      // given
+      const skills = [domainBuilder.buildSkill({ id: 'skillId1', competenceId: null })];
+      campaignRepository.get.withArgs(12).resolves({ id: 12 });
+      campaignRepository.findSkills.withArgs({ campaignId: 12 }).resolves(skills);
+      challengeRepository.findOperativeChallengeDtosBySkillsAndLocales.resolves([]);
+
+      // when
+      const { competences } = await getCampaignParametersForSimulator({
+        campaignId: 12,
+        locale: 'fr',
+        campaignRepository,
+        challengeRepository,
+        competenceRepository,
+        areaRepository,
+      });
+
+      // then
+      expect(competenceRepository.findByRecordIds).to.have.been.calledWithExactly({
+        competenceIds: [],
+        locale: 'fr',
+      });
+      expect(competences).to.deep.equal([]);
     });
   });
 });

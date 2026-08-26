@@ -3,6 +3,8 @@ const getCampaignParametersForSimulator = async function ({
   locale,
   campaignRepository,
   challengeRepository,
+  competenceRepository,
+  areaRepository,
 }) {
   const campaign = await campaignRepository.get(campaignId);
   const skills = await campaignRepository.findSkills({ campaignId: campaign.id });
@@ -24,7 +26,23 @@ const getCampaignParametersForSimulator = async function ({
       responsive: challenge.responsive,
     };
   });
-  return { skills, challenges: sanitizedChallenges };
+  const competences = await findCompetencesOfSkills({ skills, locale, competenceRepository, areaRepository });
+  return { skills, challenges: sanitizedChallenges, competences };
+};
+
+const findCompetencesOfSkills = async ({ skills, locale, competenceRepository, areaRepository }) => {
+  const competenceIds = [...new Set(skills.map(({ competenceId }) => competenceId).filter(Boolean))];
+  const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
+
+  const areaIds = [...new Set(competences.map(({ areaId }) => areaId).filter(Boolean))];
+  const areas = await areaRepository.findByRecordIds({ areaIds, locale });
+  const areaColorById = new Map(areas.map(({ id, color }) => [id, color]));
+
+  return competences
+    .map(({ id, index, name, areaId }) => ({ id, index, name, areaColor: areaColorById.get(areaId) ?? null }))
+    .sort((competence, otherCompetence) =>
+      competence.index.localeCompare(otherCompetence.index, undefined, { numeric: true }),
+    );
 };
 
 export { getCampaignParametersForSimulator };
