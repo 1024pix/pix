@@ -1,8 +1,10 @@
 import sinon from 'sinon';
 
 import { simulateCapacityFromScore } from '../../../../../../src/certification/evaluation/domain/usecases/simulate-capacity-from-score.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Evaluation | Unit | Domain | Usecase | simulate-capacity-from-score', function () {
   let scoringConfigurationRepository;
@@ -11,6 +13,26 @@ describe('Certification | Evaluation | Unit | Domain | Usecase | simulate-capaci
     scoringConfigurationRepository = {
       getLatestByDateAndLocale: sinon.stub(),
     };
+  });
+
+  context('when there is no scoring configuration for that date', function () {
+    it('should throw a NotFoundError', async function () {
+      // given
+      const date = new Date();
+      scoringConfigurationRepository.getLatestByDateAndLocale.withArgs({ date, locale: 'fr-fr' }).resolves(null);
+
+      // when
+      const error = await catchErr(simulateCapacityFromScore)({
+        score: 767,
+        date,
+        scoringConfigurationRepository,
+      });
+
+      // then
+      expect(error).to.deepEqualInstance(
+        new NotFoundError(`No certification scoring configuration found for date ${date.toISOString()}`),
+      );
+    });
   });
 
   it('should return a capacity', async function () {
