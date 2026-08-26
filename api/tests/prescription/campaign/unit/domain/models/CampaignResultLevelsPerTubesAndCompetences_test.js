@@ -60,7 +60,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
         description: 'description compétence 2',
       });
 
-      const area = domainBuilder.buildArea({ id: 'recArea1', frameworkId: framework.id });
+      const area = domainBuilder.buildArea({ id: 'recArea1', frameworkId: framework.id, name: 'domaine 1' });
       const thematic1 = domainBuilder.buildThematic({
         id: 'thematic1',
         competenceId: 'competence1',
@@ -119,6 +119,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
           id: 'tube1',
           competenceId: 'competence1',
           competenceName: 'compétence 1',
+          areaName: 'domaine 1',
           title: 'tube 1',
           description: 'tube 1 description',
           maxLevel: 2,
@@ -128,6 +129,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
           id: 'tube2',
           competenceId: 'competence2',
           competenceName: 'compétence 2',
+          areaName: 'domaine 1',
           title: 'tube 2',
           description: 'tube 2 description',
           maxLevel: 4,

@@ -4,7 +4,7 @@ import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', function () {
-  let competence, tube, knowledgeElementSnapshots;
+  let competence, area, tube, knowledgeElementSnapshots;
 
   describe('Constructor', function () {
     beforeEach(function () {
@@ -47,6 +47,11 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
         description: 'description compétence 1',
       });
 
+      area = domainBuilder.buildArea({
+        id: 'recArea1',
+        name: 'domaine 1',
+      });
+
       const user1ke1 = domainBuilder.buildKnowledgeElement({
         status: KnowledgeElement.StatusType.VALIDATED,
         skillId: 'recSkillWeb1',
@@ -82,6 +87,7 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
         const tubeResult = new TubeResultForKnowledgeElementSnapshots({
           tube,
           competence,
+          area,
         });
 
         tubeResult.addKnowledgeElementSnapshots(knowledgeElementSnapshots);
@@ -94,6 +100,7 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
         // mean level = user1 (level 1: ok, level 2: ko), user2: (level 1: ok)
         expect(tubeResult.meanLevel).equal(1);
         expect(tubeResult.competenceName).equal(competence.name);
+        expect(tubeResult.areaName).equal(area.name);
       });
     });
 
@@ -103,6 +110,7 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
         const tubeResult = new TubeResultForKnowledgeElementSnapshots({
           tube,
           competence,
+          area,
         });
 
         //then
@@ -113,6 +121,7 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
         expect(tubeResult.maxLevel).equal(2);
         expect(tubeResult.meanLevel).equal(0);
         expect(tubeResult.competenceName).equal(competence.name);
+        expect(tubeResult.areaName).equal(area.name);
       });
     });
   });

@@ -199,6 +199,7 @@ describe('Integration | Application | campaign-api', function () {
           tubes: [
             {
               competenceId: 'competenceIdA',
+              areaName: 'name Domaine A',
               id: 'tubeIdA',
               maxLevel: 2,
               reachedLevel: 1,

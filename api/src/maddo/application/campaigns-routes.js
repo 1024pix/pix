@@ -98,6 +98,7 @@ const register = async function (server) {
                       .items(
                         Joi.object({
                           competenceId: Joi.string().description('ID de la compétence auquel appartient le sujet'),
+                          areaName: Joi.string().description('Nom du domaine auquel appartient la compétence'),
                           id: Joi.string().description('ID du sujet'),
                           maxLevel: Joi.number().description('Niveau maximum atteignable dans cette campagne'),
                           reachedLevel: Joi.number().description('Niveau obtenu dans cette campagne'),

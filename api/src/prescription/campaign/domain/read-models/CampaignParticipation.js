@@ -105,6 +105,7 @@ export class Badge {
  * @property {string} id
  * @property {string} competenceId
  * @property {string} competenceName
+ * @property {string} [areaName]
  * @property {string} title
  * @property {string} description
  * @property {number} maxLevel
@@ -117,15 +118,17 @@ export class TubeCoverage {
    * @param {string} args.id
    * @param {string} args.competenceId
    * @param {string} args.competenceName
+   * @param {string} [args.areaName]
    * @param {string} args.title
    * @param {string} args.description
    * @param {number} args.maxLevel
    * @param {number} args.reachedLevel
    */
-  constructor({ id, competenceId, competenceName, title, description, maxLevel, reachedLevel }) {
+  constructor({ id, competenceId, competenceName, areaName, title, description, maxLevel, reachedLevel }) {
     this.id = id;
     this.competenceId = competenceId;
     this.competenceName = competenceName;
+    this.areaName = areaName;
     this.title = title;
     this.description = description;
     this.maxLevel = maxLevel;
