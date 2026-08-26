@@ -150,6 +150,29 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
         assert.strictEqual(patchedAttributes.length, 1);
         assert.strictEqual(patchedAttributes[0]['external-calibration-id'], 1);
         assert.dom(screen.getByText("L'ID de calibration a été enregistré.")).exists();
+        assert
+          .dom(screen.getByRole('button', { name: "Enregistrer l'ID 1 de calibration" }))
+          .hasAttribute('aria-disabled');
+      });
+
+      test('prevents the validation when the calibrationId is already saved on the version', async function (assert) {
+        stubLatestCalibrationReport(reportLinesWithoutHighAlert);
+        server.schema.certificationVersions.find(14).update({ externalCalibrationId: 1 });
+        let patchCount = 0;
+        server.patch('/admin/certification-versions/:id', (schema, request) => {
+          patchCount++;
+          return schema.certificationVersions.find(request.params.id);
+        });
+
+        const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
+
+        await settled();
+
+        const saveButton = screen.getByRole('button', { name: "Enregistrer l'ID 1 de calibration" });
+        assert.dom(saveButton).hasAttribute('aria-disabled');
+
+        await click(saveButton);
+        assert.strictEqual(patchCount, 0);
       });
 
       test('prevents the validation when the report holds a high alert', async function (assert) {

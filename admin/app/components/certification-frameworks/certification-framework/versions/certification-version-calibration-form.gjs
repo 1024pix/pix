@@ -26,6 +26,14 @@ export default class CalibrationForm extends Component {
     return this.report.reportLines.some((line) => line.alertLevel === 'HIGH');
   }
 
+  get isCalibrationIdAlreadySaved() {
+    return this.report?.calibrationId === this.args.draftVersion.externalCalibrationId;
+  }
+
+  get isValidationDisabled() {
+    return this.hasHighAlert || this.isCalibrationIdAlreadySaved;
+  }
+
   get translatedReportLines() {
     const translatedReportLines = [];
     let i = 1;
@@ -139,7 +147,7 @@ export default class CalibrationForm extends Component {
         <PixButton
           class="versions-calibration__save-button"
           @variant="primary"
-          @isDisabled={{this.hasHighAlert}}
+          @isDisabled={{this.isValidationDisabled}}
           @triggerAction={{this.saveCalibrationId}}
         >
           {{t
