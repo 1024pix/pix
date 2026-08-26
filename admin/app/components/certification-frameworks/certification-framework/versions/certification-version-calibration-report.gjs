@@ -12,7 +12,7 @@ import { eq } from 'ember-truth-helpers';
 import Card from 'pix-admin/components/card';
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
 
-export default class CalibrationForm extends Component {
+export default class CertificationVersionCalibrationReport extends Component {
   @service pixToast;
   @service intl;
   @tracked showMoreInfoForLines = [];
