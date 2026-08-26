@@ -351,7 +351,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
 
     const participation = await knex('organization_learner_participations').where({ organizationLearnerId }).first();
     expect(participation).to.be.undefined;
-    expect(result).to.not.throw;
+    expect(result).to.not.throw();
   });
 
   it('should not update combined course if it is already completed', async function () {

@@ -267,7 +267,7 @@ describe('LLM | Unit | Infrastructure | Streaming | LLMResponseHandler', functio
 
         // then
         expect(hasThrown, 'Writable deliberately throws').to.be.true;
-        expect(await llmResponseHandler.finish()).not.to.throw;
+        expect(await llmResponseHandler.finish()).not.to.throw();
       });
     });
   });

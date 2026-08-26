@@ -11,8 +11,8 @@ import * as assessmentRepository from '../../../shared/infrastructure/repositori
 import * as badgeForCalculationRepository from '../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
-import * as courseRepository from '../../../shared/infrastructure/repositories/course-repository.js';
 import * as competenceScoreRepository from '../../../shared/infrastructure/repositories/competence-score-repository.js';
+import * as courseRepository from '../../../shared/infrastructure/repositories/course-repository.js';
 import * as knowledgeStateRepository from '../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
