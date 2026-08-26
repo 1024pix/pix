@@ -114,9 +114,6 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
         {{/if}}
 
         <div class="evaluation-results-hero-recommendation-engine__actions">
-          <PixButtonLink @route="authentication.login" @size="small" @variant="secondary-white">
-            {{t "pages.skill-review.actions.back-to-pix"}}
-          </PixButtonLink>
           {{#if @campaignParticipationResult.canReset}}
             <PixButton
               @iconBefore="refresh"

@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl/test-support';
 import EvaluationResultsHeroRecommendationEngine from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/evaluation-results-hero-recommendation-engine/index';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import { stubCurrentUserService } from '../../../../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
@@ -344,26 +345,80 @@ module(
       });
     });
 
-    test('it displays a back-to-homepage link', async function (assert) {
-      // given
-      stubCurrentUserService(this.owner, { firstName: 'Hermione' });
-      const campaign = { organizationId: 1, hasCustomResultPageButton: false };
-      const campaignParticipationResult = { masteryRate: 0.75 };
+    module('when campaign has recommended trainings', function () {
+      test('it displays a see-recommended-trainings button', async function (assert) {
+        // given
+        stubCurrentUserService(this.owner, { firstName: 'Hermione' });
+        const campaign = { organizationId: 1, hasCustomResultPageButton: false };
+        const campaignParticipationResult = { masteryRate: 0.75 };
 
-      // when
-      const screen = await render(
-        <template>
-          <EvaluationResultsHeroRecommendationEngine
-            @campaign={{campaign}}
-            @campaignParticipationResult={{campaignParticipationResult}}
-            @hasTrainings={{false}}
-          />
-        </template>,
-      );
+        // when
+        const screen = await render(
+          <template>
+            <EvaluationResultsHeroRecommendationEngine
+              @campaign={{campaign}}
+              @campaignParticipationResult={{campaignParticipationResult}}
+              @hasTrainings={{true}}
+            />
+          </template>,
+        );
 
-      // then
-      assert.dom(screen.getByRole('link', { name: t('pages.skill-review.actions.back-to-pix') })).exists();
-      assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
+        // then
+        assert
+          .dom(await screen.findByRole('button', { name: t('pages.skill-review.hero.see-my-recommendations') }))
+          .exists();
+      });
+
+      module('when clicking on the see-recommended-trainings button', function () {
+        test('it calls the function passed as argument of onSeeRecommendationsButtonClicked', async function (assert) {
+          // given
+          stubCurrentUserService(this.owner, { firstName: 'Hermione' });
+          const campaign = { organizationId: 1, hasCustomResultPageButton: false };
+          const campaignParticipationResult = { masteryRate: 0.75 };
+          const onSeeRecommendationsButtonClicked = sinon.stub();
+
+          // when
+          const screen = await render(
+            <template>
+              <EvaluationResultsHeroRecommendationEngine
+                @campaign={{campaign}}
+                @campaignParticipationResult={{campaignParticipationResult}}
+                @hasTrainings={{true}}
+                @onSeeRecommendationsButtonClicked={{onSeeRecommendationsButtonClicked}}
+              />
+            </template>,
+          );
+          await click(await screen.findByRole('button', { name: t('pages.skill-review.hero.see-my-recommendations') }));
+
+          // then
+          assert.ok(onSeeRecommendationsButtonClicked.calledOnce);
+        });
+      });
+    });
+
+    module('when campaign does not have recommended trainings', function () {
+      test('it does not display a see-recommended-trainings button', async function (assert) {
+        // given
+        stubCurrentUserService(this.owner, { firstName: 'Hermione' });
+        const campaign = { organizationId: 1, hasCustomResultPageButton: false };
+        const campaignParticipationResult = { masteryRate: 0.75 };
+
+        // when
+        const screen = await render(
+          <template>
+            <EvaluationResultsHeroRecommendationEngine
+              @campaign={{campaign}}
+              @campaignParticipationResult={{campaignParticipationResult}}
+              @hasTrainings={{false}}
+            />
+          </template>,
+        );
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-my-recommendations') }))
+          .doesNotExist();
+      });
     });
 
     module('when campaign can be reset', function (hooks) {
