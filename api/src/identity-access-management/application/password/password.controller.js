@@ -17,6 +17,20 @@ const checkResetDemand = async function (request) {
   return userSerializer.serialize(user);
 };
 
+/**
+ * @param request
+ * @param h
+ * @return {Promise<*>}
+ */
+const updatePassword = async function (request, h) {
+  const temporaryKey = request.payload['temporary-key'];
+  const password = request.payload.password;
+
+  await usecases.updateUserPassword({ temporaryKey, password });
+
+  return h.response().code(204);
+};
+
 const updateExpiredPassword = async function (request, h) {
   const passwordExpirationToken = request.payload.data.attributes['password-reset-token'];
   const newPassword = request.payload.data.attributes['new-password'];
@@ -34,4 +48,9 @@ const updateExpiredPassword = async function (request, h) {
     .created();
 };
 
-export const passwordController = { createResetPasswordDemand, checkResetDemand, updateExpiredPassword };
+export const passwordController = {
+  createResetPasswordDemand,
+  checkResetDemand,
+  updatePassword,
+  updateExpiredPassword,
+};

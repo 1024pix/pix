@@ -1,6 +1,5 @@
 import { RevokedPasswordCannotBeReusedError } from '../../../identity-access-management/domain/errors.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { UserNotAuthorizedToUpdatePasswordError } from '../../../shared/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 /**
@@ -18,26 +17,21 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js'
  * @throws {UserNotAuthorizedToUpdatePasswordError}
  */
 export const updateUserPassword = withTransaction(async function ({
-  userId,
-  password,
   temporaryKey,
+  password,
   cryptoService,
   resetPasswordService,
   authenticationMethodRepository,
   userRepository,
   resetPasswordDemandRepository,
 }) {
-  const user = await userRepository.get(userId);
-  if (!user.email) {
-    throw new UserNotAuthorizedToUpdatePasswordError();
-  }
-
   await resetPasswordService.assertTemporaryKey(temporaryKey);
-  const { email } = await resetPasswordService.verifyDemand(temporaryKey, resetPasswordDemandRepository);
-  if (!user.hasSameEmailAs(email)) {
-    throw new UserNotAuthorizedToUpdatePasswordError();
-  }
 
+  const { email } = await resetPasswordService.verifyDemand(temporaryKey, resetPasswordDemandRepository);
+
+  const user = await userRepository.getByEmail(email);
+
+  const userId = user.id;
   const pixAuthenticationComplement =
     await authenticationMethodRepository.getAuthenticationComplementByUserIdAndIdentityProvider({
       userId,
@@ -56,11 +50,11 @@ export const updateUserPassword = withTransaction(async function ({
 
   const hashedPassword = await cryptoService.hashPassword(password);
   await authenticationMethodRepository.updatePassword({
-    userId: user.id,
+    userId,
     hashedPassword,
   });
 
-  await resetPasswordService.invalidateAllResetPasswordDemandsByEmail(user.email, resetPasswordDemandRepository);
+  await resetPasswordService.invalidateAllResetPasswordDemandsByEmail(email, resetPasswordDemandRepository);
 
   await userRepository.updateEmailConfirmed(userId);
 });

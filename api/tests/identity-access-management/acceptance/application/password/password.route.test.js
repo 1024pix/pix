@@ -2,7 +2,7 @@ import { PasswordExpirationToken } from '../../../../../src/identity-access-mana
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { config } from '../../../../../src/shared/config.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Identity Access Management | Application | Route | password', function () {
@@ -107,6 +107,47 @@ describe('Acceptance | Identity Access Management | Application | Route | passwo
           expect(response.statusCode).to.equal(200);
         });
       });
+    });
+  });
+
+  describe('POST /api/update-password', function () {
+    it('returns a 204 HTTP status code', async function () {
+      // given
+      const temporaryKey = await resetPasswordService.generateTemporaryKey();
+      const user = databaseBuilder.factory.buildUser();
+      const userId = user.id;
+      const email = user.email;
+      const initialHashedPassword = 'example-of-an-hashed-password';
+      const authenticationMethod =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId,
+          hashedPassword: initialHashedPassword,
+        });
+
+      await databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
+
+      await databaseBuilder.commit();
+
+      const newPassword = 'example-of-a-new-valid-password-az-AZ-01234';
+
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/update-password',
+        payload: {
+          'user-id': userId,
+          password: newPassword,
+          'temporary-key': temporaryKey,
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(204);
+
+      const updatedAuthenticationMethod = await knex('authentication-methods')
+        .where({ id: authenticationMethod.id })
+        .first();
+      expect(updatedAuthenticationMethod.authenticationComplement.password).not.to.equal(initialHashedPassword);
     });
   });
 

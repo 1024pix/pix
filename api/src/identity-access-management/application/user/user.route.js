@@ -4,9 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { getSupportedLanguages, getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
 import { userController } from './user.controller.js';
-import { userVerification } from './user-existence-verification-pre-handler.js';
 
 export const userRoutes = [
   {
@@ -169,36 +167,6 @@ export const userRoutes = [
           '- L’id demandé doit correspondre à celui de l’utilisateur à enrichir',
       ],
       tags: ['identity-access-management', 'api', 'user'],
-    },
-  },
-  {
-    method: 'PATCH',
-    path: '/api/users/{id}/password-update',
-    config: {
-      auth: false,
-      pre: [
-        {
-          method: (request, h) => userVerification.verifyById(request, h),
-          assign: 'user',
-        },
-      ],
-      handler: (request, h) => userController.updatePassword(request, h),
-      validate: {
-        options: {
-          allowUnknown: true,
-        },
-        params: Joi.object({
-          id: identifiersType.userId,
-        }),
-        payload: Joi.object({
-          data: { attributes: { password: PasswordSchema.required() } },
-        }),
-      },
-      notes: [
-        "- Met à jour le mot de passe d'un utilisateur identifié par son id\n" +
-          "- Une clé d'identification temporaire permet de vérifier l'identité du demandeur",
-      ],
-      tags: ['identity-access-managements', 'api', 'user'],
     },
   },
   {

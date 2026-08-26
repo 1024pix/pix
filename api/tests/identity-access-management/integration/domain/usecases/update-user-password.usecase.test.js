@@ -7,34 +7,31 @@ import {
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { config } from '../../../../../src/shared/config.js';
-import {
-  InvalidTemporaryKeyError,
-  UserNotAuthorizedToUpdatePasswordError,
-} from '../../../../../src/shared/domain/errors.js';
+import { InvalidTemporaryKeyError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | update-user-password', function () {
-  context('when user has no email', function () {
-    it('throws a UserNotAuthorizedToUpdatePasswordError', async function () {
+  context('when there is no user corresponding to the given email', function () {
+    it('throws a UserNotFoundError', async function () {
       // given
-      const userId = databaseBuilder.factory.buildUser({ email: null }).id;
+      const temporaryKey = await resetPasswordService.generateTemporaryKey();
+      const email = 'an-email-with-no-associated-user@example.net';
+      await databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
 
       await databaseBuilder.commit();
 
       const newPassword = 'example-of-a-new-password';
-      const temporaryKey = 'some-temporary-key';
 
       // when
       const error = await catchErr(usecases.updateUserPassword)({
-        password: newPassword,
-        userId,
         temporaryKey,
+        password: newPassword,
       });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
+      expect(error).to.be.instanceOf(UserNotFoundError);
     });
   });
 

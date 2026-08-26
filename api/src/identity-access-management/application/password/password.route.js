@@ -34,6 +34,22 @@ export const passwordRoutes = [
   },
   {
     method: 'POST',
+    path: '/api/update-password',
+    config: {
+      auth: false,
+      validate: {
+        payload: Joi.object({
+          'temporary-key': Joi.string().required(),
+          password: PasswordSchema.required(),
+        }),
+      },
+      handler: (request, h) => passwordController.updatePassword(request, h),
+      notes: ["- Met à jour le mot de passe d'un utilisateur"],
+      tags: ['identity-access-managements', 'api', 'password'],
+    },
+  },
+  {
+    method: 'POST',
     path: '/api/expired-password-updates',
     config: {
       auth: false,
