@@ -45,6 +45,7 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
               @smartRandomLog={{@controller.smartRandomLog}}
               @totalNumberOfSkills={{@controller.skills.length}}
               @numberOfSkillsStillAvailable={{@controller.numberOfSkillsStillAvailable}}
+              @pixScore={{@controller.pixScore}}
               @displayedStepIndex={{@controller.displayedStepIndex}}
               @selectDisplayedStepIndex={{@controller.selectDisplayedStepIndex}}
             />
@@ -67,6 +68,7 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
               @smartRandomLog={{@controller.smartRandomLog}}
               @totalNumberOfSkills={{@controller.skills.length}}
               @numberOfSkillsStillAvailable={{@controller.numberOfSkillsStillAvailable}}
+              @pixScore={{@controller.pixScore}}
               @displayedStepIndex={{@controller.displayedStepIndex}}
               @selectDisplayedStepIndex={{@controller.selectDisplayedStepIndex}}
             />

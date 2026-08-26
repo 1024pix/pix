@@ -27,6 +27,7 @@ export default class SmartRandomSimulator extends Controller {
   @tracked assessmentComplete = false;
   @tracked smartRandomLog = null;
   @tracked displayedStepIndex = 0;
+  @tracked pixScore = 0;
 
   @action
   async updateParametersValue(key, value) {
@@ -54,6 +55,7 @@ export default class SmartRandomSimulator extends Controller {
     this.knowledgeElements = [];
     this.returnedChallenges = [];
     this.assessmentComplete = false;
+    this.pixScore = 0;
     return await this.requestNextChallenge();
   }
 
@@ -149,6 +151,7 @@ export default class SmartRandomSimulator extends Controller {
       case 200: {
         const responseBody = await apiResponse.json();
         this.smartRandomLog = responseBody.smartRandomLog;
+        this.pixScore = responseBody.pixScore;
         this.displayedStepIndex = this.smartRandomLog.steps.length - 1;
         if (!responseBody.challenge) {
           this.assessmentComplete = true;
@@ -197,10 +200,11 @@ export default class SmartRandomSimulator extends Controller {
     const currentSkillTested = this.currentChallenge.skill;
     const currentSkillTubeName = this.getTubeNameFromSkillName(currentSkillTested.name);
     const currentChallengeSkillDifficulty = this.currentChallenge.skill.difficulty;
-    const inferredSkills =
+    const inferredSkills = (
       newAnswer.result === ANSWER_STATUSES.OK
         ? this.getLowerLevelSkillsFromSameTube(currentSkillTubeName, currentChallengeSkillDifficulty)
-        : this.getHigherLevelSkillsFromSameTube(currentSkillTubeName, currentChallengeSkillDifficulty);
+        : this.getHigherLevelSkillsFromSameTube(currentSkillTubeName, currentChallengeSkillDifficulty)
+    ).filter((skill) => !this.hasKnowledgeElementForSkill(skill));
 
     const inferredNewKnowledgeElements = inferredSkills.map((skill) => ({
       source: KNOWLEDGE_ELEMENTS_SOURCES.INFERRED,
@@ -213,6 +217,10 @@ export default class SmartRandomSimulator extends Controller {
     }));
 
     this.knowledgeElements = [...this.knowledgeElements, directNewKnowledgeElement, ...inferredNewKnowledgeElements];
+  }
+
+  hasKnowledgeElementForSkill(skill) {
+    return this.knowledgeElements.some((knowledgeElement) => knowledgeElement.skillId === skill.id);
   }
 
   getLowerLevelSkillsFromSameTube(currentSkillTubeName, currentChallengeSkillDifficulty) {

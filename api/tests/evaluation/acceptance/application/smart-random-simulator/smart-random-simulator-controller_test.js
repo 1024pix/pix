@@ -201,6 +201,30 @@ describe('Acceptance | API | Smart Random Simulator', function () {
           expect(JSON.parse(response.payload).smartRandomLog).to.exist;
         });
       });
+
+      context('when the user has validated some skills', function () {
+        it('should return the pix score earned by the simulated user', async function () {
+          // given
+          const payload = buildPayload();
+          payload.data.attributes.skills[0].pixValue = 2.6;
+          payload.data.attributes.skills[0].competenceId = 'competenceId';
+          payload.data.attributes.knowledgeElements[0].skillId = 'recoaijndozia123';
+
+          const options = {
+            method: 'POST',
+            url: '/api/admin/smart-random-simulator/get-next-challenge',
+            headers: generateAuthenticatedUserRequestHeaders({ userId }),
+            payload,
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(JSON.parse(response.payload).pixScore).to.equal(2);
+        });
+      });
     });
   });
 });

@@ -8,6 +8,7 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
 
   let screen;
   const numberOfSkillsStillAvailable = 11;
+  const pixScore = 24;
   const numberOfSkillsFromKe = 2;
   const totalNumberOfSkills = numberOfSkillsStillAvailable + numberOfSkillsFromKe;
   const tubes = [
@@ -320,6 +321,7 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
           @totalNumberOfSkills={{totalNumberOfSkills}}
           @selectDisplayedStepIndex={{selectDisplayedStepIndex}}
           @numberOfSkillsStillAvailable={{numberOfSkillsStillAvailable}}
+          @pixScore={{pixScore}}
         />
       </template>,
     );
@@ -337,6 +339,10 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
 
   test('should display the predicted level', async function (assert) {
     assert.dom(screen.getByText("Niveau prédit de l'utilisateur: 2")).exists();
+  });
+
+  test('should display the user pix score', async function (assert) {
+    assert.dom(screen.getByText("Score de l'utilisateur: 24 pix")).exists();
   });
 
   test('should display all translated steps', async function (assert) {

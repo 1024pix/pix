@@ -5,7 +5,7 @@ import { getSmartRandomLog, logStep } from '../services/smart-random-log-service
  * @param {simulationParameters: SimulationParameters} simulationParameters
  * @param pickChallengeService
  * @param smartRandomService
- * @returns {Promise<{challenge: Challenge | null, smartRandomLog: SmartRandomLog}}
+ * @returns {Promise<{challenge: Challenge | null, smartRandomLog: SmartRandomLog, pixScore: number}}
  */
 const getNextChallengeForSimulator = function ({ simulationParameters, pickChallengeService, smartRandomService }) {
   const { possibleSkillsForNextChallenge, hasAssessmentEnded } = smartRandomService.getPossibleSkillsForNextChallenge({
@@ -23,6 +23,7 @@ const getNextChallengeForSimulator = function ({ simulationParameters, pickChall
     return {
       challenge: null,
       smartRandomLog: getSmartRandomLog(),
+      pixScore: simulationParameters.pixScore,
     };
   }
 
@@ -34,7 +35,7 @@ const getNextChallengeForSimulator = function ({ simulationParameters, pickChall
 
   logStep(STEPS_NAMES.RANDOM_PICK, [challenge.skill]);
 
-  return { challenge, smartRandomLog: getSmartRandomLog() };
+  return { challenge, smartRandomLog: getSmartRandomLog(), pixScore: simulationParameters.pixScore };
 };
 
 export { getNextChallengeForSimulator };
