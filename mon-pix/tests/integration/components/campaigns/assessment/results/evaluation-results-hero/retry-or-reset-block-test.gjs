@@ -47,57 +47,6 @@ module(
         .doesNotExist();
     });
 
-    module('when user retry the assessment but delay before retrying is not passed', function () {
-      test('displays a disabled button', async function (assert) {
-        // given
-        const campaign = { code: 'CODECAMPAIGN' };
-        const campaignParticipationResult = {
-          canRetry: true,
-          canReset: false,
-          remainingSecondsBeforeRetrying: '90',
-        };
-
-        // when
-        const screen = await render(
-          <template>
-            <RetryOrResetBlock @campaign={{campaign}} @campaignParticipationResult={{campaignParticipationResult}} />
-          </template>,
-        );
-
-        // then
-        const retryButton = screen.getByRole('button', { name: t('pages.skill-review.hero.retry.actions.retry') });
-        assert.dom(retryButton).hasAttribute('aria-disabled', 'true');
-
-        assert
-          .dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.retry.actions.reset') }))
-          .doesNotExist();
-        assert.dom(screen.getByText(t('pages.skill-review.retry.notification'))).exists();
-      });
-
-      test('should display remaining time', async function (assert) {
-        // given
-        const campaign = { code: 'CODECAMPAIGN' };
-        const campaignParticipationResult = {
-          canRetry: true,
-          canReset: false,
-          remainingSecondsBeforeRetrying: '90',
-        };
-
-        // when
-        const screen = await render(
-          <template>
-            <RetryOrResetBlock @campaign={{campaign}} @campaignParticipationResult={{campaignParticipationResult}} />
-          </template>,
-        );
-        // then
-        assert.ok(
-          await screen.findByText(t('pages.skill-review.hero.retry.retryIn', { duration: '2 minutes' }), {
-            exact: false,
-          }),
-        );
-      });
-    });
-
     module('when user can only retry the assessment', function (hooks) {
       hooks.beforeEach(function () {
         state.campaign = { code: 'CODECAMPAIGN' };

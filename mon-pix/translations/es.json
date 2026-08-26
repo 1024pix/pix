@@ -2229,7 +2229,6 @@
             "retry": "Repetir el test"
           },
           "description": "Tu organizador te pedira que repites la prueba.",
-          "retryIn": "Aún no puedes retomar este curso. Vuelve dentro de {duration}.",
           "title": "Mejora tus resultados"
         },
         "see-my-recommendations": "Ver mis recomendaciones",
