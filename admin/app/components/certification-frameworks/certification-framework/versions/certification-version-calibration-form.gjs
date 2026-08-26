@@ -1,3 +1,4 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import { fn } from '@ember/helper';
@@ -135,6 +136,16 @@ export default class CalibrationForm extends Component {
             {{/each}}
           </DescriptionList>
         </div>
+        <PixButton
+          class="versions-calibration__save-button"
+          @variant="primary"
+          @triggerAction={{this.saveCalibrationId}}
+        >
+          {{t
+            "components.certification-frameworks.certification-framework.versions.calibration.save-button-label"
+            id=this.report.calibrationId
+          }}
+        </PixButton>
       {{else}}
         <p class="versions-calibration__no-report">
           {{t "components.certification-frameworks.certification-framework.versions.calibration.no-report-message"}}

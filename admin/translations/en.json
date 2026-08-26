@@ -590,6 +590,7 @@
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
             "no-report-message": "No calibration could be retrieved for this scope.",
             "report-title": "Calibration report of ID {calibrationId} generated at",
+            "save-button-label": "Save the calibration ID {id}",
             "save-success-message": "The ID has been saved",
             "scopes": {
               "CORE": "Pix Core",
