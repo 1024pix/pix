@@ -143,20 +143,3 @@ npx cucumber-js --i18n-keywords fr
 
 La plupart des fonctions natives du navigateur sont accessibles, par exemple l'accès au storage avec `window.localStorage.setItem` 
 [Exemple d'utilisation](http://github.com/1024pix/pix/blob/858179613343e238e0f9776374ba4875b688194f/high-level-tests/e2e/cypress/support/commands.js#L5-L5)
-
-
-#### Tests de non régression visuelle
-
-Il est possible de comparer le rendu d'une page ou d'un élément html lors des tests end-to-end.  
-
-Pour mettre à jour les captures d'écran de base (qui servent de référence pour détecter les régressions), lancer :
-```
-npm run cy:run:base
-```
-
-Pour détecter une régression visuelle dans un test, utiliser le step : 
-```
-    Alors la page "## nom explicite de la capture d'écran ##" est correctement affichée
-```
-
-Pour toutes les options de comparaison / test se référer au plugin utilisé [cypress-visual-regression](https://github.com/mjhea0/cypress-visual-regression). 

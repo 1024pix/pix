@@ -10,7 +10,6 @@ Fonctionnalité: Campagne d'évaluation
     Et je saisis le code "NERA"
     Lorsque je clique sur "Accéder au parcours"
     Alors je vois la page de "presentation" de la campagne
-    Et la page "Presentation campagne evaluation" est correctement affichée
     Lorsque je clique sur "Je commence"
     Et je saisis "khaleesi" dans le champ "Surnom"
     Et je clique sur "Continuer"

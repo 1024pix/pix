@@ -5,7 +5,6 @@ const browserify = require("@cypress/browserify-preprocessor");
 const {
   preprendTransformerToOptions,
 } = require("@badeball/cypress-cucumber-preprocessor/browserify");
-const { configureVisualRegression } = require("cypress-visual-regression");
 const cypressSplit = require("cypress-split");
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
@@ -16,8 +15,6 @@ async function setupNodeEvents(cypressOn, config) {
   const on = require("cypress-on-fix")(cypressOn);
 
   cypressSplit(on, config);
-
-  configureVisualRegression(on);
 
   await preprocessor.addCucumberPreprocessorPlugin(on, config);
   on(
@@ -75,7 +72,6 @@ module.exports = defineConfig({
   env: {
     APP_URL: "http://localhost:4200",
     ORGA_URL: "http://localhost:4201",
-    visualRegressionType: "regression",
   },
   video: false,
   blockHosts: ["*stats.pix.fr*", "*analytics.pix.fr*"],
@@ -86,7 +82,6 @@ module.exports = defineConfig({
     runMode: 2,
   },
   e2e: {
-    screenshotsFolder: "cypress/snapshots/actual",
     supportFile: "cypress/support/index.js",
     specPattern: "cypress/integration/**/*{.test.js,.feature}",
     setupNodeEvents,

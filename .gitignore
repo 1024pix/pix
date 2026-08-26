@@ -75,9 +75,6 @@ api/dependencies-violations.md
 # Answers extracts
 api/scripts/extractions
 
-# Visual regression snapshots
-high-level-tests/e2e/cypress/snapshots/actual/**
-
 # Pipe viewer
 **/pv*.out
 

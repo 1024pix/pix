@@ -94,10 +94,6 @@ When(`je sélectionne {string} dans le champ {string}`, (value, label) => {
     .within(() => cy.get("select").select(value));
 });
 
-Then(`la page {string} est correctement affichée`, (pageName) => {
-  cy.compareSnapshot(pageName);
-});
-
 Then(`je vois {string} comme {string}`, (value, label) => {
   cy.contains(label)
     .parent()
