@@ -61,13 +61,6 @@ export default class User extends ApplicationAdapter {
       return url + '/has-seen-challenge-tooltip/' + tooltipChallengeType;
     }
 
-    if (adapterOptions && adapterOptions.updatePassword) {
-      delete adapterOptions.updatePassword;
-      const temporaryKey = adapterOptions.temporaryKey;
-      delete adapterOptions.temporaryKey;
-      return url + `/password-update?temporary-key=${encodeURIComponent(temporaryKey)}`;
-    }
-
     if (adapterOptions && adapterOptions.rememberUserHasSeenLastDataProtectionPolicyInformation) {
       delete adapterOptions.rememberUserHasSeenLastDataProtectionPolicyInformation;
       return url + '/has-seen-last-data-protection-policy-information';

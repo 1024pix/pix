@@ -76,15 +76,6 @@ module('Unit | Adapters | user', function (hooks) {
       assert.true(url.endsWith('/users/123/has-seen-challenge-tooltip/focused'));
     });
 
-    test('should include temporaryKey if present in adapterOptions', async function (assert) {
-      // when
-      const snapshot = { adapterOptions: { updatePassword: true, temporaryKey: 'temp=&key' } };
-      const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
-
-      // then
-      assert.true(url.endsWith('/users/123/password-update?temporary-key=temp%3D%26key'));
-    });
-
     test('should redirect to lang', async function (assert) {
       // when
       const options = { adapterOptions: { lang: 'en' } };
