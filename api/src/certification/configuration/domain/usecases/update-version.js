@@ -19,6 +19,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @param {boolean} params.limitToOneQuestionPerTube
  * @param {boolean} params.enablePassageByAllCompetences
  * @param {object} params.globalScoringConfiguration
+ * @param {Array|null} params.competencesScoringConfiguration
  * @param {VersionRepository} params.versionRepository
  */
 export async function updateVersion({
@@ -36,6 +37,7 @@ export async function updateVersion({
   externalCalibrationId,
   versionRepository,
   globalScoringConfiguration,
+  competencesScoringConfiguration,
 }) {
   const version = await versionRepository.getById({ id });
 
@@ -56,6 +58,7 @@ export async function updateVersion({
     enablePassageByAllCompetences,
     externalCalibrationId,
     globalScoringConfiguration,
+    competencesScoringConfiguration,
   });
 
   return versionRepository.save(version);

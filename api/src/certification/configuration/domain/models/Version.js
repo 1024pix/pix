@@ -116,6 +116,7 @@ export class Version {
     enablePassageByAllCompetences,
     externalCalibrationId,
     globalScoringConfiguration,
+    competencesScoringConfiguration,
   }) {
     if (!this.isDraft) {
       throw new VersionNotDraftError();
@@ -123,6 +124,7 @@ export class Version {
     this.startDate = startDate;
     this.assessmentDuration = assessmentDuration;
     this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredForValidation;
+    this.competencesScoringConfiguration = competencesScoringConfiguration ?? this.competencesScoringConfiguration;
     this.challengesConfiguration = new FlashAssessmentAlgorithmConfiguration({
       maximumAssessmentLength,
       challengesBetweenSameCompetence,
