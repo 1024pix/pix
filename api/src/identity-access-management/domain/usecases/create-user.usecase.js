@@ -38,22 +38,22 @@ const createUser = async function ({
   userValidator,
   passwordValidator,
 }) {
-  await _assertValidData({
-    password,
-    user,
-    userRepository,
-    userValidator,
-    passwordValidator,
-  });
-
-  const userHasValidatedPixTermsOfService = user.cgu === true;
-  if (userHasValidatedPixTermsOfService) {
-    user.lastTermsOfServiceValidatedAt = new Date();
-  }
-
-  const hashedPassword = await cryptoService.hashPassword(password);
-
   const { savedUser, token } = await DomainTransaction.execute(async () => {
+    await _assertValidData({
+      password,
+      user,
+      userRepository,
+      userValidator,
+      passwordValidator,
+    });
+
+    const userHasValidatedPixTermsOfService = user.cgu === true;
+    if (userHasValidatedPixTermsOfService) {
+      user.lastTermsOfServiceValidatedAt = new Date();
+    }
+
+    const hashedPassword = await cryptoService.hashPassword(password);
+
     const savedUser = await userService.createUserWithPassword({
       user,
       locale,
