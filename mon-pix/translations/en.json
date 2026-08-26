@@ -2335,10 +2335,13 @@
           }
         },
         "trainings": {
+          "carousel-roledescription": "carousel",
           "description": "The solutions listed below are recommended to you based on your level.",
           "next-button-aria-label": "See next trainings",
           "pagination-announcement": "Showing trainings {from} to {to} of {total}",
           "previous-button-aria-label": "See previous trainings",
+          "slide-aria-label": "{position} of {total}",
+          "slide-roledescription": "slide",
           "title": "Go further, at your own pace."
         }
       },

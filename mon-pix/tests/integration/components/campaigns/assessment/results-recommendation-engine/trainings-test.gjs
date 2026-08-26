@@ -99,12 +99,43 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     const trainings = [];
 
     // when
-    await render(<template><Trainings @trainings={{trainings}} /></template>);
+    const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
 
     // then
-    const heading = document.querySelector('.results-recommendation-engine-training__title');
-    const region = document.querySelector('.results-recommendation-engine-training');
-    assert.strictEqual(region.getAttribute('aria-labelledby'), heading.id);
+    assert
+      .dom(screen.getByRole('region', { name: t('pages.skill-review.recommended-engine.trainings.title') }))
+      .exists();
+  });
+
+  test('it exposes the section as a carousel, and each card as a labelled slide', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const trainings = createManyTrainings(store, 2);
+
+    // when
+    const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+
+    // then
+    const region = screen.getByRole('region', { name: t('pages.skill-review.recommended-engine.trainings.title') });
+    assert.strictEqual(
+      region.getAttribute('aria-roledescription'),
+      t('pages.skill-review.recommended-engine.trainings.carousel-roledescription'),
+    );
+
+    const slides = screen.getAllByRole('group');
+    assert.strictEqual(slides.length, 2);
+    assert.strictEqual(
+      slides[0].getAttribute('aria-roledescription'),
+      t('pages.skill-review.recommended-engine.trainings.slide-roledescription'),
+    );
+    assert.strictEqual(
+      slides[0].getAttribute('aria-label'),
+      t('pages.skill-review.recommended-engine.trainings.slide-aria-label', { position: 1, total: 2 }),
+    );
+    assert.strictEqual(
+      slides[1].getAttribute('aria-label'),
+      t('pages.skill-review.recommended-engine.trainings.slide-aria-label', { position: 2, total: 2 }),
+    );
   });
 
   module('carousel navigation', function () {

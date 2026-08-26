@@ -66,6 +66,13 @@ export default class Trainings extends Component {
     });
   }
 
+  slideAriaLabel = (index) => {
+    return this.intl.t('pages.skill-review.recommended-engine.trainings.slide-aria-label', {
+      position: index + 1,
+      total: this.args.trainings.length,
+    });
+  };
+
   get scrollBehavior() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
   }
@@ -118,6 +125,7 @@ export default class Trainings extends Component {
       tabindex="-1"
      class="results-recommendation-engine-training"
       aria-labelledby={{this.titleId}}
+      aria-roledescription={{t "pages.skill-review.recommended-engine.trainings.carousel-roledescription"}}
       {{onIntersect @onFullyVisible threshold=1}}
     >
       <div class="results-recommendation-engine-training__header">
@@ -154,13 +162,19 @@ export default class Trainings extends Component {
           {{if this.isNavigationVisible 'results-recommendation-engine-training__list--locked'}}"
         {{this.registerList}}
       >
-        {{#each @trainings as |training|}}
-          <li class="results-recommendation-engine-training-list__item"><TrainingCard
-              @training={{training}}
-              @onCardClick={{@onCardClick}}
-              @onModalButtonClick={{@onModalButtonClick}}
-              @onModalAccordionClick={{@onModalAccordionClick}}
-            /></li>
+        {{#each @trainings as |training index|}}
+          <li class="results-recommendation-engine-training-list__item">
+            <div
+              role="group"
+              aria-roledescription={{t "pages.skill-review.recommended-engine.trainings.slide-roledescription"}}
+              aria-label={{this.slideAriaLabel index}}
+            ><TrainingCard
+                @training={{training}}
+                @onCardClick={{@onCardClick}}
+                @onModalButtonClick={{@onModalButtonClick}}
+                @onModalAccordionClick={{@onModalAccordionClick}}
+              /></div>
+          </li>
         {{/each}}
         {{#if this.isNavigationVisible}}
           <li

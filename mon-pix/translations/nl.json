@@ -2335,10 +2335,13 @@
           }
         },
         "trainings": {
+          "carousel-roledescription": "carrousel",
           "description": "De onderstaande oplossingen worden je aanbevolen op basis van je niveau.",
           "next-button-aria-label": "Volgende opleidingen bekijken",
           "pagination-announcement": "Opleidingen {from} tot {to} van {total} weergegeven",
           "previous-button-aria-label": "Vorige opleidingen bekijken",
+          "slide-aria-label": "{position} van {total}",
+          "slide-roledescription": "dia",
           "title": "Ga verder, op je eigen tempo."
         }
       },
