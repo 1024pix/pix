@@ -15,6 +15,27 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Certification | Evaluation | UseCases | rescore-v2-certification', function () {
   describe('session is not in a publishable state', function () {
+    it('should not rescore when the session does not exist', async function () {
+      // given
+      const certificationCourseId = 123;
+      const sessionRepository = { getByCertificationCourseId: sinon.stub().resolves(null) };
+      const services = { handleV2CertificationScoring: sinon.stub() };
+
+      const event = new CertificationCourseRejected({
+        certificationCourseId,
+      });
+
+      // when
+      await catchErr(rescoreV2Certification)({
+        event,
+        sessionRepository,
+        services,
+      });
+
+      // then
+      expect(services.handleV2CertificationScoring).to.not.have.been.called;
+    });
+
     it('should reject to do a rescoring is session is still in progress', async function () {
       // given
       const certificationCourseId = 123;

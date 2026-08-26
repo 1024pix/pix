@@ -133,6 +133,7 @@ export async function scoreV3Certification({
  * @param {SessionRepository} params.sessionRepository
  *
  * @returns {Promise<void>}
+ * @throws {NotFoundError}
  * @throws {NotFinalizedSessionError}
  * @throws {SessionAlreadyPublishedError}
  */
@@ -143,6 +144,10 @@ async function _verifyCertificationIsScorable({
   sessionRepository,
 }) {
   const session = await sessionRepository.getByCertificationCourseId({ certificationCourseId });
+
+  if (!session) {
+    throw new NotFoundError('Session does not exist');
+  }
 
   if (session.isPublished) {
     throw new SessionAlreadyPublishedError();

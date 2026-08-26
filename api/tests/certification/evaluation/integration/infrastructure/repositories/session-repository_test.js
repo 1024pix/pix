@@ -1,9 +1,7 @@
 import * as sessionRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/session-repository.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Evaluation | Integration | Infrastructure | Repositories | Session', function () {
   describe('#getByCertificationCourseId', function () {
@@ -34,14 +32,14 @@ describe('Certification | Evaluation | Integration | Infrastructure | Repositori
     });
 
     context('when the certification does not exist', function () {
-      it('should throw a not found error', async function () {
+      it('should return null', async function () {
         // given, when
-        const error = await catchErr(sessionRepository.getByCertificationCourseId)({
+        const session = await sessionRepository.getByCertificationCourseId({
           certificationCourseId: 123,
         });
 
         // then
-        expect(error).to.be.an.instanceof(NotFoundError);
+        expect(session).to.be.null;
       });
     });
   });

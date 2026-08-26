@@ -30,6 +30,17 @@ describe('Unit | Certification | Evaluation | Domain | UseCase | Score V3 Certif
     });
   });
 
+  context('when session does not exist', function () {
+    it('should throw a NotFoundError', async function () {
+      const dependencies = createDependencies({
+        sessionRepository: { getByCertificationCourseId: sinon.stub().resolves(null) },
+      });
+
+      const error = await catchErr(scoreV3Certification)(dependencies);
+      expect(error).to.deepEqualInstance(new NotFoundError('Session does not exist'));
+    });
+  });
+
   context('when candidate is not scorable', function () {
     context('when session is already published', function () {
       it('should throw a SessionAlreadyPublishedError', async function () {
