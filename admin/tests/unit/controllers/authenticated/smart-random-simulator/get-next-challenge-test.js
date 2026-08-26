@@ -20,11 +20,13 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
   const getNextChallengeApiResponseBody = {
     challenge: returnedChallenge,
     smartRandomLog: { predictedLevel: 8, steps: [] },
+    pixScore: 12,
   };
 
   const getAssessmentCompleteApiResponseBody = {
     challenge: null,
     smartRandomLog: { predictedLevel: 8, steps: [] },
+    pixScore: 12,
   };
 
   const getCampaignParamsApiResponseBody = {
@@ -183,6 +185,18 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
         assert.ok(controller);
         assert.true(controller.assessmentComplete);
       });
+
+      test('it should store the pix score returned by the API', async function (assert) {
+        // given
+        const apiResponse = new Response(JSON.stringify(getAssessmentCompleteApiResponseBody), { status: 200 });
+        fetchStub.resolves(apiResponse);
+
+        // when
+        await controller.requestNextChallenge();
+
+        // then
+        assert.strictEqual(controller.pixScore, 12);
+      });
     });
 
     module('when api answer is not 200', function () {
@@ -309,6 +323,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
         },
       ];
       controller.assessmentComplete = true;
+      controller.pixScore = 12;
       controller.requestNextChallenge = sinon.stub().resolves();
 
       // when
@@ -319,6 +334,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
       assert.deepEqual(controller.knowledgeState, []);
       assert.deepEqual(controller.returnedChallenges, []);
       assert.false(controller.assessmentComplete);
+      assert.strictEqual(controller.pixScore, 0);
       assert.ok(controller.requestNextChallenge.calledOnce);
     });
   });

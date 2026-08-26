@@ -152,6 +152,8 @@ export default class TubesViewer extends Component {
 
       <p>Niveau prédit de l'utilisateur: {{if this.predictedLevel this.predictedLevel "N/A"}}</p>
 
+      <p>Score de l'utilisateur: {{@pixScore}} pix</p>
+
       <p>
         <PixCheckbox {{on "change" this.toggleShowSkillsRewards}} checked={{this.showSkillsRewards}}>
           <:label>Afficher la lucrativité des acquis</:label>

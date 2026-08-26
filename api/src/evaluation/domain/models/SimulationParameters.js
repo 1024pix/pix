@@ -1,3 +1,5 @@
+import { calculatePixScore } from '../services/scoring/scoring-service.js';
+
 class SimulationParameters {
   /**
    * @param {KnowledgeState} knowledgeState
@@ -14,6 +16,19 @@ class SimulationParameters {
     this.challenges = challenges;
     this.locale = locale;
     this.assessmentId = assessmentId;
+  }
+
+  /**
+   * Score de l'utilisateur simulé, calculé comme dans mon-pix : chaque acquis validé rapporte
+   * sa pixValue, le total étant plafonné par compétence.
+   * @returns {number}
+   */
+  get pixScore() {
+    const validatedSkills = this.knowledgeState
+      .validatedSkills(this.skills)
+      .map((skill) => ({ ...skill, pixValue: skill.pixValue ?? 0 }));
+
+    return calculatePixScore(validatedSkills);
   }
 }
 
