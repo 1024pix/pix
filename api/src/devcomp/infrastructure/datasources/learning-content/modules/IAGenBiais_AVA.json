@@ -1075,7 +1075,7 @@
         {
           "id": "634c8324-bb11-406e-8463-436fb7d91702",
           "type": "challenge",
-          "title": "Chaque IA a ses limites.",
+          "title": "Une même question, des réponses différentes.",
           "components": [
             {
               "type": "element",
@@ -1083,7 +1083,7 @@
                 "id": "52f3e50d-8fa0-4d7c-bde8-fb9af9e6016e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le site <a href=\"https://comparia.beta.gouv.fr/\" target=\"_blank\">compar:IA</a>&nbsp;vous permet d’envoyer un prompt à deux logiciels d’IA en même temps.&nbsp;</p><p>Allez sur le site et essayez le prompt suivant.&nbsp;</p><blockquote>«&nbsp;Que s’est-il passé le 4 juin 1989 ?&nbsp;»</blockquote><p>Observez les réponses des IA puis répondez à la question ci-dessous.</p>"
+                "content": "<p>Le site <a href=\"https://arene.comparia.beta.gouv.fr/?vs=deepseek-v4-flash,gemini-3.5-flash-lite\" target=\"_blank\">compar:IA</a> permet de comparer les réponses de deux logiciels d’intelligence artificielle.</p>\n<p>Ouvrez le lien : les deux IA et la question sont déjà sélectionnées. Lancez la comparaison, puis lisez attentivement leurs réponses.</p>\n<blockquote>«&nbsp;Que s’est-il passé le 4 juin 1989&nbsp;?&nbsp;»</blockquote>\n<p>Même lorsqu’elles répondent à la même question, les IA ne présentent pas toujours les informations de la même manière.</p>"
               }
             },
             {
@@ -1091,59 +1091,46 @@
               "element": {
                 "id": "b48e6ebb-8242-4fb3-b924-556e6b814e8c",
                 "type": "qrocm",
-                "instruction": "<p><strong>Parmi les logiciels d’IA suivants</strong>, lequel a refusé de répondre à la question indiquée dans le prompt ?</p>",
+                "instruction": "<p><strong>Que montre principalement cette comparaison&nbsp;?</strong></p>",
                 "proposals": [
                   {
                     "type": "select",
-                    "input": "Sélectionnez le logiciel d’IA",
+                    "input": "Sélectionnez une réponse",
                     "display": "inline",
-                    "placeholder": "Sélectionnez le logiciel d’IA",
-                    "ariaLabel": "Sélectionnez le logiciel d’IA",
+                    "placeholder": "Sélectionnez une réponse",
+                    "ariaLabel": "Sélectionnez une réponse",
                     "tolerances": [],
                     "options": [
                       {
+                        "id": "1",
+                        "content": "Une réponse plus longue est forcément plus fiable."
+                      },
+                      {
                         "id": "2",
-                        "content": "Mistral"
+                        "content": "Deux IA peuvent sélectionner et présenter différemment les informations."
                       },
                       {
                         "id": "3",
-                        "content": "Claude"
+                        "content": "Toutes les IA donnent toujours exactement la même réponse."
                       },
                       {
                         "id": "4",
-                        "content": "Gemini"
-                      },
-                      {
-                        "id": "5",
-                        "content": "ChatGPT"
-                      },
-                      {
-                        "id": "7",
-                        "content": "LLama"
-                      },
-                      {
-                        "id": "8",
-                        "content": "DeepSeek"
-                      },
-                      {
-                        "id": "12",
-                        "content": "Qwen"
+                        "content": "Une IA connaît nécessairement mieux l’histoire que l’autre."
                       }
                     ],
                     "solutions": [
-                      "8",
-                      "12"
+                      "2"
                     ]
                   }
                 ],
                 "feedbacks": {
                   "valid": {
                     "state": "Exactement.",
-                    "diagnosis": "<p>Selon l’IA utilisée, la réponse peut être détaillée, partielle… ou très prudente.</p><p>Chaque modèle fonctionne avec ses propres règles, filtres et contraintes (politiques d’usage, conformité, modération, etc.). Sur certains sujets sensibles, une IA peut <strong>refuser</strong>, <strong>reformuler fortement</strong> ou <strong>réduire</strong> les informations.</p><p><strong>👉 Une IA n’est jamais totalement neutre.</strong> Il est important de croiser les sources et de garder un regard critique.</p>"
+                    "diagnosis": "<p>Les deux IA répondent à la même question, mais elles peuvent choisir des mots, un niveau de précision ou des éléments de contexte différents.</p><p>Ces différences dépendent notamment des données utilisées pour entraîner les modèles, de leurs réglages et des règles appliquées à leurs réponses.</p><p><strong>👉 Une réponse produite par une IA n’est jamais totalement neutre ni exhaustive.</strong> Pour un sujet historique ou sensible, il est important de croiser les réponses avec des sources fiables.</p>"
                   },
                   "invalid": {
                     "state": "Pas tout à fait.",
-                    "diagnosis": "<p>Regardez les indices de <strong>restriction</strong>&nbsp;: refus explicite, réponse très courte, changement de sujet, formulations très vagues, ou message de sécurité.</p>"
+                    "diagnosis": "<p>Observez les informations retenues par chaque IA&nbsp;: mentionnent-elles les mêmes événements, les mêmes acteurs et le même contexte&nbsp;? Regardez également les mots employés et le niveau de précision.</p><p>Une réponse plus détaillée n’est pas automatiquement plus fiable.</p>"
                   }
                 }
               }
@@ -1154,7 +1141,7 @@
                 "id": "716b7f23-a6ef-4b67-b186-bd94a0233f4f",
                 "type": "expand",
                 "title": "Indice 1",
-                "content": "<table style=\"border-collapse: collapse; width: 100%;\">    <caption class=\"sr-only\">Répartition des IA par zone géographique</caption>    <thead>        <tr>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Zone</th>            <th scope=\"col\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">IA concernées</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Union européenne</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">Mistral</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">États-Unis</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">Claude, Gemini, ChatGPT, Grok</td>        </tr>        <tr>            <th scope=\"row\" style=\"border: 1px solid #ddd; padding: 8px; text-align: left;\">Chine</th>            <td style=\"border: 1px solid #ddd; padding: 8px;\">DeepSeek, Qwen</td>        </tr>    </tbody></table>"
+                "content": "<p>Repérez d’abord les informations communes aux deux réponses, puis celles qui n’apparaissent que dans l’une d’elles.</p>"
               }
             },
             {
@@ -1163,7 +1150,7 @@
                 "id": "37b1608e-ba6e-40e6-8ed4-abe29849567b",
                 "type": "expand",
                 "title": "Indice 2",
-                "content": "<p>Si vous recevez le message&nbsp;«&nbsp;Oups, erreur temporaire&nbsp;» c’est potentiellement qu’un logiciel IA ne peut pas donner de réponse à votre question.&nbsp;</p>"
+                "content": "<p>Comparez la manière dont les deux IA présentent l’événement&nbsp;: niveau de précision, vocabulaire employé, contexte donné et informations éventuellement omises.</p>"
               }
             },
             {
@@ -1172,7 +1159,7 @@
                 "id": "6faee291-d8b3-4b8f-9afe-077fc8c6c55b",
                 "type": "expand",
                 "title": "Indice 3",
-                "content": "<p>Le 4 juin 1989 correspond à la fin d’un mouvement de manifestations étudiantes à Pékin. Cet épisode de l’histoire chinoise contemporaine est traité différemment selon les contextes politiques et médiatiques.</p>"
+                "content": "<p>Le 4 juin 1989 correspond à la répression du mouvement de manifestations qui se déroulait notamment sur la place Tian’anmen, à Pékin. Ce sujet historique peut être présenté de manière plus ou moins précise selon les modèles et leur contexte de conception.</p>"
               }
             }
           ]
