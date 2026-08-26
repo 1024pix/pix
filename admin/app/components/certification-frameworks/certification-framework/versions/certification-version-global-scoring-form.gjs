@@ -8,7 +8,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import Card from 'pix-admin/components/card';
 
-export default class CertificationVersionGlobalScoringForm extends Component {
+export default class GlobalScoringForm extends Component {
   @service pixToast;
   @service intl;
 

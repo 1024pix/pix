@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import CertificationVersionGlobalScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-global-scoring-form';
+import GlobalScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-global-scoring-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -64,7 +64,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -93,7 +93,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -133,7 +133,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @activeVersion={{activeVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
@@ -163,7 +163,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -189,7 +189,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -216,7 +216,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -243,7 +243,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -267,7 +267,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -291,7 +291,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -317,7 +317,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -351,7 +351,7 @@ module(
 
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -380,7 +380,7 @@ module(
 
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -413,7 +413,7 @@ module(
 
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
@@ -440,7 +440,7 @@ module(
 
         const screen = await render(
           <template>
-            <CertificationVersionGlobalScoringForm
+            <GlobalScoringForm
               @draftVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
