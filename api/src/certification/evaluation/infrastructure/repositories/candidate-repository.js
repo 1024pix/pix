@@ -1,6 +1,5 @@
 // @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CertificationCandidateNotFoundError } from '../../../shared/domain/errors.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
 /**
@@ -66,8 +65,7 @@ export async function findByAssessmentId({ assessmentId }) {
  * @param {object} params
  * @param {number} params.userId
  * @param {number} params.sessionId
- * @returns {Promise<Candidate>}
- * @throws {CertificationCandidateNotFoundError}
+ * @returns {Promise<Candidate|null>} the candidate, or null when no candidate matches
  */
 export async function findByUserIdAndSessionId({ userId, sessionId }) {
   const knexConn = DomainTransaction.getConnection();
@@ -94,7 +92,7 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
     .first();
 
   if (!result) {
-    throw new CertificationCandidateNotFoundError();
+    return null;
   }
 
   return _toDomain(result);
