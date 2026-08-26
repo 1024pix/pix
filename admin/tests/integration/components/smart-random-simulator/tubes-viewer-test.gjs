@@ -8,8 +8,8 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
 
   let screen;
   const numberOfSkillsStillAvailable = 11;
-  const numberOfSkillsFromKe = 2;
-  const totalNumberOfSkills = numberOfSkillsStillAvailable + numberOfSkillsFromKe;
+  const numberOfAssessedSkills = 2;
+  const totalNumberOfSkills = numberOfSkillsStillAvailable + numberOfAssessedSkills;
   const tubes = [
     {
       name: '@outilsRS',
@@ -18,16 +18,19 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
           id: 'recL0AotZshb9quhR',
           name: '@outilsRS1',
           difficulty: 1,
+          tubeId: 'tubeOutilsRS',
         },
         {
           difficulty: 2,
           id: 'recrOwaV2PTt1N0i5',
           name: '@outilsRS2',
+          tubeId: 'tubeOutilsRS',
         },
         {
           id: 'recyblYaLq5YHTSRk',
           name: '@outilsRS3',
           difficulty: 3,
+          tubeId: 'tubeOutilsRS',
         },
       ],
     },
@@ -38,11 +41,13 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
           id: 'skill1g2ABCwm6z4pG1',
           name: '@fonctionnementStreaming5',
           difficulty: 5,
+          tubeId: 'tubeStreaming',
         },
         {
           id: 'skill2cyavvqFHbCqHR',
           name: '@fonctionnementStreaming4',
           difficulty: 4,
+          tubeId: 'tubeStreaming',
         },
       ],
     },
@@ -281,31 +286,11 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
   const displayedStepIndex = 3;
   const selectDisplayedStepIndex = () => null;
   const currentSkillId = 'recL0AotZshb9quhR';
-  const knowledgeElements = [
-    {
-      source: 'direct',
-      status: 'invalidated',
-      answerId: 182331,
-      skillId: 'recrOwaV2PTt1N0i5',
-    },
-    {
-      source: 'inferred',
-      status: 'invalidated',
-      answerId: 182331,
-      skillId: 'recyblYaLq5YHTSRk',
-    },
-    {
-      skillId: 'skill1g2ABCwm6z4pG1',
-      source: 'direct',
-      status: 'validated',
-      answerId: 182332,
-    },
-    {
-      skillId: 'skill2cyavvqFHbCqHR',
-      source: 'inferred',
-      status: 'validated',
-      answerId: 182332,
-    },
+  // @outilsRS2 failed: everything from level 2 upward is invalidated in the tube.
+  // @fonctionnementStreaming5 succeeded: everything up to level 5 is validated.
+  const knowledgeState = [
+    { tubeId: 'tubeOutilsRS', floor: 0, ceiling: 2, directLevels: [2] },
+    { tubeId: 'tubeStreaming', floor: 5, ceiling: null, directLevels: [5] },
   ];
 
   hooks.beforeEach(async function () {
@@ -314,7 +299,7 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
         <TubesViewer
           @tubes={{tubes}}
           @currentSkillId={{currentSkillId}}
-          @knowledgeElements={{knowledgeElements}}
+          @knowledgeState={{knowledgeState}}
           @smartRandomLog={{smartRandomLog}}
           @displayedStepIndex={{displayedStepIndex}}
           @totalNumberOfSkills={{totalNumberOfSkills}}

@@ -1,5 +1,4 @@
 import { setupTest } from 'ember-qunit';
-import Joi from 'joi';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -291,12 +290,12 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
           challengeId: '12',
         },
       ];
-      controller.knowledgeElements = [
+      controller.knowledgeState = [
         {
-          source: 'direct',
-          status: 'validated',
-          answerId: 12,
-          skillId: Joi.string().required(),
+          tubeId: 'tube1',
+          floor: 2,
+          ceiling: null,
+          directLevels: [2],
         },
       ];
       controller.returnedChallenges = [
@@ -317,7 +316,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
 
       // then
       assert.deepEqual(controller.answers, []);
-      assert.deepEqual(controller.knowledgeElements, []);
+      assert.deepEqual(controller.knowledgeState, []);
       assert.deepEqual(controller.returnedChallenges, []);
       assert.false(controller.assessmentComplete);
       assert.ok(controller.requestNextChallenge.calledOnce);
@@ -447,25 +446,8 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
       assert.strictEqual(controller.returnedChallenges[0].result, 'ko');
     });
 
-    test('it should add direct and inferred knowledge elements', async function (assert) {
+    test('it should lower the ceiling of the tube in the knowledge state', async function (assert) {
       // given
-      controller.skills = [
-        {
-          id: 'skill1',
-          name: '@outilsEval1',
-          difficulty: 1,
-        },
-        {
-          id: 'skill2',
-          name: '@outilsEval2',
-          difficulty: 2,
-        },
-        {
-          id: 'skill3',
-          name: '@outilsEval3',
-          difficulty: 3,
-        },
-      ];
       controller.returnedChallenges = [
         {
           id: 'challenge1',
@@ -474,12 +456,13 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
             id: 'skill2',
             name: '@outilsEval2',
             difficulty: 2,
+            tubeId: 'tubeOutilsEval',
           },
           focused: false,
         },
       ];
       controller.requestNextChallenge = sinon.stub().resolves();
-      controller.knowledgeElements = [];
+      controller.knowledgeState = [];
       controller.answers = [];
       controller.assessmentComplete = false;
 
@@ -487,18 +470,46 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
       await controller.failCurrentChallenge();
 
       // then
-      assert.deepEqual(controller.knowledgeElements, [
+      assert.deepEqual(controller.knowledgeState, [
         {
-          source: 'direct',
-          status: 'invalidated',
-          answerId: controller.answers[0].id,
-          skillId: 'skill2',
+          tubeId: 'tubeOutilsEval',
+          floor: 0,
+          ceiling: 2,
+          directLevels: [2],
         },
+      ]);
+    });
+
+    test('it should not lift a lower ceiling of the same tube', async function (assert) {
+      // given
+      controller.returnedChallenges = [
         {
-          source: 'inferred',
-          status: 'invalidated',
-          answerId: controller.answers[0].id,
-          skillId: 'skill3',
+          id: 'challenge1',
+          locales: ['fr', 'fr-fr'],
+          skill: {
+            id: 'skill4',
+            name: '@outilsEval4',
+            difficulty: 4,
+            tubeId: 'tubeOutilsEval',
+          },
+          focused: false,
+        },
+      ];
+      controller.requestNextChallenge = sinon.stub().resolves();
+      controller.knowledgeState = [{ tubeId: 'tubeOutilsEval', floor: 0, ceiling: 3, directLevels: [3] }];
+      controller.answers = [];
+      controller.assessmentComplete = false;
+
+      // when
+      await controller.failCurrentChallenge();
+
+      // then
+      assert.deepEqual(controller.knowledgeState, [
+        {
+          tubeId: 'tubeOutilsEval',
+          floor: 0,
+          ceiling: 3,
+          directLevels: [3, 4],
         },
       ]);
     });
@@ -575,25 +586,76 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
       assert.deepEqual(controller.answers[0]['challengeId'], 'challenge1');
     });
 
-    test('it should add direct and inferred knowledge elements', async function (assert) {
+    test('it should raise the floor of the tube in the knowledge state', async function (assert) {
       // given
-      controller.skills = [
+      controller.returnedChallenges = [
         {
-          id: 'skill1',
-          name: '@outilsEval1',
-          difficulty: 1,
-        },
-        {
-          id: 'skill2',
-          name: '@outilsEval2',
-          difficulty: 2,
-        },
-        {
-          id: 'skill3',
-          name: '@outilsEval3',
-          difficulty: 3,
+          id: 'challenge1',
+          locales: ['fr', 'fr-fr'],
+          skill: {
+            id: 'skill2',
+            name: '@outilsEval2',
+            difficulty: 2,
+            tubeId: 'tubeOutilsEval',
+          },
+          focused: false,
         },
       ];
+      controller.requestNextChallenge = sinon.stub().resolves();
+      controller.knowledgeState = [];
+      controller.answers = [];
+      controller.assessmentComplete = false;
+
+      // when
+      await controller.succeedCurrentChallenge();
+
+      // then
+      assert.deepEqual(controller.knowledgeState, [
+        {
+          tubeId: 'tubeOutilsEval',
+          floor: 2,
+          ceiling: null,
+          directLevels: [2],
+        },
+      ]);
+    });
+
+    test('it should erase a ceiling contradicted by the new floor', async function (assert) {
+      // given
+      controller.returnedChallenges = [
+        {
+          id: 'challenge1',
+          locales: ['fr', 'fr-fr'],
+          skill: {
+            id: 'skill3',
+            name: '@outilsEval3',
+            difficulty: 3,
+            tubeId: 'tubeOutilsEval',
+          },
+          focused: false,
+        },
+      ];
+      controller.requestNextChallenge = sinon.stub().resolves();
+      controller.knowledgeState = [{ tubeId: 'tubeOutilsEval', floor: 0, ceiling: 3, directLevels: [3] }];
+      controller.answers = [];
+      controller.assessmentComplete = false;
+
+      // when
+      await controller.succeedCurrentChallenge();
+
+      // then
+      assert.deepEqual(controller.knowledgeState, [
+        {
+          tubeId: 'tubeOutilsEval',
+          floor: 3,
+          ceiling: null,
+          directLevels: [3],
+        },
+      ]);
+    });
+
+    test('it should treat a skill without tubeId as alone in its own tube', async function (assert) {
+      // given
       controller.returnedChallenges = [
         {
           id: 'challenge1',
@@ -607,7 +669,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
         },
       ];
       controller.requestNextChallenge = sinon.stub().resolves();
-      controller.knowledgeElements = [];
+      controller.knowledgeState = [];
       controller.answers = [];
       controller.assessmentComplete = false;
 
@@ -615,18 +677,12 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
       await controller.succeedCurrentChallenge();
 
       // then
-      assert.deepEqual(controller.knowledgeElements, [
+      assert.deepEqual(controller.knowledgeState, [
         {
-          source: 'direct',
-          status: 'validated',
-          answerId: controller.answers[0].id,
-          skillId: 'skill2',
-        },
-        {
-          source: 'inferred',
-          status: 'validated',
-          answerId: controller.answers[0].id,
-          skillId: 'skill1',
+          tubeId: 'skill2',
+          floor: 2,
+          ceiling: null,
+          directLevels: [2],
         },
       ]);
     });

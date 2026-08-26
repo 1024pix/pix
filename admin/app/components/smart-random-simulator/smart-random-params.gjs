@@ -28,13 +28,12 @@ export default class SmartRandomParams extends Component {
       locales: ['fr-fr'],
     },
   ];
-  knowledgeElementsExample = [
+  knowledgeStateExample = [
     {
-      id: 'rec1xAgCoZux1Lxq8',
-      source: 'direct',
-      status: 'validated',
-      skillId: 'skill123',
-      answerId: '12345',
+      tubeId: 'recTube123',
+      floor: 2,
+      ceiling: 5,
+      directLevels: [2, 5],
     },
   ];
   answersExample = [
@@ -64,12 +63,12 @@ export default class SmartRandomParams extends Component {
       })
       .min(1)
       .required(),
-    knowledgeElements: Joi.array()
+    knowledgeState: Joi.array()
       .items({
-        source: Joi.string().valid('direct', 'inferred').required(),
-        status: Joi.string().valid('validated', 'invalidated', 'reset').required(),
-        answerId: Joi.number().required(),
-        skillId: Joi.string().required(),
+        tubeId: Joi.string().required(),
+        floor: Joi.number().integer().min(0).allow(null),
+        ceiling: Joi.number().integer().min(0).allow(null),
+        directLevels: Joi.array().items(Joi.number().integer()).default([]),
       })
       .required(),
     answers: Joi.array()
@@ -186,16 +185,16 @@ export default class SmartRandomParams extends Component {
 
     <Card class="admin-form__card" @title="Infos de l'utilisateur">
       <PixTextarea
-        @id="knowledge-elements"
+        @id="knowledge-state"
         class="form-field"
-        placeholder={{this.stringify this.knowledgeElementsExample}}
-        @subLabel={{fn this.stringify this.knowledgeElementsExample}}
+        placeholder={{this.stringify this.knowledgeStateExample}}
+        @subLabel={{fn this.stringify this.knowledgeStateExample}}
         spellcheck="false"
-        @value={{fn this.stringify @knowledgeElements}}
-        {{on "change" (fn this.updateJsonFieldValue "knowledgeElements")}}
-        @errorMessage={{this.errors.knowledgeElements}}
+        @value={{fn this.stringify @knowledgeState}}
+        {{on "change" (fn this.updateJsonFieldValue "knowledgeState")}}
+        @errorMessage={{this.errors.knowledgeState}}
       >
-        <:label>Knowledge elements de l'utilisateur ({{@knowledgeElements.length}}) :</:label>
+        <:label>État de connaissance de l'utilisateur ({{@knowledgeState.length}} tubes) :</:label>
       </PixTextarea>
       <PixTextarea
         @id="answers"
