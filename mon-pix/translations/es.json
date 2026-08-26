@@ -2232,6 +2232,7 @@
           "retryIn": "Aún no puedes retomar este curso. Vuelve dentro de {duration}.",
           "title": "Mejora tus resultados"
         },
+        "see-my-recommendations": "Ver mis recomendaciones",
         "see-trainings": "Ver los cursos",
         "shared-message": "Tus resultados se enviaron el {date} a las {time}.",
         "staged-message": {

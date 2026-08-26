@@ -2232,6 +2232,7 @@
           "retryIn": "Je kunt deze cursus nog niet opnieuw doen. Kom over {duration} terug.",
           "title": "Verbeter uw resultaten"
         },
+        "see-my-recommendations": "Bekijk mijn aanbevelingen",
         "see-trainings": "Bekijk de cursussen",
         "shared-message": "Je resultaten zijn verzonden op {date} om {time}.",
         "staged-message": {

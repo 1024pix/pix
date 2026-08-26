@@ -2232,6 +2232,7 @@
           "retryIn": "Non è ancora possibile rigiocare questo percorso, tornare a {duration}.",
           "title": "Migliorare i risultati"
         },
+        "see-my-recommendations": "Vedere le mie raccomandazioni",
         "see-trainings": "Vedere i corsi",
         "shared-message": "I risultati sono stati inviati da {date} a {time}.",
         "staged-message": {

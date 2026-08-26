@@ -2232,6 +2232,7 @@
           "retryIn": "You cannot replay this customised tests. Come back in {duration}.",
           "title": "Improve your results"
         },
+        "see-my-recommendations": "See my recommendations",
         "see-trainings": "See trainings",
         "shared-message": "Your results were sent on {date} at {time}.",
         "staged-message": {
