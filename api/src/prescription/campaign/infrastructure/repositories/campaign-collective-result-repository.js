@@ -4,7 +4,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../domain/constants.js';
 import { CampaignCollectiveResult } from '../../domain/read-models/CampaignCollectiveResult.js';
-import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
+import * as knowledgeStateSnapshotRepository from './knowledge-state-snapshot-repository.js';
 const { SHARED } = CampaignParticipationStatuses;
 
 const getCampaignCollectiveResult = async function (campaignId, campaignLearningContent) {
@@ -17,12 +17,14 @@ const getCampaignCollectiveResult = async function (campaignId, campaignLearning
   let participantCount = 0;
   for (const campaignParticipationIds of sharedCampaignParticipationIdsChunks) {
     participantCount += campaignParticipationIds.length;
-    const knowledgeElementsGroupedByCampaignParticipationId =
-      await knowledgeElementSnapshotRepository.findByCampaignParticipationIds(campaignParticipationIds);
-    const knowledgeElements = Object.values(knowledgeElementsGroupedByCampaignParticipationId).flat();
-    const validatedTargetedKnowledgeElementsCountByCompetenceId =
-      campaignLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements);
-    campaignCollectiveResult.addValidatedSkillCountToCompetences(validatedTargetedKnowledgeElementsCountByCompetenceId);
+    const knowledgeStatesByCampaignParticipationId =
+      await knowledgeStateSnapshotRepository.findByCampaignParticipationIds(campaignParticipationIds);
+    const validatedSkillIds = Object.values(knowledgeStatesByCampaignParticipationId).flatMap((knowledgeState) =>
+      knowledgeState.validatedSkills().map(({ id }) => id),
+    );
+    const validatedTargetedSkillsCountByCompetenceId =
+      campaignLearningContent.countTargetedSkillsByCompetence(validatedSkillIds);
+    campaignCollectiveResult.addValidatedSkillCountToCompetences(validatedTargetedSkillsCountByCompetenceId);
   }
 
   campaignCollectiveResult.finalize(participantCount);

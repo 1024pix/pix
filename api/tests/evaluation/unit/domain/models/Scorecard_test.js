@@ -2,20 +2,24 @@ import sinon from 'sinon';
 
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../src/shared/constants.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+
+// Un acquis validé par tube, chacun portant sa valeur : le score du scorecard
+// est la somme des pixValues que l'état donne validées.
+const stateWithPix = (pixValues, updatedAt = new Date()) =>
+  domainBuilder.buildKnowledgeState({
+    tubes: pixValues.map((_, index) => ({ tubeId: `tube${index}`, floor: 1, directLevels: [1], updatedAt })),
+    skills: pixValues.map((pixValue, index) =>
+      domainBuilder.buildSkill({ id: `skill${index}`, tubeId: `tube${index}`, difficulty: 1, pixValue }),
+    ),
+  });
 
 const SCORECARD_STATUS_STARTED = Scorecard.statuses.STARTED;
 const SCORECARD_STATUS_NOT_STARTED = Scorecard.statuses.NOT_STARTED;
 const SCORECARD_STATUS_COMPLETED = Scorecard.statuses.COMPLETED;
 
 describe('Unit | Domain | Models | Scorecard', function () {
-  let computeDaysSinceLastKnowledgeElementStub;
-
-  beforeEach(function () {
-    computeDaysSinceLastKnowledgeElementStub = sinon.stub(KnowledgeElement, 'computeDaysSinceLastKnowledgeElement');
-  });
-
   describe('#buildFrom', function () {
     let competenceEvaluation;
     let actualScorecard;
@@ -36,16 +40,9 @@ describe('Unit | Domain | Models | Scorecard', function () {
           status: 'started',
           assessment: { state: 'started' },
         };
-        const knowledgeElements = [
-          { earnedPix: 5.5, createdAt: new Date() },
-          {
-            earnedPix: 3.6,
-            createdAt: new Date(),
-          },
-        ];
-        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+        const knowledgeState = stateWithPix([5.5, 3.6]);
         // when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, area });
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeState, competenceEvaluation, competence, area });
       });
       // then
       it('should build an object of Scorecard type', function () {
@@ -70,6 +67,23 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
       it('should have exactly earned pix as a sum of all knowledge elements earned pixes', function () {
         expect(actualScorecard.exactlyEarnedPix).to.equal(9.1);
+      });
+
+      it('displays the competence score balance when provided, not the live projection', function () {
+        // given: the referential moved, the live projection is worth 9.1 — the balance, 12.5
+        const scorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState: stateWithPix([5.5, 3.6]),
+          competenceEvaluation,
+          competence,
+          area,
+          exactlyEarnedPix: 12.5,
+        });
+
+        // then: the score frozen at the last action prevails
+        expect(scorecard.exactlyEarnedPix).to.equal(12.5);
+        expect(scorecard.earnedPix).to.equal(12);
+        expect(scorecard.level).to.equal(1);
       });
 
       it('should have a level computed from the number of pixes', function () {
@@ -97,10 +111,13 @@ describe('Unit | Domain | Models | Scorecard', function () {
       beforeEach(function () {
         // given
         competenceEvaluation = undefined;
-        const knowledgeElements = [];
-        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState: domainBuilder.buildKnowledgeState(),
+          competenceEvaluation,
+          competence,
+        });
       });
       // then
       it('should have set the scorecard status NOT_STARTED', function () {
@@ -112,16 +129,14 @@ describe('Unit | Domain | Models | Scorecard', function () {
       beforeEach(function () {
         // given
         competenceEvaluation = undefined;
-        const knowledgeElements = [
-          { earnedPix: 5.5, createdAt: new Date() },
-          {
-            earnedPix: 3.6,
-            createdAt: new Date(),
-          },
-        ];
-        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+        const knowledgeState = stateWithPix([5.5, 3.6]);
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState,
+          competenceEvaluation,
+          competence,
+        });
       });
       // then
       it('should have set the scorecard status STARTED', function () {
@@ -132,11 +147,14 @@ describe('Unit | Domain | Models | Scorecard', function () {
     context('when the competence evaluation has been reset but no knowledgeElements exist', function () {
       beforeEach(function () {
         // given
-        const knowledgeElements = [];
-        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         competenceEvaluation = { status: 'reset' };
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState: domainBuilder.buildKnowledgeState(),
+          competenceEvaluation,
+          competence,
+        });
       });
       // then
       it('should have set the scorecard status based on the competence evaluation status', function () {
@@ -147,18 +165,16 @@ describe('Unit | Domain | Models | Scorecard', function () {
     context('when the competence evaluation has been reset and some knowledgeElements exist', function () {
       beforeEach(function () {
         // given
-        const knowledgeElements = [
-          { earnedPix: 5.5, createdAt: new Date() },
-          {
-            earnedPix: 3.6,
-            createdAt: new Date(),
-          },
-        ];
-        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+        const knowledgeState = stateWithPix([5.5, 3.6]);
         competenceEvaluation = { status: 'reset' };
 
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState,
+          competenceEvaluation,
+          competence,
+        });
       });
       // then
       it('should have set the scorecard status STARTED', function () {
@@ -169,11 +185,14 @@ describe('Unit | Domain | Models | Scorecard', function () {
     context('when the user has no knowledge elements for the competence', function () {
       beforeEach(function () {
         // given
-        const knowledgeElements = [];
-        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         competenceEvaluation = { status: 'reset' };
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements: [], competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState: domainBuilder.buildKnowledgeState(),
+          competenceEvaluation,
+          competence,
+        });
       });
       // then
       it('should have a dayBeforeReset at null', function () {
@@ -186,17 +205,21 @@ describe('Unit | Domain | Models | Scorecard', function () {
     });
 
     context('when the user level is beyond the upper limit allowed', function () {
-      let knowledgeElements;
+      let knowledgeState;
 
       beforeEach(function () {
         // given
-        knowledgeElements = [{ earnedPix: 50 }, { earnedPix: 70 }];
-        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+        knowledgeState = stateWithPix([50, 70]);
       });
       // then
       it('should have the competence level capped at the maximum value', function () {
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState,
+          competenceEvaluation,
+          competence,
+        });
 
         expect(actualScorecard.level).to.equal(MAX_REACHABLE_LEVEL);
         expect(actualScorecard.earnedPix).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
@@ -206,7 +229,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
         //when
         actualScorecard = Scorecard.buildFrom({
           userId,
-          knowledgeElements,
+          knowledgeState,
           competenceEvaluation,
           competence,
           allowExcessLevel: true,
@@ -218,19 +241,18 @@ describe('Unit | Domain | Models | Scorecard', function () {
     });
 
     context('when the user pix score is higher than the max', function () {
-      let knowledgeElements;
+      let knowledgeState;
 
       beforeEach(function () {
         // given
-        knowledgeElements = [{ earnedPix: 50 }, { earnedPix: 70 }];
-        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+        knowledgeState = stateWithPix([50, 70]);
       });
 
       it('should have the number of pix blocked', function () {
         //when
         actualScorecard = Scorecard.buildFrom({
           userId,
-          knowledgeElements,
+          knowledgeState,
           competenceEvaluation,
           competence,
         });
@@ -242,7 +264,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
         //when
         actualScorecard = Scorecard.buildFrom({
           userId,
-          knowledgeElements,
+          knowledgeState,
           competenceEvaluation,
           competence,
           allowExcessPix: true,
@@ -254,20 +276,26 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
     context('when there is no knowledge elements', function () {
       it('should return null when looking for remainingDaysBeforeReset', function () {
-        const knowledgeElements = [];
-
         // when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState: domainBuilder.buildKnowledgeState(),
+          competenceEvaluation,
+          competence,
+        });
 
         // then
         expect(actualScorecard.remainingDaysBeforeReset).to.equal(null);
       });
 
       it('should return null when looking for remainingDaysBeforeImproving', function () {
-        const knowledgeElements = [];
-
         // when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeState: domainBuilder.buildKnowledgeState(),
+          competenceEvaluation,
+          competence,
+        });
 
         // then
         expect(actualScorecard.remainingDaysBeforeImproving).to.equal(null);
@@ -296,12 +324,11 @@ describe('Unit | Domain | Models | Scorecard', function () {
       { daysSinceLastKnowledgeElement: 10, expectedDaysBeforeReset: 0 },
     ].forEach(({ daysSinceLastKnowledgeElement, expectedDaysBeforeReset }) => {
       it(`should return ${expectedDaysBeforeReset} days when ${daysSinceLastKnowledgeElement} days passed since last knowledge element`, function () {
-        const knowledgeElements = [{ createdAt: new Date(testCurrentDate) }];
-
-        computeDaysSinceLastKnowledgeElementStub.returns(daysSinceLastKnowledgeElement);
+        const lastMovedAt = new Date(testCurrentDate.getTime() - daysSinceLastKnowledgeElement * 24 * 60 * 60 * 1000);
+        const knowledgeState = stateWithPix([2], lastMovedAt);
 
         // when
-        const remainingDaysBeforeReset = Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
+        const remainingDaysBeforeReset = Scorecard.computeRemainingDaysBeforeReset(knowledgeState);
 
         // then
         expect(remainingDaysBeforeReset).to.equal(expectedDaysBeforeReset);
@@ -328,12 +355,11 @@ describe('Unit | Domain | Models | Scorecard', function () {
       { daysSinceLastKnowledgeElement: 10, expectedDaysBeforeImproving: 0 },
     ].forEach(({ daysSinceLastKnowledgeElement, expectedDaysBeforeImproving }) => {
       it(`should return ${expectedDaysBeforeImproving} days when ${daysSinceLastKnowledgeElement} days passed since last knowledge element`, function () {
-        const knowledgeElements = [{ createdAt: new Date(testCurrentDate) }];
-
-        computeDaysSinceLastKnowledgeElementStub.returns(daysSinceLastKnowledgeElement);
+        const lastMovedAt = new Date(testCurrentDate.getTime() - daysSinceLastKnowledgeElement * 24 * 60 * 60 * 1000);
+        const knowledgeState = stateWithPix([2], lastMovedAt);
 
         // when
-        const remainingDaysBeforeImproving = Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);
+        const remainingDaysBeforeImproving = Scorecard.computeRemainingDaysBeforeImproving(knowledgeState);
 
         // then
         expect(remainingDaysBeforeImproving).to.equal(expectedDaysBeforeImproving);

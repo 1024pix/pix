@@ -1,4 +1,3 @@
-import _ from 'lodash';
 const PROGRESSION_ID_PREFIX = 'progression-';
 
 const ONE_HUNDRED_PERCENT = 1;
@@ -7,16 +6,16 @@ const ONE_HUNDRED_PERCENT = 1;
  * Traduction : Profil d'avancement
  */
 class Progression {
-  constructor({ id, skillIds = [], knowledgeElements = [], isProfileCompleted = false }) {
+  constructor({ id, skillIds = [], knowledgeState, isProfileCompleted = false }) {
     this.id = id;
-    this.knowledgeElements = knowledgeElements;
     this.skillIds = skillIds;
-    this.targetedKnowledgeElements = _.filter(knowledgeElements, (ke) => _.includes(this.skillIds, ke.skillId));
+    const assessedSkillIds = new Set(knowledgeState?.assessedSkills().map(({ id: skillId }) => skillId) ?? []);
+    this.targetedAssessedSkillIds = skillIds.filter((skillId) => assessedSkillIds.has(skillId));
     this.isProfileCompleted = isProfileCompleted;
   }
 
   _getTargetedSkillsAlreadyTestedCount() {
-    return this.targetedKnowledgeElements.length;
+    return this.targetedAssessedSkillIds.length;
   }
 
   _getTargetedSkillsCount() {

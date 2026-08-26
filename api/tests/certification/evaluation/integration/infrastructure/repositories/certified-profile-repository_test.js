@@ -1,7 +1,6 @@
 import { CertifiedProfile } from '../../../../../../src/certification/results/domain/read-models/CertifiedProfile.js';
 import * as certifiedProfileRepository from '../../../../../../src/certification/results/infrastructure/repositories/certified-profile-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -65,10 +64,12 @@ describe('Integration | Repository | Certified Profile', function () {
             id: 'recArea1_Competence1_Tube1_Skill1',
             name: 'skill1_1_1_1_name',
             status: 'actif',
-            tubeId: 'recArea1_Competence2_Tube1',
+            // Sur un tube à lui : répondu après la certification, il daterait
+            // sinon le tube des acquis d'avant, qui serait écarté avec lui.
+            tubeId: 'recArea1_Competence2_Tube2',
             competenceId: 'recArea1_Competence2',
             tutorialIds: [],
-            level: 1,
+            level: 5,
           },
           {
             id: 'recArea1_Competence1_Tube1_Skill2',
@@ -132,6 +133,10 @@ describe('Integration | Repository | Certified Profile', function () {
         origin: 'Edu',
       });
 
+      // Le référentiel se déclare avant l'historique : c'est lui qui situe
+      // chaque acquis sur son tube.
+      databaseBuilder.factory.learningContent.build(learningContent);
+
       const userId = databaseBuilder.factory.buildUser({ id: 123 }).id;
       databaseBuilder.factory.buildUser({ id: 456 });
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
@@ -146,26 +151,30 @@ describe('Integration | Repository | Certified Profile', function () {
         createdAt: new Date('2020-01-01'),
       }).id;
 
-      databaseBuilder.factory.buildKnowledgeElement({
+      // Chaque réponse écrit l'état de son tube et le date. La lecture à la
+      // date de certification garde les tubes inchangés depuis cette date, et
+      // écarte en bloc ceux qui ont bougé.
+      const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+      databaseBuilder.factory.buildAnsweredSkill({
         userId,
-        createdAt: new Date('2019-01-01'),
-        status: KnowledgeElement.StatusType.VALIDATED,
+        assessmentId,
         skillId: 'recArea1_Competence1_Tube1_Skill2',
-        competenceId: 'recArea1_Competence1',
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        userId,
-        createdAt: new Date('2021-01-01'),
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: 'recArea1_Competence1_Tube1_Skill1',
-        competenceId: 'recArea1_Competence1',
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        userId,
         createdAt: new Date('2019-01-01'),
-        status: KnowledgeElement.StatusType.VALIDATED,
+        withSkill: false,
+      });
+      databaseBuilder.factory.buildAnsweredSkill({
+        userId,
+        assessmentId,
         skillId: 'recArea1_Competence2_Tube1_Skill1',
-        competenceId: 'recArea1_Competence2',
+        createdAt: new Date('2019-01-01'),
+        withSkill: false,
+      });
+      databaseBuilder.factory.buildAnsweredSkill({
+        userId,
+        assessmentId,
+        skillId: 'recArea1_Competence1_Tube1_Skill1',
+        createdAt: new Date('2021-01-01'),
+        withSkill: false,
       });
       databaseBuilder.factory.buildCertificationChallenge({ courseId: 4567 });
       databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId });
@@ -177,7 +186,6 @@ describe('Integration | Repository | Certified Profile', function () {
         certifiedCompetences: [competence1_1, competence1_2],
         certifiedAreas: [area1],
       });
-      databaseBuilder.factory.learningContent.build(learningContent);
       await databaseBuilder.commit();
 
       // when
@@ -266,6 +274,8 @@ describe('Integration | Repository | Certified Profile', function () {
           },
         ],
       };
+      databaseBuilder.factory.learningContent.build(learningContent);
+
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         id: 12345,
@@ -282,14 +292,14 @@ describe('Integration | Repository | Certified Profile', function () {
       databaseBuilder.factory.buildKnowledgeElement({
         userId,
         createdAt: new Date('2019-01-01'),
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: 'validated',
         skillId: 'recArea1_Competence1_Tube1_Skill2',
         competenceId: 'recArea1_Competence1',
       });
       databaseBuilder.factory.buildKnowledgeElement({
         userId,
         createdAt: new Date('2019-01-01'),
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: 'validated',
         skillId: 'recArea1_Competence2_Tube1_Skill1',
         competenceId: 'recArea1_Competence2',
       });
@@ -298,7 +308,6 @@ describe('Integration | Repository | Certified Profile', function () {
         associatedSkillId: 'recArea1_Competence1_Tube1_Skill2',
       });
 
-      databaseBuilder.factory.learningContent.build(learningContent);
       await databaseBuilder.commit();
 
       // when

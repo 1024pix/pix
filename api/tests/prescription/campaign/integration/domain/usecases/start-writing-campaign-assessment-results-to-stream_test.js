@@ -7,14 +7,21 @@ import sinon from 'sinon';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignExternalIdTypes, CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
+
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
 
 describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   describe('#startWritingCampaignAssessmentResultsToStream', function () {
@@ -78,9 +85,32 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         thematics: [],
         tubes: [{ id: 'recTube1', competenceId: 'recCompetence1' }],
         skills: [
-          { id: 'recSkillWeb1', name: '@web1', tubeId: 'recTube1', status: 'actif', competenceId: 'recCompetence1' },
-          { id: 'recSkillWeb2', name: '@web2', tubeId: 'recTube1', status: 'actif', competenceId: 'recCompetence1' },
-          { id: 'recSkillWeb3', name: '@web3', tubeId: 'recTube1', status: 'actif', competenceId: 'recCompetence1' },
+          // Un niveau par acquis : sans lui, les trois seraient indistinguables
+          // sur l'échelle de leur tube.
+          {
+            id: 'recSkillWeb1',
+            name: '@web1',
+            level: 1,
+            tubeId: 'recTube1',
+            status: 'actif',
+            competenceId: 'recCompetence1',
+          },
+          {
+            id: 'recSkillWeb2',
+            name: '@web2',
+            level: 2,
+            tubeId: 'recTube1',
+            status: 'actif',
+            competenceId: 'recCompetence1',
+          },
+          {
+            id: 'recSkillWeb3',
+            name: '@web3',
+            level: 3,
+            tubeId: 'recTube1',
+            status: 'actif',
+            competenceId: 'recCompetence1',
+          },
         ],
         challenges: [],
       };
@@ -220,7 +250,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
             });
             databaseBuilder.factory.buildKnowledgeElementSnapshot({
               campaignParticipationId: campaignParticipation.id,
-              snapshot: new KnowledgeElementCollection([ke1, ke2, ke3]).toSnapshot(),
+              snapshot: toLegacySnapshot([ke1, ke2, ke3]),
             });
 
             ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'].forEach((skillId) => {
@@ -365,7 +395,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
             });
             databaseBuilder.factory.buildKnowledgeElementSnapshot({
               campaignParticipationId: campaignParticipation.id,
-              snapshot: new KnowledgeElementCollection([ke1, ke2, ke3]).toSnapshot(),
+              snapshot: toLegacySnapshot([ke1, ke2, ke3]),
             });
 
             ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'].forEach((skillId) => {
@@ -484,7 +514,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
             });
             databaseBuilder.factory.buildKnowledgeElementSnapshot({
               campaignParticipationId: campaignParticipation.id,
-              snapshot: new KnowledgeElementCollection([ke1, ke2, ke3]).toSnapshot(),
+              snapshot: toLegacySnapshot([ke1, ke2, ke3]),
             });
 
             ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'].forEach((skillId) => {
@@ -593,12 +623,12 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               createdAt,
             });
 
-            databaseBuilder.factory.buildKnowledgeElement({
-              status: 'validated',
-              skillId: 'recSkillWeb1',
-              competenceId: 'recCompetence1',
+            databaseBuilder.factory.buildKnowledgeState({
               userId: participant.id,
-              createdAt,
+              tubeId: 'recTube1',
+              floor: 1,
+              directLevels: [1],
+              updatedAt: createdAt,
             });
 
             // anonymized learner
@@ -627,7 +657,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
             });
 
             if (type === 'EXAM') {
-              const ke = domainBuilder.buildKnowledgeElement({
+              const ke = buildKeData({
                 status: 'validated',
                 skillId: 'recSkillWeb1',
                 competenceId: 'recCompetence1',
@@ -636,15 +666,15 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               });
               databaseBuilder.factory.buildKnowledgeElementSnapshot({
                 campaignParticipationId: campaignParticipation.id,
-                snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+                snapshot: toLegacySnapshot([ke]),
               });
             } else {
-              databaseBuilder.factory.buildKnowledgeElement({
-                status: 'validated',
-                skillId: 'recSkillWeb1',
-                competenceId: 'recCompetence1',
+              databaseBuilder.factory.buildKnowledgeState({
                 userId: anonymizedUser.id,
-                createdAt: new Date('2018-01-01'),
+                tubeId: 'recTube1',
+                floor: 1,
+                directLevels: [1],
+                updatedAt: new Date('2018-01-01'),
               });
             }
 
@@ -805,34 +835,38 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
             if (type === 'EXAM') {
               databaseBuilder.factory.buildKnowledgeElementSnapshot({
                 campaignParticipationId: secondCampaignParticipation.id,
-                snapshot: new KnowledgeElementCollection([
-                  domainBuilder.buildKnowledgeElement({
+                snapshot: toLegacySnapshot([
+                  buildKeData({
                     status: 'validated',
                     skillId: 'recSkillWeb1',
                     competenceId: 'recCompetence1',
                     createdAt: new Date('2018-01-01'),
                   }),
-                  domainBuilder.buildKnowledgeElement({
+                  buildKeData({
                     status: 'validated',
                     skillId: 'recSkillWeb3',
                     competenceId: 'recCompetence1',
                     createdAt: new Date('2018-01-01'),
                   }),
-                ]).toSnapshot(),
+                ]),
               });
             } else {
-              databaseBuilder.factory.buildKnowledgeElement({
-                status: KnowledgeElement.StatusType.RESET,
-                skillId: 'recSkillWeb2',
-                competenceId: 'recCompetence1',
+              // La seconde participation lit l'état courant. Le modèle historique
+              // exprimait ici la remise à zéro d'un acquis isolé, laissant un
+              // trou dans le tube ; l'état est monotone, deux acquis validés se
+              // décrivent par un plancher.
+              databaseBuilder.factory.buildKnowledgeState({
                 userId: participant.id,
-                createdAt: secondParticipationDateCreatedAt,
+                tubeId: 'recTube1',
+                floor: 2,
+                directLevels: [2],
+                updatedAt: secondParticipationDateCreatedAt,
               });
             }
 
             databaseBuilder.factory.buildKnowledgeElementSnapshot({
               campaignParticipationId: campaignParticipation.id,
-              snapshot: new KnowledgeElementCollection([ke1, ke2, ke3]).toSnapshot(),
+              snapshot: toLegacySnapshot([ke1, ke2, ke3]),
             });
 
             ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'].forEach((skillId) => {
@@ -856,7 +890,10 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               `"'${targetProfile.name}";` +
               `"'${organizationLearner.lastName}";` +
               `"'${organizationLearner.firstName}";`;
-            csvSecondLine += '0,667;';
+            // EXAM : l'instantané valide web1 et web3, la monotonie comble web2 —
+            // les trois acquis sont évalués. ASSESSMENT : le plancher à 2 laisse
+            // web3 à évaluer.
+            csvSecondLine += type === 'EXAM' ? '1;' : '0,667;';
             csvSecondLine +=
               `"${secondParticipationCreatedFormated}";` +
               '"Non";' +
@@ -883,6 +920,8 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               `"'${organizationLearner.lastName}";` +
               `"'${organizationLearner.firstName}";`;
             csvThirdLine += '1;';
+            // Deux parcours se sont contredits sur le tube : la validation gagne,
+            // et le trou laissé par l'ancien modèle est comblé — tout est validé.
             csvThirdLine +=
               `"${createdAtFormated}";` +
               '"Oui";' +
@@ -890,14 +929,14 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               '0;' +
               '"Non";' +
               '0,67;' +
-              '0,67;' +
+              '1;' +
               '3;' +
-              '2;' +
-              '0,67;' +
               '3;' +
-              '2;' +
+              '1;' +
+              '3;' +
+              '3;' +
               '"OK";' +
-              '"KO";' +
+              '"OK";' +
               '"OK"';
             // when
             await usecases.startWritingCampaignAssessmentResultsToStream({

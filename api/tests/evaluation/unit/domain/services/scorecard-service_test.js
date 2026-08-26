@@ -5,7 +5,6 @@ import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard
 import * as scorecardService from '../../../../../src/evaluation/domain/services/scorecard-service.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
@@ -15,7 +14,8 @@ describe('Unit | Service | ScorecardService', function () {
   describe('#computeScorecard', function () {
     let competenceRepository;
     let areaRepository;
-    let knowledgeElementRepository;
+    let knowledgeStateRepository;
+    let competenceScoreRepository;
     let competenceEvaluationRepository;
     let buildFromStub;
     let competenceId;
@@ -26,9 +26,10 @@ describe('Unit | Service | ScorecardService', function () {
       authenticatedUserId = 1;
       competenceRepository = { get: sinon.stub() };
       areaRepository = { get: sinon.stub() };
-      knowledgeElementRepository = {
-        findUniqByUserIdAndCompetenceId: sinon.stub(),
+      knowledgeStateRepository = {
+        findByUserId: sinon.stub(),
       };
+      competenceScoreRepository = { findByUserId: sinon.stub().resolves(new Map()) };
       competenceEvaluationRepository = { findByUserId: sinon.stub() };
       buildFromStub = sinon.stub(Scorecard, 'buildFrom');
     });
@@ -36,10 +37,6 @@ describe('Unit | Service | ScorecardService', function () {
     context('And user asks for his own scorecard', function () {
       it('should return the user scorecard', async function () {
         // given
-        const earnedPixForCompetenceId1 = 8;
-        const levelForCompetenceId1 = 1;
-        const pixScoreAheadOfNextLevelForCompetenceId1 = 0;
-
         const competence = domainBuilder.buildCompetence({
           id: 1,
           areaId: 'area',
@@ -49,12 +46,11 @@ describe('Unit | Service | ScorecardService', function () {
         competenceRepository.get.resolves(competence);
         areaRepository.get.resolves(area);
 
-        const knowledgeElementList = [
-          domainBuilder.buildKnowledgeElement({ competenceId: 1 }),
-          domainBuilder.buildKnowledgeElement({ competenceId: 1 }),
-        ];
-
-        knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: ['skillA', 'skillB'],
+          competenceId: 1,
+        });
+        knowledgeStateRepository.findByUserId.withArgs({ userId: authenticatedUserId }).resolves(knowledgeState);
 
         const assessment = domainBuilder.buildAssessment({
           state: 'completed',
@@ -70,22 +66,12 @@ describe('Unit | Service | ScorecardService', function () {
 
         const expectedUserScorecard = domainBuilder.buildUserScorecard({
           name: competence.name,
-          earnedPix: earnedPixForCompetenceId1,
-          level: levelForCompetenceId1,
-          pixScoreAheadOfNextLevel: pixScoreAheadOfNextLevelForCompetenceId1,
+          earnedPix: 8,
+          level: 1,
+          pixScoreAheadOfNextLevel: 0,
         });
 
-        buildFromStub
-          .withArgs({
-            userId: authenticatedUserId,
-            knowledgeElements: knowledgeElementList,
-            competence,
-            area,
-            competenceEvaluation,
-            allowExcessLevel: false,
-            allowExcessPix: false,
-          })
-          .returns(expectedUserScorecard);
+        buildFromStub.returns(expectedUserScorecard);
 
         // when
         const userScorecard = await scorecardService.computeScorecard({
@@ -94,46 +80,73 @@ describe('Unit | Service | ScorecardService', function () {
           areaRepository,
           competenceRepository,
           competenceEvaluationRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
+          competenceScoreRepository,
         });
 
         //then
         expect(userScorecard).to.deep.equal(expectedUserScorecard);
+        expect(buildFromStub).to.have.been.calledWithMatch({
+          userId: authenticatedUserId,
+          competence,
+          area,
+          competenceEvaluation,
+          allowExcessLevel: false,
+          allowExcessPix: false,
+        });
+        const { knowledgeState: stateGivenToScorecard } = buildFromStub.firstCall.args[0];
+        expect(stateGivenToScorecard.validatedSkills().map(({ id }) => id)).to.have.members(['skillA', 'skillB']);
+      });
+
+      it('passes the competence score balance to the scorecard', async function () {
+        // given
+        const competence = domainBuilder.buildCompetence({ id: 1, areaId: 'area' });
+        competenceRepository.get.resolves(competence);
+        areaRepository.get.resolves(domainBuilder.buildArea({ id: 'area' }));
+        knowledgeStateRepository.findByUserId.resolves(domainBuilder.buildKnowledgeState());
+        competenceEvaluationRepository.findByUserId.resolves([]);
+        competenceScoreRepository.findByUserId
+          .withArgs({ userId: authenticatedUserId })
+          .resolves(new Map([[1, 12.5]]));
+        buildFromStub.returns(domainBuilder.buildUserScorecard());
+
+        // when
+        await scorecardService.computeScorecard({
+          userId: authenticatedUserId,
+          competenceId,
+          areaRepository,
+          competenceRepository,
+          competenceEvaluationRepository,
+          knowledgeStateRepository,
+          competenceScoreRepository,
+        });
+
+        // then
+        expect(buildFromStub).to.have.been.calledWithMatch({ exactlyEarnedPix: 12.5 });
       });
     });
   });
 
   describe('#resetScorecard', function () {
     let assessmentRepository;
-    let knowledgeElementRepository;
+    let knowledgeStateRepository;
     let competenceEvaluationRepository;
     let campaignParticipationRepository;
     let campaignRepository;
-    let resetKnowledgeElement1;
-    let resetKnowledgeElement2;
     let updatedCompetenceEvaluation;
     let userId;
     let competenceId;
-    let knowledgeElements;
-    let firstResetKe;
-    let secondResetKe;
 
     const firstSkillId = 'recmoustache';
     const secondSkillId = 'rouflaquette';
 
     beforeEach(function () {
       updatedCompetenceEvaluation = Symbol('updated competence evaluation');
-      resetKnowledgeElement2 = Symbol('reset knowledge element 2');
-      resetKnowledgeElement1 = Symbol('reset knowledge element 1');
       userId = 1;
       competenceId = 2;
-      knowledgeElements = [
-        domainBuilder.buildKnowledgeElement({ id: 1, skillId: firstSkillId }),
-        domainBuilder.buildKnowledgeElement({ id: 2, skillId: secondSkillId }),
-      ];
-      knowledgeElementRepository = {
-        batchSave: sinon.stub(),
-        findUniqByUserIdAndCompetenceId: sinon.stub(),
+      knowledgeStateRepository = {
+        findByUserId: sinon.stub(),
+        forgetCompetence: sinon.stub().resolves(),
       };
       assessmentRepository = {
         findNotAbortedCampaignAssessmentsByUserId: sinon.stub(),
@@ -153,16 +166,11 @@ describe('Unit | Service | ScorecardService', function () {
         get: sinon.stub(),
       };
 
-      knowledgeElementRepository.findUniqByUserIdAndCompetenceId
-        .withArgs({ userId, competenceId })
-        .resolves(knowledgeElements);
-
-      firstResetKe = KnowledgeElement.reset(knowledgeElements[0]);
-      secondResetKe = KnowledgeElement.reset(knowledgeElements[1]);
-
-      resetKnowledgeElement1 = Symbol('reset knowledge element 1');
-      resetKnowledgeElement2 = Symbol('reset knowledge element 2');
-      updatedCompetenceEvaluation = Symbol('updated competence evaluation');
+      const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+        validatedSkillIds: [firstSkillId, secondSkillId],
+        competenceId,
+      });
+      knowledgeStateRepository.findByUserId.withArgs({ userId }).resolves(knowledgeState);
     });
 
     context('when competence evaluation exists', function () {
@@ -178,28 +186,20 @@ describe('Unit | Service | ScorecardService', function () {
           })
           .resolves(updatedCompetenceEvaluation);
 
-        knowledgeElementRepository.batchSave
-          .withArgs({ knowledgeElements: [firstResetKe, secondResetKe] })
-          .resolves([resetKnowledgeElement1, resetKnowledgeElement2]);
-
         await scorecardService.resetScorecard({
           userId,
           competenceId,
           shouldResetCompetenceEvaluation,
           assessmentRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           competenceEvaluationRepository,
           campaignParticipationRepository,
         });
       });
 
       // then
-      it('should reset each knowledge elements', async function () {
-        expect(
-          knowledgeElementRepository.batchSave.calledWithExactly({
-            knowledgeElements: [firstResetKe, secondResetKe],
-          }),
-        ).true;
+      it('should forget the competence, erasing its state', async function () {
+        expect(knowledgeStateRepository.forgetCompetence).to.have.been.calledWithExactly({ userId, competenceId });
       });
 
       it('should reset the competence evaluation', async function () {
@@ -214,15 +214,11 @@ describe('Unit | Service | ScorecardService', function () {
     });
 
     context(
-      'when competence evaluation does not exists - there is only knowledge elements thanks to campaign',
+      'when competence evaluation does not exists - there is only knowledge acquired thanks to campaign',
       function () {
-        it('should reset each knowledge elements', async function () {
+        it('should forget the competence without touching the competence evaluation', async function () {
           // given
           const shouldResetCompetenceEvaluation = false;
-
-          knowledgeElementRepository.batchSave
-            .withArgs({ knowledgeElements: [firstResetKe, secondResetKe] })
-            .resolves([resetKnowledgeElement1, resetKnowledgeElement2]);
 
           // when
           await scorecardService.resetScorecard({
@@ -230,16 +226,12 @@ describe('Unit | Service | ScorecardService', function () {
             competenceId,
             shouldResetCompetenceEvaluation,
             assessmentRepository,
-            knowledgeElementRepository,
+            knowledgeStateRepository,
             competenceEvaluationRepository,
             campaignParticipationRepository,
           });
           // then
-          expect(
-            knowledgeElementRepository.batchSave.calledWithExactly({
-              knowledgeElements: [firstResetKe, secondResetKe],
-            }),
-          ).true;
+          expect(knowledgeStateRepository.forgetCompetence).to.have.been.calledWithExactly({ userId, competenceId });
           expect(competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId.called).false;
         });
       },
@@ -260,8 +252,6 @@ describe('Unit | Service | ScorecardService', function () {
       const shouldResetCompetenceEvaluation = false;
 
       beforeEach(async function () {
-        const campaignParticipation1Updated = Symbol('campaign participation 1 updated');
-        const campaignParticipation2Updated = Symbol('campaign participation 2 updated');
         const targetProfile = domainBuilder.buildTargetProfile({
           skills: [domainBuilder.buildSkill({ id: firstSkillId }, domainBuilder.buildSkill({ id: secondSkillId }))],
         });
@@ -310,10 +300,6 @@ describe('Unit | Service | ScorecardService', function () {
           campaignParticipationId: campaignParticipation2.id,
         });
 
-        knowledgeElementRepository.batchSave
-          .withArgs({ knowledgeElements: [firstResetKe, secondResetKe] })
-          .resolves([firstResetKe, secondResetKe]);
-
         // when
         assessmentRepository.findNotAbortedCampaignAssessmentsByUserId
           .withArgs(userId)
@@ -331,29 +317,12 @@ describe('Unit | Service | ScorecardService', function () {
         campaignParticipationRepository.get.withArgs(campaignParticipation1.id).resolves(campaignParticipation1);
         campaignParticipationRepository.get.withArgs(campaignParticipation2.id).resolves(campaignParticipation2);
 
-        campaignParticipationRepository.updateAssessmentIdByOldAssessmentId
-          .withArgs({
-            oldAssessmentId: oldAssessment1.id,
-            newAssessmentId: newAssessment1Saved.id,
-          })
-          .resolves(campaignParticipation1Updated);
-        campaignParticipationRepository.updateAssessmentIdByOldAssessmentId
-          .withArgs({
-            oldAssessmentId: oldAssessment2.id,
-            newAssessmentId: newAssessment2Saved.id,
-          })
-          .resolves(campaignParticipation2Updated);
-
         campaignRepository.findSkillIdsByCampaignParticipationId
           .withArgs({ campaignParticipationId: campaignParticipation1.id })
           .resolves(['recbarbe', 'recbouc']);
         campaignRepository.findSkillIdsByCampaignParticipationId
           .withArgs({ campaignParticipationId: campaignParticipation2.id })
           .resolves(['recbarbe', 'recbouc']);
-
-        knowledgeElementRepository.findUniqByUserIdAndCompetenceId
-          .withArgs({ userId, competenceId })
-          .resolves(knowledgeElements);
       });
 
       it('should not throws when a campaign assessment has been unlink with its participation', async function () {
@@ -376,26 +345,12 @@ describe('Unit | Service | ScorecardService', function () {
             competenceId,
             shouldResetCompetenceEvaluation,
             assessmentRepository,
-            knowledgeElementRepository,
+            knowledgeStateRepository,
             campaignParticipationRepository,
             competenceEvaluationRepository,
             campaignRepository,
           }),
         ).not.to.be.rejected;
-      });
-
-      // then
-      it('should reset each knowledge Element', async function () {
-        await scorecardService.resetScorecard({
-          userId,
-          competenceId,
-          shouldResetCompetenceEvaluation,
-          assessmentRepository,
-          knowledgeElementRepository,
-          campaignParticipationRepository,
-          competenceEvaluationRepository,
-          campaignRepository,
-        });
       });
 
       it('should save a new Assessment', async function () {
@@ -413,7 +368,7 @@ describe('Unit | Service | ScorecardService', function () {
           competenceId,
           shouldResetCompetenceEvaluation,
           assessmentRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           campaignParticipationRepository,
           competenceEvaluationRepository,
           campaignRepository,
@@ -460,7 +415,7 @@ describe('Unit | Service | ScorecardService', function () {
             competenceId,
             shouldResetCompetenceEvaluation,
             assessmentRepository,
-            knowledgeElementRepository,
+            knowledgeStateRepository,
             campaignParticipationRepository,
             competenceEvaluationRepository,
             campaignRepository,
@@ -477,22 +432,12 @@ describe('Unit | Service | ScorecardService', function () {
 
       context("when doesn 't intersection between target skills and reset skills", function () {
         it('should return null for campaign participation', async function () {
-          //given
-          resetKnowledgeElement1 = domainBuilder.buildKnowledgeElement({
-            skillId: 'recAloevera',
+          //given : l'état de la compétence porte d'autres acquis que ceux de la campagne
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: ['recAloevera', 'recDing'],
+            competenceId,
           });
-          resetKnowledgeElement2 = domainBuilder.buildKnowledgeElement({
-            skillId: 'recDing',
-          });
-
-          const resetKe1 = KnowledgeElement.reset(resetKnowledgeElement1);
-          const resetKe2 = KnowledgeElement.reset(resetKnowledgeElement2);
-
-          knowledgeElementRepository.batchSave
-            .withArgs({
-              knowledgeElements: [resetKnowledgeElement1, resetKnowledgeElement2],
-            })
-            .resolves([resetKe1, resetKe2]);
+          knowledgeStateRepository.findByUserId.withArgs({ userId }).resolves(knowledgeState);
 
           //when
           await scorecardService.resetScorecard({
@@ -500,7 +445,7 @@ describe('Unit | Service | ScorecardService', function () {
             competenceId,
             shouldResetCompetenceEvaluation,
             assessmentRepository,
-            knowledgeElementRepository,
+            knowledgeStateRepository,
             campaignParticipationRepository,
             competenceEvaluationRepository,
             campaignRepository,
@@ -524,32 +469,20 @@ describe('Unit | Service | ScorecardService', function () {
 
         assessmentRepository.findNotAbortedCampaignAssessmentsByUserId.withArgs(userId).resolves(null);
 
-        knowledgeElementRepository.batchSave
-          .withArgs({ knowledgeElements: [firstResetKe, secondResetKe] })
-          .resolves([resetKnowledgeElement1, resetKnowledgeElement2]);
-
-        knowledgeElementRepository.findUniqByUserIdAndCompetenceId
-          .withArgs({ userId, competenceId })
-          .resolves(knowledgeElements);
-
         await scorecardService.resetScorecard({
           userId,
           competenceId,
           shouldResetCompetenceEvaluation,
           assessmentRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           competenceEvaluationRepository,
           campaignRepository,
         });
       });
 
       // then
-      it('should reset each assessments', async function () {
-        expect(
-          knowledgeElementRepository.batchSave.calledWithExactly({
-            knowledgeElements: [firstResetKe, secondResetKe],
-          }),
-        ).true;
+      it('should forget the competence', async function () {
+        expect(knowledgeStateRepository.forgetCompetence).to.have.been.calledWithExactly({ userId, competenceId });
       });
 
       it('should not save another assessment', async function () {
@@ -567,6 +500,14 @@ describe('Unit | Service | ScorecardService', function () {
     const userId = 789;
     let area, answer, competence, competenceEvaluationForCompetence;
 
+    const stateWithPix = (pixValues) =>
+      domainBuilder.buildKnowledgeState({
+        tubes: pixValues.map((_, index) => ({ tubeId: `tube${index}`, floor: 1, directLevels: [1] })),
+        skills: pixValues.map((pixValue, index) =>
+          domainBuilder.buildSkill({ id: `skill${index}`, tubeId: `tube${index}`, difficulty: 1, pixValue }),
+        ),
+      });
+
     beforeEach(function () {
       area = domainBuilder.buildArea({ id: 'areaABC123' });
       competence = domainBuilder.buildCompetence({
@@ -581,30 +522,6 @@ describe('Unit | Service | ScorecardService', function () {
     });
 
     it('should return a levelup information when a level up has occurred', function () {
-      // given
-      const knowledgeElementsForCompetenceBefore = [
-        domainBuilder.buildKnowledgeElement({
-          competenceId: 'competenceABC123',
-          status: KnowledgeElement.StatusType.VALIDATED,
-          earnedPix: 1,
-          skillId: 'skillA',
-        }),
-      ];
-      const knowledgeElementsForCompetenceAfter = [
-        domainBuilder.buildKnowledgeElement({
-          competenceId: 'competenceABC123',
-          status: KnowledgeElement.StatusType.VALIDATED,
-          earnedPix: 1,
-          skillId: 'skillA',
-        }),
-        domainBuilder.buildKnowledgeElement({
-          competenceId: 'competenceABC123',
-          status: KnowledgeElement.StatusType.VALIDATED,
-          earnedPix: 10,
-          skillId: 'skillB',
-        }),
-      ];
-
       // when
       const levelupInformation = scorecardService.computeLevelUpInformation({
         answer,
@@ -612,8 +529,8 @@ describe('Unit | Service | ScorecardService', function () {
         area,
         competence,
         competenceEvaluationForCompetence,
-        knowledgeElementsForCompetenceBefore,
-        knowledgeElementsForCompetenceAfter,
+        knowledgeStateForCompetenceBefore: stateWithPix([1]),
+        knowledgeStateForCompetenceAfter: stateWithPix([1, 10]),
       });
 
       // then
@@ -625,30 +542,6 @@ describe('Unit | Service | ScorecardService', function () {
     });
 
     it('should return an empty object when no level up has occurred', function () {
-      // given
-      const knowledgeElementsForCompetenceBefore = [
-        domainBuilder.buildKnowledgeElement({
-          competenceId: 'competenceABC123',
-          status: KnowledgeElement.StatusType.VALIDATED,
-          earnedPix: 1,
-          skillId: 'skillA',
-        }),
-      ];
-      const knowledgeElementsForCompetenceAfter = [
-        domainBuilder.buildKnowledgeElement({
-          competenceId: 'competenceABC123',
-          status: KnowledgeElement.StatusType.VALIDATED,
-          earnedPix: 1,
-          skillId: 'skillA',
-        }),
-        domainBuilder.buildKnowledgeElement({
-          competenceId: 'competenceABC123',
-          status: KnowledgeElement.StatusType.VALIDATED,
-          earnedPix: 1,
-          skillId: 'skillB',
-        }),
-      ];
-
       // when
       const levelupInformation = scorecardService.computeLevelUpInformation({
         answer,
@@ -656,8 +549,8 @@ describe('Unit | Service | ScorecardService', function () {
         area,
         competence,
         competenceEvaluationForCompetence,
-        knowledgeElementsForCompetenceBefore,
-        knowledgeElementsForCompetenceAfter,
+        knowledgeStateForCompetenceBefore: stateWithPix([1]),
+        knowledgeStateForCompetenceAfter: stateWithPix([1, 1]),
       });
 
       // then

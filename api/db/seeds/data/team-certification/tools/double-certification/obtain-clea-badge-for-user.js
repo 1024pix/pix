@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { evaluationUsecases } from '../../../../../../src/evaluation/domain/usecases/index.js';
 import * as prescriptionCampaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { usecases as prescriptionTargetProfilesUsecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
 import { assertNotNullOrUndefined } from '../../../../../../src/shared/domain/models/asserts.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
@@ -70,7 +69,7 @@ export default async function obtainCleaBadgeForUser({
     }
 
     databaseBuilder.factory.buildKnowledgeElementSnapshot({
-      snapshot: new KnowledgeElementCollection(keDataForSnapshot).toSnapshot(),
+      snapshot: JSON.stringify(keDataForSnapshot),
       campaignParticipationId,
     });
 

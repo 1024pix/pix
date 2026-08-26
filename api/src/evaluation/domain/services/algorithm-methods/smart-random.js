@@ -13,7 +13,7 @@ import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge }
 /**
  *
  * @param {object} params
- * @param {KnowledgeElement[]} params.knowledgeElements
+ * @param {KnowledgeState} params.knowledgeState
  * @param {SmartRandomChallenge[]|SharedChallenge[]} params.challenges
  * @param {Skill[]} params.targetSkills
  * @param {Answer} params.lastAnswer
@@ -22,7 +22,7 @@ import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge }
  * @returns {{hasAssessmentEnded: boolean, possibleSkillsForNextChallenge: SmartRandomChallenge|SharedChallenge, levelEstimated: number}}
  */
 export function getPossibleSkillsForNextChallenge({
-  knowledgeElements,
+  knowledgeState,
   challenges,
   targetSkills,
   lastAnswer,
@@ -32,17 +32,15 @@ export function getPossibleSkillsForNextChallenge({
   const isUserStartingTheTest = !lastAnswer;
   const isLastChallengeTimed = lastAnswer ? wasLastChallengeTimed(lastAnswer) : false;
   const tubes = findTubes(targetSkills, challenges);
-  const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
-    return targetSkills.find((skill) => skill.id === ke.skillId);
-  });
+  const knowledgeStateOfTargetSkills = knowledgeState.restrictedTo(targetSkills);
   const filteredChallenges = removeChallengesWithAnswer({ challenges, allAnswers });
   targetSkills = getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale });
 
   // First challenge has specific rules
   const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
-    ? findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes })
+    ? findFirstChallenge({ knowledgeState: knowledgeStateOfTargetSkills, targetSkills, tubes })
     : findAnyChallenge({
-        knowledgeElements: knowledgeElementsOfTargetSkills,
+        knowledgeState: knowledgeStateOfTargetSkills,
         targetSkills,
         tubes,
         isLastChallengeTimed,
@@ -69,10 +67,10 @@ function filterSkillsByChallenges(skills, challenges) {
   });
 }
 
-function findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) {
-  const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
+function findAnyChallenge({ knowledgeState, targetSkills, tubes, isLastChallengeTimed }) {
+  const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeState);
   const { availableSkills } = getFilteredSkillsForNextChallenge({
-    knowledgeElements,
+    knowledgeState,
     tubes,
     predictedLevel,
     isLastChallengeTimed,
@@ -82,7 +80,7 @@ function findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChalle
     availableSkills,
     predictedLevel,
     tubes,
-    knowledgeElements,
+    knowledgeState,
   });
 
   logStep(STEPS_NAMES.MAX_REWARDING_SKILLS, maxRewardingSkills);
@@ -90,9 +88,9 @@ function findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChalle
   return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel };
 }
 
-function findFirstChallenge({ knowledgeElements, targetSkills, tubes }) {
+function findFirstChallenge({ knowledgeState, targetSkills, tubes }) {
   const { availableSkills } = getFilteredSkillsForFirstChallenge({
-    knowledgeElements,
+    knowledgeState,
     tubes,
     targetSkills,
   });

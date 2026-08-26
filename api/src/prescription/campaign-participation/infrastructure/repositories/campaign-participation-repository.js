@@ -3,14 +3,13 @@ import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
-import * as knowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeStateRepository from '../../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import { batchUpdate, fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { Campaign } from '../../../campaign/domain/models/Campaign.js';
 import { CampaignParticipationInfo } from '../../../campaign/domain/read-models/CampaignParticipationInfo.js';
 import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
-import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as knowledgeStateSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-state-snapshot-repository.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../shared/domain/models/KnowledgeElementCollection.js';
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../domain/read-models/AvailableCampaignParticipation.js';
 import { OrganizationLearnerCampaignParticipation } from '../../domain/read-models/OrganizationLearnerCampaignParticipation.js';
@@ -28,12 +27,12 @@ const updateWithSnapshot = async function (campaignParticipation) {
   if (campaign.isExam) {
     return;
   }
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
+  const knowledgeState = await knowledgeStateRepository.findByUserId({
     userId: campaignParticipation.userId,
     limitDate: campaignParticipation.sharedAt,
   });
-  await knowledgeElementSnapshotRepository.save({
-    snapshot: new KnowledgeElementCollection(knowledgeElements).toSnapshot(),
+  await knowledgeStateSnapshotRepository.save({
+    knowledgeState,
     campaignParticipationId: campaignParticipation.id,
   });
 };

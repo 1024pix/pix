@@ -1,11 +1,18 @@
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
-import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';
+
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
 
 describe('Evaluation | Integration | Domain | Use Cases | update-assessment-with-next-challenge', function () {
   const skillIds = ['acquisTube1Niveau1', 'acquisTube1Niveau2'];
@@ -55,19 +62,19 @@ describe('Evaluation | Integration | Domain | Use Cases | update-assessment-with
         assessmentId: assessment.id,
         challengeId: 'autrechose',
       }).id;
-      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+      const knowledgeElement = buildKeData({
         answerId,
         assessmentId: assessment.id,
         userId: assessment.userId,
         skillId: skillIds[0],
-        status: KnowledgeElement.StatusType.VALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
+        status: 'validated',
+        source: 'direct',
         competenceId: 'maCompetenceId',
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId,
-        snapshot: new KnowledgeElementCollection([knowledgeElement]).toSnapshot(),
+        snapshot: toLegacySnapshot([knowledgeElement]),
       });
       await databaseBuilder.commit();
 

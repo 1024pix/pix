@@ -8,8 +8,9 @@ import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
-const { INVALIDATED, VALIDATED } = KnowledgeElement.StatusType;
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
+
+const VALIDATED = 'validated';
+const INVALIDATED = 'invalidated';
 
 describe('Integration | Quest | Domain | UseCases | check-user-quest-success', function () {
   it('should return undefined if userId not defined', async function () {

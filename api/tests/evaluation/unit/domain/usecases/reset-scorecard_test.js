@@ -4,16 +4,18 @@ import { CompetenceResetError } from '../../../../../src/evaluation/domain/error
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { resetScorecard } from '../../../../../src/evaluation/domain/usecases/reset-scorecard.js';
 import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | reset-scorecard', function () {
-  let knowledgeElements, resetScorecardResult, scorecard;
+  let knowledgeState, resetScorecardResult, scorecard;
   const locale = 'fr-fr';
 
   const competenceId = 123;
   const userId = 456;
   const competenceEvaluationRepository = {};
-  const knowledgeElementRepository = {};
+  const knowledgeStateRepository = {};
+  const competenceScoreRepository = {};
   const competenceRepository = {};
   const areaRepository = {};
   const assessmentRepository = {};
@@ -26,12 +28,11 @@ describe('Unit | UseCase | reset-scorecard', function () {
     resetScorecardResult = Symbol('reset scorecard result');
     scorecard = Symbol('Scorecard');
     competenceEvaluationRepository.existsByCompetenceIdAndUserId = sinon.stub();
-    knowledgeElementRepository.findUniqByUserIdAndCompetenceId = sinon.stub();
+    knowledgeStateRepository.findByUserId = sinon.stub();
     scorecardService.resetScorecard = sinon.stub();
     scorecardService.computeScorecard = sinon.stub();
     getRemainingDaysBeforeResetStub = sinon.stub(Scorecard, 'computeRemainingDaysBeforeReset');
-
-    knowledgeElements = [{}, {}];
+    knowledgeState = domainBuilder.buildKnowledgeState.forSkills({ validatedSkillIds: ['skillA'], competenceId });
   });
 
   context('when the user owns the competenceEvaluation', function () {
@@ -46,7 +47,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
           userId,
           competenceId,
           shouldResetCompetenceEvaluation,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           competenceEvaluationRepository,
           assessmentRepository,
           campaignParticipationRepository,
@@ -60,16 +61,15 @@ describe('Unit | UseCase | reset-scorecard', function () {
           competenceRepository,
           areaRepository,
           competenceEvaluationRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
+          competenceScoreRepository,
           locale,
         })
         .resolves(scorecard);
 
-      knowledgeElementRepository.findUniqByUserIdAndCompetenceId
-        .withArgs({ userId, competenceId })
-        .resolves(knowledgeElements);
+      knowledgeStateRepository.findByUserId.withArgs({ userId }).resolves(knowledgeState);
 
-      getRemainingDaysBeforeResetStub.withArgs(knowledgeElements).returns(0);
+      getRemainingDaysBeforeResetStub.returns(0);
 
       // when
       const response = await resetScorecard({
@@ -81,7 +81,8 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         areaRepository,
         competenceEvaluationRepository,
-        knowledgeElementRepository,
+        knowledgeStateRepository,
+        competenceScoreRepository,
         campaignRepository,
         locale,
       });
@@ -94,7 +95,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         assessmentRepository,
         campaignParticipationRepository,
         competenceRepository,
-        knowledgeElementRepository,
+        knowledgeStateRepository,
         competenceEvaluationRepository,
         campaignRepository,
       });
@@ -107,16 +108,14 @@ describe('Unit | UseCase | reset-scorecard', function () {
       // given
       const shouldResetCompetenceEvaluation = false;
 
-      knowledgeElementRepository.findUniqByUserIdAndCompetenceId
-        .withArgs({ userId, competenceId })
-        .resolves(knowledgeElements);
+      knowledgeStateRepository.findByUserId.withArgs({ userId }).resolves(knowledgeState);
 
       scorecardService.resetScorecard
         .withArgs({
           userId,
           competenceId,
           shouldResetCompetenceEvaluation,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           competenceEvaluationRepository,
         })
         .resolves(resetScorecardResult);
@@ -128,7 +127,8 @@ describe('Unit | UseCase | reset-scorecard', function () {
           competenceRepository,
           areaRepository,
           competenceEvaluationRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
+          competenceScoreRepository,
           locale,
         })
         .resolves(scorecard);
@@ -143,7 +143,8 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         areaRepository,
         competenceEvaluationRepository,
-        knowledgeElementRepository,
+        knowledgeStateRepository,
+        competenceScoreRepository,
         locale,
       });
 
@@ -156,11 +157,9 @@ describe('Unit | UseCase | reset-scorecard', function () {
   context('when the remainingDaysBeforeReset is over 0', function () {
     it('should throw a CompetenceResetError error', async function () {
       // given
-      knowledgeElementRepository.findUniqByUserIdAndCompetenceId
-        .withArgs({ userId, competenceId })
-        .resolves(knowledgeElements);
+      knowledgeStateRepository.findByUserId.withArgs({ userId }).resolves(knowledgeState);
 
-      getRemainingDaysBeforeResetStub.withArgs(knowledgeElements).returns(4);
+      getRemainingDaysBeforeResetStub.returns(4);
 
       // when
       const requestErr = await catchErr(resetScorecard)({
@@ -169,7 +168,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         scorecardService,
         competenceRepository,
         competenceEvaluationRepository,
-        knowledgeElementRepository,
+        knowledgeStateRepository,
         locale,
       });
 
@@ -181,7 +180,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
   context('when there is no knowledge elements', function () {
     it('should do nothing', async function () {
       // given
-      knowledgeElementRepository.findUniqByUserIdAndCompetenceId.withArgs({ userId, competenceId }).resolves([]);
+      knowledgeStateRepository.findByUserId.withArgs({ userId }).resolves(domainBuilder.buildKnowledgeState());
 
       scorecardService.resetScorecard.resolves();
 
@@ -192,7 +191,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         scorecardService,
         competenceRepository,
         competenceEvaluationRepository,
-        knowledgeElementRepository,
+        knowledgeStateRepository,
         locale,
       });
 

@@ -1,3 +1,4 @@
+import { KnowledgeState } from '../../../../shared/domain/models/KnowledgeState.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import * as stageAndStageAcquisitionComparisonService from '../../../stages/domain/services/stage-and-stage-acquisition-comparison-service.js';
 import { CampaignResultLevelsPerTubesAndCompetences } from '../models/CampaignResultLevelsPerTubesAndCompetences.js';
@@ -49,7 +50,7 @@ const getBadgesWithBadgesCalculationAndBadgesAcquisitions = async ({
   return { badges, badgesForCalculation, acquiredBadgesByParticipation };
 };
 
-const computeTubes = (campaignId, campaignParticipation, learningContent, knowledgeElementsByParticipation) => {
+const computeTubes = (campaignId, campaignParticipation, learningContent, knowledgeStatesByParticipation) => {
   if (campaignParticipation.status !== CampaignParticipationStatuses.SHARED || !learningContent) {
     return [];
   }
@@ -59,7 +60,7 @@ const computeTubes = (campaignId, campaignParticipation, learningContent, knowle
     learningContent,
   });
 
-  campaignResultLevelPerTubesAndCompetences.addKnowledgeElementSnapshots(knowledgeElementsByParticipation);
+  campaignResultLevelPerTubesAndCompetences.addKnowledgeStates(knowledgeStatesByParticipation);
 
   return campaignResultLevelPerTubesAndCompetences.levelsPerTube.map((tube) => {
     return new TubeCoverage({
@@ -74,13 +75,13 @@ const getAcquisitionPercentage = (
   badge,
   isAcquired,
   badgesForCalculation,
-  knowledgeElementsByParticipations,
+  knowledgeStatesByParticipations,
 ) => {
   if (participation.status !== CampaignParticipationStatuses.SHARED) return 0;
   if (isAcquired) return 100;
   return badgesForCalculation
     .find((badgeForCalculation) => badgeForCalculation.id === badge.id)
-    .getAcquisitionPercentage(knowledgeElementsByParticipations[participation.id] ?? []);
+    .getAcquisitionPercentage(knowledgeStatesByParticipations[participation.id] ?? new KnowledgeState());
 };
 
 export const getCampaignParticipations = async function ({
@@ -96,7 +97,7 @@ export const getCampaignParticipations = async function ({
   stageRepository,
   stageAcquisitionRepository,
   campaignParticipationRepository,
-  knowledgeElementSnapshotRepository,
+  knowledgeStateSnapshotRepository,
   learningContentRepository,
 }) {
   const campaign = await campaignRepository.get(campaignId);
@@ -109,14 +110,14 @@ export const getCampaignParticipations = async function ({
   const participationIds = participations.map(({ id }) => id);
 
   if (campaign.isProfilesCollection) {
-    const knowledgeElementsByParticipations = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds(
+    const knowledgeStatesByParticipations = await knowledgeStateSnapshotRepository.findByCampaignParticipationIds(
       participations.map((participation) => participation.id),
     );
 
     const models = await Promise.all(
       participations.map(async (participation) => {
-        const participationKEs = knowledgeElementsByParticipations[participation.id] ?? [];
-        const participationSkillIds = participationKEs.map(({ skillId }) => skillId);
+        const participationState = knowledgeStatesByParticipations[participation.id] ?? new KnowledgeState();
+        const participationSkillIds = participationState.assessedSkills().map(({ id }) => id);
 
         const learningContent =
           participationSkillIds.length > 0
@@ -124,7 +125,7 @@ export const getCampaignParticipations = async function ({
             : null;
 
         const tubes = computeTubes(campaignId, participation, learningContent, {
-          [participation.id]: participationKEs,
+          [participation.id]: participationState,
         });
 
         return new ProfilesCollectionCampaignParticipation({ ...participation, tubes });
@@ -150,14 +151,14 @@ export const getCampaignParticipations = async function ({
     });
 
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
-  const knowledgeElementsByParticipations = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds(
+  const knowledgeStatesByParticipations = await knowledgeStateSnapshotRepository.findByCampaignParticipationIds(
     participations.map((participation) => participation.id),
   );
 
   return {
     models: participations.map((participation) => {
       const tubes = computeTubes(campaignId, participation, learningContent, {
-        [participation.id]: knowledgeElementsByParticipations[participation.id] ?? [],
+        [participation.id]: knowledgeStatesByParticipations[participation.id] ?? new KnowledgeState(),
       });
 
       const acquiredStagesForParticipation = acquiredStagesByParticipation[participation.id] || [];
@@ -185,7 +186,7 @@ export const getCampaignParticipations = async function ({
             badge,
             isAcquired,
             badgesForCalculation,
-            knowledgeElementsByParticipations,
+            knowledgeStatesByParticipations,
           );
 
           return new Badge({

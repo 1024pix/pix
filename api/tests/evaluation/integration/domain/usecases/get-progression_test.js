@@ -5,12 +5,12 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
-import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';
+
+const buildKeData = (data) => ({ source: 'direct', earnedPix: 4, competenceId: 'recCompetenceProgression', ...data });
 
 describe('Integration | Domain | UseCases | get-progression', function () {
   describe('when the assessment is link to a campaign participation', function () {
@@ -21,23 +21,40 @@ describe('Integration | Domain | UseCases | get-progression', function () {
         campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
         assessmentCreatedDate = new Date('2024-01-01');
 
+        // Un tube distinct par acquis : l'inférence ne doit pas les lier entre eux.
         const skillDatas = [
           {
             id: 'skillId0Perime',
+            name: '@tubePerime1',
+            level: 1,
+            tubeId: 'tubePerime',
+            competenceId: 'recCompetenceProgression',
             status: 'périmé',
           },
           {
             id: 'skillId1Archive',
+            name: '@tubeArchive1',
+            level: 1,
+            tubeId: 'tubeArchive',
+            competenceId: 'recCompetenceProgression',
             status: 'archivé',
           },
           {
             id: 'skillId2Actif',
+            name: '@tubeActif1',
+            level: 1,
+            tubeId: 'tubeActif',
+            competenceId: 'recCompetenceProgression',
             status: 'actif',
           },
         ];
 
         skillDatas.forEach((skillData) => {
           const skill = databaseBuilder.factory.learningContent.buildSkill(skillData);
+          databaseBuilder.factory.learningContent.buildChallenge({
+            id: `challenge-${skill.id}`,
+            skillId: skill.id,
+          });
 
           databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: skill.id });
         });
@@ -83,28 +100,31 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(0);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([]));
         });
 
         it('rate to 0, on user failed all knowledge element from previous assessment', async function () {
           // given
-          databaseBuilder.factory.buildKnowledgeElement({
+          databaseBuilder.factory.buildAnsweredSkill({
+            userId,
             skillId: 'skillId1Archive',
-            userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            challengeId: 'challenge-skillId1Archive',
+            isOk: false,
             createdAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId2Actif',
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            skillId: 'skillId2Actif',
+            challengeId: 'challenge-skillId2Actif',
+            isOk: false,
             createdAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
 
           await databaseBuilder.commit();
@@ -117,41 +137,37 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(0);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([]));
         });
 
         it('rate to 0, on user reset all previous knowledge element from previous assessment', async function () {
           // given
-          databaseBuilder.factory.buildKnowledgeElement({
+          databaseBuilder.factory.buildAnsweredSkill({
+            userId,
             skillId: 'skillId1Archive',
-            userId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            challengeId: 'challenge-skillId1Archive',
+            isOk: true,
             createdAt: dayjs(assessmentCreatedDate).subtract(20, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId2Actif',
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            skillId: 'skillId2Actif',
+            challengeId: 'challenge-skillId2Actif',
+            isOk: true,
             createdAt: dayjs(assessmentCreatedDate).subtract(20, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId1Archive',
+          // La remise à zéro n'est plus un knowledge element mais une date de reset.
+          databaseBuilder.factory.buildKnowledgeReset({
             userId,
-            status: KnowledgeElement.StatusType.RESET,
-            createdAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
-          });
-
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId2Actif',
-            userId,
-            status: KnowledgeElement.StatusType.RESET,
-            createdAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
+            competenceId: 'recCompetenceProgression',
+            resetAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
           });
 
           await databaseBuilder.commit();
@@ -164,28 +180,33 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(0);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([]));
         });
 
         it('rate to 1, on user succeed all knowledge element from previous assessment', async function () {
           // given
-          const ke1 = databaseBuilder.factory.buildKnowledgeElement({
+          const ke1 = { skillId: 'skillId1Archive', status: 'validated' };
+          databaseBuilder.factory.buildAnsweredSkill({
+            userId,
             skillId: 'skillId1Archive',
-            userId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            challengeId: 'challenge-skillId1Archive',
+            isOk: true,
             createdAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
-          const ke2 = databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId2Actif',
+          const ke2 = { skillId: 'skillId2Actif', status: 'validated' };
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            skillId: 'skillId2Actif',
+            challengeId: 'challenge-skillId2Actif',
+            isOk: true,
             createdAt: dayjs(assessmentCreatedDate).subtract(20, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
 
           await databaseBuilder.commit();
@@ -198,30 +219,35 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(1);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [ke1, ke2],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [ke1, ke2],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([ke1, ke2]));
         });
 
         it('rate to 1, on user succeed all knowledge element from current assessment', async function () {
           // given
-          const ke1 = databaseBuilder.factory.buildKnowledgeElement({
+          const ke1 = { skillId: 'skillId1Archive', status: 'validated' };
+          databaseBuilder.factory.buildAnsweredSkill({
+            userId,
+            assessmentId,
             skillId: 'skillId1Archive',
-            userId,
-            assessmentId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            challengeId: 'challenge-skillId1Archive',
+            isOk: true,
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
-          const ke2 = databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId2Actif',
+          const ke2 = { skillId: 'skillId2Actif', status: 'validated' };
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
             assessmentId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            skillId: 'skillId2Actif',
+            challengeId: 'challenge-skillId2Actif',
+            isOk: true,
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
 
           await databaseBuilder.commit();
@@ -234,30 +260,35 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(1);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [ke1, ke2],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [ke1, ke2],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([ke1, ke2]));
         });
 
         it('rate to 1, on user missed some knowledge element from current assessment', async function () {
           // given
-          const ke1 = databaseBuilder.factory.buildKnowledgeElement({
+          const ke1 = { skillId: 'skillId1Archive', status: 'validated' };
+          databaseBuilder.factory.buildAnsweredSkill({
+            userId,
+            assessmentId,
             skillId: 'skillId1Archive',
-            userId,
-            assessmentId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            challengeId: 'challenge-skillId1Archive',
+            isOk: true,
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
-          const ke2 = databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId2Actif',
+          const ke2 = { skillId: 'skillId2Actif', status: 'invalidated' };
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
             assessmentId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            skillId: 'skillId2Actif',
+            challengeId: 'challenge-skillId2Actif',
+            isOk: false,
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
 
           await databaseBuilder.commit();
@@ -270,28 +301,32 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(1);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [ke1, ke2],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [ke1, ke2],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([ke1, ke2]));
         });
 
         it('rate to 0.5, on user missed some knowledge element from previous assessment', async function () {
           // given
-          const ke1 = databaseBuilder.factory.buildKnowledgeElement({
+          const ke1 = { skillId: 'skillId1Archive', status: 'validated' };
+          databaseBuilder.factory.buildAnsweredSkill({
+            userId,
             skillId: 'skillId1Archive',
-            userId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            challengeId: 'challenge-skillId1Archive',
+            isOk: true,
             createdAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId2Actif',
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            skillId: 'skillId2Actif',
+            challengeId: 'challenge-skillId2Actif',
+            isOk: false,
             createdAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
 
           await databaseBuilder.commit();
@@ -304,13 +339,10 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(0.5);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [ke1],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [ke1],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([ke1]));
         });
       });
 
@@ -342,18 +374,24 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
         it('ignores the knowledge elements acquired after the participation was shared', async function () {
           // given
-          const knowledgeElementBeforeSharing = databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId1Archive',
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
             assessmentId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            skillId: 'skillId1Archive',
+            challengeId: 'challenge-skillId1Archive',
+            isOk: true,
             createdAt: dayjs(sharedAt).subtract(1, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: 'skillId2Actif',
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            skillId: 'skillId2Actif',
+            challengeId: 'challenge-skillId2Actif',
+            isOk: true,
             createdAt: dayjs(sharedAt).add(1, 'day').toDate(),
+            withSkill: false,
+            withChallenge: false,
           });
 
           await databaseBuilder.commit();
@@ -365,13 +403,11 @@ describe('Integration | Domain | UseCases | get-progression', function () {
           });
 
           // then
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: true,
-            knowledgeElements: [knowledgeElementBeforeSharing],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [knowledgeElementBeforeSharing],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(true);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          // Seul l'acquis validé avant le partage est retenu.
+          expect(result.targetedAssessedSkillIds).to.deep.equal(['skillId1Archive']);
         });
       });
     });
@@ -383,23 +419,40 @@ describe('Integration | Domain | UseCases | get-progression', function () {
         campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.EXAM });
         assessmentCreatedDate = new Date('2024-01-01');
 
+        // Un tube distinct par acquis : l'inférence ne doit pas les lier entre eux.
         const skillDatas = [
           {
             id: 'skillId0Perime',
+            name: '@tubePerime1',
+            level: 1,
+            tubeId: 'tubePerime',
+            competenceId: 'recCompetenceProgression',
             status: 'périmé',
           },
           {
             id: 'skillId1Archive',
+            name: '@tubeArchive1',
+            level: 1,
+            tubeId: 'tubeArchive',
+            competenceId: 'recCompetenceProgression',
             status: 'archivé',
           },
           {
             id: 'skillId2Actif',
+            name: '@tubeActif1',
+            level: 1,
+            tubeId: 'tubeActif',
+            competenceId: 'recCompetenceProgression',
             status: 'actif',
           },
         ];
 
         skillDatas.forEach((skillData) => {
           const skill = databaseBuilder.factory.learningContent.buildSkill(skillData);
+          databaseBuilder.factory.learningContent.buildChallenge({
+            id: `challenge-${skill.id}`,
+            skillId: skill.id,
+          });
 
           databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: skill.id });
         });
@@ -446,27 +499,23 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(0);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([]));
         });
 
         it('rate to 0.5 for user with 1/2 validated kes in snaphot from current assessment', async function () {
           // given
-          const ke1 = domainBuilder.buildKnowledgeElement({
+          const ke1 = buildKeData({
             skillId: 'skillId1Archive',
             userId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
           });
-          const ke1FromSnapShot = new KnowledgeElement(domainBuilder.buildKnowledgeElementSnapshot(ke1));
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection([ke1]).toSnapshot(),
+            snapshot: toLegacySnapshot([ke1]),
             campaignParticipationId: campaignParticipation.id,
           });
 
@@ -480,29 +529,24 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(0.5);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [ke1FromSnapShot],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [ke1FromSnapShot],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([ke1]));
         });
 
         it('rate to 0.5 for user with 1/2 invalidated kes in snaphot from current assessment', async function () {
           // given
-          const ke1 = domainBuilder.buildKnowledgeElement({
+          const ke1 = buildKeData({
             skillId: 'skillId1Archive',
             userId,
             assessmentId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            status: 'invalidated',
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
           });
 
-          const ke1FromSnapShot = new KnowledgeElement(domainBuilder.buildKnowledgeElementSnapshot(ke1));
-
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection([ke1]).toSnapshot(),
+            snapshot: toLegacySnapshot([ke1]),
             campaignParticipationId: campaignParticipation.id,
           });
 
@@ -516,36 +560,31 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(0.5);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [ke1FromSnapShot],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [ke1FromSnapShot],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([ke1]));
         });
 
         it('rate to 1 for user with all validated kes in snapshot from current assessment', async function () {
           // given
-          const ke1 = domainBuilder.buildKnowledgeElement({
+          const ke1 = buildKeData({
             skillId: 'skillId1Archive',
             userId,
             assessmentId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
           });
-          const ke1FromSnapShot = new KnowledgeElement(domainBuilder.buildKnowledgeElementSnapshot(ke1));
 
-          const ke2 = domainBuilder.buildKnowledgeElement({
+          const ke2 = buildKeData({
             skillId: 'skillId2Actif',
             userId,
             assessmentId,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
           });
-          const ke2FromSnapShot = new KnowledgeElement(domainBuilder.buildKnowledgeElementSnapshot(ke2));
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection([ke1, ke2]).toSnapshot(),
+            snapshot: toLegacySnapshot([ke1, ke2]),
             campaignParticipationId: campaignParticipation.id,
           });
 
@@ -559,36 +598,31 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(1);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [ke1FromSnapShot, ke2FromSnapShot],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [ke1FromSnapShot, ke2FromSnapShot],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([ke1, ke2]));
         });
 
         it('rate to 1 for user with all invalidated kes in snapshot from current assessment', async function () {
           // given
-          const ke1 = domainBuilder.buildKnowledgeElement({
+          const ke1 = buildKeData({
             skillId: 'skillId1Archive',
             userId,
             assessmentId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            status: 'invalidated',
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
           });
-          const ke1FromSnapShot = new KnowledgeElement(domainBuilder.buildKnowledgeElementSnapshot(ke1));
 
-          const ke2 = domainBuilder.buildKnowledgeElement({
+          const ke2 = buildKeData({
             skillId: 'skillId2Actif',
             userId,
             assessmentId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            status: 'invalidated',
             createdAt: dayjs(assessmentCreatedDate).add(1, 'hour').toDate(),
           });
-          const ke2FromSnapShot = new KnowledgeElement(domainBuilder.buildKnowledgeElementSnapshot(ke2));
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection([ke1, ke2]).toSnapshot(),
+            snapshot: toLegacySnapshot([ke1, ke2]),
             campaignParticipationId: campaignParticipation.id,
           });
 
@@ -602,13 +636,10 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
           // then
           expect(result.completionRate).equal(1);
-          expect(result).to.deep.equal({
-            id: `progression-${assessmentId}`,
-            isProfileCompleted: false,
-            knowledgeElements: [ke1FromSnapShot, ke2FromSnapShot],
-            skillIds: ['skillId1Archive', 'skillId2Actif'],
-            targetedKnowledgeElements: [ke1FromSnapShot, ke2FromSnapShot],
-          });
+          expect(result.id).to.equal(`progression-${assessmentId}`);
+          expect(result.isProfileCompleted).to.equal(false);
+          expect(result.skillIds).to.deep.equal(['skillId1Archive', 'skillId2Actif']);
+          expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(idsOf([ke1, ke2]));
         });
       });
     });
@@ -617,39 +648,56 @@ describe('Integration | Domain | UseCases | get-progression', function () {
   describe('when the assessment is a competence evaluation', function () {
     const competenceId = 'recCompetence1';
     const assessmentCreatedDate = new Date('2024-01-15');
-    let userId, recentlyInvalidatedKnowledgeElement, validatedKnowledgeElement, longAgoInvalidatedKnowledgeElement;
+    let userId, previousAssessmentId;
+    let recentlyInvalidatedKnowledgeElement, validatedKnowledgeElement, longAgoInvalidatedKnowledgeElement;
 
+    // Les knowledge elements se dérivent des réponses : le contexte se construit
+    // donc en répondant à des questions, plus en insérant des knowledge elements.
+    // Chaque acquis vit dans son propre tube, pour qu'aucune inférence ne les lie.
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
+      previousAssessmentId = databaseBuilder.factory.buildAssessment({ userId, competenceId }).id;
 
-      ['skillId1Actif', 'skillId2Actif', 'skillId3Actif'].forEach((skillId) =>
-        databaseBuilder.factory.learningContent.buildSkill({ id: skillId, competenceId, status: 'actif' }),
-      );
+      ['A', 'B', 'C'].forEach((tube, index) => {
+        const skillId = `skillId${index + 1}Actif`;
+        databaseBuilder.factory.learningContent.buildSkill({
+          id: skillId,
+          name: `@tube${tube}1`,
+          level: 1,
+          competenceId,
+          tubeId: `tube${tube}`,
+          status: 'actif',
+        });
+        databaseBuilder.factory.learningContent.buildChallenge({ id: `challenge_${skillId}`, skillId });
+      });
       databaseBuilder.factory.learningContent.buildSkill({
         id: 'skillId4Archive',
+        name: '@tubeD1',
+        level: 1,
         competenceId,
+        tubeId: 'tubeD',
         status: 'archivé',
       });
 
-      validatedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+      validatedKnowledgeElement = answerSkill({
         userId,
-        competenceId,
+        assessmentId: previousAssessmentId,
         skillId: 'skillId1Actif',
-        status: KnowledgeElement.StatusType.VALIDATED,
+        isOk: true,
         createdAt: dayjs(assessmentCreatedDate).subtract(10, 'day').toDate(),
       });
-      longAgoInvalidatedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+      longAgoInvalidatedKnowledgeElement = answerSkill({
         userId,
-        competenceId,
+        assessmentId: previousAssessmentId,
         skillId: 'skillId2Actif',
-        status: KnowledgeElement.StatusType.INVALIDATED,
+        isOk: false,
         createdAt: dayjs(assessmentCreatedDate).subtract(20, 'day').toDate(),
       });
-      recentlyInvalidatedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+      recentlyInvalidatedKnowledgeElement = answerSkill({
         userId,
-        competenceId,
+        assessmentId: previousAssessmentId,
         skillId: 'skillId3Actif',
-        status: KnowledgeElement.StatusType.INVALIDATED,
+        isOk: false,
         createdAt: dayjs(assessmentCreatedDate).subtract(1, 'day').toDate(),
       });
 
@@ -674,20 +722,14 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
       // then
       expect(result.completionRate).equal(1);
-      expect(result).to.deep.equal({
+      expect(result.id).to.equal(`progression-${assessmentId}`);
+      expect(result.skillIds).to.deep.equal(['skillId1Actif', 'skillId2Actif', 'skillId3Actif']);
+      expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(
+        idsOf([recentlyInvalidatedKnowledgeElement, validatedKnowledgeElement, longAgoInvalidatedKnowledgeElement]),
+      );
+      expect(result).to.include({
         id: `progression-${assessmentId}`,
         isProfileCompleted: false,
-        knowledgeElements: [
-          recentlyInvalidatedKnowledgeElement,
-          validatedKnowledgeElement,
-          longAgoInvalidatedKnowledgeElement,
-        ],
-        skillIds: ['skillId1Actif', 'skillId2Actif', 'skillId3Actif'],
-        targetedKnowledgeElements: [
-          recentlyInvalidatedKnowledgeElement,
-          validatedKnowledgeElement,
-          longAgoInvalidatedKnowledgeElement,
-        ],
       });
     });
 
@@ -710,13 +752,10 @@ describe('Integration | Domain | UseCases | get-progression', function () {
 
       // then
       expect(result.completionRate).equal(2 / 3);
-      expect(result).to.deep.equal({
-        id: `progression-${assessmentId}`,
-        isProfileCompleted: false,
-        knowledgeElements: [recentlyInvalidatedKnowledgeElement, validatedKnowledgeElement],
-        skillIds: ['skillId1Actif', 'skillId2Actif', 'skillId3Actif'],
-        targetedKnowledgeElements: [recentlyInvalidatedKnowledgeElement, validatedKnowledgeElement],
-      });
+      expect(result.skillIds).to.deep.equal(['skillId1Actif', 'skillId2Actif', 'skillId3Actif']);
+      expect(result.targetedAssessedSkillIds.toSorted()).to.deep.equal(
+        idsOf([recentlyInvalidatedKnowledgeElement, validatedKnowledgeElement]),
+      );
     });
   });
 });
@@ -735,3 +774,29 @@ function _buildCompetenceEvaluationAssessment({ userId, competenceId, createdAt,
 
   return assessmentId;
 }
+
+/**
+ * Répond à une question portant sur l'acquis donné, et retourne la description
+ * du knowledge element que cette réponse fait exister.
+ */
+function answerSkill({ userId, assessmentId, skillId, isOk, createdAt }) {
+  databaseBuilder.factory.buildAnsweredSkill({
+    userId,
+    assessmentId,
+    skillId,
+    challengeId: `challenge_${skillId}`,
+    isOk,
+    createdAt,
+    withSkill: false,
+    withChallenge: false,
+  });
+
+  return {
+    userId,
+    skillId,
+    status: isOk ? 'validated' : 'invalidated',
+  };
+}
+
+const idsOf = (knowledgeElementDatas) =>
+  knowledgeElementDatas.map(({ skillId }) => skillId).toSorted((a, b) => a.localeCompare(b));

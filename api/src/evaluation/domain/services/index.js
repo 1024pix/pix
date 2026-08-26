@@ -1,9 +1,9 @@
 import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
-import knowledgeElementForParticipationService from '../../../prescription/shared/domain/services/knowledge-element-for-participation-service.js';
+import knowledgeStateForParticipationService from '../../../prescription/shared/domain/services/knowledge-state-for-participation-service.js';
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as courseRepository from '../../../shared/infrastructure/repositories/course-repository.js';
-import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeStateRepository from '../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -24,8 +24,8 @@ const dependencies = {
   campaignRepository,
   courseRepository,
   improvementService,
-  knowledgeElementForParticipationService,
-  knowledgeElementRepository,
+  knowledgeStateForParticipationService,
+  knowledgeStateRepository,
   pickChallengeService,
   skillRepository,
   smartRandomChallengeRepository,

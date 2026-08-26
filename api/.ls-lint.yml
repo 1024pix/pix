@@ -34,3 +34,7 @@ ignore:
   - db/seeds
   - scripts
   - codemods
+  - poc
+  - .claude
+  - .idea
+  - .nyc_output

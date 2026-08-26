@@ -1,6 +1,6 @@
 import * as modulesApi from '../../../devcomp/application/api/modules-api.js';
 import * as recommendedModulesApi from '../../../devcomp/application/api/recommended-modules-api.js';
-import * as knowledgeElementsApi from '../../../evaluation/application/api/knowledge-elements-api.js';
+import * as knowledgeStatesApi from '../../../evaluation/application/api/knowledge-states-api.js';
 import * as userApi from '../../../identity-access-management/application/api/users-api.js';
 import * as learningContentApi from '../../../learning-content/application/api/learning-content-api.js';
 import * as skillsApi from '../../../learning-content/application/api/skills-api.js';
@@ -60,7 +60,7 @@ const repositoriesWithoutInjectedDependencies = {
 
 const dependencies = {
   organizationLearnerWithParticipationApi,
-  knowledgeElementsApi,
+  knowledgeStatesApi,
   campaignsApi,
   campaignParticipationsApi,
   organizationLearnerApi,

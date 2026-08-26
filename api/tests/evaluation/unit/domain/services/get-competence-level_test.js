@@ -2,55 +2,62 @@ import sinon from 'sinon';
 
 import { getCompetenceLevel } from '../../../../../src/evaluation/domain/services/get-competence-level.js';
 import { expect } from '../../../../test-helper.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Service | Get Competence Level', function () {
   describe('#getCompetenceLevel', function () {
     const userId = 'userId';
     const level = 3;
-    let competenceLevel;
-    let knowledgeElementRepository;
-    let competenceId;
-    let knowledgeElements;
-    let scoringService;
+    const competenceId = 'competenceId';
 
-    beforeEach(async function () {
+    it('reads the level from the competence score balance when it exists', async function () {
       // given
-      competenceId = 'competenceId';
-      knowledgeElements = Symbol('knowledgeElements');
-      knowledgeElementRepository = {
-        findUniqByUserIdAndCompetenceId: sinon.stub().resolves(knowledgeElements),
+      const competenceScoreRepository = {
+        findByUserId: sinon.stub().resolves(new Map([[competenceId, 25.3]])),
       };
-      scoringService = {
+      const knowledgeStateRepository = { findByUserId: sinon.stub() };
+      const scoringService = {
+        calculateScoringInformationFromPix: sinon.stub().returns({ currentLevel: level }),
+      };
+
+      // when
+      const competenceLevel = await getCompetenceLevel({
+        userId,
+        competenceId,
+        dependencies: { knowledgeStateRepository, competenceScoreRepository, scoringService },
+      });
+
+      // then: the balance is enough, the position is not read back
+      expect(competenceLevel).to.equal(level);
+      expect(scoringService.calculateScoringInformationFromPix).to.be.calledWith({ exactlyEarnedPix: 25.3 });
+      expect(knowledgeStateRepository.findByUserId).to.not.have.been.called;
+    });
+
+    it('falls back to the projected position when the competence has no balance', async function () {
+      // given
+      const competenceScoreRepository = { findByUserId: sinon.stub().resolves(new Map()) };
+      const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+        validatedSkillIds: ['skillA'],
+        invalidatedSkillIds: ['skillB'],
+        competenceId,
+      });
+      const knowledgeStateRepository = { findByUserId: sinon.stub().resolves(knowledgeState) };
+      const scoringService = {
         calculateScoringInformationForCompetence: sinon.stub().returns({ currentLevel: level }),
       };
 
       // when
-      competenceLevel = await getCompetenceLevel({
+      const competenceLevel = await getCompetenceLevel({
         userId,
         competenceId,
-        dependencies: {
-          knowledgeElementRepository,
-          scoringService,
-        },
+        dependencies: { knowledgeStateRepository, competenceScoreRepository, scoringService },
       });
-    });
 
-    it('should retrieve knowledgeElements for competence and user', function () {
-      // then
-      expect(knowledgeElementRepository.findUniqByUserIdAndCompetenceId).to.be.calledWith({
-        userId,
-        competenceId,
-      });
-    });
-
-    it('should use scoringService to compute competence level', function () {
-      // then
-      expect(scoringService.calculateScoringInformationForCompetence).to.be.calledWith({ knowledgeElements });
-    });
-
-    it('should return competence level', function () {
       // then
       expect(competenceLevel).to.equal(level);
+      expect(knowledgeStateRepository.findByUserId).to.be.calledWith({ userId });
+      const { validatedSkills } = scoringService.calculateScoringInformationForCompetence.firstCall.args[0];
+      expect(validatedSkills.map(({ id }) => id)).to.deep.equal(['skillA']);
     });
   });
 });

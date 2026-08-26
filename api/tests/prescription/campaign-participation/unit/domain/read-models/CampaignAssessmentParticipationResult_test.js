@@ -3,6 +3,15 @@ import { CampaignParticipationStatuses } from '../../../../../../src/prescriptio
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
+
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', function () {
@@ -43,7 +52,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
         const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 
         const validatedTargetedKnowledgeElementsByCompetenceId = {
-          competence1: [domainBuilder.buildKnowledgeElement({ skillId: 'someId', competenceId: 'competence1' })],
+          competence1: [buildKeData({ skillId: 'someId', competenceId: 'competence1' })],
         };
 
         const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({

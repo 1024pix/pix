@@ -5,10 +5,11 @@ import {
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
-const { INVALIDATED, VALIDATED } = KnowledgeElement.StatusType;
+
+const VALIDATED = 'validated';
+const INVALIDATED = 'invalidated';
 const userId = 1234;
 
 const setupContextWithCappedTubesQuest = async ({
@@ -21,6 +22,33 @@ const setupContextWithCappedTubesQuest = async ({
   databaseBuilder.factory.buildUser({ id: userId });
   const questOrganization = 'PRO';
   const userOrganization = isEligible ? questOrganization : 'SCO';
+
+  // Le référentiel se déclare avant les réponses : c'est lui qui situe chaque
+  // acquis sur son tube.
+  databaseBuilder.factory.learningContent.buildTube({
+    id: 'firstTube',
+  });
+  databaseBuilder.factory.learningContent.buildTube({
+    id: 'secondTube',
+  });
+  databaseBuilder.factory.learningContent.buildSkill({
+    id: 'skillId1_tube1',
+    tubeId: 'firstTube',
+    status: 'actif',
+    level: 1,
+  });
+  databaseBuilder.factory.learningContent.buildSkill({
+    id: 'skillId2_tube1',
+    tubeId: 'secondTube',
+    status: 'actif',
+    level: 2,
+  });
+  databaseBuilder.factory.learningContent.buildSkill({
+    id: 'skillId1_tube2',
+    tubeId: 'secondTube',
+    status: 'actif',
+    level: 1,
+  });
 
   const userKnowledgeElements = [
     {
@@ -51,31 +79,6 @@ const setupContextWithCappedTubesQuest = async ({
 
   databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'firstTube', level: 2 });
   databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'secondTube', level: 1 });
-
-  databaseBuilder.factory.learningContent.buildTube({
-    id: 'firstTube',
-  });
-  databaseBuilder.factory.learningContent.buildTube({
-    id: 'secondTube',
-  });
-  databaseBuilder.factory.learningContent.buildSkill({
-    id: 'skillId1_tube1',
-    tubeId: 'firstTube',
-    status: 'actif',
-    level: 1,
-  });
-  databaseBuilder.factory.learningContent.buildSkill({
-    id: 'skillId2_tube1',
-    tubeId: 'secondTube',
-    status: 'actif',
-    level: 2,
-  });
-  databaseBuilder.factory.learningContent.buildSkill({
-    id: 'skillId1_tube2',
-    tubeId: 'secondTube',
-    status: 'actif',
-    level: 1,
-  });
 
   const { id: campaignId } = databaseBuilder.factory.buildCampaign({
     organizationId: organization.id,
@@ -177,9 +180,6 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
         userId = databaseBuilder.factory.buildUser().id;
         const questOrganization = 'PRO';
 
-        const userKnowledgeElements = [{ userId, skillId: 'skillId1_tube1', status: VALIDATED }];
-        userKnowledgeElements.map(databaseBuilder.factory.buildKnowledgeElement);
-
         const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'firstTube', level: 1 });
         databaseBuilder.factory.learningContent.buildTube({ id: 'firstTube' });
@@ -189,6 +189,9 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
           status: 'actif',
           level: 1,
         });
+
+        const userKnowledgeElements = [{ userId, skillId: 'skillId1_tube1', status: VALIDATED }];
+        userKnowledgeElements.map(databaseBuilder.factory.buildKnowledgeElement);
 
         const organization = databaseBuilder.factory.buildOrganization({ type: questOrganization });
         const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({

@@ -1,7 +1,7 @@
 import { CampaignParticipationResult } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationResult.js';
 import { Area } from '../../../../../../src/shared/domain/models/Area.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | CampaignParticipationResult', function () {
   describe('#buildFrom', function () {
@@ -10,11 +10,10 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
     const assessmentId = 'assessmentId';
 
     const skillIds = [1, 2, 3, 4];
-    const knowledgeElements = [
-      new KnowledgeElement({ skillId: 1, status: 'validated' }),
-      new KnowledgeElement({ skillId: 2, status: 'invalidated' }),
-      new KnowledgeElement({ skillId: 7, status: 'validated' }),
-    ];
+    const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+      validatedSkillIds: [1, 7],
+      invalidatedSkillIds: [2],
+    });
 
     const jaffaArea = new Area({ id: 'jaffaArea', name: 'area 1', color: 'jaffa' });
     const wildStrawberryArea = new Area({ id: 'wildStrawberryArea', name: 'area 2', color: 'wild-strawberry' });
@@ -41,7 +40,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           assessment,
           competences,
           skillIds,
-          knowledgeElements,
+          knowledgeState,
           allAreas,
         });
 
@@ -53,7 +52,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           totalSkillsCount: 4,
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
-          knowledgeElementsCount: 2,
+          assessedSkillsCount: 2,
           competenceResults: [
             {
               id: 1,
@@ -88,7 +87,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           assessment,
           competences,
           skillIds,
-          knowledgeElements,
+          knowledgeState,
           allAreas,
         });
 
@@ -99,7 +98,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           totalSkillsCount: 4,
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
-          knowledgeElementsCount: 2,
+          assessedSkillsCount: 2,
           competenceResults: [
             {
               id: 1,
@@ -134,7 +133,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           assessment,
           competences,
           skillIds,
-          knowledgeElements,
+          knowledgeState,
           allAreas,
         });
 
@@ -146,7 +145,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           totalSkillsCount: 4,
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
-          knowledgeElementsCount: 2,
+          assessedSkillsCount: 2,
           competenceResults: [
             {
               id: 1,
@@ -211,7 +210,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
       // when
       const campaignParticipationResult = new CampaignParticipationResult({
         totalSkillsCount: 100,
-        knowledgeElementsCount: 75,
+        assessedSkillsCount: 75,
       });
 
       // then

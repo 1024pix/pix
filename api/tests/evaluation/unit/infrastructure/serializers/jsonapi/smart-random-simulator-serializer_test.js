@@ -2,7 +2,7 @@ import { Answer } from '../../../../../../src/evaluation/domain/models/Answer.js
 import { SimulationParameters } from '../../../../../../src/evaluation/domain/models/SimulationParameters.js';
 import { smartRandomSimulatorSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/smart-random-simulator-serializer.js';
 import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
+import { KnowledgeState } from '../../../../../../src/shared/domain/models/KnowledgeState.js';
 import { Skill } from '../../../../../../src/shared/domain/models/Skill.js';
 import { expect } from '../../../../../test-helper.js';
 
@@ -14,12 +14,12 @@ describe('Unit | Serializer | JSONAPI | smart-random-simulator-serializer', func
       jsonAnswer = {
         data: {
           attributes: {
-            'knowledge-elements': [
+            'knowledge-state': [
               {
-                source: 'direct',
-                status: 'validated',
-                'answer-id': 12345678,
-                'skill-id': 'rec45678765',
+                'tube-id': 'recTube1',
+                floor: 3,
+                ceiling: null,
+                'direct-levels': [3],
               },
             ],
             answers: [
@@ -60,7 +60,7 @@ describe('Unit | Serializer | JSONAPI | smart-random-simulator-serializer', func
       expect(simulatorParameters).to.be.instanceOf(SimulationParameters);
       expect(simulatorParameters.answers[0]).to.be.instanceOf(Answer);
       expect(simulatorParameters.skills[0]).to.be.instanceOf(Skill);
-      expect(simulatorParameters.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
+      expect(simulatorParameters.knowledgeState).to.be.instanceOf(KnowledgeState);
       expect(simulatorParameters.challenges[0]).to.be.instanceOf(Challenge);
     });
   });

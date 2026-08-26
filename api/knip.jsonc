@@ -14,5 +14,6 @@
   ],
   "ignoreFiles": [
     "tracing.worker.maddo.js", // used by Procfile-maddo
+    "poc/**", // prototypes exploratoires, lancés à la main
   ],
 }

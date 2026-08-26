@@ -9,7 +9,7 @@ import { getSmartRandomLog, logStep } from '../services/smart-random-log-service
  */
 const getNextChallengeForSimulator = function ({ simulationParameters, pickChallengeService, smartRandomService }) {
   const { possibleSkillsForNextChallenge, hasAssessmentEnded } = smartRandomService.getPossibleSkillsForNextChallenge({
-    knowledgeElements: simulationParameters.knowledgeElements,
+    knowledgeState: simulationParameters.knowledgeState,
     challenges: simulationParameters.challenges,
     locale: simulationParameters.locale,
     targetSkills: simulationParameters.skills,

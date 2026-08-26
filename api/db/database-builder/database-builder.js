@@ -15,6 +15,17 @@ const READONLY_TABLES = [
 const CHUNK_SIZE = 1000;
 
 /**
+ * Tables dont une fixture décrit l'état plutôt qu'une insertion.
+ *
+ * Un utilisateur n'a qu'un état de connaissance par tube, et le décrire deux
+ * fois — deux réponses sur le même tube, séparées par un commit — le met à jour
+ * au lieu d'ajouter une ligne. C'est la même règle que l'écriture applicative.
+ */
+const UPSERT_KEYS = {
+  'knowledge-states': ['userId', 'tubeId'],
+};
+
+/**
  * @typedef {object} Factory
  * @property {typeof import('./factory/build-network.js').buildNetworkAndHeadOrganization} buildNetworkAndHeadOrganization
  * @property {typeof import('./factory/build-network.js').buildNetworkWithMultipleLevels} buildNetworkWithMultipleLevels
@@ -63,7 +74,9 @@ export class DatabaseBuilder {
       await this.knex.transaction(async (trx) => {
         for (const [tableName, objectsToInsert] of orderedObjectsToInsert) {
           for (const chunk of _.chunk(objectsToInsert, CHUNK_SIZE)) {
-            await trx.insert(chunk).into(tableName);
+            const insert = trx.insert(chunk).into(tableName);
+            const conflictKey = UPSERT_KEYS[tableName];
+            await (conflictKey ? insert.onConflict(conflictKey).merge() : insert);
           }
           this.#dirtyTables.add(tableName);
         }

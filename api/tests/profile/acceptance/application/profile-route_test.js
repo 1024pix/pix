@@ -42,18 +42,24 @@ describe('Profile | Acceptance | Router | profile-route', function () {
             {
               id: 'recAcquisWeb1',
               name: '@web1',
+              level: 1,
               status: 'actif',
               competenceId: competenceId,
             },
           ],
         });
 
-        const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        // L'état de connaissance se construit en répondant, les knowledge
+        // elements n'étant plus persistés.
+        const assessmentId = databaseBuilder.factory.buildAssessment({ userId, state: 'started' }).id;
+        const knowledgeElement = { earnedPix: 2 };
+        databaseBuilder.factory.buildAnsweredSkill({
           userId,
-          competenceId: competenceId,
+          assessmentId,
+          skillId: 'recAcquisWeb1',
+          competenceId,
+          withSkill: false,
         });
-
-        const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
         databaseBuilder.factory.buildCompetenceEvaluation({
           userId,
           assessmentId,
@@ -231,18 +237,24 @@ describe('Profile | Acceptance | Router | profile-route', function () {
             {
               id: 'recAcquisWeb1',
               name: '@web1',
+              level: 1,
               status: 'actif',
               competenceId: competenceId,
             },
           ],
         });
 
-        const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        // L'état de connaissance se construit en répondant, les knowledge
+        // elements n'étant plus persistés.
+        const assessmentId = databaseBuilder.factory.buildAssessment({ userId, state: 'started' }).id;
+        const knowledgeElement = { earnedPix: 2 };
+        databaseBuilder.factory.buildAnsweredSkill({
           userId,
-          competenceId: competenceId,
+          assessmentId,
+          skillId: 'recAcquisWeb1',
+          competenceId,
+          withSkill: false,
         });
-
-        const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
         databaseBuilder.factory.buildCompetenceEvaluation({
           userId,
           assessmentId,

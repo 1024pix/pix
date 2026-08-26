@@ -1,22 +1,19 @@
-import dayjs from 'dayjs';
-
 import {
   MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
   MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING,
 } from '../../../shared/constants.js';
 
-function keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, createdAt, minimumDelayInDays }) {
-  const startedDateOfAssessment = createdAt;
-
-  return currentUserKnowledgeElements.filter((knowledgeElement) => {
-    const isNotOldEnoughToBeImproved =
-      dayjs(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days', true) < minimumDelayInDays;
-    return knowledgeElement.isValidated || isNotOldEnoughToBeImproved;
-  });
-}
-
-export function filterKnowledgeElements({
-  knowledgeElements,
+/**
+ * L'état vu par un parcours d'amélioration ou une nouvelle tentative : les
+ * échecs assez anciens sont oubliés pour que les acquis redeviennent posables,
+ * les validations restent acquises.
+ *
+ * @param {KnowledgeState} knowledgeState
+ * @param {Date} createdAt date de début du parcours
+ * @returns {KnowledgeState}
+ */
+export function improveKnowledgeState({
+  knowledgeState,
   createdAt,
   isRetrying = false,
   isImproving = false,
@@ -31,11 +28,7 @@ export function filterKnowledgeElements({
       ? minimumDelayInDaysBeforeRetrying
       : minimumDelayInDaysBeforeImproving;
 
-    return keepKnowledgeElementsRecentOrValidated({
-      currentUserKnowledgeElements: knowledgeElements,
-      createdAt,
-      minimumDelayInDays,
-    });
+    return knowledgeState.withoutStaleFailures({ since: createdAt, minimumDelayInDays });
   }
-  return knowledgeElements;
+  return knowledgeState;
 }

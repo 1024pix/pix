@@ -45,7 +45,7 @@ export default defineConfig([
   // Overridden rules for "tests" files
   {
     ...mocha.configs.recommended,
-    files: ['tests/**/*.js'],
+    files: ['tests/**/*.js', 'poc/**/*_test.js'],
     rules: {
       ...mocha.configs.recommended.rules,
       'mocha/no-hooks-for-single-case': 'off',

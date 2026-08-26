@@ -6,7 +6,6 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElement } from '../../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -24,25 +23,16 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
       now = new Date('2020-01-04');
       sinon.useFakeTimers({ now, toFake: ['Date'] });
 
-      const knowledgeElements = [
-        domainBuilder.buildKnowledgeElement({
-          skillId: 'skill1',
-          createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
-        }),
-        domainBuilder.buildKnowledgeElement({
-          skillId: 'skill2',
-          createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.INVALIDATED,
-        }),
-      ];
+      const assessedSkillIds = ['skill1', 'skill2'];
+      const validatedSkillIds = ['skill1'];
 
       participationResults = {
         campaignParticipationId: 1,
         isCompleted: true,
         sharedAt,
         status: CampaignParticipationStatuses.SHARED,
-        knowledgeElements: knowledgeElements,
+        assessedSkillIds,
+        validatedSkillIds,
         acquiredBadgeIds: [3],
         participantExternalId: 'greg@lafleche.fr',
         masteryRate: 0.5,

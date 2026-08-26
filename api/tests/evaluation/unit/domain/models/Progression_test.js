@@ -15,10 +15,10 @@ describe('Unit | Domain | Models | Progression', function () {
         it('should return a completionRate of 0', function () {
           // Given
           const skillIds = [skillLevel1.id, skillLevel2.id, skillLevel3.id];
-          const knowledgeElements = [];
+          const knowledgeState = domainBuilder.buildKnowledgeState();
 
           // When
-          const progression = new Progression({ skillIds, knowledgeElements, isProfileCompleted: false });
+          const progression = new Progression({ skillIds, knowledgeState, isProfileCompleted: false });
 
           // Then
           expect(progression.completionRate).to.eq(0);
@@ -29,13 +29,12 @@ describe('Unit | Domain | Models | Progression', function () {
         it('should return 1 when all targeted skills are evaluated', function () {
           // Given
           const skillIds = [skillLevel1.id, skillLevel2.id];
-          const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({ skillId: skillLevel1.id }),
-            domainBuilder.buildKnowledgeElement({ skillId: skillLevel2.id }),
-          ];
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: [skillLevel1.id, skillLevel2.id],
+          });
 
           // When
-          const progression = new Progression({ skillIds, knowledgeElements, isProfileCompleted: false });
+          const progression = new Progression({ skillIds, knowledgeState, isProfileCompleted: false });
 
           // Then
           expect(progression.completionRate).to.eq(1);
@@ -44,13 +43,12 @@ describe('Unit | Domain | Models | Progression', function () {
         it('should return a ratio different than 1 when some targeted skills are not evaluated', function () {
           // Given
           const skillIds = [skillLevel1.id, skillLevel2.id, skillLevel3.id];
-          const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({ skillId: skillLevel1.id }),
-            domainBuilder.buildKnowledgeElement({ skillId: skillLevel2.id }),
-          ];
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: [skillLevel1.id, skillLevel2.id],
+          });
 
           // When
-          const progression = new Progression({ skillIds, knowledgeElements, isProfileCompleted: false });
+          const progression = new Progression({ skillIds, knowledgeState, isProfileCompleted: false });
 
           // Then
           expect(progression.completionRate).to.eq(0.6666666666666666);
@@ -61,13 +59,12 @@ describe('Unit | Domain | Models | Progression', function () {
         it('should not take them into account and mark the completion at 1 (equal 100%)', function () {
           // Given
           const skillIds = [skillLevel1.id];
-          const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({ skillId: skillLevel1.id, status: 'invalidated' }),
-            domainBuilder.buildKnowledgeElement({ skillId: skillLevel2.id, status: 'invalidated' }),
-          ];
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            invalidatedSkillIds: [skillLevel1.id, skillLevel2.id],
+          });
 
           // When
-          const progression = new Progression({ skillIds, knowledgeElements, isProfileCompleted: false });
+          const progression = new Progression({ skillIds, knowledgeState, isProfileCompleted: false });
 
           // Then
           expect(progression.completionRate).to.eq(1);
@@ -79,10 +76,10 @@ describe('Unit | Domain | Models | Progression', function () {
       it('should return the completionRate of 1', function () {
         // Given
         const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
-        const knowledgeElements = [];
+        const knowledgeState = domainBuilder.buildKnowledgeState();
 
         // When
-        const progression = new Progression({ targetedSkills, knowledgeElements, isProfileCompleted: true });
+        const progression = new Progression({ targetedSkills, knowledgeState, isProfileCompleted: true });
 
         // Then
         expect(progression.completionRate).to.eq(1);

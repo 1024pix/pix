@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
 import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
 import { Scorecard } from '../models/Scorecard.js';
 
@@ -11,12 +10,14 @@ export async function computeScorecard({
   competenceRepository,
   areaRepository,
   competenceEvaluationRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
+  competenceScoreRepository,
   allowExcessPix = false,
   allowExcessLevel = false,
   locale,
 }) {
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
+  const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
+  const pixByCompetence = await competenceScoreRepository.findByUserId({ userId });
   const competence = await competenceRepository.get({ id: competenceId, locale });
   const competenceEvaluations = await competenceEvaluationRepository.findByUserId(userId);
 
@@ -24,10 +25,11 @@ export async function computeScorecard({
   const area = await areaRepository.get({ id: competence.areaId, locale });
   return Scorecard.buildFrom({
     userId,
-    knowledgeElements,
+    knowledgeState: knowledgeState.restrictedToCompetence(competenceId),
     competenceEvaluation,
     competence,
     area,
+    exactlyEarnedPix: pixByCompetence.get(competenceId),
     allowExcessPix,
     allowExcessLevel,
   });
@@ -39,14 +41,14 @@ export function computeLevelUpInformation({
   area,
   competence,
   competenceEvaluationForCompetence,
-  knowledgeElementsForCompetenceBefore,
-  knowledgeElementsForCompetenceAfter,
+  knowledgeStateForCompetenceBefore,
+  knowledgeStateForCompetenceAfter,
   allowExcessPix = false,
   allowExcessLevel = false,
 }) {
   const scorecardBefore = Scorecard.buildFrom({
     userId,
-    knowledgeElements: knowledgeElementsForCompetenceBefore,
+    knowledgeState: knowledgeStateForCompetenceBefore,
     competenceEvaluation: competenceEvaluationForCompetence,
     competence,
     area,
@@ -55,7 +57,7 @@ export function computeLevelUpInformation({
   });
   const scorecardAfter = Scorecard.buildFrom({
     userId,
-    knowledgeElements: knowledgeElementsForCompetenceAfter,
+    knowledgeState: knowledgeStateForCompetenceAfter,
     competenceEvaluation: competenceEvaluationForCompetence,
     competence,
     area,
@@ -78,14 +80,12 @@ export async function resetScorecard({
   competenceId,
   shouldResetCompetenceEvaluation,
   assessmentRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   competenceEvaluationRepository,
   campaignParticipationRepository,
   campaignRepository,
 }) {
-  const newKnowledgeElements = await _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository });
-
-  const resetSkillIds = _.map(newKnowledgeElements, (knowledgeElement) => knowledgeElement.skillId);
+  const resetSkillIds = await _forgetCompetence({ userId, competenceId, knowledgeStateRepository });
 
   // user can have only answered to questions in campaign, in that case, competenceEvaluation does not exists
   await _resetCampaignAssessments({
@@ -105,13 +105,20 @@ export async function resetScorecard({
   }
 }
 
-async function _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository }) {
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
-    userId,
-    competenceId,
-  });
-  const resetKnowledgeElements = knowledgeElements.map(KnowledgeElement.reset);
-  return knowledgeElementRepository.batchSave({ knowledgeElements: resetKnowledgeElements });
+/**
+ * Oublie la compétence : son état est effacé, sans trace. Les acquis qui
+ * étaient évalués sont retenus juste le temps de décider quels parcours de
+ * campagne doivent repartir de zéro.
+ */
+async function _forgetCompetence({ userId, competenceId, knowledgeStateRepository }) {
+  const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
+  const resetSkillIds = knowledgeState
+    .restrictedToCompetence(competenceId)
+    .assessedSkills()
+    .map(({ id }) => id);
+
+  await knowledgeStateRepository.forgetCompetence({ userId, competenceId });
+  return resetSkillIds;
 }
 
 async function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }) {

@@ -1,10 +1,9 @@
 import * as campaignAssessmentParticipationResultRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | Campaign Assessment Participation Result', function () {
@@ -98,26 +97,26 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
           skillId: 'skill1',
           competenceId: 'rec1',
           createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
         });
         const ke2 = databaseBuilder.factory.buildKnowledgeElement({
           userId,
           skillId: 'skill2',
           competenceId: 'rec2',
           createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
         });
         const ke3 = databaseBuilder.factory.buildKnowledgeElement({
           userId,
           skillId: 'skill3',
           competenceId: 'rec2',
           createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId,
-          snapshot: new KnowledgeElementCollection([ke1, ke2, ke3]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke1, ke2, ke3]),
         });
 
         return databaseBuilder.commit();

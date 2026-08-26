@@ -10,7 +10,7 @@ class CampaignParticipationResult {
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
-    knowledgeElementsCount,
+    assessedSkillsCount,
     // relationships
     competenceResults = [],
   } = {}) {
@@ -19,18 +19,23 @@ class CampaignParticipationResult {
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
-    this.knowledgeElementsCount = knowledgeElementsCount;
+    this.assessedSkillsCount = assessedSkillsCount;
     // relationships
     this.competenceResults = competenceResults;
   }
 
-  static buildFrom({ campaignParticipationId, assessment, competences, skillIds, knowledgeElements, allAreas }) {
-    const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, skillIds);
+  /**
+   * @param {KnowledgeState} knowledgeState
+   */
+  static buildFrom({ campaignParticipationId, assessment, competences, skillIds, knowledgeState, allAreas }) {
+    const targetedAssessedSkillIds = _targetedSkillIds(knowledgeState.assessedSkills(), skillIds);
+    const targetedValidatedSkillIds = _targetedSkillIds(knowledgeState.validatedSkills(), skillIds);
 
     const targetedCompetenceResults = _computeCompetenceResults(
       competences,
       skillIds,
-      targetedKnowledgeElements,
+      targetedAssessedSkillIds,
+      targetedValidatedSkillIds,
       allAreas,
     );
 
@@ -43,7 +48,7 @@ class CampaignParticipationResult {
       totalSkillsCount,
       testedSkillsCount,
       validatedSkillsCount,
-      knowledgeElementsCount: targetedKnowledgeElements.length,
+      assessedSkillsCount: targetedAssessedSkillIds.length,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
     });
@@ -57,7 +62,7 @@ class CampaignParticipationResult {
   }
 
   get progress() {
-    return campaignParticipationService.progress(this.isCompleted, this.knowledgeElementsCount, this.totalSkillsCount);
+    return campaignParticipationService.progress(this.isCompleted, this.assessedSkillsCount, this.totalSkillsCount);
   }
 }
 
@@ -69,16 +74,22 @@ function _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount }) {
   }
 }
 
-function _removeUntargetedKnowledgeElements(knowledgeElements, skillIds) {
-  return _.filter(knowledgeElements, (ke) => skillIds.some((skillId) => skillId === ke.skillId));
+function _targetedSkillIds(skills, skillIds) {
+  return skills.map(({ id }) => id).filter((id) => skillIds.includes(id));
 }
 
-function _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements, allAreas) {
+function _computeCompetenceResults(
+  competences,
+  skillIds,
+  targetedAssessedSkillIds,
+  targetedValidatedSkillIds,
+  allAreas,
+) {
   let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, skillIds);
   targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
   const targetedCompetenceResults = _.map(targetedCompetences, (competence) => {
     const area = allAreas.find((area) => area.id === competence.areaId);
-    return _getTestedCompetenceResults(competence, area, targetedKnowledgeElements);
+    return _getTestedCompetenceResults(competence, area, targetedAssessedSkillIds, targetedValidatedSkillIds);
   });
   return targetedCompetenceResults;
 }
@@ -94,14 +105,9 @@ function _removeCompetencesWithoutAnyTargetedSkillsLeft(competences) {
   return _.filter(competences, (competence) => !_.isEmpty(competence.skillIds));
 }
 
-function _getTestedCompetenceResults(competence, area, targetedKnowledgeElements) {
-  const targetedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElements, (ke) =>
-    _.includes(competence.skillIds, ke.skillId),
-  );
-  const validatedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElementsForCompetence, 'isValidated');
-
-  const testedSkillsCount = targetedKnowledgeElementsForCompetence.length;
-  const validatedSkillsCount = validatedKnowledgeElementsForCompetence.length;
+function _getTestedCompetenceResults(competence, area, targetedAssessedSkillIds, targetedValidatedSkillIds) {
+  const testedSkillsCount = _.intersection(targetedAssessedSkillIds, competence.skillIds).length;
+  const validatedSkillsCount = _.intersection(targetedValidatedSkillIds, competence.skillIds).length;
   const totalSkillsCount = competence.skillIds.length;
 
   return new CompetenceResult({

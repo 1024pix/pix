@@ -1,5 +1,4 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
 import { ParticipationStartedJob } from '../models/ParticipationStartedJob.js';
 
 export const startCampaignParticipation = async ({
@@ -7,7 +6,7 @@ export const startCampaignParticipation = async ({
   userId,
   campaignRepository,
   assessmentRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
   campaignParticipantRepository,
   campaignParticipationRepository,
   competenceEvaluationRepository,
@@ -39,7 +38,7 @@ export const startCampaignParticipation = async ({
         assessmentRepository,
         campaignRepository,
         competenceEvaluationRepository,
-        knowledgeElementRepository,
+        knowledgeStateRepository,
       });
     }
     return createdCampaignParticipation;
@@ -59,7 +58,7 @@ async function _resetCampaignParticipation({
   assessmentRepository,
   campaignRepository,
   competenceEvaluationRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
 }) {
   const skills = await campaignRepository.findAllSkills({
     campaignId: campaignParticipation.campaignId,
@@ -67,11 +66,19 @@ async function _resetCampaignParticipation({
   const skillIds = skills.map(({ id }) => id);
   const competenceIds = skills.map(({ competenceId }) => competenceId);
 
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
+  const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
 
-  const resetKes = knowledgeElements.filter((ke) => skillIds.includes(ke.skillId)).map(KnowledgeElement.reset);
-
-  await knowledgeElementRepository.batchSave({ knowledgeElements: resetKes });
+  // Remettre à zéro efface l'état des compétences touchées par la campagne,
+  // sans trace : rien ne peut le reconstituer, et c'est le contrat.
+  const assessedCompetenceIds = new Set(
+    knowledgeState
+      .assessedSkills()
+      .filter(({ id }) => skillIds.includes(id))
+      .map(({ competenceId }) => competenceId),
+  );
+  for (const competenceId of assessedCompetenceIds) {
+    await knowledgeStateRepository.forgetCompetence({ userId, competenceId });
+  }
   const competenceEvaluations = await competenceEvaluationRepository.findByUserId(userId);
   if (!competenceEvaluations) {
     return;

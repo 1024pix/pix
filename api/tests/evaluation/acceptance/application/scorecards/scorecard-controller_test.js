@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import sinon from 'sinon';
 
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
+import * as knowledgeStateRepository from '../../../../../src/shared/infrastructure/repositories/knowledge-state-repository.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent } from '../../../../tooling/learning-content-builder/build-learning-content.js';
@@ -63,6 +63,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
         {
           id: skillWeb1Id,
           name: skillWeb1Name,
+          level: 1,
           status: 'actif',
           competenceId: competenceId,
           tutorialIds: ['recTutorial0', tutorialWebId, 'recTutorial2'],
@@ -135,12 +136,13 @@ describe('Acceptance | Controller | scorecard-controller', function () {
         beforeEach(async function () {
           options.headers = generateAuthenticatedUserRequestHeaders({ userId });
 
-          databaseBuilder.factory.buildKnowledgeElement({
+          const assessmentId = databaseBuilder.factory.buildAssessment({ userId, state: 'started' }).id;
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
-            competenceId: competenceId,
+            assessmentId,
+            skillId: 'skill-scorecard-1',
+            competenceId,
           });
-
-          const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
           databaseBuilder.factory.buildCompetenceEvaluation({
             userId,
             assessmentId,
@@ -260,15 +262,16 @@ describe('Acceptance | Controller | scorecard-controller', function () {
 
           options.headers = generateAuthenticatedUserRequestHeaders({ userId, acceptLanguage: FRENCH_SPOKEN });
 
-          databaseBuilder.factory.buildKnowledgeElement({
+          const assessmentId = databaseBuilder.factory.buildAssessment({ userId, state: 'started' }).id;
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
-            competenceId: competence.id,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            assessmentId,
             skillId: skillWeb1Id,
+            competenceId: competence.id,
+            isOk: false,
             createdAt: new Date('2018-01-01'),
+            withSkill: false,
           });
-
-          const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
           databaseBuilder.factory.buildCompetenceEvaluation({
             userId,
             assessmentId,
@@ -424,10 +427,6 @@ describe('Acceptance | Controller | scorecard-controller', function () {
         return knex.select('*').from('assessments').where({ userId, state });
       }
 
-      function inspectKnowledgeElementsInDb({ userId, competenceId }) {
-        return knex.select('*').from('knowledge-elements').where({ userId, competenceId }).orderBy('createdAt', 'DESC');
-      }
-
       beforeEach(async function () {
         userId = databaseBuilder.factory.buildUser().id;
 
@@ -502,9 +501,9 @@ describe('Acceptance | Controller | scorecard-controller', function () {
             competenceId,
           });
 
-          databaseBuilder.factory.buildKnowledgeElement({
-            id: 1,
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
+            skillId: 'skill-too-recent-to-reset',
             competenceId,
             createdAt: new Date(),
           });
@@ -581,7 +580,19 @@ describe('Acceptance | Controller | scorecard-controller', function () {
               }).id;
               databaseBuilder.factory.buildCompetenceEvaluation({ ...competenceEvaluation, assessmentId });
               _.each(knowledgeElements, (ke) =>
-                databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, assessmentId }),
+                databaseBuilder.factory.buildAnsweredSkill({
+                  userId,
+                  assessmentId,
+                  skillId: ke.skillId,
+                  competenceId: ke.competenceId,
+                  pixValue: ke.earnedPix,
+                  isOk: ke.status === 'validated',
+                  createdAt: ke.createdAt,
+                  // Les acquis de la compétence testée sont déjà dans le
+                  // référentiel du test ; ceux de l'autre compétence non.
+                  withSkill: ke.competenceId !== competenceId,
+                  tubeId: `tube-${ke.skillId}`,
+                }),
               );
             },
           );
@@ -687,17 +698,16 @@ describe('Acceptance | Controller | scorecard-controller', function () {
           response = await server.inject(options);
 
           // then
-          const knowledgeElement = await inspectKnowledgeElementsInDb({ userId, competenceId });
-          const knowledgeElementsOtherCompetence = await inspectKnowledgeElementsInDb({
-            userId,
-            competenceId: otherStartedCompetenceId,
-          });
+          // La remise à zéro s'observe dans l'état : la compétence réinitialisée
+          // est oubliée, les autres sont intactes.
+          const knowledgeState = await knowledgeStateRepository.findByUserId({ userId });
 
-          expect(knowledgeElement).to.have.lengthOf(10);
-          expect(knowledgeElement[0].earnedPix).to.equal(0);
-          expect(knowledgeElement[0].status).to.equal('reset');
-          expect(knowledgeElementsOtherCompetence[0].earnedPix).to.equal(3);
-          expect(knowledgeElementsOtherCompetence[0].status).to.equal('validated');
+          expect(knowledgeState.restrictedToCompetence(competenceId).isEmpty).to.be.true;
+          const otherCompetenceValidatedSkills = knowledgeState
+            .restrictedToCompetence(otherStartedCompetenceId)
+            .validatedSkills();
+          expect(otherCompetenceValidatedSkills).to.have.lengthOf(1);
+          expect(otherCompetenceValidatedSkills[0].pixValue).to.equal(3);
         });
       });
     });

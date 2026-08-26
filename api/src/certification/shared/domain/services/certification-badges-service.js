@@ -3,7 +3,7 @@
  */
 import * as certifiableBadgeAcquisitionRepository from '../../../../../src/certification/shared/infrastructure/repositories/certifiable-badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
-import * as knowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeStateRepository from '../../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 
 /**
@@ -12,7 +12,7 @@ import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-ut
 const findStillValidBadgeAcquisitions = async function ({
   userId,
   limitDate = new Date(),
-  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
+  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeStateRepository, badgeForCalculationRepository },
 }) {
   return _findBadgeAcquisitions({ userId, limitDate, shouldGetOutdated: false, dependencies });
 };
@@ -20,7 +20,7 @@ const findStillValidBadgeAcquisitions = async function ({
 const findLatestBadgeAcquisitions = async function ({
   userId,
   limitDate = new Date(),
-  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
+  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeStateRepository, badgeForCalculationRepository },
 }) {
   return _findBadgeAcquisitions({ userId, limitDate, shouldGetOutdated: true, dependencies });
 };
@@ -29,7 +29,7 @@ const findLatestBadgeAcquisitions = async function ({
  * @param {object} params
  * @param {object} params.dependencies
  * @param {certifiableBadgeAcquisitionRepository} params.dependencies.certifiableBadgeAcquisitionRepository
- * @param {knowledgeElementRepository} params.dependencies.knowledgeElementRepository
+ * @param {knowledgeStateRepository} params.dependencies.knowledgeStateRepository
  * @param {badgeForCalculationRepository} params.dependencies.badgeForCalculationRepository
  *
  * @returns {Array<CertifiableBadgeAcquisition>} acquired complementary certification badges by a user
@@ -38,7 +38,7 @@ const _findBadgeAcquisitions = async function ({
   userId,
   limitDate = new Date(),
   shouldGetOutdated = false,
-  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
+  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeStateRepository, badgeForCalculationRepository },
 }) {
   const highestCertifiableBadgeAcquisitions =
     await dependencies.certifiableBadgeAcquisitionRepository.findHighestCertifiable({
@@ -46,7 +46,7 @@ const _findBadgeAcquisitions = async function ({
       limitDate,
     });
 
-  const knowledgeElements = await dependencies.knowledgeElementRepository.findUniqByUserId({
+  const knowledgeState = await dependencies.knowledgeStateRepository.findByUserId({
     userId,
     limitDate,
   });
@@ -64,7 +64,7 @@ const _findBadgeAcquisitions = async function ({
       if (!badgeForCalculation) {
         return null;
       }
-      const isBadgeValid = badgeForCalculation.shouldBeObtained(knowledgeElements);
+      const isBadgeValid = badgeForCalculation.shouldBeObtained(knowledgeState);
       return isBadgeValid ? certifiableBadgeAcquisition : null;
     },
   );

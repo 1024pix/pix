@@ -15,36 +15,26 @@ class TrainingTrigger {
     this.triggerTubes = triggerTubes;
   }
 
-  isFulfilled({ knowledgeElements, skills } = {}) {
+  isFulfilled({ knowledgeState, skills } = {}) {
     const cappedSkills = this.triggerTubes.map((triggerTube) => triggerTube.getCappedSkills(skills)).flat();
-    const cappedKnowledgeElements = _getCappedKnowledgeElements({ knowledgeElements, cappedSkills });
-    const validatedKnowledgeElementsPercentage = _getValidatedKnowledgeElementsPercentage({
-      knowledgeElements: cappedKnowledgeElements,
-    });
+    const validatedPercentage = _getValidatedPercentage({ knowledgeState, cappedSkills });
     if (this.type === types.GOAL) {
-      return validatedKnowledgeElementsPercentage <= this.threshold;
+      return validatedPercentage <= this.threshold;
     }
 
-    return validatedKnowledgeElementsPercentage >= this.threshold;
+    return validatedPercentage >= this.threshold;
   }
 }
 
 TrainingTrigger.types = types;
 
-function _getCappedKnowledgeElements({ knowledgeElements, cappedSkills }) {
-  const skillIds = cappedSkills.map((skill) => skill.id);
-  return knowledgeElements.filter((knowledgeElement) => skillIds.includes(knowledgeElement.skillId));
-}
+/** La part validée de ce qui a été évalué dans le périmètre du déclencheur. */
+function _getValidatedPercentage({ knowledgeState, cappedSkills }) {
+  const assessedCount = knowledgeState.assessedSkills(cappedSkills).length;
+  if (assessedCount === 0) return 0;
 
-function _getValidatedKnowledgeElementsPercentage({ knowledgeElements }) {
-  if (knowledgeElements.length === 0) return 0;
-
-  const validatedKnowledgeElementsCount = _getValidatedKnowledgeElementsCount({ knowledgeElements });
-  return Math.round((validatedKnowledgeElementsCount / knowledgeElements.length) * 100);
-}
-
-function _getValidatedKnowledgeElementsCount({ knowledgeElements }) {
-  return knowledgeElements.filter((knowledgeElement) => knowledgeElement.isValidated).length;
+  const validatedCount = knowledgeState.validatedSkills(cappedSkills).length;
+  return Math.round((validatedCount / assessedCount) * 100);
 }
 
 export { TrainingTrigger };

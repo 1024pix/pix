@@ -1,11 +1,10 @@
 import { CampaignResultLevelsPerTubesAndCompetences } from '../../../../../../src/prescription/campaign/domain/models/CampaignResultLevelsPerTubesAndCompetences.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', function () {
   describe('compute', function () {
-    let learningContent, keData;
+    let learningContent, statesByParticipation;
 
     beforeEach(function () {
       const framework = domainBuilder.buildFramework({ id: 'frameworkId', name: 'frameworkName' });
@@ -78,32 +77,13 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
 
       learningContent = domainBuilder.buildLearningContent([framework]);
 
-      const user1ke1 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: 'recSkillWeb1',
-        userId: 1,
-      });
-      const user1ke2 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.INVALIDATED,
-        skillId: 'recSkillWeb2',
-        userId: 1,
-      });
-
-      const user2ke1 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: 'recSkillUrl1',
-        userId: 2,
-      });
-
-      const user2ke2 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        skillId: 'recSkillUrl2',
-        userId: 2,
-      });
-
-      keData = {
-        participationId1: KnowledgeElement.toLatestUniqNonResetCollection([user1ke1, user1ke2]),
-        participationId2: KnowledgeElement.toLatestUniqNonResetCollection([user2ke1, user2ke2]),
+      statesByParticipation = {
+        participationId1: domainBuilder.buildKnowledgeState({
+          tubes: [{ tubeId: 'tube1', floor: 1, ceiling: 2, directLevels: [1, 2] }],
+        }),
+        participationId2: domainBuilder.buildKnowledgeState({
+          tubes: [{ tubeId: 'tube2', floor: 4, ceiling: null, directLevels: [3, 4] }],
+        }),
       };
     });
 
@@ -112,7 +92,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
         id: 1,
         learningContent,
       });
-      campaignResult.addKnowledgeElementSnapshots(keData);
+      campaignResult.addKnowledgeStates(statesByParticipation);
 
       expect(campaignResult.levelsPerTube).to.deep.equal([
         {
@@ -141,7 +121,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
         id: 1,
         learningContent,
       });
-      campaignResult.addKnowledgeElementSnapshots(keData);
+      campaignResult.addKnowledgeStates(statesByParticipation);
 
       expect(campaignResult.levelsPerCompetence[0].id).to.deep.equal('competence1');
       expect(campaignResult.levelsPerCompetence[0].index).to.deep.equal('1.1');
@@ -163,7 +143,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
         id: 1,
         learningContent,
       });
-      campaignResult.addKnowledgeElementSnapshots(Object.values(keData));
+      campaignResult.addKnowledgeStates(statesByParticipation);
 
       expect(campaignResult.maxReachableLevel).equal(3);
     });
@@ -173,7 +153,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
         id: 1,
         learningContent,
       });
-      campaignResult.addKnowledgeElementSnapshots(Object.values(keData));
+      campaignResult.addKnowledgeStates(statesByParticipation);
 
       expect(campaignResult.meanReachedLevel).equal(1.25);
     });

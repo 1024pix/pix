@@ -24,7 +24,7 @@ class CampaignAssessmentResultLine {
     areas,
     competences,
     stageCollection,
-    participantKnowledgeElementsByCompetenceId,
+    participantKnowledgeState,
     acquiredBadges,
     acquiredStages,
     locale,
@@ -38,10 +38,11 @@ class CampaignAssessmentResultLine {
     this.areas = areas;
     this.competences = competences;
     this.stageCollection = stageCollection;
-    this.targetedKnowledgeElementsCount = _.sum(
-      _.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length),
+    this.knowledgeState = participantKnowledgeState;
+    this.assessedTargetedSkillsCount = participantKnowledgeState.assessedSkills(learningContent.skills).length;
+    this.validatedTargetedSkillsCountByCompetenceId = learningContent.countTargetedSkillsByCompetence(
+      participantKnowledgeState.validatedSkills(learningContent.skills).map(({ id }) => id),
     );
-    this.targetedKnowledgeElementsByCompetence = participantKnowledgeElementsByCompetenceId;
     this.acquiredStages = acquiredStages;
     this.acquiredBadges = acquiredBadges;
     this.campaignParticipationService = campaignParticipationService;
@@ -73,7 +74,7 @@ class CampaignAssessmentResultLine {
   _getStatsForCompetence(competence) {
     return {
       targetedSkillCount: competence.skillCount,
-      validatedSkillCount: this._countValidatedKnowledgeElementsForCompetence(competence.id),
+      validatedSkillCount: this.validatedTargetedSkillsCountByCompetenceId[competence.id] ?? 0,
     };
   }
 
@@ -123,7 +124,7 @@ class CampaignAssessmentResultLine {
       ...(this.campaign.externalIdLabel ? [this.campaignParticipationInfo.participantExternalId] : []),
       this.campaignParticipationService.progress(
         this.campaignParticipationInfo.isCompleted,
-        this.targetedKnowledgeElementsCount,
+        this.assessedTargetedSkillsCount,
         this.learningContent.skills.length,
       ),
       dayjs.utc(this.campaignParticipationInfo.createdAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm'),
@@ -168,26 +169,13 @@ class CampaignAssessmentResultLine {
   }
 
   _makeSkillColumn(targetedSkill) {
-    let knowledgeElementForSkill = null;
-    const competenceId = this.learningContent.findCompetenceIdOfSkill(targetedSkill.id);
-    if (competenceId in this.targetedKnowledgeElementsByCompetence) {
-      knowledgeElementForSkill = _.find(
-        this.targetedKnowledgeElementsByCompetence[competenceId],
-        (knowledgeElement) => knowledgeElement.skillId === targetedSkill.id,
-      );
+    if (this.knowledgeState.isValidated(targetedSkill)) {
+      return this.i18n.__('campaign-export.assessment.status.ok');
     }
-
-    return knowledgeElementForSkill
-      ? knowledgeElementForSkill.isValidated
-        ? this.i18n.__('campaign-export.assessment.status.ok')
-        : this.i18n.__('campaign-export.assessment.status.ko')
-      : this.i18n.__('campaign-export.assessment.status.not-tested');
-  }
-
-  _countValidatedKnowledgeElementsForCompetence(competenceId) {
-    return this.targetedKnowledgeElementsByCompetence[competenceId].filter(
-      (knowledgeElement) => knowledgeElement.isValidated,
-    ).length;
+    if (this.knowledgeState.isInvalidated(targetedSkill)) {
+      return this.i18n.__('campaign-export.assessment.status.ko');
+    }
+    return this.i18n.__('campaign-export.assessment.status.not-tested');
   }
 
   _getReachedStage() {

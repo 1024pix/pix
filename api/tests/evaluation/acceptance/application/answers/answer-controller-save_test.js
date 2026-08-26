@@ -65,6 +65,8 @@ describe('Acceptance | Controller | answer-controller-save', function () {
             {
               id: 'recSkill1',
               name: '@recArea1_Competence1_Tube1_Skill1',
+              level: 1,
+              tubeId: 'recTube1',
               status: 'actif',
               competenceId: competenceId,
               pixValue: '5',
@@ -181,11 +183,18 @@ describe('Acceptance | Controller | answer-controller-save', function () {
       ].forEach((testCase) => {
         it(`should return competence name in locale=${testCase.locale} when user levelup`, async function () {
           // given
-          databaseBuilder.factory.buildKnowledgeElement({
-            earnedPix: 7,
-            skillId: 'recSkill2',
+          // 7 pix déjà acquis sur un autre acquis de la compétence : la réponse
+          // qui suit fait franchir le seuil de niveau. L'état se construit par
+          // une réponse, les knowledge elements n'étant plus persistés.
+          databaseBuilder.factory.buildAnsweredSkill({
             userId,
-            competenceId: competenceId,
+            skillId: 'recSkill2',
+            competenceId,
+            name: '@recArea1_Competence1_Tube2_Skill1',
+            level: 1,
+            tubeId: 'recTube2',
+            pixValue: 7,
+            isOk: true,
           });
           await databaseBuilder.commit();
 
@@ -409,6 +418,8 @@ describe('Acceptance | Controller | answer-controller-save', function () {
             {
               id: 'recSkill1',
               name: '@recArea1_Competence1_Tube1_Skill1',
+              level: 1,
+              tubeId: 'recTube1',
               status: 'actif',
               competenceId: 'recCompetence',
             },
@@ -488,6 +499,8 @@ describe('Acceptance | Controller | answer-controller-save', function () {
             {
               id: 'recSkill1',
               name: '@recArea1_Competence1_Tube1_Skill1',
+              level: 1,
+              tubeId: 'recTube1',
               status: 'actif',
               competenceId: 'recCompetence',
             },

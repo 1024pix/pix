@@ -1,7 +1,7 @@
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
@@ -574,7 +574,7 @@ describe('Acceptance | API | campaign-results-route', function () {
 
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId: campaignParticipation.id,
-        snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+        snapshot: toLegacySnapshot([ke]),
       });
 
       const learningContent = [
@@ -596,11 +596,13 @@ describe('Acceptance | API | campaign-results-route', function () {
                     {
                       id: 'recSkillId1',
                       nom: '@web2',
+                      level: 2,
                       challenges: [],
                     },
                     {
                       id: 'recSkillId2',
                       nom: '@web3',
+                      level: 3,
                       challenges: [],
                     },
                   ],

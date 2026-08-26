@@ -2,7 +2,7 @@ import * as complementaryCertificationBadgeRepository from '../../../evaluation/
 import * as llmApi from '../../../llm/application/api/llm-api.js';
 import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
-import knowledgeElementForParticipationService from '../../../prescription/shared/domain/services/knowledge-element-for-participation-service.js';
+import knowledgeStateForParticipationService from '../../../prescription/shared/domain/services/knowledge-state-for-participation-service.js';
 import * as targetProfileAdministrationRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileRepository from '../../../prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
@@ -12,7 +12,8 @@ import * as badgeForCalculationRepository from '../../../shared/infrastructure/r
 import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as courseRepository from '../../../shared/infrastructure/repositories/course-repository.js';
-import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as competenceScoreRepository from '../../../shared/infrastructure/repositories/competence-score-repository.js';
+import * as knowledgeStateRepository from '../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -38,12 +39,12 @@ import { findAllPaginatedAutonomousCourses } from './find-all-paginated-autonomo
 import { findAnswerByAssessment } from './find-answer-by-assessment.js';
 import { findAnswerByChallengeAndAssessment } from './find-answer-by-challenge-and-assessment.js';
 import { findCompetenceEvaluationsByAssessment } from './find-competence-evaluations-by-assessment.js';
-import { findFilteredMostRecentKnowledgeElementsByUser } from './find-filtered-most-recent-knowledge-elements-by-user.js';
 import { getAnswer } from './get-answer.js';
 import { getAutonomousCourse } from './get-autonomous-course.js';
 import { getAutonomousCourseTargetProfiles } from './get-autonomous-course-target-profiles.js';
 import { getCampaignParametersForSimulator } from './get-campaign-parameters-for-simulator.js';
 import { getCorrectionForAnswer } from './get-correction-for-answer.js';
+import { getKnowledgeStateForUser } from './get-knowledge-state-for-user.js';
 import { getNextChallengeForSimulator } from './get-next-challenge-for-simulator.js';
 import { getProgression } from './get-progression.js';
 import { getScorecard } from './get-scorecard.js';
@@ -93,7 +94,8 @@ const dependencies = {
   getNextChallengeForCompetenceEvaluation: evaluationServices.getNextChallengeForCompetenceEvaluation,
   getNextChallengeForDemo: evaluationServices.getNextChallengeForDemo,
   improvementService,
-  knowledgeElementRepository,
+  competenceScoreRepository,
+  knowledgeStateRepository,
   llmApi,
   pickChallengeService,
   scorecardService,
@@ -102,7 +104,7 @@ const dependencies = {
   targetProfileAdministrationRepository,
   targetProfileRepository,
   userRepository: repositories.userRepository,
-  knowledgeElementForParticipationService,
+  knowledgeStateForParticipationService,
   challengeToPlayRepository,
 };
 
@@ -115,7 +117,7 @@ const usecasesWithoutInjectedDependencies = {
   findAnswerByAssessment,
   findAnswerByChallengeAndAssessment,
   findCompetenceEvaluationsByAssessment,
-  findFilteredMostRecentKnowledgeElementsByUser,
+  getKnowledgeStateForUser,
   getAnswer,
   getAutonomousCourseTargetProfiles,
   getAutonomousCourse,

@@ -2,14 +2,22 @@ import sinon from 'sinon';
 
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';
+
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
 
 describe('Integration | Usecase | Handle Badge Acquisition', function () {
   context('when campaign is of type ASSESSMENT', function () {
@@ -62,27 +70,25 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
           level: index + 1,
         }),
       );
-      databaseBuilder.factory.buildKnowledgeElement({
+      // Le premier acquis est réussi, le second raté : les knowledge elements
+      // se dérivent de ces réponses.
+      databaseBuilder.factory.buildAnsweredSkill({
+        userId,
+        assessmentId: assessmentDB.id,
         skillId: skillIds[0],
-        earnedPix: PIX_COUNT_BY_LEVEL,
-        userId,
-        assessmentId: assessmentDB.id,
-        answerId: databaseBuilder.factory.buildAnswer().id,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
         competenceId: 'maCompetenceId',
+        isOk: true,
         createdAt: new Date('2020-01-01'),
+        withSkill: false,
       });
-      databaseBuilder.factory.buildKnowledgeElement({
-        skillId: skillIds[1],
-        earnedPix: PIX_COUNT_BY_LEVEL,
+      databaseBuilder.factory.buildAnsweredSkill({
         userId,
         assessmentId: assessmentDB.id,
-        answerId: databaseBuilder.factory.buildAnswer().id,
-        status: KnowledgeElement.StatusType.INVALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
+        skillId: skillIds[1],
         competenceId: 'maCompetenceId',
-        createdAt: new Date('2020-01-01'),
+        isOk: false,
+        createdAt: new Date('2020-01-02'),
+        withSkill: false,
       });
       await databaseBuilder.commit();
 
@@ -151,30 +157,30 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
           level: index + 1,
         }),
       );
-      const ke1 = domainBuilder.buildKnowledgeElement({
+      const ke1 = buildKeData({
         skillId: skillIds[0],
         earnedPix: PIX_COUNT_BY_LEVEL,
         userId,
         answerId: 123,
-        status: KnowledgeElement.StatusType.VALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
+        status: 'validated',
+        source: 'direct',
         competenceId: 'maCompetenceId',
         createdAt: new Date('2020-01-01'),
       });
-      const ke2 = domainBuilder.buildKnowledgeElement({
+      const ke2 = buildKeData({
         skillId: skillIds[1],
         earnedPix: PIX_COUNT_BY_LEVEL,
         userId,
         answerId: 456,
-        status: KnowledgeElement.StatusType.INVALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
+        status: 'invalidated',
+        source: 'direct',
         competenceId: 'maCompetenceId',
         createdAt: new Date('2020-01-01'),
       });
-      const knowledgeElementsBefore = new KnowledgeElementCollection([ke1, ke2]);
+      const knowledgeElementsBefore = toLegacySnapshot([ke1, ke2]);
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId,
-        snapshot: knowledgeElementsBefore.toSnapshot(),
+        snapshot: knowledgeElementsBefore,
       });
       await databaseBuilder.commit();
 

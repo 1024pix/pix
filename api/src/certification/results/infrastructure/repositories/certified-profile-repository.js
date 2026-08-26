@@ -3,7 +3,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FRENCH_SPOKEN } from '../../../../shared/domain/services/locale-service.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
-import * as knowledgeElementRepository from '../../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeStateRepository from '../../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import * as tubeRepository from '../../../../shared/infrastructure/repositories/tube-repository.js';
 import {
@@ -33,14 +33,12 @@ export async function get(certificationCourseId) {
   const createdAt = certificationDatas[0].createdAt;
   const askedSkillIds = certificationDatas.map((data) => data.skillId);
 
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
+  const knowledgeState = await knowledgeStateRepository.findByUserId({
     userId,
     limitDate: createdAt,
   });
 
-  const skillIds = knowledgeElements
-    .filter((knowledgeElement) => isKnowledgeElementValidated(knowledgeElement))
-    .map((pixKnowledgeElement) => pixKnowledgeElement.skillId);
+  const skillIds = knowledgeState.validatedSkills().map(({ id }) => id);
 
   const certifiedSkills = await _createCertifiedSkills(skillIds, askedSkillIds);
   const certifiedTubes = await _createCertifiedTubes(certifiedSkills);
@@ -55,10 +53,6 @@ export async function get(certificationCourseId) {
     certifiedTubes,
     certifiedSkills,
   });
-}
-
-function isKnowledgeElementValidated(knowledgeElement) {
-  return knowledgeElement.status === 'validated';
 }
 
 async function _createCertifiedSkills(skillIds, askedSkillIds) {

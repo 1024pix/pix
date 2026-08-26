@@ -3,15 +3,10 @@ import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerS
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-const KNOWLEDGE_ELEMENT_STATUS = {
-  VALIDATED: 'validated',
-  INVALIDATED: 'invalidated',
-};
-
 describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', function () {
   let challenges,
     targetSkills,
-    knowledgeElements,
+    knowledgeState,
     lastAnswer,
     allAnswers,
     locale,
@@ -55,30 +50,40 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
 
   beforeEach(function () {
     targetSkills = null;
-    knowledgeElements = null;
+    knowledgeState = null;
     lastAnswer = null;
     allAnswers = [];
     locale = 'fr';
 
     // Acquis (skills)
-    web1 = domainBuilder.buildSkill({ id: 'rec01', name: '@web1', difficulty: 1 });
-    web2 = domainBuilder.buildSkill({ id: 'rec02', name: '@web2', difficulty: 2 });
-    web2_v2 = domainBuilder.buildSkill({ id: 'rec02v2', name: '@web2', difficulty: 2 });
-    web3 = domainBuilder.buildSkill({ id: 'rec03', name: '@web3', difficulty: 3 });
-    web4 = domainBuilder.buildSkill({ id: 'rec04', name: '@web4', difficulty: 4 });
-    web5 = domainBuilder.buildSkill({ id: 'rec05', name: '@web5', difficulty: 5 });
-    web6 = domainBuilder.buildSkill({ id: 'rec06', name: '@web6', difficulty: 6 });
-    web7 = domainBuilder.buildSkill({ id: 'rec07', name: '@web7', difficulty: 7 });
-    url2 = domainBuilder.buildSkill({ id: 'rec08', name: '@url2', difficulty: 2 });
-    url3 = domainBuilder.buildSkill({ id: 'rec09', name: '@url3', difficulty: 3 });
-    url4 = domainBuilder.buildSkill({ id: 'rec10', name: '@url4', difficulty: 4 });
-    url5 = domainBuilder.buildSkill({ id: 'rec11', name: '@url5', difficulty: 5 });
-    url6 = domainBuilder.buildSkill({ id: 'rec12', name: '@url6', difficulty: 6 });
-    rechInfo5 = domainBuilder.buildSkill({ id: 'rec13', name: '@rechInfo5', difficulty: 5 });
-    rechInfo7 = domainBuilder.buildSkill({ id: 'rec14', name: '@rechInfo7', difficulty: 7 });
-    info2 = domainBuilder.buildSkill({ id: 'rec15', name: '@info2', difficulty: 2 });
-    cnil1 = domainBuilder.buildSkill({ id: 'rec16', name: '@cnil1', difficulty: 1 });
-    cnil2 = domainBuilder.buildSkill({ id: 'rec17', name: '@cnil2', difficulty: 2 });
+    web1 = domainBuilder.buildSkill({ id: 'rec01', name: '@web1', difficulty: 1, tubeId: 'recTube_web' });
+    web2 = domainBuilder.buildSkill({ id: 'rec02', name: '@web2', difficulty: 2, tubeId: 'recTube_web' });
+    web2_v2 = domainBuilder.buildSkill({ id: 'rec02v2', name: '@web2', difficulty: 2, tubeId: 'recTube_web' });
+    web3 = domainBuilder.buildSkill({ id: 'rec03', name: '@web3', difficulty: 3, tubeId: 'recTube_web' });
+    web4 = domainBuilder.buildSkill({ id: 'rec04', name: '@web4', difficulty: 4, tubeId: 'recTube_web' });
+    web5 = domainBuilder.buildSkill({ id: 'rec05', name: '@web5', difficulty: 5, tubeId: 'recTube_web' });
+    web6 = domainBuilder.buildSkill({ id: 'rec06', name: '@web6', difficulty: 6, tubeId: 'recTube_web' });
+    web7 = domainBuilder.buildSkill({ id: 'rec07', name: '@web7', difficulty: 7, tubeId: 'recTube_web' });
+    url2 = domainBuilder.buildSkill({ id: 'rec08', name: '@url2', difficulty: 2, tubeId: 'recTube_url' });
+    url3 = domainBuilder.buildSkill({ id: 'rec09', name: '@url3', difficulty: 3, tubeId: 'recTube_url' });
+    url4 = domainBuilder.buildSkill({ id: 'rec10', name: '@url4', difficulty: 4, tubeId: 'recTube_url' });
+    url5 = domainBuilder.buildSkill({ id: 'rec11', name: '@url5', difficulty: 5, tubeId: 'recTube_url' });
+    url6 = domainBuilder.buildSkill({ id: 'rec12', name: '@url6', difficulty: 6, tubeId: 'recTube_url' });
+    rechInfo5 = domainBuilder.buildSkill({
+      id: 'rec13',
+      name: '@rechInfo5',
+      difficulty: 5,
+      tubeId: 'recTube_rechInfo',
+    });
+    rechInfo7 = domainBuilder.buildSkill({
+      id: 'rec14',
+      name: '@rechInfo7',
+      difficulty: 7,
+      tubeId: 'recTube_rechInfo',
+    });
+    info2 = domainBuilder.buildSkill({ id: 'rec15', name: '@info2', difficulty: 2, tubeId: 'recTube_info' });
+    cnil1 = domainBuilder.buildSkill({ id: 'rec16', name: '@cnil1', difficulty: 1, tubeId: 'recTube_cnil' });
+    cnil2 = domainBuilder.buildSkill({ id: 'rec17', name: '@cnil2', difficulty: 2, tubeId: 'recTube_cnil' });
 
     // Challenges
     challengeWeb_1 = domainBuilder.evaluation.buildSmartRandomChallenge({
@@ -189,7 +194,7 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements: [],
+          knowledgeState: domainBuilder.buildKnowledgeState(),
           lastAnswer,
           allAnswers,
           locale,
@@ -219,7 +224,7 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements: [],
+          knowledgeState: domainBuilder.buildKnowledgeState(),
           lastAnswer,
           allAnswers,
           locale,
@@ -242,7 +247,7 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements: [],
+          knowledgeState: domainBuilder.buildKnowledgeState(),
           lastAnswer,
           allAnswers,
           locale,
@@ -265,7 +270,7 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements: [],
+          knowledgeState: domainBuilder.buildKnowledgeState(),
           lastAnswer,
           allAnswers,
           locale,
@@ -294,7 +299,7 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements: [],
+          knowledgeState: domainBuilder.buildKnowledgeState(),
           lastAnswer,
           allAnswers,
           locale,
@@ -317,29 +322,17 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
 
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeRechInfo_5.id, result: AnswerStatus.KO });
         allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: url2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: url3.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: rechInfo5.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([
+          { skill: url2, isOk: true },
+          { skill: url3, isOk: true },
+          { skill: rechInfo5, isOk: false },
+        ]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -355,24 +348,13 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2, challengeWeb_3];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.SKIPPED });
         allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web3.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'indirect',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([{ skill: web2, isOk: false }]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -396,33 +378,11 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
           challengeRechInfo_7,
         ];
 
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: web1.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: url3.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: url4.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: url6.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([
+          { skill: web2, isOk: true },
+          { skill: url4, isOk: true },
+          { skill: url6, isOk: false },
+        ]);
 
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeUrl_6.id, result: AnswerStatus.KO });
         allAnswers = [
@@ -435,7 +395,7 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -460,34 +420,16 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
           domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
         ];
 
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: web1.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web4.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web5.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([
+          { skill: web2, isOk: true },
+          { skill: web5, isOk: true },
+        ]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -506,24 +448,13 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_4, challengeWeb_5];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
         allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: web1.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([{ skill: web2, isOk: true }]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -539,19 +470,13 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeUrl_4, challengeUrl_5, challengeInfo_2_frAndEn, challengeWeb_3];
         lastAnswer = [domainBuilder.buildAnswer({ challengeId: challengeInfo_2_frAndEn.id, result: AnswerStatus.OK })];
         allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: info2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([{ skill: info2, isOk: true }]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -570,19 +495,13 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeUrl_4, challengeUrl_6, challengeInfo_2_frAndEn];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeInfo_2_frAndEn.id, result: AnswerStatus.OK });
         allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: info2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([{ skill: info2, isOk: true }]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -608,24 +527,16 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2_duplicate];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
         allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: web1.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([
+          { skill: web1, isOk: true },
+          { skill: web2, isOk: true },
+        ]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -641,24 +552,13 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
         allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: web1.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([{ skill: web2, isOk: true }]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -679,34 +579,17 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
         allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: web1.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web5.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: url2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([
+          { skill: web2, isOk: true },
+          { skill: rechInfo5, isOk: true },
+          { skill: url2, isOk: true },
+        ]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           lastAnswer,
           allAnswers,
           locale,
@@ -729,13 +612,13 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeWeb_2_3, challengeWeb_2];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2_3.id, result: AnswerStatus.KO });
         allAnswers = [lastAnswer];
-        knowledgeElements = [];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           allAnswers,
           lastAnswer,
           locale,
@@ -754,13 +637,13 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeWeb_1, challengeWeb_2];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.KO });
         allAnswers = [lastAnswer];
-        knowledgeElements = [];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([]);
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           allAnswers,
           lastAnswer,
           locale,
@@ -773,40 +656,31 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
       });
 
-      it('should ask again for a skill, even if user has a knowledge element for another skill of the same tube and same difficulty', function () {
-        // given
+      it('should not ask again a skill already covered by another version at the same tube and difficulty', function () {
+        // given : deux versions d'un même acquis décrivent la même position ;
+        // l'état les confond, à dessein — le niveau 2 du tube est déjà couvert.
         targetSkills = [web1, web2_v2];
         challenges = [challengeWeb_1, challengeWeb_2_v2];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_1.id, result: AnswerStatus.OK });
         allAnswers = [lastAnswer];
-        knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
-            skillId: web1.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-          domainBuilder.buildKnowledgeElement({
-            skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct',
-          }),
-        ];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([
+          { skill: web1, isOk: true },
+          { skill: web2, isOk: true },
+        ]);
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { hasAssessmentEnded, possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements,
+          knowledgeState,
           allAnswers,
           lastAnswer,
           locale,
         });
 
         // then
-        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web2_v2.id);
-        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_2_v2.id);
+        expect(possibleSkillsForNextChallenge).to.be.empty;
+        expect(hasAssessmentEnded).to.be.true;
       });
     });
 
@@ -817,14 +691,14 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         challenges = [challengeInfo_2_frAndEn, challengeCnil_2];
         lastAnswer = null;
         allAnswers = [];
-        knowledgeElements = [];
+        knowledgeState = domainBuilder.buildKnowledgeState.fromAnswers([]);
 
         // when
         const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInEnglish } =
           SmartRandom.getPossibleSkillsForNextChallenge({
             targetSkills,
             challenges,
-            knowledgeElements,
+            knowledgeState,
             lastAnswer,
             allAnswers,
             locale: 'en',
@@ -833,7 +707,7 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
           SmartRandom.getPossibleSkillsForNextChallenge({
             targetSkills,
             challenges,
-            knowledgeElements,
+            knowledgeState,
             lastAnswer,
             allAnswers,
             locale: 'fr',
@@ -866,7 +740,7 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
-          knowledgeElements: [],
+          knowledgeState: domainBuilder.buildKnowledgeState(),
           lastAnswer,
           allAnswers,
           locale,

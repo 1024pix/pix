@@ -1,9 +1,18 @@
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../src/shared/constants.js';
+import { MAX_REACHABLE_LEVEL, PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/constants.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
+
+/** Un acquis par niveau, chacun valant un niveau entier : les gravir tous atteint le plafond. */
+const buildMaxLevelSkills = () =>
+  Array.from({ length: MAX_REACHABLE_LEVEL }, (_, index) => ({
+    id: `recSkill${index + 1}`,
+    name: `@tube${index + 1}`,
+    level: index + 1,
+    pixValue: PIX_COUNT_BY_LEVEL,
+  }));
 
 describe('Acceptance | API | Competence Evaluations', function () {
   let server;
@@ -162,10 +171,31 @@ describe('Acceptance | API | Competence Evaluations', function () {
         context('and user has reached maximum level of given competence', function () {
           it('should return 403 error', async function () {
             // given
-            databaseBuilder.factory.buildKnowledgeElement({
-              earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE,
-              competenceId,
+            // Le niveau se déduit des acquis validés : on décrit une compétence
+            // dont un seul tube porte tout le score, et un utilisateur qui l'a
+            // gravi jusqu'en haut.
+            const learningContentObjects = learningContentBuilder.fromAreas([
+              {
+                id: 'recArea1',
+                competences: [
+                  {
+                    id: competenceId,
+                    tubes: [
+                      {
+                        id: 'recTube1',
+                        skills: buildMaxLevelSkills(),
+                      },
+                    ],
+                  },
+                ],
+              },
+            ]);
+            databaseBuilder.factory.learningContent.build(learningContentObjects);
+            databaseBuilder.factory.buildKnowledgeState({
               userId,
+              tubeId: 'recTube1',
+              floor: MAX_REACHABLE_LEVEL,
+              directLevels: [MAX_REACHABLE_LEVEL],
             });
             await databaseBuilder.commit();
 

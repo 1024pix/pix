@@ -1,11 +1,19 @@
 import { services } from '../../../../../src/evaluation/domain/services/index.js';
 import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';
+
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
 
 describe('Evaluation | Integration | Domain | Services | get-next-challenge-for-campaign-assessment', function () {
   const skillIds = ['acquisTube1Niveau1', 'acquisTube1Niveau2'];
@@ -51,19 +59,13 @@ describe('Evaluation | Integration | Domain | Services | get-next-challenge-for-
           }),
         );
       });
-      const answerId = databaseBuilder.factory.buildAnswer({
+      // L'acquis de niveau 1 est validé par une réponse à sa propre question :
+      // les knowledge elements se dérivent des réponses.
+      databaseBuilder.factory.buildAnswer({
         userId,
         assessmentId: assessmentDB.id,
-        challengeId: 'autrechose',
-      }).id;
-      databaseBuilder.factory.buildKnowledgeElement({
-        answerId,
-        assessmentId: assessmentDB.id,
-        userId,
-        skillId: skillIds[0],
-        status: KnowledgeElement.StatusType.VALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
-        competenceId: 'maCompetenceId',
+        challengeId: `challengeFor_${skillIds[0]}`,
+        result: 'ok',
         createdAt: new Date('2020-01-01'),
       });
       await databaseBuilder.commit();
@@ -126,20 +128,20 @@ describe('Evaluation | Integration | Domain | Services | get-next-challenge-for-
         assessmentId: assessmentDB.id,
         challengeId: 'autrechose',
       }).id;
-      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+      const knowledgeElement = buildKeData({
         answerId,
         assessmentId: assessmentDB.id,
         userId,
         skillId: skillIds[0],
-        status: KnowledgeElement.StatusType.VALIDATED,
-        source: KnowledgeElement.SourceType.DIRECT,
+        status: 'validated',
+        source: 'direct',
         competenceId: 'maCompetenceId',
         createdAt: new Date('2020-01-01'),
       });
-      const knowledgeElementsBefore = new KnowledgeElementCollection([knowledgeElement]);
+      const knowledgeElementsBefore = toLegacySnapshot([knowledgeElement]);
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId,
-        snapshot: knowledgeElementsBefore.toSnapshot(),
+        snapshot: knowledgeElementsBefore,
       });
       await databaseBuilder.commit();
 

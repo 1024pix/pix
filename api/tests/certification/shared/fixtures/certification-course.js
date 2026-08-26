@@ -1,6 +1,5 @@
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import * as domainBuilder from '../../../tooling/domain-builder/factory/index.js';
 import {
@@ -118,7 +117,7 @@ const buildKnowledgeElementsFromAnswers = ({ answers, challenges, userId }) => {
   answers.forEach((answer) => {
     const challenge = findChallengeById(challenges, answer.challengeId);
     databaseBuilder.factory.buildKnowledgeElement({
-      status: answer.isOk() ? KnowledgeElement.StatusType.VALIDATED : KnowledgeElement.StatusType.INVALIDATED,
+      status: answer.isOk() ? 'validated' : 'invalidated',
       skillId: challenge.skill.id,
       assessmentId: answer.assessmentId,
       answerId: answer.id,

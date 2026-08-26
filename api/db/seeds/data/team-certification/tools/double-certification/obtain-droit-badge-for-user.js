@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { assertNotNullOrUndefined } from '../../../../../../src/shared/domain/models/asserts.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import * as profileTooling from '../../../../data/common/tooling/profile-tooling.js';
@@ -78,7 +77,7 @@ export default async function obtainDroitBadgeForUser({
     }
 
     databaseBuilder.factory.buildKnowledgeElementSnapshot({
-      snapshot: new KnowledgeElementCollection(keDataForSnapshot).toSnapshot(),
+      snapshot: JSON.stringify(keDataForSnapshot),
       campaignParticipationId,
     });
 

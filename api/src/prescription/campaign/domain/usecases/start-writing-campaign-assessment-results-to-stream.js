@@ -12,7 +12,7 @@ import { CampaignAssessmentExport } from '../../infrastructure/serializers/csv/c
  * @typedef {import ('./index.js').CampaignRepository} CampaignRepository
  * @typedef {import ('./index.js').CampaignParticipationInfoRepository} CampaignParticipationInfoRepository
  * @typedef {import ('./index.js').OrganizationRepository} OrganizationRepository
- * @typedef {import ('./index.js').KnowledgeElementSnapshotRepository} KnowledgeElementSnapshotRepository
+ * @typedef {import ('./index.js').KnowledgeStateSnapshotRepository} KnowledgeStateSnapshotRepository
  * @typedef {import ('./index.js').CampaignCsvExportService} CampaignCsvExportService
  * @typedef {import ('./index.js').TargetProfileRepository} TargetProfileRepository
  * @typedef {import ('./index.js').LearningContentRepository} LearningContentRepository
@@ -31,7 +31,7 @@ import { CampaignAssessmentExport } from '../../infrastructure/serializers/csv/c
  * @param {CampaignRepository} params.campaignRepository
  * @param {CampaignParticipationInfoRepository} params.campaignParticipationInfoRepository
  * @param {OrganizationRepository} params.organizationRepository
- * @param {KnowledgeElementSnapshotRepository} params.knowledgeElementSnapshotRepository
+ * @param {KnowledgeStateSnapshotRepository} params.knowledgeStateSnapshotRepository
  * @param {CampaignCsvExportService} params.campaignCsvExportService
  * @param {TargetProfileRepository} params.targetProfileRepository
  * @param {LearningContentRepository} params.learningContentRepository
@@ -48,7 +48,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignRepository,
   campaignParticipationInfoRepository,
   organizationRepository,
-  knowledgeElementForParticipationService,
+  knowledgeStateForParticipationService,
   badgeAcquisitionRepository,
   targetProfileRepository,
   learningContentRepository,
@@ -100,7 +100,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignAssessment
     .export({
       campaignParticipationInfos,
-      knowledgeElementForParticipationService,
+      knowledgeStateForParticipationService,
       badgeAcquisitionRepository,
       stageAcquisitionRepository,
       improvementService,

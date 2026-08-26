@@ -4,7 +4,6 @@ import { CampaignParticipant } from '../../../../../../src/prescription/campaign
 import { ParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationStartedJob.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -91,10 +90,8 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     let campaignParticipationAttributes;
     let skills;
     let assessmentRepository;
-    let knowledgeElementRepository;
+    let knowledgeStateRepository;
     let competenceEvaluationRepository;
-    let knowledgeElement;
-    let knowledgeElementToReset;
 
     beforeEach(function () {
       const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation();
@@ -109,19 +106,17 @@ describe('Unit | UseCase | start-campaign-participation', function () {
         .withArgs({ userId, campaignId: campaignParticipationAttributes.campaignId })
         .resolves(campaignParticipant);
 
-      knowledgeElementRepository = {
-        findUniqByUserId: sinon.stub(),
-        batchSave: sinon.stub(),
+      knowledgeStateRepository = {
+        findByUserId: sinon.stub(),
+        forgetCompetence: sinon.stub().resolves(),
       };
-      knowledgeElementToReset = domainBuilder.buildKnowledgeElement({ skillId: 'skillToReset' });
-      knowledgeElement = domainBuilder.buildKnowledgeElement();
-      knowledgeElementRepository.findUniqByUserId
-        .withArgs({ userId })
-        .resolves([knowledgeElementToReset, knowledgeElement]);
-
-      const knowledgeElements = [KnowledgeElement.reset(knowledgeElementToReset)];
-
-      knowledgeElementRepository.batchSave.withArgs({ knowledgeElements }).resolves();
+      // L'utilisateur a évalué un acquis de la campagne et un acquis d'ailleurs.
+      knowledgeStateRepository.findByUserId.withArgs({ userId }).resolves(
+        domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: ['skillToReset'],
+          competenceId: 'competenceId1',
+        }),
+      );
 
       competenceEvaluationRepository = {
         findByUserId: sinon.stub(),
@@ -160,7 +155,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignRepository,
           campaignParticipantRepository,
           campaignParticipationRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           competenceEvaluationRepository,
         });
 
@@ -170,11 +165,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
         });
       });
 
-      it('should reset knowledgeElements of the campaign', async function () {
-        // given
-        const expectedKe = KnowledgeElement.reset(knowledgeElementToReset);
-        knowledgeElementRepository.batchSave.withArgs({ knowledgeElements: [expectedKe] }).resolves();
-
+      it('should forget the competences assessed within the campaign', async function () {
         // when
         await usecases.startCampaignParticipation({
           participationStartedJobRepository,
@@ -184,13 +175,14 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignParticipantRepository,
           campaignParticipationRepository,
           assessmentRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           competenceEvaluationRepository,
         });
 
         // then
-        expect(knowledgeElementRepository.batchSave).to.have.been.calledOnceWithExactly({
-          knowledgeElements: [expectedKe],
+        expect(knowledgeStateRepository.forgetCompetence).to.have.been.calledOnceWithExactly({
+          userId,
+          competenceId: 'competenceId1',
         });
       });
 
@@ -214,7 +206,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignParticipantRepository,
           campaignParticipationRepository,
           assessmentRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           competenceEvaluationRepository,
         });
 

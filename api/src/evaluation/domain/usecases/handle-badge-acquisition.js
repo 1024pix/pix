@@ -4,7 +4,7 @@ const handleBadgeAcquisition = async function ({
   assessment,
   badgeForCalculationRepository,
   badgeAcquisitionRepository,
-  knowledgeElementForParticipationService,
+  knowledgeStateForParticipationService,
 }) {
   if (assessment.isCampaignParticipationAvailable()) {
     const campaignParticipationId = assessment.campaignParticipationId;
@@ -15,12 +15,12 @@ const handleBadgeAcquisition = async function ({
     if (_.isEmpty(associatedBadges)) {
       return;
     }
-    const knowledgeElements = await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+    const knowledgeState = await knowledgeStateForParticipationService.findByUserOrCampaignParticipationId({
       userId: assessment.userId,
       campaignParticipationId,
     });
 
-    const obtainedBadgesByUser = associatedBadges.filter((badge) => badge.shouldBeObtained(knowledgeElements));
+    const obtainedBadgesByUser = associatedBadges.filter((badge) => badge.shouldBeObtained(knowledgeState));
 
     const badgeAcquisitionsToCreate = obtainedBadgesByUser.map((badge) => {
       return {

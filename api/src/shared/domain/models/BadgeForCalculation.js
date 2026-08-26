@@ -4,13 +4,13 @@ export class BadgeForCalculation {
     this.badgeCriteria = badgeCriteria;
   }
 
-  shouldBeObtained(knowledgeElements) {
-    return this.badgeCriteria.every((badgeCriterion) => badgeCriterion.isFulfilled(knowledgeElements));
+  shouldBeObtained(knowledgeState) {
+    return this.badgeCriteria.every((badgeCriterion) => badgeCriterion.isFulfilled(knowledgeState));
   }
 
-  getAcquisitionPercentage(knowledgeElements) {
+  getAcquisitionPercentage(knowledgeState) {
     const summary = this.badgeCriteria.reduce((accumulator, badgeCriterion) => {
-      return accumulator + badgeCriterion.getAcquisitionPercentage(knowledgeElements);
+      return accumulator + badgeCriterion.getAcquisitionPercentage(knowledgeState);
     }, 0);
 
     return Math.round(summary / this.badgeCriteria.length);

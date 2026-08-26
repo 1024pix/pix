@@ -1,14 +1,13 @@
 import sinon from 'sinon';
 
 import { findTutorials } from '../../../../../src/devcomp/domain/usecases/find-tutorials.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | find-tutorials', function () {
   let userId;
   let competenceId;
-  let knowledgeElementRepository;
+  let knowledgeStateRepository;
   let skillRepository;
   let tubeRepository;
   let tutorialRepository;
@@ -18,7 +17,7 @@ describe('Unit | UseCase | find-tutorials', function () {
   beforeEach(function () {
     competenceId = 'recABc123';
     userId = 1;
-    knowledgeElementRepository = { findUniqByUserIdAndCompetenceId: sinon.stub() };
+    knowledgeStateRepository = { findByUserId: sinon.stub() };
     skillRepository = { findActiveByCompetenceId: sinon.stub() };
     tubeRepository = { findByNames: sinon.stub() };
     tutorialRepository = { findByRecordIdsForCurrentUser: sinon.stub() };
@@ -29,13 +28,13 @@ describe('Unit | UseCase | find-tutorials', function () {
     context('And user asks for tutorials belonging to his scorecard', function () {
       it('should resolve', function () {
         // given
-        knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves({});
+        knowledgeStateRepository.findByUserId.resolves(domainBuilder.buildKnowledgeState());
 
         // when
         const result = findTutorials({
           userId,
           competenceId,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           skillRepository,
           tubeRepository,
           tutorialRepository,
@@ -107,92 +106,75 @@ describe('Unit | UseCase | find-tutorials', function () {
             const skill_1 = domainBuilder.buildSkill({
               id: 'rec1',
               name: '@wikipédia1',
+              tubeId: 'tubeWikipedia',
+              difficulty: 1,
               tutorialIds: tutorialIdList1,
               competenceId: competenceId,
             });
             const skill_2 = domainBuilder.buildSkill({
               id: 'rec2',
               name: '@wikipédia2',
+              tubeId: 'tubeWikipedia',
+              difficulty: 2,
               tutorialIds: tutorialIdList1,
               competenceId: competenceId,
             });
             const skill_3 = domainBuilder.buildSkill({
               id: 'rec3',
               name: '@wikipédia3',
+              tubeId: 'tubeWikipedia',
+              difficulty: 3,
               tutorialIds: tutorialIdList1,
               competenceId: competenceId,
             });
-            const skill_4 = domainBuilder.buildSkill({ id: 'rec4', name: '@url1', competenceId: competenceId });
-            const skill_5 = domainBuilder.buildSkill({ id: 'rec5', name: '@url2', competenceId: competenceId });
+            const skill_4 = domainBuilder.buildSkill({
+              id: 'rec4',
+              name: '@url1',
+              tubeId: 'tubeUrl',
+              difficulty: 1,
+              competenceId: competenceId,
+            });
+            const skill_5 = domainBuilder.buildSkill({
+              id: 'rec5',
+              name: '@url2',
+              tubeId: 'tubeUrl',
+              difficulty: 2,
+              competenceId: competenceId,
+            });
             const skill_6 = domainBuilder.buildSkill({
               id: 'rec6',
               name: '@recherche1',
+              tubeId: 'tubeRecherche',
+              difficulty: 1,
               tutorialIds: inferredTutorialIdList,
               competenceId: competenceId,
             });
             const skill_7 = domainBuilder.buildSkill({
               id: 'rec7',
               name: '@recherche2',
+              tubeId: 'tubeRecherche',
+              difficulty: 2,
               tutorialIds: inferredTutorialIdList,
               competenceId: competenceId,
             });
             const skill_8 = domainBuilder.buildSkill({
               id: 'rec8',
               name: '@recherche3',
+              tubeId: 'tubeRecherche',
+              difficulty: 3,
               tutorialIds: tutorialIdList2,
               competenceId: competenceId,
             });
 
-            const knowledgeElementList = [
-              domainBuilder.buildKnowledgeElement({
-                skillId: skill_3.id,
-                competenceId: skill_3.competenceId,
-                status: KnowledgeElement.StatusType.INVALIDATED,
-              }),
-              domainBuilder.buildKnowledgeElement({
-                skillId: skill_2.id,
-                competenceId: skill_2.competenceId,
-                status: KnowledgeElement.StatusType.INVALIDATED,
-              }),
-              domainBuilder.buildKnowledgeElement({
-                skillId: skill_1.id,
-                competenceId: skill_1.competenceId,
-                status: KnowledgeElement.StatusType.VALIDATED,
-              }),
-
-              domainBuilder.buildKnowledgeElement({
-                skillId: skill_4.id,
-                competenceId: skill_4.competenceId,
-                status: KnowledgeElement.StatusType.VALIDATED,
-              }),
-              domainBuilder.buildKnowledgeElement({
-                skillId: skill_5.id,
-                competenceId: skill_5.competenceId,
-                status: KnowledgeElement.StatusType.VALIDATED,
-              }),
-
-              domainBuilder.buildKnowledgeElement({
-                skillId: skill_7.id,
-                competenceId: skill_7.competenceId,
-                status: KnowledgeElement.StatusType.INVALIDATED,
-                source: KnowledgeElement.SourceType.INFERRED,
-              }),
-
-              domainBuilder.buildKnowledgeElement({
-                skillId: skill_6.id,
-                competenceId: skill_6.competenceId,
-                status: KnowledgeElement.StatusType.INVALIDATED,
-                source: KnowledgeElement.SourceType.INFERRED,
-              }),
-
-              domainBuilder.buildKnowledgeElement({
-                skillId: skill_8.id,
-                competenceId: skill_8.competenceId,
-                status: KnowledgeElement.StatusType.INVALIDATED,
-              }),
-            ];
-
-            knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
+            const knowledgeState = domainBuilder.buildKnowledgeState({
+              tubes: [
+                { tubeId: 'tubeWikipedia', floor: 1, ceiling: 2, directLevels: [1, 2, 3] },
+                { tubeId: 'tubeUrl', floor: 2, directLevels: [1, 2] },
+                { tubeId: 'tubeRecherche', floor: 0, ceiling: 3, directLevels: [3] },
+              ],
+              skills: [skill_1, skill_2, skill_3, skill_4, skill_5, skill_6, skill_7, skill_8],
+            });
+            knowledgeStateRepository.findByUserId.resolves(knowledgeState);
 
             skillRepository.findActiveByCompetenceId
               .withArgs(competenceId)
@@ -222,7 +204,7 @@ describe('Unit | UseCase | find-tutorials', function () {
             const result = await findTutorials({
               userId,
               competenceId,
-              knowledgeElementRepository,
+              knowledgeStateRepository,
               skillRepository,
               tubeRepository,
               tutorialRepository,
@@ -242,27 +224,18 @@ describe('Unit | UseCase | find-tutorials', function () {
           const skill_1 = domainBuilder.buildSkill({ name: '@wikipédia1', competenceId: competenceId });
           const skill_2 = domainBuilder.buildSkill({ name: '@wikipédia2', competenceId: competenceId });
 
-          const knowledgeElementList = [
-            domainBuilder.buildKnowledgeElement({
-              skillId: skill_2.id,
-              competenceId: skill_2.competenceId,
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-            domainBuilder.buildKnowledgeElement({
-              skillId: skill_1.id,
-              competenceId: skill_1.competenceId,
-              status: KnowledgeElement.StatusType.VALIDATED,
-            }),
-          ];
-
-          knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
+          const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+            validatedSkillIds: [skill_1.id, skill_2.id],
+            competenceId,
+          });
+          knowledgeStateRepository.findByUserId.resolves(knowledgeState);
           skillRepository.findActiveByCompetenceId.withArgs(competenceId).returns([skill_1, skill_2]);
 
           // when
           const result = await findTutorials({
             userId,
             competenceId,
-            knowledgeElementRepository,
+            knowledgeStateRepository,
             skillRepository,
             tubeRepository,
             tutorialRepository,

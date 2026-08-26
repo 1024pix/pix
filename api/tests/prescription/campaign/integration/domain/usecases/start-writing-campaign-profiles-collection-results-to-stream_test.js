@@ -1,6 +1,8 @@
 import stream from 'node:stream';
 import { text } from 'node:stream/consumers';
 
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
+
 const { PassThrough } = stream;
 
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
@@ -13,7 +15,6 @@ import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import {
   CAMPAIGN_FEATURES,
   MAX_REACHABLE_LEVEL,
@@ -44,11 +45,53 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     beforeEach(async function () {
       i18n = getI18n();
       organization = databaseBuilder.factory.buildOrganization();
-      const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceIds: ['recCompetence1'], status: 'actif' };
-      const skillWeb2 = { id: 'recSkillWeb2', name: '@web2', competenceIds: ['recCompetence1'], status: 'actif' };
-      const skillWeb3 = { id: 'recSkillWeb3', name: '@web3', competenceIds: ['recCompetence1'], status: 'actif' };
-      const skillUrl1 = { id: 'recSkillUrl1', name: '@url1', competenceIds: ['recCompetence2'], status: 'actif' };
-      const skillUrl8 = { id: 'recSkillUrl8', name: '@url8', competenceIds: ['recCompetence2'], status: 'actif' };
+      // Le référentiel porte désormais seul le rattachement des acquis : chaque
+      // acquis déclare sa compétence, son tube et sa valeur.
+      const skillWeb1 = {
+        id: 'recSkillWeb1',
+        name: '@web1',
+        competenceId: 'recCompetence1',
+        tubeId: 'recTubeWeb',
+        level: 1,
+        pixValue: 6,
+        status: 'actif',
+      };
+      const skillWeb2 = {
+        id: 'recSkillWeb2',
+        name: '@web2',
+        competenceId: 'recCompetence1',
+        tubeId: 'recTubeWeb',
+        level: 2,
+        pixValue: 6,
+        status: 'actif',
+      };
+      const skillWeb3 = {
+        id: 'recSkillWeb3',
+        name: '@web3',
+        competenceId: 'recCompetence1',
+        tubeId: 'recTubeWeb',
+        level: 3,
+        pixValue: 6,
+        status: 'actif',
+      };
+      const skillUrl1 = {
+        id: 'recSkillUrl1',
+        name: '@url1',
+        competenceId: 'recCompetence2',
+        tubeId: 'recTubeUrl1',
+        level: 1,
+        pixValue: 2,
+        status: 'actif',
+      };
+      const skillUrl8 = {
+        id: 'recSkillUrl8',
+        name: '@url8',
+        competenceId: 'recCompetence2',
+        tubeId: 'recTubeUrl8',
+        level: 8,
+        pixValue: 64,
+        status: 'actif',
+      };
       const skills = [skillWeb1, skillWeb2, skillWeb3, skillUrl1, skillUrl8];
 
       participant = databaseBuilder.factory.buildUser();
@@ -177,7 +220,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke1, ke2, ke3, ke4, ke5]),
           campaignParticipationId: participationShared.id,
         });
 
@@ -227,7 +270,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke1, ke2, ke3, ke4, ke5]),
           campaignParticipationId: participationShared.id,
         });
 
@@ -298,7 +341,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         );
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke1, ke2, ke3, ke4, ke5]),
           campaignParticipationId: participationShared.id,
         });
 
@@ -446,7 +489,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         );
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke1, ke2, ke3, ke4, ke5]),
           campaignParticipationId: participationShared.id,
         });
         await databaseBuilder.commit();
@@ -527,7 +570,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke1, ke2, ke3, ke4, ke5]),
           campaignParticipationId: participationShared.id,
         });
 
@@ -611,7 +654,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          snapshot: new KnowledgeElementCollection([ke1, ke2, ke3, ke4, ke5]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke1, ke2, ke3, ke4, ke5]),
           campaignParticipationId: participationShared.id,
         });
 

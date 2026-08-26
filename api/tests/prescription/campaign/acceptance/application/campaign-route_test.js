@@ -1,8 +1,7 @@
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
@@ -229,14 +228,14 @@ describe('Acceptance | API | Campaign Route', function () {
       });
 
       const user1ke1 = databaseBuilder.factory.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: 'validated',
         skillId,
         userId: participationUser1.userId,
       });
 
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId: participationUser1.id,
-        snapshot: new KnowledgeElementCollection([user1ke1]).toSnapshot(),
+        snapshot: toLegacySnapshot([user1ke1]),
       });
 
       await databaseBuilder.commit();

@@ -5,7 +5,6 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
@@ -39,6 +38,7 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
         {
           id: skillId,
           name: '@recArea1_Competence1_Tube1_Skill1',
+          level: 1,
           status: 'actif',
           tubeId: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
@@ -46,6 +46,7 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
         {
           id: skillId2,
           name: '@skillId2',
+          level: 2,
           status: 'actif',
           tubeId: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
@@ -53,6 +54,7 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
         {
           id: skillId3,
           name: '@skillId3',
+          level: 3,
           status: 'actif',
           tubeId: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
@@ -334,23 +336,15 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
             createdAt,
           });
 
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId,
+          // Le premier acquis est réussi, les deux suivants ratés : le plancher
+          // est à 1, le plafond à 2, et les trois acquis sont donc évalués.
+          databaseBuilder.factory.buildKnowledgeState({
             userId: organizationLearner.userId,
-            status: KnowledgeElement.StatusType.VALIDATED,
-            createdAt: new Date('2023-01-01'),
-          });
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: skillId2,
-            userId: organizationLearner.userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            createdAt: new Date('2024-01-02'),
-          });
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: skillId3,
-            userId: organizationLearner.userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            createdAt: new Date('2024-01-02'),
+            tubeId: 'recArea1_Competence1_Tube1',
+            floor: 1,
+            ceiling: 2,
+            directLevels: [1, 2],
+            updatedAt: new Date('2024-01-02'),
           });
 
           await databaseBuilder.commit();
@@ -384,18 +378,15 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
             createdAt,
           });
 
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: skillId2,
+          // Un seul acquis évalué sur les trois : le plus haut est raté, le
+          // plafond est donc à 3. Un plafond plus bas invaliderait aussi les
+          // acquis au-dessus — rater un niveau vaut échec des suivants.
+          databaseBuilder.factory.buildKnowledgeState({
             userId: organizationLearner.userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            createdAt: new Date('2023-01-01'),
-          });
-
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId: skillId3,
-            userId: organizationLearner.userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
-            createdAt: new Date('2024-01-02'),
+            tubeId: 'recArea1_Competence1_Tube1',
+            ceiling: 3,
+            directLevels: [3],
+            updatedAt: new Date('2024-01-02'),
           });
 
           await databaseBuilder.commit();
@@ -506,11 +497,13 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
             createdAt,
           });
 
-          databaseBuilder.factory.buildKnowledgeElement({
-            skillId,
+          // Seul le premier acquis est réussi : le plancher est à 1.
+          databaseBuilder.factory.buildKnowledgeState({
             userId: organizationLearner.userId,
-            status: KnowledgeElement.StatusType.VALIDATED,
-            createdAt: new Date('2023-01-01'),
+            tubeId: 'recArea1_Competence1_Tube1',
+            floor: 1,
+            directLevels: [1],
+            updatedAt: new Date('2023-01-01'),
           });
 
           await databaseBuilder.commit();
@@ -525,7 +518,7 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
           expect(result.progression).to.equal(0);
         });
 
-        it('should return 33% progression for a started campaign participation with 1 ke answered out of 3 on snapshot', async function () {
+        it('should return full progression when the failed level settles the whole tube on snapshot', async function () {
           // given
           const createdAt = new Date('2024-01-01');
           const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -547,7 +540,7 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
           const ke = databaseBuilder.factory.buildKnowledgeElement({
             skillId,
             userId: organizationLearner.userId,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            status: 'invalidated',
             createdAt: new Date('2024-01-01'),
           });
 
@@ -564,8 +557,9 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
             campaignParticipationId,
           });
 
-          // then
-          expect(result.progression).to.equal(1 / 3);
+          // then — rater le niveau 1 invalide les niveaux 2 et 3 du tube :
+          // les trois acquis sont évalués, la progression est complète.
+          expect(result.progression).to.equal(1);
         });
       });
     });
