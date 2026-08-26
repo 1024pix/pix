@@ -231,6 +231,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           areas: [area],
         });
       });
+
       test('it should display tubes selection component only if the user selects an attestation and chooses type of selection', async function (assert) {
         //given
         const frameworks = [
@@ -290,6 +291,121 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         );
         assert.ok(screen.queryByLabelText('Taux de réussite requis', { exact: false }));
       });
+
+      test('it should display tubes from multiple frameworks', async function (assert) {
+        // given
+        const tube3 = store.createRecord('tube', {
+          id: 'tubeId3',
+          name: '@tubeName3',
+          practicalTitle: 'Tube 3',
+          skills: [],
+          level: 8,
+        });
+
+        const thematic2 = store.createRecord('thematic', {
+          id: 'thematicId2',
+          name: 'Thématique 2',
+          tubes: [tube3],
+        });
+
+        const competence2 = store.createRecord('competence', {
+          id: 'competenceId2',
+          index: '2',
+          name: 'Titre competence 2',
+          thematics: [thematic2],
+        });
+
+        const area2 = store.createRecord('area', {
+          id: 'areaId2',
+          title: 'Titre domaine 2',
+          code: 2,
+          competences: [competence2],
+        });
+
+        const framework2 = store.createRecord('framework', {
+          id: 'frameworkId2',
+          name: 'Pix 6e',
+          areas: [area2],
+        });
+
+        const model = {
+          attestations,
+          frameworks: [framework, framework2],
+          blueprint,
+        };
+
+        //when
+        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+        );
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Parentalite' }));
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+          }),
+        );
+
+        //then
+        assert.ok(screen.getByText('1 · Titre domaine'));
+        assert.ok(screen.getByText('2 · Titre domaine 2'));
+      });
+
+      test('it should not include tubes from unexpected frameworks', async function (assert) {
+        // given
+        const thematic2 = store.createRecord('thematic', {
+          id: 'thematicId2',
+          name: 'Thématique',
+          tubes: [],
+        });
+
+        const competence2 = store.createRecord('competence', {
+          id: 'competenceId2',
+          index: '3',
+          name: 'Compétence',
+          thematics: [thematic2],
+        });
+
+        const area2 = store.createRecord('area', {
+          id: 'areaId2',
+          title: 'Area',
+          code: 3,
+          competences: [competence2],
+        });
+
+        const excludedFramework = store.createRecord('framework', {
+          id: 'otherFrameworkIdE',
+          name: 'Other Framework',
+          areas: [area2],
+        });
+
+        const model = {
+          attestations,
+          frameworks: [framework, excludedFramework],
+          blueprint,
+        };
+
+        //when
+        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+        );
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Parentalite' }));
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+          }),
+        );
+
+        //then
+        assert.ok(screen.getByText('1 · Titre domaine'));
+        assert.notOk(screen.queryByText('3 · Other Framework'));
+      });
+
       test('it should save blueprint with selected tubes requirements when they are selected', async function (assert) {
         //when
         const model = {
@@ -342,6 +458,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           },
         });
       });
+
       test('it should save blueprint with multiple selections of capped tubes', async function (assert) {
         const model = {
           attestations,
