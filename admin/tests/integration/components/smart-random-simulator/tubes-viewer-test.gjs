@@ -347,6 +347,45 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
     assert.dom(screen.getByText("Score de l'utilisateur: 24 pix")).exists();
   });
 
+  test('should group the tubes under a competence header carrying the area colour', async function (assert) {
+    const firstCompetenceHeader = screen.getByRole('columnheader', {
+      name: '1.1 Mener une recherche et une veille d’information',
+    });
+    const secondCompetenceHeader = screen.getByRole('columnheader', {
+      name: '2.4 S’insérer dans le monde numérique',
+    });
+
+    assert.dom(firstCompetenceHeader).hasClass('jaffa');
+    assert.dom(secondCompetenceHeader).hasClass('emerald');
+    assert.strictEqual(firstCompetenceHeader.getAttribute('colspan'), '9');
+  });
+
+  test('should not display competence headers when no skill carries a competence', async function (assert) {
+    // given
+    const tubesWithoutCompetence = [{ id: null, index: null, name: 'Hors compétence', areaColor: null, tubes }];
+
+    // when
+    const screenWithoutCompetence = await render(
+      <template>
+        <TubesViewer
+          @tubesByCompetence={{tubesWithoutCompetence}}
+          @currentSkillId={{currentSkillId}}
+          @knowledgeState={{knowledgeState}}
+          @smartRandomLog={{smartRandomLog}}
+          @displayedStepIndex={{displayedStepIndex}}
+          @totalNumberOfSkills={{totalNumberOfSkills}}
+          @selectDisplayedStepIndex={{selectDisplayedStepIndex}}
+          @numberOfSkillsStillAvailable={{numberOfSkillsStillAvailable}}
+          @pixScore={{pixScore}}
+        />
+      </template>,
+    );
+
+    // then
+    assert.strictEqual(screenWithoutCompetence.queryByText('Hors compétence'), null);
+    assert.dom(screenWithoutCompetence.getByRole('cell', { name: '@outilsRS1' })).exists();
+  });
+
   test('should display all translated steps', async function (assert) {
     assert.dom(screen.getByRole('listitem', { name: 'Acquis sans épreuves' })).exists();
     assert.dom(screen.getByRole('listitem', { name: 'Déjà testés' })).exists();
