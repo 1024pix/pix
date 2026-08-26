@@ -14,7 +14,7 @@ import { LegalDocumentType } from '../models/LegalDocumentType.js';
  * @throws {Error} If no legal document version is found for the type and service.
  */
 
-const { PIX_APP } = LegalDocumentService.VALUES;
+const { PIX_APP, PIX_CERTIF } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;
 
 const getLegalDocumentStatusByUserId = async ({
@@ -31,7 +31,11 @@ const getLegalDocumentStatusByUserId = async ({
   LegalDocumentType.assert(type);
 
   const isPixAppTos = service === PIX_APP && type === TOS;
+  const isPixCertifTos = service === PIX_CERTIF && type === TOS;
   const isNewVersioningEnabled = await featureToggles.get('newPixAppLegalDocumentsVersioning');
+  const isNewPixCertifLegalDocumentsVersioningEnabled = await featureToggles.get(
+    'newPixCertifLegalDocumentsVersioning',
+  );
 
   if (!isNewVersioningEnabled && isPixAppTos) {
     const user = await userRepository.getPixAppLegacyCguByUserId(userId);
@@ -40,6 +44,13 @@ const getLegalDocumentStatusByUserId = async ({
       mustValidateTermsOfService: user.mustValidateTermsOfService,
       lastTermsOfServiceValidatedAt: user.lastTermsOfServiceValidatedAt,
     });
+
+    return legalDocumentStatus;
+  }
+
+  if (!isNewPixCertifLegalDocumentsVersioningEnabled && isPixCertifTos) {
+    const user = await userRepository.getPixCertifLegacyTosByUserId(userId);
+    const legalDocumentStatus = LegalDocumentStatus.buildForLegacyPixCertifTos(user);
 
     return legalDocumentStatus;
   }

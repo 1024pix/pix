@@ -18,6 +18,16 @@ const getPixAppLegacyCguByUserId = async (userId) => {
   return user;
 };
 
+const getPixCertifLegacyTosByUserId = async (userId) => {
+  const knexConnection = DomainTransaction.getConnection();
+  const user = await knexConnection('users')
+    .select('pixCertifTermsOfServiceAccepted', 'lastPixCertifTermsOfServiceValidatedAt')
+    .where({ id: userId })
+    .first();
+  if (!user) throw new UserNotFoundError();
+  return user;
+};
+
 const acceptLegacyPixAppTermsOfService = async function (id) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('users').where({ id }).update({
@@ -28,4 +38,4 @@ const acceptLegacyPixAppTermsOfService = async function (id) {
   });
 };
 
-export { acceptLegacyPixAppTermsOfService, getPixAppLegacyCguByUserId, isAnonymous };
+export { acceptLegacyPixAppTermsOfService, getPixAppLegacyCguByUserId, getPixCertifLegacyTosByUserId, isAnonymous };
