@@ -83,11 +83,6 @@ export default class CertificationVersionCalibrationReport extends Component {
   }
 
   @action
-  async shouldShowMoreInfo(lineNumber) {
-    return this.showMoreInfoForLines.some((lineExpanded) => lineExpanded === lineNumber);
-  }
-
-  @action
   async saveCalibrationId() {
     try {
       this.args.draftVersion.externalCalibrationId = this.report.calibrationId;

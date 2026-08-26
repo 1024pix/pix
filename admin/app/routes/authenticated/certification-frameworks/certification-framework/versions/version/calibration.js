@@ -1,21 +1,18 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-export default class FrameworkEditRoute extends Route {
+export default class CalibrationRoute extends Route {
   @service store;
   @service router;
   @service pixToast;
 
   async model() {
-    const { activeVersion } = this.modelFor('authenticated.certification-frameworks.certification-framework.versions');
-
     const { version_id: versionId } = this.paramsFor(
       'authenticated.certification-frameworks.certification-framework.versions.version',
     );
     const draftVersion = await this.store.findRecord('certification-version', versionId);
 
     return {
-      activeVersion,
       draftVersion,
       calibrationReport: await this.loadCalibrationReport(draftVersion),
     };
