@@ -589,13 +589,13 @@
         "versions": {
           "calibration": {
             "label-for-CALIBRATED_CHALLENGE_COUNT": "Nombre d'épreuves calibrées",
-            "label-for-CALIBRATION_SCOPE": "Référentiel cible",
-            "label-for-CALIBRATION_STARTED_AT": "Calibration démarrée le",
+            "label-for-CALIBRATION_SCOPE": "Prévue pour le référentiel",
+            "label-for-CALIBRATION_STARTED_AT": "Démarrée le",
             "label-for-CALIBRATION_STATUS": "Statut",
             "label-for-COMPETENCE_SCORING_PRESENCE": "Présence d'un scoring par compétences validé",
             "label-for-MESH_SCORING_PRESENCE": "Présence d'un scoring par maille validé",
-            "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents uniquement dans la calibration",
-            "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents uniquement dans la version",
+            "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujets présents uniquement dans la calibration",
+            "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujets présents uniquement dans la version",
             "no-report-message": "Aucune calibration n'a pu être récupérée pour ce référentiel.",
             "report-title": "Rapport de la calibration d'ID {calibrationId} générée le",
             "save-button-already-saved-tooltip": "ID {id} déjà enregistré sur ce millésime",
