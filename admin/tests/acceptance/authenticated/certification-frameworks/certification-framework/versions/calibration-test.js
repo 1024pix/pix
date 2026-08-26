@@ -1,5 +1,5 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
-import { currentURL, settled } from '@ember/test-helpers';
+import { click, currentURL, settled } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
@@ -62,50 +62,62 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
 
     module('when loading a report for a version', function (hooks) {
       const generatedAt = new Date('2026-08-08T14:00:00Z');
-      hooks.beforeEach(async function () {
+
+      const reportLinesWithoutHighAlert = [
+        {
+          additionalContent: null,
+          alertLevel: null,
+          content: 15,
+          label: 'CALIBRATED_CHALLENGE_COUNT',
+        },
+        {
+          additionalContent: 'tubeA',
+          alertLevel: 'LOW',
+          content: 1,
+          label: 'TUBE_ONLY_IN_VERSION_COUNT',
+        },
+        {
+          additionalContent: null,
+          alertLevel: null,
+          content: 'CORE',
+          label: 'CALIBRATION_SCOPE',
+        },
+        {
+          additionalContent: null,
+          alertLevel: null,
+          content: 'VALIDATED',
+          label: 'CALIBRATION_STATUS',
+        },
+      ];
+
+      const reportLinesWithHighAlert = [
+        ...reportLinesWithoutHighAlert,
+        {
+          additionalContent: "La calibration a été démarrée depuis plus d'1 an",
+          alertLevel: 'HIGH',
+          content: new Date('2021-01-01'),
+          label: 'CALIBRATION_STARTED_AT',
+        },
+      ];
+
+      function stubLatestCalibrationReport(reportLines) {
         server.get('/admin/certification-versions/:id/latest-calibration-report', (schema) => {
           return schema.create('calibration-report', {
             id: 999,
             calibrationId: 1,
             generatedAt,
-            reportLines: [
-              {
-                additionalContent: null,
-                alertLevel: null,
-                content: 15,
-                label: 'CALIBRATED_CHALLENGE_COUNT',
-              },
-              {
-                additionalContent: 'tubeA',
-                alertLevel: 'LOW',
-                content: 1,
-                label: 'TUBE_ONLY_IN_VERSION_COUNT',
-              },
-              {
-                additionalContent: "La calibration a été démarrée depuis plus d'1 an",
-                alertLevel: 'HIGH',
-                content: new Date('2021-01-01'),
-                label: 'CALIBRATION_STARTED_AT',
-              },
-              {
-                additionalContent: null,
-                alertLevel: null,
-                content: 'CORE',
-                label: 'CALIBRATION_SCOPE',
-              },
-              {
-                additionalContent: null,
-                alertLevel: null,
-                content: 'VALIDATED',
-                label: 'CALIBRATION_STATUS',
-              },
-            ],
+            reportLines,
           });
         });
+      }
+
+      hooks.beforeEach(async function () {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       });
 
       test('displays the report without any user action', async function (assert) {
+        stubLatestCalibrationReport(reportLinesWithHighAlert);
+
         const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
 
         await settled();
@@ -121,6 +133,7 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
       });
 
       test('saves the calibrationId when the user validates the report', async function (assert) {
+        stubLatestCalibrationReport(reportLinesWithoutHighAlert);
         const patchedAttributes = [];
         server.patch('/admin/certification-versions/:id', (schema, request) => {
           const certificationVersion = schema.certificationVersions.find(request.params.id);
@@ -137,6 +150,25 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
         assert.strictEqual(patchedAttributes.length, 1);
         assert.strictEqual(patchedAttributes[0]['external-calibration-id'], 1);
         assert.dom(screen.getByText("L'ID de calibration a été enregistré.")).exists();
+      });
+
+      test('prevents the validation when the report holds a high alert', async function (assert) {
+        stubLatestCalibrationReport(reportLinesWithHighAlert);
+        let patchCount = 0;
+        server.patch('/admin/certification-versions/:id', (schema, request) => {
+          patchCount++;
+          return schema.certificationVersions.find(request.params.id);
+        });
+
+        const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
+
+        await settled();
+
+        const saveButton = screen.getByRole('button', { name: "Enregistrer l'ID 1 de calibration" });
+        assert.dom(saveButton).hasAttribute('aria-disabled');
+
+        await click(saveButton);
+        assert.strictEqual(patchCount, 0);
       });
     });
 

@@ -139,6 +139,7 @@ export default class CalibrationForm extends Component {
         <PixButton
           class="versions-calibration__save-button"
           @variant="primary"
+          @isDisabled={{this.hasHighAlert}}
           @triggerAction={{this.saveCalibrationId}}
         >
           {{t
