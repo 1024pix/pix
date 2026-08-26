@@ -5,8 +5,7 @@ import { module, test } from 'qunit';
 
 import setupIntlRenderingTest, { t } from '../../../../../helpers/setup-intl-rendering';
 
-const TITLE_KEY =
-  'components.certification-frameworks.certification-framework.versions.scoring.competences.title';
+const TITLE_KEY = 'components.certification-frameworks.certification-framework.versions.scoring.competences.title';
 
 module(
   'Integration | Component | certification-frameworks | certification-framework | versions | Certification Version Competences Scoring Form',
@@ -59,7 +58,14 @@ module(
         const calibrationScoringConfiguration = buildCalibrationScoringConfiguration();
 
         // when
-        const screen = await render(<template><CompetencesScoringForm @draftVersion={{draftVersion}} @calibrationScoringConfiguration={{calibrationScoringConfiguration}} /></template>);
+        const screen = await render(
+          <template>
+            <CompetencesScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
+        );
 
         // then
         const tabs = screen.getAllByRole('tab');
@@ -77,7 +83,14 @@ module(
         const calibrationScoringConfiguration = buildCalibrationScoringConfiguration();
 
         // when
-        const screen = await render(<template><CompetencesScoringForm @draftVersion={{draftVersion}} @calibrationScoringConfiguration={{calibrationScoringConfiguration}} /></template>);
+        const screen = await render(
+          <template>
+            <CompetencesScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
+        );
 
         // then
         assert.dom(screen.getByText(t(TITLE_KEY))).exists();
@@ -102,7 +115,14 @@ module(
         const calibrationScoringConfiguration = buildCalibrationScoringConfiguration();
 
         // when
-        const screen = await render(<template><CompetencesScoringForm @draftVersion={{draftVersion}} @calibrationScoringConfiguration={{calibrationScoringConfiguration}} /></template>);
+        const screen = await render(
+          <template>
+            <CompetencesScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
+        );
 
         // then
         assert.dom(screen.getByRole('button', { name: /1\.1 - competence1/ })).exists();
@@ -134,7 +154,14 @@ module(
           ],
         });
 
-        const screen = await render(<template><CompetencesScoringForm @draftVersion={{draftVersion}} @calibrationScoringConfiguration={{calibrationScoringConfiguration}} /></template>);
+        const screen = await render(
+          <template>
+            <CompetencesScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
+        );
 
         // when
         await click(screen.getByRole('button', { name: /1\.1 - competence1/ }));
@@ -164,7 +191,14 @@ module(
         });
         const calibrationScoringConfiguration = buildCalibrationScoringConfiguration();
 
-        const screen = await render(<template><CompetencesScoringForm @draftVersion={{draftVersion}} @calibrationScoringConfiguration={{calibrationScoringConfiguration}} /></template>);
+        const screen = await render(
+          <template>
+            <CompetencesScoringForm
+              @draftVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
+        );
 
         // when
         await click(screen.getByRole('button', { name: /1\.1 - competence1/ }));

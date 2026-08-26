@@ -1,5 +1,3 @@
-import CertificationVersionCompetencesScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-competences-scoring-form';
-import CertificationVersionGlobalScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-global-scoring-form';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import { t } from 'ember-intl';
 import CompetencesScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-competences-scoring-form';

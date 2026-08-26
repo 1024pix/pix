@@ -85,7 +85,7 @@ export default class CompetencesScoringForm extends Component {
                         {{#if levels.length}}
                           <PixTable @variant="modulix" @data={{levels}}>
                             <:columns as |level context|>
-                              <PixTableColumn @context={{context}} class='table__column--wide'>
+                              <PixTableColumn @context={{context}} class="table__column--wide">
                                 <:header>{{t
                                     "components.certification-frameworks.certification-framework.versions.scoring.competences.level"
                                   }}</:header>

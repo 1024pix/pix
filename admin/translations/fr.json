@@ -646,17 +646,10 @@
             "capacity-submit-button": "Sauvegarder les capacités par mailles",
             "competences": {
               "level": "Niveau",
-              "maximum-input-label": "Capacité maximale",
-              "minimum-input-label": "Capacité minimale",
-              "no-configuration": "Aucune configuration de scoring pour cette compétence.",
               "title": "Bornes de capacités par compétences"
             },
             "level": "Niveau {index}",
             "previous-version-capacity": "Ancienne valeur : {previousVersionCapacity}",
-            "competences": {
-              "title": "Bornes de capacités par compétences",
-              "level": "Niveau"
-            },
             "success-notification": "Le scoring a bien été mis à jour",
             "title": "Bornes de capacités par mailles"
           },
