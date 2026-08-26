@@ -105,9 +105,7 @@ describe('Unit | Service | ScorecardService', function () {
         areaRepository.get.resolves(domainBuilder.buildArea({ id: 'area' }));
         knowledgeStateRepository.findByUserId.resolves(domainBuilder.buildKnowledgeState());
         competenceEvaluationRepository.findByUserId.resolves([]);
-        competenceScoreRepository.findByUserId
-          .withArgs({ userId: authenticatedUserId })
-          .resolves(new Map([[1, 12.5]]));
+        competenceScoreRepository.findByUserId.withArgs({ userId: authenticatedUserId }).resolves(new Map([[1, 12.5]]));
         buildFromStub.returns(domainBuilder.buildUserScorecard());
 
         // when
