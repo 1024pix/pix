@@ -723,7 +723,7 @@ class SendingEmailToInvalidEmailAddressError extends DomainError {
   }
 }
 
-class NotEnoughDaysPassedBeforeResetCampaignParticipationError extends DomainError {
+class CannotResetCampaignParticipationError extends DomainError {
   constructor() {
     super(`Il n'est pas possible de remettre à zéro votre parcours pour le moment.`);
   }
@@ -1020,6 +1020,7 @@ export {
   CampaignTypeError,
   CancelledInvitationError,
   CandidateAlreadyLinkedToUserError,
+  CannotResetCampaignParticipationError,
   CertificateVerificationCodeGenerationTooManyTrials,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
@@ -1075,7 +1076,6 @@ export {
   NoOrganizationToAttach,
   NoSkillsInCampaignError,
   NoStagesForCampaign,
-  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   NotFinalizedSessionError,
   NotFoundError,
   NotImplementedError,

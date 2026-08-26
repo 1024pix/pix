@@ -132,7 +132,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isTargetProfileResetAllowed: false,
           isCampaignMultipleSendings: true,
           isOrganizationLearnerActive: true,
-          sharedAt,
         };
         databaseBuilder.factory.buildCampaignParticipation({
           id: 10,

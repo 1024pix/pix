@@ -240,26 +240,6 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
       expect(result).to.be.false;
     });
 
-    it('should return false when minimum delay before retrying has not passed', function () {
-      // given
-      const campaignParticipationOverview = domainBuilder.buildCampaignParticipationOverview({
-        status: SHARED,
-        sharedAt: dayjs(now).subtract(3, 'days').toDate(), // Less than 4 days
-        masteryRate: 0.8,
-        isCampaignMultipleSendings: true,
-        isOrganizationLearnerActive: true,
-        campaignType: CampaignTypes.ASSESSMENT,
-        campaignArchivedAt: null,
-        deletedAt: null,
-      });
-
-      // when
-      const result = campaignParticipationOverview.computeCanRetry();
-
-      // then
-      expect(result).to.be.false;
-    });
-
     it('should return false when mastery rate is 100% and campaign type is ASSESSMENT', function () {
       // given
       const campaignParticipationOverview = domainBuilder.buildCampaignParticipationOverview({
@@ -315,49 +295,6 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
 
       // when
       const result = campaignParticipationOverview.computeCanRetry();
-
-      // then
-      expect(result).to.be.false;
-    });
-  });
-
-  describe('#_timeBeforeRetryingPassed', function () {
-    const now = new Date('2023-01-15');
-
-    beforeEach(function () {
-      sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    it('should return true when delay has passed', function () {
-      // given
-      const campaignParticipationOverview = domainBuilder.buildCampaignParticipationOverview();
-      const sharedAt = dayjs(now).subtract(5, 'days').toDate();
-
-      // when
-      const result = campaignParticipationOverview._timeBeforeRetryingPassed(sharedAt);
-
-      // then
-      expect(result).to.be.true;
-    });
-
-    it('should return false when delay has not passed', function () {
-      // given
-      const campaignParticipationOverview = domainBuilder.buildCampaignParticipationOverview();
-      const sharedAt = dayjs(now).subtract(3, 'days').toDate(); // Less than 4 days
-
-      // when
-      const result = campaignParticipationOverview._timeBeforeRetryingPassed(sharedAt);
-
-      // then
-      expect(result).to.be.false;
-    });
-
-    it('should return false when sharedAt is null', function () {
-      // given
-      const campaignParticipationOverview = domainBuilder.buildCampaignParticipationOverview();
-
-      // when
-      const result = campaignParticipationOverview._timeBeforeRetryingPassed(null);
 
       // then
       expect(result).to.be.false;

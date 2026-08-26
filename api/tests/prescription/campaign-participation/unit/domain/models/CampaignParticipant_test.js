@@ -5,7 +5,7 @@ import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shar
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import {
   AlreadyExistingCampaignParticipationError,
-  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
+  CannotResetCampaignParticipationError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { EntityValidationError, ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
@@ -613,7 +613,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
       describe('and isReset param is true', function () {
         describe('when canReset is false', function () {
-          it('should throw NotEnoughDaysPassedBeforeResetCampaignParticipationError', async function () {
+          it('should throw CannotResetCampaignParticipationError', async function () {
             // given
             const userIdentity = { id: 1 };
             const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
@@ -646,7 +646,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             });
 
             // then
-            expect(error).to.be.an.instanceof(NotEnoughDaysPassedBeforeResetCampaignParticipationError);
+            expect(error).to.be.an.instanceof(CannotResetCampaignParticipationError);
           });
         });
       });

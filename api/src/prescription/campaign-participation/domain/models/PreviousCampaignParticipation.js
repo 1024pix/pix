@@ -1,6 +1,3 @@
-import dayjs from 'dayjs';
-
-import { MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../../shared/constants.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 class PreviousCampaignParticipation {
   #isResetAllowed;
@@ -14,7 +11,6 @@ class PreviousCampaignParticipation {
     isOrganizationLearnerActive,
     isCampaignMultipleSendings,
     isResetAllowed,
-    sharedAt,
   }) {
     this.id = id;
     this.participantExternalId = participantExternalId;
@@ -24,7 +20,6 @@ class PreviousCampaignParticipation {
     this.isTargetProfileResetAllowed = isTargetProfileResetAllowed;
     this.isOrganizationLearnerActive = isOrganizationLearnerActive;
     this.isCampaignMultipleSendings = isCampaignMultipleSendings;
-    this.sharedAt = sharedAt;
     this.#isResetAllowed = isResetAllowed;
   }
 
@@ -34,13 +29,8 @@ class PreviousCampaignParticipation {
       this.status === CampaignParticipationStatuses.SHARED &&
       this.isTargetProfileResetAllowed &&
       this.isCampaignMultipleSendings &&
-      this.isOrganizationLearnerActive &&
-      this._isTimeBeforeRetryingPassed(this.sharedAt)
+      this.isOrganizationLearnerActive
     );
-  }
-
-  _isTimeBeforeRetryingPassed(sharedAt) {
-    return dayjs().diff(sharedAt, 'days') >= MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
 }
 
