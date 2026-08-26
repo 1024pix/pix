@@ -10,12 +10,15 @@ const ANSWER_STATUSES = { OK: 'ok', KO: 'ko' };
 const KNOWLEDGE_ELEMENTS_STATUSES = { VALIDATED: 'validated', INVALIDATED: 'invalidated' };
 const KNOWLEDGE_ELEMENTS_SOURCES = { DIRECT: 'direct', INFERRED: 'inferred' };
 
+const UNKNOWN_COMPETENCE = { id: null, index: null, name: 'Hors compétence', areaColor: null };
+
 export default class SmartRandomSimulator extends Controller {
   @service session;
   @service pixToast;
 
   // Simulator parameters
   @tracked skills = [];
+  @tracked competences = [];
   @tracked answers = [];
   @tracked challenges = [];
   @tracked knowledgeElements = [];
@@ -78,6 +81,7 @@ export default class SmartRandomSimulator extends Controller {
       const responseBody = await apiResponse.json();
       this.skills = responseBody.skills;
       this.challenges = responseBody.challenges;
+      this.competences = responseBody.competences ?? [];
       this.pixToast.sendSuccessNotification({
         message: `Données chargées: ${this.skills.length} compétences et ${this.challenges.length} challenges`,
       });
@@ -114,6 +118,31 @@ export default class SmartRandomSimulator extends Controller {
       accumulator[accumulatorIndex].skills.push(skill);
       return accumulator;
     }, []);
+  }
+
+  get tubesByCompetence() {
+    const competenceById = new Map(this.competences.map((competence) => [competence.id, competence]));
+
+    const groupedTubes = this.skillsByTube.reduce((accumulator, tube) => {
+      const competenceId = tube.skills.find((skill) => skill.competenceId)?.competenceId;
+      const competence = competenceById.get(competenceId) ?? UNKNOWN_COMPETENCE;
+
+      const group = accumulator.get(competence.id);
+      if (group) {
+        group.tubes.push(tube);
+        return accumulator;
+      }
+
+      accumulator.set(competence.id, { ...competence, tubes: [tube] });
+      return accumulator;
+    }, new Map());
+
+    return [...groupedTubes.values()]
+      .map((competence) => ({
+        ...competence,
+        tubes: competence.tubes.toSorted((tube, otherTube) => tube.name.localeCompare(otherTube.name)),
+      }))
+      .toSorted(byCompetenceIndex);
   }
 
   get numberOfSkillsStillAvailable() {
@@ -242,4 +271,11 @@ export default class SmartRandomSimulator extends Controller {
   getTubeNameFromSkillName(skillName) {
     return skillName.slice(0, -1);
   }
+}
+
+// Les compétences sans index (celles des acquis saisis à la main) sont reléguées en fin de tableau
+function byCompetenceIndex(competence, otherCompetence) {
+  if (!competence.index) return 1;
+  if (!otherCompetence.index) return -1;
+  return competence.index.localeCompare(otherCompetence.index, undefined, { numeric: true });
 }

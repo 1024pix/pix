@@ -77,6 +77,49 @@
 
   }
 
+  th.tubes-viewer__table__competence__name {
+    position: relative;
+    padding-left: var(--pix-spacing-4x);
+    color: var(--pix-neutral-800);
+    font-size: 0.875rem;
+    background: var(--pix-neutral-20);
+
+    &::before {
+      position: absolute;
+      top: 8px;
+      left: 5px;
+      width: 4px;
+      height: calc(100% - 16px);
+      background-color: var(--pix-primary-700);
+      border-radius: 2px;
+      content: '';
+    }
+
+    &.jaffa::before {
+      background-color: var(--pix-information-light);
+    }
+
+    &.emerald::before {
+      background-color: var(--pix-content-light);
+    }
+
+    &.cerulean::before {
+      background-color: var(--pix-communication-light);
+    }
+
+    &.wild-strawberry::before {
+      background-color: var(--pix-security-light);
+    }
+
+    &.butterfly-bush::before {
+      background-color: var(--pix-environment-light);
+    }
+  }
+
+  tr.tubes-viewer__table__competence__row {
+    height: 32px;
+  }
+
   &__captions {
     margin-top: var(--pix-spacing-3x);
     caption-side: bottom;

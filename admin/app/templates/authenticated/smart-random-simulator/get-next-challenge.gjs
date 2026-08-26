@@ -39,7 +39,7 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
             <Reset @reset={{@controller.reset}} />
 
             <TubesViewer
-              @tubes={{@controller.skillsByTube}}
+              @tubesByCompetence={{@controller.tubesByCompetence}}
               @currentSkillId={{@controller.currentChallenge.skill.id}}
               @knowledgeElements={{@controller.knowledgeElements}}
               @smartRandomLog={{@controller.smartRandomLog}}
@@ -62,7 +62,7 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
             />
 
             <TubesViewer
-              @tubes={{@controller.skillsByTube}}
+              @tubesByCompetence={{@controller.tubesByCompetence}}
               @currentSkillId={{@controller.currentChallenge.skill.id}}
               @knowledgeElements={{@controller.knowledgeElements}}
               @smartRandomLog={{@controller.smartRandomLog}}

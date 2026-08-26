@@ -88,6 +88,19 @@ export default class TubesViewer extends Component {
     return skillReward.reward.toFixed(1);
   }
 
+  get competenceHeaderColumnCount() {
+    return this.levels.length + 1;
+  }
+
+  get hasCompetenceGrouping() {
+    return this.args.tubesByCompetence.some((competence) => competence.id);
+  }
+
+  @action
+  getCompetenceLabel(competence) {
+    return competence.index ? `${competence.index} ${competence.name}` : competence.name;
+  }
+
   @action
   toggleShowSkillsRewards() {
     this.showSkillsRewards = !this.showSkillsRewards;
@@ -194,22 +207,36 @@ export default class TubesViewer extends Component {
           </tr>
         </thead>
 
-        <tbody>
-          {{#each @tubes as |tube|}}
-            <tr>
-              <th class="tubes-viewer__table__name">{{tube.name}}</th>
-              {{#each this.levels as |level|}}
-                <td aria-label="{{tube.name}}{{level}}">
-                  <span class="tubes-viewer__table__skill {{this.getSkillStatus tube level}}">
-                    {{#if this.showSkillsRewards}}
-                      {{this.getSkillReward tube level}}
-                    {{/if}}
-                  </span>
-                </td>
-              {{/each}}
-            </tr>
-          {{/each}}
-        </tbody>
+        {{#each @tubesByCompetence as |competence|}}
+          <tbody class="tubes-viewer__table__competence">
+            {{#if this.hasCompetenceGrouping}}
+              <tr class="tubes-viewer__table__competence__row">
+                <th
+                  class="tubes-viewer__table__competence__name {{competence.areaColor}}"
+                  colspan={{this.competenceHeaderColumnCount}}
+                  scope="colgroup"
+                >
+                  {{this.getCompetenceLabel competence}}
+                </th>
+              </tr>
+            {{/if}}
+
+            {{#each competence.tubes as |tube|}}
+              <tr>
+                <th class="tubes-viewer__table__name">{{tube.name}}</th>
+                {{#each this.levels as |level|}}
+                  <td aria-label="{{tube.name}}{{level}}">
+                    <span class="tubes-viewer__table__skill {{this.getSkillStatus tube level}}">
+                      {{#if this.showSkillsRewards}}
+                        {{this.getSkillReward tube level}}
+                      {{/if}}
+                    </span>
+                  </td>
+                {{/each}}
+              </tr>
+            {{/each}}
+          </tbody>
+        {{/each}}
 
       </table>
 

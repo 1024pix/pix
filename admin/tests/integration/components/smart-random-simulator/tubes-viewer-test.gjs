@@ -309,11 +309,28 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
     },
   ];
 
+  const tubesByCompetence = [
+    {
+      id: 'competenceId1',
+      index: '1.1',
+      name: 'Mener une recherche et une veille d’information',
+      areaColor: 'jaffa',
+      tubes: tubes.slice(0, 2),
+    },
+    {
+      id: 'competenceId2',
+      index: '2.4',
+      name: 'S’insérer dans le monde numérique',
+      areaColor: 'emerald',
+      tubes: tubes.slice(2),
+    },
+  ];
+
   hooks.beforeEach(async function () {
     screen = await render(
       <template>
         <TubesViewer
-          @tubes={{tubes}}
+          @tubesByCompetence={{tubesByCompetence}}
           @currentSkillId={{currentSkillId}}
           @knowledgeElements={{knowledgeElements}}
           @smartRandomLog={{smartRandomLog}}
@@ -343,6 +360,45 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
 
   test('should display the user pix score', async function (assert) {
     assert.dom(screen.getByText("Score de l'utilisateur: 24 pix")).exists();
+  });
+
+  test('should group the tubes under a competence header carrying the area colour', async function (assert) {
+    const firstCompetenceHeader = screen.getByRole('columnheader', {
+      name: '1.1 Mener une recherche et une veille d’information',
+    });
+    const secondCompetenceHeader = screen.getByRole('columnheader', {
+      name: '2.4 S’insérer dans le monde numérique',
+    });
+
+    assert.dom(firstCompetenceHeader).hasClass('jaffa');
+    assert.dom(secondCompetenceHeader).hasClass('emerald');
+    assert.strictEqual(firstCompetenceHeader.getAttribute('colspan'), '9');
+  });
+
+  test('should not display competence headers when no skill carries a competence', async function (assert) {
+    // given
+    const tubesWithoutCompetence = [{ id: null, index: null, name: 'Hors compétence', areaColor: null, tubes }];
+
+    // when
+    const screenWithoutCompetence = await render(
+      <template>
+        <TubesViewer
+          @tubesByCompetence={{tubesWithoutCompetence}}
+          @currentSkillId={{currentSkillId}}
+          @knowledgeElements={{knowledgeElements}}
+          @smartRandomLog={{smartRandomLog}}
+          @displayedStepIndex={{displayedStepIndex}}
+          @totalNumberOfSkills={{totalNumberOfSkills}}
+          @selectDisplayedStepIndex={{selectDisplayedStepIndex}}
+          @numberOfSkillsStillAvailable={{numberOfSkillsStillAvailable}}
+          @pixScore={{pixScore}}
+        />
+      </template>,
+    );
+
+    // then
+    assert.strictEqual(screenWithoutCompetence.queryByText('Hors compétence'), null);
+    assert.dom(screenWithoutCompetence.getByRole('cell', { name: '@outilsRS1' })).exists();
   });
 
   test('should display all translated steps', async function (assert) {

@@ -31,6 +31,20 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
   };
 
   const getCampaignParamsApiResponseBody = {
+    competences: [
+      {
+        id: 'recsvLz0W2ShyfD63',
+        index: '1.1',
+        name: 'Mener une recherche et une veille d’information',
+        areaColor: 'jaffa',
+      },
+      {
+        id: 'recFpYXCKcyhLI3Nu',
+        index: '2.4',
+        name: 'S’insérer dans le monde numérique',
+        areaColor: 'emerald',
+      },
+    ],
     skills: [
       {
         id: 'rec1al9C9yGMQwK6S',
@@ -130,6 +144,83 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
           ],
         },
       ]);
+    });
+  });
+
+  module('#tubesByCompetence', function () {
+    test('it should group tubes by competence, ordered by competence index then tube name', function (assert) {
+      // given
+      controller.competences = [
+        { id: 'competenceId1', index: '1.1', name: 'Mener une recherche', areaColor: 'jaffa' },
+        { id: 'competenceId21', index: '21.1', name: 'Pix+Édu - Communiquer', areaColor: null },
+      ];
+      controller.skills = [
+        { id: 'skill1', name: '@zebre2', difficulty: 2, competenceId: 'competenceId21' },
+        { id: 'skill2', name: '@requete2', difficulty: 2, competenceId: 'competenceId1' },
+        { id: 'skill3', name: '@abricot1', difficulty: 1, competenceId: 'competenceId21' },
+        { id: 'skill4', name: '@requete3', difficulty: 3, competenceId: 'competenceId1' },
+      ];
+
+      // when
+      const tubesByCompetence = controller.tubesByCompetence;
+
+      // then
+      assert.deepEqual(tubesByCompetence, [
+        {
+          id: 'competenceId1',
+          index: '1.1',
+          name: 'Mener une recherche',
+          areaColor: 'jaffa',
+          tubes: [
+            {
+              name: '@requete',
+              skills: [
+                { id: 'skill2', name: '@requete2', difficulty: 2, competenceId: 'competenceId1' },
+                { id: 'skill4', name: '@requete3', difficulty: 3, competenceId: 'competenceId1' },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'competenceId21',
+          index: '21.1',
+          name: 'Pix+Édu - Communiquer',
+          areaColor: null,
+          tubes: [
+            {
+              name: '@abricot',
+              skills: [{ id: 'skill3', name: '@abricot1', difficulty: 1, competenceId: 'competenceId21' }],
+            },
+            {
+              name: '@zebre',
+              skills: [{ id: 'skill1', name: '@zebre2', difficulty: 2, competenceId: 'competenceId21' }],
+            },
+          ],
+        },
+      ]);
+    });
+
+    test('it should gather tubes of unknown competences in a trailing group', function (assert) {
+      // given
+      controller.competences = [{ id: 'competenceId1', index: '1.1', name: 'Mener une recherche', areaColor: 'jaffa' }];
+      controller.skills = [
+        { id: 'skill1', name: '@requete2', difficulty: 2 },
+        { id: 'skill2', name: '@outilsEval1', difficulty: 1, competenceId: 'competenceId1' },
+      ];
+
+      // when
+      const tubesByCompetence = controller.tubesByCompetence;
+
+      // then
+      assert.strictEqual(tubesByCompetence.length, 2);
+      assert.strictEqual(tubesByCompetence[0].name, 'Mener une recherche');
+      assert.deepEqual(tubesByCompetence[1], {
+        id: null,
+        index: null,
+        name: 'Hors compétence',
+        areaColor: null,
+        tubes: [{ name: '@requete', skills: [{ id: 'skill1', name: '@requete2', difficulty: 2 }] }],
+      });
     });
   });
 
@@ -246,6 +337,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
         await controller.loadCampaignParams(1);
         assert.deepEqual(controller.challenges, getCampaignParamsApiResponseBody.challenges);
         assert.deepEqual(controller.skills, getCampaignParamsApiResponseBody.skills);
+        assert.deepEqual(controller.competences, getCampaignParamsApiResponseBody.competences);
       });
       test('it should call success notification service function', async function (assert) {
         // given
