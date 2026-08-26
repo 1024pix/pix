@@ -3,23 +3,16 @@
 .versions-calibration {
   color: var(--pix-neutral-800);
 
-  &__form {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    justify-content: space-between;
-
-    &__description {
-      flex: 1.5;
-    }
-  }
-
   &__report {
     margin-top: 1rem;
 
     &__title {
       @extend %pix-title-xs;
     }
+  }
+
+  &__no-report {
+    color: var(--pix-neutral-500);
   }
 
   &__save-button {

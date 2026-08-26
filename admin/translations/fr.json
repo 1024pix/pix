@@ -588,7 +588,6 @@
         },
         "versions": {
           "calibration": {
-            "description": "La calibration la plus récente fournie par Data pour ce référentiel sera récupérée, puis vérifiée.",
             "label-for-CALIBRATED_CHALLENGE_COUNT": "Nombre d'épreuves calibrées",
             "label-for-CALIBRATION_SCOPE": "Référentiel cible",
             "label-for-CALIBRATION_STARTED_AT": "Calibration démarrée le",
@@ -597,6 +596,7 @@
             "label-for-MESH_SCORING_PRESENCE": "Présence d'un scoring par maille validé",
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Sujet présents uniquement dans la calibration",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Sujet présents uniquement dans la version",
+            "no-report-message": "Aucune calibration n'a pu être récupérée pour ce référentiel.",
             "report-title": "Rapport de la calibration d'ID {calibrationId} générée le",
             "save-button-label": "Enregistrer l'ID {id} de calibration",
             "save-success-message": "L'ID de calibration a été enregistré.",
@@ -614,8 +614,7 @@
               "TO_VALIDATE": "À valider",
               "VALIDATED": "Validée"
             },
-            "title": "Calibration des épreuves",
-            "verify-latest-calibration-button": "Récupérer la dernière calibration"
+            "title": "Calibration des épreuves"
           },
           "edit": {
             "assessment-duration-label": "Durée de l’épreuve (hh:mm) :",

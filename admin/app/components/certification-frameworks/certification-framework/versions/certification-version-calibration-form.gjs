@@ -1,4 +1,3 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import { fn } from '@ember/helper';
@@ -13,11 +12,13 @@ import Card from 'pix-admin/components/card';
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
 
 export default class CalibrationForm extends Component {
-  @service store;
   @service pixToast;
   @service intl;
-  @tracked report = null;
   @tracked showMoreInfoForLines = [];
+
+  get report() {
+    return this.args.calibrationReport;
+  }
 
   get hasHighAlert() {
     if (!this.report) return true;
@@ -63,23 +64,6 @@ export default class CalibrationForm extends Component {
   }
 
   @action
-  async onGenerateReport() {
-    let report;
-    try {
-      report = await this.store.queryRecord('calibration-report', {
-        versionId: this.args.draftVersion.id,
-      });
-    } catch (error) {
-      this.report = null;
-      this.pixToast.sendErrorNotification({ message: error.errors?.[0].detail });
-      return;
-    }
-    this.showMoreInfoForLines = [];
-    this.report = report;
-    await this.saveCalibrationId();
-  }
-
-  @action
   async showMoreInfo(lineNumber) {
     const index = this.showMoreInfoForLines.indexOf(lineNumber);
     if (index === -1) {
@@ -116,15 +100,6 @@ export default class CalibrationForm extends Component {
       class="versions-calibration"
       @title={{t "components.certification-frameworks.certification-framework.versions.calibration.title"}}
     >
-      <section class="versions-calibration__form">
-        <p class="versions-calibration__form__description">
-          {{t "components.certification-frameworks.certification-framework.versions.calibration.description"}}
-        </p>
-        <PixButton @variant="primary" @triggerAction={{this.onGenerateReport}}>{{t
-            "components.certification-frameworks.certification-framework.versions.calibration.verify-latest-calibration-button"
-          }}
-        </PixButton>
-      </section>
       {{#if this.report}}
         <div class="versions-calibration__report">
           <span class="versions-calibration__report__title">
@@ -160,6 +135,10 @@ export default class CalibrationForm extends Component {
             {{/each}}
           </DescriptionList>
         </div>
+      {{else}}
+        <p class="versions-calibration__no-report">
+          {{t "components.certification-frameworks.certification-framework.versions.calibration.no-report-message"}}
+        </p>
       {{/if}}
     </Card>
     <section class="actions-container">

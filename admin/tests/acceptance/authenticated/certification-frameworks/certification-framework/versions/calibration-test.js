@@ -1,4 +1,4 @@
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
 import { currentURL, settled } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -105,9 +105,8 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       });
 
-      test('displays the report', async function (assert) {
+      test('displays the report without any user action', async function (assert) {
         const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
-        await clickByName('Récupérer la dernière calibration');
 
         await settled();
         const displayedGeneratedAt = generatedAt.toLocaleString('fr-FR', {
@@ -120,13 +119,19 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
         });
         assert.dom(screen.getByText(`Rapport de la calibration d'ID 1 générée le ${displayedGeneratedAt}`)).exists();
       });
-      test('it saves the calibrationId returned by the API', async function (assert) {
-        const screen = await visit(`/certification-frameworks/CORE/versions/14/calibration`);
-        await clickByName('Récupérer la dernière calibration');
+
+      test('does not save the calibrationId on the version yet', async function (assert) {
+        let patchCount = 0;
+        server.patch('/admin/certification-versions/:id', (schema, request) => {
+          patchCount++;
+          return schema.certificationVersions.find(request.params.id);
+        });
+
+        await visit(`/certification-frameworks/CORE/versions/14/calibration`);
 
         await settled();
 
-        assert.dom(screen.getByText("L'ID de calibration a été enregistré.")).exists();
+        assert.strictEqual(patchCount, 0);
       });
     });
 

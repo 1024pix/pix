@@ -580,7 +580,6 @@
         },
         "versions": {
           "calibration": {
-            "description": "The most recent calibration provided by Data for this scope will be retrieved, then checked.",
             "label-for-CALIBRATED_CHALLENGE_COUNT": "Count of calibrated challenges",
             "label-for-CALIBRATION_SCOPE": "Target scope",
             "label-for-CALIBRATION_STARTED_AT": "Started calibration at",
@@ -589,6 +588,7 @@
             "label-for-MESH_SCORING_PRESENCE": "Validated mesh scoring present",
             "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Tubes in calibration only",
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
+            "no-report-message": "No calibration could be retrieved for this scope.",
             "report-title": "Calibration report of ID {calibrationId} generated at",
             "save-success-message": "The ID has been saved",
             "scopes": {
@@ -605,8 +605,7 @@
               "TO_VALIDATE": "To validate",
               "VALIDATED": "Validated"
             },
-            "title": "Calibration of challenges",
-            "verify-latest-calibration-button": "Retrieve the latest calibration"
+            "title": "Calibration of challenges"
           },
           "edit": {
             "assessment-duration-label": "Assessment duration (hh:mm):",
