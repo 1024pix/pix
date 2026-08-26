@@ -10,7 +10,6 @@ Fonctionnalité: Campagne de collecte de profils
     Et je saisis le code "LION"
     Lorsque je clique sur "Accéder au parcours"
     Alors je vois la page de "presentation" de la campagne
-    Et la page "Presentation campagne collecte profils" est correctement affichée
     Lorsque je clique sur "C'est parti !"
     Et je saisis "khaleesi" dans le champ "Surnom"
     Et je clique sur "Continuer"

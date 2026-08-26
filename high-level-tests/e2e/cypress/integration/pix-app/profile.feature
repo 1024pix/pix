@@ -8,6 +8,5 @@ Fonctionnalité: Compétences
     Étant donné que je suis connecté à Pix en tant que "Daenerys Targaryen"
     Lorsque je clique sur "Compétences"
     Alors je suis redirigé vers le profil de "Daenerys"
-    Et la page "Profil" est correctement affichée
     Et je clique sur le rond de niveau de la compétence "Géographie"
     Alors je vois la page de détails de la compétence "Géographie"

@@ -1,4 +1,3 @@
-const { addCompareSnapshotCommand } = require('cypress-visual-regression/dist/command');
 require('@testing-library/cypress/add-commands');
 
 function getLoginBody(username, password) {
@@ -138,5 +137,3 @@ Cypress.Commands.add('checkA11yAndShowViolations', ({ context = {}, options = {}
 
   return cy.checkA11y(context, options, logViolations, skipFailures);
 })
-
-addCompareSnapshotCommand();
