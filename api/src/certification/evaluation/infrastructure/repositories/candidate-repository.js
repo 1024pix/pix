@@ -26,8 +26,7 @@ import { Candidate } from '../../domain/models/Candidate.js';
  * @function
  * @param {object} params
  * @param {number} params.assessmentId
- * @returns {Promise<Candidate>}
- * @throws {CertificationCandidateNotFoundError}
+ * @returns {Promise<Candidate|null>} the candidate, or null when no candidate matches
  */
 export async function findByAssessmentId({ assessmentId }) {
   const knexConn = DomainTransaction.getConnection();
@@ -56,7 +55,7 @@ export async function findByAssessmentId({ assessmentId }) {
     .first();
 
   if (!result) {
-    throw new CertificationCandidateNotFoundError();
+    return null;
   }
 
   return _toDomain(result);

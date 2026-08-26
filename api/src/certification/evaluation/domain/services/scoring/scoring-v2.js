@@ -10,6 +10,7 @@
  */
 
 import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
+import { CertificationCandidateNotFoundError } from '../../../../shared/domain/errors.js';
 import { AnswerCollectionForScoring } from '../../../../shared/domain/models/AnswerCollectionForScoring.js';
 import { CompetenceMark } from '../../../../shared/domain/models/CompetenceMark.js';
 import { ReproducibilityRate } from '../../../../shared/domain/models/ReproducibilityRate.js';
@@ -82,6 +83,7 @@ export async function handleV2CertificationScoring({
  * @param {CertificationAssessment} params.certificationAssessment
  * @param {ScoringService} params.scoringService
  * @param {CandidateRepository} params.candidateRepository
+ * @throws {CertificationCandidateNotFoundError}
  */
 export async function calculateCertificationAssessmentScore({
   certificationAssessment,
@@ -93,6 +95,10 @@ export async function calculateCertificationAssessmentScore({
   const candidate = await candidateRepository.findByAssessmentId({
     assessmentId: certificationAssessment.id,
   });
+
+  if (!candidate) {
+    throw new CertificationCandidateNotFoundError();
+  }
 
   const testedCompetences = await _getTestedCompetences({
     userId: certificationAssessment.userId,

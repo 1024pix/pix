@@ -154,7 +154,7 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
     });
 
     describe('when certification candidate is not found', function () {
-      it('should throw a certification candidate not found error', async function () {
+      it('should return null', async function () {
         // given
         const session = databaseBuilder.factory.buildSession();
         const user = databaseBuilder.factory.buildUser();
@@ -179,12 +179,12 @@ describe('Certification | Evaluation | Integration | Repository | candidate', fu
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(candidateRepository.findByAssessmentId)({
+        const candidate = await candidateRepository.findByAssessmentId({
           assessmentId: 4659,
         });
 
         // then
-        expect(error).to.be.an.instanceOf(CertificationCandidateNotFoundError);
+        expect(candidate).to.be.null;
       });
     });
 
