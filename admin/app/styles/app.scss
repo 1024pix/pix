@@ -51,6 +51,7 @@
 @use 'components/certification/candidate-edit-modal' as *;
 @use 'components/certification/certification-status-select' as *;
 @use 'components/certified-profile' as *;
+@use 'components/common/expandable-accordions' as *;
 @use 'components/common/tick-or-cross' as *;
 @use 'components/common/tubes-selection' as *;
 @use 'components/certification-frameworks/attach-badges/header' as *;
