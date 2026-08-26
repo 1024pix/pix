@@ -554,6 +554,7 @@ const RewardRequirementsSection = <template>
             @onNameChange={{fn @onCappedTubesNameChange criterion}}
             @onTubesSelectionChange={{fn @onCappedTubesSelectionChange criterion}}
             @remove={{fn @removeCappedTubeCriterion index}}
+            @displayExpandAllButtons={{true}}
           />
         {{/each}}
         <br />

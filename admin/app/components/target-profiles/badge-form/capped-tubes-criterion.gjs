@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import sortBy from 'lodash/sortBy';
 
+import ExpandableAccordions from '../../common/expandable-accordions';
 import Areas from '../../common/tubes-selection/areas';
 
 export default class CappedTubesCriterion extends Component {
@@ -24,6 +25,10 @@ export default class CappedTubesCriterion extends Component {
 
   get displaySkillDifficultySelection() {
     return this.args.displaySkillDifficultySelection ?? true;
+  }
+
+  get displayExpandAllButtons() {
+    return Boolean(this.args.displayExpandAllButtons);
   }
 
   get areas() {
@@ -109,16 +114,21 @@ export default class CappedTubesCriterion extends Component {
         >
           <:label>Taux de réussite requis</:label>
         </PixInput>
-        <Areas
-          @areas={{this.areas}}
-          @selectedTubeIds={{this.selectedTubeIds}}
-          @tubeLevels={{this.tubeLevels}}
-          @checkTube={{this.checkTube}}
-          @uncheckTube={{this.uncheckTube}}
-          @setLevelTube={{this.setLevelTube}}
-          @displayDeviceCompatibility={{true}}
-          @displaySkillDifficultySelection={{this.displaySkillDifficultySelection}}
-        />
+        <ExpandableAccordions @displayToolbar={{this.displayExpandAllButtons}}>
+          <:default as |expansion|>
+            <Areas
+              @areas={{this.areas}}
+              @expansion={{expansion}}
+              @selectedTubeIds={{this.selectedTubeIds}}
+              @tubeLevels={{this.tubeLevels}}
+              @checkTube={{this.checkTube}}
+              @uncheckTube={{this.uncheckTube}}
+              @setLevelTube={{this.setLevelTube}}
+              @displayDeviceCompatibility={{true}}
+              @displaySkillDifficultySelection={{this.displaySkillDifficultySelection}}
+            />
+          </:default>
+        </ExpandableAccordions>
       </main>
     </article>
   </template>
