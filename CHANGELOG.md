@@ -1,5 +1,48 @@
 # Pix Changelog
 
+# [5.487.0](https://github.com/1024pix/pix/compare/v5.486.0...v5.487.0) (2026-08-26)
+
+### :rocket: Amélioration
+
+- [#17202](https://github.com/1024pix/pix/pull/17202) Afficher le statut des attestations "obtenue" uniquement si le parcours combiné est terminé (PIX-23974)
+- [#17153](https://github.com/1024pix/pix/pull/17153) Contextualisation v0 IAGen_Ethique_NOV_pro
+- [#17200](https://github.com/1024pix/pix/pull/17200) FRI CY MFA IND traitement edito 2
+- [#17196](https://github.com/1024pix/pix/pull/17196) Récupération de la config de score de calibration au lieu de la version (PIX-23958).
+- [#17178](https://github.com/1024pix/pix/pull/17178) Script de migration des données CGU de Pix Certif vers le nouveau modèle (PIX-22448).
+
+### :bug: Correction
+
+- [#17199](https://github.com/1024pix/pix/pull/17199) Ne pas créer de course item pour les CappedTubes (PIX-23995)
+
+### :building_construction: Tech
+
+- [#17210](https://github.com/1024pix/pix/pull/17210) Mise à jour du package epreuves-components
+- [#17207](https://github.com/1024pix/pix/pull/17207) Utiliser la nouvelle configuration `js-project` de Renovate
+
+### :arrow_up: Montée de version
+
+- [#17211](https://github.com/1024pix/pix/pull/17211) Pin adobe/s3mock Docker tag to 65cf601 (.circleci)
+- [#17212](https://github.com/1024pix/pix/pull/17212) Pin caddy Docker tag to df7f1c2 (local-domains)
+- [#17214](https://github.com/1024pix/pix/pull/17214) Pin dependencies (dossier racine)
+- [#17215](https://github.com/1024pix/pix/pull/17215) Pin dependencies (workflows)
+- [#17219](https://github.com/1024pix/pix/pull/17219) Pin Node.js to 5711a0d (e2e)
+- [#17220](https://github.com/1024pix/pix/pull/17220) Update @formatjs/intl
+- [#17222](https://github.com/1024pix/pix/pull/17222) Update babel monorepo to ^7.29.7 (certif)
+- [#17223](https://github.com/1024pix/pix/pull/17223) Update babel monorepo to ^7.29.7 (orga)
+- [#17224](https://github.com/1024pix/pix/pull/17224) Update chai
+- [#17226](https://github.com/1024pix/pix/pull/17226) Update dependency @1024pix/ember-testing-library to ^3.0.42 (admin)
+- [#17227](https://github.com/1024pix/pix/pull/17227) Update dependency @1024pix/ember-testing-library to ^3.0.42 (certif)
+- [#17228](https://github.com/1024pix/pix/pull/17228) Update dependency @1024pix/ember-testing-library to ^3.0.42 (junior)
+- [#17229](https://github.com/1024pix/pix/pull/17229) Update dependency @1024pix/ember-testing-library to ^3.0.42 (mon-pix)
+- [#17241](https://github.com/1024pix/pix/pull/17241) Update dependency @1024pix/ember-testing-library to ^3.0.42 (orga)
+- [#17230](https://github.com/1024pix/pix/pull/17230) Update dependency @hapi/inert to v7.1.1 [SECURITY]
+- [#17235](https://github.com/1024pix/pix/pull/17235) Update dependency joi to v18.2.1 [SECURITY]
+- [#17236](https://github.com/1024pix/pix/pull/17236) Update dependency joi to v18.2.1 [SECURITY]
+- [#17237](https://github.com/1024pix/pix/pull/17237) Update dependency joi to v18.2.1 [SECURITY]
+- [#17208](https://github.com/1024pix/pix/pull/17208) Update dependency jsonwebtoken to v9 [SECURITY] - abandoned
+- [#17234](https://github.com/1024pix/pix/pull/17234) Update dependency vite to v8.0.16 [SECURITY]
+- [#17217](https://github.com/1024pix/pix/pull/17217) Update eslint
+
 # [5.486.0](https://github.com/1024pix/pix/compare/v5.485.0...v5.486.0) (2026-08-25)
 
 ### :rocket: Amélioration
