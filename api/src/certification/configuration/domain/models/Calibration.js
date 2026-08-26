@@ -20,13 +20,14 @@ export class Calibration {
    * @param {object} params
    * @param {Array<CalibrationScoringMesh>} [params.scoringMeshes]
    */
-  constructor({ id, startedAt, status, scope, calibratedChallenges, scoringMeshes = [] }) {
+  constructor({ id, startedAt, status, scope, calibratedChallenges, scoringMeshes = [], scoringThresholds = [] }) {
     this.id = id;
     this.startedAt = startedAt;
     this.status = status;
     this.scope = scope;
     this.calibratedChallenges = calibratedChallenges;
     this.scoringMeshes = scoringMeshes;
+    this.scoringThresholds = scoringThresholds;
   }
 
   get challengeCount() {
@@ -72,6 +73,15 @@ export class CalibratedChallenge {
 export class CalibrationScoringMesh {
   constructor({ mesh, minBoundCuratedValue, maxBoundCuratedValue }) {
     this.mesh = mesh;
+    this.minBoundCuratedValue = minBoundCuratedValue;
+    this.maxBoundCuratedValue = maxBoundCuratedValue;
+  }
+}
+
+export class CalibrationScoringThreshold {
+  constructor({ competenceId, level, minBoundCuratedValue, maxBoundCuratedValue }) {
+    this.competenceId = competenceId;
+    this.level = level;
     this.minBoundCuratedValue = minBoundCuratedValue;
     this.maxBoundCuratedValue = maxBoundCuratedValue;
   }
