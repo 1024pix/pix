@@ -209,7 +209,8 @@ describe('Acceptance | API | Smart Random Simulator', function () {
           const payload = buildPayload();
           payload.data.attributes.skills[0].pixValue = 2.6;
           payload.data.attributes.skills[0].competenceId = 'competenceId';
-          payload.data.attributes.knowledgeElements[0].skillId = 'recoaijndozia123';
+          // the skill carries no tubeId: it stands alone in its own tube, keyed by its id
+          payload.data.attributes.knowledgeState[0].tubeId = 'recoaijndozia123';
 
           const options = {
             method: 'POST',
