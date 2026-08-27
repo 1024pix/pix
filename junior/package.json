@@ -42,7 +42,7 @@
     "@1024pix/pix-ui": "^61.4.1",
     "@1024pix/stylelint-config": "^5.1.37",
     "@babel/eslint-parser": "^7.28.6",
-    "@babel/plugin-proposal-decorators": "^7.29.0",
+    "@babel/plugin-proposal-decorators": "^7.29.7",
     "@ember-intl/v1-compat": "^1.0.9",
     "@ember/optional-features": "^3.0.0",
     "@ember/render-modifiers": "^4.0.0",
