@@ -37,3 +37,12 @@ export async function acceptLegacyPixAppTermsOfService(id) {
     cgu: true,
   });
 }
+
+export async function acceptLegacyPixCertifTermsOfService(id) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('users').where({ id }).update({
+    pixCertifTermsOfServiceAccepted: true,
+    lastPixCertifTermsOfServiceValidatedAt: knexConn.fn.now(),
+    updatedAt: knexConn.fn.now(),
+  });
+}
