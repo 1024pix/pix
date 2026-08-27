@@ -14,7 +14,7 @@ export class PixOrgaPage {
   }
 
   async waitForTheImportToComplete(page: Page) {
-    let done = false;
+    let done;
     await page.getByRole('heading', { name: 'Importer des' }).waitFor();
     do {
       await page.waitForTimeout(1000);
