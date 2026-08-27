@@ -39,7 +39,7 @@
     "test:lint": "npm test && npm run lint"
   },
   "devDependencies": {
-    "@1024pix/ember-testing-library": "^3.0.42",
+    "@1024pix/ember-testing-library": "^3.0.44",
     "@1024pix/eslint-plugin": "^3.0.4",
     "@1024pix/pix-ui": "61.4.0",
     "@1024pix/stylelint-config": "^5.1.37",
