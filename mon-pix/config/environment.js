@@ -64,6 +64,11 @@ module.exports = function (environment) {
         defaultValue: 7000,
         minValue: 0,
       }),
+      DRAWER_REVEAL_DELAY_MS: _getEnvironmentVariableAsNumber({
+        environmentVariableName: 'DRAWER_REVEAL_DELAY_MS',
+        defaultValue: 15000,
+        minValue: 0,
+      }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       INFORMATION_BANNER_POLLING_TIME:
