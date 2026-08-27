@@ -7,6 +7,7 @@ import {
   CALIBRATION_STATUSES,
   CalibrationForReport,
   CalibrationScoringMesh,
+  CalibrationScoringThreshold,
   toCalibrationScope,
 } from '../../domain/models/Calibration.js';
 
@@ -137,11 +138,13 @@ export async function find(calibrationId) {
     }
 
     const scoringMeshes = await _findScoringMeshes(calibrationId);
+    const scoringThresholds = await _findScoringThresholds(calibrationId);
 
     return new Calibration({
       ...generalInfo,
       calibratedChallenges,
       scoringMeshes,
+      scoringThresholds,
     });
   } catch (err) {
     logger.error(
@@ -182,6 +185,42 @@ async function _findScoringMeshes(calibrationId) {
         mesh: Number(meshData.mesh),
         minBoundCuratedValue: Number(meshData.minBoundCuratedValue),
         maxBoundCuratedValue: Number(meshData.maxBoundCuratedValue),
+      }),
+  );
+}
+
+/**
+ * @param {number} calibrationId
+ * @returns {Promise<Array<CalibrationScoringMesh>>}
+ */
+async function _findScoringThresholds(calibrationId) {
+  const thresholdsSetData = await datamartKnex
+    .select({ id: 'id' })
+    .from('data_scoring_thresholds_all')
+    .where({ calibration_id: calibrationId, status: CALIBRATION_STATUSES.VALIDATED })
+    .orderBy('id', 'desc')
+    .first();
+
+  if (!thresholdsSetData) return [];
+
+  const thresholdsData = await datamartKnex
+    .select({
+      competenceId: 'competence_id',
+      level: 'level',
+      minBoundCuratedValue: 'min_bound_curated_value',
+      maxBoundCuratedValue: 'max_bound_curated_value',
+    })
+    .from('data_scoring_thresholds')
+    .where({ scoring_thresholds_all_id: thresholdsSetData.id })
+    .orderBy('level', 'asc');
+
+  return thresholdsData.map(
+    (thresholdData) =>
+      new CalibrationScoringThreshold({
+        competenceId: thresholdData.competenceId,
+        level: Number(thresholdData.level),
+        minBoundCuratedValue: Number(thresholdData.minBoundCuratedValue),
+        maxBoundCuratedValue: Number(thresholdData.maxBoundCuratedValue),
       }),
   );
 }

@@ -27,6 +27,7 @@ describe('Unit | Certification | Configuration | Domain | Read-models | Calibrat
             { meshLevel: 0, bounds: { min: -4.67, max: -1.4 } },
             { meshLevel: 1, bounds: { min: -1.4, max: 0.6 } },
           ],
+          competencesScoringConfiguration: [],
         }),
       );
     });
@@ -43,6 +44,51 @@ describe('Unit | Certification | Configuration | Domain | Read-models | Calibrat
 
       // then
       expect(calibrationScoringConfiguration.globalScoringConfiguration).to.deep.equal([]);
+    });
+
+    it('groups thresholds by competenceId into the competences scoring configuration', function () {
+      // given
+      const calibration = domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .withParameters({ id: 113 })
+        .withScoringThresholds([
+          { competenceId: 'recABC', level: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -2 },
+          { competenceId: 'recABC', level: 1, minBoundCuratedValue: -2, maxBoundCuratedValue: 0 },
+          { competenceId: 'recXYZ', level: 0, minBoundCuratedValue: -3, maxBoundCuratedValue: -1 },
+        ])
+        .build();
+
+      // when
+      const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({ calibration });
+
+      // then
+      expect(calibrationScoringConfiguration.competencesScoringConfiguration).to.deep.equal([
+        {
+          competenceId: 'recABC',
+          values: [
+            { competenceLevel: 0, bounds: { min: -4.67, max: -2 } },
+            { competenceLevel: 1, bounds: { min: -2, max: 0 } },
+          ],
+        },
+        {
+          competenceId: 'recXYZ',
+          values: [{ competenceLevel: 0, bounds: { min: -3, max: -1 } }],
+        },
+      ]);
+    });
+
+    it('returns an empty competences scoring configuration when the calibration carries no threshold', function () {
+      // given
+      const calibration = domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .withParameters({ id: 113 })
+        .build();
+
+      // when
+      const calibrationScoringConfiguration = CalibrationScoringConfiguration.fromCalibration({ calibration });
+
+      // then
+      expect(calibrationScoringConfiguration.competencesScoringConfiguration).to.deep.equal([]);
     });
   });
 });

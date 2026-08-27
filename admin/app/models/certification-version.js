@@ -17,10 +17,15 @@ export default class CertificationVersion extends Model {
   @attr('string') comments;
   @attr('number') externalCalibrationId;
   @attr() globalScoringConfiguration;
+  @attr() competencesScoringConfiguration;
 
   @hasMany('area', { async: false, inverse: null }) areas;
 
   get isDraft() {
     return this.status === 'draft';
+  }
+
+  get isCoreScope() {
+    return this.scope === 'CORE';
   }
 }

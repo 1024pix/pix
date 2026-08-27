@@ -5,6 +5,7 @@ import {
   CALIBRATION_STATUSES,
   CalibrationForReport,
   CalibrationScoringMesh,
+  CalibrationScoringThreshold,
 } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 
 /**
@@ -44,6 +45,7 @@ class CalibrationBuilder {
     this.calibratedChallengesData = [];
     this.scoringMeshesData = null;
     this.scoringMeshesStatus = CALIBRATION_STATUSES.VALIDATED;
+    this.scoringThresholdsData = [];
   }
 
   /**
@@ -133,6 +135,15 @@ class CalibrationBuilder {
    * @param {typeof CALIBRATION_STATUSES[keyof typeof CALIBRATION_STATUSES]} [params.status] - status of the SET, independent from the calibration one
    * @returns {CalibrationBuilder}
    */
+  /**
+   * @param {Array<{competenceId: string, level: number, minBoundCuratedValue: number, maxBoundCuratedValue: number}>} scoringThresholdsData
+   * @returns {CalibrationBuilder}
+   */
+  withScoringThresholds(scoringThresholdsData) {
+    this.scoringThresholdsData = scoringThresholdsData;
+    return this;
+  }
+
   withScoringMeshes(scoringMeshesData, { status = CALIBRATION_STATUSES.VALIDATED } = {}) {
     this.scoringMeshesData = scoringMeshesData;
     this.scoringMeshesStatus = status;
@@ -185,6 +196,23 @@ class CalibrationBuilder {
       });
     }
 
+    if (this.scoringThresholdsData.length > 0) {
+      const persistedScoringThresholdsAll = datamartBuilder.factory.buildScoringThresholdsAll({
+        calibrationId: persistedCalibration.id,
+        status: CALIBRATION_STATUSES.VALIDATED,
+      });
+
+      this.scoringThresholdsData.forEach((scoringThresholdData) => {
+        datamartBuilder.factory.buildScoringThreshold({
+          scoringThresholdsAllId: persistedScoringThresholdsAll.id,
+          competenceId: scoringThresholdData.competenceId,
+          level: scoringThresholdData.level,
+          minBoundCuratedValue: scoringThresholdData.minBoundCuratedValue,
+          maxBoundCuratedValue: scoringThresholdData.maxBoundCuratedValue,
+        });
+      });
+    }
+
     return calibration;
   }
 
@@ -203,6 +231,10 @@ class CalibrationBuilder {
         ? (this.scoringMeshesData ?? []).map((scoringMeshData) => new CalibrationScoringMesh(scoringMeshData))
         : [];
 
+    const scoringThresholds = this.scoringThresholdsData.map(
+      (scoringThresholdData) => new CalibrationScoringThreshold(scoringThresholdData),
+    );
+
     return new Calibration({
       id: this.id,
       startedAt: this.startedAt,
@@ -210,6 +242,7 @@ class CalibrationBuilder {
       scope: this.scope,
       calibratedChallenges,
       scoringMeshes,
+      scoringThresholds,
     });
   }
 

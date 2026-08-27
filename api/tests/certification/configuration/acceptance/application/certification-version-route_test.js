@@ -809,6 +809,12 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           { mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 },
           { mesh: 1, minBoundCuratedValue: -1.4, maxBoundCuratedValue: 0.6 },
         ])
+        .withScoringThresholds([
+          { competenceId: 'comp1', level: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 },
+          { competenceId: 'comp1', level: 1, minBoundCuratedValue: -1.4, maxBoundCuratedValue: 0.6 },
+          { competenceId: 'comp2', level: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 },
+          { competenceId: 'comp2', level: 1, minBoundCuratedValue: -1.4, maxBoundCuratedValue: 0.6 },
+        ])
         .insertToDB({ datamartBuilder });
 
       await databaseBuilder.commit();
@@ -833,6 +839,22 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'global-scoring-configuration': [
             { meshLevel: 0, bounds: { min: -4.67, max: -1.4 } },
             { meshLevel: 1, bounds: { min: -1.4, max: 0.6 } },
+          ],
+          'competences-scoring-configuration': [
+            {
+              competenceId: 'comp1',
+              values: [
+                { competenceLevel: 0, bounds: { min: -4.67, max: -1.4 } },
+                { competenceLevel: 1, bounds: { min: -1.4, max: 0.6 } },
+              ],
+            },
+            {
+              competenceId: 'comp2',
+              values: [
+                { competenceLevel: 0, bounds: { min: -4.67, max: -1.4 } },
+                { competenceLevel: 1, bounds: { min: -1.4, max: 0.6 } },
+              ],
+            },
           ],
         },
       });
@@ -864,6 +886,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       expect(response.result.data.attributes).to.deep.equal({
         'calibration-id': 2,
         'global-scoring-configuration': [],
+        'competences-scoring-configuration': [],
       });
     });
 

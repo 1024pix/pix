@@ -1,0 +1,174 @@
+@use 'pix-design-tokens/typography';
+
+.versions-competences-scoring {
+  color: var(--pix-neutral-800);
+
+  &__tabs {
+    display: grid;
+    grid-template-columns: 9rem auto;
+    gap: 0 var(--pix-spacing-10x);
+    margin-top: var(--pix-spacing-4x);
+    text-wrap: pretty;
+
+    @media (width <= 767px) {
+      display: block;
+
+      [role='tabpanel'][hidden] {
+        display: block;
+      }
+
+      [role='tabpanel']:not(:first-child) {
+        margin-top: var(--pix-spacing-10x);
+      }
+    }
+  }
+
+  &__tablist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+
+    button {
+      --area-color: var(--pix-primary-10);
+
+      @extend %pix-body-s;
+
+      position: relative;
+      z-index: 0;
+      min-height: 4.4375rem;
+      padding: var(--pix-spacing-1x) var(--pix-spacing-2x);
+      overflow: hidden;
+      text-align: left;
+      border-radius: 0.5rem;
+
+      &::before {
+        position: absolute;
+        z-index: -1;
+        background-color: var(--area-color);
+        visibility: hidden;
+        opacity: 0.1;
+        content: '';
+        inset: 0;
+      }
+
+      &[aria-selected='true'],
+      &:hover,
+      &:focus-visible {
+        font-weight: var(--pix-font-bold);
+
+        &::before {
+          visibility: visible;
+        }
+      }
+    }
+
+    @media (width <= 767px) {
+      display: none;
+    }
+  }
+
+  .versions-competences-scoring-tablist__competences-list {
+    .pix-accordions-v2 {
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+
+    .pix-accordions-v2__title {
+      @extend %pix-subtitle-s;
+
+      background: none;
+      border: none;
+      outline: none;
+      box-shadow: none;
+
+      &:hover,
+      &:active,
+      &:focus,
+      &:focus-visible,
+      &[aria-expanded='true'] {
+        background: none;
+        border: none;
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    .pix-accordions-v2__content {
+      background: none;
+      border: none;
+      box-shadow: var(--pix-shadow-default);
+    }
+  }
+
+  [data-area-code='1'] {
+    --area-color: var(--pix-information-light);
+    --area-color-dark: var(--pix-error-700);
+  }
+
+  [data-area-code='2'] {
+    --area-color: var(--pix-content-light);
+    --area-color-dark: var(--pix-certif-500);
+  }
+
+  [data-area-code='3'] {
+    --area-color: var(--pix-communication-light);
+    --area-color-dark: var(--pix-tertiary-900);
+  }
+
+  [data-area-code='4'] {
+    --area-color: var(--pix-security-light);
+    --area-color-dark: var(--pix-security-dark);
+  }
+
+  [data-area-code='5'] {
+    --area-color: var(--pix-environment-light);
+    --area-color-dark: var(--pix-environment-dark);
+  }
+}
+
+.versions-competences-scoring-tablist {
+  &__title {
+    @extend %pix-title-s;
+
+    position: relative;
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    align-self: stretch;
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+    color: var(--area-color-dark);
+    border-radius: var(--pix-radius-2x, 8px);
+    isolation: isolate;
+
+    &::before {
+      position: absolute;
+      z-index: -1;
+      background-color: var(--area-color);
+      border-radius: inherit;
+      opacity: 0.1;
+      content: '';
+      inset: 0;
+    }
+  }
+
+  &__competences-list {
+    padding: var(--pix-spacing-6x) var(--pix-spacing-8x);
+  }
+}
+
+[role='tabpanel'] {
+  thead th {
+    position: relative;
+    isolation: isolate;
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-color: var(--area-color);
+      opacity: 0.1;
+      content: '';
+    }
+  }
+}

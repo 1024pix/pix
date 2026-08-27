@@ -1,5 +1,4 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
@@ -9,7 +8,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import Card from 'pix-admin/components/card';
 
-export default class ScoringForm extends Component {
+export default class GlobalScoringForm extends Component {
   @service pixToast;
   @service intl;
 
@@ -138,13 +137,6 @@ export default class ScoringForm extends Component {
           {{t "components.certification-frameworks.certification-framework.versions.scoring.capacity-submit-button"}}
         </PixButton>
       </form>
-
     </Card>
-    <section class="actions-container">
-      <PixButtonLink @route="authenticated.certification-frameworks.certification-framework" @variant="secondary">
-        {{t "common.actions.cancel"}}
-      </PixButtonLink>
-
-    </section>
   </template>
 }
