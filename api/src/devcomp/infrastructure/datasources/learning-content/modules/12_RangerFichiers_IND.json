@@ -41,9 +41,9 @@
               "element": {
                 "id": "f5ad12bb-a975-4dad-b54b-7e86aa68456a",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RangerFichiers_IND/accroche2.png",
-                "alt": "Dossier « Documents » de Marie",
-                "alternativeText": "<p>Image montrant le dossier «&nbsp;Documents&nbsp;» de Marie dans lequel se trouvent&nbsp;:</p><ul>    <li>Un dossier «&nbsp;Musique fête&nbsp;»</li>    <li>Des fichiers&nbsp;:<ul>            <li>«&nbsp;CV&nbsp;»</li>            <li>«&nbsp;facture2024&nbsp;»</li>            <li>«&nbsp;facture2025&nbsp;»</li>            <li>«&nbsp;notes1&nbsp;»</li>            <li>«&nbsp;notes2&nbsp;»</li>            <li>«&nbsp;notes3&nbsp;»</li>        </ul>    </li></ul>",
+                "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/templates_accroche.svg",
+                "alt": "Image décrite en détail dans l’alternative textuelle",
+                "alternativeText": "<p>Contenu dossier «&nbsp;Documents&nbsp;» de Marie&nbsp;:</p><ol>    <li>«&nbsp;Musique fête&nbsp;» avec une icône de pochette cartonnée</li>    <li>«&nbsp;facture2024&nbsp;» avec une icône de feuille de papier</li>    <li>«&nbsp;facture2025&nbsp;»&nbsp;avec une icône de feuille de papier</li>    <li>«&nbsp;notes1&nbsp;»&nbsp;avec une icône de feuille de papier</li>    <li>«&nbsp;notes2&nbsp;»&nbsp;avec une icône de feuille de papier</li>    <li>«&nbsp;notes3&nbsp;»&nbsp;avec une icône de feuille de papier</li></ol>",
                 "legend": "",
                 "licence": ""
               }
@@ -53,7 +53,7 @@
               "element": {
                 "id": "c8dcae48-0ad7-455a-b72e-afe481648977",
                 "type": "qcu-discovery",
-                "instruction": "D’après ce que vous observez, que peut contenir un dossier ?",
+                "instruction": "<p>D’après ce que vous observez, que peut contenir un dossier ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -131,9 +131,9 @@
               "element": {
                 "id": "2b2673df-0fd6-4960-8af1-5ff939e32143",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RangerFichiers_IND/capture-decouverte1.png",
-                "alt": "Capture d’écran décrite dans l’alternative textuelle",
-                "alternativeText": "<p>À venir</p>",
+                "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/templates_dec.svg",
+                "alt": "Image décrite en détail dans l’alternative textuelle",
+                "alternativeText": "<p>Fenêtre d’ordinatuer ouverte sur le dossier «&nbsp;Famille&nbsp;».<br> Dans la zone de gauche plusieurs niveaux de rangement sont visibles&nbsp;: </p><ul><li>le dossier «&nbsp;Documents&nbsp;» contient le dossier «&nbsp;Professionnel&nbsp;», qui contient le dossier «&nbsp;Archives&nbsp;» </li><li>«&nbsp;Images&nbsp;» contient le dossiers «&nbsp;Maison&nbsp;» et le dossier «&nbsp;Famille&nbsp;»</li></ul><p>Le dossier «&nbsp;Famille&nbsp;» est sélectionné. </p><p>Dans la zone de droite apparaissent les fichiers «&nbsp;Neige&nbsp;» et «&nbsp;Campagne&nbsp;».</p>",
                 "legend": "",
                 "licence": ""
               }
@@ -606,7 +606,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/pt_cle_3.svg",
                       "alt": "",
-                      "alternativeText": "<ul><li>Icone de l’Explorateur de fichiers (Windows)</li><li>Icone de Finder (Mac OS)</li></ul>",
+                      "alternativeText": "<ul><li>Icône de l’Explorateur de fichiers (Windows)</li><li>Icône de Finder (Mac OS)</li></ul>",
                       "legend": "",
                       "licence": ""
                     }
