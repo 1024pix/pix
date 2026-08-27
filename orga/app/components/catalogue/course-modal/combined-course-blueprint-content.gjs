@@ -1,12 +1,15 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
-import { eq } from 'ember-truth-helpers';
 
 import CombinedCourseBlueprintItem from './combined-course-blueprint-item';
 
 function getStepIndex(index) {
   return index + 1;
+}
+
+function displayModuleSubTitle(stepType, stepIndex) {
+  return stepType === 'module' && stepIndex > 0;
 }
 
 export default class TargetProfileContent extends Component {
@@ -26,7 +29,7 @@ export default class TargetProfileContent extends Component {
                 {{t "pages.catalogue.modal.combined-course-content.step" number=(getStepIndex index)}}
               </h4>
             {{/if}}
-            {{#if (eq step.type "module")}}
+            {{#if (displayModuleSubTitle step.type index)}}
               <p class="pix-body-s combined-course-blueprint-step__description">
                 {{t "pages.catalogue.modal.combined-course-content.module-info"}}
               </p>

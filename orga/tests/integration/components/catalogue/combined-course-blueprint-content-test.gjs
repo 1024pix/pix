@@ -111,46 +111,79 @@ module('Integration | Component | Catalogue | Course Modale::CombinedCourseBluep
     });
   });
 
-  test('it shows explanation for module step', async function (assert) {
-    const store = this.owner.lookup('service:store');
+  module('module step explanation subtitle', function () {
+    test('it shows module step explanation for a step after an evaluation step', async function (assert) {
+      const store = this.owner.lookup('service:store');
 
-    const itemModule = store.createRecord('combined-course-blueprint-item', {
-      name: 'Le module IA',
-      type: 'module',
-      duration: 5,
-      image: 'mon-image.svg',
-      isRecommendable: true,
+      const itemEval = store.createRecord('combined-course-blueprint-item', {
+        name: 'Diagnostic',
+        type: 'evaluation',
+      });
+      const itemModule = store.createRecord('combined-course-blueprint-item', {
+        name: 'Le module IA',
+        type: 'module',
+        duration: 5,
+        image: 'mon-image.svg',
+        isRecommendable: true,
+      });
+      const blueprint = store.createRecord('combined-course-blueprint-overview', {
+        name: 'Le module EDU',
+        illustration: 'mon-image.svg',
+        description: 'description',
+        items: [itemEval, itemModule],
+      });
+      const screen = await render(
+        <template><CombinedCourseBlueprintContent @combinedCourseBlueprint={{blueprint}} /></template>,
+      );
+
+      assert.dom(screen.getByText(t('pages.catalogue.modal.combined-course-content.module-info'))).exists();
     });
-    const blueprint = store.createRecord('combined-course-blueprint-overview', {
-      name: 'Le module EDU',
-      illustration: 'mon-image.svg',
-      description: 'description',
-      items: [itemModule],
+
+    test('it does not show module step explanation if module step is not after an evaluation step', async function (assert) {
+      const store = this.owner.lookup('service:store');
+
+      const itemModule = store.createRecord('combined-course-blueprint-item', {
+        name: 'Le module IA',
+        type: 'module',
+        duration: 5,
+        image: 'mon-image.svg',
+        isRecommendable: true,
+      });
+      const itemEval = store.createRecord('combined-course-blueprint-item', {
+        name: 'Diagnostic',
+        type: 'evaluation',
+      });
+      const blueprint = store.createRecord('combined-course-blueprint-overview', {
+        name: 'Le module EDU',
+        illustration: 'mon-image.svg',
+        description: 'description',
+        items: [itemModule, itemEval],
+      });
+      const screen = await render(
+        <template><CombinedCourseBlueprintContent @combinedCourseBlueprint={{blueprint}} /></template>,
+      );
+
+      assert.dom(screen.queryByText(t('pages.catalogue.modal.combined-course-content.module-info'))).doesNotExist();
     });
-    const screen = await render(
-      <template><CombinedCourseBlueprintContent @combinedCourseBlueprint={{blueprint}} /></template>,
-    );
 
-    assert.dom(screen.getByText(t('pages.catalogue.modal.combined-course-content.module-info'))).exists();
-  });
+    test('it does not show module step explanation for an evaluation step', async function (assert) {
+      const store = this.owner.lookup('service:store');
 
-  test('it hides explanation for module step if there are no module step', async function (assert) {
-    const store = this.owner.lookup('service:store');
+      const itemEval = store.createRecord('combined-course-blueprint-item', {
+        name: 'Diagnostic',
+        type: 'evaluation',
+      });
+      const blueprint = store.createRecord('combined-course-blueprint-overview', {
+        name: 'Le module EDU',
+        illustration: 'mon-image.svg',
+        description: 'description',
+        items: [itemEval],
+      });
+      const screen = await render(
+        <template><CombinedCourseBlueprintContent @combinedCourseBlueprint={{blueprint}} /></template>,
+      );
 
-    const itemEval = store.createRecord('combined-course-blueprint-item', {
-      name: 'Diagnostic',
-      type: 'evaluation',
+      assert.dom(screen.queryByText(t('pages.catalogue.modal.combined-course-content.module-info'))).doesNotExist();
     });
-    const blueprint = store.createRecord('combined-course-blueprint-overview', {
-      name: 'Le module EDU',
-      illustration: 'mon-image.svg',
-      description: 'description',
-      items: [itemEval],
-    });
-    const screen = await render(
-      <template><CombinedCourseBlueprintContent @combinedCourseBlueprint={{blueprint}} /></template>,
-    );
-
-    assert.dom(screen.queryByText(t('pages.catalogue.modal.combined-course-content.module-info'))).doesNotExist();
   });
 });
