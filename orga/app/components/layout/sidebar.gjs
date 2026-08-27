@@ -1,6 +1,7 @@
 import PixNavigation from '@1024pix/pix-ui/components/pix-navigation';
 import PixNavigationButton from '@1024pix/pix-ui/components/pix-navigation-button';
 import PixNavigationSeparator from '@1024pix/pix-ui/components/pix-navigation-separator';
+import { hash } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -109,9 +110,11 @@ export default class SidebarMenu extends Component {
   <template>
     <PixNavigation
       @variant="orga"
-      @navigationAriaLabel={{t "navigation.main.aria-label"}}
-      @openLabel={{t "navigation.main.open"}}
-      @closeLabel={{t "navigation.main.close"}}
+      @texts={{hash
+        mainNavigation=(t "navigation.main.aria-label")
+        openMenu=(t "navigation.main.open")
+        closeMenu=(t "navigation.main.close")
+      }}
     >
       <:brand>
         <LinkTo @route="authenticated.index">
