@@ -3,6 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import ENV from 'mon-pix/config/environment';
 
 import ResultsDetails from '../../../campaigns/assessment/results/evaluation-results-tabs/results-details';
 import Rewards from '../../../campaigns/assessment/results/evaluation-results-tabs/rewards';
@@ -86,9 +87,11 @@ export default class EvaluationResultsRecommendationEngine extends Component {
   }
 
   @action revealNps() {
-    this._drawerRevealedByScroll = true;
-    this._expandedDrawer = true;
-    this.pixMetrics.trackEvent('Moteur de reco - affichage du feedback NPS');
+    setTimeout(() => {
+      this._drawerRevealedByScroll = true;
+      this._expandedDrawer = true;
+      this.pixMetrics.trackEvent('Moteur de reco - affichage du feedback NPS');
+    }, ENV.APP.DRAWER_REVEAL_DELAY_MS);
   }
 
   @action collapseDrawer() {

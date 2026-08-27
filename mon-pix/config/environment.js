@@ -213,6 +213,7 @@ module.exports = function (environment) {
     };
 
     ENV.APP.MODULIX_VERIFICATION_RESPONSE_DELAY = 0;
+    ENV.APP.DRAWER_REVEAL_DELAY_MS = 0;
   }
 
   if (environment === 'production') {
