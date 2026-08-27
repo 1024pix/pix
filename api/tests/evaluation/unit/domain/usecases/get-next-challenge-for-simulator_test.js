@@ -20,7 +20,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
     });
 
     context('when smartRandomService hasAssessmentEnded property is true', function () {
-      it('should only return smartRandom details and call only smartRandomService', function () {
+      it('should only return smartRandom details and the user pix score, and call only smartRandomService', function () {
         // given
         smartRandomService.getPossibleSkillsForNextChallenge.returns({
           hasAssessmentEnded: true,
@@ -28,9 +28,10 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
         });
 
         // when
-        const { challenge } = getNextChallengeForSimulator({
+        const { challenge, pixScore } = getNextChallengeForSimulator({
           simulationParameters: {
             answers: [],
+            pixScore: 12,
           },
           pickChallengeService,
           smartRandomService,
@@ -40,6 +41,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
         expect(smartRandomService.getPossibleSkillsForNextChallenge).to.have.been.calledOnce;
         expect(pickChallengeService.pickChallenge).to.not.have.been.called;
         expect(challenge).to.be.null;
+        expect(pixScore).to.equal(12);
       });
     });
 
@@ -53,6 +55,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
           assessmentId: Symbol('assessmentId'),
           locale: Symbol('locale'),
           answers: [],
+          pixScore: 12,
         };
 
         smartRandomService.getPossibleSkillsForNextChallenge.returns({
@@ -79,6 +82,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
         });
 
         expect(result.challenge).to.equal(pickChallengeServiceResult);
+        expect(result.pixScore).to.equal(12);
       });
     });
   });

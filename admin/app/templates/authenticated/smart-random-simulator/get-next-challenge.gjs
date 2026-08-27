@@ -39,12 +39,13 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
             <Reset @reset={{@controller.reset}} />
 
             <TubesViewer
-              @tubes={{@controller.skillsByTube}}
+              @tubesByCompetence={{@controller.tubesByCompetence}}
               @currentSkillId={{@controller.currentChallenge.skill.id}}
               @knowledgeElements={{@controller.knowledgeElements}}
               @smartRandomLog={{@controller.smartRandomLog}}
               @totalNumberOfSkills={{@controller.skills.length}}
               @numberOfSkillsStillAvailable={{@controller.numberOfSkillsStillAvailable}}
+              @pixScore={{@controller.pixScore}}
               @displayedStepIndex={{@controller.displayedStepIndex}}
               @selectDisplayedStepIndex={{@controller.selectDisplayedStepIndex}}
             />
@@ -61,12 +62,13 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
             />
 
             <TubesViewer
-              @tubes={{@controller.skillsByTube}}
+              @tubesByCompetence={{@controller.tubesByCompetence}}
               @currentSkillId={{@controller.currentChallenge.skill.id}}
               @knowledgeElements={{@controller.knowledgeElements}}
               @smartRandomLog={{@controller.smartRandomLog}}
               @totalNumberOfSkills={{@controller.skills.length}}
               @numberOfSkillsStillAvailable={{@controller.numberOfSkillsStillAvailable}}
+              @pixScore={{@controller.pixScore}}
               @displayedStepIndex={{@controller.displayedStepIndex}}
               @selectDisplayedStepIndex={{@controller.selectDisplayedStepIndex}}
             />
