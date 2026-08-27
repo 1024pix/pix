@@ -40,7 +40,7 @@ class CalibrationBuilder {
     this.id = 1;
     this.startedAt = new Date('2000-01-01');
     this.status = CALIBRATION_STATUSES.VALIDATED;
-    this.scope = CALIBRATION_SCOPES.COEUR;
+    this.scope = CALIBRATION_SCOPES.CORE;
     this.calibratedChallengesData = [];
     this.scoringMeshesData = null;
     this.scoringMeshesStatus = CALIBRATION_STATUSES.VALIDATED;
@@ -92,7 +92,7 @@ class CalibrationBuilder {
    * @param {typeof CALIBRATION_SCOPES[keyof typeof CALIBRATION_SCOPES]} params.scope
    * @returns {CalibrationBuilder}
    */
-  onScope({ scope = CALIBRATION_SCOPES.COEUR } = {}) {
+  onScope({ scope = CALIBRATION_SCOPES.CORE } = {}) {
     this.scope = scope;
     return this;
   }

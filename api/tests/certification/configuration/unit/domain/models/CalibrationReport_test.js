@@ -25,7 +25,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
       beforeEach(function () {
         calibrationBuilder = domainBuilder.certification.configuration
           .calibrationBuilder()
-          .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+          .onScope({ scope: CALIBRATION_SCOPES.CORE })
           .asValidated({ startedAt: new Date() });
 
         commonReportLines = [
@@ -113,7 +113,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
           .build();
         const calibration = domainBuilder.certification.configuration
           .calibrationBuilder()
-          .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+          .onScope({ scope: CALIBRATION_SCOPES.CORE })
           .asValidated({ startedAt: new Date() })
           .withCalibratredChallenges([
             { tubeId: 'tubeA', locales: ['fr', 'fr-fr', 'en'] },
@@ -159,7 +159,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
       beforeEach(function () {
         calibrationBuilder = domainBuilder.certification.configuration
           .calibrationBuilder()
-          .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+          .onScope({ scope: CALIBRATION_SCOPES.CORE })
           .withCalibratredChallenges([{ tubeId: 'tubeA' }]);
         version = domainBuilder.certification.configuration
           .versionBuilder()
@@ -281,7 +281,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
       });
 
       it('adds a dedicated informative report line, without alert level', function () {
-        const calibration = calibrationBuilder.onScope({ scope: CALIBRATION_SCOPES.COEUR }).buildForReport();
+        const calibration = calibrationBuilder.onScope({ scope: CALIBRATION_SCOPES.CORE }).buildForReport();
 
         const report = buildReport({ version, calibration });
 
@@ -302,7 +302,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
       beforeEach(function () {
         calibrationBuilder = domainBuilder.certification.configuration
           .calibrationBuilder()
-          .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+          .onScope({ scope: CALIBRATION_SCOPES.CORE })
           .withCalibratredChallenges([{ tubeId: 'tubeA' }]);
         version = domainBuilder.certification.configuration
           .versionBuilder()

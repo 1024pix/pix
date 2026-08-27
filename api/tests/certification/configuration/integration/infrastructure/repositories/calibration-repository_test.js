@@ -35,13 +35,13 @@ describe('Certification | Configuration | Integration | Repository | calibration
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asValidated({ startedAt: new Date('2026-01-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withParameters({ id: 111 })
         .insertToDB({ datamartBuilder });
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asToValidate({ startedAt: new Date('2026-06-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withParameters({ id: 112 })
         .insertToDB({ datamartBuilder });
       await domainBuilder.certification.configuration
@@ -60,7 +60,7 @@ describe('Certification | Configuration | Integration | Repository | calibration
       expect(calibration.id).to.equal(112);
       expect(calibration.status).to.equal(CALIBRATION_STATUSES.TO_VALIDATE);
       expect(calibration.startedAt).to.deep.equal(new Date('2026-06-01'));
-      expect(calibration.scope).to.equal(CALIBRATION_SCOPES.COEUR);
+      expect(calibration.scope).to.equal(CALIBRATION_SCOPES.CORE);
     });
 
     it('falls back on the greatest id when several calibrations share the same date', async function () {
@@ -68,13 +68,13 @@ describe('Certification | Configuration | Integration | Repository | calibration
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asValidated({ startedAt: new Date('2026-06-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withParameters({ id: 111 })
         .insertToDB({ datamartBuilder });
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asValidated({ startedAt: new Date('2026-06-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withParameters({ id: 112 })
         .insertToDB({ datamartBuilder });
 
@@ -92,7 +92,7 @@ describe('Certification | Configuration | Integration | Repository | calibration
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asValidated({ startedAt: new Date('2026-06-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withCalibratredChallenges([
           { challengeId: 'challengeB1', tubeId: 'tubeB' },
           { challengeId: 'challengeB2', tubeId: 'tubeB' },

@@ -78,7 +78,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration',
 
   describe('#toCalibrationScope', function () {
     it('translates every certification scope into its Data counterpart', function () {
-      expect(toCalibrationScope(SCOPES.CORE)).to.equal(CALIBRATION_SCOPES.COEUR);
+      expect(toCalibrationScope(SCOPES.CORE)).to.equal(CALIBRATION_SCOPES.CORE);
       expect(toCalibrationScope(SCOPES.PIX_PLUS_DROIT)).to.equal(CALIBRATION_SCOPES.DROIT);
       expect(toCalibrationScope(SCOPES.PIX_PLUS_EDU_1ER_DEGRE)).to.equal(CALIBRATION_SCOPES.EDU_1ER_DEGRE);
       expect(toCalibrationScope(SCOPES.PIX_PLUS_EDU_2ND_DEGRE)).to.equal(CALIBRATION_SCOPES.EDU_2ND_DEGRE);

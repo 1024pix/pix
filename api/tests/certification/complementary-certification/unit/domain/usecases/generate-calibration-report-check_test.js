@@ -79,7 +79,7 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
       calibrationRepository.findLatestForReport.withArgs({ scope: SCOPES.CORE }).resolves(
         domainBuilder.certification.configuration
           .calibrationBuilder()
-          .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+          .onScope({ scope: CALIBRATION_SCOPES.CORE })
           .withCalibratredChallenges([{ tubeId: 'tubeA', locales: ['fr', 'en'] }])
           .asValidated({ startedAt: new Date() })
           .withParameters({ id: 2 })

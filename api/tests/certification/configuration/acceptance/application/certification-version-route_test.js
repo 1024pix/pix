@@ -691,7 +691,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       await domainBuilder.certification.configuration
         .calibrationBuilder()
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withCalibratredChallenges([{ challengeId: 'challengeA', tubeId: 'tubeA' }])
         .asValidated({ startedAt: new Date('2021-01-01') })
         .withParameters({ id: 2 })
@@ -699,7 +699,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       await domainBuilder.certification.configuration
         .calibrationBuilder()
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .asValidated({ startedAt: new Date('2020-01-01') })
         .withParameters({ id: 3 })
         .insertToDB({ datamartBuilder });
@@ -802,7 +802,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       // given
       await domainBuilder.certification.configuration
         .calibrationBuilder()
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .asValidated({ startedAt: new Date('2026-03-04') })
         .withParameters({ id: 2 })
         .withScoringMeshes([
@@ -842,7 +842,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       // given
       await domainBuilder.certification.configuration
         .calibrationBuilder()
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .asValidated({ startedAt: new Date('2026-03-04') })
         .withParameters({ id: 2 })
         .insertToDB({ datamartBuilder });
