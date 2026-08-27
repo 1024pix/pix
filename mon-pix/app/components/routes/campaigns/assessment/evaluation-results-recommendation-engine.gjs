@@ -71,7 +71,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     return badges.some((badge) => badge.isAcquired || badge.isAlwaysVisible);
   }
 
-  get shouldShowNps() {
+  get shouldShowDrawer() {
     if (this.args.model.hasAnsweredSurvey) {
       return false;
     }
@@ -79,14 +79,14 @@ export default class EvaluationResultsRecommendationEngine extends Component {
   }
 
   get shouldExpandDrawer() {
-    return this.shouldShowNps && this._expandedDrawer;
+    return this.shouldShowDrawer && this._expandedDrawer;
   }
 
   get scrollBehavior() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
   }
 
-  @action revealNps() {
+  @action revealDrawer() {
     setTimeout(() => {
       this._drawerRevealedByScroll = true;
       this._expandedDrawer = true;
@@ -135,7 +135,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
           @onCardClick={{this.onCardClick}}
           @onModalButtonClick={{this.onModalButtonClick}}
           @onModalAccordionClick={{this.onModalAccordionClick}}
-          @onFullyVisible={{this.revealNps}}
+          @onFullyVisible={{this.revealDrawer}}
         />
       {{/if}}
 
@@ -148,7 +148,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
         <Rewards @badges={{@model.campaignParticipationResult.campaignParticipationBadges}} />
       {{/if}}
 
-      {{#if this.shouldShowNps}}
+      {{#if this.shouldShowDrawer}}
         <Drawer @campaignId={{@model.campaign.id}} @onHide={{this.collapseDrawer}} />
       {{/if}}
     </main>
