@@ -10,7 +10,6 @@
   min-height: auto;
   max-height: 42.5rem;
   margin: 0 auto;
-  overflow: hidden;
   background-color: var(--pix-orga-50);
   border-radius: var(--pix-spacing-4x);
   margin-block: auto;
@@ -44,6 +43,7 @@
       padding-right: var(--pix-spacing-6x);
       padding-left: var(--pix-spacing-6x);
       background-color: var(--pix-orga-50);
+      border-top-right-radius: var(--pix-spacing-4x);
 
       &__exit {
         align-self: flex-end;
