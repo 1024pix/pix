@@ -114,6 +114,12 @@ class UserIdIsRequiredError extends DomainError {
   }
 }
 
+class SessionIdIsRequiredError extends DomainError {
+  constructor(message = 'Session Id is required') {
+    super(message);
+  }
+}
+
 class UserShouldChangePasswordError extends DomainError {
   constructor(message = 'User password must be changed.', meta) {
     super(message);
@@ -144,6 +150,7 @@ export {
   PixAdminLoginFromPasswordDisabledError,
   RevokedPasswordCannotBeReusedError,
   RevokeUntilMustBeAnInstanceOfDate,
+  SessionIdIsRequiredError,
   UserCantBeCreatedError,
   UserIdIsRequiredError,
   UserShouldChangePasswordError,

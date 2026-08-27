@@ -1,7 +1,7 @@
 import { config } from '../../../../src/shared/config.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
-import { UserIdIsRequiredError } from '../../domain/errors.js';
+import { SessionIdIsRequiredError, UserIdIsRequiredError } from '../../domain/errors.js';
 import { RevokeUntilMustBeAnInstanceOfDate } from '../../domain/errors.js';
 import { RevokedUserAccess } from '../../domain/models/RevokedUserAccess.js';
 
@@ -11,7 +11,7 @@ const revokedUserAccessLifespanMs = config.authentication.revokedUserAccessLifes
 const isSessionLogoutEnabled = featureToggles.use('isSessionLogoutEnabled');
 
 /**
- * Saves the revoke date for a user in the temporary storage.
+ * Saves the revoke date for all the accesses of a user.
  *
  * @param {Object} params - The params object.
  * @param {string} params.userId - The ID of the user to revoke access for.
@@ -40,6 +40,34 @@ async function revokeAll({ userId, revokeUntil }) {
 }
 
 /**
+ * Saves the revoke date for a user session.
+ *
+ * @param {Object} params - The params object.
+ * @param {string} params.userId - The ID of the user to revoke access for.
+ * @param {string} params.sessionId - The ID of the user’s session to revoke.
+ * @param {Date} params.revokeUntil - The date until the user's access should be revoked.
+ */
+async function revokeSession({ userId, sessionId, revokeUntil }) {
+  if (!userId) {
+    throw new UserIdIsRequiredError();
+  }
+
+  if (!sessionId) {
+    throw new SessionIdIsRequiredError();
+  }
+
+  if (!(revokeUntil instanceof Date)) {
+    throw new RevokeUntilMustBeAnInstanceOfDate();
+  }
+
+  await revokedUserAccessTemporaryStorage.save({
+    key: `${userId}:${sessionId}`,
+    value: Math.floor(revokeUntil.getTime() / 1000),
+    expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
+  });
+}
+
+/**
  * Retrieves the revoked access for a user from the temporary storage.
  *
  * @param {string} userId - The ID of the user to retrieve the revocation date for.
@@ -50,4 +78,4 @@ async function findByUserId(userId) {
   return new RevokedUserAccess(value);
 }
 
-export const revokedUserAccessRepository = { revokeAll, findByUserId };
+export const revokedUserAccessRepository = { revokeAll, revokeSession, findByUserId };

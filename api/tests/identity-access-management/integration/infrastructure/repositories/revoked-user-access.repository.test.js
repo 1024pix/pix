@@ -15,7 +15,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   });
 
   describe('#revokeAll', function () {
-    it('saves revoked user access in Redis', async function () {
+    it('saves revoked user access in TemporaryStorage', async function () {
       // given
       const revokeUntil = new Date();
       const revokedTimeStamp = Math.floor(revokeUntil.getTime() / 1000);
@@ -28,6 +28,21 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       expect(legacyResult).to.equal(revokedTimeStamp);
 
       const result = await revokedUserAccessTemporaryStorage.get('12345:all');
+      expect(result).to.equal(revokedTimeStamp);
+    });
+  });
+
+  describe('#revokeSession', function () {
+    it('saves revoked access for user session in TemporaryStorage', async function () {
+      // given
+      const revokeUntil = new Date();
+      const revokedTimeStamp = Math.floor(revokeUntil.getTime() / 1000);
+
+      // when
+      await revokedUserAccessRepository.revokeSession({ userId: 12345, sessionId: 67890, revokeUntil });
+
+      // then
+      const result = await revokedUserAccessTemporaryStorage.get('12345:67890');
       expect(result).to.equal(revokedTimeStamp);
     });
   });
