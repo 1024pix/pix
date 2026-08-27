@@ -4,12 +4,10 @@ export function findPaginatedAndFilteredTutorials(schema, request) {
   const queryParams = request.queryParams;
   const type = queryParams['filter[type]'];
 
-  let tutorials = [];
-  if (type === 'recommended') {
-    tutorials = _findPaginatedAndFilteredRecommendedTutorials(schema, request);
-  } else {
-    tutorials = _findPaginatedAndFilteredSavedTutorials(schema);
-  }
+  const tutorials =
+    type === 'recommended'
+      ? _findPaginatedAndFilteredRecommendedTutorials(schema, request)
+      : _findPaginatedAndFilteredSavedTutorials(schema);
 
   const rowCount = tutorials.length;
   const pagination = getPaginationFromQueryParams(queryParams);
