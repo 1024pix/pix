@@ -21,7 +21,12 @@ import GlobalScoringForm from 'pix-admin/components/certification-frameworks/cer
     <PixButtonLink @route="authenticated.certification-frameworks.certification-framework" @variant="secondary">
       {{t "common.actions.cancel"}}
     </PixButtonLink>
-    <PixButton id="activate-version" @variant="primary-bis" @triggerAction={{@controller.toggleConfirmationModal}}>
+    <PixButton
+      id="activate-version"
+      @variant="primary-bis"
+      @isDisabled={{@controller.hasGlobalScoringError}}
+      @triggerAction={{@controller.toggleConfirmationModal}}
+    >
       {{t "components.certification-frameworks.certification-framework.versions.activate-version.button-label"}}
     </PixButton>
   </section>

@@ -653,7 +653,6 @@
           "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}",
           "scoring": {
             "cannot-be-lower-error": "La capacité maximale d'un niveau doit être strictement supérieur à sa capacité minimale.",
-            "capacity-submit-button": "Sauvegarder les capacités par mailles",
             "competences": {
               "level": "Niveau",
               "title": "Bornes de capacités par compétences"

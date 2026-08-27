@@ -645,7 +645,6 @@
           "page-title": "Creation of a new version of the certification in {scope} framework",
           "scoring": {
             "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
-            "capacity-submit-button": "Save capacities by mesh",
             "competences": {
               "level": "Level",
               "maximum-input-label": "Maximal capacity ",

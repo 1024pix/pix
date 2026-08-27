@@ -139,25 +139,6 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
           assert.dom(screen.getByDisplayValue('-4.67')).exists();
           assert.dom(screen.getByDisplayValue('0.6')).exists();
         });
-
-        test('persists the calibration bounds when submitting without editing them', async function (assert) {
-          let patchedAttributes;
-          server.patch('/admin/certification-versions/:id', (schema, request) => {
-            patchedAttributes = JSON.parse(request.requestBody).data.attributes;
-            return schema.certificationVersions.find(request.params.id);
-          });
-          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-
-          await visit(`/certification-frameworks/CORE/versions/14/scoring`);
-          await clickByName(
-            t('components.certification-frameworks.certification-framework.versions.scoring.capacity-submit-button'),
-          );
-
-          assert.deepEqual(patchedAttributes['global-scoring-configuration'], [
-            { bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 },
-            { bounds: { min: -1.4, max: 0.6 }, meshLevel: 1 },
-          ]);
-        });
       });
     });
 

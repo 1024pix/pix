@@ -1,13 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
-import { click, fillIn } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import GlobalScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-global-scoring-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest, { t } from '../../../../../helpers/setup-intl-rendering';
 
-const SUBMIT_BUTTON_LABEL =
-  'components.certification-frameworks.certification-framework.versions.scoring.capacity-submit-button';
 const LEVEL_KEY = 'components.certification-frameworks.certification-framework.versions.scoring.level';
 const CAPACITY_LABEL =
   'components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity';
@@ -229,80 +227,6 @@ module(
       });
     });
 
-    module('submit button state', function () {
-      test('it enables the submit button when all bounds are valid', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const draftVersion = store.createRecord('certification-version', {
-          id: '1',
-          status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
-        });
-        const calibrationScoringConfiguration = createCalibrationProposal(store);
-
-        // when
-        const screen = await render(
-          <template>
-            <GlobalScoringForm
-              @draftVersion={{draftVersion}}
-              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
-            />
-          </template>,
-        );
-
-        // then
-        assert.dom(screen.getByRole('button', { name: t(SUBMIT_BUTTON_LABEL) })).doesNotHaveAttribute('aria-disabled');
-      });
-
-      test('it disables the submit button when max is lower than min on page load', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const draftVersion = store.createRecord('certification-version', {
-          id: '1',
-          status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
-        });
-        const calibrationScoringConfiguration = createCalibrationProposal(store);
-
-        // when
-        const screen = await render(
-          <template>
-            <GlobalScoringForm
-              @draftVersion={{draftVersion}}
-              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
-            />
-          </template>,
-        );
-
-        // then
-        assert.dom(screen.getByRole('button', { name: t(SUBMIT_BUTTON_LABEL) })).hasAttribute('aria-disabled');
-      });
-
-      test('it disables the submit button when max equals min on page load', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const draftVersion = store.createRecord('certification-version', {
-          id: '1',
-          status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 3, max: 3 }, meshLevel: 0 }],
-        });
-        const calibrationScoringConfiguration = createCalibrationProposal(store);
-
-        // when
-        const screen = await render(
-          <template>
-            <GlobalScoringForm
-              @draftVersion={{draftVersion}}
-              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
-            />
-          </template>,
-        );
-
-        // then
-        assert.dom(screen.getByRole('button', { name: t(SUBMIT_BUTTON_LABEL) })).hasAttribute('aria-disabled');
-      });
-    });
-
     module('error message', function () {
       test('it displays an error message when max is lower than min on page load', async function (assert) {
         // given
@@ -363,95 +287,6 @@ module(
 
         // then
         assert.dom(getBoundsInputs(screen).min[1]).hasValue('10');
-      });
-    });
-
-    module('save notifications', function () {
-      test('it shows a success notification when save succeeds', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const draftVersion = store.createRecord('certification-version', {
-          id: '1',
-          status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
-        });
-        sinon.stub(draftVersion, 'save').resolves();
-        const calibrationScoringConfiguration = createCalibrationProposal(store);
-
-        const screen = await render(
-          <template>
-            <GlobalScoringForm
-              @draftVersion={{draftVersion}}
-              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
-            />
-          </template>,
-        );
-
-        // when
-        await click(screen.getByRole('button', { name: t(SUBMIT_BUTTON_LABEL) }));
-
-        // then
-        assert.ok(
-          pixToast.sendSuccessNotification.calledOnceWith({
-            message: t(
-              'components.certification-frameworks.certification-framework.versions.scoring.success-notification',
-            ),
-          }),
-        );
-      });
-
-      test('it shows an error notification when save fails', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const draftVersion = store.createRecord('certification-version', {
-          id: '1',
-          status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
-        });
-        sinon.stub(draftVersion, 'save').rejects({ errors: [{ detail: 'Erreur serveur' }] });
-        const calibrationScoringConfiguration = createCalibrationProposal(store);
-
-        const screen = await render(
-          <template>
-            <GlobalScoringForm
-              @draftVersion={{draftVersion}}
-              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
-            />
-          </template>,
-        );
-
-        // when
-        await click(screen.getByRole('button', { name: t(SUBMIT_BUTTON_LABEL) }));
-
-        // then
-        assert.ok(pixToast.sendErrorNotification.calledOnceWith({ message: 'Erreur serveur' }));
-      });
-
-      test('it does not save when bounds are invalid', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const draftVersion = store.createRecord('certification-version', {
-          id: '1',
-          status: 'draft',
-          globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
-        });
-        sinon.stub(draftVersion, 'save').resolves();
-        const calibrationScoringConfiguration = createCalibrationProposal(store);
-
-        const screen = await render(
-          <template>
-            <GlobalScoringForm
-              @draftVersion={{draftVersion}}
-              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
-            />
-          </template>,
-        );
-
-        // when
-        await click(screen.getByRole('button', { name: t(SUBMIT_BUTTON_LABEL) }));
-
-        // then
-        assert.ok(draftVersion.save.notCalled);
       });
     });
   },
