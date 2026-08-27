@@ -3,8 +3,15 @@ import onIntersect from 'mon-pix/modifiers/on-intersect';
 
 import TrainingCard from './training/card';
 
+export const TRAININGS_LIST_ID = 'results-recommendation-engine-training-list';
+
 <template>
-  <section class="results-recommendation-engine-training" {{onIntersect @onFullyVisible threshold=1}}>
+  <section
+    id={{TRAININGS_LIST_ID}}
+    class="results-recommendation-engine-training"
+    tabindex="-1"
+    {{onIntersect @onFullyVisible threshold=1}}
+  >
     <h2 class="results-recommendation-engine-training__title">{{t
         "pages.skill-review.recommended-engine.trainings.title"
       }}</h2>

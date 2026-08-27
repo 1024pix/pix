@@ -3,6 +3,10 @@
 @use 'pix-design-tokens/breakpoints';
 
 .results-recommendation-engine-training {
+  &:focus-visible {
+    outline: var(--pix-neutral-900) solid 2px;
+  }
+
   &__title {
     @extend %pix-title-s;
 
