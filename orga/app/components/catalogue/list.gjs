@@ -207,7 +207,11 @@ export default class List extends Component {
           {{/each}}
         </div>
       {{else}}
-        <EmptyState @infoText={{t "pages.catalogue.empty-state"}} />
+        {{#if @isFiltered}}
+          <EmptyState @infoText={{t "pages.catalogue.empty-state-with-filters"}} />
+        {{else}}
+          <EmptyState @infoText={{t "pages.catalogue.empty-state"}} />
+        {{/if}}
       {{/if}}
 
       {{#if @currentCourse}}

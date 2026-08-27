@@ -30,3 +30,11 @@
     height: 100%;
   }
 }
+
+// Temporary fixes to PixCard (faster fix)
+// TODO Move in Pix UI later OR move Pix Card back to monorepo (maybe best)
+.pix-card {
+  &__title {
+    overflow-wrap: anywhere;
+  }
+}

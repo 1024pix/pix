@@ -1048,6 +1048,7 @@
         "tubes-count": "{count, plural, =0 {Geen onderwerp} =1 {{count} onderwerp} other {{count} onderwerpen}}"
       },
       "empty-state": "Er zijn momenteel geen traject beschikbaar. Neem contact op met Pix om er enkele te verkrijgen.",
+      "empty-state-with-filters": "Geen enkel traject komt overeen met uw zoekcriteria.",
       "filters": {
         "areas": {
           "empty": "Geen domein",
