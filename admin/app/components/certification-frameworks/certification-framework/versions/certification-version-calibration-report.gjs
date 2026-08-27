@@ -185,14 +185,5 @@ export default class CertificationVersionCalibrationReport extends Component {
         </p>
       {{/if}}
     </Card>
-    <section class="actions-container">
-      <PixButtonLink
-        @route="authenticated.certification-frameworks.certification-framework.versions.version.scoring"
-        @variant="primary"
-        @isDisabled={{this.hasHighAlert}}
-      >
-        {{t "common.actions.next"}}
-      </PixButtonLink>
-    </section>
   </template>
 }
