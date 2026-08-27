@@ -17,7 +17,7 @@ async function logoutOidcUser({
 }) {
   // Revoke user AccessToken
   //temporarily pause revoke user access token to fix SSO bugs
-  /*await revokedUserAccessRepository.saveForUser({
+  /*await revokedUserAccessRepository.revokeAll({
     userId,
     revokeUntil: new Date(),
   });*/

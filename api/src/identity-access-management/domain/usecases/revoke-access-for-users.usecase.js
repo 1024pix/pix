@@ -15,7 +15,7 @@ export const revokeAccessForUsers = async function ({
 }) {
   for (const userId of userIds) {
     // Revoke user AccessToken
-    await revokedUserAccessRepository.saveForUser({ userId, revokeUntil: new Date() });
+    await revokedUserAccessRepository.revokeAll({ userId, revokeUntil: new Date() });
 
     // Revoke user RefreshToken
     await refreshTokenRepository.revokeAllByUserId({ userId });

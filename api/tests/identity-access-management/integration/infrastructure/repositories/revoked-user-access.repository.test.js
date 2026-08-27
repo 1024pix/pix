@@ -11,14 +11,14 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     await revokedUserAccessTemporaryStorage.flushAll();
   });
 
-  describe('#saveForUser', function () {
+  describe('#revokeAll', function () {
     it('saves revoked user access in Redis', async function () {
       // given
       const revokeUntil = new Date();
       const revokedTimeStamp = Math.floor(revokeUntil.getTime() / 1000);
 
       // when
-      await revokedUserAccessRepository.saveForUser({ userId: 12345, revokeUntil });
+      await revokedUserAccessRepository.revokeAll({ userId: 12345, revokeUntil });
 
       // then
       const result = await revokedUserAccessTemporaryStorage.get(12345);
@@ -31,7 +31,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       // given
       const revokeUntil = new Date();
       const revokeTimeStamp = Math.floor(new Date().getTime() / 1000);
-      await revokedUserAccessRepository.saveForUser({ userId: 12345, revokeUntil });
+      await revokedUserAccessRepository.revokeAll({ userId: 12345, revokeUntil });
 
       // when
       const result = await revokedUserAccessRepository.findByUserId(12345);
