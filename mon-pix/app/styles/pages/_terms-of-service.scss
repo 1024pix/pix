@@ -52,11 +52,3 @@
     flex-grow: 1;
   }
 }
-
-.terms-of-service-form-conditions {
-  &__validation-error {
-    margin-top: 16px;
-    color: var(--pix-error-500);
-    font-weight: normal;
-  }
-}
