@@ -62,7 +62,7 @@
     "@formatjs/intl": "^4.1.19",
     "@formatjs/intl-durationformat": "^0.10.18",
     "@glimmer/component": "^2.1.1",
-    "@testing-library/user-event": "^14.6.1",
+    "@testing-library/user-event": "^14.6.5",
     "@warp-drive/build-config": "^5.8.2",
     "@warp-drive/core": "^5.8.2",
     "@warp-drive/ember": "^5.8.2",
