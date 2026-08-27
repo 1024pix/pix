@@ -799,7 +799,7 @@
                 "type": "embed",
                 "isCompletionRequired": true,
                 "title": "Classement des étapes de traitement d’un incident dans l’ordre chronologique",
-                "url": "https://epreuves-pr3312.review.pix.fr/fr/ui-kit/classement/mdx-antivirus-av-ac2.html",
+                "url": "https://epreuves.pix.fr/fr/ui-kit/classement/mdx-antivirus-av-ac2.html",
                 "instruction": "<p>Classez dans l’ordre chronologique les différentes étapes de traitement de cet incident.</p>",
                 "solution": "",
                 "height": 500
