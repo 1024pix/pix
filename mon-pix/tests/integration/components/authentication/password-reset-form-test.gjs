@@ -37,13 +37,10 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
 
   test('displays all elements of component successfully', async function (assert) {
     // given
-    const user = { save: sinon.stub() };
     const temporaryKey = 'temporaryKey';
 
     // when
-    const screen = await render(
-      <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-    );
+    const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
     // then
     assert.dom(screen.getByText(t(I18N_KEYS.mandatoryFieldsMessage))).exists();
@@ -58,9 +55,7 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
     requestManagerService.request.resolves({ response: { ok: true, status: 204 } });
 
     // when
-    const screen = await render(
-      <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-    );
+    const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
     await fillByLabel(t(I18N_KEYS.passwordInputLabel), validPassword);
     await clickByName(t(I18N_KEYS.resetPasswordButton));
@@ -79,9 +74,7 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
       const temporaryKey = 'temporaryKey';
 
       // when
-      const screen = await render(
-        <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-      );
+      const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
       await clickByName(t(I18N_KEYS.resetPasswordButton));
 
@@ -97,9 +90,7 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
       const temporaryKey = 'temporaryKey';
 
       // when
-      const screen = await render(
-        <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-      );
+      const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
       await fillByLabel(t(I18N_KEYS.passwordInputLabel), invalidPassword);
 
@@ -133,9 +124,7 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
         });
 
         // when
-        const screen = await render(
-          <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-        );
+        const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
         await fillByLabel(t(I18N_KEYS.passwordInputLabel), validPassword);
         await clickByName(t(I18N_KEYS.resetPasswordButton));
@@ -160,9 +149,7 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
 
       const temporaryKey = 'temporaryKey';
 
-      const screen = await render(
-        <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-      );
+      const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
       await fillByLabel(t(I18N_KEYS.passwordInputLabel), 'example-of-a-new-valid-but-revoked-password-az-AZ-01234');
 

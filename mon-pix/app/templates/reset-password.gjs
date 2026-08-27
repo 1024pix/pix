@@ -14,7 +14,7 @@ import AuthenticationLayout from 'mon-pix/components/authentication-layout/index
     </:header>
     <:content>
       <h1 class="pix-title-m">{{t "pages.reset-password.first-title"}}</h1>
-      <PasswordResetForm @temporaryKey={{@model.temporaryKey}} @user={{@model.user}} />
+      <PasswordResetForm @temporaryKey={{@model.temporaryKey}} />
     </:content>
   </AuthenticationLayout>
 </template>
