@@ -1,4 +1,5 @@
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -33,10 +34,12 @@ export default class CampaignOwner extends Component {
           @onChange={{this.onChangeCampaignOwner}}
           @value="{{@campaign.ownerId}}"
           @isSearchable={{true}}
-          @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
-          @locale={{this.locale.currentLocale}}
-          @searchPlaceholder={{t "pages.campaign-creation.owner.search-placeholder"}}
-          @requiredLabel={{t "common.form.mandatory-fields-title"}}
+          @texts={{hash
+            placeholder=(t "pages.campaign-creation.owner.placeholder")
+            searchPlaceholder=(t "pages.campaign-creation.owner.search-placeholder")
+            selectSearchLabel=(t "pages.campaign-creation.owner.search-label")
+            requiredLabel=(t "common.form.mandatory-fields-title")
+          }}
           @hideDefaultOption={{true}}
         >
           <:label>{{t "pages.campaign-creation.owner.label"}}</:label>

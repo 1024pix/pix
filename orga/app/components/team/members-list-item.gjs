@@ -2,7 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -185,7 +185,7 @@ export default class MembersListItem extends Component {
           <PixSelect
             @screenReaderOnly={{true}}
             @hideDefaultOption={{true}}
-            @placeholder="{{t 'pages.team-members.actions.select-role.label'}}"
+            @texts={{hash placeholder=(t "pages.team-members.actions.select-role.label")}}
             @onChange={{this.setRoleSelection}}
             @options={{this.organizationRoles}}
             @value={{this.roleSelection}}

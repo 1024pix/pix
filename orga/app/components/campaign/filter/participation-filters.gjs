@@ -3,6 +3,7 @@ import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixStars from '@1024pix/pix-ui/components/pix-stars';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -191,7 +192,7 @@ export default class ParticipationFilters extends Component {
             @options={{this.statusOptions}}
             @onChange={{this.onSelectStatus}}
             @value={{@selectedStatus}}
-            @placeholder={{t "pages.campaign-results.filters.type.status.empty"}}
+            @texts={{hash placeholder=(t "pages.campaign-results.filters.type.status.empty")}}
             @hideDefaultOption={{false}}
           >
             <:label>{{t "pages.campaign-results.filters.type.status.title"}}</:label>
@@ -279,7 +280,7 @@ export default class ParticipationFilters extends Component {
             @value={{@selectedCertificability}}
             @onChange={{this.onSelectCertificability}}
             @screenReaderOnly={{true}}
-            @placeholder={{t "components.certificability.placeholder-select"}}
+            @texts={{hash placeholder=(t "components.certificability.placeholder-select")}}
           >
             <:label>{{t "pages.sco-organization-participants.filter.certificability.label"}}</:label>
           </PixSelect>

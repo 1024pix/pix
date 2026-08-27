@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -122,7 +123,7 @@ class OtherAttestations extends Component {
           @value={{@selectedAttestation}}
           @options={{this.options}}
           @onChange={{this.onSelectedAttestationChange}}
-          @placeholder={{t "common.filters.placeholder"}}
+          @texts={{hash placeholder=(t "common.filters.placeholder")}}
         >
           <:label>{{t "pages.attestations.select-label"}}</:label>
         </PixSelect>

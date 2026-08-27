@@ -466,7 +466,8 @@
       }
     },
     "locale-switcher": {
-      "label": "Seleccione un idioma"
+      "label": "Seleccione un idioma",
+      "placeholder": "Seleccione un idioma"
     },
     "organization-participants-header": {
       "default": {
@@ -811,6 +812,7 @@
         "info": "El propietario de la campaña y los administradores de esta organización son las únicas personas que pueden modificar o archivar esta campaña.",
         "label": "Propietario de la campaña",
         "placeholder": "Nombre completo del propietario",
+        "search-label": "Encontrar un propietario",
         "search-placeholder": "Encontrar un propietario",
         "title": "Propietario de la campaña"
       },

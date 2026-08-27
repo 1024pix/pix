@@ -2,6 +2,7 @@ import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
@@ -67,7 +68,7 @@ export default class Tube extends Component {
           @options={{this.levelOptions}}
           @value={{this.selectedLevel}}
           @onChange={{this.setTubeLevel}}
-          @placeholder={{t "pages.preselect-target-profile.levels.placeholder"}}
+          @texts={{hash placeholder=(t "pages.preselect-target-profile.levels.placeholder")}}
           @hideDefaultOption={{true}}
         >
           <:label>{{t "pages.preselect-target-profile.levels.label" title=@tube.practicalTitle}}</:label>

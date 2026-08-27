@@ -2,6 +2,7 @@ import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixProgressBar from '@1024pix/pix-ui/components/pix-progress-bar';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -116,6 +117,7 @@ export default class Header extends Component {
             @onChange={{this.selectAParticipation}}
             @inlineLabel={{true}}
             @hideDefaultOption={{true}}
+            @texts={{hash placeholder=(t "pages.assessment-individual-results.participation-selector")}}
           >
             <:label>{{t "pages.assessment-individual-results.participation-selector"}}</:label>
           </PixSelect>

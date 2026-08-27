@@ -1,4 +1,5 @@
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -32,9 +33,11 @@ export default class OidcProviderSelector extends Component {
       @isSearchable={{true}}
       @onChange={{this.onProviderChange}}
       @options={{this.providerOptions}}
-      @placeholder={{t "components.authentication.oidc-provider-selector.placeholder"}}
-      @locale={{this.locale.currentLocale}}
-      @searchPlaceholder={{t "components.authentication.oidc-provider-selector.searchLabel"}}
+      @texts={{hash
+        placeholder=(t "components.authentication.oidc-provider-selector.placeholder")
+        searchPlaceholder=(t "components.authentication.oidc-provider-selector.searchLabel")
+        selectSearchLabel=(t "components.authentication.oidc-provider-selector.searchLabel")
+      }}
       @value={{this.selectedIdentityProviderCode}}
       class="oidc-provider-selector"
       ...attributes

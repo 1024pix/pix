@@ -3,7 +3,7 @@ import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
@@ -164,7 +164,7 @@ export default class List extends Component {
         {{#if (eq @type "targetProfile")}}
           <PixSelect
             @isDisabled={{eq this.categoriesOptions.length 0}}
-            @placeholder={{t "pages.catalogue.filters.categories.all"}}
+            @texts={{hash placeholder=(t "pages.catalogue.filters.categories.all")}}
             @hideDefaultOption={{false}}
             @screenReaderOnly={{true}}
             @value={{@category}}

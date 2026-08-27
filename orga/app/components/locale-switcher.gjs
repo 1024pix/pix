@@ -3,6 +3,7 @@
 // and propagate the changes in the copies in all the fronts
 
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -43,6 +44,7 @@ export default class LocaleSwitcher extends Component {
       @onChange={{this.onChange}}
       @hideDefaultOption="true"
       @screenReaderOnly="true"
+      @texts={{hash placeholder=(t "components.locale-switcher.placeholder")}}
     >
       <:label>{{t "components.locale-switcher.label"}}</:label>
     </PixSelect>
