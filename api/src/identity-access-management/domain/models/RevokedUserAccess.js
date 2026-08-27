@@ -6,9 +6,15 @@ export class RevokedUserAccess {
 
   isAccessTokenRevoked(decodedToken) {
     const issuedAt = decodedToken.iat;
-    if (!this.revokeTimeStamp) {
-      return false;
+    if (this.revokeTimeStamp && issuedAt < this.revokeTimeStamp) {
+      return true;
     }
-    return issuedAt < this.revokeTimeStamp;
+
+    const sessionId = decodedToken.sid;
+    if (this.revokeSessions?.[sessionId] && issuedAt < this.revokeSessions[sessionId]) {
+      return true;
+    }
+
+    return false;
   }
 }
