@@ -6,7 +6,7 @@ export async function isAnonymous(userId) {
   const user = await knexConnection('users').select('isAnonymous').where({ id: userId }).first();
   if (!user) throw new UserNotFoundError();
   return user.isAnonymous;
-};
+}
 
 export async function getPixAppLegacyCguByUserId(userId) {
   const knexConnection = DomainTransaction.getConnection();
@@ -16,7 +16,7 @@ export async function getPixAppLegacyCguByUserId(userId) {
     .first();
   if (!user) throw new UserNotFoundError();
   return user;
-};
+}
 
 export async function getPixCertifLegacyTosByUserId(userId) {
   const knexConnection = DomainTransaction.getConnection();
@@ -26,7 +26,7 @@ export async function getPixCertifLegacyTosByUserId(userId) {
     .first();
   if (!user) throw new UserNotFoundError();
   return user;
-};
+}
 
 export async function acceptLegacyPixAppTermsOfService(id) {
   const knexConn = DomainTransaction.getConnection();

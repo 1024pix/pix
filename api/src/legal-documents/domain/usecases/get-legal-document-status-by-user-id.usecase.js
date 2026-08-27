@@ -17,7 +17,10 @@ import { LegalDocumentType } from '../models/LegalDocumentType.js';
 const { PIX_APP, PIX_CERTIF } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;
 
-const getLegalDocumentStatusByUserId = async ({
+const isNewPixAppLegalDocumentsVersioning = featureToggles.use('newPixAppLegalDocumentsVersioning');
+const isNewPixCertifLegalDocumentsVersioningEnabled = featureToggles.use('newPixCertifLegalDocumentsVersioning');
+
+export async function getLegalDocumentStatusByUserId({
   userId,
   service,
   type,
@@ -26,33 +29,20 @@ const getLegalDocumentStatusByUserId = async ({
   userScoRepository,
   userAcceptanceRepository,
   logger,
-}) => {
+}) {
   LegalDocumentService.assert(service);
   LegalDocumentType.assert(type);
 
   const isPixAppTos = service === PIX_APP && type === TOS;
-  const isPixCertifTos = service === PIX_CERTIF && type === TOS;
-  const isNewVersioningEnabled = await featureToggles.get('newPixAppLegalDocumentsVersioning');
-  const isNewPixCertifLegalDocumentsVersioningEnabled = await featureToggles.get(
-    'newPixCertifLegalDocumentsVersioning',
-  );
-
-  if (!isNewVersioningEnabled && isPixAppTos) {
+  if (isPixAppTos && !isNewPixAppLegalDocumentsVersioning.value) {
     const user = await userRepository.getPixAppLegacyCguByUserId(userId);
-    const legalDocumentStatus = LegalDocumentStatus.buildForLegacyPixAppCgu({
-      cgu: user.cgu,
-      mustValidateTermsOfService: user.mustValidateTermsOfService,
-      lastTermsOfServiceValidatedAt: user.lastTermsOfServiceValidatedAt,
-    });
-
-    return legalDocumentStatus;
+    return LegalDocumentStatus.buildForLegacyPixAppCgu(user);
   }
 
-  if (!isNewPixCertifLegalDocumentsVersioningEnabled && isPixCertifTos) {
+  const isPixCertifTos = service === PIX_CERTIF && type === TOS;
+  if (isPixCertifTos && !isNewPixCertifLegalDocumentsVersioningEnabled.value) {
     const user = await userRepository.getPixCertifLegacyTosByUserId(userId);
-    const legalDocumentStatus = LegalDocumentStatus.buildForLegacyPixCertifTos(user);
-
-    return legalDocumentStatus;
+    return LegalDocumentStatus.buildForLegacyPixCertifTos(user);
   }
 
   const lastLegalDocument = await legalDocumentRepository.findLastVersionByTypeAndService({ service, type });
@@ -80,6 +70,4 @@ const getLegalDocumentStatusByUserId = async ({
   }
 
   return legalDocumentStatus;
-};
-
-export { getLegalDocumentStatusByUserId };
+}
