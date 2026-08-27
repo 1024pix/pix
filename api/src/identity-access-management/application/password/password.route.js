@@ -20,10 +20,15 @@ export const passwordRoutes = [
     },
   },
   {
-    method: 'GET',
-    path: '/api/password-reset-demands/{temporaryKey}',
+    method: 'POST',
+    path: '/api/check-password-reset-demand',
     config: {
       auth: false,
+      validate: {
+        payload: Joi.object({
+          'temporary-key': Joi.string().required(),
+        }),
+      },
       handler: (request, h) => passwordController.checkResetDemand(request, h),
       notes: [
         'Route publique',

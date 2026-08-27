@@ -20,25 +20,21 @@ describe('Integration | Identity Access Management | Application | Route | passw
   });
 
   describe('POST /api/update-password', function () {
-    context('when the user does not exist', function () {
+    context('when there is no user corresponding to the email', function () {
       it('throws a UserNotFoundError', async function () {
         // given
         const temporaryKey = await resetPasswordService.generateTemporaryKey();
-        const user = databaseBuilder.factory.buildUser();
-        const email = user.email;
+        const email = 'an-email-with-no-associated-user@example.net';
         await databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
 
         await databaseBuilder.commit();
 
         const newPassword = 'example-of-a-new-valid-password-az-AZ-01234';
-
-        const nonExistentUserId = 999999;
-
         const payload = {
-          'user-id': nonExistentUserId,
-          password: newPassword,
           'temporary-key': temporaryKey,
+          password: newPassword,
         };
+
         const url = '/api/update-password';
 
         // when
@@ -54,7 +50,6 @@ describe('Integration | Identity Access Management | Application | Route | passw
       it('throws an InvalidTemporaryKeyError', async function () {
         // given
         const user = databaseBuilder.factory.buildUser();
-        const userId = user.id;
         const email = user.email;
 
         sinon.stub(config.passwordResetDemand, 'lifespan').value(0);
@@ -64,12 +59,11 @@ describe('Integration | Identity Access Management | Application | Route | passw
         await databaseBuilder.commit();
 
         const newPassword = 'example-of-a-new-password';
-
         const payload = {
-          'user-id': userId,
-          password: newPassword,
           'temporary-key': temporaryKey,
+          password: newPassword,
         };
+
         const url = '/api/update-password';
 
         // when
@@ -98,10 +92,10 @@ describe('Integration | Identity Access Management | Application | Route | passw
 
           const newPassword = initialPassword;
           const payload = {
-            'user-id': userId,
             password: newPassword,
             'temporary-key': temporaryKey,
           };
+
           const url = '/api/update-password';
 
           // when

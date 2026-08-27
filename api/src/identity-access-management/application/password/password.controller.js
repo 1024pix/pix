@@ -12,7 +12,8 @@ const createResetPasswordDemand = async function (request, h) {
 };
 
 const checkResetDemand = async function (request) {
-  const temporaryKey = request.params.temporaryKey;
+  const temporaryKey = request.payload['temporary-key'];
+
   const user = await usecases.getUserByResetPasswordDemand({ temporaryKey });
   return userSerializer.serialize(user);
 };

@@ -54,16 +54,18 @@ describe('Acceptance | Identity Access Management | Application | Route | passwo
     });
   });
 
-  describe('GET /api/password-reset-demands/{temporaryKey}', function () {
+  describe('POST /api/check-password-reset-demand', function () {
     const options = {
-      method: 'GET',
+      method: 'POST',
       url: null,
+      payload: {},
     };
 
     context('when temporaryKey is not valid', function () {
       it('replies with 401 status code', async function () {
         // given
-        options.url = '/api/password-reset-demands/invalid-temporary-key';
+        options.url = '/api/check-password-reset-demand';
+        options.payload['temporary-key'] = 'invalid-temporary-key';
 
         // when
         const response = await server.inject(options);
@@ -78,10 +80,11 @@ describe('Acceptance | Identity Access Management | Application | Route | passwo
 
       beforeEach(async function () {
         temporaryKey = await resetPasswordService.generateTemporaryKey();
-        options.url = `/api/password-reset-demands/${temporaryKey}`;
+        options.url = '/api/check-password-reset-demand';
+        options.payload['temporary-key'] = temporaryKey;
       });
 
-      context('when temporaryKey is not linked to a reset password demand', function () {
+      context('when temporaryKey is not linked to a password reset demand', function () {
         it('replies with 404 status code', async function () {
           // when
           const response = await server.inject(options);
@@ -135,9 +138,8 @@ describe('Acceptance | Identity Access Management | Application | Route | passwo
         method: 'POST',
         url: '/api/update-password',
         payload: {
-          'user-id': userId,
-          password: newPassword,
           'temporary-key': temporaryKey,
+          password: newPassword,
         },
       });
 
