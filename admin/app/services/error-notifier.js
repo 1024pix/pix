@@ -1,5 +1,5 @@
-import { service } from '@ember/service';
 import Service from '@ember/service';
+import { service } from '@ember/service';
 import every from 'lodash/every';
 import isEmpty from 'lodash/isEmpty';
 
