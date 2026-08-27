@@ -1,7 +1,10 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
+import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { createAccountCreationEmail } from '../emails/create-account-creation.email.js';
 import { InvalidOrAlreadyUsedEmailError } from '../errors.js';
+
+const logger = child('iam:create-user', { event: SCOPES.IAM });
 
 /**
  * @param {Object} params
@@ -35,22 +38,22 @@ const createUser = async function ({
   userValidator,
   passwordValidator,
 }) {
-  await _assertValidData({
-    password,
-    user,
-    userRepository,
-    userValidator,
-    passwordValidator,
-  });
-
-  const userHasValidatedPixTermsOfService = user.cgu === true;
-  if (userHasValidatedPixTermsOfService) {
-    user.lastTermsOfServiceValidatedAt = new Date();
-  }
-
-  const hashedPassword = await cryptoService.hashPassword(password);
-
   const { savedUser, token } = await DomainTransaction.execute(async () => {
+    await _assertValidData({
+      password,
+      user,
+      userRepository,
+      userValidator,
+      passwordValidator,
+    });
+
+    const userHasValidatedPixTermsOfService = user.cgu === true;
+    if (userHasValidatedPixTermsOfService) {
+      user.lastTermsOfServiceValidatedAt = new Date();
+    }
+
+    const hashedPassword = await cryptoService.hashPassword(password);
+
     const savedUser = await userService.createUserWithPassword({
       user,
       locale,
@@ -154,6 +157,9 @@ async function _assertValidData({ password, user, userRepository, userValidator,
 
   if (validationErrors.some((error) => error instanceof Error)) {
     const relevantErrors = validationErrors.filter((error) => error instanceof Error);
+    for (const error of relevantErrors) {
+      logger.warn(error, 'user creation validation error');
+    }
     throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
   }
 }
