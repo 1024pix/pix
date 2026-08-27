@@ -129,15 +129,10 @@ export default class ParticipantsByDay extends Component {
   }
 
   get datasets() {
-    let startedLabel = '';
-    let sharedLabel = '';
-    let startedCaption = '';
-    let sharedCaption = '';
-
-    startedCaption = LABELS.started.caption;
-    startedLabel = LABELS.started.a11y;
-    sharedCaption = LABELS.shared.caption;
-    sharedLabel = LABELS.shared.a11y;
+    const startedCaption = LABELS.started.caption;
+    const startedLabel = LABELS.started.a11y;
+    const sharedCaption = LABELS.shared.caption;
+    const sharedLabel = LABELS.shared.a11y;
 
     return [
       { caption: startedCaption, entries: this.startedDatasets, countLabel: startedLabel },
