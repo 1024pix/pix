@@ -51,6 +51,17 @@ export class LegalDocumentStatus {
     });
   }
 
+  static buildForLegacyPixCertifTos({ pixCertifTermsOfServiceAccepted, lastPixCertifTermsOfServiceValidatedAt }) {
+    if (!pixCertifTermsOfServiceAccepted) {
+      return new LegalDocumentStatus({ status: STATUS.REQUESTED, acceptedAt: null, documentPath: null });
+    }
+    return new LegalDocumentStatus({
+      status: STATUS.ACCEPTED,
+      acceptedAt: lastPixCertifTermsOfServiceValidatedAt,
+      documentPath: null,
+    });
+  }
+
   static notApplicable() {
     return new LegalDocumentStatus({
       status: STATUS.NOT_APPLICABLE,

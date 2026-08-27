@@ -14,10 +14,13 @@ import { LegalDocumentType } from '../models/LegalDocumentType.js';
  * @throws {Error} If no legal document version is found for the type and service.
  */
 
-const { PIX_APP } = LegalDocumentService.VALUES;
+const { PIX_APP, PIX_CERTIF } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;
 
-const getLegalDocumentStatusByUserId = async ({
+const isNewPixAppLegalDocumentsVersioning = featureToggles.use('newPixAppLegalDocumentsVersioning');
+const isNewPixCertifLegalDocumentsVersioningEnabled = featureToggles.use('newPixCertifLegalDocumentsVersioning');
+
+export async function getLegalDocumentStatusByUserId({
   userId,
   service,
   type,
@@ -26,22 +29,20 @@ const getLegalDocumentStatusByUserId = async ({
   userScoRepository,
   userAcceptanceRepository,
   logger,
-}) => {
+}) {
   LegalDocumentService.assert(service);
   LegalDocumentType.assert(type);
 
   const isPixAppTos = service === PIX_APP && type === TOS;
-  const isNewVersioningEnabled = await featureToggles.get('newPixAppLegalDocumentsVersioning');
-
-  if (!isNewVersioningEnabled && isPixAppTos) {
+  if (isPixAppTos && !isNewPixAppLegalDocumentsVersioning.value) {
     const user = await userRepository.getPixAppLegacyCguByUserId(userId);
-    const legalDocumentStatus = LegalDocumentStatus.buildForLegacyPixAppCgu({
-      cgu: user.cgu,
-      mustValidateTermsOfService: user.mustValidateTermsOfService,
-      lastTermsOfServiceValidatedAt: user.lastTermsOfServiceValidatedAt,
-    });
+    return LegalDocumentStatus.buildForLegacyPixAppCgu(user);
+  }
 
-    return legalDocumentStatus;
+  const isPixCertifTos = service === PIX_CERTIF && type === TOS;
+  if (isPixCertifTos && !isNewPixCertifLegalDocumentsVersioningEnabled.value) {
+    const user = await userRepository.getPixCertifLegacyTosByUserId(userId);
+    return LegalDocumentStatus.buildForLegacyPixCertifTos(user);
   }
 
   const lastLegalDocument = await legalDocumentRepository.findLastVersionByTypeAndService({ service, type });
@@ -69,6 +70,4 @@ const getLegalDocumentStatusByUserId = async ({
   }
 
   return legalDocumentStatus;
-};
-
-export { getLegalDocumentStatusByUserId };
+}

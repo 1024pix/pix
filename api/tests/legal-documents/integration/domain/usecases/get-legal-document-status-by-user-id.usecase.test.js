@@ -6,7 +6,7 @@ import { featureToggles } from '../../../../../src/shared/infrastructure/feature
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-const { PIX_APP, PIX_ORGA } = LegalDocumentService.VALUES;
+const { PIX_APP, PIX_ORGA, PIX_CERTIF } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;
 
 describe('Integration | Legal documents | Domain | Use case | get-legal-document-status-by-user-id', function () {
@@ -327,6 +327,58 @@ describe('Integration | Legal documents | Domain | Use case | get-legal-document
           // then
           expect(result).to.be.an.instanceOf(LegalDocumentStatus);
           expect(result.status).to.equal(STATUS.NOT_APPLICABLE);
+        });
+      });
+    });
+  });
+
+  context('when service is pix-certif', function () {
+    context('when feature toggle is disabled', function () {
+      beforeEach(async function () {
+        await featureToggles.set('newPixCertifLegalDocumentsVersioning', false);
+      });
+
+      context('when pixCertifTermsOfServiceAccepted=true', function () {
+        it('returns accepted status', async function () {
+          // given
+          const acceptedAt = new Date('2024-06-01');
+          const user = databaseBuilder.factory.buildUser({
+            pixCertifTermsOfServiceAccepted: true,
+            lastPixCertifTermsOfServiceValidatedAt: acceptedAt,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const result = await usecases.getLegalDocumentStatusByUserId({
+            userId: user.id,
+            service: PIX_CERTIF,
+            type: TOS,
+          });
+
+          // then
+          expect(result).to.be.an.instanceOf(LegalDocumentStatus);
+          expect(result).to.deep.equal({ status: STATUS.ACCEPTED, acceptedAt, documentPath: null });
+        });
+      });
+
+      context('when pixCertifTermsOfServiceAccepted=false', function () {
+        it('returns requested status', async function () {
+          // given
+          const user = databaseBuilder.factory.buildUser({
+            pixCertifTermsOfServiceAccepted: false,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const result = await usecases.getLegalDocumentStatusByUserId({
+            userId: user.id,
+            service: PIX_CERTIF,
+            type: TOS,
+          });
+
+          // then
+          expect(result).to.be.an.instanceOf(LegalDocumentStatus);
+          expect(result).to.deep.equal({ status: STATUS.REQUESTED, acceptedAt: null, documentPath: null });
         });
       });
     });
