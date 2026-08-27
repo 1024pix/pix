@@ -1,5 +1,21 @@
 # Pix Changelog
 
+# [5.488.0](https://github.com/1024pix/pix/compare/v5.487.0...v5.488.0) (2026-08-27)
+
+### :rocket: Amélioration
+
+- [#17216](https://github.com/1024pix/pix/pull/17216) Ajout img définitives CY_RangerFichiers_IND
+- [#17239](https://github.com/1024pix/pix/pull/17239) Ajouter le score dans le simulateur SmartRandom️™️
+- [#17240](https://github.com/1024pix/pix/pull/17240) Récupération du rapport du dernier calibrationId du scope (PIX-23982).
+- [#17189](https://github.com/1024pix/pix/pull/17189) remplacer url objet classement ac 2 antivirus_av
+
+### :arrow_up: Montée de version
+
+- [#17225](https://github.com/1024pix/pix/pull/17225) Update cypress
+- [#17245](https://github.com/1024pix/pix/pull/17245) Update dependency @1024pix/pix-ui to ^62.3.1 (admin)
+- [#17231](https://github.com/1024pix/pix/pull/17231) Update dependency js-yaml to v5.2.2 [SECURITY]
+- [#17232](https://github.com/1024pix/pix/pull/17232) Update dependency js-yaml to v5.2.2 [SECURITY]
+
 # [5.487.0](https://github.com/1024pix/pix/compare/v5.486.0...v5.487.0) (2026-08-26)
 
 ### :rocket: Amélioration
