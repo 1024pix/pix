@@ -71,6 +71,7 @@ export default class CourseCard extends Component {
             @model={{@type}}
             @query={{hash targetProfileId=@course.id}}
             {{on "click" @selectCourse}}
+            title={{@course.name}}
             aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
           />
         {{else if (eq @course.type "blueprint")}}
@@ -79,6 +80,7 @@ export default class CourseCard extends Component {
             @model={{@type}}
             @query={{hash blueprintId=@course.id}}
             {{on "click" @selectCourse}}
+            title={{@course.name}}
             aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
           />
         {{/if}}
