@@ -58,6 +58,28 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
 
       assert.dom(screen.getByText(t('pages.catalogue.card.tubes-count', { count: 3 }))).exists();
     });
+
+    test('it should have a link to open modal with the correct targetProfileId', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const course = store.createRecord('course', {
+        id: '1',
+        name: 'Ma super formation',
+        type: 'targetProfile',
+        nbTubes: 5,
+      });
+
+      // when
+      const screen = await render(
+        <template><CourseCard @course={{course}} @type="all" @selectCourse={{selectCourse}} /></template>,
+      );
+      const link = screen.getByRole('link', {
+        name: t('pages.catalogue.modal.open-modal', { name: 'Ma super formation' }),
+      });
+
+      // then
+      assert.strictEqual(link.getAttribute('href'), '/catalogue/all?targetProfileId=1');
+    });
   });
 
   module('for a "blueprint" type course', function () {
@@ -82,6 +104,28 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
       );
 
       assert.dom(screen.getByText(t('pages.catalogue.card.modules-count', { count: 4 }))).exists();
+    });
+
+    test('it should have a link to open modal with the correct blueprintId', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const course = store.createRecord('course', {
+        id: '2',
+        name: 'Ma super formation',
+        type: 'blueprint',
+        nbTubes: 5,
+      });
+
+      // when
+      const screen = await render(
+        <template><CourseCard @course={{course}} @type="all" @selectCourse={{selectCourse}} /></template>,
+      );
+      const link = screen.getByRole('link', {
+        name: t('pages.catalogue.modal.open-modal', { name: 'Ma super formation' }),
+      });
+
+      // then
+      assert.strictEqual(link.getAttribute('href'), '/catalogue/all?blueprintId=2');
     });
   });
 
@@ -149,55 +193,6 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
       );
 
       assert.notOk(screen.queryByText(t('pages.catalogue.card.simplified-access')));
-    });
-  });
-
-  module('modal', function () {
-    module('for a "targetProfile" type course', function () {
-      test('it should redirect with targetProfileId parameter to open the modal when the card is clicked', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const course = store.createRecord('course', {
-          id: '1',
-          name: 'Ma super formation',
-          type: 'targetProfile',
-          nbTubes: 5,
-        });
-
-        // when
-        const screen = await render(
-          <template><CourseCard @course={{course}} @type="all" @selectCourse={{selectCourse}} /></template>,
-        );
-        const link = screen.getByRole('link', {
-          name: t('pages.catalogue.modal.open-modal', { name: 'Ma super formation' }),
-        });
-
-        // then
-        assert.strictEqual(link.getAttribute('href'), '/catalogue/all?targetProfileId=1');
-      });
-    });
-    module('for a "blueprint" type course', function () {
-      test('it should redirect with blueprintId parameter to open the modal when the card is clicked', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const course = store.createRecord('course', {
-          id: '2',
-          name: 'Ma super formation',
-          type: 'blueprint',
-          nbTubes: 5,
-        });
-
-        // when
-        const screen = await render(
-          <template><CourseCard @course={{course}} @type="all" @selectCourse={{selectCourse}} /></template>,
-        );
-        const link = screen.getByRole('link', {
-          name: t('pages.catalogue.modal.open-modal', { name: 'Ma super formation' }),
-        });
-
-        // then
-        assert.strictEqual(link.getAttribute('href'), '/catalogue/all?blueprintId=2');
-      });
     });
   });
 });
