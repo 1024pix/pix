@@ -1,7 +1,10 @@
+import { setImmediate } from 'node:timers/promises';
+
 import { expect } from 'chai';
 
 import { RevokedUserAccess } from '../../../../../src/identity-access-management/domain/models/RevokedUserAccess.js';
 import { revokedUserAccessRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/revoked-user-access.repository.js';
+import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
 
 const revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
@@ -21,7 +24,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       await revokedUserAccessRepository.revokeAll({ userId: 12345, revokeUntil });
 
       // then
-      const result = await revokedUserAccessTemporaryStorage.get(12345);
+      const legacyResult = await revokedUserAccessTemporaryStorage.get(12345);
+      expect(legacyResult).to.equal(revokedTimeStamp);
+
+      const result = await revokedUserAccessTemporaryStorage.get('12345:all');
       expect(result).to.equal(revokedTimeStamp);
     });
   });

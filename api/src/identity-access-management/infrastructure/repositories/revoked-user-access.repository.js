@@ -1,11 +1,14 @@
 import { config } from '../../../../src/shared/config.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
+import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { UserIdIsRequiredError } from '../../domain/errors.js';
 import { RevokeUntilMustBeAnInstanceOfDate } from '../../domain/errors.js';
 import { RevokedUserAccess } from '../../domain/models/RevokedUserAccess.js';
 
 const revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
 const revokedUserAccessLifespanMs = config.authentication.revokedUserAccessLifespanMs;
+
+const isSessionLogoutEnabled = featureToggles.use('isSessionLogoutEnabled');
 
 /**
  * Saves the revoke date for a user in the temporary storage.
@@ -25,6 +28,12 @@ async function revokeAll({ userId, revokeUntil }) {
 
   await revokedUserAccessTemporaryStorage.save({
     key: userId,
+    value: Math.floor(revokeUntil.getTime() / 1000),
+    expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
+  });
+
+  await revokedUserAccessTemporaryStorage.save({
+    key: `${userId}:all`,
     value: Math.floor(revokeUntil.getTime() / 1000),
     expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
   });
