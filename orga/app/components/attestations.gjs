@@ -165,11 +165,10 @@ class SixthGrade extends Component {
     <div class="attestations-page__action">
       <PixMultiSelect
         @isSearchable={{true}}
-        @locale={{this.locale.currentLocale}}
+        @texts={{hash placeholder=(t "common.filters.placeholder") searchLabel=(t "common.filters.search-label-list")}}
         @options={{@divisions}}
         @values={{this.selectedDivisions}}
         @onChange={{this.onSelectDivision}}
-        @placeholder={{t "common.filters.placeholder"}}
       >
         <:label>{{t "pages.attestations.select-divisions-label"}}</:label>
         <:default as |option|>{{option.label}}</:default>

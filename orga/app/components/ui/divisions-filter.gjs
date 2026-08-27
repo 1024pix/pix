@@ -1,4 +1,5 @@
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
+import { hash } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -28,14 +29,16 @@ export default class DivisionsFilter extends Component {
       <div class="divisions-filter--is-loading placeholder-box"></div>
     {{else}}
       <PixMultiSelect
-        @placeholder={{t "common.filters.divisions.placeholder"}}
-        @emptyMessage={{t "common.filters.divisions.empty"}}
+        @texts={{hash
+          placeholder=(t "common.filters.divisions.placeholder")
+          emptySearchMessage=(t "common.filters.divisions.empty")
+          searchLabel=(t "common.filters.search-label-list")
+        }}
         @screenReaderOnly={{true}}
         @values={{@selected}}
         @onChange={{@onSelect}}
         @options={{this.options}}
         @isSearchable={{true}}
-        @locale={{this.locale.currentLocale}}
         ...attributes
       >
         <:label>{{t "common.filters.divisions.label"}}</:label>

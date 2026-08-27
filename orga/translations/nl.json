@@ -240,6 +240,7 @@
         "label": "Zoeken op extern identificatienummer"
       },
       "placeholder": "-- Selecteer --",
+      "search-label-list": "Zoeken",
       "title": "Filters"
     },
     "form": {

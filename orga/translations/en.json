@@ -240,6 +240,7 @@
         "label": "Search by external id"
       },
       "placeholder": "-- Select --",
+      "search-label-list": "Search",
       "title": "Filters"
     },
     "form": {

@@ -1,4 +1,5 @@
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
+import { hash } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -28,11 +29,13 @@ export default class GroupsFilter extends Component {
       <div class="groups-filter--is-loading placeholder-box"></div>
     {{else}}
       <PixMultiSelect
-        @placeholder={{t "common.filters.groups.placeholder"}}
-        @emptyMessage={{t "common.filters.groups.empty"}}
+        @texts={{hash
+          placeholder=(t "common.filters.groups.placeholder")
+          emptySearchMessage=(t "common.filters.groups.empty")
+          searchLabel=(t "common.filters.search-label-list")
+        }}
         @screenReaderOnly={{true}}
         @isSearchable={{true}}
-        @locale={{this.locale.currentLocale}}
         @onChange={{@onSelect}}
         @values={{@selectedGroups}}
         @options={{this.options}}

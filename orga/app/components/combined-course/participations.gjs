@@ -5,7 +5,7 @@ import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
-import { uniqueId } from '@ember/helper';
+import { hash, uniqueId } from '@ember/helper';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
@@ -102,8 +102,11 @@ export default class CombinedCourse extends Component {
 
       {{#if this.displayDivisionColumn}}
         <PixMultiSelect
-          @placeholder={{t this.divisionFilterLabels.placeholder}}
-          @emptyMessage={{t this.divisionFilterLabels.empty}}
+          @texts={{hash
+            placeholder=(t this.divisionFilterLabels.placeholder)
+            emptySearchMessage=(t this.divisionFilterLabels.empty)
+            searchLabel=(t "common.filters.search-label-list")
+          }}
           @screenReaderOnly={{true}}
           @values={{@divisionsFilter}}
           @onChange={{this.onSearchDivisions}}
@@ -116,7 +119,10 @@ export default class CombinedCourse extends Component {
       {{/if}}
 
       <PixMultiSelect
-        @placeholder={{t "pages.combined-course.filters.status.placeholder"}}
+        @texts={{hash
+          placeholder=(t "pages.combined-course.filters.status.placeholder")
+          searchLabel=(t "common.filters.search-label-list")
+        }}
         @screenReaderOnly={{true}}
         @options={{this.statusesOptions}}
         @onChange={{this.onSelectStatus}}

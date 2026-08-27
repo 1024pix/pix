@@ -240,6 +240,7 @@
         "label": "Búsqueda por ID externo"
       },
       "placeholder": "-- Selecciona --",
+      "search-label-list": "Búsqueda",
       "title": "Filtros"
     },
     "form": {

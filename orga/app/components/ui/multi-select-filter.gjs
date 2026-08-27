@@ -1,7 +1,9 @@
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 export default class MultiSelectFilter extends Component {
   @service locale;
@@ -17,11 +19,13 @@ export default class MultiSelectFilter extends Component {
       <div class="multi-select-filter--is-loading placeholder-box"></div>
     {{else}}
       <PixMultiSelect
-        @placeholder={{@placeholder}}
+        @texts={{hash
+          placeholder=@placeholder
+          emptySearchMessage=@emptyMessage
+          searchLabel=(t "common.filters.search-label-list")
+        }}
         @screenReaderOnly={{true}}
-        @emptyMessage={{@emptyMessage}}
         @isSearchable={{true}}
-        @locale={{this.locale.currentLocale}}
         @onChange={{this.onSelect}}
         @values={{@selectedOption}}
         @options={{@options}}

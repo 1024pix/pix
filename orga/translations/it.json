@@ -240,6 +240,7 @@
         "label": "Ricerca di identificatore esterno"
       },
       "placeholder": "-- Seleziona...",
+      "search-label-list": "Ricerca",
       "title": "Filtri"
     },
     "form": {

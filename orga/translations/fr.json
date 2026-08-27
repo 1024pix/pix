@@ -240,6 +240,7 @@
         "label": "Recherche sur l'identifiant externe"
       },
       "placeholder": "-- Sélectionner --",
+      "search-label-list": "Rechercher",
       "title": "Filtres"
     },
     "form": {

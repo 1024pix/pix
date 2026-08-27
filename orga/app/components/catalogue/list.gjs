@@ -176,9 +176,11 @@ export default class List extends Component {
         {{/if}}
         <PixMultiSelect
           @isDisabled={{eq this.areasOptions.length 0}}
-          @emptyMessage={{t "pages.catalogue.filters.areas.empty"}}
+          @texts={{hash
+            emptySearchMessage=(t "pages.catalogue.filters.areas.empty")
+            searchLabel=(t "common.filters.search-label-list")
+          }}
           @screenReaderOnly={{true}}
-          @locale={{this.locale.currentLocale}}
           @values={{@areas}}
           @options={{this.areasOptions}}
           @onChange={{fn @updateFilter "areas"}}
@@ -190,9 +192,11 @@ export default class List extends Component {
 
         <PixMultiSelect
           @isDisabled={{eq this.competencesOptions.length 0}}
-          @emptyMessage={{t "pages.catalogue.filters.competences.empty"}}
+          @texts={{hash
+            emptySearchMessage=(t "pages.catalogue.filters.competences.empty")
+            searchLabel=(t "common.filters.search-label-list")
+          }}
           @screenReaderOnly={{true}}
-          @locale={{this.locale.currentLocale}}
           @values={{@competences}}
           @options={{this.competencesOptions}}
           @onChange={{fn @updateFilter "competences"}}

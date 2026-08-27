@@ -230,8 +230,8 @@ export default class ParticipationFilters extends Component {
         {{/if}}
         {{#if this.displayStagesFilter}}
           <PixMultiSelect
-            @placeholder={{t "pages.campaign-results.filters.type.stages"}}
             @screenReaderOnly={{true}}
+            @texts={{hash placeholder=(t "pages.campaign-results.filters.type.stages")}}
             @onChange={{this.onSelectStage}}
             @values={{@selectedStages}}
             @options={{this.stageOptions}}
@@ -251,7 +251,7 @@ export default class ParticipationFilters extends Component {
         {{/if}}
         {{#if this.displayBadgesFilter}}
           <PixMultiSelect
-            @placeholder={{t "pages.campaign-results.filters.type.badges"}}
+            @texts={{hash placeholder=(t "pages.campaign-results.filters.type.badges")}}
             @screenReaderOnly={{true}}
             @onChange={{this.onSelectBadge}}
             @values={{@selectedBadges}}
@@ -263,7 +263,7 @@ export default class ParticipationFilters extends Component {
           </PixMultiSelect>
 
           <PixMultiSelect
-            @placeholder={{t "pages.campaign-results.filters.type.unacquired-badges"}}
+            @texts={{hash placeholder=(t "pages.campaign-results.filters.type.unacquired-badges")}}
             @screenReaderOnly={{true}}
             @onChange={{this.onSelectUnacquiredBadge}}
             @values={{@selectedUnacquiredBadges}}
