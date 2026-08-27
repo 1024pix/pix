@@ -54,6 +54,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-oidc-use
     lastUserApplicationConnectionsRepository = {
       upsert: sinon.stub().resolves(),
     };
+
+    userToCreateRepository = Symbol('userToCreateRepository');
   });
 
   context('when authentication key is expired', function () {

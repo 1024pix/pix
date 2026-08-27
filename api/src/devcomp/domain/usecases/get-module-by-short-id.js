@@ -5,9 +5,8 @@ async function getModuleByShortId({ shortId, encryptedRedirectionUrl, moduleRepo
   const module = await moduleRepository.getByShortId({ shortId });
 
   if (encryptedRedirectionUrl) {
-    let redirectionUrl = null;
     try {
-      redirectionUrl = await cryptoService.decrypt(encryptedRedirectionUrl, config.module.secret);
+      const redirectionUrl = await cryptoService.decrypt(encryptedRedirectionUrl, config.module.secret);
       if (redirectionUrl) {
         module.setRedirectionUrl(redirectionUrl);
       }

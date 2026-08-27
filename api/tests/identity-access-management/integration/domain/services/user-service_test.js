@@ -126,8 +126,6 @@ describe('Identity Access Management | Integration | Domain | Services | user-se
   });
 
   describe('createUserWithGarOrPassword', function () {
-    let samlId;
-
     beforeEach(async function () {
       user = domainBuilder.buildUser();
       await databaseBuilder.commit();
@@ -138,7 +136,7 @@ describe('Identity Access Management | Integration | Domain | Services | user-se
         // when
         const userId = await userService.createUserWithGarOrPassword({
           hashedPassword: 'Abcdef1234',
-          samlId,
+          samlId: null,
           user,
           authenticationMethodRepository,
           userToCreateRepository,

@@ -55,7 +55,7 @@ export async function extractCertificationCandidatesFromCandidatesImportSheet({
   const _checkForDuplication = _handleDuplicateCandidate();
 
   return PromiseUtils.mapSeries(Object.entries(candidatesDataByLine), async ([line, candidateData]) => {
-    let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity, billingMode } = candidateData;
+    let { sex, birthINSEECode, birthPostalCode, billingMode } = candidateData;
     const { email, resultRecipientEmail } = candidateData;
 
     if (birthINSEECode && birthINSEECode !== '99' && birthINSEECode.length < 5)
@@ -77,10 +77,9 @@ export async function extractCertificationCandidatesFromCandidatesImportSheet({
       _handleBirthInformationValidationError(cpfBirthInformation, line);
     }
 
-    birthCountry = cpfBirthInformation.birthCountry;
+    const { birthCountry, birthCity } = cpfBirthInformation;
     birthINSEECode = cpfBirthInformation.birthINSEECode;
     birthPostalCode = cpfBirthInformation.birthPostalCode;
-    birthCity = cpfBirthInformation.birthCity;
 
     if (billingMode) {
       billingMode = Candidate.parseBillingMode({ billingMode, translate });

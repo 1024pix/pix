@@ -48,6 +48,7 @@ describe('Unit | UseCase | generate-username', function () {
       findMatchingCandidateIdForGivenUser: sinon.stub(),
       createUsernameByUser: sinon.stub(),
     };
+    userRepository = Symbol('user-repository');
   });
 
   context('When no organizationLearner found matching organization and birthdate', function () {

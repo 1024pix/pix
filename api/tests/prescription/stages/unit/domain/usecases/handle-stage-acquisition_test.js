@@ -9,7 +9,6 @@ describe('Evaluation | Unit | UseCase | handleStageAcquisition', function () {
   let campaignParticipationRepository;
   let stageAcquisitionRepository;
   let knowledgeElementForParticipationService;
-  let campaignSkillRepository;
   let campaignRepository;
   let stageRepository;
   let skillRepository;
@@ -38,7 +37,6 @@ describe('Evaluation | Unit | UseCase | handleStageAcquisition', function () {
 
     dependencies = {
       campaignParticipationRepository,
-      campaignSkillRepository,
       stageAcquisitionRepository,
       knowledgeElementForParticipationService,
       campaignRepository,

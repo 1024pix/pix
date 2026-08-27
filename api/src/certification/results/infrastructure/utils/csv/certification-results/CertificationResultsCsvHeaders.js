@@ -53,7 +53,7 @@ export class CertificationResultsCsvHeaders {
   *generateHeaders() {
     const headers = [];
     let index = 0;
-    let state = { done: false };
+    let state;
 
     do {
       state = yield;

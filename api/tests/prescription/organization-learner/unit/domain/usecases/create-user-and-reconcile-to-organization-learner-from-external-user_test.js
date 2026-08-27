@@ -53,6 +53,9 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
     authenticationSessionService = {
       generateSessionId: sinon.stub().returns('random-session-id'),
     };
+
+    obfuscationService = Symbol('obfuscation-service');
+    studentRepository = Symbol('student-repository');
   });
 
   context('when user has saml id', function () {

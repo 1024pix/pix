@@ -16,6 +16,7 @@ describe('Async gotchas – anti-patterns vs good patterns', function () {
           try {
             await levelOne();
           } catch (err) {
+            // eslint-disable-next-line preserve-caught-error
             throw new Error(err.message);
           }
         }

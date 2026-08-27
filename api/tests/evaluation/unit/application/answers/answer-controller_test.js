@@ -119,8 +119,15 @@ describe('Unit | Controller | answer-controller', function () {
     });
 
     context('assessment type', function () {
-      let createdAnswer;
+      const createdAnswer = Symbol('createdAnswer');
       let response;
+
+      beforeEach(function () {
+        evaluationUsecases.saveAndCorrectAnswerForCompetenceEvaluation.resolves(createdAnswer);
+        evaluationUsecases.saveAndCorrectAnswerForCampaign.resolves(createdAnswer);
+        evaluationUsecases.saveAndCorrectAnswerForDemoAndPreview.resolves(createdAnswer);
+        certificationEvaluationApiStub.evaluateAndSaveAnswer.resolves(createdAnswer);
+      });
 
       it('should call appropriate usecase when assessment is of type COMPETENCE_EVALUATION', async function () {
         // given

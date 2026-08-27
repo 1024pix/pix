@@ -38,6 +38,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
   let userValidator;
 
   beforeEach(function () {
+    obfuscationService = Symbol('obfuscation-service');
     redirectionUrl = 'https://pixapp/campaigns/ABCDEFGHI';
     userAttributes = {
       firstName: 'Joe',

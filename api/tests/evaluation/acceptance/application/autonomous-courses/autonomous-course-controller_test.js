@@ -170,11 +170,10 @@ describe('Acceptance | API | Autonomous Course', function () {
   describe('GET /api/admin/autonomous-courses/{autonomousCourseId}', function () {
     let targetProfileId;
     let organizationId;
-
     beforeEach(async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+      organizationId = databaseBuilder.factory.buildOrganization({
         id: config.autonomousCourse.autonomousCoursesOrganizationId,
-      });
+      }).id;
       targetProfileId = databaseBuilder.factory.buildTargetProfile({
         isSimplifiedAccess: true,
       }).id;
@@ -229,11 +228,10 @@ describe('Acceptance | API | Autonomous Course', function () {
   describe('PATCH /api/admin/autonomous-courses/{autonomousCourseId}', function () {
     let targetProfileId;
     let organizationId;
-
     beforeEach(async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+      organizationId = databaseBuilder.factory.buildOrganization({
         id: config.autonomousCourse.autonomousCoursesOrganizationId,
-      });
+      }).id;
       targetProfileId = databaseBuilder.factory.buildTargetProfile({
         isSimplifiedAccess: true,
       }).id;

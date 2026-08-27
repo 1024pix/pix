@@ -81,7 +81,7 @@ export class CriterionProperty {
   }
 
   check(item) {
-    let error = null;
+    let error;
     const criterionAttr = this.#data;
     const dataAttr = item[this.#key];
     if (Array.isArray(criterionAttr)) {

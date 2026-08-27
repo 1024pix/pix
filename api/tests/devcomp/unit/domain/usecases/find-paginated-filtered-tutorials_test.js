@@ -15,6 +15,7 @@ describe('Unit | UseCase | find-paginated-filtered-tutorials', function () {
     expectedSavedTutorials = Symbol('tutorials');
     expectedPagination = Symbol('pagination');
     expectedMeta = { pagination: expectedPagination };
+    expectedRecommendedTutorials = Symbol('recommended-tutorials');
     tutorialRepository = {
       findPaginatedFilteredRecommendedByUserId: sinon.stub().resolves({
         results: expectedRecommendedTutorials,

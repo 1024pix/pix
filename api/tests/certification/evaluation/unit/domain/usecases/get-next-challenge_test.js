@@ -25,7 +25,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
       versionApi;
 
     let version;
-    let certificationCandidateId;
     let assessmentId;
     let assessmentSheet;
 
@@ -578,7 +577,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           pickChallengeService,
           assessmentSheetRepository,
           complementaryCertificationRepository,
-          certificationCandidateId,
         });
 
         // then
@@ -714,7 +712,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           versionApi,
           assessmentSheetRepository,
           complementaryCertificationRepository,
-          certificationCandidateId,
         });
 
         // then
@@ -749,7 +746,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           assessmentSheetRepository,
           complementaryCertificationRepository,
           versionApi,
-          certificationCandidateId,
         });
 
         // then

@@ -3,7 +3,6 @@
  * @param stageRepository
  * @param skillRepository
  * @param campaignRepository
- * @param campaignSkillRepository
  * @param stageAcquisitionRepository
  * @param knowledgeElementForParticipationService
  * @param campaignParticipationRepository
