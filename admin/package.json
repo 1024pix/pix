@@ -48,7 +48,7 @@
     "@babel/eslint-parser": "^7.28.5",
     "@ember-intl/v1-compat": "^1.0.0",
     "@ember/optional-features": "^3.0.0",
-    "@ember/test-helpers": "^5.4.1",
+    "@ember/test-helpers": "^5.4.3",
     "@embroider/compat": "^3.9.3",
     "@embroider/core": "^3.5.9",
     "@embroider/legacy-inspector-support": "^0.1.3",
