@@ -113,6 +113,16 @@ module('Integration | Component | BadgeForm', function (hooks) {
       assert.dom(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' })).exists();
     });
 
+    test('it should display the expand and collapse buttons', async function (assert) {
+      // when
+      const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
+      await click(screen.getByRole('checkbox', { name: 'sur une sélection de sujets du profil cible' }));
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Tout déplier' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Tout replier' })).exists();
+    });
+
     test('it should add a new criteria on click', async function (assert) {
       // when
       const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
