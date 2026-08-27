@@ -51,7 +51,7 @@ export function buildReport({ version, calibration }) {
   const reportLines = [];
   computeReportForLearningContentPerimeter(version, calibration, reportLines);
   computeReportForStartDate(now, calibration, reportLines);
-  computeReportForScope(version, calibration, reportLines);
+  computeReportForScope(calibration, reportLines);
   computeReportForStatus(calibration, reportLines);
   computeReportForMeshScoring(version, calibration, reportLines);
   computeReportForCompetenceScoring(version, calibration, reportLines);
@@ -121,17 +121,11 @@ function computeReportForStartDate(now, calibration, reportLines) {
   );
 }
 
-function computeReportForScope(version, calibration, reportLines) {
-  const adaptedCalibrationScope = fromCalibrationScope(calibration.scope);
-  const alertLevel = version.scope !== adaptedCalibrationScope ? ALERT_LEVELS.HIGH : null;
-  const additionalContent =
-    alertLevel === null ? null : 'La calibration ne concerne pas le même référentiel que la version';
+function computeReportForScope(calibration, reportLines) {
   reportLines.push(
     new CalibrationReportLine({
       label: REPORT_LABELS.CALIBRATION_SCOPE,
-      content: adaptedCalibrationScope,
-      alertLevel,
-      additionalContent,
+      content: fromCalibrationScope(calibration.scope),
     }),
   );
 }

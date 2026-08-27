@@ -6,10 +6,129 @@ import {
   CalibrationScoringMesh,
 } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 import * as calibrationRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/calibration-repository.js';
+import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { databaseBuilder, datamartBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Integration | Repository | calibration', function () {
+  describe('#findLatestForReport', function () {
+    it('returns null when the scope has no calibration at all', async function () {
+      // given
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .asValidated({ startedAt: new Date('2026-03-04') })
+        .onScope({ scope: CALIBRATION_SCOPES.DROIT })
+        .withParameters({ id: 113 })
+        .insertToDB({ datamartBuilder });
+
+      await datamartBuilder.commit();
+
+      // when
+      const calibration = await calibrationRepository.findLatestForReport({ scope: SCOPES.PIX_PLUS_PRO_SANTE });
+
+      // then
+      expect(calibration).to.be.null;
+    });
+
+    it('returns the most recently started calibration of the scope, whatever its status', async function () {
+      // given
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .asValidated({ startedAt: new Date('2026-01-01') })
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .withParameters({ id: 111 })
+        .insertToDB({ datamartBuilder });
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .asToValidate({ startedAt: new Date('2026-06-01') })
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .withParameters({ id: 112 })
+        .insertToDB({ datamartBuilder });
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .asValidated({ startedAt: new Date('2026-12-01') })
+        .onScope({ scope: CALIBRATION_SCOPES.DROIT })
+        .withParameters({ id: 113 })
+        .insertToDB({ datamartBuilder });
+
+      await datamartBuilder.commit();
+
+      // when
+      const calibration = await calibrationRepository.findLatestForReport({ scope: SCOPES.CORE });
+
+      // then
+      expect(calibration.id).to.equal(112);
+      expect(calibration.status).to.equal(CALIBRATION_STATUSES.TO_VALIDATE);
+      expect(calibration.startedAt).to.deep.equal(new Date('2026-06-01'));
+      expect(calibration.scope).to.equal(CALIBRATION_SCOPES.COEUR);
+    });
+
+    it('falls back on the greatest id when several calibrations share the same date', async function () {
+      // given
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .asValidated({ startedAt: new Date('2026-06-01') })
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .withParameters({ id: 111 })
+        .insertToDB({ datamartBuilder });
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .asValidated({ startedAt: new Date('2026-06-01') })
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .withParameters({ id: 112 })
+        .insertToDB({ datamartBuilder });
+
+      await datamartBuilder.commit();
+
+      // when
+      const calibration = await calibrationRepository.findLatestForReport({ scope: SCOPES.CORE });
+
+      // then
+      expect(calibration.id).to.equal(112);
+    });
+
+    it('returns the challenge count, the tube ids and the scoring presences of the calibration', async function () {
+      // given
+      await domainBuilder.certification.configuration
+        .calibrationBuilder()
+        .asValidated({ startedAt: new Date('2026-06-01') })
+        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .withCalibratredChallenges([
+          { challengeId: 'challengeB1', tubeId: 'tubeB' },
+          { challengeId: 'challengeB2', tubeId: 'tubeB' },
+          { challengeId: 'challengeC1', tubeId: 'tubeC' },
+        ])
+        .withScoringMeshes([{ mesh: 0, minBoundCuratedValue: -4.67, maxBoundCuratedValue: -1.4 }])
+        .withParameters({ id: 112 })
+        .insertToDB({ datamartBuilder });
+
+      databaseBuilder.factory.learningContent.build({
+        skills: [
+          { id: 'skillB1', tubeId: 'tubeB' },
+          { id: 'skillB2', tubeId: 'tubeB' },
+          { id: 'skillC', tubeId: 'tubeC' },
+        ],
+        challenges: [
+          { id: 'challengeB1', skillId: 'skillB1' },
+          { id: 'challengeB2', skillId: 'skillB2' },
+          { id: 'challengeC1', skillId: 'skillC' },
+        ],
+      });
+
+      await databaseBuilder.commit();
+      await datamartBuilder.commit();
+
+      // when
+      const calibration = await calibrationRepository.findLatestForReport({ scope: SCOPES.CORE });
+
+      // then
+      expect(calibration.challengeCount).to.equal(3);
+      expect(calibration.tubeIds).to.deep.equal(new Set(['tubeB', 'tubeC']));
+      expect(calibration.hasMeshScoring).to.be.true;
+      expect(calibration.hasCompetenceScoring).to.be.false;
+    });
+  });
+
   describe('#find', function () {
     it('returns null when no calibration found for id', async function () {
       await domainBuilder.certification.configuration

@@ -3,23 +3,6 @@
 .versions-calibration {
   color: var(--pix-neutral-800);
 
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-
-    section {
-      display: flex;
-      gap: 1.5rem;
-      align-items: end;
-      justify-content: space-between;
-
-      div {
-        flex: 1.5;
-      }
-    }
-  }
-
   &__report {
     margin-top: 1rem;
 
@@ -28,8 +11,17 @@
     }
   }
 
+  &__no-report {
+    color: var(--pix-neutral-500);
+  }
+
+  &__save-tooltip {
+    width: fit-content;
+  }
+
   &__save-button {
     width: fit-content;
+    margin: 1rem 0;
   }
 }
 

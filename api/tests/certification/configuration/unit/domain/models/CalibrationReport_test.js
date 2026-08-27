@@ -231,40 +231,20 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
         ];
       });
 
-      context('when calibration is not on the same scope of the version', function () {
-        it('adds a dedicated report line with high alert level', function () {
-          const calibration = calibrationBuilder.onScope({ scope: CALIBRATION_SCOPES.PRO_SANTE }).build();
+      it('adds a dedicated informative report line, without alert level', function () {
+        const calibration = calibrationBuilder.onScope({ scope: CALIBRATION_SCOPES.COEUR }).build();
 
-          const report = buildReport({ version, calibration });
+        const report = buildReport({ version, calibration });
 
-          expect(report.reportLines).to.deep.include.members([
-            ...commonReportLines,
-            {
-              additionalContent: 'La calibration ne concerne pas le même référentiel que la version',
-              alertLevel: ALERT_LEVELS.HIGH,
-              label: REPORT_LABELS.CALIBRATION_SCOPE,
-              content: SCOPES.PIX_PLUS_PRO_SANTE,
-            },
-          ]);
-        });
-      });
-
-      context('when calibration is on the same scope of the version', function () {
-        it('adds a dedicated report line with no alert level', function () {
-          const calibration = calibrationBuilder.onScope({ scope: CALIBRATION_SCOPES.COEUR }).build();
-
-          const report = buildReport({ version, calibration });
-
-          expect(report.reportLines).to.deep.include.members([
-            ...commonReportLines,
-            {
-              additionalContent: null,
-              alertLevel: null,
-              label: REPORT_LABELS.CALIBRATION_SCOPE,
-              content: SCOPES.CORE,
-            },
-          ]);
-        });
+        expect(report.reportLines).to.deep.include.members([
+          ...commonReportLines,
+          {
+            additionalContent: null,
+            alertLevel: null,
+            label: REPORT_LABELS.CALIBRATION_SCOPE,
+            content: SCOPES.CORE,
+          },
+        ]);
       });
     });
 

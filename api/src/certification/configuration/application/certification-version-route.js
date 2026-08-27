@@ -215,7 +215,7 @@ async function register(server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report',
+      path: '/api/admin/certification-versions/{certificationVersionId}/latest-calibration-report',
       config: {
         pre: [
           {
@@ -230,14 +230,13 @@ async function register(server) {
         validate: {
           params: Joi.object({
             certificationVersionId: identifiersType.certificationVersionId,
-            calibrationId: identifiersType.calibrationId,
           }),
         },
         handler: certificationVersionController.generateCalibrationReport,
         tags: ['api', 'admin'],
         notes: [
           'Cette route est restreinte au SUPER ADMIN',
-          "Elle permet d'obtenir un rapport de vérification qui précède la récupération d'une calibration",
+          "Elle permet d'obtenir un rapport de vérification sur la calibration la plus récente du référentiel de la version, qui précède la récupération de cette calibration",
         ],
       },
     },

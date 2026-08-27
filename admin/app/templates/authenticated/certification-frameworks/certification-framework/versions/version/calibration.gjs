@@ -1,5 +1,8 @@
-import CertificationVersionCalibrationForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-calibration-form';
+import CertificationVersionCalibrationReport from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-calibration-report';
 
 <template>
-  <CertificationVersionCalibrationForm @draftVersion={{@model.draftVersion}} @activeVersion={{@model.activeVersion}} />
+  <CertificationVersionCalibrationReport
+    @draftVersion={{@model.draftVersion}}
+    @calibrationReport={{@model.calibrationReport}}
+  />
 </template>

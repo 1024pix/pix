@@ -262,7 +262,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
     });
   });
 
-  describe('GET /api/admin/certification-versions/{certificationVersionId}/calibrations/{calibrationId}/report', function () {
+  describe('GET /api/admin/certification-versions/{certificationVersionId}/latest-calibration-report', function () {
     context('when the user authenticated has no role', function () {
       it('should return 403 HTTP status code', async function () {
         // given
@@ -276,7 +276,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         // when
         const response = await httpTestServer.request(
           'GET',
-          `/api/admin/certification-versions/1/calibrations/2/report`,
+          `/api/admin/certification-versions/1/latest-calibration-report`,
         );
 
         // then
@@ -297,26 +297,7 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         // when
         const response = await httpTestServer.request(
           'GET',
-          `/api/admin/certification-versions/NOT_AN_ID/calibrations/2/report`,
-        );
-
-        // then
-        expect(response.statusCode).to.equal(400);
-        sinon.assert.notCalled(certificationVersionController.generateCalibrationReport);
-      });
-
-      it('should return 400 HTTP status code when calibration id is not valid', async function () {
-        // given
-        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
-        sinon.stub(certificationVersionController, 'generateCalibrationReport').returns('ok');
-
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request(
-          'GET',
-          `/api/admin/certification-versions/1/calibrations/coucou/report`,
+          `/api/admin/certification-versions/NOT_AN_ID/latest-calibration-report`,
         );
 
         // then
@@ -334,7 +315,10 @@ describe('Unit | Certification | Configuration | Application | Router | certific
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('GET', `/api/admin/certification-versions/1/calibrations/2/report`);
+      const response = await httpTestServer.request(
+        'GET',
+        `/api/admin/certification-versions/1/latest-calibration-report`,
+      );
       // then
       expect(response.statusCode).to.equal(200);
       sinon.assert.called(certificationVersionController.generateCalibrationReport);
