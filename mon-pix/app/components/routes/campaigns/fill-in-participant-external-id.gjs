@@ -1,4 +1,3 @@
-import PixBackgroundHeader from '@1024pix/pix-ui/components/pix-background-header';
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
@@ -91,51 +90,49 @@ export default class FillInParticipantExternalId extends Component {
   }
 
   <template>
-    <main role="main">
-      <PixBackgroundHeader>
-        <PixBlock class="fill-in-participant-external-id">
-          <h1 class="fill-in-participant-external-id__title">{{t "pages.fill-in-participant-external-id.first-title"}}
-          </h1>
-          <p class="fill-in-participant-external-id__announcement">
-            {{t "pages.fill-in-participant-external-id.announcement"}}
-          </p>
+    <main role="main" class="global-page-container fill-in-participant-external-id-page">
+      <PixBlock class="fill-in-participant-external-id">
+        <h1 class="fill-in-participant-external-id__title">{{t "pages.fill-in-participant-external-id.first-title"}}
+        </h1>
+        <p class="fill-in-participant-external-id__announcement">
+          {{t "pages.fill-in-participant-external-id.announcement"}}
+        </p>
 
-          <form {{on "submit" this.submit}} class="fill-in-participant-external-id__form">
-            <PixInput
-              @id="external-id"
-              @value={{this.participantExternalId}}
-              @errorMessage={{this.errorMessage}}
-              @validationStatus={{if this.errorMessage "error"}}
-              @requiredLabel={{true}}
-              {{on "input" this.resetErrorMessage}}
-              {{on "change" this.updateParticipantExternalId}}
-              @subLabel={{this.idPixInputSubLabel}}
-              type={{this.idPixInputType}}
-              aria-autocomplete="none"
-            >
-              <:label>{{@campaign.externalIdLabel}}</:label>
-            </PixInput>
+        <form {{on "submit" this.submit}} class="fill-in-participant-external-id__form">
+          <PixInput
+            @id="external-id"
+            @value={{this.participantExternalId}}
+            @errorMessage={{this.errorMessage}}
+            @validationStatus={{if this.errorMessage "error"}}
+            @requiredLabel={{true}}
+            {{on "input" this.resetErrorMessage}}
+            {{on "change" this.updateParticipantExternalId}}
+            @subLabel={{this.idPixInputSubLabel}}
+            type={{this.idPixInputType}}
+            aria-autocomplete="none"
+          >
+            <:label>{{@campaign.externalIdLabel}}</:label>
+          </PixInput>
 
-            {{#if @campaign.externalIdHelpImageUrl}}
-              <img
-                class="fill-in-participant-external-id__help"
-                src={{@campaign.externalIdHelpImageUrl}}
-                alt={{@campaign.alternativeTextToExternalIdHelpImage}}
-              />
-            {{/if}}
+          {{#if @campaign.externalIdHelpImageUrl}}
+            <img
+              class="fill-in-participant-external-id__help"
+              src={{@campaign.externalIdHelpImageUrl}}
+              alt={{@campaign.alternativeTextToExternalIdHelpImage}}
+            />
+          {{/if}}
 
-            <div class="fill-in-participant-external-id__buttonbar">
-              <PixButton @variant="secondary" @triggerAction={{this.cancel}}>
-                {{t "pages.fill-in-participant-external-id.buttons.cancel"}}
-              </PixButton>
+          <div class="fill-in-participant-external-id__buttonbar">
+            <PixButton @variant="secondary" @triggerAction={{this.cancel}}>
+              {{t "pages.fill-in-participant-external-id.buttons.cancel"}}
+            </PixButton>
 
-              <PixButton @type="submit">
-                {{t "pages.fill-in-participant-external-id.buttons.continue"}}
-              </PixButton>
-            </div>
-          </form>
-        </PixBlock>
-      </PixBackgroundHeader>
+            <PixButton @type="submit">
+              {{t "pages.fill-in-participant-external-id.buttons.continue"}}
+            </PixButton>
+          </div>
+        </form>
+      </PixBlock>
     </main>
   </template>
 }

@@ -1,4 +1,3 @@
-import PixBackgroundHeader from '@1024pix/pix-ui/components/pix-background-header';
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
@@ -111,7 +110,7 @@ export default class LearnerReconciliation extends Component {
   }
 
   <template>
-    <PixBackgroundHeader>
+    <div class="global-page-container learner-reconciliation-page">
       <PixBlock class="learner-reconciliation">
         <header class="learner-reconciliation__title-container" role="banner">
           <h1 class="learner-reconciliation__title">{{t
@@ -141,6 +140,6 @@ export default class LearnerReconciliation extends Component {
           <PixButton @type="submit" @isLoading={{@isLoading}}>{{t "common.actions.lets-go"}}</PixButton>
         </form>
       </PixBlock>
-    </PixBackgroundHeader>
+    </div>
   </template>
 }
