@@ -48,15 +48,39 @@ export class Calibration {
 }
 
 export class CalibrationForReport {
-  constructor({ id, startedAt, status, scope, challengeCount, tubeIds, hasMeshScoring, hasCompetenceScoring }) {
+  /**
+   * @param {object} params
+   * @param {number} params.challengeCount - total number of calibrated challenges
+   * @param {Object<string, number>} [params.challengeCountByLocale] - number of calibrated challenges available in each locale
+   */
+  constructor({
+    id,
+    startedAt,
+    status,
+    scope,
+    challengeCount,
+    challengeCountByLocale = {},
+    tubeIds,
+    hasMeshScoring,
+    hasCompetenceScoring,
+  }) {
     this.id = id;
     this.startedAt = startedAt;
     this.status = status;
     this.scope = scope;
     this.challengeCount = challengeCount;
+    this.challengeCountByLocale = challengeCountByLocale;
     this.tubeIds = tubeIds;
     this.hasMeshScoring = hasMeshScoring;
     this.hasCompetenceScoring = hasCompetenceScoring;
+  }
+
+  /**
+   * @param {string} locale
+   * @returns {number}
+   */
+  getChallengeCountForLocale(locale) {
+    return this.challengeCountByLocale[locale] ?? 0;
   }
 }
 

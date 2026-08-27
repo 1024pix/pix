@@ -722,6 +722,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           {
             id: 'challengeA',
             skillId: 'skillA',
+            locales: ['fr', 'en'],
           },
         ],
       };
@@ -753,6 +754,12 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
               alertLevel: null,
               content: 1,
               label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
+            },
+            {
+              additionalContent: null,
+              alertLevel: null,
+              content: 1,
+              label: REPORT_LABELS.ENGLISH_CALIBRATED_CHALLENGE_COUNT,
             },
             {
               additionalContent: "La calibration a été démarrée depuis plus d'1 an",

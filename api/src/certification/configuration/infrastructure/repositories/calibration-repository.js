@@ -48,18 +48,24 @@ export async function findLatestForReport({ scope }) {
     ]);
 
     let tubeIds = new Set();
+    let challengeCountByLocale = {};
     if (challengeIds.length > 0) {
-      const tubeIdRows = await knexConn
-        .distinct('learningcontent.skills.tubeId')
+      const challengeRows = await knexConn
+        .select({
+          tubeId: 'learningcontent.skills.tubeId',
+          locales: 'learningcontent.challenges.locales',
+        })
         .from('learningcontent.challenges')
         .join('learningcontent.skills', 'learningcontent.skills.id', 'learningcontent.challenges.skillId')
         .whereIn('learningcontent.challenges.id', challengeIds);
-      tubeIds = new Set(tubeIdRows.map((row) => row.tubeId));
+      tubeIds = new Set(challengeRows.map((row) => row.tubeId));
+      challengeCountByLocale = _countChallengesByLocale(challengeRows);
     }
 
     return new CalibrationForReport({
       ...generalInfo,
       challengeCount: challengeIds.length,
+      challengeCountByLocale,
       tubeIds,
       hasMeshScoring: Boolean(meshScoringRow),
       hasCompetenceScoring: Boolean(competenceScoringRow),
@@ -71,6 +77,20 @@ export async function findLatestForReport({ scope }) {
     );
     throw err;
   }
+}
+
+/**
+ * @param {Array<{locales: Array<string>|null}>} challengeRows
+ * @returns {Object<string, number>}
+ */
+function _countChallengesByLocale(challengeRows) {
+  const challengeCountByLocale = {};
+  for (const { locales } of challengeRows) {
+    for (const locale of locales ?? []) {
+      challengeCountByLocale[locale] = (challengeCountByLocale[locale] ?? 0) + 1;
+    }
+  }
+  return challengeCountByLocale;
 }
 
 export async function find(calibrationId) {

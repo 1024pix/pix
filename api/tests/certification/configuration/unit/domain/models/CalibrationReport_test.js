@@ -64,7 +64,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
             .build();
           const calibration = calibrationBuilder
             .withCalibratredChallenges([{ tubeId: 'tubeA' }, { tubeId: 'tubeA' }, { tubeId: 'tubeD' }])
-            .build();
+            .buildForReport();
 
           const report = buildReport({ version, calibration });
 
@@ -88,7 +88,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
             .build();
           const calibration = calibrationBuilder
             .withCalibratredChallenges([{ tubeId: 'tubeA' }, { tubeId: 'tubeD' }, { tubeId: 'tubeF' }])
-            .build();
+            .buildForReport();
 
           const report = buildReport({ version, calibration });
 
@@ -102,6 +102,55 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
             },
           ]);
         });
+      });
+    });
+
+    context('computing the count of calibrated challenges available in english', function () {
+      it('adds a dedicated informative report line for a CORE version', function () {
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+          .build();
+        const calibration = domainBuilder.certification.configuration
+          .calibrationBuilder()
+          .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+          .asValidated({ startedAt: new Date() })
+          .withCalibratredChallenges([
+            { tubeId: 'tubeA', locales: ['fr', 'fr-fr', 'en'] },
+            { tubeId: 'tubeA', locales: ['fr', 'en'] },
+            { tubeId: 'tubeA', locales: ['fr'] },
+          ])
+          .buildForReport();
+
+        const report = buildReport({ version, calibration });
+
+        expect(report.reportLines).to.deep.include.members([
+          {
+            additionalContent: null,
+            alertLevel: null,
+            label: REPORT_LABELS.ENGLISH_CALIBRATED_CHALLENGE_COUNT,
+            content: 2,
+          },
+        ]);
+      });
+
+      it('adds no report line for a version outside of the CORE scope', function () {
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.PIX_PLUS_DROIT, tubeIds: ['tubeA'] })
+          .build();
+        const calibration = domainBuilder.certification.configuration
+          .calibrationBuilder()
+          .onScope({ scope: CALIBRATION_SCOPES.DROIT })
+          .asValidated({ startedAt: new Date() })
+          .withCalibratredChallenges([{ tubeId: 'tubeA', locales: ['fr', 'en'] }])
+          .buildForReport();
+
+        const report = buildReport({ version, calibration });
+
+        expect(report.reportLines.map(({ label }) => label)).to.not.include(
+          REPORT_LABELS.ENGLISH_CALIBRATED_CHALLENGE_COUNT,
+        );
       });
     });
 
@@ -142,7 +191,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
       context('when calibration preparation started during last 6 months', function () {
         it('adds a dedicated report line with no alert level', function () {
           const closeToSixMonthsAgo = new Date('2024-12-15T13:00:00Z');
-          const calibration = calibrationBuilder.asValidated({ startedAt: closeToSixMonthsAgo }).build();
+          const calibration = calibrationBuilder.asValidated({ startedAt: closeToSixMonthsAgo }).buildForReport();
 
           const report = buildReport({ version, calibration });
 
@@ -161,7 +210,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
       context('when calibration preparation started within 1 year ago and 6 months ago', function () {
         it('adds a dedicated report line with a low alert level', function () {
           const closeToOneYearAgo = new Date('2024-06-15T13:00:00Z');
-          const calibration = calibrationBuilder.asValidated({ startedAt: closeToOneYearAgo }).build();
+          const calibration = calibrationBuilder.asValidated({ startedAt: closeToOneYearAgo }).buildForReport();
 
           const report = buildReport({ version, calibration });
 
@@ -180,7 +229,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
       context('when calibration preparation started before 1 year ago', function () {
         it('adds a dedicated report line with a high alert level', function () {
           const aBitBeyondOneYearAgo = new Date('2024-06-15T11:59:00Z');
-          const calibration = calibrationBuilder.asValidated({ startedAt: aBitBeyondOneYearAgo }).build();
+          const calibration = calibrationBuilder.asValidated({ startedAt: aBitBeyondOneYearAgo }).buildForReport();
 
           const report = buildReport({ version, calibration });
 
@@ -232,7 +281,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
       });
 
       it('adds a dedicated informative report line, without alert level', function () {
-        const calibration = calibrationBuilder.onScope({ scope: CALIBRATION_SCOPES.COEUR }).build();
+        const calibration = calibrationBuilder.onScope({ scope: CALIBRATION_SCOPES.COEUR }).buildForReport();
 
         const report = buildReport({ version, calibration });
 
@@ -284,7 +333,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
 
       context('when calibration is in status VALIDATED', function () {
         it('adds a dedicated report line with no alert level', function () {
-          const calibration = calibrationBuilder.asValidated({ startedAt: new Date() }).build();
+          const calibration = calibrationBuilder.asValidated({ startedAt: new Date() }).buildForReport();
 
           const report = buildReport({ version, calibration });
 
@@ -302,7 +351,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
 
       context('when calibration is in status INVALIDATED', function () {
         it('adds a dedicated report line with high alert level', function () {
-          const calibration = calibrationBuilder.asInvalidated({ startedAt: new Date() }).build();
+          const calibration = calibrationBuilder.asInvalidated({ startedAt: new Date() }).buildForReport();
 
           const report = buildReport({ version, calibration });
 
@@ -320,7 +369,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
 
       context('when calibration is in status TO_VALIDATE', function () {
         it('adds a dedicated report line with high alert level', function () {
-          const calibration = calibrationBuilder.asToValidate({ startedAt: new Date() }).build();
+          const calibration = calibrationBuilder.asToValidate({ startedAt: new Date() }).buildForReport();
 
           const report = buildReport({ version, calibration });
 

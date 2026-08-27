@@ -109,9 +109,9 @@ describe('Certification | Configuration | Integration | Repository | calibration
           { id: 'skillC', tubeId: 'tubeC' },
         ],
         challenges: [
-          { id: 'challengeB1', skillId: 'skillB1' },
-          { id: 'challengeB2', skillId: 'skillB2' },
-          { id: 'challengeC1', skillId: 'skillC' },
+          { id: 'challengeB1', skillId: 'skillB1', locales: ['fr', 'fr-fr', 'en'] },
+          { id: 'challengeB2', skillId: 'skillB2', locales: ['fr', 'en'] },
+          { id: 'challengeC1', skillId: 'skillC', locales: ['fr'] },
         ],
       });
 
@@ -123,6 +123,8 @@ describe('Certification | Configuration | Integration | Repository | calibration
 
       // then
       expect(calibration.challengeCount).to.equal(3);
+      expect(calibration.challengeCountByLocale).to.deep.equal({ fr: 3, 'fr-fr': 1, en: 2 });
+      expect(calibration.getChallengeCountForLocale('en')).to.equal(2);
       expect(calibration.tubeIds).to.deep.equal(new Set(['tubeB', 'tubeC']));
       expect(calibration.hasMeshScoring).to.be.true;
       expect(calibration.hasCompetenceScoring).to.be.false;

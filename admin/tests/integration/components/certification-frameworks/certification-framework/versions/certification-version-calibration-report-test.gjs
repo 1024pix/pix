@@ -81,6 +81,12 @@ module(
         const draftVersion = createDraftVersion();
         const calibrationReport = createReport([
           CHALLENGE_COUNT_LINE,
+          {
+            label: 'ENGLISH_CALIBRATED_CHALLENGE_COUNT',
+            content: 4,
+            alertLevel: null,
+            additionalContent: null,
+          },
           { label: 'CALIBRATION_SCOPE', content: 'CORE', alertLevel: null, additionalContent: null },
           { label: 'CALIBRATION_STATUS', content: 'VALIDATED', alertLevel: null, additionalContent: null },
           { label: 'MESH_SCORING_PRESENCE', content: true, alertLevel: null, additionalContent: null },
@@ -99,6 +105,8 @@ module(
 
         // then
         assert.dom(screen.getByText(t(`${I18N_PREFIX}.label-for-CALIBRATION_SCOPE`))).exists();
+        assert.dom(screen.getByText(t(`${I18N_PREFIX}.label-for-ENGLISH_CALIBRATED_CHALLENGE_COUNT`))).exists();
+        assert.dom(screen.getByText('4')).exists();
         assert.dom(screen.getByText(t(`${I18N_PREFIX}.scopes.CORE`))).exists();
         assert.dom(screen.getByText(t(`${I18N_PREFIX}.statuses.VALIDATED`))).exists();
         assert.dom(screen.getByText(t('common.words.yes'))).exists();
