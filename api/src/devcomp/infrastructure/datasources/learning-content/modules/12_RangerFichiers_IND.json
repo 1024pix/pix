@@ -606,7 +606,7 @@
                       "type": "image",
                       "url": "https://assets.pix.org/modules/CY_RangerFichiers_IND/pt_cle_3.svg",
                       "alt": "",
-                      "alternativeText": "<ul><li>Icone de l’Explorateur de fichiers (Windows)</li><li>Icone de Finder (Mac OS)</li></ul>",
+                      "alternativeText": "<ul><li>Icône de l’Explorateur de fichiers (Windows)</li><li>Icône de Finder (Mac OS)</li></ul>",
                       "legend": "",
                       "licence": ""
                     }
