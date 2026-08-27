@@ -133,7 +133,8 @@ export default class Details extends Component {
                     </div>
                     <div class="card__content">
                       <p>{{t "components.combined-course-blueprints.reward-requirements.threshold"}}:
-                        {{rewardRequirement.cappedTubesThreshold}}%</p>
+                        {{rewardRequirement.cappedTubesThreshold}}%
+                      </p>
                       {{#if rewardRequirement.areas.length}}
                         {{#each rewardRequirement.areas as |area|}}
                           <Area @title={{area.title}} @color={{area.color}} @competences={{area.competences}} />
