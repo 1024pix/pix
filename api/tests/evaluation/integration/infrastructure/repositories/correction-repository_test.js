@@ -90,6 +90,7 @@ describe('Integration | Repository | correction-repository', function () {
 
       beforeEach(async function () {
         // given
+        challengeDataObject = Symbol('challenge-data-object');
         databaseBuilder.factory.learningContent.buildSkill({
           id: 'recIdSkill003',
           name: '@web1',

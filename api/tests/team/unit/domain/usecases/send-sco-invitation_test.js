@@ -20,6 +20,7 @@ describe('Unit | Team | Domain | UseCase | send-sco-invitation', function () {
     organizationInvitationService = {
       createScoOrganizationInvitation: sinon.stub(),
     };
+    organizationInvitationRepository = Symbol('organizationInvitationRepository');
   });
 
   it('calls createScoOrganizationInvitation service', async function () {

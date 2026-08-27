@@ -6,7 +6,7 @@ import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
   let campaignId;
-  let campaignRepository, campaignProfilesCollectionParticipationSummaryRepository;
+  let campaignProfilesCollectionParticipationSummaryRepository;
 
   const campaignProfilesCollectionParticipationSummaries = [
     new CampaignProfilesCollectionParticipationSummary({
@@ -34,7 +34,6 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
       campaignId,
       page,
       filters,
-      campaignRepository,
       campaignProfilesCollectionParticipationSummaryRepository,
     });
 

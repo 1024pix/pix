@@ -20,7 +20,7 @@ describe('Unit | Domain | Models | ValidatorQROC', function () {
     let validation;
     let validator;
     let solution;
-    let challengeFormat;
+    const challengeFormat = Symbol('challengeFormat');
 
     beforeEach(function () {
       // given
@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | ValidatorQROC', function () {
       validator = new ValidatorQROC({ solution: solution }, solutionServiceQROCStub);
 
       // when
-      validation = validator.assess({ answer: uncorrectedAnswer });
+      validation = validator.assess({ answer: uncorrectedAnswer, challengeFormat });
     });
 
     it('should call solutionServiceQROC', function () {

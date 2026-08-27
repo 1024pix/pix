@@ -26,7 +26,6 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Application | Certification | Sessions Management | jobs | cpf-export-builder-job-controller', function () {
   let cpfCertificationResultRepository;
-  let uploadCpfFiles;
   const expectedFileName = 'pix-cpf-export-20220102-114327.xml.gz';
   let logger;
   let uuidService;
@@ -76,7 +75,6 @@ describe('Integration | Application | Certification | Sessions Management | jobs
     await jobController.handle({
       data: { batchId },
       dependencies: {
-        uploadCpfFiles,
         cpfCertificationResultRepository,
         cpfCertificationXmlExportService,
         uuidService,

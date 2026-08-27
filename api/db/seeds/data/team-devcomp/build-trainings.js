@@ -159,6 +159,7 @@ export function buildTrainings(databaseBuilder) {
   _buildTargetProfileTrainingAndTrigger(databaseBuilder, frFrTrainingId2);
 
   const enTrainingId = databaseBuilder.factory.buildTraining({
+    // eslint-disable-next-line no-useless-assignment -- keep the increment so the next training added below gets a free id
     id: trainingId++,
     title: 'Eat a croissant like the french',
     internalTitle: 'Eat a croissant like the french',

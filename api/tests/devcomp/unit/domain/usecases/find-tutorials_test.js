@@ -12,7 +12,6 @@ describe('Unit | UseCase | find-tutorials', function () {
   let skillRepository;
   let tubeRepository;
   let tutorialRepository;
-  let userSavedTutorialRepository;
   let locale;
 
   beforeEach(function () {
@@ -266,7 +265,6 @@ describe('Unit | UseCase | find-tutorials', function () {
             skillRepository,
             tubeRepository,
             tutorialRepository,
-            userSavedTutorialRepository,
           });
 
           //then
