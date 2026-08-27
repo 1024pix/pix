@@ -68,6 +68,11 @@ export default defineConfig([
       ...i18nJsonPlugin.configs.recommended.rules,
     },
   },
+  // Overridden rules for "db/migrations" files : old migrations are never modified
+  {
+    files: ['db/migrations/**/*.{js,mjs}'],
+    rules: { 'no-useless-assignment': 'off' },
+  },
   {
     files: [
       'src/certification/configuration/**/*.{js,mjs}',
