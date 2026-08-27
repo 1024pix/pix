@@ -24,8 +24,8 @@
 
   &__course-content {
     display: flex;
-    height: calc(100% - $content-header-height);
     width: 100%;
+    height: calc(100% - $content-header-height);
     padding-right: var(--pix-spacing-6x);
     padding-left: var(--pix-spacing-6x);
     overflow-y: scroll;
