@@ -1,7 +1,9 @@
 export class RevokedUserAccess {
-  constructor(revokeTimeStamp) {
+  constructor({ revokeTimeStamp, revokeSessions }) {
     this.revokeTimeStamp = revokeTimeStamp;
+    this.revokeSessions = revokeSessions;
   }
+
   isAccessTokenRevoked(decodedToken) {
     const issuedAt = decodedToken.iat;
     if (!this.revokeTimeStamp) {

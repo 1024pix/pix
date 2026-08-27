@@ -7,7 +7,7 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
     it('builds a revoke user access model', function () {
       //when
       const revokeTimeStamp = Math.floor(new Date().getTime() / 1000);
-      const revokedUserAccess = new RevokedUserAccess(revokeTimeStamp);
+      const revokedUserAccess = new RevokedUserAccess({ revokeTimeStamp });
 
       //then
       expect(revokedUserAccess.revokeTimeStamp).to.equal(revokeTimeStamp);
@@ -21,7 +21,7 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
         const revokeTimeStamp = Math.floor(new Date('2024-12-01').getTime() / 1000);
         const iat = Math.floor(new Date('2024-11-01').getTime() / 1000);
         const decodedToken = { iat: iat };
-        const revokedUserAccess = new RevokedUserAccess(revokeTimeStamp);
+        const revokedUserAccess = new RevokedUserAccess({ revokeTimeStamp });
 
         //when
         const result = revokedUserAccess.isAccessTokenRevoked(decodedToken);
@@ -37,7 +37,7 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
         const revokeTimeStamp = Math.floor(new Date('2024-10-01').getTime() / 1000);
         const iat = Math.floor(new Date('2024-12-01').getTime() / 1000);
         const decodedToken = { iat: iat };
-        const revokedUserAccess = new RevokedUserAccess(revokeTimeStamp);
+        const revokedUserAccess = new RevokedUserAccess({ revokeTimeStamp });
 
         //when
         const result = revokedUserAccess.isAccessTokenRevoked(decodedToken);

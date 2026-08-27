@@ -50,18 +50,50 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   describe('#findByUserId', function () {
     it('finds revoked user access by user id', async function () {
       // given
-      const revokeUntil = new Date();
       const revokeTimeStamp = Math.floor(new Date().getTime() / 1000);
-      await revokedUserAccessRepository.revokeAll({ userId: 12345, revokeUntil });
+      await revokedUserAccessTemporaryStorage.save({ key: 12345, value: revokeTimeStamp });
 
       // when
       const result = await revokedUserAccessRepository.findByUserId(12345);
 
       // then
       expect(result).to.deep.equal({
-        revokeTimeStamp: revokeTimeStamp,
+        revokeTimeStamp,
+        revokeSessions: undefined,
       });
       expect(result).to.be.instanceOf(RevokedUserAccess);
+    });
+
+    describe('when isSessionLogoutEnabled FT is true', function () {
+      beforeEach(async function () {
+        await featureToggles.set('isSessionLogoutEnabled', true);
+        await setImmediate();
+      });
+
+      it('finds revoked user access by user id', async function () {
+        // given
+        const revokeTimeStamp = Math.floor(new Date('2026-08-27T15:00:50Z').getTime() / 1000);
+        await revokedUserAccessTemporaryStorage.save({ key: '12345:all', value: revokeTimeStamp });
+
+        const session1RevokeTimestamp = Math.floor(new Date().getTime('2026-08-27T16:00:50Z') / 1000);
+        await revokedUserAccessTemporaryStorage.save({ key: '12345:session1', value: session1RevokeTimestamp });
+
+        const session2RevokeTimestamp = Math.floor(new Date().getTime('2026-08-27T17:00:50Z') / 1000);
+        await revokedUserAccessTemporaryStorage.save({ key: '12345:session2', value: session2RevokeTimestamp });
+
+        // when
+        const result = await revokedUserAccessRepository.findByUserId(12345);
+
+        // then
+        expect(result).to.deep.equal({
+          revokeTimeStamp,
+          revokeSessions: {
+            session1: session1RevokeTimestamp,
+            session2: session2RevokeTimestamp,
+          },
+        });
+        expect(result).to.be.instanceOf(RevokedUserAccess);
+      });
     });
   });
 });

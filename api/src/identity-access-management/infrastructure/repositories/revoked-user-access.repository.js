@@ -74,8 +74,22 @@ async function revokeSession({ userId, sessionId, revokeUntil }) {
  * @returns {Promise<RevokedUserAccess>} - The revoked user access object.
  */
 async function findByUserId(userId) {
-  const value = await revokedUserAccessTemporaryStorage.get(userId);
-  return new RevokedUserAccess(value);
+  if (!isSessionLogoutEnabled.value) {
+    const revokeTimeStamp = await revokedUserAccessTemporaryStorage.get(userId);
+    return new RevokedUserAccess({ revokeTimeStamp });
+  }
+
+  const revokeKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
+
+  const revokeTimeStamps = Object.fromEntries(
+    await Promise.all(
+      revokeKeys.map(async (key) => [key.split(':')[1], await revokedUserAccessTemporaryStorage.get(key)]),
+    ),
+  );
+
+  const { all: revokeTimeStamp, ...revokeSessions } = revokeTimeStamps;
+
+  return new RevokedUserAccess({ revokeTimeStamp, revokeSessions });
 }
 
 export const revokedUserAccessRepository = { revokeAll, revokeSession, findByUserId };
