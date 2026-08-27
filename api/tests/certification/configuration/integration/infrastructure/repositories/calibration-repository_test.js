@@ -35,13 +35,13 @@ describe('Certification | Configuration | Integration | Repository | calibration
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asValidated({ startedAt: new Date('2026-01-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withParameters({ id: 111 })
         .insertToDB({ datamartBuilder });
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asToValidate({ startedAt: new Date('2026-06-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withParameters({ id: 112 })
         .insertToDB({ datamartBuilder });
       await domainBuilder.certification.configuration
@@ -60,7 +60,7 @@ describe('Certification | Configuration | Integration | Repository | calibration
       expect(calibration.id).to.equal(112);
       expect(calibration.status).to.equal(CALIBRATION_STATUSES.TO_VALIDATE);
       expect(calibration.startedAt).to.deep.equal(new Date('2026-06-01'));
-      expect(calibration.scope).to.equal(CALIBRATION_SCOPES.COEUR);
+      expect(calibration.scope).to.equal(CALIBRATION_SCOPES.CORE);
     });
 
     it('falls back on the greatest id when several calibrations share the same date', async function () {
@@ -68,13 +68,13 @@ describe('Certification | Configuration | Integration | Repository | calibration
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asValidated({ startedAt: new Date('2026-06-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withParameters({ id: 111 })
         .insertToDB({ datamartBuilder });
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asValidated({ startedAt: new Date('2026-06-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withParameters({ id: 112 })
         .insertToDB({ datamartBuilder });
 
@@ -92,7 +92,7 @@ describe('Certification | Configuration | Integration | Repository | calibration
       await domainBuilder.certification.configuration
         .calibrationBuilder()
         .asValidated({ startedAt: new Date('2026-06-01') })
-        .onScope({ scope: CALIBRATION_SCOPES.COEUR })
+        .onScope({ scope: CALIBRATION_SCOPES.CORE })
         .withCalibratredChallenges([
           { challengeId: 'challengeB1', tubeId: 'tubeB' },
           { challengeId: 'challengeB2', tubeId: 'tubeB' },
@@ -109,9 +109,9 @@ describe('Certification | Configuration | Integration | Repository | calibration
           { id: 'skillC', tubeId: 'tubeC' },
         ],
         challenges: [
-          { id: 'challengeB1', skillId: 'skillB1' },
-          { id: 'challengeB2', skillId: 'skillB2' },
-          { id: 'challengeC1', skillId: 'skillC' },
+          { id: 'challengeB1', skillId: 'skillB1', locales: ['fr', 'fr-fr', 'en'] },
+          { id: 'challengeB2', skillId: 'skillB2', locales: ['fr', 'en'] },
+          { id: 'challengeC1', skillId: 'skillC', locales: ['fr'] },
         ],
       });
 
@@ -123,6 +123,8 @@ describe('Certification | Configuration | Integration | Repository | calibration
 
       // then
       expect(calibration.challengeCount).to.equal(3);
+      expect(calibration.challengeCountByLocale).to.deep.equal({ fr: 3, 'fr-fr': 1, en: 2 });
+      expect(calibration.getChallengeCountForLocale('en')).to.equal(2);
       expect(calibration.tubeIds).to.deep.equal(new Set(['tubeB', 'tubeC']));
       expect(calibration.hasMeshScoring).to.be.true;
       expect(calibration.hasCompetenceScoring).to.be.false;

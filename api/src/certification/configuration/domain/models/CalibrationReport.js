@@ -2,6 +2,7 @@
  * @typedef {import('./Version.js').Version} Version
  * @typedef {import('./Calibration.js').CalibrationForReport} CalibrationForReport
  */
+import { ENGLISH_SPOKEN } from '../../../../shared/domain/services/locale-service.js';
 import { SCOPES } from '../../../shared/domain/models/Scopes.js';
 import { CALIBRATION_STATUSES, fromCalibrationScope } from './Calibration.js';
 
@@ -25,6 +26,7 @@ export class CalibrationReportLine {
 
 export const REPORT_LABELS = Object.freeze({
   CALIBRATED_CHALLENGE_COUNT: 'CALIBRATED_CHALLENGE_COUNT',
+  ENGLISH_CALIBRATED_CHALLENGE_COUNT: 'ENGLISH_CALIBRATED_CHALLENGE_COUNT',
   TUBE_ONLY_IN_VERSION_COUNT: 'TUBE_ONLY_IN_VERSION_COUNT',
   TUBE_ONLY_IN_CALIBRATION_COUNT: 'TUBE_ONLY_IN_CALIBRATION_COUNT',
   CALIBRATION_STARTED_AT: 'CALIBRATION_STARTED_AT',
@@ -49,6 +51,7 @@ export const ALERT_LEVELS = Object.freeze({
 export function buildReport({ version, calibration }) {
   const now = new Date();
   const reportLines = [];
+  computeReportForChallengeCounts(version, calibration, reportLines);
   computeReportForLearningContentPerimeter(version, calibration, reportLines);
   computeReportForStartDate(now, calibration, reportLines);
   computeReportForScope(calibration, reportLines);
@@ -63,10 +66,21 @@ export function buildReport({ version, calibration }) {
   });
 }
 
-function computeReportForLearningContentPerimeter(version, calibration, reportLines) {
+function computeReportForChallengeCounts(version, calibration, reportLines) {
   reportLines.push(
     new CalibrationReportLine({ label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT, content: calibration.challengeCount }),
   );
+
+  if (version.scope !== SCOPES.CORE) return;
+  reportLines.push(
+    new CalibrationReportLine({
+      label: REPORT_LABELS.ENGLISH_CALIBRATED_CHALLENGE_COUNT,
+      content: calibration.getChallengeCountForLocale(ENGLISH_SPOKEN),
+    }),
+  );
+}
+
+function computeReportForLearningContentPerimeter(version, calibration, reportLines) {
   const tubeIdsFromCalibration = calibration.tubeIds;
   const tubeIdsFromVersion = new Set(version.tubeIds);
   const tubeIdsNotInBoth = tubeIdsFromCalibration.symmetricDifference(tubeIdsFromVersion);

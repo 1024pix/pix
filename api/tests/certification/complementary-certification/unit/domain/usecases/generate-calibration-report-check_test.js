@@ -79,11 +79,11 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
       calibrationRepository.findLatestForReport.withArgs({ scope: SCOPES.CORE }).resolves(
         domainBuilder.certification.configuration
           .calibrationBuilder()
-          .onScope({ scope: CALIBRATION_SCOPES.COEUR })
-          .withCalibratredChallenges([{ tubeId: 'tubeA' }])
+          .onScope({ scope: CALIBRATION_SCOPES.CORE })
+          .withCalibratredChallenges([{ tubeId: 'tubeA', locales: ['fr', 'en'] }])
           .asValidated({ startedAt: new Date() })
           .withParameters({ id: 2 })
-          .build(),
+          .buildForReport(),
       );
 
       const report = await generateCalibrationReportCheck({
@@ -100,6 +100,12 @@ describe('Certification | Configuration | Unit | UseCase | generate-calibration-
           alertLevel: null,
           content: 1,
           label: REPORT_LABELS.CALIBRATED_CHALLENGE_COUNT,
+        },
+        {
+          additionalContent: null,
+          alertLevel: null,
+          content: 1,
+          label: REPORT_LABELS.ENGLISH_CALIBRATED_CHALLENGE_COUNT,
         },
         {
           additionalContent: null,

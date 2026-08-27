@@ -3,6 +3,7 @@ import {
   Calibration,
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
+  CalibrationForReport,
   CalibrationScoringMesh,
 } from '../../../../../../src/certification/configuration/domain/models/Calibration.js';
 
@@ -12,6 +13,7 @@ import {
  * @property {number} delta
  * @property {string} challengeId
  * @property {string} tubeId
+ * @property {string[]} [locales] - locales the challenge is available in, only carried by buildForReport()
  */
 
 /**
@@ -38,7 +40,7 @@ class CalibrationBuilder {
     this.id = 1;
     this.startedAt = new Date('2000-01-01');
     this.status = CALIBRATION_STATUSES.VALIDATED;
-    this.scope = CALIBRATION_SCOPES.COEUR;
+    this.scope = CALIBRATION_SCOPES.CORE;
     this.calibratedChallengesData = [];
     this.scoringMeshesData = null;
     this.scoringMeshesStatus = CALIBRATION_STATUSES.VALIDATED;
@@ -90,7 +92,7 @@ class CalibrationBuilder {
    * @param {typeof CALIBRATION_SCOPES[keyof typeof CALIBRATION_SCOPES]} params.scope
    * @returns {CalibrationBuilder}
    */
-  onScope({ scope = CALIBRATION_SCOPES.COEUR } = {}) {
+  onScope({ scope = CALIBRATION_SCOPES.CORE } = {}) {
     this.scope = scope;
     return this;
   }
@@ -210,11 +212,37 @@ class CalibrationBuilder {
       scoringMeshes,
     });
   }
+
+  /**
+   * @param {object} [params]
+   * @param {boolean} [params.hasCompetenceScoring]
+   * @returns {CalibrationForReport}
+   */
+  buildForReport({ hasCompetenceScoring = false } = {}) {
+    const challengeCountByLocale = {};
+    for (const { locales = [] } of this.calibratedChallengesData) {
+      for (const locale of locales) {
+        challengeCountByLocale[locale] = (challengeCountByLocale[locale] ?? 0) + 1;
+      }
+    }
+
+    return new CalibrationForReport({
+      id: this.id,
+      startedAt: this.startedAt,
+      status: this.status,
+      scope: this.scope,
+      challengeCount: this.calibratedChallengesData.length,
+      challengeCountByLocale,
+      tubeIds: new Set(this.calibratedChallengesData.map(({ tubeId }) => tubeId)),
+      hasMeshScoring: Boolean(this.scoringMeshesData) && this.scoringMeshesStatus === CALIBRATION_STATUSES.VALIDATED,
+      hasCompetenceScoring,
+    });
+  }
 }
 
 /**
  * Entry point of the fluent Calibration builder. Returns the builder, NOT a Calibration:
- * Note: end the chain with build() for in-memory storage or insertToDB() for DB storage.
+ * Note: end the chain with build() or buildForReport() for in-memory storage, or insertToDB() for DB storage.
  *
  * @returns {CalibrationBuilder}
  */

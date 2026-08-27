@@ -7,7 +7,7 @@ export const CALIBRATION_STATUSES = Object.freeze({
 });
 
 export const CALIBRATION_SCOPES = Object.freeze({
-  COEUR: 'COEUR',
+  CORE: 'COEUR',
   EDU_2ND_DEGRE: 'EDU_2ND_DEGRE',
   EDU_1ER_DEGRE: 'EDU_1ER_DEGRE',
   EDU_CPE: 'EDU_CPE',
@@ -48,15 +48,39 @@ export class Calibration {
 }
 
 export class CalibrationForReport {
-  constructor({ id, startedAt, status, scope, challengeCount, tubeIds, hasMeshScoring, hasCompetenceScoring }) {
+  /**
+   * @param {object} params
+   * @param {number} params.challengeCount - total number of calibrated challenges
+   * @param {Object<string, number>} [params.challengeCountByLocale] - number of calibrated challenges available in each locale
+   */
+  constructor({
+    id,
+    startedAt,
+    status,
+    scope,
+    challengeCount,
+    challengeCountByLocale = {},
+    tubeIds,
+    hasMeshScoring,
+    hasCompetenceScoring,
+  }) {
     this.id = id;
     this.startedAt = startedAt;
     this.status = status;
     this.scope = scope;
     this.challengeCount = challengeCount;
+    this.challengeCountByLocale = challengeCountByLocale;
     this.tubeIds = tubeIds;
     this.hasMeshScoring = hasMeshScoring;
     this.hasCompetenceScoring = hasCompetenceScoring;
+  }
+
+  /**
+   * @param {string} locale
+   * @returns {number}
+   */
+  getChallengeCountForLocale(locale) {
+    return this.challengeCountByLocale[locale] ?? 0;
   }
 }
 
@@ -78,7 +102,7 @@ export class CalibrationScoringMesh {
 }
 
 const CALIBRATION_SCOPE_BY_SCOPE = Object.freeze({
-  [SCOPES.CORE]: CALIBRATION_SCOPES.COEUR,
+  [SCOPES.CORE]: CALIBRATION_SCOPES.CORE,
   [SCOPES.PIX_PLUS_EDU_1ER_DEGRE]: CALIBRATION_SCOPES.EDU_1ER_DEGRE,
   [SCOPES.PIX_PLUS_EDU_2ND_DEGRE]: CALIBRATION_SCOPES.EDU_2ND_DEGRE,
   [SCOPES.PIX_PLUS_EDU_CPE]: CALIBRATION_SCOPES.EDU_CPE,
