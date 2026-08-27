@@ -15,6 +15,13 @@ const CHALLENGE_COUNT_LINE = {
   additionalContent: null,
 };
 
+const HIGH_ALERT_LINE = {
+  label: 'CALIBRATION_STATUS',
+  content: 'TO_VALIDATE',
+  alertLevel: 'HIGH',
+  additionalContent: 'La calibration ne semble pas encore finalisée',
+};
+
 function showAdditionalInfoLabel(lineNumber) {
   return t(`${I18N_PREFIX}.show-additional-info`, { lineNumber });
 }
@@ -176,15 +183,7 @@ module(
       test('it is disabled when the report holds a high alert', async function (assert) {
         // given
         const draftVersion = createDraftVersion();
-        const calibrationReport = createReport([
-          CHALLENGE_COUNT_LINE,
-          {
-            label: 'CALIBRATION_STATUS',
-            content: 'TO_VALIDATE',
-            alertLevel: 'HIGH',
-            additionalContent: 'La calibration ne semble pas encore finalisée',
-          },
-        ]);
+        const calibrationReport = createReport([CHALLENGE_COUNT_LINE, HIGH_ALERT_LINE]);
 
         // when
         const screen = await render(
@@ -200,6 +199,64 @@ module(
         assert
           .dom(screen.getByRole('button', { name: t(`${I18N_PREFIX}.save-button-label`, { id: 1 }) }))
           .hasAttribute('aria-disabled');
+      });
+
+      test('it explains in a tooltip why it is disabled when already saved', async function (assert) {
+        // given
+        const draftVersion = createDraftVersion({ externalCalibrationId: 1 });
+        const calibrationReport = createReport([CHALLENGE_COUNT_LINE]);
+
+        // when
+        const screen = await render(
+          <template>
+            <CertificationVersionCalibrationReport
+              @draftVersion={{draftVersion}}
+              @calibrationReport={{calibrationReport}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.dom(screen.getByText(t(`${I18N_PREFIX}.save-button-already-saved-tooltip`, { id: 1 }))).exists();
+      });
+
+      test('it explains in a tooltip why it is disabled on a high alert', async function (assert) {
+        // given
+        const draftVersion = createDraftVersion();
+        const calibrationReport = createReport([CHALLENGE_COUNT_LINE, HIGH_ALERT_LINE]);
+
+        // when
+        const screen = await render(
+          <template>
+            <CertificationVersionCalibrationReport
+              @draftVersion={{draftVersion}}
+              @calibrationReport={{calibrationReport}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.dom(screen.getByText(t(`${I18N_PREFIX}.save-button-high-alert-tooltip`))).exists();
+      });
+
+      test('it holds no tooltip when the validation is possible', async function (assert) {
+        // given
+        const draftVersion = createDraftVersion();
+        const calibrationReport = createReport([CHALLENGE_COUNT_LINE]);
+
+        // when
+        const screen = await render(
+          <template>
+            <CertificationVersionCalibrationReport
+              @draftVersion={{draftVersion}}
+              @calibrationReport={{calibrationReport}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.dom(screen.queryByText(t(`${I18N_PREFIX}.save-button-already-saved-tooltip`, { id: 1 }))).doesNotExist();
+        assert.dom(screen.queryByText(t(`${I18N_PREFIX}.save-button-high-alert-tooltip`))).doesNotExist();
       });
 
       test('it is disabled when the calibrationId is already saved on the version', async function (assert) {

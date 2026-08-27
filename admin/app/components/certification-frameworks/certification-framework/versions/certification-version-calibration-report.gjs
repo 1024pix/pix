@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
+import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -8,7 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
-import { eq } from 'ember-truth-helpers';
+import { eq, not } from 'ember-truth-helpers';
 import Card from 'pix-admin/components/card';
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
 
@@ -30,8 +31,23 @@ export default class CertificationVersionCalibrationReport extends Component {
     return this.report?.calibrationId === this.args.draftVersion.externalCalibrationId;
   }
 
+  get validationDisabledReason() {
+    if (this.hasHighAlert) {
+      return this.intl.t(
+        'components.certification-frameworks.certification-framework.versions.calibration.save-button-high-alert-tooltip',
+      );
+    }
+    if (this.isCalibrationIdAlreadySaved) {
+      return this.intl.t(
+        'components.certification-frameworks.certification-framework.versions.calibration.save-button-already-saved-tooltip',
+        { id: this.report.calibrationId },
+      );
+    }
+    return null;
+  }
+
   get isValidationDisabled() {
-    return this.hasHighAlert || this.isCalibrationIdAlreadySaved;
+    return Boolean(this.validationDisabledReason);
   }
 
   get translatedReportLines() {
@@ -139,17 +155,30 @@ export default class CertificationVersionCalibrationReport extends Component {
             {{/each}}
           </DescriptionList>
         </div>
-        <PixButton
-          class="versions-calibration__save-button"
-          @variant="primary"
-          @isDisabled={{this.isValidationDisabled}}
-          @triggerAction={{this.saveCalibrationId}}
+        <PixTooltip
+          class="versions-calibration__save-tooltip"
+          @hide={{not this.validationDisabledReason}}
+          @position="top"
+          @isWide={{true}}
         >
-          {{t
-            "components.certification-frameworks.certification-framework.versions.calibration.save-button-label"
-            id=this.report.calibrationId
-          }}
-        </PixButton>
+          <:triggerElement>
+            <PixButton
+              class="versions-calibration__save-button"
+              @variant="primary"
+              @isDisabled={{this.isValidationDisabled}}
+              @triggerAction={{this.saveCalibrationId}}
+            >
+              {{t
+                "components.certification-frameworks.certification-framework.versions.calibration.save-button-label"
+                id=this.report.calibrationId
+              }}
+            </PixButton>
+          </:triggerElement>
+
+          <:tooltip>
+            {{this.validationDisabledReason}}
+          </:tooltip>
+        </PixTooltip>
       {{else}}
         <p class="versions-calibration__no-report">
           {{t "components.certification-frameworks.certification-framework.versions.calibration.no-report-message"}}

@@ -590,6 +590,8 @@
             "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
             "no-report-message": "No calibration could be retrieved for this scope.",
             "report-title": "Calibration report of ID {calibrationId} generated at",
+            "save-button-already-saved-tooltip": "ID {id} already saved on this version",
+            "save-button-high-alert-tooltip": "A blocking alert in the report prevents saving this calibration",
             "save-button-label": "Save the calibration ID {id}",
             "save-success-message": "The ID has been saved",
             "scopes": {

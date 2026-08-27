@@ -15,8 +15,13 @@
     color: var(--pix-neutral-500);
   }
 
+  &__save-tooltip {
+    width: fit-content;
+  }
+
   &__save-button {
     width: fit-content;
+    margin: 1rem 0;
   }
 }
 
