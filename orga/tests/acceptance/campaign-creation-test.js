@@ -236,8 +236,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
         }),
       );
 
-      const dialog = await screen.findByRole('dialog');
-      await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+      const dialog = await screen.findAllByRole('dialog');
+      await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
       await fillByLabel('Nom de la campagne *', 'Mon parcours combiné');
 
@@ -292,8 +292,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
             name: t('pages.catalogue.modal.open-modal', { name: expectedTargetProfileName }),
           }),
         );
-        const dialog = await screen.findByRole('dialog');
-        await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+        const dialog = await screen.findAllByRole('dialog');
+        await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
         await fillByLabel('Nom de la campagne *', 'Ma Campagne');
 
@@ -351,8 +351,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
             name: t('pages.catalogue.modal.open-modal', { name: expectedTargetProfileName }),
           }),
         );
-        const dialog = await screen.findByRole('dialog');
-        await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+        const dialog = await screen.findAllByRole('dialog');
+        await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
         await fillByLabel('Nom de la campagne *', 'Ma Campagne');
 
@@ -387,8 +387,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
             name: t('pages.catalogue.modal.open-modal', { name: targetProfileName }),
           }),
         );
-        const dialog = await screen.findByRole('dialog');
-        await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+        const dialog = await screen.findAllByRole('dialog');
+        await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
         await fillByLabel('Nom de la campagne *', 'Ma Campagne');
 
@@ -420,8 +420,8 @@ module('Acceptance | Campaign Creation', function (hooks) {
             name: t('pages.catalogue.modal.open-modal', { name: expectedTargetProfileName }),
           }),
         );
-        const dialog = await screen.findByRole('dialog');
-        await click(within(dialog).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
+        const dialog = await screen.findAllByRole('dialog');
+        await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
         await fillByLabel('Nom de la campagne *', 'Ma Campagne');
         const externalIdentifier = screen

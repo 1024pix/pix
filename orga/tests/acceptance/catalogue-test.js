@@ -57,8 +57,8 @@ module('Acceptance | Catalogue page', function (hooks) {
     const screen = await visit(`/catalogue`);
     // then
     await click(screen.getByRole('link', { name: t('pages.catalogue.modal.open-modal', { name: course1.name }) }));
-    const dialog = await screen.findByRole('dialog');
-    assert.ok(within(dialog).getByRole('heading', { name: course1.name }));
+    const dialog = await screen.findAllByRole('dialog');
+    assert.ok(within(dialog[1]).getByRole('heading', { name: course1.name }));
   });
 
   test('it should display combined course blueprint course dialog when clicking on a card', async function (assert) {
@@ -66,8 +66,9 @@ module('Acceptance | Catalogue page', function (hooks) {
     const screen = await visit(`/catalogue`);
     // then
     await click(screen.getByRole('link', { name: t('pages.catalogue.modal.open-modal', { name: course2.name }) }));
-    const dialog = await screen.findByRole('dialog');
-    assert.ok(within(dialog).getByRole('heading', { name: course2.name }));
+
+    const dialog = await screen.findAllByRole('dialog');
+    assert.ok(within(dialog[1]).getByRole('heading', { name: course2.name }));
   });
 
   test('it should reset filter when changing tabs', async function (assert) {
