@@ -24,12 +24,6 @@ export default class User extends ApplicationAdapter {
       return `${super.urlForQueryRecord(...arguments)}/me`;
     }
 
-    if (query.passwordResetTemporaryKey) {
-      const temporaryKey = query.passwordResetTemporaryKey;
-      delete query.passwordResetTemporaryKey;
-      return `${this.host}/${this.namespace}/password-reset-demands/${temporaryKey}`;
-    }
-
     return super.urlForQueryRecord(...arguments);
   }
 

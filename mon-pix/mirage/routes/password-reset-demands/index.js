@@ -13,8 +13,9 @@ export default function index(config) {
     }
   });
 
-  config.get('/password-reset-demands/:key', (schema, request) => {
-    const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.params.key });
+  config.post('/check-password-reset-demand', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+    const demand = schema.passwordResetDemands.findBy({ temporaryKey: body['temporary-key'] });
     return schema.users.findBy({ email: demand.email });
   });
 
