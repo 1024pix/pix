@@ -74,7 +74,7 @@ export default class PasswordResetForm extends Component {
         this.password = null;
       }
 
-      const i18nKey = error.code ?? error.status;
+      const i18nKey = error?.code ?? error?.status;
       this.globalError = HTTP_ERROR_MESSAGES[i18nKey] || HTTP_ERROR_MESSAGES['default'];
     } finally {
       this.isLoading = false;
