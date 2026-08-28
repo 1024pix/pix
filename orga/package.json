@@ -70,7 +70,7 @@
     "@testing-library/dom": "^10.4.1",
     "@types/qunit": "^2.19.14",
     "@types/rsvp": "^4.0.9",
-    "@warp-drive/build-config": "^5.8",
+    "@warp-drive/build-config": "^5.8.2",
     "@warp-drive/core": "^5.8",
     "@warp-drive/ember": "^5.8",
     "@warp-drive/json-api": "^5.8",
