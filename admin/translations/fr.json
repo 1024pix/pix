@@ -590,7 +590,7 @@
           "activate-version": {
             "button-label": "Activer la version",
             "confirmation-modal": {
-              "content": "Cette action est irreversible. L'activation de cette version va provoquer l'archivage de la version précédente. Les configurations de scoring vont être enregistrées et la récuppération des challenges calibrés va être déclenchée.",
+              "content": "Cette action est irreversible. L'activation de cette version va provoquer l'archivage de la version précédente. Les configurations de scoring vont être enregistrées et la récupération des challenges calibrés va être déclenchée.",
               "title": "Êtes-vous sûr·e de vouloir activer cette version ?"
             },
             "error": "Une erreur est survenue : la version {versionId} n'a pas pu être activée.",
