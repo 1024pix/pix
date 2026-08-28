@@ -341,7 +341,7 @@
               "element": {
                 "id": "2ab37e14-affd-4917-b78a-73ee24f6f836",
                 "type": "embed",
-                "isCompletionRequired": false,
+                "isCompletionRequired": true,
                 "title": "Moyen de double authentification",
                 "url": "https://epreuves.pix.fr/qcm-qcu-select/qcm-qcu-select.html?lang=fr&mode=mdx-mfa-nov-d2",
                 "instruction": "<p>À votre avis, quels sont les autres moyens de vérification possibles ?</p>",
