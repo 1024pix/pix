@@ -28,42 +28,14 @@ export const getCombinedCourseBlueprintById = async ({
     combinedCourseBlueprint.rewardRequirements.map(async (requirements, index) => {
       const threshold = requirements?.threshold;
       const name = requirements?.name;
-      const cappedTubeRequirementIds = requirements.cappedTubes.map((cappedTube) => cappedTube.tubeId);
-      const cappedTubesLevelById = new Map(requirements.cappedTubes.map(({ tubeId, level }) => [tubeId, level]));
+      const cappedTubesLevelById = requirements.cappedTubes.map(({ tubeId, level }) => [tubeId, level]);
 
-      const frameworks = await learningContentRepository.findByTubeIds({
-        tubeIds: cappedTubeRequirementIds,
-        locale: 'fr-fr',
+      const formattedAreas = await learningContentRepository.findAreasForTubeIds({
+        tubesWithLevel: cappedTubesLevelById,
       });
 
-      let formattedAreas;
-
-      if (!frameworks.length) {
+      if (!formattedAreas.length) {
         throw new FrameworkNotFoundError();
-      } else {
-        formattedAreas = frameworks.flatMap((framework) =>
-          framework.areas.map((area) => ({
-            ...area,
-            competences: area.competences.map((competence) => ({
-              id: competence.id,
-              name: competence.name,
-              index: competence.index,
-              thematics: competence.thematics.map((thematic) => ({
-                id: thematic.id,
-                name: thematic.name,
-                index: thematic.index,
-                tubes: thematic.tubes
-                  .filter((tube) => cappedTubesLevelById.has(tube.id))
-                  .map((tube) => ({
-                    id: tube.id,
-                    level: cappedTubesLevelById.get(tube.id),
-                    name: tube.name,
-                    practicalTitle: tube.practicalTitle,
-                  })),
-              })),
-            })),
-          })),
-        );
       }
 
       return {
