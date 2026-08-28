@@ -579,6 +579,15 @@
           "status": "Status:"
         },
         "versions": {
+          "activate-version": {
+            "button-label": "Activate version",
+            "confirmation-modal": {
+              "content": "This action cannot be undone. Activating this version will cause the previous version to be archived. The scoring configurations will be saved, and the retrieval of calibrated challenges will be triggered.",
+              "title": "Are you sure you want to enable this version?"
+            },
+            "error": "An error occurred :  version {versionId} has not been activated.",
+            "success": "Version {versionId} is now active."
+          },
           "calibration": {
             "label-for-CALIBRATED_CHALLENGE_COUNT": "Count of calibrated challenges",
             "label-for-CALIBRATION_SCOPE": "Target scope",
@@ -636,7 +645,6 @@
           "page-title": "Creation of a new version of the certification in {scope} framework",
           "scoring": {
             "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
-            "capacity-submit-button": "Save capacities by mesh",
             "competences": {
               "level": "Level",
               "maximum-input-label": "Maximal capacity ",

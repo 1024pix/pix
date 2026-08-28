@@ -1,4 +1,3 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
@@ -12,10 +11,6 @@ export default class GlobalScoringForm extends Component {
   @service pixToast;
   @service intl;
 
-  get hasError() {
-    return this.globalScoringConfiguration.some(({ bounds }) => bounds.max <= bounds.min);
-  }
-
   get globalScoringConfiguration() {
     const savedConfiguration = this.args.draftVersion.globalScoringConfiguration;
     return savedConfiguration?.length
@@ -25,25 +20,6 @@ export default class GlobalScoringForm extends Component {
 
   get activeVersionConfiguration() {
     return this.args.activeVersion?.globalScoringConfiguration ?? [];
-  }
-
-  @action
-  async saveCapacityByMesh(event) {
-    event.preventDefault();
-    if (this.hasError) return;
-
-    this.args.draftVersion.globalScoringConfiguration = this.globalScoringConfiguration;
-
-    try {
-      await this.args.draftVersion.save();
-      this.pixToast.sendSuccessNotification({
-        message: this.intl.t(
-          'components.certification-frameworks.certification-framework.versions.scoring.success-notification',
-        ),
-      });
-    } catch (error) {
-      this.pixToast.sendErrorNotification({ message: error.errors?.[0].detail });
-    }
   }
 
   @action
@@ -89,7 +65,7 @@ export default class GlobalScoringForm extends Component {
       class="versions-scoring"
       @title={{t "components.certification-frameworks.certification-framework.versions.scoring.title"}}
     >
-      <form id="version-scoring-form" class="versions-scoring__form" {{on "submit" this.saveCapacityByMesh}}>
+      <form id="version-scoring-form" class="versions-scoring__form">
         {{#each this.globalScoringConfiguration as |mesh|}}
           <h3>
 
@@ -100,7 +76,7 @@ export default class GlobalScoringForm extends Component {
           <section>
             <PixInput
               type="number"
-              step="0.01"
+              step="0.0000000001"
               readonly={{this.isNotFirstRow mesh.meshLevel}}
               required={{this.isFirstRow mesh.meshLevel}}
               @requiredLabel={{if (this.isFirstRow mesh.meshLevel) (t "common.forms.mandatory") false}}
@@ -115,7 +91,7 @@ export default class GlobalScoringForm extends Component {
 
             <PixInput
               type="number"
-              step="0.01"
+              step="0.0000000001"
               required={{this.isFirstRow mesh.meshLevel}}
               @requiredLabel={{if (this.isFirstRow mesh.meshLevel) (t "common.forms.mandatory") false}}
               @errorMessage={{t
@@ -132,10 +108,6 @@ export default class GlobalScoringForm extends Component {
             </PixInput>
           </section>
         {{/each}}
-
-        <PixButton @type="submit" form="version-scoring-form" @isDisabled={{this.hasError}} @variant="primary-bis">
-          {{t "components.certification-frameworks.certification-framework.versions.scoring.capacity-submit-button"}}
-        </PixButton>
       </form>
     </Card>
   </template>

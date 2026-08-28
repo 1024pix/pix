@@ -118,6 +118,33 @@ async function register(server) {
     },
     {
       method: 'PATCH',
+      path: '/api/admin/certification-versions/{certificationVersionId}/activation',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationVersionId: identifiersType.certificationVersionId,
+          }),
+        },
+        handler: certificationVersionController.activateVersion,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte au rôle SUPER ADMIN',
+          "Elle permet d'activer une version en cours d'édition",
+        ],
+      },
+    },
+    {
+      method: 'PATCH',
       path: '/api/admin/certification-versions/{certificationVersionId}/comments',
       config: {
         pre: [

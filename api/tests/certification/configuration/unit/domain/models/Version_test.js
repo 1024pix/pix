@@ -223,6 +223,59 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
     });
   });
 
+  describe('#activate', function () {
+    context('when the version is a draft', function () {
+      it('changes the status to active and sets the startDate', function () {
+        // given
+        const activationDate = new Date('2025-09-01');
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2025-01-01') })
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'] })
+          .build();
+
+        // when
+        version.activate(activationDate);
+
+        // then
+        expect(version.status).to.equal('active');
+        expect(version.startDate).to.deep.equal(activationDate);
+        expect(version.expirationDate).to.be.null;
+      });
+    });
+
+    context('when the version is not a draft', function () {
+      it('throws a VersionNotDraftError', function () {
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive({ startDate: new Date('2024-01-01') })
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'] })
+          .build();
+
+        expect(() => version.activate(new Date())).to.throw(VersionNotDraftError);
+      });
+    });
+  });
+
+  describe('#archive', function () {
+    it('changes the status to archived and sets the expirationDate', function () {
+      // given
+      const archivingDate = new Date('2025-09-01');
+      const version = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2024-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'] })
+        .build();
+
+      // when
+      version.archive(archivingDate);
+
+      // then
+      expect(version.status).to.equal('archived');
+      expect(version.expirationDate).to.deep.equal(archivingDate);
+    });
+  });
+
   describe('#update', function () {
     let baseVersionData, validUpdateData;
 

@@ -5,7 +5,7 @@
  */
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
-import { Version } from '../../domain/models/Version.js';
+import { Version, VERSION_STATUSES } from '../../domain/models/Version.js';
 
 /**
  * @returns {Promise<Version[]>}
@@ -39,6 +39,17 @@ export async function getById({ id }) {
 export async function findAllByScope({ scope }) {
   const dtosVersion = await buildBaseQuery().where({ scope });
   return dtosVersion.map(_toDomain);
+}
+
+/**
+ * @param {object} params
+ * @param {SCOPES} params.scope
+ * @returns {Promise<Version|null>}
+ */
+export async function findActiveByScope({ scope }) {
+  const versionData = await buildBaseQuery().where({ scope, status: VERSION_STATUSES.ACTIVE }).first();
+  if (!versionData) return null;
+  return _toDomain(versionData);
 }
 
 /**

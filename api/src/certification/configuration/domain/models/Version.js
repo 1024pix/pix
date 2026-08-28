@@ -116,6 +116,7 @@ export class Version {
     enablePassageByAllCompetences,
     externalCalibrationId,
     globalScoringConfiguration,
+    competencesScoringConfiguration,
   }) {
     if (!this.isDraft) {
       throw new VersionNotDraftError();
@@ -123,6 +124,7 @@ export class Version {
     this.startDate = startDate;
     this.assessmentDuration = assessmentDuration;
     this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredForValidation;
+    this.competencesScoringConfiguration = competencesScoringConfiguration ?? this.competencesScoringConfiguration;
     this.challengesConfiguration = new FlashAssessmentAlgorithmConfiguration({
       maximumAssessmentLength,
       challengesBetweenSameCompetence,
@@ -147,6 +149,18 @@ export class Version {
 
   get canRemove() {
     return this.status === VERSION_STATUSES.DRAFT;
+  }
+
+  activate(activationDate) {
+    if (!this.isDraft) throw new VersionNotDraftError();
+    this.status = VERSION_STATUSES.ACTIVE;
+    this.startDate = activationDate;
+    this.expirationDate = null;
+  }
+
+  archive(archivingDate) {
+    this.status = VERSION_STATUSES.ARCHIVED;
+    this.expirationDate = archivingDate;
   }
 
   static buildDraftFromActiveVersion({ scope, version, tubeIds }) {

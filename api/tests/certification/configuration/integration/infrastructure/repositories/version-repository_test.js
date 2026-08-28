@@ -395,4 +395,44 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       expect(certificationVersionTubeIds).to.be.empty;
     });
   });
+
+  describe('#findActiveByScope', function () {
+    it('returns the active version for the given scope', async function () {
+      // given
+      const activeVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive({ startDate: new Date('2025-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'] })
+        .insertToDB({ databaseBuilder });
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2025-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'] })
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await versionRepository.findActiveByScope({ scope: SCOPES.CORE });
+
+      // then
+      expect(result.id).to.equal(activeVersion.id);
+      expect(result.status).to.equal('active');
+    });
+
+    it('returns null when there is no active version for the given scope', async function () {
+      // given
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2025-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'] })
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await versionRepository.findActiveByScope({ scope: SCOPES.CORE });
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
 });

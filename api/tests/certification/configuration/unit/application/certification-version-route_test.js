@@ -324,4 +324,62 @@ describe('Unit | Certification | Configuration | Application | Router | certific
       sinon.assert.called(certificationVersionController.generateCalibrationReport);
     });
   });
+
+  describe('PATCH /api/admin/certification-versions/{certificationVersionId}/activation', function () {
+    context('when the user has no role', function () {
+      it('should return 403 HTTP status code', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        sinon.stub(certificationVersionController, 'activateVersion').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PATCH', `/api/admin/certification-versions/1/activation`);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(certificationVersionController.activateVersion);
+      });
+    });
+
+    context('when the user is super admin', function () {
+      it('should return 204 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        sinon.stub(certificationVersionController, 'activateVersion').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PATCH', `/api/admin/certification-versions/1/activation`);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        sinon.assert.called(certificationVersionController.activateVersion);
+      });
+    });
+
+    context('when the version id is not valid', function () {
+      it('should return 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        sinon.stub(certificationVersionController, 'activateVersion').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'PATCH',
+          `/api/admin/certification-versions/NOT_AN_ID/activation`,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationVersionController.activateVersion);
+      });
+    });
+  });
 });

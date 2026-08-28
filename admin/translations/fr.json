@@ -587,6 +587,15 @@
           "status": "Statut :"
         },
         "versions": {
+          "activate-version": {
+            "button-label": "Activer la version",
+            "confirmation-modal": {
+              "content": "Cette action est irreversible. L'activation de cette version va provoquer l'archivage de la version précédente. Les configurations de scoring vont être enregistrées et la récupération des challenges calibrés va être déclenchée.",
+              "title": "Êtes-vous sûr·e de vouloir activer cette version ?"
+            },
+            "error": "Une erreur est survenue : la version {versionId} n'a pas pu être activée.",
+            "success": "La version {versionId} est maintenant active."
+          },
           "calibration": {
             "label-for-CALIBRATED_CHALLENGE_COUNT": "Nombre d'épreuves calibrées",
             "label-for-CALIBRATION_SCOPE": "Prévue pour le référentiel",
@@ -644,7 +653,6 @@
           "page-title": "Création d’une nouvelle version du référentiel de certification pour {scope}",
           "scoring": {
             "cannot-be-lower-error": "La capacité maximale d'un niveau doit être strictement supérieur à sa capacité minimale.",
-            "capacity-submit-button": "Sauvegarder les capacités par mailles",
             "competences": {
               "level": "Niveau",
               "title": "Bornes de capacités par compétences"
