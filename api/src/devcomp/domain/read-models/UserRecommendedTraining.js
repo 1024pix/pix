@@ -14,6 +14,7 @@ class UserRecommendedTraining {
     objectives,
     description,
     isRelevant,
+    isHighlighted,
   } = {}) {
     this.id = id;
     this.title = title;
@@ -25,6 +26,9 @@ class UserRecommendedTraining {
     this.editorLogoUrl = editorLogoUrl;
     this.deliveryMode = deliveryMode;
     this.isRelevant = isRelevant;
+    if (isHighlighted !== undefined) {
+      this.isHighlighted = isHighlighted;
+    }
     this.registrationRequired = registrationRequired;
     this.program = program;
     this.objectives = objectives;
