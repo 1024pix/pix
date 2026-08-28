@@ -29,11 +29,13 @@ async function _createScoCampaigns(databaseBuilder, trainingIds, participantCoun
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
     configCampaign: {
       participantCount,
-      completionDistribution: { started: participantCount },
+      completionDistribution: { shared: participantCount },
       profileDistribution: { beginner: 1, perfect: 1, blank: 1 },
       recommendedTrainingsIds: trainingIds,
     },
     recommendationEngine: true,
+    // trainingIds[9] is frFrTrainingId2 (DEVCOMP_BASE_TRAINING_ID + 9), built by buildTrainings.
+    highlightedTrainingIds: [trainingIds[9]],
   });
 }
 

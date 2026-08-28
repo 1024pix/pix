@@ -44,6 +44,7 @@ export { createAssessmentCampaign, createProfilesCollectionCampaign };
  * @param {string} customResultPageButtonUrl
  * @param {boolean} multipleSendings
  * @param {string} assessmentMethod
+ * @param {number[]} highlightedTrainingIds
  * @param configCampaign
  * {
  *  participantCount: number,
@@ -84,6 +85,7 @@ async function createAssessmentCampaign({
   assessmentMethod,
   configCampaign,
   recommendationEngine,
+  highlightedTrainingIds,
 }) {
   const { realCampaignId, realOrganizationId, realCreatedAt } = _buildCampaign({
     databaseBuilder,
@@ -111,6 +113,7 @@ async function createAssessmentCampaign({
     multipleSendings,
     assessmentMethod,
     recommendationEngine,
+    highlightedTrainingIds,
   });
 
   const campaignSkills = await _buildCampaignSkills({
@@ -459,6 +462,7 @@ function _buildCampaign({
   multipleSendings,
   assessmentMethod,
   recommendationEngine,
+  highlightedTrainingIds,
 }) {
   const {
     id: realCampaignId,
@@ -502,6 +506,7 @@ function _buildCampaign({
     databaseBuilder.factory.buildCampaignFeature({
       campaignId: realCampaignId,
       featureId: FEATURE_CAMPAIGN_RECOMMENDATION_ENGINE_ID,
+      params: highlightedTrainingIds ? { highlightedTrainingIds } : undefined,
     });
   }
   return { realCampaignId, realOrganizationId, realCreatedAt };
