@@ -67,6 +67,11 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
     this.isResetModalVisible = !this.isResetModalVisible;
   }
 
+  @action
+  onSeeRecommendationsButtonClicked() {
+    this.args.onSeeRecommendationsButtonClicked();
+  }
+
   <template>
     <div class="evaluation-results-hero-recommendation-engine">
       <div class="evaluation-results-hero-recommendation-engine__content">
@@ -114,9 +119,15 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
         {{/if}}
 
         <div class="evaluation-results-hero-recommendation-engine__actions">
-          <PixButtonLink @route="authentication.login" @size="small" @variant="secondary-white">
-            {{t "pages.skill-review.actions.back-to-pix"}}
-          </PixButtonLink>
+          {{#if @hasTrainings}}
+            <PixButton
+              @triggerAction={{this.onSeeRecommendationsButtonClicked}}
+              @size="small"
+              @variant="secondary-white"
+            >
+              {{t "pages.skill-review.hero.see-my-recommendations"}}
+            </PixButton>
+          {{/if}}
           {{#if @campaignParticipationResult.canReset}}
             <PixButton
               @iconBefore="refresh"

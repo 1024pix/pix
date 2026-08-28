@@ -2232,6 +2232,7 @@
           "retryIn": "Vous ne pouvez pas encore repasser ce parcours, revenez dans {duration}.",
           "title": "Améliorez vos résultats"
         },
+        "see-my-recommendations": "Voir mes recommandations",
         "see-trainings": "Voir les formations",
         "shared-message": "Vos résultats ont été envoyés le {date} à {time}.",
         "staged-message": {

@@ -9,7 +9,7 @@ import Rewards from '../../../campaigns/assessment/results/evaluation-results-ta
 import QuitResults from '../../../campaigns/assessment/results/quit-results';
 import Drawer from '../../../campaigns/assessment/results-recommendation-engine/drawer';
 import EvaluationResultsHeroRecommendationEngine from '../../../campaigns/assessment/results-recommendation-engine/evaluation-results-hero-recommendation-engine';
-import Trainings from '../../../campaigns/assessment/results-recommendation-engine/trainings';
+import Trainings, { TRAININGS_LIST_ID } from '../../../campaigns/assessment/results-recommendation-engine/trainings';
 
 export default class EvaluationResultsRecommendationEngine extends Component {
   @service media;
@@ -81,6 +81,10 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     return this.shouldShowNps && this._expandedDrawer;
   }
 
+  get scrollBehavior() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+  }
+
   @action revealNps() {
     this._drawerRevealedByScroll = true;
     this._expandedDrawer = true;
@@ -89,6 +93,14 @@ export default class EvaluationResultsRecommendationEngine extends Component {
 
   @action collapseDrawer() {
     this._expandedDrawer = false;
+  }
+
+  @action onSeeRecommendationsButtonClicked() {
+    if (this.hasTrainings) {
+      const trainingsList = document.getElementById(TRAININGS_LIST_ID);
+      trainingsList.focus({ preventScroll: true, focusVisible: true });
+      trainingsList.scrollIntoView({ behavior: this.scrollBehavior });
+    }
   }
 
   <template>
@@ -109,6 +121,8 @@ export default class EvaluationResultsRecommendationEngine extends Component {
       <EvaluationResultsHeroRecommendationEngine
         @campaign={{@model.campaign}}
         @campaignParticipationResult={{@model.campaignParticipationResult}}
+        @hasTrainings={{this.hasTrainings}}
+        @onSeeRecommendationsButtonClicked={{this.onSeeRecommendationsButtonClicked}}
         @questResults={{@model.questResults}}
       />
 

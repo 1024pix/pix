@@ -37,6 +37,7 @@ module(
           return observerInstance;
         };
       });
+
       test('should display trainings', async function (assert) {
         // given
         const training = store.createRecord('training', {
@@ -65,6 +66,37 @@ module(
           .exists();
         const trainingTitle = screen.getAllByText('Super training');
         assert.strictEqual(trainingTitle.length, 2);
+      });
+
+      module('when clicking on see-my-recommendations button', function () {
+        test('should scroll to trainings section and focus the content', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training],
+          };
+
+          // when
+          const screen = await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+          await click(screen.getByRole('button', { name: t('pages.skill-review.hero.see-my-recommendations') }));
+
+          // then
+          const trainings = screen.getByRole('heading', {
+            name: t('pages.skill-review.recommended-engine.trainings.title'),
+            level: 2,
+          }).parentElement;
+          assert.strictEqual(document.activeElement, trainings);
+        });
       });
 
       module('tracking', function (hooks) {

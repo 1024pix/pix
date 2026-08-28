@@ -2232,6 +2232,7 @@
           "retryIn": "Du kannst diesen Lernpfad noch nicht wiederholen, kehre zurück in {duration}.",
           "title": "Verbessere deine Ergebnisse"
         },
+        "see-my-recommendations": "Meine Empfehlungen ansehen",
         "see-trainings": "Übung ansehen",
         "shared-message": "Deine Ergebnisse wurden am {date} an {time} gesendet.",
         "staged-message": {
