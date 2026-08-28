@@ -166,6 +166,14 @@
       },
       "generic-error": "Une erreur est survenue."
     },
+    "pagination": {
+      "nextPage": "Aller à la page suivante",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}} other {{start, number}-{end, number} sur {total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}}}",
+      "pageNumber": "Page {current, number} / {total, number}",
+      "pageSize": "Nombre d'éléments à afficher par page",
+      "previousPage": "Aller à la page précédente",
+      "title": "Voir"
+    },
     "pix-admin": "Pix Admin",
     "roles": {
       "admin": "Administrateur",
@@ -904,12 +912,12 @@
         "certifications": "Certifications",
         "combined-course-blueprints": "Schémas de parcours",
         "labels": {
-          "title": "Navigation principale",
           "close": "Fermer la navigation",
+          "expand": "Revenir à la largeur initiale du menu de navigation",
           "main": "Navigation principale",
           "open": "Ouvrir la navigation",
           "shrink": "Réduire la largeur",
-          "expand": "Revenir à la largeur initiale du menu de navigation"
+          "title": "Navigation principale"
         },
         "logout": "Se déconnecter",
         "networks": "Réseaux",

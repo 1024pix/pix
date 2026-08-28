@@ -1,9 +1,9 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { LinkTo } from '@ember/routing';
 import formatDate from 'ember-intl/helpers/format-date';
 import { or } from 'ember-truth-helpers';
+import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 
 import CampaignType from '../campaigns/type';
 
@@ -76,7 +76,7 @@ import CampaignType from '../campaigns/type';
     {{/unless}}
 
     {{#if @campaigns}}
-      <PixPagination @pagination={{@campaigns.meta}} />
+      <PaginationWrapper @pagination={{@campaigns.meta}} />
     {{/if}}
   </section>
 </template>

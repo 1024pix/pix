@@ -1,4 +1,3 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { LinkTo } from '@ember/routing';
@@ -6,6 +5,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import sortBy from 'lodash/sortBy';
+import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 
 import CertificationStatus from './status';
 
@@ -108,7 +108,7 @@ export default class CertificationsHeader extends Component {
         </:columns>
       </PixTable>
 
-      <PixPagination @pagination={{@pagination}} />
+      <PaginationWrapper @pagination={{@pagination}} />
     {{else}}
       <p class="tables__empty">{{t "common.tables.empty-result"}}</p>
     {{/if}}

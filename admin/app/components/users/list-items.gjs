@@ -1,8 +1,8 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
+import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 
 <template>
   {{#if @users}}
@@ -58,7 +58,7 @@ import { t } from 'ember-intl';
       </:columns>
     </PixTable>
 
-    <PixPagination @pagination={{@users.meta}} />
+    <PaginationWrapper @pagination={{@users.meta}} />
   {{else}}
     <div class="table__empty">{{t "common.tables.empty-result"}}</div>
   {{/if}}

@@ -1,6 +1,5 @@
 import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
@@ -9,6 +8,7 @@ import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 
 export default class CertificationCenterListItems extends Component {
   get isClearFiltersButtonDisabled() {
@@ -92,7 +92,7 @@ export default class CertificationCenterListItems extends Component {
           </:columns>
         </PixTable>
 
-        <PixPagination @pagination={{@certificationCenters.meta}} />
+        <PaginationWrapper @pagination={{@certificationCenters.meta}} />
       {{else}}
         <div class="table__empty">{{t "common.tables.empty-result"}}</div>
       {{/if}}

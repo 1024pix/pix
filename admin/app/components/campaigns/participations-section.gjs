@@ -1,7 +1,7 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 
 import ParticipationRow from './participation-row';
 
@@ -32,7 +32,7 @@ export default class ParticipationsSection extends Component {
       {{/unless}}
 
       {{#if @participations}}
-        <PixPagination @pagination={{@participations.meta}} />
+        <PaginationWrapper @pagination={{@participations.meta}} />
       {{/if}}
     </section>
   </template>

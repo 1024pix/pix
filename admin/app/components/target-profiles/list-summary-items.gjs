@@ -1,7 +1,6 @@
 import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { fn, hash } from '@ember/helper';
@@ -12,6 +11,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
+import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 
 import { categories } from '../../helpers/target-profile-categories.js';
 
@@ -126,7 +126,7 @@ export default class TargetProfileListSummaryItems extends Component {
         </:columns>
       </PixTable>
 
-      <PixPagination @pagination={{@summaries.meta}} />
+      <PaginationWrapper @pagination={{@summaries.meta}} />
 
     {{else}}
       <div class="table__empty">{{t "common.tables.empty-result"}}</div>
