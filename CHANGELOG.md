@@ -1,5 +1,49 @@
 # Pix Changelog
 
+# [5.489.0](https://github.com/1024pix/pix/compare/v5.488.0...v5.489.0) (2026-08-28)
+
+### :rocket: Amélioration
+
+- [#17260](https://github.com/1024pix/pix/pull/17260) Activation d'une version (PIX-23865)
+- [#17267](https://github.com/1024pix/pix/pull/17267) Ajout du référentiel 6e pour la sélection des tubes à la création d'un schéma de parcours (PIX-23978)
+- [#17175](https://github.com/1024pix/pix/pull/17175) Ajoute l'affichage de la configuration de scoring par compétence pour la création d'un référentiel de certification CORE (PIX-23907)
+- [#17266](https://github.com/1024pix/pix/pull/17266) Ajouter un délai avant d'afficher le feedmoji (PIX-23979).
+- [#17312](https://github.com/1024pix/pix/pull/17312) autovalid qcu image mfa nov
+- [#17299](https://github.com/1024pix/pix/pull/17299) Changement d'une traduction néerlandaise (PIX-24063)
+- [#17253](https://github.com/1024pix/pix/pull/17253) Modifier l'API legalDocuments pour lire les CGU de Pix Certif avec et sans feature toggle
+- [#17290](https://github.com/1024pix/pix/pull/17290) Remonter le nombre de challenges calibrés EN pour coeur dans le rapport (PIX-23983).
+- [#17297](https://github.com/1024pix/pix/pull/17297) Remplacer le bouton "quitter" par "voir mes recommandations" (PIX-23977)
+
+### :bug: Correction
+
+- [#17269](https://github.com/1024pix/pix/pull/17269) Retours catalogue post MEP (PIX-23895)
+
+### :building_construction: Tech
+
+- [#17249](https://github.com/1024pix/pix/pull/17249) Logger les erreurs de validation de création d’utilisateur (PIX-23998)
+- [#17218](https://github.com/1024pix/pix/pull/17218) Ne plus utiliser PixBackgroundHeader dans les composants liés à l'authentification/réconciliation via SSO ou lors du passage d'une campagne
+- [#17257](https://github.com/1024pix/pix/pull/17257) Sortir les erreurs jetées dans les repositories de `certification/evaluation` (PIX-24022).
+- [#17310](https://github.com/1024pix/pix/pull/17310) Surcharger le schedule de Renovate
+
+### :arrow_up: Montée de version
+
+- [#17301](https://github.com/1024pix/pix/pull/17301) Update dependency @1024pix/ember-testing-library to ^3.0.44 (admin)
+- [#17302](https://github.com/1024pix/pix/pull/17302) Update dependency @1024pix/ember-testing-library to ^3.0.44 (certif)
+- [#17303](https://github.com/1024pix/pix/pull/17303) Update dependency @1024pix/ember-testing-library to ^3.0.44 (junior)
+- [#17304](https://github.com/1024pix/pix/pull/17304) Update dependency @1024pix/ember-testing-library to ^3.0.44 (mon-pix)
+- [#17305](https://github.com/1024pix/pix/pull/17305) Update dependency @1024pix/ember-testing-library to ^3.0.44 (orga)
+- [#17242](https://github.com/1024pix/pix/pull/17242) Update dependency @1024pix/eslint-plugin to v3
+- [#17268](https://github.com/1024pix/pix/pull/17268) Update dependency @babel/plugin-proposal-decorators to ^7.29.7 (junior)
+- [#17293](https://github.com/1024pix/pix/pull/17293) Update dependency @babel/plugin-proposal-decorators to ^7.29.7 (mon-pix)
+- [#17294](https://github.com/1024pix/pix/pull/17294) Update dependency @cyclonedx/cyclonedx-npm to ^6.0.1 (dossier racine)
+- [#17295](https://github.com/1024pix/pix/pull/17295) Update dependency @ember/test-helpers to ^5.4.3
+- [#17296](https://github.com/1024pix/pix/pull/17296) Update dependency @embroider/macros to ^1.20.6 (certif)
+- [#17298](https://github.com/1024pix/pix/pull/17298) Update dependency @embroider/macros to ^1.20.6 (junior)
+- [#17300](https://github.com/1024pix/pix/pull/17300) Update dependency @embroider/macros to ^1.20.6 (mon-pix)
+- [#17306](https://github.com/1024pix/pix/pull/17306) Update dependency @testing-library/user-event to ^14.6.5 (mon-pix)
+- [#17308](https://github.com/1024pix/pix/pull/17308) Update dependency @tsconfig/node24 to v24.0.5 (audit-logger)
+- [#17309](https://github.com/1024pix/pix/pull/17309) Update dependency @types/lodash to ^4.17.25 (audit-logger)
+
 # [5.488.0](https://github.com/1024pix/pix/compare/v5.487.0...v5.488.0) (2026-08-27)
 
 ### :rocket: Amélioration
