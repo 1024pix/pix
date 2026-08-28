@@ -26,8 +26,8 @@ export default class VersionController extends Controller {
           },
         ),
       });
+      await this.store.findAll('certification-framework', { reload: true });
       await this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
-      this.router.refresh('authenticated.certification-frameworks.certification-framework');
     } catch {
       this.pixToast.sendErrorNotification({
         message: this.intl.t(

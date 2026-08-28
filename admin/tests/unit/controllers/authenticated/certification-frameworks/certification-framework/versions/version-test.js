@@ -20,7 +20,9 @@ module(
       };
       controller.router = {
         transitionTo: sinon.stub().resolves(),
-        refresh: sinon.stub(),
+      };
+      controller.store = {
+        findAll: sinon.stub().resolves(),
       };
     });
 
@@ -48,7 +50,6 @@ module(
         };
 
         await controller.activateVersion(draftVersion, null);
-
         sinon.assert.calledOnce(controller.pixToast.sendSuccessNotification);
         sinon.assert.calledWith(
           controller.router.transitionTo,
