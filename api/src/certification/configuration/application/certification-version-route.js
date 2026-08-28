@@ -137,7 +137,10 @@ async function register(server) {
         },
         handler: certificationVersionController.activateVersion,
         tags: ['api', 'admin'],
-        notes: ['Cette route est restreinte au SUPER ADMIN', "Elle permet d'activer une version en cours d'édition"],
+        notes: [
+          'Cette route est restreinte au rôle SUPER ADMIN',
+          "Elle permet d'activer une version en cours d'édition",
+        ],
       },
     },
     {

@@ -4,6 +4,7 @@ import { VersionNotDraftError } from '../../../../../../src/certification/config
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { activateVersion } from '../../../../../../src/certification/configuration/domain/usecases/activate-version.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -28,7 +29,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
   });
 
   context('when the version does not exist', function () {
-    it('throws a VersionNotDraftError', async function () {
+    it('throws a NotFoundError', async function () {
       // given
       versionRepository.getById.resolves(null);
 
@@ -41,7 +42,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
       });
 
       // then
-      expect(err).to.be.instanceOf(VersionNotDraftError);
+      expect(err).to.be.instanceOf(NotFoundError);
     });
   });
 
@@ -69,6 +70,26 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
   });
 
   context('when the version is a draft', function () {
+    context('when the calibration does not exist', function () {
+      it('throws a NotFoundError', async function () {
+        const draftVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2025-01-01') })
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 42, externalCalibrationId: 7 })
+          .build();
+        versionRepository.getById.resolves(draftVersion);
+        calibrationRepository.find.resolves(null);
+
+        const err = await catchErr(activateVersion)({
+          id: 42,
+          versionRepository,
+          calibrationRepository,
+          calibratedChallengesRepository,
+        });
+
+        expect(err).to.be.instanceOf(NotFoundError);
+      });
+    });
     it('fetches the calibration and persists the calibrated challenges', async function () {
       // given
       const calibratedChallenges = [{ challengeId: 'chalA', tubeId: 'tubeA', alpha: 1.5, delta: -0.5 }];

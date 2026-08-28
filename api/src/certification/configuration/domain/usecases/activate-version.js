@@ -1,3 +1,4 @@
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { VersionNotDraftError } from '../errors.js';
 
 /**
@@ -15,10 +16,14 @@ export async function activateVersion({
 }) {
   const draftVersion = await versionRepository.getById({ id });
 
-  if (!draftVersion) throw new VersionNotDraftError();
+  if (!draftVersion) throw new NotFoundError(`No certification version found for id: ${id}`);
+
   if (!draftVersion.isDraft) throw new VersionNotDraftError();
 
   const calibration = await calibrationRepository.find(draftVersion.externalCalibrationId);
+  if (!calibration) {
+    throw new NotFoundError(`No certification version found for id: ${draftVersion.externalCalibrationId}`);
+  }
   await calibratedChallengesRepository.saveMany({
     calibratedChallenges: calibration.calibratedChallenges,
     versionId: draftVersion.id,
