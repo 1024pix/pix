@@ -1,5 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>1024pix/renovate-config:js-project"],
-  "enabled": true
+  "enabled": true,
+  "schedule": ["* * * * 1-5"]
 }
