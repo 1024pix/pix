@@ -187,7 +187,7 @@ export default class CombinedCourseBlueprintForm extends Component {
 
   async refreshAreas() {
     const frameworks = this.args.model.frameworks.filter(
-      (framework) => framework.name === 'Pix' || framework.name === 'Pix 6e',
+      (framework) => framework.name === 'Pix' || framework.name === 'Pix 6e' || framework.name === 'Numérique Responsable',
     );
 
     const areasByFramework = await Promise.all(
