@@ -27,14 +27,16 @@ export default class Trainings extends Component {
   registerList = modifier((element) => {
     this.list = element;
     this.updateSpacerWidth();
-    window.addEventListener('resize', this.resyncScrollPosition);
+
+    const resizeObserver = new ResizeObserver(this.resyncScrollPosition);
+    resizeObserver.observe(element, { box: 'content-box' });
 
     return () => {
-      window.removeEventListener('resize', this.resyncScrollPosition);
+      resizeObserver.disconnect();
     };
   });
 
-  get isNavigationVisible() {
+  get areNavigationButtonsVisible() {
     return this.args.trainings.length > TRAININGS_PER_PAGE;
   }
 
@@ -66,12 +68,13 @@ export default class Trainings extends Component {
     });
   }
 
-  slideAriaLabel = (index) => {
+  @action
+  slideAriaLabel(index) {
     return this.intl.t('pages.skill-review.recommended-engine.trainings.slide-aria-label', {
       position: index + 1,
       total: this.args.trainings.length,
     });
-  };
+  }
 
   get scrollBehavior() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
@@ -89,6 +92,8 @@ export default class Trainings extends Component {
 
   @action
   resyncScrollPosition() {
+    if (!this.areNavigationButtonsVisible) return;
+
     this.updateSpacerWidth();
     this.goToCardIndex(this.currentPageFirstCardIndex, 'instant');
   }
@@ -104,13 +109,13 @@ export default class Trainings extends Component {
   // extra peeked width, otherwise the browser clamps scrollTo() short of the
   // last card's offsetLeft and a previous card re-appears on the left.
   //
-  // Only needed while scrolling is JS-driven (list--locked sets
+  // Only needed while scrolling is JS-driven (list--hidden sets
   // overflow-x: hidden at the desktop breakpoint, see trainings.scss). Below
   // that breakpoint, scrolling is native and this spacer stays at its CSS
   // default. Reading the computed overflow-x instead of duplicating the
   // breakpoint value keeps the SCSS as the single source of truth.
   updateSpacerWidth() {
-    if (!this.isNavigationVisible || getComputedStyle(this.list).overflowX !== 'hidden') {
+    if (!this.areNavigationButtonsVisible || getComputedStyle(this.list).overflowX !== 'hidden') {
       this.spacerWidth = null;
       return;
     }
@@ -121,9 +126,9 @@ export default class Trainings extends Component {
 
   <template>
     <section
-     id={{TRAININGS_LIST_ID}}
+      id={{TRAININGS_LIST_ID}}
       tabindex="-1"
-     class="results-recommendation-engine-training"
+      class="results-recommendation-engine-training"
       aria-labelledby={{this.titleId}}
       aria-roledescription={{t "pages.skill-review.recommended-engine.trainings.carousel-roledescription"}}
       {{onIntersect @onFullyVisible threshold=1}}
@@ -138,7 +143,7 @@ export default class Trainings extends Component {
             }}</p>
         </div>
 
-        {{#if this.isNavigationVisible}}
+        {{#if this.areNavigationButtonsVisible}}
           <div class="results-recommendation-engine-training__navigation">
             <PixIconButton
               @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.previous-button-aria-label"}}
@@ -159,7 +164,7 @@ export default class Trainings extends Component {
 
       <ul
         class="results-recommendation-engine-training__list
-          {{if this.isNavigationVisible 'results-recommendation-engine-training__list--locked'}}"
+          {{if this.areNavigationButtonsVisible 'results-recommendation-engine-training__list--hidden'}}"
         {{this.registerList}}
       >
         {{#each @trainings as |training index|}}
@@ -176,7 +181,7 @@ export default class Trainings extends Component {
               /></div>
           </li>
         {{/each}}
-        {{#if this.isNavigationVisible}}
+        {{#if this.areNavigationButtonsVisible}}
           <li
             class="results-recommendation-engine-training__list-spacer"
             aria-hidden="true"

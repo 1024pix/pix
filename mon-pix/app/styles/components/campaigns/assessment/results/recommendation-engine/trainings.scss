@@ -39,16 +39,9 @@
   &__list {
     display: flex;
     margin-top: var(--pix-spacing-4x);
-    overflow-x: auto;
     overflow-y: hidden;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
 
-    @media (prefers-reduced-motion: reduce) {
-      scroll-behavior: auto;
-    }
-
-    &--locked {
+    &--hidden {
       @include breakpoints.device-is('desktop') {
         overflow-x: hidden;
       }

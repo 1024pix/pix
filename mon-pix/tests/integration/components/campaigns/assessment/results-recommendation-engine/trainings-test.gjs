@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
+import { click, waitUntil } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import Trainings from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/trainings';
 import { module, test } from 'qunit';
@@ -194,7 +194,7 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
 
         // then
         const lists = screen.getAllByRole('list');
-        assert.dom(lists[0]).hasClass('results-recommendation-engine-training__list--locked');
+        assert.dom(lists[0]).hasClass('results-recommendation-engine-training__list--hidden');
       });
 
       module('when clicking the next button', function () {
@@ -209,10 +209,10 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
 
           // when
           await click(nextButton);
-          await new Promise((resolve) => setTimeout(resolve, 1000));
+          const lists = screen.getAllByRole('list');
+          await waitUntil(() => lists[0].scrollLeft !== 0);
 
           // then
-          const lists = screen.getAllByRole('list');
           assert.notStrictEqual(lists[0].scrollLeft, 0);
           const previousButton = screen.getByRole('button', {
             name: t('pages.skill-review.recommended-engine.trainings.previous-button-aria-label'),
@@ -245,7 +245,6 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
 
         // when
         await click(nextButton);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // then
         assert
@@ -272,12 +271,15 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
 
         // clicks to the intermediate page (cards 3, 4, 5 + a peek of card 6)
         await click(nextButton);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // then card 6 straddles the list's right edge, not fully shown
         const lists = screen.getAllByRole('list');
         const cards = lists[0].children;
         const listRect = lists[0].getBoundingClientRect();
+        await waitUntil(() => {
+          const rect = cards[6].getBoundingClientRect();
+          return rect.left < listRect.right && rect.right > listRect.right;
+        });
+
+        // then card 6 straddles the list's right edge, not fully shown
         const peekingLastCardRect = cards[6].getBoundingClientRect();
 
         assert.true(peekingLastCardRect.left < listRect.right);
@@ -286,11 +288,15 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
         assert.dom(nextButton).doesNotHaveAttribute('aria-disabled');
 
         // clicks to the final page
+        const roundingTolerance = 1;
         await click(nextButton);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await waitUntil(
+          () =>
+            cards[5].getBoundingClientRect().right <= listRect.left + roundingTolerance &&
+            cards[6].getBoundingClientRect().right <= listRect.right + roundingTolerance,
+        );
 
         // then card 6 is fully shown, alone, and card 5 is fully hidden
-        const roundingTolerance = 1;
         const previousCardRect = cards[5].getBoundingClientRect();
         const lastCardRect = cards[6].getBoundingClientRect();
 
