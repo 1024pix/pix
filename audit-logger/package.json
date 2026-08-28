@@ -43,7 +43,7 @@
     "@eslint/compat": "^2.0.0",
     "@tsconfig/node24": "^24.0.0",
     "@types/bcrypt": "^6.0.0",
-    "@types/lodash": "^4.17.20",
+    "@types/lodash": "^4.17.25",
     "@types/node": "^24.0.14",
     "@types/pg": "^8.15.4",
     "eslint": "^9.39.5",
