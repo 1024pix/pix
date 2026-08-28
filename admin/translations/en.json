@@ -849,6 +849,10 @@
         "detach-organization-success": "Blueprint is not shared with organization {name} anymore."
       },
       "reward-requirements": {
+        "errors": {
+          "threshold-required": "The threshold must be defined",
+          "tubes-required": "The requirement group must contain at least one element"
+        },
         "levels": "Levels",
         "requirements-group-name": "Requirements group",
         "thematics": "Thematics",

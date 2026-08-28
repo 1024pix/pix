@@ -107,6 +107,13 @@ export default class CombinedCourseBlueprintForm extends Component {
 
   @action
   async save() {
+    if (this.cappedTubesRequirementsErrors.length) {
+      this.cappedTubesRequirementsErrors.forEach((error) => {
+        this.pixToast.sendErrorNotification({ message: error });
+      });
+      return;
+    }
+
     try {
       await this.blueprint.save({
         adapterOptions: this.validCappedTubeRequirements.length
@@ -193,6 +200,28 @@ export default class CombinedCourseBlueprintForm extends Component {
     );
 
     this.areas = areasByFramework.flat();
+  }
+
+  get cappedTubesRequirementsErrors() {
+    const requirements = this.cappedTubeRequirements;
+    if (requirements.length === 0) {
+      return [];
+    }
+    if (requirements.length === 1 && Object.keys(requirements[0]).length === 0) {
+      return [];
+    }
+
+    let errors = [];
+    for (const requirement of requirements) {
+      if (!requirement.threshold) {
+        errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'));
+      }
+      if (!requirement.tubes || requirement.tubes.length < 1) {
+        errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.tubes-required'));
+      }
+    }
+
+    return errors;
   }
 
   get validCappedTubeRequirements() {
