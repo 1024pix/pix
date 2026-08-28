@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 import Details from 'pix-admin/components/combined-course-blueprints/details';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
@@ -129,6 +129,37 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
     const expectedThreshold = t('components.combined-course-blueprints.reward-requirements.threshold') + ': 50%';
     assert.ok(await screen.queryByText(expectedThreshold));
     assert.ok(await screen.queryByText('Area Test Title'));
+  });
+
+  test('should display every competence of a reward requirement on expand all', async function (assert) {
+    //given
+    const combinedCourseBlueprint = {
+      id: 123,
+      internalName: 'Modèle de parcours apprenant',
+      createdAt: new Date('2025-12-25'),
+      name: 'Parcours apprenant',
+      content: [],
+      rewardRequirements: [
+        {
+          name: 'requirements group name',
+          cappedTubesThreshold: 50,
+          areas: [
+            {
+              title: 'Area Test Title',
+              competences: [{ name: 'Competence Test Name', thematics: [] }],
+            },
+          ],
+        },
+      ],
+    };
+    const screen = await render(<template><Details @model={{combinedCourseBlueprint}} /></template>);
+    assert.dom(screen.queryByText('Competence Test Name')).doesNotExist();
+
+    //when
+    await clickByName('Tout déplier');
+
+    //then
+    assert.dom(screen.getByText('Competence Test Name')).isVisible();
   });
 
   test('should display default reward requirements group name if not provided', async function (assert) {
