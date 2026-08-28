@@ -4,7 +4,7 @@ import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
@@ -93,10 +93,9 @@ export default class EditTargetProfileForm extends Component {
             @onChange={{fn this.handleSelectChange "category"}}
             @value={{@targetProfile.category}}
             @options={{this.optionsList}}
-            @placeholder="-"
+            @texts={{hash placeholder="-" requiredLabel=(t "common.forms.mandatory")}}
             @hideDefaultOption={{true}}
             required={{true}}
-            @requiredLabel={{t "common.forms.mandatory"}}
             aria-required={{true}}
           >
             <:label>Catégorie :</:label>

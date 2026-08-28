@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -201,7 +201,10 @@ export default class OrganizationInformationSectionEditionMode extends Component
           <PixSelect
             required
             @aria-required={{true}}
-            @requiredLabel={{t "common.forms.mandatory"}}
+            @texts={{hash
+              placeholder=(t "components.organizations.editing.administration-team.selector.placeholder")
+              requiredLabel=(t "common.forms.mandatory")
+            }}
             @errorMessage={{if
               this.validator.errors.administrationTeamId
               (t this.validator.errors.administrationTeamId)
@@ -211,7 +214,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
             @value={{this.form.administrationTeamId}}
             @onChange={{fn this.updateValue "administrationTeamId"}}
             @hideDefaultOption={{true}}
-            @placeholder={{t "components.organizations.editing.administration-team.selector.placeholder"}}
             @isFullWidth={{true}}
           >
             <:label>{{t "components.organizations.editing.administration-team.selector.label"}}</:label>
@@ -220,7 +222,10 @@ export default class OrganizationInformationSectionEditionMode extends Component
           <PixSelect
             required
             @aria-required={{true}}
-            @requiredLabel={{t "common.forms.mandatory"}}
+            @texts={{hash
+              placeholder=(t "components.organizations.editing.organization-learner-type.selector.placeholder")
+              requiredLabel=(t "common.forms.mandatory")
+            }}
             @errorMessage={{if
               this.validator.errors.organizationLearnerTypeId
               (t this.validator.errors.organizationLearnerTypeId)
@@ -231,7 +236,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
             @onChange={{fn this.updateValue "organizationLearnerTypeId"}}
             @hideDefaultOption={{true}}
             @isFullWidth={{true}}
-            @placeholder={{t "components.organizations.editing.organization-learner-type.selector.placeholder"}}
           >
             <:label>{{t "components.organizations.editing.organization-learner-type.selector.label"}}</:label>
           </PixSelect>
@@ -239,7 +243,12 @@ export default class OrganizationInformationSectionEditionMode extends Component
           <PixSelect
             required
             @aria-required={{true}}
-            @requiredLabel={{t "common.forms.mandatory"}}
+            @texts={{hash
+              placeholder=(t "components.organizations.editing.country.selector.placeholder")
+              requiredLabel=(t "common.forms.mandatory")
+              selectSearchLabel="Rechercher"
+              searchPlaceholder="AC48"
+            }}
             @errorMessage={{if this.validator.errors.countryCode (t this.validator.errors.countryCode)}}
             @validationStatus={{if this.validator.errors.countryCode "error"}}
             @options={{this.countriesOptions}}
@@ -247,8 +256,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
             @onChange={{fn this.updateValue "countryCode"}}
             @hideDefaultOption={{true}}
             @isSearchable={{true}}
-            @locale={{this.locale.currentLocale}}
-            @placeholder={{t "components.organizations.editing.country.selector.placeholder"}}
             @isFullWidth={{true}}
           >
             <:label>{{t "components.organizations.editing.country.selector.label"}}</:label>

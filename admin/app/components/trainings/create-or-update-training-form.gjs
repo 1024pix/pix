@@ -5,7 +5,7 @@ import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTextArea from '@1024pix/pix-ui/components/pix-textarea';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -201,7 +201,7 @@ export default class CreateOrUpdateTrainingForm extends Component {
             <:label>{{t "pages.trainings.training.details.internalTitle"}}</:label>
           </PixInput>
           <PixSelect
-            @placeholder="-- Sélectionnez un format --"
+            @texts={{hash placeholder="-- Sélectionnez un format --"}}
             @value={{this.form.type}}
             @options={{this.optionsTypeList}}
             required={{true}}
@@ -215,13 +215,12 @@ export default class CreateOrUpdateTrainingForm extends Component {
             {{#if (eq this.form.type MODULIX_TYPE)}}
               <PixSelect
                 @id="trainingModule"
-                @placeholder="-- Sélectionnez un module --"
+                @texts={{hash placeholder="-- Sélectionnez un module --" selectSearchLabel="Module à rechercher"}}
                 @options={{this.formattedSortedModuleValues}}
                 @value={{this.form.link}}
                 @onChange={{fn this.updateSelect "link"}}
                 @hideDefaultOption={{true}}
                 @isSearchable={{true}}
-                @searchLabel="Module à rechercher"
                 required={{true}}
                 aria-required={{true}}
               >
@@ -325,7 +324,9 @@ export default class CreateOrUpdateTrainingForm extends Component {
         </Card>
         <Card class="admin-form__card" @title={{t "pages.trainings.training.form.recommendation-engine.card-title"}}>
           <PixSelect
-            @placeholder={{t "pages.trainings.training.form.recommendation-engine.delivery-mode.placeholder"}}
+            @texts={{hash
+              placeholder=(t "pages.trainings.training.form.recommendation-engine.delivery-mode.placeholder")
+            }}
             @value={{this.form.deliveryMode}}
             @options={{this.optionsModeList}}
             @onChange={{fn this.updateSelect "deliveryMode"}}

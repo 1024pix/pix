@@ -3,7 +3,7 @@ import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
@@ -55,7 +55,7 @@ export default class OrganizationTeamSection extends Component {
           @options={{this.options}}
           @value={{@organizationRole}}
           @onChange={{@selectRoleForSearch}}
-          @placeholder="Tous"
+          @texts={{hash placeholder="Tous"}}
           aria-label="Rechercher par rôle"
         >
           <:label>Rôle</:label>

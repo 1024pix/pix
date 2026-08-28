@@ -3,7 +3,7 @@ import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import { concat, fn, get } from '@ember/helper';
+import { concat, fn, get, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -284,16 +284,18 @@ const FeaturesForm = <template>
                 required
                 size="small"
                 @aria-required={{true}}
-                @requiredLabel={{t "common.forms.mandatory"}}
+                @texts={{hash
+                  placeholder=(t
+                    "components.organizations.editing.organization-learner-import-format.selector.placeholder"
+                  )
+                  requiredLabel=(t "common.forms.mandatory")
+                }}
                 @options={{@importFormatOptions}}
                 @value={{organizationFeature.params.name}}
                 @onChange={{fn @updateValue "features.LEARNER_IMPORT.params.name"}}
                 @hideDefaultOption={{true}}
                 @isFullWidth={{false}}
                 @isDisabled={{not @canEdit}}
-                @placeholder={{t
-                  "components.organizations.editing.organization-learner-import-format.selector.placeholder"
-                }}
                 @errorMessage={{@learnerImportError}}
               >
                 <:label>
