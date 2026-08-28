@@ -3,7 +3,6 @@ import { AdminCombinedCourseBlueprintDetails } from '../../../../../src/quest/do
 import { Quest, REQUIREMENT_TYPES } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { adminCombinedCourseBlueprintDetailsSerializer } from '../../../../../src/quest/infrastructure/serializers/admin-combined-course-blueprint-details-serializer.js';
 import { expect } from '../../../../test-helper.js';
-import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-blueprint-details', function () {
   it('#serialize', function () {
@@ -20,32 +19,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
       rewardType: null,
     });
 
-    // constructing whole framework
-    const tube = domainBuilder.buildTube({
-      id: 'tubeA',
-      name: 'testTubeName',
-      practicalTitle: 'testTubePracticalTitle',
-    });
-    const thematic = domainBuilder.buildThematic({
-      competenceId: 'competence1',
-      tubeIds: ['tubeA'],
-      tubes: [tube],
-    });
-    const cappedTube = { id: 'ABC', level: 4 };
-    thematic.tubes = [
-      { id: cappedTube.id, level: cappedTube.level, name: tube.name, practicalTitle: tube.practicalTitle },
-    ];
-
-    const competence = domainBuilder.buildCompetence({
-      id: 'competence1',
-      areaId: 'area1',
-      thematics: [thematic],
-      tubes: [tube],
-    });
-    const area = domainBuilder.buildArea({
-      id: 'area1',
-      competences: [competence],
-    });
+    const areas = Symbol('areasData');
 
     const adminCombinedCourseBlueprintDetails = new AdminCombinedCourseBlueprintDetails({
       id: 1,
@@ -69,7 +43,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
       rewardRequirements: [
         {
           id: 'reward-requirements-1',
-          areas: [area],
+          areas,
           cappedTubesThreshold: '50',
           name: 'requirements group name',
         },
@@ -78,7 +52,6 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
     });
 
     // when
-    // console.log(adminCombinedCourseBlueprintDetails);
     const serialized = adminCombinedCourseBlueprintDetailsSerializer.serialize(adminCombinedCourseBlueprintDetails);
 
     // then
@@ -115,84 +88,11 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
       included: [
         {
           attributes: {
-            level: cappedTube.level,
-            name: tube.name,
-            'practical-title': tube.practicalTitle,
-          },
-          id: cappedTube.id,
-          type: 'tubes',
-        },
-        {
-          attributes: {
-            index: 0,
-            name: thematic.name,
-          },
-          id: thematic.id,
-          relationships: {
-            tubes: {
-              data: [
-                {
-                  id: cappedTube.id,
-                  type: 'tubes',
-                },
-              ],
-            },
-          },
-          type: 'thematics',
-        },
-        {
-          attributes: {
-            index: '1.1',
-            name: 'Manger des fruits',
-          },
-          id: competence.id,
-          relationships: {
-            thematics: {
-              data: [
-                {
-                  id: thematic.id,
-                  type: 'thematics',
-                },
-              ],
-            },
-          },
-          type: 'competences',
-        },
-        {
-          attributes: {
-            code: '5',
-            color: 'red',
-            title: 'Super domaine',
-          },
-          id: area.id,
-          relationships: {
-            competences: {
-              data: [
-                {
-                  id: competence.id,
-                  type: 'competences',
-                },
-              ],
-            },
-          },
-          type: 'areas',
-        },
-        {
-          attributes: {
             name: 'requirements group name',
             'capped-tubes-threshold': '50',
+            areas: areas,
           },
           id: 'reward-requirements-1',
-          relationships: {
-            areas: {
-              data: [
-                {
-                  id: area.id,
-                  type: 'areas',
-                },
-              ],
-            },
-          },
           type: 'rewardRequirements',
         },
       ],

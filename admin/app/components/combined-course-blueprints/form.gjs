@@ -179,11 +179,20 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   async refreshAreas() {
-    const framework = this.args.model.frameworks.find((framework) => framework.name === 'Pix');
-    if (framework.areas.isFulfilled) {
-      await framework.areas.reload();
-    }
-    this.areas = Promise.resolve(await framework.areas).then((areasByFramework) => areasByFramework.flat());
+    const frameworks = this.args.model.frameworks.filter(
+      (framework) => framework.name === 'Pix' || framework.name === 'Pix 6e',
+    );
+
+    const areasByFramework = await Promise.all(
+      frameworks.map(async (framework) => {
+        if (framework.areas.isFulfilled) {
+          await framework.areas.reload();
+        }
+        return framework.areas;
+      }),
+    );
+
+    this.areas = areasByFramework.flat();
   }
 
   get validCappedTubeRequirements() {

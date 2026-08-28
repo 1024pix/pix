@@ -1,5 +1,5 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { FrameworkNotFoundError, MultipleFrameworksError } from '../errors.js';
+import { FrameworkNotFoundError } from '../errors.js';
 import { AdminCombinedCourseBlueprintDetails } from '../models/combined-course-blueprints/value-objects/AdminCombinedCourseBlueprintDetails.js';
 import { REQUIREMENT_TYPES } from '../models/quests/entities/Quest.js';
 
@@ -38,32 +38,32 @@ export const getCombinedCourseBlueprintById = async ({
 
       let formattedAreas;
 
-      if (frameworks.length === 1) {
-        formattedAreas = frameworks[0].areas.map((area) => ({
-          ...area,
-          competences: area.competences.map((competence) => ({
-            id: competence.id,
-            name: competence.name,
-            index: competence.index,
-            thematics: competence.thematics.map((thematic) => ({
-              id: thematic.id,
-              name: thematic.name,
-              index: thematic.index,
-              tubes: thematic.tubes
-                .filter((tube) => cappedTubesLevelById.has(tube.id))
-                .map((tube) => ({
-                  id: tube.id,
-                  level: cappedTubesLevelById.get(tube.id),
-                  name: tube.name,
-                  practicalTitle: tube.practicalTitle,
-                })),
-            })),
-          })),
-        }));
-      } else if (!frameworks.length) {
+      if (!frameworks.length) {
         throw new FrameworkNotFoundError();
       } else {
-        throw new MultipleFrameworksError();
+        formattedAreas = frameworks.flatMap((framework) =>
+          framework.areas.map((area) => ({
+            ...area,
+            competences: area.competences.map((competence) => ({
+              id: competence.id,
+              name: competence.name,
+              index: competence.index,
+              thematics: competence.thematics.map((thematic) => ({
+                id: thematic.id,
+                name: thematic.name,
+                index: thematic.index,
+                tubes: thematic.tubes
+                  .filter((tube) => cappedTubesLevelById.has(tube.id))
+                  .map((tube) => ({
+                    id: tube.id,
+                    level: cappedTubesLevelById.get(tube.id),
+                    name: tube.name,
+                    practicalTitle: tube.practicalTitle,
+                  })),
+              })),
+            })),
+          })),
+        );
       }
 
       return {

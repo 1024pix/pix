@@ -20,9 +20,3 @@ export class FrameworkNotFoundError extends DomainError {
     super('Framework not found for specified capped tubes.');
   }
 }
-
-export class MultipleFrameworksError extends DomainError {
-  constructor() {
-    super('Multiple frameworks found for specified capped tubes.');
-  }
-}
