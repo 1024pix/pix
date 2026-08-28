@@ -127,6 +127,7 @@ module(
           // when
           await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
           observerCallback([{ isIntersecting: true }]);
+          await settled();
 
           //then
           sinon.assert.calledWith(pixMetrics.trackEvent, 'Moteur de reco - affichage du feedback NPS');

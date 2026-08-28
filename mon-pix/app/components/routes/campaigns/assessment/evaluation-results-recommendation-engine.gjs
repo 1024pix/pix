@@ -3,6 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import ENV from 'mon-pix/config/environment';
 
 import ResultsDetails from '../../../campaigns/assessment/results/evaluation-results-tabs/results-details';
 import Rewards from '../../../campaigns/assessment/results/evaluation-results-tabs/rewards';
@@ -70,7 +71,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     return badges.some((badge) => badge.isAcquired || badge.isAlwaysVisible);
   }
 
-  get shouldShowNps() {
+  get shouldShowDrawer() {
     if (this.args.model.hasAnsweredSurvey) {
       return false;
     }
@@ -78,17 +79,19 @@ export default class EvaluationResultsRecommendationEngine extends Component {
   }
 
   get shouldExpandDrawer() {
-    return this.shouldShowNps && this._expandedDrawer;
+    return this.shouldShowDrawer && this._expandedDrawer;
   }
 
   get scrollBehavior() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
   }
 
-  @action revealNps() {
-    this._drawerRevealedByScroll = true;
-    this._expandedDrawer = true;
-    this.pixMetrics.trackEvent('Moteur de reco - affichage du feedback NPS');
+  @action revealDrawer() {
+    setTimeout(() => {
+      this._drawerRevealedByScroll = true;
+      this._expandedDrawer = true;
+      this.pixMetrics.trackEvent('Moteur de reco - affichage du feedback NPS');
+    }, ENV.APP.DRAWER_REVEAL_DELAY_MS);
   }
 
   @action collapseDrawer() {
@@ -132,7 +135,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
           @onCardClick={{this.onCardClick}}
           @onModalButtonClick={{this.onModalButtonClick}}
           @onModalAccordionClick={{this.onModalAccordionClick}}
-          @onFullyVisible={{this.revealNps}}
+          @onFullyVisible={{this.revealDrawer}}
         />
       {{/if}}
 
@@ -145,7 +148,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
         <Rewards @badges={{@model.campaignParticipationResult.campaignParticipationBadges}} />
       {{/if}}
 
-      {{#if this.shouldShowNps}}
+      {{#if this.shouldShowDrawer}}
         <Drawer @campaignId={{@model.campaign.id}} @onHide={{this.collapseDrawer}} />
       {{/if}}
     </main>
