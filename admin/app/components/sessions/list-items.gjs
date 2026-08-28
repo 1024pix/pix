@@ -5,7 +5,7 @@ import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
-import { concat, fn } from '@ember/helper';
+import { concat, fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { trackedArray } from '@ember/reactive/collections';
@@ -98,7 +98,10 @@ export default class ListItems extends Component {
         <ul class="session-list__selected-rows">
           {{#each this.selectedSessionsRows as |selectedSessionId|}}
             <li>
-              <PixTag @displayRemoveButton={{true}} @onRemove={{fn this.toggleRowSelection selectedSessionId}}>
+              <PixTag
+                @onRemove={{fn this.toggleRowSelection selectedSessionId}}
+                @texts={{hash removeButtonLabel="Supprimer cette session merci <3"}}
+              >
                 {{selectedSessionId}}
               </PixTag>
             </li>
