@@ -374,9 +374,9 @@
     },
     "certificability-tooltip": {
       "aria-label": "Explication sur la certificabilité",
-      "content": "La certificabilité signifie que le participant a atteint le niveau 1 dans au moins 5 compétences différentes.",
+      "content": "La certificabilité signifie que le participant a atteint le niveau 1 dans au moins 5 compétences.",
       "from-collect-notice": "L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si le participant a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi.",
-      "from-compute-certificability": "Ce statut est mis à jour automatiquement (toutes les 24h) et lors des campagnes de collectes de profils."
+      "from-compute-certificability": "Ce statut est mis à jour automatiquement le lendemain de chaque connexion du participant et lors des collectes de profil."
     },
     "cover-rate-gauge": {
       "label": "Sur cette campagne, vos participants ont obtenu un niveau de {reachedLevel} sur un niveau maximum atteignable de {maxLevel}."

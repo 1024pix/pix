@@ -376,7 +376,7 @@
       "aria-label": "Uitleg over certificeerbaarheid",
       "content": "Certificeerbaarheid betekent dat de deelnemer niveau 1 heeft bereikt in ten minste 5 verschillende vaardigheden.",
       "from-collect-notice": "De informatie is afkomstig van de profielverzamelingscampagnes die door de deelnemer zijn uitgevoerd. Als de deelnemer zijn profiel al heeft ingestuurd, worden de datum en status van de laatste verzending weergegeven.",
-      "from-compute-certificability": "Deze status wordt automatisch bijgewerkt (elke 24 uur) en tijdens profielverzamelingscampagnes."
+      "from-compute-certificability": "Deze status wordt automatisch bijgewerkt de dag na elke aanmelding van de deelnemer en tijdens profielverzamelingen."
     },
     "cover-rate-gauge": {
       "label": "Op deze campagne hebben je deelnemers een niveau bereikt van {reachedLevel} uit een maximaal haalbaar niveau van {maxLevel}."
