@@ -66,8 +66,8 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     await click(screen.getByRole('option', { name: 'Parentalite' }));
 
     await click(
-      screen.getByRole('radio', {
-        name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+      screen.getByRole('button', {
+        name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
       }),
     );
 

@@ -32,7 +32,7 @@ export default class CombinedCourseBlueprintForm extends Component {
   @tracked itemToAdd = null;
   @tracked hasUniqueCappedTubesSubset = false;
   @tracked hasMultipleCappedTubeSubsets = false;
-  @tracked cappedTubeRequirements = [{}];
+  @tracked cappedTubeRequirements = [];
   @tracked areas;
 
   constructor() {
@@ -207,9 +207,6 @@ export default class CombinedCourseBlueprintForm extends Component {
     if (requirements.length === 0) {
       return [];
     }
-    if (requirements.length === 1 && Object.keys(requirements[0]).length === 0) {
-      return [];
-    }
 
     let errors = [];
     for (const requirement of requirements) {
@@ -261,18 +258,6 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  hasUniqueCappedTubesSubsetChange(e) {
-    this.hasUniqueCappedTubesSubset = e.target.checked;
-    this.hasMultipleCappedTubeSubsets = false;
-  }
-
-  @action
-  hasMultipleCappedTubeSubsetsChange(e) {
-    this.hasMultipleCappedTubeSubsets = e.target.checked;
-    this.hasUniqueCappedTubesSubset = false;
-  }
-
-  @action
   addCappedTubeSubset() {
     this.cappedTubeRequirements = [...this.cappedTubeRequirements, {}];
   }
@@ -321,10 +306,6 @@ export default class CombinedCourseBlueprintForm extends Component {
           @onCappedTubesSelectionChange={{this.onCappedTubesSelectionChange}}
           @removeCappedTubeCriterion={{this.removeCappedTubeCriterion}}
           @cappedTubeRequirements={{this.cappedTubeRequirements}}
-          @hasMultipleCappedTubeSubsets={{this.hasMultipleCappedTubeSubsets}}
-          @hasMultipleCappedTubeSubsetsChange={{this.hasMultipleCappedTubeSubsetsChange}}
-          @hasUniqueCappedTubesSubset={{this.hasUniqueCappedTubesSubset}}
-          @hasUniqueCappedTubesSubsetChange={{this.hasUniqueCappedTubesSubsetChange}}
           @addCappedTubeSubset={{this.addCappedTubeSubset}}
         />
       {{/if}}
@@ -565,27 +546,6 @@ const RewardRequirementsSection = <template>
 
     {{#unless @updateMode}}
       {{#if @blueprint.rewardId}}
-        <fieldset class="badge-form-criteria-choice">
-          <p>{{t "components.combined-course-blueprints.labels.reward-requirements.reward-criteria-choice"}}</p>
-          <PixRadioButton
-            name="subsetNumberChoice"
-            @checked={{@hasUniqueCappedTubesSubset}}
-            {{on "change" @hasUniqueCappedTubesSubsetChange}}
-          >
-            <:label>{{t "components.combined-course-blueprints.labels.reward-requirements.one-subset-option"}}</:label>
-          </PixRadioButton>
-          <PixRadioButton
-            name="subsetNumberChoice"
-            @checked={{@hasMultipleCappedTubeSubsets}}
-            {{on "change" @hasMultipleCappedTubeSubsetsChange}}
-          >
-            <:label>{{t
-                "components.combined-course-blueprints.labels.reward-requirements.multiple-subsets-option"
-              }}</:label>
-          </PixRadioButton>
-        </fieldset>
-
-        {{#if (or @hasMultipleCappedTubeSubsets @hasUniqueCappedTubesSubset)}}
           {{#each @cappedTubeRequirements as |criterion index|}}
             <CappedTubesCriterion
               @id={{concat "cappedTubeCriterion" index}}
@@ -596,18 +556,16 @@ const RewardRequirementsSection = <template>
               @remove={{fn @removeCappedTubeCriterion index}}
             />
           {{/each}}
-          {{#if @hasMultipleCappedTubeSubsets}}
-            <PixButton
-              class="badge-form-criterion__add"
-              @variant="primary"
-              @size="small"
-              @triggerAction={{@addCappedTubeSubset}}
-              @iconBefore="add"
-            >
-              {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
-            </PixButton>
-          {{/if}}
-        {{/if}}
+          <br/>
+          <PixButton
+            class="badge-form-criterion__add"
+            @variant="primary"
+            @size="small"
+            @triggerAction={{@addCappedTubeSubset}}
+            @iconBefore="add"
+          >
+            {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
+          </PixButton>
       {{/if}}
     {{/unless}}
   </Card>
