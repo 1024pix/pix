@@ -6,6 +6,16 @@ import Component from '@glimmer/component';
 export default class ExpandableAccordion extends Component {
   accordionId = guidFor(this);
 
+  constructor(...args) {
+    super(...args);
+    this.args.expansion?.registerAccordion(this.accordionId);
+  }
+
+  willDestroy() {
+    super.willDestroy(...arguments);
+    this.args.expansion?.unregisterAccordion(this.accordionId);
+  }
+
   get isExpanded() {
     return this.args.expansion?.isExpanded(this.accordionId);
   }
