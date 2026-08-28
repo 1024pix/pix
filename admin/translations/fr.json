@@ -854,6 +854,10 @@
         "detach-organization-success": "Le schéma de parcours n'est plus partagé avec l'organisation {name}."
       },
       "reward-requirements": {
+        "errors": {
+          "threshold-required": "Le taux de réussite doit être renseigné",
+          "tubes-required": "Le critère d'obtention doit contenir au moins un sujet"
+        },
         "levels": "Niveaux",
         "requirements-group-name": "Groupe de critères",
         "thematics": "Thématiques",

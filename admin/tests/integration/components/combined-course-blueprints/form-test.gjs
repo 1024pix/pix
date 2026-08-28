@@ -232,7 +232,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         });
       });
 
-      test('it should display tubes selection component only if the user selects an attestation and chooses type of selection', async function (assert) {
+      test('it should display tubes selection component only if the user selects an attestation and add capped tubes requirements', async function (assert) {
         //given
         const frameworks = [
           {
@@ -251,14 +251,19 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
         //then
-        assert.notOk(
-          await screen.queryByRole('radio', {
-            name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+        assert.ok(
+          await screen.getByRole('heading', {
+            name: t('components.combined-course-blueprints.create.attestations'),
           }),
         );
         assert.notOk(
-          await screen.queryByRole('radio', {
-            name: t('components.combined-course-blueprints.labels.reward-requirements.multiple-subsets-option'),
+          await screen.queryByRole('textbox', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.description'),
+          }),
+        );
+        assert.notOk(
+          await screen.queryByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
           }),
         );
         assert.notOk(
@@ -275,8 +280,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
         await click(screen.getByRole('option', { name: 'Parentalite' }));
         await click(
-          screen.getByRole('radio', {
-            name: t('components.combined-course-blueprints.labels.reward-requirements.multiple-subsets-option'),
+          screen.getByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
           }),
         );
 
@@ -294,43 +299,71 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
       test('it should display tubes from multiple frameworks', async function (assert) {
         // given
-        const tube3 = store.createRecord('tube', {
+        // Framework Pix6e
+        const tubePix6e = store.createRecord('tube', {
           id: 'tubeId3',
           name: '@tubeName3',
           practicalTitle: 'Tube 3',
           skills: [],
           level: 8,
         });
-
-        const thematic2 = store.createRecord('thematic', {
+        const thematicPix6e = store.createRecord('thematic', {
           id: 'thematicId2',
           name: 'Thématique 2',
-          tubes: [tube3],
+          tubes: [tubePix6e],
         });
-
-        const competence2 = store.createRecord('competence', {
+        const competencePix6e = store.createRecord('competence', {
           id: 'competenceId2',
           index: '2',
           name: 'Titre competence 2',
-          thematics: [thematic2],
+          thematics: [thematicPix6e],
         });
-
-        const area2 = store.createRecord('area', {
+        const areaPix6e = store.createRecord('area', {
           id: 'areaId2',
           title: 'Titre domaine 2',
           code: 2,
-          competences: [competence2],
+          competences: [competencePix6e],
         });
-
-        const framework2 = store.createRecord('framework', {
+        const frameworkPix6e = store.createRecord('framework', {
           id: 'frameworkId2',
           name: 'Pix 6e',
-          areas: [area2],
+          areas: [areaPix6e],
+        });
+
+        // Framework Numérique Responsable
+        const tubeNumeriqueResponsable = store.createRecord('tube', {
+          id: 'tubeId4',
+          name: '@tubeName4',
+          practicalTitle: 'Tube 4',
+          skills: [],
+          level: 8,
+        });
+        const thematicNumeriqueResponsable = store.createRecord('thematic', {
+          id: 'thematicId3',
+          name: 'Thématique 3',
+          tubes: [tubeNumeriqueResponsable],
+        });
+        const competenceNumeriqueResponsable = store.createRecord('competence', {
+          id: 'competenceId3',
+          index: '3',
+          name: 'Titre competence 3',
+          thematics: [thematicNumeriqueResponsable],
+        });
+        const areaNumeriqueResponsable = store.createRecord('area', {
+          id: 'areaId3',
+          title: 'Titre domaine 3',
+          code: 3,
+          competences: [competenceNumeriqueResponsable],
+        });
+        const frameworkNumeriqueResponsable = store.createRecord('framework', {
+          id: 'frameworkId3',
+          name: 'Numérique Responsable',
+          areas: [areaNumeriqueResponsable],
         });
 
         const model = {
           attestations,
-          frameworks: [framework, framework2],
+          frameworks: [framework, frameworkPix6e, frameworkNumeriqueResponsable],
           blueprint,
         };
 
@@ -343,14 +376,15 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Parentalite' }));
         await click(
-          screen.getByRole('radio', {
-            name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+          screen.getByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
           }),
         );
 
         //then
         assert.ok(screen.getByText('1 · Titre domaine'));
         assert.ok(screen.getByText('2 · Titre domaine 2'));
+        assert.ok(screen.getByText('3 · Titre domaine 3'));
       });
 
       test('it should not include tubes from unexpected frameworks', async function (assert) {
@@ -396,14 +430,14 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Parentalite' }));
         await click(
-          screen.getByRole('radio', {
-            name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+          screen.getByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
           }),
         );
 
         //then
         assert.ok(screen.getByText('1 · Titre domaine'));
-        assert.notOk(screen.queryByText('3 · Other Framework'));
+        assert.notOk(screen.queryByText('3 · Area'));
       });
 
       test('it should save blueprint with selected tubes requirements when they are selected', async function (assert) {
@@ -421,8 +455,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Parentalite' }));
         await click(
-          screen.getByRole('radio', {
-            name: t('components.combined-course-blueprints.labels.reward-requirements.one-subset-option'),
+          screen.getByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
           }),
         );
 
@@ -474,8 +508,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         await click(screen.getByRole('option', { name: 'Parentalite' }));
 
         await click(
-          screen.getByRole('radio', {
-            name: t('components.combined-course-blueprints.labels.reward-requirements.multiple-subsets-option'),
+          screen.getByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
           }),
         );
         assert.ok(
