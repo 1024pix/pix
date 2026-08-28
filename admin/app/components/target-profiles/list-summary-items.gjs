@@ -4,7 +4,7 @@ import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
@@ -62,7 +62,7 @@ export default class TargetProfileListSummaryItems extends Component {
 
       <PixMultiSelect
         @id="categories"
-        @placeholder={{t "common.filters.target-profile.placeholder"}}
+        @texts={{hash placeholder=(t "common.filters.target-profile.placeholder")}}
         @onChange={{this.triggerCategoriesFiltering}}
         @values={{@categories}}
         @options={{this.categoryOptions}}

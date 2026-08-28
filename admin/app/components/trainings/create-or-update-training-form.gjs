@@ -278,7 +278,7 @@ export default class CreateOrUpdateTrainingForm extends Component {
           </div>
           <PixMultiSelect
             @id="trainingLocales"
-            @placeholder={{t "pages.trainings.training.form.locales.placeholder"}}
+            @texts={{hash placeholder=(t "pages.trainings.training.form.locales.placeholder")}}
             @options={{this.optionsLocaleList}}
             @values={{this.form.locales}}
             @onChange={{fn this.updateSelect "locales"}}

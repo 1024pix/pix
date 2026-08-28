@@ -308,13 +308,16 @@ const FeaturesForm = <template>
               <PixMultiSelect
                 class="features-section__attestations-select
                   {{if @isAttestationsInvalid 'features-section__attestations-select--error'}}"
-                size="small"
+                @size="small"
+                @texts={{hash
+                  placeholder=(t "components.organizations.editing.attestations.selector.placeholder")
+                  searchLabel="Rechercher"
+                }}
                 @isSearchable={{true}}
                 @values={{get organizationFeature "params"}}
                 @options={{@attestationOptions}}
                 @onChange={{fn @updateValue "features.ATTESTATIONS_MANAGEMENT.params"}}
                 @isDisabled={{not @canEdit}}
-                @placeholder={{t "components.organizations.editing.attestations.selector.placeholder"}}
               >
                 <:label>
                   {{t "components.organizations.editing.attestations.selector.label"}}

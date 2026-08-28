@@ -1,6 +1,7 @@
 import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -227,14 +228,16 @@ export default class TubesSelection extends Component {
         <div class="tubes-selection__inline-layout">
           <PixMultiSelect
             class="tubes-selection__multi-select"
-            @placeholder="Sélectionner les référentiels souhaités"
+            @texts={{hash
+              placeholder="Sélectionner les référentiels souhaités"
+              emptySearchMessage="Pas de résultat"
+              searchLabel="Rechercher"
+            }}
             @id="framework-list"
             @isSearchable={{true}}
-            @locale={{this.locale.currentLocale}}
             @inlineLabel={{true}}
             @showOptionsOnInput={{true}}
             @onChange={{this.setSelectedFrameworkIds}}
-            @emptyMessage="Pas de résultat"
             @values={{this.selectedFrameworkIds}}
             @options={{this.frameworkOptions}}
           >
