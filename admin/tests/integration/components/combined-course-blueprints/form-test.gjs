@@ -251,6 +251,16 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
         //then
+        assert.ok(
+          await screen.getByRole('heading', {
+            name: t('components.combined-course-blueprints.create.attestations'),
+          }),
+        );
+        assert.notOk(
+          await screen.queryByRole('textbox', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.description'),
+          }),
+        );
         assert.notOk(
           await screen.queryByRole('button', {
             name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),

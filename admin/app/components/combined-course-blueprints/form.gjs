@@ -187,7 +187,8 @@ export default class CombinedCourseBlueprintForm extends Component {
 
   async refreshAreas() {
     const frameworks = this.args.model.frameworks.filter(
-      (framework) => framework.name === 'Pix' || framework.name === 'Pix 6e' || framework.name === 'Numérique Responsable',
+      (framework) =>
+        framework.name === 'Pix' || framework.name === 'Pix 6e' || framework.name === 'Numérique Responsable',
     );
 
     const areasByFramework = await Promise.all(
@@ -208,7 +209,7 @@ export default class CombinedCourseBlueprintForm extends Component {
       return [];
     }
 
-    let errors = [];
+    const errors = [];
     for (const requirement of requirements) {
       if (!requirement.threshold) {
         errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'));
@@ -274,7 +275,6 @@ export default class CombinedCourseBlueprintForm extends Component {
       <GeneralInfoSection
         @blueprint={{this.blueprint}}
         @setData={{this.setData}}
-        @setAttestation={{this.setAttestation}}
         @updateMode={{@updateMode}}
         @model={{@model}}
       />
@@ -295,20 +295,20 @@ export default class CombinedCourseBlueprintForm extends Component {
         />
       {{/unless}}
 
-      {{#if (or (and (not @updateMode) this.blueprint.rewardId) (and @updateMode this.blueprint.attestationLabel))}}
-        <RewardRequirementsSection
-          @blueprint={{this.blueprint}}
-          @setData={{this.setData}}
-          @updateMode={{@updateMode}}
-          @areas={{this.areas}}
-          @onCappedTubesThresholdChange={{this.onCappedTubesThresholdChange}}
-          @onCappedTubesNameChange={{this.onCappedTubesNameChange}}
-          @onCappedTubesSelectionChange={{this.onCappedTubesSelectionChange}}
-          @removeCappedTubeCriterion={{this.removeCappedTubeCriterion}}
-          @cappedTubeRequirements={{this.cappedTubeRequirements}}
-          @addCappedTubeSubset={{this.addCappedTubeSubset}}
-        />
-      {{/if}}
+      <RewardRequirementsSection
+        @model={{@model}}
+        @blueprint={{this.blueprint}}
+        @setAttestation={{this.setAttestation}}
+        @setData={{this.setData}}
+        @updateMode={{@updateMode}}
+        @areas={{this.areas}}
+        @onCappedTubesThresholdChange={{this.onCappedTubesThresholdChange}}
+        @onCappedTubesNameChange={{this.onCappedTubesNameChange}}
+        @onCappedTubesSelectionChange={{this.onCappedTubesSelectionChange}}
+        @removeCappedTubeCriterion={{this.removeCappedTubeCriterion}}
+        @cappedTubeRequirements={{this.cappedTubeRequirements}}
+        @addCappedTubeSubset={{this.addCappedTubeSubset}}
+      />
 
       <fieldset class="controls">
         <PixButton
@@ -390,13 +390,6 @@ const GeneralInfoSection = <template>
         {{t "components.combined-course-blueprints.labels.survey-link"}}
       </:label>
     </PixInput>
-    {{#unless @updateMode}}
-      <SelectAttestation
-        @attestations={{@model.attestations}}
-        @value={{@blueprint.rewardId}}
-        @onChange={{@setAttestation}}
-      />
-    {{/unless}}
 
   </Card>
 </template>;
@@ -533,40 +526,47 @@ const RewardRequirementsSection = <template>
     class="combined-course-blueprint-form__card"
     @title={{t "components.combined-course-blueprints.create.attestations"}}
   >
-    <PixTextarea
-      @id="reward-requirements"
-      @value={{@blueprint.rewardRequirementsDescription}}
-      {{on "change" (fn @setData "rewardRequirementsDescription")}}
-      rows="10"
-    >
-      <:label>
-        {{t "components.combined-course-blueprints.labels.reward-requirements.description"}}
-      </:label>
-    </PixTextarea>
-
     {{#unless @updateMode}}
-      {{#if @blueprint.rewardId}}
-          {{#each @cappedTubeRequirements as |criterion index|}}
-            <CappedTubesCriterion
-              @id={{concat "cappedTubeCriterion" index}}
-              @areas={{@areas}}
-              @onThresholdChange={{fn @onCappedTubesThresholdChange criterion}}
-              @onNameChange={{fn @onCappedTubesNameChange criterion}}
-              @onTubesSelectionChange={{fn @onCappedTubesSelectionChange criterion}}
-              @remove={{fn @removeCappedTubeCriterion index}}
-            />
-          {{/each}}
-          <br/>
-          <PixButton
-            class="badge-form-criterion__add"
-            @variant="primary"
-            @size="small"
-            @triggerAction={{@addCappedTubeSubset}}
-            @iconBefore="add"
-          >
-            {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
-          </PixButton>
-      {{/if}}
+      <SelectAttestation
+        @attestations={{@model.attestations}}
+        @value={{@blueprint.rewardId}}
+        @onChange={{@setAttestation}}
+      />
     {{/unless}}
+    {{#if (or (and (not @updateMode) @blueprint.rewardId) (and @updateMode @blueprint.attestationLabel))}}
+      <PixTextarea
+        @id="reward-requirements"
+        @value={{@blueprint.rewardRequirementsDescription}}
+        {{on "change" (fn @setData "rewardRequirementsDescription")}}
+        rows="10"
+      >
+        <:label>
+          {{t "components.combined-course-blueprints.labels.reward-requirements.description"}}
+        </:label>
+      </PixTextarea>
+
+      {{#unless @updateMode}}
+        {{#each @cappedTubeRequirements as |criterion index|}}
+          <CappedTubesCriterion
+            @id={{concat "cappedTubeCriterion" index}}
+            @areas={{@areas}}
+            @onThresholdChange={{fn @onCappedTubesThresholdChange criterion}}
+            @onNameChange={{fn @onCappedTubesNameChange criterion}}
+            @onTubesSelectionChange={{fn @onCappedTubesSelectionChange criterion}}
+            @remove={{fn @removeCappedTubeCriterion index}}
+          />
+        {{/each}}
+        <br />
+        <PixButton
+          class="badge-form-criterion__add"
+          @variant="primary"
+          @size="small"
+          @triggerAction={{@addCappedTubeSubset}}
+          @iconBefore="add"
+        >
+          {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
+        </PixButton>
+      {{/unless}}
+    {{/if}}
   </Card>
 </template>;
