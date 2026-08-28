@@ -66,64 +66,13 @@
               "type": "element",
               "element": {
                 "id": "11c9837c-3317-4bd9-a23d-dd571f2d6762",
-                "type": "custom",
-                "title": "[QCU image non fonctionnel]",
+                "type": "embed",
+                "isCompletionRequired": true,
+                "title": "",
+                "url": "https://epreuves-viewer.pix.digital/pr3342/?embed=ui-kit%2Fqcm-qcu-select&mode=mdx-repondremail-nov-accroche&locale=fr&height=967",
                 "instruction": "<p>Sélectionnez une application qui permet de consulter les mails.</p>",
-                "functionalInstruction": "",
-                "tagName": "image-quiz",
-                "props": {
-                  "name": "QCU image boîte mail",
-                  "multiple": false,
-                  "context": "modulix",
-                  "maxChoicesPerLine": 3,
-                  "hideChoicesName": false,
-                  "orderChoices": false,
-                  "imageChoicesSize": "icon",
-                  "choices": [
-                    {
-                      "name": "Gmail",
-                      "image": {
-                        "src": "https://assets.pix.org/draft/modules/RepondreMail_NOV/telechargement-2.png"
-                      },
-                      "response": ""
-                    },
-                    {
-                      "name": "Outlook",
-                      "image": {
-                        "src": "https://assets.pix.org/draft/modules/RepondreMail_NOV/outlook.png"
-                      },
-                      "response": ""
-                    },
-                    {
-                      "name": "Mail",
-                      "image": {
-                        "src": "https://assets.pix.org/draft/modules/RepondreMail_NOV/mail.jpg"
-                      },
-                      "response": ""
-                    },
-                    {
-                      "name": "Proton Mail",
-                      "image": {
-                        "src": "https://assets.pix.org/draft/modules/RepondreMail_NOV/protonmail-2.jpg"
-                      },
-                      "response": ""
-                    },
-                    {
-                      "name": "Paramètres",
-                      "image": {
-                        "src": "https://assets.pix.org/draft/modules/RepondreMail_NOV/parametre.png"
-                      },
-                      "response": ""
-                    },
-                    {
-                      "name": "WhatsApp",
-                      "image": {
-                        "src": "https://assets.pix.org/draft/modules/RepondreMail_NOV/whatsapp.jpg"
-                      },
-                      "response": ""
-                    }
-                  ]
-                }
+                "solution": "",
+                "height": 500
               }
             },
             {
@@ -178,7 +127,7 @@
               "element": {
                 "id": "dc65d916-1df5-44a0-8eed-3d1665705bd0",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/decouverte1-v2.png",
+                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/repondre_mail_nov_dec1.svg",
                 "alt": "Capture d’écran d’une interface de messagerie électronique décrite dans l’alternative textuelle.",
                 "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol><li>Boîte de réception (1)&nbsp;: sélectionnée</li><li>Messages envoyés</li><li>Corbeille</li></ol><br><p>Contenu de «&nbsp;Boîte de réception (1)&nbsp;»</p><ol><li>Expéditeur&nbsp;: BioChoux</li><li>Objet&nbsp;: Réponse à votre candidature de stage</li><li>Date&nbsp;: 22 janvier</li></ol>",
                 "legend": "",
@@ -321,7 +270,7 @@
                 "id": "3a663ef0-b312-4ce8-928c-658ada1cb201",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand vous ouvrez votre messagerie électronique, vous arrivez directement dans la<strong> boîte de réception</strong>. C’est dans cet endroit que s’affichent les mails reçus, avec leurs principales informations&nbsp;:&nbsp; </p><ul><li>le <strong>nom de l’expéditeur</strong>&nbsp;est la personne qui a envoyé le mail.</li><li>l’<strong>objet</strong> est le titre du mail.</li><li>la <strong>date de réception</strong> du mail est indiquée.</li></ul>"
+                "content": "<p>Quand vous ouvrez votre messagerie électronique, vous arrivez directement dans la<strong> boîte de réception</strong>. C’est dans cet endroit que s’affichent les mails reçus, avec <strong>leurs principales informations</strong>&nbsp;:&nbsp; </p>"
               }
             },
             {
@@ -329,9 +278,9 @@
               "element": {
                 "id": "101482af-931f-45c6-bdde-e978a82de621",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/lecon1-v2.png",
+                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/repondre_mail_nov_infographies_lecons_1.svg",
                 "alt": "Capture d’écran illustrée d’une interface de messagerie électronique décrite dans l’alternative textuelle",
-                "alternativeText": "<p>À rédiger en fonction du media défintitif et du texte de la leçon.</p>",
+                "alternativeText": "<ul><li>Le <strong>nom de l’expéditeur</strong>&nbsp;est la personne qui a envoyé le mail.\n</li><li>    L’<strong>objet</strong> est le titre du mail.\n</li><li>    La <strong>date de réception</strong> du mail est indiquée.</li></ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -377,7 +326,7 @@
               "element": {
                 "id": "8bffea28-668a-4e8a-8922-51ddca805eee",
                 "type": "expand",
-                "title": "🕹️[Simulateur \"guidé\" pixmail d’interface de messagerie ouverte → ouvrir un mail]",
+                "title": "🕹️[Simulateur \"guidé\" pixmail d’interface de messagerie ouverte  à venir→ ouvrir un mail]",
                 "content": "<p><strong><br></strong></p><p><strong>🚀 Début&nbsp;: </strong><em>Dans l’interface de messagerie déjà ouverte</em> </p><p><strong>🕹️Actions attendues&nbsp;: </strong><em>cliquer pour ouvrir le mail puis lire son contenu</em></p><p><em><br></em></p><p><strong>Description&nbsp;:&nbsp;</strong></p><ul><li><em>pas besoin de validation</em></li><li><em>besoin de fixer la date au 22 janvier pour cohérence avec découverte 1 et pour le qcu suivant</em></li><li><em>bouton \"répondre\" pas encore accessible</em></li><li><em>⚠️à trancher&nbsp;: seulement avoir le bouton “répondre” ? ou laisser \"transférer\" pour du réalisme ?</em></li></ul>"
               }
             },
@@ -459,7 +408,7 @@
                 "id": "05113e75-4a2e-4207-aaff-f528da503ab9",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand vous ouvrez un mail, l’objet du mail, la date et l’expéditeur sont encore affichés. De nouvelles informations s’affichent également&nbsp;:<br></p>    <ul><li>Le <strong>destinataire</strong> (À)&nbsp;indique la personne qui reçoit le mail. Ici, c’est vous.</li><li>Le<strong> texte complet</strong> du mail.</li></ul><p>D’autres informations peuvent aussi être affichées selon la messagerie électronique utilisée.</p>"
+                "content": "<p>Quand vous ouvrez un mail, l’objet du mail, la date et l’expéditeur sont encore affichés. <strong>De nouvelles informations s’affichent</strong> également&nbsp;:</p>"
               }
             },
             {
@@ -467,11 +416,20 @@
               "element": {
                 "id": "04126443-b74d-42a5-aa10-bb7f6a4a350e",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/lecon2-v2.png",
+                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/repondre_mail_nov_infographies_lecons_2.svg",
                 "alt": "Capture d’écran illustrée d’un mail ouvert décrite dans l’alternative textuelle",
-                "alternativeText": "<p>À rédiger en fonction du media définitif et du texte de la leçon.</p>",
+                "alternativeText": "<ul><li>Le <strong>destinataire</strong> (À)&nbsp;indique la personne qui reçoit le mail. Ici, c’est vous.</li><li>Le <strong>texte complet</strong> du mail.</li></ul>",
                 "legend": "",
                 "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "c0d43f26-ecb0-403e-95d4-f36ffe8110df",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>D’autres informations peuvent aussi être affichées selon la messagerie électronique utilisée.</p>"
               }
             }
           ]
@@ -521,7 +479,7 @@
                 "id": "6751ecdb-300a-4076-928b-02336f5e99bf",
                 "type": "expand",
                 "title": "🕹️[Simulateur autovalidant et \"guidé\" pixmail à venir avec le mail déjà ouvert → répondre à un mail ]",
-                "content": "<p>[capture d’écran brouillon basée sur l’ancien simulateur pixmail]</p><p><strong>🚀 Début&nbsp;: </strong><em>Dans l’interface avec le mail déjà ouvert</em></p><p><strong>🕹️ Actions attendues&nbsp;: </strong><em>trouver le bouton répondre, écrire le message (on indique quoi écrire), bouton&nbsp; envoyer</em></p><p><strong><br></strong></p><p><strong>Description&nbsp;:</strong> </p><ul><li><em>cf@<a href=\"https://editor.pix.fr/api/challenges/recS3ahSTnMWktjaz/preview\">répondreMail2</a>&nbsp;(on recommence pas depuis le début)</em></li><li><em>Le mail est déjà ouvert (suite découverte 2)</em></li><li><em>simulateur autovalidant</em></li><li><em>afficher le mail auquel on répond (pas plié)</em></li><li><em>seulement avoir la zone d’édition accessible&nbsp;:</em><ul><li><em>Ne pas pouvoir effacer le mail d’avant&nbsp;</em></li><li><em>Verrouiller les autres champs et boutons</em></li></ul></li></ul><p>⚠️Pour écrire le message dans la zone&nbsp;: </p><ul><li> l’apprenant peut copier-coller ou écrire directement le message</li><li>dev&nbsp;: ajouter un bouton qui permet de compléter la réponse ou proposer une réponse pré-formatée (comme c’est le cas parfois) si possible.</li><li><strong>à trancher&nbsp;:</strong> appliquer une tolérance (majuscule/accents /saut de ligne?) </li></ul><p>⇒ Rédiger une réponse = un peu complexe, mais choix péda de faire rédiger une réponse à un mail correctement</p>"
+                "content": "<p>[capture d’écran brouillon basée sur l’ancien simulateur pixmail]</p>\n<p><strong>🚀 Début&nbsp;: </strong><em>Dans l’interface avec le mail déjà ouvert</em></p>\n<p><strong>🕹️ Actions attendues&nbsp;: </strong><em>trouver le bouton répondre, écrire le message (on indique quoi écrire), bouton&nbsp; envoyer</em></p>\n\n<p>⇒ Rédiger une réponse = un peu complexe, mais choix péda de faire rédiger une réponse à un mail correctement</p>"
               }
             },
             {
@@ -531,7 +489,7 @@
                 "type": "image",
                 "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/decouverte3.png",
                 "alt": "",
-                "alternativeText": "<p>À venir simulation</p>",
+                "alternativeText": "<p>À venir simulation</p>\n<br>\n<p><strong>Description&nbsp;:</strong> </p>\n<ul>\n    <li><em>cf@<a href=\"https://editor.pix.fr/api/challenges/recS3ahSTnMWktjaz/preview\">répondreMail2</a>&nbsp;(on recommence pas depuis le début)</em></li>\n    <li><em>Le mail est déjà ouvert (suite découverte 2)</em></li>\n    <li><em>simulateur autovalidant</em></li>\n    <li><em>afficher le mail auquel on répond (pas plié)</em></li>\n    <li><em>seulement avoir la zone d’édition accessible&nbsp;:</em>\n        <ul>\n            <li><em>Ne pas pouvoir effacer le mail d’avant&nbsp;</em></li>\n            <li><em>Verrouiller les autres champs et boutons</em></li>\n        </ul>\n    </li>\n</ul>\n<p>⚠️Pour écrire le message dans la zone&nbsp;: </p>\n<ul>\n    <li> l’apprenant peut copier-coller ou écrire directement le message</li>\n    <li>dev&nbsp;: ajouter un bouton qui permet de compléter la réponse ou proposer une réponse pré-formatée (comme c’est le cas parfois) si possible.</li>\n    <li><strong>à trancher&nbsp;:</strong> appliquer une tolérance (majuscule/accents /saut de ligne?) </li>\n</ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -567,7 +525,7 @@
                 "id": "f2f8cb14-b6e9-4c82-80f5-eb6d2cc97aa5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quand vous répondez à un mail&nbsp;: </p><ul><li>Le <strong>destinataire</strong> et l’<strong>objet</strong> sont déjà <strong>remplis automatiquement</strong>.&nbsp;</li><li>Le <strong>mail auquel vous répondez reste affiché</strong>.</li><li>Il vous reste à <strong>écrire votre réponse juste au-dessus.</strong></li><li>Le bouton «&nbsp;<strong>Envoyer</strong>&nbsp;» permet d’envoyer votre réponse.</li></ul>"
+                "content": "<p><strong>Quand vous répondez à un mail&nbsp;</strong>: </p>"
               }
             },
             {
@@ -575,9 +533,9 @@
               "element": {
                 "id": "69581e03-b7e7-4744-857d-a7c52629efd5",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/lecon3.png",
+                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/repondre_mail_nov_infographies_lecons_3.svg",
                 "alt": "Capture d’écran illustrée de la fenêtre d’édition d’un mail décrite dans l’alternative textuelle",
-                "alternativeText": "<p>Capture d’écran de la fenêtre d’édition d’un mail pour répondre à un mail</p>",
+                "alternativeText": "<ul>\n    <li>Le <strong>destinataire</strong> et l’<strong>objet</strong> sont déjà <strong>remplis automatiquement</strong>.&nbsp;</li><li> La <strong>zone de saisie </strong>permet d'<strong>écrire votre réponse</strong>.</li>\n    <li>Le <strong>mail auquel vous répondez </strong>reste<strong> affiché sous la zone</strong>.</li>\n    \n    <li>Le bouton «&nbsp;<strong>Envoyer</strong>&nbsp;» permet d’envoyer votre réponse.</li>\n</ul>",
                 "legend": "",
                 "licence": ""
               }
@@ -628,7 +586,7 @@
               "element": {
                 "id": "944ae840-1837-47f7-bf2d-a59b45188519",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/decouverte4-v3.png",
+                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/repondre_mail_nov_dec4.svg",
                 "alt": "Capture d’écran d’une interface de messagerie électronique décrite dans l’alternative textuelle",
                 "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol>    <li>Boîte de réception (3)&nbsp;: sélectionnée</li>    <li>Messages envoyés</li>    <li>Brouillons</li>    <li>Spams</li>    <li>Corbeille</li></ol><p>Contenu de «&nbsp;Boîte de réception (3)&nbsp;»</p><table> <thead>        </thead><tbody><tr>            <th scope=\"col\">Expéditeur</th>            <th scope=\"col\">Objet</th>            <th scope=\"col\">Date</th>        </tr>        </tbody><tbody>        <tr>            <th scope=\"row\">PromoSports<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Soldes d’hiver</td>            <td>6 mars</td>        </tr>        <tr>            <th scope=\"row\">BioChoux<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Bienvenue chez BioChoux</td>            <td>3 février</td>        </tr>        <tr>            <th scope=\"row\">École de danse<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Cours annulé</td>            <td>25 janvier</td>        </tr>        <tr>            <th scope=\"row\">BioChoux<span class=\"sr-only\"> (mail lu)</span></th>            <td>Réponse à votre candidature</td>            <td>22 janvier</td>        </tr>    </tbody></table>",
                 "legend": "",
@@ -809,7 +767,7 @@
               "element": {
                 "id": "71121e18-b556-48e8-8d6f-4da90bf4f75b",
                 "type": "image",
-                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/activite1-v3.png",
+                "url": "https://assets.pix.org/draft/modules/RepondreMail_NOV/repondre_mail_nov_activite1.svg",
                 "alt": "Capture d’écran d’une interface de messagerie électronique décrite dans l’alternative textuelle",
                 "alternativeText": "<p>Interface de messagerie électronique ouverte </p><ol>    <li>        Boîte de réception (2)&nbsp;: sélectionnée    </li>    <li> Messages envoyés    </li>    <li> Brouillons    </li>    <li> Spams    </li>    <li> Corbeille    </li></ol><br><p>Contenu de «&nbsp;Boîte de réception (2)&nbsp;»</p><table>    <thead>        <tr>            <th scope=\"col\">Expéditeur</th>            <th scope=\"col\">Objet</th>            <th scope=\"col\">Date</th>        </tr>    </thead>    <tbody>        <tr>            <th scope=\"row\">Sophie<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Projet annuel</td>            <td>15 février</td>        </tr>        <tr>            <th scope=\"row\">Espaces verts<span class=\"sr-only\"> (mail lu)</span></th>            <td>Lettre d’information</td>            <td>5 novembre</td>        </tr>        <tr>            <th scope=\"row\">Naïma<span class=\"sr-only\"> (mail non lu)</span></th>            <td>Photos</td>            <td>5 novembre</td>        </tr>    </tbody></table><p>    &nbsp;&nbsp;</p>",
                 "legend": "",
