@@ -6,6 +6,7 @@
  * @typedef {import('../index.js').ComplementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  */
 
+import { CertificationCandidateNotFoundError } from '../../../../shared/domain/errors.js';
 import { AnswerCollectionForScoring } from '../../../../shared/domain/models/AnswerCollectionForScoring.js';
 import { ComplementaryCertificationCourseResult } from '../../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationKeys } from '../../../../shared/domain/models/ComplementaryCertificationKeys.js';
@@ -21,6 +22,7 @@ import { ComplementaryCertificationScoringWithoutComplementaryReferential } from
  * @param {ComplementaryCertificationCourseResultRepository} params.complementaryCertificationCourseResultRepository
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {ComplementaryCertificationBadgesRepository} params.complementaryCertificationBadgesRepository
+ * @throws {CertificationCandidateNotFoundError}
  */
 export async function scoreComplementaryCertificationV2({
   certificationCourseId,
@@ -47,6 +49,10 @@ export async function scoreComplementaryCertificationV2({
   const candidate = await candidateRepository.findByAssessmentId({
     assessmentId: assessmentResult.assessmentId,
   });
+
+  if (!candidate) {
+    throw new CertificationCandidateNotFoundError();
+  }
 
   const complementaryCertificationKey =
     candidate.subscriptionFramework !== SCOPES.CORE ? candidate.subscriptionFramework : undefined;

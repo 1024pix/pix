@@ -2,11 +2,13 @@ import range from 'lodash/range.js';
 import sinon from 'sinon';
 
 import { scoreComplementaryCertificationV2 } from '../../../../../../../src/certification/evaluation/domain/services/scoring/score-complementary-certification-v2.js';
+import { CertificationCandidateNotFoundError } from '../../../../../../../src/certification/shared/domain/errors.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { status as assessmentResultStatuses } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Evaluation | Unit | Domain | Services | Scoring Complementary Certification V2', function () {
   const certificationAssessmentRepository = {};
@@ -39,6 +41,34 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring Comple
     complementaryCertificationBadgesRepository.getAllWithSameTargetProfile = sinon.stub();
     complementaryCertificationRepository.get = sinon.stub();
     candidateRepository.findByAssessmentId = sinon.stub();
+  });
+
+  context('when the candidate is not found', function () {
+    it('should throw a CertificationCandidateNotFoundError', async function () {
+      // given
+      const certificationCourseId = 123;
+      const complementaryCertificationScoringCriteria =
+        domainBuilder.certification.evaluation.buildComplementaryCertificationScoringCriteria();
+      const assessmentResult = domainBuilder.buildAssessmentResult();
+
+      certificationCourseRepository.get
+        .withArgs({ id: certificationCourseId })
+        .resolves(domainBuilder.buildCertificationCourse());
+      assessmentResultRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId })
+        .resolves(assessmentResult);
+      candidateRepository.findByAssessmentId.withArgs({ assessmentId: assessmentResult.assessmentId }).resolves(null);
+
+      // when
+      const error = await catchErr(scoreComplementaryCertificationV2)({
+        certificationCourseId,
+        complementaryCertificationScoringCriteria,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(CertificationCandidateNotFoundError);
+    });
   });
 
   context('when there is a complementary referential', function () {

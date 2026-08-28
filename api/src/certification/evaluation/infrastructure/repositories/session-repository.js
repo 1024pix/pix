@@ -1,7 +1,11 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Session } from '../../domain/models/Session.js';
 
+/**
+ * @param {object} params
+ * @param {number} params.certificationCourseId
+ * @returns {Promise<Session|null>} the session, or null when no certification course matches
+ */
 export async function getByCertificationCourseId({ certificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
   const sessionDTO = await knexConn('sessions')
@@ -15,7 +19,7 @@ export async function getByCertificationCourseId({ certificationCourseId }) {
     .first();
 
   if (!sessionDTO) {
-    throw new NotFoundError('Certification course does not exist');
+    return null;
   }
 
   return _toDomain(sessionDTO);

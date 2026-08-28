@@ -16,7 +16,6 @@ const VALIDATED_STATUS = 'validé';
  */
 export async function findActiveFlashCompatible({ locale, version }) {
   const knexConn = DomainTransaction.getConnection();
-  _assertLocaleIsDefined(locale);
   const cacheKey = `findActiveFlashCompatible({ versionId: ${version?.id}, locale: ${locale} })`;
 
   const calibrations = await knexConn
@@ -110,12 +109,6 @@ export async function getAllCalibratedChallenges({ version }) {
 
 function _byId(challenge1, challenge2) {
   return challenge1.id < challenge2.id ? -1 : 1;
-}
-
-function _assertLocaleIsDefined(locale) {
-  if (!locale) {
-    throw new Error('Locale shall be defined');
-  }
 }
 
 async function loadCalibratedSkillsMap(lcmsChallengeDtos) {

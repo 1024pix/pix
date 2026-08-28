@@ -555,20 +555,6 @@ describe('Certification | Evaluation | Integration | Repository | calibrated-cha
       expect(flashCompatibleChallenges[0].discriminant).to.equal(certificationFrameworksChallenge.discriminant);
     });
 
-    context('when locale is not defined', function () {
-      it('should throw an Error', async function () {
-        // given
-        databaseBuilder.factory.learningContent.build({ skills: skillsLC, challenges: challengesLC });
-        await databaseBuilder.commit();
-
-        // when
-        const err = await catchErr(calibratedChallengeRepository.findActiveFlashCompatible)({});
-
-        // then
-        expect(err.message).to.equal('Locale shall be defined');
-      });
-    });
-
     context('when locale is defined', function () {
       context('when no active flash compatible challenges found', function () {
         it('should return an empty array', async function () {

@@ -5,11 +5,9 @@ import {
 } from '../../../../../../src/certification/evaluation/infrastructure/repositories/scoring-configuration-repository.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { PIX_ORIGIN } from '../../../../../../src/shared/constants.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Evaluation | Integration | Repositories | scoring-configuration-repository', function () {
   describe('#getLatestByDateAndLocale', function () {
@@ -76,28 +74,28 @@ describe('Certification | Evaluation | Integration | Repositories | scoring-conf
     });
 
     describe('when the date is before the scoring configurations', function () {
-      it('should throw a NotFoundError', async function () {
+      it('should return null', async function () {
         // given
         const date = new Date('2018-06-01T08:00:00Z');
 
         // when
-        const error = await catchErr(getLatestByDateAndLocale)({ locale: 'fr-fr', date });
+        const result = await getLatestByDateAndLocale({ locale: 'fr-fr', date });
 
-        expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal(`No certification scoring configuration found for date ${date.toISOString()}`);
+        // then
+        expect(result).to.be.null;
       });
     });
 
     describe('when the configuration is missing a scoring value', function () {
-      it('should throw a NotFoundError', async function () {
+      it('should return null', async function () {
         // given
         const date = new Date('2019-04-12T08:00:00Z');
 
         // when
-        const error = await catchErr(getLatestByDateAndLocale)({ locale: 'fr-fr', date });
+        const result = await getLatestByDateAndLocale({ locale: 'fr-fr', date });
 
-        expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal(`No certification scoring configuration found for date ${date.toISOString()}`);
+        // then
+        expect(result).to.be.null;
       });
     });
 

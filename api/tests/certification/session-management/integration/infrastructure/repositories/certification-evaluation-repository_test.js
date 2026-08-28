@@ -8,7 +8,8 @@ describe('Integration | Repository | certification-evaluation-repository', funct
   describe('#rescoreV2Certification', function () {
     it('should trigger a rescoring', async function () {
       // given
-      const certificationCancelledEvent = new CertificationCancelled({ certificationCourseId: 444, juryId: 555 });
+      const certificationCourseId = 444;
+      const certificationCancelledEvent = new CertificationCancelled({ certificationCourseId, juryId: 555 });
 
       // when
       const error = await catchErr(repositories.certificationEvaluationRepository.rescoreV2Certification)({
@@ -16,7 +17,9 @@ describe('Integration | Repository | certification-evaluation-repository', funct
       });
 
       // then
-      expect(error).to.deepEqualInstance(new NotFoundError('Certification course does not exist'));
+      expect(error).to.deepEqualInstance(
+        new NotFoundError(`Session does not exist for certificationCourseId ${certificationCourseId}`),
+      );
     });
   });
 

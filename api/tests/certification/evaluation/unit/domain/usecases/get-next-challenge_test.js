@@ -7,7 +7,7 @@ import {
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { AssessmentEndedError } from '../../../../../../src/shared/domain/errors.js';
+import { AssessmentEndedError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -75,6 +75,31 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
       versionApi.getById.withArgs({ id: version.id }).resolves(version);
 
       assessmentSheetRepository.getByAssessmentId.withArgs(assessmentId).resolves(assessmentSheet);
+    });
+
+    context('when the assessment sheet does not exist', function () {
+      it('should throw a NotFoundError', async function () {
+        // given
+        const unknownAssessmentId = 999;
+        assessmentSheetRepository.getByAssessmentId.withArgs(unknownAssessmentId).resolves(null);
+
+        // when
+        const error = await catchErr(getNextChallenge)({
+          assessmentId: unknownAssessmentId,
+          assessmentSheetRepository,
+          certificationChallengeLiveAlertRepository,
+          sessionManagementCertificationChallengeRepository,
+          calibratedChallengeRepository,
+          versionApi,
+          flashAlgorithmService,
+          pickChallengeService,
+        });
+
+        // then
+        expect(error).to.deepEqualInstance(
+          new NotFoundError(`No AssessmentSheet found for assessmentId ${unknownAssessmentId}`),
+        );
+      });
     });
 
     context('when there are challenges left to answer', function () {

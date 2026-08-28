@@ -6,7 +6,7 @@
  * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('./index.js').Services} Services
  */
-import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
+import { NotFinalizedSessionError, NotFoundError } from '../../../../shared/domain/errors.js';
 import CertificationCancelled from '../../../../shared/domain/events/CertificationCancelled.js';
 import { CertificationCourseUnrejected } from '../../../../shared/domain/events/CertificationCourseUnrejected.js';
 import CertificationUncancelled from '../../../../shared/domain/events/CertificationUncancelled.js';
@@ -77,11 +77,16 @@ export async function rescoreV2Certification({
  * @param {SessionRepository} params.sessionRepository
  *
  * @returns {Promise<void>}
+ * @throws {NotFoundError}
  * @throws {NotFinalizedSessionError}
  * @throws {SessionAlreadyPublishedError}
  */
 async function _verifySessionIsPublishable({ certificationCourseId, sessionRepository }) {
   const session = await sessionRepository.getByCertificationCourseId({ certificationCourseId });
+
+  if (!session) {
+    throw new NotFoundError(`Session does not exist for certificationCourseId ${certificationCourseId}`);
+  }
 
   if (!session.isFinalized) {
     throw new NotFinalizedSessionError();

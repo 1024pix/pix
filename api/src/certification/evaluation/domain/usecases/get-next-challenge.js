@@ -10,7 +10,7 @@
  * @typedef {import('../../../../shared/domain/models/Assessment.js').Assessment} Assessment
  */
 
-import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
+import { AssessmentEndedError, NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationChallenge } from '../../../shared/domain/models/CertificationChallenge.js';
 import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
 
@@ -26,6 +26,8 @@ import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js'
  * @param {PickChallengeService} params.pickChallengeService
  *
  * @returns {Promise<string>} next challenge id
+ * @throws {NotFoundError}
+ * @throws {AssessmentEndedError}
  */
 export async function getNextChallenge({
   assessmentId,
@@ -38,6 +40,10 @@ export async function getNextChallenge({
   pickChallengeService,
 }) {
   const assessmentSheet = await assessmentSheetRepository.getByAssessmentId(assessmentId);
+
+  if (!assessmentSheet) {
+    throw new NotFoundError(`No AssessmentSheet found for assessmentId ${assessmentId}`);
+  }
 
   const validatedLiveAlertChallengeIds = await _getValidatedLiveAlertChallengeIds({
     assessmentId: assessmentSheet.assessmentId,

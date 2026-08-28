@@ -1,11 +1,9 @@
 import * as assessmentSheetRepository from '../../../../../../src/certification/evaluation/infrastructure/repositories/assessment-sheet-repository.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Certification | Evaluation | Infrastructure | Repositories | AssessmentSheetRepository', function () {
   let certificationCourseId, assessmentId, userId, versionId, answer1;
@@ -152,15 +150,15 @@ describe('Integration | Certification | Evaluation | Infrastructure | Repositori
     });
 
     context('when the assessment does not exist', function () {
-      it('returns a not found error', async function () {
+      it('returns null', async function () {
         // given
         const unknownAssessmentId = 123;
 
         // when
-        const error = await catchErr(assessmentSheetRepository.getByAssessmentId)(unknownAssessmentId);
+        const assessmentSheet = await assessmentSheetRepository.getByAssessmentId(unknownAssessmentId);
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(assessmentSheet).to.be.null;
       });
     });
   });

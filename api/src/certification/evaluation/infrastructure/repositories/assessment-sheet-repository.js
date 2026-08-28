@@ -1,5 +1,4 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import { AssessmentSheet } from '../../domain/models/AssessmentSheet.js';
 
@@ -16,12 +15,17 @@ export async function findByCertificationCourseId(certificationCourseId) {
   });
 }
 
+/**
+ * @param {number} assessmentId
+ * @returns {Promise<AssessmentSheet|null>} the assessment sheet, or null when no assessment matches
+ */
 export async function getByAssessmentId(assessmentId) {
   const data = await baseQuery().where('assessments.id', '=', assessmentId).first();
 
   if (!data) {
-    throw new NotFoundError();
+    return null;
   }
+
   const answers = await answerRepository.findByAssessment(data.assessmentId);
 
   answers.sort((a, b) => a.createdAt - b.createdAt);

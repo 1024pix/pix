@@ -10,6 +10,7 @@ import {
 } from '../../../../../../../src/certification/evaluation/domain/services/scoring/scoring-v2.js';
 import { CertificationAssessment } from '../../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { ABORT_REASONS } from '../../../../../../../src/certification/shared/domain/constants/abort-reasons.js';
+import { CertificationCandidateNotFoundError } from '../../../../../../../src/certification/shared/domain/errors.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import * as scoringService from '../../../../../../../src/evaluation/domain/services/scoring/scoring-service.js';
 import CertificationCancelled from '../../../../../../../src/shared/domain/events/CertificationCancelled.js';
@@ -936,6 +937,26 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
         competenceWithMarks_3_3,
         competenceWithMarks_4_4,
       ];
+    });
+
+    context('When the candidate is not found', function () {
+      it('should throw a CertificationCandidateNotFoundError', async function () {
+        // given
+        const certificationAssessment = { id: 1 };
+        candidateRepository.findByAssessmentId.withArgs({ assessmentId: certificationAssessment.id }).resolves(null);
+
+        // when
+        const error = await catchErr(calculateCertificationAssessmentScore)({
+          certificationAssessment,
+          areaRepository,
+          placementProfileService: { getPlacementProfile: sinon.stub() },
+          scoringService,
+          candidateRepository,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(CertificationCandidateNotFoundError);
+      });
     });
 
     context('When at least one challenge have more than one answer ', function () {
