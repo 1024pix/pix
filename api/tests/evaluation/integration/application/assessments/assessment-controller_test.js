@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
 import { assessmentsRoute as moduleUnderTest } from '../../../../../src/evaluation/application/assessments/index.js';
-import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
@@ -13,7 +13,7 @@ describe('Integration | Evaluation | Application | Assessments | assessment-cont
 
   beforeEach(async function () {
     sinon.stub(evaluationUsecases, 'updateAssessmentWithNextChallenge');
-    sinon.stub(assessmentAuthorization, 'verify');
+    sinon.stub(securityPreHandlers, 'checkUserOwnsAssessment');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
     assessment = domainBuilder.buildAssessment();
@@ -22,7 +22,7 @@ describe('Integration | Evaluation | Application | Assessments | assessment-cont
   describe('#getAssessmentWithNextChallenge', function () {
     context('Success cases', function () {
       beforeEach(function () {
-        assessmentAuthorization.verify.resolves(assessment);
+        securityPreHandlers.checkUserOwnsAssessment.resolves(assessment);
       });
 
       it('should resolve a 200 HTTP response', async function () {
@@ -51,7 +51,7 @@ describe('Integration | Evaluation | Application | Assessments | assessment-cont
     context('Error cases', function () {
       context('when user is not allowed to access resource', function () {
         beforeEach(function () {
-          assessmentAuthorization.verify.callsFake((request, h) => {
+          securityPreHandlers.checkUserOwnsAssessment.callsFake((request, h) => {
             return h.response({ some: 'error' }).code(401).takeover();
           });
         });
