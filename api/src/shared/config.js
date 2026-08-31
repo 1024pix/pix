@@ -603,29 +603,7 @@ const configuration = (function () {
   };
 
   if (process.env.NODE_ENV === 'test') {
-    config.apiData = {
-      url: 'http://example.net',
-      credentials: {
-        username: 'user',
-        password: 'passowrd',
-      },
-      queries: {
-        coverRateByTubes: 'coverage-rate-query-id',
-      },
-    };
-
-    config.auditLogger.baseUrl = 'http://audit-logger.local';
-    config.auditLogger.clientSecret = 'client-super-secret';
-
-    config.baseUrl = 'https://api.test.pix.fr';
-
-    config.login = {
-      temporaryBlockingThresholdFailureCount: 10,
-      temporaryBlockingBaseTimeMs: ms('2m'),
-      blockingLimitFailureCount: 30,
-      emailConnectionWarningPeriod: ms('1y'),
-    };
-
+    // TODO: no env var for this block
     config.oidcExampleNet = {
       clientId: 'client',
       clientSecret: 'secret',
@@ -636,144 +614,22 @@ const configuration = (function () {
       postLogoutRedirectUri: 'https://app.dev.pix.local/connexion',
       redirectUri: 'https://app.dev.pix.local/connexion/oidc-example-net',
     };
-
-    config.port = 0;
-
-    config.lcms.apiKey = 'test-api-key';
-    config.lcms.url = 'https://lcms-test.pix.fr/api';
-    config.lcms.oauthBasicToken = 'dGVzdC1wYXNzd29yZA=='; // test-password
-
-    config.llm.configurationEditorApi.getConfigurationUrl = 'https://llm-test.pix.fr/api/configurations';
-    config.llm.inferenceApi.postPromptUrl = 'https://llm-test.pix.fr/api/chat';
-    config.llm.temporaryStorage.expirationDelaySeconds = 1;
-    config.llm.configurationEditorApi.authSecret = 'Le secret dans les tests';
-    config.llm.inferenceApi.authSecret = 'Le secret dans les tests';
-
-    config.domain.tldFr = '.fr';
-    config.domain.tldOrg = '.org';
-    config.domain.pix = 'https://pix';
-    config.domain.pixApp = 'https://test.app.pix';
-    config.domain.pixOrga = 'https://orga.pix';
-    config.domain.pixCertif = 'https://certif.pix';
-
-    config.features.dayBeforeImproving = 4;
-    config.features.dayBeforeCompetenceResetV2 = 7;
-    config.features.garAccessV2 = false;
-    config.features.maxReachableLevel = 5;
-
-    config.featureToggles.deprecatePoleEmploiPushNotification = false;
-    config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
-    config.metrics.isDirectMetricsEnabled = false;
-    config.metrics.isOppsyDisabled = false;
-
-    config.lti.authorizedPlatforms = ['https://moodle.example.net'];
+    // TODO: no env var for jwkModulusLength
     config.lti.jwkModulusLength = 2048;
 
-    config.mailing.enabled = false;
-    config.mailing.provider = 'brevo';
-    config.mailing.smtpUrl = 'smtp://username:password@localhost:1025/';
-
-    config.mailing.brevo.apiKey = 'test-api-key';
-    config.mailing.brevo.templates.accountCreationTemplateId = 'test-account-creation-template-id';
-    config.mailing.brevo.templates.organizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
-    config.mailing.brevo.templates.organizationInvitationScoTemplateId =
-      'test-organization-invitation-sco-demand-template-id';
-    config.mailing.brevo.templates.certificationCenterInvitationTemplateId =
-      'test-certification-center-invitation-template-id';
-    config.mailing.brevo.templates.certificationResultTemplateId = 'test-certification-result-template-id';
-    config.mailing.brevo.templates.passwordResetTemplateId = 'test-password-reset-template-id';
     config.mailing.brevo.templates.emailChangeTemplateId = 'test-email-change-template-id';
-    config.mailing.brevo.templates.accountRecoveryTemplateId = 'test-account-recovery-template-id';
-    config.mailing.brevo.templates.emailVerificationCodeTemplateId = 'test-email-verification-code-template-id';
-    config.mailing.brevo.templates.cpfEmailTemplateId = 'test-cpf-email-template-id';
-    config.mailing.brevo.templates.acquiredCleaResultTemplateId = 'test-acquired-clea-result-template-id';
-    config.mailing.brevo.templates.targetProfileNotCertifiableTemplateId =
-      'test-target-profile-no-certifiable-template-id';
-    config.mailing.brevo.templates.warningConnectionTemplateId = 'test-warning-connection-template-id';
-    config.module.secret = 'moduleUrlSecret';
-    config.module.jsonSchemaCacheMaxAge = 123;
-    config.bcryptNumberOfSaltRounds = 1;
 
-    config.authentication.secret = 'the-password-must-be-at-least-32-characters-long';
-
-    config.passwordResetDemand.secret = 'the-password-must-be-at-least-32-characters-long';
-
-    config.temporaryStorage.redisUrl = process.env.REDIS_URL;
-    config.authentication.permitPixAdminLoginFromPassword = false;
-
-    config.cpf.storage = {
-      cpfExports: {
-        client: {
-          accessKeyId: 'cpfExports.accessKeyId',
-          secretAccessKey: 'cpfExports.secretAccessKey',
-          endpoint: 'http://cpf-exports.fake.endpoint.example.net',
-          region: 'eu-west-par',
-          bucket: 'cpfExports.bucket',
-        },
-        commands: {
-          preSignedExpiresIn: 3600,
-        },
-      },
-    };
-
-    config.cpf.sendEmailJob = {
-      recipient: 'team-all-star-certif-de-ouf@example.net',
-      cron: '0 3 * * *',
-    };
-
-    config.logging.enabled = toBoolean(process.env.LOG_ENABLED);
+    // TODO: MISSING ENV VAR
     config.logging.enableLogKnexQueries = false;
-    config.logging.enableLogStartingEventDispatch = false;
-    config.logging.enableLogEndingEventDispatch = false;
 
     // TODO: Rather use config.caching.redisUrl = process.env.REDIS_URL;
     config.caching.redisUrl = null;
-    config.caching.redisCacheKeyLockTTL = 100;
-    config.caching.redisCacheLockedWaitBeforeRetry = 1;
 
-    config.mutex.redisUrl = process.env.REDIS_URL;
+    // TODO: utiliser `config.mutex.redisUrl` à la place dans le code des tests
+    config.redis = { url: process.env.REDIS_URL };
 
-    config.redis = {
-      url: process.env.REDIS_URL,
-    };
-
-    config.import = {
-      storage: {
-        client: {
-          accessKeyId: 'nothing',
-          secretAccessKey: 'nothing',
-          endpoint: process.env.IMPORT_STORAGE_ENDPOINT,
-          region: 'nothing',
-          bucket: process.env.IMPORT_STORAGE_BUCKET_NAME,
-          forcePathStyle: true,
-        },
-      },
-    };
-
-    config.attestations = {
-      storage: {
-        client: {
-          accessKeyId: 'attestations.accessKeyId',
-          secretAccessKey: 'attestations.secretAccessKey',
-          endpoint: 'http://attestations.fake.endpoint.example.net',
-          region: 'eu-west-par',
-          bucket: 'attestations.bucket',
-          forcePathStyle: true,
-        },
-      },
-    };
-
-    config.dataProtectionPolicy.updateDate = '2022-12-25 00:00:01';
-
-    config.partner.fetchTimeOut = '10ms';
-
+    // TODO: MISSING ENV VAR
     config.identityProviderConfigKey = null;
-
-    config.apiManager.url = 'http://external-partners-access/';
-
-    config.infra.engineeringUserId = 800;
-
-    config.timeouts.server = 10_000;
   }
 
   return config;
