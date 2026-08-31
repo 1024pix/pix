@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 
+import { StructureNotFoundError } from '../../../../../src/organizational-entities/domain/errors.js';
 import { AttachedOrganization } from '../../../../../src/organizational-entities/domain/models/AttachedOrganization.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
@@ -1367,6 +1368,102 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       expect(updatedOrganization.updatedAt).to.deep.equal(new Date('2022-02-02'));
     });
 
+    it('updates the category of the organization structure', async function () {
+      // given
+      const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' }).id;
+      const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure({});
+      await databaseBuilder.commit();
+      const organizationForAdmin = new OrganizationForAdmin({
+        ...organization,
+        categoryId,
+        organizationLearnerType: domainOrganizationLearnerType,
+      });
+
+      // when
+      await organizationForAdminRepository.update({ organization: organizationForAdmin });
+
+      // then
+      const updatedStructure = await knex('structures').where({ id: structure.id }).first();
+      expect(updatedStructure.category_id).to.equal(categoryId);
+    });
+
+    it('does not update the structure of another organization', async function () {
+      // given
+      const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' }).id;
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({});
+      const { structure: otherStructure } = databaseBuilder.factory.buildOrganizationWithStructure({});
+      await databaseBuilder.commit();
+      const organizationForAdmin = new OrganizationForAdmin({
+        ...organization,
+        categoryId,
+        organizationLearnerType: domainOrganizationLearnerType,
+      });
+
+      // when
+      await organizationForAdminRepository.update({ organization: organizationForAdmin });
+
+      // then
+      const untouchedStructure = await knex('structures').where({ id: otherStructure.id }).first();
+      expect(untouchedStructure.category_id).to.be.null;
+    });
+
+    it('does not clear the category when no category is given', async function () {
+      // given
+      const { organizationId, structureId, categoryId, structureUpdatedAt } =
+        _buildOrganizationWithCategorizedStructure();
+      await databaseBuilder.commit();
+      const organizationForAdmin = new OrganizationForAdmin({
+        id: organizationId,
+        organizationLearnerType: domainOrganizationLearnerType,
+      });
+
+      // when
+      await organizationForAdminRepository.update({ organization: organizationForAdmin });
+
+      // then
+      const untouchedStructure = await knex('structures').where({ id: structureId }).first();
+      expect(untouchedStructure.category_id).to.equal(categoryId);
+      expect(untouchedStructure.updated_at).to.deep.equal(structureUpdatedAt);
+    });
+
+    it('does not write the structure when the category is unchanged', async function () {
+      // given
+      const { organizationId, structureId, categoryId, structureUpdatedAt } =
+        _buildOrganizationWithCategorizedStructure();
+      await databaseBuilder.commit();
+      const organizationForAdmin = new OrganizationForAdmin({
+        id: organizationId,
+        categoryId,
+        organizationLearnerType: domainOrganizationLearnerType,
+      });
+
+      // when
+      await organizationForAdminRepository.update({ organization: organizationForAdmin });
+
+      // then
+      const untouchedStructure = await knex('structures').where({ id: structureId }).first();
+      expect(untouchedStructure.updated_at).to.deep.equal(structureUpdatedAt);
+    });
+
+    it('throws a StructureNotFoundError when the organization has no structure', async function () {
+      // given
+      const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' }).id;
+      const organization = databaseBuilder.factory.buildOrganization();
+      await databaseBuilder.commit();
+      const organizationForAdmin = new OrganizationForAdmin({
+        ...organization,
+        categoryId,
+        organizationLearnerType: domainOrganizationLearnerType,
+      });
+
+      // when
+      const error = await catchErr(organizationForAdminRepository.update)({ organization: organizationForAdmin });
+
+      // then
+      expect(error).to.be.instanceOf(StructureNotFoundError);
+      expect(error.meta.organizationId).to.equal(organization.id);
+    });
+
     describe('#features', function () {
       it('should enable feature', async function () {
         // given
@@ -2032,3 +2129,13 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
     });
   });
 });
+
+function _buildOrganizationWithCategorizedStructure() {
+  const structureUpdatedAt = new Date('2020-01-01');
+  const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Catégorie initiale' }).id;
+  const organization = databaseBuilder.factory.buildOrganization();
+  const structure = databaseBuilder.factory.buildStructure({ categoryId, updatedAt: structureUpdatedAt });
+  databaseBuilder.factory.buildFactStructure({ structureId: structure.id, organizationId: organization.id });
+
+  return { organizationId: organization.id, structureId: structure.id, categoryId, structureUpdatedAt };
+}
