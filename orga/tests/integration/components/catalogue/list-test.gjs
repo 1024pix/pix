@@ -184,6 +184,37 @@ module('Integration | Component | Catalogue::List', function (hooks) {
     });
 
     module('category filter', function () {
+      test('categories should be sorted alphabetically', async function (assert) {
+        // given
+        const updateFilter = sinon.stub();
+        const courses = [
+          { name: 'Ma super formation', type: 'targetProfile', nbTubes: 5, category: 'SUBJECT' },
+          { name: 'Ma super formation 2', type: 'targetProfile', nbModules: 2, category: 'OTHER' },
+          { name: 'Ma super formation 1', type: 'targetProfile', nbModules: 2, category: 'DISCIPLINE' },
+        ];
+
+        // when
+        const screen = await render(
+          <template><List @updateFilter={{updateFilter}} @courses={{courses}} @type="targetProfile" /></template>,
+        );
+
+        await click(screen.getByLabelText(t('pages.catalogue.filters.categories.label')));
+
+        await waitFor(() => screen.findByRole('listbox'));
+
+        const options = screen.getAllByRole('option', { selected: false }).map((node) => node.textContent.trim());
+
+        // then
+        assert.deepEqual(
+          options,
+          [
+            t('pages.campaign-creation.tags.OTHER'),
+            t('pages.campaign-creation.tags.DISCIPLINE'),
+            t('pages.campaign-creation.tags.SUBJECT'),
+          ],
+          'category option should be sorted alphabetically',
+        );
+      });
       test('it hides category filter on all page', async function (assert) {
         // given
         const updateFilter = sinon.stub();
@@ -202,6 +233,7 @@ module('Integration | Component | Catalogue::List', function (hooks) {
           .dom(screen.queryByRole('button', { name: t('pages.catalogue.filters.categories.label') }))
           .doesNotExist();
       });
+
       test('it should be disabled if there are no categories to filter', async function (assert) {
         // given
         const updateFilter = sinon.stub();
