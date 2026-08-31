@@ -2,88 +2,88 @@
   "api-error-messages": {
     "campaign-creation": {
       "custom-landing-page_too_long": "Der Text, in dem die Kampagne vorgestellt wird, ist zu lang.",
-      "external-user-id-required": "Bitte geben Sie den Wortlaut des Feldes an, das von Ihren Teilnehmern beim Start des Kurses abgefragt wird.",
-      "id-pix-type-required": "Bitte wählen Sie einen externen ID-Typ aus.",
-      "name-required": "Bitte geben Sie Ihrer Kampagne einen Namen.",
+      "external-user-id-required": "Bitte gib an, wie das Feld heißen soll, das deinen Teilnehmer:innen zu Beginn des Lernparcours angezeigt wird.",
+      "id-pix-type-required": "Bitte wähle einen externen ID-Typ aus.",
+      "name-required": "Bitte gib deiner Kampagne einen Namen.",
       "owner_not_in_organization": "Der Eigentümer ist nicht Teil der Organisation.",
-      "purpose-required": "Bitte wählen Sie das Ziel Ihrer Kampagne: Bewertung oder Profilsammlung.",
-      "target-profile-required": "Bitte wählen Sie eine Strecke für Ihre Kampagne aus.",
+      "purpose-required": "Bitte wähle das Ziel deiner Kampagne: Bewertung oder Profilsammlung.",
+      "target-profile-required": "Bitte wähle einen Lernparcours für deine Kampagne aus.",
       "title_too_long": "Der Titel der Kampagne ist zu lang."
     },
     "csv-import": {
       "property-not-uniq": "Zeile {line}: Das Feld \"{field}\" muss innerhalb der Datei eindeutig sein."
     },
-    "default": "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.",
+    "default": "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuche es zu einem späteren Zeitpunkt erneut.",
     "edit-student-number": {
-      "student-number-exists": "Die eingegebene Studentennummer wird bereits von dem Schüler verwendet {firstName} {lastName}."
+      "student-number-exists": "Die eingegebene Matrikelnummer wird bereits von dem:der Studierenden {firstName} {lastName} verwendet."
     },
-    "global": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.",
+    "global": "Es ist ein Fehler aufgetreten. Bitte versuche es zu einem späteren Zeitpunkt erneut.",
     "or-separator": " oder",
     "student-csv-import": {
-      "bad-csv-format": "Die Datei muss im csv-Format mit Komma- oder Semikolon-Trennzeichen vorliegen.",
-      "encoding-not-supported": "Kodierung der Datei nicht unterstützt.",
-      "field-bad-values": "Zeile {line}: Das Feld \"{field}\" muss \"{valids}\" lauten.",
+      "bad-csv-format": "Die Datei muss im CSV-Format vorliegen und Kommas oder Semikolons als Trennzeichen verwenden.",
+      "encoding-not-supported": "Die Dateikodierung wird nicht unterstützt.",
+      "field-bad-values": "Zeile {line}: Das Feld „{field}“ muss „{valids}“ sein.",
       "field-date-format": "Zeile {line}: Das Feld \"{field}\" muss im Format \"{acceptedFormat}\" sein.",
-      "field-email-format": "Zeile {line}: Das Feld \"{field}\" muss eine gültige E-Mail-Adresse sein.",
-      "field-length": "Zeile {line}: Das Feld \"{field}\" muss {limit} Zeichen lang sein.",
-      "field-max-length": "Zeile {line}: Das Feld \"{field}\" muss kleiner als {limit} Zeichen sein.",
-      "field-min-length": "Zeile {line}: Das Feld \"{field}\" muss mindestens {limit} Zeichen lang sein.",
+      "field-email-format": "Zeile {line}: Das Feld \"{field}\" muss eine gültige E-Mail-Adresse enthalten.",
+      "field-length": "Zeile {line}: Das Feld \"{field}\" muss {limit} Zeichen enthalten.",
+      "field-max-length": "Zeile {line}: Das Feld \"{field}\" muss weniger als {limit} Zeichen enthalten.",
+      "field-min-length": "Zeile {line}: Das Feld \"{field}\" muss mindestens {limit} Zeichen enthalten.",
       "field-pattern": "Zeile {line} : The field “{field}” enthält keinen gültigen Wert.",
       "field-required": "Zeile {line}: Das Feld \"{field}\" ist obligatorisch.",
       "header-required": "Die Spalte \"{field}\" ist obligatorisch.",
       "header-unknown": "Die Spaltenüberschriften müssen mit denen der Vorlage übereinstimmen.",
       "identifier-unique": "Zeile {line}: Das Feld \"{field}\" in dieser Zeile ist mehrfach in der Datei vorhanden.",
       "insee-code-invalid": "Zeile {line}: Das Feld \"{field}\" ist nicht im INSEE-Format.",
-      "payload-too-large": "Die Dateigröße muss weniger als {maxSize}MB betragen.",
+      "payload-too-large": "Die Dateigröße muss weniger als {maxSize} MB betragen.",
       "student-number-format": "Zeile {line}: Das Feld \"{field}\" darf keine Sonderzeichen enthalten.",
       "student-number-unique": "Zeile {line}: Das Feld \"{field}\" muss innerhalb der Datei eindeutig sein."
     },
     "student-password-reset": {
-      "organization-learner-does-not-belong-to-organization-error": "Einige der ausgewählten Schülerinnen und Schüler sind nicht mehr in dieser Organisation aufgeführt.",
-      "organization-learner-without-username-error": "Einige der ausgewählten Schülerinnen und Schüler haben keinen Benutzernamen mehr. Bitte aktualisieren Sie die Seite.",
-      "user-does-not-belong-to-organization-error": "Sie haben nicht mehr die Rechte für diese Organisation."
+      "organization-learner-does-not-belong-to-organization-error": "Einige der ausgewählten Schüler:innen sind nicht mehr Teil dieser Organisation.",
+      "organization-learner-without-username-error": "Einige der ausgewählten Schüler:innen haben keinen Benutzernamen mehr. Bitte aktualisiere die Seite.",
+      "user-does-not-belong-to-organization-error": "Du hast keine Rechte mehr für diese Organisation."
     },
     "student-xml-import": {
-      "birth-city-code-required-for-french-student": "Bei Schülern mit dem INE {nationalStudentId} ist das Feld Code Geburtsgemeinde nicht ausgefüllt. Es ist für jeden in Frankreich geborenen Schüler obligatorisch.",
-      "birthdate-required": "Bei einem Schüler mit der INE {nationalStudentId} ist das Feld Geburtsdatum nicht ausgefüllt. Es ist für jeden Schüler obligatorisch.",
-      "empty": "Die Schülerinnen und Schüler müssen eine INE sowie eine Klasse besitzen.",
+      "birth-city-code-required-for-french-student": "Bei Schüler:innen mit einer INE {nationalStudentId} bleibt das Feld mit dem Code der Geburtsgemeinde leer. Es ist für jede:n in Frankreich geborene:n Schüler:in obligatorisch.",
+      "birthdate-required": "Bei einem:einer Schüler:in mit der INE {nationalStudentId} ist das Feld Geburtsdatum nicht ausgefüllt. Es ist für jede:n Schüler:in verpflichtend.",
+      "empty": "Für die Schüler:innen müssen eine INE sowie eine Klasse angegeben werden.",
       "encoding-not-supported": "Kodierung der Datei nicht unterstützt.",
-      "first-name-required": "Bei einem Schüler mit der INE {nationalStudentId} ist das Feld Vorname nicht ausgefüllt. Dieses ist für jeden Schüler obligatorisch.",
-      "ine-required": "Das INE-Feld ist für jeden Schüler/jede Schülerin obligatorisch.",
-      "ine-unique": "Die INE {nationalStudentId} ist in der Datei mehrfach für mehrere Schüler vorhanden.",
-      "invalid-birthdate-format": "Der Schüler mit der INE {nationalStudentId} hat das falsche Format für sein Geburtsdatum. Es muss im Format 'DD/MM/YYYY' sein.",
+      "first-name-required": "Bei einem:einer Schüler:in mit der INE {nationalStudentId} ist das Feld Vorname nicht ausgefüllt. Dies ist ein Pflichtfeld für jede:n Schüler:in.",
+      "ine-required": "Das INE-Feld ist für jede:n Schüler:in verpflichtend.",
+      "ine-unique": "Die INE {nationalStudentId} ist in der Datei mehrfach für mehrere Schüler:innen vorhanden.",
+      "invalid-birthdate-format": "Das Geburtsdatum des:der Schüler:in mit der INE {nationalStudentId} hat ein ungültiges Format. Es muss im Format ‚TT/MM/JJJJ‘ angegeben werden.",
       "invalid-char-detected": "Der Name/Vorname des Schülers mit INE {nationalStudentId} enthält nicht unterstützte Zeichen.",
       "invalid-file": "Die Datei ist nicht konform.",
       "invalid-file-extension": "Erweiterung {fileExtension} nicht unterstützt.",
-      "last-name-required": "Bei einem Schüler mit der INE {nationalStudentId} ist das Feld Nachname nicht ausgefüllt. Dieses ist für jeden Schüler obligatorisch.",
-      "payload-too-large": "Die Dateigröße muss weniger als {maxSize}MB betragen.",
-      "sex-code-required": "Bei einem Schüler mit der INE {nationalStudentId} ist das Feld Geschlecht nicht ausgefüllt. Es ist für jeden Schüler obligatorisch.",
-      "uai-mismatched": "Die UAI in der SIECLE-Datei stimmt nicht mit der UAI Ihrer Einrichtung überein."
+      "last-name-required": "Bei einem:r Schüler:in mit der INE {nationalStudentId} ist das Feld Nachname nicht ausgefüllt. Dieses ist für jede:n Schüler:in verpflichtend.",
+      "payload-too-large": "Die Dateigröße muss weniger als {maxSize} MB betragen.",
+      "sex-code-required": "Bei der:dem Schüler:in mit der INE {nationalStudentId} ist das Feld Geschlecht nicht ausgefüllt. Es ist für jede:n Schüler:in verpflichtend.",
+      "uai-mismatched": "Die UAI in der SIECLE-Datei stimmt nicht mit der UAI deiner Einrichtung überein."
     }
   },
   "application": {
-    "description": "Die Plattform, die der Evaluation und der pädagogischen Überwachung gewidmet ist. Ihr Pix Orga-Bereich ermöglicht es Ihnen, eine Evaluierungskampagne zu starten oder Pix-Profile zu sammeln, den Fortschritt Ihrer Schüler oder Lernenden in einer Kampagne zu verfolgen oder auf ihre Ergebnisse zuzugreifen."
+    "description": "Die Plattform für Evaluation und Lernstandserfassung. Dein Pix Orga-Bereich ermöglicht es dir, eine Evaluierungskampagne zu starten oder Pix-Profile zu sammeln, den Fortschritt deiner Schüler:innen oder Lernenden in einer Kampagne zu verfolgen oder auf ihre Ergebnisse zuzugreifen"
   },
   "banners": {
     "certification": {
-      "message": "'<strong>'Zertifizierungen:'</strong>' vergessen Sie nicht, '< a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'die Sitzungen in Pix Certif'</a>' abzuschließen und dann die Zertifikate über den Reiter \"Zertifizierungen\" vor Schulbeginn {year} hochzuladen."
+      "message": "''Zertifizierungen:'' Vergiss nicht, '< a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'die Sitzungen in Pix Certif'' abzuschließen und dann die Zertifikate im Tab \"Zertifizierungen\" vor Schulbeginn {year} hochzuladen."
     },
     "import": {
-      "message": "Die wichtigsten Etappen des Jahres in der Schulbildung :",
-      "step1a": "Einführung : '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Anleitung zum Herunterladen der Ergebnisse' class='link link--banner link--bold link--underlined' '>'Ergebnisse herunterladen'</a>' Zertifizierung und",
-      "step1b": "importieren",
-      "step1c": "die Schülerdatenbank (admin)",
-      "step2": "'<'a href='https://cloud.pix.fr/s/d7MCSCq2RsSy5Pt' title='Start der Pfade zum Schuljahresbeginn' class='link link--banner link--bold link--underlined' '>'Erstellen Sie die Kampagnen'</a>' (Einstiegspfad, 6. Klasse, thematische, fachspezifische und gezielte Pfade…).",
-      "step3": "Zertifizierung von Lernenden. '<'a href='https://cloud.pix.fr/s/opiFxfjygR76S8y' title='Leitfaden Die Zertifizierung von Schülern vorbereiten und organisieren' class='link link--banner link--bold link--underlined' '>'Erfahren Sie mehr über die Zertifizierung'</a>'."
+      "message": "Die wichtigsten Etappen des Jahres in der Schulbildung:",
+      "step1a": "Vorbereitung: '<'a href='https://cloud.pix.fr/s/TBF97QzSni7SWpc' title='Anleitung zum Herunterladen der Ergebnisse' class='link link--banner link--bold link--underlined' '>'Zertifizierungsergebnisse herunterladen'' und",
+      "step1b": "Importieren der",
+      "step1c": "Schüler:innendatenbank (Admin)",
+      "step2": "'<'a href='https://cloud.pix.fr/s/d7MCSCq2RsSy5Pt' title='Start der Lernparcours zum Schuljahresbeginn' class='link link--banner link--bold link--underlined' '>'Erstelle die Kampagnen'' (Einstiegsparcours, 6. Klasse, thematische, fachspezifische und gezielte Parcours…).",
+      "step3": "Zertifizierung von Lernenden. '<'a href='https://cloud.pix.fr/s/opiFxfjygR76S8y' title='Leitfaden Die Zertifizierung von Schüler:innen vorbereiten und organisieren' class='link link--banner link--bold link--underlined' '>'Erfahre mehr über die Zertifizierung'</a>'."
     },
     "last-places-lot-available": {
-      "message": "Achtung, Ihre Plätze laufen in {days, number} Tagen ab."
+      "message": "Achtung, deine Plätze laufen in {days, number} Tagen ab."
     },
     "maximum-places-exceeded": {
-      "message": "<b>Ihre Organisation hat keine freien Plätze mehr!</b><br />Um alle Funktionen nutzen zu können, räumen Sie bitte Plätze frei, wenden Sie sich an Ihren Pix-Vertreter oder '<'a href='https://pix.fr/support/form/professionnel-le' title='kontaktieren Sie uns (Deutschland)' class=\"{linkClasses}\" '>Kontaktieren Sie uns über dieses Formular</a>'. <br />Wenn Sie eine Organisation außerhalb Frankreichs sind '<'a href='https://pix.org/fr/support/form/contactez-le-support-pix' title='kontaktieren Sie uns (außerhalb Frankreichs)' class=\"{linkClasses}\" '>Kontaktieren Sie uns über dieses Formular</a>'."
+      "message": "<b>Deine Organisation hat keine freien Plätze mehr!</b><br />Um alle Funktionen nutzen zu können, gib bitte Plätze frei. Wende dich an deine:n Pix-Vertreter:in oder '<'a href='https://pix.fr/support/form/professionnel-le' title='kontaktiere uns (Deutschland)' class=\"{linkClasses}\" '>Kontaktiere uns über dieses Formular</a>'. <br />Wenn du Teil einer Organisation außerhalb Frankreichs bist '<'a href='https://pix.org/fr/support/form/contactez-le-support-pix' title='kontaktiere uns (außerhalb Frankreichs)' class=\"{linkClasses}\" '>Kontaktiere uns über dieses Formular</a>'."
     },
     "over-capacity": {
-      "message": "Achtung: Sie verbrauchen mehr Plätze als Ihre Gesamtkapazität."
+      "message": "Achtung: Du verbrauchst mehr Plätze als deine Gesamtkapazität."
     },
     "survey": {
       "message": "Hilf Pix dabei, Pix Orga weiterzuentwickeln, indem du diese kurze Umfrage zu deiner Nutzung von Kampagnen beantwortest! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Hier geht's zur Umfrage'</a>'"
@@ -95,9 +95,9 @@
       "value": "/{total} Plätze"
     },
     "badges-acquisitions": {
-      "information": "Hier finden Sie die Anzahl der Abzeichen, die Ihre Teilnehmer in dieser Kampagne erhalten haben, sowie den Prozentsatz, zu dem sie diese erhalten haben.",
-      "obtained": "erhalten",
-      "title": "Namensschilder"
+      "information": "Hier findest du die Anzahl der Badges, die deine Teilnehmer:innen in dieser Kampagne erhalten haben, sowie den Prozentsatz, zu dem sie diese erhalten haben.",
+      "obtained": "erhaltene",
+      "title": "Badges"
     },
     "occupied-seats-count": {
       "anonymous": "davon {count, plural, =1 {1 Platz} other {{count, number} Plätze}} mit Zugang ohne Konto",
@@ -105,27 +105,27 @@
       "value": "/{total} Plätze"
     },
     "participants-average-results": {
-      "information": "Hier finden Sie die durchschnittliche Anzahl der Ergebnisse Ihrer Kampagne. Diese Zahl umfasst alle Teilnehmer, die ihren Parcours beendet und ihr Ergebnis eingesendet haben.",
+      "information": "Hier findest du das durchschnittliche Ergebnis deiner Kampagne. Diese Zahl umfasst alle Teilnehmer:innen, die ihren Lernparcours beendet und ihr Ergebnis eingesendet haben.",
       "title": "Durchschnittliches Ergebnis"
     },
     "participants-average-stages": {
-      "information": "Hier finden Sie den durchschnittlichen Lagerplatz Ihrer Kampagne. Diese Zahl umfasst alle Teilnehmer, die ihren Parcours beendet und ihr Ergebnis eingesendet haben.",
-      "title": "Mittleres Lager"
+      "information": "Hier findest du die durchschnittliche Stufe deiner Kampagne. Diese Zahl umfasst alle Teilnehmer:innen, die ihren Lernparcours beendet und ihr Ergebnis eingesendet haben.",
+      "title": "Durchschnittliche Lernstufe"
     },
     "participants-count": {
-      "information": "Hier finden Sie die Gesamtzahl der Teilnehmer Ihrer Kampagne. Diese Zahl umfasst alle Teilnehmer, die den Code eingegeben und ihre Reise oder Profilsendung begonnen haben.",
-      "loader": "Gesamtanzahl der Teilnehmer laden",
-      "title": "Teilnehmer insgesamt"
+      "information": "Hier findest du die Gesamtzahl der Teilnehmer:innen deiner Kampagne. Diese Zahl umfasst alle Teilnehmer:innen, die den Code eingegeben und ihren Lernparcours oder die Profilübermittlung begonnen haben.",
+      "loader": "Gesamtanzahl der Teilnehmer:innen laden",
+      "title": "Teilnehmer:innen insgesamt"
     },
     "place-info": {
       "with-account": {
-        "heading": "'<strong>'Der Teilnehmer hat ein Pix-Konto:'</strong>'.",
-        "message-description": "Sie können Plätze freigeben, indem Sie Teilnehmer auf der Registerkarte Teilnehmer löschen.",
-        "message-main": "1 Teilnehmer mit mindestens einer Teilnahme an einer Kampagne = 1 belegter Platz."
+        "heading": "'<strong>'Der:die Teilnehmer:in hat ein Pix-Konto:'</strong>'.",
+        "message-description": "Du kannst Plätze freigeben, indem du Teilnehmer:innen im Tab Teilnehmer:innen löschst.",
+        "message-main": "1 Teilnehmer:in mit mindestens einer Teilnahme an einer Kampagne = 1 belegter Platz."
       },
       "without-account": {
-        "heading": "'<strong>'Der Teilnehmer hat kein Pix-Konto'</strong>' (Kampagne mit Zugang ohne Konto) :",
-        "message-description": "Sie können diese Plätze freigeben, indem Sie Teilnahmen in der betreffenden Kampagne mit Accountless Access entfernen oder die Kampagne löschen.",
+        "heading": "'<strong>'Der:die Teilnehmer:in hat kein Pix-Konto'</strong>' (Kampagne mit Zugang ohne Konto) :",
+        "message-description": "Du kannst diese Plätze freigeben, indem du Teilnahmen in der betreffenden Kampagne mit Zugang ohne Konto entfernst oder die Kampagne löschst.",
         "message-main": "1 Teilnahme ohne Konto = 1 belegter Platz."
       }
     },
@@ -143,46 +143,46 @@
       "labels-a11y": {
         "date": "Datum",
         "shared": "Beendete Beteiligungen",
-        "started": "Teilnehmer insgesamt"
+        "started": "Teilnehmer:innen insgesamt"
       },
       "labels-legend": {
         "shared": "Beendete Beteiligungen",
-        "started": "Teilnehmer insgesamt"
+        "started": "Teilnehmer:innen insgesamt"
       },
-      "loader": "Laden von Teilnehmeraktivitäten",
-      "title": "Aktivität der Teilnehmer"
+      "loader": "Teilnehmer:innen-Aktivitäten werden geladen",
+      "title": "Aktivität der Teilnehmer:innen"
     },
     "participants-by-mastery-percentage": {
-      "label-a11y": "Von {from, number, ::percent} bis {to, number, ::percent}: {count, plural, =0 {0 Teilnehmer} =1 {1 Teilnehmer} other {{count, number} Teilnehmer}}.",
-      "loader": "Laden der Teilnehmerverteilung nach Ergebnis",
-      "title": "Verteilung der Teilnehmer nach Ergebnissen",
+      "label-a11y": "Von {from, number, ::percent} bis {to, number, ::percent}: {count, plural, =0 {0 Teilnehmer:innen} =1 {1 Teilnehmer:in} other {{count, number} Teilnehmer:innen}}.",
+      "loader": "Teilnehmer:innen-Verteilung nach Ergebnis wird geladen",
+      "title": "Verteilung der Teilnehmer:innen nach Ergebnissen",
       "tooltip": {
-        "label": "Anzahl der Teilnehmer: {count}.",
+        "label": "Anzahl der Teilnehmer:innen: {count}.",
         "legend": "{from, number, ::percent} - {to, number, ::percent}",
         "title": "Ergebnisse {legend}"
       }
     },
     "participants-by-stage": {
-      "loader": "Laden der Stufenverteilung von Teilnehmern",
-      "participants": "{count, plural, =0 {0 Teilnehmer} =1 {1 Teilnehmer} other {{count, number} Teilnehmer}}",
-      "title": "Verteilung der Teilnehmer nach Stufen"
+      "loader": "Stufenverteilung der Teilnehmer:innen wird geladen",
+      "participants": "{count, plural, =0 {0 Teilnehmer:innen} =1 {1 Teilnehmer:in} other {{count, number} Teilnehmer:innen}}",
+      "title": "Verteilung der Teilnehmer:innen nach Stufen"
     },
     "participants-by-status": {
       "a11y-title": "Detail nach Status",
       "labels-a11y": {
-        "shared": "{count, plural, =0 {0 Teilnehmer} =1 {1 Teilnehmer} other {{count, number} Teilnehmer}}, die ihre Ergebnisse eingesandt haben",
-        "started": "{count, plural, =0 {0 Teilnehmer} =1 {1 Teilnehmer} other {{count, number} Teilnehmer}} wird getestet"
+        "shared": "{count, plural, =0 {0 Teilnehmer:innen} =1 {1 Teilnehmer:in} other {{count, number} Teilnehmer:innen}}, die ihre Ergebnisse eingesendet haben",
+        "started": "{count, plural, =0 {0 Teilnehmer:innen} =1 {1 Teilnehmer:in} other {{count, number} Teilnehmer:innen}} testen gerade"
       },
       "labels-legend": {
-        "shared": "Abgeschlossene Beteiligungen ({count})",
+        "shared": "Abgeschlossene Teilnahmen ({count})",
         "started": "In Bearbeitung ({count})"
       },
       "labels-tooltip": {
-        "shared": "Beendete Beteiligungen: {percentage, number, ::percent .0}.",
-        "started": "In Arbeit: {percentage, number, ::percent .0}."
+        "shared": "Abgeschlossene Teilnahmen: {percentage, number, ::percent .0}.",
+        "started": "In Bearbeitung: {percentage, number, ::percent .0}."
       },
-      "loader": "Laden von Anteilen nach Status",
-      "title": "Satzung"
+      "loader": "Verteilung nach Status wird geladen",
+      "title": "Status"
     }
   },
   "common": {
@@ -193,28 +193,28 @@
       "confirm": "Bestätigen",
       "exit": "Beenden",
       "global": "Aktionen",
-      "link-to-participant": "Alle Aktivitäten des Teilnehmers anzeigen",
-      "save": "Registrieren"
+      "link-to-participant": "Alle Aktivitäten des:der Teilnehmer:in anzeigen",
+      "save": "Speichern"
     },
     "api-error-messages": {
-      "account-conflict": "Dieses Konto ist bereits mit dieser Organisation verknüpft. Bitte melden Sie sich mit einem anderen Konto an oder wenden Sie sich an den Support.",
-      "bad-request-error": "Die von Ihnen eingereichten Daten haben nicht das richtige Format.",
-      "default": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es noch einmal oder wenden Sie sich an den Support.",
-      "expired-authentication-key": "Ihre Authentifizierungsanfrage ist abgelaufen.",
-      "internal-server-error": "Es ist ein interner Fehler aufgetreten. Unsere Mitarbeiter sind dabei, das Problem zu beheben. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.",
+      "account-conflict": "Dieses Konto ist bereits mit dieser Organisation verknüpft. Bitte melde dich mit einem anderen Konto an oder wende dich an den Support.",
+      "bad-request-error": "Die von dir eingereichten Daten haben nicht das richtige Format.",
+      "default": "Es ist ein Fehler aufgetreten. Bitte versuche es noch einmal oder wende dich an den Support.",
+      "expired-authentication-key": "Deine Authentifizierungsanfrage ist abgelaufen.",
+      "internal-server-error": "Es ist ein interner Fehler aufgetreten. Das Pix-Team ist dabei, das Problem zu beheben. Bitte versuche es zu einem späteren Zeitpunkt erneut.",
       "login-unauthorized-error": "Die eingegebene E-Mail-Adresse oder der Benutzername und/oder das Passwort sind falsch.",
-      "login-unauthorized-remaining-attempts-error": "Achtung: Du hast noch {remainingAttempts, plural, =0 {0 Versuche} =1 {1 Versuche} other {# Versuche}}, bevor dein Pix-Konto endgültig gesperrt wird.",
-      "login-unauthorized-remaining-attempts-with-user-name-error": "Achtung: Sie haben noch {remainingAttempts, plural, =0 {0 Versuche} =1 {1 Versuch} other {# Versuche}}, bevor Ihr Pix-Konto endgültig gesperrt wird.'<br>'Wenn Sie Ihr Passwort vergessen haben, '<strong>'wenden Sie sich an Ihren Lehrer'</strong>', um Ihr Passwort zurückzusetzen und/oder Ihren Benutzernamen wiederzuerlangen.",
-      "login-unauthorized-with-user-name-error": "Der eingegebene Benutzername und/oder das Passwort sind falsch.'<br>'Wenn Sie es vergessen haben, '<strong>'wenden Sie sich an Ihre Lehrkraft'</strong>', um Ihr Passwort zurückzusetzen und/oder Ihren Benutzernamen wiederzuerlangen.",
-      "login-unexpected-error": "Es kann keine Verbindung hergestellt werden. Bitte versuchen Sie es in Kürze erneut. Wenn das Problem weiterhin besteht, '<'a href=\"{supportHomeUrl}\" target=\"blank\"'>'kontaktieren Sie uns über das Hilfecenter'</a>'.",
-      "login-user-blocked-error": "Ihr Konto ist gesperrt, weil Sie zu viele Anmeldeversuche unternommen haben. Um es zu entsperren, '<'a href=\"{url}\"'>'kontaktieren Sie uns'</a>'.",
-      "login-user-temporary-blocked-error": "Du hast zu viele Anmeldeversuche unternommen, dein Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt. Versuchen Sie es später noch einmal oder klicken Sie auf '<'a href=\"{url}\"'>'Passwort vergessen'</a>', um es zurückzusetzen.",
-      "login-user-temporary-blocked-with-username-error": "Sie haben zu viele Anmeldeversuche unternommen, Ihr Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt.'<br>'Wenn Sie Ihr Passwort vergessen haben, '<strong>'wenden Sie sich an Ihre Lehrkraft'</strong>', um Ihr Passwort zurückzusetzen und/oder Ihren Benutzernamen abzurufen."
+      "login-unauthorized-remaining-attempts-error": "Achtung: Du hast noch {remainingAttempts, plural, =0 {0 Versuche} =1 {1 Versuch} other {# Versuche}}, bevor dein Pix-Konto endgültig gesperrt wird.",
+      "login-unauthorized-remaining-attempts-with-user-name-error": "Achtung: Du hast noch {remainingAttempts, plural, =0 {0 Versuche} =1 {1 Versuch} other {# Versuche}}, bevor dein Pix-Konto endgültig gesperrt wird. '<br>'Wenn du dein Passwort vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen wiederzuerlangen.",
+      "login-unauthorized-with-user-name-error": "Der eingegebene Benutzername und/oder das Passwort sind falsch.'<br>'Wenn du dein Passwort vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen wiederzuerlangen.",
+      "login-unexpected-error": "Es kann keine Verbindung hergestellt werden. Bitte versuche es in Kürze erneut. Wenn das Problem weiterhin besteht, '<'a href=\"{supportHomeUrl}\" target=\"blank\"'>'kontaktiere uns über das Hilfecenter'</a>'.",
+      "login-user-blocked-error": "Dein Konto ist gesperrt, weil du zu viele Anmeldeversuche unternommen hast. Um es zu entsperren, '<'a href=\"{url}\"'>'kontaktiere uns'</a>'.",
+      "login-user-temporary-blocked-error": "Du hast zu viele Anmeldeversuche unternommen, dein Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt. Versuche es später noch einmal oder klicke auf '<'a href=\"{url}\"'>'Passwort vergessen'</a>', um es zurückzusetzen.",
+      "login-user-temporary-blocked-with-username-error": "Du hast zu viele Anmeldeversuche unternommen, dein Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt.'<br>'Wenn du dein Passwort vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen abzurufen."
     },
-    "breadcrumb": "Ariadnefaden",
+    "breadcrumb": "Brotkrümelnavigation",
     "cgu": {
       "error": "Sie müssen den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
-      "label": "Ich akzeptiere die Nutzungsbedingungen und die Datenschutzrichtlinie von Pix",
+      "label": "Du musst den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
       "read-message": "Lies die '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Nutzungsbedingungen'</a>' und die '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Datenschutzrichtlinie'</a>'."
     },
     "filters": {
@@ -235,7 +235,7 @@
         "label": "Nach Gruppen suchen",
         "placeholder": "Gruppen"
       },
-      "loading": "Laden...",
+      "loading": "Wird geladen ...",
       "participantExternalId": {
         "label": "Externe ID-Suche"
       },
@@ -272,9 +272,9 @@
       "title": "Siehe"
     },
     "result": {
-      "accessibility-description": "Ergebnis erhalten = {percentage, number, ::percent}, d. h. die Stufe {stage} auf {totalStage}.",
+      "accessibility-description": "Erzieltes Ergebnis = {percentage, number, ::percent}, d. h. die Stufe {stage} von {totalStage}.",
       "percentage": "{value, number, ::percent}",
-      "stages": "{count, plural, =0 {0 Sterne} =1 {1 Stern} other {{count, number} Sterne}} auf {total}."
+      "stages": "{count, plural, =0 {0 Sterne} =1 {1 Stern} other {{count, number} Sterne}} von {total}."
     },
     "target-profile-details": {
       "results": {
@@ -287,15 +287,15 @@
         "without-account": "Zugang ohne Konto"
       },
       "subjects": "Themen: {value, number}",
-      "thematic-results": "Namensschilder: {value, number}"
+      "thematic-results": "Badges: {value, number}"
     },
     "validation": {
       "password": {
-        "error": "Das eingegebene Passwort ist falsch. Ihr Passwort muss länger als 8 Zeichen sein und mindestens eine Zahl, einen Klein- und einen Großbuchstaben enthalten.",
+        "error": "Das eingegebene Passwort ist falsch. Dein Passwort muss länger als 8 Zeichen sein und mindestens eine Zahl, einen Klein- und einen Großbuchstaben enthalten.",
         "rules": {
-          "contains-digit": "eine Mindestzahl",
-          "contains-lowercase": "eine minimale Kleinschreibung",
-          "contains-uppercase": "mindestens ein Großbuchstabe",
+          "contains-digit": "mindestens eine Zahl",
+          "contains-lowercase": "mindestens einen Kleinbuchstaben",
+          "contains-uppercase": "mindestens einen Großbuchstaben",
           "min-length": "Mindestens 8 Zeichen"
         }
       }
@@ -305,98 +305,98 @@
     "activity-type": {
       "explanation": {
         "ASSESSMENT": "Bewertungskampagne",
-        "COMBINED_COURSE": "Lernpfad",
+        "COMBINED_COURSE": "Lernparcours",
         "EXAM": "Testmodus [beta]",
-        "PROFILES_COLLECTION": "Kampagne zum Sammeln von Profilen",
+        "PROFILES_COLLECTION": "Profilsammlungskampagne",
         "campaign": "Bewertungskampagne",
         "formation": "Ausbildung",
         "module": "Modul"
       },
       "information": {
         "ASSESSMENT": "Bewertung",
-        "COMBINED_COURSE": "Lernpfad",
+        "COMBINED_COURSE": "Lernparcours",
         "EXAM": "Testmodus [beta]",
-        "PROFILES_COLLECTION": "Sammeln von Profilen",
+        "PROFILES_COLLECTION": "Profilsammlung",
         "campaign": "Bewertung",
         "formation": "Ausbildung",
         "module": "Modul"
       }
     },
     "analysis-per-competence": {
-      "cover-rate-gauge-label": "{count, plural, =1 {Bei der Fertigkeit hat Ihr Teilnehmer ein Niveau von {reachedLevel} von einem maximal erreichbaren Niveau von {maxLevel} erreicht.} other {Bei der Fertigkeit haben Ihre Teilnehmer ein Niveau von {reachedLevel} von einem maximal erreichbaren Niveau von {maxLevel}.}} erreicht.",
-      "description": "{count, plural, =1 {Unterhalb findest du die Kampagnenfähigkeiten und ihre Beschreibungen sowie die Positionierung der Teilnehmer.} other {Unterhalb findest du die Kampagnenfähigkeiten und ihre Beschreibungen sowie die Positionierung der Teilnehmer.}}.",
+      "cover-rate-gauge-label": "{count, plural, =1 {Bei dieser Kompetenz hat dein:e Teilnehmer:in das Niveau {reachedLevel} von maximal {maxLevel} erreicht.} other {Bei dieser Kompetenz haben deine Teilnehmer:innen das Niveau {reachedLevel} von maximal {maxLevel} erreicht.}}",
+      "description": "{count, plural, =1 {Unten findest du die Kompetenzen der Kampagne mit ihrer Beschreibung sowie die Einstufung der Teilnehmer:innen.} other {Unten findest du die Kompetenzen der Kampagne mit ihrer Beschreibung sowie die Einstufung der Teilnehmer:innen.}}",
       "table": {
         "caption": "Kompetenzen",
         "column": {
-          "competences": "Name und Beschreibung der Fertigkeit",
-          "level": "Ebene",
-          "positioning": "Positionierung"
+          "competences": "Name und Beschreibung der Kompetenz",
+          "level": "Niveau",
+          "positioning": "Einstufung"
         }
       }
     },
     "analysis-per-tube": {
-      "cover-rate-gauge-label": "{count, plural, =1 {Bei dem Thema hat Ihr Teilnehmer ein Niveau von {reachedLevel} von einem maximal erreichbaren Niveau von {maxLevel} erreicht.} other {Zum Thema haben Ihre Teilnehmer ein Niveau von {reachedLevel} von einem maximal erreichbaren Niveau von {maxLevel}.}} erreicht.",
-      "description": "{count, plural, =1 {Unterhalb finden Sie die Kampagnenthemen und ihre Beschreibungen sowie die Positionierung der Teilnehmer.} other {Unterhalb finden Sie die Kampagnenthemen und ihre Beschreibungen sowie die Positionierung der Teilnehmer.}}.",
+      "cover-rate-gauge-label": "{count, plural, =1 {Bei diesem Thema hat dein:e Teilnehmer:in das Niveau {reachedLevel} von maximal {maxLevel} erreicht.} other {Bei diesem Thema haben deine Teilnehmer:innen das Niveau {reachedLevel} von maximal {maxLevel} erreicht.}}",
+      "description": "{count, plural, =1 {Unten findest du die Themen der Kampagne mit ihrer Beschreibung sowie die Einstufung der Teilnehmer:innen.} other {Unten findest du die Themen der Kampagne mit ihrer Beschreibung sowie die Einstufung der Teilnehmer:innen.}}",
       "table": {
         "caption": "{index} - {name}",
         "column": {
-          "level": "Ebene",
-          "positioning": "Positionierung",
+          "level": "Niveau",
+          "positioning": "Einstufung",
           "tubes": "Name und Beschreibung des Themas"
         }
       }
     },
     "analysis-per-tube-or-competence": {
-      "title": "Detaillierte Positionierung",
+      "title": "Detaillierte Einstufung",
       "toggle": {
-        "label": "Ansicht durch :",
+        "label": "Ansicht nach",
         "label-competences": "Kompetenzen",
         "label-tubes": "Themen"
       }
     },
     "authentication": {
       "authentication-identity-providers": {
-        "select-another-organization-link": "Eine andere Verbindungsmethode wählen",
+        "select-another-organization-link": "Eine andere Anmeldemethode wählen",
         "spacer": {
           "or": "oder"
         }
       },
       "oidc-association-confirmation": {
-        "authentication-method-to-add": "Verbindung hinzugefügt",
+        "authentication-method-to-add": "Anmeldung hinzugefügt",
         "confirm": "Weiter",
-        "current-authentication-methods": "Meine aktuellen Verbindungsmethoden",
+        "current-authentication-methods": "Meine aktuellen Anmeldemethoden",
         "email": "E-Mail-Adresse",
         "external-connection": "Externe Verbindung",
-        "external-connection-via": "Verbindung über",
+        "external-connection-via": "Anmeldung über",
         "return": "Zurück",
-        "title": "Ihrem Pix-Konto wird bald eine neue Anmeldemethode hinzugefügt.",
+        "title": "Deinem Pix-Konto wird bald eine neue Anmeldemethode hinzugefügt.",
         "username": "Kennung"
       },
       "oidc-provider-selector": {
-        "label": "Nach einer Verbindungsmethode suchen",
-        "placeholder": "Verbindungsmethode auswählen",
-        "searchLabel": "Suche nach Schlüsselwörtern"
+        "label": "Nach einer Anmeldemethode suchen",
+        "placeholder": "Anmeldemethode auswählen",
+        "searchLabel": "Schlüsselwortsuche"
       }
     },
     "certificability": {
       "placeholder-select": "Zertifizierbar / Nicht zertifizierbar"
     },
     "certificability-tooltip": {
-      "aria-label": "Erläuterung zur Zertifizierbarkeit",
-      "content": "Zertifizierbarkeit bedeutet, dass der/die Teilnehmer/in in mindestens fünf verschiedenen Kompetenzen das Niveau 1 erreicht hat.",
-      "from-collect-notice": "Die Informationen stammen aus den von ihm durchgeführten Kampagnen zum Sammeln von Profilen. Wenn der Teilnehmer sein Profil bereits versendet hat, werden das Datum sowie der Status der letzten Versendung angezeigt.",
-      "from-compute-certificability": "Dieser Status wird automatisch am Tag nach jeder Anmeldung des Teilnehmers und bei Profilerhebungen aktualisiert."
+      "aria-label": "Erklärung zur Zertifizierbarkeit",
+      "content": "Zertifizierbarkeit bedeutet, dass der:die Teilnehmer:in in mindestens fünf verschiedenen Kompetenzen Niveau 1 erreicht hat.",
+      "from-collect-notice": "Die Informationen stammen aus den von ihm:ihr durchgeführten Profilübermittlungs-Kampagnen. Wenn der:die Teilnehmer:in sein:ihr Profil bereits übermittelt hat, werden das Datum sowie der Status der letzten Übermittlung angezeigt.",
+      "from-compute-certificability": "Dieser Status wird automatisch am Tag nach jeder Anmeldung des Teilnehmers sowie bei Profilsammelkampagnen aktualisiert."
     },
     "cover-rate-gauge": {
-      "label": "Bei dieser Kampagne erreichten Ihre Teilnehmer ein Niveau von {reachedLevel} von einem maximal erreichbaren Niveau von {maxLevel}."
+      "label": "Bei dieser Kampagne haben deine Teilnehmer:innen das Niveau {reachedLevel} von maximal {maxLevel} erreicht."
     },
     "date": {
       "no-date": "Noch kein Datum"
     },
     "global-positioning": {
-      "description": "Die Gesamtpositionierung ist das durchschnittliche Niveau, das die Teilnehmer erreicht haben (violetter Balken), im Vergleich zum Maximum, das sie in dieser Kampagne hätten erreichen können (weißer Balken).",
-      "gauge-label": "Bei dieser Kampagne erreichten Ihre Teilnehmer im Durchschnitt ein Niveau von {reachedLevel} von einem maximal erreichbaren Niveau von {maxLevel}.",
-      "title": "Globale Positionierung"
+      "description": "Die Gesamteinstufung ist das durchschnittliche Niveau, das die Teilnehmer:innen erreicht haben (violetter Balken), im Vergleich zum Maximum, das sie in dieser Kampagne hätten erreichen können (weißer Balken).",
+      "gauge-label": "Bei dieser Kampagne haben deine Teilnehmer:innen im Durchschnitt das Niveau {reachedLevel} von maximal {maxLevel} erreicht.",
+      "title": "Gesamteinstufung"
     },
     "group": {
       "SCO": "Klasse",
@@ -405,21 +405,21 @@
     "import-information-banner": {
       "error": "Import fehlgeschlagen",
       "error-link": "(siehe Importseite).",
-      "in-progress": "Ein Import ist im Gange",
+      "in-progress": "Ein Import läuft",
       "in-progress-link": "(den Status des Imports abfragen).",
-      "success": "Die Teilnehmer wurden zwar am {date} von {firstname} {lastname} importiert."
+      "success": "Die Teilnehmer:innen wurden am {date} von {firstname} {lastname} importiert."
     },
     "index": {
       "action-cards": {
         "classic": {
           "create-campaign": {
             "buttonText": "Neue Kampagne",
-            "description": "Wählen Sie die Strecke aus, auf der Sie Ihre Teilnehmer bewerten möchten, oder sammeln Sie deren Pix-Profil.",
+            "description": "Wähle den Parcours, mit dem du deine Teilnehmer:innen bewerten möchtest, oder erfasse ihr Pix-Profil.",
             "title": "Eine Kampagne erstellen"
           },
           "follow-activity": {
-            "buttonText": "Meine Kampagnen ansehen",
-            "description": "Sehen Sie sich den Status und die Ergebnisse Ihrer Teilnehmer an.",
+            "buttonText": "Meine Kampagnen anzeigen",
+            "description": "Sieh dir den Status und die Ergebnisse deiner Teilnehmer:innen an.",
             "title": "Aktivität verfolgen"
           }
         },
@@ -428,65 +428,65 @@
             "buttonText": "Die Sitzung verlängern"
           },
           "follow-activity": {
-            "buttonText": "Siehe Missionen",
-            "description": "Sehen Sie sich den Status und die Ergebnisse Ihrer Teilnehmer an.",
+            "buttonText": "Missionen anzeigen",
+            "description": "Sieh dir den Status und die Ergebnisse deiner Teilnehmer:innen an.",
             "title": "Aktivität verfolgen"
           },
           "launch-session": {
             "buttonText": "Sitzung aktivieren",
-            "description": "Die Sitzung ermöglicht den Schülerinnen und Schülern einen vierstündigen Zugang zu Pix Junior. Sobald die Sitzung aktiviert ist, kann sie verlängert werden.",
+            "description": "Die Sitzung ermöglicht Schüler:innen den Zugriff auf Pix Junior für eine Dauer von 4 Stunden. Sobald die Sitzung aktiviert ist, kann sie verlängert werden.",
             "title": "Eine Sitzung verwalten"
           }
         },
-        "title": "Was möchten Sie tun?"
+        "title": "Was möchtest du tun?"
       },
       "organization-information": {
-        "label": "Name Ihrer Organisation",
-        "title": "Informationen über Ihre Organisation"
+        "label": "Name deiner Organisation",
+        "title": "Informationen zu deiner Organisation"
       },
       "participation-statistics": {
         "completed-participations": {
-          "description": "In den letzten 30 Tagen abgeschlossene Beteiligungen.",
-          "info": "Die Anzahl der abgeschlossenen Teilnahmen in den letzten 30 Tagen berücksichtigt aktive Kampagnen, die Ihnen gehören.",
-          "no-completed-participations": "Keine abgeschlossene Teilnahme in den letzten 30 Tagen.",
-          "title": "Beendete Beteiligungen"
+          "description": "Abgeschlossene Teilnahmen in den letzten 30 Tagen.",
+          "info": "Die Anzahl der abgeschlossenen Teilnahmen in den letzten 30 Tagen berücksichtigt die aktiven Kampagnen, deren Eigentümer:in du bist.",
+          "no-completed-participations": "Keine abgeschlossenen Teilnahmen in den letzten 30 Tagen.",
+          "title": "Abgeschlossene Teilnahmen"
         },
         "completion-rate": {
-          "description": "{completed} abgeschlossene Beteiligungen auf {started} gestartete Beteiligungen.",
-          "info": "Die Abschlussrate wird anhand der aktiven Kampagnen berechnet, die sich in Ihrem Besitz befinden.",
-          "no-activity": "Derzeit keine Aktivitäten",
-          "title": "Vervollständigungsrate"
+          "description": "{completed} von {started} gestarteten Teilnahmen abgeschlossen.",
+          "info": "Die Abschlussrate wird auf der Grundlage der aktiven Kampagnen berechnet, deren Eigentümer:in du bist.",
+          "no-activity": "Derzeit keine Aktivität",
+          "title": "Abschlussrate"
         }
       },
       "welcome": {
         "description": {
-          "classic": "Willkommen auf Ihrer Plattform zur Bewertung und Entwicklung von digitalen Kompetenzen! Konfigurieren und verteilen Sie Kampagnen an Ihre Teilnehmer. Verfolgen Sie ihre Fortschritte und analysieren Sie ihre Ergebnisse, um ihnen eine auf ihre Bedürfnisse zugeschnittene Betreuung anzubieten.",
-          "missions": "Willkommen auf Ihrer Plattform zur pädagogischen Überwachung der digitalen Kompetenzen Ihrer Schülerinnen und Schüler! Wählen Sie die Aufgaben aus und verfolgen Sie ihre Fortschritte."
+          "classic": "Willkommen auf deiner Plattform zur Bewertung und Entwicklung digitaler Kompetenzen! Erstelle und teile Kampagnen mit deinen Teilnehmer:innen. Verfolge ihren Fortschritt und analysiere ihre Ergebnisse, um ihnen eine auf ihre Bedürfnisse abgestimmte Begleitung anzubieten.",
+          "missions": "Willkommen auf deiner Plattform zur pädagogischen Begleitung der digitalen Kompetenzen deiner Schüler:innen! Wähle Missionen aus und verfolge ihren Fortschritt."
         },
         "title": "Hallo {name},"
       }
     },
     "locale-switcher": {
-      "label": "Wählen Sie eine Sprache",
-      "placeholder": "Wählen Sie eine Sprache"
+      "label": "Wähle eine Sprache",
+      "placeholder": "Wähle eine Sprache"
     },
     "organization-participants-header": {
       "default": {
-        "title": "{count, plural, =0 {Teilnehmer} =1 {Teilnehmer ({count})} other {Teilnehmer ({count})}}"
+        "title": "{count, plural, =0 {Teilnehmer:innen} =1 {Teilnehmer:in ({count})} other {Teilnehmer:innen ({count})}}"
       },
       "import-button": "Importieren",
       "sco": {
-        "title": "{count, plural, =0 {Schüler} =1 {Schüler ({count})} other {Schüler ({count})}}"
+        "title": "{count, plural, =0 {Schüler:innen} =1 {Schüler:in ({count})} other {Schüler:innen ({count})}}"
       },
-      "sco-title": "{count, plural, =0 {Schüler} =1 {Schüler ({count})} other {Schüler ({count})}}",
-      "title": "{count, plural, =0 {Teilnehmer} =1 {Teilnehmer ({count})} other {Teilnehmer ({count})}}"
+      "sco-title": "{count, plural, =0 {Schüler:innen} =1 {Schüler:in ({count})} other {Schüler:innen ({count})}}",
+      "title": "{count, plural, =0 {Teilnehmer:innen} =1 {Teilnehmer:in ({count})} other {Teilnehmer:innen ({count})}}"
     },
     "participation-status": {
       "COMPLETED": "Abgeschlossen",
       "LOCKED": "Gesperrt",
-      "NOT_STARTED": "Zu tun",
+      "NOT_STARTED": "Offen",
       "SHARED": "Abgeschlossen",
-      "STARTED": "In Arbeit"
+      "STARTED": "In Bearbeitung"
     },
     "terms-of-service": {
       "actions": {
@@ -495,51 +495,51 @@
         "reject": "Ablehnen und verlassen"
       },
       "message": {
-        "requested": "Um Pix weiterhin nutzen zu können, solltest du unsere Nutzungsbedingungen lesen und ihnen zustimmen.",
-        "update-requested": "Wir haben unsere AGBs aktualisiert. Sehen Sie sich die Änderungen an und akzeptieren Sie sie, um fortzufahren."
+        "requested": "Um Pix weiterhin nutzen zu können, bitten wir dich, unsere Allgemeinen Nutzungsbedingungen zu lesen und zu akzeptieren.",
+        "update-requested": "Wir haben unsere Nutzungsbedingungen aktualisiert. Sieh dir die Änderungen an und akzeptiere sie, um fortzufahren."
       },
       "title": {
-        "requested": "Bitte akzeptieren Sie unsere Allgemeinen Geschäftsbedingungen (AGB)",
-        "update-requested": "Wichtige Aktualisierung der Allgemeinen Nutzungsbedingungen (ANB)"
+        "requested": "Bitte akzeptiere unsere Allgemeinen Nutzungsbedingungen (AGB)",
+        "update-requested": "Wichtige Aktualisierung der Allgemeinen Nutzungsbedingungen (AGB)"
       }
     },
     "ui": {
       "deletion-modal": {
-        "confirm-deletion": "Ja, ich streiche",
-        "confirmation-checkbox": "{count, plural, =1 {Ich bestätige, dass ich die Auswirkungen der Löschung gut verstanden habe.} other {Ich bestätige, dass ich die Auswirkungen der {count} Löschungen gut verstanden habe.}}"
+        "confirm-deletion": "Löschen bestätigen",
+        "confirmation-checkbox": "Ich bestätige, dass ich die Auswirkungen der {count} Löschungen verstanden habe."
       },
       "edit-participant-name-modal": {
         "error-messages": {
-          "first-name": "Der Vorname des Nutzers darf nicht leer sein.",
-          "last-name": "Der Benutzername darf nicht leer sein."
+          "first-name": "Der Vorname des:der Nutzer:in darf nicht leer sein.",
+          "last-name": "Der Nachname des:der Nutzer:in darf nicht leer sein."
         },
         "fields": {
           "first-name": "Vorname",
           "last-name": "Name"
         },
-        "label": "Den Namen des Nutzers ändern",
+        "label": "Name des:der Nutzer:in ändern",
         "success-message": "Name erfolgreich aktualisiert"
       }
     }
   },
   "navigation": {
     "assessment-individual-results": {
-      "aria-label": "Navigation im Abschnitt Ergebnis einer Einzelbewertung"
+      "aria-label": "Navigation für den Bereich „Ergebnisse der Einzelbewertung“"
     },
     "campaign-page": {
-      "aria-label": "Navigation im Abschnitt Details einer Kampagne"
+      "aria-label": "Navigation für den Bereich „Kampagnendetails“"
     },
     "credits": {
-      "number": "{count, plural, =0 {0 credits} =1 {1 credit} other {{count, number} credits}}.",
-      "tooltip-text": "Die Anzahl der angezeigten Credits entspricht der Anzahl der von der Organisation erworbenen und gültigen Credits (unabhängig von ihrer Aktivierung). Für weitere Informationen kontaktieren Sie uns unter '<a href=mailto:pro@pix.fr>'pro@pix.fr'</a>'."
+      "number": "{count, plural, =0 {0 Credits} =1 {1 Credit} other {{count, number} Credits}}",
+      "tooltip-text": "Die angezeigte Anzahl der Credits entspricht den von der Organisation erworbenen und derzeit gültigen Credits (unabhängig von ihrer Aktivierung). Für weitere Informationen kontaktiere uns bitte unter '<a href=mailto:pro@pix.fr>'pro@pix.fr'</a>'."
     },
     "external-link-title": "In einem neuen Fenster öffnen",
     "footer": {
-      "a11y": "Barrierefreiheit: teilweise erfüllt",
-      "aria-label": "Fußnoten-Navigation",
+      "a11y": "Barrierefreiheit: teilweise konform",
+      "aria-label": "Fußzeilen-Navigation",
       "copyrights": "©",
-      "help-center": "Hilfezentrum",
-      "legal-notice": "Rechtliche Hinweise",
+      "help-center": "Hilfecenter",
+      "legal-notice": "Impressum",
       "pix": "Pix",
       "server-status": "Status der Dienste"
     },
@@ -550,51 +550,51 @@
       "catalogue": "Katalog",
       "certifications": "Zertifizierungen",
       "close": "Navigation schließen",
-      "combined-courses": "Lernerpfade",
+      "combined-courses": "Lernparcours",
       "documentation": "Dokumentation",
       "home": "Startseite",
       "missions": "Missionen",
       "open": "Navigation öffnen",
-      "organization-participants": "Teilnehmer",
+      "organization-participants": "Teilnehmer:innen",
       "places": "Plätze",
-      "sco-organization-participants": "Schülerinnen und Schüler",
+      "sco-organization-participants": "Schüler:innen",
       "statistics": "Statistiken",
       "sup-organization-participants": "Studierende",
-      "support": "Hilfezentrum",
+      "support": "Hilfecenter",
       "team": "Team"
     },
     "places": {
-      "link": "siehe Details",
-      "number": "{count, plural, =0 {0 verfügbarer Platz} =1 {1 verfügbarer Platz} other {{count} verfügbare Plätze}}"
+      "link": "Details anzeigen",
+      "number": "{count, plural, =0 {0 verfügbare Plätze} =1 {1 verfügbarer Platz} other {{count} verfügbare Plätze}}"
     },
     "school-sessions": {
       "activate-button": "Sitzung aktivieren",
-      "extend-button": "Die Sitzung verlängern",
+      "extend-button": "Sitzung verlängern",
       "status": {
-        "active-label": "Aktive Sitzung bis {sessionExpirationDate}.",
+        "active-label": "Sitzung aktiv bis {sessionExpirationDate}",
         "aria-label": "Erklärung zur Sitzung",
         "code-label": "Schulcode",
         "inactive-label": "Inaktive Sitzung",
-        "info-text": "Missionen sind für Schüler nur zugänglich, wenn die Sitzung aktiv ist.'<br>' Am Ende der Sitzung werden Schüler, die sich gerade in einer Mission befinden, nicht ausgeloggt.",
+        "info-text": "Schüler:innen können nur bei aktiver Sitzung auf die Missionen zugreifen.'<br>' Nach Ablauf der Sitzung werden Schüler:innen, die sich gerade in einer Mission befinden, nicht abgemeldet.",
         "title": "Status der Sitzung"
       }
     },
     "team-members": {
-      "aria-label": "Team-Navigation"
+      "aria-label": "Navigation für den Bereich „Team“"
     },
     "user-logged-menu": {
-      "button": "Organisation ändern",
-      "logout": "Sich abmelden"
+      "button": "Organisation wechseln",
+      "logout": "Abmelden"
     }
   },
   "pages": {
     "assessment-individual-results": {
-      "badges": "Namensschilder",
+      "badges": "Badges",
       "breadcrumb-current-page-label": "Teilnahme von {firstName} {lastName}",
-      "participation-label": "Partizipation #{participationNumber}",
-      "participation-not-shared": "Nicht eingesandte Ergebnisse",
-      "participation-selector": "Teilnahme wählen",
-      "participation-shared": "Gesendete Ergebnisse",
+      "participation-label": "Teilnahme #{participationNumber}",
+      "participation-not-shared": "Ergebnisse nicht übermittelt",
+      "participation-selector": "Teilnahme auswählen",
+      "participation-shared": "Ergebnisse übermittelt",
       "progression": "Fortschritt",
       "result": "Ergebnis",
       "tab": {
@@ -603,10 +603,10 @@
       },
       "table": {
         "column": {
-          "competences": "Fertigkeiten ({count, plural, =0 {-} other {{count}}})",
+          "competences": "Kompetenzen ({count, plural, =0 {-} other {{count}}})",
           "results": {
             "label": "Ergebnisse",
-            "tooltip": "'<span class=\"screen-reader-only\">'Dieser Teilnehmer hat validiert'</span>' {result, number, ::percent} '<span class=\"screen-reader-only\">'von der Kompetenz {competence}.'</span> '."
+            "tooltip": "'<span class=\"screen-reader-only\">'Diese:r Teilnehmer:in hat'</span>' {result, number, ::percent} '<span class=\"screen-reader-only\">'der Kompetenz {competence} erfolgreich abgeschlossen.'</span>'"
           }
         },
         "empty": "Warten auf Ergebnisse",
@@ -615,29 +615,29 @@
       "title": "Ergebnisse von {firstName} {lastName}"
     },
     "attestations": {
-      "basic-description": "Exportieren Sie alle Bescheinigungen",
+      "basic-description": "Alle Bescheinigungen exportieren",
       "download-attestations-button": "Herunterladen (.pdf)",
-      "no-attestations": "Für Ihre Auswahl sind keine Bescheinigungen verfügbar",
+      "no-attestations": "Keine Bescheinigung für deine Auswahl verfügbar",
       "section": {
-        "download": "Download",
+        "download": "Downloads",
         "list": "Nachverfolgung: {attestationName}."
       },
-      "select-divisions-label": "Wählen Sie die Bescheinigungen einer oder mehrerer Klassen aus",
+      "select-divisions-label": "Wähle die Bescheinigungen einer oder mehrerer Klassen aus",
       "select-label": "Bescheinigung",
       "table": {
         "column": {
           "division": "Klasse",
           "first-name": "Vorname",
-          "last-name": "Name",
-          "status": "Erhalt"
+          "last-name": "Nachname",
+          "status": "Status"
         },
         "filter": {
           "divisions": {
             "empty-option": "Klasse",
             "label": "Klasse"
           },
-          "legend": "Filter für die Tabelle der Bescheinigungen, Eingabefelder ermöglichen es, die Tabelle nach dem Vor- oder Nachnamen eines Schülers und nach Klassen zu filtern. Mithilfe von Schaltflächen können Sie nach erhaltenen oder nicht erhaltenen Bescheinigungen filtern.",
-          "results": "{total, plural, =0 {0 ergebnisse} =1 {1 ergebnisse} other {{total, number} ergebnisse}}",
+          "legend": "Filter für die Bescheinigungstabelle: Über die Eingabefelder kann die Tabelle nach Vor- oder Nachnamen der Schüler:innen sowie nach Klassen gefiltert werden. Über Schaltflächen lassen sich erworbene und nicht erworbene Bescheinigungen filtern.",
+          "results": "{total, plural, =0 {0 Ergebnisse} =1 {1 Ergebnis} other {{total, number} Ergebnisse}}",
           "status": {
             "empty-option": "Erhalten / Nicht erhalten",
             "label": "Erhalt",
@@ -655,9 +655,9 @@
     "campaign": {
       "actions": {
         "export-results": "Ergebnisse exportieren (.csv)",
-        "unarchive": "Die Kampagne dearchivieren"
+        "unarchive": "Kampagne wiederherstellen"
       },
-      "archived": "Archivierte Kampagne",
+      "archived": "Kampagne archiviert",
       "code": "Code",
       "copy": {
         "code": {
@@ -669,24 +669,24 @@
           "success": "Kopiert!"
         }
       },
-      "created-by": "Eigentümer",
+      "created-by": "Eigentümer:in",
       "created-on": "Erstellt am",
-      "empty-state": "Bisher keine Teilnehmer!",
-      "empty-state-with-copy-link": "Bisher gibt es noch keine Teilnehmer! Schicken Sie ihnen den folgenden Link, um sich Ihrer Kampagne anzuschließen.",
-      "included-in-combined-course": "Diese Bewertungskampagne ist im Lernpfad enthalten",
+      "empty-state": "Noch keine Teilnehmer:innen vorhanden!",
+      "empty-state-with-copy-link": "Noch keine Teilnehmer:innen vorhanden! Sende ihnen den folgenden Link, um deiner Kampagne beizutreten.",
+      "included-in-combined-course": "Diese Bewertungskampagne ist Teil des Lernparcours.",
       "included-in-combined-course-end": ".",
       "link": "Link",
       "multiple-sendings": {
         "status": {
-          "disabled": "Nicht",
+          "disabled": "Nein",
           "enabled": "Ja"
         },
-        "title": "Mehrfachsendung"
+        "title": "Mehrfache Übermittlung"
       },
       "name": "Name der Kampagne",
       "tab": {
         "activity": "Aktivität",
-        "combined-courses": "Lernerpfade",
+        "combined-courses": "Lernparcours",
         "results": "Ergebnisse ({count, number})",
         "review": "Analyse",
         "settings": "Einstellungen"
@@ -698,20 +698,20 @@
       },
       "delete-participation-modal": {
         "actions": {
-          "cancel": "Nicht",
-          "confirmation": "Ja, ich streiche"
+          "cancel": "Nein",
+          "confirmation": "Löschen bestätigen"
         },
         "error": "Beim Löschen der Teilnahme ist ein Problem aufgetreten.",
-        "success": "Die Teilnahme wurde erfolgreich unterdrückt.",
-        "text": "Sie sind dabei, einen Beitrag zu löschen. Dieser wird nicht mehr sichtbar sein und nicht mehr in die Kampagnenstatistik einfließen.",
-        "title": "Die Teilnahme von <strong>{firstName} {lastName}</strong> streichen?",
+        "success": "Die Teilnahme wurde erfolgreich gelöscht.",
+        "text": "Du bist dabei, eine Teilnahme zu löschen. Diese wird danach weder sichtbar sein noch in den Statistiken der Kampagne berücksichtigt.",
+        "title": "Teilnahme von <strong>{firstName} {lastName}</strong> löschen?",
         "warning": {
           "assessment-campaign-participation": {
-            "shared-participation": "Der Teilnehmer kann dann nicht mehr auf die Ergebnisse dieser Kampagne zugreifen.",
-            "started-participation": "Der Teilnehmer kann diese Teilnahme nicht wieder aufnehmen."
+            "shared-participation": "Die:der Teilnehmer:in kann nicht mehr auf die Ergebnisse dieser Kampagne zugreifen.",
+            "started-participation": "Die:der Teilnehmer:in kann diese Teilnahme nicht wieder aufnehmen."
           },
           "profiles-collection-campaign-participation": {
-            "shared-participation": "Der Teilnehmer kann dann nicht mehr an dieser Profilsammlung teilnehmen."
+            "shared-participation": "Die:der Teilnehmer:in kann an dieser Profilsammlung nicht mehr teilnehmen."
           }
         }
       },
@@ -719,35 +719,35 @@
         "column": {
           "delete": "Teilnahme löschen",
           "first-name": "Vorname",
-          "last-name": "Name",
+          "last-name": "Nachname",
           "participationCount": "Anzahl der Teilnahmen",
           "status": "Status"
         },
         "delete-button-label": "Teilnahme löschen",
-        "empty": "Keine Teilnehmer",
-        "see-results": "Ergebnisse anzeigen von {firstName} {lastName}",
-        "title": "Liste der Teilnehmer"
+        "empty": "Keine Teilnehmer:innen",
+        "see-results": "Ergebnisse von {firstName} {lastName} anzeigen",
+        "title": "Teilnehmerliste"
       },
       "title": "Aktivität"
     },
     "campaign-analysis": {
       "description": {
-        "explanation": "{count, plural, =1 {Die Positionierung spiegelt das durchschnittliche Niveau wider, das der Teilnehmer erreicht hat, im Vergleich zum maximal erreichbaren Niveau in dieser Kampagne.} other {Die Positionierung spiegelt das durchschnittliche Niveau wider, das die Teilnehmer erreicht haben, im Vergleich zum maximal erreichbaren Niveau in dieser Kampagne.}}.",
-        "nota-bene": "{count, plural, =1 {Alle dargestellten Daten stammen aus der ausgewählten Teilnahme.} other {Alle dargestellten Daten stammen aus freigegebenen und nicht gelöschten Teilnahmen an Bewertungskampagnen und werden bei jedem Besuch aktualisiert.}}.",
-        "resume": "{count, plural, =1 {Analysieren Sie nach Kompetenz oder Thema die Positionierung der Teilnehmer in dieser Kampagne, die sich auf eine Auswahl von Themen aus dem Pix-Referenzsystem bezieht.} other {Analysieren Sie nach Kompetenz oder Thema die Positionierung Ihrer Teilnehmer in dieser Kampagne, die sich auf eine Auswahl von Themen aus dem Pix-Referenzsystem bezieht.}}."
+        "explanation": "{count, plural, =1 {Die Einstufung spiegelt das von dem:der Teilnehmer:in erreichte durchschnittliche Niveau im Vergleich zum maximal erreichbaren Niveau in dieser Kampagne wider.} other {Die Einstufung spiegelt das von den Teilnehmer:innen erreichte durchschnittliche Niveau im Vergleich zum maximal erreichbaren Niveau in dieser Kampagne wider.}}",
+        "nota-bene": "{count, plural, =1 {Alle angezeigten Daten stammen aus der ausgewählten Teilnahme.} other {Alle angezeigten Daten stammen aus den geteilten und nicht gelöschten Teilnahmen der Bewertungskampagnen und werden bei jedem Aufruf aktualisiert.}}",
+        "resume": "{count, plural, =1 {Analysiere nach Kompetenz oder Thema die Einstufung des:der Teilnehmer:in in dieser Kampagne, die sich auf eine Auswahl von Themen des Pix-Referenzrahmens bezieht.} other {Analysiere nach Kompetenz oder Thema die Einstufung deiner Teilnehmer:innen in dieser Kampagne, die sich auf eine Auswahl von Themen des Pix-Referenzrahmens bezieht.}}"
       },
       "levels-correspondence": {
         "infos": {
           "link": "https://pix.fr/score-et-niveaux",
-          "text": "Erfahren Sie mehr über die Levels."
+          "text": "Mehr über die Niveaustufen erfahren."
         },
         "levels": {
-          "advanced": "5 oder 6: Fortgeschrittene",
-          "beginner": "1 oder 2: Novize",
-          "expert": "7 oder 8: Experte",
+          "advanced": "5 oder 6: Fortgeschritten",
+          "beginner": "1 oder 2: Einsteiger:in",
+          "expert": "7 oder 8: Expert:in",
           "independent": "3 oder 4: Selbstständig"
         },
-        "title": "Entsprechung der Ebenen"
+        "title": "Einordnung der Niveaustufen"
       },
       "title": "Analyse"
     },
@@ -756,9 +756,9 @@
         "create": "Kampagne erstellen",
         "delete": "Löschen"
       },
-      "combined-course-blueprints-label": "Einen Lernpfad auswählen",
-      "combined-course-blueprints-list-label": "Einen Lernpfad auswählen",
-      "copy-of": "Kopieren von",
+      "combined-course-blueprints-label": "Wähle einen Lernparcours",
+      "combined-course-blueprints-list-label": "Wähle einen Lernparcours",
+      "copy-of": "Kopie von",
       "course-label": "Einen Kurs auswählen",
       "course-selection-label": "Einen Kurs auswählen",
       "course-title": {
@@ -776,10 +776,10 @@
           "label": "Zusätzliche Kennung",
           "message": "Mit dem zusätzlichen Kennung können Sie zu Beginn der Kampagne von jedem Teilnehmer die Identifikationsdaten Ihrer Wahl anfordern.'<br>'Wenn Sie „Ja“ auswählen, können Sie die Teilnehmer anhand dieser Daten filtern und sortieren.'<br>'Wenn Sie „Nein“ auswählen, stehen in der Kampagnenauswertung nur der Vorname und der Nachname des Teilnehmers zur Verfügung."
         },
-        "label": "Bezeichnung der zusätzlichen Kennung",
-        "question-label": "Möchten Sie zu Beginn Ihrer Teilnahme eine zusätzliche Kennung anfordern?",
-        "required": "Die zusätzlichen Kennung ist obligatorisch",
-        "suggestion": "Beispiel: \"Schülernummer\" oder \"Geschäftliche E-Mail-Adresse\" *."
+        "label": "Bezeichnung der ID",
+        "question-label": "Möchtest du eine externe ID abfragen?",
+        "required": "Die externe ID ist erforderlich",
+        "suggestion": "Beispiel: „Matrikelnummer“ oder „Geschäftliche E-Mail-Adresse“ *"
       },
       "external-id-type": {
         "information": {
@@ -790,44 +790,44 @@
       },
       "landing-page-text": {
         "label": "Text auf der Startseite",
-        "sublabel": "Dieses Feld wird den Teilnehmern der Kampagne angezeigt."
+        "sublabel": "Dieses Feld wird den Teilnehmer:innen der Kampagne angezeigt."
       },
-      "legal-warning": "* Gemäß dem Gesetz über Informatik und Freiheiten und als Verantwortlicher für die Datenverarbeitung sollten Sie darauf achten, keine besonders identifizierenden oder bedeutungsvollen Daten zu verlangen, wenn dies nicht absolut notwendig ist. Die Sozialversicherungsnummer (NIR) sollte ebenso wie alle anderen sensiblen Daten nicht verwendet werden.",
+      "legal-warning": "* Im Rahmen der Datenschutzbestimmungen und als Verantwortliche:r für die Datenverarbeitung achte bitte darauf, keine besonders identifizierenden oder sensiblen Daten abzufragen, sofern dies nicht absolut notwendig ist. Die Sozialversicherungsnummer sowie alle sensiblen Daten sind strikt untersagt.",
       "multiple-sendings": {
         "assessments": {
-          "info": "Wenn Sie Mehrfachversand wählen, kann der Teilnehmer die Kampagne mehrmals wiederholen, indem er den Code erneut eingibt. Sie haben dann Zugriff auf alle Ergebnisse.",
-          "question-label": "Möchten Sie den Teilnehmern die Möglichkeit geben, ihre Ergebnisse mehrmals einzureichen?"
+          "info": "Wenn du die mehrfache Übermittlung aktivierst, können die Teilnehmer:innen die Kampagne mehrfach durchführen, indem sie den Code erneut eingeben. Du hast Zugriff auf alle Ergebnisse.",
+          "question-label": "Möchtest du den Teilnehmer:innen erlauben, ihre Ergebnisse mehrfach zu übermitteln?"
         },
-        "info-title": "Mehrfachsendung",
-        "knowledge-elements-resettable": "Im Rahmen dieses Parcours kann der Teilnehmer versuchen, seine Ergebnisse zu verbessern, indem er alle Fragen des Parcours wiederholt.",
+        "info-title": "Mehrfache Übermittlung",
+        "knowledge-elements-resettable": "Im Rahmen dieses Parcours kann der:die Teilnehmer:in versuchen, seine:ihre Ergebnisse zu verbessern, indem er:sie alle Fragen des Parcours erneut beantwortet.",
         "profiles": {
-          "info": "Wenn Sie sich für den Mehrfachversand entscheiden, kann der Teilnehmer sein Profil mehrmals versenden, indem er den Kampagnencode erneut eingibt. Innerhalb von Pix Orga finden Sie das zuletzt gesendete Profil.",
-          "question-label": "Möchten Sie den Teilnehmern die Möglichkeit geben, ihr Profil mehrmals zu versenden?"
+          "info": "Wenn du die mehrfache Übermittlung aktivierst, können die Teilnehmer:innen ihr Profil mehrfach übermitteln, indem sie den Kampagnencode erneut eingeben. In Pix Orga findest du jeweils das zuletzt übermittelte Profil.",
+          "question-label": "Möchtest du den Teilnehmer:innen erlauben, ihr Profil mehrfach zu übermitteln?"
         }
       },
       "name": {
         "label": "Name der Kampagne"
       },
-      "no": "Nicht",
+      "no": "Nein",
       "owner": {
-        "info": "Der Besitzer der Kampagne sowie die Administratoren dieser Organisation, sind die einzigen Personen, die diese Kampagne bearbeiten oder archivieren können.",
-        "label": "Besitzer der Kampagne",
-        "placeholder": "Name und Vorname des Besitzers",
-        "search-label": "Nach einem Besitzer suchen",
-        "search-placeholder": "Nach einem Besitzer suchen",
-        "title": "Besitzer der Kampagne"
+        "info": "Nur der:die Eigentümer:in der Kampagne sowie die Administrator:innen dieser Organisation können diese Kampagne bearbeiten oder archivieren.",
+        "label": "Eigentümer:in der Kampagne",
+        "placeholder": "Vor- und Nachname des:der Eigentümer:in",
+        "search-label": "Eigentümer:in suchen",
+        "search-placeholder": "Eigentümer:in suchen",
+        "title": "Eigentümer:in der Kampagne"
       },
       "purpose": {
-        "assessment": "Bewerten Sie die Teilnehmer",
-        "assessment-info": "Bei einer Evaluierungskampagne werden die Teilnehmer zu bestimmten Themen getestet.",
-        "combined-course": "Kompetenzen der Teilnehmer entwickeln",
-        "combined-course-info": "Ein Lernpfad hilft den Teilnehmern, neue Kompetenzen zu erwerben.",
+        "assessment": "Teilnehmer:innen bewerten",
+        "assessment-info": "Eine Bewertungskampagne ermöglicht es, die Teilnehmer:innen zu bestimmten Themen zu testen.",
+        "combined-course": "Kompetenzen der Teilnehmer:innen entwickeln",
+        "combined-course-info": "Ein Lernparcours ermöglicht es, die Teilnehmer:innen beim Erwerb neuer Kompetenzen zu begleiten.",
         "exam": "Testmodus [beta]",
-        "exam-info": "Eine Kampagne vom Typ \"Testmodus\" ermöglicht es, die Teilnehmer zu bestimmten Themen zu testen, ohne das Nutzerprofil zu berücksichtigen oder zu beeinflussen. Die vorgeschlagenen Tests werden für jeden Teilnehmer entsprechend seinem Fortschritt auf der Strecke angepasst.",
-        "label": "Was ist das Ziel Ihrer Kampagne?",
-        "profiles-collection": "Sammeln Sie die Pix-Profile der Teilnehmer",
-        "profiles-collection-info": "Eine Profilsammelkampagne ruft die Profile der Teilnehmer ab: Niveaustufen pro Fertigkeit und Pix-Score.",
-        "profiles-collection-info-certificability-calculation": "Der Status Zertifizierbar wird automatisch auf der Registerkarte '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Schüler'</a>' aktualisiert.",
+        "exam-info": "Eine Kampagne vom Typ „Testmodus“ ermöglicht es, die Teilnehmer:innen zu bestimmten Themen zu testen, ohne das Nutzerprofil zu berücksichtigen und ohne dieses zu beeinflussen. Die angebotenen Aufgaben werden für jede:n Teilnehmer:in individuell an seinen:ihren Fortschritt im Parcours angepasst.",
+        "label": "Was ist das Ziel deiner Kampagne?",
+        "profiles-collection": "Pix-Profile der Teilnehmer:innen sammeln",
+        "profiles-collection-info": "Eine Kampagne zur Profilsammlung ermöglicht es, die Profile der Teilnehmer:innen einzuholen: Niveaustufen pro Kompetenz und Pix-Punktzahl.",
+        "profiles-collection-info-certificability-calculation": "Der Status „Zertifizierbar“ wird im Tab '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Schüler:innen'</a>' automatisch aktualisiert.",
         "title": "Ziel"
       },
       "settings": {
@@ -836,21 +836,21 @@
       "tags": {
         "BACK_TO_SCHOOL": "Parcours zum Schulanfang / 6. Klasse",
         "COMPETENCES": "Die 16 Kompetenzen",
-        "CUSTOM": "Maßgeschneiderte Pfade",
-        "DISCIPLINE": "Disziplinarisch",
-        "OTHER": "Andere",
+        "CUSTOM": "Maßgeschneiderter Parcours",
+        "DISCIPLINE": "Fachspezifisch",
+        "OTHER": "Sonstige",
         "PIX_PLUS": "Pix+",
         "PREDEFINED": "Vordefinierte Pfade",
         "SUBJECT": "Themen",
-        "TARGETED": "Gezielte Pfade"
+        "TARGETED": "Zielgerichtete Parcours"
       },
-      "tags-title": "Suche filtern :",
-      "target-profiles-category-label": "Strecken nach Kategorien filtern",
+      "tags-title": "Suche filtern:",
+      "target-profiles-category-label": "Parcours nach Kategorien filtern",
       "target-profiles-category-placeholder": "Kategorien",
-      "target-profiles-label": "Eine Strecke auswählen",
-      "target-profiles-list-label": "Was möchten Sie testen?",
+      "target-profiles-label": "Parcours auswählen",
+      "target-profiles-list-label": "Was möchtest du testen?",
       "target-profiles-search-placeholder": "Nach Namen suchen",
-      "title": "Erstellen einer Kampagne",
+      "title": "Kampagne erstellen",
       "yes": "Ja"
     },
     "campaign-individual-results": {
@@ -868,74 +868,74 @@
       "campaign-name": "Name der Kampagne",
       "landing-page-text": {
         "label": "Text auf der Startseite",
-        "sublabel": "Dieses Feld wird den Teilnehmern der Kampagne angezeigt."
+        "sublabel": "Dieses Feld wird den Teilnehmer:innen der Kampagne angezeigt."
       },
       "owner": {
-        "info": "Der Besitzer der Kampagne sowie die Administratoren dieser Organisation, sind die einzigen Personen, die diese Kampagne bearbeiten und archivieren können.",
-        "label": "Besitzer der Kampagne",
-        "placeholder": "Name und Vorname des Besitzers",
-        "title": "Besitzer der Kampagne"
+        "info": "Nur der:die Eigentümer:in der Kampagne sowie die Administrator:innen dieser Organisation können diese Kampagne bearbeiten und archivieren.",
+        "label": "Eigentümer:in der Kampagne",
+        "placeholder": "Vor- und Nachname des:der Eigentümer:in",
+        "title": "Eigentümer:in der Kampagne"
       },
       "personalised-test-title": {
-        "label": "Titel der Strecke",
-        "sublabel": "Dieses Feld wird den Teilnehmern der Kampagne angezeigt."
+        "label": "Titel des Parcours",
+        "sublabel": "Dieses Feld wird den Teilnehmer:innen der Kampagne angezeigt."
       },
-      "title": "Bearbeiten einer Kampagne"
+      "title": "Kampagne bearbeiten"
     },
     "campaign-results": {
       "average": "Durchschnittliche Ergebnisse",
       "filters": {
-        "aria-label": "Filter nach Beteiligungen",
-        "participations-count": "{count, plural, =0 {0 Teilnehmer} =1 {1 Teilnehmer} other {{count} Teilnehmer}}",
+        "aria-label": "Filter für Teilnahmen",
+        "participations-count": "{count, plural, =0 {0 Teilnehmer:innen} =1 {1 Teilnehmer:in} other {{count} Teilnehmer:innen}}",
         "type": {
-          "badges": "Erhaltene Abzeichen",
+          "badges": "Erhaltene Badges",
           "groups": {
             "empty": "Keine Gruppe",
             "title": "Gruppen"
           },
-          "stages": "Lager",
+          "stages": "Niveaustufen",
           "status": {
-            "empty": "Alle Beteiligungen",
+            "empty": "Alle Teilnahmen",
             "title": "Status"
           },
-          "unacquired-badges": "Nicht erhaltene Abzeichen"
+          "unacquired-badges": "Nicht erhaltene Badges"
         }
       },
       "result": "Ergebnis",
       "table": {
         "badge-tooltip": {
-          "acquired": "Erworbenes",
-          "unacquired": "Nicht erworben"
+          "acquired": "Erhalten",
+          "unacquired": "Nicht erhalten"
         },
-        "caption": "Diese Tabelle enthält eine Liste der Teilnehmer, die ihre Ergebnisse freigegeben haben. Sie zeigt für jeden Teilnehmer seinen Vor- und Nachnamen sowie die Elemente der Ergebnisse.",
+        "caption": "Diese Tabelle enthält die Liste der Teilnehmer:innen, die ihre Ergebnisse geteilt haben. Sie zeigt für jede:n Teilnehmer:in den Nachnamen, Vornamen und Ergebniselemente an.",
         "column": {
-          "ariaSharedResultCount": "Anzahl der gesendeten Ergebnisse",
-          "badges": "Namensschilder",
+          "ariaSharedResultCount": "Anzahl der übermittelten Ergebnisse",
+          "badges": "Badges",
           "evolution": "Entwicklung",
           "first-name": "Vorname",
-          "last-name": "Name",
+          "last-name": "Nachname",
           "results": {
             "label": "Ergebnisse",
-            "on-hold": " Wartet auf den Versand",
-            "under-test": "In der Testphase"
+            "on-hold": "Wartet auf Übermittlung",
+            "under-test": "Test läuft"
           },
-          "sharedResultCount": "Nb gesendete Ergebnisse"
+          "sharedResultCount": "Anz. übermittelter Ergebnisse"
         },
         "empty": "Keine Teilnahme",
         "evolution": {
-          "decrease": "In Rückschritt",
-          "increase": "Auf dem Vormarsch",
-          "stable": "Konstant",
+          "decrease": "Verschlechtert",
+          "increase": "Verbessert",
+          "stable": "Unverändert",
           "unavailable": "Nicht verfügbar"
         },
         "evolution-tooltip": {
-          "content": "Entwicklung des Teilnehmers zwischen seinen letzten beiden geteilten Ergebnissen."
+          "content": "Entwicklung des:der Teilnehmer:in zwischen den beiden zuletzt geteilten Ergebnissen."
         },
         "title": "Liste der eingegangenen Ergebnisse"
       },
       "tested-items": "Bewertete Lernergebnisse",
       "title": "Ergebnisse",
-      "validated-items": "Validierte Lernergebnisse"
+      "validated-items": "Bestätigte Lernergebnisse"
     },
     "campaign-settings": {
       "actions": {
@@ -949,7 +949,7 @@
       "campaign-type": {
         "assessment": "Bewertungskampagne",
         "exam": "Test-Kampagne [Beta]",
-        "profiles-collection": "Kampagne zum Sammeln von Profilen",
+        "profiles-collection": "Kampagne zur Profilsammlung",
         "title": "Art der Kampagne"
       },
       "delete-confirmation-modal": {
@@ -964,35 +964,35 @@
       "external-user-id-label": "Bezeichnung der zusätzlichen Kennung",
       "external-user-id-types": {
         "email": "E-Mail-Adresse",
-        "string": "Andere"
+        "string": "Sonstige"
       },
       "landing-page-text": "Text auf der Startseite",
       "multiple-sendings": {
         "status": {
-          "disabled": "Nicht",
+          "disabled": "Nein",
           "enabled": "Ja"
         },
-        "title": "Mehrfachsendung",
+        "title": "Mehrfache Übermittlung",
         "tooltip": {
-          "aria-label": "Beschreibung der Mehrfachsendung",
-          "text": "Wenn der Mehrfachversand aktiviert ist, kann der Teilnehmer seine Teilnahme durch erneute Eingabe des Kampagnencodes mehrfach versenden."
+          "aria-label": "Beschreibung der mehrfachen Übermittlung",
+          "text": "Wenn die mehrfache Übermittlung aktiviert ist, kann der:die Teilnehmer:in seine:ihre Teilnahme mehrfach übermitteln, indem er:sie den Kampagnencode erneut eingibt."
         }
       },
-      "personalised-test-title": "Titel der Strecke",
+      "personalised-test-title": "Titel des Parcours",
       "reset-to-zero": {
         "status": {
-          "disabled": "Nicht",
+          "disabled": "Nein",
           "enabled": "Ja"
         },
-        "title": "Auf Null zurücksetzen",
+        "title": "Zurücksetzen",
         "tooltip": {
           "aria-label": "Beschreibung von Zurücksetzen",
-          "text": "Wenn die Rückstellung aktiviert ist, kann der Teilnehmer die gesamte Strecke noch einmal durchlaufen und seine Ergebnisse einsenden, und zwar mehrmals, indem er den Kampagnencode erneut eingibt."
+          "text": "Wenn das Zurücksetzen aktiviert ist, kann der:die Teilnehmer:in seinen:ihren Parcours vollständig erneut durchlaufen und seine:ihre Ergebnisse mehrfach übermitteln, indem er:sie den Kampagnencode erneut eingibt."
         }
       },
       "target-profile": {
         "title": "Parcours",
-        "tooltip": "Beschreibung der Strecke"
+        "tooltip": "Beschreibung des Parcours"
       },
       "title": "Einstellungen"
     },
@@ -1001,45 +1001,45 @@
         "campaign": {
           "archived": "Archiviert",
           "label": "Aktive oder archivierte Kampagnen anzeigen",
-          "ongoing": "Aktive"
+          "ongoing": "Aktiv"
         },
         "create": "Eine Kampagne erstellen"
       },
       "action-bar": {
         "delete-button": "Löschen",
-        "error-message": "{count, plural, =1 {Ein Fehler ist aufgetreten, die Kampagne wurde nicht aus der Liste entfernt.} other {Ein Fehler ist aufgetreten, die {count} ausgewählten Kampagnen wurden nicht aus der Liste entfernt.}}",
+        "error-message": "{count, plural, =1 {Es ist ein Fehler aufgetreten: Die Kampagne wurde nicht aus der Liste gelöscht.} other {Es ist ein Fehler aufgetreten: Die {count} ausgewählten Kampagnen wurden nicht aus der Liste gelöscht.}}",
         "information": "{count, plural, =1 {{count} ausgewählte Kampagne} other {{count} ausgewählte Kampagnen}}",
-        "success-message": "{count, plural, =1 {Die Kampagne (sowie ihre Ergebnisse) wurde tatsächlich aus der Liste entfernt.} other {Die {count}ausgewählten Kampagnen (sowie ihre Ergebnisse) wurden tatsächlich aus der Liste entfernt.}}."
+        "success-message": "{count, plural, =1 {Die Kampagne (sowie ihre Ergebnisse) wurde erfolgreich aus der Liste gelöscht.} other {Die {count} ausgewählten Kampagnen (sowie ihre Ergebnisse) wurden erfolgreich aus der Liste gelöscht.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "{count, plural, =1 {Ich bestätige, dass ich die Auswirkungen der Löschung gut verstanden habe.} other {Ich bestätige, dass ich die Auswirkungen der {count} Löschungen gut verstanden habe.}}",
+        "confirmation-checkbox": "Ich bestätige, die Auswirkungen der {count} Löschungen verstanden zu haben",
         "content": {
           "footer": "Achtung: Diese Aktion kann nicht rückgängig gemacht werden.",
-          "header": "{count, plural, =1 {Diese Kampagne wird nicht mehr sichtbar sein} other {Diese Kampagnen werden nicht mehr sichtbar sein}} in Pix Orga.",
-          "main-participation-prevent": "Alle Teilnahmen an {count, plural, =1 {dieser Kampagne} other {dieser Kampagnen}} und deren Ergebnisse werden gelöscht."
+          "header": "{count, plural, =1 {Diese Kampagne wird} other {Diese Kampagnen werden}} in Pix Orga nicht mehr sichtbar sein.",
+          "main-participation-prevent": "Alle Teilnahmen an {count, plural, =1 {dieser Kampagne} other {diesen Kampagnen}} und ihre Ergebnisse werden gelöscht."
         },
-        "title": "{count, plural, =1 {Sind Sie sicher, dass Sie die ausgewählte Kampagne löschen möchten?} other {Sind Sie sicher, dass Sie die ausgewählten '<strong>'{count}'</strong>' Kampagnen löschen möchten?}}"
+        "title": "{count, plural, =1 {Bist du sicher, dass du die ausgewählte Kampagne löschen möchtest?} other {Bist du sicher, dass du die ''{count}'' ausgewählten Kampagnen löschen möchtest?}}"
       },
       "filter": {
-        "by-name": "Nach einer Kampagne suchen",
-        "by-owner": "Nach einem Besitzer suchen",
-        "legend": "Filter für die Kampagnentabelle, Eingabefelder ermöglichen es, die Tabelle nach dem Namen der Kampagne und nach dem Namen des Eigentümers zu filtern. Über Schaltflächen können Sie nach aktiven und archivierten Kampagnen filtern.",
+        "by-name": "Kampagne suchen",
+        "by-owner": "Eigentümer:in suchen",
+        "legend": "Filter für die Kampagnentabelle: Eingabefelder ermöglichen das Filtern der Tabelle nach Kampagnenname und Name des:der Eigentümer:in. Schaltflächen ermöglichen das Filtern nach aktiven und archivierten Kampagnen.",
         "results": "{total, plural, =0 {0 Kampagne} =1 {1 Kampagne} other {{total, number} Kampagnen}}"
       },
-      "navigation": "Navigation im Abschnitt Kampagnen",
-      "no-campaign": "Keine Kampagne, klicken Sie zu Beginn auf die Schaltfläche 'Kampagne erstellen'.",
+      "navigation": "Navigation im Bereich Kampagnen",
+      "no-campaign": "Keine Kampagnen vorhanden. Klicke auf die Schaltfläche „Kampagne erstellen“, um zu starten.",
       "table": {
         "column": {
           "code": "Code",
-          "created-by": "Eigentümer",
+          "created-by": "Eigentümer:in",
           "created-on": "Erstellt am",
-          "mainCheckbox": "Ganze Spalte markieren/aufheben",
+          "mainCheckbox": "Gesamte Spalte auswählen/abwählen",
           "name": "Name der Kampagne",
-          "participants": "Teilnehmer",
-          "results": "Erhaltene Ergebnisse"
+          "participants": "Teilnehmer:innen",
+          "results": "Eingegangene Ergebnisse"
         },
-        "description-all-campaigns": "Diese Tabelle enthält eine Liste aller Kampagnen, die in Ihrem Pix Orga-Bereich erstellt wurden. Sie zeigt für jede Kampagne den Code, den Eigentümer, das Erstellungsdatum, die Anzahl der Teilnehmer und die Anzahl der erhaltenen Ergebnisse.",
-        "description-my-campaigns": "Diese Tabelle enthält eine Liste der Kampagnen, die Sie besitzen. Sie zeigt für jede Kampagne den Code, das Erstellungsdatum, die Anzahl der Teilnehmer und die Anzahl der erhaltenen Ergebnisse.",
+        "description-all-campaigns": "Diese Tabelle enthält die Liste aller in deinem Pix Orga-Bereich erstellten Kampagnen. Sie zeigt für jede Kampagne den Code, den:die Eigentümer:in, das Erstellungsdatum, die Anzahl der Teilnehmer:innen und die Anzahl der eingegangenen Ergebnisse an.",
+        "description-my-campaigns": "Diese Tabelle enthält die Liste der Kampagnen, deren Eigentümer:in du bist. Sie zeigt für jede Kampagne den Code, das Erstellungsdatum, die Anzahl der Teilnehmer:innen und die Anzahl der eingegangenen Ergebnisse an.",
         "empty": "Keine Kampagne"
       },
       "tabs": {
@@ -1053,12 +1053,12 @@
         "modules-count": "{count, plural, =0 {Kein Modul} =1 {{count} Modul} other {{count} Module}}",
         "simplified-access": "Zugang ohne Konto",
         "tag": {
-          "blueprint": "Lernpfad",
-          "target-profile": "Bewertungspfad"
+          "blueprint": "Lernparcours",
+          "target-profile": "Parcours"
         },
-        "tubes-count": "{count, plural, =0 {Kein Thema} =1 {{count} thema} other {{count} themen}}"
+        "tubes-count": "{count, plural, =0 {Kein Thema} =1 {{count} Thema} other {{count} Themen}}"
       },
-      "empty-state": "Derzeit sind keine Kurse verfügbar. Kontaktieren Sie Pix, um welche zu erhalten.",
+      "empty-state": "Derzeit ist kein Parcours verfügbar. Kontaktiere Pix, um welche zu erhalten.",
       "empty-state-with-filters": "Keine Kurse entsprechen Ihren Suchkriterien.",
       "filters": {
         "areas": {
@@ -1066,7 +1066,7 @@
           "label": "Bereiche",
           "placeholder": "{count, plural, =0 {Bereiche} =1 {Bereich ({count})} other {Bereiche ({count})}}"
         },
-        "aria-label": "Filter nach Kursen",
+        "aria-label": "Filter für Parcours",
         "categories": {
           "all": "Alle Kategorien",
           "empty": "Keine Kategorie",
@@ -1078,10 +1078,10 @@
           "placeholder": "{count, plural, =0 {Kompetenzen} =1 {Kompetenz ({count})} other {Kompetenzen ({count})}}"
         },
         "name": {
-          "label": "Name des Kurses",
+          "label": "Name des Parcours",
           "placeholder": "Nach Titel suchen"
         },
-        "nb-result": "{count, plural, =0 {Kein Kurs} =1 {{count} Kurs} other {{count} Kurse}}"
+        "nb-result": "{count, plural, =0 {Kein Parcours} =1 {{count} Parcours} other {{count} Parcours}}"
       },
       "modal": {
         "associated-badges": "Zugehörige Abzeichen",
@@ -1106,39 +1106,39 @@
       },
       "tab-filters": {
         "all": "Alle",
-        "blueprints": "Lernen",
-        "label": "Kurstyp",
-        "target-profiles": "Assessment"
+        "blueprints": "Lernparcours",
+        "label": "Art des Parcours",
+        "target-profiles": "Parcours"
       },
-      "title": "Kurskatalog"
+      "title": "Parcoursübersicht"
     },
     "certifications": {
-      "description": "Wählen Sie die Klasse aus, für die Sie die Zertifizierungsergebnisse exportieren (.csv) oder die Zertifikate herunterladen (.pdf) möchten.\n Sie können diese Liste filtern, indem Sie den Namen der Klasse direkt in das Feld eingeben.",
+      "description": "Wähle die Klasse aus, für die du die Zertifizierungsergebnisse exportieren (.csv) oder die Zertifikate herunterladen (.pdf) möchtest.\nDu kannst diese Liste filtern, indem du den Namen der Klasse direkt in das Feld eingibst.",
       "documentation-link": "https://cloud.pix.fr/s/oqnYJWHoSXz8LJk",
       "documentation-link-label": "Interpretation der Ergebnisse",
-      "documentation-link-notice": "Unter diesem Link finden Sie einige Elemente, um die Ergebnisse zu interpretieren:",
-      "download-attestations-button": "Zeugnisse herunterladen",
+      "documentation-link-notice": "Unter folgendem Link findest du einige Hilfestellungen zur Interpretation der Ergebnisse:",
+      "download-attestations-button": "Zertifikate herunterladen",
       "download-button": "Ergebnisse exportieren",
       "errors": {
         "invalid-division": "Die Klasse {selectedDivision} existiert nicht.",
         "no-certificates": "Kein Zertifikat für die Klasse {selectedDivision}.",
         "no-results": "Keine Zertifizierungsergebnisse für die Klasse {selectedDivision}."
       },
-      "no-students-imported-yet": "Auf dieser Registerkarte finden Sie die Ergebnisse und Zeugnisse der Schüler. In einem ersten Schritt müssen Sie die Schülerdatenbank Ihrer Schule importieren.",
+      "no-students-imported-yet": "In diesem Tab findest du die Ergebnisse und Zertifikate der Schüler:innen. Du musst zuerst die Schülerdatenbank deiner Schule importieren.",
       "select-label": "Klasse",
-      "title": "Ergebnisse der Zertifizierung"
+      "title": "Zertifizierungsergebnisse"
     },
     "combined-course": {
-      "campaigns": "{count, plural, =1 {Details der Kampagne ansehen} other {Details der Kampagne Nr.{index}}} ansehen",
+      "campaigns": "{count, plural, =1 {Kampagnendetails anzeigen} other {Details der Kampagne Nr. {index} anzeigen}}",
       "filters": {
-        "by-status": "Suche nach dem Status der Partizipation",
+        "by-status": "Nach Teilnahmestatus suchen",
         "status": {
           "COMPLETED": "Abgeschlossen",
-          "STARTED": "In Arbeit",
-          "placeholder": "Alle Statuten"
+          "STARTED": "In Bearbeitung",
+          "placeholder": "Alle Status"
         }
       },
-      "introduction": "Die Lernpfade verknüpfen Bewertungen und personalisierte Lernmodule, die eine pädagogische Anpassung auf der Grundlage des Niveaus jedes Teilnehmers ermöglichen.",
+      "introduction": "Lernparcours verbinden Einstufungen mit personalisierten Lernmodulen und ermöglichen so eine pädagogische Anpassung auf Basis des Niveaus jeder:jedes Teilnehmer:in.",
       "participation-detail": {
         "breadcrumb": "Teilnahme von {firstName} {lastName}",
         "column": {
@@ -1151,42 +1151,42 @@
         "step-label": "Schritt {number}."
       },
       "statistics": {
-        "completed-participations": "Abgeschlossene Beteiligungen",
-        "total-participations": "Total Beteiligungen"
+        "completed-participations": "Abgeschlossene Teilnahmen",
+        "total-participations": "Gesamtzahl der Teilnahmen"
       },
       "table": {
-        "campaign-completion": "{nbItemsCompleted, plural, =0 {Keine abgeschlossene Kampagne auf {nbItems}} =1 {Eine abgeschlossene Kampagne auf {nbItems}} other {{nbItemsCompleted} Abgeschlossene Kampagnen auf {nbItems}}}.",
+        "campaign-completion": "{nbItemsCompleted, plural, =0 {Keine von {nbItems} Kampagnen abgeschlossen.} =1 {Eine von {nbItems} Kampagnen abgeschlossen.} other {{nbItemsCompleted} von {nbItems} Kampagnen abgeschlossen.}}",
         "column": {
           "campaigns": "Kampagnen",
           "first-name": "Vorname",
           "last-name": "Name",
-          "modules": "Module",
+          "modules": "Nachname",
           "reward": "Bescheinigung",
           "status": "Status"
         },
         "description": "Listen der Teilnahmen am Parcours",
-        "module-completion": "{nbItemsCompleted, plural, =0 {Kein Modul abgeschlossen auf {nbItems}} =1 {Ein Modul abgeschlossen auf {nbItems}} other {{nbItemsCompleted} Module abgeschlossen auf {nbItems}}}.",
-        "no-module": "Keine Module empfohlen.",
+        "module-completion": "{nbItemsCompleted, plural, =0 {Kein Modul von {nbItems} abgeschlossen.} =1 {Ein Modul von {nbItems} abgeschlossen.} other {{nbItemsCompleted} von {nbItems} Modulen abgeschlossen.}}",
+        "no-module": "Keine empfohlenen Module.",
         "rewards": {
           "in-progress": "Steht noch aus",
           "not-obtained": "Nicht erhalten",
           "obtained": "Erhalten"
         },
         "tooltip": {
-          "campaigns-column": "'x / y' gibt den Fortschritt des Teilnehmers an: Er hat x Kampagnen von insgesamt y abgeschlossen. Zum Beispiel bedeutet 1/2, dass er 1 von 2 Kampagnen abgeschlossen hat.",
-          "modules-column": "'x / y' zeigt den Fortschritt des Teilnehmers an: Er hat x Module von insgesamt y abgeschlossen. Die Gesamtzahl der Module unterscheidet sich für jeden, je nach den persönlichen Empfehlungen."
+          "campaigns-column": "„x / y“ zeigt den Fortschritt des:der Teilnehmer:in an: Er:sie hat x von insgesamt y Kampagnen beendet. Zum Beispiel bedeutet 1/2, dass 1 von 2 Kampagnen beendet wurde.",
+          "modules-column": "„x / y“ zeigt den Fortschritt des:der Teilnehmer:in an: Er:sie hat x von insgesamt y Modulen beendet. Die Gesamtzahl der Module unterscheidet sich je nach den personalisierten Empfehlungen."
         }
       }
     },
     "combined-courses": {
-      "empty-state": "Derzeit sind keine Lernerpfade verfügbar.",
+      "empty-state": "Derzeit ist kein Lernparcours verfügbar.",
       "table": {
-        "caption": "Liste der Lernpfade",
+        "caption": "Liste der Lernparcours",
         "column": {
           "code": "Code",
-          "completed": "Teilnehmer, die abgeschlossen haben",
-          "name": "Name der Strecke",
-          "participants": "Teilnehmer"
+          "completed": "Abgeschlossen von",
+          "name": "Name des Parcours",
+          "participants": "Teilnehmer:innen"
         }
       }
     },
@@ -1200,119 +1200,119 @@
         },
         "fields": {
           "email": {
-            "error": "Ihre E-Mail-Adresse ist ungültig.",
+            "error": "Deine E-Mail-Adresse ist ungültig.",
             "label": "E-Mail-Adresse",
-            "placeholder": "z.B.: jean.dupont@email.com"
+            "placeholder": "z. B. max.mustermann@email.com"
           },
           "firstname": {
-            "error": "Ihr Vorname ist nicht ausgefüllt.",
+            "error": "Dein Vorname ist nicht angegeben.",
             "label": "Vorname",
             "placeholder": "z.B. Johannes"
           },
           "lastname": {
-            "error": "Ihr Name ist nicht ausgefüllt.",
-            "label": "Name",
-            "placeholder": "z.B.: Dupont"
+            "error": "Dein Nachname ist nicht angegeben.",
+            "label": "Nachname",
+            "placeholder": "z. B. Schneider"
           },
-          "legend": "Informationen für die Anmeldung erforderlich.",
+          "legend": "Erforderliche Information für die Registrierung.",
           "password": {
-            "completed-message": "{ rulesCompleted } auf { rulesCount } abgeschlossen.",
-            "instructions-label": "Ihr Passwort muss den folgenden Regeln entsprechen:",
+            "completed-message": "{ rulesCompleted } von { rulesCount } erfüllt.",
+            "instructions-label": "Dein Passwort muss folgende Regeln erfüllen:",
             "label": "Passwort"
           }
         },
-        "submit": "Ich melde mich an",
-        "subtitle": "um auf Ihren Pix Orga-Bereich zuzugreifen",
-        "title": "Melden Sie sich bei Pix an"
+        "submit": "Ich registriere mich",
+        "subtitle": "um auf deinen Pix Orga-Bereich zuzugreifen",
+        "title": "Registriere dich bei Pix"
       }
     },
     "join-request-form": {
-      "firstname": "Ihr Vorname",
-      "lastname": "Ihr Name",
+      "firstname": "Dein Vorname",
+      "lastname": "Dein Nachname",
       "legal-information": {
         "link-text": "Mehr über meine Rechte erfahren.",
         "link-url": "https://pix.fr/dp-formulaire-recuperation-pixorga-sco",
-        "text": "Die auf diesem Formular gesammelten Informationen werden in einer Datei gespeichert, die von der GIP Pix im Auftrag des Bildungsministeriums als Verantwortlicher für die Verarbeitung verarbeitet wird, um Ihrer Schule den Zugang zu ihrem Pix Orga-Bereich zu ermöglichen, indem sie ihr eine Einladung zum Beitritt zu diesem Bereich sendet."
+        "text": "Die in diesem Formular eingegebenen Daten werden vom GIP Pix im Auftrag des Bildungsministeriums verarbeitet, um deiner Schule eine Einladung zu schicken und ihr den Zugang zu Pix Orga zu ermöglichen."
       },
       "organization-code": "UAI/RNE der Einrichtung"
     },
     "login": {
-      "join-invitation": "Sie sind eingeladen, sich anzuschließen: {organizationName}.",
+      "join-invitation": "Du bist eingeladen beizutreten: {organizationName}",
       "signup": {
-        "label": "Auf Pix registrieren"
+        "label": "Bei Pix registrieren"
       },
-      "title": "Melden Sie sich an",
-      "with-pix-account": "mit Ihrem Pix-Konto"
+      "title": "Melde dich an",
+      "with-pix-account": "mit deinem Pix-Konto"
     },
     "login-form": {
-      "active-or-retrieve": "Aktivieren oder werden Sie Administrator des Pix Orga-Bereichs Ihrer Schule",
-      "admin-role-question": "Sind Sie Schulleitungspersonal oder Schulleiter?",
+      "active-or-retrieve": "Aktiviere den Pix Orga-Bereich deiner Schule oder werde dessen Administrator:in",
+      "admin-role-question": "Bist du Schulleiter:in oder Mitglied der Schulleitung?",
       "associate-account": "Mein Konto verknüpfen",
       "email": {
         "label": "E-Mail-Adresse",
-        "placeholder": "z.B.: jean.dupont@email.com"
+        "placeholder": "z. B. johannes.schneider@email.com"
       },
       "errors": {
-        "access-not-allowed": "Der Zugang zu Pix Orga ist auf eingeladene Mitglieder beschränkt. Jeder Bereich wird von einem Pix Orga-Administrator verwaltet, der der Organisation, die ihn nutzt, eigen ist. Kontaktieren Sie ihn, um von ihm eingeladen zu werden.",
-        "empty-email": "Ihre E-Mail-Adresse ist nicht ausgefüllt.",
-        "empty-password": "Ihr Passwort ist nicht ausgefüllt.",
-        "invalid-email": "Ihre E-Mail-Adresse ist ungültig.",
+        "access-not-allowed": "Der Zugriff auf Pix Orga ist auf eingeladene Mitglieder beschränkt. Jeder Bereich wird von einer eigenen Pix Orga-Administrator:in der jeweiligen Organisation verwaltet. Kontaktiere diese Person, um eine Einladung zu erhalten.",
+        "empty-email": "Deine E-Mail-Adresse ist nicht angegeben.",
+        "empty-password": "Dein Passwort ist nicht angegeben.",
+        "invalid-email": "Deine E-Mail-Adresse ist ungültig.",
         "status": {
           "404": "Die eingegebene E-Mail-Adresse und/oder das Passwort sind falsch.",
-          "409": "Diese Einladung wurde bereits angenommen oder abgesagt."
+          "409": "Diese Einladung wurde bereits angenommen oder storniert."
         }
       },
       "forgot-password": "Passwort vergessen?",
-      "invitation-already-accepted": "Diese Einladung wurde bereits angenommen. Melden Sie sich an oder wenden Sie sich an den Administrator Ihres Pix Orga-Bereichs.",
-      "invitation-not-found": "Diese Einladung wurde nicht gefunden. Kontaktieren Sie den Administrator Ihres Pix Orga-Bereichs.",
-      "invitation-was-cancelled": "Diese Einladung ist nicht mehr gültig. Wenden Sie sich an den Administrator Ihres Pix Orga-Bereichs.",
-      "login": "Ich logge mich ein",
+      "invitation-already-accepted": "Diese Einladung wurde bereits angenommen. Melde dich an oder kontaktiere die Administrator:in deines Pix Orga-Bereichs.",
+      "invitation-not-found": "Diese Einladung wurde nicht gefunden. Kontaktiere die Administrator:in deines Pix Orga-Bereichs.",
+      "invitation-was-cancelled": "Diese Einladung ist nicht mehr gültig. Kontaktiere die Administrator:in deines Pix Orga-Bereichs.",
+      "login": "Ich melde mich an",
       "password": "Passwort"
     },
     "login-or-register": {
       "login-form": {
-        "button": "Sich anmelden",
+        "button": "Anmelden",
         "title": "Ich habe bereits ein PIX-Konto"
       },
       "register-form": {
-        "button": "Anmelden",
+        "button": "Registrieren",
         "errors": {
-          "default": "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.",
-          "email-already-exists": "Diese E-Mail-Adresse ist bereits registriert. Melden Sie sich an.",
+          "default": "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuche es später erneut.",
+          "email-already-exists": "Diese E-Mail-Adresse ist bereits registriert. Bitte melde dich an.",
           "invalid-or-already-used-email": "Ungültige oder bereits verwendete E-Mail-Adresse"
         },
         "fields": {
           "button": {
-            "label": "Ich melde mich an"
+            "label": "Ich registriere mich"
           },
           "cgu": {
             "accept": "Ich akzeptiere die",
             "and": "und die",
-            "aria-label": "Akzeptieren Sie die Nutzungsbedingungen von Pix",
+            "aria-label": "Nutzungsbedingungen von Pix akzeptieren",
             "data-protection-policy": "Datenschutzrichtlinie",
-            "error": "Sie müssen den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
+            "error": "Du musst die Nutzungsbedingungen von Pix und die Datenschutzerklärung akzeptieren, um ein Konto zu erstellen.",
             "terms-of-use": "Nutzungsbedingungen von Pix"
           },
           "email": {
-            "error": "Ihre E-Mail-Adresse ist ungültig.",
+            "error": "Deine E-Mail-Adresse ist ungültig.",
             "label": "E-Mail-Adresse"
           },
           "first-name": {
-            "error": "Ihr Vorname ist nicht ausgefüllt.",
+            "error": "Dein Vorname ist nicht angegeben.",
             "label": "Vorname"
           },
           "last-name": {
-            "error": "Ihr Name ist nicht ausgefüllt.",
-            "label": "Name"
+            "error": "Dein Nachname ist nicht angegeben.",
+            "label": "Nachname"
           },
           "password": {
-            "error": "Ihr Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Großbuchstaben, einen Kleinbuchstaben und eine Zahl enthalten.",
+            "error": "Dein Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Großbuchstaben, einen Kleinbuchstaben sowie eine Zahl enthalten.",
             "label": "Passwort"
           }
         },
-        "title": "Ich melde mich an"
+        "title": "Ich registriere mich"
       },
-      "title": "Sie werden eingeladen, der Organisation beizutreten {organizationName}."
+      "title": "Du bist eingeladen, der Organisation {organizationName} beizutreten"
     },
     "missions": {
       "list": {
@@ -1322,63 +1322,63 @@
         "aria-label": "Mission",
         "banner": {
           "copypaste-container": {
-            "abstract": "Starten Sie Ihre ersten Missionen mit Ihren Schülern, indem Sie die Sitzung über die Schaltfläche oben aktivieren und mit dem",
+            "abstract": "Starte deine ersten Missionen mit deinen Schüler:innen, indem du die Sitzung über die Schaltfläche oben aktivierst und folgenden Code nutzt:",
             "button": {
-              "success": "kopiert!",
-              "tooltip": "kopieren Sie den Code"
+              "success": "Kopiert!",
+              "tooltip": "Code kopieren"
             }
           },
-          "hint": "Zögern Sie nicht, ihn auf Ihren Posten als Favorit zu markieren.",
-          "import-text": "Schullink",
+          "hint": "Setze dafür gerne ein Lesezeichen auf deinen Geräten.",
+          "import-text": "Link der Schule",
           "step1": {
             "admin": {
               "head": "Schritt 1: <b>Bitte</b>",
-              "link": "die Schülerdatenbank importieren",
-              "tail": "<b>aus Onde</b> (Datei exportierbar im Menü Listen & Dokumente > Auswertungen > Schüler der Schule oder deren Betreuer <b>nur Schüler des Zyklus 3 auswählen</b>)."
+              "link": "importiere die Schülerdatenbank",
+              "tail": "<b>aus Onde</b> (Datei exportierbar im Menü Listen & Dokumente > Auswertungen > Schüler:innen der Schule oder deren Erziehungsberechtigte <b>nur Schüler:innen des Zyklus 3 auswählen</b>)."
             },
-            "non-admin": "Schritt 1: <b>Fragen Sie den Administrator</b> Pix Orga Ihres Bereichs, um die Schüler zu importieren."
+            "non-admin": "Schritt 1: <b>Bitte die:den Pix Orga-Administrator:in</b> deines Bereichs, die Schüler:innen zu importieren."
           },
           "step2": {
-            "option1": "verwenden <b>den Link</b> '<'a href=\"{pixJuniorUrl}\"'>'junior.pix.fr'</a>'. Der Code Ihrer Einrichtung wird bei jeder Anmeldung abgefragt.",
+            "option1": "Verwende <b>den Link</b> '<'a href=\"{pixJuniorUrl}\"'>'junior.pix.fr'</a>'. Der Code deiner Einrichtung wird bei jeder Anmeldung abgefragt.",
             "option2": {
-              "body": "oder verwenden Sie den direkten Link  <'a href=\"{pixJuniorUrl}\" target=_blank >junior.pix.de/schools/{code}'</a>'",
-              "hint": "Sie können diesen Favoriten auf Computern speichern."
+              "body": "oder verwende den direkten Link  <'a href=\"{pixJuniorUrl}\" target=_blank >junior.pix.de/schools/{code}'</a>'",
+              "hint": "Du kannst dieses Lesezeichen auf den Computern speichern."
             },
-            "title": "Schritt 2: Damit die Schüler auf den Pix Junior-Bereich Ihrer Schule zugreifen können, können Sie :"
+            "title": "Damit die Schüler:innen auf den Pix Junior-Bereich deiner Schule zugreifen können, hast du folgende Möglichkeiten:"
           },
-          "step3": "Schritt 3: <b>Aktivieren Sie die Pix Junior-Sitzung</b> über die Schaltfläche in der Seitenleiste. <b>Diese Aktion sollten Sie vor jeder Sitzung mit Ihren Schülern durchführen</b>.",
-          "welcome": "Um mit der Nutzung von Pix Junior zu beginnen :"
+          "step3": "Aktiviere die Pix Junior-Sitzung über die Schaltfläche in der Seitenleiste. Aktivierte Sitzungen sind Voraussetzung für jede Einheit mit deinen Schüler:innen.",
+          "welcome": "Um mit der Nutzung von Pix Junior zu beginnen:"
         },
         "caption": "Liste der Missionen",
         "empty-state": "Es gibt keine Missionen",
         "headers": {
           "actions": "Aktionen",
-          "competences": "Gearbeitete NSRC-Kompetenzen",
+          "competences": "Behandelte CRCN-Kompetenzen",
           "name": "Mission",
-          "started-by": "Begonnen von"
+          "started-by": "Gestartet von"
         },
         "no-division": "Keine Klasse",
         "non-admin": {
-          "abstract": "Bitten Sie zunächst Ihren Administrator, die Schüler zu importieren."
+          "abstract": "Bitte deine:n Administrator:in, zuerst die Schüler:innen zu importieren."
         }
       },
       "mission": {
         "details": {
-          "button-label": "Pädagogisches Merkblatt ansehen",
+          "button-label": "Pädagogisches Datenblatt anzeigen",
           "competence": {
-            "title": "Bearbeitete NSRC-Kompetenz :"
+            "title": "Bearbeitete CRCN-Kompetenz:"
           },
           "objective": {
-            "title": "Ziele der Mission :"
+            "title": "Ziele der Mission:"
           }
         },
         "table": {
           "activities": {
-            "aria-label": "Schüler",
-            "caption": "Tabelle der Schüler mit ihrer Teilnahme an der Mission {missionName}.",
+            "aria-label": "Schüler:in",
+            "caption": "Tabelle der Schüler:innen mit ihrer Teilnahme an der Mission {missionName}",
             "filters": {
-              "aria-label": "Filter nach Schülern",
-              "learners-count": "{count, plural, =0 {Keine Schüler} =1 {1 Schüler} other {{count} Schüler}}",
+              "aria-label": "Filter nach Schüler:innen",
+              "learners-count": "{count, plural, =0 {Kein:e Schüler:in} =1 {1 Schüler:in} other {{count} Schüler:innen}}",
               "status": {
                 "label": "Status der Mission"
               }
@@ -1386,58 +1386,58 @@
             "headers": {
               "division": "Klasse",
               "first-name": "Vorname",
-              "last-name": "Name",
+              "last-name": "Nachname",
               "status": "Status der Mission"
             },
             "mission-status": {
               "completed": "Abgeschlossen",
-              "not-started": "Nicht begonnen",
-              "started": "In Arbeit"
+              "not-started": "Noch nicht gestartet",
+              "started": "In Bearbeitung"
             },
-            "no-data": "Es gibt keine Teilnehmer"
+            "no-data": "Es gibt keine Teilnehmer:innen"
           },
           "result": {
-            "aria-label": "Schüler",
-            "caption": "Tabelle der Schülerinnen und Schüler mit dem Ergebnis ihrer Teilnahme an der Mission {missionName}.",
+            "aria-label": "Schüler:in",
+            "caption": "Tabelle der Schüler:innen mit dem Ergebnis ihrer Teilnahme an der Mission {missionName}",
             "filters": {
-              "aria-label": "Filter nach Schülern",
+              "aria-label": "Filter nach Schüler:innen",
               "global-result": {
                 "label": "Bewertung der Mission",
                 "options": {
-                  "exceeded": "Überholt",
+                  "exceeded": "Übertroffen",
                   "no-result": "Keine Bewertung",
                   "not-reached": "Nicht erreicht",
                   "partially-reached": "Teilweise erreicht",
                   "reached": "Erreicht"
                 }
               },
-              "learners-count": "{count, plural, =0 {Keine Schüler} =1 {1 Schüler} other {{count} Schüler}}"
+              "learners-count": "{count, plural, =0 {Kein:e Schüler:in} =1 {1 Schüler:in} other {{count} Schüler:innen}}"
             },
             "headers": {
               "dare-challenge": "Herausforderung",
               "division": "Klasse",
               "first-name": "Vorname",
-              "last-name": "Name",
+              "last-name": "Nachname",
               "result": "Bewertung der Mission",
               "step": "Schritt {number}."
             },
             "mission-dare-result": {
-              "not-reached": "NA",
-              "reached": "A",
+              "not-reached": "NE",
+              "reached": "E",
               "undefined": "-"
             },
             "mission-result": {
-              "exceeded": "Überholt",
+              "exceeded": "Übertroffen",
               "not-reached": "Nicht erreicht",
               "partially-reached": "Teilweise erreicht",
               "reached": "Erreicht",
               "undefined": "-"
             },
-            "no-data": "Es gibt keine Teilnehmer",
+            "no-data": "Es gibt keine Teilnehmer:innen",
             "step-result": {
-              "not-reached": "NA",
-              "partially-reached": "PA",
-              "reached": "A",
+              "not-reached": "NE",
+              "partially-reached": "TE",
+              "reached": "E",
               "undefined": "-"
             }
           }
@@ -1453,30 +1453,30 @@
     },
     "oidc": {
       "login": {
-        "signup-button": "Ich habe kein Konto, ich melde mich mit meiner Organisation an",
-        "sub-title": "um es mit Ihrer neuen Verbindungsmethode zu verknüpfen",
-        "title": "Verwenden Sie Ihr Pix-Konto"
+        "signup-button": "Ich habe kein Konto, ich registriere mich über meine Organisation",
+        "sub-title": "um es mit deiner neuen Anmeldemethode zu verknüpfen",
+        "title": "Nutze dein Pix-Konto"
       },
       "signup": {
         "claims": {
-          "FrEduFonctAdm": "Administrative Funktion",
-          "FrEduNumenHash": "Technische Kennung",
-          "discipline": "Disziplin",
-          "employeeNumber": "Nummer des Mitarbeiters",
-          "first-name-label": "Vorname :",
-          "last-name-label": "Name:",
-          "population": "Bevölkerung",
-          "rne": "Zuweisende Einrichtung",
+          "FrEduFonctAdm": "Verwaltungsfunktion",
+          "FrEduNumenHash": "Technische ID",
+          "discipline": "Fachbereich",
+          "employeeNumber": "Personalnummer",
+          "first-name-label": "Vorname:",
+          "last-name-label": "Nachname:",
+          "population": "Zielgruppe",
+          "rne": "Zuordnungseinrichtung",
           "title": "Funktion"
         },
-        "description": "Ein Konto wird anhand der von der Organisation übermittelten Elemente erstellt.",
+        "description": "Ein Konto wird auf Grundlage der von der Organisation übermittelten Daten erstellt.",
         "error": {
-          "cgu": "Sie müssen den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
-          "claims": "Es war uns nicht möglich, Ihre Identitätsinformationen von der verwendeten Abteilung abzurufen. Wir bitten Sie, sich an den IT-Support dieser Organisation zu wenden."
+          "cgu": "Du musst den Nutzungsbedingungen und der Datenschutzrichtlinie von Pix zustimmen, um ein Konto zu erstellen.",
+          "claims": "Wir konnten deine Identitätsdaten nicht von dem verwendeten Dienst abrufen. Bitte wende dich an den IT-Support dieser Organisation."
         },
         "login-button": "Ich habe bereits ein Pix-Konto, ich melde mich an",
-        "signup-button": "Ich melde mich bei Pix an",
-        "sub-title": "um auf Ihren Pix Orga-Bereich zuzugreifen",
+        "signup-button": "Ich registriere mich bei Pix",
+        "sub-title": "um auf deinen Pix Orga-Bereich zuzugreifen",
         "title": "Melden Sie sich bei Pix an"
       }
     },
@@ -1491,20 +1491,20 @@
             "profiles-collection": "Profilsammlungen"
           }
         },
-        "empty-state": "Bisher noch keine Aktivitäten! Senden Sie eine Kampagne an {organizationLearnerFirstName} {organizationLearnerLastName} und beginnen Sie, ihren Fortschritt zu verfolgen.",
+        "empty-state": "Noch keine Aktivität! Sende eine Kampagne an {organizationLearnerFirstName} {organizationLearnerLastName} und verfolge ab sofort den Fortschritt.",
         "participation-list": {
           "table": {
             "column": {
               "campaign-name": "Kampagne",
               "campaign-type": "Typ",
-              "created-at": "Datum des Beginns",
+              "created-at": "Startdatum",
               "participation-count": "Anzahl der Teilnahmen",
-              "shared-at": "Datum der Absendung",
+              "shared-at": "Sendedatum",
               "status": "Status"
             }
           }
         },
-        "participations-title": "Liste aller Beteiligungen",
+        "participations-title": "Liste aller Teilnahmen",
         "profile-collection-summary": "Zusammenfassung der Teilnahmen an Kampagnen zur Profilsammlung",
         "title": "Aktivität"
       },
@@ -1513,49 +1513,49 @@
       }
     },
     "organization-participant-activity": {
-      "title": "Tätigkeit des Teilnehmers"
+      "title": "Aktivität der:des Teilnehmer:in"
     },
     "organization-participants": {
       "action-bar": {
         "delete-button": "Löschen",
-        "error-message": "{count, plural, =1 {Ein Fehler ist aufgetreten, {firstname} {lastname} wurde nicht aus der Teilnehmerliste entfernt.} other {Ein Fehler ist aufgetreten, die ausgewählten {count} Teilnehmer wurden nicht aus der Liste entfernt.}}.",
-        "information": "{count, plural, =1 {{count} ausgewählter Teilnehmer} other {{count} ausgewählter Teilnehmer}}",
-        "success-message": "{count, plural, =1 {{firstname} {lastname} wurde tatsächlich aus der Teilnehmerliste entfernt.} other {Die {count} ausgewählten Teilnehmer wurden tatsächlich aus der Liste entfernt.}}"
+        "error-message": "{count, plural, =1 {Es ist ein Fehler aufgetreten, {firstname} {lastname} wurde nicht aus der Liste der Teilnehmer:innen gelöscht.} other {Es ist ein Fehler aufgetreten, die {count} ausgewählten Teilnehmer:innen wurden nicht aus der Liste gelöscht.}}",
+        "information": "{count, plural, =1 {{count} Teilnehmer:in ausgewählt} other {{count} Teilnehmer:innen ausgewählt}}",
+        "success-message": "{count, plural, =1 {{firstname} {lastname} wurde aus der Liste der Teilnehmer:innen gelöscht.} other {Die {count} ausgewählten Teilnehmer:innen wurden aus der Liste gelöscht.}}"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "{count, plural, =1 {Ich bestätige, dass ich die Auswirkungen der Löschung gut verstanden habe.} other {Ich bestätige, dass ich die Auswirkungen der {count} Löschungen gut verstanden habe.}}",
+        "confirmation-checkbox": "Ich bestätige, dass ich die Auswirkungen der {count} Löschungen verstanden habe",
         "content": {
           "footer": "Achtung: Diese Aktion kann nicht rückgängig gemacht werden.",
-          "header": "{count, plural, =1 {Dieser Teilnehmer wird nicht mehr sichtbar sein} other {Diese Teilnehmer werden nicht mehr sichtbar sein}} in Pix Orga.",
-          "main-campaign-prevent": "Dies wird sich also auf die Ergebnisse und Analysen der Kampagnen auswirken, die {count, plural, =1 {er} other {sie}} durchgeführt haben.",
-          "main-participation-prevent": "Alle {count, plural, =1 {seine} other {ihre}} Beteiligungen an Kampagnen werden gelöscht."
+          "header": "{count, plural, =1 {Diese:r Teilnehmer:in wird in Pix Orga nicht mehr sichtbar sein} other {Diese Teilnehmer:innen werden in Pix Orga nicht mehr sichtbar sein}}.",
+          "main-campaign-prevent": "Dies wirkt sich auf die Ergebnisse und Analysen der Kampagnen aus, {count, plural, =1 {die sie:er absolviert hat} other {die sie absolviert haben}}.",
+          "main-participation-prevent": "All {count, plural, =1 {ihre:seine} other {ihre}} Kampagnen-Teilnahmen werden gelöscht."
         },
-        "title": "{count, plural, =1 {Löschen Sie '<strong>'{firstname} {lastname}'</strong>' aus Ihren} other {Sind Sie sicher, dass Sie '<strong>'{count}'</strong>'}} Teilnehmer löschen möchten?"
+        "title": "{count, plural, =1 {''{firstname} {lastname}'' aus deinen Teilnehmer:innen löschen?} other {Bist du sicher, dass du ''{count}'' Teilnehmer:innen löschen möchtest?}}"
       },
       "empty-state": {
-        "action": "Meine Kampagnen ansehen",
-        "call-to-action": "Laden Sie sie ein, sich einer Kampagne anzuschließen, oder erstellen Sie eine neue Kampagne.",
-        "message": "Bisher keine Teilnehmer!"
+        "action": "Meine Kampagnen anzeigen",
+        "call-to-action": "Lade sie ein, einer Kampagne beizutreten, oder erstelle eine neue.",
+        "message": "Noch keine Teilnehmer:innen!"
       },
       "filters": {
-        "aria-label": "Filter nach Teilnehmern",
-        "participations-count": "{count, plural, =0 {0 Teilnehmer} =1 {1 Teilnehmer} other {{count} Teilnehmer}}",
-        "students-count": "{count, plural, =0 {0 Schüler} =1 {1 Schüler} other {{count} Schüler}}",
+        "aria-label": "Filter nach Teilnehmer:innen",
+        "participations-count": "{count, plural, =0 {0 Teilnehmer:innen} =1 {1 Teilnehmer:in} other {{count} Teilnehmer:innen}}",
+        "students-count": "{count, plural, =0 {0 Schüler:innen} =1 {1 Schüler:in} other {{count} Schüler:innen}}",
         "type": {
           "certificability": {
-            "label": "Suche nach Zertifizierbarkeit",
+            "label": "Nach Zertifizierbarkeit suchen",
             "placeholder": "Zertifizierbarkeit"
           }
         }
       },
-      "page-title": "Teilnehmer",
+      "page-title": "Teilnehmer:innen",
       "table": {
         "actions": {
-          "disable-oralization": "Sollwertanzeige deaktivieren",
-          "enable-oralization": "Sollwertanzeige aktivieren"
+          "disable-oralization": "Vorlesen der Aufgabenstellung deaktivieren",
+          "enable-oralization": "Vorlesen der Aufgabenstellung aktivieren"
         },
         "column": {
-          "checkbox": "Auswählen/Aufheben der Auswahl {firstname} {lastname}",
+          "checkbox": "{firstname} {lastname} auswählen/abwählen",
           "division": {
             "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Klasse sortiert. Klicken Sie, um in alphabetischer Reihenfolge zu sortieren.",
             "ariaLabelSortDown": "Die Tabelle ist nach Klasse sortiert, alphabetisch in umgekehrter Reihenfolge. Klicken Sie, um in alphabetischer Reihenfolge zu sortieren.",
@@ -1566,28 +1566,28 @@
             "label": "Zertifizierbarkeit"
           },
           "last-name": {
-            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Namen sortiert. Klicken Sie, um alphabetisch zu sortieren.",
-            "ariaLabelSortDown": "Die Tabelle wird nach Namen in umgekehrter alphabetischer Reihenfolge sortiert. Klicken Sie, um alphabetisch zu sortieren.",
-            "ariaLabelSortUp": "Die Tabelle wird nach Namen in alphabetischer Reihenfolge sortiert. Klicken Sie, um in umgekehrter alphabetischer Reihenfolge zu sortieren.",
-            "label": "Name"
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Nachnamen sortiert. Klicke hier, um alphabetisch zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle ist nach Nachnamen in umgekehrter alphabetischer Reihenfolge sortiert. Klicke hier, um alphabetisch zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle ist nach Nachnamen in alphabetischer Reihenfolge sortiert. Klicke hier, um in umgekehrter alphabetischer Reihenfolge zu sortieren.",
+            "label": "Nachname"
           },
           "latest-participation": {
-            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach dem Datum der Beteiligungen sortiert. Klicken Sie, um aufsteigend zu sortieren.",
-            "ariaLabelSortDown": "Die Tabelle wird nach dem Datum der Teilnahme absteigend sortiert. Klicken Sie, um aufsteigend zu sortieren.",
-            "ariaLabelSortUp": "Die Tabelle wird nach dem Datum der Teilnahme aufsteigend sortiert. Klicken Sie, um absteigend zu sortieren.",
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Teilnahmedatum sortiert. Klicke hier, um aufsteigend zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle ist nach Teilnahmedatum absteigend sortiert. Klicke hier, um aufsteigend zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle ist nach Teilnahmedatum aufsteigend sortiert. Klicke hier, um absteigend zu sortieren.",
             "label": "Letzte Teilnahme"
           },
           "mainCheckbox": "Die gesamte Spalte auswählen/abwählen",
           "participation-count": {
-            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach der Anzahl der Teilnahmen sortiert. Klicken Sie, um in aufsteigender Reihenfolge zu sortieren.",
-            "ariaLabelSortDown": "Die Tabelle wird nach der Anzahl der Teilnahmen absteigend sortiert. Klicken Sie, um in aufsteigender Reihenfolge zu sortieren.",
-            "ariaLabelSortUp": "Die Tabelle wird nach der Anzahl der Teilnahmen aufsteigend sortiert. Klicken Sie, um in absteigender Reihenfolge zu sortieren.",
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Anzahl der Teilnahmen sortiert. Klicke hier, um aufsteigend zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle ist nach Anzahl der Teilnahmen absteigend sortiert. Klicke hier, um aufsteigend zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle ist nach Anzahl der Teilnahmen aufsteigend sortiert. Klicke hier, um absteigend zu sortieren.",
             "label": "Anzahl der Teilnahmen"
           }
         },
-        "description": "Nach Namen sortierte Tabelle der Teilnehmer.",
-        "empty": "Keine Teilnehmer",
-        "oralization-header-tooltip": "Das Aktivieren von \"Vorlesen der Anweisung\" ermöglicht es dem Schüler, seine mündliche Mitschrift zu erhalten.",
+        "description": "Tabelle der Teilnehmer:innen nach Nachnamen sortiert.",
+        "empty": "Keine Teilnehmer:innen",
+        "oralization-header-tooltip": "Das Aktivieren der „Vorlesefunktion“ ermöglicht es den Schüler:innen, die Aufgabenstellung vorgelesen zu bekommen.",
         "row-value": {
           "oralization": {
             "false": "Deaktiviert",
@@ -1599,91 +1599,91 @@
     "organization-participants-import": {
       "actions": {
         "add-sup": {
-          "details": "Ermöglicht das Hinzufügen einer Schülerliste zu einer bereits importierten und/oder das Bearbeiten der Informationen von bereits importierten Schülern.",
-          "label": "Schüler hinzufügen",
+          "details": "Ermöglicht das Hinzufügen einer Liste von Schüler:innen zur bereits importierten Liste und/oder das Ändern der Informationen bereits importierter Schüler:innen.",
+          "label": "Schüler:innen hinzufügen",
           "title": "Hinzufügen / Bearbeiten"
         },
         "participants": {
-          "details": "Mit dieser Aktion können Sie :",
-          "details-add": "neue Teilnehmer hinzufügen",
-          "details-disable": "ehemalige Teilnehmer deaktivieren",
-          "details-update": "bereits importierte Teilnehmer bearbeiten",
+          "details": "Diese Aktion ermöglicht dir:",
+          "details-add": "Diese Aktion ermöglicht dir:",
+          "details-disable": "ehemalige Teilnehmer:innen zu deaktivieren",
+          "details-update": "bereits importierte Teilnehmer:innen zu bearbeiten",
           "label": "Liste importieren",
-          "title": "Teilnehmerliste importieren"
+          "title": "Liste der Teilnehmer:innen importieren"
         },
         "replace": {
-          "details": "Ermöglicht das Importieren einer neuen Schülerliste anstelle der vorhandenen.",
+          "details": "Ermöglicht das Importieren einer neuen Liste von Schüler:innen anstelle der bestehenden.",
           "label": "Eine neue Liste importieren",
           "title": "Ersetzen"
         }
       },
       "banner": {
-        "anchor-error": "Fehlerliste ansehen",
-        "fix-error-text": "Bitte korrigieren Sie die Fehler und importieren Sie die Datei erneut.",
-        "import-error": "Der Import von Teilnehmern ist fehlgeschlagen.",
-        "import-in-progress": "Der Inhalt der Datei ist freigegeben, der Import der Teilnehmer läuft.",
-        "in-progress-text": "Bitte aktualisieren Sie diese Seite in Kürze, um den Bearbeitungsstatus der Datei zu erfahren.",
-        "retry-error-text": "Ein Fehler ist aufgetreten, bitte später importieren oder an den Pix-Support schreiben",
+        "anchor-error": "Fehlerliste anzeigen",
+        "fix-error-text": "Bitte korrigiere die Fehler und importiere die Datei erneut.",
+        "import-error": "Der Import der Teilnehmer:innen ist fehlgeschlagen.",
+        "import-in-progress": "Der Inhalt der Datei wurde überprüft, der Import der Teilnehmer:innen läuft.",
+        "in-progress-text": "Bitte aktualisiere diese Seite in Kürze, um den Bearbeitungsstatus der Datei zu erfahren.",
+        "retry-error-text": "Es ist ein Fehler aufgetreten. Bitte versuche den Import später erneut oder kontaktiere den Pix-Support.",
         "upload-completed": "Die Datei wurde am {date} von {firstName} {lastName} importiert.",
         "upload-error": "Die Datei konnte nicht importiert werden.",
-        "upload-in-progress": "Das Importieren der Datei kann einige Minuten dauern. Bitte verlassen Sie diese Seite nicht.",
+        "upload-in-progress": "Der Import der Datei kann einige Minuten dauern. Bitte verlasse diese Seite nicht.",
         "validation-error": "Der Inhalt der Datei enthält Fehler.",
         "validation-in-progress": "Der Inhalt der Datei wird gerade überprüft.",
-        "warning-banner": "Einige Werte wurden nicht erkannt. Sie wurden durch \"Nicht anerkannt\" ersetzt. Wenn Sie der Ansicht sind, dass in der einschränkenden Liste Werte fehlen, kontaktieren Sie uns bitte unter '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'."
+        "warning-banner": "Einige Werte wurden nicht erkannt. Sie wurden durch „Nicht erkannt“ ersetzt. Wenn du der Meinung bist, dass Werte in der vorgegebenen Liste fehlen, kontaktiere uns bitte unter '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'."
       },
       "error-panel": {
-        "error-wrapper": "Es wurden keine Teilnehmer importiert. Bitte bearbeiten Sie Ihre Datei und importieren Sie sie erneut.",
-        "global-error": "Es wurden keine Teilnehmer importiert. Bitte versuchen Sie es erneut oder kontaktieren Sie uns über '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'das Help Center Formular'</a>'.",
-        "title": "Fehler in der zuletzt importierten Datei :"
+        "error-wrapper": "Es wurden keine Teilnehmer:innen importiert. Bitte passe deine Datei an und importiere sie erneut.",
+        "global-error": "Es wurden keine Teilnehmer:innen importiert. Bitte versuche es erneut oder kontaktiere uns über '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'das Formular im Hilfe-Center'</a>'.",
+        "title": "Fehler in der zuletzt importierten Datei:"
       },
       "file-type-separator": ",",
-      "global-success": "Letzte erfolgreich importierte Datei am {date} durch {firstName} {lastName}.",
+      "global-success": "Zuletzt erfolgreich importierte Datei am {date} von {firstName} {lastName}.",
       "sco": {
-        "title": "Schüler importieren"
+        "title": "Schüler:innen importieren"
       },
       "sup": {
-        "title": "Schüler importieren"
+        "title": "Studierende importieren"
       },
       "supported-formats": "(unterstützte Formate: {types})",
       "title": "Importieren",
       "warnings": {
-        "diploma": "Nicht anerkannte Diplome: {diplomas};",
-        "study-scheme": "Nicht anerkannte Pläne: {studySchemes};"
+        "diploma": "Nicht erkannte Abschlüsse: {diplomas}:",
+        "study-scheme": "Nicht erkannte Ausbildungsformen: {studySchemes}:"
       }
     },
     "participants-list": {
       "latest-participation-information-tooltip": {
-        "aria-label": "Informationen über die letzte Teilnahme",
+        "aria-label": "Informationen zur letzten Teilnahme",
         "campaign-ASSESSMENT-type": "Bewertung",
-        "campaign-PROFILES_COLLECTION-type": "Sammeln von Profilen",
-        "campaign-name": "Kampagne :",
-        "campaign-status": "Status :",
-        "campaign-type": "Art :",
+        "campaign-PROFILES_COLLECTION-type": "Profilsammlungen",
+        "campaign-name": "Kampagne:",
+        "campaign-status": "Status:",
+        "campaign-type": "Typ:",
         "participation-SHARED-status": "Empfangen",
-        "participation-STARTED-status": "In Arbeit"
+        "participation-STARTED-status": "In Bearbeitung"
       }
     },
     "places": {
-      "before-date": "unter",
+      "before-date": "am",
       "places-lots": {
         "statuses": {
           "active": "Aktiv",
           "expired": "Abgelaufen",
-          "pending": "In Kürze"
+          "pending": "Bevorstehend"
         },
         "table": {
-          "caption": "Tabelle, die die Platzkäufe Ihrer Organisation auflistet. Für jeden Kauf wird Folgendes angezeigt: die Anzahl der Plätze, das Aktivierungsdatum, das Ablaufdatum und der Status (aktiv, zukünftig oder abgelaufen). Sie ist nach dem Status der Käufe und dem Ablaufdatum geordnet.",
-          "empty-state": "Noch keine Plätze frei!",
+          "caption": "Tabelle der gekauften Lizenzen deiner Organisation. Für jeden Kauf werden angegeben: die Anzahl der Lizenzen, das Aktivierungsdatum, das Ablaufdatum sowie der Status (aktiv, bevorstehend oder abgelaufen). Sie ist nach dem Status der Käufe und deren Ablaufdatum sortiert.",
+          "empty-state": "Derzeit keine Lizenzen vorhanden!",
           "headers": {
-            "activation-date": "Datum der Aktivierung",
-            "count": "Anzahl der Plätze",
-            "expiration-date": "Datum des Ablaufs",
+            "activation-date": "Aktivierungsdatum",
+            "count": "Anzahl der Lizenzen",
+            "expiration-date": "Ablaufdatum",
             "status": "Status"
           },
-          "title": "Historischer Überblick über den Kauf von Plätzen"
+          "title": "Kaufhistorie der Lizenzen"
         }
       },
-      "title": "Plätze"
+      "title": "Lizenzen"
     },
     "preselect-target-profile": {
       "compatibility": {
@@ -1696,7 +1696,7 @@
           "yes": "Kompatibel mit Tablets"
         }
       },
-      "download": "Herunterladen der Themenauswahl ({ numberOfTubesSelected }) (JSON, { fileSize }ko)",
+      "download": "Themenauswahl herunterladen ({ numberOfTubesSelected }) (JSON, { fileSize } KB)",
       "download-filename": "selection-sujets-{ organizationName }-{ date }.json",
       "levels": {
         "label": "Niveauauswahl für das folgende Thema: {title}",
@@ -1705,29 +1705,29 @@
       },
       "no-tube-selected": "Themenauswahl herunterladen (JSON, { fileSize }ko)",
       "table": {
-        "caption": "Auswahl der Themen",
+        "caption": "Themenauswahl",
         "column": {
           "compatibility": "Kompatibilität",
           "level": "Max. Niveau (optional)",
-          "name": "Themas",
-          "theme-name": "Themas"
+          "name": "Name der Aufgabe",
+          "theme-name": "Name des Themenbereichs"
         },
         "is-responsive": "ja",
-        "not-responsive": "nicht",
+        "not-responsive": "nein",
         "row-title": "Thema"
       },
-      "title": "Auswahl der Themen"
+      "title": "Themenauswahl"
     },
     "profiles-individual-results": {
       "breadcrumb-current-page-label": "Teilnahme von {firstName} {lastName}",
       "certifiable": "Zertifizierbar",
-      "competences-certifiables": "COMP. CERTIFIABLES",
+      "competences-certifiables": "ZERTIFIZIERBARE KOMP.",
       "pix": "PIX",
       "pix-score": "{score, number}",
       "table": {
         "column": {
-          "level": "Ebene",
-          "pix-score": "Pix-Score",
+          "level": "Niveau",
+          "pix-score": "Pix-Punkte",
           "skill": "Kompetenz"
         },
         "empty": "Warten auf Ergebnisse",
@@ -1737,47 +1737,47 @@
     },
     "profiles-list": {
       "table": {
-        "caption": "Diese Tabelle enthält eine Liste der Teilnehmer, die ihre Profile freigegeben haben. Sie zeigt für jeden Teilnehmer seinen Vor- und Nachnamen, das Datum der Übermittlung, den Pix-Score, die Entwicklung, den Status der Zertifizierbarkeit und die Anzahl der zertifizierbaren Kompetenzen.",
+        "caption": "Diese Tabelle enthält die Liste der Teilnehmer:innen, die ihre Profile geteilt haben. Sie zeigt für jede:n Teilnehmer:in Nachname, Vorname, Datum der Übermittlung, Pix-Punkte, Entwicklung, Zertifizierungsstatus und die Anzahl der zertifizierbaren Kompetenzen an.",
         "column": {
-          "ariaSharedProfileCount": "Anzahl der Profilfreigaben",
+          "ariaSharedProfileCount": "Anzahl geteilter Profile",
           "certifiable": "Zertifizierbar",
           "certifiable-tag": "Zertifizierbar",
           "competences-certifiables": "Zertifizierbare Komp.",
           "evolution": "Entwicklung",
           "first-name": "Vorname",
-          "last-name": "Name",
+          "last-name": "Nachname",
           "pix-score": {
-            "label": "Pix-Score",
+            "label": "Pix-Punkte",
             "value": "{score, number}"
           },
           "sending-date": {
-            "label": "Datum der Absendung",
-            "on-hold": "Wartet auf den Versand"
+            "label": "Datum der Übermittlung",
+            "on-hold": "Warten auf Übermittlung"
           },
-          "sharedProfileCount": "Anzahl der Profilfreigaben"
+          "sharedProfileCount": "Anzahl geteilter Profile"
         },
         "empty": "Warten auf Profile",
         "evolution": {
-          "decrease": "In Rückschritt",
-          "increase": "Auf dem Vormarsch",
-          "stable": "Konstant",
+          "decrease": "Verschlechtert",
+          "increase": "Verbessert",
+          "stable": "Unverändert",
           "unavailable": "Nicht verfügbar"
         },
         "evolution-tooltip": {
-          "content": "Entwicklung der pix-Score zwischen den letzten beiden Profilfreigaben."
+          "content": "Entwicklung der Pix-Punktzahl zwischen den letzten beiden Profilübermittlungen."
         },
         "title": "Liste der empfangenen Profile"
       },
       "title": "Empfangene Profile"
     },
     "sco-organization-participant-activity": {
-      "title": "Aktivität der Schülerin/des Schülers"
+      "title": "Aktivität der:des Schüler:in"
     },
     "sco-organization-participants": {
       "action-bar": {
-        "generate-username-password-button": "Generieren von Benutzernamen und/oder Passwörtern für ausgewählte Schülerinnen und Schüler",
-        "information": "{count, plural, =1 {{count} ausgewählter Schüler} other {{count} ausgewählter Schüler}}",
-        "reset-password-button": "Die Passwörter der ausgewählten Schüler zurücksetzen"
+        "generate-username-password-button": "Benutzernamen und/oder Passwörter der ausgewählten Schüler:innen generieren",
+        "information": "{count, plural, =1 {{count} Schüler:in ausgewählt} other {{count} Schüler:innen ausgewählt}}",
+        "reset-password-button": "Passwörter der ausgewählten Schüler:innen zurücksetzen"
       },
       "actions": {
         "manage-account": "Konto verwalten",
@@ -1786,15 +1786,15 @@
       "connection-types": {
         "email": "E-Mail-Adresse",
         "empty": "-",
-        "identifiant": "Kennung",
+        "identifiant": "Benutzername",
         "mediacentre": "Mediacentre",
         "none": "Keine",
         "without-mediacentre": "Ohne Mediacentre"
       },
       "filter": {
-        "aria-label": "Filter nach Schülern",
+        "aria-label": "Filter nach Schüler:innen",
         "certificability": {
-          "label": "Suche nach Zertifizierbarkeit",
+          "label": "Nach Zertifizierbarkeit suchen",
           "placeholder": "Zertifizierbarkeit"
         },
         "division": {
@@ -1805,84 +1805,84 @@
           "label": "Nach Vornamen suchen"
         },
         "last-name": {
-          "label": "Nach Namen suchen"
+          "label": "Nach Nachnamen suchen"
         },
         "login-method": {
-          "empty-option": "Verbindungsmethode",
-          "label": "Nach Verbindungsmethode suchen"
+          "empty-option": "Anmeldemethode",
+          "label": "Nach Anmeldemethode suchen"
         },
-        "students-count": "{count, plural, =0 {0 Schüler} =1 {1 Schüler} other {{count} Schüler}}"
+        "students-count": "{count, plural, =0 {0 Schüler:innen} =1 {1 Schüler:in} other {{count} Schüler:innen}}"
       },
       "generate-username-password-modal": {
-        "content-message-1": "Schülerinnen und Schüler, die noch keine Anmeldemethode haben, müssen über eine Kampagne in Ihrer Schule ein PIX-Konto einrichten.",
-        "content-message-2": "Es wird eine CSV-Datei erstellt, die sowohl die IDs als auch die Einmalpasswörter enthält.",
-        "content-message-3": "Teilen Sie diese neuen Einmalpasswörter den Schülerinnen und Schülern mit. Wenn sie sich mit diesem Passwort anmelden, wird Pix sie auffordern, ein neues Passwort einzugeben.",
-        "title": "Generieren von Benutzernamen und/oder Passwörtern für ausgewählte Schülerinnen und Schüler",
-        "warning-message": "Für Schülerinnen und Schüler, die einen Zugang zum Medienzentrum und/oder eine E-Mail-Adresse haben, wird eine Benutzerkennung und ein Passwort generiert. Bei Schülern, die bereits einen Benutzernamen besitzen, wird das Passwort zurückgesetzt."
+        "content-message-1": "Schüler:innen, die noch über keine Anmeldemethode verfügen, müssen an einer Kampagne deiner Einrichtung teilnehmen, um ihr Pix-Konto zu erstellen.",
+        "content-message-2": "Es wird eine CSV-Datei erstellt, die sowohl die Benutzernamen als auch die Einmalpasswörter enthält.",
+        "content-message-3": "Teile den Schüler:innen diese neuen Einmalpasswörter mit. Wenn sie sich mit diesem Passwort anmelden, wird Pix sie auffordern, ein neues Passwort festzulegen.",
+        "title": "Benutzernamen und/oder Passwörter der ausgewählten Schüler:innen generieren",
+        "warning-message": "Für Schüler:innen mit Zugang zum Mediacentre und/oder einer E-Mail-Adresse werden ein Benutzername und ein Passwort generiert. Für Schüler:innen, die bereits über einen Benutzernamen verfügen, wird das Passwort zurückgesetzt."
       },
       "manage-authentication-method-modal": {
-        "authentication-methods": "Verbindungsmethoden",
+        "authentication-methods": "Anmeldemethoden",
         "copied": "Kopiert!",
         "error": {
-          "default": "Es ist ein interner Fehler aufgetreten. Unsere Mitarbeiter sind dabei, das Problem zu beheben. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.",
-          "unexpected": "Etwas ist schief gelaufen. Bitte versuchen Sie es noch einmal."
+          "default": "Es ist ein interner Fehler aufgetreten. Unsere Teams arbeiten an der Behebung des Problems. Bitte versuche es später erneut.",
+          "unexpected": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
         },
         "section": {
           "add-username": {
-            "button": "Kennung hinzufügen",
-            "label": "Eine Verbindung mit einem Benutzernamen hinzufügen"
+            "button": "Benutzernamen hinzufügen",
+            "label": "Anmeldung mit einem Benutzernamen hinzufügen"
           },
           "email": {
             "copy": "E-Mail-Adresse kopieren",
             "label": "E-Mail-Adresse"
           },
           "mediacentre": {
-            "label": "Mediacenter"
+            "label": "Mediacentre"
           },
           "password": {
-            "copy": "Kopieren des einmaligen Passworts",
+            "copy": "Einmalpasswort kopieren",
             "label": "Neues Einmalpasswort",
-            "warning-1": "Teilen Sie Ihrem Schüler/Ihrer Schülerin das neue Passwort mit.",
-            "warning-2": "Der Schüler/die Schülerin meldet sich mit diesem Einmalpasswort an.",
-            "warning-3": "Pix fordert ihn auf, ein neues auszuwählen."
+            "warning-1": "Teile dieses neue Passwort deiner:deinem Schüler:in mit.",
+            "warning-2": "Die:Der Schüler:in meldet sich mit diesem Einmalpasswort an.",
+            "warning-3": "Pix fordert sie:ihn auf, ein neues Passwort auszuwählen."
           },
           "reset-password": {
-            "button": "Das Passwort zurücksetzen",
-            "warning": "Zurücksetzen löscht das aktuelle Schülerpasswort."
+            "button": "Passwort zurücksetzen",
+            "warning": "Das Zurücksetzen löscht das aktuelle Passwort der:des Schüler:in."
           },
           "unblock": {
             "button": "Konto entsperren",
-            "subtitle": "Wenn das Schülerkonto gesperrt ist",
-            "success-notification": "Das Konto des Schülers wurde entsperrt, er kann sich wieder einloggen."
+            "subtitle": "Falls das Konto der:des Schüler:in gesperrt ist",
+            "success-notification": "Das Konto der:des Schüler:in wurde entsperrt, sie:er kann sich wieder anmelden."
           },
           "username": {
-            "copy": "Den Benutzernamen kopieren",
-            "label": "Kennung"
+            "copy": "Benutzernamen kopieren",
+            "label": "Benutzername"
           }
         },
-        "title": "Verwaltung des Pix-Kontos des Schülers"
+        "title": "Verwaltung des Pix-Kontos der:des Schüler:in"
       },
       "messages": {
-        "password-reset-success": "Das Zurücksetzen der Passwörter der ausgewählten Schülerinnen und Schüler wurde durchgeführt."
+        "password-reset-success": "Das Zurücksetzen der Passwörter der ausgewählten Schüler:innen wurde durchgeführt."
       },
-      "no-participants": "Bisher keine Schüler!",
-      "no-participants-action": "Der Administrator muss die Schülerdatenbank importieren, indem er auf die Schaltfläche Importieren klickt.",
-      "page-title": "Schülerinnen und Schüler",
+      "no-participants": "Derzeit keine Schüler:innen vorhanden!",
+      "no-participants-action": "Die:Der Administrator:in muss die Schüler:innendatenbank importieren, indem sie:er auf die Schaltfläche „Importieren“ klickt.",
+      "page-title": "Schüler:innen",
       "reset-password-modal": {
-        "content-message-1": "Auf {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} Schüler</strong> ausgewählt} other {<strong>{totalSelectedStudents} Schüler</strong> ausgewählt}}, {totalAffectedStudents, plural, =0 {<strong>kein Passwort</strong> wird zurückgesetzt} =1 {das Passwort von <strong>{totalAffectedStudents} Schülerin</strong> wird zurückgesetzt} other {die Passwörter von <strong>{totalAffectedStudents} Schüler</strong> werden zurückgesetzt}}.",
-        "content-message-2": "Es wird eine CSV-Datei erstellt, die sowohl die IDs als auch die Einmalpasswörter enthält.",
-        "content-message-3": "Teilen Sie den Schülerinnen und Schülern diese neuen Einmalpasswörter mit. Wenn sie sich mit diesem Passwort anmelden, wird Pix sie auffordern, ein neues Passwort einzugeben.",
-        "title": "Zurücksetzen der <strong>Passwörter</strong> von Schülern mit <strong>Identifikator</strong>.",
+        "content-message-1": "Von {totalSelectedStudents, plural, =1 {{totalSelectedStudents} ausgewählten Schüler:in} other {{totalSelectedStudents} ausgewählten Schüler:innen}} wird {totalAffectedStudents, plural, =0 {kein Passwort zurückgesetzt} =1 {das Passwort von {totalAffectedStudents} Schüler:in zurückgesetzt} other {das Passwort von {totalAffectedStudents} Schüler:innen zurückgesetzt}}.",
+        "content-message-2": "Es wird eine CSV-Datei erstellt, die sowohl die Benutzernamen als auch die Einmalpasswörter enthält.",
+        "content-message-3": "Teile den Schüler:innen diese neuen Einmalpasswörter mit. Wenn sie sich mit diesem Passwort anmelden, wird Pix sie auffordern, ein neues Passwort festzulegen.",
+        "title": "Zurücksetzen der <strong>Passwörter</strong> von Schüler:innen mit <strong>Benutzernamen</strong>.",
         "warning-message": "Nur die Passwörter für Zugänge über Benutzernamen können zurückgesetzt werden. Die Zugänge über E-Mail-Adressen und Mediacentre sind davon nicht betroffen."
       },
       "table": {
         "column": {
-          "checkbox": "Auswählen/Aufheben der Auswahl {firstname} {lastname}",
+          "checkbox": "{firstname} {lastname} auswählen/abwählen",
           "date-of-birth": "Geburtsdatum",
           "division": {
-            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Klassen sortiert. Klicken Sie, um nach alphanumerischer Reihenfolge zu sortieren.",
-            "ariaLabelSortDown": "Die Tabelle wird nach Klassen in umgekehrter alphanumerischer Reihenfolge sortiert. Klicken Sie, um in alphanumerischer Reihenfolge zu sortieren.",
-            "ariaLabelSortUp": "Die Tabelle wird nach Klassen in alphanumerischer Reihenfolge sortiert. Klicken Sie, um in umgekehrter alphanumerischer Reihenfolge zu sortieren.",
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Klasse sortiert. Klicke hier, um alphanumerisch zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle ist nach Klasse in umgekehrter alphanumerischer Reihenfolge sortiert. Klicke hier, um alphanumerisch zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle ist nach Klasse in alphanumerischer Reihenfolge sortiert. Klicke hier, um in umgekehrter alphanumerischer Reihenfolge zu sortieren.",
             "label": "Klasse"
           },
           "first-name": "Vorname",
@@ -1890,13 +1890,13 @@
             "eligible": "Zertifizierbar",
             "label": "Zertifizierbarkeit",
             "non-eligible": "Nicht zertifizierbar",
-            "not-available": "Nicht mitgeteilt"
+            "not-available": "Nicht angegeben"
           },
           "last-name": {
-            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Namen sortiert. Klicken Sie, um alphabetisch zu sortieren.",
-            "ariaLabelSortDown": "Die Tabelle wird nach Namen in umgekehrter alphabetischer Reihenfolge sortiert. Klicken Sie, um alphabetisch zu sortieren.",
-            "ariaLabelSortUp": "Die Tabelle wird nach Namen in alphabetischer Reihenfolge sortiert. Klicken Sie, um in umgekehrter alphabetischer Reihenfolge zu sortieren.",
-            "label": "Name"
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Nachnamen sortiert. Klicke hier, um alphabetisch zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle ist nach Nachnamen in umgekehrter alphabetischer Reihenfolge sortiert. Klicke hier, um alphabetisch zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle ist nach Nachnamen in alphabetischer Reihenfolge sortiert. Klicke hier, um in umgekehrter alphabetischer Reihenfolge zu sortieren.",
+            "label": "Nachname"
           },
           "last-participation-date": {
             "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach dem Datum der Beteiligungen sortiert. Klicken Sie, um aufsteigend zu sortieren.",
@@ -1904,121 +1904,121 @@
             "ariaLabelSortUp": "Die Tabelle wird nach dem Datum der Teilnahme aufsteigend sortiert. Klicken Sie, um absteigend zu sortieren.",
             "label": "Letzte Teilnahme"
           },
-          "login-method": "Verbindungsmethode(n)",
+          "login-method": "Anmeldemethode(n)",
           "mainCheckbox": "Die gesamte Spalte auswählen/abwählen",
           "participation-count": {
-            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach der Anzahl der Teilnahmen sortiert. Klicken Sie, um in aufsteigender Reihenfolge zu sortieren.",
-            "ariaLabelSortDown": "Die Tabelle wird nach der Anzahl der Teilnahmen absteigend sortiert. Klicken Sie, um in aufsteigender Reihenfolge zu sortieren.",
-            "ariaLabelSortUp": "Die Tabelle wird nach der Anzahl der Teilnahmen aufsteigend sortiert. Klicken Sie, um in absteigender Reihenfolge zu sortieren.",
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Anzahl der Teilnahmen sortiert. Klicke hier, um in aufsteigender Reihenfolge zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle ist nach Anzahl der Teilnahmen in absteigender Reihenfolge sortiert. Klicke hier, um in aufsteigender Reihenfolge zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle ist nach Anzahl der Teilnahmen in aufsteigender Reihenfolge sortiert. Klicke hier, um in absteigender Reihenfolge zu sortieren.",
             "label": "Anzahl der Teilnahmen"
           }
         },
-        "description": "Nach Namen sortierte Tabelle der Schüler. Bei Schülern, die eine Verbindungsmethode angegeben haben, können Sie über ein Menü in der Spalte 'Aktionen' die erlaubten Verbindungsmethoden verwalten und das Schülerpasswort zurücksetzen.",
-        "empty": "Keine Schülerinnen und Schüler."
+        "description": "Schüler:innen-Tabelle nach Nachnamen sortiert. Für Schüler:innen, die eine Anmeldemethode angegeben haben, kannst du über ein Menü in der Spalte „Aktionen“ die zulässigen Anmeldemethoden verwalten und das Passwort der:des Schüler:in zurücksetzen.",
+        "empty": "Keine Schüler:innen."
       },
-      "title": "{count, plural, =0 {Schüler} =1 {Schüler ({count})} other {Schüler ({count})}}",
+      "title": "{count, plural, =0 {Schüler:innen} =1 {Schüler:in ({count})} other {Schüler:innen ({count})}}",
       "user-account-blocking-types": {
-        "blocked": "Gesperrten Mitgliedskontos",
-        "temporarily-blocked": "Vorübergehend Gesperrten Mitgliedskontos"
+        "blocked": "Konto gesperrt",
+        "temporarily-blocked": "Konto vorübergehend gesperrt"
       }
     },
     "sso-selection": {
       "login": {
-        "button": "Ich logge mich ein",
-        "message": "Sie werden nun auf die Login-Seite von \"{providerName}\" weitergeleitet, um sich bei Pix anzumelden."
+        "button": "Ich melde mich an",
+        "message": "Du wirst zur Anmeldeseite von „{providerName}“ weitergeleitet, um dich bei Pix zu authentifizieren."
       },
       "signup": {
-        "button": "Ich melde mich an"
+        "button": "Ich registriere mich"
       },
-      "title": "Wählen Sie Ihre Verbindungsmethode"
+      "title": "Wähle deine Anmeldemethode"
     },
     "statistics": {
-      "before-date": "unter",
-      "description": "In der folgenden Tabelle können Sie die Positionierung Ihrer Teilnehmer nach Thema einsehen.'<br>' Die Positionierung gibt das durchschnittliche Niveau Ihrer Teilnehmer auf dem maximalen Niveau wieder, das sie hätten erreichen können.'<br>' Diese Daten berücksichtigen alle Teilnahmen, die im Rahmen von nicht gelöschten Bewertungskampagnen Ihrer Organisation geteilt wurden.",
+      "before-date": "am",
+      "description": "In der folgenden Tabelle kannst du den Leistungsstand deiner Teilnehmer:innen nach Themen einsehen.'<br>' Der Leistungsstand gibt das durchschnittliche Niveau deiner Teilnehmer:innen im Vergleich zum maximal erreichbaren Niveau an.'<br>' Diese Daten berücksichtigen alle geteilten Teilnahmen aus nicht gelöschten Evaluierungskampagnen deiner Organisation.",
       "empty-state": "Keine Daten verfügbar",
       "level": {
-        "advanced": "Fortgeschrittene",
-        "expert": "Experte",
+        "advanced": "Fortgeschritten",
+        "expert": "Expert:in",
         "independent": "Selbstständig",
-        "novice": "Novize"
+        "novice": "Einsteiger:in"
       },
-      "select-label": "Domain",
+      "select-label": "Bereich",
       "table": {
-        "caption": "Diese Tabelle zeigt die Auswertung der Ergebnisse aller Teilnehmer nach Themen. Sie zeigt für jede Zeile die Kompetenz, das Thema, den Abdeckungsgrad sowie die erreichte Stufe an.",
+        "caption": "Diese Tabelle zeigt die Analyse der Ergebnisse aller Teilnehmer:innen nach Themen. Sie gibt für jede Zeile die Kompetenz, das Thema, die Abdeckungsrate sowie das erreichte Niveau an.",
         "headers": {
           "competences": "Kompetenzen",
-          "positioning": "Positionierung",
-          "reached-level": "Erreichte Stufe",
+          "positioning": "Leistungsstand",
+          "reached-level": "Erreichtes Niveau",
           "topics": "Themen"
         }
       },
       "title": "Statistiken"
     },
     "sup-organization-participant-activity": {
-      "title": "Aktivität des Schülers/der Schülerin"
+      "title": "Aktivität der:des Studierenden"
     },
     "sup-organization-participants": {
       "action-bar": {
         "delete-button": "Löschen",
-        "error-message": "{count, plural, =1 {Ein Fehler ist aufgetreten, {firstname} {lastname} wurde nicht aus der Liste der Schüler entfernt.} other {Ein Fehler ist aufgetreten, die ausgewählten {count} Schüler wurden nicht aus der Liste entfernt.}}",
-        "information": "{count, plural, =1 {{count} ausgewählter Schüler} other {{count} ausgewählter Schüler}}",
-        "success-message": "{count, plural, =1 {{firstname} {lastname} wurde tatsächlich aus der Liste der Studenten entfernt.} other {Die ausgewählten {count} Studenten wurden tatsächlich aus der Liste entfernt.}}"
+        "error-message": "{count, plural, =1 {Es ist ein Fehler aufgetreten: {firstname} {lastname} wurde nicht aus der Liste der Studierenden gelöscht.} other {Es ist ein Fehler aufgetreten: Die {count} ausgewählten Studierenden wurden nicht aus der Liste gelöscht.}}",
+        "information": "{count, plural, =1 {{count} Studierende:r ausgewählt} other {{count} Studierende ausgewählt}}",
+        "success-message": "{count, plural, =1 {{firstname} {lastname} wurde erfolgreich aus der Liste der Studierenden gelöscht.} other {Die {count} ausgewählten Studierenden wurden erfolgreich aus der Liste gelöscht.}}"
       },
       "actions": {
         "download-template": "Vorlage herunterladen",
-        "edit-student-number": "Studentennummer bearbeiten",
+        "edit-student-number": "Matrikelnummer bearbeiten",
         "show-actions": "Aktionen anzeigen"
       },
       "deletion-modal": {
         "content": {
           "footer": "Achtung: Diese Aktion kann nicht rückgängig gemacht werden.",
-          "header": "{count, plural, =1 {Dieser Schüler wird nicht mehr sichtbar sein} other {Diese Schüler werden nicht mehr sichtbar sein}} in Pix Orga.",
-          "main-campaign-prevent": "Dies wird sich daher auf die Ergebnisse und Analysen der Kampagnen auswirken, die {count, plural, =1 {er} other {sie}} durchgeführt haben.",
-          "main-participation-prevent": "Alle {count, plural, =1 {seine} other {ihre}} Beteiligungen an Kampagnen werden gelöscht."
+          "header": "{count, plural, =1 {Diese:r Studierende wird nicht mehr sichtbar sein} other {Diese Studierenden werden nicht mehr sichtbar sein}} in Pix Orga.",
+          "main-campaign-prevent": "Dies wirkt sich auf die Ergebnisse und Analysen der Kampagnen aus, die {count, plural, =1 {diese:r Studierende} other {sie}} absolviert {count, plural, =1 {hat} other {haben}}.",
+          "main-participation-prevent": "Alle {count, plural, =1 {ihre:seine} other {ihre}} Kampagnenteilnahmen werden gelöscht."
         },
-        "title": "{count, plural, =1 {Entfernen Sie '<strong>'{firstname} {lastname}'</strong>' von Ihren} other {Sind Sie sicher, dass Sie '<strong>'{count}'</strong>'}} Schüler entfernen möchten?"
+        "title": "{count, plural, =1 {Möchtest du ''{firstname} {lastname}'' aus deinen Studierenden löschen?} other {Bist du sicher, dass du ''{count}'' Studierende löschen möchtest?}}"
       },
       "edit-student-number-modal": {
         "actions": {
           "update": "Aktualisieren"
         },
         "form": {
-          "error": "Die Studentennummer darf nicht leer sein.",
-          "new-student-number-label": "Neue Studentennummer",
-          "student-number": "Aktuelle Studentennummer von {firstName} {lastName} ist :",
-          "success": "Die Änderung der Studentennummer von {firstName} zu {lastName} wurde erfolgreich durchgeführt."
+          "error": "Die Matrikelnummer darf nicht leer sein.",
+          "new-student-number-label": "Neue Matrikelnummer",
+          "student-number": "Aktuelle Matrikelnummer von {firstName} {lastName} ist:",
+          "success": "Die Matrikelnummer von {firstName} {lastName} wurde erfolgreich geändert."
         },
-        "title": "Ausgabe der Studentennummer"
+        "title": "Änderung der Matrikelnummer"
       },
       "empty-state": {
-        "no-participants": "Bisher noch keine Schüler!",
-        "no-participants-action": "Der Administrator muss die Schüler importieren, indem er auf die Schaltfläche Importieren klickt."
+        "no-participants": "Derzeit keine Studierenden vorhanden!",
+        "no-participants-action": "Die:Der Administrator:in muss die Studierenden importieren, indem sie:er auf die Schaltfläche „Importieren“ klickt."
       },
       "filter": {
-        "aria-label": "Schüler filtern",
+        "aria-label": "Studierende filtern",
         "certificability": {
-          "label": "Suche nach Zertifizierbarkeit",
+          "label": "Nach Zertifizierbarkeit suchen",
           "placeholder": "Zertifizierbarkeit"
         },
         "group": {
           "empty": "Keine Gruppe",
-          "label": "Eine Gruppe eingeben",
+          "label": "Gruppe eingeben",
           "placeholder": "Nach Gruppen suchen"
         },
         "student-number": {
-          "label": "Eine Studentennummer eingeben",
+          "label": "Matrikelnummer eingeben",
           "placeholder": "1234658P"
         },
-        "students-count": "{count, plural, =0 {0 Studierende} =1 {1 Studierende} other {{count} Studierende}}"
+        "students-count": "{count, plural, =0 {0 Studierende} =1 {1 Studierende:r} other {{count} Studierende}}"
       },
       "page-title": "Studierende",
       "replace-students-modal": {
-        "confirm": "Ja, ich ersetze",
-        "confirmation-checkbox": "Ich bestätige, dass ich die Auswirkungen richtig verstanden habe",
-        "footer-content": "Schüler, die in der Anwendung existieren und im neuen Import vorhanden sind, werden nicht gelöscht und bei Bedarf aktualisiert.",
-        "last-warning": "Achtung, diese Aktion ist unumkehrbar. Schüler, die im neuen Import nicht vorhanden sind, werden aus Pix Orga entfernt.",
+        "confirm": "Ersetzen bestätigen",
+        "confirmation-checkbox": "Ich bestätige, die Auswirkungen verstanden zu haben",
+        "footer-content": "Die in der Anwendung bereits vorhandenen Studierenden, die im neuen Import enthalten sind, werden nicht gelöscht und bei Bedarf aktualisiert.",
+        "last-warning": "Achtung: Diese Aktion kann nicht rückgängig gemacht werden. Die Studierenden, die im neuen Import nicht enthalten sind, werden aus Pix Orga gelöscht.",
         "main-content": "Alle ihre Teilnahmen an Kampagnen werden gelöscht. Dies hat Auswirkungen auf die Ergebnisse und Analysen der Kampagnen, die sie durchgeführt haben. Sie können nicht mehr an Kampagnen teilnehmen, an denen sie in der Vergangenheit teilgenommen haben. Sie können jedoch an neuen Kampagnen teilnehmen.",
-        "title": "Sind Sie sicher, dass Sie die vorhandenen Schüler ersetzen wollen?"
+        "title": "Bist du sicher, dass du die vorhandenen Studierenden ersetzen möchtest?"
       },
       "table": {
         "column": {
@@ -2029,10 +2029,10 @@
             "label": "Zertifizierbarkeit"
           },
           "last-name": {
-            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Namen sortiert. Klicken Sie, um alphabetisch zu sortieren.",
-            "ariaLabelSortDown": "Die Tabelle wird nach Namen in umgekehrter alphabetischer Reihenfolge sortiert. Klicken Sie, um alphabetisch zu sortieren.",
-            "ariaLabelSortUp": "Die Tabelle wird nach Namen in alphabetischer Reihenfolge sortiert. Klicken Sie, um in umgekehrter alphabetischer Reihenfolge zu sortieren.",
-            "label": "Name"
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Nachnamen sortiert. Klicke hier, um alphabetisch zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle ist nach Nachnamen in umgekehrter alphabetischer Reihenfolge sortiert. Klicke hier, um alphabetisch zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle ist nach Nachnamen in alphabetischer Reihenfolge sortiert. Klicke hier, um in umgekehrter alphabetischer Reihenfolge zu sortieren.",
+            "label": "Nachname"
           },
           "last-participation-date": {
             "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach dem Datum der Beteiligungen sortiert. Klicken Sie, um aufsteigend zu sortieren.",
@@ -2041,37 +2041,37 @@
             "label": "Letzte Teilnahme"
           },
           "participation-count": {
-            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach der Anzahl der Teilnahmen sortiert. Klicken Sie, um in aufsteigender Reihenfolge zu sortieren.",
-            "ariaLabelSortDown": "Die Tabelle wird nach der Anzahl der Teilnahmen absteigend sortiert. Klicken Sie, um in aufsteigender Reihenfolge zu sortieren.",
-            "ariaLabelSortUp": "Die Tabelle wird nach der Anzahl der Teilnahmen aufsteigend sortiert. Klicken Sie, um in absteigender Reihenfolge zu sortieren.",
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach Anzahl der Teilnahmen sortiert. Klicke hier, um in aufsteigender Reihenfolge zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle ist nach Anzahl der Teilnahmen in absteigender Reihenfolge sortiert. Klicke hier, um in aufsteigender Reihenfolge zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle ist nach Anzahl der Teilnahmen in aufsteigender Reihenfolge sortiert. Klicke hier, um in absteigender Reihenfolge zu sortieren.",
             "label": "Anzahl der Teilnahmen"
           },
-          "student-number": "Studentennummer"
+          "student-number": "Matrikelnummer"
         },
-        "description": "Nach Namen sortierte Tabelle der Schüler. Über ein Menü in einer zusätzlichen Spalte können Sie die Schülernummer ändern.",
-        "empty": "Keine Schüler."
+        "description": "Studierenden-Tabelle nach Nachnamen sortiert. Du kannst über ein Menü in einer zusätzlichen Spalte die Matrikelnummer bearbeiten.",
+        "empty": "Keine Studierenden."
       },
-      "title": "{count, plural, =0 {Studenten} =1 {Schüler ({count})} other {Studenten ({count})}}"
+      "title": "{count, plural, =0 {Studierende} =1 {Studierende:r ({count})} other {Studierende ({count})}}"
     },
     "team-invitations": {
       "cancel-invitation": "Einladung löschen",
       "empty-table": "Sie haben keine ausstehenden Einladungen.",
-      "invitation-cancelled-succeed-message": "Die Einladung wurde tatsächlich gelöscht.",
-      "invitation-resent-succeed-message": "Die Einladung wurde ordnungsgemäß zurückgeschickt.",
+      "invitation-cancelled-succeed-message": "Die Einladung wurde erfolgreich gelöscht.",
+      "invitation-resent-succeed-message": "Die Einladung wurde erfolgreich erneut gesendet.",
       "resend-invitation": "Einladung erneut senden",
       "table": {
         "column": {
           "email-address": "E-Mail-Adresse",
-          "pending-invitation": "Datum der letzten Sendung"
+          "pending-invitation": "Zuletzt gesendet am"
         },
         "row": {
-          "aria-label": "Einladung wartet"
+          "aria-label": "Ausstehende Einladung"
         }
       },
       "title": "Einladungen"
     },
     "team-list": {
-      "add-member-button": "Ein Mitglied einladen",
+      "add-member-button": "Mitglied einladen",
       "tabs": {
         "invitation": "Einladungen ({count, plural, =0 {-} other {{count}}})",
         "member": "Mitglieder ({count, plural, =0 {-} other {{count}}})"
@@ -2081,12 +2081,12 @@
     "team-members": {
       "actions": {
         "edit-organization-membership-role": "Rolle ändern",
-        "leave-organization": "Diesen Bereich verlassen Pix Orga",
+        "leave-organization": "Diesen Pix Orga-Bereich verlassen",
         "manage": "Verwalten",
         "remove-membership": "Löschen",
-        "save": "Registrieren",
+        "save": "Speichern",
         "select-role": {
-          "label": "Eine Rolle auswählen",
+          "label": "Rolle auswählen",
           "options": {
             "admin": "Administrator",
             "member": "Mitglied"
@@ -2095,18 +2095,18 @@
       },
       "modals": {
         "leave-organization": {
-          "message": "Sind Sie sicher, dass Sie diesen Pix Orga-Bereich verlassen möchten? Sie werden keinen Zugriff mehr auf <strong>{organizationName}</strong> haben.<br/><br/>Ihre Kampagnen bleiben für den Rest des Teams zugänglich, sie werden nicht archiviert.<br/><br/>Ihr Zugriff auf andere Pix Orga-Räume wird nicht beeinflusst.<br/><br/>Sie werden ausgeloggt.",
-          "title": "Diesen Bereich verlassen Pix Orga"
+          "message": "Bist du sicher, dass du diesen Pix Orga-Bereich verlassen möchtest? Du wirst keinen Zugriff mehr auf <strong>{organizationName}</strong> haben.<br/><br/>Deine Kampagnen bleiben für den Rest des Teams zugänglich, sie werden nicht archiviert.<br/><br/>Dein Zugriff auf andere Pix Orga-Bereiche ist davon nicht betroffen.<br/><br/>.Du wirst abgemeldet.",
+          "title": "Diesen Pix Orga-Bereich verlassen"
         }
       },
       "notifications": {
         "change-member-role": {
           "error": "Bei der Änderung der Rolle des Mitglieds ist ein Fehler aufgetreten.",
-          "success": "Die Rolle wurde tatsächlich geändert."
+          "success": "Die Rolle wurde erfolgreich geändert."
         },
         "leave-organization": {
           "error": "Beim Deaktivieren des Mitglieds ist ein Fehler aufgetreten.",
-          "success": "Sie wurden erfolgreich aus der Organisation {organizationName} entfernt. Sie werden von Pix Orga abgemeldet..."
+          "success": "Du wurdest erfolgreich aus der Organisation {organizationName} entfernt. Du wirst aus Pix Orga abgemeldet..."
         },
         "remove-membership": {
           "error": "Beim Deaktivieren des Mitglieds ist ein Fehler aufgetreten.",
@@ -2115,15 +2115,15 @@
       },
       "remove-membership-modal": {
         "actions": {
-          "remove": "Ja, Mitglied löschen"
+          "remove": "Ja, Mitglied entfernen"
         },
-        "message": "{memberFirstName} {memberLastName} wird nicht mehr auf diesen Pix Orga-Bereich zugreifen können.'<br>'Seine Kampagnen bleiben für den Rest des Teams zugänglich.",
-        "title": "Bestätigen Sie die Löschung?"
+        "message": "{memberFirstName} {memberLastName} wird nicht mehr auf diesen Pix Orga-Bereich zugreifen können.'<br>'Die Kampagnen der Person bleiben für den Rest des Teams zugänglich.",
+        "title": "Bestätigst du die Löschung?"
       },
       "table": {
         "column": {
           "first-name": "Vorname",
-          "last-name": "Name",
+          "last-name": "Nachname",
           "organization-membership-role": "Rolle"
         },
         "empty": "Warten auf Mitglieder"
@@ -2131,33 +2131,33 @@
       "title": "Mitglieder"
     },
     "team-new": {
-      "email-requirement": "Geben Sie hier die E-Mail-Adresse des Mitglieds ein, das Sie einladen möchten.",
+      "email-requirement": "Gib hier die E-Mail-Adresse des Mitglieds ein, das du einladen möchtest.",
       "errors": {
-        "default": "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.",
-        "invalid-input": "Die von Ihnen eingereichten Daten haben nicht das richtige Format",
-        "mandatory-email-field": "Dieses Feld ist obligatorisch",
-        "sending-email-to-invalid-email-address": "Das Senden einer E-Mail für die Adresse {email} ist fehlgeschlagen. Der Postausgangsserver antwortete: \"{errorMessage}\".",
+        "default": "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuche es später erneut.",
+        "invalid-input": "Die von dir übermittelten Daten haben nicht das richtige Format.",
+        "mandatory-email-field": "Dies ist ein Pflichtfeld.",
+        "sending-email-to-invalid-email-address": "Das Senden der E-Mail an die Adresse {email} ist fehlgeschlagen. Der Mailserver hat geantwortet: „{errorMessage}“",
         "status": {
-          "400": "Das Format der E-Mail-Adresse ist falsch.",
-          "404": "Diese E-Mail gehört keinem Nutzer.",
+          "400": "Das Format der E-Mail-Adresse ist ungültig.",
+          "404": "Diese E-Mail-Adresse gehört zu keinem:keiner Nutzer:in.",
           "412": "Dieses Mitglied wurde bereits hinzugefügt.",
-          "500": "Etwas ist schief gelaufen. Bitte versuchen Sie es noch einmal."
+          "500": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
         }
       },
       "invite-form-modal": {
         "confirm": "Bestätigen",
-        "question": "Möchten Sie fortfahren?",
-        "title": "Bestätigen, dass neue Mitglieder zum Team hinzugefügt wurden",
-        "warning": "Die Mitglieder, die Sie hinzufügen, haben Zugriff auf die Ergebnisse der Teilnehmer und die Kampagnenanalyse."
+        "question": "Möchtest du fortfahren?",
+        "title": "Hinzufügen neuer Mitglieder zum Team bestätigen",
+        "warning": "Die von dir hinzugefügten Mitglieder erhalten Zugriff auf die Ergebnisse der Teilnehmer:innen und die Kampagnenanalysen."
       },
-      "invited-members": "Nach Erhalt der E-Mail können die Gäste wählen, ob sie ein Pix-Konto erstellen oder sich mit einem bestehenden Pix-Konto anmelden möchten.",
+      "invited-members": "Nach Erhalt der E-Mail können die Eingeladenen ein neues Pix-Konto erstellen oder sich mit einem bestehenden Pix-Konto anmelden.",
       "several-email-requirement": "Sie können mehrere Mitglieder einladen, indem Sie die E-Mail-Adressen durch Kommas trennen.",
       "success": {
-        "invitation": "Es wurde tatsächlich eine Einladung an die E-Mail-Adresse {email} gesendet.",
-        "multiple-invitations": "Es wurde tatsächlich eine Einladung an die aufgelisteten E-Mail-Adressen gesendet."
+        "invitation": "Du kannst mehrere Mitglieder einladen, indem du die E-Mail-Adressen durch Kommas trennst.",
+        "multiple-invitations": "Eine Einladung wurde erfolgreich an die E-Mail-Adresse {email} gesendet."
       },
       "title": "Ein Mitglied einladen",
-      "warning": "Die Mitglieder, die Sie unten hinzufügen, haben Zugriff auf die Ergebnisse der Teilnehmer und die Kampagnenanalyse. Bitte stellen Sie sicher, dass es sich bei den eingeladenen Personen um Mitglieder Ihrer Organisation handelt."
+      "warning": "Die unten von dir hinzugefügten Mitglieder erhalten Zugriff auf die Ergebnisse der Teilnehmer:innen und die Kampagnenanalysen. Bitte stelle sicher, dass die eingeladenen Personen Mitglieder deiner Organisation sind."
     },
     "team-new-item": {
       "input-label": "E-Mail-Adresse(n)",
@@ -2165,7 +2165,7 @@
     },
     "terms-of-service": {
       "accept": "Ich akzeptiere die Nutzungsbedingungen",
-      "title": "Bedingungen für die Nutzung"
+      "title": "Nutzungsbedingungen"
     }
   }
 }
