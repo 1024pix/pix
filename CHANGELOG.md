@@ -1,5 +1,22 @@
 # Pix Changelog
 
+# [5.490.0](https://github.com/1024pix/pix/compare/v5.489.0...v5.490.0) (2026-08-31)
+
+### :rocket: Amélioration
+
+- [#17209](https://github.com/1024pix/pix/pull/17209) Add Proxy on Pix Admin
+- [#17192](https://github.com/1024pix/pix/pull/17192) Afficher des boutons permettant d'afficher les contenus formatifs par 3 sur la page de résultat sur Pix App (PIX-22793).
+- [#17264](https://github.com/1024pix/pix/pull/17264) Écrire dans la table `users` lors de l’acceptation des CGUs certif (PIX-22563)
+- [#17250](https://github.com/1024pix/pix/pull/17250) Mettre à dispo le nom du domaine de la compétence via Maddo (PIX-23762)
+- [#17322](https://github.com/1024pix/pix/pull/17322) Module Structurertext_NOV mini modifs
+- [#17258](https://github.com/1024pix/pix/pull/17258) Permettre de déplier / replier tous les accordéons à la création ou consultation d'un PC (PIX-23862)
+
+### :bug: Correction
+
+- [#17292](https://github.com/1024pix/pix/pull/17292) Afficher correctement la page d'acceptation des CGU sur mobile (PIX-24023)
+- [#17203](https://github.com/1024pix/pix/pull/17203) Corriger les informations sensibles passées dans les URL + potentiel problème de cache (PIX-24007)
+- [#17319](https://github.com/1024pix/pix/pull/17319) rendre obligatoire le taux de réussite requis pour créer un schéma de parcours combiné avec des sujets cappés (PIX-24026)
+
 # [5.489.0](https://github.com/1024pix/pix/compare/v5.488.0...v5.489.0) (2026-08-28)
 
 ### :rocket: Amélioration
