@@ -13,6 +13,7 @@ import {
   OrganizationLearnerTypeNotFound,
   OrganizationNotFound,
   ParentOrganizationNotInNetworkError,
+  StructureCategoryNotFound,
   StructureNotFoundError,
   TagNotFoundError,
   UnableToAttachCertificationCenterToOrganization,
@@ -80,6 +81,10 @@ const organizationalEntitiesDomainErrorMappingConfiguration = [
   {
     name: CountryNotFoundError.name,
     httpErrorFn: (error) => new NotFoundError(error.message, error.code, error.meta),
+  },
+  {
+    name: StructureCategoryNotFound.name,
+    httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
   },
   {
     name: StructureNotFoundError.name,
