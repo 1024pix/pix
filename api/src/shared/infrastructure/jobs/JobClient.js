@@ -43,14 +43,11 @@ export class JobClient {
     if (this.#isInitialized) return;
     this.#isTestOnly = isTestOnly;
 
-    const connectionString =
-      process.env.NODE_ENV === 'test' ? process.env.TEST_JOBS_DATABASE_URL : process.env.JOBS_DATABASE_URL;
-
     if (worker) {
       this.#pgBoss = pgBossFactory
         ? pgBossFactory()
         : new PgBoss({
-            connectionString,
+            connectionString: process.env.JOBS_DATABASE_URL,
             max: config.pgBoss.workerConnexionPoolMaxSize,
             persistWarnings: config.pgBoss.persistWarnings,
             warningRetentionDays: 30,
@@ -62,7 +59,7 @@ export class JobClient {
       this.#pgBoss = pgBossFactory
         ? pgBossFactory()
         : new PgBoss({
-            connectionString,
+            connectionString: process.env.JOBS_DATABASE_URL,
             max: config.pgBoss.clientConnexionPoolMaxSize,
             supervise: false,
             schedule: false,

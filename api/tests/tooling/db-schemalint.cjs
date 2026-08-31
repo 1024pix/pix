@@ -1,6 +1,6 @@
 module.exports = {
   connection: {
-    connectionString: process.env.TEST_DATABASE_URL,
+    connectionString: process.env.DATABASE_URL,
   },
   schemas: [{ name: 'public' }],
   rules: {

@@ -25,7 +25,7 @@ const baseConfiguration = {
 
 const defaultKnexConfig = {
   development: buildPostgresEnvironment(baseConfiguration),
-  test: setConnectionString(process.env.TEST_DATABASE_URL, buildPostgresEnvironment(baseConfiguration)),
+  test: buildPostgresEnvironment(baseConfiguration),
   production: buildPostgresEnvironment(baseConfiguration),
 };
 

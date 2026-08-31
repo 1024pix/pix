@@ -1,4 +1,4 @@
-import { buildPostgresEnvironment, setConnectionString } from '../db/utils/build-postgres-environment.js';
+import { buildPostgresEnvironment } from '../db/utils/build-postgres-environment.js';
 import { loadEnvFileIfExists } from '../src/shared/load-env-file-if-exists.js';
 
 loadEnvFileIfExists();
@@ -13,7 +13,7 @@ const baseConfiguration = {
 
 const environments = {
   development: buildPostgresEnvironment(baseConfiguration),
-  test: setConnectionString(process.env.TEST_DATAWAREHOUSE_DATABASE_URL, buildPostgresEnvironment(baseConfiguration)),
+  test: buildPostgresEnvironment(baseConfiguration),
   production: buildPostgresEnvironment(baseConfiguration),
 };
 

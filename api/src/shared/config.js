@@ -177,9 +177,6 @@ const schema = Joi.object({
   REDIS_URL: Joi.string().uri().optional(),
   REVOKED_USER_ACCESS_LIFESPAN: Joi.string().optional(),
   SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES: Joi.number().integer().min(1).optional(),
-  TEST_DATABASE_URL: Joi.string().optional(),
-  TEST_LOG_ENABLED: Joi.string().optional().valid('true', 'false'),
-  TEST_REDIS_URL: Joi.string().optional(),
   TLD_FR: Joi.string().optional(),
   TLD_ORG: Joi.string().optional(),
   APIM_URL: Joi.string().optional(),
@@ -665,7 +662,7 @@ const configuration = (function () {
 
     config.passwordResetDemand.secret = 'the-password-must-be-at-least-32-characters-long';
 
-    config.temporaryStorage.redisUrl = process.env.TEST_REDIS_URL;
+    config.temporaryStorage.redisUrl = process.env.REDIS_URL;
     config.authentication.permitPixAdminLoginFromPassword = false;
 
     config.cpf.storage = {
@@ -688,20 +685,20 @@ const configuration = (function () {
       cron: '0 3 * * *',
     };
 
-    config.logging.enabled = toBoolean(process.env.TEST_LOG_ENABLED);
+    config.logging.enabled = toBoolean(process.env.LOG_ENABLED);
     config.logging.enableLogKnexQueries = false;
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;
 
-    // TODO: Rather use config.caching.redisUrl = process.env.TEST_REDIS_URL;
+    // TODO: Rather use config.caching.redisUrl = process.env.REDIS_URL;
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 100;
     config.caching.redisCacheLockedWaitBeforeRetry = 1;
 
-    config.mutex.redisUrl = process.env.TEST_REDIS_URL;
+    config.mutex.redisUrl = process.env.REDIS_URL;
 
     config.redis = {
-      url: process.env.TEST_REDIS_URL,
+      url: process.env.REDIS_URL,
     };
 
     config.import = {
@@ -709,9 +706,9 @@ const configuration = (function () {
         client: {
           accessKeyId: 'nothing',
           secretAccessKey: 'nothing',
-          endpoint: process.env.TEST_IMPORT_STORAGE_ENDPOINT,
+          endpoint: process.env.IMPORT_STORAGE_ENDPOINT,
           region: 'nothing',
-          bucket: process.env.TEST_IMPORT_STORAGE_BUCKET_NAME,
+          bucket: process.env.IMPORT_STORAGE_BUCKET_NAME,
           forcePathStyle: true,
         },
       },
