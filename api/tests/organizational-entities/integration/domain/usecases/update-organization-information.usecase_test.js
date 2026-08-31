@@ -4,6 +4,7 @@ import {
   AdministrationTeamNotFound,
   CountryNotFoundError,
   OrganizationLearnerTypeNotFound,
+  StructureCategoryNotFound,
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
@@ -233,6 +234,95 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
 
       // then
       expect(response.countryCode).equal(initialOrganization.countryCode);
+    });
+  });
+
+  context('when a structure category is given', function () {
+    it('updates the category of the organization structure', async function () {
+      // given
+      const newStructureCategory = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' });
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({});
+
+      await databaseBuilder.commit();
+
+      const organizationNewInformation = domainBuilder.buildOrganizationForAdmin({
+        id: organization.id,
+        administrationTeamId: organization.administrationTeamId,
+        categoryId: newStructureCategory.id,
+        organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
+          id: organization.organizationLearnerTypeId,
+        }),
+      });
+
+      // when
+      const updatedOrganization = await usecases.updateOrganizationInformation({
+        userId: adminUserId,
+        organization: organizationNewInformation,
+      });
+
+      // then
+      expect(updatedOrganization.categoryId).to.equal(newStructureCategory.id);
+      expect(updatedOrganization.categoryLabel).to.equal(newStructureCategory.label);
+    });
+
+    context('when the structure category does not exist', function () {
+      it('throws a StructureCategoryNotFound error', async function () {
+        // given
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({});
+
+        await databaseBuilder.commit();
+
+        const organizationNewInformation = domainBuilder.buildOrganizationForAdmin({
+          id: organization.id,
+          administrationTeamId: organization.administrationTeamId,
+          categoryId: 123456,
+          organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
+            id: organization.organizationLearnerTypeId,
+          }),
+        });
+
+        // when
+        const error = await catchErr(usecases.updateOrganizationInformation)({
+          userId: adminUserId,
+          organization: organizationNewInformation,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(StructureCategoryNotFound);
+        expect(error.message).to.equal('Structure category not found for id 123456');
+        expect(error.meta.structureCategoryId).to.equal(123456);
+      });
+    });
+  });
+
+  context('when no structure category is given', function () {
+    it('does not reset the category of the organization', async function () {
+      // given
+      const structureCategory = databaseBuilder.factory.buildStructureCategory({ label: 'Catégorie initiale' });
+      const organization = databaseBuilder.factory.buildOrganization();
+      const structure = databaseBuilder.factory.buildStructure({ categoryId: structureCategory.id });
+      databaseBuilder.factory.buildFactStructure({ structureId: structure.id, organizationId: organization.id });
+
+      await databaseBuilder.commit();
+
+      const organizationNewInformation = domainBuilder.buildOrganizationForAdmin({
+        id: organization.id,
+        administrationTeamId: organization.administrationTeamId,
+        categoryId: null,
+        organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
+          id: organization.organizationLearnerTypeId,
+        }),
+      });
+
+      // when
+      const updatedOrganization = await usecases.updateOrganizationInformation({
+        userId: adminUserId,
+        organization: organizationNewInformation,
+      });
+
+      // then
+      expect(updatedOrganization.categoryId).to.equal(structureCategory.id);
+      expect(updatedOrganization.categoryLabel).to.equal(structureCategory.label);
     });
   });
 });

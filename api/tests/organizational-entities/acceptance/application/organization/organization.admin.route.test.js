@@ -891,7 +891,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
   });
 
   describe('PATCH /api/admin/organizations/{organizationId}', function () {
-    it('should return the updated organization and status code 200', async function () {
+    it('should return the updated category organization and status code 200', async function () {
       // given
       const administrationTeamId = databaseBuilder.factory.buildAdministrationTeam().id;
 
@@ -947,6 +947,38 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data['external-id']).not.to.equal(organization.externalId);
+    });
+
+    it('should return organization updated with status 200', async function () {
+      // given
+      const structureCategory = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' });
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({});
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/organizations/${organization.id}`,
+        payload: {
+          data: {
+            type: 'organizations',
+            id: organization.id,
+            attributes: {
+              'administration-team-id': organization.administrationTeamId,
+              'category-id': structureCategory.id,
+            },
+          },
+        },
+        headers: generateAuthenticatedUserRequestHeaders({
+          userId: superAdmin.id,
+        }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.attributes['category-id']).to.equal(structureCategory.id);
     });
   });
 
