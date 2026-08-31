@@ -10,6 +10,6 @@ export default class TargetProfileRoute extends Route {
   }
 
   model(params) {
-    return this.store.findRecord('target-profile', params.target_profile_id);
+    return this.store.findRecord('target-profile', params.target_profile_id, { reload: true }); // TODO check
   }
 }

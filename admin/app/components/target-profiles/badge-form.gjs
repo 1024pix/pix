@@ -8,6 +8,7 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
 
@@ -20,6 +21,8 @@ export default class BadgeForm extends Component {
   @service router;
   @service intl;
 
+  @tracked areas = [];
+
   badge = {
     key: '',
     altMessage: '',
@@ -31,6 +34,13 @@ export default class BadgeForm extends Component {
     cappedTubesCriteria: [],
     imageUrl: '',
   };
+
+  constructor() {
+    super(...arguments);
+    Promise.resolve(this.args.targetProfile?.areas).then((areas) => {
+      this.areas = areas ?? [];
+    });
+  }
 
   @action
   updateFormValue(key, event) {
@@ -184,7 +194,7 @@ export default class BadgeForm extends Component {
             </PixCheckbox>
           </div>
         </Card>
-        <Criteria @badge={{this.badge}} @areas={{@targetProfile.areas}} />
+        <Criteria @badge={{this.badge}} @areas={{this.areas}} />
       </section>
       <section class="admin-form__actions">
         <PixButtonLink @variant="secondary" @route="authenticated.target-profiles.target-profile.insights">

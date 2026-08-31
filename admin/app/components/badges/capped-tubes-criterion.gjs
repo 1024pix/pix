@@ -3,6 +3,7 @@ import sortBy from 'lodash/sortBy';
 
 import Area from '../common/tubes-details/area';
 
+// TODO check
 export default class CappedTubesCriterion extends Component {
   get areasForView() {
     return sortBy(this.args.targetProfile.hasMany('areas').value(), 'code')

@@ -15,6 +15,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { and, eq, gt, not, or } from 'ember-truth-helpers';
+import sortBy from 'lodash/sortBy';
+import uniqBy from 'lodash/uniqBy';
 
 import Card from '../card';
 import CappedTubesCriterion from '../target-profiles/badge-form/capped-tubes-criterion';
@@ -30,10 +32,10 @@ export default class CombinedCourseBlueprintForm extends Component {
   @tracked blueprint;
   @tracked itemAddDisabled = true;
   @tracked itemToAdd = null;
-  @tracked hasUniqueCappedTubesSubset = false;
-  @tracked hasMultipleCappedTubeSubsets = false;
   @tracked cappedTubeRequirements = [];
   @tracked areas;
+  @tracked targetProfilesSnapshots = [];
+  @tracked currentTargetProfile = null;
 
   constructor() {
     super(...arguments);
@@ -43,21 +45,22 @@ export default class CombinedCourseBlueprintForm extends Component {
         this.blueprint.unloadRecord();
       }
     });
-    if (!this.args.updateMode) {
-      Promise.resolve(this.args.model.frameworks).then(async () => {
-        await this.refreshAreas();
-      });
-    }
   }
 
   @action
-  addItem(event) {
+  async addItem(event) {
     event.preventDefault();
 
     this.addToContent();
 
+    if (this.itemType === 'campaign') {
+      this.currentTargetProfile = await this.store.findRecord('target-profile', this.itemValue, { reload: true });
+      await this.refreshAreas();
+    }
+
     this.itemValue = null;
     document.getElementsByName('itemType')[0].focus();
+    this.itemToAdd = null;
   }
 
   addToContent() {
@@ -85,7 +88,6 @@ export default class CombinedCourseBlueprintForm extends Component {
           label: targetProfile.internalName,
           image: targetProfile.imageUrl,
         };
-        await this.refreshAreas();
       }
     } catch (responseError) {
       this.#handleErrorForResource(this.itemType, responseError);
@@ -181,26 +183,83 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  removeRequirement(index) {
+  async removeItem(index) {
+    const itemToRetrieve = this.blueprint.content.find((item, i) => i === index);
+    if (itemToRetrieve.type === 'campaign') {
+      this.targetProfilesSnapshots = this.targetProfilesSnapshots.filter(
+        (targetProfileSnapshot) => targetProfileSnapshot.id != itemToRetrieve.value,
+      );
+      await this.refreshAreas();
+    }
     this.blueprint.content = this.blueprint.content.filter((item, i) => i !== index);
   }
 
   async refreshAreas() {
-    const frameworks = this.args.model.frameworks.filter(
-      (framework) =>
-        framework.name === 'Pix' || framework.name === 'Pix 6e' || framework.name === 'Numérique Responsable',
-    );
+    if (this.currentTargetProfile) {
+      const currentTargetProfileSnapshot = await this.#snapshotTargetProfile(this.currentTargetProfile);
 
-    const areasByFramework = await Promise.all(
-      frameworks.map(async (framework) => {
-        if (framework.areas.isFulfilled) {
-          await framework.areas.reload();
-        }
-        return framework.areas;
-      }),
-    );
+      this.targetProfilesSnapshots = [...this.targetProfilesSnapshots, currentTargetProfileSnapshot];
+      this.currentTargetProfile = null;
+    }
+    const areas = this.targetProfilesSnapshots.flatMap((snapshot) => snapshot.areas);
+    const competences = areas.flatMap((area) => area.competences);
+    const thematics = competences.flatMap((competence) => competence.thematics);
 
-    this.areas = areasByFramework.flat();
+    // TODO simplify?
+    const childrenOf = (nodes, parentId, key) =>
+      uniqBy(
+        nodes.filter((node) => node.id === parentId).flatMap((node) => node[key]),
+        'id',
+      );
+
+    this.areas = uniqBy(areas, 'id').map((area) => ({
+      ...area,
+      sortedCompetences: sortBy(childrenOf(areas, area.id, 'competences'), 'index').map((competence) => ({
+        ...competence,
+        sortedThematics: sortBy(childrenOf(competences, competence.id, 'thematics'), 'index').map((thematic) => ({
+          ...thematic,
+          tubes: childrenOf(thematics, thematic.id, 'tubes'),
+        })),
+      })),
+    }));
+  }
+
+  async #snapshotTargetProfile(targetProfile) {
+    const areas = await targetProfile.areas;
+
+    return {
+      id: targetProfile.id,
+      areas: await Promise.all(
+        areas.map(async (area) => ({
+          id: area.id,
+          code: area.code,
+          title: area.title,
+          color: area.color,
+          competences: await Promise.all(
+            (await area.competences).map(async (competence) => ({
+              id: competence.id,
+              index: competence.index,
+              name: competence.name,
+              thematics: await Promise.all(
+                (await competence.thematics).map(async (thematic) => ({
+                  id: thematic.id,
+                  index: thematic.index,
+                  name: thematic.name,
+                  tubes: ((await thematic.tubes) ?? []).map((tube) => ({
+                    id: tube.id,
+                    name: tube.name,
+                    practicalTitle: tube.practicalTitle,
+                    level: tube.level,
+                    mobile: tube.mobile,
+                    tablet: tube.tablet,
+                  })),
+                })),
+              ),
+            })),
+          ),
+        })),
+      ),
+    };
   }
 
   get cappedTubesRequirementsErrors() {
@@ -287,7 +346,7 @@ export default class CombinedCourseBlueprintForm extends Component {
           @blueprint={{this.blueprint}}
           @updateMode={{@updateMode}}
           @handleKeyPress={{this.handleKeyPress}}
-          @removeRequirement={{this.removeRequirement}}
+          @removeRequirement={{this.removeItem}}
           @itemValue={{this.itemValue}}
           @itemAddDisabled={{this.itemAddDisabled}}
           @itemToAdd={{this.itemToAdd}}
@@ -558,6 +617,7 @@ const RewardRequirementsSection = <template>
           />
         {{/each}}
         <br />
+        {/*TODO info if no target profile selected*/}
         <PixButton
           class="badge-form-criterion__add"
           @variant="primary"

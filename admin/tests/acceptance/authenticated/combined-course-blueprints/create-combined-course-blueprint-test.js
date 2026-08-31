@@ -14,8 +14,7 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
   setupIntl(hooks);
 
   hooks.beforeEach(async function () {
-    const store = this.owner.lookup('service:store');
-    _createFramework(store);
+    const areas = createAreas();
 
     server.create('country', { code: '99100', name: 'France' });
     server.create('attestation', {
@@ -24,6 +23,8 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
       file: 'parentalite.pdf',
       label: 'Parentalite',
     });
+
+    server.create('target-profile', { id: 1, areas });
 
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
@@ -40,6 +41,9 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
       'module-123',
     );
     await screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }).click();
+    await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }), 1);
+    await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }));
+
     await fillIn(
       screen.getByLabelText(t('components.combined-course-blueprints.labels.name'), { exact: false }),
       'name',
@@ -73,8 +77,8 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
 
     assert.ok(screen.getByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' }));
 
-    await clickByName('1 · Titre domaine');
-    await clickByName('1 Titre competence');
+    await clickByName('1 · Titre domaine 1');
+    await clickByName('1 Titre competence 1');
     await clickByName(/Sélection du niveau du sujet suivant : Tube/);
     const tubesListbox = await within(
       screen.getByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ }),
@@ -110,9 +114,36 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     assert.ok(screen.getByText(t('common.tables.empty-result')));
   });
 
-  function _createFramework(store) {
+  test('it should rerender areas component when target profiles are removed', async function (assert) {
+    //given
+    const screen = await visit('/combined-course-blueprints/new');
+
+    //when
+    await fillIn(screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }), 1);
+    await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }));
+
+    await click(
+      screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+    );
+    await screen.findByRole('listbox');
+    await click(screen.getByRole('option', { name: 'Parentalite' }));
+    await click(
+      screen.getByRole('button', {
+        name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
+      }),
+    );
+
+    await click(screen.getByRole('button', { name: 'Tout déplier' }));
+
+    assert.ok(screen.getByText('@tubeName1 : Tube 1'));
+    await click(screen.getByTestId('delete-0'));
+
+    assert.notOk(screen.queryByText('@tubeName1 : Tube 1'));
+  });
+
+  function createAreas() {
     const tubes = [
-      store.createRecord('tube', {
+      server.create('tube', {
         id: 'tubeId1',
         name: '@tubeName1',
         practicalTitle: 'Tube 1',
@@ -121,26 +152,53 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
       }),
     ];
 
-    const thematics = [store.createRecord('thematic', { id: 'thematicId', name: 'Thématique', tubes: tubes })];
+    const thematics = [server.create('thematic', { id: 'thematicId1', name: 'Thématique 1', tubes })];
 
     const competences = [
-      store.createRecord('competence', {
-        id: 'competenceId',
+      server.create('competence', {
+        id: 'competenceId1',
         index: '1',
-        name: 'Titre competence',
+        name: 'Titre competence 1',
         thematics,
       }),
     ];
 
-    const areas = [
-      store.createRecord('area', {
-        id: 'areaId',
-        title: 'Titre domaine',
-        code: 1,
-        competences,
+    const tubes2 = [
+      server.create('tube', {
+        id: 'tubeId2',
+        name: '@tubeName2',
+        practicalTitle: 'Tube 2',
+        skills: [],
+        level: 8,
       }),
     ];
 
-    return store.createRecord('framework', { id: 'frameworkId', name: 'Pix', areas });
+    const thematics2 = [server.create('thematic', { id: 'thematicId2', name: 'Thématique 2', tubes: tubes2 })];
+
+    const competences2 = [
+      server.create('competence', {
+        id: 'competenceId2',
+        index: '2',
+        name: 'Titre competence 2',
+        thematics: thematics2,
+      }),
+    ];
+
+    const areas = [
+      server.create('area', {
+        id: 'areaId1',
+        title: 'Titre domaine 1',
+        code: 1,
+        competences,
+      }),
+      server.create('area', {
+        id: 'areaId2',
+        title: 'Titre domaine 2',
+        code: 2,
+        competences: competences2,
+      }),
+    ];
+
+    return areas;
   }
 });

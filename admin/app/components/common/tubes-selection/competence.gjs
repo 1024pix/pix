@@ -3,6 +3,7 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
+import tubesForThematic from 'pix-admin/utils/tubes-for-thematic';
 
 import Header from '../../table/header';
 import ExpandableAccordion from '../expandable-accordion';
@@ -16,9 +17,7 @@ export default class Competence extends Component {
   }
 
   get competenceTubes() {
-    const thematics = this.args.competence.hasMany('thematics').value();
-    const tubes = thematics.map((thematic) => thematic.hasMany('tubes').value());
-    return tubes.flat();
+    return this.args.competence.sortedThematics.flatMap((thematic) => tubesForThematic(thematic));
   }
 
   get selectedTubeIds() {
