@@ -55,7 +55,6 @@ export class JobRepository {
       retryDelay: this.retry.retryDelay,
       retryBackoff: this.retry.retryBackoff,
       priority: this.priority,
-      onComplete: true,
     };
   }
 
@@ -72,7 +71,7 @@ export class JobRepository {
 
 /**
  * Job priority. Higher numbers have, um, higher priority
- * @see https://github.com/timgit/pg-boss/blob/9.0.3/docs/readme.md#insertjobs
+ * @see https://pgboss.io/api/send.html
  * @readonly
  * @enum {number}
  */
@@ -83,7 +82,7 @@ export const JobPriority = Object.freeze({
 
 /**
  * Job retry. define few config to retry job when failed
- * @see https://github.com/timgit/pg-boss/blob/9.0.3/docs/readme.md#insertjobs
+ * @see https://pgboss.io/api/send.html
  * @readonly
  * @enum {Object}
  */
