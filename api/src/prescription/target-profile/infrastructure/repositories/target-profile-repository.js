@@ -3,6 +3,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError, ObjectValidationError } from '../../../../shared/domain/errors.js';
 import { TargetProfile } from '../../../../shared/domain/models/TargetProfile.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
+import { TargetProfileCappedTube } from '../../domain/models/TargetProfileCappedTube.js';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
@@ -70,6 +71,14 @@ const findTubeIdsByTargetProfileIds = async (targetProfileIds) => {
     .whereIn('targetProfileId', targetProfileIds);
 };
 
+const findCappedTubesForTargetProfileIds = async (targetProfileIds) => {
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn('target-profile_tubes').whereIn('targetProfileId', targetProfileIds);
+  return result.map((targetProfileCappedTube) => {
+    return new TargetProfileCappedTube({ ...targetProfileCappedTube });
+  });
+};
+
 const findSharedByOrganizationId = async (organizationId) =>
   DomainTransaction.getConnection()('target-profiles')
     .join('target-profile-shares', 'target-profiles.id', 'target-profile-shares.targetProfileId')
@@ -104,6 +113,7 @@ const findSkillsByIds = async function ({ targetProfileIds, dependencies = { ski
 
 export {
   findByIds,
+  findCappedTubesForTargetProfileIds,
   findOrganizationIds,
   findSharedByOrganizationId,
   findSkillsByIds,

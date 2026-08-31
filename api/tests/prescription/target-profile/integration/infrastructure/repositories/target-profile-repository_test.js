@@ -3,6 +3,7 @@ import _ from 'lodash';
 import sinon from 'sinon';
 
 import { Badge } from '../../../../../../src/evaluation/domain/models/Badge.js';
+import { TargetProfileCappedTube } from '../../../../../../src/prescription/target-profile/domain/models/TargetProfileCappedTube.js';
 import * as targetProfileRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { TargetProfile } from '../../../../../../src/shared/domain/models/TargetProfile.js';
@@ -212,6 +213,75 @@ describe('Integration | Repository | Target-profile', function () {
 
       // when
       const result = await targetProfileRepository.findTubeIdsByTargetProfileIds([targetProfileId]);
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+  });
+
+  describe('#findCappedTubesForTargetProfileIds', function () {
+    it('returns tubes for all given target profile ids', async function () {
+      // given
+      const targetProfileId1 = databaseBuilder.factory.buildTargetProfile().id;
+      const targetProfileTube1 = databaseBuilder.factory.buildTargetProfileTube({
+        targetProfileId: targetProfileId1,
+        tubeId: 'tubeId1',
+      });
+      const targetProfileTube2 = databaseBuilder.factory.buildTargetProfileTube({
+        targetProfileId: targetProfileId1,
+        tubeId: 'tubeId2',
+      });
+
+      const targetProfileId2 = databaseBuilder.factory.buildTargetProfile().id;
+      const targetProfileTube3 = databaseBuilder.factory.buildTargetProfileTube({
+        targetProfileId: targetProfileId2,
+        tubeId: 'tubeId3',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await targetProfileRepository.findCappedTubesForTargetProfileIds([
+        targetProfileId1,
+        targetProfileId2,
+      ]);
+
+      // then
+      expect(result[0]).to.be.an.instanceOf(TargetProfileCappedTube);
+      expect(result[1]).to.be.an.instanceOf(TargetProfileCappedTube);
+      expect(result[2]).to.be.an.instanceOf(TargetProfileCappedTube);
+
+      expect(result).to.deep.members([
+        {
+          id: targetProfileTube1.id,
+          targetProfileId: targetProfileTube1.targetProfileId,
+          tubeId: targetProfileTube1.tubeId,
+          level: targetProfileTube1.level,
+        },
+        {
+          id: targetProfileTube2.id,
+          targetProfileId: targetProfileTube2.targetProfileId,
+          tubeId: targetProfileTube2.tubeId,
+          level: targetProfileTube2.level,
+        },
+        {
+          id: targetProfileTube3.id,
+          targetProfileId: targetProfileTube3.targetProfileId,
+          tubeId: targetProfileTube3.tubeId,
+          level: targetProfileTube3.level,
+        },
+      ]);
+    });
+
+    it('does not return tubes from other target profiles', async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const otherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: otherTargetProfileId, tubeId: 'tube1' });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await targetProfileRepository.findCappedTubesForTargetProfileIds([targetProfileId]);
 
       // then
       expect(result).to.deep.equal([]);
