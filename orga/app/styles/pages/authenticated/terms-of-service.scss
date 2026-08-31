@@ -6,7 +6,9 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
+  padding: var(--pix-spacing-4x);
   background: var(--pix-orga-500);
 }
 
@@ -14,8 +16,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--pix-spacing-4x);
-  max-width: 700px;
+  width: min(700px, 100%);
+  margin: auto;
   padding: var(--pix-spacing-8x);
+  background: var(--pix-neutral-0);
+  border-radius: var(--pix-spacing-2x);
+  box-shadow: 0 6px 12px 0 rgb(7 20 46 / 8%);
 
   &__illustration {
     display: flex;
@@ -37,9 +43,15 @@
 
   &__actions {
     display: flex;
-    gap: var(--pix-spacing-6x);
+    flex-direction: column-reverse;
+    gap: var(--pix-spacing-4x);
     padding-top: var(--pix-spacing-4x);
     border-top: 1px solid var(--pix-neutral-100);
+
+    @include breakpoints.device-is('tablet') {
+      flex-flow: row wrap;
+      gap: var(--pix-spacing-6x);
+    }
   }
 
   &__accept-action {

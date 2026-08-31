@@ -17,7 +17,7 @@ import pageTitle from 'ember-page-title/helpers/page-title';
         <p class="pix-body-m">{{t "pages.terms-of-service.requested.message"}}</p>
       {{/if}}
 
-      <div class="terms-of-service-acceptation__illustration">
+      <div class="terms-of-service-form__illustration">
         <img src="{{this.rootURL}}/images/terms-of-service.svg" alt="" role="none" />
         <a
           href={{@controller.legalDocumentUrl}}
