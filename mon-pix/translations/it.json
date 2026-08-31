@@ -303,16 +303,16 @@
       "start-landing-page": {
         "steps": {
           "step1": {
-            "description": "Rispondere a domande adeguate al proprio livello",
-            "title": "Valutati"
+            "description": "Rispondi a domande adattate al tuo livello",
+            "title": "Mettiti alla prova"
           },
           "step2": {
-            "description": "Analizzare i propri punti di forza e le aree di miglioramento",
+            "description": "Analizza i tuoi punti di forza e le aree di miglioramento",
             "title": "Scopri il tuo punteggio"
           },
           "step3": {
-            "description": "Accesso a una formazione personalizzata in base ai tuoi risultati",
-            "title": "Progredisci"
+            "description": "Accedi a percorsi formativi personalizzati in base ai tuoi risultati",
+            "title": "Migliora progressivamente"
           }
         }
       }
@@ -591,7 +591,7 @@
     "campaign-landing": {
       "assessment": {
         "action": "Inizia",
-        "announcement": "Registrati o accedi alla piattaforma Pix e iniziate il tuo test.",
+        "announcement": "Registrati o accedi alla piattaforma Pix e inizia il test.",
         "certify": {
           "description": "A seconda della tua situazione e a determinate condizioni, puoi accedere alla certificazione Pix, riconosciuta dal mondo professionale e che ti permette di migliorare le tue competenze digitali. Per ulteriori informazioni, contattare l'organizzatore del percorso.",
           "title": "Le risposte convalidate in questo percorso contribuiranno al tuo profilo personale di competenze digitali su Pix."
@@ -606,7 +606,7 @@
           "title": "Misurate le tue competenze digitali con sfide di apprendimento divertenti che si adattano al tuo livello di competenza (utilizzando un algoritmo adattivo)."
         },
         "exam-notice": "Durante questo percorso, il Suo profilo di competenze non verrà preso in considerazione né modificato. Le Sue risposte non avranno alcun impatto sui Suoi livelli di competenze né sul Suo punteggio Pix complessivo.",
-        "legal": "Cliccando su \"Sto iniziando\", le informazioni sui tuoi progressi nel percorso saranno inviate all'organizzatore del percorso in modo che possa supportarvi. Al termine del percorso, i risultati saranno inviati automaticamente all'organizzatore.",
+        "legal": "Cliccando su \"Inizia\", le informazioni sui tuoi progressi saranno condivise con la tua organizzazione, così che potrà fornirti supporto se necessario. Al termine del test, i tuoi risultati saranno condivisi automaticamente con la tua organizzazione.",
         "title": "Inizia il tuo viaggio Pix",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' pronti a valutare le tue competenze digitali?"
       },
@@ -1281,8 +1281,8 @@
         "title": "Congratulazioni! Hai finito!"
       },
       "content": {
-        "resume-button": "Continua il mio viaggio",
-        "start-button": "Inizia il mio percorso",
+        "resume-button": "Continua il test personalizzato",
+        "start-button": "Inizia il test personalizzato",
         "step": "Fase {stepNumber}"
       },
       "errors": {
@@ -1564,7 +1564,7 @@
       "verify": "Controlla il certificato"
     },
     "fill-in-participant-external-id": {
-      "announcement": "L'organizzatore ha bisogno delle seguenti informazioni per potervi accompagnare:",
+      "announcement": "Per poterti aiutare, l'organizzatore ha bisogno delle seguenti informazioni:",
       "buttons": {
         "cancel": "Annulla",
         "continue": "Continua"
@@ -2335,10 +2335,13 @@
           }
         },
         "trainings": {
+          "carousel-roledescription": "cargiola",
           "description": "Le soluzioni elencate qui sotto ti vengono consigliate in base al tuo livello.",
           "next-button-aria-label": "Vedi le formazioni successive",
           "pagination-announcement": "Formazioni da {from} a {to} su {total} visualizzate",
           "previous-button-aria-label": "Vedi le formazioni precedenti",
+          "slide-aria-label": "{position} di {total}",
+          "slide-roledescription": "slide",
           "title": "Andate oltre, al vostro ritmo."
         }
       },
@@ -2442,29 +2445,29 @@
       "next-title": "Mostra il passo successivo",
       "pages": {
         "page0": {
-          "explanation": "Se non conoscete la risposta\nprobabilmente si trova su Internet.",
+          "explanation": "Se non conosci la risposta ad una domanda,\nprobabilmente puoi trovarla su Internet.",
           "title": "Puoi cercare su Internet..."
         },
         "page1": {
-          "explanation": "Se viene visualizzata questa immagine, utilizzare solo ciò che si conosce!\n Non dovete usare Internet o il tuo software.",
+          "explanation": "Se vedi questa immagine, usa solo le tue conoscenze!\nNon cercare su Internet e non utilizzare altri strumenti.",
           "title": "... tranne che per alcune domande"
         },
         "page2": {
-          "explanation": "Prendi tutto il tempo necessario per completare il percorso.\nSe una domanda è a tempo, ciò sarà indicato.",
-          "title": "Senza limiti di tempo!"
+          "explanation": "Prenditi tutto il tempo necessario per completare il tuo test personalizzato.\nSe una domanda è a tempo, te lo segnaleremo.",
+          "title": "Non c’è un limite di tempo!"
         },
         "page3": {
-          "explanation": "Accedere alle esercitazioni per saperne di più\nper saperne di più su ogni domanda e progredire.",
+          "explanation": "Accedi ai tutorial per saperne di più\nsu ogni domanda e migliorare.",
           "title": "Tutorial per l'apprendimento"
         },
         "page4": {
           "explanation": "In base alle tue risposte,\nPix adatta la difficoltà delle domande.",
-          "title": "Il giusto livello di difficoltà"
+          "title": "Livelli di difficoltà adattivi"
         }
       },
       "pass": "Salta",
-      "pass-title": "Salta il tutorial e inizia il mio percorso",
-      "start": "Inizia il mio percorso",
+      "pass-title": "Salta il tutorial e inizia il test personalizzato",
+      "start": "Inizia il test personalizzato",
       "title": "Tutorial della campagna"
     },
     "tutorial-panel": {
