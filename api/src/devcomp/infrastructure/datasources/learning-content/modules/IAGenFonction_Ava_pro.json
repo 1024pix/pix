@@ -1054,7 +1054,7 @@
                 "proposals": [
                   {
                     "type": "select",
-                    "input": "classementetape6",
+                    "input": "classementetape1",
                     "display": "inline",
                     "placeholder": "- Sélectionner -",
                     "ariaLabel": "- Sélectionner -",
