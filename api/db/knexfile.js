@@ -1,14 +1,13 @@
-import { loadEnvFileIfExists } from '../src/shared/load-env-file-if-exists.js';
+import { config } from '../src/shared/config.js';
 import { buildPostgresEnvironment, setConnectionString } from './utils/build-postgres-environment.js';
 
-loadEnvFileIfExists();
-
+// TODO: Migrate other variables into config
 const baseConfiguration = {
   name: 'live',
   migrationsDirectory: './migrations/',
   seedsDirectory: './seeds/',
   connection: {
-    connectionString: process.env.DATABASE_URL,
+    connectionString: config.database.liveUrl,
     application_name: process.env.HOSTNAME ?? 'pix-api',
     statement_timeout: parseInt(process.env.DATABASE_STATEMENT_TIMEOUT_MS, 10) || undefined,
     query_timeout: parseInt(process.env.DATABASE_QUERY_TIMEOUT_MS, 10) || undefined,
@@ -32,7 +31,7 @@ const defaultKnexConfig = {
 export const knexConfigWithPgBouncer = {
   ...defaultKnexConfig,
   production: setConnectionString(
-    process.env.PGBOUNCER_DATABASE_URL ?? process.env.DATABASE_URL,
+    config.database.pgbouncerUrl ?? config.database.liveUrl,
     buildPostgresEnvironment(baseConfiguration),
   ),
 };

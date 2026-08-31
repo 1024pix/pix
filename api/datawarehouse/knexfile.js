@@ -1,12 +1,10 @@
 import { buildPostgresEnvironment } from '../db/utils/build-postgres-environment.js';
-import { loadEnvFileIfExists } from '../src/shared/load-env-file-if-exists.js';
-
-loadEnvFileIfExists();
+import { config } from '../src/shared/config.js';
 
 const baseConfiguration = {
   name: 'datawarehouse',
   connection: {
-    connectionString: process.env.DATAWAREHOUSE_DATABASE_URL,
+    connectionString: config.database.datawarehouseUrl,
   },
   disableJsonTypesParsing: true,
 };

@@ -1,6 +1,8 @@
+const { config } = require('../../src/shared/config.js');
+
 module.exports = {
   connection: {
-    connectionString: process.env.DATABASE_URL,
+    connectionString: config.database.liveUrl,
   },
   schemas: [{ name: 'public' }],
   rules: {

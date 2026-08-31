@@ -1,4 +1,3 @@
-import path from 'node:path';
 import * as url from 'node:url';
 
 import dayjs from 'dayjs';
@@ -6,8 +5,17 @@ import ms from 'ms';
 
 import Joi from './config-joi.js';
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+// load environment variables
+try {
+  if (process.env.NODE_ENV === 'test') {
+    process.loadEnvFile(url.fileURLToPath(new URL('../../tests/setup/.env.test', import.meta.url)));
+  }
+  process.loadEnvFile(url.fileURLToPath(new URL('../../.env', import.meta.url)));
+} catch {
+  // .env file not found, continuing without it
+}
 
+/* eslint-disable n/no-process-env */
 function parseJSONEnv(varName) {
   if (process.env[varName]) {
     return JSON.parse(process.env[varName]);
@@ -187,6 +195,14 @@ const schema = Joi.object({
 
 const configuration = (function () {
   const config = {
+    database: {
+      liveUrl: process.env.DATABASE_URL,
+      pgbouncerUrl: process.env.PGBOUNCER_DATABASE_URL,
+      datamartUrl: process.env.DATAMART_DATABASE_URL,
+      datawarehouseUrl: process.env.DATAWAREHOUSE_DATABASE_URL,
+      jobsUrl: process.env.JOBS_DATABASE_URL,
+    },
+
     answersHistoryExport: {
       storage: {
         client: {
@@ -355,7 +371,7 @@ const configuration = (function () {
         process.env.INFRA_CHUNK_SIZE_ORGANIZATION_LEARNER_DATA_PROCESSING,
         1000,
       ),
-      engineeringUserId: process.env.ENGINEERING_USER_ID,
+      engineeringUserId: _getNumber(process.env.ENGINEERING_USER_ID),
       metricsFlushIntervalSecond: _getNumber(process.env.METRICS_FLUSH_INTERVAL_SECOND, 15),
       startJobInWebProcess: toBoolean(process.env.START_JOB_IN_WEB_PROCESS),
     },
@@ -526,7 +542,6 @@ const configuration = (function () {
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
     },
     port: parseInt(process.env.PORT, 10) || 3000,
-    rootPath: path.normalize(__dirname + '/..'),
     saml: {
       spConfig: parseJSONEnv('SAML_SP_CONFIG'),
       idpConfig: parseJSONEnv('SAML_IDP_CONFIG'),
@@ -742,5 +757,6 @@ const configuration = (function () {
 
   return config;
 })();
+/* eslint-enable n/no-process-env */
 
 export { configuration as config, schema };

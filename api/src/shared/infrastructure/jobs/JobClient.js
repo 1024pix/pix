@@ -47,7 +47,7 @@ export class JobClient {
       this.#pgBoss = pgBossFactory
         ? pgBossFactory()
         : new PgBoss({
-            connectionString: process.env.JOBS_DATABASE_URL,
+            connectionString: config.database.jobsUrl,
             max: config.pgBoss.workerConnexionPoolMaxSize,
             persistWarnings: config.pgBoss.persistWarnings,
             warningRetentionDays: 30,
@@ -59,7 +59,7 @@ export class JobClient {
       this.#pgBoss = pgBossFactory
         ? pgBossFactory()
         : new PgBoss({
-            connectionString: process.env.JOBS_DATABASE_URL,
+            connectionString: config.database.jobsUrl,
             max: config.pgBoss.clientConnexionPoolMaxSize,
             supervise: false,
             schedule: false,
