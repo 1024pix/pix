@@ -23,6 +23,10 @@ import AutoExecToolUI from './ListReferenceValuesToolUI.jsx';
 
 export const AssistantToolContext = createContext({ toolAnnotations: null, getAccessToken: null });
 
+// Fallback for read-only tools not explicitly registered via useAssistantToolUI.
+// Note: addResult called from Fallback components does NOT re-trigger sendAutomaticallyWhen —
+// the LLM won't see the result. Any auto-exec tool that needs LLM continuation must be
+// registered explicitly in ToolRegistrar via useAssistantToolUI.
 export function DynamicToolFallback({ toolName, args, addResult, status }) {
   const { toolAnnotations, getAccessToken } = useContext(AssistantToolContext);
   if (!toolAnnotations) return null;
@@ -100,6 +104,10 @@ function ToolRegistrar({ getAccessToken, onNavigateToOrganization }) {
         onNavigateToOrganization={onNavigateToOrganization}
       />
     ),
+  });
+  useAssistantToolUI({
+    toolName: 'list_reference_values',
+    render: (props) => <AutoExecToolUI {...props} toolName="list_reference_values" getAccessToken={getAccessToken} />,
   });
   return null;
 }

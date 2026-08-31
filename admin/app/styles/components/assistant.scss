@@ -1,0 +1,456 @@
+@use 'pix-design-tokens/typography';
+
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: var(--pix-primary-500);
+  color: var(--pix-neutral-0);
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  box-shadow: 0 var(--pix-spacing-1x) var(--pix-spacing-3x) rgb(var(--pix-shadow-inline) / 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--pix-primary-300);
+    outline-offset: 2px;
+  }
+}
+
+.chat-panel {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.5rem;
+  z-index: 999;
+  width: 420px;
+  height: 600px;
+  background: var(--pix-neutral-0);
+  border-radius: var(--pix-spacing-3x);
+  box-shadow: var(--pix-shadow-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ReactBridge renders a wrapper div — make it fill the panel */
+.chat-panel > div {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Variables ─────────────────────────────────────────── */
+.assistant-popover {
+  --aui-primary: var(--pix-primary-500);
+  --aui-primary-light: var(--pix-primary-50);
+  --aui-bg: var(--pix-neutral-0);
+  --aui-border: var(--pix-neutral-100);
+  --aui-text: var(--pix-neutral-900);
+  --aui-text-muted: var(--pix-neutral-500);
+  --aui-radius: var(--pix-spacing-3x);
+
+  font-family: var(--_pix-font-family-title);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--aui-bg);
+}
+
+/* ── Header ────────────────────────────────────────────── */
+.assistant-header {
+  display: flex;
+  align-items: center;
+  gap: var(--pix-spacing-2x);
+  padding: var(--pix-spacing-3x) var(--pix-spacing-4x);
+  border-bottom: 1px solid var(--aui-border);
+  background: var(--aui-bg);
+  flex-shrink: 0;
+}
+
+.assistant-header__icon {
+  font-size: 1.125rem;
+  color: var(--aui-primary);
+}
+
+.assistant-header__title {
+  @extend %pix-body-m;
+
+  font-weight: var(--pix-font-bold);
+  color: var(--aui-text);
+}
+
+/* ── Thread / Viewport ─────────────────────────────────── */
+.assistant-thread {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.assistant-viewport {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--pix-spacing-4x) var(--pix-spacing-4x) var(--pix-spacing-2x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-1x);
+  scroll-behavior: smooth;
+}
+
+/* ── Empty state ───────────────────────────────────────── */
+.assistant-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: var(--pix-spacing-8x) var(--pix-spacing-4x);
+  text-align: center;
+  color: var(--aui-text-muted);
+}
+
+.assistant-empty__title {
+  @extend %pix-body-m;
+
+  font-weight: var(--pix-font-bold);
+  color: var(--aui-text);
+  margin: 0 0 var(--pix-spacing-1x);
+}
+
+.assistant-empty__hint {
+  @extend %pix-body-xs;
+
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── Messages ──────────────────────────────────────────── */
+.message {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--pix-spacing-2x);
+  max-width: 100%;
+  margin-bottom: var(--pix-spacing-2x);
+}
+
+.message--user {
+  flex-direction: row-reverse;
+}
+
+.message--assistant {
+  flex-direction: row;
+}
+
+.message__avatar {
+  @extend %pix-body-xs;
+
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--aui-primary-light);
+  color: var(--aui-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.message__bubble {
+  @extend %pix-body-s;
+
+  max-width: 80%;
+  padding: var(--pix-spacing-2x) var(--pix-spacing-3x);
+  border-radius: var(--pix-spacing-4x);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.message--user .message__bubble {
+  background: var(--aui-primary);
+  color: var(--pix-neutral-0);
+  border-bottom-right-radius: var(--pix-spacing-1x);
+}
+
+.message--assistant .message__bubble {
+  background: var(--pix-neutral-20);
+  color: var(--aui-text);
+  border-bottom-left-radius: var(--pix-spacing-1x);
+}
+
+.message__text {
+  margin: 0;
+}
+
+/* Hide assistant bubble when it has no text content (tool-call-only messages) */
+.message--assistant .message__bubble:not(:has(.message__text)) {
+  padding: 0;
+  background: transparent;
+}
+
+/* ── Thinking dots ─────────────────────────────────────── */
+.thinking-dots {
+  display: flex;
+  gap: var(--pix-spacing-1x);
+  align-items: center;
+  padding: var(--pix-spacing-1x) 0;
+}
+
+.thinking-dots span {
+  width: var(--pix-spacing-2x);
+  height: var(--pix-spacing-2x);
+  border-radius: 50%;
+  background: var(--aui-text-muted);
+  animation: thinking-bounce 1.2s infinite ease-in-out;
+  display: block;
+}
+
+.thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+.thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes thinking-bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Markdown content rendered by showdown ─────────────── */
+.message__text p { margin: 0 0 var(--pix-spacing-1x); }
+.message__text p:last-child { margin-bottom: 0; }
+
+.message__text ul,
+.message__text ol {
+  margin: var(--pix-spacing-1x) 0;
+  padding-left: var(--pix-spacing-5x);
+}
+
+.message__text table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: var(--pix-spacing-1x) 0;
+  font-size: 0.85em;
+}
+
+.message__text th,
+.message__text td {
+  border: 1px solid var(--aui-border);
+  padding: var(--pix-spacing-1x) var(--pix-spacing-2x);
+  text-align: left;
+}
+
+.message__text th {
+  background: rgb(var(--pix-shadow-inline) / 0.05);
+  font-weight: var(--pix-font-bold);
+}
+
+.message__text code {
+  font-family: var(--_pix-font-family-monospace);
+  font-size: 0.85em;
+  background: rgb(var(--pix-shadow-inline) / 0.08);
+  border-radius: var(--pix-spacing-1x);
+  padding: 1px var(--pix-spacing-1x);
+}
+
+.message--user .message__text code {
+  background: rgb(var(--pix-neutral-0-inline) / 0.2);
+}
+
+/* ── Composer ──────────────────────────────────────────── */
+.assistant-composer {
+  padding: var(--pix-spacing-3x);
+  border-top: 1px solid var(--aui-border);
+  background: var(--aui-bg);
+  flex-shrink: 0;
+}
+
+.assistant-composer form {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--pix-spacing-2x);
+  background: var(--pix-neutral-20);
+  border: 1px solid var(--aui-border);
+  border-radius: var(--pix-spacing-3x);
+  padding: var(--pix-spacing-2x) var(--pix-spacing-2x) var(--pix-spacing-2x) var(--pix-spacing-3x);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.assistant-composer form:focus-within {
+  border-color: var(--aui-primary);
+  box-shadow: 0 0 0 var(--pix-spacing-1x) rgb(var(--pix-primary-500-inline) / 0.12);
+  background: var(--pix-neutral-0);
+}
+
+.composer__input {
+  @extend %pix-body-s;
+
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  line-height: 1.4;
+  resize: none;
+  outline: none;
+  max-height: 7rem;
+  overflow-y: auto;
+  color: var(--aui-text);
+  min-height: var(--pix-spacing-5x);
+}
+
+.composer__input::placeholder {
+  color: var(--aui-text-muted);
+}
+
+.composer__send {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--pix-spacing-2x);
+  background: var(--aui-primary);
+  color: var(--pix-neutral-0);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.composer__send:hover:not(:disabled) {
+  background: var(--pix-primary-700);
+}
+
+.composer__send:active:not(:disabled) {
+  transform: scale(0.93);
+}
+
+.composer__send:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Tool card ─────────────────────────────────────────── */
+.tool-card {
+  @extend %pix-body-s;
+
+  border: 1px solid var(--aui-border);
+  border-radius: var(--pix-spacing-3x);
+  padding: var(--pix-spacing-3x) var(--pix-spacing-4x);
+  margin: var(--pix-spacing-1x) 0;
+}
+
+.tool-card--pending {
+  background: var(--pix-neutral-20);
+}
+
+.tool-card--pending dl {
+  margin: 0 0 var(--pix-spacing-3x);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--pix-spacing-1x) var(--pix-spacing-3x);
+}
+
+.tool-card--pending dt {
+  color: var(--aui-text-muted);
+  font-weight: var(--pix-font-medium);
+}
+
+.tool-card--pending dd {
+  margin: 0;
+  color: var(--aui-text);
+  font-weight: var(--pix-font-bold);
+}
+
+.tool-card--loading {
+  background: var(--pix-info-50);
+  color: var(--aui-text-muted);
+  font-style: italic;
+}
+
+.tool-card--success {
+  background: var(--pix-success-50);
+  border-color: var(--pix-success-100);
+}
+
+.tool-card--success p {
+  margin: 0 0 var(--pix-spacing-3x);
+  color: var(--pix-success-700);
+  font-weight: var(--pix-font-bold);
+}
+
+.tool-card--failure {
+  background: var(--pix-error-50);
+  border-color: var(--pix-error-100);
+}
+
+.tool-card__actions {
+  display: flex;
+  gap: var(--pix-spacing-2x);
+  flex-wrap: wrap;
+}
+
+.btn--primary {
+  @extend %pix-body-s;
+
+  background: var(--aui-primary);
+  color: var(--pix-neutral-0);
+  border: none;
+  border-radius: var(--pix-spacing-2x);
+  padding: var(--pix-spacing-1x) var(--pix-spacing-3x);
+  font-family: inherit;
+  font-weight: var(--pix-font-bold);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn--primary:hover {
+  background: var(--pix-primary-700);
+}
+
+.btn--secondary {
+  @extend %pix-body-s;
+
+  background: var(--pix-neutral-0);
+  color: var(--pix-neutral-800);
+  border: 1px solid var(--aui-border);
+  border-radius: var(--pix-spacing-2x);
+  padding: var(--pix-spacing-1x) var(--pix-spacing-3x);
+  font-family: inherit;
+  font-weight: var(--pix-font-medium);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn--secondary:hover {
+  background: var(--pix-neutral-20);
+}
+
+.field-error {
+  @extend %pix-body-xs;
+
+  color: var(--pix-error-500);
+  margin: var(--pix-spacing-1x) 0;
+}
+
+.tool-error {
+  @extend %pix-body-s;
+
+  background: var(--pix-error-50);
+  border: 1px solid var(--pix-error-100);
+  border-radius: var(--pix-spacing-3x);
+  padding: var(--pix-spacing-3x) var(--pix-spacing-4x);
+  margin: var(--pix-spacing-1x) 0;
+  color: var(--pix-error-700);
+}

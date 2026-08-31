@@ -65,4 +65,30 @@ module('Unit | Component | assistant/react/AutoExecToolUI', function (hooks) {
 
     await waitFor(() => assert.deepEqual(addResult.firstCall.args[0], referenceResult));
   });
+
+  test('affiche un message d\'erreur et appelle addResult quand la réponse contient une erreur', async function (assert) {
+    assert.expect(2);
+    const errorResult = { error: { validation: 'MCP error -32602: Invalid arguments' } };
+    const getAccessToken = sinon.stub().resolves('jwt-token');
+    const addResult = sinon.spy();
+    fetchStub.resolves({
+      ok: true,
+      json: sinon.stub().resolves(errorResult),
+    });
+
+    let container;
+    await act(async () => {
+      ({ container } = await render(
+        createElement(AutoExecToolUI, {
+          toolName: 'list_reference_values',
+          args: {},
+          addResult,
+          getAccessToken,
+        }),
+      ));
+    });
+
+    await waitFor(() => assert.deepEqual(addResult.firstCall.args[0], errorResult));
+    assert.ok(container.querySelector('.tool-error'), 'un message d\'erreur est affiché');
+  });
 });

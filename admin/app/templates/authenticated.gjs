@@ -2,6 +2,8 @@ import PixAppLayout from '@1024pix/pix-ui/components/pix-app-layout';
 import PixToastContainer from '@1024pix/pix-ui/components/pix-toast-container';
 import t from 'ember-intl/helpers/t';
 import Sidebar from 'pix-admin/components/layout/sidebar';
+
+import ChatPopover from '../components/assistant/chat-popover';
 <template>
   <PixAppLayout @variant="admin">
     <:navigation>
@@ -15,4 +17,5 @@ import Sidebar from 'pix-admin/components/layout/sidebar';
   </PixAppLayout>
 
   <PixToastContainer @closeButtonAriaLabel={{t "common.notifications.close-button.extra-information"}} />
+  <ChatPopover />
 </template>
