@@ -252,6 +252,7 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
           tokenService.getDecodedToken.withArgs('token', 'dummy-secret').returns({
             user_id: 'user_id',
             aud: 'https://app.pix.fr',
+            sid: 'sid',
           });
 
           // when
@@ -266,7 +267,9 @@ describe('Unit | Identity Access Management | Infrastructure | serverAuthenticat
           await authenticate(request, h);
 
           // then
-          expect(h.authenticated).to.have.been.calledWithExactly({ credentials: { userId: 'user_id' } });
+          expect(h.authenticated).to.have.been.calledWithExactly({
+            credentials: { userId: 'user_id', sessionId: 'sid' },
+          });
         });
       });
     });
