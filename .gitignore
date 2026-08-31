@@ -75,6 +75,9 @@ api/dependencies-violations.md
 # Answers extracts
 api/scripts/extractions
 
+# LLM assistant eval datasets (données potentiellement sensibles, non versionnées)
+api/evals/**/dataset.json
+
 # Visual regression snapshots
 high-level-tests/e2e/cypress/snapshots/actual/**
 
