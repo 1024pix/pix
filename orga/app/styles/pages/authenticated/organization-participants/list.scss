@@ -15,6 +15,7 @@ $margin-right: 32px;
     justify-content: center;
 
     &--column {
+      display: flex;
       flex-direction:column;
       align-items: center;
     }

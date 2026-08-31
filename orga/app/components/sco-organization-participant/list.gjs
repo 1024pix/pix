@@ -239,7 +239,6 @@ export default class ScoList extends Component {
               @openEditNameModal={{this.openEditNameModal}}
               @canEditLearnerName={{this.currentUser.canEditLearnerName}}
               @onToggleStudent={{fn withFunction (fn toggleStudent student) stopPropagation}}
-              @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
             />
           </:columns>
         </PixTable>

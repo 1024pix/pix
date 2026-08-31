@@ -9,7 +9,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | ScoOrganizationParticipant::TableRow', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('when hideCertifiableDate is true', function () {
+  module('when isCertifiable is null', function () {
     test('it should not display certifiableAt date', async function (assert) {
       // given
       const certifiableDate = '10/10/2023';
@@ -21,10 +21,9 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
         division: '3A',
         authenticationMethods: [],
         participationCount: 1,
-        isCertifiable: true,
-        certifiableAt: new Date(certifiableDate),
+        isCertifiable: null,
+        certifiableAt: null,
       };
-      const hasComputeOrganizationLearnerCertificabilityEnabled = true;
 
       // when
       const screen = await render(
@@ -36,18 +35,58 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
             @openAuthenticationMethodModal={{noop}}
             @onToggleStudent={{noop}}
             @onClickLearner={{noop}}
-            @hideCertifiableDate={{hasComputeOrganizationLearnerCertificabilityEnabled}}
           />
         </template>,
       );
 
       // then
       assert.dom(screen.queryByText(certifiableDate)).doesNotExist();
+      assert
+        .dom(screen.queryByText(t('pages.sco-organization-participants.table.column.is-certifiable.not-available')))
+        .exists();
     });
   });
 
-  module('when hasComputeOrganizationLearnerCertificabilityEnabled is false', function () {
-    test('it display certifiableAt date', async function (assert) {
+  module('when isCertifiable is false', function () {
+    test('it should display certifiableAt date', async function (assert) {
+      // given
+      const certifiableDate = '10/10/2023';
+      const noop = sinon.stub();
+      const student = {
+        firstName: 'Jean',
+        lastName: 'Bon',
+        birthdate: '2020/01/01',
+        division: '3A',
+        authenticationMethods: [],
+        participationCount: 1,
+        isCertifiable: false,
+        certifiableAt: new Date(certifiableDate),
+      };
+
+      // when
+      const screen = await render(
+        <template>
+          <ScoOrganizationParticipantTableRow
+            @showCheckbox={{noop}}
+            @student={{student}}
+            @isStudentSelected={{noop}}
+            @openAuthenticationMethodModal={{noop}}
+            @onToggleStudent={{noop}}
+            @onClickLearner={{noop}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByText(certifiableDate)).exists();
+      assert
+        .dom(screen.getByText(t('pages.sco-organization-participants.table.column.is-certifiable.non-eligible')))
+        .exists();
+    });
+  });
+
+  module('when isCertifiable is true', function () {
+    test('it should display certifiableAt date', async function (assert) {
       // given
       const certifiableDate = '10/10/2023';
       const noop = sinon.stub();
@@ -61,7 +100,6 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
         isCertifiable: true,
         certifiableAt: new Date(certifiableDate),
       };
-      const hasComputeOrganizationLearnerCertificabilityEnabled = false;
 
       // when
       const screen = await render(
@@ -73,13 +111,15 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
             @openAuthenticationMethodModal={{noop}}
             @onToggleStudent={{noop}}
             @onClickLearner={{noop}}
-            @hideCertifiableDate={{hasComputeOrganizationLearnerCertificabilityEnabled}}
           />
         </template>,
       );
 
       // then
       assert.dom(screen.getByText(certifiableDate)).exists();
+      assert
+        .dom(screen.getByText(t('pages.sco-organization-participants.table.column.is-certifiable.eligible')))
+        .exists();
     });
   });
 

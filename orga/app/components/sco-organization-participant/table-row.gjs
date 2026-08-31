@@ -8,7 +8,7 @@ import { not } from 'ember-truth-helpers';
 
 import { CONNECTION_TYPES } from '../../helpers/connection-types';
 import { USER_ACCOUNT_BLOCKING_TYPES } from '../../helpers/user-account-blocking-types';
-import Cell from '../certificability/cell';
+import CertificabilityCell from '../certificability/cell';
 import Tooltip from '../certificability/tooltip';
 import IconTrigger from '../dropdown/icon-trigger';
 import Item from '../dropdown/item';
@@ -126,11 +126,13 @@ import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip'
       />
     </:header>
     <:cell>
-      <Cell
-        @hideCertifiableDate={{@hideCertifiableDate}}
-        @certifiableAt={{@student.certifiableAt}}
-        @isCertifiable={{@student.isCertifiable}}
-      />
+      <div class="organization-participant__align-element organization-participant__align-element--column">
+        <CertificabilityCell
+          @hideCertifiableDate={{false}}
+          @certifiableAt={{@student.certifiableAt}}
+          @isCertifiable={{@student.isCertifiable}}
+        />
+      </div>
     </:cell>
   </PixTableColumn>
   <PixTableColumn @context={{@context}}>
