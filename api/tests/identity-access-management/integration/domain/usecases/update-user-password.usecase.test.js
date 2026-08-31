@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -8,7 +9,6 @@ import { resetPasswordService } from '../../../../../src/identity-access-managem
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { config } from '../../../../../src/shared/config.js';
 import { InvalidTemporaryKeyError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

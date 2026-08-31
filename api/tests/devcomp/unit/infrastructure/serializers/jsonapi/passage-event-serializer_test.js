@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { passageEventSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/passage-event-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | PassageEventSerializer', function () {
   describe('#deserialize', function () {

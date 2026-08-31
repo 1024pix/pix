@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { patchLearningContentEntry } from '../../../../../src/learning-content/domain/usecases/patch-learning-content-entry.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Learning Content | Unit | Domain | Usecase | Patch learning content entry', function () {
   let frameworkRepository,

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
@@ -9,7 +11,6 @@ import {
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { combinedCourseBlueprintForCreationSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-for-creation-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-blueprint-for-creation-serializer', function () {
   it('#deserialize', async function () {

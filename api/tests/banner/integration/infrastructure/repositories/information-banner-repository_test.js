@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import * as informationBannerRepository from '../../../../../src/communication/banner/infrastructure/repositories/information-banner-repository.js';
 import { informationBannersStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Infrastructure | Repository | Banner | information-banner-repository', function () {

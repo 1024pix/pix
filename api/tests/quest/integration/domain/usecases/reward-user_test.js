@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import {
   CRITERION_COMPARISONS,
@@ -6,7 +8,6 @@ import {
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 const { INVALIDATED, VALIDATED } = KnowledgeElement.StatusType;
 const userId = 1234;

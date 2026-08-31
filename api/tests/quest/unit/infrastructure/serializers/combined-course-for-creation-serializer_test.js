@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { combinedCourseForCreationSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-for-creation-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-creation', function () {
   it('#deserialize', async function () {

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -5,7 +6,6 @@ import {
   verifySessionAuthorization,
 } from '../../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { NotFoundError } from '../../../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../../tooling/mocks/hapi.mock.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

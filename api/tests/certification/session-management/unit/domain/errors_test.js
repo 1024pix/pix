@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as errors from '../../../../../src/certification/session-management/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Certification | session-management | Unit | Domain | Errors', function () {
   it('should export a SessionAlreadyFinalizedError', function () {

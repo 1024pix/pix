@@ -1,11 +1,11 @@
 import { writeFile } from 'node:fs/promises';
 import * as url from 'node:url';
 
+import { expect } from 'chai';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import sinon from 'sinon';
 
 import * as learningContentPDFPresenter from '../../../../../../../src/prescription/target-profile/application/presenter/pdf/learning-content-pdf-presenter.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { isSameBinary } from '../../../../../../tooling/test-utils/file.js';
 

@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { divisionSerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/division-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | division-serializer', function () {
   describe('#serialize', function () {

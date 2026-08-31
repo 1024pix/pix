@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import JSZip from 'jszip';
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../src/certification/results/domain/usecases/index.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Certification | Results | UseCase | get-selected-sessions-results-zip', function () {

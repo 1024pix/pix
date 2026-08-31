@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { combinedCourseController } from '../../../../src/quest/application/combined-course-controller.js';
 import { usecases } from '../../../../src/quest/domain/usecases/index.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Quest | Application | Controller | CombinedCourse', function () {
   describe('#getById', function () {

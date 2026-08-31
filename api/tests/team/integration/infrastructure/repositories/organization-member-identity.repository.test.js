@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { OrganizationMemberIdentity } from '../../../../../src/team/domain/models/OrganizationMemberIdentity.js';
 import * as organizationMemberIdentityRepository from '../../../../../src/team/infrastructure/repositories/organization-member-identity.repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Team | Infrastructure | Repository | organizationMemberIdentityRepository', function () {

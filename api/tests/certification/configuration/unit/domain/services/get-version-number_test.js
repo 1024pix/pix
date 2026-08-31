@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { getVersionNumber } from '../../../../../../src/certification/configuration/domain/services/get-version-number.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Services | get-version-number', function () {
   it('should return string from given date', async function () {

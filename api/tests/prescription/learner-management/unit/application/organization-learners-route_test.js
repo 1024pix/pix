@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { organizationLearnersController } from '../../../../../src/prescription/learner-management/application/organization-learners-controller.js';
 import { organizationLearnersRoute as moduleUnderTest } from '../../../../../src/prescription/learner-management/application/organization-learners-route.js';
 import { learnerManagementSecurityPreHandlers } from '../../../../../src/prescription/learner-management/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 

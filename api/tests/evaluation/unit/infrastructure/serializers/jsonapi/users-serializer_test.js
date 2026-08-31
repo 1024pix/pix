@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { userSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/user-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Evaluation | Unit | Serializer | JSONAPI | user', function () {
   describe('#serialize()', function () {

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { OrganizationLearnerParticipation } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerParticipation.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Read-Models | OrganizationLearner | OrganizationLearnerParticipation', function () {

@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
 import {
   oidcAuthenticationServiceRegistry,
   usecases,
 } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCases | get-identity-providers-by-requested-application', function () {

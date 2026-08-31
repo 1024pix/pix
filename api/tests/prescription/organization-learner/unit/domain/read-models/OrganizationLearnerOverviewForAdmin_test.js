@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { OrganizationLearnerOverviewForAdmin } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerOverviewForAdmin.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | OrganizationLearnerOverviewForAdmin', function () {
   describe('#constructor', function () {

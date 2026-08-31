@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import Joi from '../../../src/shared/config-joi.js';
-import { expect } from '../../test-helper.js';
 
 describe('Shared | Integration | Config joi', function () {
   let schema;

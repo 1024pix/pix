@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { duplicateModule } from '../../../../../src/devcomp/domain/usecases/duplicate-module.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | duplicate-module', function () {
   describe('#duplicateModule', function () {

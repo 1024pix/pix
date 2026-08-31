@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { QCUForAnswerVerification } from '../../../../../src/devcomp/domain/models/element/QCU-for-answer-verification.js';
@@ -5,7 +6,6 @@ import { Module } from '../../../../../src/devcomp/domain/models/module/Module.j
 import moduleDatasource from '../../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import * as elementRepository from '../../../../../src/devcomp/infrastructure/repositories/element-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | DevComp | Repositories | ElementRepository', function () {

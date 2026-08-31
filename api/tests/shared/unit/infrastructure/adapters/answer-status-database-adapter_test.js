@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import * as AnswerStatusDatabaseAdapter from '../../../../../src/shared/infrastructure/adapters/answer-status-database-adapter.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('AnswerStatusDatabaseAdapter', function () {
   describe('#adapt', function () {

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AccountRecoveryDemand } from '../../../../../src/identity-access-management/domain/models/AccountRecoveryDemand.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | Model | AccountRecoveryDemand', function () {
   const now = new Date('2022-11-28T12:00:00Z');

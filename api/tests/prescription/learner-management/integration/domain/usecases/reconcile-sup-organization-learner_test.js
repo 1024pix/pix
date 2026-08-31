@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import {
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../../../src/shared/domain/errors.js';
 import * as userReconciliationService from '../../../../../../src/shared/domain/services/user-reconciliation-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

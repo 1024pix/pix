@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { serializeHttpErrorResponse } from '../../../../../src/prescription/campaign-participation/infrastructure/errors-helper.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('serializeHttpErrorResponse', function () {
   describe('when http error data is null', function () {

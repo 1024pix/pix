@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { ComplementaryCertificationCourseResultForJuryCertification } from '../../../../../../src/certification/session-management/domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Session-management | Unit | Domain | Read-models | ComplementaryCertificationCourseResultForJuryCertification', function () {

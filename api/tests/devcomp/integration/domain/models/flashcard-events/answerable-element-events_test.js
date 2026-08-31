@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   CustomDraftRetriedEvent,
   CustomRetriedEvent,
@@ -14,7 +16,6 @@ import {
   QROCMRetriedEvent,
 } from '../../../../../../src/devcomp/domain/models/passage-events/answerable-element-events.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Devcomp | Domain | Models | passage-events | answerable-element-events', function () {

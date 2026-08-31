@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { learnerActivityController } from '../../../../../src/prescription/organization-learner/application/learner-activity-controller.js';
 import { learnerActivityRoute as moduleUnderTest } from '../../../../../src/prescription/organization-learner/application/learner-activity-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | organization-router', function () {

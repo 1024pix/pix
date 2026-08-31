@@ -1,11 +1,11 @@
 import { Readable } from 'node:stream';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AnswersHistoryRepository } from '../../../../../src/db-history/infrastructure/repositories/answers-history-repository.js';
 import { FileValidationError } from '../../../../../src/shared/domain/errors.js';
 import { S3ObjectStorageProvider } from '../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | History-db | Infrastructure | Repository | AnswersHistory', function () {

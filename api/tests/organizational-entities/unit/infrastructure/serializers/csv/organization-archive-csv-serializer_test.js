@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { deserializeForOrganizationBatchArchive } from '../../../../../../src/organizational-entities/infrastructure/serializers/csv/organization-archive-csv-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Organizational Entities | Unit | Infrastructure | Serializers | CSV | organization-archive-csv-serializer', function () {
   describe('#deserializeForOrganizationBatchArchive', function () {

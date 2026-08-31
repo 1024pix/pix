@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import datamartKnexConfigs from '../../../../datamart/knexfile.js';
@@ -8,7 +9,6 @@ import * as userRepository from '../../../../src/identity-access-management/infr
 import { config } from '../../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 
 function knexConfigForDatabase(databaseName) {

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 
@@ -31,7 +32,6 @@ import {
   OrganizationLearnersCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
 } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { CertificationOfficer } from '../../../../../../src/certification/session-management/domain/models/CertificationOfficer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationOfficer', function () {
   describe('#getFullName', function () {

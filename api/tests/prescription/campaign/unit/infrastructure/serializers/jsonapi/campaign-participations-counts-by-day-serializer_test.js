@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { campaignParticipationsCountsByDaySerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-participations-counts-by-day-serializer', function () {
   describe('#serialize', function () {

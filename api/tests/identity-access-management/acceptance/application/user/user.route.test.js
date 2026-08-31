@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import lodash from 'lodash';
 import sinon from 'sinon';
 
@@ -8,7 +9,6 @@ import * as userRepository from '../../../../../src/identity-access-management/i
 import { userEmailRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

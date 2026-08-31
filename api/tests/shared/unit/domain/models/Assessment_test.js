@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Campaign } from '../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | Assessment', function () {

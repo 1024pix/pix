@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { CertificationResult } from '../../../../../../../../src/certification/results/domain/models/CertificationResult.js';
 import { SessionCertificationResultsCsvBuilder } from '../../../../../../../../src/certification/results/infrastructure/utils/csv/certification-results/SessionCertificationResultsCsvBuilder.js';
 import { Frameworks } from '../../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { getI18n } from '../../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../../test-helper.js';
 
 describe('Unit | infrastructure | utils | csv | certification-results | SessionCertificationResultsCsvBuilder', function () {
   describe('#hasCoreOrCleaCertifications', function () {

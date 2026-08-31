@@ -1,6 +1,7 @@
 import * as uuidService from 'node:crypto';
 import stream from 'node:stream';
 
+import { expect } from 'chai';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
@@ -9,7 +10,6 @@ import sinon from 'sinon';
 
 import { CpfExportBuilderJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-builder-job-controller.js';
 import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const { PassThrough, Readable } = stream;

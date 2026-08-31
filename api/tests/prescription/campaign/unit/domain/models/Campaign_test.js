@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -8,7 +9,6 @@ import { Campaign } from '../../../../../../src/prescription/campaign/domain/mod
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { ArchivedCampaignError } from '../../../../../../src/prescription/shared/domain/errors.js';
 import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Campaign', function () {

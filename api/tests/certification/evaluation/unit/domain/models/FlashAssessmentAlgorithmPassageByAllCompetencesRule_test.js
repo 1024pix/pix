@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { FlashAssessmentAlgorithmPassageByAllCompetencesRule } from '../../../../../../src/certification/evaluation/domain/models/FlashAssessmentAlgorithmPassageByAllCompetencesRule.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmPassageByAllCompetencesRule', function () {

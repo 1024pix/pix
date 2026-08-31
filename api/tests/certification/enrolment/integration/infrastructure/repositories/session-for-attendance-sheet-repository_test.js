@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { CertificationCandidateForAttendanceSheet } from '../../../../../../src/certification/enrolment/domain/read-models/CertificationCandidateForAttendanceSheet.js';
 import { SessionForAttendanceSheet } from '../../../../../../src/certification/enrolment/domain/read-models/SessionForAttendanceSheet.js';
 import * as sessionForAttendanceSheetRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-for-attendance-sheet-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

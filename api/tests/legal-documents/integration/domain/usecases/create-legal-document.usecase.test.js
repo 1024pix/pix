@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { LegalDocumentInvalidDateError } from '../../../../../src/legal-documents/domain/errors.js';
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { usecases } from '../../../../../src/legal-documents/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

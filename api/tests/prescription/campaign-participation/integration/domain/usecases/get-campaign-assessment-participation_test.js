@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { CampaignAssessmentParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignAssessmentParticipation.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import {
@@ -6,7 +8,6 @@ import {
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | get-campaign-assessment-participation', function () {

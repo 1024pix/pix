@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { learnerManagementDomainErrorMappingConfiguration } from '../../../../../src/prescription/learner-management/application/http-error-mapper-configuration.js';
 import {
   AggregateImportError,
@@ -6,7 +8,6 @@ import {
 } from '../../../../../src/prescription/learner-management/domain/errors.js';
 import { PreconditionFailedError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { CsvImportError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Prescription | Learner Management | Unit | Application | HttpErrorMapperConfiguration', function () {
   it('instantiates multiple PreconditionFailedError when AggregateImportError', async function () {

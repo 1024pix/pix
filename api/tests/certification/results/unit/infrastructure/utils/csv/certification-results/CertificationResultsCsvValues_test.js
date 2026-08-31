@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { CertificationResult } from '../../../../../../../../src/certification/results/domain/models/CertificationResult.js';
 import { CertificationResultsCsvValues } from '../../../../../../../../src/certification/results/infrastructure/utils/csv/certification-results/CertificationResultsCsvValues.js';
 import { AlgorithmEngineVersion } from '../../../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { getI18n } from '../../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', function () {

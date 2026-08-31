@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { redisMutex } from '../../../../../src/shared/infrastructure/mutex/RedisMutex.js';
-import { expect } from '../../../../test-helper.js';
 import { wait } from '../../../../tooling/test-utils/wait.js';
 
 describe('Shared | Integration | Infrastructure | Mutex | RedisMutex', function () {

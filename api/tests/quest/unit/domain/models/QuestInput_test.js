@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { QuestInput } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/QuestInput.js';
@@ -8,7 +10,6 @@ import {
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | QuestInput', function () {
   describe('#constructor', function () {

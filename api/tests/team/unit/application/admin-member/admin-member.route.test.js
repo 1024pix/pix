@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { adminMemberController } from '../../../../../src/team/application/admin-member/admin-member.controller.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { CampaignParticipationOverview } from '../../../../../../../src/prescription/campaign-participation/domain/read-models/CampaignParticipationOverview.js';
 import { campaignParticipationOverviewSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../../test-helper.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

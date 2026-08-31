@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { CombinedCourseParticipation } from '../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import { combinedCourseListSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-list-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-list', function () {
   describe('#serialize', function () {

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 
@@ -5,7 +6,6 @@ import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { organizationInvitationRepository } from '../../../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

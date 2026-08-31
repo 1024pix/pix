@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { OrganizationLearnerOverviewForAdmin } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerOverviewForAdmin.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCases | find-paginated-filtered-organization-learners-for-admin', function () {

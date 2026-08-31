@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getDatesOneYearEarlier } from '../../../../../src/db-history/application/jobs/date-utils.js';
 import { ScheduleHistorizeAnswersJobController } from '../../../../../src/db-history/application/jobs/schedule-historize-answers-job-controller.js';
 import { usecases } from '../../../../../src/db-history/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('DB-History | Unit | Application | Jobs | ScheduleHistorizeAnswersJobController', function () {
   describe('#handle', function () {

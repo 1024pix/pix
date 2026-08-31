@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { ImportFromSupJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ImportFromSupJob.js';
 import { importFromSupJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/import-from-sup-job-repository.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { JobRetry } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Integration | Prescription | Infrastructure | Repository | Jobs | importFromSupJobRepository', function () {
   describe('#performAsync', function () {

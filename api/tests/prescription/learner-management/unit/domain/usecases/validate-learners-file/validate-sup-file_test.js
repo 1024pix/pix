@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import iconv from 'iconv-lite';
 import sinon from 'sinon';
 
@@ -9,7 +10,6 @@ import { validateSupFile } from '../../../../../../../src/prescription/learner-m
 import { SupHeader } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/headers/sup-header.js';
 import { SupParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/sup-parser.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 const i18n = getI18n();

@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { RefreshLearningContentJob } from '../../../../../../src/learning-content/domain/models/RefreshLearningContentJob.js';
 import { refreshLearningContentJobRepository } from '../../../../../../src/learning-content/infrastructure/repositories/jobs/refresh-learning-content-job-repository.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Learning Content | Integration | Repository | Jobs | RefreshLearningContentJobRepository', function () {
   describe('#performAsync', function () {

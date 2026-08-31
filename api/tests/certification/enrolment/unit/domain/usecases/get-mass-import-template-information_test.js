@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getMassImportTemplateInformation } from '../../../../../../src/certification/enrolment/domain/usecases/get-mass-import-template-information.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Certification | Session | UseCase | get-mass-import-template-information', function () {

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { ComponentElement } from '../../../../../../src/devcomp/domain/models/component/ComponentElement.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Component | ComponentElement', function () {

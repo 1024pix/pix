@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { anonymizeServices } from '../../../../../../src/privacy/domain/services/anonymize-services/index.js';
 import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | can-self-anonymize', function () {
   const userId = '123';

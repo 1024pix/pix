@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { createServer } from '../../../../server.js';
 import { createMaddoServer } from '../../../../server.maddo.js';
 import { config } from '../../../../src/shared/config.js';
-import { expect } from '../../../test-helper.js';
 import { getMaddoServer, getServer } from '../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Controller | Open Api', function () {

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { usecases as devcompUsecases } from '../../../../../src/devcomp/domain/usecases/index.js';
@@ -10,7 +11,6 @@ import { usecases as questUsecases } from '../../../../../src/quest/domain/useca
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

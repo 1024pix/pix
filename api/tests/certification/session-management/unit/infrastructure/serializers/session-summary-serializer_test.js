@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/session-summary-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | session-summary-serializer', function () {

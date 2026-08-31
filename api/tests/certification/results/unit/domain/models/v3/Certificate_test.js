@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { Certificate } from '../../../../../../../src/certification/results/domain/models/v3/Certificate.js';
 import { CertificateMeshLevel } from '../../../../../../../src/certification/results/domain/models/v3/CertificateMeshLevel.js';
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Certification | Results | Certificate v3', function () {
   describe('#resultCompetenceTree', function () {

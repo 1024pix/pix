@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as divisionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/division-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Certification | Enrolment | Infrastructure | Repository | division-repository', function () {

@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Tutorial } from '../../../../../src/devcomp/domain/models/Tutorial.js';
 import { findPaginatedFilteredTutorials } from '../../../../../src/devcomp/domain/usecases/find-paginated-filtered-tutorials.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | find-paginated-filtered-tutorials', function () {
   let tutorialRepository;

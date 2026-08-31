@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { SendEmailJobController } from '../../../../../../src/shared/mail/application/jobs/send-email.job-controller.js';
 import { Email } from '../../../../../../src/shared/mail/domain/models/Email.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Email | Application | Jobs | SendEmailJobController', function () {
   it('sets up the job controller configuration', async function () {

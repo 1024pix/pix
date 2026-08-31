@@ -1,4 +1,5 @@
 import { CreateBucketCommand, S3Client } from '@aws-sdk/client-s3';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
@@ -14,7 +15,6 @@ import * as answersRepository from '../../../../../src/db-history/infrastructure
 import * as assessmentsRepository from '../../../../../src/db-history/infrastructure/repositories/assessments-repository.js';
 import { config } from '../../../../../src/shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr, catchErrSync } from '../../../../tooling/test-utils/error.js';
 

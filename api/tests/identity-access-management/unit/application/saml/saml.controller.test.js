@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { samlController } from '../../../../../src/identity-access-management/application/saml/saml.controller.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
-import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Identity Access Management | Application | Controller | Authentication', function () {

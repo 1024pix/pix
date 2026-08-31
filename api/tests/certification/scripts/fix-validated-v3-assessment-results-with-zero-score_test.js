@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { FixValidatedV3AssessmentResultsWithZeroScoreScript } from '../../../scripts/certification/fix-validated-v3-assessment-results-with-zero-score.js';
@@ -6,7 +7,6 @@ import { Frameworks } from '../../../src/certification/shared/domain/models/Fram
 import { AutoJuryCommentKeys } from '../../../src/certification/shared/domain/models/JuryComment.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../test-helper.js';
 import { databaseBuilder, knex } from '../../tooling/databases.js';
 import { catchErr } from '../../tooling/test-utils/error.js';
 

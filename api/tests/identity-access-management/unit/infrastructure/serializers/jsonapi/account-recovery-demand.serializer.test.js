@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { accountRecoveryDemandSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/account-recovery-demand.serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Identity Access Management | Unit | Serializer | JSONAPI | account-recovery-demand', function () {
   describe('#serialize()', function () {

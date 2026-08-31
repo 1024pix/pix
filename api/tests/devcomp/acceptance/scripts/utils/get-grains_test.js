@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { getGrains } from '../../../../../src/devcomp/scripts/utils/get-grains.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Script | Helper | Get grains', function () {
   const modulesListAsJs = [

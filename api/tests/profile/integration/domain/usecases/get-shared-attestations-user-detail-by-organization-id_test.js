@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AttestationNotFoundError } from '../../../../../src/profile/domain/errors.js';
 import { AttestationUserDetail } from '../../../../../src/profile/domain/models/AttestationUserDetail.js';
 import { User } from '../../../../../src/profile/domain/models/User.js';
 import { usecases } from '../../../../../src/profile/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildAttestationUserDetail } from '../../../../tooling/domain-builder/factory/index.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

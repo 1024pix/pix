@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { CandidateTimeline } from '../../../../../../src/certification/enrolment/domain/models/timeline/CandidateTimeline.js';
 import { TimelineEvent } from '../../../../../../src/certification/enrolment/domain/models/timeline/TimelineEvent.js';
 import { timelineSerializer } from '../../../../../../src/certification/enrolment/infrastructure/serializers/timeline-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Enrolment | Unit | Serializer | timeline-serializer', function () {
   describe('#serialize()', function () {

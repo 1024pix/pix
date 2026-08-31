@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationIssueReportsController } from '../../../../../src/certification/session-management/application/certification-issue-reports-controller.js';
 import { certificationIssueReportsRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/certification-issue-reports-route.js';
 import { sessionManagementSecurityPreHandlers } from '../../../../../src/certification/session-management/application/security-pre-handlers.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Certifications Issue Reports | Route', function () {

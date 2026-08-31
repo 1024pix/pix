@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { userDetailsForAdminSerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
 import { LastUserApplicationConnection } from '../../../../../../src/identity-access-management/domain/models/LastUserApplicationConnection.js';
 import { STATUS } from '../../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Deprecated | Infrastructure | Serializer | JSONAPI | user-details-for-admin-serializer', function () {

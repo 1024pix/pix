@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { findByIds } from '../../../../../src/learning-content/application/api/frameworks-api.js';
 import { FrameworkDTO } from '../../../../../src/learning-content/application/api/models/FrameworkDTO.js';
 import { usecases } from '../../../../../src/learning-content/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('LearningContent | Unit | Application | Api | frameworks', function () {

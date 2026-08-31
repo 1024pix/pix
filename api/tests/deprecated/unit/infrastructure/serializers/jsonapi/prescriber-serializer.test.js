@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import { prescriberSerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/prescriber-serializer.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { Organization } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Deprecated | Unit | Infrastructure | Serializer | JSONAPI | prescriber', function () {

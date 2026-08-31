@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import { SimulationParameters } from '../../../../../src/evaluation/domain/models/SimulationParameters.js';
 import { SmartRandomLog } from '../../../../../src/evaluation/domain/models/SmartRandomLog.js';
 import { startLogging } from '../../../../../src/evaluation/domain/services/smart-random-log-service.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Usecases | Get next challenge for simulator', function () {

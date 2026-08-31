@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { AttestationParticipantStatus } from '../../../../../../src/prescription/organization-learner/domain/read-models/AttestationParticipantStatus.js';
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
@@ -5,7 +7,6 @@ import { OrganizationLearnerOverviewForAdmin } from '../../../../../../src/presc
 import { repositories } from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/index.js';
 import { User } from '../../../../../../src/profile/domain/models/User.js';
 import { NotFoundError, OrganizationLearnerNotFound } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { mockAttestationStorage } from '../../../../../tooling/mocks/attestation-storage.mock.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

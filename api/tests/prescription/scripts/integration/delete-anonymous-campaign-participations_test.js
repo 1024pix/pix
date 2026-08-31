@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { DeleteAnonymousCampaignParticipationsScript } from '../../../../src/prescription/scripts/delete-anonymous-campaign-participations.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
 describe('DeleteAnonymousCampaignParticipationsScript', function () {

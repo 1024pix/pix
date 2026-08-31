@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { FRENCH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent } from '../../../../tooling/learning-content-builder/build-learning-content.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

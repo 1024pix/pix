@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import {
   COURSE_ITEM_TYPES,
   CourseItem,
 } from '../../../../../src/quest/domain/models/combined-courses/value-objects/CourseItem.js';
 import * as courseRepository from '../../../../../src/quest/infrastructure/repositories/course-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Repository | course-repository', function () {

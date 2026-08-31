@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentStatus, STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { usecases } from '../../../../../src/legal-documents/domain/usecases/index.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 const { PIX_APP, PIX_ORGA, PIX_CERTIF } = LegalDocumentService.VALUES;

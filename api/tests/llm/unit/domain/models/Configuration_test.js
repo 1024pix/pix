@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('LLM | Unit | Domain | Models | Configuration', function () {
   describe('property getters', function () {

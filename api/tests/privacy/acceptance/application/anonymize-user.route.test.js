@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';

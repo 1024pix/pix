@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/value-objects/Campaign.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Campaign ', function () {
   describe('#constructor', function () {

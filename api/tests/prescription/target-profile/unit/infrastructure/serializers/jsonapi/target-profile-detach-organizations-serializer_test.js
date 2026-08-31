@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { targetProfileDetachOrganizationsSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-detach-organizations-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-detach-organizations-serializer', function () {
   describe('#serialize', function () {

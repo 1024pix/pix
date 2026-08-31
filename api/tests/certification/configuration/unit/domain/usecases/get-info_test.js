@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { ActiveCertificationInfoNotFound } from '../../../../../../src/certification/configuration/domain/errors.js';
 import { getInfo } from '../../../../../../src/certification/configuration/domain/usecases/get-info.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

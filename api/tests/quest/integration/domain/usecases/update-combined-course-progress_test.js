@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import nock from 'nock';
 import sinon from 'sinon';
 
@@ -10,7 +11,6 @@ import {
 } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { repositories } from '../../../../../src/quest/infrastructure/repositories/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 

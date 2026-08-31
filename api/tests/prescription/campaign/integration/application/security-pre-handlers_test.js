@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { campaignSecurityPreHandlers } from '../../../../../src/prescription/campaign/application/security-pre-handlers.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { createReleaseInfrastructure } from '../../../../src/shared/infrastructure/release-infrastructure.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Shared | Unit | Infrastructure | release-infrastructure', function () {
   let dependencies;

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { OrganizationLearnerOverviewForAdmin } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerOverviewForAdmin.js';
 import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/admin-organization-learner-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | admin-organization-learner-serializer', function () {
   describe('#serialize', function () {

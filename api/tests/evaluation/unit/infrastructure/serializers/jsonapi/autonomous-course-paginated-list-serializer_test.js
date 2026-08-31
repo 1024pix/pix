@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { autonomousCoursePaginatedListSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/autonomous-course-paginated-list-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | autonomous-course-paginated-list-serializer', function () {
   describe('#serialize', function () {

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
@@ -8,7 +9,6 @@ import {
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { getQuestResultsForCampaignParticipation } from '../../../../../src/quest/domain/usecases/get-quest-results-for-campaign-participation.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Usecases | getQuestResultsForCampaignParticipation', function () {
   let questRepository, eligibilityRepository, rewardRepository, campaignParticipationId, userId, logger;

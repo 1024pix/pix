@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { updateAssessmentWithNextChallenge } from '../../../../../src/evaluation/domain/usecases/update-assessment-with-next-challenge.js';
@@ -9,7 +10,6 @@ import {
   NotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../tooling/test-utils/error.js';
 

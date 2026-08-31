@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import * as userRepository from '../../../../../src/legal-documents/infrastructure/repositories/user.repository.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

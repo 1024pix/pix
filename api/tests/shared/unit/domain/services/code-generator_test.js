@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { generateAvailableAccessCode } from '../../../../../src/shared/domain/services/access-code-generator.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | access code generator', function () {
   describe('generateAvailableAccessCode', function () {

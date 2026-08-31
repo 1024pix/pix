@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as combinedCourseBlueprintShareRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-blueprint-share-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Repository | combined-course-blueprint-share', function () {

@@ -1,8 +1,9 @@
 import { randomUUID } from 'node:crypto';
 
+import { expect } from 'chai';
+
 import { config as settings } from '../../../../../src/shared/config.js';
 import { RedisKeyValueStorage } from '../../../../../src/shared/infrastructure/key-value-storages/RedisKeyValueStorage.js';
-import { expect } from '../../../../test-helper.js';
 
 const REDIS_URL = settings.redis.url;
 

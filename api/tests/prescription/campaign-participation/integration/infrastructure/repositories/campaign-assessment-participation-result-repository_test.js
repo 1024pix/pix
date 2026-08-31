@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import * as campaignAssessmentParticipationResultRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

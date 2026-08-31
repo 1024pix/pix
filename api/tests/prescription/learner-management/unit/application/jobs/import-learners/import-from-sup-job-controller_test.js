@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { ImportFromSupJobController } from '../../../../../../../src/prescription/learner-management/application/jobs/import-learners/import-from-sup-job-controller.js';
@@ -5,7 +6,6 @@ import { usecases } from '../../../../../../../src/prescription/learner-manageme
 import { config } from '../../../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Prescription | Application | Jobs | ImportFromSupJobController', function () {

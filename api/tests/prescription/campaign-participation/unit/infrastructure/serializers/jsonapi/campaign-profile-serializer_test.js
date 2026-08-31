@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import { CampaignProfile } from '../../../../../../../src/prescription/campaign-participation/domain/models/CampaignProfile.js';
 import { campaignProfileSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { PlacementProfile } from '../../../../../../../src/shared/domain/models/PlacementProfile.js';
 import { UserCompetence } from '../../../../../../../src/shared/domain/models/UserCompetence.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 const { SHARED } = CampaignParticipationStatuses;

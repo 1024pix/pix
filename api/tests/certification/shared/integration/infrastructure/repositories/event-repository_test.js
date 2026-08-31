@@ -1,10 +1,10 @@
 import { setImmediate } from 'node:timers/promises';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as eventRepository from '../../../../../../src/certification/shared/infrastructure/repositories/event-repository.js';
 import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

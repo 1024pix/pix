@@ -1,12 +1,12 @@
 import { Readable } from 'node:stream';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { SupHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/headers/sup-header.js';
 import { importStorage } from '../../../../../../src/prescription/learner-management/infrastructure/storage/import-storage.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | getDeltaOrganizationLearnerIds', function () {

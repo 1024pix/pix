@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import dayjs from 'dayjs';
 import sinon from 'sinon';
 
@@ -7,7 +8,6 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', function () {

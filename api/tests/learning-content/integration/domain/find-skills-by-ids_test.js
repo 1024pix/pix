@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../src/learning-content/domain/usecases/index.js';
 import { Skill } from '../../../../src/shared/domain/models/Skill.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Domain | Usecase | Find skills by ids', function () {

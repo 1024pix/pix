@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { AttachedOrganization } from '../../../../../../../src/organizational-entities/domain/models/AttachedOrganization.js';
 import { attachedOrganizationSerializer } from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/attached-organization.serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Serializers | JSONAPI | Organizations-Administrations | attached-organization', function () {
   describe('#serialize', function () {

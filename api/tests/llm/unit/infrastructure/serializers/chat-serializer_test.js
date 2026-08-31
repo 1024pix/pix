@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { Chat, Message } from '../../../../../src/llm/domain/models/Chat.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
 import { serialize } from '../../../../../src/llm/infrastructure/serializers/json/chat-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('LLM | Unit | Infrastructure | Serializers | Chat', function () {
   describe('serialize', function () {

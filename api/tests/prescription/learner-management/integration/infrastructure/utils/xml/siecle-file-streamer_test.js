@@ -1,12 +1,12 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { SiecleXmlImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 import { SiecleFileStreamer } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
 import { FileValidationError } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

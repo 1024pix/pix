@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { legalDocumentsDomainErrorMappingConfiguration } from '../../../../../src/legal-documents/application/http-error-mapper-configuration.js';
 import { LegalDocumentInvalidDateError } from '../../../../../src/legal-documents/domain/errors.js';
 import { UnprocessableEntityError } from '../../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Legal Documents | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "LegalDocumentInvalidDateError"', function () {

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import iconv from 'iconv-lite';
 
 import { GenericParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/generic-parser.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Infrastructure | GenericParser', function () {

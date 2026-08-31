@@ -1,5 +1,6 @@
 import * as url from 'node:url';
 
+import { expect } from 'chai';
 import Joi from 'joi';
 
 import {
@@ -9,7 +10,6 @@ import {
   csvFileStreamer,
   isoDateParser,
 } from '../../../../../src/shared/application/scripts/parsers.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

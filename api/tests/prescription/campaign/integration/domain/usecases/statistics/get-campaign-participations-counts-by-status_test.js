@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 

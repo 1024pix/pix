@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AssessmentResult } from '../../../../../../../src/prescription/campaign-participation/domain/read-models/AssessmentResult.js';
@@ -7,7 +8,6 @@ import {
   CampaignTypes,
 } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElement } from '../../../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSON API | participant-result-serializer', function () {

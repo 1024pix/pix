@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { ResponseObjectsParserStream } from '../../../../../../src/llm/infrastructure/streaming/transforms/response-objects-parser-transform.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('LLM | Unit | Infrastructure | Streaming | Transforms | ResponseObjectsParserStream', function () {
   let metadata;

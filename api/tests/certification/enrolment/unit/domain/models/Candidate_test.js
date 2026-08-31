@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { BILLING_MODES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CertificationCandidatesError } from '../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErr, catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 const FIRST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code;

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { copyTargetProfileStages } from '../../../../../../src/prescription/stages/domain/usecases/copy-target-profile-stages.js';
 import * as stageRepository from '../../../../../../src/prescription/stages/infrastructure/repositories/stage-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Evaluation | Integration | Domain | UseCases | copy-stages', function () {

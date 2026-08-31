@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as campaignToJoinRepository from '../../../../../src/identity-access-management/infrastructure/repositories/campaign-to-join-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Repository | CampaignToJoin', function () {

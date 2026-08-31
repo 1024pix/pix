@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { UnauthorizedError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

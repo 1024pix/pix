@@ -1,4 +1,5 @@
-import { expect } from '../../../../test-helper.js';
+import { expect } from 'chai';
+
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

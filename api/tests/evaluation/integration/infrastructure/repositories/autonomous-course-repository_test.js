@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { AutonomousCourse } from '../../../../../src/evaluation/domain/models/AutonomousCourse.js';
 import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
 import { config } from '../../../../../src/shared/config.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Repository | Autonomous Course', function () {

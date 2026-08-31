@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { CampaignAssessmentParticipation } from '../../../../../../../src/prescription/campaign-participation/domain/models/CampaignAssessmentParticipation.js';
 import { campaignAssessmentParticipationSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
 import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serializer', function () {
   describe('#serialize()', function () {

@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import nock from 'nock';
 
 import { config } from '../../../../../src/shared/config.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
-import { expect } from '../../../../test-helper.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Controller | Modules | Route', function () {

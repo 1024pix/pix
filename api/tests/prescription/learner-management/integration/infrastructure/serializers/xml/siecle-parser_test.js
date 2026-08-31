@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
+import { expect } from 'chai';
+
 import {
   AggregateImportError,
   SiecleXmlImportError,
@@ -9,7 +11,6 @@ import { SiecleParser } from '../../../../../../../src/prescription/learner-mana
 import { detectEncoding } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/detect-encoding.js';
 import { SiecleFileStreamer } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
 import { FileValidationError, SIECLE_ERRORS } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 const fixturesDirPath = `${url.fileURLToPath(new URL('../../../../../../', import.meta.url))}tooling/fixtures/`;

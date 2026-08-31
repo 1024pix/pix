@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationCenterController } from '../../../../../src/certification/enrolment/application/certification-center-controller.js';
 import { certificationCenterRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/certification-center-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Enrolment | Unit | Application | Session Students Route', function () {

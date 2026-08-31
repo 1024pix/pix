@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { InvalidStageError } from '../../../../../../src/prescription/stages/domain/errors.js';
 import { StageCollectionUpdate } from '../../../../../../src/prescription/stages/domain/models/StageCollectionUpdate.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | target-profile-management/StageCollectionUpdate', function () {

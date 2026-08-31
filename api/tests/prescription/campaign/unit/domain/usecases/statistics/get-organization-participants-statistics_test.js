@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getOrganizationParticipantsStatistics } from '../../../../../../../src/prescription/campaign/domain/usecases/statistics/get-organization-participants-statistics.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | UseCase | getOrganizationParticipantsStatistics', function () {
   it('returns an object with the total participants count and total participants count grouped by year, for the given organization', async function () {

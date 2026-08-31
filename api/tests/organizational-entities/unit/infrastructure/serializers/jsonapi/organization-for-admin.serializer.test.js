@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { Organization } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import { OrganizationForAdmin } from '../../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
 import { organizationForAdminSerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {

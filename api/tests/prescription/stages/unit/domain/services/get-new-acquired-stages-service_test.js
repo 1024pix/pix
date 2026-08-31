@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { getNewAcquiredStages } from '../../../../../../src/prescription/stages/domain/services/get-new-acquired-stages-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | Stages calculation', function () {

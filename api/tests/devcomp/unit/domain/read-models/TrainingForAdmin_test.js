@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { Training } from '../../../../../src/devcomp/domain/models/Training.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Read-Models | TrainingForAdmin', function () {

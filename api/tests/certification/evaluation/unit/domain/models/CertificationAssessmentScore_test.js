@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { status as AssessmentResultStatus } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | CertificationAssessmentScore', function () {

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
@@ -11,7 +12,6 @@ import { usecases } from '../../../../../src/identity-access-management/domain/u
 import { config } from '../../../../../src/shared/config.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | authenticate-user', function () {

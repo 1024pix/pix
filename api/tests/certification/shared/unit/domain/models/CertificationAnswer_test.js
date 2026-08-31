@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { CertificationAnswer } from '../../../../../../src/certification/shared/domain/models/CertificationAnswer.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Shared | Domain | Models | CertificationAnswer', function () {
   describe('#constructor', function () {

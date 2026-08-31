@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { PasswordResetDemandNotFoundError } from '../../../../../src/identity-access-management/domain/errors.js';
@@ -7,7 +8,6 @@ import { usecases } from '../../../../../src/identity-access-management/domain/u
 import { config } from '../../../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { InvalidTemporaryKeyError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

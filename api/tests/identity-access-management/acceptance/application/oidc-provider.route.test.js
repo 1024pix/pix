@@ -1,11 +1,11 @@
 import querystring from 'node:querystring';
 
+import { expect } from 'chai';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { authenticationSessionService } from '../../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { AuthenticationSessionContent } from '../../../../src/shared/domain/models/AuthenticationSessionContent.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { createMockedTestOidcProviders } from '../../../tooling/mocks/openid-client.mock.js';
 import { getServer } from '../../../tooling/server/shared-server.js';

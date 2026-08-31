@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { CleaCertifiedCandidate } from '../../../../../../src/certification/results/domain/read-models/CleaCertifiedCandidate.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CleaCertifiedCandidate', function () {
   describe('#isBornInAForeignCountry', function () {

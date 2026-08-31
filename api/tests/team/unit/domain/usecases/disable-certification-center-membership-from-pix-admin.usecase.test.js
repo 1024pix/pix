@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { disableCertificationCenterMembershipFromPixAdmin } from '../../../../../src/team/domain/usecases/disable-certification-center-membership-from-pix-admin.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | disable-certification-center-membership-from-pix-admin', function () {
   let certificationCenterMembershipRepository;

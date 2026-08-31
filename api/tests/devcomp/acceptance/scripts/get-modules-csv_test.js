@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import nock from 'nock';
 
 import { ModuleFactory } from '../../../../src/devcomp/infrastructure/factories/module-factory.js';
 import { getModulesListAsCsv } from '../../../../src/devcomp/scripts/get-modules-csv.js';
-import { expect } from '../../../test-helper.js';
 import moduleContent from './test-module.json' with { type: 'json' };
 
 describe('Acceptance | Script | Get Modules as CSV', function () {

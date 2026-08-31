@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { UserAccountInfo } from '../../../../../src/deprecated/domain/models/UserAccountInfo.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Deprecated | Domain | Models | UserAccountInfo', function () {
   const restrictedOidcProvidersForEmailCreation = ['RESTRICTED_OIDC_PROVIDER_1'];

@@ -1,9 +1,9 @@
 import { logs, SeverityNumber } from '@opentelemetry/api-logs';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { executeInContext, EXECUTORS } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { child, logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Utils | logger | OpenTelemetry', function () {
   let emitStub;

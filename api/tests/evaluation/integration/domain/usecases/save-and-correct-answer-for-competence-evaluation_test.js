@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
@@ -7,7 +8,6 @@ import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/constants.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 

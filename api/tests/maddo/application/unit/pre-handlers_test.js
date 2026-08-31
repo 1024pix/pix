@@ -1,4 +1,5 @@
 import boom from '@hapi/boom';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -6,7 +7,6 @@ import {
   isOrganizationInJurisdictionPreHandler,
   organizationPreHandler,
 } from '../../../../src/maddo/application/pre-handlers.js';
-import { expect } from '../../../test-helper.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Maddo | Application | pre handlers', function () {

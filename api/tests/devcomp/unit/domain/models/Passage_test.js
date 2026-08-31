@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Passage } from '../../../../../src/devcomp/domain/models/Passage.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Passage', function () {
   describe('#constructor', function () {

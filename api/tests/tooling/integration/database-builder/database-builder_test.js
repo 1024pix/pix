@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
 import { databaseConnection } from '../../../../db/knex-database-connection.js';
 import { createOrganization } from '../../../../db/seeds/data/common/tooling/organization-tooling.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../databases.js';
 
 describe('Integration | Tooling | DatabaseBuilder | database-builder', function () {

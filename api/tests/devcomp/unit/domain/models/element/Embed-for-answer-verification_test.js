@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { EmbedForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/Embed-for-answer-verification.js';
 import { EmbedCorrectionResponse } from '../../../../../../src/devcomp/domain/models/EmbedCorrectionResponse.js';
 import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerification', function () {

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { types } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Organizational Entities | Domain | Models | Center', function () {

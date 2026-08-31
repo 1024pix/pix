@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CertificationResultsLinkByEmailToken } from '../../../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkByEmailToken.js';
 import { config } from '../../../../../../../src/shared/config.js';
 import { InvalidResultRecipientTokenError } from '../../../../../../../src/shared/domain/errors.js';
 import { tokenService } from '../../../../../../../src/shared/domain/services/token-service.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Certification | Results | Domain | Model | CertificationResultsLinkByEmailToken', function () {
   beforeEach(function () {

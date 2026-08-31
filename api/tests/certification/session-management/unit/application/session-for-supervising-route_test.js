@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { authorization as sessionInvigilatorAuthorization } from '../../../../../src/certification/session-management/application/pre-handlers/authorization.js';
 import { sessionForSupervisingController } from '../../../../../src/certification/session-management/application/session-for-supervising-controller.js';
 import { sessionForSupervisingRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/session-for-supervising-route.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Session For Supervising', function () {

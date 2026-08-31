@@ -1,9 +1,9 @@
 import { assert } from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Model | Jobs | AuditLoggingJob', function () {
   const now = new Date(2024, 1, 1);

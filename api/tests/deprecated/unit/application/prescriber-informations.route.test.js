@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { deprecatedRoutes } from '../../../../src/deprecated/application/routes.js';
 import { usecases } from '../../../../src/deprecated/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../test-helper.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 

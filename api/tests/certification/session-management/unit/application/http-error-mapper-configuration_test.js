@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { sessionDomainErrorMappingConfiguration } from '../../../../../src/certification/session-management/application/http-error-mapper-configuration.js';
 import { SESSION_SUPERVISING } from '../../../../../src/certification/session-management/domain/constants.js';
 import {
@@ -16,7 +18,6 @@ import {
   ServiceUnavailableError,
   UnauthorizedError,
 } from '../../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Session | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "SessionWithoutStartedCertificationError"', function () {

@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
+import { expect } from 'chai';
+
 import { audioElementSchema } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/validation/element/audio-schema.js';
 import { customDraftElementSchema } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/validation/element/custom-draft-element-schema.js';
 import { customElementSchema } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/validation/element/custom-element-schema.js';
@@ -26,7 +28,6 @@ import {
   grainSchema,
   moduleSchema,
 } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/validation/module-schema.js';
-import { expect } from '../../../../../../test-helper.js';
 import { joiErrorParser } from './joi-error-parser.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | format validation', function () {

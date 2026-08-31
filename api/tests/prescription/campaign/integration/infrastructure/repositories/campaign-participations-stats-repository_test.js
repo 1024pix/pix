@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import * as campaignParticipationsStatsRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-participations-stats-repository.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;

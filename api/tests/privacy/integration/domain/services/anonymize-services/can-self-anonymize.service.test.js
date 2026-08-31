@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { anonymizeServices } from '../../../../../../src/privacy/domain/services/anonymize-services/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Privacy | Domain | Services | AnonymizeServices | can-self-anonymize', function () {

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Course } from '../../../../../../src/evaluation/domain/models/Course.js';
 import { courseSerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/course-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | course-serializer', function () {
   describe('#serialize()', function () {

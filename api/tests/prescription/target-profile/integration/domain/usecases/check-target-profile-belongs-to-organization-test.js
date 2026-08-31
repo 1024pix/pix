@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | check-target-profile-belongs-to-organization', function () {

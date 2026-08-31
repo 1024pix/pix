@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { AreaView } from '../../../../../src/learning-content/domain/models/AreaView.js';
 import { CompetenceView } from '../../../../../src/learning-content/domain/models/CompetenceView.js';
 import { FrameworkView } from '../../../../../src/learning-content/domain/models/FrameworkView.js';
@@ -5,7 +7,6 @@ import { LearningContentView } from '../../../../../src/learning-content/domain/
 import { ThematicView } from '../../../../../src/learning-content/domain/models/ThematicView.js';
 import { TubeView } from '../../../../../src/learning-content/domain/models/TubeView.js';
 import { findByTubeIds } from '../../../../../src/learning-content/infrastructure/repositories/learning-content-view-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Repositories | Learning Content View', function () {

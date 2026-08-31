@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../src/shared/constants.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../test-helper.js';
 
 const SCORECARD_STATUS_STARTED = Scorecard.statuses.STARTED;
 const SCORECARD_STATUS_NOT_STARTED = Scorecard.statuses.NOT_STARTED;

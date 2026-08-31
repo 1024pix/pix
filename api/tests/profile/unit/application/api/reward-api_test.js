@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getByAttestationKey, getByIdAndType } from '../../../../../src/profile/application/api/reward-api.js';
 import { Reward } from '../../../../../src/profile/domain/models/Reward.js';
 import { usecases } from '../../../../../src/profile/domain/usecases/index.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Profile | Unit | Application | Api | reward', function () {
   describe('#getByIdAndType', function () {

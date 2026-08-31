@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import datamartKnexConfigs from '../../../../datamart/knexfile.js';
@@ -5,7 +6,6 @@ import { DatabaseConnection } from '../../../../db/database-connection.js';
 import { DatabaseConnectionRegistry } from '../../../../db/database-connection-registry.js';
 import liveKnexConfigs from '../../../../db/knexfile.js';
 import { config } from '../../../../src/shared/config.js';
-import { expect } from '../../../test-helper.js';
 
 const { environment } = config;
 

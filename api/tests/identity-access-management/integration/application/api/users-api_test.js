@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as userApi from '../../../../../src/identity-access-management/application/api/users-api.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Application | users-api', function () {

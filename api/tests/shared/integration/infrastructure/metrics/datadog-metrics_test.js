@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import metrics from 'datadog-metrics';
 import nock from 'nock';
 
 import { DatadogMetrics } from '../../../../../src/shared/infrastructure/metrics/datadog-metrics.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Integration | Monitoring | Infrastructure | Datadog metrics', function () {
   describe('constructor', function () {

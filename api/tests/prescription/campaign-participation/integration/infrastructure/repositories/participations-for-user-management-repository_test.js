@@ -1,5 +1,6 @@
 import crypto from 'node:crypto';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CampaignParticipationForUserManagement } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationForUserManagement.js';
@@ -10,7 +11,6 @@ import {
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 const { SHARED } = CampaignParticipationStatuses;

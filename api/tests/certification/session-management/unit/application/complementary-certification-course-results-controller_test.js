@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { complementaryCertificationCourseResultsRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/complementary-certification-course-results-route.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { InvalidJuryLevelError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Controller | Complementary Certification Course Results', function () {

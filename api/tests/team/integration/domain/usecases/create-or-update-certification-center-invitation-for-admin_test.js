@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -9,7 +10,6 @@ import { mailService } from '../../../../../src/shared/domain/services/mail-serv
 import { EmailingAttempt } from '../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

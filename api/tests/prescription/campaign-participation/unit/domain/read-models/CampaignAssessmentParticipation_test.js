@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { CampaignAssessmentParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignAssessmentParticipation.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignAssessmentParticipation', function () {
   describe('#progression', function () {

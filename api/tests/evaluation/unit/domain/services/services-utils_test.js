@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { isAnswerValid, useLevenshteinRatio } from '../../../../../src/evaluation/domain/services/services-utils.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Evaluation | Unit | Domain | Services | services-utils', function () {
   describe('#useLevenshteinRatio', function () {

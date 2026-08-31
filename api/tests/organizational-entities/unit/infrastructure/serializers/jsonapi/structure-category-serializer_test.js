@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { structureCategorySerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/structure-category/structure-category-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | structure-category-serializer', function () {

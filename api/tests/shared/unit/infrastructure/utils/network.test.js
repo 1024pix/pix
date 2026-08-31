@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import {
   ForwardedOriginError,
   getForwardedOrigin,
   RequestedApplication,
 } from '../../../../../src/shared/infrastructure/utils/network.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Shared | Unit | Infrastructure | Utils | network', function () {
   describe('#getForwardedOrigin', function () {

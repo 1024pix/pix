@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { ScoOrganizationParticipant } from '../../../../../../src/prescription/organization-learner/domain/read-models/ScoOrganizationParticipant.js';
@@ -6,7 +7,6 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | sco-organization-participant-repository', function () {

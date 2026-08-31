@@ -1,4 +1,5 @@
-import { expect } from '../../../test-helper.js';
+import { expect } from 'chai';
+
 import { datamartKnex, datawarehouseKnex, knex } from '../../../tooling/databases.js';
 
 describe('Integration | DB | db-type-parsing', function () {

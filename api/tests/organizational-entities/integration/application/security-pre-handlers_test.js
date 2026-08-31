@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { organizationalEntitiesSecurityPreHandlers } from '../../../../src/organizational-entities/application/security-pre-handlers.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';

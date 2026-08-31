@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CleanCappedTubesCriteriaScript } from '../../../../src/prescription/scripts/clean-capped-tubes-criteria.js';
 import { SCOPES } from '../../../../src/shared/domain/models/BadgeDetails.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 describe('Integration | Scripts | clean-capped-tubes-criteria', function () {
   let script;

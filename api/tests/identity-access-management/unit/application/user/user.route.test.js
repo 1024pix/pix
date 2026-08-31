@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
 import { userController } from '../../../../../src/identity-access-management/application/user/user.controller.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 const routesUnderTest = identityAccessManagementRoutes[0];

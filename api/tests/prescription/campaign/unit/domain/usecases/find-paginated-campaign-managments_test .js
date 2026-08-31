@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { findPaginatedCampaignManagements } from '../../../../../../src/prescription/campaign/domain/usecases/find-paginated-campaign-managements.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-campaign-managments', function () {
   describe('#findPaginatedCampaignManagement', function () {

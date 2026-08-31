@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import JSZip from 'jszip';
 
 import { getMultipleFilesAsZip } from '../../../../../../src/shared/infrastructure/utils/zip/get-multiple-files-as-zip.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Utils | Zip | getMultipleFilesAsZip', function () {

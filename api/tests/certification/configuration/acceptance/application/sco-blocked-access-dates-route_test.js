@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { ScoOrganizationTagName } from '../../../../../src/certification/configuration/domain/models/ScoOrganizationTagName.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { targetProfileController } from '../../../../../src/prescription/target-profile/application/target-profile-controller.js';
 import { targetProfileRoute as moduleUnderTest } from '../../../../../src/prescription/target-profile/application/target-profile-route.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

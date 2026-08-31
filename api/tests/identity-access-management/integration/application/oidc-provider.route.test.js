@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import jsonwebtoken from 'jsonwebtoken';
 import sinon from 'sinon';
 
@@ -14,7 +15,6 @@ import {
 } from '../../../../src/identity-access-management/domain/usecases/index.js';
 import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as serverSideCookieSession from '../../../../src/shared/infrastructure/plugins/yar.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { createMockedTestOidcProviders } from '../../../tooling/mocks/openid-client.mock.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';

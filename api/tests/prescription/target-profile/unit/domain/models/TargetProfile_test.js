@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { TargetProfile } from '../../../../../../src/prescription/target-profile/domain/models/TargetProfile.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Prescription | Domain | Models | TargetProfile', function () {
   describe('#detach', function () {

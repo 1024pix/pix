@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign/application/api/models/CampaignParticipation.js';
 import { SavedCampaign } from '../../../../../../src/prescription/campaign/application/api/models/SavedCampaign.js';
@@ -11,7 +13,6 @@ import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/mode
 import { ORGANIZATION_FEATURE, PIX_ADMIN } from '../../../../../../src/shared/constants.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

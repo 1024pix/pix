@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { LegalDocument } from '../../../../../src/legal-documents/domain/models/LegalDocument.js';
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Legal documents | Domain | Model | LegalDocument', function () {
   describe('#buildDocumentPath', function () {

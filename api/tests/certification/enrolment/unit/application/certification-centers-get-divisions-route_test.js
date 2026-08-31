@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationCentersGetDivisionsRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/certification-centers-get-divisions-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Enrolment | Unit | Router | certification-center-router', function () {

@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { paginate } from '../../../../../src/shared/infrastructure/utils/paginate.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Utils | paginate', function () {
   describe('#paginate', function () {

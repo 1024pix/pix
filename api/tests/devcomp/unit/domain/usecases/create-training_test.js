@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { createTraining } from '../../../../../src/devcomp/domain/usecases/create-training.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | create-training', function () {
   it('should call training repository to create the training', async function () {

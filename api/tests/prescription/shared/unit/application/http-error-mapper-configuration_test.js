@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { prescriptionDomainErrorMappingConfiguration } from '../../../../../src/prescription/shared/application/http-error-mapper-configuration.js';
 import { ArchivedCampaignError } from '../../../../../src/prescription/shared/domain/errors.js';
 import { PreconditionFailedError } from '../../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Prescription | Shared | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "ArchivedCampaignError"', function () {

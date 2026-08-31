@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { usecases } from '../../../../../src/maddo/domain/usecases/index.js';
 import {
@@ -6,7 +8,6 @@ import {
 } from '../../../../../src/prescription/shared/domain/constants.js';
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Maddo | UseCase | get-campaign-participations', function () {

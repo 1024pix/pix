@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CampaignParticipation } from '../../../../../src/prescription/campaign-participation/application/api/read-models/CampaignParticipation.js';
@@ -8,7 +9,6 @@ import {
 } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | delete-and-anonymise-participations-for-a-learner-id', function () {

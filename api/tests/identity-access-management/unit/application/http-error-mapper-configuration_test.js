@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/identity-access-management/application/http-error-mapper-configuration.js';
 import {
   AuthenticationKeyExpired,
@@ -15,7 +17,6 @@ import {
   PasswordShouldChangeError,
   UnauthorizedError,
 } from '../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "AuthenticationKeyExpired"', function () {

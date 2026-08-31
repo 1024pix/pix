@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
@@ -10,7 +12,6 @@ import {
 import * as combinedCourseRepository from '../../../../../src/quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 import * as questRepository from '../../../../../src/quest/infrastructure/repositories/quests/quest-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

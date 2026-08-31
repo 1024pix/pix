@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
 import * as sessionValidator from '../../../../../../src/certification/shared/domain/validators/session-validator.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

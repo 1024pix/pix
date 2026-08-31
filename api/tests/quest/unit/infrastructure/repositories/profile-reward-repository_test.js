@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { QuestResult } from '../../../../../src/quest/domain/models/quests/value-objects/QuestResult.js';
@@ -5,7 +6,6 @@ import {
   getByQuestAndUserId,
   reward,
 } from '../../../../../src/quest/infrastructure/repositories/profile-reward-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | profile-reward', function () {
   describe('#reward', function () {

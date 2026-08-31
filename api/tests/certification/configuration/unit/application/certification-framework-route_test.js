@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationFrameworkController } from '../../../../../src/certification/configuration/application/certification-framework-controller.js';
 import { certificationFrameworkRoute as moduleUnderTest } from '../../../../../src/certification/configuration/application/certification-framework-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Certification | Configuration | Application | Router | certification-framework-route', function () {

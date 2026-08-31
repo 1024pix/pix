@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 
 import { uploadCpfFiles } from '../../../../../../src/certification/session-management/domain/usecases/upload-cpf-files.js';
 import { cpfExportsStorage } from '../../../../../../src/certification/session-management/infrastructure/storage/cpf-exports-storage.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | upload-cpf-files', function () {
   let logger;

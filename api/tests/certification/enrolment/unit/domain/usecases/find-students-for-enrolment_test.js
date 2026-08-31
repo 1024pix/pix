@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 
 import { StudentForEnrolment } from '../../../../../../src/certification/enrolment/domain/read-models/StudentForEnrolment.js';
 import { findStudentsForEnrolment } from '../../../../../../src/certification/enrolment/domain/usecases/find-students-for-enrolment.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | find-students-for-enrolment', function () {

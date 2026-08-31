@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { AuthenticationSessionContent } from '../../../../../src/shared/domain/models/AuthenticationSessionContent.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | AuthenticationSessionContent', function () {
   describe('#constructor', function () {

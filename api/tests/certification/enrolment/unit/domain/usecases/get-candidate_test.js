@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { getCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/get-candidate.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Enrolment | Unit | UseCase | get-candidate', function () {

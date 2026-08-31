@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationOfficerController } from '../../../../../src/certification/session-management/application/certification-officer-controller.js';
 import { certificationOfficerRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/certification-officer-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Certification Officer', function () {

@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import * as organizationParticipantRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-participant-repository.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 function buildLearnerWithParticipation({

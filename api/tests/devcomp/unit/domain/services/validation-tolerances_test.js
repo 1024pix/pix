@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import {
   applyPreTreatmentForTolerance,
   applyTolerances,
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
 } from '../../../../../src/devcomp/domain/services/validation-tolerances.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Services | Validation Tolerances', function () {
   describe('#normalizeAndRemoveAccents', function () {

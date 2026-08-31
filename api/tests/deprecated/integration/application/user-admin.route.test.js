@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { deprecatedRoutes } from '../../../../src/deprecated/application/routes.js';
 import { userAdminController } from '../../../../src/deprecated/application/user-admin.controller.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
 const routesUnderTest = deprecatedRoutes[0];

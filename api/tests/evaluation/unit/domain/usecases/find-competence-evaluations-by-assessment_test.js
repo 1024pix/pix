@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 
 import { findCompetenceEvaluationsByAssessment } from '../../../../../src/evaluation/domain/usecases/find-competence-evaluations-by-assessment.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | find-competence-evaluations-by-assessment', function () {

@@ -1,12 +1,12 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { mailCheck } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

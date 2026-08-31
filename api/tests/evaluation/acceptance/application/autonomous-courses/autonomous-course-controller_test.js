@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { config } from '../../../../../src/shared/config.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, datamartBuilder } from '../../../../tooling/databases.js';
 import { mockAttestationStorage } from '../../../../tooling/mocks/attestation-storage.mock.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

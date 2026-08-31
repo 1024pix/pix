@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { validateEmailSyntax } from '../../../../../src/shared/domain/services/email-validation-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Services | EmailValidationService', function () {
   describe('#validateEmailSyntax', function () {

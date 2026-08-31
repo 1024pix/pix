@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { CampaignResultLevelsPerTubesAndCompetences } from '../../../../../../src/prescription/campaign/domain/models/CampaignResultLevelsPerTubesAndCompetences.js';
 import { CompetenceResultForKnowledgeElementSnapshots } from '../../../../../../src/prescription/campaign/domain/models/CompetenceResultForKnowledgeElementSnapshots.js';
 import { TubeResultForKnowledgeElementSnapshots } from '../../../../../../src/prescription/campaign/domain/models/TubeResultForKnowledgeElementSnapshots.js';
@@ -10,7 +12,6 @@ import { KnowledgeElementCollection } from '../../../../../../src/prescription/s
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

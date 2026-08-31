@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { StageWithLinkedCampaignError } from '../../../../../../src/prescription/stages/domain/errors.js';
 import { Stage } from '../../../../../../src/prescription/stages/domain/models/Stage.js';
 import { stageUsecases } from '../../../../../../src/prescription/stages/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../../tooling/learning-content-builder/index.js';

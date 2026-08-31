@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
 import { PlaceStatistics } from '../../../../../../src/prescription/organization-place/domain/read-models/PlaceStatistics.js';
 import { config } from '../../../../../../src/shared/config.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
   const now = new Date('2021-05-01');

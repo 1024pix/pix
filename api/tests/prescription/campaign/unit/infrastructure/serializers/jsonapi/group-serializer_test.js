@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { groupSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/group-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | group-serializer', function () {
   describe('#serialize', function () {

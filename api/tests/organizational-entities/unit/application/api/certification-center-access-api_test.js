@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getCertificationCenterAccess } from '../../../../../src/organizational-entities/application/api/certification-center-access-api.js';
 import { AllowedCertificationCenterAccessDTO } from '../../../../../src/organizational-entities/application/api/models/AllowedCertificationCenterAccessDTO.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Organizational Entities | Application | API | Certification Center Access', function () {

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { ReconcileCommonOrganizationLearnerError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
 import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | CommonOrganizationLearner', function () {
   describe('#constructor', function () {

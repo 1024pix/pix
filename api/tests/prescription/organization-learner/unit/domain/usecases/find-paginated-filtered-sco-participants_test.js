@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { findPaginatedFilteredScoParticipants } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-paginated-filtered-sco-participants.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | findPaginatedFilteredScoParticipants', function () {
   let scoOrganizationParticipantRepository;

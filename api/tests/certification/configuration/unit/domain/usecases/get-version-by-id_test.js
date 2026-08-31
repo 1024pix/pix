@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getVersionById } from '../../../../../../src/certification/configuration/domain/usecases/get-version-by-id.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Configuration | Unit | UseCase | get-version-by-id', function () {

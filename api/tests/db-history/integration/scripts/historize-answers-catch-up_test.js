@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { knex } from '../../../../db/knex-database-connection.js';
 import { HistorizeAnswersCatchUpScript } from '../../../../src/db-history/scripts/historize-answers-catch-up.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 
 describe('Integration | Scripts | Prod | historize-answers-catch-up', function () {

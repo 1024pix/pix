@@ -3,6 +3,7 @@ import lodash from 'lodash';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 const { omit, pick } = lodash;
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
@@ -17,7 +18,6 @@ import {
   CertificationCenterMembership,
 } from '../../../../../src/team/domain/models/CertificationCenterMembership.js';
 import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

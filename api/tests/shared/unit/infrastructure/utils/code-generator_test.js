@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { generateCode } from '../../../../../src/shared/infrastructure/utils/code-generator.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Utils | code-generator', function () {
   describe('#generateCode', function () {

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { CertificationDataset } from '../../../../../src/maddo/domain/models/men/dashboard/CertificationDataset.js';
 import { findAll } from '../../../../../src/maddo/infrastructure/repositories/certification-dataset-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { datamartBuilder } from '../../../../tooling/databases.js';
 
 describe('Maddo | Infrastructure | Repositories | Integration | CertificationDataset', function () {

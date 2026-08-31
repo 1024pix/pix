@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { frameworkWithSkillsSerializer } from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/framework-with-skills-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | framework', function () {
   describe('#serialize', function () {

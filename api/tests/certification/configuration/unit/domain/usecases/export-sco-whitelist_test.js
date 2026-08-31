@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CenterTypes } from '../../../../../../src/certification/configuration/domain/models/CenterTypes.js';
 import { exportScoWhitelist } from '../../../../../../src/certification/configuration/domain/usecases/export-sco-whitelist.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | UseCase | export-sco-whitelist', function () {

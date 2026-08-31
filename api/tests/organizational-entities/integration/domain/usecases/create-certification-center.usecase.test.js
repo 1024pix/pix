@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { UnableToAttachCertificationCenterToOrganization } from '../../../../../src/organizational-entities/domain/errors.js';
 import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

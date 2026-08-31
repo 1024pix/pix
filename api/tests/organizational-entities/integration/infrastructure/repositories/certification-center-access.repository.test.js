@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { CertificationCenter } from '../../../../../src/organizational-entities/domain/models/CertificationCenter.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { AllowedCertificationCenterAccess } from '../../../../../src/organizational-entities/domain/read-models/AllowedCertificationCenterAccess.js';
 import * as certificationCenterAccessRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center-access.repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Organizational Entities | Infrastructure | Repository | Certification Center Access', function () {

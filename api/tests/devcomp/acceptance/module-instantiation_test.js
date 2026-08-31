@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import nock from 'nock';
 
 import moduleDatasource from '../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import { ElementForVerificationFactory } from '../../../src/devcomp/infrastructure/factories/element-for-verification-factory.js';
 import { ModuleFactory } from '../../../src/devcomp/infrastructure/factories/module-factory.js';
 import * as elementRepository from '../../../src/devcomp/infrastructure/repositories/element-repository.js';
-import { expect } from '../../test-helper.js';
 
 const modules = await moduleDatasource.list();
 

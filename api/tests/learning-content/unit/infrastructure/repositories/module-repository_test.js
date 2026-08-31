@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { moduleRepository } from '../../../../../src/learning-content/infrastructure/repositories/module-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Learning Content | Unit | Repositories | module-repository', function () {
   describe('#toDto', function () {

@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { parcoursupController } from '../../../../../src/certification/results/application/parcoursup-controller.js';
 import { parcoursupRoute as moduleUnderTest } from '../../../../../src/certification/results/application/parcoursup-route.js';
 import { MoreThanOneMatchingCertificationError } from '../../../../../src/certification/results/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 

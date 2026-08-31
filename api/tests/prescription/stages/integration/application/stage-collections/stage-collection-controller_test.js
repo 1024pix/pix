@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { stageCollectionController } from '../../../../../../src/prescription/stages/application/stage-collections/stage-collection-controller.js';
 import * as stageCollectionRepository from '../../../../../../src/prescription/stages/infrastructure/repositories/stage-collection-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { hFake } from '../../../../../tooling/mocks/hapi.mock.js';
 

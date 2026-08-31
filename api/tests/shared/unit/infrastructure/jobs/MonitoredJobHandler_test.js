@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { MonitoredJobHandler } from '../../../../../src/shared/infrastructure/jobs/MonitoredJobHandler.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function () {
   context('handle', function () {

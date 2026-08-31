@@ -1,6 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import url from 'node:url';
 
+import { expect } from 'chai';
 import dayjs from 'dayjs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
@@ -8,7 +9,6 @@ import { generate } from '../../../../../../../src/certification/results/infrast
 import { AlgorithmEngineVersion } from '../../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { buildCompetenceMark } from '../../../../../../tooling/domain-builder/factory/index.js';
 

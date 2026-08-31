@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { assessmentController } from '../../../../../src/evaluation/application/assessments/assessment-controller.js';
@@ -6,7 +7,6 @@ import { assessmentAuthorization } from '../../../../../src/evaluation/applicati
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Evaluation | Unit | Application | assessment-routes', function () {

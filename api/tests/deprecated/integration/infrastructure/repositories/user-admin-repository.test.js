@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 const { pick } = lodash;
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { UserDetailsForAdmin } from '../../../../../src/deprecated/domain/models/UserDetailsForAdmin.js';
@@ -11,7 +12,6 @@ import { IMPORT_KEY_FIELD } from '../../../../../src/prescription/learner-manage
 import { OrganizationLearnerForAdmin } from '../../../../../src/prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

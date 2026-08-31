@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { SESSION_STATUSES } from '../../../../../src/certification/shared/domain/constants.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

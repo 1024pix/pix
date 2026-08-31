@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import { getUserProfile } from '../../../../../src/profile/domain/usecases/get-user-profile.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 function assertScorecard(userScorecard, expectedUserScorecard) {

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

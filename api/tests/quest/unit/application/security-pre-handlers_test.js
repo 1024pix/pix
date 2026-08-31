@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { checkUserCanManageCombinedCourse } from '../../../../src/quest/application/security-pre-handlers.js';
 import { usecases } from '../../../../src/quest/domain/usecases/index.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 

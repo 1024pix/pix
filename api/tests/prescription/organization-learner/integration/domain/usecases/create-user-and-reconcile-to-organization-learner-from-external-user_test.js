@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { UserReconciliationSamlIdToken } from '../../../../../../src/identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
@@ -8,7 +10,6 @@ import {
 } from '../../../../../../src/shared/domain/errors.js';
 import { tokenService } from '../../../../../../src/shared/domain/services/token-service.js';
 import { RequestedApplication } from '../../../../../../src/shared/infrastructure/utils/network.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

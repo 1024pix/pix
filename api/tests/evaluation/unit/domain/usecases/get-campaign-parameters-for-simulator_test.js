@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getCampaignParametersForSimulator } from '../../../../../src/evaluation/domain/usecases/get-campaign-parameters-for-simulator.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | get-campaign-parameters-for-simulator', function () {

@@ -1,9 +1,10 @@
 import querystring from 'node:querystring';
 
+import { expect } from 'chai';
+
 import { UserAccessToken } from '../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { config } from '../../../../src/shared/config.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateInjectOptions } from '../../../tooling/test-utils/http-server.js';

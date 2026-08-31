@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { PrivateCertificate } from '../../../../../../src/certification/results/domain/models/PrivateCertificate.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
@@ -5,7 +7,6 @@ import {
   AssessmentResult,
   status as assessmentResultStatuses,
 } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | PrivateCertificate', function () {

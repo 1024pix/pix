@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { createSortQuerySchema } from '../../../../../src/shared/application/query-schema/sort-query-schema.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | sort-query-schema', function () {
   describe('when no sort is provided', function () {

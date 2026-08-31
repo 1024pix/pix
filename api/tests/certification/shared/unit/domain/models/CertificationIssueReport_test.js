@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { CertificationIssueReport } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import {
   CertificationIssueReportCategory,
@@ -8,7 +10,6 @@ import {
   DeprecatedCertificationIssueReportSubcategoryError,
   InvalidCertificationIssueReportForSaving,
 } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const MISSING_VALUE = null;

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import range from 'lodash/range.js';
 import sinon from 'sinon';
 
@@ -6,7 +7,6 @@ import { CertificationCandidateNotFoundError } from '../../../../../../../src/ce
 import { ComplementaryCertificationCourseResult } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { status as assessmentResultStatuses } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 

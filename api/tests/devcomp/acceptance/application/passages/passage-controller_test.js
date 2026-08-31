@@ -1,13 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { Readable } from 'node:stream';
 
+import { expect } from 'chai';
 import nock from 'nock';
 import { MockAgent, setGlobalDispatcher } from 'undici';
 
 import { Chat } from '../../../../../src/llm/domain/models/Chat.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import { mailService } from '../../../../../../src/shared/domain/services/mail-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Integration | Prescription | Organization Learner | Domain | UseCase | send-email-for-account-recovery', function () {

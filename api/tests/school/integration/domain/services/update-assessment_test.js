@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { updateAssessment } from '../../../../../src/school/domain/services/update-assessment.js';
 import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 

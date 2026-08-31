@@ -1,9 +1,9 @@
 import { Readable } from 'node:stream';
 
+import { expect } from 'chai';
 import nock from 'nock';
 
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../tooling/test-utils/http-server.js';

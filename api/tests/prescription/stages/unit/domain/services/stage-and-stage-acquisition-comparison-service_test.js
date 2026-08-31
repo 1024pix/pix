@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Stage } from '../../../../../../src/prescription/stages/domain/models/Stage.js';
 import { compare } from '../../../../../../src/prescription/stages/domain/services/stage-and-stage-acquisition-comparison-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | Stages acquisition', function () {

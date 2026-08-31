@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { getMasteryPercentage } from '../../../../../src/evaluation/domain/services/get-mastery-percentage-service.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | Compute mastery percentage', function () {

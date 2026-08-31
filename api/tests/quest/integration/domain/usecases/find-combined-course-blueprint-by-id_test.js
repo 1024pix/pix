@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import {
   CampaignCombinedCourseBlueprintItem,
   ModuleCombinedCourseBlueprintItem,
 } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | find-combined-course-blueprint-by-id', function () {

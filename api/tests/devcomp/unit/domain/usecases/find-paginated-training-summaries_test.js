@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { findPaginatedTrainingSummaries } from '../../../../../src/devcomp/domain/usecases/find-paginated-training-summaries.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | find-paginated-training-summaries', function () {
   it('should find filtered training summaries with pagination', async function () {

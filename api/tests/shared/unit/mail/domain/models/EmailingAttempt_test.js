@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { EmailingAttempt } from '../../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | EmailingAttempt', function () {
   describe('#hasFailed', function () {

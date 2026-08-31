@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { ANONYMIZATION_RULE } from '../../../../../../src/prescription/learner-management/domain/constants.js';
@@ -11,7 +12,6 @@ import {
 } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 const {

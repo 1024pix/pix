@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { learnerListController } from '../../../../../src/prescription/organization-learner/application/learner-list-controller.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 

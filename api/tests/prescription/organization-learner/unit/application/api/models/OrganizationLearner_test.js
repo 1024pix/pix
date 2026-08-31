@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { OrganizationLearner } from '../../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearner.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Application| API | Models | OrganizationLearner', function () {
   it('should return attributes from learner', function () {

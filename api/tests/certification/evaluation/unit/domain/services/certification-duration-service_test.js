@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { isDurationExceeded } from '../../../../../../src/certification/evaluation/domain/services/certification-duration-service.js';
-import { expect } from '../../../../../test-helper.js';
 
 const TWENTY_FOUR_HOURS_IN_MS = 24 * 60 * 60 * 1000;
 

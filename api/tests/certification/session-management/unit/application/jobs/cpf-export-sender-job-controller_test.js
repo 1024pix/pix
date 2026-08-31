@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CpfExportSenderJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-sender-job-controller.js';
 import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Application | Certification | Sessions Management | jobs | cpf-export-sender-job-controller', function () {
   let mailService;

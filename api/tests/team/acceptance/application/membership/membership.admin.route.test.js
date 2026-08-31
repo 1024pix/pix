@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

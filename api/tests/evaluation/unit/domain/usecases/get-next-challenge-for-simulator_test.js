@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { SmartRandomLog } from '../../../../../src/evaluation/domain/models/SmartRandomLog.js';
 import { getNextChallengeForSimulator } from '../../../../../src/evaluation/domain/usecases/get-next-challenge-for-simulator.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
   describe('#getNextChallengeForSimulator', function () {

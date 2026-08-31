@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { competenceEvaluationController } from '../../../../../src/evaluation/application/competence-evaluations/competence-evaluation-controller.js';
 import { competenceEvaluationsRoute as competenceEvaluationsRouter } from '../../../../../src/evaluation/application/competence-evaluations/index.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Router | competence-evaluations', function () {

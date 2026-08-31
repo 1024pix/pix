@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { CombinedCourseStatistics } from '../../../../../src/quest/domain/models/combined-courses/value-objects/CombinedCourseStatistics.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Domain | Usecases | getCombinedCourseStatistics', function () {

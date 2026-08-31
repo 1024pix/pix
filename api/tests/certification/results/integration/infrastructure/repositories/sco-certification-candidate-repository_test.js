@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as scoCertificationCandidateRepository from '../../../../../../src/certification/results/infrastructure/repositories/sco-certification-candidate-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

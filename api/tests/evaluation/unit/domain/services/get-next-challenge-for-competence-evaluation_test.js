@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getNextChallengeForCompetenceEvaluation } from '../../../../../src/evaluation/domain/services/get-next-challenge-for-competence-evaluation.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Evaluation | Unit | Domain | Services | get-next-challenge-for-competence-evaluation', function () {

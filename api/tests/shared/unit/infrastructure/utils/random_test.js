@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { random } from '../../../../../src/shared/infrastructure/utils/random.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Utils | Random', function () {
   describe('#binaryTreeRandom', function () {

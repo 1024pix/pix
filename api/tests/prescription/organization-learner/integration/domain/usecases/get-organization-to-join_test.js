@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import * as campaignRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import { OrganizationToJoin } from '../../../../../../src/prescription/organization-learner/domain/models/OrganizationToJoin.js';
 import { getOrganizationToJoin } from '../../../../../../src/prescription/organization-learner/domain/usecases/get-organization-to-join.js';
 import { repositories } from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/index.js';
 import * as combinedCourseRepository from '../../../../../../src/quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCases | get-organization-to-join', function () {

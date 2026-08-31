@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { ImportFromFregataJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ImportFromFregataJob.js';
 import { importFromFregataJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/import-from-fregata-job-repository.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { JobRetry } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Integration | Prescription | Infrastructure | Repository | Jobs | importFromFregataJobRepository', function () {
   describe('#performAsync', function () {

@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { CampaignAuthorization } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignAuthorization.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Prescription | Campaign | Unit | Domain | ReadModels | CampaignAuthorization', function () {
   describe('#isAllowedToManage', function () {

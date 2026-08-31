@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { hasCampaignParticipations } from '../../../../../src/privacy/infrastructure/repositories/campaign-participations-api.repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Privacy | Infrastructure | Repositories | campaign-participations-api', function () {
   describe('#hasCampaignParticipations', function () {

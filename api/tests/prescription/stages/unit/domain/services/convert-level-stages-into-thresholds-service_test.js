@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { convertLevelStagesIntoThresholds } from '../../../../../../src/prescription/stages/domain/services/convert-level-stages-into-thresholds-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | Convert Level Stages Into Thresholds', function () {

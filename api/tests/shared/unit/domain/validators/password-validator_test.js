@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { PasswordSchema, validate } from '../../../../../src/shared/domain/validators/password-validator.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Shared | Domain | Validator | password-validator', function () {

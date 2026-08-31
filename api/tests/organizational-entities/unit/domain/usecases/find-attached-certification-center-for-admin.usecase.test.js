@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { findAttachedCertificationCenterForAdmin } from '../../../../../src/organizational-entities/domain/usecases/find-attached-certification-center-for-admin.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Domain | UseCase | find-attached-center-for-admin', function () {
   let certificationCenterForAdminRepository;

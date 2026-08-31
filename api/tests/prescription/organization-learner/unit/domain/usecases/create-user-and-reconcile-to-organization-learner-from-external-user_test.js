@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../src/identity-access-management/domain/constants/identity-providers.js';
@@ -6,7 +7,6 @@ import { UserReconciliationSamlIdToken } from '../../../../../../src/identity-ac
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser } from '../../../../../../src/prescription/organization-learner/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { RequestedApplication } from '../../../../../../src/shared/infrastructure/utils/network.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-from-external-user', function () {

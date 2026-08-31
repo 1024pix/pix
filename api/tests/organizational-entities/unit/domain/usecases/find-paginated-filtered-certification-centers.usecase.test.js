@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { CertificationCenter } from '../../../../../src/shared/domain/models/CertificationCenter.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Domain | UseCase | find-paginated-filtered-certification-centers', function () {
   it('should return certification-centers with filtering and pagination', async function () {

@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getCampaignProgression } from '../../../../../src/evaluation/domain/services/get-campaign-progression.js';
 import * as improvementService from '../../../../../src/evaluation/domain/services/improvement-service.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Evaluation | Unit | Domain | Services | get-campaign-progression', function () {

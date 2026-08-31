@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { AdminCombinedCourseBlueprintDetails } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/AdminCombinedCourseBlueprintDetails.js';
 import { Quest, REQUIREMENT_TYPES } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { adminCombinedCourseBlueprintDetailsSerializer } from '../../../../../src/quest/infrastructure/serializers/admin-combined-course-blueprint-details-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-blueprint-details', function () {
   it('#serialize', function () {

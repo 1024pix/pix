@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { countrySerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/country-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Shared | Serializers | country-serializer', function () {

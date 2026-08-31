@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Deprecated  | Domain | Usecases | get-user-account-info', function () {

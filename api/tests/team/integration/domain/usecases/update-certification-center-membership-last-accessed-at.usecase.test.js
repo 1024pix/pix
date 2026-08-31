@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { ForbiddenError } from '../../../../../src/shared/application/errors/http-errors.js';
@@ -5,7 +6,6 @@ import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../../src/team/domain/models/CertificationCenterMembership.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as certificationEvaluationApi from '../../../../../../src/certification/evaluation/application/api/certification-evaluation-api.js';
 import { NextChallengeAlreadyComputingError } from '../../../../../../src/certification/evaluation/domain/errors.js';
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { executeInContext } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 import { wait } from '../../../../../tooling/test-utils/wait.js';

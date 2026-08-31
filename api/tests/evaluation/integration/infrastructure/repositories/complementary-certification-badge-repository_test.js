@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as complementaryCertificationBadgeRepository from '../../../../../src/evaluation/infrastructure/repositories/complementary-certification-badge-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Evaluation | Infrastructure | Repository | complementary-certification-badge-repository', function () {

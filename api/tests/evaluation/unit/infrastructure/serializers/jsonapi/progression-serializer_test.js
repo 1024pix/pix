@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { progressionSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/progression-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | progression-serializer', function () {

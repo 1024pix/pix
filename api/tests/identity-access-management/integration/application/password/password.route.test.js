@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { config } from '../../../../../src/shared/config.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

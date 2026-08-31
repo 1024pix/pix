@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { administrationTeamSerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/administration-team/administration-team-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Organizational Entities | Serializer | JSONAPI | administration-team', function () {

@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as replicationRepository from '../../../../../src/maddo/infrastructure/repositories/replication-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Maddo | Infrastructure | Repositories | Unit | replication', function () {
   describe('#getByName', function () {

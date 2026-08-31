@@ -1,5 +1,7 @@
 import * as url from 'node:url';
 
+import { expect } from 'chai';
+
 import {
   parseCsv,
   parseCsvWithHeader,
@@ -7,7 +9,6 @@ import {
 } from '../../../../../../src/certification/shared/application/helpers/csvHelpers.js';
 import { CsvWithNoSessionDataError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

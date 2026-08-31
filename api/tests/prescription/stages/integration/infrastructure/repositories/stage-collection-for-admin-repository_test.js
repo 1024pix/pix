@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { StageCollectionUpdate } from '../../../../../../src/prescription/stages/domain/models/StageCollectionUpdate.js';
 import * as stageCollectionRepository from '../../../../../../src/prescription/stages/infrastructure/repositories/stage-collection-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

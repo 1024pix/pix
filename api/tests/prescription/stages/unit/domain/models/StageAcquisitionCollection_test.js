@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Stage } from '../../../../../../src/prescription/stages/domain/models/Stage.js';
 import { StageAcquisitionCollection } from '../../../../../../src/prescription/stages/domain/models/StageAcquisitionCollection.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | Stages acquisition', function () {

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -6,7 +7,6 @@ import {
 } from '../../../../../src/evaluation/domain/errors.js';
 import { deleteUnassociatedBadge } from '../../../../../src/evaluation/domain/usecases/delete-unassociated-badge.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Evaluation | Domain | UseCase | delete-unassociated-badge', function () {

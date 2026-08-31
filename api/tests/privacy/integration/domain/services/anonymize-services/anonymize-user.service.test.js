@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { RefreshToken } from '../../../../../../src/identity-access-management/domain/models/RefreshToken.js';
@@ -9,7 +10,6 @@ import { PIX_ADMIN } from '../../../../../../src/shared/constants.js';
 import { UserNotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 const { PIX_ORGA } = LegalDocumentService.VALUES;

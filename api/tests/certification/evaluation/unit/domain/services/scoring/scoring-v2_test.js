@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 
@@ -16,7 +17,6 @@ import * as scoringService from '../../../../../../../src/evaluation/domain/serv
 import CertificationCancelled from '../../../../../../../src/shared/domain/events/CertificationCancelled.js';
 import { Assessment } from '../../../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult, status } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 

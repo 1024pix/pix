@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

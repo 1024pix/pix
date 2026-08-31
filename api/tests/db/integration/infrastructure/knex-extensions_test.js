@@ -1,4 +1,5 @@
-import { expect } from '../../../test-helper.js';
+import { expect } from 'chai';
+
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | knex-extensions', function () {

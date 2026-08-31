@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { OrganizationNotFound } from '../../../../../src/organizational-entities/domain/errors.js';
 import { TagNotFoundError } from '../../../../../src/organizational-entities/domain/errors.js';
 import { addTagsToOrganizations } from '../../../../../src/organizational-entities/domain/usecases/add-tags-to-organizations.usecase.js';
 import { organizationForAdminRepository } from '../../../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
 import * as organizationTagRepository from '../../../../../src/organizational-entities/infrastructure/repositories/organization-tag.repository.js';
 import { tagRepository } from '../../../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

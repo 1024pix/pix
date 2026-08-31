@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
@@ -5,7 +6,6 @@ import { ImportOrganizationLearnerSet } from '../../../../../../../src/prescript
 import { ImportFromGenericFileJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ImportFromGenericFileJob.js';
 import { validateGenericFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/validate-learners-file/validate-generic-file.js';
 import { GenericParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/generic-parser.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | validateGenericFile', function () {

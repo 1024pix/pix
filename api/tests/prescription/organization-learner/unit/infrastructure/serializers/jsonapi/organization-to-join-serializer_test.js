@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { organizationsToJoinSerializer } from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organizations-to-join-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | organization-to-join-serializer', function () {

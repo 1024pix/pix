@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { challengeController } from '../../../../../src/evaluation/application/challenges/challenge-controller.js';
 import { challengesRoute as moduleUnderTest } from '../../../../../src/evaluation/application/challenges/index.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Evaluation Unit | Application | challenge-routes', function () {

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Team | Domain | Usecases | getUserTeamsInfo', function () {

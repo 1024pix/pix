@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AcquiredBadgeForbiddenUpdateError } from '../../../../../src/evaluation/domain/errors.js';
 import { updateBadgeCriterion } from '../../../../../src/evaluation/domain/usecases/update-badge-criterion.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Domain | Use Cases | update-badge-criterion', function () {

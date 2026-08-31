@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import iconv from 'iconv-lite';
 import sinon from 'sinon';
 
 import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 import { SharedCsvParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/shared-csv-parser.js';
 import { CsvColumn } from '../../../../../../../src/shared/infrastructure/serializers/csv/csv-column.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 class FakeLearnerSet {

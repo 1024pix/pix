@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { revokeRefreshToken } from '../../../../../src/identity-access-management/domain/usecases/revoke-refresh-token.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | revoke-refresh-token', function () {
   it('revokes refresh token', async function () {

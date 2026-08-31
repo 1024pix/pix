@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { juryCertificationSummariesRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/jury-certification-summaries-route.js';
@@ -5,7 +6,6 @@ import { sessionController } from '../../../../../src/certification/session-mana
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { NotFoundError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Sessions | Routes', function () {

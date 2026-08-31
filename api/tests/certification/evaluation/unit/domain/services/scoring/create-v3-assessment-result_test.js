@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { createV3AssessmentResult } from '../../../../../../../src/certification/evaluation/domain/services/scoring/create-v3-assessment-result.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { AssessmentResult } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { generateAnswersForChallenges, generateChallengeList } from '../../../../../shared/fixtures/challenges.js';
 

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import dayjs from 'dayjs';
 
 import { CandidateCreatedEvent } from '../../../../../src/certification/enrolment/domain/models/timeline/CandidateCreatedEvent.js';
@@ -6,7 +7,6 @@ import { CandidateReconciledEvent } from '../../../../../src/certification/enrol
 import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

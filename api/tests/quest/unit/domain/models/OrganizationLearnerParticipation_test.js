@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { StatusesEnumValues } from '../../../../../src/devcomp/domain/models/module/UserModuleStatus.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | OrganizationLearnerParticipation', function () {
   describe('#buildFromPassage', function () {

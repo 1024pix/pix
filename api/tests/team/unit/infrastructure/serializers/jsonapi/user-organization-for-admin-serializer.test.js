@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { UserOrganizationForAdmin } from '../../../../../../src/team/domain/read-models/UserOrganizationForAdmin.js';
 import { userOrganizationForAdminSerializer } from '../../../../../../src/team/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Team | Serializer | JSONAPI | user-organization-for-admin-serializer', function () {
   describe('#serialize', function () {

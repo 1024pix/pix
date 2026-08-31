@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import lodash from 'lodash';
 import sinon from 'sinon';
 
@@ -5,7 +6,6 @@ import {
   buildCountries,
   checkTransformUnicity,
 } from '../../../scripts/certification/import-certification-cpf-countries.js';
-import { expect } from '../../test-helper.js';
 import { catchErr } from '../../tooling/test-utils/error.js';
 
 const { noop } = lodash;

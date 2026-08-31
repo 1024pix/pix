@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { VERSION_STATUSES } from '../../../../../src/certification/configuration/domain/models/Version.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

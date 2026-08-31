@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { modulesController } from '../../../../../src/devcomp/application/modules/module-controller.js';
 import { usecases } from '../../../../../src/devcomp/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Application | Modules | Module Controller', function () {
   describe('#getByShortId', function () {

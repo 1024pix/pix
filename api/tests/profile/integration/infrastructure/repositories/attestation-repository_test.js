@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Attestation } from '../../../../../src/profile/domain/models/Attestation.js';
@@ -6,7 +7,6 @@ import {
   getByKey,
   getDataByKey,
 } from '../../../../../src/profile/infrastructure/repositories/attestation-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Profile | Integration | Infrastructure | Repository | Attestation', function () {

@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { adminCampaignParticipationController } from '../../../../../src/prescription/campaign-participation/application/admin-campaign-participation-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Prescription | Admin Campaign Participation | Controller', function () {
   describe('#findCampaignParticipationsForUserManagement', function () {

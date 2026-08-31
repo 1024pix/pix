@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { scoOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sco-organization-management-controller.js';
 import { scoOrganizationManagementRoute as moduleUnderTest } from '../../../../../src/prescription/learner-management/application/sco-organization-management-route.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Application | Route | sco-organization-learners', function () {

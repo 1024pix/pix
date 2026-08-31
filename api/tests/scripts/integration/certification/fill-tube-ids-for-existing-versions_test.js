@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { FillTubeIdsForExistingVersions } from '../../../../scripts/certification/fill-tube-ids-for-existing-versions.js';
 import { SCOPES } from '../../../../src/certification/shared/domain/models/Scopes.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../tooling/learning-content-builder/index.js';

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { StageAcquisition } from '../../../../../../src/prescription/stages/domain/models/StageAcquisition.js';
 import {
   getAverageReachedStageByCampaignId,
@@ -6,7 +8,6 @@ import {
   getStageIdsByCampaignParticipation,
   saveStages,
 } from '../../../../../../src/prescription/stages/infrastructure/repositories/stage-acquisition-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Evaluation | Integration | Repository | Stage Acquisition', function () {

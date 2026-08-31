@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | change-user-locale', function () {

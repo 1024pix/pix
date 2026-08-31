@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as organizationLearnerRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
@@ -5,7 +6,6 @@ import { getDataOrganizationsPlacesStatistics } from '../../../../../../src/pres
 import * as organizationPlacesLotRepository from '../../../../../../src/prescription/organization-place/infrastructure/repositories/organization-places-lot-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/constants.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCases | get-data-organizations-places-statistics', function () {

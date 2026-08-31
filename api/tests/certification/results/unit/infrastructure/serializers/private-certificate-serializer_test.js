@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { ResultCompetence } from '../../../../../../src/certification/results/domain/models/ResultCompetence.js';
 import { ResultCompetenceTree } from '../../../../../../src/certification/results/domain/models/ResultCompetenceTree.js';
 import * as serializer from '../../../../../../src/certification/results/infrastructure/serializers/private-certificate-serializer.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Results | Unit | Infrastructure | Serializers | private-certificate-serializer', function () {

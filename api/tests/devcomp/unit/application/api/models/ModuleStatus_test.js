@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { ModuleStatus } from '../../../../../../src/devcomp/application/api/models/ModuleStatus.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Application | Api | Models | ModuleStatus', function () {
   it('should init and keep attributes', function () {

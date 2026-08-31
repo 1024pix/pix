@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { CampaignParticipant } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
 import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
@@ -7,7 +9,6 @@ import {
 } from '../../../../../../src/shared/domain/errors.js';
 import { EntityValidationError, ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

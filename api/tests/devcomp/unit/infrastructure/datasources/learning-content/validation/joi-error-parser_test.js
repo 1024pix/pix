@@ -1,4 +1,5 @@
-import { expect } from '../../../../../../test-helper.js';
+import { expect } from 'chai';
+
 import { joiErrorParser } from './joi-error-parser.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | joi error parser', function () {
