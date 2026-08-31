@@ -51,10 +51,12 @@ export default class List extends Component {
   }
 
   get categoriesOptions() {
-    return [...new Set(this.filteredItems.flatMap((item) => (item.category ? item.category : [])))].map((item) => ({
-      label: this.intl.t(`pages.campaign-creation.tags.${item}`),
-      value: item,
-    }));
+    return [...new Set(this.filteredItems.flatMap((item) => (item.category ? item.category : [])))]
+      .map((item) => ({
+        label: this.intl.t(`pages.campaign-creation.tags.${item}`),
+        value: item,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label, this.locale.currentLanguage));
   }
 
   get areasOptions() {
