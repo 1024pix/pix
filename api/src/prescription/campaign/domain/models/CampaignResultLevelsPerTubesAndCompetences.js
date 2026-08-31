@@ -10,9 +10,11 @@ class CampaignResultLevelsPerTubesAndCompetences {
     this.learningContent = learningContent;
 
     this.#tubesWithLevels = learningContent.tubes.map((tube) => {
+      const competence = this.learningContent.competences.find((competence) => competence.id === tube.competenceId);
       return new TubeResultForKnowledgeElementSnapshots({
         tube,
-        competence: this.learningContent.competences.find((competence) => competence.id === tube.competenceId),
+        competence,
+        area: this.learningContent.findAreaOfCompetence(competence),
       });
     });
 

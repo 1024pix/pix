@@ -141,6 +141,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
               domainBuilder.maddo.buildTubeCoverage({
                 id: tube.id,
                 competenceId,
+                areaName: 'name Domaine A',
                 maxLevel: 2,
                 reachedLevel: 1,
                 practicalDescription: tube.practicalDescription_i18n['fr'],
@@ -357,6 +358,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
               domainBuilder.maddo.buildTubeCoverage({
                 id: tube.id,
                 competenceId,
+                areaName: 'name Domaine A',
                 maxLevel: 2,
                 reachedLevel: 2,
                 practicalDescription: tube.practicalDescription_i18n['fr'],
@@ -548,6 +550,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
               domainBuilder.maddo.buildTubeCoverage({
                 id: tube.id,
                 competenceId,
+                areaName: 'name Domaine A',
                 maxLevel: 2,
                 reachedLevel: 2,
                 practicalDescription: tube.practicalDescription_i18n['fr'],

@@ -31,8 +31,8 @@ describe('Integration | UseCase | get-campaign-participations', function () {
     it('should return all participations for given campaign', async function () {
       // given
       const frameworkId = learningContent.buildFramework().id;
-      const areaId = learningContent.buildArea({ frameworkId }).id;
-      const competence = learningContent.buildCompetence({ areaId });
+      const area = learningContent.buildArea({ frameworkId });
+      const competence = learningContent.buildCompetence({ areaId: area.id });
       const tube = learningContent.buildTube({ competenceId: competence.id });
       const skillId = learningContent.buildSkill({
         id: 'recSkillId1',
@@ -171,6 +171,7 @@ describe('Integration | UseCase | get-campaign-participations', function () {
               id: tube.id,
               competenceId: competence.id,
               competenceName: competence.name_i18n[FRENCH_SPOKEN],
+              areaName: area.name,
               maxLevel: 2,
               reachedLevel: 1,
               description: tube.practicalDescription_i18n[FRENCH_SPOKEN],
@@ -218,8 +219,8 @@ describe('Integration | UseCase | get-campaign-participations', function () {
     it('should return all participations with tubes computed from knowledge element snapshots', async function () {
       // given
       const frameworkId = learningContent.buildFramework().id;
-      const areaId = learningContent.buildArea({ frameworkId }).id;
-      const competence = learningContent.buildCompetence({ areaId });
+      const area = learningContent.buildArea({ frameworkId });
+      const competence = learningContent.buildCompetence({ areaId: area.id });
       const tube = learningContent.buildTube({ competenceId: competence.id });
       const skill = learningContent.buildSkill({
         tubeId: tube.id,
@@ -308,6 +309,7 @@ describe('Integration | UseCase | get-campaign-participations', function () {
               id: tube.id,
               competenceId: competence.id,
               competenceName: competence.name_i18n[FRENCH_SPOKEN],
+              areaName: area.name,
               title: tube.practicalTitle_i18n[FRENCH_SPOKEN],
               description: tube.practicalDescription_i18n[FRENCH_SPOKEN],
               maxLevel: 1,
@@ -330,6 +332,7 @@ describe('Integration | UseCase | get-campaign-participations', function () {
               id: tube.id,
               competenceId: competence.id,
               competenceName: competence.name_i18n[FRENCH_SPOKEN],
+              areaName: area.name,
               title: tube.practicalTitle_i18n[FRENCH_SPOKEN],
               description: tube.practicalDescription_i18n[FRENCH_SPOKEN],
               maxLevel: 1,

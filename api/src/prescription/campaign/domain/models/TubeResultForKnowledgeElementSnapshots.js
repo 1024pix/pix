@@ -6,6 +6,7 @@ class TubeResultForKnowledgeElementSnapshots {
   id;
   competenceId;
   competenceName;
+  areaName;
   title;
   description;
   maxLevel = 0;
@@ -13,12 +14,13 @@ class TubeResultForKnowledgeElementSnapshots {
   #sum = 0;
   #count = 0;
 
-  constructor({ tube, competence } = {}) {
+  constructor({ tube, competence, area } = {}) {
     this.#tube = tube;
     this.#competence = competence;
     this.id = tube.id;
     this.competenceId = competence.id;
     this.competenceName = competence.name;
+    this.areaName = area?.name;
     this.title = tube.practicalTitle;
     this.description = tube.practicalDescription;
     this.maxLevel = tube.maxLevel;

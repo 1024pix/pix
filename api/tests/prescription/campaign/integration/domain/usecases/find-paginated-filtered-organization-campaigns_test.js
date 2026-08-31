@@ -81,6 +81,7 @@ describe('Integration | UseCase | find-paginated-filtered-organization-campaigns
           id: 'tubeIdA',
           competenceId: 'competenceIdA',
           competenceName: 'name FR Compétence A',
+          areaName: undefined,
           title: 'practicalTitle FR Tube A',
           description: 'practicalDescription FR Tube A',
           maxLevel: 2,

@@ -51,6 +51,7 @@ describe('Unit | Domain | Models | CampaignReport', function () {
       // then
       expect(campaignReport.tubes).to.deep.equal([
         {
+          areaName: undefined,
           competenceId: 'competence1',
           competenceName: 'compétence 1',
           description: 'tube 1 description',
