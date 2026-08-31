@@ -1,0 +1,16 @@
+{
+  "extends": "@ember/app-tsconfig",
+  "include": ["app", "tests", "types"],
+  "compilerOptions": {
+    "allowJs": true,
+    // Loads the Glint transform for .gjs/.gts into the editor's tsserver.
+    // VS Code injects it via the glint2 extension, but WebStorm needs it declared here.
+    "plugins": [{ "name": "@glint/tsserver-plugin" }],
+    "paths": {
+      "pix-orga/tests/*": ["./tests/*"],
+      "pix-orga/*": ["./app/*"],
+      "*": ["./types/*"]
+    },
+    "types": ["ember-source/types", "@embroider/core/virtual", "vite/client", "@glint/ember-tsc/types"]
+  }
+}
