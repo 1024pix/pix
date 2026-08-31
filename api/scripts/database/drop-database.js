@@ -6,7 +6,7 @@ import { config } from '../../src/shared/config.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 function isPlatformScalingo() {
-  return Boolean(process.env.CONTAINER);
+  return Boolean(config.infra.containerName);
 }
 
 function preventDatabaseDropAsItCannotBeCreatedAgain() {
@@ -26,9 +26,14 @@ const commandLineArguments = yargs(hideBin(process.argv))
     type: 'text',
     demandOption: true,
   })
+  .option('force', {
+    description: 'weither dropping database is done with force or not',
+    type: 'boolean',
+    default: false,
+  })
   .help().argv;
 
 const knexConfigs = (await import(`../../${commandLineArguments.name}/knexfile.js`)).default;
 await DatabaseConnection.dropDatabaseFromConfig(knexConfigs[environment], {
-  withForce: process.env.FORCE_DROP_DATABASE === 'true',
+  withForce: commandLineArguments.force,
 });

@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import { Script } from '../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../src/shared/application/scripts/script-runner.js';
+import { config } from '../src/shared/config.js';
 
 export class TranslateLanguageFiles extends Script {
   constructor() {
@@ -50,7 +51,7 @@ export class TranslateLanguageFiles extends Script {
   async handle({ options, logger }) {
     const { dir, sourceLang, targetLang, formality, batchSize, dryRun } = options;
 
-    const deeplKey = process.env.DEEPL_API_KEY;
+    const deeplKey = config.translations.deeplApiKey;
     if (!deeplKey) {
       throw new Error('DEEPL KEY NOT FOUND');
     }

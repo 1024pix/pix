@@ -6,7 +6,7 @@ import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 import { databaseBuilder, knex } from '../../tooling/databases.js';
 import { catchErr } from '../../tooling/test-utils/error.js';
 
-describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function () {
+describe('Acceptance | Scripts | add-many-fake-members-related-to-one-organization', function () {
   it('should throw an error when env is production', async function () {
     // given
     const stub = sinon.stub(process.env, 'NODE_ENV').value('production');

@@ -6,6 +6,7 @@ import caseSpecialNames from './cases/sco/special-names.js';
 import caseUAIok from './cases/sco/uai-ok.js';
 import { chunkify } from './cases/tools.js';
 
+// eslint-disable-next-line n/no-process-env
 const NUMBER_OF_SEEDS = Number(process.env.DATAMART_NUMBER_OF_SEEDS) || 100;
 
 const insertScoDatamart = async (knex) => {

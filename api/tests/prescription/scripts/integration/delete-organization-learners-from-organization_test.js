@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { DeleteOrganizationLearnersFromOrganizationScript } from '../../../../src/prescription/scripts/delete-organization-learners-from-organization.js';
+import { config } from '../../../../src/shared/config.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
@@ -34,15 +35,13 @@ describe('Script | Prod | Delete Organization Learners From Organization', funct
 
   describe('Handle', function () {
     let now, script, logger;
-    const ENGINEERING_USER_ID = 99999;
 
     beforeEach(async function () {
       script = new DeleteOrganizationLearnersFromOrganizationScript();
       now = new Date('2024-01-17');
       sinon.useFakeTimers({ now, toFake: ['Date'] });
       logger = { info: sinon.spy(), error: sinon.spy() };
-      sinon.stub(process, 'env').value({ ENGINEERING_USER_ID });
-      databaseBuilder.factory.buildUser({ id: process.env.ENGINEERING_USER_ID });
+      databaseBuilder.factory.buildUser({ id: config.infra.engineeringUserId });
       await databaseBuilder.commit();
     });
 
@@ -217,7 +216,7 @@ describe('Script | Prod | Delete Organization Learners From Organization', funct
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
         userId,
-        deletedBy: process.env.ENGINEERING_USER_ID,
+        deletedBy: config.infra.engineeringUserId,
         deletedAt: new Date(),
       }).id;
       databaseBuilder.factory.buildCampaignParticipation({
@@ -280,7 +279,7 @@ describe('Script | Prod | Delete Organization Learners From Organization', funct
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
         userId,
-        deletedBy: process.env.ENGINEERING_USER_ID,
+        deletedBy: config.infra.engineeringUserId,
         deletedAt: new Date(),
       }).id;
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({

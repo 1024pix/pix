@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { config } from '../../../../../src/shared/config.js';
 import { categories } from '../../../../../src/shared/domain/models/TargetProfile.js';
 import {
   COUNTRY_FRANCE_CODE,
@@ -17,7 +18,7 @@ import { AUTONOMOUS_COURSES_ID } from '../constants.js';
 export default async function initUser(databaseBuilder) {
   // 1. Create autonomous-courses specific organization
   const { id: specificOrganizationId } = await databaseBuilder.factory.buildOrganization({
-    id: process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID || AUTONOMOUS_COURSES_ID,
+    id: config.autonomousCourse.autonomousCoursesOrganizationId || AUTONOMOUS_COURSES_ID,
     type: 'PRO',
     externalId: 'AUTONOMOUS_COURSES',
     name: 'Autonomous courses organization',

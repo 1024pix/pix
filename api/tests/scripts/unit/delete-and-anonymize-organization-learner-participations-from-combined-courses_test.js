@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { DeleteAndAnonymizeOrganizationLearnerParticipationsScript } from '../../../src/prescription/scripts/delete-and-anonymize-organization-learner-participations-from-combined-courses.js';
+import { config } from '../../../src/shared/config.js';
 import { DomainTransaction } from '../../../src/shared/domain/DomainTransaction.js';
 import { catchErr } from '../../tooling/test-utils/error.js';
 
@@ -31,11 +32,8 @@ describe('DeleteAndAnonymizeOrganizationLearnerParticipationsScript', function (
     const combinedCourseId = '1';
     const organizationLearnerId = '2';
 
-    const ENGINEERING_USER_ID = 99999;
-
     beforeEach(async function () {
       logger = { info: sinon.spy(), error: sinon.spy() };
-      sinon.stub(process, 'env').value({ ENGINEERING_USER_ID });
       script = new DeleteAndAnonymizeOrganizationLearnerParticipationsScript();
       jobClientStub = {
         initialize: sinon.stub(),
@@ -62,7 +60,7 @@ describe('DeleteAndAnonymizeOrganizationLearnerParticipationsScript', function (
       expect(usecasesStub.deleteAndAnonymizeParticipationsForALearnerId).to.be.calledWithExactly({
         combinedCourseId,
         organizationLearnerId,
-        userId: ENGINEERING_USER_ID,
+        userId: config.infra.engineeringUserId,
       });
 
       expect(logger.info).to.have.been.calledWithExactly(
@@ -76,7 +74,7 @@ describe('DeleteAndAnonymizeOrganizationLearnerParticipationsScript', function (
         .withArgs({
           combinedCourseId,
           organizationLearnerId,
-          userId: ENGINEERING_USER_ID,
+          userId: config.infra.engineeringUserId,
         })
         .rejects(new Error('message'));
 

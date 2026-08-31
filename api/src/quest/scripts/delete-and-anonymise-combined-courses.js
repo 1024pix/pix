@@ -1,6 +1,7 @@
 import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
+import { config } from '../../shared/config.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
 
@@ -36,12 +37,10 @@ export class DeleteAndAnonymiseCombinedCoursesScript extends ScriptWithJob {
     await DomainTransaction.execute(async () => {
       const knexConn = DomainTransaction.getConnection();
 
-      const engineeringUserId = process.env.ENGINEERING_USER_ID;
-
       try {
         await dependencies.usecases.deleteAndAnonymizeCombinedCourses({
           combinedCourseIds: options.combinedCourseIds,
-          userId: engineeringUserId,
+          userId: config.infra.engineeringUserId,
         });
 
         if (options.dryRun) {

@@ -5,17 +5,24 @@ import ms from 'ms';
 
 import Joi from './config-joi.js';
 
+let isEnvLoaded = false;
+
 // load environment variables
-try {
-  if (process.env.NODE_ENV === 'test') {
-    process.loadEnvFile(url.fileURLToPath(new URL('../../tests/setup/.env.test', import.meta.url)));
+if (!isEnvLoaded) {
+  try {
+    if (process.env.NODE_ENV === 'test') {
+      process.loadEnvFile(url.fileURLToPath(new URL('../../tests/setup/.env.test', import.meta.url)));
+    } else {
+      process.loadEnvFile(url.fileURLToPath(new URL('../../.env', import.meta.url)));
+    }
+  } catch {
+    // .env file not found, continuing without it
+  } finally {
+    // eslint-disable-next-line no-useless-assignment
+    isEnvLoaded = true;
   }
-  process.loadEnvFile(url.fileURLToPath(new URL('../../.env', import.meta.url)));
-} catch {
-  // .env file not found, continuing without it
 }
 
-/* eslint-disable n/no-process-env */
 function parseJSONEnv(varName) {
   if (process.env[varName]) {
     return JSON.parse(process.env[varName]);
@@ -152,7 +159,6 @@ const schema = Joi.object({
   DOMAIN_PIX_ORGA: Joi.string().optional(),
   EMAIL_VALIDATION_DEMAND_TEMPORARY_STORAGE_LIFESPAN: Joi.string().optional().default('3d'),
   ENABLE_KNEX_PERFORMANCE_MONITORING: Joi.string().optional().valid('true', 'false'),
-  FORCE_DROP_DATABASE: Joi.string().optional().valid('true', 'false'),
   FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_TEXT_TO_SPEECH_BUTTON: Joi.string().optional().valid('true', 'false'),
   KNEX_ASYNC_STACKTRACE_ENABLED: Joi.string().optional().valid('true', 'false'),
@@ -201,6 +207,17 @@ const configuration = (function () {
       datamartUrl: process.env.DATAMART_DATABASE_URL,
       datawarehouseUrl: process.env.DATAWAREHOUSE_DATABASE_URL,
       jobsUrl: process.env.JOBS_DATABASE_URL,
+      connection: {
+        statementTimeout: _getNumber(process.env.DATABASE_STATEMENT_TIMEOUT_MS),
+        queryTimeout: _getNumber(process.env.DATABASE_QUERY_TIMEOUT_MS),
+        idleInTransactionSessionTimeout: _getNumber(process.env.DATABASE_IDLE_IN_TRANSACTION_SESSION_TIMEOUT_MS),
+        connectionTimeoutMillis: _getNumber(process.env.DATABASE_CONNECTION_TIMEOUT_MS),
+      },
+      pool: {
+        min: _getNumber(process.env.DATABASE_CONNECTION_POOL_MIN_SIZE),
+        max: _getNumber(process.env.DATABASE_CONNECTION_POOL_MAX_SIZE),
+        idleTimeoutMillis: _getNumber(process.env.DATABASE_IDLE_TIMEOUT_MS, 10_000),
+      },
     },
 
     answersHistoryExport: {
@@ -365,6 +382,7 @@ const configuration = (function () {
       appName: process.env.APP,
       containerName: process.env.CONTAINER,
       hostname: process.env.HOSTNAME || 'pix-api',
+      isReviewApp: toBoolean(process.env.REVIEW_APP),
       concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
       chunkSizeForCampaignResultProcessing: _getNumber(process.env.INFRA_CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, 10),
       chunkSizeForOrganizationLearnerDataProcessing: _getNumber(
@@ -579,6 +597,9 @@ const configuration = (function () {
       autonomousCoursesOrganizationId: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10) || 0,
     },
     routeDomainToOwnerTeamMapping: parseJSONEnv('ROUTE_DOMAIN_TO_OWNER_TEAM_MAPPING'),
+    translations: {
+      deeplApiKey: process.env.DEEPL_API_KEY,
+    },
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -757,6 +778,5 @@ const configuration = (function () {
 
   return config;
 })();
-/* eslint-enable n/no-process-env */
 
 export { configuration as config, schema };

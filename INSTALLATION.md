@@ -136,12 +136,6 @@ LOG_LEVEL=debug
 LOG_FOR_HUMANS=true
 ```
 
-- permettre la suppression du schéma de la base de données sans arrêter l'API :
-
-```dotenv
-FORCE_DROP_DATABASE=true
-```
-
 - se connecter à un autre référentiel pédagogique que celui de base (test):
 
 ```dotenv
