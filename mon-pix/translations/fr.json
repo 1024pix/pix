@@ -2335,7 +2335,13 @@
           }
         },
         "trainings": {
+          "carousel-roledescription": "carrousel",
           "description": "Les solutions listées ci-dessous vous sont recommandées en fonction de votre niveau.",
+          "next-button-aria-label": "Voir les formations suivantes",
+          "pagination-announcement": "Formations {from} à {to} sur {total} affichées",
+          "previous-button-aria-label": "Voir les formations précédentes",
+          "slide-aria-label": "{position} sur {total}",
+          "slide-roledescription": "diapositive",
           "title": "Allez plus loin, à votre rythme."
         }
       },

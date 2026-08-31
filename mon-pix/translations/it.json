@@ -2336,6 +2336,9 @@
         },
         "trainings": {
           "description": "Le soluzioni elencate qui sotto ti vengono consigliate in base al tuo livello.",
+          "next-button-aria-label": "Vedi le formazioni successive",
+          "pagination-announcement": "Formazioni da {from} a {to} su {total} visualizzate",
+          "previous-button-aria-label": "Vedi le formazioni precedenti",
           "title": "Andate oltre, al vostro ritmo."
         }
       },

@@ -94,7 +94,7 @@ module(
           const trainings = screen.getByRole('heading', {
             name: t('pages.skill-review.recommended-engine.trainings.title'),
             level: 2,
-          }).parentElement;
+          }).parentElement.parentElement.parentElement;
           assert.strictEqual(document.activeElement, trainings);
         });
       });

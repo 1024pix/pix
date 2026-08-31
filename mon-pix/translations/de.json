@@ -2336,6 +2336,9 @@
         },
         "trainings": {
           "description": "Die unten aufgeführten Lösungen werden dir basierend auf deinem Niveau empfohlen.",
+          "next-button-aria-label": "Nächste Weiterbildungen anzeigen",
+          "pagination-announcement": "Weiterbildungen {from} bis {to} von {total} angezeigt",
+          "previous-button-aria-label": "Vorherige Weiterbildungen anzeigen",
           "title": "Gehen Sie noch einen Schritt weiter – ganz in Ihrem eigenen Tempo."
         }
       },

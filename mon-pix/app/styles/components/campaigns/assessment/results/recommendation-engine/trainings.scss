@@ -3,14 +3,21 @@
 @use 'pix-design-tokens/breakpoints';
 
 .results-recommendation-engine-training {
+  position: relative;
+
   &:focus-visible {
     outline: var(--pix-neutral-900) solid 2px;
   }
 
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--pix-spacing-10x);
+  }
+
   &__title {
     @extend %pix-title-s;
-
-    margin-top: var(--pix-spacing-10x);
   }
 
   &__description {
@@ -20,14 +27,42 @@
     color: var(--pix-neutral-500);
   }
 
+  &__navigation {
+    display: none;
+
+    @include breakpoints.device-is('desktop') {
+      display: flex;
+      gap: var(--pix-spacing-2x);
+    }
+  }
+
   &__list {
     display: flex;
-    gap: var(--pix-spacing-8x);
     margin-top: var(--pix-spacing-4x);
-    padding: 3px 5px 7px;
-    overflow-y: auto;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
+    overflow-y: hidden;
+
+    &--hidden {
+      @include breakpoints.device-is('desktop') {
+        overflow-x: hidden;
+      }
+    }
+
+    // Width is set inline by the component at desktop breakpoints (see
+    // updateSpacerWidth in trainings.gjs), which reserves enough trailing
+    // space so an incomplete last page can still reach the left edge
+    // instead of being clamped back to a scroll position that re-reveals a
+    // previous card. This default only applies below the desktop breakpoint,
+    // where scrolling is native (no navigation buttons, no inline style).
+    &-spacer {
+      flex-shrink: 0;
+      width: 1px;
+    }
+  }
+}
+
+.results-recommendation-engine-training-list {
+  &__item {
+    padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
   }
 }
 
@@ -37,6 +72,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   gap: var(--pix-spacing-4x);
   justify-content: space-between;
   width: 20.6rem;
