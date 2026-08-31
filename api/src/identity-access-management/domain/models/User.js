@@ -8,6 +8,7 @@ import {
 } from '../../../shared/domain/services/locale-service.js';
 import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+import { AuthenticationMethod } from './AuthenticationMethod.js';
 
 const { toLower } = lodash;
 
@@ -77,6 +78,19 @@ class User {
     );
 
     return pixAuthenticationMethod ? pixAuthenticationMethod.authenticationComplement?.shouldChangePassword : null;
+  }
+
+  get hasRevokedPassword() {
+    const pixAuthenticationMethod = this.authenticationMethods.find(
+      (authenticationMethod) => authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+    );
+
+    if (!pixAuthenticationMethod) {
+      false;
+    }
+
+    return new AuthenticationMethod.PixAuthenticationComplement(pixAuthenticationMethod.authenticationComplement)
+      .hasRevokedPassword;
   }
 
   get passwordHash() {
