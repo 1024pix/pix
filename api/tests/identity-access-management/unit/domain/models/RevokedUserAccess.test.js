@@ -6,13 +6,13 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
   describe('#constructor', function () {
     it('builds a revoke user access model', function () {
       //when
-      const revokeTimeStamp = Math.floor(new Date().getTime() / 1000);
-      const revokeSessions = { 12345: Math.floor(new Date().getTime() / 1000) };
-      const revokedUserAccess = new RevokedUserAccess({ revokeTimeStamp, revokeSessions });
+      const revokedAllTimeStamp = Math.floor(new Date().getTime() / 1000);
+      const revokedSessionTimeStamps = { 12345: Math.floor(new Date().getTime() / 1000) };
+      const revokedUserAccess = new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionTimeStamps });
 
       //then
-      expect(revokedUserAccess.revokeTimeStamp).to.equal(revokeTimeStamp);
-      expect(revokedUserAccess.revokeSessions).to.equal(revokeSessions);
+      expect(revokedUserAccess.revokedAllTimeStamp).to.equal(revokedAllTimeStamp);
+      expect(revokedUserAccess.revokedSessionTimeStamps).to.equal(revokedSessionTimeStamps);
     });
   });
 
@@ -20,10 +20,10 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
     context('when access token is revoked', function () {
       it('returns true', function () {
         //given
-        const revokeTimeStamp = Math.floor(new Date('2024-12-01').getTime() / 1000);
+        const revokedAllTimeStamp = Math.floor(new Date('2024-12-01').getTime() / 1000);
         const iat = Math.floor(new Date('2024-11-01').getTime() / 1000);
         const decodedToken = { iat };
-        const revokedUserAccess = new RevokedUserAccess({ revokeTimeStamp });
+        const revokedUserAccess = new RevokedUserAccess({ revokedAllTimeStamp });
 
         //when
         const result = revokedUserAccess.isAccessTokenRevoked(decodedToken);
@@ -36,10 +36,10 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
     context('when access token is not revoked', function () {
       it('returns false', function () {
         //given
-        const revokeTimeStamp = Math.floor(new Date('2024-10-01').getTime() / 1000);
+        const revokedAllTimeStamp = Math.floor(new Date('2024-10-01').getTime() / 1000);
         const iat = Math.floor(new Date('2024-12-01').getTime() / 1000);
         const decodedToken = { iat };
-        const revokedUserAccess = new RevokedUserAccess({ revokeTimeStamp });
+        const revokedUserAccess = new RevokedUserAccess({ revokedAllTimeStamp });
 
         //when
         const result = revokedUserAccess.isAccessTokenRevoked(decodedToken);
@@ -52,11 +52,11 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
     context("when access token's session is revoked", function () {
       it('returns true', function () {
         //given
-        const revokeTimeStamp = Math.floor(new Date('2024-12-01').getTime() / 1000);
+        const revokedAllTimeStamp = Math.floor(new Date('2024-12-01').getTime() / 1000);
         const iat = Math.floor(new Date('2024-11-01').getTime() / 1000);
         const sid = crypto.randomUUID();
         const decodedToken = { iat, sid };
-        const revokedUserAccess = new RevokedUserAccess({ revokeSessions: { [sid]: revokeTimeStamp } });
+        const revokedUserAccess = new RevokedUserAccess({ revokedSessionTimeStamps: { [sid]: revokedAllTimeStamp } });
 
         //when
         const result = revokedUserAccess.isAccessTokenRevoked(decodedToken);
@@ -69,11 +69,11 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
     context("when access token's session is not revoked", function () {
       it('returns false', function () {
         //given
-        const revokeTimeStamp = Math.floor(new Date('2024-10-01').getTime() / 1000);
+        const revokedAllTimeStamp = Math.floor(new Date('2024-10-01').getTime() / 1000);
         const iat = Math.floor(new Date('2024-12-01').getTime() / 1000);
         const sid = crypto.randomUUID();
         const decodedToken = { iat, sid };
-        const revokedUserAccess = new RevokedUserAccess({ revokeSessions: { [sid]: revokeTimeStamp } });
+        const revokedUserAccess = new RevokedUserAccess({ revokedSessionTimeStamps: { [sid]: revokedAllTimeStamp } });
 
         //when
         const result = revokedUserAccess.isAccessTokenRevoked(decodedToken);

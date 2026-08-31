@@ -1,17 +1,23 @@
 export class RevokedUserAccess {
-  constructor({ revokeTimeStamp, revokeSessions }) {
-    this.revokeTimeStamp = revokeTimeStamp;
-    this.revokeSessions = revokeSessions;
+  /**
+   * @param {{
+   *   revokedAllTimeStamp?: number
+   *   revokedSessionTimeStamps?: Record<string, number | undefined>
+   * }} param
+   */
+  constructor({ revokedAllTimeStamp, revokedSessionTimeStamps }) {
+    this.revokedAllTimeStamp = revokedAllTimeStamp;
+    this.revokedSessionTimeStamps = revokedSessionTimeStamps;
   }
 
   isAccessTokenRevoked(decodedToken) {
     const issuedAt = decodedToken.iat;
-    if (this.revokeTimeStamp && issuedAt < this.revokeTimeStamp) {
+    if (this.revokedAllTimeStamp && issuedAt < this.revokedAllTimeStamp) {
       return true;
     }
 
     const sessionId = decodedToken.sid;
-    if (this.revokeSessions?.[sessionId] && issuedAt < this.revokeSessions[sessionId]) {
+    if (this.revokedSessionTimeStamps?.[sessionId] && issuedAt < this.revokedSessionTimeStamps[sessionId]) {
       return true;
     }
 
