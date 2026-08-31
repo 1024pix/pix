@@ -23,7 +23,7 @@
         <node-interpreter value="project" />
         <envs>
           <env name="NODE_ENV" value="test" />
-          <env name="TEST_DATABASE_URL" value="postgresql://postgres@localhost/pix_acceptance_test" />
+          <env name="DATABASE_URL" value="postgresql://postgres@localhost/pix_acceptance_test" />
         </envs>
       </option>
     </method>

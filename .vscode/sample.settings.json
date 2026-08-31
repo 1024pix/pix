@@ -3,7 +3,7 @@
   "glint2.libraryPath": "orga",
 
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": true,
   },
   "eslint.format.enable": true,
   "eslint.workingDirectories": [
@@ -12,7 +12,7 @@
     "./mon-pix",
     "./api",
     "./orga",
-    "./1d"
+    "./1d",
   ],
   "js/ts.implicitProjectConfig.experimentalDecorators": true,
 
@@ -27,17 +27,17 @@
   // Use Mocha's experimental ESM module loader if it is available
   "mochaExplorer.esmLoader": true,
   "mochaExplorer.env": {
-      "NODE_ENV": "test",
-      // Avoids creating tests that only works in your timezone
-      "TZ": "Asia/Kolkata",
-      "TEST_REDIS_URL": "redis://localhost:6379",
-       //"LOG_ENABLED": "true",
-      //"LOG_FOR_HUMANS": "true",
-      //"TEST_LOG_ENABLED": "true",
-      // "LOG_LEVEL": "debug",
-      // "DEBUG": "knex:*"
-    },
+    "NODE_ENV": "test",
+    // Avoids creating tests that only works in your timezone
+    "TZ": "Asia/Kolkata",
+    "REDIS_URL": "redis://localhost:6379",
+    //"LOG_ENABLED": "true",
+    //"LOG_FOR_HUMANS": "true",
+    //"LOG_ENABLED": "true",
+    // "LOG_LEVEL": "debug",
+    // "DEBUG": "knex:*"
+  },
 
   // use VS Code's native testing UI
-  "testExplorer.useNativeTesting": true
+  "testExplorer.useNativeTesting": true,
 }
