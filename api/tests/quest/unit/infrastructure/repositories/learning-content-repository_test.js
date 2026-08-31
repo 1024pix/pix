@@ -1,14 +1,15 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { FrameworkForCappedTubes } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/FrameworkForCappedTubes.js';
+import { AreaForCappedTubes } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/AreaForCappedTubes.js';
 import * as learningContentRepository from '../../../../../src/quest/infrastructure/repositories/learning-content-repository.js';
 
 describe('Unit | Repositories | Learning Content Repository', function () {
-  describe('#findByTubeIds', function () {
-    it('should call findByTubeIds from learningContentApi', async function () {
+  describe('#findAreasForTubeIds', function () {
+    it('should return formatted Areas from learning content', async function () {
       // given
       const tubeIds = ['tubeId1'];
+      const tubesWithLevel = [['tubeId1', 3]];
       const learningContent = {
         learningContentDTO: {
           frameworkDTOs: [
@@ -24,7 +25,14 @@ describe('Unit | Repositories | Learning Content Repository', function () {
                       id: 'competenceId',
                       index: 'index',
                       name: 'name',
-                      thematicDTOs: [{ id: 'thematicId', index: 'index', name: 'name', tubeDTOs: [{ id: 'tubeId1' }] }],
+                      thematicDTOs: [
+                        {
+                          id: 'thematicId',
+                          index: 'index',
+                          name: 'name',
+                          tubeDTOs: [{ id: 'tubeId1', name: 'name', practicalTitle: 'practicalTitle' }],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -45,7 +53,14 @@ describe('Unit | Repositories | Learning Content Repository', function () {
               id: 'competenceId',
               index: 'index',
               name: 'name',
-              thematics: [{ id: 'thematicId', index: 'index', name: 'name', tubes: [{ id: 'tubeId1' }] }],
+              thematics: [
+                {
+                  id: 'thematicId',
+                  index: 'index',
+                  name: 'name',
+                  tubes: [{ id: 'tubeId1', level: 3, name: 'name', practicalTitle: 'practicalTitle' }],
+                },
+              ],
             },
           ],
         },
@@ -56,18 +71,15 @@ describe('Unit | Repositories | Learning Content Repository', function () {
       };
 
       // when
-      const result = await learningContentRepository.findByTubeIds({
-        tubeIds,
+      const result = await learningContentRepository.findAreasForTubeIds({
+        tubesWithLevel,
         learningContentApi: learningContentApiStub,
       });
 
       // then
-      expect(learningContentApiStub.findByTubeIds).called;
       expect(result.length).to.equal(1);
-      expect(result[0]).to.be.instanceOf(FrameworkForCappedTubes);
-
-      //then
-      expect(result[0].areas).to.deep.equal(expectedAreas);
+      expect(result[0]).to.be.instanceOf(AreaForCappedTubes);
+      expect(result).to.deep.equal(expectedAreas);
     });
   });
 });

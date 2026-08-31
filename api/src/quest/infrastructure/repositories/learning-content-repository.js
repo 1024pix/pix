@@ -1,29 +1,59 @@
-import { FrameworkForCappedTubes } from '../../domain/models/combined-course-blueprints/value-objects/FrameworkForCappedTubes.js';
+import { AreaForCappedTubes } from '../../domain/models/combined-course-blueprints/value-objects/AreaForCappedTubes.js';
 
-export const findByTubeIds = async ({ tubeIds, learningContentApi }) => {
+export const findAreasForTubeIds = async ({ tubesWithLevel, learningContentApi }) => {
+  const levelByTubeId = new Map(tubesWithLevel);
+  const tubeIds = [...levelByTubeId.keys()];
+
   const learningContent = await learningContentApi.findByTubeIds({ tubeIds, locale: 'fr-fr' });
-  return toDomain(learningContent);
+  const frameworks = learningContent.learningContentDTO.frameworkDTOs;
+
+  if (!frameworks.length) {
+    return [];
+  }
+
+  const formattedAreas = frameworks.flatMap((framework) =>
+    framework.areaDTOs.map((area) => ({
+      ...area,
+      competences: area.competenceDTOs.map((competence) => ({
+        id: competence.id,
+        name: competence.name,
+        index: competence.index,
+        thematics: competence.thematicDTOs.map((thematic) => ({
+          id: thematic.id,
+          name: thematic.name,
+          index: thematic.index,
+          tubes: thematic.tubeDTOs
+            .filter((tube) => levelByTubeId.has(tube.id))
+            .map((tube) => ({
+              id: tube.id,
+              level: levelByTubeId.get(tube.id),
+              name: tube.name,
+              practicalTitle: tube.practicalTitle,
+            })),
+        })),
+      })),
+    })),
+  );
+
+  return toDomain(formattedAreas);
 };
-const toDomain = (learningContent) => {
-  return learningContent.learningContentDTO.frameworkDTOs.map((framework) => {
-    return new FrameworkForCappedTubes({
-      id: framework.id,
-      name: framework.name,
-      areas: framework.areaDTOs.map((areaDTO) => ({
-        id: areaDTO.id,
-        title: areaDTO.title,
-        code: areaDTO.code,
-        color: areaDTO.color,
-        competences: areaDTO.competenceDTOs.map((competenceDTO) => ({
-          id: competenceDTO.id,
-          name: competenceDTO.name,
-          index: competenceDTO.index,
-          thematics: competenceDTO.thematicDTOs.map((thematicDTO) => ({
-            id: thematicDTO.id,
-            name: thematicDTO.name,
-            index: thematicDTO.index,
-            tubes: thematicDTO.tubeDTOs,
-          })),
+
+const toDomain = (formattedAreas) => {
+  return formattedAreas.map((area) => {
+    return new AreaForCappedTubes({
+      id: area.id,
+      title: area.title,
+      code: area.code,
+      color: area.color,
+      competences: area.competences.map((competence) => ({
+        id: competence.id,
+        name: competence.name,
+        index: competence.index,
+        thematics: competence.thematics.map((thematic) => ({
+          id: thematic.id,
+          name: thematic.name,
+          index: thematic.index,
+          tubes: thematic.tubes,
         })),
       })),
     });
