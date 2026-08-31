@@ -15,7 +15,7 @@ export default class Header extends Component {
   }
 
   get canCreateVersion() {
-    return this.args.certificationFramework.hasDraft;
+    return this.args.certificationFramework.hasDraft || this.args.certificationFramework.hasPixPlusActiveWithoutScoring;
   }
 
   get activeCertificationVersionId() {

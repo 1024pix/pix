@@ -12,7 +12,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';
-import { eq, not } from 'ember-truth-helpers';
+import { eq, not, or } from 'ember-truth-helpers';
 import { formatMinutes } from 'pix-admin/utils/date';
 
 import CertificationVersionDetailModal from './modal/certification-version-detail-modal';
@@ -81,11 +81,16 @@ export default class FrameworkHistory extends Component {
   }
 
   @action
-  editVersion(versionId) {
-    this.router.transitionTo(
-      'authenticated.certification-frameworks.certification-framework.versions.version.edit',
-      versionId,
-    );
+  isPixPlusActiveWithoutScoring(version) {
+    return this.args.frameworkKey !== 'CORE' && version.isActive && !version.hasGlobalScoring;
+  }
+
+  @action
+  editVersion(version) {
+    const route = this.isPixPlusActiveWithoutScoring(version)
+      ? 'authenticated.certification-frameworks.certification-framework.versions.version.scoring'
+      : 'authenticated.certification-frameworks.certification-framework.versions.version.edit';
+    this.router.transitionTo(route, version.id);
   }
 
   <template>
@@ -171,13 +176,13 @@ export default class FrameworkHistory extends Component {
                 @iconName="eye"
               />
               <PixIconButton
-                @triggerAction={{fn this.editVersion version.id}}
+                @triggerAction={{fn this.editVersion version}}
                 @ariaLabel={{t
                   "components.certification-frameworks.certification-framework.history.table.actions.edit"
                   id=version.id
                 }}
                 @iconName="edit"
-                @isDisabled={{not (eq version.status "draft")}}
+                @isDisabled={{not (or version.isDraft (this.isPixPlusActiveWithoutScoring version))}}
               />
               <PixIconButton
                 @triggerAction={{fn this.showDeleteVersionModal version.id}}

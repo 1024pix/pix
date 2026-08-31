@@ -6,6 +6,7 @@ export default class CertificationVersionSummary extends Model {
   @attr('number') assessmentDuration;
   @attr('number') maximumAssessmentLength;
   @attr('string') status;
+  @attr('boolean') hasGlobalScoring;
 
   get isActive() {
     return this.status === 'active';
