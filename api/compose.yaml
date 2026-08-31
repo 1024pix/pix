@@ -1,0 +1,113 @@
+include:
+  - path: ../compose.yaml
+
+services:
+  laminar-postgres:
+    image: postgres:16-alpine
+    container_name: pix-laminar-postgres
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_DB: laminar
+      POSTGRES_USER: laminar
+      POSTGRES_PASSWORD: laminar
+    volumes:
+      - laminar-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U laminar]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  laminar-clickhouse:
+    image: clickhouse/clickhouse-server:26.5
+    container_name: pix-laminar-clickhouse
+    ports:
+      - '8123:8123'
+    environment:
+      CLICKHOUSE_USER: ch_user
+      CLICKHOUSE_PASSWORD: ch_password
+    volumes:
+      - laminar-clickhouse-data:/var/lib/clickhouse
+      - laminar-clickhouse-logs:/var/log/clickhouse-server
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    healthcheck:
+      test: [CMD-SHELL, 'clickhouse-client --user ch_user --password ch_password --query "SELECT 1"']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  laminar-quickwit:
+    image: quickwit/quickwit:v0.8.2
+    container_name: pix-laminar-quickwit
+    command: run
+    ports:
+      - '7280:7280'
+      - '7281:7281'
+    healthcheck:
+      test: [CMD, curl, -f, 'http://localhost:7280/health/livez']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  laminar-app-server:
+    image: ghcr.io/lmnr-ai/app-server:latest
+    container_name: pix-laminar-app-server
+    ports:
+      - '8000:8000'
+      - '8001:8001'
+      - '8002:8002'
+    environment:
+      POSTGRES_HOST: laminar-postgres
+      POSTGRES_USER: laminar
+      POSTGRES_PASSWORD: laminar
+      POSTGRES_DB: laminar
+      DATABASE_URL: postgresql://laminar:laminar@laminar-postgres:5432/laminar
+      CLICKHOUSE_HOST: laminar-clickhouse
+      CLICKHOUSE_USER: ch_user
+      CLICKHOUSE_PASSWORD: ch_password
+      CLICKHOUSE_URL: http://ch_user:ch_password@laminar-clickhouse:8123
+      CLICKHOUSE_RO_USER: ch_user
+      CLICKHOUSE_RO_PASSWORD: ch_password
+      QUICKWIT_HOST: laminar-quickwit
+      LITE: 'true'
+      JWT_SECRET: local-dev-secret-change-in-production
+    depends_on:
+      laminar-postgres:
+        condition: service_healthy
+      laminar-clickhouse:
+        condition: service_started
+      laminar-quickwit:
+        condition: service_healthy
+
+  laminar-frontend:
+    image: ghcr.io/lmnr-ai/frontend:latest
+    container_name: pix-laminar-frontend
+    ports:
+      - '5667:3000'
+    environment:
+      NEXT_PUBLIC_BACKEND_URL: http://localhost:8000
+      NEXT_PUBLIC_QUICKWIT_URL: http://localhost:7280
+      BACKEND_URL: http://laminar-app-server:8000
+      BACKEND_RT_URL: http://laminar-app-server:8000
+      POSTGRES_HOST: laminar-postgres
+      POSTGRES_USER: laminar
+      POSTGRES_PASSWORD: laminar
+      POSTGRES_DB: laminar
+      DATABASE_URL: postgresql://laminar:laminar@laminar-postgres:5432/laminar
+      CLICKHOUSE_URL: http://ch_user:ch_password@laminar-clickhouse:8123
+      BETTER_AUTH_SECRET: local-dev-secret-change-in-production
+      BETTER_AUTH_URL: http://localhost:5667
+    depends_on:
+      laminar-postgres:
+        condition: service_healthy
+      laminar-clickhouse:
+        condition: service_healthy
+
+volumes:
+  laminar-postgres-data: {}
+  laminar-clickhouse-data: {}
+  laminar-clickhouse-logs: {}
