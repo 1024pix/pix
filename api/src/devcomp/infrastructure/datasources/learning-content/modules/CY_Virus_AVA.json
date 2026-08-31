@@ -682,7 +682,7 @@
                           "content": "<p>Voler des données.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «accès cachés», «outils de sécurité modifiés», «rester invisible» et «maintenir un accès».</p>"
+                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «&nbsp;accès cachés&nbsp;», «&nbsp;outils de sécurité modifiés&nbsp;», «&nbsp;rester invisible&nbsp;» et «&nbsp;maintenir un accès&nbsp;».</p>"
                           }
                         },
                         {
@@ -690,7 +690,7 @@
                           "content": "<p>Prendre le contrôle d’un appareil.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «accès cachés», «outils de sécurité modifiés», «rester invisible» et «maintenir un accès».</p>"
+                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «&nbsp;accès cachés&nbsp;», «&nbsp;outils de sécurité modifiés&nbsp;», «&nbsp;rester invisible&nbsp;» et «&nbsp;maintenir un accès&nbsp;».</p>"
                           }
                         },
                         {
@@ -706,7 +706,7 @@
                           "content": "<p>Faire dysfonctionner un appareil.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «accès cachés», «outils de sécurité modifiés», «rester invisible» et «maintenir un accès».</p>"
+                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «&nbsp;accès cachés&nbsp;», «&nbsp;outils de sécurité modifiés&nbsp;», «&nbsp;rester invisible&nbsp;» et «&nbsp;maintenir un accès&nbsp;».</p>"
                           }
                         }
                       ],
