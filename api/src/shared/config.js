@@ -503,6 +503,7 @@ const configuration = (function () {
       localConcurrency: _getNumber(process.env.PGBOSS_LOCAL_CONCURRENCY, 1),
       retentionSeconds: _getNumber(process.env.PGBOSS_RETENTION_SECONDS, 30 * 24 * 3600),
       persistWarnings: toBoolean(process.env.PGBOSS_PERSIST_WARNINGS, false),
+      useListenNotify: toBoolean(process.env.PGBOSS_USE_LISTEN_NOTIFY, true),
       statesMonitoringJobCron: process.env.PGBOSS_STATES_MONITORING_JOB_CRON || '* * * * *',
       validationFileJobEnabled: process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED
         ? toBoolean(process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED)

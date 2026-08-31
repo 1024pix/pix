@@ -54,6 +54,7 @@ export class JobClient {
             max: config.pgBoss.workerConnexionPoolMaxSize,
             persistWarnings: config.pgBoss.persistWarnings,
             warningRetentionDays: 30,
+            useListenNotify: config.pgBoss.useListenNotify,
           });
     } else {
       this.#pgBoss = pgBossFactory
@@ -157,7 +158,7 @@ export class JobClient {
   }
 
   async registerJob(name, handlerClass) {
-    await this.#pgBoss.createQueue(name, { retentionSeconds: config.pgBoss.retentionSeconds });
+    await this.#ensureQueue(name);
 
     if (this.#isTestOnly) return;
 
@@ -194,8 +195,21 @@ export class JobClient {
   }
 
   async scheduleCronJob({ name, cron, data, options }) {
-    await this.#pgBoss.createQueue(name, { retentionSeconds: config.pgBoss.retentionSeconds });
+    await this.#ensureQueue(name);
     return this.#pgBoss.schedule(name, cron, data, options);
+  }
+
+  // createQueue does not update an existing queue (ON CONFLICT DO NOTHING), so options
+  // must be re-applied through updateQueue to reach queues created by previous deployments
+  async #ensureQueue(name) {
+    await this.#pgBoss.createQueue(name, {
+      retentionSeconds: config.pgBoss.retentionSeconds,
+      notify: config.pgBoss.useListenNotify,
+    });
+    await this.#pgBoss.updateQueue(name, {
+      retentionSeconds: config.pgBoss.retentionSeconds,
+      notify: config.pgBoss.useListenNotify,
+    });
   }
 
   async #unscheduleCronJob(name) {

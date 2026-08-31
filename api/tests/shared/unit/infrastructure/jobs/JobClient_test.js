@@ -23,6 +23,9 @@ class FakePgBoss {
   createQueue() {
     return;
   }
+  updateQueue() {
+    return;
+  }
   work() {
     return;
   }
@@ -77,6 +80,34 @@ describe('Unit | JobClient', function () {
 
       // then
       expect(pgBossStub.work).to.have.been.calledWith(AuditLoggingJob.name);
+    });
+
+    it('should enable LISTEN/NOTIFY on registered queues according to configuration', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon.stub(pgBossStub, 'createQueue');
+      sinon.stub(pgBossStub, 'updateQueue');
+      sinon.stub(config.pgBoss, 'useListenNotify').value(true);
+
+      // when
+      const jobClient = new JobClient();
+      await jobClient.initialize(
+        {
+          jobGroups: [JobGroup.DEFAULT],
+          worker: true,
+        },
+        () => pgBossStub,
+      );
+
+      // then
+      expect(pgBossStub.createQueue).to.have.been.calledWith(AuditLoggingJob.name, {
+        retentionSeconds: config.pgBoss.retentionSeconds,
+        notify: true,
+      });
+      expect(pgBossStub.updateQueue).to.have.been.calledWith(AuditLoggingJob.name, {
+        retentionSeconds: config.pgBoss.retentionSeconds,
+        notify: true,
+      });
     });
 
     it('should register legacyName from AuditLoggingJob', async function () {
