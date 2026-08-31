@@ -41,7 +41,7 @@
               "element": {
                 "id": "6eda4aca-d3e7-4800-a6af-f10e479b997e",
                 "type": "image",
-                "url": "https://assets.pix.org/modules/IAGenImpact_Ava/ia_gen_impact_ava_accroch.png"
+                "url": "https://assets.pix.org/modules/IAGenImpact_Ava/ia_gen_impact_ava_accroch.png",
                 "alt": "Comparaison entre 2 réponses d’IA et leur impact environnemental",
                 "alternativeText": "<p>Sitan&nbsp;:&nbsp; Comment m’améliorer en chant ? Fais une réponse courte en 2 phrases.</p><p>Réponse de OpenAI/GPT OSS-20B<br></p><p>Commence par travailler ta respiration diaphragmatique et tes exercices de vocalises pour renforcer ton registre vocal, tout en gardant une posture droite et une bonne diction. Enregistre-toi régulièrement, demande des retours constructifs et prends des cours de chant pour corriger les faiblesses techniques.<br><br></p><p>impact estimé de la discussion&nbsp;: 20 mWh</p><p>Réponse de&nbsp;Mistral AI/Mistral 3 Large</p><p>Pour progresser en chant, entraîne-toi régulièrement avec des exercices de respiration, de justesse et de résonance. Écoute des chanteurs inspirants et enregistre-toi pour identifier tes points à améliorer.<br></p><p>impact estimé de la discussion&nbsp;: 227 mWh&nbsp;</p>",
                 "legend": "",
