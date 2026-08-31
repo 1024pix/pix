@@ -1,5 +1,6 @@
 import { usecases } from '../../domain/usecases/index.js';
 import { TargetProfile } from './TargetProfile.js';
+import { TargetProfileCappedTube } from './TargetProfileCappedTube.js';
 import { TargetProfileSkill } from './TargetProfileSkill.js';
 
 /**
@@ -71,4 +72,17 @@ export const findSkillsByTargetProfileIds = async (targetProfileIds) => {
   const skillsData = await usecases.findSkillsByTargetProfileIds({ targetProfileIds });
 
   return skillsData.map((skill) => new TargetProfileSkill(skill));
+};
+
+/**
+ * @function
+ * @name findCappedTubesForTargetProfileIds
+ *
+ * @param {Array<number>} targetProfileIds
+ * @returns {Promise<Array<TargetProfileCappedTube>>}
+ */
+export const findCappedTubesForTargetProfileIds = async (targetProfileIds) => {
+  const cappedTubes = await usecases.findCappedTubesForTargetProfileIds({ targetProfileIds });
+
+  return cappedTubes.map((cappedTube) => new TargetProfileCappedTube(cappedTube));
 };

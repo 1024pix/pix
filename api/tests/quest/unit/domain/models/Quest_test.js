@@ -884,4 +884,47 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
       });
     });
   });
+
+  describe('#hasCappedTubeRequirements', function () {
+    it('should return true when a capped tubes success requirement is defined', function () {
+      // given
+      const quest = new Quest({
+        eligibilityRequirements: [],
+        successRequirements: [
+          {
+            requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+            data: {
+              cappedTubes: [{ tubeId: 'tube11aVujagTGVuMY', level: 2 }],
+              threshold: 50,
+            },
+          },
+        ],
+      });
+
+      // when / then
+      expect(quest.hasCappedTubeRequirements).to.be.true;
+    });
+
+    it('should return false when no capped tubes success requirement is defined', function () {
+      // given
+      const quest = new Quest({
+        eligibilityRequirements: [],
+        successRequirements: [
+          {
+            requirement_type: REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
+            comparison: REQUIREMENT_COMPARISONS.ALL,
+            data: {
+              targetProfileId: {
+                data: 1,
+                comparison: CRITERION_COMPARISONS.EQUAL,
+              },
+            },
+          },
+        ],
+      });
+
+      // when / then
+      expect(quest.hasCappedTubeRequirements).to.be.false;
+    });
+  });
 });

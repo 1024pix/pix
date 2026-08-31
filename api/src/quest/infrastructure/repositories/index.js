@@ -17,6 +17,7 @@ import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { AttestationStorage } from '../storage/attestation-storage.js';
 import * as campaignParticipationRepository from './campaign-participation-repository.js';
 import * as combinedCourseBlueprintShareRepository from './combined-course-blueprint-share-repository.js';
+import * as cappedTubeRepository from './combined-course-blueprints/capped-tube-repository.js';
 import * as targetProfileRepository from './combined-course-blueprints/target-profile-repository.js';
 import * as combinedCourseDetailsRepository from './combined-course-details-repository.js';
 import * as combinedCourseParticipationRepository from './combined-course-participations/combined-course-participation-repository.js';
@@ -56,6 +57,7 @@ const repositoriesWithoutInjectedDependencies = {
   attestationRepository,
   profileRewardRepository,
   learningContentRepository,
+  cappedTubeRepository,
 };
 
 const dependencies = {

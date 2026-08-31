@@ -37,4 +37,15 @@ describe('Acceptance | Application | target-profile-api', function () {
       expect(result).to.be.ok;
     });
   });
+  describe('#findCappedTubesForTargetProfileIds', function () {
+    it('should not fail', async function () {
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId });
+
+      await databaseBuilder.commit();
+
+      const result = await targetProfileApi.findCappedTubesForTargetProfileIds([targetProfileId]);
+      expect(result).to.be.ok;
+    });
+  });
 });
