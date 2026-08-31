@@ -1,11 +1,12 @@
 import { setImmediate } from 'node:timers/promises';
 
+import { expect } from 'chai';
+
 import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
 import moduleDatasource from '../../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import * as moduleRepository from '../../../../../src/devcomp/infrastructure/repositories/module-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

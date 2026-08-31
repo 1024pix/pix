@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as targetProfileForUpdateRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-for-update-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | Target-profile-for-update', function () {

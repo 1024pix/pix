@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { VersionNotDraftError } from '../../../../../../src/certification/configuration/domain/errors.js';
 import { Version } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | Domain | Models | Version', function () {

@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import { copyTargetProfileBadges } from '../../../../../src/evaluation/domain/usecases/copy-target-profile-badges.js';
 import * as badgeCriteriaRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-repository.js';
 import { withTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { SCOPES } from '../../../../../src/shared/domain/models/BadgeDetails.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

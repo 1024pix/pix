@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { InMemoryKeyValueStorage } from '../../../../../src/shared/infrastructure/key-value-storages/InMemoryKeyValueStorage.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', function () {
   let inMemoryKeyValueStorage;

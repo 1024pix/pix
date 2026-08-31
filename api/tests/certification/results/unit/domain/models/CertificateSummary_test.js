@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   CERTIFICATE_STATUSES,
   CERTIFICATE_TYPES,
@@ -12,7 +14,6 @@ import {
   JuryCommentContexts,
 } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | CertificationSummary', function () {

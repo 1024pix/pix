@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { profileDomainErrorMappingConfiguration } from '../../../../src/profile/application/http-error-mapper-configuration.js';
 import {
   AttestationNotFoundError,
@@ -9,7 +11,6 @@ import {
   NotFoundError,
   PreconditionFailedError,
 } from '../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Profile | Unit | Application | HttpErrorMapperConfiguration', function () {
   it('instantiates NotFoundError when AttestationNotFoundError', async function () {

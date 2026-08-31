@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as serializer from '../../../../../../src/certification/results/infrastructure/serializers/certified-profile-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function () {

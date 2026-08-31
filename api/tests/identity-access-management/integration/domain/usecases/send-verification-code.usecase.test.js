@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import {
   EntityValidationError,
@@ -6,7 +8,6 @@ import {
 } from '../../../../../src/shared/domain/errors.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

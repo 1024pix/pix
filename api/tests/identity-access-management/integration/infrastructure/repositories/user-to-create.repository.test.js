@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { userToCreateRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
@@ -5,7 +7,6 @@ import {
   AlreadyRegisteredEmailError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

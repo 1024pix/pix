@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../src/certification/configuration/domain/usecases/index.js';
 import * as versionRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/version-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

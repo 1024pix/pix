@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { OrganizationLearner } from '../../../../../src/quest/domain/models/prescription/entities/OrganizationLearner.js';
 import * as combinedCourseParticipantRepository from '../../../../../src/quest/infrastructure/repositories/prescription/combined-course-participant-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Infrastructure | repositories | Combined Course Participant', function () {

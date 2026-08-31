@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { findCertificationDataset } from '../../../../../src/maddo/domain/usecases/find-certification-dataset.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Maddo | Domain | Usecase | Find certification dataset', function () {
   it('delegates to the repository and returns its result', async function () {

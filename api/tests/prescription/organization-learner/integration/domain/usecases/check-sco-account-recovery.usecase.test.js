@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { StudentInformationForAccountRecovery } from '../../../../../../src/prescription/organization-learner/domain/read-models/StudentInformationForAccountRecovery.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Prescription | Learner Management | UseCase | check-sco-account-recovery', function () {

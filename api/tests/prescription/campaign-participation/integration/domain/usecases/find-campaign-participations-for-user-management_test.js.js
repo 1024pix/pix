@@ -1,5 +1,6 @@
 import crypto from 'node:crypto';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CampaignParticipationForUserManagement } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationForUserManagement.js';
@@ -9,7 +10,6 @@ import {
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | find-campaign-participations-for-user-management', function () {

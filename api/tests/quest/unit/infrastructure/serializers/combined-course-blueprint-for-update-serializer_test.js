@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
 import { combinedCourseBlueprintForUpdateSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-for-update-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-update', function () {
   it('#deserialize', async function () {

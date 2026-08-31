@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { Organization } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import { tagRepository } from '../../../../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import { CampaignParticipationOverview } from '../../../../../../src/prescription/campaign-participation/domain/read-models/CampaignParticipationOverview.js';
@@ -15,7 +17,6 @@ import {
   OrganizationLearnerParticipationTypes,
 } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCases | get-organization-learner-with-participations', function () {

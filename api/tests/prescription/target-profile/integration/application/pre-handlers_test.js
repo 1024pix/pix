@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { targetProfilePreHandlers } from '../../../../../src/prescription/target-profile/application/pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

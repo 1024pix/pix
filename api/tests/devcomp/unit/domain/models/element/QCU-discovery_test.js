@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { QCUDiscovery } from '../../../../../../src/devcomp/domain/models/element/QCU-discovery.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QCU-discovery', function () {
   describe('#constructor', function () {

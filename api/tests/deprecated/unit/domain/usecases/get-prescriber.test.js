@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getPrescriber } from '../../../../../src/deprecated/domain/usecases/get-prescriber.js';
 import { UserHasNoOrganizationMembershipError } from '../../../../../src/team/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { resultsSecurityPreHandlers } from '../../../../../src/certification/results/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('#checkUserOwnsCertificationCourse', function () {

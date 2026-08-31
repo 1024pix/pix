@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { SimulationParameters } from '../../../../../src/evaluation/domain/models/SimulationParameters.js';
 import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../src/shared/constants.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Skill } from '../../../../../src/shared/domain/models/Skill.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Evaluation | Domain | Models | SimulationParameters', function () {

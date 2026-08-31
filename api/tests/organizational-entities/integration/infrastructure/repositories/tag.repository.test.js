@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
 import { tagRepository } from '../../../../../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { AlreadyExistingEntityError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

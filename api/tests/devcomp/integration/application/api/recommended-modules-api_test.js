@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import nock from 'nock';
 
 import { RecommendableModule } from '../../../../../src/devcomp/application/api/models/RecommendableModule.js';
 import { RecommendedModule } from '../../../../../src/devcomp/application/api/models/RecommendedModule.js';
 import * as recommendedModulesApi from '../../../../../src/devcomp/application/api/recommended-modules-api.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

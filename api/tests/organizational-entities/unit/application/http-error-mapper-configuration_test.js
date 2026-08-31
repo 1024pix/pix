@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { organizationalEntitiesDomainErrorMappingConfiguration } from '../../../../src/organizational-entities/application/http-error-mapper-configuration.js';
 import {
   ArchiveOrganizationError,
@@ -15,7 +17,6 @@ import {
   NotFoundError,
   UnprocessableEntityError,
 } from '../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "TagNotFoundError"', function () {

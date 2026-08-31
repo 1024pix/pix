@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { DataProtectionOfficer } from '../../../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | DataProtectionOfficer', function () {
   describe('#updateInformation', function () {

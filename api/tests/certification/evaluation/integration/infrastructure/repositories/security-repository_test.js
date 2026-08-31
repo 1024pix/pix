@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { isCertificationLinkedToUser } from '../../../../../../src/certification/evaluation/infrastructure/repositories/security-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Certification | Evaluation | Integration | Repositories | security-repository', function () {

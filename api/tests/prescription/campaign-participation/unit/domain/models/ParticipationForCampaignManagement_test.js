@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { ParticipationForCampaignManagement } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationForCampaignManagement.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | ParticipationForCampaignManagement', function () {
   context('#userFullName', function () {

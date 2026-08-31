@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import dayjs from 'dayjs';
 import sinon from 'sinon';
 
@@ -6,7 +7,6 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;

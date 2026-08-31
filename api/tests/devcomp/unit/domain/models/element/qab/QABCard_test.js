@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { QABCard } from '../../../../../../../src/devcomp/domain/models/element/qab/QABCard.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QABCard', function () {
   describe('#constructor', function () {

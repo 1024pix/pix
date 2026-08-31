@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { hasLearnersImportFeature } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-feature-repository.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Organization Learners Management | Campaign Participation', function () {
   describe('#hasLearnersImportFeature', function () {

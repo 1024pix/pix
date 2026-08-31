@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { updateEmailSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/update-email.serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Infrastructure | Serializer | JSONAPI | update-email-serializer', function () {
   describe('#serialize()', function () {

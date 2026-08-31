@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { ChallengeToPlay } from '../../../../../src/evaluation/domain/models/ChallengeToPlay.js';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 

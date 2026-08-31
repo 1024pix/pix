@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as campaignStatsApi from '../../../../../../src/prescription/campaign/application/api/campaign-stats-api.js';
 import { OrganizationStatistics } from '../../../../../../src/prescription/campaign/application/api/models/OrganizationStatistics.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | API | CampaignStats', function () {
   describe('#getOrganizationParticipantsStatistics', function () {

@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Script } from '../../../../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../../../../src/shared/application/scripts/script-runner.js';
 import { logger, loggerPino } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Shared | Unit | Application | ScriptRunner', function () {
   let scriptFileUrl;

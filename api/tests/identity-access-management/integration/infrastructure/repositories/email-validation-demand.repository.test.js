@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { emailValidationDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | email-validation-demand', function () {

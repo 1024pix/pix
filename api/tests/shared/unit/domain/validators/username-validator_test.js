@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import Joi from 'joi';
 
 import { UsernameSchema } from '../../../../../src/shared/domain/validators/username-validator.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Validator | username-validator', function () {
   context('valid values', function () {

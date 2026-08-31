@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { IMPORT_STATUSES } from '../../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationImportDetail } from '../../../../../../../src/prescription/learner-management/domain/read-models/OrganizationImportDetail.js';
 import { organizationImportDetailSerializer } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/jsonapi/organization-import-detail-serializer.js';
 import { CsvImportError } from '../../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-import-detail-serializer', function () {
   describe('#serialize', function () {

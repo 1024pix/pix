@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { Intervals } from '../../../../../../src/certification/evaluation/domain/models/Intervals.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Evaluation | Unit | Domain | Models | Intervals ', function () {
   describe('length', function () {

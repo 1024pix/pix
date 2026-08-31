@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationCourseController as certificationCoursesController } from '../../../../../src/certification/evaluation/application/certification-course-controller.js';
 import { certificationCourseRoute as moduleUnderTest } from '../../../../../src/certification/evaluation/application/certification-course-route.js';
 import { evaluationSecurityPreHandlers } from '../../../../../src/certification/evaluation/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Certifications Course | Route', function () {

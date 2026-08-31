@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
 import { challengeSerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/challenge-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
   describe('#serialize()', function () {

@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import * as scoringService from '../../../../../../src/evaluation/domain/services/scoring/scoring-service.js';
 import {
   MAX_REACHABLE_LEVEL,
   MAX_REACHABLE_PIX_BY_COMPETENCE,
   PIX_COUNT_BY_LEVEL,
 } from '../../../../../../src/shared/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | Scoring Service', function () {

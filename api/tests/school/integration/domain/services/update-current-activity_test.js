@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { ActivityAnswer } from '../../../../../src/school/domain/models/ActivityAnswer.js';
 import { updateCurrentActivity } from '../../../../../src/school/domain/services/update-current-activity.js';
@@ -5,7 +7,6 @@ import * as activityRepository from '../../../../../src/school/infrastructure/re
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
 import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 

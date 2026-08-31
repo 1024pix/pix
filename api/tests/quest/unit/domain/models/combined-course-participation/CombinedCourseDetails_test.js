@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -19,7 +20,6 @@ import {
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
 } from '../../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {

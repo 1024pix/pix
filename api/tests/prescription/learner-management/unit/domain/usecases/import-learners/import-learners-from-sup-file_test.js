@@ -1,12 +1,12 @@
 import { Readable } from 'node:stream';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { OrganizationImportStatus } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
 import { importLearnersFromSupFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/import-learners/import-learners-from-sup-file.js';
 import { SupHeader } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/headers/sup-header.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 const i18n = getI18n();

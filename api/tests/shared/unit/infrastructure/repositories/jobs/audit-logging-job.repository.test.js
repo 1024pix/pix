@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { AuditLoggingJob } from '../../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { auditLoggingJobRepository } from '../../../../../../src/shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import { JobRetry } from '../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Shared | Infrastructure | Jobs | AuditLoggingJobRepository', function () {
   it('sets up the job repository configuration', async function () {

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as sessionAuthorizationAdapter from '../../../../../../src/certification/enrolment/infrastructure/adapters/session-authorization-adapter.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Evaluation | Unit | Adapter | Session authorization', function () {

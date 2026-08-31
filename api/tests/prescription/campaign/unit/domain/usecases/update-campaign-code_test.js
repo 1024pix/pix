@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -5,7 +6,6 @@ import {
   UnknownCampaignId,
 } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { updateCampaignCode } from '../../../../../../src/prescription/campaign/domain/usecases/update-campaign-code.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Campaign | Domain | UseCase | update-campaign-code', function () {

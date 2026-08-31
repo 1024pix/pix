@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as privacyUsersApiRepository from '../../../../../src/deprecated/infrastructure/repositories/privacy-users-api.repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Deprecated | Infrastructure | Repositories | privacy-users-api', function () {
   describe('#canSelfDeleteAccount', function () {

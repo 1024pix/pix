@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { activitySerializer } from '../../../../../src/school/infrastructure/serializers/activity-serializer.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | activity-serializer', function () {

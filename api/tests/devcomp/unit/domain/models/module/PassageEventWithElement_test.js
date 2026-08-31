@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { PassageEventWithElementInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { PassageEventWithElement } from '../../../../../../src/devcomp/domain/models/passage-events/PassageEventWithElement.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | PassageEventWithElement', function () {

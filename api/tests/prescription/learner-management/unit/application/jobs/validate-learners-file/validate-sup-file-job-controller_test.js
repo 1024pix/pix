@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { ValidateSupFileJobController } from '../../../../../../../src/prescription/learner-management/application/jobs/validate-learners-file/validate-sup-file-job-controller.js';
@@ -6,7 +7,6 @@ import { SupParser } from '../../../../../../../src/prescription/learner-managem
 import { S3FileDoesNotExistError } from '../../../../../../../src/prescription/learner-management/infrastructure/storage/import-storage.js';
 import { config } from '../../../../../../../src/shared/config.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Prescription | Application | Jobs | ValidateSupFileJobController', function () {

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { BlockInput } from '../../../../../../src/devcomp/domain/models/block/BlockInput.js';
 import { BlockSelect } from '../../../../../../src/devcomp/domain/models/block/BlockSelect.js';
 import { BlockSelectOption } from '../../../../../../src/devcomp/domain/models/block/BlockSelectOption.js';
@@ -18,7 +20,6 @@ import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.j
 import { Video } from '../../../../../../src/devcomp/domain/models/element/Video.js';
 import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
 import { moduleSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerializer', function () {
   describe('#serialize', function () {

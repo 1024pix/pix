@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { competenceEvaluationSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', function () {

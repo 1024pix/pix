@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import * as certificationCompanionAlertRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-companion-alert-repository.js';
 import {
   CertificationCompanionLiveAlert,
   CertificationCompanionLiveAlertStatus,
 } from '../../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Certification | Session-management | Integration | Infrastructure | Repositories | Certification Companion Alert', function () {

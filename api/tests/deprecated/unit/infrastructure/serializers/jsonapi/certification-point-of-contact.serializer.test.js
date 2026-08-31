@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { certificationPointOfContactSerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/certification-point-of-contact.serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {

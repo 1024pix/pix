@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import * as campaignManagementRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
@@ -8,7 +9,6 @@ import {
 } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;

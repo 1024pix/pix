@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | domain | Activity', function () {
   [

@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { CertifiedProfile } from '../../../../../../src/certification/results/domain/read-models/CertifiedProfile.js';
 import * as certifiedProfileRepository from '../../../../../../src/certification/results/infrastructure/repositories/certified-profile-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

@@ -1,11 +1,11 @@
 import { Readable } from 'node:stream';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { importStorage } from '../../../../../../../src/prescription/learner-management/infrastructure/storage/import-storage.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../../src/shared/constants.js';
-import { expect } from '../../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Jobs | ImportFromSupJobController', function () {

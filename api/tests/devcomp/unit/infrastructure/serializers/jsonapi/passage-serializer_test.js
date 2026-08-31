@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Passage } from '../../../../../../src/devcomp/domain/models/Passage.js';
 import { passageSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/passage-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | PassageSerializer', function () {
   describe('#serialize', function () {

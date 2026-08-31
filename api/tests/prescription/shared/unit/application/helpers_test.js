@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { mapCertificabilityByLabel } from '../../../../../src/prescription/shared/application/helpers.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | helpers', function () {
   it('return empty while certificabilityFilter unexisting', async function () {

@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
 import * as eligibilityRepository from '../../../../../src/quest/infrastructure/repositories/eligibility-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | repositories | eligibility', function () {
   describe('#find', function () {

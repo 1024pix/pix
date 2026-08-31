@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { ResultCompetence } from '../../../../../../src/certification/results/domain/models/ResultCompetence.js';
 import { ResultCompetenceTree } from '../../../../../../src/certification/results/domain/models/ResultCompetenceTree.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../../../../../../src/certification/results/domain/models/v3/CertificateMeshLevel.js';
@@ -5,7 +7,6 @@ import * as serializer from '../../../../../../src/certification/results/infrast
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | certificate-serializer', function () {

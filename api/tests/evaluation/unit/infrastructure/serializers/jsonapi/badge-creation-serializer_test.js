@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { badgeCreationDeserializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/badge-creation-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | badge-creation-serializer', function () {
   describe('#deserialize', function () {

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { challengeController } from '../../../../../src/evaluation/application/challenges/challenge-controller.js';
-import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Evaluation | Unit | Application | challenge-controller', function () {

@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { userOidcAuthenticationRequestSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-oidc-authentication-request.serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | user-oidc-authentication-requests', function () {
   describe('#serialize()', function () {

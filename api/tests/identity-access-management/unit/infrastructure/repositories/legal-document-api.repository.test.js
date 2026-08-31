@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { legalDocumentApiRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/legal-document-api.repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Infrastructure | Repositories | legal-document-api', function () {
   describe('#acceptPixOrgaTos', function () {

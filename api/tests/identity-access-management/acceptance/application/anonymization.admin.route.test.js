@@ -1,4 +1,5 @@
-import { expect } from '../../../test-helper.js';
+import { expect } from 'chai';
+
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';

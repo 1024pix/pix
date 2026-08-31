@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { VerifiedCode } from '../../../../../src/quest/domain/models/prescription/value-objects/VerifiedCode.js';
 import { verifiedCodeSerializer } from '../../../../../src/quest/infrastructure/serializers/verified-code-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | verified-code', function () {
   it('#serialize', function () {

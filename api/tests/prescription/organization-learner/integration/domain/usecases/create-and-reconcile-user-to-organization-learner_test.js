@@ -1,6 +1,8 @@
 import lodash from 'lodash';
 const { pick } = lodash;
 
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import {
   NotFoundError,
@@ -9,7 +11,6 @@ import {
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import * as userReconciliationService from '../../../../../../src/shared/domain/services/user-reconciliation-service.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

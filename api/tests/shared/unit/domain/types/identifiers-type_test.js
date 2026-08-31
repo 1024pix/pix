@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import {
   identifiersType,
   optionalIdentifiersType,
   queriesType,
 } from '../../../../../src/shared/domain/types/identifiers-type.js';
-import { expect } from '../../../../test-helper.js';
 const { userId, competenceId, answerId } = identifiersType;
 const { organizationId } = optionalIdentifiersType;
 

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import nock from 'nock';
 import sinon from 'sinon';
 
@@ -5,7 +6,6 @@ import { Module } from '../../../../../src/devcomp/application/api/models/Module
 import { ModuleStatus } from '../../../../../src/devcomp/application/api/models/ModuleStatus.js';
 import * as modulesApi from '../../../../../src/devcomp/application/api/modules-api.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

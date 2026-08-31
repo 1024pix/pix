@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { OrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 import { ScoOrganizationLearnerSet } from '../../../../../../src/prescription/learner-management/domain/models/ScoOrganizationLearnerSet.js';
 import { Student } from '../../../../../../src/shared/domain/models/Student.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | ScoOrganizationLearnerSet', function () {
   describe('#reconcile', function () {

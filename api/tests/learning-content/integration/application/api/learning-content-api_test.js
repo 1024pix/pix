@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import {
   findByTubeIds,
   NoTubesProvidedError,
   SomeTubesNotFoundError,
 } from '../../../../../src/learning-content/application/api/learning-content-api.js';
 import { LearningContentDTO } from '../../../../../src/learning-content/application/api/models/LearningContentDTO.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Learning Content | Integration | Application | API | LearningContent', function () {

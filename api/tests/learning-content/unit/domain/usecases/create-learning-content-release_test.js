@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { createLearningContentRelease } from '../../../../../src/learning-content/domain/usecases/create-learning-content-release.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Learning Content | Unit | UseCase | create-learning-content-release', function () {
   beforeEach(function () {

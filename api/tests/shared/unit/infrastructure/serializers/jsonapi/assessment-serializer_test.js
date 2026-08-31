@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
@@ -5,7 +7,6 @@ import { CampaignAssessment } from '../../../../../../src/shared/domain/read-mod
 import { CertificationAssessment } from '../../../../../../src/shared/domain/read-models/CertificationAssessment.js';
 import { CompetenceEvaluationAssessment } from '../../../../../../src/shared/domain/read-models/CompetenceEvaluationAssessment.js';
 import { assessmentSerializer } from '../../../../../../src/shared/infrastructure/serializers/jsonapi/assessment-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 

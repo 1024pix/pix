@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
   authorizeToStart,
   unauthorizeToStart,
 } from '../../../../../../src/certification/session-management/infrastructure/repositories/supervised-candidate-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Certification | SessionManagement | Integration | Repository | Supervised candidate', function () {

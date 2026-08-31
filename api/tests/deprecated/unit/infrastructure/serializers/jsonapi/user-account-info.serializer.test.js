@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { userAccountInfoSerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/user-account-info.serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Deprecated | Infrastructure | Serializer | JSONAPI | user-account-info', function () {
   describe('#serialize', function () {

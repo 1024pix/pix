@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { prescriberInformationsController } from '../../../../src/deprecated/application/prescriber-informations.controller.js';
 import { usecases } from '../../../../src/deprecated/domain/usecases/index.js';
-import { expect } from '../../../test-helper.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Deprecated | Unit | Application | Controller | prescriber-informations', function () {

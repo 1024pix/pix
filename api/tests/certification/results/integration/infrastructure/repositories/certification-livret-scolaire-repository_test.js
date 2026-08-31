@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { status } from '../../../../../../src/certification/results/domain/read-models/livret-scolaire/CertificateStatus.js';
 import * as certificationLsRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-livret-scolaire-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import {

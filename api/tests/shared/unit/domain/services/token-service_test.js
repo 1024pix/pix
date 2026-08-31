@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import Joi from 'joi';
 
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Services | Token Service', function () {
   describe('encodeToken', function () {

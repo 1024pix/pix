@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
@@ -5,7 +6,6 @@ import * as campaignRepository from '../../../../../../src/prescription/campaign
 import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

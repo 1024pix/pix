@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { PreviewAssessment } from '../../../../../src/shared/domain/read-models/PreviewAssessment.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | PreviewAssessment', function () {
   describe('#constructor', function () {

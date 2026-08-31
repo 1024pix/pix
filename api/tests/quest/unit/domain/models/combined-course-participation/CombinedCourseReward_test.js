@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   CombinedCourseReward,
   CombinedCourseRewardStatuses,
@@ -6,7 +8,6 @@ import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {

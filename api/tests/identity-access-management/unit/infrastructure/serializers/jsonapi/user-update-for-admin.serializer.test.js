@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { userUpdateForAdminSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-update-for-admin.serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | user-update-for-admin-serializer', function () {
   describe('#deserialize', function () {

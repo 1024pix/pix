@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as organizationFeatureApi from '../../../../src/organizational-entities/application/api/organization-features-api.js';
-import { expect } from '../../../test-helper.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 
 describe('Acceptance | Organizational Entities | Application | organization-features-api', function () {

@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as certificationEvaluationApi from '../../../../../../src/certification/evaluation/application/api/certification-evaluation-api.js';
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Application | Certification | Evaluation | API', function () {
   describe('#getAssessmentLiveAlerts', function () {

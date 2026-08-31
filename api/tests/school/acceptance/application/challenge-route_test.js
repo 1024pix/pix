@@ -1,4 +1,5 @@
-import { expect } from '../../../test-helper.js';
+import { expect } from 'chai';
+
 import { databaseBuilder } from '../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../tooling/learning-content-builder/index.js';
 import { getServer } from '../../../tooling/server/shared-server.js';

@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { FrameworkForCappedTubes } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/FrameworkForCappedTubes.js';
 import * as learningContentRepository from '../../../../../src/quest/infrastructure/repositories/learning-content-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Repositories | Learning Content Repository', function () {
   describe('#findByTubeIds', function () {

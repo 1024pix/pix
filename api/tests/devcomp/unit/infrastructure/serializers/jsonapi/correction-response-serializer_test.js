@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 import { correctionResponseSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/correction-response-serializer.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | CorrectionResponseSerializer', function () {
   describe('#serialize', function () {

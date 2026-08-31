@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { anonymizeUserController } from '../../../../src/privacy/application/anonymize-user.controller.js';
 import { privacyRoutes } from '../../../../src/privacy/application/routes.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
 describe('Unit | Privacy | Application | Route | anonymize-user', function () {

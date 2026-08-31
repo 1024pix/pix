@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
@@ -13,7 +15,6 @@ import {
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function () {

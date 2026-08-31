@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { FlashAssessmentAlgorithmRuleEngine } from '../../../../../../src/certification/evaluation/domain/models/FlashAssessmentAlgorithmRuleEngine.js';
-import { expect } from '../../../../../test-helper.js';
 
 const challenge1 = Symbol('challenge1');
 const challenge2 = Symbol('challenge2');

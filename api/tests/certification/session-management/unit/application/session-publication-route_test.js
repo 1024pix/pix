@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { sessionPublicationController } from '../../../../../src/certification/session-management/application/session-publication-controller.js';
 import { sessionPublicationRoute as moduleUnderTest } from '../../../../../src/certification/session-management/application/session-publication-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Sessions | Routes', function () {

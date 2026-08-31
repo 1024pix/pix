@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | UseCase | getAssessmentById', function () {

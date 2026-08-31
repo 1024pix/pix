@@ -1,4 +1,5 @@
-import { expect } from '../../../test-helper.js';
+import { expect } from 'chai';
+
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 

@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { Readable } from 'node:stream';
 
+import { expect } from 'chai';
 import _ from 'lodash';
 import nock from 'nock';
 import sinon from 'sinon';
@@ -21,7 +22,6 @@ import { FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-
 import { CORRELATION_METADATA } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { SCOPES } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

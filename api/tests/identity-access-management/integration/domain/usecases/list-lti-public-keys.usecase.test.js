@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Domain | Usecases | ListLtiPublicKeys', function () {

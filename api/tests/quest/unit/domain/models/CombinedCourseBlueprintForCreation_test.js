@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprintForCreation } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForCreation.js';
 import { QuestInput } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/QuestInput.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 

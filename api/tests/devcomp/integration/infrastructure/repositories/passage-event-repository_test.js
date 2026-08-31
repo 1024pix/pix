@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { FlashcardsCardAutoAssessedEvent } from '../../../../../src/devcomp/domain/models/passage-events/flashcard-events.js';
 import { PassageStartedEvent } from '../../../../../src/devcomp/domain/models/passage-events/passage-events.js';
 import * as passageEventRepository from '../../../../../src/devcomp/infrastructure/repositories/passage-event-repository.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

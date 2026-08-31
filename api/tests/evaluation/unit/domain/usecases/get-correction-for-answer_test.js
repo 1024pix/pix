@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
@@ -5,7 +6,6 @@ import { getCorrectionForAnswer } from '../../../../../src/evaluation/domain/use
 import { AssessmentNotCompletedError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { LearningContentResourceNotFound } from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

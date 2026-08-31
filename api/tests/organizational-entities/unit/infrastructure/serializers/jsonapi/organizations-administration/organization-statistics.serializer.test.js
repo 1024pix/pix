@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { organizationStatisticsSerializer } from '../../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-statistics.serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Serializers | JSONAPI | Organizations-Administrations | organization-statistics', function () {
   describe('#serialize', function () {

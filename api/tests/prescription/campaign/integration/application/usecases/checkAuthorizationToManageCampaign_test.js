@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as checkAuthorizationToManageCampaignUsecase from '../../../../../../src/prescription/campaign/application/usecases/checkAuthorizationToManageCampaign.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Prescription | Campaign | Integration | Application | Usecases | checkAuthorizationToManageCampaign', function () {

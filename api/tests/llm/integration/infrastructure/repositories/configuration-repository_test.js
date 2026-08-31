@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import { MockAgent, setGlobalDispatcher } from 'undici';
 
 import { ConfigurationNotFoundError, LLMApiError } from '../../../../../src/llm/domain/errors.js';
 import { get } from '../../../../../src/llm/infrastructure/repositories/configuration-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('LLM | Integration | Infrastructure | Repositories | configuration', function () {

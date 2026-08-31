@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { ValidateSiecleFileJobController } from '../../../../../../../src/prescription/learner-management/application/jobs/validate-learners-file/validate-siecle-file-job-controller.js';
 import { usecases } from '../../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { S3FileDoesNotExistError } from '../../../../../../../src/prescription/learner-management/infrastructure/storage/import-storage.js';
 import { config } from '../../../../../../../src/shared/config.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Prescription | Application | Jobs | ValidateSiecleFileJobController', function () {

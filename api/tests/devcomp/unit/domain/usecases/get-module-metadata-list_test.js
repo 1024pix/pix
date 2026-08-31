@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getModuleMetadataList } from '../../../../../src/devcomp/domain/usecases/get-module-metadata-list.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | get-module-metadata-list', function () {
   it('should return a list of ModuleMetadata', async function () {

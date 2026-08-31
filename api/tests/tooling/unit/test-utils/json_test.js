@@ -1,4 +1,5 @@
-import { expect } from '../../../test-helper.js';
+import { expect } from 'chai';
+
 import { parseNDJSON } from '../../../tooling/test-utils/json.js';
 
 describe('Unit | Tooling | Test utils | JSON', function () {

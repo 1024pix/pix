@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { certificationDomainErrorMappingConfiguration } from '../../../../../src/certification/shared/application/http-error-mapper-configuration.js';
 import {
   CenterHabilitationError,
@@ -12,7 +14,6 @@ import {
   NotFoundError,
   UnprocessableEntityError,
 } from '../../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Shared | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "CertificationCourseUpdateError"', function () {

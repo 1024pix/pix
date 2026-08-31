@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
+import { expect } from 'chai';
 import omit from 'lodash/omit.js';
 
 import { PasswordNotMatching } from '../../../../../src/shared/domain/errors.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Shared | Domain | Services | Crypto', function () {

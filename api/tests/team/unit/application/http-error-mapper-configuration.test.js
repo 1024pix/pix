@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   ConflictError,
   ForbiddenError,
@@ -13,7 +15,6 @@ import {
   UserHasNoOrganizationMembershipError,
   UserNotMemberOfOrganizationError,
 } from '../../../../src/team/domain/errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Team | Application | HttpErrorMapperConfiguration', function () {
   it('instantiates UnprocessableEntityError when AdminMemberError', async function () {

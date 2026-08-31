@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getCompetenceLevel } from '../../../../../src/evaluation/domain/services/get-competence-level.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Service | Get Competence Level', function () {
   describe('#getCompetenceLevel', function () {

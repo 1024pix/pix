@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import lodash from 'lodash';
 import sinon from 'sinon';
 
 import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/enrolment/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

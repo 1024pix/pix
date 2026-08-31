@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { llmDomainErrorMappingConfiguration } from '../../../../src/llm/application/http-error-mapper-configuration.js';
 import {
   ChatForbiddenError,
@@ -21,7 +23,6 @@ import {
   PayloadTooLargeError,
   ServiceUnavailableError,
 } from '../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "ChatNotFoundError"', function () {

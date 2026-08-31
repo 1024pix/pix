@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { addManyMembersToExistingOrganization } from '../../../scripts/data-generation/add-many-fake-members-related-to-one-organization.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
-import { expect } from '../../test-helper.js';
 import { databaseBuilder, knex } from '../../tooling/databases.js';
 import { catchErr } from '../../tooling/test-utils/error.js';
 

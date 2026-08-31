@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { enrolmentSecurityPreHandlers } from '../../../../../src/certification/enrolment/application/securiy-pre-handlers.js';
 import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
-import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Certification | Enrolment | Application | SecurityPreHandlers', function () {

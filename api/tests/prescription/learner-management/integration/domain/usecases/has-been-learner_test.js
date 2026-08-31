@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Prescription | Learner Management | UseCase | has-been-learner', function () {

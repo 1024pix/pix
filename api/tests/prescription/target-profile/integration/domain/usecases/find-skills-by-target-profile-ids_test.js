@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
 import { Skill } from '../../../../../../src/shared/domain/models/Skill.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Prescription | Target Profile | Domain | usecases | find-skills-by-target-profile-ids', function () {

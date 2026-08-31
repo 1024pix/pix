@@ -1,13 +1,14 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../../../../../../src/certification/enrolment/infrastructure/candidates-import/fill-candidates-import-sheet.js';
 import * as readOdsUtils from '../../../../../../src/certification/enrolment/infrastructure/utils/ods/read-ods-utils.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

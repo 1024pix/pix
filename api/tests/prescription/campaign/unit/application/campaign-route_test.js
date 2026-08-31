@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { campaignController } from '../../../../../src/prescription/campaign/application/campaign-controller.js';
 import { campaignRoute as moduleUnderTest } from '../../../../../src/prescription/campaign/application/campaign-route.js';
 import { campaignSecurityPreHandlers } from '../../../../../src/prescription/campaign/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Router | campaign-router ', function () {

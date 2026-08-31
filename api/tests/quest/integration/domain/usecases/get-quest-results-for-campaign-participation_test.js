@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
@@ -5,7 +7,6 @@ import {
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { QuestResult } from '../../../../../src/quest/domain/models/quests/value-objects/QuestResult.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Domain | Usecases | getQuestResultsForCampaignParticipation', function () {

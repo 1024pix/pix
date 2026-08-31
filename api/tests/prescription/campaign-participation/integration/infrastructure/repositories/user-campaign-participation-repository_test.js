@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { UserCampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/read-models/UserCampaignParticipation.js';
 import * as userCampaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/user-campaign-participation-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | UserCampaignParticipation', function () {

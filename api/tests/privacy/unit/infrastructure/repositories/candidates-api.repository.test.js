@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { hasBeenCandidate } from '../../../../../src/privacy/infrastructure/repositories/candidates-api.repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Privacy | Infrastructure | Repositories | candidates-api', function () {
   describe('#hasBeenCandidate', function () {

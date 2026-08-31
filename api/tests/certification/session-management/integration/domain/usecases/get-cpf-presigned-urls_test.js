@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { CpfImportStatus } from '../../../../../../src/certification/session-management/domain/models/CpfImportStatus.js';
 import { getPreSignedUrls } from '../../../../../../src/certification/session-management/domain/usecases/get-cpf-presigned-urls.js';
 import * as cpfExportRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/cpf-export-repository.js';
 import { cpfExportsStorage } from '../../../../../../src/certification/session-management/infrastructure/storage/cpf-exports-storage.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | get-cpf-presigned-urls ', function () {

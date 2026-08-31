@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import Joi from 'joi';
 
 import { ErrorMappingRegistry } from '../../../../../src/shared/application/errors/error-mapping-registry.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Shared | Unit | Application | ErrorMappingRegistry', function () {

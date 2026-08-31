@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { combinedCourseBlueprintController } from '../../../../src/quest/application/combined-course-blueprint-controller.js';
@@ -5,7 +6,6 @@ import { combinedCourseBlueprintRoute } from '../../../../src/quest/application/
 import questSecurityPreHandlers from '../../../../src/quest/application/security-pre-handlers.js';
 import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 

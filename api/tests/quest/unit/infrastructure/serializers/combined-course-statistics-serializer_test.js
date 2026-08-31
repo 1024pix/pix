@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { CombinedCourseStatistics } from '../../../../../src/quest/domain/models/combined-courses/value-objects/CombinedCourseStatistics.js';
 import { combinedCourseStatisticsSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-statistics-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('CombinedCourseStatisticsSerializer', function () {
   it('should serialize CombinedCourseStatistics', function () {

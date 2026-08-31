@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { moduleIssueReportController } from '../../../../../src/devcomp/application/module-issue-report/module-issue-report-controller.js';
 import { moduleIssueReportRoute as moduleUnderTest } from '../../../../../src/devcomp/application/module-issue-report/module-issue-report-route.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Devcomp | Application | Module | Router | module-issue-report-router', function () {

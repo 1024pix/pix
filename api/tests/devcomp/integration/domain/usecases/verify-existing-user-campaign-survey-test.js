@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../src/devcomp/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Devcomp | Domain | UseCases | verifyExistingUserCampaignSurvey', function () {

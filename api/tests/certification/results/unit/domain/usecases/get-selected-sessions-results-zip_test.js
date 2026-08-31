@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { NoCertificationResultsToDownloadError } from '../../../../../../src/certification/results/domain/errors.js';
 import { getSelectedSessionsResultsZip } from '../../../../../../src/certification/results/domain/usecases/get-selected-sessions-results-zip.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Certification | Results | UseCase | get-selected-sessions-results-zip', function () {

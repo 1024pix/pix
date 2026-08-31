@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getAnswer } from '../../../../../src/evaluation/domain/usecases/get-answer.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | get-answer', function () {
   const answerId = 1;

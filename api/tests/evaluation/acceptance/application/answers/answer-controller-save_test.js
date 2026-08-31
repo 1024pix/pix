@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   CRITERION_COMPARISONS,
   REQUIREMENT_COMPARISONS,
@@ -6,7 +8,6 @@ import {
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { ENGLISH_SPOKEN, FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import {

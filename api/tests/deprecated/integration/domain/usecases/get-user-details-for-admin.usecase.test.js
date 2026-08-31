@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { UserDetailsForAdmin } from '../../../../../src/deprecated/domain/models/UserDetailsForAdmin.js';
 import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Deprecated | Domain | UseCase | get-user-details-for-admin', function () {

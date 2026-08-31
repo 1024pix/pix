@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { buildLegalDocumentVersion } from '../../../../../db/database-builder/factory/build-legal-document-version.js';
 import { buildLegalDocumentVersionUserAcceptance } from '../../../../../db/database-builder/factory/build-legal-document-version-user-acceptance.js';
 import { Prescriber } from '../../../../../src/deprecated/domain/models/Prescriber.js';
@@ -11,7 +13,6 @@ import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { UserOrgaSettings } from '../../../../../src/team/domain/models/UserOrgaSettings.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

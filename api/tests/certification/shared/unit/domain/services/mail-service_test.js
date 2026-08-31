@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as mailService from '../../../../../../src/certification/shared/domain/services/mail-service.js';
 import { mailer } from '../../../../../../src/shared/mail/infrastructure/services/mailer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Service | Certification | MailService', function () {
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { AnonymizeUsersInBatchScript } from '../../../../src/identity-access-management/scripts/anonymize-users-in-batch.script.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Unit | Identities Access Management | Scripts | Anonymize users in batch', function () {
   let script;

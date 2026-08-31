@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Campaign } from '../../../../../src/maddo/domain/models/Campaign.js';
 import { findByOrganizationId } from '../../../../../src/maddo/infrastructure/repositories/campaign-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Maddo | Infrastructure | Repositories | Integration | campaign', function () {

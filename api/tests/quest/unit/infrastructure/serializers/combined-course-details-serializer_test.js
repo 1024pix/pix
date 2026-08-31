@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { combinedCourseDetailsSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-details-serializer.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-details', function () {

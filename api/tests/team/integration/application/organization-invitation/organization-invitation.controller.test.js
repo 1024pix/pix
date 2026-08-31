@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
@@ -10,7 +11,6 @@ import { teamRoutes } from '../../../../../src/team/application/routes.js';
 import { OrganizationArchivedError } from '../../../../../src/team/domain/errors.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { scoOrganizationInvitationSerializer } from '../../../../../src/team/infrastructure/serializers/jsonapi/sco-organization-invitation.serializer.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 const routesUnderTest = teamRoutes[0];

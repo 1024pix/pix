@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { generateCursor } from '../../../../../src/prescription/campaign-participation/domain/services/pole-emploi-service.js';
-import { expect } from '../../../../test-helper.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 

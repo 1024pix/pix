@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { getSupportedLocales } from '../../../../../src/shared/domain/services/locale-service.js';
 import {
   getEmailValidationUrl,
@@ -11,7 +13,6 @@ import {
   PIX_WEBSITE_PATHS,
   PIX_WEBSITE_ROOT_URLS,
 } from '../../../../../src/shared/domain/services/url-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Services | url-service', function () {
   describe('getPixWebsiteUrl', function () {

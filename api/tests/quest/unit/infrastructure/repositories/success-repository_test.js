@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Success } from '../../../../../src/quest/domain/models/quests/aggregates/Success.js';
 import * as successRepository from '../../../../../src/quest/infrastructure/repositories/success-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { preventStubsToBeCalledUnexpectedly } from '../../../../tooling/test-utils/error.js';
 
 describe('Quest | Unit | Infrastructure | repositories | success', function () {

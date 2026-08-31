@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import * as certificationChallengeLiveAlertRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { routeDomainToOwnerTeam } from '../../../../../src/shared/infrastructure/utils/route-domain-to-owner-team.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | infrastructure | Utils | route-domain-to-owner-team', function () {
   it('should return an empty array if config is empty', function () {

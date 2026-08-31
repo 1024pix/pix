@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { ErrorMappingRegistry } from '../../../../../src/shared/application/errors/error-mapping-registry.js';
 import { HapiErrorMapper } from '../../../../../src/shared/application/errors/hapi-error-mapper.js';
 import {
@@ -12,7 +14,6 @@ import {
   UnprocessableEntityError,
 } from '../../../../../src/shared/application/errors/http-errors.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Shared | Unit | Application | HapiErrorMapper', function () {

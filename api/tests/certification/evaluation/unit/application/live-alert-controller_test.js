@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { liveAlertController } from '../../../../../src/certification/evaluation/application/live-alert-controller.js';
 import { usecases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Certification | Evaluation| Unit | Controller | live-alert-controller', function () {

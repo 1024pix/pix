@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as attachableTargetProfileRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/attachable-target-profiles-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Certification | Configuration | Integration | Repository | attachable-target-profiles', function () {

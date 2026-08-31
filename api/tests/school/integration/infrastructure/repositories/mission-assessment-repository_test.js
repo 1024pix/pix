@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { MissionLearner } from '../../../../../src/school/domain/models/MissionLearner.js';
 import {
@@ -5,7 +7,6 @@ import {
   MissionAssessmentResult,
 } from '../../../../../src/school/infrastructure/models/mission-assessment.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Repository | mission-assessment-repository', function () {

@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as targetProfileRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/target-profile-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | Target-profile', function () {

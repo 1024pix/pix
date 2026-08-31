@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { missionLearnerController } from '../../../../src/school/application/mission-learner-controller.js';
 import { missionLearnerRoute as moduleUnderTest } from '../../../../src/school/application/mission-learner-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
 describe('Unit | Route | mission-learner-route', function () {

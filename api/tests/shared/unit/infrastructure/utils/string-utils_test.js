@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   cleanStringAndParseFloat,
   getArrayOfStrings,
@@ -8,7 +10,6 @@ import {
   normalizeAndSortChars,
   splitIntoWordsAndRemoveBackspaces,
 } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | infrastructure | Utils | string-utils', function () {
   const zeroWidthSpaceChar = '​';

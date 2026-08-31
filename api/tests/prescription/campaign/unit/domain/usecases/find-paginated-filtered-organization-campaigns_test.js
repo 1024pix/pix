@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { findPaginatedFilteredOrganizationCampaigns } from '../../../../../../src/prescription/campaign/domain/usecases/find-paginated-filtered-organization-campaigns.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-campaigns', function () {

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationReportController } from '../../../../../src/certification/session-management/application/certification-report-controller.js';
@@ -6,7 +7,6 @@ import { sessionManagementSecurityPreHandlers } from '../../../../../src/certifi
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/constants/abort-reasons.js';
 import { NotFoundError } from '../../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Certification Report', function () {

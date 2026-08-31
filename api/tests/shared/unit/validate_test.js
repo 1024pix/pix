@@ -2,9 +2,10 @@ import lodash from 'lodash';
 
 const { pick } = lodash;
 
+import { expect } from 'chai';
+
 import { BadRequestError } from '../../../src/shared/application/errors/http-errors.js';
 import { handleFailAction } from '../../../src/shared/validate.js';
-import { expect } from '../../test-helper.js';
 import { hFake } from '../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Validate', function () {

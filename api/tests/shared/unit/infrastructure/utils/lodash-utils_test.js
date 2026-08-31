@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import original_lodash from 'lodash';
 
 import { _ } from '../../../../../src/shared/infrastructure/utils/lodash-utils.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | infrastructure | Utils | lodash-utils', function () {
   describe('#scope', function () {

@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationResultsController } from '../../../../../src/certification/results/application/certification-results-controller.js';
 import { certificationResultsRoute as moduleUnderTest } from '../../../../../src/certification/results/application/certification-results-route.js';
 import { NoCertificationResultsToDownloadError } from '../../../../../src/certification/results/domain/errors.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';

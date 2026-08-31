@@ -1,8 +1,8 @@
 import { metrics } from '@opentelemetry/api';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { instrumentActiveRequestsCount } from '../../../../../src/shared/infrastructure/open-telemetry/hapi-tracing.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | OpenTelemetry | hapi-metrics', function () {
   let meterStub, recordStub;

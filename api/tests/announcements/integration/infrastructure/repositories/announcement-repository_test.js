@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { Announcement } from '../../../../../src/communication/announcements/domain/models/Announcement.js';
 import * as announcementRepository from '../../../../../src/communication/announcements/infrastructure/repositories/announcement-repository.js';
 import { announcementsStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { expect } from '../../../../test-helper.js';
 import { knex } from '../../../../tooling/databases.js';
 
 const NAME = 'SCO';

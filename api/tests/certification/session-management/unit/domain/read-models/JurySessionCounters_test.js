@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { JurySessionCounters } from '../../../../../../src/certification/session-management/domain/read-models/JurySessionCounters.js';
 import {
   CertificationIssueReportCategory,
   ImpactfulCategories,
   ImpactfulSubcategories,
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Session-Management | Domain | Models | JurySessionCounters', function () {
   it('should compute the number of started certifications', function () {

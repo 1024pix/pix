@@ -3,6 +3,8 @@ import { text } from 'node:stream/consumers';
 
 const { PassThrough } = stream;
 
+import { expect } from 'chai';
+
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import * as organizationFeatureApi from '../../../../../../src/organizational-entities/application/api/organization-features-api.js';
 import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
@@ -24,7 +26,6 @@ import * as placementProfileService from '../../../../../../src/shared/domain/se
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import * as competenceRepository from '../../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {

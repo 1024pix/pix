@@ -1,9 +1,9 @@
 import crypto from 'node:crypto';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CampaignParticipationForUserManagement } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationForUserManagement.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignParticipationForUserManagement', function () {
   beforeEach(function () {

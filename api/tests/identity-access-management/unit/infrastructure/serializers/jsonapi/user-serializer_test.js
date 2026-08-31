@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
 import { userSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serializer', function () {
   describe('#serialize', function () {

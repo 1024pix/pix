@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import * as service from '../../../../../../src/evaluation/domain/services/solution/solution-service-qcu.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Service | SolutionServiceQCU ', function () {
   describe('if solution type is QCU', function () {

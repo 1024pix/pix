@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { ParticipationDataset } from '../../../../../src/maddo/domain/models/men/dashboard/ParticipationDataset.js';
 import { findAll } from '../../../../../src/maddo/infrastructure/repositories/participation-dataset-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { datamartBuilder } from '../../../../tooling/databases.js';
 
 describe('Maddo | Infrastructure | Repositories | Integration | ParticipationDataset', function () {

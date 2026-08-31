@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import Joi from 'joi';
 
 import { createObjectQuerySchema } from '../../../../../src/shared/application/query-schema/object-query-schema.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | bracket-or-json-query-schema', function () {
   const valueSchema = Joi.object({ foo: Joi.string().required() });

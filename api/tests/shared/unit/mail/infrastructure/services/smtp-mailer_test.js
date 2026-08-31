@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { config } from '../../../../../../src/shared/config.js';
 import { SmtpMailer } from '../../../../../../src/shared/mail/infrastructure/services/smtp-mailer.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('SMTP Mailer', function () {
   describe('#sendEmail', function () {

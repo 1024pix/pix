@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { learnerManagementSecurityPreHandlers } from '../../../../../src/prescription/learner-management/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Prescription | Learner Management | Application | checkOrganizationLearnerBelongsToOrganization', function () {

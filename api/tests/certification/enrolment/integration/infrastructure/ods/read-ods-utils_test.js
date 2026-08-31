@@ -10,6 +10,8 @@ const i18n = getI18n();
 
 import * as url from 'node:url';
 
+import { expect } from 'chai';
+
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../../../../../src/certification/enrolment/infrastructure/candidates-import/candidates-import-transformation-structures.js';
 import {
   extractTableDataFromOdsFile,
@@ -19,7 +21,6 @@ import {
 } from '../../../../../../src/certification/enrolment/infrastructure/utils/ods/read-ods-utils.js';
 import { UnprocessableEntityError } from '../../../../../../src/shared/application/errors/http-errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../test-helper.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

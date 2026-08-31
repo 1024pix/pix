@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { UserCampaignSurvey } from '../../../../../src/devcomp/domain/models/UserCampaignSurvey.js';
 import * as userCampaignSurveyRepository from '../../../../../src/devcomp/infrastructure/repositories/user-campaign-survey-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | userCampaignSurveyRepository', function () {

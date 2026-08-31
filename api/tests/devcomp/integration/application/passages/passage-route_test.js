@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { passageController } from '../../../../../src/devcomp/application/passages/passage-controller.js';
@@ -8,7 +9,6 @@ import {
   PassageTerminatedError,
 } from '../../../../../src/devcomp/domain/errors.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Devcomp | Application | Passage | Router | passage-router', function () {

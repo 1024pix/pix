@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as prescriberRoleRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/prescriber-role-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Prescription | Campaign | Integration | Repository | prescriber-role-repository', function () {

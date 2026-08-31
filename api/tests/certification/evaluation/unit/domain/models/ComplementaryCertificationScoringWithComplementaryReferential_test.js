@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { ComplementaryCertificationScoringWithComplementaryReferential } from '../../../../../../src/certification/evaluation/domain/models/ComplementaryCertificationScoringWithComplementaryReferential.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | ComplementaryCertificationScoringWithComplementaryReferential', function () {

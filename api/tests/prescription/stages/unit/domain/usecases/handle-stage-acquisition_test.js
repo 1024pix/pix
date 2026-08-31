@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { handleStageAcquisition } from '../../../../../../src/prescription/stages/domain/usecases/handle-stage-acquisition.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Evaluation | Unit | UseCase | handleStageAcquisition', function () {

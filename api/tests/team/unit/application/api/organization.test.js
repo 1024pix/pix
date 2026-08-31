@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Membership, roles } from '../../../../../src/shared/domain/models/Membership.js';
 import { MembershipNotFound } from '../../../../../src/team/application/api/errors/MembershipNotFound.js';
 import { getOrganizationMembership } from '../../../../../src/team/application/api/organization.js';
 import * as DomainErrors from '../../../../../src/team/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Team | Unit | Application | API | Organization', function () {

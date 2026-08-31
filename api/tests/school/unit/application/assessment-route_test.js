@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { assessmentController } from '../../../../src/school/application/assessment-controller.js';
 import { assessmentRoute as moduleUnderTest } from '../../../../src/school/application/assessment-route.js';
 import { AssessmentEndedError } from '../../../../src/shared/domain/errors.js';
-import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
 describe('Unit | Application | Router | assessment-router', function () {

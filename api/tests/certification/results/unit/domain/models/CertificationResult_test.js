@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { CertificationResult } from '../../../../../../src/certification/results/domain/models/CertificationResult.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const CERTIFICATION_RESULT_STATUS_CANCELLED = CertificationResult.status.CANCELLED;

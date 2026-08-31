@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../src/privacy/domain/usecases/index.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Privacy | Domain | UseCase | self-anonymize-by-user', function () {

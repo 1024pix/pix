@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { livretScolaireRoute as moduleUnderTest } from '../../../../../src/certification/results/application/livret-scolaire-route.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 

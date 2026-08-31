@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { VersionNotDraftError } from '../../../../../../src/certification/configuration/domain/errors.js';
@@ -5,7 +6,6 @@ import { VERSION_STATUSES } from '../../../../../../src/certification/configurat
 import { activateVersion } from '../../../../../../src/certification/configuration/domain/usecases/activate-version.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

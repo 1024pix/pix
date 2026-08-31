@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { participationForCampaignManagementSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/participation-for-campaign-management-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | participation-for-campaign-management-serializer', function () {

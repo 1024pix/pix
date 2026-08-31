@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { DetachedAssessment } from '../../../../../../src/prescription/campaign-participation/domain/read-models/DetachedAssessment.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | DetachAssessment', function () {
   describe('constructor', function () {

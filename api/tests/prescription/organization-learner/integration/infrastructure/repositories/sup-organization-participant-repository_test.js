@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { SupOrganizationParticipant } from '../../../../../../src/prescription/organization-learner/domain/read-models/SupOrganizationParticipant.js';
@@ -6,7 +7,6 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | sup-organization-participant-repository', function () {

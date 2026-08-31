@@ -1,4 +1,5 @@
-import { expect } from '../../test-helper.js';
+import { expect } from 'chai';
+
 import { buildForbiddenRules } from '../../tooling/dependency-cruiser-generator.js';
 
 describe('Unit | Tooling | Dependency cruiser generator', function () {

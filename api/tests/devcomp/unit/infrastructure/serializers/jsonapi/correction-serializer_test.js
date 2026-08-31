@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { TutorialEvaluation } from '../../../../../../src/devcomp/domain/models/TutorialEvaluation.js';
 import { UserSavedTutorial } from '../../../../../../src/devcomp/domain/models/UserSavedTutorial.js';
 import { TutorialForUser } from '../../../../../../src/devcomp/domain/read-models/TutorialForUser.js';
 import { correctionSerializer } from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/correction-serializer.js';
 import { Correction } from '../../../../../../src/shared/domain/models/Correction.js';
 import { Hint } from '../../../../../../src/shared/domain/models/Hint.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
   describe('#serialize()', function () {

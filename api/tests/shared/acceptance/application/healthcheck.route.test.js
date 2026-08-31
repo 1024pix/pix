@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import Sinon from 'sinon';
 
 import { databaseConnectionRegistry } from '../../../../db/database-connection-registry.js';
-import { expect } from '../../../test-helper.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 
 describe('Acceptance | Shared | Application | Route | healthcheck', function () {

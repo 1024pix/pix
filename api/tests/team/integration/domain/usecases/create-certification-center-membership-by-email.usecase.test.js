@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { AlreadyExistingEntityError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { CertificationCenterMembership } from '../../../../../src/team/domain/models/CertificationCenterMembership.js';
 import { createCertificationCenterMembershipByEmail } from '../../../../../src/team/domain/usecases/create-certification-center-membership-by-email.usecase.js';
 import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

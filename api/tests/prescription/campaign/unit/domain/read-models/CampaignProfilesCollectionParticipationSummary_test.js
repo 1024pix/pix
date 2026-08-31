@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CampaignResults | CampaignProfilesCollectionParticipationSummary', function () {
   describe('constructor', function () {

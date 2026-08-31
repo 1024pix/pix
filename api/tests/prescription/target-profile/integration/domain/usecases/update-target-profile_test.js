@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
 import * as targetProfileAdministrationRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { SCOPES } from '../../../../../../src/shared/domain/models/BadgeDetails.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { UserDetailsForAdmin } from '../../../../../src/deprecated/domain/models/UserDetailsForAdmin.js';
 import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | UserDetailsForAdmin', function () {

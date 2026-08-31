@@ -1,4 +1,4 @@
-import { expect } from '../../../test-helper.js';
+import { expect } from 'chai';
 
 describe('Unit | chai-custom-helpers | equalWithGetter', function () {
   class A {

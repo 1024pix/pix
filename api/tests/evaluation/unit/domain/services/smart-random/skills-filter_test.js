@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import {
   focusOnDefaultLevel,
   getFilteredSkillsForFirstChallenge,
   getFilteredSkillsForNextChallenge,
 } from '../../../../../../src/evaluation/domain/services/algorithm-methods/skills-filter.js';
 import { Tube } from '../../../../../../src/shared/domain/models/Tube.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { buildSkill } from '../../../../../tooling/domain-builder/factory/index.js';
 

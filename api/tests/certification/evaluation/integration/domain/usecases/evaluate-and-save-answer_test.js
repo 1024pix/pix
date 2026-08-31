@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { CertificationDurationExceededError } from '../../../../../../src/certification/evaluation/domain/errors.js';
 import { usecases } from '../../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
@@ -10,7 +12,6 @@ import {
   ForbiddenAccess,
   NotFoundError,
 } from '../../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

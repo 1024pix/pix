@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 import { campaignProfilesCollectionParticipationSummarySerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participation-summary-serializer', function () {
   describe('#serialize', function () {

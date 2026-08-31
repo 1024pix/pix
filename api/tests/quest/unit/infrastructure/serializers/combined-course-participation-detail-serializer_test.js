@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { combinedCourseParticipationDetailSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-participation-detail-serializer.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('CombinedCourseParticipationSerializer', function () {
   it('should serialize a CombinedCourseParticipationDetail', function () {

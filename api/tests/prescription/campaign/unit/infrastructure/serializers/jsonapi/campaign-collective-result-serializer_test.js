@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { campaignCollectiveResultSerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer', function () {

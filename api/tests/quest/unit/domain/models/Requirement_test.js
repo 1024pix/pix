@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
 import { Success } from '../../../../../src/quest/domain/models/quests/aggregates/Success.js';
 import { COMPARISONS as CRITERION_PROPERTY_COMPARISONS } from '../../../../../src/quest/domain/models/quests/value-objects/CriterionProperty.js';
@@ -10,7 +12,6 @@ import {
   TYPES,
 } from '../../../../../src/quest/domain/models/quests/value-objects/Requirement.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Quest | Unit | Domain | Models | Requirement ', function () {
   describe('Factory - buildRequirement', function () {

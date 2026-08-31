@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | ReadModels | PlacesLot', function () {
   const now = new Date('2021-05-01');

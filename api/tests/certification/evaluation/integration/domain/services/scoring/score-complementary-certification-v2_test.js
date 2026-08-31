@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import * as complementaryCertificationRepository from '../../../../../../../src/certification/configuration/infrastructure/repositories/complementary-certification-repository.js';
@@ -12,7 +13,6 @@ import * as complementaryCertificationBadgesRepository from '../../../../../../.
 import * as complementaryCertificationCourseResultRepository from '../../../../../../../src/certification/shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import { AnswerStatus } from '../../../../../../../src/shared/domain/models/AnswerStatus.js';
 import * as assessmentResultRepository from '../../../../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
-import { expect } from '../../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 

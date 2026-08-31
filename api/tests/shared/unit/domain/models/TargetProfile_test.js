@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { TargetProfile } from '../../../../../src/shared/domain/models/TargetProfile.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Shared | Domain | Models | TargetProfile', function () {

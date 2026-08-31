@@ -1,10 +1,10 @@
 import querystring from 'node:querystring';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
 import { tokenController } from '../../../../src/identity-access-management/application/token/token.controller.js';
-import { expect } from '../../../test-helper.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
 describe('Integration | Identity Access Management | Application | Route | Token', function () {

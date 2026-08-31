@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import * as calibratedChallengesRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/calibrated-challenges-repository.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

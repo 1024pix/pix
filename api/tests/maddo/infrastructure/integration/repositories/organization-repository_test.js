@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { POLE_EMPLOI } from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { Organization } from '../../../../../src/maddo/domain/models/Organization.js';
 import {
@@ -5,7 +7,6 @@ import {
   findIdentityProviderForCampaignsByCampaignId,
   findIdsByTagNames,
 } from '../../../../../src/maddo/infrastructure/repositories/organization-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Maddo | Infrastructure | Repositories | Integration | organization', function () {

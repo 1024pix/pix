@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { BaseHttpError } from '../../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Application | ', function () {
   it('instantiates BaseHttpError', async function () {

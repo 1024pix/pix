@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { containsOnlyValidChars } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/xml-organization-learner-set.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | xml | xml-organization-learner-set', function () {
   describe('#containsOnlyValidChars', function () {

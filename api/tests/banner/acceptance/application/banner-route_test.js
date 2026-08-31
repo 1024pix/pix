@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { informationBannersStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { expect } from '../../../test-helper.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 
 let server;

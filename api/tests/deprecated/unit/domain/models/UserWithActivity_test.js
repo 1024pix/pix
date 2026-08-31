@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { UserWithActivity } from '../../../../../src/deprecated/domain/models/UserWithActivity.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { config } from '../../../../../src/shared/config.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Deprecated | Unit | Domain | Read-Models | UserWithActivity', function () {

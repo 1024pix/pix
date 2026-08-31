@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Feedback } from '../../../../../src/evaluation/domain/models/Feedback.js';
 import { save } from '../../../../../src/evaluation/infrastructure/repositories/feedback-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | Feedback', function () {
   describe('save', function () {

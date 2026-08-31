@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { mockAttestationStorage } from '../../../../../tooling/mocks/attestation-storage.mock.js';
 

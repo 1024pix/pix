@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import {
   batchUpdate,
   DEFAULT_PAGINATION,
   fetchPage,
 } from '../../../../../src/shared/infrastructure/utils/knex-utils.js';
-import { expect } from '../../../../test-helper.js';
 import { knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Utils | Knex utils', function () {

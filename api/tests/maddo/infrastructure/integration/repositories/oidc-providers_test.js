@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { findOidcProviderClaims } from '../../../../../src/maddo/infrastructure/repositories/oidc-provider-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Maddo | Infrastructure | Repositories | Integration | oidc-providers', function () {

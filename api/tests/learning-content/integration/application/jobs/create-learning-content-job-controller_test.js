@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import nock from 'nock';
 
 import { CreateLearningContentReleaseJobController } from '../../../../../src/learning-content/application/jobs/create-learning-content-release-job-controller.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

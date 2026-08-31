@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { Solution } from '../../../../../src/shared/domain/models/Solution.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Solution', function () {
   describe('#enabledTreatments', function () {

@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import { evaluateAnswer } from '../../../../../src/evaluation/domain/services/correction-service.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Service | correction-service', function () {

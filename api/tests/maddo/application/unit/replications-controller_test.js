@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { replicate } from '../../../../src/maddo/application/replications-controller.js';
 import { ReplicationJob } from '../../../../src/maddo/domain/models/ReplicationJob.js';
-import { expect } from '../../../test-helper.js';
 
 describe('Maddo | Application | Unit | Controller | Replication', function () {
   describe('#replicate', function () {

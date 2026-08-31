@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { findAttachedOrganizationsForAdmin } from '../../../../../src/organizational-entities/domain/usecases/find-attached-organizations-for-admin.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Domain | UseCase | find-attached-organization-for-admin', function () {
   let organizationForAdminRepository;

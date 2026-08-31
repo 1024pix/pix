@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { ScoOrganizationParticipant } from '../../../../../../src/prescription/organization-learner/domain/read-models/ScoOrganizationParticipant.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | ScoOrganizationParticipant', function () {
   it('should return certificability from learner', function () {

@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { validate } from '../../../../../src/organizational-entities/domain/validators/organization-with-tags-and-target-profiles.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { getSupportedLocales } from '../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../test-helper.js';
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 const organizationTypes = [...Object.values(Organization.types)];

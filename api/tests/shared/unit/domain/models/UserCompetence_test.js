@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { UserCompetence } from '../../../../../src/shared/domain/models/UserCompetence.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | UserCompetence', function () {
   describe('#isCertifiable', function () {

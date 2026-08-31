@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as certificationEvaluationRepository from '../../../../../src/evaluation/infrastructure/repositories/certification-evaluation-repository.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Evaluation | Infrastructure | Repositories | certification-evaluation-repository', function () {
   describe('#selectNextCertificationChallenge', function () {

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import nock from 'nock';
 
 import { httpAgent } from '../../../../src/shared/infrastructure/http-agent.js';
-import { expect } from '../../../test-helper.js';
 
 const { post, get } = httpAgent;
 

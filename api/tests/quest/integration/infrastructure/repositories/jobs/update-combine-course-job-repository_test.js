@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { UpdateCombineCourseJob } from '../../../../../../src/quest/domain/models/combined-course-participations/events/UpdateCombinedCourseJob.js';
 import { updateCombinedCourseJobRepository } from '../../../../../../src/quest/infrastructure/repositories/jobs/update-combined-course-job-repository.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Integration | Prescription | Application | Jobs | updateCombinedCourseJobRepository', function () {
   describe('#performAsync', function () {

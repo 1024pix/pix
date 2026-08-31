@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as campaignParticipationsStatsRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-participations-stats-repository.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Repository | Campaign Participations Stats', function () {
   let queryBuilder;

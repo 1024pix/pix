@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { Training } from '../../../../../../src/devcomp/domain/models/Training.js';
 import { trainingSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-serializer', function () {

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { sessionManagementSecurityPreHandlers } from '../../../../../src/certification/session-management/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Certification | Session Management | Application | SecurityPreHandlers', function () {

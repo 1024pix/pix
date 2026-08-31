@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 import { findCampaignProfilesCollectionParticipationSummaries } from '../../../../../../src/prescription/campaign/domain/usecases/find-campaign-profiles-collection-participation-summaries.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
   let campaignId;

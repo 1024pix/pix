@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { frameworksController } from '../../../../src/learning-content/application/frameworks-controller.js';
 import { usecases } from '../../../../src/learning-content/domain/usecases/index.js';
-import { expect } from '../../../test-helper.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | frameworks-controller', function () {

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { campaignDomainErrorMappingConfiguration } from '../../../../../src/prescription/campaign/application/http-error-mapper-configuration.js';
 import {
   CampaignParticipationDoesNotBelongToUser,
@@ -7,7 +9,6 @@ import {
   UserNotAuthorizedToCreateCampaignError,
 } from '../../../../../src/prescription/campaign/domain/errors.js';
 import { ForbiddenError, PreconditionFailedError } from '../../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Prescription | Campaign | Unit | Application | HttpErrorMapperConfiguration', function () {
   it('instantiates ForbiddenError when CampaignParticipationDoesNotBelongToUser', async function () {

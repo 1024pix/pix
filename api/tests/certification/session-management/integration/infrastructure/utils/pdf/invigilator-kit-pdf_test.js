@@ -1,12 +1,12 @@
 import { writeFile } from 'node:fs/promises';
 import * as url from 'node:url';
 
+import { expect } from 'chai';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import sinon from 'sinon';
 
 import { getInvigilatorKitPdfBuffer } from '../../../../../../../src/certification/session-management/infrastructure/utils/pdf/invigilator-kit-pdf.js';
 import { ENGLISH_SPOKEN, FRENCH_SPOKEN } from '../../../../../../../src/shared/domain/services/locale-service.js';
-import { expect } from '../../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { isSameBinary } from '../../../../../../tooling/test-utils/file.js';
 

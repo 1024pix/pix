@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { scoLearnerListRoute as moduleUnderTest } from '../../../../../src/prescription/organization-learner/application/sco-learner-list-route.js';
 import { ScoOrganizationParticipant } from '../../../../../src/prescription/organization-learner/domain/read-models/ScoOrganizationParticipant.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Integration | Application | sco-learner-list-controller', function () {

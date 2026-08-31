@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as certificationCandidatesOdsService from '../../../../../../../src/certification/enrolment/domain/services/certification-candidates-ods-service.js';
@@ -14,7 +15,6 @@ import * as certificationCpfService from '../../../../../../../src/certification
 import * as centerRepository from '../../../../../../../src/organizational-entities/infrastructure/repositories/center-repository.js';
 import { CertificationCandidatesError } from '../../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';

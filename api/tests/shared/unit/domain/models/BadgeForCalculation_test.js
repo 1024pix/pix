@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { BadgeForCalculation } from '../../../../../src/shared/domain/models/BadgeForCalculation.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | BadgeForCalculation', function () {

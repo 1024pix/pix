@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { UserCantBeCreatedError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | authenticateAnonymousUser', function () {

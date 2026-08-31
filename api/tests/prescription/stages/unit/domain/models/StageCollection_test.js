@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { StageCollection } from '../../../../../../src/prescription/stages/domain/models/StageCollection.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | StageCollection', function () {
   context('getReachedStageIndex', function () {

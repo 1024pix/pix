@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { createPageQuerySchema } from '../../../../../src/shared/application/query-schema/pagination-query-schema.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | pagination-query-schema', function () {
   describe('when no page is provided', function () {

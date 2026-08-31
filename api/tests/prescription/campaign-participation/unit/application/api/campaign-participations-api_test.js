@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as campaignParticipationsApi from '../../../../../../src/prescription/campaign-participation/application/api/campaign-participations-api.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/application/api/read-models/CampaignParticipation.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | API | Campaign Participations', function () {
   describe('#findByUserId', function () {

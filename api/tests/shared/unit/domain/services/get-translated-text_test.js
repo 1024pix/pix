@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as service from '../../../../../src/shared/domain/services/get-translated-text.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | get-translated-text', function () {
   describe('#getTranslatedKey', function () {

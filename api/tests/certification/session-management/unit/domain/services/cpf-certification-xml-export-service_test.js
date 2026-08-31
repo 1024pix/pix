@@ -1,13 +1,13 @@
 import stream from 'node:stream';
 import { text } from 'node:stream/consumers';
 
+import { expect } from 'chai';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import sinon from 'sinon';
 
 import * as cpfCertificationXmlExportService from '../../../../../../src/certification/session-management/domain/services/cpf-certification-xml-export-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const { PassThrough } = stream;

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as usecase from '../../../../../../src/certification/results/application/usecases/checkUserOwnsCertificationCourse.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Results | Application | Use Case | checkUserOwnsCertificationCourse', function () {
   context('When user is member of certification center session', function () {

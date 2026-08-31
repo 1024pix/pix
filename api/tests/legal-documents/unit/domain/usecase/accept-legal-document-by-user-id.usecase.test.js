@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import Joi from 'joi';
 import sinon from 'sinon';
 
@@ -5,7 +6,6 @@ import { LegalDocumentService } from '../../../../../src/legal-documents/domain/
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { usecases } from '../../../../../src/legal-documents/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../test-helper.js';
 
 const { PIX_ORGA } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;

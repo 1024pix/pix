@@ -5,9 +5,10 @@ import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-b
 
 const { PassThrough } = stream;
 
+import { expect } from 'chai';
+
 import { CampaignAssessmentExport } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-assessment-export.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
-import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
   describe('#export', function () {

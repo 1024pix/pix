@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { attendanceSheetController } from '../../../../../src/certification/enrolment/application/attendance-sheet-controller.js';
 import { attendanceSheetRoute as moduleUnderTest } from '../../../../../src/certification/enrolment/application/attendance-sheet-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | attendance-sheet-route', function () {

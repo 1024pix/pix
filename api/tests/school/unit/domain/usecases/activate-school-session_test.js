@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { activateSchoolSession } from '../../../../../src/school/domain/usecases/activate-school-session.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | activate-school-session', function () {
   const now = new Date('2022-11-28T12:00:00Z');

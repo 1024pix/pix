@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { certificationIssueReportsController } from '../../../../../src/certification/session-management/application/certification-issue-reports-controller.js';
-import { expect } from '../../../../test-helper.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Controller | certification-issue-report-controller', function () {

@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getAllIdentityProviders } from '../../../../../src/identity-access-management/domain/usecases/get-all-identity-providers.usecase.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCases | get-all-identity-providers', function () {
   it('returns oidc providers from oidcAuthenticationServiceRegistry', async function () {

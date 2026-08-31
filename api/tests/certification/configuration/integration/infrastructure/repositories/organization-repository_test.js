@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as organizationRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/organization-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Repository | Certification | Complementary-certification | Organization', function () {

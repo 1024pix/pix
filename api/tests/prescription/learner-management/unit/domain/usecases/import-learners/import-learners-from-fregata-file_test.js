@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { OrganizationImportStatus } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationImportStatus.js';
 import { importLearnersFromFregataFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/import-learners/import-learners-from-fregata-file.js';
 import { FregataParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/fregata-parser.js';
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
-import { expect } from '../../../../../../test-helper.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | importLearnersFromFregataFile', function () {

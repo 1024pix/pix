@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('AnswerStatus', function () {
   context('AnswerStatus#isOK', function () {

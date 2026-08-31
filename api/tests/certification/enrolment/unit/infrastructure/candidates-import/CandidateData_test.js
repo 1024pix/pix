@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { CandidateData } from '../../../../../../src/certification/enrolment/infrastructure/candidates-import/CandidateData.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | infrastructure | candidates-import | CandidateData', function () {
   describe('CandidateData constructor', function () {

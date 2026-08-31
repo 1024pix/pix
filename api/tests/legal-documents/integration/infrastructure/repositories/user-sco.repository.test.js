@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { isUserScoStudent } from '../../../../../src/legal-documents/infrastructure/repositories/user-sco.repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | UserScoRepository', function () {

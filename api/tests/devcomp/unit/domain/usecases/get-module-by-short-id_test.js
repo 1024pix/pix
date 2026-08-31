@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
 import { getModuleByShortId } from '../../../../../src/devcomp/domain/usecases/get-module-by-short-id.js';
 import { config } from '../../../../../src/shared/config.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | get-module-by-short-id', function () {
   describe('#getModuleByShortId', function () {

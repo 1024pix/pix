@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { updateAnnouncement } from '../../../../../src/communication/announcements/domain/usecases/update-announcement.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | Update Announcement', function () {
   it('should use announcement repository to update the announcement by name', async function () {

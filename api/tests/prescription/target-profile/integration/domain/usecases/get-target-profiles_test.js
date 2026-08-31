@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import _ from 'lodash';
 
 import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | get-target-profiles', function () {

@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as organizationEntitiesApi from '../../../../../src/organizational-entities/application/api/organization-features-api.js';
 import { OrganizationFeaturesDTO } from '../../../../../src/organizational-entities/application/api/OrganizationFeaturesDTO.js';
 import { OrganizationFeatureItem } from '../../../../../src/organizational-entities/domain/models/OrganizationFeatureItem.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Organizational Entities | Application | API | organization-features-api', function () {
   describe('#getAllFeaturesFromOrganization', function () {

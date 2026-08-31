@@ -1,4 +1,5 @@
-import { expect } from '../../../../../test-helper.js';
+import { expect } from 'chai';
+
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

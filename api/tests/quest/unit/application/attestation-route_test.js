@@ -1,10 +1,10 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { attestationController } from '../../../../src/quest/application/attestation-controller.js';
 import { attestationRoute } from '../../../../src/quest/application/attestation-route.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/constants.js';
-import { expect } from '../../../test-helper.js';
 import { AttestationTemplateFixture } from '../../../tooling/fixtures/index.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 import {

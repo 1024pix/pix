@@ -1,8 +1,8 @@
 import { metrics } from '@opentelemetry/api';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { registerPgBossMetrics } from '../../../../../src/shared/infrastructure/open-telemetry/job-tracing.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Open Telemetry | pgboss-metrics', function () {
   let instrumentsByName;

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   parcoursupDomainErrorMappingConfiguration,
   resultsDomainErrorMappingConfiguration,
@@ -12,7 +14,6 @@ import {
   NotFoundError,
   UnprocessableEntityError,
 } from '../../../../../src/shared/application/errors/http-errors.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Results | Application | HttpErrorMapperConfiguration', function () {
   context('when mapping "MoreThanOneMatchingCertificationError"', function () {

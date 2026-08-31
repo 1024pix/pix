@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { findBySessionId } from '../../../../../../src/certification/session-management/infrastructure/repositories/session-authorization-info-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

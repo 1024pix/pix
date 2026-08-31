@@ -1,7 +1,7 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getAdminMembers } from '../../../../../src/team/domain/usecases/get-admin-members.usecase.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Team | Domain | UseCase | get-admin-members', function () {

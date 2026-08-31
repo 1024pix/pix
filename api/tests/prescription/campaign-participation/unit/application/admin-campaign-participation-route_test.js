@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { adminCampaignParticipationController } from '../../../../../src/prescription/campaign-participation/application/admin-campaign-participation-controller.js';
 import { adminCampaignParticipationRoute as moduleUnderTest } from '../../../../../src/prescription/campaign-participation/application/admin-campaign-participation-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect } from '../../../../test-helper.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Prescription | Admin Campaign Participation | Router', function () {

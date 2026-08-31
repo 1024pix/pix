@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
@@ -5,7 +6,6 @@ import {
   CpfBirthInformationValidation,
   getBirthInformation,
 } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import { expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Service | Certification CPF service', function () {

@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import { getAnswerableElements } from '../../../../../src/devcomp/scripts/utils/get-answerable-elements.js';
-import { expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Script | Helper | Get Answerable Elements', function () {
   const modulesListAsJs = [

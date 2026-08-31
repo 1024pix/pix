@@ -1,8 +1,8 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
-import { expect } from '../../../test-helper.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../tooling/mocks/hapi.mock.js';
 

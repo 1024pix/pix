@@ -1,8 +1,9 @@
+import { expect } from 'chai';
+
 import {
   find,
   findByUserIdAndSessionId,
 } from '../../../../../../src/certification/evaluation/infrastructure/repositories/certification-course-info-repository.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

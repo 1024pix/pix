@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
+import { expect } from 'chai';
+
 import { AddedCellOption } from '../../../../../../src/certification/enrolment/infrastructure/utils/ods/added-cell-option.js';
 import { getContentXml } from '../../../../../../src/certification/enrolment/infrastructure/utils/ods/read-ods-utils.js';
 import {
@@ -11,7 +13,6 @@ import {
   makeUpdatedOdsByContentXml,
   updateXmlRows,
 } from '../../../../../../src/certification/enrolment/infrastructure/utils/ods/write-ods-utils.js';
-import { expect } from '../../../../../test-helper.js';
 
 const { promises } = fs;
 
