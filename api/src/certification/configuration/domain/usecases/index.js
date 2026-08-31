@@ -31,6 +31,7 @@ import { importScoWhitelist } from './import-sco-whitelist.js';
 import { searchAttachableTargetProfiles } from './search-attachable-target-profiles.js';
 import { sendTargetProfileNotifications } from './send-target-profile-notifications.js';
 import { updateScoBlockedAccessDate } from './update-sco-blocked-access-date.js';
+import { saveScoringConfiguration } from './save-scoring-configuration.js';
 import { updateVersion } from './update-version.js';
 import { updateVersionComment } from './update-version-comment.js';
 
@@ -86,6 +87,7 @@ const usecasesWithoutInjectedDependencies = {
   searchAttachableTargetProfiles,
   sendTargetProfileNotifications,
   updateScoBlockedAccessDate,
+  saveScoringConfiguration,
   updateVersion,
   updateVersionComment,
   generateCalibrationReportCheck,
