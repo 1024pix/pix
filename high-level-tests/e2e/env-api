@@ -52,7 +52,7 @@ DATABASE_URL=postgresql://postgres@postgres/pix
 # presence: required
 # type: Url
 # default: none
-TEST_DATABASE_URL=postgresql://postgres@postgres/pix_test
+DATABASE_URL=postgresql://postgres@postgres/pix_test
 
 # ========
 # EMAILING
@@ -227,4 +227,3 @@ LOG_ENABLED=true
 AUTH_SECRET=the-password-must-be-at-least-32-characters-long
 
 # Allow email change in API
-
