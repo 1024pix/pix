@@ -1,5 +1,10 @@
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
-import { AdministrationTeamNotFound, CountryNotFoundError, OrganizationLearnerTypeNotFound } from '../errors.js';
+import {
+  AdministrationTeamNotFound,
+  CountryNotFoundError,
+  OrganizationLearnerTypeNotFound,
+  StructureCategoryNotFound,
+} from '../errors.js';
 
 const checkCountryExists = async (countryCode, countryRepository) => {
   try {
@@ -38,4 +43,22 @@ async function checkAdministrationTeamExists(administrationTeamId, administratio
   }
 }
 
-export { checkAdministrationTeamExists, checkCountryExists, checkOrganizationLearnerTypeExists };
+async function checkStructureCategoryExists(structureCategoryId, structureCategoryRepository) {
+  const existingStructureCategory = await structureCategoryRepository.findById(structureCategoryId);
+
+  if (!existingStructureCategory) {
+    throw new StructureCategoryNotFound({
+      message: `Structure category not found for id ${structureCategoryId}`,
+      meta: {
+        structureCategoryId,
+      },
+    });
+  }
+}
+
+export {
+  checkAdministrationTeamExists,
+  checkCountryExists,
+  checkOrganizationLearnerTypeExists,
+  checkStructureCategoryExists,
+};
