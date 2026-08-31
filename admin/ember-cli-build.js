@@ -50,6 +50,19 @@ module.exports = async function (defaults) {
     packagerOptions: {
       webpackConfig: {
         devtool: sourceMapConfig[process.env.CI ? 'test' : (process.env.NODE_ENV ?? 'default')],
+        module: {
+          rules: [
+            {
+              test: /\.jsx$/,
+              use: {
+                loader: 'babel-loader',
+                options: {
+                  presets: [[require.resolve('@babel/preset-react'), { runtime: 'automatic' }]],
+                },
+              },
+            },
+          ],
+        },
       },
     },
   });

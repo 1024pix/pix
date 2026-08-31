@@ -14,6 +14,9 @@ const compiledOutputFiles = ['dist/*', 'tmp/*'];
 const dependenciesFiles = ['node_modules/*'];
 const miscFiles = ['coverage/*', '!**/.*', '**/.eslintcache'];
 const emberTryFiles = ['.node_modules.ember-try/*', 'bower.json.ember-try', 'package.json.ember-try'];
+// Les fichiers playwright (tests et résultats) sont ignorés car ils utilisent une syntaxe
+// incompatible avec les règles ESLint Ember/QUnit configurées ici.
+const playwrightFiles = ['playwright-tests/*', 'playwright-results/*'];
 const translationFiles = ['translations/*.json'];
 
 const nodeFiles = [
@@ -33,7 +36,7 @@ export default [
   qunitRecommendedConfig,
   prettierRecommendedConfig,
   {
-    ignores: [...unconventionalJsFiles, ...compiledOutputFiles, ...dependenciesFiles, ...miscFiles, ...emberTryFiles],
+    ignores: [...unconventionalJsFiles, ...compiledOutputFiles, ...dependenciesFiles, ...miscFiles, ...emberTryFiles, ...playwrightFiles],
   },
   {
     languageOptions: {
