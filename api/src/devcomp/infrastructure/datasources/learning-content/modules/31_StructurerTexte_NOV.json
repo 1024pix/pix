@@ -289,7 +289,7 @@
                 "id": "ccc324a5-a1d3-4cfa-abe9-5a33baee133a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mina veut commencer à recopier le début de son discours.</p><p><strong>Dans le logiciel de traitement de texte ci-dessous, écrivez la phrase suivante&nbsp;:</strong></p>"
+                "content": "<p>Mina veut commencer à recopier le début de son discours.</p>"
               }
             },
             {
@@ -414,7 +414,7 @@
                 "url": "https://epreuves.pix.fr/pixwriter-contrat/pixwriter-contrat.html?lang=fr",
                 "instruction": "<p>[Simulateur non fonctionnel] Dans le logiciel ci-dessous&nbsp;:&nbsp; </p><ul><li>Dans la barre des menus, sélectionnez «&nbsp;Enregistrer sous&nbsp;».</li><li>Nommez votre document «&nbsp;Discours&nbsp;».</li><li>Enregistrez «&nbsp;Discours&nbsp;» sur le Bureau.</li></ul>",
                 "solution": "",
-                "height": 400
+                "height": 600
               }
             },
             {
