@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import { KnowledgeState } from '../../../../../src/shared/domain/models/KnowledgeState.js';
 import * as competenceScoreRepository from '../../../../../src/shared/infrastructure/repositories/competence-score-repository.js';
 import * as knowledgeStateRepository from '../../../../../src/shared/infrastructure/repositories/knowledge-state-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 

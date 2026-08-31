@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { KnowledgeState } from '../../../../../src/shared/domain/models/KnowledgeState.js';
 import * as knowledgeStateRepository from '../../../../../src/shared/infrastructure/repositories/knowledge-state-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 

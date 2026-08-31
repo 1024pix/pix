@@ -225,7 +225,10 @@ export default class SmartRandomSimulator extends Controller {
       directLevels: [],
     };
 
-    const bounds = { ...previousBounds, directLevels: [...new Set([...previousBounds.directLevels, skill.difficulty])] };
+    const bounds = {
+      ...previousBounds,
+      directLevels: [...new Set([...previousBounds.directLevels, skill.difficulty])],
+    };
     if (isOk) {
       bounds.floor = Math.max(bounds.floor, skill.difficulty);
     } else {

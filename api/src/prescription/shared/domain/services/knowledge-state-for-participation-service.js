@@ -5,9 +5,10 @@ import * as injectedKnowledgeStateSnapshotRepository from '../../../campaign/inf
 /**
  * Route l'état de connaissance d'une participation vers sa source de vérité.
  *
- * Pour une campagne d'évaluation, c'est l'état vivant de l'utilisateur. Pour
- * une campagne EXAM, c'est l'instantané attaché à la participation : l'examen
- * est isolé du profil global, dans les deux sens.
+ * Pour une campagne d'évaluation en cours, c'est l'état vivant de
+ * l'utilisateur ; une fois la participation partagée, c'est l'instantané pris
+ * au partage. Pour une campagne EXAM, c'est l'instantané attaché à la
+ * participation : l'examen est isolé du profil global, dans les deux sens.
  */
 class KnowledgeStateForParticipationService {
   constructor({
@@ -45,6 +46,12 @@ class KnowledgeStateForParticipationService {
     throw new Error(`Saving knowledge state for campaign of type ${campaign.type} not implemented`);
   }
 
+  /**
+   * `limitDate` demande l'état au moment du partage : il se lit dans
+   * l'instantané figé de la participation, seule source fidèle — l'état vivant
+   * a pu bouger ou être amputé (reset) depuis. Sans `limitDate`, la
+   * participation est en cours et l'état vivant est la source de vérité.
+   */
   async findByUserOrCampaignParticipationId({ userId, campaignParticipationId, limitDate }) {
     const campaign = await this.campaignRepository.getByCampaignParticipationId(campaignParticipationId);
 
@@ -53,6 +60,14 @@ class KnowledgeStateForParticipationService {
     }
 
     if (campaign.isProfilesCollection || campaign.isAssessment) {
+      if (limitDate) {
+        const snapshots = await this.knowledgeStateSnapshotRepository.findByCampaignParticipationIds([
+          campaignParticipationId,
+        ]);
+        if (snapshots[campaignParticipationId]) {
+          return snapshots[campaignParticipationId];
+        }
+      }
       return this.knowledgeStateRepository.findByUserId({ userId, limitDate });
     }
 

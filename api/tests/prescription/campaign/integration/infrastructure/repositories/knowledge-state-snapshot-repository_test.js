@@ -1,7 +1,8 @@
+import { expect } from 'chai';
+
 import * as knowledgeStateSnapshotRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/knowledge-state-snapshot-repository.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { KnowledgeState } from '../../../../../../src/shared/domain/models/KnowledgeState.js';
-import { expect } from '../../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 

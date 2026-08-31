@@ -4,7 +4,7 @@ import { AssessmentResult } from '../../../../../../src/prescription/campaign-pa
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', function () {

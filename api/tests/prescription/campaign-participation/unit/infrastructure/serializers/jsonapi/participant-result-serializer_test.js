@@ -6,7 +6,7 @@ import { participantResultSerializer } from '../../../../../../../src/prescripti
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../../src/prescription/shared/domain/constants.ts';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSON API | participant-result-serializer', function () {

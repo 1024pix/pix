@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { CampaignReport } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignReport.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 

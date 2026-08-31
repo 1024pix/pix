@@ -25,8 +25,20 @@ describe('Unit | Evaluation | Domain | Models | SimulationParameters', function 
     it('sums the pix value of the skills validated by the knowledge state', function () {
       // given
       const skills = [
-        domainBuilder.buildSkill({ id: 'skill1', difficulty: 1, tubeId: 'tube1', pixValue: 2.5, competenceId: 'competence1' }),
-        domainBuilder.buildSkill({ id: 'skill2', difficulty: 2, tubeId: 'tube1', pixValue: 3.7, competenceId: 'competence1' }),
+        domainBuilder.buildSkill({
+          id: 'skill1',
+          difficulty: 1,
+          tubeId: 'tube1',
+          pixValue: 2.5,
+          competenceId: 'competence1',
+        }),
+        domainBuilder.buildSkill({
+          id: 'skill2',
+          difficulty: 2,
+          tubeId: 'tube1',
+          pixValue: 3.7,
+          competenceId: 'competence1',
+        }),
       ];
       const simulationParameters = new SimulationParameters({
         knowledgeState: KnowledgeState.fromRows([{ tubeId: 'tube1', floor: 2, ceiling: null, directLevels: [2] }]),
@@ -43,8 +55,20 @@ describe('Unit | Evaluation | Domain | Models | SimulationParameters', function 
     it('ignores the skills above the floor', function () {
       // given
       const skills = [
-        domainBuilder.buildSkill({ id: 'skill1', difficulty: 1, tubeId: 'tube1', pixValue: 4, competenceId: 'competence1' }),
-        domainBuilder.buildSkill({ id: 'skill2', difficulty: 2, tubeId: 'tube1', pixValue: 4, competenceId: 'competence1' }),
+        domainBuilder.buildSkill({
+          id: 'skill1',
+          difficulty: 1,
+          tubeId: 'tube1',
+          pixValue: 4,
+          competenceId: 'competence1',
+        }),
+        domainBuilder.buildSkill({
+          id: 'skill2',
+          difficulty: 2,
+          tubeId: 'tube1',
+          pixValue: 4,
+          competenceId: 'competence1',
+        }),
       ];
       const simulationParameters = new SimulationParameters({
         knowledgeState: KnowledgeState.fromRows([{ tubeId: 'tube1', floor: 1, ceiling: 2, directLevels: [1, 2] }]),
@@ -61,8 +85,18 @@ describe('Unit | Evaluation | Domain | Models | SimulationParameters', function 
     it('ignores state tubes which carry no simulated skill', function () {
       // given
       const simulationParameters = new SimulationParameters({
-        knowledgeState: KnowledgeState.fromRows([{ tubeId: 'unknownTube', floor: 8, ceiling: null, directLevels: [8] }]),
-        skills: [domainBuilder.buildSkill({ id: 'skill1', difficulty: 1, tubeId: 'tube1', pixValue: 4, competenceId: 'competence1' })],
+        knowledgeState: KnowledgeState.fromRows([
+          { tubeId: 'unknownTube', floor: 8, ceiling: null, directLevels: [8] },
+        ]),
+        skills: [
+          domainBuilder.buildSkill({
+            id: 'skill1',
+            difficulty: 1,
+            tubeId: 'tube1',
+            pixValue: 4,
+            competenceId: 'competence1',
+          }),
+        ],
       });
 
       // when

@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { KnowledgeState } from '../../../../../src/shared/domain/models/KnowledgeState.js';
 import { Skill } from '../../../../../src/shared/domain/models/Skill.js';
 import {
   deserializeSnapshot,
   serializeKnowledgeState,
 } from '../../../../../src/shared/domain/services/knowledge-state-snapshot.js';
-import { expect } from '../../../../test-helper.js';
 
 const COMPETENCE_ID = 'recCOMP1';
 

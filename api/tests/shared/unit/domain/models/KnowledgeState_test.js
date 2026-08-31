@@ -1,6 +1,7 @@
+import { expect } from 'chai';
+
 import { KnowledgeState } from '../../../../../src/shared/domain/models/KnowledgeState.js';
 import { Skill } from '../../../../../src/shared/domain/models/Skill.js';
-import { expect } from '../../../../test-helper.js';
 
 const buildSkill = ({ tube, level, competenceId = 'recCOMP1' }) =>
   new Skill({

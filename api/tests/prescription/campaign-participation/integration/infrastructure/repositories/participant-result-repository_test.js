@@ -4,7 +4,7 @@ import * as participantResultRepository from '../../../../../../src/prescription
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';

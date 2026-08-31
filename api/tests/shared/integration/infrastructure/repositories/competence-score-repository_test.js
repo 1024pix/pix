@@ -1,5 +1,6 @@
+import { expect } from 'chai';
+
 import * as competenceScoreRepository from '../../../../../src/shared/infrastructure/repositories/competence-score-repository.js';
-import { expect } from '../../../../test-helper.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Repository | competenceScoreRepository', function () {

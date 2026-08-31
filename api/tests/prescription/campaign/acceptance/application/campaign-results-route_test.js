@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';

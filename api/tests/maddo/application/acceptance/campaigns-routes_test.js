@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { toLegacySnapshot } from '../../../tooling/knowledge-state/legacy-snapshot.js';

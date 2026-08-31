@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getKnowledgeStateForUser } from '../../../../../src/evaluation/application/api/knowledge-states-api.js';
 import { KnowledgeStateDTO } from '../../../../../src/evaluation/application/api/models/KnowledgeStateDTO.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Evaluation | Unit | Application | API | knowledge-states-api', function () {
