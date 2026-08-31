@@ -593,25 +593,25 @@ jobs:
           command: npm run db:prepare
           environment:
             NODE_ENV: test
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
-            TEST_JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
+            DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
+            JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
       - run:
           name: Prepare datamart
           command: npm run datamart:prepare
           environment:
             NODE_ENV: test
-            TEST_DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datamart
+            DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datamart
       - run:
           name: Prepare datawarehouse
           command: npm run datawarehouse:prepare
           environment:
             NODE_ENV: test
-            TEST_DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datawarehouse
+            DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datawarehouse
       - run:
           name: Database schema lint
           command: npm run db:schemalint
           environment:
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
+            DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
       - run:
           name: Test
           command: npm run test:api:integration -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
@@ -619,13 +619,13 @@ jobs:
             NODE_ENV: test
             MOCHA_REPORTER: xunit
             MOCHA_RETRIES: 2
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
-            TEST_DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datamart
-            TEST_DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datawarehouse
-            TEST_JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
-            TEST_REDIS_URL: redis://localhost:6379
-            TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
-            TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
+            DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
+            DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datamart
+            DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datawarehouse
+            JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
+            REDIS_URL: redis://localhost:6379
+            IMPORT_STORAGE_ENDPOINT: http://localhost:9090
+            IMPORT_STORAGE_BUCKET_NAME: pix-import-test
             ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: test
             ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: test
             ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: http://localhost:9090
@@ -658,20 +658,20 @@ jobs:
           command: npm run db:prepare
           environment:
             NODE_ENV: test
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
-            TEST_JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
+            DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
+            JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
       - run:
           name: Prepare datamart
           command: npm run datamart:prepare
           environment:
             NODE_ENV: test
-            TEST_DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datamart
+            DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datamart
       - run:
           name: Prepare datawarehouse
           command: npm run datawarehouse:prepare
           environment:
             NODE_ENV: test
-            TEST_DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datawarehouse
+            DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datawarehouse
       - run:
           name: Test
           command: npm run test:api:acceptance -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
@@ -679,13 +679,13 @@ jobs:
             NODE_ENV: test
             MOCHA_REPORTER: xunit
             MOCHA_RETRIES: 2
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
-            TEST_DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datamart
-            TEST_DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datawarehouse
-            TEST_JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
-            TEST_REDIS_URL: redis://localhost:6379
-            TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
-            TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
+            DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
+            DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datamart
+            DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datawarehouse
+            JOBS_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
+            REDIS_URL: redis://localhost:6379
+            IMPORT_STORAGE_ENDPOINT: http://localhost:9090
+            IMPORT_STORAGE_BUCKET_NAME: pix-import-test
             ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: test
             ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: test
             ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: http://localhost:9090
