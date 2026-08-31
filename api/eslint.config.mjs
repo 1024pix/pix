@@ -78,6 +78,11 @@ export default defineConfig([
       'func-style': ['error', 'declaration'],
     },
   },
+  // Overridden rules for "evals" files (runners need console output)
+  {
+    files: ['evals/**/*.{js,mjs}'],
+    rules: { 'no-console': 'off', 'n/no-missing-import': 'off' },
+  },
   // Ignored files
-  globalIgnores(['tests/tooling/db-schemalint.cjs']),
+  globalIgnores(['tests/tooling/db-schemalint.cjs', 'tmp/**']),
 ]);
