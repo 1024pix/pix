@@ -303,16 +303,16 @@
       "start-landing-page": {
         "steps": {
           "step1": {
-            "description": "Beantworte Fragen, die an dein Niveau angepasst sind.",
-            "title": "Teste dich selbst"
+            "description": "Beantworte die Fragen, die an dein Können angepasst sind",
+            "title": "Ermittle deine digitale Einstufung"
           },
           "step2": {
-            "description": "Analysiere deine Stärken und Verbesserungsmöglichkeiten",
-            "title": "Entdecke deine Punktzahl"
+            "description": "Analysiere deine Stärken und Verbesserungspotenziale",
+            "title": "Ermittle dein Ergebnis"
           },
           "step3": {
-            "description": "Zugang zu Übungen, die auf deine Ergebnisse zugeschnitten sind",
-            "title": "Fortschritt"
+            "description": "Erhalte Zugang auf deine Ergebnisse und verbessere dein Wissen über Lernpfade",
+            "title": "Erziele Fortschritte"
           }
         }
       }
@@ -590,8 +590,8 @@
     },
     "campaign-landing": {
       "assessment": {
-        "action": "Ich beginne",
-        "announcement": "Registriere dich oder logge dich auf der Pix-Plattform ein und starte deinen Test.",
+        "action": "Jetzt starten",
+        "announcement": "Registriere dich bzw. melde dich auf der Pix-Plattform an und starte dein Assessment.",
         "certify": {
           "description": "Je nach deiner Situation und unter bestimmten Bedingungen kannst du Zugang zu der in der Berufswelt anerkannten Pix-Zertifizierung erhalten, mit der du deine digitalen Kompetenzen aufwerten kannst. Für weitere Informationen erkundige dich bitte bei dem Organisator des Bildungsgangs.",
           "title": "Die in diesem Lernpfad validierten Antworten tragen dazu bei, dein persönliches Profil der digitalen Kompetenzen auf Pix zu erweitern."
@@ -606,8 +606,8 @@
           "title": "Miss deine digitalen Kompetenzen mit spielerischen und lernenden Herausforderungen, die sich an deinen Kenntnisstand anpassen (über einen adaptiven Algorithmus)."
         },
         "exam-notice": "Während dieses Tests wird dein Kompetenzprofil weder berücksichtigt noch verändert. Deine Antworten haben keinen Einfluss auf deine Stufen oder deine Gesamt-Pix-Punktzahl.",
-        "legal": "Wenn du auf \"Beginnen\" klickst, werden die Informationen über deinen Fortschritt auf dem Pfad an den Organisator der Pfade weitergeleitet, damit er dich begleiten kann. Am Ende des Lernpfads werden deine Ergebnisse automatisch an den Organisator weitergeleitet.",
-        "title": "Beginne deinen Pix-Lernpfad",
+        "legal": "Per Klick auf „Jetzt starten“ werden Informationen zu deinem Fortschritt an den Organisator übermittelt, damit du unterstützt werden kannst. Nach dem Assessment werden deine Ergebnisse automatisch an den Organisator gesendet.",
+        "title": "Starte deine Pix-Erfahrung",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' bereit, deine digitalen Kompetenzen zu bewerten?"
       },
       "profiles-collection": {
@@ -1670,7 +1670,7 @@
             "no": "Nein",
             "yes": "Ja!"
           },
-          "nextCard": "Weiter zu",
+          "nextCard": "Weiter",
           "retry": "Erneut versuchen",
           "seeAgain": "Überarbeiten",
           "seeAnswer": "Siehe die Antwort",
@@ -1700,7 +1700,7 @@
           "next": {
             "ariaLabel": "Zum nächsten Schritt gehen",
             "horizontal": {
-              "name": "Weiter zu"
+              "name": "Weiter"
             },
             "vertical": {
               "name": "Mehr lesen"
@@ -2174,7 +2174,7 @@
         }
       },
       "first-title": "Anmelden",
-      "save-progress-message": "Um deinen Fortschritt zu behalten und dich weiterhin zu bewerten, melde dich bei Pix an!",
+      "save-progress-message": "Damit du deinen Fortschritt behalten und dich weiterhin selbst testen kannst, melde dich bei Pix an!",
       "title": "Anmeldung"
     },
     "sitemap": {
@@ -2234,7 +2234,7 @@
         },
         "see-my-recommendations": "Meine Empfehlungen ansehen",
         "see-trainings": "Übung ansehen",
-        "shared-message": "Deine Ergebnisse wurden am {date} an {time} gesendet.",
+        "shared-message": "Deine Ergebnisse wurden um {date} an {time} gesendet.",
         "staged-message": {
           "show-less": "Einklappen",
           "show-more": "Mehr anzeigen"
@@ -2335,10 +2335,13 @@
           }
         },
         "trainings": {
+          "carousel-roledescription": "Karussell",
           "description": "Die unten aufgeführten Lösungen werden dir basierend auf deinem Niveau empfohlen.",
           "next-button-aria-label": "Nächste Weiterbildungen anzeigen",
           "pagination-announcement": "Weiterbildungen {from} bis {to} von {total} angezeigt",
           "previous-button-aria-label": "Vorherige Weiterbildungen anzeigen",
+          "slide-aria-label": "{position} von {total}",
+          "slide-role-description": "Rutsche",
           "title": "Gehen Sie noch einen Schritt weiter – ganz in Ihrem eigenen Tempo."
         }
       },
@@ -2365,9 +2368,9 @@
         "caption": "Details zu deinen Ergebnissen in Form von Prozenten und Sternen auf der Grundlage von Kompetenzen",
         "masteryPercentage": "{rate, number, ::percent} des Erfolgs",
         "recommendedEngine": {
-          "starsAcquired": "{acquired}/{total, plural, =0 {Stern} =1 {# Stern} other {# Sterne}}"
+          "starsAcquired": "{acquired}/{total, plural, =0 {Stern} =1 {# Stern} other {# Sternen}}"
         },
-        "starsAcquired": "{acquired, plural, =0 {kein Stern erworben} =1 {# Stern erworben} other {# Sterne erworben}} auf {total}.",
+        "starsAcquired": "{acquired} von {total} {acquired, plural, =0 {Stern erhalten} =1 {Stern erhalten} other {Sternen erhalten}}.",
         "title": "Details zu Kompetenzen"
       },
       "tabs": {
@@ -2438,7 +2441,7 @@
       "dot-action-description": "Gehe zu Schritt {stepNumber} von {stepsCount}.",
       "dot-action-title": "Schritt {stepNumber} von {stepsCount}.",
       "dots-nav-label": "Schritte im Lernprogramm",
-      "next": "Weiter zu",
+      "next": "Weiter",
       "next-title": "Nächsten Schritt anzeigen",
       "pages": {
         "page0": {
@@ -2446,7 +2449,7 @@
           "title": "Du kannst im Internet suchen ..."
         },
         "page1": {
-          "explanation": "Wenn dieses Bild angezeigt wird, verwende nur dein eigenes Wissen!\n Du darfst weder das Internet noch andere Programme verwenden.",
+          "explanation": "Wenn dieses Bild angezeigt wird, darfst du nur dein eigenes Wissen verwenden.\nDas Internet oder andere Programme als Hilfe sind dabei nicht erlaubt.",
           "title": "... außer bei bestimmten Fragen"
         },
         "page2": {
@@ -2458,13 +2461,13 @@
           "title": "Tutorials zum Lernen"
         },
         "page4": {
-          "explanation": "Abhängig von deinen Antworten,\nPix passt den Schwierigkeitsgrad der Fragen an.",
+          "explanation": "Abhängig von deinen Antworten passt Pix\nden Schwierigkeitsgrad der Fragen an.",
           "title": "Ein angepasster Schwierigkeitsgrad"
         }
       },
       "pass": "Ignorieren",
       "pass-title": "Das Tutorial ignorieren und meinen Kurs starten",
-      "start": "Meinen Kurs starten",
+      "start": "Test starten",
       "title": "Tutorial zur Kampagne"
     },
     "tutorial-panel": {
