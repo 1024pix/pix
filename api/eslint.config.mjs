@@ -30,6 +30,7 @@ export default defineConfig([
       'n/no-sync': ['error', { ignores: ['catchErrSync'] }],
       'n/no-process-exit': 'error',
       'n/no-unpublished-import': 'off',
+      'n/no-process-env': ['error', { allowedVariables: ['NODE_ENV'] }],
     },
   },
   // Overridden language options for CommonJS files
@@ -54,6 +55,7 @@ export default defineConfig([
       'mocha/no-top-level-hooks': 'error',
       'mocha/no-setup-in-describe': 'off',
       'mocha/consistent-spacing-between-blocks': 'off',
+      'n/no-process-env': ['error', { allowedVariables: ['NODE_ENV'] }],
     },
   },
   // Overridden rules for "translations" files
