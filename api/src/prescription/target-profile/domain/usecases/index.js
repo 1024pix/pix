@@ -31,6 +31,7 @@ import { checkTargetProfileBelongsToOrganization } from './check-target-profile-
 import { copyTargetProfile } from './copy-target-profile.js';
 import { createTargetProfile } from './create-target-profile.js';
 import { detachOrganizationsFromTargetProfile } from './detach-organizations-from-target-profile.js';
+import { findCappedTubesForTargetProfileIds } from './find-capped-tubes-for-target-profile-ids.js';
 import { findLearningContentsByOrganizationId } from './find-learning-contents-by-organization-id.js';
 import { findOrganizationTargetProfileSummariesForAdmin } from './find-organization-target-profile-summaries-for-admin.js';
 import { findPaginatedFilteredTargetProfileSummariesForAdmin } from './find-paginated-filtered-target-profile-summaries-for-admin.js';
@@ -68,6 +69,7 @@ const usecasesWithoutInjectedDependencies = {
   markTargetProfileAsSimplifiedAccess,
   outdateTargetProfile,
   updateTargetProfile,
+  findCappedTubesForTargetProfileIds,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
