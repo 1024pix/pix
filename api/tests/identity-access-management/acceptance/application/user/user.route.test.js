@@ -2,7 +2,6 @@ import lodash from 'lodash';
 import sinon from 'sinon';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
@@ -10,7 +9,7 @@ import { userEmailRepository } from '../../../../../src/identity-access-manageme
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { expect } from '../../../../test-helper.js';
-import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
@@ -245,50 +244,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedJson);
-    });
-  });
-
-  describe('PATCH /api/users/{id}/password-update', function () {
-    it('returns a 204 HTTP status code', async function () {
-      // given
-      const temporaryKey = await resetPasswordService.generateTemporaryKey();
-      const user = databaseBuilder.factory.buildUser();
-      const userId = user.id;
-      const email = user.email;
-      const initialHashedPassword = 'example-of-an-hashed-password';
-      const authenticationMethod =
-        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
-          userId,
-          hashedPassword: initialHashedPassword,
-        });
-
-      await databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
-
-      await databaseBuilder.commit();
-
-      const newPassword = 'example-of-a-new-valid-password-az-AZ-01234';
-
-      // when
-      const response = await server.inject({
-        method: 'PATCH',
-        url: `/api/users/${userId}/password-update?temporary-key=${temporaryKey}`,
-        payload: {
-          data: {
-            id: userId,
-            attributes: {
-              password: newPassword,
-            },
-          },
-        },
-      });
-
-      // then
-      expect(response.statusCode).to.equal(204);
-
-      const updatedAuthenticationMethod = await knex('authentication-methods')
-        .where({ id: authenticationMethod.id })
-        .first();
-      expect(updatedAuthenticationMethod.authenticationComplement.password).not.to.equal(initialHashedPassword);
     });
   });
 

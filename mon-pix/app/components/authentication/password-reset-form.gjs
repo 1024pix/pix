@@ -8,6 +8,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
+import ENV from 'mon-pix/config/environment';
 import didInsert from 'mon-pix/modifiers/modifier-did-insert';
 import { FormValidation } from 'mon-pix/utils/form-validation';
 import isPasswordValid, { PASSWORD_RULES } from 'mon-pix/utils/password-validator.js';
@@ -24,6 +25,7 @@ const HTTP_ERROR_MESSAGES = {
 };
 
 export default class PasswordResetForm extends Component {
+  @service requestManager;
   @service intl;
 
   @tracked isPasswordResetSucceeded = false;
@@ -41,19 +43,16 @@ export default class PasswordResetForm extends Component {
   @action
   handleInputChange(event) {
     this.password = event.target.value;
-
-    const { user } = this.args;
-    user.password = event.target.value;
-    this.validation.password.validate(user.password);
+    this.validation.password.validate(this.password);
   }
 
   @action
   async handleResetPassword(event) {
     if (event) event.preventDefault();
 
-    const { user, temporaryKey } = this.args;
+    const { temporaryKey } = this.args;
 
-    const isValid = this.validation.validateAll({ password: user.password });
+    const isValid = this.validation.validateAll({ password: this.password });
     if (!isValid) return;
 
     this.globalError = null;
@@ -61,8 +60,13 @@ export default class PasswordResetForm extends Component {
     this.isPasswordResetSucceeded = false;
 
     try {
-      await user.save({ adapterOptions: { updatePassword: true, temporaryKey } });
-      user.password = null;
+      await this.requestManager.request({
+        url: `${ENV.APP.API_HOST}/api/update-password`,
+        method: 'POST',
+        body: JSON.stringify({ 'temporary-key': temporaryKey, password: this.password }),
+      });
+
+      this.password = null;
       this.isPasswordResetSucceeded = true;
     } catch (response) {
       const error = get(response, 'errors[0]');
@@ -70,7 +74,7 @@ export default class PasswordResetForm extends Component {
         this.password = null;
       }
 
-      const i18nKey = error.code ?? error.status;
+      const i18nKey = error?.code ?? error?.status;
       this.globalError = HTTP_ERROR_MESSAGES[i18nKey] || HTTP_ERROR_MESSAGES['default'];
     } finally {
       this.isLoading = false;

@@ -24,12 +24,6 @@ export default class User extends ApplicationAdapter {
       return `${super.urlForQueryRecord(...arguments)}/me`;
     }
 
-    if (query.passwordResetTemporaryKey) {
-      const temporaryKey = query.passwordResetTemporaryKey;
-      delete query.passwordResetTemporaryKey;
-      return `${this.host}/${this.namespace}/password-reset-demands/${temporaryKey}`;
-    }
-
     return super.urlForQueryRecord(...arguments);
   }
 
@@ -59,13 +53,6 @@ export default class User extends ApplicationAdapter {
       const tooltipChallengeType = adapterOptions.tooltipChallengeType;
       delete adapterOptions.tooltipChallengeType;
       return url + '/has-seen-challenge-tooltip/' + tooltipChallengeType;
-    }
-
-    if (adapterOptions && adapterOptions.updatePassword) {
-      delete adapterOptions.updatePassword;
-      const temporaryKey = adapterOptions.temporaryKey;
-      delete adapterOptions.temporaryKey;
-      return url + `/password-update?temporary-key=${encodeURIComponent(temporaryKey)}`;
     }
 
     if (adapterOptions && adapterOptions.rememberUserHasSeenLastDataProtectionPolicyInformation) {

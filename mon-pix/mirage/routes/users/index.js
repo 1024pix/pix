@@ -1,5 +1,3 @@
-import { Response } from 'miragejs';
-
 import addEmailConnectionMethod from './add-email-connection-method';
 import findPaginatedUserTrainings from './find-paginated-user-trainings';
 import getAnonymisedCampaignAssessments from './get-anonymised-campaign-assessments';
@@ -60,18 +58,6 @@ export default function index(config) {
     return schema.authenticationMethods.where({ userId: request.params.id });
   });
 
-  config.patch('/users/:id/password-update', (schema, request) => {
-    const body = JSON.parse(request.requestBody);
-    const user = schema.users.find(request.params.id);
-
-    const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.queryParams['temporary-key'] });
-    if (user.email !== demand.email) {
-      return new Response(401);
-    } else {
-      user.update({ password: body.data.attributes.password });
-      return new Response(204);
-    }
-  });
   config.patch('/users/:id/remember-user-has-seen-assessment-instructions', (schema, request) => {
     const user = schema.users.find(request.params.id);
     user.update({ hasSeenAssessmentInstructions: true });

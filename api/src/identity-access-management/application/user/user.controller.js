@@ -106,24 +106,6 @@ const createUser = async function (request, h, dependencies = { userSerializer }
   return h.response(dependencies.userSerializer.serialize(savedUser)).created();
 };
 
-/**
- * @param request
- * @param h
- * @return {Promise<*>}
- */
-const updatePassword = async function (request, h) {
-  const userId = request.params.id;
-  const password = request.payload.data.attributes.password;
-
-  await usecases.updateUserPassword({
-    userId,
-    password,
-    temporaryKey: request.query['temporary-key'] || '',
-  });
-
-  return h.response().code(204);
-};
-
 const updateUserEmailWithValidation = async function (request, h, dependencies = { updateEmailSerializer }) {
   const userId = request.params.id;
   const code = request.payload.data.attributes.code;
@@ -238,7 +220,6 @@ export const userController = {
   rememberUserHasSeenLastDataProtectionPolicyInformation,
   createUser,
   sendVerificationCode,
-  updatePassword,
   updateUserEmailWithValidation,
   addUserEmailWithValidation,
   upgradeToRealUser,

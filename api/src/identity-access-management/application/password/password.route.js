@@ -20,16 +20,37 @@ export const passwordRoutes = [
     },
   },
   {
-    method: 'GET',
-    path: '/api/password-reset-demands/{temporaryKey}',
+    method: 'POST',
+    path: '/api/check-password-reset-demand',
     config: {
       auth: false,
+      validate: {
+        payload: Joi.object({
+          'temporary-key': Joi.string().required(),
+        }),
+      },
       handler: (request, h) => passwordController.checkResetDemand(request, h),
       notes: [
         'Route publique',
         'Cette route permet la redirection vers le formulaire de reset de mot de passe si la demande est bien dans la liste',
       ],
       tags: ['api', 'passwords'],
+    },
+  },
+  {
+    method: 'POST',
+    path: '/api/update-password',
+    config: {
+      auth: false,
+      validate: {
+        payload: Joi.object({
+          'temporary-key': Joi.string().required(),
+          password: PasswordSchema.required(),
+        }),
+      },
+      handler: (request, h) => passwordController.updatePassword(request, h),
+      notes: ["- Met à jour le mot de passe d'un utilisateur"],
+      tags: ['identity-access-managements', 'api', 'password'],
     },
   },
   {

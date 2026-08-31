@@ -35,7 +35,7 @@ import loadModuleIssueReportsRoutes from './routes/module-issue-reports/index';
 import loadModuleRoutes from './routes/modules/index';
 import loadOrganizationLearnersRoutes from './routes/organization-learners/index';
 import loadPassageRoutes from './routes/passages/index';
-import loadPasswordResetDemandRoutes from './routes/password-reset-demands/index';
+import loadPasswordRoutes from './routes/passwords/index';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postExpiredPasswordUpdates from './routes/post-expired-password-updates';
 import postSessionParticipation from './routes/post-session-participation';
@@ -84,7 +84,7 @@ function routes() {
   loadCampaignParticipations(this);
   loadCertificationCourseRoutes(this);
   loadCourseRoutes(this);
-  loadPasswordResetDemandRoutes(this);
+  loadPasswordRoutes(this);
   loadOrganizationLearnersRoutes(this);
   loadScoOrganizationLearnersRoutes(this);
   loadSupOrganizationLearnersRoutes(this);

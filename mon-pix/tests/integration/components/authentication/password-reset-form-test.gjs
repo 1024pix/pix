@@ -28,15 +28,19 @@ const I18N_ERROR_KEYS = {
 module('Integration | Component | Authentication | PasswordResetForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  let requestManagerService;
+
+  hooks.beforeEach(function () {
+    requestManagerService = this.owner.lookup('service:requestManager');
+    sinon.stub(requestManagerService, 'request');
+  });
+
   test('displays all elements of component successfully', async function (assert) {
     // given
-    const user = { save: sinon.stub() };
     const temporaryKey = 'temporaryKey';
 
     // when
-    const screen = await render(
-      <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-    );
+    const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
     // then
     assert.dom(screen.getByText(t(I18N_KEYS.mandatoryFieldsMessage))).exists();
@@ -46,23 +50,17 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
 
   test('resets password successfully', async function (assert) {
     // given
-    const user = { save: sinon.stub().resolves() };
     const validPassword = 'example-of-a-new-valid-password-az-AZ-01234';
     const temporaryKey = 'temporaryKey';
+    requestManagerService.request.resolves({ response: { ok: true, status: 204 } });
 
     // when
-    const screen = await render(
-      <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-    );
+    const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
     await fillByLabel(t(I18N_KEYS.passwordInputLabel), validPassword);
     await clickByName(t(I18N_KEYS.resetPasswordButton));
 
     // then
-    const userSavePayload = { adapterOptions: { updatePassword: true, temporaryKey } };
-    sinon.assert.calledWith(user.save, userSavePayload);
-    assert.strictEqual(user.password, null);
-
     const successInfo = screen.getByRole('heading', { name: t(I18N_KEYS.resetPasswordSuccess) });
     assert.dom(successInfo).exists();
 
@@ -73,19 +71,15 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
   module('when user submits without filling the form', function () {
     test('displays an error message on the password input', async function (assert) {
       // given
-      const user = { save: sinon.stub() };
       const temporaryKey = 'temporaryKey';
 
       // when
-      const screen = await render(
-        <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-      );
+      const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
       await clickByName(t(I18N_KEYS.resetPasswordButton));
 
       // then
       assert.dom(screen.getByText(t(I18N_KEYS.passwordInputErrorMessage))).exists();
-      sinon.assert.notCalled(user.save);
     });
   });
 
@@ -93,19 +87,15 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
     test('displays an error message on the password input', async function (assert) {
       // given
       const invalidPassword = 'example-of-an-invalid-password';
-      const user = { save: sinon.stub() };
       const temporaryKey = 'temporaryKey';
 
       // when
-      const screen = await render(
-        <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-      );
+      const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
       await fillByLabel(t(I18N_KEYS.passwordInputLabel), invalidPassword);
 
       // then
       assert.dom(screen.getByText(t(I18N_KEYS.passwordInputErrorMessage))).exists();
-      sinon.assert.notCalled(user.save);
     });
   });
 
@@ -123,15 +113,18 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
       test(`displays, for the "${httpError.value}" error ${httpError.type}, a specific error message`, async function (assert) {
         // given
         const validPassword = 'example-of-a-new-valid-password-az-AZ-01234';
-        const user = { save: sinon.stub() };
         const temporaryKey = 'temporaryKey';
 
-        user.save.rejects({ errors: [{ [httpError.type]: httpError.value }] });
+        requestManagerService.request.rejects({
+          errors: [
+            {
+              [httpError.type]: httpError.value,
+            },
+          ],
+        });
 
         // when
-        const screen = await render(
-          <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-        );
+        const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
         await fillByLabel(t(I18N_KEYS.passwordInputLabel), validPassword);
         await clickByName(t(I18N_KEYS.resetPasswordButton));
@@ -146,14 +139,17 @@ module('Integration | Component | Authentication | PasswordResetForm', function 
   module('when the given password is incorrect', function () {
     test('it erases the password field', async function (assert) {
       // given
-      const user = { save: sinon.stub() };
-      user.save.rejects({ errors: [{ code: 'REVOKED_PASSWORD_CANNOT_BE_REUSED' }] });
+      requestManagerService.request.rejects({
+        errors: [
+          {
+            code: 'REVOKED_PASSWORD_CANNOT_BE_REUSED',
+          },
+        ],
+      });
 
       const temporaryKey = 'temporaryKey';
 
-      const screen = await render(
-        <template><PasswordResetForm @temporaryKey={{temporaryKey}} @user={{user}} /></template>,
-      );
+      const screen = await render(<template><PasswordResetForm @temporaryKey={{temporaryKey}} /></template>);
 
       await fillByLabel(t(I18N_KEYS.passwordInputLabel), 'example-of-a-new-valid-but-revoked-password-az-AZ-01234');
 
