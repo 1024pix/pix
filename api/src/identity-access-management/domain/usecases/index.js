@@ -126,6 +126,7 @@ import { rememberUserHasSeenLastDataProtectionPolicyInformation } from './rememb
 import { removeAuthenticationMethod } from './remove-authentication-method.usecase.js';
 import { revokeAccessForUsers } from './revoke-access-for-users.usecase.js';
 import { revokeRefreshToken } from './revoke-refresh-token.usecase.js';
+import { revokeSession } from './revoke-session.usecase.js';
 import { sendVerificationCode } from './send-verification-code.usecase.js';
 import { unblockUserAccount } from './unblock-user-account.js';
 import { updateExpiredPassword } from './update-expired-password.usecase.js';
@@ -178,6 +179,7 @@ const usecasesWithoutInjectedDependencies = {
   removeAuthenticationMethod,
   revokeAccessForUsers,
   revokeRefreshToken,
+  revokeSession,
   sendVerificationCode,
   unblockUserAccount,
   updateExpiredPassword,
