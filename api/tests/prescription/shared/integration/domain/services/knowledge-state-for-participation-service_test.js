@@ -1,3 +1,4 @@
+import * as knowledgeStateSnapshotRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/knowledge-state-snapshot-repository.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import knowledgeStateForParticipationService from '../../../../../../src/prescription/shared/domain/services/knowledge-state-for-participation-service.js';
 import { KnowledgeState } from '../../../../../../src/shared/domain/models/KnowledgeState.js';
@@ -46,6 +47,45 @@ describe('Integration | Domain | Services | knowledge-state-for-participation-se
 
       // then
       expect(knowledgeState.validatedSkills().map(({ id }) => id)).to.have.members(['acquis1', 'acquis2']);
+    });
+
+    it('reads the frozen snapshot for a shared assessment participation, even after the living state is gone', async function () {
+      // given — participation partagée, puis état vivant amputé par un reset
+      const { userId, campaignParticipationId } = buildParticipation({ type: CampaignTypes.ASSESSMENT });
+      await databaseBuilder.commit();
+
+      const stateAtSharing = new KnowledgeState().withAnswer({
+        skill: { id: 'acquis2', tubeId: 'leTube', difficulty: 2 },
+        isOk: true,
+      });
+      await knowledgeStateSnapshotRepository.save({ knowledgeState: stateAtSharing, campaignParticipationId });
+
+      // when
+      const knowledgeState = await knowledgeStateForParticipationService.findByUserOrCampaignParticipationId({
+        userId,
+        campaignParticipationId,
+        limitDate: new Date(),
+      });
+
+      // then
+      expect(knowledgeState.validatedSkills().map(({ id }) => id)).to.have.members(['acquis1', 'acquis2']);
+    });
+
+    it('falls back to the living state when a shared participation has no snapshot', async function () {
+      // given
+      const { userId, campaignParticipationId } = buildParticipation({ type: CampaignTypes.ASSESSMENT });
+      databaseBuilder.factory.buildKnowledgeState({ userId, tubeId: 'leTube', floor: 1, directLevels: [1] });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeState = await knowledgeStateForParticipationService.findByUserOrCampaignParticipationId({
+        userId,
+        campaignParticipationId,
+        limitDate: new Date(),
+      });
+
+      // then
+      expect(knowledgeState.validatedSkills().map(({ id }) => id)).to.deep.equal(['acquis1']);
     });
 
     it('reads the participation snapshot for an EXAM campaign, isolated from the user profile', async function () {
