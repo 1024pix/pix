@@ -116,7 +116,7 @@ describe('Unit | Service | ImprovementService', function () {
     });
 
     context('when knowledgeElements are calculated for campaign case', function () {
-      it('should return all validated ke, and invalidated ke from less than 3 days, on retrying case', function () {
+      it('should return all validated ke, and ke acquired since the assessment started, on retrying case', function () {
         // when
         const listOfKnowledgeElements = improvementService.filterKnowledgeElements({
           knowledgeElements,
@@ -124,7 +124,6 @@ describe('Unit | Service | ImprovementService', function () {
           isImproving: false,
           isFromCampaign: true,
           createdAt: assessmentDate,
-          minimumDelayInDaysBeforeRetrying: 3,
           minimumDelayInDaysBeforeImproving: 4,
         });
 
@@ -133,13 +132,12 @@ describe('Unit | Service | ImprovementService', function () {
           'validated5DaysBefore',
           'validated3DaysBefore',
           'validated2DaysBefore',
-          'invalidated2DaysBefore',
           'invalidated2DaysAfter',
           'validated2DaysAfter',
         ]);
       });
 
-      it('should return all validated ke, and invalidated ke from less 3 days, on improving case', function () {
+      it('should return all validated ke, and ke acquired since the assessment started, on improving case', function () {
         // when
         const listOfKnowledgeElements = improvementService.filterKnowledgeElements({
           knowledgeElements,
@@ -147,7 +145,6 @@ describe('Unit | Service | ImprovementService', function () {
           isImproving: true,
           isFromCampaign: true,
           createdAt: assessmentDate,
-          minimumDelayInDaysBeforeRetrying: 3,
           minimumDelayInDaysBeforeImproving: 4,
         });
 
@@ -156,7 +153,6 @@ describe('Unit | Service | ImprovementService', function () {
           'validated5DaysBefore',
           'validated3DaysBefore',
           'validated2DaysBefore',
-          'invalidated2DaysBefore',
           'invalidated2DaysAfter',
           'validated2DaysAfter',
         ]);

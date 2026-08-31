@@ -2229,7 +2229,6 @@
             "retry": "Den Kurs erneut starten"
           },
           "description": "Dein Organisator fordert dich auf, diesen Pfad erneut zu absolvieren.",
-          "retryIn": "Du kannst diesen Lernpfad noch nicht wiederholen, kehre zurück in {duration}.",
           "title": "Verbessere deine Ergebnisse"
         },
         "see-my-recommendations": "Meine Empfehlungen ansehen",

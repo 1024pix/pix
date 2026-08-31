@@ -1,6 +1,6 @@
 import {
   AlreadyExistingCampaignParticipationError,
-  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
+  CannotResetCampaignParticipationError,
 } from '../../../../shared/domain/errors.js';
 import { EntityValidationError, ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
@@ -103,7 +103,7 @@ class CampaignParticipant {
     }
 
     if (isReset && this.previousCampaignParticipationForUser && !this.previousCampaignParticipationForUser.canReset) {
-      throw new NotEnoughDaysPassedBeforeResetCampaignParticipationError();
+      throw new CannotResetCampaignParticipationError();
     }
 
     if (this.#isMissingExternalId(externalId)) {

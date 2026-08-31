@@ -2229,7 +2229,6 @@
             "retry": "Repasser mon parcours"
           },
           "description": "Votre organisateur vous invite à repasser ce parcours.",
-          "retryIn": "Vous ne pouvez pas encore repasser ce parcours, revenez dans {duration}.",
           "title": "Améliorez vos résultats"
         },
         "see-my-recommendations": "Voir mes recommandations",

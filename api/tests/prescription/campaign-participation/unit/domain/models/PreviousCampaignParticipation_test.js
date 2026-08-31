@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import { PreviousCampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/PreviousCampaignParticipation.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
@@ -16,7 +15,6 @@ describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function
       const isTargetProfileResetAllowed = true;
       const isOrganizationLearnerActive = true;
       const isCampaignMultipleSendings = false;
-      const sharedAt = new Date('2019-03-12T01:02:03Z');
       const params = {
         id,
         participantExternalId,
@@ -26,7 +24,6 @@ describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function
         isTargetProfileResetAllowed,
         isOrganizationLearnerActive,
         isCampaignMultipleSendings,
-        sharedAt,
       };
 
       // when
@@ -38,12 +35,9 @@ describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function
   });
 
   describe('#canReset', function () {
-    let now, baseProps;
+    let baseProps;
 
     beforeEach(function () {
-      now = new Date('2020-01-07T05:06:07Z');
-      sinon.useFakeTimers({ now, toFake: ['Date'] });
-
       baseProps = {
         id: 1,
         participantExternalId: 1,
@@ -54,62 +48,7 @@ describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function
         isCampaignMultipleSendings: true,
         isResetAllowed: true,
         isOrganizationLearnerActive: true,
-        sharedAt: new Date('2020-01-01T01:02:03Z'),
       };
-    });
-
-    describe('when isShared is not defined', function () {
-      it('should return false', function () {
-        // given
-        const previousCampaignParticipation = new PreviousCampaignParticipation({
-          ...baseProps,
-          sharedAt: undefined,
-        });
-        // when & then
-        expect(previousCampaignParticipation.canReset).to.be.false;
-      });
-    });
-
-    describe('when previous campaign participation does not respect minimum delay', function () {
-      it('should return false', function () {
-        // given
-        const sharedAt = new Date('2020-01-04T01:02:03Z');
-        const previousCampaignParticipation = new PreviousCampaignParticipation({
-          ...baseProps,
-          sharedAt,
-        });
-
-        // when & then
-        expect(previousCampaignParticipation.canReset).to.be.false;
-      });
-    });
-
-    describe('when previous campaign participation has exact minimum delay', function () {
-      it('should return true', function () {
-        // given
-        const sharedAt = new Date('2020-01-03T01:02:03Z');
-        const previousCampaignParticipation = new PreviousCampaignParticipation({
-          ...baseProps,
-          sharedAt,
-        });
-
-        // when & then
-        expect(previousCampaignParticipation.canReset).to.be.true;
-      });
-    });
-
-    describe('when previous campaign participation respects minimum delay', function () {
-      it('should return true', function () {
-        // given
-        const sharedAt = new Date('2020-01-01T01:02:03Z');
-        const previousCampaignParticipation = new PreviousCampaignParticipation({
-          ...baseProps,
-          sharedAt,
-        });
-
-        // when & then
-        expect(previousCampaignParticipation.canReset).to.be.true;
-      });
     });
 
     describe('when isTargetProfileResetAllowed is true', function () {

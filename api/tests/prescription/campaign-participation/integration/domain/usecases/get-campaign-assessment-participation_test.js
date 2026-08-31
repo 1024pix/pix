@@ -549,7 +549,7 @@ describe('Integration | UseCase | get-campaign-assessment-participation', functi
             skillId,
             userId: organizationLearner.userId,
             status: KnowledgeElement.StatusType.INVALIDATED,
-            createdAt: new Date('2024-01-01'),
+            createdAt: new Date('2024-01-02'),
           });
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({

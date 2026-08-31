@@ -249,7 +249,7 @@ async function _findPreviousCampaignParticipationForUser({
 }) {
   const knexConnection = DomainTransaction.getConnection();
   const campaignParticipationAttributes = await knexConnection('campaign-participations')
-    .select('id', 'participantExternalId', 'validatedSkillsCount', 'status', 'deletedAt', 'sharedAt')
+    .select('id', 'participantExternalId', 'validatedSkillsCount', 'status', 'deletedAt')
     .where({ campaignId, userId, isImproved: false })
     .first();
 
@@ -264,7 +264,6 @@ async function _findPreviousCampaignParticipationForUser({
     validatedSkillsCount: campaignParticipationAttributes.validatedSkillsCount,
     status: campaignParticipationAttributes.status,
     isDeleted: Boolean(campaignParticipationAttributes.deletedAt),
-    sharedAt: campaignParticipationAttributes.sharedAt,
     isCampaignMultipleSendings,
     isResetAllowed,
     isTargetProfileResetAllowed,

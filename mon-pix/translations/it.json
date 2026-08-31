@@ -2229,7 +2229,6 @@
             "retry": "Ripeti il mio percorso"
           },
           "description": "Il tuo organizzatore ti chiederà di ripetere il percorso.",
-          "retryIn": "Non è ancora possibile rigiocare questo percorso, tornare a {duration}.",
           "title": "Migliorare i risultati"
         },
         "see-my-recommendations": "Vedere le mie raccomandazioni",

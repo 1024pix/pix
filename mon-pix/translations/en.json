@@ -2229,7 +2229,6 @@
             "retry": "Replay my customised test"
           },
           "description": "Your organizer invites you to take this customised test again.",
-          "retryIn": "You cannot replay this customised tests. Come back in {duration}.",
           "title": "Improve your results"
         },
         "see-my-recommendations": "See my recommendations",

@@ -97,20 +97,20 @@ describe('Evaluation | Unit | Domain | Services | get-campaign-progression', fun
       skillId: 'skillId1',
       createdAt: new Date('2024-01-01'),
     });
-    const recentlyInvalidatedKnowledgeElement = domainBuilder.buildKnowledgeElement.directlyInvalidated({
+    const invalidatedKnowledgeElementFromCurrentAssessment = domainBuilder.buildKnowledgeElement.directlyInvalidated({
       id: 2,
+      skillId: 'skillId2',
+      createdAt: new Date('2024-01-20'),
+    });
+    const invalidatedKnowledgeElementFromPreviousAssessment = domainBuilder.buildKnowledgeElement.directlyInvalidated({
+      id: 3,
       skillId: 'skillId2',
       createdAt: new Date('2024-01-14'),
     });
-    const longAgoInvalidatedKnowledgeElement = domainBuilder.buildKnowledgeElement.directlyInvalidated({
-      id: 3,
-      skillId: 'skillId2',
-      createdAt: new Date('2024-01-01'),
-    });
     knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId.resolves([
       validatedKnowledgeElement,
-      recentlyInvalidatedKnowledgeElement,
-      longAgoInvalidatedKnowledgeElement,
+      invalidatedKnowledgeElementFromCurrentAssessment,
+      invalidatedKnowledgeElementFromPreviousAssessment,
     ]);
 
     // when
@@ -120,7 +120,7 @@ describe('Evaluation | Unit | Domain | Services | get-campaign-progression', fun
     expect(progression.skillIds).to.deep.equal(skillIds);
     expect(progression.knowledgeElements).to.deep.equal([
       validatedKnowledgeElement,
-      recentlyInvalidatedKnowledgeElement,
+      invalidatedKnowledgeElementFromCurrentAssessment,
     ]);
   });
 

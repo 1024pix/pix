@@ -62,7 +62,7 @@ const PRECONDITION_FAILED_ERRORS = [
   SharedDomainErrors.AlreadyExistingEntityError,
   SharedDomainErrors.InvalidInputDataError,
   SharedDomainErrors.CampaignParticipationDeletedError,
-  SharedDomainErrors.NotEnoughDaysPassedBeforeResetCampaignParticipationError,
+  SharedDomainErrors.CannotResetCampaignParticipationError,
   SharedDomainErrors.NoCampaignParticipationForUserAndCampaign,
   SharedDomainErrors.OrganizationLearnerDisabledError,
   SharedDomainErrors.NoOrganizationToAttach,

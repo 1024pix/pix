@@ -1,6 +1,3 @@
-import dayjs from 'dayjs';
-
-import { MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../../shared/constants.js';
 import { CampaignParticipationStatuses, CampaignTypes, MaxMasteryRate } from '../../../shared/domain/constants.js';
 import { getNewAcquiredStages } from '../../../stages/domain/services/get-new-acquired-stages-service.js';
 import { BadgeResult } from './BadgeResult.js';
@@ -66,26 +63,10 @@ class AssessmentResult {
       isCampaignMultipleSendings,
       isOrganizationLearnerActive,
       isDisabled: this.isDisabled,
-      sharedAt,
       isShared: this.isShared,
       campaignType,
     });
     this.sharedAt = sharedAt;
-    this.remainingSecondsBeforeRetrying = this._computeRemaingSecondsBeforeRetrying();
-  }
-
-  _computeRemaingSecondsBeforeRetrying() {
-    if (!this.sharedAt) {
-      return null;
-    }
-    const remainingSecondsBeforeRetrying = dayjs(this.sharedAt)
-      .add(MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING, 'days')
-      .diff(Date.now(), 'seconds');
-
-    if (remainingSecondsBeforeRetrying <= 0) {
-      return null;
-    }
-    return remainingSecondsBeforeRetrying;
   }
 
   _computeMasteryRate(totalSkillsCount, validatedSkillsCount) {
@@ -114,7 +95,6 @@ class AssessmentResult {
     isCampaignMultipleSendings,
     isDisabled,
     isShared,
-    sharedAt,
   }) {
     if (campaignType !== CampaignTypes.ASSESSMENT) {
       return false;
@@ -125,17 +105,12 @@ class AssessmentResult {
       isTargetProfileResetAllowed &&
       isOrganizationLearnerActive &&
       isCampaignMultipleSendings &&
-      !isDisabled &&
-      this._timeBeforeRetryingPassed(sharedAt)
+      !isDisabled
     );
   }
 
   _computeIsDisabled(isCampaignArchived, isCampaignDeleted, isParticipationDeleted) {
     return isCampaignArchived || isCampaignDeleted || isParticipationDeleted;
-  }
-
-  _timeBeforeRetryingPassed(sharedAt) {
-    return sharedAt && dayjs().diff(sharedAt, 'days', true) >= MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
 }
 

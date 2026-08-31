@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import { VALIDATION_ERRORS } from '../../../../src/shared/constants.js';
 import {
   AssessmentEndedError,
+  CannotResetCampaignParticipationError,
   EntityValidationError,
   InvalidInputDataError,
   InvalidTemporaryKeyError,
   ModelValidationError,
-  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   OidcError,
   UserNotAuthorizedToCertifyError,
   UserNotFoundError,
@@ -259,12 +259,12 @@ describe('Unit | Shared | Domain | Errors', function () {
     });
   });
 
-  it('NotEnoughDaysPassedBeforeResetCampaignParticipationError error should have the correct wording', function () {
+  it('CannotResetCampaignParticipationError error should have the correct wording', function () {
     // given
     const expectedErrorMessage = `Il n'est pas possible de remettre à zéro votre parcours pour le moment.`;
 
     // when
-    const error = new NotEnoughDaysPassedBeforeResetCampaignParticipationError();
+    const error = new CannotResetCampaignParticipationError();
 
     // then
     expect(error.message).to.equal(expectedErrorMessage);

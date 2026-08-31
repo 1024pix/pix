@@ -7,14 +7,12 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjsDurationHumanize from 'ember-dayjs/helpers/dayjs-duration-humanize';
 import { t } from 'ember-intl';
 
 export default class EvaluationResultsHeroRetryOrResetBlock extends Component {
   @service pixMetrics;
   @service intl;
   @service featureToggles;
-  @service dayjs;
   @tracked isResetModalVisible = false;
 
   retryQueryParams = { retry: true };
@@ -94,31 +92,15 @@ export default class EvaluationResultsHeroRetryOrResetBlock extends Component {
         </p>
         <div class="evaluation-results-hero-retry__actions">
           {{#if @campaignParticipationResult.canRetry}}
-            {{#if @campaignParticipationResult.remainingSecondsBeforeRetrying}}
-              <div>
-                <p class="evaluation-results-hero-retry__soon-title">
-                  {{t
-                    "pages.skill-review.hero.retry.retryIn"
-                    duration=(dayjsDurationHumanize
-                      @campaignParticipationResult.remainingSecondsBeforeRetrying "second"
-                    )
-                  }}
-                </p>
-                <PixButton @variant="secondary" @isDisabled={{true}}>
-                  {{t "pages.skill-review.hero.retry.actions.retry"}}
-                </PixButton>
-              </div>
-            {{else}}
-              <PixButtonLink
-                @variant="secondary"
-                @route="campaigns.entry-point"
-                @model={{@campaign.code}}
-                @query={{this.retryQueryParams}}
-                onclick={{this.handleRetryClick}}
-              >
-                {{t "pages.skill-review.hero.retry.actions.retry"}}
-              </PixButtonLink>
-            {{/if}}
+            <PixButtonLink
+              @variant="secondary"
+              @route="campaigns.entry-point"
+              @model={{@campaign.code}}
+              @query={{this.retryQueryParams}}
+              onclick={{this.handleRetryClick}}
+            >
+              {{t "pages.skill-review.hero.retry.actions.retry"}}
+            </PixButtonLink>
           {{/if}}
 
           {{#if @campaignParticipationResult.canReset}}

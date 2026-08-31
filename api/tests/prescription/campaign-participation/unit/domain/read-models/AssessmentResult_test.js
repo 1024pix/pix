@@ -1,6 +1,4 @@
 import { expect } from 'chai';
-import dayjs from 'dayjs';
-import sinon from 'sinon';
 
 import { AssessmentResult } from '../../../../../../src/prescription/campaign-participation/domain/read-models/AssessmentResult.js';
 import {
@@ -377,119 +375,6 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     });
   });
 
-  describe('#remainingSecondsBeforeRetrying', function () {
-    let now;
-
-    beforeEach(function () {
-      now = new Date('2020-01-05T05:06:07Z');
-      sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    context('when participation is not shared', function () {
-      it('should return null', function () {
-        const isCampaignMultipleSendings = true;
-        const isOrganizationLearnerActive = true;
-        const isCampaignArchived = false;
-        const participationResults = {
-          knowledgeElements: [],
-          acquiredBadgeIds: [],
-          masteryRate: '0.34',
-          sharedAt: null,
-          isDeleted: false,
-        };
-        const assessmentResult = new AssessmentResult({
-          participationResults,
-          competences: [],
-          stages: [],
-          badgeResultsDTO: [],
-          isCampaignMultipleSendings,
-          isOrganizationLearnerActive,
-          isCampaignArchived,
-        });
-
-        expect(assessmentResult.remainingSecondsBeforeRetrying).null;
-      });
-    });
-    context('when participation is shared', function () {
-      it('should return remainingSecondsBeforeRetrying', function () {
-        const isCampaignMultipleSendings = true;
-        const isOrganizationLearnerActive = true;
-        const isCampaignArchived = false;
-        const participationResults = {
-          knowledgeElements: [],
-          acquiredBadgeIds: [],
-          masteryRate: '0.45',
-          sharedAt: dayjs(now).subtract(3, 'days'),
-          status: CampaignParticipationStatuses.SHARED,
-          isDeleted: false,
-        };
-        const assessmentResult = new AssessmentResult({
-          participationResults,
-          competences: [],
-          stages: [],
-          badgeResultsDTO: [],
-          isCampaignMultipleSendings,
-          isOrganizationLearnerActive,
-          isCampaignArchived,
-        });
-
-        expect(assessmentResult.remainingSecondsBeforeRetrying).to.equal(3600 * 24 * 1);
-      });
-    });
-    context('when MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING is past', function () {
-      it('should return null', function () {
-        const isCampaignMultipleSendings = true;
-        const isOrganizationLearnerActive = true;
-        const isCampaignArchived = false;
-        const participationResults = {
-          knowledgeElements: [],
-          acquiredBadgeIds: [],
-          masteryRate: '0.45',
-          sharedAt: dayjs(now).subtract(5, 'days'),
-          status: CampaignParticipationStatuses.SHARED,
-          isDeleted: false,
-        };
-        const assessmentResult = new AssessmentResult({
-          participationResults,
-          competences: [],
-          stages: [],
-          badgeResultsDTO: [],
-          isCampaignMultipleSendings,
-          isOrganizationLearnerActive,
-          isCampaignArchived,
-        });
-
-        expect(assessmentResult.remainingSecondsBeforeRetrying).to.equal(null);
-      });
-    });
-    context('when MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING is equal to now', function () {
-      it('should return null', function () {
-        const isCampaignMultipleSendings = true;
-        const isOrganizationLearnerActive = true;
-        const isCampaignArchived = false;
-        const participationResults = {
-          knowledgeElements: [],
-          acquiredBadgeIds: [],
-          masteryRate: '0.45',
-          sharedAt: dayjs(now).subtract(4, 'days'),
-          status: CampaignParticipationStatuses.SHARED,
-          isDeleted: false,
-        };
-        const assessmentResult = new AssessmentResult({
-          participationResults,
-          competences: [],
-          stages: [],
-          badgeResultsDTO: [],
-          isCampaignMultipleSendings,
-          isOrganizationLearnerActive,
-          isCampaignArchived,
-        });
-
-        expect(assessmentResult.remainingSecondsBeforeRetrying).to.equal(null);
-      });
-    });
-  });
-
   describe('#canRetry', function () {
     context('when the campaign does not allow multiple sendings', function () {
       it('returns false', function () {
@@ -691,7 +576,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     });
 
     context(
-      'when the campaign allow multiple sendings, the mastery rate is under 1.0, the participant is active and the participation has been shared more than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago',
+      'when the campaign allow multiple sendings, the mastery rate is under 1.0, the participant is active and the participation is shared',
       function () {
         it('returns true', function () {
           const isCampaignMultipleSendings = true;
@@ -719,47 +604,9 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         });
       },
     );
-
-    context(
-      'when the campaign allow multiple sendings, the mastery rate is under 1, the participant is active and the participation has been shared exactly MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago',
-      function () {
-        it('returns true', function () {
-          const isCampaignMultipleSendings = true;
-          const isOrganizationLearnerActive = true;
-          const isCampaignArchived = false;
-          const participationResults = {
-            knowledgeElements: [],
-            acquiredBadgeIds: [],
-            masteryRate: '0.34',
-            sharedAt: new Date('2020-01-01T05:06:07Z'),
-            status: CampaignParticipationStatuses.SHARED,
-            isDeleted: false,
-          };
-
-          const assessmentResult = new AssessmentResult({
-            participationResults,
-            competences: [],
-            stages: [],
-            badgeResultsDTO: [],
-            isCampaignMultipleSendings,
-            isOrganizationLearnerActive,
-            isCampaignArchived,
-          });
-
-          expect(assessmentResult.canRetry).to.be.true;
-        });
-      },
-    );
   });
 
   describe('#canReset', function () {
-    let now;
-
-    beforeEach(function () {
-      now = new Date('2020-01-05T05:06:07Z');
-      sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
     context('when the campaign does not allow multiple sendings', function () {
       it('returns false', function () {
         const isCampaignMultipleSendings = false;
@@ -884,35 +731,6 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           sharedAt: new Date('2020-01-01T05:06:07Z'),
           status: CampaignParticipationStatuses.SHARED,
           isDeleted: true,
-        };
-        const assessmentResult = new AssessmentResult({
-          participationResults,
-          competences: [],
-          stages: [],
-          badgeResultsDTO: [],
-          isTargetProfileResetAllowed,
-          isCampaignMultipleSendings,
-          isOrganizationLearnerActive,
-          isCampaignArchived,
-        });
-
-        expect(assessmentResult.canReset).to.be.false;
-      });
-    });
-
-    context('when time before retrying is not passed', function () {
-      it('returns false', function () {
-        const isCampaignMultipleSendings = true;
-        const isOrganizationLearnerActive = true;
-        const isTargetProfileResetAllowed = true;
-        const isCampaignArchived = false;
-        const participationResults = {
-          knowledgeElements: [],
-          acquiredBadgeIds: [],
-          masteryRate: '0.34',
-          sharedAt: new Date('2020-01-04T05:06:07Z'),
-          status: CampaignParticipationStatuses.SHARED,
-          isDeleted: false,
         };
         const assessmentResult = new AssessmentResult({
           participationResults,
