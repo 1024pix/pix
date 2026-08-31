@@ -7,13 +7,13 @@ import GlobalScoringForm from 'pix-admin/components/certification-frameworks/cer
 
 <template>
   <GlobalScoringForm
-    @draftVersion={{@model.draftVersion}}
-    @activeVersion={{@model.activeVersion}}
+    @editVersion={{@model.editVersion}}
+    @previousVersion={{@model.previousVersion}}
     @calibrationScoringConfiguration={{@model.calibrationScoringConfiguration}}
   />
-  {{#if @model.draftVersion.isCoreScope}}
+  {{#if @model.editVersion.isCoreScope}}
     <CompetencesScoringForm
-      @draftVersion={{@model.draftVersion}}
+      @editVersion={{@model.editVersion}}
       @calibrationScoringConfiguration={{@model.calibrationScoringConfiguration}}
     />
   {{/if}}

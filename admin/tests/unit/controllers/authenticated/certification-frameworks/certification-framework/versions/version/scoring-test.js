@@ -35,7 +35,7 @@ module(
     module('#hasGlobalScoringError', function () {
       test('returns false when all bounds are valid', function (assert) {
         controller.model = {
-          draftVersion: {
+          editVersion: {
             globalScoringConfiguration: [
               { meshLevel: 0, bounds: { min: -4, max: -1 } },
               { meshLevel: 1, bounds: { min: -1, max: 2 } },
@@ -49,7 +49,7 @@ module(
 
       test('returns true when at least one bound has max <= min', function (assert) {
         controller.model = {
-          draftVersion: {
+          editVersion: {
             globalScoringConfiguration: [
               { meshLevel: 0, bounds: { min: -4, max: -1 } },
               { meshLevel: 1, bounds: { min: 2, max: 1 } },
@@ -61,9 +61,9 @@ module(
         assert.true(controller.hasGlobalScoringError);
       });
 
-      test('falls back to calibrationScoringConfiguration when draftVersion has no configuration', function (assert) {
+      test('falls back to calibrationScoringConfiguration when editVersion has no configuration', function (assert) {
         controller.model = {
-          draftVersion: { globalScoringConfiguration: null },
+          editVersion: { globalScoringConfiguration: null },
           calibrationScoringConfiguration: {
             globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: 1, max: 0 } }],
           },
@@ -74,17 +74,17 @@ module(
     });
 
     module('#activateVersion', function () {
-      test('delegates to versionController.activateVersion with draftVersion and calibrationScoringConfiguration', function (assert) {
-        const draftVersion = { id: 1 };
+      test('delegates to versionController.activateVersion with editVersion and calibrationScoringConfiguration', function (assert) {
+        const editVersion = { id: 1 };
         const calibrationScoringConfiguration = { globalScoringConfiguration: [] };
-        controller.model = { draftVersion, calibrationScoringConfiguration };
+        controller.model = { editVersion, calibrationScoringConfiguration };
 
         const activateVersionStub = sinon.stub();
         controller.versionController = { activateVersion: activateVersionStub };
 
         controller.activateVersion();
 
-        sinon.assert.calledWithExactly(activateVersionStub, draftVersion, calibrationScoringConfiguration);
+        sinon.assert.calledWithExactly(activateVersionStub, editVersion, calibrationScoringConfiguration);
         assert.ok(true);
       });
     });

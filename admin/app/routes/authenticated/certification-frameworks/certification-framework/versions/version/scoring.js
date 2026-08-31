@@ -11,21 +11,21 @@ export default class ScoringRoute extends Route {
     const { version_id: versionId } = this.paramsFor(
       'authenticated.certification-frameworks.certification-framework.versions.version',
     );
-    const draftVersion = await this.store.findRecord('certification-version', versionId);
+    const editVersion = await this.store.findRecord('certification-version', versionId);
 
     return {
-      activeVersion,
-      draftVersion,
-      calibrationScoringConfiguration: await this.loadCalibrationScoringConfiguration(draftVersion),
+      previousVersion: activeVersion,
+      editVersion,
+      calibrationScoringConfiguration: await this.loadCalibrationScoringConfiguration(editVersion),
     };
   }
 
-  async loadCalibrationScoringConfiguration(draftVersion) {
-    if (!draftVersion.externalCalibrationId) return null;
+  async loadCalibrationScoringConfiguration(editVersion) {
+    if (!editVersion.externalCalibrationId) return null;
 
     try {
       return await this.store.queryRecord('calibration-scoring-configuration', {
-        calibrationId: draftVersion.externalCalibrationId,
+        calibrationId: editVersion.externalCalibrationId,
       });
     } catch {
       return null;
@@ -33,14 +33,14 @@ export default class ScoringRoute extends Route {
   }
 
   afterModel(model) {
-    if (!model.draftVersion.isDraft || !model.calibrationScoringConfiguration?.globalScoringConfiguration?.length) {
+    if (!model.editVersion.isDraft || !model.calibrationScoringConfiguration?.globalScoringConfiguration?.length) {
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
     }
   }
 
   resetController(controller, isExiting) {
-    if (isExiting && controller.model.draftVersion.hasDirtyAttributes) {
-      controller.model.draftVersion.rollbackAttributes();
+    if (isExiting && controller.model.editVersion.hasDirtyAttributes) {
+      controller.model.editVersion.rollbackAttributes();
     }
   }
 }

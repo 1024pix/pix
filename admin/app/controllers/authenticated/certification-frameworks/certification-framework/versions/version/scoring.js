@@ -14,15 +14,15 @@ export default class ScoringController extends Controller {
   }
 
   get hasGlobalScoringError() {
-    const draftVersion = this.model.draftVersion;
-    const config = draftVersion.globalScoringConfiguration?.length
-      ? draftVersion.globalScoringConfiguration
+    const editVersion = this.model.editVersion;
+    const config = editVersion.globalScoringConfiguration?.length
+      ? editVersion.globalScoringConfiguration
       : (this.model.calibrationScoringConfiguration?.globalScoringConfiguration ?? []);
     return config.some(({ bounds }) => bounds.max <= bounds.min);
   }
 
   @action
   activateVersion() {
-    return this.versionController.activateVersion(this.model.draftVersion, this.model.calibrationScoringConfiguration);
+    return this.versionController.activateVersion(this.model.editVersion, this.model.calibrationScoringConfiguration);
   }
 }
