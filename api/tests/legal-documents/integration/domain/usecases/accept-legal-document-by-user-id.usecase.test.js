@@ -6,7 +6,7 @@ import { usecases } from '../../../../../src/legal-documents/domain/usecases/ind
 import { expect } from '../../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
-const { PIX_ORGA, PIX_APP } = LegalDocumentService.VALUES;
+const { PIX_APP, PIX_CERTIF, PIX_ORGA } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;
 
 describe('Integration | Legal documents | Domain | Use case | accept-legal-document-by-user-id', function () {
@@ -122,6 +122,31 @@ describe('Integration | Legal documents | Domain | Use case | accept-legal-docum
       expect(updatedUser.lastTermsOfServiceValidatedAt).to.exist;
       expect(updatedUser.cgu).to.be.true;
       expect(updatedUser.mustValidateTermsOfService).to.be.false;
+
+      // Verify the legal document acceptance was created
+      const userAcceptance = await knex('legal-document-version-user-acceptances')
+        .where('userId', user.id)
+        .where('legalDocumentVersionId', document.id)
+        .first();
+      expect(userAcceptance).to.exist;
+    });
+  });
+
+  context('when accepting TOS for PIX_CERTIF service (legacy)', function () {
+    it('updates the user table with acceptPixCertifTermsOfService and creates legal document acceptance', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false });
+      const document = databaseBuilder.factory.buildLegalDocumentVersion({ service: PIX_CERTIF, type: TOS });
+      await databaseBuilder.commit();
+
+      // when
+      await usecases.acceptLegalDocumentByUserId({ userId: user.id, service: PIX_CERTIF, type: TOS });
+
+      // then
+      // Verify the user table was updated (legacy behavior)
+      const updatedUser = await knex('users').where({ id: user.id }).first();
+      expect(updatedUser.pixCertifTermsOfServiceAccepted).to.be.true;
+      expect(updatedUser.lastPixCertifTermsOfServiceValidatedAt).to.be.instanceOf(Date);
 
       // Verify the legal document acceptance was created
       const userAcceptance = await knex('legal-document-version-user-acceptances')
