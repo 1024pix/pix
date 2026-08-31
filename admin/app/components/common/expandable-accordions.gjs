@@ -3,6 +3,7 @@ import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import { runTask } from 'ember-lifeline';
 
 const ACCORDIONS_PER_WAVE = 3;
@@ -66,10 +67,10 @@ export default class ExpandableAccordions extends Component {
       {{#if this.displayToolbar}}
         <div class="expandable-accordions__toolbar">
           <PixButton @variant="tertiary" @size="small" @triggerAction={{this.expandAll}}>
-            Tout déplier
+            {{t "components.expandable-accordions.expand-all"}}
           </PixButton>
           <PixButton @variant="tertiary" @size="small" @triggerAction={{this.collapseAll}}>
-            Tout replier
+            {{t "components.expandable-accordions.collapse-all"}}
           </PixButton>
         </div>
       {{/if}}

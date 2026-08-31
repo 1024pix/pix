@@ -73,6 +73,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       serializedRecord,
     );
   });
+
   test('it serializes records for update', function (assert) {
     const store = this.owner.lookup('service:store');
     const record = store.createRecord('combined-course-blueprint', {
@@ -90,7 +91,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       rewardId: 5,
       rewardType: 'ATTESTATION',
       surveyLink: 'http://survey-link-test.fr',
-      'capped-tube-requirements': [
+      cappedTubeRequirements: [
         {
           threshold: 0.5,
           tubes: [
@@ -116,6 +117,37 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
           'prescriber-description': null,
           'survey-link': 'http://survey-link-test.fr',
           'reward-requirements-description': null,
+        },
+      },
+    });
+  });
+
+  test('it transforms empty strings to null for update', function (assert) {
+    const store = this.owner.lookup('service:store');
+    const record = store.createRecord('combined-course-blueprint', {
+      id: '1',
+      name: 'parcours',
+      internalName: 'Nom interne',
+      illustration: '',
+      description: '',
+      rewardRequirementsDescription: '',
+      surveyLink: '',
+      prescriberDescription: '',
+    });
+
+    const serializedRecord = record.serialize();
+
+    assert.deepEqual(serializedRecord, {
+      data: {
+        type: 'combined-course-blueprints',
+        attributes: {
+          name: 'parcours',
+          'internal-name': 'Nom interne',
+          illustration: null,
+          description: null,
+          'reward-requirements-description': null,
+          'survey-link': null,
+          'prescriber-description': null,
         },
       },
     });

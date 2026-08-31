@@ -14,7 +14,13 @@ export default class CombinedCourseBlueprintSerializer extends ApplicationSerial
       delete json.data.attributes['reward-type'];
       delete json.data.attributes['capped-tube-requirements'];
 
-      for (const attribute of ['illustration', 'description', 'reward-requirements-description', 'survey-link']) {
+      for (const attribute of [
+        'illustration',
+        'description',
+        'prescriber-description',
+        'reward-requirements-description',
+        'survey-link',
+      ]) {
         json.data.attributes[attribute] = json.data.attributes[attribute] || null;
       }
     }

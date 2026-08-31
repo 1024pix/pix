@@ -1,10 +1,11 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
+import { t } from 'ember-intl/test-support';
 import Details from 'pix-admin/components/target-profiles/details';
+import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 
 module('Integration | Component | routes/authenticated/target-profiles/target-profile | details', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should display specific text when profile has no content', async function (assert) {
     // given
@@ -95,7 +96,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       const screen = await render(<template><Details @areas={{areas}} /></template>);
 
       // when
-      await clickByName('Tout déplier');
+      await clickByName(t('components.expandable-accordions.expand-all'));
 
       // then
       assert.dom(screen.getByText('Titre Competence 1 Area 1')).isVisible();
@@ -107,7 +108,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     test('it should hide every competence on collapse all', async function (assert) {
       // given
       const screen = await render(<template><Details @areas={{areas}} /></template>);
-      await clickByName('Tout déplier');
+      await clickByName(t('components.expandable-accordions.expand-all'));
 
       // when
       await clickByName('Tout replier');

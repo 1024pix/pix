@@ -1,4 +1,5 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
+import { t } from 'ember-intl/test-support';
 import ExpandableAccordion from 'pix-admin/components/common/expandable-accordion';
 import ExpandableAccordions from 'pix-admin/components/common/expandable-accordions';
 import { module, test } from 'qunit';
@@ -47,7 +48,7 @@ module('Integration | Component | Common::ExpandableAccordions', function (hooks
     const screen = await renderNestedAccordions();
 
     // then
-    assert.dom(screen.getByRole('button', { name: 'Tout déplier' })).exists();
+    assert.dom(screen.getByRole('button', { name: t('components.expandable-accordions.expand-all') })).exists();
     assert.dom(screen.getByRole('button', { name: 'Tout replier' })).exists();
   });
 
@@ -66,7 +67,7 @@ module('Integration | Component | Common::ExpandableAccordions', function (hooks
     const screen = await renderNestedAccordions();
 
     // when
-    await clickByName('Tout déplier');
+    await clickByName(t('components.expandable-accordions.expand-all'));
 
     // then
     assert.true(isExpanded(screen, DOMAINE));
@@ -78,7 +79,7 @@ module('Integration | Component | Common::ExpandableAccordions', function (hooks
   test('it should collapse every accordion on collapse all', async function (assert) {
     // given
     const screen = await renderNestedAccordions();
-    await clickByName('Tout déplier');
+    await clickByName(t('components.expandable-accordions.expand-all'));
 
     // when
     await clickByName('Tout replier');
@@ -104,12 +105,12 @@ module('Integration | Component | Common::ExpandableAccordions', function (hooks
   test('it should expand everything again after a manual collapse', async function (assert) {
     // given
     const screen = await renderNestedAccordions();
-    await clickByName('Tout déplier');
+    await clickByName(t('components.expandable-accordions.expand-all'));
     await clickByName(DOMAINE);
     assert.false(isExpanded(screen, DOMAINE));
 
     // when
-    await clickByName('Tout déplier');
+    await clickByName(t('components.expandable-accordions.expand-all'));
 
     // then
     assert.true(isExpanded(screen, DOMAINE));
@@ -120,7 +121,7 @@ module('Integration | Component | Common::ExpandableAccordions', function (hooks
   test('it should collapse everything after a manual collapse', async function (assert) {
     // given
     const screen = await renderNestedAccordions();
-    await clickByName('Tout déplier');
+    await clickByName(t('components.expandable-accordions.expand-all'));
     await clickByName(DOMAINE);
 
     // when
@@ -149,7 +150,9 @@ module('Integration | Component | Common::ExpandableAccordions', function (hooks
       );
 
       // then
-      assert.dom(screen.queryByRole('button', { name: 'Tout déplier' })).doesNotExist();
+      assert
+        .dom(screen.queryByRole('button', { name: t('components.expandable-accordions.expand-all') }))
+        .doesNotExist();
       assert.dom(screen.queryByRole('button', { name: 'Tout replier' })).doesNotExist();
 
       // when

@@ -14,17 +14,22 @@ export default class CombinedCourseBlueprintAdapter extends ApplicationAdapter {
   }
 
   createRecord(store, type, snapshot) {
-    const { adapterOptions } = snapshot;
-    if (adapterOptions && adapterOptions.cappedTubeRequirements) {
-      const { cappedTubeRequirements } = adapterOptions;
-      const payload = this.serialize(snapshot);
-      payload.data.attributes['capped-tube-requirements'] = cappedTubeRequirements;
-
-      const url = this.urlForCreateRecord(type.modelName, snapshot);
-
-      return this.ajax(url, 'POST', { data: payload });
+    if (!snapshot.adapterOptions) {
+      return super.createRecord(...arguments);
     }
 
-    return super.createRecord(...arguments);
+    const { adapterOptions } = snapshot;
+    const payload = this.serialize(snapshot);
+
+    if (adapterOptions.cappedTubeRequirements) {
+      const { cappedTubeRequirements } = adapterOptions;
+      payload.data.attributes['capped-tube-requirements'] = cappedTubeRequirements;
+    } else if (adapterOptions.schemaThreshold) {
+      const { schemaThreshold } = adapterOptions;
+      payload.data.attributes['schema-threshold'] = schemaThreshold;
+    }
+
+    const url = this.urlForCreateRecord(type.modelName, snapshot);
+    return this.ajax(url, 'POST', { data: payload });
   }
 }

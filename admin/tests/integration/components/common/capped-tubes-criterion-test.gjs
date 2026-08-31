@@ -1,11 +1,12 @@
 import { render } from '@1024pix/ember-testing-library';
-import CappedTubesCriterion from 'pix-admin/components/target-profiles/badge-form/capped-tubes-criterion';
+import { t } from 'ember-intl/test-support';
+import CappedTubesCriterion from 'pix-admin/components/common/tubes-selection/capped-tubes-criterion';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | TargetProfiles::BadgeForm::CappedTubesCriterion', function (hooks) {
+module('Integration | Component | Common::CappedTubesCriterion', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const areas = [];
@@ -27,7 +28,7 @@ module('Integration | Component | TargetProfiles::BadgeForm::CappedTubesCriterio
     );
 
     // then
-    assert.dom(screen.queryByRole('button', { name: 'Tout déplier' })).doesNotExist();
+    assert.dom(screen.queryByRole('button', { name: t('components.expandable-accordions.expand-all') })).doesNotExist();
     assert.dom(screen.queryByRole('button', { name: 'Tout replier' })).doesNotExist();
   });
 
@@ -48,7 +49,7 @@ module('Integration | Component | TargetProfiles::BadgeForm::CappedTubesCriterio
     );
 
     // then
-    assert.dom(screen.getByRole('button', { name: 'Tout déplier' })).exists();
+    assert.dom(screen.getByRole('button', { name: t('components.expandable-accordions.expand-all') })).exists();
     assert.dom(screen.getByRole('button', { name: 'Tout replier' })).exists();
   });
 });

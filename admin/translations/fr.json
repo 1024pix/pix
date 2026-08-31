@@ -848,9 +848,12 @@
         "prescriber-description-sublabel": "Cette description sera visible par les prescripteurs dans Pix Orga",
         "reward-requirements": {
           "add-new-tubes-selection": "Ajouter une nouvelle sélection de sujets",
+          "capped-tubes-criteria": "Critère d’obtention sur une sélection de sujets du schéma de parcours",
+          "capped-tubes-selection-option": "sur une sélection de sujets du schéma de parcours",
           "description": "Description des critères d’obtention",
-          "multiple-subsets-option": "sur une sélection de sujets du schéma de parcours",
-          "one-subset-option": "sur l'ensemble du schéma de parcours",
+          "entire-blueprint-criteria": "Critère d’obtention sur l'ensemble du contenu du schéma de parcours",
+          "entire-blueprint-criteria-option": "sur l'ensemble du contenu du schéma de parcours",
+          "no-criteria-option": "pas de critère lié aux sujets du schéma de parcours",
           "reward-criteria-choice": "Définir un critère d'obtention :"
         },
         "survey-link": "Url du questionnaire de fin de parcours",
@@ -895,6 +898,10 @@
         "title": "Mettre à jour un schéma de parcours",
         "updateButton": "Mettre à jour le schéma de parcours"
       }
+    },
+    "expandable-accordions": {
+      "collapse-all": "Tout replier",
+      "expand-all": "Tout déplier"
     },
     "layout": {
       "menu-bar": {

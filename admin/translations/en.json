@@ -840,9 +840,12 @@
         "prescriber-description-sublabel": "This description will be seen by the prescribers in Pix Orga",
         "reward-requirements": {
           "add-new-tubes-selection": "Add a new selection of capped tubes",
+          "capped-tubes-criteria": "Reward requirements on a selection of capped tubes",
+          "capped-tubes-selection-option": "on a selection of capped tubes",
           "description": "Reward requirements",
-          "multiple-subsets-option": "on multiple sets of capped tubes",
-          "one-subset-option": "on the whole combined course blueprint",
+          "entire-blueprint-criteria": "Reward requirements on the whole blueprint content",
+          "entire-blueprint-criteria-option": "on the whole blueprint content",
+          "no-criteria-option": "no criteria on the blueprint content",
           "reward-criteria-choice": "Choose a reward requirement rule :"
         },
         "survey-link": "Survey link url",
@@ -887,6 +890,10 @@
         "title": "Update a combined course blueprint",
         "updateButton": "Update combined course blueprint"
       }
+    },
+    "expandable-accordions": {
+      "collapse-all": "Collapse all",
+      "expand-all": "Expand all"
     },
     "layout": {
       "menu-bar": {
