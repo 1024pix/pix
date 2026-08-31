@@ -1,13 +1,13 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
 import { eq } from 'ember-truth-helpers';
 
 import Header from '../../table/header';
+import ExpandableAccordion from '../expandable-accordion';
 import Thematic from '../tubes-details/thematic';
 import Tube from '../tubes-details/tube';
 
 <template>
   <div class="competence-container">
-    <PixAccordions>
+    <ExpandableAccordion @expansion={{@expansion}}>
       <:title>{{@title}}</:title>
       <:content>
         <div class="panel">
@@ -56,6 +56,6 @@ import Tube from '../tubes-details/tube';
           </table>
         </div>
       </:content>
-    </PixAccordions>
+    </ExpandableAccordion>
   </div>
 </template>

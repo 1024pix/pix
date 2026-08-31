@@ -90,6 +90,33 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       assert.dom(screen.queryByText('Titre Area 2')).exists();
     });
 
+    test('it should display every competence and thematic on expand all', async function (assert) {
+      // given
+      const screen = await render(<template><Details @areas={{areas}} /></template>);
+
+      // when
+      await clickByName('Tout déplier');
+
+      // then
+      assert.dom(screen.getByText('Titre Competence 1 Area 1')).isVisible();
+      assert.dom(screen.getByText('Titre Competence 2 Area 2')).isVisible();
+      assert.dom(screen.getByText('Nom Thematic 1 Competence 1 Area 1')).isVisible();
+      assert.dom(screen.getByText('Nom Thematic 2 Competence 2 Area 2')).isVisible();
+    });
+
+    test('it should hide every competence on collapse all', async function (assert) {
+      // given
+      const screen = await render(<template><Details @areas={{areas}} /></template>);
+      await clickByName('Tout déplier');
+
+      // when
+      await clickByName('Tout replier');
+
+      // then
+      assert.dom(screen.getByText('Titre Competence 1 Area 1')).isNotVisible();
+      assert.dom(screen.getByText('Titre Competence 2 Area 2')).isNotVisible();
+    });
+
     test('it should display competences when clicking on area', async function (assert) {
       const screen = await render(<template><Details @areas={{areas}} /></template>);
 

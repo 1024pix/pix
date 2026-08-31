@@ -38,6 +38,27 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
     assert.dom(screen.getByText('@tubeName3 : Tube 3')).exists();
   });
 
+  test('it should display a list of tubes without clicking on each accordion on expand all', async function (assert) {
+    // when
+    await clickByName('Tout déplier');
+
+    // then
+    assert.dom(screen.getByText('@tubeName1 : Tube 1')).isVisible();
+    assert.dom(screen.getByText('@tubeName2 : Tube 2')).isVisible();
+    assert.dom(screen.getByText('@tubeName3 : Tube 3')).isVisible();
+  });
+
+  test('it should hide the tubes on collapse all', async function (assert) {
+    // given
+    await clickByName('Tout déplier');
+
+    // when
+    await clickByName('Tout replier');
+
+    // then
+    assert.dom(screen.getByText('@tubeName1 : Tube 1')).isNotVisible();
+  });
+
   test('it should check the tubes if selected', async function (assert) {
     // when
     await clickByName('1 · Titre domaine');

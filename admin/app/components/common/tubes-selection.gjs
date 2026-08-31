@@ -7,6 +7,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 import Card from '../card';
+import ExpandableAccordions from './expandable-accordions';
 import Areas from './tubes-selection/areas';
 
 const MAX_TUBE_LEVEL = 8;
@@ -262,17 +263,22 @@ export default class TubesSelection extends Component {
       {{#if this.hasNoFrameworksSelected}}
         Aucun référentiel de sélectionné
       {{else}}
-        <Areas
-          @areas={{this.areas}}
-          @setLevelTube={{this.setLevelTube}}
-          @selectedTubeIds={{this.selectedTubeIds}}
-          @checkTube={{this.checkTube}}
-          @uncheckTube={{this.uncheckTube}}
-          @tubeLevels={{this.tubeLevels}}
-          @displayDeviceCompatibility={{@displayDeviceCompatibility}}
-          @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
-          @displaySkillDifficultySelection={{this.displaySkillDifficultySelection}}
-        />
+        <ExpandableAccordions>
+          <:default as |expansion|>
+            <Areas
+              @areas={{this.areas}}
+              @expansion={{expansion}}
+              @setLevelTube={{this.setLevelTube}}
+              @selectedTubeIds={{this.selectedTubeIds}}
+              @checkTube={{this.checkTube}}
+              @uncheckTube={{this.uncheckTube}}
+              @tubeLevels={{this.tubeLevels}}
+              @displayDeviceCompatibility={{@displayDeviceCompatibility}}
+              @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
+              @displaySkillDifficultySelection={{this.displaySkillDifficultySelection}}
+            />
+          </:default>
+        </ExpandableAccordions>
       {{/if}}
     </div>
   </template>

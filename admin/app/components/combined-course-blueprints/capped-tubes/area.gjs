@@ -1,17 +1,16 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
-
+import ExpandableAccordion from '../../common/expandable-accordion';
 import Competence from './competence';
 
 <template>
   <div class="area-border-container">
     <div class="area-border {{@color}}"></div>
-    <PixAccordions class="{{@color}} list-competences">
+    <ExpandableAccordion class="{{@color}} list-competences" @expansion={{@expansion}}>
       <:title>{{@title}}</:title>
       <:content>
         {{#each @competences as |competence|}}
-          <Competence @title={{competence.name}} @thematics={{competence.thematics}} />
+          <Competence @title={{competence.name}} @thematics={{competence.thematics}} @expansion={{@expansion}} />
         {{/each}}
       </:content>
-    </PixAccordions>
+    </ExpandableAccordion>
   </div>
 </template>

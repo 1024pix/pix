@@ -1,4 +1,3 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -6,6 +5,7 @@ import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
 
 import Header from '../../table/header';
+import ExpandableAccordion from '../expandable-accordion';
 import Thematic from './thematic';
 import Tube from './tube';
 
@@ -47,7 +47,7 @@ export default class Competence extends Component {
 
   <template>
     <div class="competence-container">
-      <PixAccordions>
+      <ExpandableAccordion @expansion={{@expansion}}>
         <:title>{{@competence.index}} {{@competence.name}}</:title>
         <:content>
           <div class="panel">
@@ -111,7 +111,7 @@ export default class Competence extends Component {
             </table>
           </div>
         </:content>
-      </PixAccordions>
+      </ExpandableAccordion>
     </div>
   </template>
 }

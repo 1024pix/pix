@@ -10,6 +10,7 @@ import DownloadCombinedCourseBlueprint from 'pix-admin/components/combined-cours
 import { DescriptionList } from 'pix-admin/components/ui/description-list';
 
 import RequirementTag from '../common/combined-courses/requirement-tag';
+import ExpandableAccordions from '../common/expandable-accordions';
 import SafeMarkdownToHtml from '../safe-markdown-to-html';
 import Area from './capped-tubes/area';
 
@@ -136,9 +137,18 @@ export default class Details extends Component {
                         {{rewardRequirement.cappedTubesThreshold}}%
                       </p>
                       {{#if rewardRequirement.areas.length}}
-                        {{#each rewardRequirement.areas as |area|}}
-                          <Area @title={{area.title}} @color={{area.color}} @competences={{area.competences}} />
-                        {{/each}}
+                        <ExpandableAccordions>
+                          <:default as |expansion|>
+                            {{#each rewardRequirement.areas as |area|}}
+                              <Area
+                                @title={{area.title}}
+                                @color={{area.color}}
+                                @competences={{area.competences}}
+                                @expansion={{expansion}}
+                              />
+                            {{/each}}
+                          </:default>
+                        </ExpandableAccordions>
                       {{/if}}
                     </div>
                   </div>

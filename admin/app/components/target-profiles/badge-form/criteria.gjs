@@ -113,6 +113,7 @@ export default class Criteria extends Component {
             @onNameChange={{fn this.onCappedTubesNameChange criterion}}
             @onTubesSelectionChange={{fn this.onCappedTubesSelectionChange criterion}}
             @remove={{fn this.removeCappedTubeCriterion index}}
+            @displayExpandAllButtons={{true}}
           />
         {{/each}}
         <PixButton
