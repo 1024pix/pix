@@ -107,6 +107,7 @@
     "xss": "^1.0.15"
   },
   "overrides": {
+    "eslint": "$eslint",
     "@xmldom/xmldom": ">=0.9.10",
     "flatted": ">=3.4.2",
     "braces": ">=3.0.3"

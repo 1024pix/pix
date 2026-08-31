@@ -61,6 +61,7 @@
     "csv-parse": "^7.0.0"
   },
   "overrides": {
+    "eslint": "$eslint",
     "flatted": ">=3.4.2"
   }
 }
