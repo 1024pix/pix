@@ -2,18 +2,18 @@
   "id": "aaec33eb-6692-469f-bf3a-db281ab9fc0d",
   "shortId": "e8329088",
   "slug": "viralite-reseaux-ia",
-  "title": "Viralité sur les réseaux sociaux à l’heure des IA génératives",
+  "title": "Comment les IA génératives favorisent la viralité sur les réseaux sociaux",
   "isBeta": true,
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Sur les réseaux sociaux, ce que vous voyez n’est pas choisi au hasard.&nbsp;🎲 </p><p>Les algorithmes de recommandation mettent en avant les contenus qui font réagir, et les logiciels d’intelligence artificielle (IA) générative permettent d’en produire toujours plus.</p><p>Découvrez comment ces mécanismes créent des contenus viraux, influencent ce que vous voyez et peuvent accélérer la diffusion de contenus trompeurs.</p>",
+    "description": "<p>Sur les réseaux sociaux, ce que vous voyez n’est pas choisi au hasard.&nbsp;🎲 </p><p>Les algorithmes de recommandation mettent en avant les contenus qui font réagir. Et les logiciels d’intelligence artificielle (IA) générative permettent de produire toujours plus de contenus.</p><p>Découvrez comment ces mécanismes créent des contenus viraux, influencent ce que vous voyez et peuvent accélérer la diffusion de contenus trompeurs.</p>",
     "duration": 10,
     "level": "independent",
     "objectives": [
       "<p>Comprendre le principe de la recommandation de contenus sur les réseaux sociaux</p>",
       "<p>Comprendre comment les informations se diffusent sur les réseaux sociaux</p>",
-      "<p>Identifier les enjeux de l’utilisation de l’IA générative sur les réseaux sociaux</p>"
+      "<p>Identifier les enjeux de l’utilisation des IA génératives sur les réseaux sociaux</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -33,7 +33,7 @@
                 "id": "344401da-5ae5-4bb0-a46f-b48abd05a4bb",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Marine et Alphonse utilisent le même réseau social. <br>Ils ouvrent leur application du réseau social au même moment.</p>"
+                "content": "<p>Marine et Alphonse utilisent le même réseau social.<br>Au même moment, ils ouvrent l’application du réseau social chacun sur leur smartphone.</p>"
               }
             },
             {
@@ -46,28 +46,28 @@
                 "proposals": [
                   {
                     "id": "0",
-                    "content": "<p>Exactement les mêmes contenus dans le même ordre.</p>",
+                    "content": "<p>Exactement les mêmes contenus dans le même ordre</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est peu probable.<br>Sur un réseau social, <strong>tous les utilisateurs ne voient pas les mêmes contenus</strong>. Chaque réseau social adapte ce qu’il affiche selon l’utilisateur.</p>"
                     }
                   },
                   {
                     "id": "1",
-                    "content": "<p>Exactement les mêmes contenus dans un ordre différent.</p>",
+                    "content": "<p>Exactement les mêmes contenus dans un ordre différent</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est peu probable.<br>Sur un réseau social, <strong>tous les utilisateurs ne voient pas les mêmes contenus</strong>. Chaque réseau social adapte ce qu’il affiche selon l’utilisateur.</p>"
                     }
                   },
                   {
                     "id": "2",
-                    "content": "<p>Des contenus en partie différents.</p>",
+                    "content": "<p>Des contenus en partie différents</p>",
                     "feedback": {
                       "diagnosis": "<p>Effectivement.<br>Sur un réseau social, <strong>tous les utilisateurs ne voient pas les mêmes contenus</strong>. Chaque réseau social adapte ce qu’il affiche selon l’utilisateur.</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Uniquement les contenus publiés le plus récemment.</p>",
+                    "content": "<p>Uniquement les contenus publiés le plus récemment</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est peu probable.<br>Sur un réseau social, <strong>tous les utilisateurs ne voient pas les mêmes contenus</strong>. Chaque réseau social adapte ce qu’il affiche selon l’utilisateur.</p>"
                     }
@@ -118,7 +118,7 @@
                 "id": "2c4bd126-43b5-4b65-8f01-3f18f6a98b37",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Marine consulte un réseau social. Quand une publication lui plait, elle lui met une mention J'aime.</p><p><strong>Observez les dernières publications que Marine a vu, puis répondez à la question qui suit.</strong></p><p><br></p><p>[Les publications ci-dessous seront remplacées par une illustration]</p><p><br></p><ul>        <li>3 recettes faciles avec seulement 4 ingrédients 🍽️ → Liké</li><li>Pourquoi tout le monde parle de cette série 👀</li>    <li>Course des 3 bosquets&nbsp;: le plus beau lever de soleil 🌄🤩</li>    <li>Gaufres, fruits frais et café glacé 🧇 → Liké</li>    <li>Quand ton chien entend le mot «&nbsp;promenade&nbsp;» 🐶</li>    <li>Compilation des plus beaux buts de la semaine ⚽ → Liké</li>    <li>Comment réussir des pâtes carbonara crémeuses 🍝 → Liké</li>    <li>Renforcez vos abdos en 15 minutes par jour 🏋️ → Liké</li></ul>"
+                "content": "<p>Marine consulte un réseau social. Quand une publication lui plait, elle lui met une mention J’aime.</p><p><strong>Observez les dernières publications que Marine a vues, puis répondez à la question qui suit.</strong></p><p>[Les publications ci-dessous seront remplacées par une illustration]</p><ul>        <li>3 recettes faciles avec seulement 4 ingrédients 🍽️ → Liké</li><li>Pourquoi tout le monde parle de cette série ? 👀</li>    <li>Course des 3 bosquets&nbsp;: le plus beau lever de soleil 🌄🤩</li>    <li>Gaufres, fruits frais et café glacé 🧇 → Liké</li>    <li>Quand ton chien entend le mot «&nbsp;promenade&nbsp;» ! 🐶</li>    <li>Compilation des plus beaux buts de la semaine ⚽ → Liké</li>    <li>Comment réussir des pâtes carbonara crémeuses ? 🍝 → Liké</li>    <li>Renforcez vos abdos en 15 minutes par jour  ! 🏋️ → Liké</li></ul>"
               }
             },
             {
@@ -131,11 +131,11 @@
                 "proposals": [
                   {
                     "id": "0",
-                    "content": "<p>une vidéo sur les avions de chasse du 20ème siècle</p>"
+                    "content": "<p>une vidéo sur les avions de chasse du 20e siècle</p>"
                   },
                   {
                     "id": "1",
-                    "content": "<p>un carrousel photo de recettes pour les fêtes de fin d’année</p>"
+                    "content": "<p>une sélection de recettes pour les fêtes de fin d’année</p>"
                   },
                   {
                     "id": "2",
@@ -153,7 +153,7 @@
                   },
                   "invalid": {
                     "state": "<p>C’est peu probable.</p>",
-                    "diagnosis": "<p>Vu les centres d’intérêt de Marine, il y a plus de chances qu’elle voie des contenus proches de ce qu’elle regarde déjà, ici la cuisine et le sport.</p>\n"
+                    "diagnosis": "<p>Au vu des centres d’intérêt de Marinecontenus proches de ce qu’elle regarde déjà, ici la cuisine et le sport.</p>"
                   }
                 },
                 "solutions": [
@@ -171,7 +171,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p><br></p>",
+              "instruction": "",
               "steps": [
                 {
                   "elements": [
@@ -179,7 +179,7 @@
                       "id": "026a2d4c-9e19-4b81-a5f7-1c8d2ab4bcae",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Un réseau social utilise un <strong>algorithme de recommandation</strong>&nbsp;: un programme dont le but est de <strong>personnaliser les contenus qui apparaissent pour chaque utilisateur</strong>.</p>"
+                      "content": "<p>Un réseau social utilise un <strong>algorithme de recommandation</strong>&nbsp;: c’est un programme dont le but est de <strong>personnaliser les contenus qui apparaissent pour chaque utilisateur</strong>.</p>"
                     }
                   ]
                 },
@@ -189,7 +189,7 @@
                       "id": "e9b5ea7b-43d6-4fa1-9327-0a829f8903a7",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’algorithme de recommandation analyse le <strong>comportement de l’utilisateur</strong>&nbsp;: là où il <strong>clique</strong>, ce qu’il <strong>regarde</strong>, ce qui le fait <strong>réagir</strong> (avec des mentions J’aime, des commentaires ou des partages).<br></p><p>Ensuite, l’algorithme de recommandation lui <strong>propose des contenus</strong> qui ont <strong>déjà suscité des réactions chez d'autres utilisateurs</strong> avec des <strong>comportements similaires</strong>.</p><p><br></p><p>Certains de ces contenus peuvent avoir été créés en utilisant des logiciels d’intelligence artificielle (IA) générative.</p>\n"
+                      "content": "<p>L’algorithme de recommandation analyse le <strong>comportement de l’utilisateur</strong>&nbsp;:&nbsp;</p><ul><li>là où l’utilisateur <strong>clique</strong>,&nbsp;</li><li>ce qu’il <strong>regarde</strong>,&nbsp;</li><li>ce qui le <strong>fait réagir</strong>. Par exemple, l’algorithme de recommandation repère les contenus avec des mentions J’aime, les contenus commentés et les contenus partagés par l’utilisateur.”</li></ul><p>Ensuite, l’algorithme de recommandation <strong>propose à l’utilisateur des contenus</strong> qui ont <strong>déjà suscité des réactions chez d’autres utilisateurs</strong> avec des <strong>comportements similaires</strong>.</p><p>Certains de ces contenus peuvent avoir été créés en utilisant des logiciels d’intelligence artificielle (IA) générative.</p>"
                     }
                   ]
                 },
@@ -218,7 +218,7 @@
                 "id": "5749bcb2-34cc-43c9-bcf6-35bb9cf1c32c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les contenus recommandés par l’algorithme de recommandation ne rencontrent pas tous le même succès. Certains attirent beaucoup plus l’attention que d’autres. Comment l’expliquer&nbsp;?&nbsp;🤔</p>"
+                "content": "<p>Les contenus recommandés par des algorithmes de recommandation ne rencontrent pas tous le même succès. Certains attirent beaucoup plus l’attention que d’autres. Comment l’expliquer&nbsp;?&nbsp;🤔</p>"
               }
             }
           ]
@@ -234,7 +234,7 @@
                 "id": "c3ee2c5b-031e-415a-bb94-d18836736a7c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Deux publications parlent du même sujet. Pourtant, l’une est massivement partagée alors que l’autre passe presque inaperçue.</p>\n<p><br></p>\n<p><strong>Observez&nbsp;les deux publications, puis répondez à la question qui suit.</strong></p><p><strong><br></strong></p>\n<p>[Les publications ci-dessous seront remplacées par une illustration]</p>\n<p><strong><br></strong></p>\n<h5>Publication A&nbsp;: </h5>\n<p>«&nbsp;Une étude montre qu’un manque de sommeil régulier peut avoir des effets sur la concentration.&nbsp;»&nbsp;📰</p>\n<p>👍 24 mentions “J’aime” / 💬 13 commentaires / ↪️ 12 partages</p>\n<p>Heure de publication&nbsp;: 8h15</p>\n<p><br></p>\n<h5>Publication B&nbsp;:&nbsp; </h5>\n<p>«&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir !&nbsp;» 😱</p><p>Créé avec l’IA ✨</p>\n<p>👍 17 487 mentions “J’aime” /💬 4 221 commentaires / ↪️ 12 093 partages</p>\n<p>Heure de publication&nbsp;: 8h12</p>"
+                "content": "<p>Les deux publications suivantes parlent du même sujet et ont été publiées sur le même réseau social. Pourtant, l’une est massivement partagée par les utilisateurs alors que l’autre passe presque inaperçue.</p><p><strong>Observez&nbsp;les deux publications, puis répondez à la question qui suit.</strong></p><p>[Les publications ci-dessous seront remplacées par une illustration]</p><h5>Publication A&nbsp;: </h5><p>«&nbsp;Une étude montre qu’un manque de sommeil régulier peut avoir des effets sur la concentration.&nbsp;»&nbsp;📰</p><p>👍 24 mentions “J’aime” / 💬 13 commentaires / ↪️ 12 partages</p><p>Heure de publication&nbsp;: 8h15</p><h5>Publication B&nbsp;:&nbsp; </h5><p>«&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir !&nbsp;» 😱</p><p>Créé avec l’IA ✨</p><p>👍 17 487 mentions “J’aime” /💬 4 221 commentaires / ↪️ 12 093 partages</p><p>Heure de publication&nbsp;: 8h12</p>"
               }
             },
             {
@@ -249,21 +249,21 @@
                     "id": "0",
                     "content": "<p>Parce qu’elle provoque plus d’émotions et de curiosité.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Exact !</p><p>Le titre de la publication B a été écrit pour susciter de l’inquiétude. Il attire immédiatement l’attention, <strong>provoque des émotions fortes</strong> et donne envie de cliquer, de commenter ou de partager. L’IA générative est souvent utilisée pour écrire des <strong>contenus sensationnels</strong>, comme ici avec l’article «&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir&nbsp;!&nbsp;».</p>\n<p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
+                      "diagnosis": "<p>Exact !</p><p>Le titre de la publication B a été écrit pour susciter de l’inquiétude. Il attire immédiatement l’attention, <strong>provoque des émotions fortes</strong> et donne envie de cliquer, de commenter ou de partager. L’IA générative est souvent utilisée pour écrire des <strong>contenus sensationnels</strong>, comme ici avec l’article «&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir&nbsp;!&nbsp;».</p><p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
                     }
                   },
                   {
                     "id": "1",
                     "content": "<p>Parce qu’elle contient des informations plus fiables.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non.</p><p>Les contenus les plus partagés ne sont pas toujours les plus fiables. Ici, c’est surtout le <strong>ton</strong> de la publication B qui <strong>provoque davantage d’émotions fortes</strong> et donc de réactions. L’IA générative est souvent utilisée pour créer ce type de contenu <strong>sensationnels</strong>.</p>\n<p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
+                      "diagnosis": "<p>Eh non.</p><p>Les contenus les plus partagés ne sont pas toujours les plus fiables. Ici, c’est surtout le <strong>ton</strong> de la publication B qui <strong>provoque davantage d’émotions fortes</strong> et donc de réactions. L’IA générative est souvent utilisée pour créer ce type de contenus&nbsp;<strong>sensationnels</strong>.</p><p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Parce qu’elle a été publiée en premier.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non.</p><p>Les deux publications ont presque été publiées à la même heure : ce n'est donc pas l'élément déterminant. Ici, c’est surtout le <strong>ton</strong> de la publication B qui <strong>provoque davantage d’émotions fortes</strong> et donc de réactions. L’IA générative est souvent utilisée pour créer ce type de contenu <strong>sensationnels</strong>.</p>\n<p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
+                      "diagnosis": "<p>Eh non.</p><p>Les deux publications ont presque été publiées à la même heure&nbsp;: ce n’est donc pas l’élément déterminant. Ici, c’est surtout le <strong>ton</strong> de la publication B qui <strong>provoque davantage d’émotions fortes</strong> et donc de réactions. L’IA générative est souvent utilisée pour créer ce type de contenus&nbsp;<strong>sensationnels</strong>.</p><p>Si un contenu <strong>se diffuse rapidement et largement</strong> sur les réseaux sociaux, on dit de ce <strong>contenu</strong> qu’il est <strong>viral</strong>.</p>"
                     }
                   },
                   {
@@ -294,7 +294,7 @@
                       "id": "222f2bd5-0ebf-44d1-bf89-f7adb0cd8569",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Les contenus viraux, qui se diffusent rapidement et largement, sont souvent des <strong>contenus sensationnels ou extrêmes</strong>. D’ailleurs, certains de ces contenus sont conçus pour <strong>influencer ou manipuler les opinions</strong> des utilisateurs.</p>\n<p>À l’inverse, les contenus plus nuancés se diffusent moins rapidement et moins largement.</p>"
+                      "content": "<p>Les contenus viraux, qui se diffusent rapidement et largement. Ce sont souvent des <strong>contenus sensationnels ou extrêmes</strong>. D’ailleurs, certains de ces contenus sont conçus pour <strong>influencer ou manipuler les opinions</strong> des utilisateurs.</p><p>À l’inverse, les contenus plus nuancés se diffusent moins rapidement et moins largement.</p>"
                     }
                   ]
                 },
@@ -349,7 +349,7 @@
                 "id": "c640ce0f-2cf7-4b7b-982e-c063fc16e9b0",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Deux créateurs publient des vidéos sur les réseaux sociaux. Leur objectif&nbsp;: produire des contenus viraux, quitte à diffuser des contenus trompeurs.</p><p><br></p><p><strong>Observez leur manière de travailler, puis répondez à la question qui suit.</strong></p><p><strong><br></strong></p><p>[Le texte ci-dessous sera probablement remplacé par une image à terme]&nbsp;&nbsp;</p>"
+                "content": "<p>Deux créateurs de contenu publient des vidéos sur les réseaux sociaux. Leur objectif&nbsp;: produire des contenus viraux, quitte à diffuser des contenus trompeurs.</p><p><strong>Observez leur manière de travailler.</strong></p><p>[Le texte ci-dessous sera probablement remplacé par une image à terme]&nbsp;&nbsp;</p>"
               }
             },
             {
@@ -358,7 +358,7 @@
                 "id": "f7aa057e-bd74-4934-876f-12c986924849",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>👨‍🦱 Loïc </h5>\n<ul>\n    <li>filme une vidéo</li>\n    <li>fait le montage</li>\n    <li>ajoute des effets visuels pour rendre sa vidéo plus accrocheuse</li>\n    <li>publie la vidéo</li>\n</ul>\n<h5>👨‍🦰 Joao </h5>\n<ul>\n    <li>utilise un logiciel d’IA générative</li>\n    <li>génère plusieurs vidéos réalistes à partir d’un simple prompt</li>\n    <li>sélectionne celles qui semblent les plus accrocheuses</li>\n    <li>publie les vidéos</li>\n</ul>"
+                "content": "<h5>👨‍🦱 Loïc </h5><ul>    <li>filme une vidéo</li>    <li>fait le montage</li>    <li>ajoute des effets visuels pour rendre sa vidéo plus accrocheuse</li>    <li>publie la vidéo</li></ul><h5>👨‍🦰 Joao </h5><ul>    <li>utilise un logiciel d’IA générative</li>    <li>génère plusieurs vidéos réalistes à partir d’un simple prompt</li>    <li>sélectionne les vidéos qui semblent les plus accrocheuses</li>    <li>publie les vidéos</li></ul>"
               }
             },
             {
@@ -436,7 +436,7 @@
                   }
                 ],
                 "feedback": {
-                  "diagnosis": "<p>L’utilisation d’un <strong>logiciel d’IA générative</strong> permet de produire un <strong>grand nombre de contenus</strong>, souvent très réalistes notamment des <strong>deepfakes</strong> (hypertrucages).<br>Un créateur peut ainsi publier beaucoup plus de contenus en peu de temps.<br>Et comme certains de ces deepfakes sont conçus pour attirer l’attention et faire réagir fortement les utilisateurs, ils sont <strong>mis en avant</strong> par les <strong>algorithmes de recommandation</strong> sans que leur fiabilité soit vérifiée.</p>"
+                  "diagnosis": "<p>L’utilisation d’un <strong>logiciel d’IA générative</strong> permet de produire un <strong>grand nombre de contenus</strong>, souvent très réalistes, notamment des <strong>deepfakes</strong> (hypertrucages).<br>Un créateur de contenu peut ainsi publier beaucoup plus de contenus en peu de temps.<br>Et comme certains de ces deepfakes sont conçus pour attirer l’attention et faire réagir fortement les utilisateurs, ils sont <strong>mis en avant</strong> par des <strong>algorithmes de recommandation</strong> sans que leur fiabilité soit vérifiée.</p>"
                 }
               }
             }
@@ -457,7 +457,7 @@
                       "id": "cc4bfd6d-4aaf-4f4b-b7d6-8c445865dc76",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’arrivée des <strong>IA génératives renforce</strong> le <strong>phénomène de viralité</strong>.</p><br><p>En plus, ces contenus générés grâce à l’IA générative sont parfois <strong>diffusés par des comptes entièrement automatisés</strong>, puis approuvés, commentés et partagés par d’autres comptes automatisés dans le but d’<strong>accélérer leur propagation</strong>.</p><br><p>Résultat, quelqu’un qui souhaite créer du contenu dans le but de diffuser des <strong>informations fausses ou trompeuses</strong> pour <strong>manipuler les utilisateurs</strong> peut le faire <strong>beaucoup plus facilement avec plus de succès</strong>.</p>"
+                      "content": "<p>L’arrivée des <strong>IA génératives renforce</strong> le <strong>phénomène de viralité </strong>sur les réseaux sociaux.</p><p>En plus, ces contenus générés grâce à l’IA générative sont parfois <strong>diffusés par des faux comptes entièrement automatisés</strong>, puis approuvés, commentés et partagés par d’autres comptes automatisés dans le but d’<strong>accélérer leur diffusion</strong>.</p><p>Résultat&nbsp;: une personne qui souhaite créer du contenu dans le but de diffuser des <strong>informations fausses ou trompeuses</strong> pour <strong>manipuler des utilisateurs</strong> peut le faire <strong>beaucoup plus facilement avec plus de succès</strong>.</p>"
                     }
                   ]
                 },
@@ -477,7 +477,7 @@
                       "id": "c656df43-44d8-413e-9010-89c92da70b64",
                       "type": "text",
                       "tag": "further-information",
-                      "content": "<p>Vous avez peut-être déjà vu des vidéos étranges ou fantaisistes, avec des images incohérentes ou sans logique&nbsp;?</p><p>Ces contenus, parfois appelés «&nbsp;AI slop&nbsp;», sont générés en masse par IA pour capter l’attention. Il y en a de plus en plus. Ces contenus ont tendance à inonder les réseaux sociaux ce qui a pour effet d’invisibiliser les contenus créés par des humains.</p>"
+                      "content": "<p>Vous avez peut-être déjà vu des vidéos étranges ou fantaisistes, avec des images incohérentes ou sans logique&nbsp;?</p><p>Ces contenus, parfois appelés «&nbsp;AI slop&nbsp;», sont<strong> générés en masse par IA</strong> pour capter l’attention. Ils inondent les réseaux sociaux et <strong>rendent moins visibles les contenus créés par des humains</strong>.</p>"
                     }
                   ]
                 }
@@ -502,7 +502,7 @@
                 "id": "ca21c101-102c-40c0-a574-4d7b4bf42007",
                 "type": "text",
                 "tag": " ",
-                "content": "    <p>[Peut-être sous forme d'infographie ?]</p>\n    <p><br></p>\n    <ul>\n        <li>Les réseaux sociaux utilisent des <strong>algorithmes de recommandation</strong> qui personnalisent les contenus vus par chaque utilisateur, à partir de son comportement. Ces algorithmes sont utilisés pour <strong>capter l’attention</strong> des utilisateurs.&nbsp;🧠</li>\n        <li>Les contenus qui provoquent le <strong>plus de réactions</strong> sont <strong>davantage diffusés</strong> et peuvent devenir <strong>viraux</strong>, même s’ils sont faux ou trompeurs.&nbsp;⏩</li>\n        <li>L’<strong>IA générative renforce le phénomène de viralité</strong> en permettant de <strong>créer et diffuser </strong><strong>massivement</strong> des <strong>contenus réalistes</strong>, parfois <strong>trompeurs</strong>.&nbsp;🥸</li>\n    </ul>"
+                "content": "    <p>[Peut-être sous forme d’infographie ?]</p>        <ul>        <li>Les réseaux sociaux utilisent des <strong>algorithmes de recommandation</strong> qui personnalisent les contenus vus par chaque utilisateur, à partir de son comportement. Ces algorithmes sont utilisés pour <strong>capter l’attention</strong> des utilisateurs.&nbsp;🧠</li>        <li>Les contenus qui provoquent le <strong>plus de réactions</strong> sont <strong>davantage diffusés</strong> et peuvent devenir <strong>viraux</strong>, même s’ils sont faux ou trompeurs.&nbsp;⏩</li>        <li>L’<strong>IA générative renforce le phénomène de viralité</strong> en permettant de <strong>créer et diffuser </strong><strong>massivement</strong> des <strong>contenus réalistes</strong>, parfois <strong>trompeurs</strong>.&nbsp;🥸</li>    </ul>"
               }
             }
           ]
@@ -516,7 +516,7 @@
         {
           "id": "0f51b976-3de9-4065-b8b0-a5b7b95cb207",
           "type": "transition",
-          "title": "Transition S'exercer",
+          "title": "Transition S’exercer",
           "components": [
             {
               "type": "element",
@@ -540,7 +540,7 @@
                 "id": "f7900c20-9062-4255-b695-4f319e78903a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Depuis quelques semaines, vous avez adopté un chien.&nbsp;🐶</p>\n<p>À plusieurs reprises, vous avez cherché des vidéos sur votre réseau social favori pour apprendre à l’éduquer.</p>"
+                "content": "<p>Depuis quelques semaines, vous avez adopté un chien.&nbsp;🐶</p><p>À plusieurs reprises, vous avez cherché des vidéos sur votre réseau social favori pour apprendre à l’éduquer.</p>"
               }
             },
             {
@@ -701,8 +701,8 @@
                   "author": "La rédaction",
                   "date": "18 mai",
                   "paragraphs": [
-                    "Des petits lapins en train de rebondir sur un trampoline ? Cette vidéo est devenue la star de l’été. TikTok, Facebook, Instagram, YouTube... Elle s’affiche sur les smartphones du monde entier en quelques jours seulement. On y voit les petites boules de poil, filmées de nuit, par ce qui semble être une caméra de vidéosurveillance.",
-                    "Ces vidéos de trampoline existent en de nombreuses variantes : avec un ours, une biche ou des ratons laveurs. Toutes ont été créées de toutes pièces par une intelligence artificielle. Faciles à produire et très accrocheuses, elles se multiplient rapidement et cumulent des centaines de millions de vues.",
+                    "Des petits lapins en train de rebondir sur un trampoline ? Cette vidéo est devenue la star de l’été. TikTok, Facebook, Instagram, YouTube... la vidéo s’est affichée sur les smartphones du monde entier en quelques jours seulement. On y voit les petites boules de poil, filmées de nuit, par ce qui semble être une caméra de vidéosurveillance.",
+                    "Ces vidéos de trampoline existent en plusieurs versions : avec un ours, une biche ou des ratons laveurs. Elles ont été créées de toutes pièces avec l’intelligence artificielle. Faciles à produire et très accrocheuses, elles se multiplient rapidement et cumulent des centaines de millions de vues.",
                     "De nombreux internautes ont été surpris en apprenant la supercherie derrière ces vidéos pourtant très réalistes. De quoi, peut-être, fragiliser la confiance accordée aux images de vidéosurveillance, jusque-là considérées comme des preuves fiables."
                   ],
                   "highlightedSentence": "",
@@ -746,7 +746,7 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bonne réponse !&nbsp;🎉</p>",
-                          "diagnosis": "<p>Ces vidéos d’animaux ont été créées en utilisant l’IA générative&nbsp;: elles sont donc très facile à produire et peuvent être produites en grande quantité. Ces vidéos, optimisées pour générer des clics sur les réseaux sociaux, se sont diffusées rapidement&nbsp;: elles sont devenues virales.</p>"
+                          "diagnosis": "<p>Ces vidéos d’animaux ont été créées en utilisant des logiciels d’IA générative&nbsp;: elles sont donc très facile à produire et peuvent être produites en grande quantité. Ces vidéos, optimisées pour générer des clics sur les réseaux sociaux, se sont diffusées rapidement&nbsp;: elles sont devenues virales.</p>"
                         },
                         "invalid": {
                           "state": "<p>Mauvaise réponse.</p>",
@@ -770,11 +770,11 @@
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "<p>Les utilisateurs ne sont pas toujours prévenus qu’il s’agit de vidéos créées avec l’IA générative.</p>"
+                          "content": "<p>Les utilisateurs ne sont pas toujours prévenus qu’il s’agit de vidéos générées par IA.</p>"
                         },
                         {
                           "id": "1",
-                          "content": "<p>Depuis la diffusion, les ventes de trampolines ont augmenté de 25%, créant des pénuries.</p>"
+                          "content": "<p>Depuis la diffusion, les ventes de trampolines ont augmenté de 25&nbsp;%, créant des pénuries.</p>"
                         },
                         {
                           "id": "2",
@@ -788,7 +788,7 @@
                       "feedbacks": {
                         "valid": {
                           "state": "<p>Bonne réponse !&nbsp;🎉</p>",
-                          "diagnosis": "<p>Les utilisateurs ne sont pas toujours avertis qu’un contenu a été généré avec l’IA. Le réalisme de ces images fictives peut faire douter des images bien réelles, comme par exemple celles des caméras de surveillance.</p>"
+                          "diagnosis": "<p>Les utilisateurs ne sont pas toujours avertis qu’un contenu a été généré par l’IA. Le réalisme de ces images fictives peut faire douter d’images bien réelles, comme par exemple celles des caméras de surveillance.</p>"
                         },
                         "invalid": {
                           "state": "<p>Mauvaise réponse.</p>",
@@ -822,12 +822,12 @@
               "element": {
                 "id": "53e15e8c-f872-46f7-8683-58418740adc3",
                 "type": "qcu-declarative",
-                "instruction": "<p>À votre échelle, que pourriez-vous faire pour contrer le phénomène de viralité sur les réseaux sociaux ?</p>",
+                "instruction": "<p>À votre échelle, que pouvez-vous faire pour limiter le phénomène de viralité sur les réseaux sociaux ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "0",
-                    "content": "<p>Je réfléchis avant de partager un contenu généré par IA avec d’autres personnes.</p>",
+                    "content": "<p>Je réfléchisavant de partager avec d’autres personnes un contenu généré par IA.</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est une excellente habitude !<br>Se questionner avant de partager un contenu est un bon réflexe.</p>"
                     }
@@ -850,7 +850,7 @@
                     "id": "3",
                     "content": "<p>Je ne sais pas encore.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Chacun son rythme !<br>Quand vous le souhaiterez, un premier pas simple peut être de réfléchir avant de partager un contenu généré par IA avec d’autres personnes.</p>"
+                      "diagnosis": "<p>Chacun son rythme !<br>Quand vous le souhaiterez, un premier pas simple peut être de réfléchir&nbsp;avant de partager avec d’autres personnes un contenu généré par IA.</p>"
                     }
                   }
                 ]
