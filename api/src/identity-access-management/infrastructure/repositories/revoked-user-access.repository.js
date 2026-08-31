@@ -1,8 +1,8 @@
+import Joi from 'joi';
+
 import { config } from '../../../../src/shared/config.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
-import { SessionIdIsRequiredError, UserIdIsRequiredError } from '../../domain/errors.js';
-import { RevokeUntilMustBeAnInstanceOfDate } from '../../domain/errors.js';
 import { RevokedUserAccess } from '../../domain/models/RevokedUserAccess.js';
 
 const revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
@@ -18,13 +18,8 @@ const isSessionLogoutEnabled = featureToggles.use('isSessionLogoutEnabled');
  * @param {Date} params.revokeUntil - The date until the user's access should be revoked.
  */
 async function revokeAll({ userId, revokeUntil }) {
-  if (!userId) {
-    throw new UserIdIsRequiredError();
-  }
-
-  if (!(revokeUntil instanceof Date)) {
-    throw new RevokeUntilMustBeAnInstanceOfDate();
-  }
+  Joi.assert(userId, Joi.required());
+  Joi.assert(revokeUntil, Joi.date().required());
 
   await revokedUserAccessTemporaryStorage.save({
     key: userId,
@@ -48,17 +43,9 @@ async function revokeAll({ userId, revokeUntil }) {
  * @param {Date} params.revokeUntil - The date until the user's access should be revoked.
  */
 async function revokeSession({ userId, sessionId, revokeUntil }) {
-  if (!userId) {
-    throw new UserIdIsRequiredError();
-  }
-
-  if (!sessionId) {
-    throw new SessionIdIsRequiredError();
-  }
-
-  if (!(revokeUntil instanceof Date)) {
-    throw new RevokeUntilMustBeAnInstanceOfDate();
-  }
+  Joi.assert(userId, Joi.required());
+  Joi.assert(sessionId, Joi.required());
+  Joi.assert(revokeUntil, Joi.date().required());
 
   await revokedUserAccessTemporaryStorage.save({
     key: `${userId}:${sessionId}`,

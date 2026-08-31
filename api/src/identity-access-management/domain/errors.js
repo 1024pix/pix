@@ -102,24 +102,6 @@ class UserCantBeCreatedError extends DomainError {
   }
 }
 
-class RevokeUntilMustBeAnInstanceOfDate extends DomainError {
-  constructor(message = 'Revoke Until must be an instance of Date') {
-    super(message);
-  }
-}
-
-class UserIdIsRequiredError extends DomainError {
-  constructor(message = 'User Id is required') {
-    super(message);
-  }
-}
-
-class SessionIdIsRequiredError extends DomainError {
-  constructor(message = 'Session Id is required') {
-    super(message);
-  }
-}
-
 class UserShouldChangePasswordError extends DomainError {
   constructor(message = 'User password must be changed.', meta) {
     super(message);
@@ -149,9 +131,6 @@ export {
   PasswordResetTokenInvalidOrExpired,
   PixAdminLoginFromPasswordDisabledError,
   RevokedPasswordCannotBeReusedError,
-  RevokeUntilMustBeAnInstanceOfDate,
-  SessionIdIsRequiredError,
   UserCantBeCreatedError,
-  UserIdIsRequiredError,
   UserShouldChangePasswordError,
 };
