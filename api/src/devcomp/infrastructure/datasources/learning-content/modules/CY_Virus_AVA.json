@@ -2,12 +2,12 @@
   "id": "576c6b7f-b256-4ea0-9d54-729f29246183",
   "shortId": "9f75b9f4",
   "slug": "analyse-logiciel-malveillant",
-  "title": "Analyse d’un logiciel malveillant : entrée, propagation, action",
+  "title": "Analyser un logiciel malveillant : 3 critères clés",
   "isBeta": true,
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Virus, vers, chevaux de Troie, rançongiciels… Ces noms désignent des logiciels malveillants aux caractéristiques et aux rôles différents.<br>Dans ce module, vous allez découvrir comment distinguer les logiciels malveillants selon leur moyen d’entrée, leur propagation et leurs actions nuisibles.</p>",
+    "description": "<p>Virus, vers, chevaux de Troie, rançongiciels… Ces noms ne décrivent pas tous la même caractéristique d’un logiciel malveillant. Dans ce module, vous allez apprendre à les analyser selon trois critères&nbsp;: leur moyen d’entrée dans un système informatique, leur mode de propagation et leurs actions nuisibles.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -33,7 +33,7 @@
                 "id": "de7dc966-7e32-4586-8c93-a24b09d38f61",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Dans une entreprise, plusieurs employés signalent des problèmes informatiques le même matin. <br>Lisez les messages reçus par le support informatique, puis répondez à la question.</p>"
+                "content": "<p>Dans une entreprise, plusieurs employés signalent des problèmes informatiques le même matin.</p><p><strong>Lisez les messages reçus par le support informatique, puis répondez à la question.</strong></p>"
               }
             },
             {
@@ -42,7 +42,7 @@
                 "id": "ffc7b36c-53fa-48a1-99a1-b7475e27e481",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>[carousel avec images + textes ?]<br><strong>Aimed - 09h08</strong> <br>Sur les postes du service comptabilité, nous rencontrons des problèmes depuis ce matin&nbsp;: fichiers inaccessibles, lenteurs inhabituelles et messages d’alerte. Ça touche de plus en plus d’ordinateurs. </p><p><strong>Lina - 09h19<br></strong>Je n’arrive plus à ouvrir mes fichiers depuis ce matin.<br> </p><p><strong>Hugo - 10h02<br></strong>Est-ce qu’il y a des problèmes de réseau ce matin ? J’ai du mal à accéder à mes fichiers.<br></p>"
+                "content": "<p>[carousel avec images + textes ?]<br><strong>Aimed - 09h08</strong> <br>Sur les postes du service comptabilité, nous rencontrons des problèmes depuis ce matin&nbsp;:  lenteurs inhabituelles et messages d’alerte. Ça touche de plus en plus d’ordinateurs. </p><p><strong>Lina - 09h19<br></strong>Je n’arrive plus à ouvrir mes fichiers depuis ce matin.<br> </p><p><strong>Hugo - 10h02<br></strong>Est-ce qu’il y a des problèmes de réseau ce matin ? J’ai du mal à accéder à mes fichiers.<br></p>"
               }
             },
             {
@@ -50,7 +50,7 @@
               "element": {
                 "id": "d528a50d-ee7f-4de4-a9b4-cb287091f226",
                 "type": "qcm",
-                "instruction": "<p>À votre avis, que montrent ces signalements ?</p>",
+                "instruction": "<p>À votre avis, que peuvent montrer ces signalements ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -67,17 +67,17 @@
                   },
                   {
                     "id": "4",
-                    "content": "<p>Les problèmes signalés concernent seulement les fichiers des appareils des employés.</p>"
+                    "content": "<p>Les employés rencontrent tous le même problème.</p>"
                   }
                 ],
                 "feedbacks": {
                   "valid": {
                     "state": "",
-                    "diagnosis": "<p>Effectivement, ces signalements font penser à une cyberattaque en cours.<br>Un logiciel malveillant semble être présent sur plusieurs postes et bloquer l’accès à certains fichiers.</p>"
+                    "diagnosis": "<p>Effectivement, ces signalements font penser à une cyberattaque en cours.<br>Les problèmes prennent différentes formes&nbsp;: fichiers inaccessibles, lenteurs et difficultés d’accès.</p>"
                   },
                   "invalid": {
                     "state": "",
-                    "diagnosis": "<p>Pas tout à fait. Ces signalements font penser à une cyberattaque en cours.<br>Un logiciel malveillant semble être présent sur plusieurs postes et bloquer l’accès à certains fichiers.</p>"
+                    "diagnosis": "<p>Pas tout à fait. Ces signalements font penser à une cyberattaque en cours.<br>Les problèmes prennent différentes formes&nbsp;: fichiers inaccessibles, lenteurs et difficultés d’accès.</p>"
                   }
                 },
                 "solutions": [
@@ -99,7 +99,7 @@
                 "id": "33e512dd-72c6-4bfa-ad1c-6cfdfdc52f43",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Observons maintenant un autre cas pour apprendre à identifier un logiciel malveillant.</p>"
+                "content": "<p>Ces premiers indices ne suffisent pas à comprendre ce qui s’est passé. Voyons un autre cas pour découvrir comment analyser un logiciel malveillant.</p>"
               }
             }
           ]
@@ -121,7 +121,7 @@
                 "id": "69e33989-563d-43de-9511-d97ae7116df4",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Anaïs travaille comme responsable des services techniques à la mairie de Saint-Martin-sur-Rivière. En arrivant au bureau ce matin, elle tente d’ouvrir plusieurs documents de travail importants.<br>À sa surprise, aucun fichier ne s’ouvre. À la place, un message inhabituel apparaît à l’écran&nbsp;: les fichiers ont été verrouillés et une rançon est demandée pour les récupérer.</p>"
+                "content": "<p>Anaïs travaille comme responsable des services techniques à la mairie de Saint-Martin-sur-Rivière. En arrivant au bureau ce matin, elle tente d’ouvrir plusieurs documents de travail.<br>À sa surprise, aucun fichier ne s’ouvre. À la place, un message inhabituel apparaît à l’écran&nbsp;: les fichiers ont été verrouillés et une rançon est demandée pour les récupérer.</p><p>Prenez connaissance de la situation&nbsp;:</p>"
               }
             },
             {
@@ -139,50 +139,46 @@
             {
               "type": "element",
               "element": {
-                "id": "1d4cefd7-4f16-4f26-a256-b2e0ad709c39",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Après avoir vu le message affiché sur l’écran de son ordinateur, Anaïs essaie de comprendre ce qu’il se passe.</p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
                 "id": "0743799e-5645-4a6f-a4d7-ada13def8c96",
-                "type": "qcu-discovery",
-                "instruction": "<p>Selon vous, comment expliquer cette situation ?</p>",
+                "type": "qcm",
+                "instruction": "<p>À partir de ces premiers éléments, que pouvez-vous déjà déduire ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Une mise à jour de Windows est en cours et bloque temporairement l’accès aux fichiers.</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Eh non ! Le message de rançon et l’impossibilité d’ouvrir plusieurs fichiers ne correspondent pas avec une mise à jour en attente. Ce sont des signes caractéristiques d’un rançongiciel (ransomware). Ce type de logiciel malveillant rend des fichiers ou des systèmes inaccessibles, souvent en les chiffrant, puis demande une rançon en échange d’une promesse de récupération.</p>"
-                    }
+                    "content": "<p>Un logiciel malveillant est entré dans l’ordinateur grâce à une pièce jointe.</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>Le disque dur de l’ordinateur d’Anaïs est saturé et les documents ne peuvent plus être ouverts.</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Eh non ! Le message de rançon et l’impossibilité d’ouvrir plusieurs fichiers n’indiquent pas que le disque dur est saturé. Ce sont des signes caractéristiques d’un rançongiciel (ransomware). Ce type de logiciel malveillant rend des fichiers ou des systèmes inaccessibles, souvent en les chiffrant, puis demande une rançon en échange d’une promesse de récupération.</p>"
-                    }
+                    "content": "<p>Un logiciel malveillant rend des fichiers inaccessibles.</p>"
                   },
                   {
                     "id": "3",
-                    "content": "<p>L’ordinateur d’Anaïs a été infecté par un logiciel malveillant qui rend inaccessibles ses fichiers.</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Effectivement, le message de rançon et l’impossibilité d’ouvrir plusieurs fichiers sont des signes caractéristiques d’un rançongiciel (ransomware). Ce type de logiciel malveillant rend des fichiers ou des systèmes inaccessibles, souvent en les chiffrant, puis demande une rançon en échange d’une promesse de récupération.</p>"
-                    }
+                    "content": "<p>Les auteurs de la cyberattaque cherchent à obtenir un paiement.</p>"
                   },
                   {
                     "id": "4",
-                    "content": "<p>Je ne sais pas.</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Le message de rançon et l’impossibilité d’ouvrir plusieurs fichiers sont des signes caractéristiques d’un rançongiciel (ransomware). Ce type de logiciel malveillant rend des fichiers ou des systèmes inaccessibles, souvent en les chiffrant, puis demande une rançon en échange d’une promesse de récupération.</p>"
-                    }
+                    "content": "<p>Un logiciel malveillant s’est propagé via le réseau de la mairie.</p>"
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Tous les postes de la mairie sont infectés.</p>"
                   }
                 ],
-                "solution": "3"
+                "feedbacks": {
+                  "valid": {
+                    "state": "",
+                    "diagnosis": "<p>Effectivement. Le blocage des fichiers et la demande de paiement sont des signes caractéristiques d’un logiciel de rançon (ransomware). Ce type de logiciel malveillant rend des fichiers ou des systèmes inaccessibles, souvent en les chiffrant, puis demande une rançon en échange d’une promesse de récupération.</p>"
+                  },
+                  "invalid": {
+                    "state": "",
+                    "diagnosis": "<p>Eh non. Le blocage des fichiers et la demande de paiement sont des signes caractéristiques d’un logiciel de rançon (ransomware). Ce type de logiciel malveillant rend des fichiers ou des systèmes inaccessibles, souvent en les chiffrant, puis demande une rançon en échange d’une promesse de récupération.</p>"
+                  }
+                },
+                "solutions": [
+                  "2",
+                  "3"
+                ]
               }
             }
           ]
@@ -198,7 +194,7 @@
                 "id": "4fcf4664-d65d-4491-a51f-6f58c8733832",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Un logiciel malveillant peut être analysé à partir de trois caractéristiques principales&nbsp;:  </p><ul><li>Son <strong>moyen d’entrée</strong>&nbsp;: la façon dont le logiciel malveillant <strong>s’introduit </strong>sur un appareil. Le point de départ est une <strong>vulnérabilité</strong>, humaine et/ou logicielle.</li><li>Sa <strong>propagation </strong>: la manière dont il reste actif ou se diffuse sur un appareil, puis éventuellement vers d’autres appareils.</li><li>Sa <strong>charge utile</strong>&nbsp;: les actions nuisibles qu’il peut réaliser une fois introduit.</li></ul>"
+                "content": "<p>Un logiciel malveillant peut être analysé à partir de trois critères principaux&nbsp;:  </p><ul><li>Son <strong>moyen d’entrée</strong>&nbsp;: la façon dont le logiciel malveillant <strong>s’introduit </strong>dans un appareil ou un système informatique. Il peut notamment exploiter une <strong>vulnérabilité </strong>humaine ou logicielle.</li><li>Son <strong>mode de propagation</strong>&nbsp;: la manière dont il reste actif sur l’appareil infecté ou se diffuse vers d’autres appareils.</li><li>Sa <strong>charge utile</strong>&nbsp;: les actions nuisibles qu’il peut réaliser une fois introduit.</li></ul>"
               }
             },
             {
@@ -207,7 +203,7 @@
                 "id": "03397d9b-05f0-47bb-9f93-331443a89695",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Un<strong> cheval de Troie</strong> est un logiciel malveillant qui sert de <strong>moyen d’entrée</strong> à d’autres logiciels malveillants. Il se présente comme un logiciel ou un fichier légitime. En réalité, une fois installé, il permet à un autre logiciel malveillant d’entrer.</p>"
+                "content": "<p>Un<strong> cheval de Troie</strong> est un logiciel malveillant qui sert de <strong>moyen d’entrée</strong> à un autre logiciel malveillant. Il se présente comme un logiciel ou un fichier légitime. Une fois ouvert ou installé, il permet à un autre logiciel de s’introduire dans l’appareil.</p>"
               }
             }
           ]
@@ -223,7 +219,7 @@
                 "id": "7b6e9e65-6035-48c3-b84c-98b3de2b98a3",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Certains logiciels malveillants reposent sur des vulnérabilités humaines pour se propager. Mais il existe aussi des moyens techniques pour y parvenir.<br>Après les premiers signalements, le service informatique cherche à comprendre l’origine de l’incident.</p>"
+                "content": "<p>Intéressons-nous maintenant au mode de propagation.<br>À la mairie, le service informatique cherche à comprendre comment plusieurs équipements ont pu être touchés.</p>"
               }
             }
           ]
@@ -239,7 +235,7 @@
                 "id": "4fdb80bd-4a6a-40d8-ab1f-b2a728dcaec0",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Anaïs indique au service informatique qu’elle a ouvert quelques jours plus tôt un courriel inhabituel avec une pièce jointe, pensant qu’il s’agissait d’un document professionnel.</p><p>Personne ne sait si ce fichier est à l’origine du problème. Mais il apparaît rapidement que l’incident touche plusieurs services de la mairie&nbsp;: des ordinateurs ralentissent et des fichiers deviennent inaccessibles.</p>"
+                "content": "<p>Anaïs indique au service informatique qu’elle a ouvert quelques jours plus tôt un mail inhabituel avec une pièce jointe, pensant qu’il s’agissait d’un document professionnel. </p><p>Le service informatique ne sait pas encore si ce fichier est à l’origine de l’incident. Mais plusieurs autres équipements de la mairie présentent des dysfonctionnements&nbsp;: des ordinateurs ralentissent et des fichiers deviennent inaccessibles.</p>"
               }
             },
             {
@@ -248,7 +244,7 @@
                 "id": "efa7a5b5-2e33-4000-8e7a-d9d6410cd3d6",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>[Image interactive à venir]</p><table>    <tbody>        <tr>            <th scope=\"\\&quot;col\\&quot;\">Équipement</th>            <th scope=\"\\&quot;col\\&quot;\">Mail suspect reçu</th>            <th scope=\"\\&quot;col\\&quot;\">Fichier ouvert</th>            <th scope=\"\\&quot;col\\&quot;\">Connecté au réseau</th>            <th scope=\"\\&quot;col\\&quot;\">Symptômes</th>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste d’Anaïs</th>            <td>Oui</td>            <td>Oui</td>            <td>Oui</td>            <td>Fichiers bloqués</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste médiathèque</th>            <td>Non</td>            <td>Non</td>            <td>Oui</td>            <td>Fichiers bloqués</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste piscine</th>            <td>Non</td>            <td>Non</td>            <td>Oui</td>            <td>Fichiers bloqués</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste État civil</th>            <td>Oui</td>            <td>Non</td>            <td>Oui</td>            <td>Fichiers bloqués</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste isolé de test</th>            <td>Non</td>            <td>Non</td>            <td>Non</td>            <td>Aucun symptôme</td>        </tr>    </tbody></table>"
+                "content": "<p>[Image interactive à venir]</p><p><strong>Cliquez sur chaque poste de travail pour voir ce qu’il se passe, puis répondez à la question qui suit.</strong></p><table>    <tbody>        <tr>            <th scope=\"\\&quot;col\\&quot;\">Équipement</th>            <th scope=\"\\&quot;col\\&quot;\">Mail suspect reçu</th>            <th scope=\"\\&quot;col\\&quot;\">Fichier ouvert</th>            <th scope=\"\\&quot;col\\&quot;\">Connecté au réseau</th>            <th scope=\"\\&quot;col\\&quot;\">Symptômes</th>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste d’Anaïs</th>            <td>Oui</td>            <td>Oui</td>            <td>Oui</td>            <td>Fichiers bloqués</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste médiathèque</th>            <td>Non</td>            <td>Non</td>            <td>Oui</td>            <td>Fichiers bloqués</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste piscine</th>            <td>Non</td>            <td>Non</td>            <td>Oui</td>            <td>Fichiers bloqués</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste État civil</th>            <td>Oui</td>            <td>Non</td>            <td>Oui</td>            <td>Fichiers bloqués</td>        </tr>        <tr>            <th scope=\"\\&quot;row\\&quot;\">Poste isolé de test</th>            <td>Non</td>            <td>Non</td>            <td>Non</td>            <td>Aucun symptôme</td>        </tr>    </tbody></table>"
               }
             },
             {
@@ -256,42 +252,42 @@
               "element": {
                 "id": "d5956304-a810-4ee4-b169-cd444ff2694e",
                 "type": "qcu-discovery",
-                "instruction": "<p>Quel élément explique le mieux que plusieurs équipements soient touchés ?</p>",
+                "instruction": "<p>Qu’est-ce qui explique le mieux que plusieurs équipements soient touchés ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>La pièce jointe reçue par Anaïs a été ouverte automatiquement sur tous les postes.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non, la pièce jointe n’a été ouverte que par Anaïs.<br>La situation suggère une <strong>propagation via le réseau</strong>.&nbsp;Certains logiciels malveillants, comme les <strong>vers informatiques</strong>, sont capables de se répliquer et de <strong>se diffuser automatiquement vers d’autres équipements</strong>.</p>"
+                      "diagnosis": "<p>Eh non, la pièce jointe n’a été ouverte que par Anaïs. En revanche, les postes touchés sont tous connectés au même réseau informatique.<br>Ces indices montrent que le <strong>logiciel malveillant</strong> s’est <strong>propagé automatiquement via le réseau</strong>.</p><p>Tous les logiciels malveillants ne se propagent pas de cette manière. Il existe plusieurs modes de propagation.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Le logiciel malveillant s’est propagé automatiquement d’un ordinateur à l’autre via le réseau de la mairie.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Effectivement, la situation suggère une <strong>propagation via le réseau</strong>.&nbsp;Certains logiciels malveillants, comme les <strong>vers informatiques</strong>, sont capables de se répliquer et de <strong>se diffuser automatiquement vers d’autres équipements</strong>.</p>"
+                      "diagnosis": "<p>Effectivement, les autres équipements touchés n’ont pas reçu le mail suspect. En revanche, les postes touchés sont tous connectés au même réseau informatique.<br>Ces indices montrent que le <strong>logiciel malveillant</strong> s’est <strong>propagé automatiquement via le réseau</strong>.</p><p>Tous les logiciels malveillants ne se propagent pas de cette manière. Il existe plusieurs modes de propagation.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Le mail suspect a été envoyé directement à tous les services de la mairie.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non, ici le mail n’a pas été reçu par l’ensemble des postes de la mairie.<br>La situation suggère une <strong>propagation via le réseau</strong>.&nbsp;Certains logiciels malveillants, comme les <strong>vers informatiques</strong>, sont capables de se répliquer et de <strong>se diffuser automatiquement vers d’autres équipements</strong>.</p>"
+                      "diagnosis": "<p>Eh non, ici le mail n’a pas été reçu par l’ensemble des postes de la mairie. En revanche, les postes touchés sont tous connectés au même réseau informatique.<br>Ces indices montrent que le <strong>logiciel malveillant</strong> s’est <strong>propagé automatiquement via le réseau</strong>.</p><p>Tous les logiciels malveillants ne se propagent pas de cette manière. Il existe plusieurs modes de propagation.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Le logiciel malveillant s’est propagé parce que les agents travaillent sur les mêmes dossiers.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non, les dysfonctionnements touchent différents services qui ne travaillent pas sur les mêmes dossiers.<br>La situation suggère une <strong>propagation via le réseau</strong>.&nbsp;Certains logiciels malveillants, comme les <strong>vers informatiques</strong>, sont capables de se répliquer et de <strong>se diffuser automatiquement vers d’autres équipements</strong>.</p>"
+                      "diagnosis": "<p>Eh non, les dysfonctionnements touchent différents services qui ne travaillent pas sur les mêmes dossiers. En revanche, les postes touchés sont tous connectés au même réseau informatique.<br>Ces indices montrent que le <strong>logiciel malveillant</strong> s’est <strong>propagé automatiquement via le réseau</strong>.</p><p>Tous les logiciels malveillants ne se propagent pas de cette manière. Il existe plusieurs modes de propagation.</p>"
                     }
                   },
                   {
                     "id": "5",
-                    "content": "<p>Je ne sais pas.<br></p>",
+                    "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>La situation suggère une <strong>propagation via le réseau</strong>.&nbsp;Certains logiciels malveillants, comme les <strong>vers informatiques</strong>, sont capables de se répliquer et de <strong>se diffuser automatiquement vers d’autres équipements</strong>.</p>"
+                      "diagnosis": "<p>Les équipements touchés n’ont ni reçu le même mail ni ouvert le même fichier.&nbsp; En revanche, les postes touchés sont tous connectés au même réseau informatique.<br>Ces indices montrent que le <strong>logiciel malveillant</strong> s’est <strong>propagé automatiquement via le réseau</strong>.</p><p>Tous les logiciels malveillants ne se propagent pas de cette manière. Il existe plusieurs modes de propagation.</p>"
                     }
                   }
                 ],
@@ -306,13 +302,30 @@
           "title": "Leçon 2",
           "components": [
             {
-              "type": "element",
-              "element": {
-                "id": "b6051e31-34cf-4a76-ad1b-5d3f90eda2a0",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Certains logiciels malveillants ne se contentent pas d’infecter un seul appareil&nbsp;: ils sont capables de se propager à d’autres équipements. On parle de capacité d’<strong>auto-réplication</strong>.</p><p>Il existe notamment deux modes de propagation&nbsp;: </p><ul><li>Un logiciel malveillant peut <strong>s’ajouter au code d’un programme hôte exécutable</strong> et <strong>se diffuser lorsque ce programme est lancé</strong> ou partagé. Les logiciels malveillants qui se propagent de cette manière peuvent être appelés<strong> virus informatiques</strong>.</li><li>Un logiciel malveillant peut aussi <strong>se répliquer par ses propres moyens</strong> et<strong> se diffuser via le réseau</strong>, sans avoir besoin d’un programme hôte. Les logiciels malveillants qui se propagent de cette manière peuvent être appelés <strong>vers informatiques</strong>.</li></ul><p>La propagation ne signifie donc pas toujours qu’un même fichier piégé a été ouvert partout. <strong>Un seul ordinateur infecté</strong> peut donc suffire à <strong>contaminer </strong>largement <strong>tout un système informatique</strong> et préparer une attaque plus large.<br></p>"
-              }
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "de8ae3fa-52a8-4316-88cd-5dd4081e0cf7",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Certains logiciels malveillants ne se contentent pas d’infecter un seul appareil&nbsp;: ils sont capables de se propager à d’autres équipements. On parle de capacité d’<strong>auto-réplication</strong>.<br><strong>Un seul ordinateur infecté</strong> peut alors suffire à <strong>contaminer </strong>d’autres appareils d’<strong>un système informatique </strong>et contribuer à une attaque plus large.</p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "7abe8911-ddbd-4c35-9654-705235984329",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Mais les logiciels malveillants ne se propagent pas tous de la même manière. </p><p>Il existe notamment deux modes de propagation&nbsp;:</p><p>[Infographie ici sous forme d’un tableau]</p><table>    <tbody>        <tr>            <th scope=\"\\&quot;col\\&quot;\">Propagation non autonome<br></th>            <th scope=\"\\&quot;col\\&quot;\">Propagation autonome</th>        </tr>        <tr>            <td>Le logiciel malveillant <strong>se propage lorsque le programme auquel il est rattaché est lancé</strong>.<br>            </td>            <td>Le logiciel malveillant<strong> se réplique et se diffuse via un réseau</strong>.<br></td>        </tr>        <tr>            <td><ol><li>Le logiciel malveillant <strong>s’installe dans le code informatique d’un programme</strong> installé sur un ordinateur.                </li><li>Un <strong>utilisateur lance le programme</strong>.</li><li>Le<strong> logiciel se propage</strong> grâce à cette action.            </li></ol></td>            <td><ol><li>Le logiciel malveillant est installé sur un ordinateur.</li><li>Il <strong>accède au réseau informatique</strong> auquel est relié l’ordinateur.</li><li>Il s<strong>e duplique sur les appareils reliés au réseau</strong>.</li></ol></td>        </tr>        <tr>            <td>Les logiciels malveillants qui se propagent de cette manière peuvent être appelés <strong>virus informatiques</strong>.<br>            </td>            <td>Les logiciels malveillants qui se propagent de cette manière peuvent être appelés <strong>vers informatiques</strong>.<br></td>        </tr>    </tbody></table>"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -327,7 +340,7 @@
                 "id": "52f479e5-04c7-4f2e-9a93-ebbe598da33c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une fois la propagation identifiée, le service informatique de la mairie poursuit son analyse.<br>Un mois plus tard, le service informatique publie un rapport technique.</p>"
+                "content": "<p>Une fois le mode de propagation identifié, le service informatique poursuit son analyse.<br>Un mois plus tard, le service informatique de la mairie publie un rapport technique.</p>"
               }
             }
           ]
@@ -340,25 +353,16 @@
             {
               "type": "element",
               "element": {
-                "id": "95d0fcac-cc1c-493c-afec-dbd5ba087ffa",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Lisez l’extrait du rapport technique suivant puis répondez aux questions suivantes.</p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
                 "id": "0a049c79-bf83-46b7-859c-62e64a3975b6",
                 "type": "custom",
                 "title": "",
-                "instruction": "<p>Lisez l’extrait du rapport technique suivant puis répondez à la question suivante.</p>",
+                "instruction": "<p>Lisez l’extrait du rapport technique ci-dessous puis répondez à la question suivante.</p>",
                 "functionalInstruction": "",
                 "tagName": "pix-article",
                 "props": {
                   "titleLevel": 2,
                   "articleTitle": "Extrait du rapport d’analyse technique",
-                  "author": "le service informatique",
+                  "author": "le Service informatique de la mairie de Saint-Martin-sur-Rivière",
                   "date": "23/06/2026",
                   "paragraphs": [
                     "Les analyses menées après l’incident ont confirmé la présence d’un logiciel malveillant sur plusieurs postes de la mairie depuis plusieurs mois. Ce programme était déjà actif avant le blocage des fichiers et la demande de rançon. Il fonctionnait de manière discrète et n’affichait aucun message visible pour les utilisateurs.",
@@ -374,43 +378,43 @@
               "element": {
                 "id": "96e38b5d-b7ce-444a-a5d7-98531149f3c1",
                 "type": "qcm",
-                "instruction": "<p>À votre avis, quels étaient les objectifs malveillants du logiciel ?</p>",
+                "instruction": "<p>D’après le rapport, quelles actions nuisibles ce logiciel malveillant a-t-il réalisées ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
-                    "content": "<p>Récupérer des données pour les revendre ou les exploiter.</p>"
+                    "content": "<p>Collecter des identifiants et des fichiers.</p>"
                   },
                   {
                     "id": "2",
-                    "content": "<p>Rétablir l’accès à des fichiers bloqués.</p>"
+                    "content": "<p>Faire ralentir volontairement les ordinateurs.</p>"
                   },
                   {
                     "id": "3",
-                    "content": "<p>Nettoyer les fichiers temporaires des postes infectés.</p>"
+                    "content": "<p>Modifier les mots de passe des agents de la mairie.</p>"
                   },
                   {
                     "id": "4",
-                    "content": "<p>Chiffrer les fichiers pour demander une rançon.</p>"
+                    "content": "<p>Se faire passer pour une mise à jour officielle.</p>"
                   },
                   {
                     "id": "5",
-                    "content": "<p>Se faire passer pour une mise à jour officielle pour se dissimuler.</p>"
+                    "content": "<p>Chiffrer des fichiers.</p>"
                   }
                 ],
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Effectivement !</p>",
-                    "diagnosis": "<p>L’extrait indique que le logiciel malveillant a collecté des identifiants et des fichiers temporaires contenant des informations administratives ou personnelles. Il a aussi participé au chiffrement de fichiers avant l’affichage d’un message demandant une rançon.<br>Ce<strong> logiciel malveillant</strong> réalise donc <strong>plusieurs actions nuisibles.</strong></p>"
+                    "diagnosis": "<p>Le rapport montre que le logiciel malveillant a collecté des identifiants et des fichiers, puis participé au chiffrement de fichiers.Ce<strong> logiciel malveillant</strong> réalise donc <strong>plusieurs actions nuisibles.</strong></p>"
                   },
                   "invalid": {
                     "state": "<p>Eh non.</p>",
-                    "diagnosis": "<p>L’extrait indique que le logiciel malveillant a collecté des identifiants et des fichiers temporaires contenant des informations administratives ou personnelles. Il a aussi participé au chiffrement de fichiers avant l’affichage d’un message demandant une rançon.<br>Ce<strong> logiciel malveillant</strong> réalise donc <strong>plusieurs actions nuisibles.</strong></p>"
+                    "diagnosis": "<p>Le rapport montre que le logiciel malveillant a collecté des identifiants et des fichiers, puis participé au chiffrement de fichiers.Ce<strong> logiciel malveillant</strong> réalise donc <strong>plusieurs actions nuisibles.</strong></p>"
                   }
                 },
                 "solutions": [
                   "1",
-                  "4"
+                  "5"
                 ]
               }
             }
@@ -427,16 +431,7 @@
                 "id": "06cddab7-e423-4e29-99a2-734165fb2510",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>La <strong>charge utile </strong>désigne les <strong>actions nuisibles réalisées par un logiciel malveillant </strong>une fois installé. Ces actions <strong>varient selon l’objectif des auteurs</strong> des cyberattaques.</p><p>Certains noms de logiciels malveillants indiquent leur action nuisible principale&nbsp;:&nbsp; </p><ul><li>un <strong>logiciel espion</strong> (spyware) cherche à observer l’activité d’un utilisateur,</li><li>un <strong>voleur de données</strong> (infostealer) collecte des informations, comme des fichiers ou des identifiants,</li><li>un <strong>rançongiciel </strong>(ransonware) rend des fichiers ou des systèmes inaccessibles pour demander une rançon,</li><li>un <strong>outil de dissimulation d’activité</strong> (rootkit) peut aider à cacher une action malveillante ou à maintenir un accès.</li></ul><p>Un <strong>logiciel malveillant</strong> peut combiner <strong>plusieurs charges utiles</strong>&nbsp;: un rançongiciel qui vole aussi des données par exemple. Certaines cyberattaques reposent même sur <strong>plusieurs logiciels malveillants</strong>, <strong>chacun </strong>jouant un <strong>rôle différent</strong>.<br></p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "a766dc82-a477-4ff9-b9cf-6c45e050bdb5",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>Une <strong>cyberattaque </strong>ne repose pas toujours sur un seul logiciel malveillant. Les auteurs de cyberattaques peuvent combiner <strong>plusieurs logiciels malveillants</strong>, <strong>chacun </strong>jouant un<strong> rôle différent</strong>.</p>"
+                "content": "<p>La <strong>charge utile </strong>désigne les <strong>actions nuisibles réalisées par un logiciel malveillant </strong>une fois introduit dans un système informatique. Ces actions <strong>varient selon l’objectif des auteurs</strong> des cyberattaques.</p><p>Certains noms de logiciels malveillants indiquent leur action nuisible principale&nbsp;:&nbsp; </p><ul><li>un <strong>logiciel espion</strong> (spyware) cherche à observer l’activité d’un utilisateur,</li><li>un <strong>voleur de données</strong> (infostealer) collecte des informations, comme des fichiers ou des identifiants,</li><li>un <strong>logiciel de rançon&nbsp;</strong>(ransomware) rend des fichiers ou des systèmes inaccessibles pour demander une rançon,</li><li>un <strong>outil de dissimulation d’activité</strong> (rootkit) peut aider à cacher une action malveillante ou à maintenir un accès.</li></ul><p>Ces noms indiquent une action nuisible principale, mais ne décrivent pas forcément toutes les actions réalisées par le logiciel malveillant.</p><p>Un <strong>logiciel malveillant</strong> peut combiner <strong>plusieurs actions nuisibles</strong>&nbsp;: un rançongiciel qui vole aussi des données par exemple. <br>Certaines cyberattaques reposent même sur <strong>plusieurs logiciels malveillants</strong>, <strong>chacun </strong>jouant un <strong>rôle différent</strong>.<br></p>"
               }
             }
           ]
@@ -458,7 +453,7 @@
                 "id": "70f1b589-6274-4267-9068-9a0dc495f24c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Pour analyser un logiciel malveillant, trois questions à se poser&nbsp;: </p><ul><li>Un logiciel malveillant peut avoir différents <strong>moyens d’entrée</strong>. Pour cela, il peut exploiter une vulnérabilité humaine ou logicielle.</li><li>Un logiciel malveillant peut avoir différents moyens de <strong>propagation</strong>. Il peut infecter des programmes hôtes exécutables, se diffuser par le réseau ou rester sur l’appareil infecté.</li><li>Un logiciel malveillant a pour but de réaliser des actions nuisibles&nbsp;: on parle de <strong>charge utile</strong>. Les logiciels sont souvent <strong>nommés </strong>en fonction de ces <strong>actions nuisibles</strong> (logiciel espion, rançongiciel, voleur de données, outil de dissimulation d’activité)<br> </li></ul><p>Un <strong>logiciel malveillant</strong> peut combiner <strong>plusieurs charges utiles</strong>.</p>"
+                "content": "<p>Pour analyser un logiciel malveillant, trois questions à se poser&nbsp;: </p><ul><li><strong>Comment le logiciel malveillant est-il entré dans le système informatique ?&nbsp;</strong><br>Pour cela, il peut exploiter une vulnérabilité humaine ou logicielle.</li><li><strong>Comment le logiciel malveillant se propage-t-il ?</strong><br>Il peut se propager en<strong> infectant un programme hôte exécutable</strong> (virus informatique) ou <strong>se diffusant par le réseau</strong> (ver informatique). </li><li><strong>Quelles actions nuisibles le logiciel malveillant réalise-t-il ?&nbsp;</strong><br>Ces actions constituent sa charge utile. Certains logiciels sont nommés d’après leur <strong>action nuisible principale</strong>&nbsp;: logiciel espion, logiciel de rançon, voleur de données, outil de dissimulation d’activité. <br>Un même logiciel malveillant peut réaliser plusieurs actions nuisibles.&nbsp;<br></li><br></ul>"
               }
             }
           ]
@@ -495,7 +490,7 @@
               "element": {
                 "id": "7a429458-ee48-4ea3-b342-eadf86b093e5",
                 "type": "qcm",
-                "instruction": "<p>Quelles sont les 3 informations utiles pour analyser un logiciel malveillant ?</p>",
+                "instruction": "<p>Quelles sont les trois principales caractéristiques pour analyser un logiciel malveillant ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
@@ -508,11 +503,11 @@
                   },
                   {
                     "id": "3",
-                    "content": "<p>le nombre d’appareils touchés</p>"
+                    "content": "<p>la date à laquelle il a été découvert</p>"
                   },
                   {
                     "id": "4",
-                    "content": "sa propagation"
+                    "content": "<p>son mode de propagation<br></p>"
                   },
                   {
                     "id": "5",
@@ -526,7 +521,7 @@
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse.</p>",
-                    "diagnosis": "<p>Les 3 informations à analyser concernent le comportement du logiciel malveillant.</p>"
+                    "diagnosis": "<p>Pensez aux trois questions à se poser pour analyser un logiciel malveillant.</p>"
                   }
                 },
                 "solutions": [
@@ -549,7 +544,7 @@
                 "id": "043a7908-b5ad-48f2-9a0f-c845f803d3be",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Analysez la situation ci-dessous et indiquez le nom que l’on donne à ce type de logiciel malveillant.</p>"
+                "content": "<p>Analysez la situation ci-dessous et identifiez le type de logiciel malveillant décrit.</p>"
               }
             },
             {
@@ -615,7 +610,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p>Pour chacun des cas suivants, indiquez quelle action nuisible est réalisée par le logiciel malveillant.</p>",
+              "instruction": "<p>Pour chacun des cas suivants, indiquez quelle action nuisible principale est réalisée par le logiciel malveillant.</p>",
               "steps": [
                 {
                   "elements": [
@@ -628,7 +623,7 @@
                     {
                       "id": "6ea191dd-77ac-44b2-8712-40a1f695790e",
                       "type": "qcu",
-                      "instruction": "<p>Quelle est l’action nuisible réalisée par ce logiciel malveillant ?</p>",
+                      "instruction": "<p>Quelle est l’action nuisible principale réalisée par ce logiciel malveillant ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -679,7 +674,7 @@
                     {
                       "id": "b687e776-a419-44d4-a6a5-6cf0eb997eae",
                       "type": "qcu",
-                      "instruction": "<p>Quelle est l’action nuisible réalisée par ce logiciel malveillant ?</p>",
+                      "instruction": "<p>Quelle est l’action nuisible principale réalisée par ce logiciel malveillant ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -687,7 +682,7 @@
                           "content": "<p>Voler des données.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «accès cachés», «outils de sécurité modifiés», «rester invisible» et «maintenir un accès».</p>"
+                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «&nbsp;accès cachés&nbsp;», «&nbsp;outils de sécurité modifiés&nbsp;», «&nbsp;rester invisible&nbsp;» et «&nbsp;maintenir un accès&nbsp;».</p>"
                           }
                         },
                         {
@@ -695,7 +690,7 @@
                           "content": "<p>Prendre le contrôle d’un appareil.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «accès cachés», «outils de sécurité modifiés», «rester invisible» et «maintenir un accès».</p>"
+                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «&nbsp;accès cachés&nbsp;», «&nbsp;outils de sécurité modifiés&nbsp;», «&nbsp;rester invisible&nbsp;» et «&nbsp;maintenir un accès&nbsp;».</p>"
                           }
                         },
                         {
@@ -703,7 +698,7 @@
                           "content": "<p>Dissimuler une action</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !&nbsp;🎉</p>",
-                            "diagnosis": "<p>Ce logiciel est conçu pour dissimuler une action&nbsp;: il cherche à garantir la persistance de l’attaque sur l’appareil sans être repéré.</p>"
+                            "diagnosis": "<p>Ce logiciel est conçu pour dissimuler une action&nbsp;: il cherche à dissimuler son activité malveillante afin de maintenir un accès au système informatique sans être repéré.</p>"
                           }
                         },
                         {
@@ -711,7 +706,7 @@
                           "content": "<p>Faire dysfonctionner un appareil.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «accès cachés», «outils de sécurité modifiés», «rester invisible» et «maintenir un accès».</p>"
+                            "diagnosis": "<p>Pour identifier l’action nuisible, repérez les mots importants&nbsp;: «&nbsp;accès cachés&nbsp;», «&nbsp;outils de sécurité modifiés&nbsp;», «&nbsp;rester invisible&nbsp;» et «&nbsp;maintenir un accès&nbsp;».</p>"
                           }
                         }
                       ],
@@ -730,7 +725,7 @@
                     {
                       "id": "5b5c9abb-f720-472d-88b3-418309aa066f",
                       "type": "qcu",
-                      "instruction": "<p>Quelle est l’action nuisible réalisée par ce logiciel malveillant ?</p>",
+                      "instruction": "<p>Quelle est l’action nuisible principale réalisée par ce logiciel malveillant ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
