@@ -163,11 +163,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Eh oui !</p>",
-                    "diagnosis": "<p>Pour envoyer ces messages depuis une vraie adresse, les <strong>pirates informatiques </strong>ont dû d’abord <strong>obtenir un accès</strong> à la boîte mail. Cet accès peut venir d’un mot de passe compromis, d’un faux mail ou d’une protection insuffisante de l’accès à la messagerie.</p>"
+                    "diagnosis": "<p>Pour envoyer ces messages depuis une vraie adresse, les <strong>pirates informatiques </strong>ont dû d’abord <strong>obtenir un accès</strong> à la boîte mail. Cet accès peut venir d’un mot de passe compromis, d’un mail trompeur ou d’une protection insuffisante de l’accès à la messagerie.</p>"
                   },
                   "invalid": {
-                    "state": "<p>Eh non !<br></p>",
-                    "diagnosis": "<p>Pour envoyer ces messages depuis une vraie adresse, les <strong>pirates informatiques </strong>ont dû d’abord <strong>obtenir un accès</strong> à la boîte mail. Cet accès peut venir d’un mot de passe compromis, d’un faux mail ou d’une protection insuffisante de l’accès à la messagerie.</p>"
+                    "state": "<p>Eh non !</p>",
+                    "diagnosis": "<p>Pour envoyer ces messages depuis une vraie adresse, les <strong>pirates informatiques </strong>ont dû d’abord <strong>obtenir un accès</strong> à la boîte mail. Cet accès peut venir d’un mot de passe compromis, d’un mail trompeur ou d’une protection insuffisante de l’accès à la messagerie.</p>"
                   }
                 },
                 "solutions": [
@@ -532,7 +532,7 @@
                 "id": "6d056420-3461-447e-b537-6e5916038901",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>[infographie]</p><p>Une cyberattaque se déroule souvent en plusieurs étapes&nbsp;:&nbsp; </p><ul><li><strong>Entrer </strong>: Une cyberattaque commence souvent par un <strong>premier accès au système informatique</strong>.</li><li><strong>Agir discrètement</strong>&nbsp;: Une fois entrés, les pirates cherchent souvent à <strong>rester discrets</strong>. Ils <strong>s’installent</strong> et <strong>se déplacent </strong>pour comprendre le système et préparer la suite.</li><li><strong>Atteindre l’objectif</strong>&nbsp;: Les pirates informatiques atteignent leur objectif (vol de données, demande de rançon, perturbation des services, etc.). Parfois la <strong>victime se rend compte de la cyberattaque</strong> seulement à cette étape.</li></ul><p>À <strong>chaque étape</strong>, il est <strong>possible de se protéger</strong>&nbsp;: empêcher l’intrusion, détecter une présence malveillante et limiter les conséquences.<br><br></p>"
+                "content": "<p>[infographie]</p><p>Une cyberattaque se déroule souvent en plusieurs étapes&nbsp;:&nbsp; </p><ul><li><strong>Entrer </strong>: Une cyberattaque commence souvent par un <strong>premier accès au système informatique</strong>.</li><li><strong>Agir discrètement</strong>&nbsp;: Une fois entrés, les pirates cherchent souvent à <strong>rester discrets</strong>. Ils <strong>s’installent</strong> et <strong>se déplacent </strong>pour comprendre le système et préparer la suite.</li><li><strong>Atteindre l’objectif</strong>&nbsp;: Les pirates informatiques atteignent leur objectif (vol de données, demande de rançon, perturbation des services, etc.). Parfois la <strong>victime se rend compte de la cyberattaque</strong> seulement à cette étape.</li></ul><p>À <strong>chaque étape</strong>, il est <strong>possible de se protéger</strong>&nbsp;: empêcher l’intrusion, détecter une présence malveillante et limiter les conséquences.</p>"
               }
             }
           ]
@@ -681,7 +681,7 @@
                       "id": "1a7cecfc-c301-46a4-b29c-07a3b548ec30",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>Un salarié d’un centre sportif clique sur un lien reçu dans un faux mail. Ses identifiants sont ensuite utilisés par des pirates informatiques.</p>"
+                      "content": "<p>Un salarié d’un centre sportif clique sur un lien reçu dans un mail trompeur. Ses identifiants sont ensuite utilisés par des pirates informatiques.</p>"
                     },
                     {
                       "id": "2095a0a9-1297-4b03-8c77-933f704fe026",
