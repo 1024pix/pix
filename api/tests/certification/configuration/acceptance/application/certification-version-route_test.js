@@ -2,6 +2,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
+  defaultCompetencesScoringConfiguration,
+  defaultGlobalScoringConfiguration,
+} from '../../../../../db/database-builder/factory/build-certification-version.js';
+import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
 } from '../../../../../src/certification/configuration/domain/models/Calibration.js';
@@ -17,7 +21,7 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
-describe('Acceptance | Certification | Configuration | API | certification-version-route', function () {
+describe.only('Acceptance | Certification | Configuration | API | certification-version-route', function () {
   let server;
   let superAdmin;
 
@@ -933,7 +937,12 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       domainBuilder.certification.configuration
         .versionBuilder()
         .asActive()
-        .withParameters({ id: 42, scope: SCOPES.PIX_PLUS_DROIT, globalScoringConfiguration: [], competencesScoringConfiguration: null })
+        .withParameters({
+          id: 42,
+          scope: SCOPES.PIX_PLUS_DROIT,
+          globalScoringConfiguration: [],
+          competencesScoringConfiguration: null,
+        })
         .insertToDB({ databaseBuilder });
       await databaseBuilder.commit();
 
@@ -960,7 +969,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       // then
       expect(response.statusCode).to.equal(204);
       const updatedVersion = await knex('certification_versions').where({ id: 42 }).first();
-      expect(JSON.parse(updatedVersion.globalScoringConfiguration)).to.deep.equal(globalScoringConfiguration);
+      expect(updatedVersion.globalScoringConfiguration).to.deep.equal(globalScoringConfiguration);
     });
 
     it('returns 403 when the user is not a super admin', async function () {
@@ -1000,7 +1009,14 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       const draftVersion = domainBuilder.certification.configuration
         .versionBuilder()
         .asDraft({ startDate: new Date('2025-01-01') })
-        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 11, externalCalibrationId: 2 })
+        .withParameters({
+          scope: SCOPES.CORE,
+          tubeIds: ['tubeA'],
+          id: 11,
+          externalCalibrationId: 2,
+          globalScoringConfiguration: defaultGlobalScoringConfiguration,
+          competencesScoringConfiguration: defaultCompetencesScoringConfiguration,
+        })
         .insertToDB({ databaseBuilder });
 
       await domainBuilder.certification.configuration

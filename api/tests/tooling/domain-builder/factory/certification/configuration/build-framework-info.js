@@ -40,7 +40,7 @@ class FrameworkInfoBuilder {
    * @param {number} [params.maximumAssessmentLength] - defaults to 51
    * @returns {FrameworkInfoBuilder}
    */
-  withActiveVersion({ id, startDate = new Date('2026-01-01'), assessmentDuration = 31, maximumAssessmentLength = 51 }) {
+  withActiveVersion({ id, startDate = new Date('2026-01-01'), assessmentDuration = 31, maximumAssessmentLength = 51, hasScoring = true } = {}) {
     this.versionSummariesData.push({
       id,
       startDate,
@@ -48,6 +48,7 @@ class FrameworkInfoBuilder {
       assessmentDuration,
       maximumAssessmentLength,
       status: VERSION_STATUSES.ACTIVE,
+      hasScoring,
     });
     return this;
   }
@@ -69,7 +70,8 @@ class FrameworkInfoBuilder {
     expirationDate = new Date('2025-02-02'),
     assessmentDuration = 32,
     maximumAssessmentLength = 52,
-  }) {
+    hasScoring = true,
+  } = {}) {
     this.versionSummariesData.push({
       id,
       startDate,
@@ -77,6 +79,7 @@ class FrameworkInfoBuilder {
       assessmentDuration,
       maximumAssessmentLength,
       status: VERSION_STATUSES.ARCHIVED,
+      hasScoring,
     });
     return this;
   }
@@ -91,13 +94,14 @@ class FrameworkInfoBuilder {
    * @param {number} [params.maximumAssessmentLength] - defaults to 53
    * @returns {FrameworkInfoBuilder}
    */
-  withDraftVersion({ id, startDate = new Date('2027-01-01'), assessmentDuration = 33, maximumAssessmentLength = 53 }) {
+  withDraftVersion({ id, startDate = new Date('2027-01-01'), assessmentDuration = 33, maximumAssessmentLength = 53, hasScoring = false } = {}) {
     this.versionSummariesData.push({
       id,
       startDate,
       assessmentDuration,
       maximumAssessmentLength,
       status: VERSION_STATUSES.DRAFT,
+      hasScoring,
     });
     return this;
   }
@@ -129,7 +133,8 @@ class FrameworkInfoBuilder {
   insertToDB({ databaseBuilder }) {
     const frameworkInfo = this.build();
 
-    for (const versionSummary of frameworkInfo.versionSummaries) {
+    for (const [index, versionSummary] of frameworkInfo.versionSummaries.entries()) {
+      const versionSummaryData = this.versionSummariesData[index] ?? {};
       const row = databaseBuilder.factory.buildCertificationVersion({
         id: versionSummary.id,
         scope: frameworkInfo.scope,
@@ -137,8 +142,8 @@ class FrameworkInfoBuilder {
         expirationDate: versionSummary.expirationDate,
         assessmentDuration: versionSummary.assessmentDuration,
         minimumAnswersRequiredToValidateACertification: 123,
-        globalScoringConfiguration: defaultGlobalScoringConfiguration,
-        competencesScoringConfiguration: defaultCompetencesScoringConfiguration,
+        globalScoringConfiguration: versionSummaryData.hasScoring !== false ? defaultGlobalScoringConfiguration : [],
+        competencesScoringConfiguration: versionSummaryData.hasScoring !== false ? defaultCompetencesScoringConfiguration : null,
         challengesConfiguration: {
           ...defaultChallengesConfiguration,
           maximumAssessmentLength: versionSummary.maximumAssessmentLength ?? 40,
@@ -167,6 +172,7 @@ class FrameworkInfoBuilder {
           assessmentDuration: versionSummaryData.assessmentDuration,
           maximumAssessmentLength: versionSummaryData.maximumAssessmentLength,
           status: versionSummaryData.status,
+          hasGlobalScoring: versionSummaryData.hasScoring ?? true,
         }),
     );
 
