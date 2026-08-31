@@ -196,6 +196,7 @@
   },
   "overrides": {
     "@datadog/datadog-api-client": "1.60.0",
+    "eslint": "$eslint",
     "handlebars": ">=4.7.9",
     "hapi-swagger": {
       "joi": "$joi"

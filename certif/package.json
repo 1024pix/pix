@@ -40,15 +40,6 @@
     "test:lint": "npm test && npm run lint",
     "test:watch": "ember exam --serve --reporter dot"
   },
-  "overrides": {
-    "@xmldom/xmldom": ">=0.8.13",
-    "ember-dayjs": {
-      "ember-source": "$ember-source"
-    },
-    "flatted": ">=3.4.2",
-    "handlebars": ">=4.7.9",
-    "braces": ">=3.0.3"
-  },
   "devDependencies": {
     "@1024pix/ember-api-actions": "^1.1.0",
     "@1024pix/ember-testing-library": "^3.0.44",
@@ -124,6 +115,16 @@
     "sinon": "^22.0.0",
     "stylelint": "^17.4.0",
     "webpack": "^5.99.8"
+  },
+  "overrides": {
+    "eslint": "$eslint",
+    "@xmldom/xmldom": ">=0.8.13",
+    "ember-dayjs": {
+      "ember-source": "$ember-source"
+    },
+    "flatted": ">=3.4.2",
+    "handlebars": ">=4.7.9",
+    "braces": ">=3.0.3"
   },
   "exports": {
     "./tests/*": "./tests/*",
