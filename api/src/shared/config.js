@@ -162,6 +162,11 @@ const schema = Joi.object({
   LLM_DELETE_CHATS_JOB_DRY_RUN: Joi.string().optional().valid('true', 'false'),
   LLM_DELETE_CHATS_JOB_CRON: Joi.string().optional(),
   LLM_DELETE_CHATS_JOB_MS_BETWEEN_CHUNKS: Joi.number().min(0).optional(),
+  LLM_ASSISTANT_INFERENCE_URL: Joi.string().uri().requiredForApi(),
+  LLM_ASSISTANT_INFERENCE_CLIENT_ID: Joi.string().requiredForApi(),
+  LLM_ASSISTANT_INFERENCE_CLIENT_SECRET: Joi.string().requiredForApi(),
+  LMNR_BASE_URL: Joi.string().optional(),
+  LMNR_PROJECT_API_KEY: Joi.string().optional(),
   LOG_ENABLED: Joi.string().required().valid('true', 'false'),
   OTEL_ENABLED: Joi.string().optional().valid('true', 'false').default('false'),
   LOG_FOR_HUMANS: Joi.string().optional().valid('true', 'false'),
@@ -410,6 +415,13 @@ const configuration = (function () {
         msBetweenChunks: _getNumber(process.env.LLM_DELETE_CHATS_JOB_MS_BETWEEN_CHUNKS, 10),
       },
     },
+    llmAssistant: {
+      inferenceUrl: process.env.LLM_ASSISTANT_INFERENCE_URL,
+      inferenceClientId: process.env.LLM_ASSISTANT_INFERENCE_CLIENT_ID,
+      inferenceClientSecret: process.env.LLM_ASSISTANT_INFERENCE_CLIENT_SECRET,
+      lmnrBaseUrl: process.env.LMNR_BASE_URL,
+      lmnrProjectApiKey: process.env.LMNR_PROJECT_API_KEY,
+    },
     logging: {
       enabled: toBoolean(process.env.LOG_ENABLED),
       otelEnabled: toBoolean(process.env.OTEL_ENABLED),
@@ -615,6 +627,10 @@ const configuration = (function () {
     config.llm.temporaryStorage.expirationDelaySeconds = 1;
     config.llm.configurationEditorApi.authSecret = 'Le secret dans les tests';
     config.llm.inferenceApi.authSecret = 'Le secret dans les tests';
+
+    config.llmAssistant.inferenceUrl = 'https://llm-assistant-test.pix.fr/api/inference';
+    config.llmAssistant.inferenceClientId = 'test-client-id';
+    config.llmAssistant.inferenceClientSecret = 'test-client-secret';
 
     config.domain.tldFr = '.fr';
     config.domain.tldOrg = '.org';

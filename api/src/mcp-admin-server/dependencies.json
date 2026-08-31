@@ -1,0 +1,1 @@
+{ "name": "mcp-admin-server", "dependsOn": ["shared"] }

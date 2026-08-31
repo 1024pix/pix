@@ -24,6 +24,8 @@ import { identityAccessManagementRoutes } from './src/identity-access-management
 import * as serverAuthentication from './src/identity-access-management/infrastructure/server-authentication.js';
 import { learningContentRoutes } from './src/learning-content/routes.js';
 import { llmRoutes } from './src/llm/routes.js';
+import { llmAssistantRoutes } from './src/llm-assistant/routes.js';
+import { mcpAdminServerRoutes } from './src/mcp-admin-server/routes.js';
 import { organizationalEntitiesRoutes } from './src/organizational-entities/application/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
 import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
@@ -268,6 +270,8 @@ const setupRoutesAndPlugins = async function (server) {
       bannerRoutes,
       announcementRoutes,
       llmRoutes,
+      llmAssistantRoutes,
+      mcpAdminServerRoutes,
       rootRoute,
     ].flat(),
   );
