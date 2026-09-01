@@ -374,9 +374,9 @@
     },
     "certificability-tooltip": {
       "aria-label": "How to know if a participant is eligible for certification and what does it mean?",
-      "content": "To be eligible for certification, the participant must have achieved level 1 in at least 5 different competences.",
+      "content": "To be eligible for certification, the participant must have achieved level 1 in at least 5 competences.",
       "from-collect-notice": "their Pix profile needs to be submitted through a profile collection campaign. If the participant has already submitted their profile, the date and status of the last submission are displayed.",
-      "from-compute-certificability": "This status is updated both automatically (every 24 hours) and during profile collection campaigns."
+      "from-compute-certificability": "This status is automatically updated the day after each participant login and during profile collections."
     },
     "cover-rate-gauge": {
       "label": "On this campaign, your participants have achieved a level of {reachedLevel} out of a maximum attainable level of {maxLevel}."

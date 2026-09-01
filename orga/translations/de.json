@@ -376,7 +376,7 @@
       "aria-label": "Erläuterung zur Zertifizierbarkeit",
       "content": "Zertifizierbarkeit bedeutet, dass der/die Teilnehmer/in in mindestens fünf verschiedenen Kompetenzen das Niveau 1 erreicht hat.",
       "from-collect-notice": "Die Informationen stammen aus den von ihm durchgeführten Kampagnen zum Sammeln von Profilen. Wenn der Teilnehmer sein Profil bereits versendet hat, werden das Datum sowie der Status der letzten Versendung angezeigt.",
-      "from-compute-certificability": "Dieser Status wird automatisch (alle 24 Stunden) und bei Kampagnen zum Sammeln von Profilen aktualisiert."
+      "from-compute-certificability": "Dieser Status wird automatisch am Tag nach jeder Anmeldung des Teilnehmers und bei Profilerhebungen aktualisiert."
     },
     "cover-rate-gauge": {
       "label": "Bei dieser Kampagne erreichten Ihre Teilnehmer ein Niveau von {reachedLevel} von einem maximal erreichbaren Niveau von {maxLevel}."
