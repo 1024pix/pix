@@ -362,11 +362,11 @@
                       "response": "<p>Voici un plan de présentation structuré et concis :</p> <p><strong>1. Introduction (2-3 minutes)</strong></p> <ul> <li>Présentation personnelle (nom, rôle, entreprise)</li> <li>Objectif de la présentation</li> <li>Aperçu du contenu</li> </ul> <p><strong>2. Contexte (3-5 minutes)</strong></p> <ul> <li>Présentation du sujet</li> <li>Importance et pertinence</li> <li>Problématique ou enjeux</li> </ul> <p><strong>3. Développement (10-12 minutes)</strong></p> <ul> <li>Point 1 : Argument ou idée principale avec exemples/support visuel</li> <li>Point 2 : Argument ou idée secondaire avec données/chiffres</li> <li>Point 3 : Solution ou recommandation avec avantages</li> </ul> <p><strong>4. Conclusion (2-3 minutes)</strong></p> <ul> <li>Résumé des points clés</li> <li>Appel à l'action ou perspectives</li> <li>Ouverture sur les questions</li> </ul> <p><strong>5. Questions et Réponses (5-10 minutes)</strong></p> <ul> <li>Interaction avec le public</li> <li>Réponses claires et concises</li> </ul> <p><strong>Durée totale</strong> : Environ 20-30 minutes selon le niveau de détail.</p>"
                     },
                     {
-                      "prompt": "Propose un plan pour une présentation de 5 minutes sur la journée de team building",
+                      "prompt": "Propose un plan pour une présentation de 5 minutes sur la journée de team building.",
                       "response": "<p><strong>Plan de Présentation pour une Journée de Team Building</strong></p> <p><strong>1. Introduction (15 minutes)</strong></p> <ul> <li>Accueil et présentation des objectifs de la journée.</li> <li>Brise-glace : activité courte pour détendre l'atmosphère (ex : présentation rapide avec une anecdote personnelle).</li> </ul> <p><strong>2. Activités de Team Building (3 heures)</strong></p> <ul> <li><strong>Activité 1 (1 heure)</strong> : Jeu de coopération (ex : construction d'une tour avec des spaghettis et du marshmallow).</li> <li><strong>Pause café (15 minutes)</strong> : Moment de détente et d'échanges informels.</li> <li><strong>Activité 2 (1 heure)</strong> : Escape game ou chasse au trésor en équipe.</li> <li><strong>Activité 3 (1 heure)</strong> : Atelier de communication (ex : exercice de feedback constructif).</li> </ul> <p><strong>3. Pause Déjeuner (1 heure)</strong></p> <ul> <li>Repas partagé pour favoriser les échanges informels.</li> </ul> <p><strong>4. Activités de Cohésion (2 heures)</strong></p> <ul> <li><strong>Activité 4 (1 heure)</strong> : Jeu de rôle ou simulation de crise pour renforcer la collaboration.</li> <li><strong>Activité 5 (1 heure)</strong> : Atelier de créativité (ex : brainstorming sur un projet fictif).</li> </ul> <p><strong>5. Conclusion (30 minutes)</strong></p> <ul> <li>Retour d'expérience : chaque équipe partage ses ressentis et apprentissages.</li> <li>Remerciements et clôture de la journée.</li> </ul> <p><strong>6. Optionnel : Soirée (2 heures)</strong></p> <ul> <li>Dîner ou activité ludique (ex</li> </ul>"
                     },
                     {
-                      "prompt": "Propose un plan pour une présentation de 5 minutes sur la journée de team building tournoi de jeux de société pour donner envie à mes collègues de participer",
+                      "prompt": "Propose un plan pour une présentation de 5 minutes sur la journée de team building tournoi de jeux de société pour donner envie à mes collègues de participer.",
                       "response": "<p><strong>Plan de présentation : Team Building - Tournoi de Jeux de Société</strong></p> <p><strong>1. Introduction (1 minute)</strong></p> <ul> <li>Bonjour à tous ! Aujourd'hui, je vous propose un team building original et ludique : un tournoi de jeux de société.</li> <li>Objectif : renforcer notre cohésion d'équipe tout en s'amusant.</li> </ul> <p><strong>2. Pourquoi participer ? (1 minute 30)</strong></p> <ul> <li><strong>Détente</strong> : Une pause dans notre routine de travail.</li> <li><strong>Créativité</strong> : Les jeux stimulent l'imagination et la réflexion.</li> <li><strong>Collaboration</strong> : Travailler ensemble pour gagner, mais surtout pour s'amuser.</li> <li><strong>Découverte</strong> : Découvrir de nouveaux jeux et talents cachés.</li> </ul> <p><strong>3. Déroulement de la journée (1 minute 30)</strong></p> <ul> <li><strong>Matin</strong> : Présentation des jeux, formation des équipes, débuts des tournois.</li> <li><strong>Midi</strong> : Pause déjeuner conviviale.</li> <li><strong>Après-midi</strong> : Suite des tournois, finale et remise des prix symboliques.</li> <li><strong>Clôture</strong> : Partage des impressions et photos souvenirs.</li> </ul> <p><strong>4. Conclusion (30 secondes)</strong></p> <ul> <li>Rejoignez-nous pour une journée inoubliable ! Inscription ouverte, places limitées.</li> <li>Merci pour votre attention, à bientôt pour cette aventure ludique !</li> </ul> <p><strong>Motivation finale</strong> : \"Ensemble, jouons et créons des souvenirs !\"</p>"
                     }
                   ]
@@ -386,7 +386,7 @@
                     "id": "1",
                     "content": "<p>Propose un plan de présentation.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Pas tout à fait. Le logiciel d’IA générative ne peut pas deviner les détails d’une demande. Pour être sûr d’avoir la réponse recherchée, il faut <strong>préciser tous les éléments importants</strong>de la demande dans le prompt.</p>"
+                      "diagnosis": "<p>Pas tout à fait. Le logiciel d’IA générative ne peut pas deviner les détails d’une demande. Pour être sûr d’avoir la réponse recherchée, il faut <strong>préciser tous les éléments importants</strong> de la demande dans le prompt.</p>"
                     }
                   },
                   {
@@ -398,7 +398,7 @@
                   },
                   {
                     "id": "3",
-                    "content": "<p>Propose un plan pour une présentation de 5 minutes sur la journée de team building tournoi de jeux de société pour donner envie à mes collègues de participer</p>",
+                    "content": "<p>Propose un plan pour une présentation de 5 minutes sur la journée de team building tournoi de jeux de société pour donner envie à mes collègues de participer.</p>",
                     "feedback": {
                       "diagnosis": "<p>Exact&nbsp;: ce prompt contient des <strong>éléments précis&nbsp;</strong>: un verbe, une contrainte (comité de direction) et un objectif (convaincre d’investir dans le projet).</p>"
                     }
@@ -500,7 +500,7 @@
                 "id": "7ab7c24d-9b74-4db3-b535-1d6631b3eee5",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Même si le prompt est clair et précis, et que la réponse paraît bien rédigée, un<strong> logiciel d’IA générative</strong>peut <strong>se tromper</strong>. Il faut <strong>toujours&nbsp;</strong><strong>relire et vérifier la réponse</strong>.</p><p><br><strong>Astuce</strong></p><p>On peut continuer la conversation avec un logiciel d’IA générative en lui envoyant un nouveau message pour <strong>ajuster ou corriger</strong> la réponse.</p>"
+                "content": "<p>Même si le prompt est clair et précis, et que la réponse paraît bien rédigée, un<strong> logiciel d’IA générative</strong> peut <strong>se tromper</strong>. Il faut <strong>toujours&nbsp;</strong><strong>relire et vérifier la réponse</strong>.</p><p><br><strong>Astuce</strong></p><p>On peut continuer la conversation avec un logiciel d’IA générative en lui envoyant un nouveau message pour <strong>ajuster ou corriger</strong> la réponse.</p>"
               }
             }
           ]
@@ -522,7 +522,7 @@
                 "id": "e83ea0ee-18ea-4f92-94e4-ba028e9fe22d",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>Un <strong>prompt</strong>(« instruction » ou « requête » en français) est une <strong>question</strong> que l’on pose ou une <strong>consigne</strong> que l’on donne au logiciel d’IA générative pour qu’il produise une réponse.</li><li>Un prompt s’écrit en <strong>langage courant.</strong></li><li>Plus la <strong>demande</strong>est <strong>claire et précise</strong>, plus la <strong>réponse</strong>du logiciel d’IA générative sera <strong>adaptée et pertinente</strong>.<br></li><li>Il est important de toujours <strong>relire la réponse</strong> <strong>du logiciel d’IA générative</strong>.</li><li>Si la réponse du logiciel d’IA générative ne convient pas, il faut <strong>reformuler</strong> <strong>son prompt</strong>.</li></ul>"
+                "content": "<ul><li>Un <strong>prompt</strong> (« instruction » ou « requête » en français) est une <strong>question</strong> que l’on pose ou une <strong>consigne</strong> que l’on donne au logiciel d’IA générative pour qu’il produise une réponse.</li><li>Un prompt s’écrit en <strong>langage courant.</strong></li><li>Plus la <strong>demande</strong> est <strong>claire et précise</strong>, plus la <strong>réponse</strong> du logiciel d’IA générative sera <strong>adaptée et pertinente</strong>.<br></li><li>Il est important de toujours <strong>relire la réponse</strong> <strong>du logiciel d’IA générative</strong>.</li><li>Si la réponse du logiciel d’IA générative ne convient pas, il faut <strong>reformuler</strong> <strong>son prompt</strong>.</li></ul>"
               }
             }
           ]
