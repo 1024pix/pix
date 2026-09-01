@@ -1038,6 +1038,7 @@ jobs:
           environment:
             DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
             JOBS_DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
+            AUTH_SECRET: "the-password-must-be-at-least-32-characters-long"
           command: npm run test:ci:app
       - store_test_results:
           path: /home/circleci/test-results
