@@ -169,9 +169,14 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
         // given
         const store = this.owner.lookup('service:store');
         const trainings = createManyTrainings(store, 10);
+        const onNavigationButtonClick = sinon.stub();
 
         // when
-        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+        const screen = await render(
+          <template>
+            <Trainings @trainings={{trainings}} @onNavigationButtonClick={{onNavigationButtonClick}} />
+          </template>,
+        );
 
         // then
         const previousButton = screen.getByRole('button', {
@@ -197,17 +202,54 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
         assert.dom(lists[0]).hasClass('results-recommendation-engine-training__list--hidden');
       });
 
+      module('when clicking the previous button', function () {
+        test('it should call onNavigationButtonClick function passed as argument', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const trainings = createManyTrainings(store, 10);
+          const onNavigationButtonClick = sinon.stub();
+
+          // when
+          const screen = await render(
+            <template>
+              <Trainings @trainings={{trainings}} @onNavigationButtonClick={{onNavigationButtonClick}} />
+            </template>,
+          );
+          const nextButton = screen.getByRole('button', {
+            name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+          });
+
+          await click(nextButton);
+          const lists = screen.getAllByRole('list');
+          await waitUntil(() => lists[0].scrollLeft !== 0);
+
+          const previousButton = screen.getByRole('button', {
+            name: t('pages.skill-review.recommended-engine.trainings.previous-button-aria-label'),
+          });
+          await click(previousButton);
+
+          // then
+          sinon.assert.calledWith(onNavigationButtonClick, 'previous');
+          assert.ok(true);
+        });
+      });
+
       module('when clicking the next button', function () {
         test('it scrolls the list forward and enables the previous button', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
           const trainings = createManyTrainings(store, 10);
-          const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+          const onNavigationButtonClick = sinon.stub();
+
+          // when
+          const screen = await render(
+            <template>
+              <Trainings @trainings={{trainings}} @onNavigationButtonClick={{onNavigationButtonClick}} />
+            </template>,
+          );
           const nextButton = screen.getByRole('button', {
             name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
           });
-
-          // when
           await click(nextButton);
           const lists = screen.getAllByRole('list');
           await waitUntil(() => lists[0].scrollLeft !== 0);
@@ -219,13 +261,41 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
           });
           assert.dom(previousButton).doesNotHaveAttribute('aria-disabled');
         });
+        test('it should call onNavigationButtonClick function passed as argument', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const trainings = createManyTrainings(store, 10);
+          const onNavigationButtonClick = sinon.stub();
+
+          // when
+          const screen = await render(
+            <template>
+              <Trainings @trainings={{trainings}} @onNavigationButtonClick={{onNavigationButtonClick}} />
+            </template>,
+          );
+          const nextButton = screen.getByRole('button', {
+            name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+          });
+          await click(nextButton);
+
+          // then
+          sinon.assert.calledWith(onNavigationButtonClick, 'next');
+          assert.ok(true);
+        });
       });
 
       test('it announces the visible page to assistive technologies', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const trainings = createManyTrainings(store, 10);
-        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+        const onNavigationButtonClick = sinon.stub();
+
+        // when
+        const screen = await render(
+          <template>
+            <Trainings @trainings={{trainings}} @onNavigationButtonClick={{onNavigationButtonClick}} />
+          </template>,
+        );
         const nextButton = screen.getByRole('button', {
           name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
         });
@@ -264,7 +334,14 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
         // given
         const store = this.owner.lookup('service:store');
         const trainings = createManyTrainings(store, 7);
-        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+        const onNavigationButtonClick = sinon.stub();
+
+        // when
+        const screen = await render(
+          <template>
+            <Trainings @trainings={{trainings}} @onNavigationButtonClick={{onNavigationButtonClick}} />
+          </template>,
+        );
         const nextButton = screen.getByRole('button', {
           name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
         });
