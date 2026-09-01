@@ -54,7 +54,9 @@ export class JobClient {
             max: config.pgBoss.workerConnexionPoolMaxSize,
             persistWarnings: config.pgBoss.persistWarnings,
             warningRetentionDays: 30,
-            useListenNotify: config.pgBoss.useListenNotify,
+            useListenNotify: config.pgBoss.useListenNotify && !isTestOnly,
+            supervise: !isTestOnly,
+            schedule: !isTestOnly,
           });
     } else {
       this.#pgBoss = pgBossFactory
@@ -204,11 +206,11 @@ export class JobClient {
   async #ensureQueue(name) {
     await this.#pgBoss.createQueue(name, {
       retentionSeconds: config.pgBoss.retentionSeconds,
-      notify: config.pgBoss.useListenNotify,
+      notify: config.pgBoss.useListenNotify && !this.#isTestOnly,
     });
     await this.#pgBoss.updateQueue(name, {
       retentionSeconds: config.pgBoss.retentionSeconds,
-      notify: config.pgBoss.useListenNotify,
+      notify: config.pgBoss.useListenNotify && !this.#isTestOnly,
     });
   }
 
