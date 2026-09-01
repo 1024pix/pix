@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Virus, vers, chevaux de Troie, rançongiciels… Ces noms ne décrivent pas tous la même caractéristique d’un logiciel malveillant. Dans ce module, vous allez apprendre à les analyser selon trois critères&nbsp;: leur moyen d’entrée dans un système informatique, leur mode de propagation et leurs actions nuisibles.</p>",
+    "description": "<p>Virus, vers, chevaux de Troie, logiciels de rançon… Ces noms ne décrivent pas tous la même caractéristique d’un logiciel malveillant. Dans ce module, vous allez apprendre à analyser les logiciels malveillants selon trois critères&nbsp;: leur moyen d’entrée dans un système informatique, leur mode de propagation et leurs actions nuisibles.</p>",
     "duration": 10,
     "level": "advanced",
     "objectives": [
@@ -42,7 +42,7 @@
                 "id": "ffc7b36c-53fa-48a1-99a1-b7475e27e481",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>[carousel avec images + textes ?]<br><strong>Aimed - 09h08</strong> <br>Sur les postes du service comptabilité, nous rencontrons des problèmes depuis ce matin&nbsp;:  lenteurs inhabituelles et messages d’alerte. Ça touche de plus en plus d’ordinateurs. </p><p><strong>Lina - 09h19<br></strong>Je n’arrive plus à ouvrir mes fichiers depuis ce matin.<br> </p><p><strong>Hugo - 10h02<br></strong>Est-ce qu’il y a des problèmes de réseau ce matin ? J’ai du mal à accéder à mes fichiers.<br></p>"
+                "content": "<p>[carousel avec images + textes ?]<br><strong>Aimed - service comptabilité - 09h08</strong> <br>Sur les postes du service comptabilité, nous rencontrons des problèmes depuis ce matin&nbsp;:  lenteurs inhabituelles et messages d’alerte. Ça touche de plus en plus d’ordinateurs. </p><p><strong>Lina - service ressources humaines - 09h19<br></strong>Je n’arrive plus à ouvrir mes fichiers depuis ce matin.<br> </p><p><strong>Hugo - service communication - 10h02<br></strong>Est-ce qu’il y a des problèmes de réseau ce matin ? J’ai du mal à accéder à mes fichiers.<br></p>"
               }
             },
             {
@@ -273,7 +273,7 @@
                     "id": "3",
                     "content": "<p>Le mail suspect a été envoyé directement à tous les services de la mairie.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non, ici le mail n’a pas été reçu par l’ensemble des postes de la mairie. En revanche, les postes touchés sont tous connectés au même réseau informatique.<br>Ces indices montrent que le <strong>logiciel malveillant</strong> s’est <strong>propagé automatiquement via le réseau</strong>.</p><p>Tous les logiciels malveillants ne se propagent pas de cette manière. Il existe plusieurs modes de propagation.</p>"
+                      "diagnosis": "<p>Eh non, ici le mail n’a pas été reçu par l’ensemble des services de la mairie. En revanche, les postes touchés sont tous connectés au même réseau informatique.<br>Ces indices montrent que le <strong>logiciel malveillant</strong> s’est <strong>propagé automatiquement via le réseau</strong>.</p><p>Tous les logiciels malveillants ne se propagent pas de cette manière. Il existe plusieurs modes de propagation.</p>"
                     }
                   },
                   {
@@ -362,11 +362,11 @@
                 "props": {
                   "titleLevel": 2,
                   "articleTitle": "Extrait du rapport d’analyse technique",
-                  "author": "le Service informatique de la mairie de Saint-Martin-sur-Rivière",
+                  "author": "le Service informatique de la mairie de Saint-Martin-sur-Rivière ",
                   "date": "23/06/2026",
                   "paragraphs": [
                     "Les analyses menées après l’incident ont confirmé la présence d’un logiciel malveillant sur plusieurs postes de la mairie depuis plusieurs mois. Ce programme était déjà actif avant le blocage des fichiers et la demande de rançon. Il fonctionnait de manière discrète et n’affichait aucun message visible pour les utilisateurs.",
-                    "Les traces retrouvées indiquent qu’il a collecté des identifiants enregistrés dans les navigateurs, ainsi que des fichiers temporaires présents sur les postes infectés. Certains de ces fichiers contenaient des informations administratives et des données personnelles. Ce même programme a ensuite participé au chiffrement des fichiers"
+                    "Les traces retrouvées indiquent qu’il a collecté des identifiants enregistrés dans les navigateurs, ainsi que des fichiers temporaires présents sur les postes infectés. Certains de ces fichiers contenaient des informations administratives et des données personnelles. Ce même programme a ensuite participé au chiffrement des fichiers."
                   ],
                   "highlightedSentence": "",
                   "colorOfHighlightSentence": ""
@@ -405,11 +405,11 @@
                 "feedbacks": {
                   "valid": {
                     "state": "<p>Effectivement !</p>",
-                    "diagnosis": "<p>Le rapport montre que le logiciel malveillant a collecté des identifiants et des fichiers, puis participé au chiffrement de fichiers.Ce<strong> logiciel malveillant</strong> réalise donc <strong>plusieurs actions nuisibles.</strong></p>"
+                    "diagnosis": "<p>Le rapport montre que le logiciel malveillant a collecté des identifiants et des fichiers, puis participé au chiffrement de fichiers. Ce<strong> logiciel malveillant</strong> réalise donc <strong>plusieurs actions nuisibles.</strong></p>"
                   },
                   "invalid": {
                     "state": "<p>Eh non.</p>",
-                    "diagnosis": "<p>Le rapport montre que le logiciel malveillant a collecté des identifiants et des fichiers, puis participé au chiffrement de fichiers.Ce<strong> logiciel malveillant</strong> réalise donc <strong>plusieurs actions nuisibles.</strong></p>"
+                    "diagnosis": "<p>Le rapport montre que le logiciel malveillant a collecté des identifiants et des fichiers, puis participé au chiffrement de fichiers. Ce<strong> logiciel malveillant</strong> réalise donc <strong>plusieurs actions nuisibles.</strong></p>"
                   }
                 },
                 "solutions": [
@@ -431,7 +431,7 @@
                 "id": "06cddab7-e423-4e29-99a2-734165fb2510",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>La <strong>charge utile </strong>désigne les <strong>actions nuisibles réalisées par un logiciel malveillant </strong>une fois introduit dans un système informatique. Ces actions <strong>varient selon l’objectif des auteurs</strong> des cyberattaques.</p><p>Certains noms de logiciels malveillants indiquent leur action nuisible principale&nbsp;:&nbsp; </p><ul><li>un <strong>logiciel espion</strong> (spyware) cherche à observer l’activité d’un utilisateur,</li><li>un <strong>voleur de données</strong> (infostealer) collecte des informations, comme des fichiers ou des identifiants,</li><li>un <strong>logiciel de rançon&nbsp;</strong>(ransomware) rend des fichiers ou des systèmes inaccessibles pour demander une rançon,</li><li>un <strong>outil de dissimulation d’activité</strong> (rootkit) peut aider à cacher une action malveillante ou à maintenir un accès.</li></ul><p>Ces noms indiquent une action nuisible principale, mais ne décrivent pas forcément toutes les actions réalisées par le logiciel malveillant.</p><p>Un <strong>logiciel malveillant</strong> peut combiner <strong>plusieurs actions nuisibles</strong>&nbsp;: un rançongiciel qui vole aussi des données par exemple. <br>Certaines cyberattaques reposent même sur <strong>plusieurs logiciels malveillants</strong>, <strong>chacun </strong>jouant un <strong>rôle différent</strong>.<br></p>"
+                "content": "<p>La <strong>charge utile </strong>désigne les <strong>actions nuisibles réalisées par un logiciel malveillant </strong>une fois introduit dans un système informatique. Ces actions <strong>varient selon l’objectif des auteurs</strong> des cyberattaques.</p><p>Certains noms de logiciels malveillants indiquent leur action nuisible principale&nbsp;:&nbsp; </p><ul><li>un <strong>logiciel espion</strong> (spyware) cherche à observer l’activité d’un utilisateur,</li><li>un <strong>voleur de données</strong> (infostealer) collecte des informations, comme des fichiers ou des identifiants,</li><li>un <strong>logiciel de rançon&nbsp;</strong>(ransomware) rend des fichiers ou des systèmes inaccessibles pour demander une rançon,</li><li>un <strong>outil de dissimulation d’activité</strong> (rootkit) peut aider à cacher une action malveillante ou à maintenir un accès.</li></ul><p>Ces noms indiquent une action nuisible principale, mais ne décrivent pas forcément toutes les actions réalisées par le logiciel malveillant.</p><p>Un <strong>logiciel malveillant</strong> peut combiner <strong>plusieurs actions nuisibles</strong>&nbsp;: un logiciel de rançon qui vole aussi des données par exemple. <br>Certaines cyberattaques reposent même sur <strong>plusieurs logiciels malveillants</strong>, <strong>chacun </strong>jouant un <strong>rôle différent</strong>.<br></p>"
               }
             }
           ]
@@ -644,7 +644,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "<p>Dissimuler une action</p>",
+                          "content": "<p>Dissimuler une action.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Pour identifier l’action nuisible, regardez ce que fait le logiciel avec les fichiers clients.</p>"
@@ -695,7 +695,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "<p>Dissimuler une action</p>",
+                          "content": "<p>Dissimuler une action.</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !&nbsp;🎉</p>",
                             "diagnosis": "<p>Ce logiciel est conçu pour dissimuler une action&nbsp;: il cherche à dissimuler son activité malveillante afin de maintenir un accès au système informatique sans être repéré.</p>"
@@ -746,7 +746,7 @@
                         },
                         {
                           "id": "3",
-                          "content": "<p>Dissimuler une action</p>",
+                          "content": "<p>Dissimuler une action.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Pour identifier l’action nuisible, observez les effets visibles sur les équipements&nbsp;: arrêts répétés, applications qui se ferment seules, ralentissements importants et équipements qui ne répondent plus.</p>"
@@ -808,7 +808,7 @@
                     "id": "2",
                     "content": "<p>Déconnectez la machine d’internet ou du réseau.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Bien joué ! En déconnectant l’ordinateur d’internet, vous pouvez limiter la propagation de l’attaque.Tentez de déchiffrer les fichiers.</p>"
+                      "diagnosis": "<p>Bien joué ! En déconnectant l’ordinateur d’internet, vous pouvez limiter la propagation de l’attaque.</p>"
                     }
                   },
                   {
