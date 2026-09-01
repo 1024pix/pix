@@ -1,7 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
@@ -14,6 +13,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { formatDate, t } from 'ember-intl';
 import { eq, not } from 'ember-truth-helpers';
+import Pagination from 'pix-orga/components/ui/pagination';
 
 import { getColumnName } from '../../helpers/import-format.js';
 import CertificabilityCell from '../certificability/cell';
@@ -486,7 +486,7 @@ const ActionBar = <template>
 
 const PixPaginationControl = <template>
   <InElement @destinationId={{@destinationId}} @waitForElement={{true}}>
-    <PixPagination @pagination={{@pagination}} @onChange={{@onChange}} @locale={{@locale}} />
+    <Pagination @pagination={{@pagination}} @onChange={{@onChange}} />
   </InElement>
 </template>;
 

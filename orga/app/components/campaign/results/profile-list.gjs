@@ -1,4 +1,3 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
@@ -6,7 +5,7 @@ import { array, fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { formatDate, t } from 'ember-intl';
 import { gt } from 'ember-truth-helpers';
-import getService from 'pix-orga/helpers/get-service';
+import Pagination from 'pix-orga/components/ui/pagination';
 
 import CampaignParticipationFilters from '../filter/participation-filters';
 import EvolutionHeader from './evolution-header';
@@ -151,9 +150,7 @@ import ParticipationEvolutionIcon from './participation-evolution-icon';
     {{/unless}}
 
     {{#if (gt @profiles.length 0)}}
-      {{#let (getService "service:locale") as |locale|}}
-        <PixPagination @pagination={{@profiles.meta}} @locale={{locale.currentLanguage}} />
-      {{/let}}
+      <Pagination @pagination={{@profiles.meta}} />
     {{/if}}
   </section>
 </template>

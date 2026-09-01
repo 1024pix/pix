@@ -262,6 +262,14 @@
     "notification": {
       "close": "Cerrar la notificación"
     },
+    "pagination": {
+      "nextPage": "Ir a la página siguiente",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 elemento} =1 {1 elemento} other {{total, number} elementos}}} other {{start, number}-{end, number} sur {total, plural, =0 {0 elemento} =1 {1 elemento} other {{total, number} elementos}}}}",
+      "pageNumber": "Página {current, number} / {total, number}",
+      "pageSize": "Número de elementos que se mostrarán por página",
+      "previousPage": "Ir a la página anterior",
+      "title": "Ver"
+    },
     "result": {
       "accessibility-description": "Resultado obtenido = {percentage, number, ::percent}, es decir, el rodamiento {stage} sobre {totalStage}.",
       "percentage": "{value, number, ::percent}",

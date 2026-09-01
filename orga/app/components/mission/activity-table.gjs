@@ -1,9 +1,8 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { t } from 'ember-intl';
-import getService from 'pix-orga/helpers/get-service';
+import Pagination from 'pix-orga/components/ui/pagination';
 
 function statusColor(status) {
   return {
@@ -48,9 +47,7 @@ function statusColor(status) {
       </:columns>
     </PixTable>
 
-    {{#let (getService "service:locale") as |locale|}}
-      <PixPagination @pagination={{@missionLearners.meta}} @locale={{locale.currentLanguage}} />
-    {{/let}}
+    <Pagination @pagination={{@missionLearners.meta}} />
 
   {{else}}
     <div class="table__empty content-text">

@@ -445,43 +445,6 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       // then
       assert.ok(screen.getByRole('link', { href: '/campagnes/1/profils/7' }));
     });
-
-    test('it should display pagination in correct language', async function (assert) {
-      const locale = this.owner.lookup('service:locale');
-      locale.setCurrentLocale('en');
-
-      this.owner.setupRouter();
-      const campaign = store.createRecord('campaign', {
-        id: '1',
-        name: 'campagne 1',
-        code: 'AAAAAA111',
-        participationsCount: 1,
-      });
-      const profiles = [
-        {
-          id: 7,
-          lastName: 'Todori',
-          firstName: 'Shoto',
-        },
-      ];
-
-      // when
-      const screen = await render(
-        <template>
-          <ProfileList
-            @campaign={{campaign}}
-            @profiles={{profiles}}
-            @onClickParticipant={{noop}}
-            @onFilter={{noop}}
-            @selectedDivisions={{divisions}}
-            @selectedGroups={{groups}}
-          />
-        </template>,
-      );
-
-      // then
-      assert.ok(screen.getByLabelText('items', { exact: false }));
-    });
   });
 
   module('when there is no profile', function () {

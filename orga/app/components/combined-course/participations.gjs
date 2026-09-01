@@ -1,7 +1,6 @@
 import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
@@ -13,6 +12,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import EmptyState from 'pix-orga/components/campaign/empty-state';
+import Pagination from 'pix-orga/components/ui/pagination';
 import ParticipationStatus from 'pix-orga/components/ui/participation-status';
 import ENV from 'pix-orga/config/environment';
 import { COMBINED_COURSE_PARTICIPATION_STATUSES } from 'pix-orga/models/combined-course-participation.js';
@@ -231,7 +231,7 @@ export default class CombinedCourse extends Component {
         </:columns>
       </PixTable>
       {{#if @participations.meta}}
-        <PixPagination @pagination={{@participations.meta}} @locale={{this.locale.currentLanguage}} />
+        <Pagination @pagination={{@participations.meta}} />
       {{/if}}
     {{else}}
       <EmptyState />

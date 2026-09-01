@@ -1,6 +1,5 @@
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
@@ -8,6 +7,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import Pagination from 'pix-orga/components/ui/pagination';
 
 import PageTitle from '../ui/page-title';
 import CoverRateGauge from './cover-rate-gauge';
@@ -165,7 +165,7 @@ export default class Statistics extends Component {
         </:columns>
       </PixTable>
 
-      <PixPagination @pagination={{this.pagination}} @locale={{this.locale.currentLanguage}} />
+      <Pagination @pagination={{this.pagination}} />
     {{else}}
       <PixBlock class="empty-state" @variant="orga">
         <div class="empty-state__text">

@@ -262,6 +262,14 @@
     "notification": {
       "close": "Melding sluiten"
     },
+    "pagination": {
+      "nextPage": "Ga naar volgende pagina",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}} other {{start, number}-{end, number} sur {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}}}",
+      "pageNumber": "Pagina {current, number} / {total, number}",
+      "pageSize": "Selecteer het aantal items per pagina",
+      "previousPage": "Ga naar volgende pagina",
+      "title": "Zie"
+    },
     "result": {
       "accessibility-description": "Verkregen resultaat = {percentage, number, ::percent}, ofwel de succesratio {stage} op {totalStage}",
       "percentage": "{value, number, ::percent}",

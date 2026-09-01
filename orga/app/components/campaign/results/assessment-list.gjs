@@ -1,11 +1,10 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { array, fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
+import Pagination from 'pix-orga/components/ui/pagination';
 
-import getService from '../../../helpers/get-service.js';
 import MasteryPercentageDisplay from '../../ui/mastery-percentage-display';
 import CampaignBadges from '../badges';
 import CampaignParticipationFilters from '../filter/participation-filters';
@@ -134,9 +133,7 @@ import ParticipationEvolutionIcon from './participation-evolution-icon';
     {{/unless}}
 
     {{#if @participations}}
-      {{#let (getService "service:locale") as |locale|}}
-        <PixPagination @pagination={{@participations.meta}} @locale={{locale.currentLanguage}} />
-      {{/let}}
+      <Pagination @pagination={{@participations.meta}} />
     {{/if}}
   </section>
 </template>
