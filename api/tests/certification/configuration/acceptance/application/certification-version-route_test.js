@@ -21,7 +21,7 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
-describe.only('Acceptance | Certification | Configuration | API | certification-version-route', function () {
+describe('Acceptance | Certification | Configuration | API | certification-version-route', function () {
   let server;
   let superAdmin;
 

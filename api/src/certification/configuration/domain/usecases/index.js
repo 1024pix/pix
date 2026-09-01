@@ -28,10 +28,10 @@ import { getInfo } from './get-info.js';
 import { getScoBlockedAccessDates } from './get-sco-blocked-access-dates.js';
 import { getVersionById } from './get-version-by-id.js';
 import { importScoWhitelist } from './import-sco-whitelist.js';
+import { saveScoringConfiguration } from './save-scoring-configuration.js';
 import { searchAttachableTargetProfiles } from './search-attachable-target-profiles.js';
 import { sendTargetProfileNotifications } from './send-target-profile-notifications.js';
 import { updateScoBlockedAccessDate } from './update-sco-blocked-access-date.js';
-import { saveScoringConfiguration } from './save-scoring-configuration.js';
 import { updateVersion } from './update-version.js';
 import { updateVersionComment } from './update-version-comment.js';
 

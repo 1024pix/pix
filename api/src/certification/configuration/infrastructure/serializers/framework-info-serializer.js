@@ -11,7 +11,14 @@ export function serialize(frameworkInfo) {
     versionSummaries: {
       included: true,
       ref: 'id',
-      attributes: ['startDate', 'expirationDate', 'assessmentDuration', 'maximumAssessmentLength', 'status', 'hasGlobalScoring'],
+      attributes: [
+        'startDate',
+        'expirationDate',
+        'assessmentDuration',
+        'maximumAssessmentLength',
+        'status',
+        'hasGlobalScoring',
+      ],
     },
     complementaryCertification: {
       ref: 'id',

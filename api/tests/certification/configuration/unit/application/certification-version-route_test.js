@@ -405,7 +405,11 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('PATCH', `/api/admin/certification-versions/1/scoring`, validPayload);
+        const response = await httpTestServer.request(
+          'PATCH',
+          `/api/admin/certification-versions/1/scoring`,
+          validPayload,
+        );
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -424,7 +428,11 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('PATCH', `/api/admin/certification-versions/1/scoring`, validPayload);
+        const response = await httpTestServer.request(
+          'PATCH',
+          `/api/admin/certification-versions/1/scoring`,
+          validPayload,
+        );
 
         // then
         expect(response.statusCode).to.equal(204);
@@ -441,7 +449,11 @@ describe('Unit | Certification | Configuration | Application | Router | certific
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request('PATCH', `/api/admin/certification-versions/NOT_AN_ID/scoring`, validPayload);
+        const response = await httpTestServer.request(
+          'PATCH',
+          `/api/admin/certification-versions/NOT_AN_ID/scoring`,
+          validPayload,
+        );
 
         // then
         expect(response.statusCode).to.equal(400);

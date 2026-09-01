@@ -1,5 +1,13 @@
 export class VersionSummary {
-  constructor({ id, startDate, expirationDate, assessmentDuration, maximumAssessmentLength, status, hasGlobalScoring }) {
+  constructor({
+    id,
+    startDate,
+    expirationDate,
+    assessmentDuration,
+    maximumAssessmentLength,
+    status,
+    hasGlobalScoring,
+  }) {
     this.id = id;
     this.startDate = startDate ?? null;
     this.expirationDate = expirationDate ?? null;

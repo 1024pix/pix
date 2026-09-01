@@ -40,7 +40,13 @@ class FrameworkInfoBuilder {
    * @param {number} [params.maximumAssessmentLength] - defaults to 51
    * @returns {FrameworkInfoBuilder}
    */
-  withActiveVersion({ id, startDate = new Date('2026-01-01'), assessmentDuration = 31, maximumAssessmentLength = 51, hasScoring = true } = {}) {
+  withActiveVersion({
+    id,
+    startDate = new Date('2026-01-01'),
+    assessmentDuration = 31,
+    maximumAssessmentLength = 51,
+    hasScoring = true,
+  } = {}) {
     this.versionSummariesData.push({
       id,
       startDate,
@@ -94,7 +100,13 @@ class FrameworkInfoBuilder {
    * @param {number} [params.maximumAssessmentLength] - defaults to 53
    * @returns {FrameworkInfoBuilder}
    */
-  withDraftVersion({ id, startDate = new Date('2027-01-01'), assessmentDuration = 33, maximumAssessmentLength = 53, hasScoring = false } = {}) {
+  withDraftVersion({
+    id,
+    startDate = new Date('2027-01-01'),
+    assessmentDuration = 33,
+    maximumAssessmentLength = 53,
+    hasScoring = false,
+  } = {}) {
     this.versionSummariesData.push({
       id,
       startDate,
@@ -143,7 +155,8 @@ class FrameworkInfoBuilder {
         assessmentDuration: versionSummary.assessmentDuration,
         minimumAnswersRequiredToValidateACertification: 123,
         globalScoringConfiguration: versionSummaryData.hasScoring !== false ? defaultGlobalScoringConfiguration : [],
-        competencesScoringConfiguration: versionSummaryData.hasScoring !== false ? defaultCompetencesScoringConfiguration : null,
+        competencesScoringConfiguration:
+          versionSummaryData.hasScoring !== false ? defaultCompetencesScoringConfiguration : null,
         challengesConfiguration: {
           ...defaultChallengesConfiguration,
           maximumAssessmentLength: versionSummary.maximumAssessmentLength ?? 40,
