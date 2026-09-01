@@ -16,21 +16,37 @@ module('Integration | Component | assistant/chat-popover', function (hooks) {
     this.owner.register('service:session', SessionStub);
   });
 
-  test('le panneau est masqué par défaut', async function (assert) {
-    const screen = await render(<template><ChatPopover /></template>);
-    assert.dom(screen.queryByRole('region', { name: 'Panneau assistant' })).doesNotExist();
+  test('le panneau est rendu dans le DOM mais masqué via CSS par défaut', async function (assert) {
+    await render(<template><ChatPopover /></template>);
+    assert.dom('[role="region"][aria-label="Panneau assistant"]').exists();
+    assert.dom('[role="region"][aria-label="Panneau assistant"]').hasStyle({ display: 'none' });
   });
 
   test("le panneau s'ouvre au clic sur le bouton", async function (assert) {
     const screen = await render(<template><ChatPopover /></template>);
     await click(screen.getByRole('button', { name: "Ouvrir l'assistant" }));
     assert.dom(screen.getByRole('region', { name: 'Panneau assistant' })).exists();
+    assert.dom(screen.getByRole('region', { name: 'Panneau assistant' })).doesNotHaveStyle({ display: 'none' });
   });
 
-  test('le panneau se ferme au deuxième clic', async function (assert) {
+  test('le panneau se cache via CSS au deuxième clic mais reste monté dans le DOM', async function (assert) {
     const screen = await render(<template><ChatPopover /></template>);
     await click(screen.getByRole('button', { name: "Ouvrir l'assistant" }));
     await click(screen.getByRole('button', { name: "Ouvrir l'assistant" }));
-    assert.dom(screen.queryByRole('region', { name: 'Panneau assistant' })).doesNotExist();
+    assert.dom('[role="region"][aria-label="Panneau assistant"]').exists();
+    assert.dom('[role="region"][aria-label="Panneau assistant"]').hasStyle({ display: 'none' });
+  });
+
+  test('React reste monté entre les cycles ouverture/fermeture', async function (assert) {
+    const screen = await render(<template><ChatPopover /></template>);
+    const panelEl = document.querySelector('[role="region"][aria-label="Panneau assistant"]');
+    // Ouvrir, puis fermer : le même élément DOM doit être réutilisé (pas de remontage)
+    await click(screen.getByRole('button', { name: "Ouvrir l'assistant" }));
+    await click(screen.getByRole('button', { name: "Ouvrir l'assistant" }));
+    assert.strictEqual(
+      document.querySelector('[role="region"][aria-label="Panneau assistant"]'),
+      panelEl,
+      'le même nœud DOM est conservé — React ne se remonte pas',
+    );
   });
 });

@@ -33,13 +33,11 @@ export default class ChatPopover extends Component {
     <button type="button" class="chat-toggle-btn" aria-label="Ouvrir l'assistant" {{on "click" this.toggle}}>
       💬
     </button>
-    {{#if this.isOpen}}
-      <div class="chat-panel" role="region" aria-label="Panneau assistant">
-        <ReactBridge
-          @reactComponent={{AssistantApp}}
-          @props={{hash getAccessToken=this.getAccessToken onNavigateToOrganization=this.navigateToOrganization}}
-        />
-      </div>
-    {{/if}}
+    <div class="chat-panel" role="region" aria-label="Panneau assistant" style={{if this.isOpen "" "display: none;"}}>
+      <ReactBridge
+        @reactComponent={{AssistantApp}}
+        @props={{hash getAccessToken=this.getAccessToken onNavigateToOrganization=this.navigateToOrganization}}
+      />
+    </div>
   </template>
 }
