@@ -100,6 +100,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
 
   @action onSeeRecommendationsButtonClicked() {
     if (this.hasTrainings) {
+      this.pixMetrics.trackEvent('Moteur de reco - Clic sur le bouton "Voir mes recommandations"', {});
       const trainingsList = document.getElementById(TRAININGS_LIST_ID);
       trainingsList.focus({ preventScroll: true, focusVisible: true });
       trainingsList.scrollIntoView({ behavior: this.scrollBehavior });

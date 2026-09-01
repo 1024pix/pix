@@ -97,6 +97,37 @@ module(
           }).parentElement.parentElement.parentElement;
           assert.strictEqual(document.activeElement, trainings);
         });
+
+        test('should send a tracking event', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+          const pixMetrics = this.owner.lookup('service:pix-metrics');
+          pixMetrics.trackEvent = sinon.stub();
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training],
+          };
+
+          // when
+          const screen = await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+          await click(screen.getByRole('button', { name: t('pages.skill-review.hero.see-my-recommendations') }));
+
+          // then
+          sinon.assert.calledWith(
+            pixMetrics.trackEvent,
+            'Moteur de reco - Clic sur le bouton "Voir mes recommandations"',
+          );
+          assert.ok(true);
+        });
       });
 
       module('tracking', function (hooks) {
