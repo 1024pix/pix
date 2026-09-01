@@ -1,6 +1,5 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 module(
   'Unit | Controller | authenticated/certification-frameworks/certification-framework/versions/version/scoring',
@@ -15,20 +14,20 @@ module(
       );
     });
 
-    module('#toggleConfirmationModal', function () {
+    module('#toggleActivationModal', function () {
       test('opens the modal when called once', function (assert) {
-        assert.false(controller.isConfirmationModalOpen);
+        assert.false(controller.isActivationModalOpen);
 
-        controller.toggleConfirmationModal();
+        controller.toggleActivationModal();
 
-        assert.true(controller.isConfirmationModalOpen);
+        assert.true(controller.isActivationModalOpen);
       });
 
       test('closes the modal when called twice', function (assert) {
-        controller.toggleConfirmationModal();
-        controller.toggleConfirmationModal();
+        controller.toggleActivationModal();
+        controller.toggleActivationModal();
 
-        assert.false(controller.isConfirmationModalOpen);
+        assert.false(controller.isActivationModalOpen);
       });
     });
 
@@ -70,22 +69,6 @@ module(
         };
 
         assert.true(controller.hasGlobalScoringError);
-      });
-    });
-
-    module('#activateVersion', function () {
-      test('delegates to versionController.activateVersion with editVersion and calibrationScoringConfiguration', function (assert) {
-        const editVersion = { id: 1 };
-        const calibrationScoringConfiguration = { globalScoringConfiguration: [] };
-        controller.model = { editVersion, calibrationScoringConfiguration };
-
-        const activateVersionStub = sinon.stub();
-        controller.versionController = { activateVersion: activateVersionStub };
-
-        controller.activateVersion();
-
-        sinon.assert.calledWithExactly(activateVersionStub, editVersion, calibrationScoringConfiguration);
-        assert.ok(true);
       });
     });
   },

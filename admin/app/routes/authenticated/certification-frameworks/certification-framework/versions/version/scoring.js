@@ -6,7 +6,9 @@ export default class ScoringRoute extends Route {
   @service router;
 
   async model() {
-    const { activeVersion } = this.modelFor('authenticated.certification-frameworks.certification-framework.versions');
+    const { activeVersion, certificationFramework } = this.modelFor(
+      'authenticated.certification-frameworks.certification-framework.versions',
+    );
 
     const { version_id: versionId } = this.paramsFor(
       'authenticated.certification-frameworks.certification-framework.versions.version',
@@ -14,10 +16,20 @@ export default class ScoringRoute extends Route {
     const editVersion = await this.store.findRecord('certification-version', versionId);
 
     return {
-      previousVersion: activeVersion,
+      previousVersion: await this.#resolvePreviousVersion(editVersion, activeVersion, certificationFramework),
       editVersion,
       calibrationScoringConfiguration: await this.loadCalibrationScoringConfiguration(editVersion),
     };
+  }
+
+  async #resolvePreviousVersion(editVersion, activeVersion, certificationFramework) {
+    if (editVersion.isDraft) return activeVersion;
+
+    const mostRecentArchived = certificationFramework.versionSummaries
+      .filter((s) => s.isArchived)
+      .sort((a, b) => b.expirationDate - a.expirationDate)[0];
+
+    return mostRecentArchived ? this.store.findRecord('certification-version', mostRecentArchived.id) : null;
   }
 
   async loadCalibrationScoringConfiguration(editVersion) {
@@ -33,14 +45,23 @@ export default class ScoringRoute extends Route {
   }
 
   afterModel(model) {
-    if (!model.editVersion.isDraft || !model.calibrationScoringConfiguration?.globalScoringConfiguration?.length) {
+    const { editVersion, calibrationScoringConfiguration } = model;
+    const hasCalibrationScoring = calibrationScoringConfiguration?.globalScoringConfiguration?.length;
+    const canAccessScoring =
+      (editVersion.isDraft && hasCalibrationScoring) || (editVersion.isActive && !editVersion.isCoreScope);
+
+    if (!canAccessScoring) {
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
     }
   }
 
   resetController(controller, isExiting) {
-    if (isExiting && controller.model.editVersion.hasDirtyAttributes) {
-      controller.model.editVersion.rollbackAttributes();
+    if (isExiting) {
+      controller.isActivationModalOpen = false;
+      controller.isSaveScoringModalOpen = false;
+      if (controller.model.editVersion.hasDirtyAttributes) {
+        controller.model.editVersion.rollbackAttributes();
+      }
     }
   }
 }

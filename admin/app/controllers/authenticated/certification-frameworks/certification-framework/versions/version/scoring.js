@@ -6,11 +6,11 @@ import { tracked } from '@glimmer/tracking';
 export default class ScoringController extends Controller {
   @controller('authenticated.certification-frameworks.certification-framework.versions.version')
   versionController;
-  @tracked isConfirmationModalOpen = false;
+  @tracked isActivationModalOpen = false;
 
   @action
-  toggleConfirmationModal() {
-    this.isConfirmationModalOpen = !this.isConfirmationModalOpen;
+  toggleActivationModal() {
+    this.isActivationModalOpen = !this.isActivationModalOpen;
   }
 
   get hasGlobalScoringError() {
@@ -23,6 +23,6 @@ export default class ScoringController extends Controller {
 
   @action
   activateVersion() {
-    return this.versionController.activateVersion(this.model.editVersion, this.model.calibrationScoringConfiguration);
+    return this.versionController.activateVersion(this.model.editVersion);
   }
 }

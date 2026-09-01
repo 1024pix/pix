@@ -21,6 +21,10 @@ export default class CertificationVersion extends Model {
 
   @hasMany('area', { async: false, inverse: null }) areas;
 
+  get hasExternalCalibrationId() {
+    return !!this.externalCalibrationId;
+  }
+
   get isDraft() {
     return this.status === 'draft';
   }

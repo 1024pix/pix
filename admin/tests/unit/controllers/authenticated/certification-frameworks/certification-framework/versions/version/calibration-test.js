@@ -32,46 +32,17 @@ module(
       });
     });
 
-    module('#hasNoExternalCalibrationId', function () {
-      test('returns true when externalCalibrationId is null', function (assert) {
-        controller.model = { draftVersion: { externalCalibrationId: null } };
-
-        assert.true(controller.hasNoExternalCalibrationId);
-      });
-
-      test('returns false when externalCalibrationId is set', function (assert) {
-        controller.model = { draftVersion: { externalCalibrationId: 42 } };
-
-        assert.false(controller.hasNoExternalCalibrationId);
-      });
-    });
-
-    module('#isPixPlusScope', function () {
-      test('returns true when scope is not CORE', function (assert) {
-        controller.model = { draftVersion: { scope: 'PIX_PLUS_EDU_2ND_DEGRE' } };
-
-        assert.true(controller.isPixPlusScope);
-      });
-
-      test('returns false when scope is CORE', function (assert) {
-        controller.model = { draftVersion: { scope: 'CORE' } };
-
-        assert.false(controller.isPixPlusScope);
-      });
-    });
-
     module('#activateVersion', function () {
-      test('delegates to versionController.activateVersion with draftVersion and calibrationScoringConfiguration', function (assert) {
+      test('delegates to versionController.activateVersion with draftVersion only', function (assert) {
         const draftVersion = { id: 1 };
-        const calibrationScoringConfiguration = { globalScoringConfiguration: [] };
-        controller.model = { draftVersion, calibrationScoringConfiguration };
+        controller.model = { draftVersion };
 
         const activateVersionStub = sinon.stub();
         controller.versionController = { activateVersion: activateVersionStub };
 
         controller.activateVersion();
 
-        sinon.assert.calledWithExactly(activateVersionStub, draftVersion, calibrationScoringConfiguration);
+        sinon.assert.calledWithExactly(activateVersionStub, draftVersion);
         assert.ok(true);
       });
     });

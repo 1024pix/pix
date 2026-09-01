@@ -34,8 +34,11 @@ export default class CalibrationRoute extends Route {
   }
 
   resetController(controller, isExiting) {
-    if (isExiting && controller.model.draftVersion.hasDirtyAttributes) {
-      controller.model.draftVersion.rollbackAttributes();
+    if (isExiting) {
+      controller.isConfirmationModalOpen = false;
+      if (controller.model.draftVersion.hasDirtyAttributes) {
+        controller.model.draftVersion.rollbackAttributes();
+      }
     }
   }
 }

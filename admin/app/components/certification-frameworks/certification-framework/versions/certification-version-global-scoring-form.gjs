@@ -15,7 +15,7 @@ export default class GlobalScoringForm extends Component {
     const savedConfiguration = this.args.editVersion.globalScoringConfiguration;
     return savedConfiguration?.length
       ? savedConfiguration
-      : this.args.calibrationScoringConfiguration.globalScoringConfiguration;
+      : (this.args.calibrationScoringConfiguration?.globalScoringConfiguration ?? []);
   }
 
   get previousVersionConfiguration() {

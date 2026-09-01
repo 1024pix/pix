@@ -13,16 +13,8 @@ export default class CalibrationController extends Controller {
     this.isConfirmationModalOpen = !this.isConfirmationModalOpen;
   }
 
-  get hasNoExternalCalibrationId() {
-    return !this.model.draftVersion.externalCalibrationId;
-  }
-
-  get isPixPlusScope() {
-    return this.model.draftVersion.scope !== 'CORE';
-  }
-
   @action
   activateVersion() {
-    return this.versionController.activateVersion(this.model.draftVersion, this.model.calibrationScoringConfiguration);
+    return this.versionController.activateVersion(this.model.draftVersion);
   }
 }

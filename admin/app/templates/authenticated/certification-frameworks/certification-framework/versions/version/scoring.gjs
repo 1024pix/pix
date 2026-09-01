@@ -25,19 +25,19 @@ import GlobalScoringForm from 'pix-admin/components/certification-frameworks/cer
       id="activate-version"
       @variant="primary-bis"
       @isDisabled={{@controller.hasGlobalScoringError}}
-      @triggerAction={{@controller.toggleConfirmationModal}}
+      @triggerAction={{@controller.toggleActivationModal}}
     >
       {{t "components.certification-frameworks.certification-framework.versions.activate-version.button-label"}}
     </PixButton>
   </section>
 
-  {{#if @controller.isConfirmationModalOpen}}
+  {{#if @controller.isActivationModalOpen}}
     <PixModal
       @title={{t
         "components.certification-frameworks.certification-framework.versions.activate-version.confirmation-modal.title"
       }}
-      @showModal={{@controller.isConfirmationModalOpen}}
-      @onCloseButtonClick={{@controller.toggleConfirmationModal}}
+      @showModal={{@controller.isActivationModalOpen}}
+      @onCloseButtonClick={{@controller.toggleActivationModal}}
     >
       <:content>
         <p>{{t
@@ -45,7 +45,7 @@ import GlobalScoringForm from 'pix-admin/components/certification-frameworks/cer
           }}</p>
       </:content>
       <:footer>
-        <PixButton @triggerAction={{@controller.toggleConfirmationModal}} @size="small" @variant="secondary">
+        <PixButton @triggerAction={{@controller.toggleActivationModal}} @size="small" @variant="secondary">
           {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton @triggerAction={{@controller.activateVersion}} @size="small">

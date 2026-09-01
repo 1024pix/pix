@@ -9,21 +9,13 @@ export default class VersionController extends Controller {
   @service store;
 
   @action
-  async activateVersion(draftVersion, calibrationScoringConfiguration) {
+  async activateVersion(draftVersion) {
     try {
-      draftVersion.globalScoringConfiguration = draftVersion.globalScoringConfiguration?.length
-        ? [...draftVersion.globalScoringConfiguration]
-        : (calibrationScoringConfiguration?.globalScoringConfiguration ?? []);
-      draftVersion.competencesScoringConfiguration =
-        calibrationScoringConfiguration?.competencesScoringConfiguration ?? [];
-      await draftVersion.save();
       await draftVersion.save({ adapterOptions: { activate: true } });
       this.pixToast.sendSuccessNotification({
         message: this.intl.t(
           'components.certification-frameworks.certification-framework.versions.activate-version.success',
-          {
-            versionId: draftVersion.id,
-          },
+          { versionId: draftVersion.id },
         ),
       });
       await this.store.findAll('certification-framework', { reload: true });
@@ -32,9 +24,7 @@ export default class VersionController extends Controller {
       this.pixToast.sendErrorNotification({
         message: this.intl.t(
           'components.certification-frameworks.certification-framework.versions.activate-version.error',
-          {
-            versionId: draftVersion.id,
-          },
+          { versionId: draftVersion.id },
         ),
       });
     }

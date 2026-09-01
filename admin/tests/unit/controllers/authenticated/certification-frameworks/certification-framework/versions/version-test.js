@@ -27,29 +27,20 @@ module(
     });
 
     module('#activateVersion', function () {
-      test('saves the draft version data and activates the version', async function (assert) {
-        const draftVersion = {
-          id: 42,
-          globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -8, max: -2 } }],
-          competencesScoringConfiguration: null,
-          save: sinon.stub().resolves(),
-        };
+      test('activates the version', async function (assert) {
+        const draftVersion = { id: 42, save: sinon.stub().resolves() };
 
-        await controller.activateVersion(draftVersion, null);
+        await controller.activateVersion(draftVersion);
 
-        assert.strictEqual(draftVersion.save.callCount, 2);
-        sinon.assert.calledWith(draftVersion.save.secondCall, { adapterOptions: { activate: true } });
+        sinon.assert.calledWithExactly(draftVersion.save, { adapterOptions: { activate: true } });
+        assert.ok(true);
       });
 
       test('shows a success notification and redirects after activation', async function (assert) {
-        const draftVersion = {
-          id: 42,
-          globalScoringConfiguration: [],
-          competencesScoringConfiguration: null,
-          save: sinon.stub().resolves(),
-        };
+        const draftVersion = { id: 42, save: sinon.stub().resolves() };
 
-        await controller.activateVersion(draftVersion, null);
+        await controller.activateVersion(draftVersion);
+
         sinon.assert.calledOnce(controller.pixToast.sendSuccessNotification);
         sinon.assert.calledWith(
           controller.router.transitionTo,
@@ -58,15 +49,10 @@ module(
         assert.ok(true);
       });
 
-      test('shows an error notification when the save fails', async function (assert) {
-        const draftVersion = {
-          id: 42,
-          globalScoringConfiguration: [],
-          competencesScoringConfiguration: null,
-          save: sinon.stub().rejects(new Error('network error')),
-        };
+      test('shows an error notification when activation fails', async function (assert) {
+        const draftVersion = { id: 42, save: sinon.stub().rejects(new Error('network error')) };
 
-        await controller.activateVersion(draftVersion, null);
+        await controller.activateVersion(draftVersion);
 
         sinon.assert.calledOnce(controller.pixToast.sendErrorNotification);
         sinon.assert.notCalled(controller.router.transitionTo);
