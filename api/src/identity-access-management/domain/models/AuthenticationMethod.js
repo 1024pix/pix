@@ -5,6 +5,8 @@ import { validateEntity } from '../../../shared/domain/validators/entity-validat
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { POLE_EMPLOI } from '../constants/oidc-identity-providers.js';
 
+const REVOKED_PASSWORD_VALUE = '[revoked]';
+
 class PixAuthenticationComplement {
   constructor({ password, shouldChangePassword, revokedHashedPassword } = {}) {
     this.password = password;
@@ -26,7 +28,11 @@ class PixAuthenticationComplement {
 
   revokePassword() {
     this.revokedHashedPassword = this.password;
-    this.password = '[revoked]';
+    this.password = REVOKED_PASSWORD_VALUE;
+  }
+
+  get hasRevokedPassword() {
+    return this.password == REVOKED_PASSWORD_VALUE;
   }
 }
 

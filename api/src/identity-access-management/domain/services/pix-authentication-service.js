@@ -1,5 +1,6 @@
 import { PasswordNotMatching, UserIsBlocked, UserIsTemporaryBlocked } from '../../../shared/domain/errors.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 
 /**
@@ -29,6 +30,12 @@ async function getUserByUsernameAndPassword({
     await dependencies.cryptoService.assertMatchPassword({ password, passwordHash });
   } catch (error) {
     if (error instanceof PasswordNotMatching) {
+      if (foundUser.hasRevokedPassword) {
+        logger.warn({
+          message: 'User with revoked password trying to authenticate',
+        });
+      }
+
       userLogin.incrementFailureCount();
 
       if (userLogin.shouldMarkUserAsBlocked()) {
