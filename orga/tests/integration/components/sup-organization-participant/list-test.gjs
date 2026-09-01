@@ -529,6 +529,43 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       // then
       assert.ok(sortByLastname.called);
     });
+
+    test('it should trigger ascending sort on latest participation column', async function (assert) {
+      // given
+      const latestParticipationSort = null;
+      const sortByLatestParticipation = sinon.spy();
+      const certificabilityFilter = [];
+      const groupFilter = [];
+      const searchFilter = null;
+      const studentNumberFilter = null;
+      const noop = this.noop;
+
+      const screen = await render(
+        <template>
+          <SupOrganizationParticipantList
+            @students={{undefined}}
+            @onFilter={{noop}}
+            @onClickLearner={{noop}}
+            @searchFilter={{searchFilter}}
+            @groupsFilter={{groupFilter}}
+            @studentNumberFilter={{studentNumberFilter}}
+            @certificabilityFilter={{certificabilityFilter}}
+            @latestParticipationSort={{latestParticipationSort}}
+            @sortByLatestParticipation={{sortByLatestParticipation}}
+          />
+        </template>,
+      );
+
+      // when
+      await click(
+        screen.getByRole('button', {
+          name: t('pages.sup-organization-participants.table.column.last-participation-date.ariaLabelDefaultSort'),
+        }),
+      );
+
+      // then
+      assert.ok(sortByLatestParticipation.called);
+    });
   });
 
   module('when filter result does not match current participant information', function () {

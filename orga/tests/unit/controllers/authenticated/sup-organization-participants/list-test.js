@@ -144,6 +144,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       // given
       controller.lastnameSort = null;
       controller.participationCountOrder = 'asc';
+      controller.latestParticipationSort = 'asc';
       controller.pageNumber = 9999;
       // when
       controller.sortByLastname();
@@ -151,6 +152,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       // then
       assert.strictEqual(controller.lastnameSort, 'asc');
       assert.strictEqual(controller.participationCountOrder, null);
+      assert.strictEqual(controller.latestParticipationSort, null);
       assert.strictEqual(controller.pageNumber, null);
     });
   });
@@ -160,12 +162,32 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       // given
       controller.participationCountOrder = null;
       controller.lastnameSort = 'asc';
+      controller.latestParticipationSort = 'asc';
       controller.pageNumber = 9999;
       // when
       controller.sortByParticipationCount();
 
       // then
       assert.strictEqual(controller.participationCountOrder, 'asc');
+      assert.strictEqual(controller.lastnameSort, null);
+      assert.strictEqual(controller.latestParticipationSort, null);
+      assert.strictEqual(controller.pageNumber, null);
+    });
+  });
+
+  module('#sortByLatestParticipation', function () {
+    test('update sorting value and reset other', function (assert) {
+      // given
+      controller.latestParticipationSort = null;
+      controller.participationCountOrder = 'asc';
+      controller.lastnameSort = 'asc';
+      controller.pageNumber = 9999;
+      // when
+      controller.sortByLatestParticipation();
+
+      // then
+      assert.strictEqual(controller.latestParticipationSort, 'asc');
+      assert.strictEqual(controller.participationCountOrder, null);
       assert.strictEqual(controller.lastnameSort, null);
       assert.strictEqual(controller.pageNumber, null);
     });

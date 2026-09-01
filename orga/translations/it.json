@@ -2031,7 +2031,12 @@
             "ariaLabelSortUp": "La tabella è ordinata alfabeticamente per nome. Fare clic per ordinare in ordine alfabetico inverso.",
             "label": "Nome"
           },
-          "last-participation-date": "Ultima partecipazione",
+          "last-participation-date": {
+            "ariaLabelDefaultSort": "La tabella non è attualmente ordinata per data di partecipazione. Fare clic per ordinare in ordine crescente.",
+            "ariaLabelSortDown": "La tabella è ordinata per data di partecipazione decrescente. Fare clic per ordinare in ordine crescente.",
+            "ariaLabelSortUp": "La tabella è ordinata per data di partecipazione in ordine crescente. Fare clic per ordinare in ordine decrescente.",
+            "label": "Ultima partecipazione"
+          },
           "participation-count": {
             "ariaLabelDefaultSort": "La tabella non è attualmente ordinata per numero di voci. Fare clic per ordinare in ordine crescente.",
             "ariaLabelSortDown": "La tabella è ordinata per numero decrescente di voci. Fare clic per ordinare in ordine crescente.",

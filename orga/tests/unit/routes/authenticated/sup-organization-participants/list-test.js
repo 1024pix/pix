@@ -16,6 +16,7 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
   const pageSizeSymbol = Symbol('pageSize');
   const participationCountSymbol = Symbol('participationCountOrder');
   const lastnameSortSymbol = Symbol('lastnameSort');
+  const latestParticipationSortSymbol = Symbol('latestParticipationSort');
   const params = {
     search: searchSymbol,
     studentNumber: studentNumberSymbol,
@@ -25,6 +26,7 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
     pageSize: pageSizeSymbol,
     participationCountOrder: participationCountSymbol,
     lastnameSort: lastnameSortSymbol,
+    latestParticipationSort: latestParticipationSortSymbol,
   };
 
   hooks.beforeEach(function () {
@@ -50,6 +52,7 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
         },
         sort: {
           participationCount: participationCountSymbol,
+          latestParticipationSort: latestParticipationSortSymbol,
           lastnameSort: lastnameSortSymbol,
         },
         page: {

@@ -151,9 +151,11 @@ export default class ListItems extends Component {
               @lastnameSort={{@lastnameSort}}
               @hasStudents={{this.hasStudents}}
               @participationCountOrder={{@participationCountOrder}}
+              @latestParticipationSort={{@latestParticipationSort}}
               @onToggleAll={{toggleAll}}
               @sortByLastname={{fn this.addResetOnFunction @sortByLastname reset}}
               @sortByParticipationCount={{fn this.addResetOnFunction @sortByParticipationCount reset}}
+              @sortByLatestParticipation={{fn this.addResetOnFunction @sortByLatestParticipation reset}}
               @hasComputeOrganizationLearnerCertificabilityEnabled={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
             />
           </:columns>

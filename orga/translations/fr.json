@@ -2031,7 +2031,12 @@
             "ariaLabelSortUp": "Le tableau est trié par nom, dans l'ordre alphabétique. Cliquez pour trier par ordre alphabétique inverse.",
             "label": "Nom"
           },
-          "last-participation-date": "Dernière participation",
+          "last-participation-date": {
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par date de participations. Cliquez pour trier par ordre croissant.",
+            "ariaLabelSortDown": "Le tableau est trié par date de participation décroissante. Cliquez pour trier en ordre croissant.",
+            "ariaLabelSortUp": "Le tableau est trié par date de participation croissante. Cliquez pour trier en ordre décroissant.",
+            "label": "Dernière participation"
+          },
           "participation-count": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
             "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant.",
