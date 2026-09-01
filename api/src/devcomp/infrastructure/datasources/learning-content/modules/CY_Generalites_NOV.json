@@ -7,13 +7,13 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Les actualités parlent souvent d’entreprises victimes de cyberattaques. Mais qu’est-ce que ça veut dire ?<br>Dans ce module, vous allez découvrir ce qu’est une cyberattaque ou piratage informatique, ce que cherchent les auteurs de cyberattaque et qui peut être visé. <br><br></p>",
+    "description": "<p>Les actualités parlent souvent d’entreprises victimes de cyberattaques. Mais qu’est-ce que ça veut dire ?<br>Dans ce module, vous allez découvrir ce qu’est une cyberattaque ou un piratage informatique, ce que cherchent les auteurs de cyberattaque et qui peut être visé. <br><br></p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
       "<p>Identifier les principales motivations des auteurs de cyberattaque</p>",
       "<p>Savoir qui peut être victime d’une cyberattaque</p>",
-      "<p>Connaître les conséquences possibles d’une cyberattaques</p>"
+      "<p>Connaître les conséquences possibles d’une cyberattaque</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -162,7 +162,7 @@
                       "id": "d1f31716-8453-40aa-96d2-54cb86102ca7",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>L’opérateur téléphonique de Mona a subi une cyberattaque et toutes les données (noms, prénoms, adresses mails, numéros de téléphone) de ses clients ont été volées.</p>"
+                      "content": "<p>L’opérateur téléphonique de Mona a subi une cyberattaque et toutes les données (noms, prénoms, adresses mail, numéros de téléphone) de ses clients ont été volées.</p>"
                     },
                     {
                       "id": "3d04d91f-d62b-4793-9463-4a8db9cbc300",
@@ -174,21 +174,21 @@
                           "id": "1",
                           "content": "<p>Un particulier&nbsp;: Mona</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. C’est l’<strong>opérateur téléphonique</strong> qui a été touchée par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
+                            "diagnosis": "<p>Eh non. C’est l’<strong>opérateur téléphonique</strong> qui a été touché par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Une entreprise&nbsp;: L’assurance</p>",
                           "feedback": {
-                            "diagnosis": "<p>Exactement ! C’est l’<strong>opérateur téléphonique</strong> qui a été touchée par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
+                            "diagnosis": "<p>Exactement ! C’est l’<strong>opérateur téléphonique</strong> qui a été touché par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>C’est l’<strong>opérateur téléphonique</strong> qui a été touchée par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
+                            "diagnosis": "<p>C’est l’<strong>opérateur téléphonique</strong> qui a été touché par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
                           }
                         }
                       ],
