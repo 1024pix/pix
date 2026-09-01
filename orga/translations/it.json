@@ -58,7 +58,7 @@
       "last-name-required": "L'alunno con INE {nationalStudentId} non ha il campo Cognome compilato. È obbligatorio per ogni alunno.",
       "payload-too-large": "La dimensione del file deve essere inferiore a {maxSize}MB.",
       "sex-code-required": "Uno studente con un INE di {nationalStudentId} non ha il campo sesso compilato. È obbligatorio per ogni alunno.",
-      "uai-mismatched": "pas de sens en Italie"
+      "uai-mismatched": "L'UAI del file SIECLE non corrisponde a quello del tuo istituto."
     }
   },
   "application": {
@@ -211,7 +211,7 @@
       "login-user-temporary-blocked-error": "Sono stati effettuati troppi tentativi di accesso. L'account Pix è temporaneamente bloccato per {blockingDurationMinutes} minuti.'<br>'In caso di dimenticanza, '<strong>'contattare un insegnante'</strong>' per reimpostare la password e/o recuperare l'accesso.",
       "login-user-temporary-blocked-with-username-error": "Sono stati effettuati troppi tentativi di accesso. L'account Pix è temporaneamente bloccato per {blockingDurationMinutes} minuti.'<br>'In caso di dimenticanza, '<strong>'contattare un insegnante'</strong>' per reimpostare la password e/o recuperare l'accesso."
     },
-    "breadcrumb": "????",
+    "breadcrumb": "Percorso di navigazione",
     "cgu": {
       "error": "Per creare un account è necessario accettare le condizioni d'uso e l'informativa sulla privacy di Pix.",
       "label": "Accetto le condizioni d'uso e l'informativa sulla privacy di Pix",
@@ -792,7 +792,7 @@
         "label": "Testo della pagina iniziale",
         "sublabel": "Questo campo verrà visualizzato dai partecipanti alla campagna."
       },
-      "legal-warning": "cela n'est pas pertinent : Il numero di previdenza sociale (NIR) deve essere evitato, così come qualsiasi altro dato sensibile.",
+      "legal-warning": "* In conformità con la legge francese sulla protezione dei dati, e in qualità di responsabile del trattamento dei dati, si prega di fare attenzione a non chiedere dati particolarmente identificativi o significativi, a meno che non siano assolutamente indispensabili. Il numero di previdenza sociale (NIR) deve essere evitato, così come qualsiasi altro dato sensibile.",
       "multiple-sendings": {
         "assessments": {
           "info": "Se si sceglie di inviare la campagna più volte, il partecipante potrà ripetere la campagna più volte, inserendo nuovamente il codice.Tutti i risultati saranno disponibili.",
