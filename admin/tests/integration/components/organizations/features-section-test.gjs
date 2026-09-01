@@ -1,4 +1,4 @@
-import { render, waitForElementToBeRemoved, within } from '@1024pix/ember-testing-library';
+import { fillByLabel, render, waitForElementToBeRemoved, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
@@ -339,6 +339,72 @@ module('Integration | Component | organizations/features-section', function (hoo
           }),
         )
         .exists();
+    });
+
+    test('it shows default placeholder when no attestations are selected', async function (assert) {
+      // given
+      const onSubmit = onSubmitStub;
+      const organization = EmberObject.create({
+        features: { ATTESTATIONS_MANAGEMENT: { active: true, params: null } },
+      });
+
+      // when
+      const screen = await render(
+        <template><FeaturesSection @organization={{organization}} @onSubmit={{onSubmit}} /></template>,
+      );
+
+      const button = screen.getByRole('button', {
+        name: new RegExp(t('components.organizations.editing.attestations.selector.label')),
+      });
+
+      // then
+      assert.strictEqual(button.innerText, t('components.organizations.editing.attestations.selector.placeholder'));
+    });
+
+    test('it shows selected attestations labels as placeholder when exist', async function (assert) {
+      // given
+      const onSubmit = onSubmitStub;
+      const organization = EmberObject.create({
+        features: { ATTESTATIONS_MANAGEMENT: { active: true, params: ['SIXTH_GRADE', 'PARENTHOOD'] } },
+      });
+
+      // when
+      const screen = await render(
+        <template><FeaturesSection @organization={{organization}} @onSubmit={{onSubmit}} /></template>,
+      );
+
+      const button = screen.getByRole('button', {
+        name: new RegExp(t('components.organizations.editing.attestations.selector.label')),
+      });
+
+      // then
+      assert.strictEqual(button.innerText, 'Parentalité, 6ème');
+    });
+
+    test('it filters list of attestations when searching through them and keeps placeholder untouched', async function (assert) {
+      // given
+      const onSubmit = onSubmitStub;
+      const organization = EmberObject.create({
+        features: { ATTESTATIONS_MANAGEMENT: { active: true, params: ['SIXTH_GRADE'] } },
+      });
+
+      // when
+      const screen = await render(
+        <template><FeaturesSection @organization={{organization}} @onSubmit={{onSubmit}} /></template>,
+      );
+
+      const button = screen.getByRole('button', {
+        name: new RegExp(t('components.organizations.editing.attestations.selector.label')),
+      });
+      await button.click();
+      const list = await screen.findByRole('menu');
+      await fillByLabel('Rechercher', '6');
+      const results = within(list).getAllByRole('menuitem');
+
+      // then
+      assert.strictEqual(results.length, 1);
+      assert.dom(screen.getByRole('menuitem', { name: '6ème' })).exists();
+      assert.strictEqual(button.innerText, '6ème');
     });
 
     test('it displays attestation labels after clicking on PixMultiSelect', async function (assert) {

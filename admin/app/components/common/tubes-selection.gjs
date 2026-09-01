@@ -1,11 +1,10 @@
 import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import MultiSelectSearchWrapper from 'pix-admin/components/ui/multi-select-search-wrapper';
 
 import Card from '../card';
 import ExpandableAccordions from './expandable-accordions';
@@ -59,9 +58,14 @@ export default class TubesSelection extends Component {
   }
 
   get frameworkOptions() {
-    return this.args.frameworks.map((framework) => {
-      return { label: framework.name, value: framework.id };
-    });
+    return this.args.frameworks.map((framework) => ({ label: framework.name, value: framework.id }));
+  }
+
+  get selectedFields() {
+    return this.args.frameworks
+      .filter((framework) => this.selectedFrameworkIds.includes(framework.id))
+      .map((framework) => framework.name)
+      .join(',');
   }
 
   get displaySkillDifficultySelection() {
@@ -226,15 +230,10 @@ export default class TubesSelection extends Component {
     <div class="tubes-selection">
       <Card class="tubes-selection__card" @title="Sélection des sujets">
         <div class="tubes-selection__inline-layout">
-          <PixMultiSelect
+          <MultiSelectSearchWrapper
             class="tubes-selection__multi-select"
-            @texts={{hash
-              placeholder="Sélectionner les référentiels souhaités"
-              emptySearchMessage="Pas de résultat"
-              searchLabel="Rechercher"
-            }}
+            @firstItem="Sélectionner les référentiels souhaités"
             @id="framework-list"
-            @isSearchable={{true}}
             @inlineLabel={{true}}
             @showOptionsOnInput={{true}}
             @onChange={{this.setSelectedFrameworkIds}}
@@ -242,8 +241,8 @@ export default class TubesSelection extends Component {
             @options={{this.frameworkOptions}}
           >
             <:label>Référentiels :</:label>
-            <:default as |option|>{{option.label}}</:default>
-          </PixMultiSelect>
+            <:placeholder>{{this.selectedFields}}</:placeholder>
+          </MultiSelectSearchWrapper>
           {{#if @displayJsonImportButton}}
             <div class="tubes-selection__vertical-delimiter"></div>
             <PixButtonUpload
