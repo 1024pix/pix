@@ -207,7 +207,7 @@ describe('McpAdminServer | Integration | Domain | Usecases | createOrganization'
     });
 
     context('scenario 4: simulate mode', function () {
-      it('returns { id: null, name, simulated: true } without calling organizationRepository.create', async function () {
+      it('returns { wouldCreate: { ... } } without calling organizationRepository.create', async function () {
         // given
         let createCalled = false;
         const administrationTeamRepository = {
@@ -233,6 +233,7 @@ describe('McpAdminServer | Integration | Domain | Usecases | createOrganization'
             administrationTeamName: 'Équipe Alpha',
             organizationLearnerTypeName: 'Lycéens',
             countryName: 'France',
+            externalId: 'EXT-SIM-001',
             simulate: true,
           },
           administrationTeamRepository,
@@ -242,8 +243,61 @@ describe('McpAdminServer | Integration | Domain | Usecases | createOrganization'
         });
 
         // then
-        expect(result).to.deep.equal({ id: null, name: 'Collège Jean-Moulin', simulated: true });
+        expect(result).to.deep.equal({
+          wouldCreate: {
+            name: 'Collège Jean-Moulin',
+            type: 'SCO',
+            administrationTeamName: 'Équipe Alpha',
+            organizationLearnerTypeName: 'Lycéens',
+            countryName: 'France',
+            externalId: 'EXT-SIM-001',
+          },
+        });
         expect(createCalled).to.be.false;
+      });
+
+      it('returns { error: { notFound, availableValues } } when an unknown label is given alongside simulate:true', async function () {
+        // given
+        const administrationTeamRepository = {
+          findAll: async () => [
+            { id: 10, name: 'Équipe Alpha' },
+            { id: 11, name: 'Équipe Beta' },
+          ],
+        };
+        const organizationLearnerTypeRepository = {
+          findAll: async () => [{ id: 20, name: 'Lycéens' }],
+        };
+        const countryRepository = {
+          findAll: async () => [{ code: 99100, name: 'France' }],
+        };
+        const organizationRepository = {
+          // eslint-disable-next-line no-empty-function
+          create: async () => {},
+        };
+
+        // when
+        const result = await createOrganization({
+          args: {
+            name: 'Collège Jean-Moulin',
+            type: 'SCO',
+            administrationTeamName: 'Équipe Inconnue',
+            organizationLearnerTypeName: 'Lycéens',
+            countryName: 'France',
+            simulate: true,
+          },
+          administrationTeamRepository,
+          organizationLearnerTypeRepository,
+          countryRepository,
+          organizationRepository,
+        });
+
+        // then
+        expect(result).to.deep.equal({
+          error: {
+            notFound: 'administrationTeamName',
+            availableValues: ['Équipe Alpha', 'Équipe Beta'],
+          },
+        });
       });
     });
   });

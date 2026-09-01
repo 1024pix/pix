@@ -6,7 +6,7 @@
  *
  * Retourne :
  *   - `{ id, name }` en cas de succès (201)
- *   - `{ id: null, name, simulated: true }` si simulate === true (aucun appel POST émis)
+ *   - `{ wouldCreate: { name, type, administrationTeamName, organizationLearnerTypeName, countryName, externalId } }` si simulate === true (aucun appel POST émis)
  *   - `{ error: { notFound, availableValues } }` si un libellé est introuvable
  *   - `{ error: { status: 422, fieldErrors } }` si le serveur répond 422
  */
@@ -76,7 +76,7 @@ const createOrganization = async function ({
 
   // simulate:true — tous les libellés ont été résolus mais on n'émet pas le POST
   if (simulate) {
-    return { id: null, name, simulated: true };
+    return { wouldCreate: { name, type, administrationTeamName, organizationLearnerTypeName, countryName, externalId } };
   }
 
   const payload = {

@@ -61,7 +61,6 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
   // ─────────────────────────────────────────────────────────────────────────
   describe('scenarios requiring a real HTTP server', function () {
     let httpServer;
-    let apiBaseUrl;
     let superAdmin;
     let authorizationHeader;
     let forwardedHeaders;
@@ -74,7 +73,6 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
 
       httpServer = await createServer();
       await httpServer.start();
-      apiBaseUrl = `http://localhost:${httpServer.info.port}`;
       nock.enableNetConnect();
 
       authHeaders = generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id });
@@ -225,24 +223,15 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
     // Scénario 6 : simulate:true — le champ passe jusqu'à l'outil
     // ───────────────────────────────────────────────────────────────────────
     describe('scenario 6: simulate:true traverses the relay to the tool', function () {
-      it('passes simulate:true to the tool without calling POST /api/admin/organizations', async function () {
-        databaseBuilder.factory.buildAdministrationTeam({ name: 'Équipe Simulate' });
-        databaseBuilder.factory.buildOrganizationLearnerType({ name: 'Public Simulate' });
+      it('returns { wouldCreate: { ... } } and creates zero rows in DB', async function () {
+        const administrationTeam = databaseBuilder.factory.buildAdministrationTeam({ name: 'Équipe Simulate' });
+        const organizationLearnerType = databaseBuilder.factory.buildOrganizationLearnerType({ name: 'Public Simulate' });
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: 99100,
           commonName: 'France',
           originalName: 'France',
         });
         await databaseBuilder.commit();
-
-        // Intercepter POST /api/admin/organizations pour détecter si l'appel est émis
-        let postOrganizationCalled = false;
-        const adminScope = nock(apiBaseUrl)
-          .post('/api/admin/organizations')
-          .reply(function () {
-            postOrganizationCalled = true;
-            return [201, { data: { id: '999', attributes: { name: 'Simulated' } } }];
-          });
 
         const response = await httpServer.inject({
           method: 'POST',
@@ -251,19 +240,59 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
           payload: {
             name: 'Org Simulate',
             type: 'PRO',
-            administrationTeamName: 'Équipe Simulate',
-            organizationLearnerTypeName: 'Public Simulate',
+            administrationTeamName: administrationTeam.name,
+            organizationLearnerTypeName: organizationLearnerType.name,
             countryName: 'France',
             simulate: true,
           },
         });
 
-        // Le relais doit avoir transmis la réponse de l'outil (200 avec un corps JSON)
         expect(response.statusCode).to.equal(200);
-        // POST /api/admin/organizations ne doit PAS avoir été appelé (simulate:true intercepté par l'outil)
-        expect(postOrganizationCalled).to.equal(false);
+        const data = JSON.parse(response.payload);
+        expect(data).to.have.property('wouldCreate');
+        expect(data.wouldCreate).to.deep.include({
+          name: 'Org Simulate',
+          type: 'PRO',
+          administrationTeamName: administrationTeam.name,
+          organizationLearnerTypeName: organizationLearnerType.name,
+          countryName: 'France',
+        });
 
-        adminScope.persist(false);
+        const organizations = await knex('organizations').where({ name: 'Org Simulate' });
+        expect(organizations).to.have.lengthOf(0);
+      });
+
+      it('returns { error: { notFound: ... } } when simulate:true is combined with an unknown label', async function () {
+        databaseBuilder.factory.buildAdministrationTeam({ name: 'Équipe Connue' });
+        databaseBuilder.factory.buildOrganizationLearnerType({ name: 'Public Connu' });
+        databaseBuilder.factory.buildCertificationCpfCountry({
+          code: 99100,
+          commonName: 'France',
+          originalName: 'France',
+        });
+        await databaseBuilder.commit();
+
+        const response = await httpServer.inject({
+          method: 'POST',
+          url: '/api/admin/llm-assistant/tools/create_organization',
+          headers: authHeaders,
+          payload: {
+            name: 'Org Simulate Inconnue',
+            type: 'PRO',
+            administrationTeamName: 'Équipe Inconnue',
+            organizationLearnerTypeName: 'Public Connu',
+            countryName: 'France',
+            simulate: true,
+          },
+        });
+
+        expect(response.statusCode).to.equal(200);
+        const data = JSON.parse(response.payload);
+        expect(data).to.have.nested.property('error.notFound', 'administrationTeamName');
+        expect(data.error.availableValues).to.include('Équipe Connue');
+
+        const organizations = await knex('organizations').where({ name: 'Org Simulate Inconnue' });
+        expect(organizations).to.have.lengthOf(0);
       });
     });
 
