@@ -1083,57 +1083,125 @@
                 "id": "52f3e50d-8fa0-4d7c-bde8-fb9af9e6016e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le site <a href=\"https://arene.comparia.beta.gouv.fr/?vs=deepseek-v4-flash,gemini-3.5-flash-lite\" target=\"_blank\">compar:IA</a> permet de comparer les réponses de deux logiciels d’intelligence artificielle.</p>\n<p>Ouvrez le lien : les deux IA et la question sont déjà sélectionnées. Lancez la comparaison, puis lisez attentivement leurs réponses.</p>\n<blockquote>«&nbsp;Que s’est-il passé le 4 juin 1989&nbsp;?&nbsp;»</blockquote>\n<p>Même lorsqu’elles répondent à la même question, les IA ne présentent pas toujours les informations de la même manière.</p>"
+                "content": "<p>Le site <a href=\"https://arene.comparia.beta.gouv.fr/?vs=qwen-3-8-27b,gemma-4-31b-it\" target=\"_blank\">compar:IA</a> permet de comparer les réponses de deux logiciels d’intelligence artificielle.</p><p>Ouvrez le lien&nbsp;: les deux IA et la question sont déjà sélectionnées. Lancez la comparaison, puis lisez attentivement leurs réponses.</p><blockquote>«&nbsp;Que s’est-il passé le 4 juin 1989&nbsp;?&nbsp;»</blockquote><p>Même lorsqu’elles répondent à la même question, les IA ne présentent pas toujours les informations de la même manière.</p>"
               }
             },
             {
-              "type": "element",
-              "element": {
-                "id": "b48e6ebb-8242-4fb3-b924-556e6b814e8c",
-                "type": "qrocm",
-                "instruction": "<p><strong>Que montre principalement cette comparaison&nbsp;?</strong></p>",
-                "proposals": [
-                  {
-                    "type": "select",
-                    "input": "Sélectionnez une réponse",
-                    "display": "inline",
-                    "placeholder": "Sélectionnez une réponse",
-                    "ariaLabel": "Sélectionnez une réponse",
-                    "tolerances": [],
-                    "options": [
-                      {
-                        "id": "1",
-                        "content": "Une réponse plus longue est forcément plus fiable."
-                      },
-                      {
-                        "id": "2",
-                        "content": "Deux IA peuvent sélectionner et présenter différemment les informations."
-                      },
-                      {
-                        "id": "3",
-                        "content": "Toutes les IA donnent toujours exactement la même réponse."
-                      },
-                      {
-                        "id": "4",
-                        "content": "Une IA connaît nécessairement mieux l’histoire que l’autre."
-                      }
-                    ],
-                    "solutions": [
-                      "2"
-                    ]
-                  }
-                ],
-                "feedbacks": {
-                  "valid": {
-                    "state": "Exactement.",
-                    "diagnosis": "<p>Les deux IA répondent à la même question, mais elles peuvent choisir des mots, un niveau de précision ou des éléments de contexte différents.</p><p>Ces différences dépendent notamment des données utilisées pour entraîner les modèles, de leurs réglages et des règles appliquées à leurs réponses.</p><p><strong>👉 Une réponse produite par une IA n’est jamais totalement neutre ni exhaustive.</strong> Pour un sujet historique ou sensible, il est important de croiser les réponses avec des sources fiables.</p>"
-                  },
-                  "invalid": {
-                    "state": "Pas tout à fait.",
-                    "diagnosis": "<p>Observez les informations retenues par chaque IA&nbsp;: mentionnent-elles les mêmes événements, les mêmes acteurs et le même contexte&nbsp;? Regardez également les mots employés et le niveau de précision.</p><p>Une réponse plus détaillée n’est pas automatiquement plus fiable.</p>"
-                  }
+              "type": "stepper",
+              "instruction": "<p>Cliquez sur «&nbsp; Terminer et découvrir les modèles&nbsp;» dans compar:IA pour voir quel logiciel d’IA générative vous a donné quelle réponse, puis répondez aux questions suivantes.</p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "ef419ede-df35-4df9-8a93-2257ea29156f",
+                      "type": "qcu",
+                      "instruction": "<p>D’après les réponses données par les deux IA, quel événement marquant a eu lieu le 4 juin 1989 ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Il ne s’est rien passé de spécial.</p>",
+                          "feedback": {
+                            "state": "Et non.",
+                            "diagnosis": "Comparez attentivement les deux réponses."
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Les Jeux olympiques ont eu lieu à Lisbonne.</p>",
+                          "feedback": {
+                            "state": "Et non.",
+                            "diagnosis": "Cette proposition ne correspond pas aux réponses affichées."
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>La répression des manifestations de la place Tian’anmen en Chine.</p>",
+                          "feedback": {
+                            "state": "Bien vu !",
+                            "diagnosis": "Observez maintenant la différence entre les deux réponses."
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "be4bd933-ce41-4d4f-ac53-66fb9586a7cd",
+                      "type": "qcu",
+                      "instruction": "<p>Quelle IA ne donne pas cette réponse ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Qwen, une IA chinoise</p>",
+                          "feedback": {
+                            "state": "Bien vu !",
+                            "diagnosis": "C’est bien cette IA qui ne fournit pas l’information attendue."
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Gemma, une IA américaine</p>",
+                          "feedback": {
+                            "state": "Et non.",
+                            "diagnosis": "Regardez à nouveau laquelle des deux IA évite cette information."
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Mistral, une IA française</p>",
+                          "feedback": {
+                            "state": "Et non.",
+                            "diagnosis": "Cette IA ne fait pas partie de la comparaison affichée."
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "1e271e52-d75e-4d68-8fa7-de2af127f576",
+                      "type": "qcu",
+                      "instruction": "<p>Pourquoi deux IA peuvent-elles répondre très différemment à une même question ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Parce qu’elles n’ont pas été conçues avec les mêmes règles, limites et choix d’alignement.</p>",
+                          "feedback": {
+                            "state": "Bien vu !",
+                            "diagnosis": "L’alignement regroupe les règles et choix qui orientent le comportement d’une IA. Selon sa conception, son contexte ou les limites fixées par ses créateurs, une même question peut donc produire des réponses très différentes."
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Parce que l’une des deux IA est forcément plus récente que l’autre.</p>",
+                          "feedback": {
+                            "state": "Et non.",
+                            "diagnosis": "L’âge d’un modèle ne suffit pas à expliquer ce type de différence."
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Parce que les deux IA n’ont pas compris la question de la même manière.</p>",
+                          "feedback": {
+                            "state": "Et non.",
+                            "diagnosis": "Ici, la différence vient surtout de la manière dont leur comportement est encadré."
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
                 }
-              }
+              ]
             },
             {
               "type": "element",
@@ -1141,7 +1209,7 @@
                 "id": "716b7f23-a6ef-4b67-b186-bd94a0233f4f",
                 "type": "expand",
                 "title": "Indice 1",
-                "content": "<p>Repérez d’abord les informations communes aux deux réponses, puis celles qui n’apparaissent que dans l’une d’elles.</p>"
+                "content": "<p>Avez-vous bien pensé à cliquer sur \"révéler les modèles\" après avoir posé votre question dans compar:IA ?&nbsp;</p>"
               }
             },
             {
