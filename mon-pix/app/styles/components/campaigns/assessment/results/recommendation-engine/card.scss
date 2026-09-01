@@ -1,0 +1,54 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
+.results-recommendation-engine-highlighted-training-card {
+  display: flex;
+  flex-direction: row;
+  gap: var(--pix-spacing-4x);
+  align-items: center;
+  padding: var(--pix-spacing-6x) var(--pix-spacing-3x);
+  background-color: var(--pix-secondary-300);
+  border-radius: 16px;
+
+  @include breakpoints.device-is('desktop') {
+    width: var(--pix-spacing-6x);
+    padding-right: var(--pix-spacing-10x);
+  }
+
+  @include breakpoints.device-is('tablet') {
+    width: 85%;
+  }
+}
+
+.results-recommendation-engine-highlighted-training-card-description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-2x);
+
+  &__title {
+    @extend %pix-title-xxs;
+
+    font-weight: var(--pix-font-extrabold);
+  }
+
+  &__information {
+    display: flex;
+    gap: var(--pix-spacing-1x);
+    color: var(--pix-neutral-800);
+    font-size: 0.75rem;
+
+    li:not(:first-child)::before {
+      margin-right: var(--pix-spacing-1x);
+      content: '\2022';
+    }
+  }
+
+  &__button {
+    width: fit-content;
+    margin-top: var(--pix-spacing-2x);
+  }
+}
+
+.results-recommendation-engine-highlighted-training-card-illustration {
+  height: 143px;
+}

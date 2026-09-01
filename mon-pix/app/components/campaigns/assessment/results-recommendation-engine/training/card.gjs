@@ -1,3 +1,4 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -12,6 +13,7 @@ import RegistrationCardTag from './registration-card-tag';
 export default class Card extends Component {
   @service intl;
   @service locale;
+  @service media;
 
   @tracked modalIsOpen = false;
 
@@ -48,36 +50,67 @@ export default class Card extends Component {
   }
 
   <template>
-    <div class="results-recommendation-engine-training-card">
-      <div class="results-recommendation-engine-training-card-image-hero">
-        <img
-          class="results-recommendation-engine-training-card-image-hero__editor-logo"
-          src="{{@training.editorLogoUrl}}"
-          alt=""
-        />
-        <img
-          class="results-recommendation-engine-training-card-image-hero__illustration"
-          src="{{this.illustrationPath}}"
-          alt=""
-        />
+    {{#if @isHighlighted}}
+      <div class="results-recommendation-engine-highlighted-training-card">
+        <div class="results-recommendation-engine-highlighted-training-card-description">
+          <RegistrationCardTag @registrationRequired={{@training.registrationRequired}} />
+          <h3
+            class="results-recommendation-engine-highlighted-training-card-description__title"
+          >{{@training.title}}</h3>
+          <ul class="results-recommendation-engine-highlighted-training-card-description__information">
+            <li>{{this.type}}</li>
+            <li>{{this.deliveryMode}}</li>
+            {{#if @training.hasDuration}}
+              <li>{{this.formattedDuration}}</li>
+            {{/if}}
+          </ul>
+          <PixButton
+            @triggerAction={{this.showModal}}
+            class="results-recommendation-engine-highlighted-training-card-description__button"
+          >
+            {{t "pages.skill-review.recommended-engine.highlighted-card.learn-more"}}
+          </PixButton>
+        </div>
+        {{#unless this.media.isMobile}}
+          <img
+            class="results-recommendation-engine-highlighted-training-card-illustration"
+            src="{{this.illustrationPath}}"
+            alt=""
+          />
+        {{/unless}}
       </div>
-      <RegistrationCardTag @registrationRequired={{@training.registrationRequired}} />
-      <section class="results-recommendation-engine-training-card-content">
-        <p class="results-recommendation-engine-training-card-content__title">{{@training.title}}</p>
-        <ul class="results-recommendation-engine-training-card-content__details"><li>{{this.type}}</li>
-          <li>{{this.deliveryMode}}</li>
-          {{#if @training.hasDuration}}
-            <li>{{this.formattedDuration}}</li>
-          {{/if}}
-        </ul>
-      </section>
-      <button
-        class="results-recommendation-engine-training-card__button"
-        type="button"
-        aria-label={{t "pages.skill-review.recommended-engine.training-card.aria-label"}}
-        {{on "click" this.showModal}}
-      ></button>
-    </div>
+    {{else}}
+      <div class="results-recommendation-engine-training-card">
+        <div class="results-recommendation-engine-training-card-image-hero">
+          <img
+            class="results-recommendation-engine-training-card-image-hero__editor-logo"
+            src="{{@training.editorLogoUrl}}"
+            alt=""
+          />
+          <img
+            class="results-recommendation-engine-training-card-image-hero__illustration"
+            src="{{this.illustrationPath}}"
+            alt=""
+          />
+        </div>
+        <RegistrationCardTag @registrationRequired={{@training.registrationRequired}} />
+        <section class="results-recommendation-engine-training-card-content">
+          <p class="results-recommendation-engine-training-card-content__title">{{@training.title}}</p>
+          <ul class="results-recommendation-engine-training-card-content__details"><li>{{this.type}}</li>
+            <li>{{this.deliveryMode}}</li>
+            {{#if @training.hasDuration}}
+              <li>{{this.formattedDuration}}</li>
+            {{/if}}
+          </ul>
+        </section>
+        <button
+          class="results-recommendation-engine-training-card__button"
+          type="button"
+          aria-label={{t "pages.skill-review.recommended-engine.training-card.aria-label"}}
+          {{on "click" this.showModal}}
+        ></button>
+      </div>
+    {{/if}}
     <CardModal
       @training={{@training}}
       @deliveryMode={{this.deliveryMode}}
