@@ -1,5 +1,29 @@
 # Pix Changelog
 
+# [5.491.0](https://github.com/1024pix/pix/compare/v5.490.0...v5.491.0) (2026-09-01)
+
+### :rocket: Amélioration
+
+- [#17259](https://github.com/1024pix/pix/pull/17259) MDX-361 IAGen_Fonction_AVA-pro Changement image
+- [#17334](https://github.com/1024pix/pix/pull/17334) modif Module Virus AVA - relecture interne
+
+### :bug: Correction
+
+- [#17333](https://github.com/1024pix/pix/pull/17333) Supprimer les valeurs dupliquées du champ proposals.input dans les QROCM (PIX-24085)
+- [#17330](https://github.com/1024pix/pix/pull/17330) Trie le filtre de catégorie du catalogue alphabétiquement (PIX-24043)
+
+### :building_construction: Tech
+
+- [#17326](https://github.com/1024pix/pix/pull/17326) Déplacer la logique de formattage des areas du usecase vers le repository (PIX-24072)
+- [#17323](https://github.com/1024pix/pix/pull/17323) Intégrer les retours des partenaires sur les fichiers de traduction 'de' et 'it' (PIX-24037)
+- [#17327](https://github.com/1024pix/pix/pull/17327) La dépendance eslint 9 doit être surchargée
+- [#17324](https://github.com/1024pix/pix/pull/17324) Supprime le fichier test-helper de l'API.
+- [#17261](https://github.com/1024pix/pix/pull/17261) Supprimer le mécanisme d'attente avant de "repasser" une campagne.
+
+### :arrow_up: Montée de version
+
+- [#17328](https://github.com/1024pix/pix/pull/17328) Montée de version pg-boss
+
 # [5.490.0](https://github.com/1024pix/pix/compare/v5.489.0...v5.490.0) (2026-08-31)
 
 ### :rocket: Amélioration
