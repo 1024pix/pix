@@ -37,6 +37,7 @@ const register = async function (server) {
               participationCount: Joi.string().empty(''),
               lastnameSort: Joi.string().empty(''),
               divisionSort: Joi.string().empty(''),
+              latestParticipationSort: Joi.string().empty(''),
             },
           }),
         },
