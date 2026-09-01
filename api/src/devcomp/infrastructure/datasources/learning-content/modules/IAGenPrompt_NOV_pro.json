@@ -165,7 +165,7 @@
                     "id": "2",
                     "content": "<p>Commencez par définir vos objectifs : cohésion d'équipe, amélioration de la communication, etc. Ensuite, évaluez le budget et le temps disponible. Choisissez une activité adaptée à vos objectifs et à la dynamique de votre équipe. Pensez à des activités variées comme des ateliers créatifs, des jeux de rôle, ou des défis sportifs. Assurez-vous que l'activité est inclusive et accessible à tous. Planifiez la logistique : lieu, matériel, nourriture, etc. Communiquez clairement les détails à votre équipe. Enfin, prévoyez un débriefing pour discuter des apprentissages et des prochaines étapes.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Non. C’est la réponse donnée par le logiciel d’IA générative. Le <strong>prompt</strong>, c’est la<strong> question posée</strong>ou la<strong> consigne donnée</strong> au <strong>logiciel d’IA générative</strong>.</p>"
+                      "diagnosis": "<p>Non. C’est la réponse donnée par le logiciel d’IA générative. Le <strong>prompt</strong>, c’est la<strong> question posée</strong> ou la<strong> consigne donnée</strong> au <strong>logiciel d’IA générative</strong>.</p>"
                     }
                   },
                   {
