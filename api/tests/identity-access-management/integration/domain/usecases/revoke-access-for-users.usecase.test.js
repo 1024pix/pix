@@ -30,7 +30,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-a
 
     // then
     const revokedUserAccess = await revokedUserAccessRepository.findByUserId(userId);
-    expect(revokedUserAccess.revokeTimeStamp).to.be.a('number');
+    expect(revokedUserAccess.revokedAllTimeStamp).to.be.a('number');
 
     const refreshTokens = await refreshTokenRepository.findAllByUserId(userId);
     expect(refreshTokens).to.have.lengthOf(0);
@@ -60,7 +60,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-a
 
       // then
       const revokedUserAccess = await revokedUserAccessRepository.findByUserId(userId);
-      expect(revokedUserAccess.revokeTimeStamp).to.be.a('number');
+      expect(revokedUserAccess.revokedAllTimeStamp).to.be.a('number');
     });
   });
 });
