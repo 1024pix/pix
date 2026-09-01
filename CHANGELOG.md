@@ -1,5 +1,17 @@
 # Pix Changelog
 
+# [5.492.0](https://github.com/1024pix/pix/compare/v5.491.0...v5.492.0) (2026-09-01)
+
+### :rocket: Amélioration
+
+- [#17332](https://github.com/1024pix/pix/pull/17332)  Afficher la date de certificabilité dans la page `Élèves` pour les organisations SCO isManagingStudents  (PIX-22712)
+- [#17336](https://github.com/1024pix/pix/pull/17336) Modifs module IAinfoxIND relecture edito
+- [#17307](https://github.com/1024pix/pix/pull/17307) Pouvoir révoquer une session utilisateur (PIX-23146)
+
+### :bug: Correction
+
+- [#17343](https://github.com/1024pix/pix/pull/17343) Correction de 2 tests KO sur le usecase revoke-access-for-users
+
 # [5.491.0](https://github.com/1024pix/pix/compare/v5.490.0...v5.491.0) (2026-09-01)
 
 ### :rocket: Amélioration
