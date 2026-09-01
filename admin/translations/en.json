@@ -590,14 +590,14 @@
           },
           "calibration": {
             "label-for-CALIBRATED_CHALLENGE_COUNT": "Count of calibrated challenges",
-            "label-for-CALIBRATION_SCOPE": "Target scope",
-            "label-for-CALIBRATION_STARTED_AT": "Started calibration at",
+            "label-for-CALIBRATION_SCOPE": "Calibrated scope",
+            "label-for-CALIBRATION_STARTED_AT": "Calibration started at",
             "label-for-CALIBRATION_STATUS": "Status",
             "label-for-COMPETENCE_SCORING_PRESENCE": "Validated competences scoring present",
             "label-for-ENGLISH_CALIBRATED_CHALLENGE_COUNT": "Count of calibrated challenges in English",
             "label-for-MESH_SCORING_PRESENCE": "Validated mesh scoring present",
-            "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Tubes in calibration only",
-            "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Tubes in version only",
+            "label-for-TUBE_ONLY_IN_CALIBRATION_COUNT": "Calibrated tubes not selected in version",
+            "label-for-TUBE_ONLY_IN_VERSION_COUNT": "Non-calibrated tubes selected in version",
             "no-report-message": "No calibration could be retrieved for this scope.",
             "report-title": "Calibration report of ID {calibrationId} generated at",
             "save-button-already-saved-tooltip": "ID {id} already saved on this version",
@@ -644,7 +644,7 @@
           },
           "page-title": "Creation of a new version of the certification in {scope} framework",
           "scoring": {
-            "cannot-be-lower-error": "The maximal capacity for a given level has to be strictly greater than its minimal capacity.",
+            "cannot-be-lower-error": "The maximal capacity must be set and strictly greater than the minimal capacity.",
             "competences": {
               "level": "Level",
               "maximum-input-label": "Maximal capacity ",
@@ -653,14 +653,15 @@
               "title": "Bounds of capacities by competence"
             },
             "level": "Level {index}",
-            "previous-version-capacity": "Previous value: {previousVersionCapacity}",
+            "previous-version-capacity": "Value in previous version: {previousVersionCapacity}",
+            "required-error": "This field is required.",
             "save-error": "An error occurred while saving the scoring.",
-            "save-scoring-button": "Save scoring",
+            "save-scoring-button": "Activate scoring",
             "save-scoring-modal": {
               "content": "This action will save the scoring configuration on the active version.",
-              "title": "Confirm scoring save"
+              "title": "Confirm scoring activation"
             },
-            "success-notification": "The scoring has been successfully updated",
+            "success-notification": "The scoring has been successfully activated",
             "title": "Bounds of capacity by mesh"
           },
           "title": "Creating a Certification Release"
