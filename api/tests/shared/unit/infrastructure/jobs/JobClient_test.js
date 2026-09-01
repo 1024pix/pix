@@ -9,6 +9,7 @@ import { config } from '../../../../../src/shared/config.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
 import { JobExpireIn } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 class FakePgBoss {
   start() {
@@ -44,6 +45,10 @@ class FakePgBoss {
         return;
       },
     };
+  }
+
+  deleteAllJobs() {
+    return;
   }
 }
 
@@ -346,6 +351,77 @@ describe('Unit | JobClient', function () {
         { name: 'FirstJob', ageInSeconds: 42 },
         { name: 'SecondJob', ageInSeconds: 3600 },
       ]);
+    });
+  });
+
+  context('#flushJobs', function () {
+    it('should delete all jobs', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon.stub(pgBossStub, 'deleteAllJobs').resolves();
+
+      const jobClient = new JobClient();
+      await jobClient.initialize(
+        {
+          jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: true,
+          worker: true,
+        },
+        () => pgBossStub,
+      );
+
+      // when
+      await jobClient.flushJobs();
+
+      // then
+      expect(pgBossStub.deleteAllJobs).to.have.been.calledOnce;
+    });
+
+    it('should retry when a deadlock is detected, then succeed', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      const deadlockError = Object.assign(new Error('deadlock detected'), { code: '40P01' });
+      sinon.stub(pgBossStub, 'deleteAllJobs').onFirstCall().rejects(deadlockError).onSecondCall().resolves();
+
+      const jobClient = new JobClient();
+      await jobClient.initialize(
+        {
+          jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: true,
+          worker: true,
+        },
+        () => pgBossStub,
+      );
+
+      // when
+      await jobClient.flushJobs();
+
+      // then
+      expect(pgBossStub.deleteAllJobs).to.have.been.calledTwice;
+    });
+
+    it('should not retry when the error is not a deadlock', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      const otherError = new Error('connection lost');
+      sinon.stub(pgBossStub, 'deleteAllJobs').rejects(otherError);
+
+      const jobClient = new JobClient();
+      await jobClient.initialize(
+        {
+          jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: true,
+          worker: true,
+        },
+        () => pgBossStub,
+      );
+
+      // when
+      const error = await catchErr(jobClient.flushJobs, jobClient)();
+
+      // then
+      expect(error).to.equal(otherError);
+      expect(pgBossStub.deleteAllJobs).to.have.been.calledOnce;
     });
   });
 });

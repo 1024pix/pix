@@ -234,7 +234,26 @@ export class JobClient {
 
   async flushJobs() {
     this.#assertIsInitialized();
-    await this.#pgBoss.deleteAllJobs();
+    await this.#retryOnDeadlock(() => this.#pgBoss.deleteAllJobs());
+  }
+
+  // `deleteAllJobs` can collide with another concurrent transaction touching the same
+  // pg-boss tables (its own internal maintenance, another local process, ...) and be aborted
+  // with a Postgres deadlock (40P01). Retrying is safe: Postgres guarantees the other
+  // transaction wins and releases its locks, so the retry succeeds almost immediately.
+  async #retryOnDeadlock(fn, { attempts = 3, delayMs = 50 } = {}) {
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+      try {
+        return await fn();
+      } catch (error) {
+        if (error.code !== '40P01' || attempt === attempts) throw error;
+        logger.warn(
+          { event: 'pg-boss-deadlock-retry', attempt },
+          `Deadlock detected (attempt ${attempt}/${attempts}), retrying`,
+        );
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
+    }
   }
 
   async stop(options = { graceful: false, timeout: 1000 }) {
