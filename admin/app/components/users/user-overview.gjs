@@ -29,6 +29,7 @@ export default class UserOverview extends Component {
   @service references;
   @service store;
   @service oidcIdentityProviders;
+  @service router;
 
   @tracked displayAnonymizeModal = false;
   @tracked isEditionMode = false;
@@ -158,12 +159,11 @@ export default class UserOverview extends Component {
   @action
   async anonymizeUser() {
     await this.args.user.save({ adapterOptions: { anonymizeUser: true } });
-    await this.args.user.reload();
-    await this.args.user.organizationMemberships?.reload();
-    await this.args.user.certificationCenterMemberships?.reload();
-    await this.args.user.organizationLearners?.reload();
-
     this.toggleDisplayAnonymizeModal();
+    this.pixToast.sendSuccessNotification({
+      message: 'La demande d’anonymisation de l’utilisateur a bien été envoyée',
+    });
+    this.router.transitionTo('authenticated.users.list');
   }
 
   @action
