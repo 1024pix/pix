@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { and, eq } from 'ember-truth-helpers';
 import List from 'pix-orga/components/attestations/list';
+import { isSearchValid } from 'pix-orga/utils/normalize-text.js';
 
 import PageTitle from './ui/page-title';
 
@@ -142,6 +143,7 @@ class OtherAttestations extends Component {
 
 class SixthGrade extends Component {
   @tracked selectedDivisions = [];
+  @tracked searchQuery = '';
   @tracked isLoading = false;
   @service locale;
 
@@ -157,6 +159,23 @@ class SixthGrade extends Component {
     this.selectedDivisions = value;
   }
 
+  @action
+  onSearch(query) {
+    this.searchQuery = query;
+  }
+
+  get divisionsOptions() {
+    return this.args.divisions.flatMap((division) => {
+      if ((this.searchQuery && isSearchValid(division.name, this.searchQuery)) || !this.searchQuery) return division;
+
+      return [];
+    });
+  }
+
+  get selectedFields() {
+    return this.args.divisions?.filter((division) => this.args.selectedDivisions?.includes(division.name)).join(',');
+  }
+
   get isDisabled() {
     return !this.selectedDivisions.length || this.isLoading;
   }
@@ -169,8 +188,10 @@ class SixthGrade extends Component {
         @options={{@divisions}}
         @values={{this.selectedDivisions}}
         @onChange={{this.onSelectDivision}}
+        @onSearch={{this.onSearch}}
       >
         <:label>{{t "pages.attestations.select-divisions-label"}}</:label>
+        <:placeholder>{{this.selectedFields}}</:placeholder>
         <:default as |option|>{{option.label}}</:default>
       </PixMultiSelect>
       <PixButton @triggerAction={{this.onSubmit}} @size="small" @isDisabled={{this.isDisabled}}>

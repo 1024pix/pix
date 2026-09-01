@@ -1,14 +1,18 @@
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import { hash } from '@ember/helper';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import { isSearchValid } from 'pix-orga/utils/normalize-text.js';
 
 export default class GroupsFilter extends Component {
   @service locale;
+  @service intl;
   @tracked isLoading;
   @tracked groups;
+  @tracked searchQuery = '';
 
   constructor() {
     super(...arguments);
@@ -21,7 +25,24 @@ export default class GroupsFilter extends Component {
   }
 
   get options() {
-    return this.groups?.map(({ name }) => ({ value: name, label: name }));
+    return this.groups?.flatMap((group) => {
+      if ((this.searchQuery && isSearchValid(group.name, this.searchQuery)) || !this.searchQuery)
+        return { value: group.name, label: group.name };
+
+      return [];
+    });
+  }
+
+  get selectedFields() {
+    return (
+      this.groups?.filter((group) => this.args.selectedGroups?.includes(group.name)).join(',') ||
+      this.intl.t('common.filters.groups.placeholder')
+    );
+  }
+
+  @action
+  onSearch(query) {
+    this.searchQuery = query;
   }
 
   <template>
@@ -36,12 +57,14 @@ export default class GroupsFilter extends Component {
         }}
         @screenReaderOnly={{true}}
         @isSearchable={{true}}
+        @onSearch={{this.onSearch}}
         @onChange={{@onSelect}}
         @values={{@selectedGroups}}
         @options={{this.options}}
         ...attributes
       >
         <:default as |option|>{{option.label}}</:default>
+        <:placeholder>{{this.selectedFields}}</:placeholder>
         <:label>{{t "common.filters.groups.label"}}</:label>
       </PixMultiSelect>
     {{/if}}
