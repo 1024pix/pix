@@ -16,7 +16,7 @@ export const shareProfileReward = async function ({
   }
 
   if (campaignParticipationId) {
-    organizationId = await campaignParticipationRepository.getCampaignByParticipationId({ campaignParticipationId })
+    organizationId = (await campaignParticipationRepository.getCampaignByParticipationId({ campaignParticipationId }))
       .organizationId;
   }
 
