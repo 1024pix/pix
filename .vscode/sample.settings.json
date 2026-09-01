@@ -1,4 +1,7 @@
 {
+  // Glint v2 (TypeScript in orga): resolve ember-tsc from orga/node_modules
+  "glint2.libraryPath": "orga",
+
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },

@@ -10,7 +10,7 @@ export default {
   ignore: ['blueprints/**'],
   overrides: [
     {
-      files: ['**/*.gjs'],
+      files: ['**/*.gjs', '**/*.gts'],
       rules: {
         prettier: 'off',
       },
