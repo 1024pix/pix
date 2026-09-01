@@ -118,7 +118,7 @@
                 "id": "2c4bd126-43b5-4b65-8f01-3f18f6a98b37",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Marine consulte un réseau social. Quand une publication lui plait, elle lui met une mention J’aime.</p><p><strong>Observez les dernières publications que Marine a vues, puis répondez à la question qui suit.</strong></p><p>[Les publications ci-dessous seront remplacées par une illustration]</p><ul>        <li>3 recettes faciles avec seulement 4 ingrédients 🍽️ → Liké</li><li>Pourquoi tout le monde parle de cette série ? 👀</li>    <li>Course des 3 bosquets&nbsp;: le plus beau lever de soleil 🌄🤩</li>    <li>Gaufres, fruits frais et café glacé 🧇 → Liké</li>    <li>Quand ton chien entend le mot «&nbsp;promenade&nbsp;» ! 🐶</li>    <li>Compilation des plus beaux buts de la semaine ⚽ → Liké</li>    <li>Comment réussir des pâtes carbonara crémeuses ? 🍝 → Liké</li>    <li>Renforcez vos abdos en 15 minutes par jour  ! 🏋️ → Liké</li></ul>"
+                "content": "<p>Marine consulte un réseau social. Quand une publication lui plait, elle lui met une mention J’aime (<em>Like</em>).</p><br><p><strong>Observez les dernières publications que Marine a vues, puis répondez à la question qui suit.</strong></p><p>[Les publications ci-dessous seront remplacées par une illustration]</p><ul>        <li>3 recettes faciles avec seulement 4 ingrédients 🍽️ → Liké</li><li>Pourquoi tout le monde parle de cette série ? 👀</li>    <li>Course des 3 bosquets&nbsp;: le plus beau lever de soleil 🌄🤩</li>    <li>Gaufres, fruits frais et café glacé 🧇 → Liké</li>    <li>Quand ton chien entend le mot «&nbsp;promenade&nbsp;» ! 🐶</li>    <li>Compilation des plus beaux buts de la semaine ⚽ → Liké</li>    <li>Comment réussir des pâtes carbonara crémeuses ? 🍝 → Liké</li>    <li>Renforcez vos abdos en 15 minutes par jour  ! 🏋️ → Liké</li></ul>"
               }
             },
             {
@@ -153,7 +153,7 @@
                   },
                   "invalid": {
                     "state": "<p>C’est peu probable.</p>",
-                    "diagnosis": "<p>Au vu des centres d’intérêt de Marinecontenus proches de ce qu’elle regarde déjà, ici la cuisine et le sport.</p>"
+                    "diagnosis": "<p>Au vu des centres d’intérêt de Marine, il y a plus de chances qu’elle voie des contenus proches de ceux auxquels elle a mis des mentions J’aime, ici la cuisine et le sport.</p>"
                   }
                 },
                 "solutions": [
@@ -189,7 +189,7 @@
                       "id": "e9b5ea7b-43d6-4fa1-9327-0a829f8903a7",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’algorithme de recommandation analyse le <strong>comportement de l’utilisateur</strong>&nbsp;:&nbsp;</p><ul><li>là où l’utilisateur <strong>clique</strong>,&nbsp;</li><li>ce qu’il <strong>regarde</strong>,&nbsp;</li><li>ce qui le <strong>fait réagir</strong>. Par exemple, l’algorithme de recommandation repère les contenus avec des mentions J’aime, les contenus commentés et les contenus partagés par l’utilisateur.”</li></ul><p>Ensuite, l’algorithme de recommandation <strong>propose à l’utilisateur des contenus</strong> qui ont <strong>déjà suscité des réactions chez d’autres utilisateurs</strong> avec des <strong>comportements similaires</strong>.</p><p>Certains de ces contenus peuvent avoir été créés en utilisant des logiciels d’intelligence artificielle (IA) générative.</p>"
+                      "content": "<p>L’algorithme de recommandation analyse le <strong>comportement de l’utilisateur</strong>&nbsp;:&nbsp;</p><ul><li>là où l’utilisateur <strong>clique</strong>,&nbsp;</li><li>ce qu’il <strong>regarde</strong>,&nbsp;</li><li>ce qui le <strong>fait réagir</strong>. Par exemple, l’algorithme de recommandation repère les contenus avec des mentions J’aime, les contenus commentés et les contenus partagés par l’utilisateur.</li></ul><p>Ensuite, l’algorithme de recommandation <strong>propose à l’utilisateur des contenus</strong> qui ont <strong>déjà suscité des réactions chez d’autres utilisateurs</strong> avec des <strong>comportements similaires</strong>.</p><p>Certains de ces contenus peuvent avoir été créés en utilisant des logiciels d’intelligence artificielle (IA) générative.</p>"
                     }
                   ]
                 },
@@ -234,7 +234,7 @@
                 "id": "c3ee2c5b-031e-415a-bb94-d18836736a7c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les deux publications suivantes parlent du même sujet et ont été publiées sur le même réseau social. Pourtant, l’une est massivement partagée par les utilisateurs alors que l’autre passe presque inaperçue.</p><p><strong>Observez&nbsp;les deux publications, puis répondez à la question qui suit.</strong></p><p>[Les publications ci-dessous seront remplacées par une illustration]</p><h5>Publication A&nbsp;: </h5><p>«&nbsp;Une étude montre qu’un manque de sommeil régulier peut avoir des effets sur la concentration.&nbsp;»&nbsp;📰</p><p>👍 24 mentions “J’aime” / 💬 13 commentaires / ↪️ 12 partages</p><p>Heure de publication&nbsp;: 8h15</p><h5>Publication B&nbsp;:&nbsp; </h5><p>«&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir !&nbsp;» 😱</p><p>Créé avec l’IA ✨</p><p>👍 17 487 mentions “J’aime” /💬 4 221 commentaires / ↪️ 12 093 partages</p><p>Heure de publication&nbsp;: 8h12</p>"
+                "content": "<p>Les deux publications suivantes parlent du même sujet et ont été publiées sur le même réseau social. Pourtant, l’une est massivement partagée par les utilisateurs alors que l’autre passe presque inaperçue.</p><br><p><strong>Observez les deux publications, puis répondez à la question qui suit.</strong></p><p>[Les publications ci-dessous seront remplacées par une illustration]</p><br><h5>Publication A&nbsp;: </h5><p>«&nbsp;Une étude montre qu’un manque de sommeil régulier peut avoir des effets sur la concentration.&nbsp;»&nbsp;📰</p><p>👍 24 mentions “J’aime” / 💬 13 commentaires / ↪️ 12 partages</p><p>Heure de publication&nbsp;: 8h15</p><br><h5>Publication B&nbsp;:&nbsp; </h5><p>«&nbsp;Vous détruisez votre cerveau chaque nuit sans le savoir !&nbsp;» 😱</p><p>Créé avec l’IA ✨</p><p>👍 17 487 mentions “J’aime” /💬 4 221 commentaires / ↪️ 12 093 partages</p><p>Heure de publication&nbsp;: 8h12</p>"
               }
             },
             {
@@ -294,7 +294,7 @@
                       "id": "222f2bd5-0ebf-44d1-bf89-f7adb0cd8569",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Les contenus viraux, qui se diffusent rapidement et largement. Ce sont souvent des <strong>contenus sensationnels ou extrêmes</strong>. D’ailleurs, certains de ces contenus sont conçus pour <strong>influencer ou manipuler les opinions</strong> des utilisateurs.</p><p>À l’inverse, les contenus plus nuancés se diffusent moins rapidement et moins largement.</p>"
+                      "content": "<p>Les contenus viraux se diffusent rapidement et largement. Ce sont souvent des <strong>contenus sensationnels ou extrêmes</strong>. D’ailleurs, certains de ces contenus sont conçus pour <strong>influencer ou manipuler les opinions</strong> des utilisateurs.</p><p>À l’inverse, les contenus plus nuancés se diffusent moins rapidement et moins largement.</p>"
                     }
                   ]
                 },
@@ -349,7 +349,7 @@
                 "id": "c640ce0f-2cf7-4b7b-982e-c063fc16e9b0",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Deux créateurs de contenu publient des vidéos sur les réseaux sociaux. Leur objectif&nbsp;: produire des contenus viraux, quitte à diffuser des contenus trompeurs.</p><p><strong>Observez leur manière de travailler.</strong></p><p>[Le texte ci-dessous sera probablement remplacé par une image à terme]&nbsp;&nbsp;</p>"
+                "content": "<p>Deux créateurs de contenu publient des vidéos sur les réseaux sociaux. Leur objectif&nbsp;: produire des contenus viraux, quitte à diffuser des contenus trompeurs.</p><br><p><strong>Observez leur manière de travailler.</strong></p><p>[Le texte ci-dessous sera probablement remplacé par une image à terme]&nbsp;&nbsp;</p>"
               }
             },
             {
@@ -457,7 +457,7 @@
                       "id": "cc4bfd6d-4aaf-4f4b-b7d6-8c445865dc76",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>L’arrivée des <strong>IA génératives renforce</strong> le <strong>phénomène de viralité </strong>sur les réseaux sociaux.</p><p>En plus, ces contenus générés grâce à l’IA générative sont parfois <strong>diffusés par des faux comptes entièrement automatisés</strong>, puis approuvés, commentés et partagés par d’autres comptes automatisés dans le but d’<strong>accélérer leur diffusion</strong>.</p><p>Résultat&nbsp;: une personne qui souhaite créer du contenu dans le but de diffuser des <strong>informations fausses ou trompeuses</strong> pour <strong>manipuler des utilisateurs</strong> peut le faire <strong>beaucoup plus facilement avec plus de succès</strong>.</p>"
+                      "content": "<p>L’arrivée des <strong>IA génératives renforce</strong> le <strong>phénomène de viralité </strong>sur les réseaux sociaux.</p><br><p>En plus, ces contenus générés grâce à l’IA générative sont parfois <strong>diffusés par des faux comptes entièrement automatisés</strong>, puis approuvés, commentés et partagés par d’autres comptes automatisés dans le but d’<strong>accélérer leur diffusion</strong>.</p><br><p>Résultat&nbsp;: une personne qui souhaite créer du contenu dans le but de diffuser des <strong>informations fausses ou trompeuses</strong> pour <strong>manipuler des utilisateurs</strong> peut le faire <strong>beaucoup plus facilement avec plus de succès</strong>.</p>"
                     }
                   ]
                 },
@@ -827,7 +827,7 @@
                 "proposals": [
                   {
                     "id": "0",
-                    "content": "<p>Je réfléchisavant de partager avec d’autres personnes un contenu généré par IA.</p>",
+                    "content": "<p>Je réfléchis avant de partager avec d’autres personnes un contenu généré par IA.</p>",
                     "feedback": {
                       "diagnosis": "<p>C’est une excellente habitude !<br>Se questionner avant de partager un contenu est un bon réflexe.</p>"
                     }
@@ -850,7 +850,7 @@
                     "id": "3",
                     "content": "<p>Je ne sais pas encore.<br></p>",
                     "feedback": {
-                      "diagnosis": "<p>Chacun son rythme !<br>Quand vous le souhaiterez, un premier pas simple peut être de réfléchir&nbsp;avant de partager avec d’autres personnes un contenu généré par IA.</p>"
+                      "diagnosis": "<p>Chacun son rythme !<br>Quand vous le souhaiterez, un premier pas simple peut être de réfléchir avant de partager avec d’autres personnes un contenu généré par IA.</p>"
                     }
                   }
                 ]
