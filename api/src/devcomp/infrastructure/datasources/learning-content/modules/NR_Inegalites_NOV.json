@@ -449,28 +449,28 @@
                     "id": "1",
                     "content": "<p>Toutes ces personnes sont totalement exclues des usages numériques.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! Les situations sont différentes : une personne peut être à l’aise dans certaines situations et rencontrer des difficultés dans d’autres.</p>"
+                      "diagnosis": "<p>Eh non ! Toutes ces personnes (sauf Guy-Claude) utilisent des outils et des services numériques mais elles rencontrent <strong>des difficultés différentes</strong>. Une personne peut être à l’aise dans certains contextes et avoir plus de mal dans d’autres (<strong>peur de mal faire</strong>, <strong>peur de perdre de l’argent</strong>, etc.).</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Toutes ces personnes ont exactement les mêmes difficultés.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non ! Les situations sont différentes : une personne peut être à l’aise dans certaines situations et rencontrer des difficultés dans d’autres.</p>"
+                      "diagnosis": "<p>Eh non ! Toutes ces personnes (sauf Guy-Claude) utilisent des outils et des services numériques mais elles rencontrent <strong>des difficultés différentes</strong>. Une personne peut être à l’aise dans certains contextes et avoir plus de mal dans d’autres (<strong>peur de mal faire</strong>, <strong>peur de perdre de l’argent</strong>, etc.).</p>"
                     }
                   },
                   {
                     "id": "3",
-                    "content": "<p>Les difficultés numériques peuvent être très différentes selon les personnes et les situations.</p>",
+                    "content": "<p>Les difficultés numériques peuvent être très différentes selon les personnes.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh oui ! Les situations sont différentes : une personne peut être à l’aise dans certaines situations et rencontrer des difficultés dans d’autres.</p>"
+                      "diagnosis": "<p>Eh oui ! Toutes ces personnes (sauf Guy-Claude) utilisent des outils et des services numériques mais elles rencontrent <strong>des difficultés différentes</strong>. Une personne peut être à l’aise dans certains contextes et avoir plus de mal dans d’autres (<strong>peur de mal faire</strong>, <strong>peur de perdre de l’argent</strong>, etc.).</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Je ne sais pas.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Les difficultés numériques peuvent être très différentes selon les personnes et les situations. Une personne peut être à l’aise dans certaines situations et rencontrer des difficultés dans d’autres.</p>"
+                      "diagnosis": "<p>Toutes ces personnes (sauf Guy-Claude) utilisent des outils et des services numériques mais elles rencontrent <strong>des difficultés différentes</strong>. Une personne peut être à l’aise dans certains contextes et avoir plus de mal dans d’autres (<strong>peur de mal faire</strong>, <strong>peur de perdre de l’argent</strong>, etc.).</p>"
                     }
                   }
                 ],
@@ -490,7 +490,7 @@
                 "id": "0cb9c445-6c89-4793-8ba6-3eee9ae90572",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les inégalités d’usages numériques peuvent prendre plusieurs formes.</p><ul><li>Certaines personnes ont accès à internet, mais avec <strong>un appareil peu adapté à leurs besoins</strong>.</li><li>Certaines personnes savent utiliser certains services numériques, mais sont bloquées par <strong>des démarches complexes</strong>.</li><li>Certaines personnes évitent les démarches en ligne par <strong>peur de mal faire</strong>, de perdre de l’argent ou de transmettre des données personnelles.</li><li>Certaines personnes n’ont <strong>pas de compétences ou de moyens suffisants</strong> pour utiliser les outils et services numériques de manière autonome dans des situations quotidiennes. On parle alors d’<strong>illectronisme</strong>.</li></ul><p>Parfois, le manque d’équipement, les difficultés d’accès à internet et le manque de compétences <strong>se cumulent</strong> chez les mêmes personnes.</p>"
+                "content": "<p>Les inégalités d’usages numériques peuvent prendre plusieurs formes.</p><ul><li>Certaines personnes savent utiliser certains services numériques, mais sont bloquées par <strong>des démarches complexes</strong>.</li><li>Parfois, des personnes évitent les démarches en ligne par <strong>peur de mal faire</strong>, de perdre de l’argent ou de transmettre des données personnelles</li><li>Enfin, certaines personnes n’ont <strong>pas de compétences ou de moyens suffisants</strong> pour utiliser les outils et services numériques de manière <strong>autonome</strong> dans des situations quotidiennes. On parle alors d’<strong>illectronisme</strong>.</li></ul><p>Parfois, le manque d’équipement, les difficultés d’accès à internet et le manque de compétences <strong>se cumulent</strong> chez les mêmes personnes.</p>"
               }
             },
             {
@@ -508,7 +508,7 @@
                 "id": "90672af5-29b6-4f47-81bb-0e6776c21430",
                 "type": "text",
                 "tag": "further-information",
-                "content": "<p>Des <strong>structures </strong>(associations, services publics) existent pour<strong> aider les personnes en difficulté</strong>. Des professionnels qualifiés ou des bénévoles peuvent accompagner ces personnes pour réaliser leurs démarches en ligne, prendre confiance et développer leurs compétences.<br><br></p>"
+                "content": "<p>Des <strong>structures d’accompagnement</strong> (associations, services publics) existent pour <strong>aider les personnes en difficulté</strong>. </p><p>Des professionnels qualifiés ou des bénévoles peuvent accompagner ces personnes pour réaliser leurs démarches en ligne, prendre confiance et développer leurs compétences numériques.</p>"
               }
             }
           ]
@@ -631,8 +631,17 @@
           "title": "Activité 2",
           "components": [
             {
+              "type": "element",
+              "element": {
+                "id": "6c0d97d3-0da9-4704-bbec-7de664f2e848",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Mélissa souhaite consulter son compte d’assurance maladie pour suivre ses remboursements de frais de santé.</p>"
+              }
+            },
+            {
               "type": "stepper",
-              "instruction": "<p>Étudiez les situations ci-dessous puis répondez aux questions.</p>",
+              "instruction": "<p>Pour chacune des situations suivantes, identifiez l’obstacle rencontré par Mélissa puis répondez à la question qui suit.</p>",
               "steps": [
                 {
                   "elements": [
@@ -640,26 +649,26 @@
                       "id": "1b2f064d-6d7f-4615-bbe4-336e9e78e39e",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Mélissa souhaite consulter son compte d’assurance maladie pour suivre ses remboursements de frais de santé. Elle se rend sur le site web habituel.</p><p> Mélissa est perdue&nbsp;: elle ne retrouve plus le bouton permettant d’accéder à son compte.</p>"
+                      "content": "<p>Mélissa se rend sur le site web habituel de l’assurance maladie.</p><p>Mélissa est perdue : elle ne retrouve plus le bouton permettant d’accéder à son compte.</p>"
                     },
                     {
                       "id": "82b82870-5f03-4956-9ac6-1040be788e9d",
                       "type": "image",
                       "url": "https://assets.pix.org/draft/NR_Inegalite_NOV/avant-apres.png",
                       "alt": "Image d’illustration des changements de design du site internet",
-                      "alternativeText": "<p>2 images d’interface (avant/après)&nbsp;: le bouton “Se connecter” a été remplacé par “Mon espace personnel”</p>",
+                      "alternativeText": "<p>2 images d’interface (avant/après)&nbsp;: le bouton “Se connecter” a été remplacé par “Mon espace personnel”.</p>",
                       "legend": "",
                       "licence": ""
                     },
                     {
                       "id": "4776fabe-5fa2-4261-8ed4-e3c438eb3676",
                       "type": "qcu",
-                      "instruction": "<p>Pourquoi Mélissa est-elle perdue sur ce site internet ?</p>",
+                      "instruction": "<p>Pourquoi Mélissa est-elle perdue sur ce site web ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>C’est la première fois qu’elle va sur ce site web.</p>",
+                          "content": "<p>C’est la première fois que Mélissa va sur ce site web de l’assurance maladie.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Mélissa connaît bien ce site. Observez attentivement l’interface du site web.</p>"
@@ -667,17 +676,17 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Le site web a été piraté.</p>",
+                          "content": "<p>Le site web de l’assurance maladie a été piraté.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Rien n’indique que le site web a été piraté, ce n’est pas ça qui bloque Mélissa.<br></p>"
+                            "diagnosis": "<p>Rien n’indique que le site web a été piraté, ce n’est pas ça qui bloque Mélissa.</p>"
                           }
                         },
                         {
                           "id": "3",
-                          "content": "<p>L’interface du site web a changé.</p>",
+                          "content": "<p>L’interface du site web de l’assurance maladie a changé.</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
+                            "state": "<p>Bonne réponse ! 🎉</p>",
                             "diagnosis": "<p>Les interfaces des services en ligne évoluent régulièrement&nbsp;: des boutons peuvent changer de place, de nom ou d’apparence. Ces changements peuvent perturber les utilisateurs, qui doivent alors retrouver leurs repères et adapter leurs habitudes.</p>"
                           }
                         }
@@ -692,7 +701,7 @@
                       "id": "d150a6c6-90bf-4802-beb0-eb4a7b196932",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Mélissa est sur la page de connexion à son espace personnel. Elle entre son identifiant et son mot de passe comme d’habitude. Mais au moment de valider... impossible de finaliser la connexion !&nbsp; </p><p>Mélissa est bloquée. Un message apparaît à l’écran.</p>"
+                      "content": "<p>Mélissa est sur la page de connexion à son espace personnel. Elle entre son identifiant et son mot de passe comme d’habitude. Mais au moment de valider... impossible de finaliser la connexion !</p>\n<p>Mélissa est bloquée. Un message apparaît à l’écran.</p>"
                     },
                     {
                       "id": "24638be4-ba35-40f5-9f49-48ad10e06a58",
@@ -706,23 +715,23 @@
                     {
                       "id": "30b69619-f6fe-4f6f-b949-d7c35cc9b2de",
                       "type": "qcu",
-                      "instruction": "<p>Pourquoi Mélissa ne parvient pas à se connecter ?</p>",
+                      "instruction": "<p>Pourquoi Mélissa ne parvient pas à se connecter à son espace personnel ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Le site web est victime d’un bug informatique.</p>",
+                          "content": "<p>Le site web de l’assurance maladie est victime d'un bug informatique.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Il ne s’agit pas d’un bug informatique. Le site web applique simplement une mesure de sécurité renforcée en envoyant un code par SMS.</p>"
+                            "diagnosis": "<p>Il ne s’agit pas d’un bug informatique. Le site web applique simplement une mesure de sécurité renforcée en envoyant un code de vérification par SMS.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Une vérification supplémentaire est demandée pour sécuriser sa connexion.</p>",
                           "feedback": {
-                            "state": "<p>Bonne réponse !</p>",
-                            "diagnosis": "<p>Le site utilise maintenant la validation en deux étapes. Après son mot de passe, Mélissa doit faire une deuxième vérification pour prouver que c’est bien elle. Comme c’est la première fois qu’elle rencontre ce système, elle est perdue et ne sait pas quoi faire.</p>"
+                            "state": "<p>Bonne réponse ! 🎉</p>",
+                            "diagnosis": "<p>Le site utilise maintenant la validation en deux étapes. Après avoir entré son mot de passe, Mélissa doit saisir un code de vérification qui lui a été envoyé par SMS pour prouver que c’est bien elle. Comme c’est la première fois qu’elle rencontre ce système, elle est perdue et ne sait pas quoi faire.</p>"
                           }
                         },
                         {
@@ -730,7 +739,7 @@
                           "content": "<p>Mélissa s’est trompée en saisissant son mot de passe.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
-                            "diagnosis": "<p>Lorsque le mot de passe entré n’est pas correct, un message indique «&nbsp;Mot de passe invalide&nbsp;». Le site web applique simplement une mesure de sécurité renforcée en envoyant un code par SMS.</p>"
+                            "diagnosis": "<p>Lorsque le mot de passe entré n’est pas correct, un message indique «&nbsp;Mot de passe invalide&nbsp;». Ici, le site web applique simplement une mesure de sécurité renforcée en envoyant un code de vérification par SMS.</p>"
                           }
                         }
                       ],
@@ -760,7 +769,7 @@
                     "content": "<p>Nour utilise internet tous les jours pour regarder des vidéos et envoyer des messages, mais se sent perdu face à une démarche en ligne qu’il ne connaît pas.</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>L’illectronisme désigne une difficulté forte à utiliser les outils numériques et les services en ligne de manière autonome dans les situations du quotidien.</p>"
+                      "diagnosis": "<p>L’illectronisme désigne une difficulté forte à utiliser les outils numériques et les services en ligne de manière autonome dans les situations du quotidien. Ce n’est pas le cas de Nour.</p>"
                     }
                   },
                   {
@@ -768,15 +777,15 @@
                     "content": "<p>Mike sait utiliser internet, mais son téléphone est ancien. Certaines applications ne fonctionnent plus et la batterie se vide très vite.</p>",
                     "feedback": {
                       "state": "<p>Mauvaise réponse.</p>",
-                      "diagnosis": "<p>Mike sait utiliser internet, mais son téléphone est ancien. Certaines applications ne fonctionnent plus et la batterie se vide très vite.</p>"
+                      "diagnosis": "<p>L’illectronisme désigne une difficulté forte à utiliser les outils numériques et les services en ligne de manière autonome dans les situations du quotidien. Ce n’est pas le cas de Mike.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Sacha ne possède pas d’ordinateur ni de smartphone. Sacha ne sait pas faire une recherche en ligne, envoyer un mail ou remplir un formulaire sans aide.</p>",
                     "feedback": {
-                      "state": "<p>Bonne réponse !</p>",
-                      "diagnosis": "<p>Sacha ne possède pas d’ordinateur ni de smartphone. Sacha ne sait pas faire une recherche en ligne, envoyer un mail ou remplir un formulaire sans aide.</p>"
+                      "state": "<p>Bonne réponse ! 🎉</p>",
+                      "diagnosis": "<p>L’illectronisme désigne une difficulté forte à utiliser les outils numériques et les services en ligne de manière autonome dans les situations du quotidien. C’est effectivement le cas de Sacha.</p>"
                     }
                   }
                 ],
@@ -802,7 +811,7 @@
                 "id": "18ff4668-f68e-41e3-bf76-5f952021b550",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Votre voisin semble avoir des difficultés avec le numérique. Il vous demande de l’aide.</p>"
+                "content": "<p>Votre voisin a des difficultés avec le numérique : il ne sait pas comment faire pour consulter ses résultats d’analyse médicale en ligne. Il vous demande de l’aide.</p>"
               }
             },
             {
@@ -810,28 +819,28 @@
               "element": {
                 "id": "691b09a1-44ec-4a02-8bee-dc091f5f87f2",
                 "type": "qcu-declarative",
-                "instruction": "<p>Que faites-vous pour l’aider ?</p>",
+                "instruction": "<p>Que pouvez-vous faire pour l’aider ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
                     "id": "1",
                     "content": "<p>Je prends du temps pour lui montrer comment réaliser lui-même certaines démarches.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Identifier ce qui manque à une personne est le premier réflexe utile. Vous pouvez aussi l’orienter vers des<strong> structures d’accompagnement</strong>. L’essentiel&nbsp;: l’aider à <strong>gagner en autonomie</strong>, plutôt que de faire à sa place.</p>"
+                      "diagnosis": "<p>Excellente idée&nbsp;! C’est une manière d’aider votre voisin à <strong>gagner en autonomie</strong>. Vous pouvez aussi l'orienter vers une <strong>structure d'accompagnement</strong>.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Je l’oriente vers une structure d’accompagnement.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Identifier ce qui manque à une personne est le premier réflexe utile. Vous pouvez aussi l’orienter vers des<strong> structures d’accompagnement</strong>. L’essentiel&nbsp;: l’aider à <strong>gagner en autonomie</strong>, plutôt que de faire à sa place.</p>"
+                      "diagnosis": "<p>Très bon réflexe&nbsp;! Des professionnels qualifiés ou des bénévoles pourront aider votre voisin dans sa démarche et lui permettre de <strong>gagner en autonomie</strong>.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Je fais les démarches à sa place.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Identifier ce qui manque à une personne est le premier réflexe utile. Vous pouvez aussi l’orienter vers des structures d’accompagnement. L’essentiel&nbsp;: l’aider à gagner en autonomie, plutôt que de faire à sa place.</p>"
+                      "diagnosis": "<p>C’est une possibilité. Cependant, il est préférable de montrer à votre voisin comment réaliser lui-même la démarche pour l’aider à <strong>gagner en autonomie</strong>. Vous pouvez aussi l'orienter vers une <strong>structure d'accompagnement</strong>.</p>"
                     }
                   }
                 ]
