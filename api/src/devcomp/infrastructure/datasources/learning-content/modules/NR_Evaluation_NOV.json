@@ -61,7 +61,7 @@
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Nos activités numériques émettent aussi des gaz à effet de serre qui accentuent le réchauffement climatique. Mais certaines beaucoup plus que d’autres…"
+                      "content": "Nos activités numériques émettent aussi des gaz à effet de serre qui augmentent le réchauffement climatique. Mais certaines beaucoup plus que d’autres…"
                     },
                     {
                       "userName": "Benoît",
@@ -73,7 +73,7 @@
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Eh bien, une manière de savoir est de regarder son empreinte carbone. 💡"
+                      "content": "Eh bien, une manière de savoir est de regarder leurs empreintes carbone. 💡"
                     }
                   ],
                   "animationSpeed": 12
@@ -115,7 +115,7 @@
                   "type": "image",
                   "slides": [
                     {
-                      "title": "Parcourir 100 km en voiture.",
+                      "title": "Parcourir 100 km en voiture",
                       "description": "",
                       "displayWidth": 0,
                       "image": {
@@ -129,12 +129,12 @@
                       }
                     },
                     {
-                      "title": "Produire 1 kg de viande de boeuf.",
+                      "title": "Produire 1 kg de viande de boeuf",
                       "description": "",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte1_slide2.svg",
-                        "alt": "<p>Activité&nbsp;: produire 1 kg de viande de boeuf.</p><p>Gaz émis&nbsp;: méthane (CH4) et&nbsp;dioxyde de carbone (CO2).</p>"
+                        "alt": "<p>Activité&nbsp;: produire 1 kilogrammes de viande de boeuf.</p><p>Gaz émis&nbsp;: méthane (CH4) et&nbsp;dioxyde de carbone (CO2).</p>"
                       },
                       "license": {
                         "name": "",
@@ -143,12 +143,12 @@
                       }
                     },
                     {
-                      "title": "Produire 100 kg de carottes.",
+                      "title": "Produire 100 kg de carottes",
                       "description": "",
                       "displayWidth": 0,
                       "image": {
                         "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte1_slide3.svg",
-                        "alt": "<p>Activité&nbsp;: produire 100 kg de carottes.</p><p>Gaz émis&nbsp;: méthane (CH4) et protoxyde d’azote&nbsp;(NO2).</p>"
+                        "alt": "<p>Activité&nbsp;: produire 100 kilogrammes de carottes.</p><p>Gaz émis&nbsp;: méthane (CH4) et protoxyde d’azote&nbsp;(NO2).</p>"
                       },
                       "license": {
                         "name": "",
@@ -184,26 +184,26 @@
                     {
                       "id": "5c6cf576-1284-4591-b861-7b4ad3d8c96d",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Quels gaz à effet de serre est émis par un trajet en voiture ?<br></p>",
+                      "instruction": "<p>Quel gaz à effet de serre est émis par un trajet en voiture ?<br></p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "oxygène (O)",
+                          "content": "de l'oxygène (O)",
                           "feedback": {
                             "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
                           }
                         },
                         {
                           "id": "1",
-                          "content": "dioxyde de carbone (CO2)",
+                          "content": "du dioxyde de carbone (CO2)",
                           "feedback": {
                             "diagnosis": "Bien vu ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
                           }
                         },
                         {
                           "id": "2",
-                          "content": "méthane (CH4)",
+                          "content": "du méthane (CH4)",
                           "feedback": {
                             "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
                           }
@@ -223,19 +223,19 @@
                       "proposals": [
                         {
                           "id": "0",
-                          "content": "dioxyde de carbone (CO2)"
+                          "content": "du dioxyde de carbone (CO2)"
                         },
                         {
                           "id": "1",
-                          "content": "protoxyde d’azote (NO2)"
+                          "content": "du protoxyde d’azote (NO2)"
                         },
                         {
                           "id": "2",
-                          "content": "dioxyde de soufre (SO2)"
+                          "content": "du dioxyde de soufre (SO2)"
                         },
                         {
                           "id": "3",
-                          "content": "méthane (CH4)"
+                          "content": "du méthane (CH4)"
                         }
                       ],
                       "feedbacks": {
@@ -274,7 +274,7 @@
                       "id": "931e6663-e3f9-440c-a493-9f156c777a50",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>☁️ Plusieurs gaz participent au réchauffement climatique, comme le dioxyde de carbone (CO₂), le méthane, le protoxyde d’azote, etc. Mais certains gaz participent plus que d’autres au réchauffement climatique.</p>"
+                      "content": "<p>☁️ Plusieurs gaz participent au réchauffement climatique, comme le dioxyde de carbone (CO2), le méthane (CH4), le protoxyde d’azote (NO2), etc. Mais certains gaz participent plus que d’autres au réchauffement climatique.</p>"
                     }
                   ]
                 },
@@ -284,7 +284,7 @@
                       "id": "b6c741e0-c479-4595-be35-34e2eeaba573",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>🤔 C’est quoi l’empreinte carbone ?</strong></p><p>💡L’empreinte carbone est une <strong>mesure de la quantité de gaz à effet de serre émise directement</strong> par une activité, en <strong>prenant en compte tous les gaz à effet de serre</strong> qui sont émis. L’empreinte carbone est exprimée en \"équivalent CO₂\", noté \"CO₂eq\".</p>"
+                      "content": "<p><strong>🤔 C’est quoi l’empreinte carbone ?</strong></p><p>💡L’empreinte carbone est une <strong>mesure de la quantité de gaz à effet de serre émise directement</strong> par une activité, en <strong>prenant en compte tous les gaz à effet de serre</strong> qui sont émis. L’empreinte carbone est exprimée en «&nbsp;équivalent CO2&nbsp;», noté «&nbsp;CO2eq&nbsp;».</p>"
                     }
                   ]
                 },
@@ -294,7 +294,7 @@
                       "id": "7f3ead4f-887e-4147-bc87-033360754977",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Par exemple&nbsp;: le méthane réchauffe 30 fois plus le climat que le CO₂, donc 1kg de méthane a un impact sur le réchauffement climatique de 30kg CO₂eq.</p>"
+                      "content": "<p>Par exemple&nbsp;: le méthane réchauffe 30 fois plus le climat que le CO2, donc 1&nbsp;kg de méthane a un impact sur le réchauffement climatique de 30&nbsp;kg CO2eq.</p>"
                     }
                   ]
                 }
