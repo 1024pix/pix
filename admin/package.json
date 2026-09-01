@@ -133,6 +133,7 @@
   "dependencies": {
     "@assistant-ui/react": "^0.15.16",
     "@assistant-ui/react-ai-sdk": "^1.4.7",
-    "@babel/preset-react": "^7.29.7"
+    "@babel/preset-react": "^7.29.7",
+    "xlsx": "^0.18.5"
   }
 }
