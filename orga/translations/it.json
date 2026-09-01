@@ -174,7 +174,7 @@
         "started": "{count, plural, =0 {0 partecipanti} =1 {1 partecipante} other {{count, number} partecipanti}} in fase di sperimentazione"
       },
       "labels-legend": {
-        "shared": "Partecipazioni chiuse",
+        "shared": "Partecipazioni chiuse ({count})",
         "started": "In corso ({count})"
       },
       "labels-tooltip": {
@@ -287,7 +287,7 @@
         "without-account": "Accesso senza account"
       },
       "subjects": "Argomenti : {value, number}",
-      "thematic-results": "badge"
+      "thematic-results": "Badge : {value, number}"
     },
     "validation": {
       "password": {
