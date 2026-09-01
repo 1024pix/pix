@@ -180,6 +180,8 @@ export default class CertificationVersionEditForm extends Component {
         <PixInput
           name="defaultProbabilityToPickChallenge"
           type="number"
+          min="0"
+          max="100"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
           @subLabel={{this.getInputSubLabel @activeVersion.defaultProbabilityToPickChallenge}}
@@ -202,8 +204,10 @@ export default class CertificationVersionEditForm extends Component {
           <PixInput
             name="variationPercent"
             type="number"
+            min="0"
+            max="1"
             required={{true}}
-            step="any"
+            step="0.01"
             @requiredLabel={{t "common.forms.mandatory"}}
             @subLabel={{this.getInputSubLabel @activeVersion.variationPercent}}
             @errorMessage={{t
@@ -244,6 +248,7 @@ export default class CertificationVersionEditForm extends Component {
           <PixInput
             name="maximumAssessmentLength"
             type="number"
+            min="0"
             required={{true}}
             @requiredLabel={{t "common.forms.mandatory"}}
             @subLabel={{this.getInputSubLabel @activeVersion.maximumAssessmentLength}}
@@ -265,6 +270,7 @@ export default class CertificationVersionEditForm extends Component {
           <PixInput
             name="minimumAnswersRequiredForValidation"
             type="number"
+            min="0"
             required={{true}}
             @requiredLabel={{t "common.forms.mandatory"}}
             @subLabel={{this.getInputSubLabel @activeVersion.minimumAnswersRequiredForValidation}}
@@ -287,6 +293,7 @@ export default class CertificationVersionEditForm extends Component {
         <PixInput
           name="challengesBetweenSameCompetence"
           type="number"
+          min="0"
           required={{true}}
           @requiredLabel={{t "common.forms.mandatory"}}
           @subLabel={{this.getInputSubLabel @activeVersion.challengesBetweenSameCompetence}}
