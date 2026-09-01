@@ -329,7 +329,7 @@
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Beaucoup de choses : la fabrication de ton ordinateur, la production de l’électricité pour le recharger, le stockage de tes emails, etc."
+                      "content": "Beaucoup de choses : la fabrication de ton ordinateur, la production de l’électricité pour le recharger, le stockage de tes mails, etc."
                     }
                   ],
                   "animationSpeed": 8
@@ -354,7 +354,7 @@
                 "tagName": "clickable-image",
                 "props": {
                   "image": {
-                    "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte2_img_clic.svg",
+                    "src": "https://assets.pix.org/modules/nr-evaluation-nov/nr_eval_nov_decouverte2_img_clic.webp",
                     "alt": "Parcours d’un smaprthone de sa fabrication à son utilisation",
                     "width": 1000,
                     "height": 800
@@ -364,8 +364,8 @@
                       "coords": {
                         "x1": 15,
                         "y1": 15,
-                        "x2": 115,
-                        "y2": 115
+                        "x2": 425,
+                        "y2": 375
                       },
                       "spot": {
                         "x": 0,
@@ -376,10 +376,10 @@
                     },
                     {
                       "coords": {
-                        "x1": 65,
-                        "y1": 150,
-                        "x2": 220,
-                        "y2": 230
+                        "x1": 565,
+                        "y1": 15,
+                        "x2": 970,
+                        "y2": 430
                       },
                       "spot": {
                         "x": 0,
@@ -390,10 +390,10 @@
                     },
                     {
                       "coords": {
-                        "x1": 170,
-                        "y1": 15,
-                        "x2": 280,
-                        "y2": 120
+                        "x1": 260,
+                        "y1": 470,
+                        "x2": 735,
+                        "y2": 770
                       },
                       "spot": {
                         "x": 0,
@@ -424,7 +424,7 @@
                   },
                   {
                     "id": "2",
-                    "content": "<p>le rechargement de la batterie</p>"
+                    "content": "<p>le chargement de la batterie</p>"
                   },
                   {
                     "id": "3",
@@ -438,7 +438,7 @@
                   },
                   "invalid": {
                     "state": "<p>Eh non !<br></p>",
-                    "diagnosis": "<p>Toutes les étapes de la vie de l’ordinateur de Benoît émettent des&nbsp;gaz à effet de serre.</p>"
+                    "diagnosis": "<p><strong>Toutes les étapes</strong> de la vie de l’ordinateur de Benoît émettent des&nbsp;gaz à effet de serre.</p>"
                   }
                 },
                 "solutions": [
