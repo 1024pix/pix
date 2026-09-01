@@ -34,8 +34,7 @@ async function _createScoCampaigns(databaseBuilder, trainingIds, participantCoun
       recommendedTrainingsIds: trainingIds,
     },
     recommendationEngine: true,
-    // trainingIds[9] is frFrTrainingId2 (DEVCOMP_BASE_TRAINING_ID + 9), built by buildTrainings.
-    highlightedTrainingIds: [trainingIds[9]],
+    highlightedTrainingIds: [trainingIds[0]],
   });
 }
 

@@ -5,71 +5,70 @@ export function buildTrainings(databaseBuilder) {
   let trainingId = DEVCOMP_BASE_TRAINING_ID;
   const frTrainingId1 = databaseBuilder.factory.buildTraining({
     id: trainingId++,
-    title: 'Apprendre à manger un croissant comme les français',
-    internalTitle: 'Apprendre à manger un croissant comme les français',
+    title: 'Apprendre à broder comme BenjiX',
+    internalTitle: 'Apprendre à broder comme BenjiX',
     duration: { days: 0, hours: 0, minutes: 0 },
-    locales: ['fr'],
-    objectives: ['Repérer si le croissant est de bonne qualité', 'Rechercher un croissant pour le manger'],
+    locales: ['fr', 'fr-fr'],
+    objectives: ['Repérer si l‘aiguille est de bonne qualité', 'Rechercher un canevas pour le broder'],
     description:
-      "Aujourd'hui, manger un croissant est tout un art en France. De nombreux touristes viennent en France et font le tour des meilleures boulangeries pour en manger, mais sans connaître les différentes manières de le savourer pleinement.",
+      "Qui ne rêve pas d'un magnifique Picsou brodé main comme décoration ? Aujourd'hui, vous pouvez devenir maître de votre fil !",
   }).id;
 
   _buildTargetProfileTrainingAndTrigger(databaseBuilder, frTrainingId1);
 
   const eLearningTraining = databaseBuilder.factory.buildTraining({
     id: trainingId++,
-    title: 'Apprendre à manger un croissant comme les français',
-    internalTitle: 'Apprendre à manger un croissant comme les français',
+    title: 'Apprendre à dessiner comme Andy',
+    internalTitle: 'Apprendre à dessiner comme Andy',
     duration: { days: 0, hours: 0, minutes: 0 },
-    locales: ['fr'],
+    locales: ['fr', 'fr-fr'],
     type: 'e-learning',
-    objectives: ['Repérer si le croissant est de bonne qualité', 'Rechercher un croissant pour le manger'],
+    objectives: ['Repérer si vous avez du bon papier', 'Dessiner votre voisin de bureau'],
     deliveryMode: Training.modes.REMOTE,
-    description:
-      "Aujourd'hui, manger un croissant est tout un art en France. De nombreux touristes viennent en France et font le tour des meilleures boulangeries pour en manger, mais sans connaître les différentes manières de le savourer pleinement.",
+    description: "Oubliez Mona Lisa, à vous de dessiner le prochain chef-d'oeuvre du louvre. Pour ça, suivez Andy ! ",
   }).id;
 
   _buildTargetProfileTrainingAndTrigger(databaseBuilder, eLearningTraining);
 
   const inPersonTraining = databaseBuilder.factory.buildTraining({
     id: trainingId++,
-    title: 'Apprendre à manger un croissant comme les français',
-    internalTitle: 'Apprendre à manger un croissant comme les français',
-    duration: { days: 0, hours: 0, minutes: 0 },
-    locales: ['fr'],
+    title: 'Apprendre à faire des puzzles',
+    internalTitle: 'Apprendre à faire des puzzles',
+    duration: { days: 0, hours: 10, minutes: 0 },
+    locales: ['fr', 'fr-fr'],
     type: 'in-person-training',
-    objectives: ['Repérer si le croissant est de bonne qualité', 'Rechercher un croissant pour le manger'],
+    objectives: ['Repérer les pièces de puzzle pertinentes', 'Choisir le bon podcast à mettre en fond'],
     deliveryMode: Training.modes.ONSITE,
     description:
-      "Aujourd'hui, manger un croissant est tout un art en France. De nombreux touristes viennent en France et font le tour des meilleures boulangeries pour en manger, mais sans connaître les différentes manières de le savourer pleinement.",
+      'Marre des écrans ? Choisissez le puzzle pour vous vider la tête et faire de nouveaux amis au travail !',
   }).id;
 
   _buildTargetProfileTrainingAndTrigger(databaseBuilder, inPersonTraining);
 
   const externalServiceTraining = databaseBuilder.factory.buildTraining({
     id: trainingId++,
-    title: 'Apprendre à manger un croissant comme les français',
-    internalTitle: 'Apprendre à manger un croissant comme les français',
+    title: 'Apprendre à courir avec Coach Eric',
+    internalTitle: 'Apprendre à courir avec Coach Eric',
     duration: { days: 0, hours: 0, minutes: 0 },
-    locales: ['fr'],
+    locales: ['fr', 'fr-fr'],
     type: 'external-service',
-    objectives: ['Repérer si le croissant est de bonne qualité', 'Rechercher un croissant pour le manger'],
+    objectives: ['Repérer si le terrain est de bonne qualité', 'Rechercher un bro pour s‘entraîner'],
     description:
-      "Aujourd'hui, manger un croissant est tout un art en France. De nombreux touristes viennent en France et font le tour des meilleures boulangeries pour en manger, mais sans connaître les différentes manières de le savourer pleinement.",
+      "Quoi de mieux que courir en pleine nature pour se reposer l'esprit ? Lacez vos chaussures et partez vers l'aventure !",
   }).id;
 
   _buildTargetProfileTrainingAndTrigger(databaseBuilder, externalServiceTraining);
 
   const autoformationTraining = databaseBuilder.factory.buildTraining({
     id: trainingId++,
-    title: 'Apprendre à manger un croissant comme les français',
-    internalTitle: 'Apprendre à manger un croissant comme les français',
-    duration: { days: 0, hours: 0, minutes: 0 },
-    locales: ['fr'],
-    objectives: ['Repérer si le croissant est de bonne qualité', 'Rechercher un croissant pour le manger'],
+    title: 'Apprendre à faire de l‘impro avec Dianonino',
+    internalTitle: 'Apprendre à faire de l‘impro avec Dianonino',
+    duration: { days: 3, hours: 0, minutes: 0 },
+    locales: ['fr', 'fr-fr'],
+    objectives: ['Repérer si le public est réceptif', 'Rechercher la réplique qui aidera votre partenaire'],
     type: 'autoformation',
     description:
-      "Aujourd'hui, manger un croissant est tout un art en France. De nombreux touristes viennent en France et font le tour des meilleures boulangeries pour en manger, mais sans connaître les différentes manières de le savourer pleinement.",
+      'Sortez de votre zone de confort et découvrez que votre imagination est bien plus riche que vous ne le pensez.',
   }).id;
 
   _buildTargetProfileTrainingAndTrigger(databaseBuilder, autoformationTraining);
@@ -79,7 +78,7 @@ export function buildTrainings(databaseBuilder) {
     title: 'Apprendre à manger un croissant comme les français',
     internalTitle: 'Apprendre à manger un croissant comme les français',
     duration: { days: 0, hours: 0, minutes: 0 },
-    locales: ['fr'],
+    locales: ['fr', 'fr-fr'],
     objectives: ['Repérer si le croissant est de bonne qualité', 'Rechercher un croissant pour le manger'],
     type: 'hybrid-training',
     description:
@@ -97,7 +96,7 @@ export function buildTrainings(databaseBuilder) {
     editorName: 'Pix',
     editorLogoUrl: 'https://assets.pix.org/contenu-formatif/editeur/pix-logo.svg',
     type: 'modulix',
-    locales: ['fr'],
+    locales: ['fr', 'fr-fr'],
     objectives: [
       'Comprendre que les conversations avec les IA génératives sont réutilisées',
       'Savoir rédiger un prompt qui n’inclut pas d’informations personnelles',
@@ -118,7 +117,7 @@ export function buildTrainings(databaseBuilder) {
     editorName: 'Pix',
     editorLogoUrl: 'https://assets.pix.org/contenu-formatif/editeur/pix-logo.svg',
     type: 'modulix',
-    locales: ['fr'],
+    locales: ['fr', 'fr-fr'],
     objectives: ['Connaître les principaux risques liés aux mots de passe', 'Savoir créer un mot de passe solide'],
     deliveryMode: Training.modes.ONSITE,
     description:
@@ -131,7 +130,7 @@ export function buildTrainings(databaseBuilder) {
     id: trainingId++,
     title: 'Apprendre à peindre comme Monet',
     internalTitle: 'Apprendre à peindre comme Monet',
-    locales: ['fr-fr'],
+    locales: ['fr', 'fr-fr'],
     objectives: ['Connaître Monet', 'Avoir les bases pour peindre'],
     deliveryMode: Training.modes.REMOTE,
     registrationRequired: true,
@@ -148,7 +147,7 @@ export function buildTrainings(databaseBuilder) {
     editorName: 'Pix',
     editorLogoUrl: 'https://assets.pix.org/contenu-formatif/editeur/pix-logo.svg',
     type: 'modulix',
-    locales: ['fr-fr'],
+    locales: ['fr', 'fr-fr'],
     objectives: [
       'Comprendre que les conversations avec les IA génératives sont réutilisées',
       'Savoir rédiger un prompt qui n’inclut pas d’informations personnelles',
