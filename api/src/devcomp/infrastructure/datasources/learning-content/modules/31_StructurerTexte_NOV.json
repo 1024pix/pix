@@ -216,7 +216,7 @@
                     "id": "4",
                     "content": "<p>Chrome</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non.Ici, il s’agit de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou des icônes qui font penser à l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
+                      "diagnosis": "<p>Eh non. Ici, il s’agit de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou des icônes qui font penser à l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
                     }
                   }
                 ],
@@ -609,33 +609,6 @@
                   ]
                 }
               ]
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "21191f50-a20c-4505-95d5-dd4004fdb110",
-                "type": "text",
-                "tag": "did-you-know",
-                "content": "<p>Si vous utilisez «&nbsp;Enregistrer sous&nbsp;» sur un document déjà enregistré, vous allez créer un deuxième document texte qui contient les modifications.</p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "0b92a9c9-e904-4a03-be3e-52e53f0a3ce5",
-                "type": "text",
-                "tag": "tip",
-                "content": "<p>Sur la plupart des logiciels de traitement de texte, lorsqu'un document n'a jamais été enregistré, si vous cliquez sur «&nbsp;Enregistrer&nbsp;» 💾 le logiciel vous proposera automatiquement d’«&nbsp;Enregistrer sous&nbsp;».</p>"
-              }
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "a103bb9b-7791-4bba-b581-bb1d2d47e83e",
-                "type": "text",
-                "tag": "further-information",
-                "content": "<p>Sur les services de traitement de texte en ligne, il n’y a pas forcément de bouton «&nbsp;Enregistrer&nbsp;» car toutes les modifications sont <strong>enregistrées automatiquement</strong>.</p>"
-              }
             }
           ]
         }
@@ -785,7 +758,7 @@
                 "isCompletionRequired": false,
                 "title": "Application - Paragraphe et enregistrer",
                 "url": "https://epreuves.pix.fr/pixwriter-poeme/pixwriter-poeme.html?lang=fr",
-                "instruction": "<p>Dans le logiciel de traitement de texte ci-dessous, séparez le texte en 2 paragraphes (parties)&nbsp;:</p><ul><li>Créez un paragraphe après le mot «&nbsp;attraper.&nbsp;».</li><li>Puis enregistrez les modifications.</li></ul>",
+                "instruction": "<p>[Simulateur non fonctionnel] Dans le logiciel de traitement de texte ci-dessous, séparez le texte en 2 paragraphes (parties)&nbsp;:</p><ul><li>Créez un paragraphe après le mot «&nbsp;attraper.&nbsp;».</li><li>Puis enregistrez les modifications.</li></ul>",
                 "solution": "",
                 "height": 400
               }
@@ -796,7 +769,7 @@
                 "id": "68b87411-8f39-45db-a079-b31dcd278995",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mon chat a disparu près de la mairie. Il est noir et blanc avec une tache rose sur le nez. Il est timide, donc ne tentez pas de l'attraper. Si vous le voyez, merci de m’appeler au 06 39 98 03 04.  Merci pour votre aide.  Dylan - Habitant de la Rue des Coquelicots.</p>"
+                "content": "<p>Texte prévu dans le simulateur : <i>Mon chat a disparu près de la mairie. Il est noir et blanc avec une tache rose sur le nez. Il est timide, donc ne tentez pas de l'attraper. Si vous le voyez, merci de m’appeler au 06 39 98 03 04.  Merci pour votre aide.  Dylan - Habitant de la Rue des Coquelicots.</i></p>"
               }
             }
           ]
