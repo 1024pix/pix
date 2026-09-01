@@ -129,7 +129,7 @@ module('Acceptance | Certification Framework | item | Framework | calibration', 
           minute: 'numeric',
           second: 'numeric',
         });
-        assert.dom(screen.getByText(`Rapport de la calibration d'ID 1 générée le ${displayedGeneratedAt}`)).exists();
+        assert.dom(screen.getByText(`Rapport de la calibration d'ID 1 généré le ${displayedGeneratedAt}`)).exists();
       });
 
       test('saves the calibrationId when the user validates the report', async function (assert) {
