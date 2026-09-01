@@ -22,7 +22,7 @@ describe('Unit | Application | Certification | ComplementaryCertification | atta
 
           sinon.stub(usecases, 'getComplementaryCertificationForTargetProfileAttachmentRepository');
           sinon.stub(usecases, 'attachBadges');
-          sinon.stub(usecases, 'sendTargetProfileNotifications');
+          sinon.stub(usecases, 'notifyTargetProfileDetachment');
           const complementaryCertificationBadgeSerializerStub = {
             deserialize: sinon.stub(),
           };
@@ -44,7 +44,7 @@ describe('Unit | Application | Certification | ComplementaryCertification | atta
           await attachTargetProfileController.attachTargetProfile(request, hFake, dependencies);
 
           // then
-          expect(usecases.sendTargetProfileNotifications).not.to.have.been.called;
+          expect(usecases.notifyTargetProfileDetachment).not.to.have.been.called;
         });
       });
 
@@ -61,7 +61,7 @@ describe('Unit | Application | Certification | ComplementaryCertification | atta
 
         sinon.stub(usecases, 'getComplementaryCertificationForTargetProfileAttachmentRepository');
         sinon.stub(usecases, 'attachBadges');
-        sinon.stub(usecases, 'sendTargetProfileNotifications');
+        sinon.stub(usecases, 'notifyTargetProfileDetachment');
         const complementaryCertificationBadgeSerializerStub = {
           deserialize: sinon.stub(),
         };
@@ -88,7 +88,7 @@ describe('Unit | Application | Certification | ComplementaryCertification | atta
           targetProfileIdToDetach: 1,
           complementaryCertificationBadgesToAttachDTO: complementaryCertificationBadges,
         });
-        expect(usecases.sendTargetProfileNotifications).to.have.been.calledWith({
+        expect(usecases.notifyTargetProfileDetachment).to.have.been.calledWith({
           targetProfileIdToDetach: 1,
           complementaryCertification,
         });

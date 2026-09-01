@@ -18,7 +18,7 @@ async function attachTargetProfile(request, h, dependencies = { complementaryCer
   });
 
   if (!!targetProfileId && notifyOrganizations) {
-    await usecases.sendTargetProfileNotifications({
+    await usecases.notifyTargetProfileDetachment({
       targetProfileIdToDetach: targetProfileId,
       complementaryCertification,
     });

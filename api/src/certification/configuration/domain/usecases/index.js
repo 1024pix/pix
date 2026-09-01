@@ -1,4 +1,5 @@
 import * as mailService from '../../../../../src/certification/shared/domain/services/mail-service.js';
+import * as eventJobPublisherService from '../../../../shared/infrastructure/events/event-job-publisher-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -28,6 +29,7 @@ import { getInfo } from './get-info.js';
 import { getScoBlockedAccessDates } from './get-sco-blocked-access-dates.js';
 import { getVersionById } from './get-version-by-id.js';
 import { importScoWhitelist } from './import-sco-whitelist.js';
+import { notifyTargetProfileDetachment } from './notify-target-profile-detachment.js';
 import { searchAttachableTargetProfiles } from './search-attachable-target-profiles.js';
 import { sendTargetProfileNotifications } from './send-target-profile-notifications.js';
 import { updateScoBlockedAccessDate } from './update-sco-blocked-access-date.js';
@@ -61,6 +63,7 @@ const dependencies = {
   complementaryCertificationBadgesRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationRepository,
+  eventJobPublisherService,
   mailService,
   organizationRepository,
   targetProfileHistoryRepository,
@@ -83,6 +86,7 @@ const usecasesWithoutInjectedDependencies = {
   getScoBlockedAccessDates,
   getVersionById,
   importScoWhitelist,
+  notifyTargetProfileDetachment,
   searchAttachableTargetProfiles,
   sendTargetProfileNotifications,
   updateScoBlockedAccessDate,
