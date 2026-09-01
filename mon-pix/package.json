@@ -117,7 +117,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.18.1",
     "miragejs": "^0.1.48",
-    "npm-run-all2": "^9.0.0",
+    "npm-run-all2": "^9.0.3",
     "p-queue": "^9.3.0",
     "prettier": "^3.8.3",
     "prettier-plugin-ember-template-tag": "^2.1.6",
