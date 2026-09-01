@@ -46,9 +46,7 @@ export default class ScoringController extends Controller {
       await this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
     } catch {
       this.pixToast.sendErrorNotification({
-        message: this.intl.t(
-          'components.certification-frameworks.certification-framework.versions.scoring.save-error',
-        ),
+        message: this.intl.t('components.certification-frameworks.certification-framework.versions.scoring.save-error'),
       });
     }
   }
@@ -60,9 +58,7 @@ export default class ScoringController extends Controller {
       await this.versionController.activateVersion(this.model.editVersion);
     } catch {
       this.pixToast.sendErrorNotification({
-        message: this.intl.t(
-          'components.certification-frameworks.certification-framework.versions.scoring.save-error',
-        ),
+        message: this.intl.t('components.certification-frameworks.certification-framework.versions.scoring.save-error'),
       });
     }
   }

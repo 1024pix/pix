@@ -1,5 +1,4 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn } from '@ember/helper';

@@ -34,7 +34,10 @@ module(
           competencesScoringConfiguration: null,
           save: sinon.stub().resolves(),
         };
-        const calibrationScoringConfiguration = { globalScoringConfiguration: calibrationConfig, competencesScoringConfiguration: [] };
+        const calibrationScoringConfiguration = {
+          globalScoringConfiguration: calibrationConfig,
+          competencesScoringConfiguration: [],
+        };
 
         await controller.saveScoring(version, calibrationScoringConfiguration);
 

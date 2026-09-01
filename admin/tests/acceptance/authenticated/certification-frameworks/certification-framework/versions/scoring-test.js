@@ -219,9 +219,7 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
         assert
           .dom(
             screen.queryByText(
-              t(
-                'components.certification-frameworks.certification-framework.versions.activate-version.button-label',
-              ),
+              t('components.certification-frameworks.certification-framework.versions.activate-version.button-label'),
             ),
           )
           .doesNotExist();

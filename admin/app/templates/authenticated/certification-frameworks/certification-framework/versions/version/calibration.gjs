@@ -36,15 +36,15 @@ import CertificationVersionCalibrationReport from 'pix-admin/components/certific
   {{#if @controller.isConfirmationModalOpen}}
     <PixModal
       @title={{t
-      "components.certification-frameworks.certification-framework.versions.activate-version.confirmation-modal.title"
-    }}
+        "components.certification-frameworks.certification-framework.versions.activate-version.confirmation-modal.title"
+      }}
       @showModal={{@controller.isConfirmationModalOpen}}
       @onCloseButtonClick={{@controller.toggleConfirmationModal}}
     >
       <:content>
         <p>{{t
-          "components.certification-frameworks.certification-framework.versions.activate-version.confirmation-modal.content"
-        }}</p>
+            "components.certification-frameworks.certification-framework.versions.activate-version.confirmation-modal.content"
+          }}</p>
       </:content>
       <:footer>
         <PixButton @triggerAction={{@controller.toggleConfirmationModal}} @size="small" @variant="secondary">

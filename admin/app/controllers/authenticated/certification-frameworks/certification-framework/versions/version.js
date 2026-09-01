@@ -13,8 +13,7 @@ export default class VersionController extends Controller {
     version.globalScoringConfiguration = version.globalScoringConfiguration?.length
       ? [...version.globalScoringConfiguration]
       : (calibrationScoringConfiguration?.globalScoringConfiguration ?? []);
-    version.competencesScoringConfiguration =
-      calibrationScoringConfiguration?.competencesScoringConfiguration ?? [];
+    version.competencesScoringConfiguration = calibrationScoringConfiguration?.competencesScoringConfiguration ?? [];
     await version.save({ adapterOptions: { saveScoring: true } });
   }
 
