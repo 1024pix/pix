@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { checkJobGroups, JobController, JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-import { JobExpireIn } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { JobExpireIn } from '../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { catchErr, catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Shared | Application | Jobs | JobController', function () {

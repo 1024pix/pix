@@ -7,8 +7,8 @@ import { AuditLoggingJobController } from '../../../../../src/shared/application
 import { JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
 import { config } from '../../../../../src/shared/config.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
+import { JobExpireIn } from '../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
-import { JobExpireIn } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 
 class FakePgBoss {
   start() {
@@ -42,7 +42,7 @@ class FakePgBoss {
     return;
   }
   getQueueStats() {
-    return {queuedCount: 0};
+    return { queuedCount: 0 };
   }
   getDb() {
     return {

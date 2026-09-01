@@ -5,7 +5,7 @@ import { AnonymizeUserEvent } from '../../../../../src/privacy/domain/events/Ano
 import { anonymizeUserByAdmin } from '../../../../../src/privacy/domain/usecases/anonymize-user-by-admin.usecase.js';
 
 describe('Unit | Privacy | Domain | usecases | anonymize user by admin', function () {
-  let adminMemberRepository, eventJobPublisherService, auditLoggingJobRepository ;
+  let adminMemberRepository, eventJobPublisherService, auditLoggingJobRepository;
   beforeEach(function () {
     adminMemberRepository = {
       get: sinon.stub(),
@@ -18,7 +18,6 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
     auditLoggingJobRepository = {
       performAsync: sinon.stub(),
     };
-
   });
 
   it('should publish an event', async function () {

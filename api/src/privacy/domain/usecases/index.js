@@ -1,5 +1,5 @@
 import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import * as eventJobPublisherService from '../../../shared/infrastructure/events/event-job-publisher-service.js';
+import * as eventJobPublisherService from '../../../shared/infrastructure/jobs/event-job-publisher-service.js';
 import { auditLoggingJobRepository } from '../../../shared/infrastructure/repositories/jobs/audit-logging-job.repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as emailRepository from '../../../shared/mail/infrastructure/repositories/email.repository.js';

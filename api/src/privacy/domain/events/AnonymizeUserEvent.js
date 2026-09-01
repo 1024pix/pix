@@ -18,8 +18,4 @@ export class AnonymizeUserEvent {
       updatedByUserId: this.updatedByUserId,
     };
   }
-
-  get options() {
-    return {};
-  }
 }
