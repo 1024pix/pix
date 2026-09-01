@@ -33,7 +33,7 @@
                 "id": "6c5b5ecb-4341-49cc-bc46-dfb698a8720c",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Marie-Claude souhaite prendre rendez-vous chez un spécialiste. Elle téléphone au cabinet médical. </p>\n<p>Écoutez le message que reçoit Marie-Claude sur le répondeur du cabinet médical.</p>"
+                "content": "<p>Marie-Claude souhaite prendre rendez-vous chez un spécialiste. Elle téléphone au cabinet médical. </p><p>Écoutez le message que reçoit Marie-Claude sur le répondeur du cabinet médical.</p>"
               }
             },
             {
@@ -52,7 +52,7 @@
                 "id": "9d764cb4-4632-4195-b185-bebb7bf5744a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Marie-Claude ouvre le site MonDocteur et clique sur «&nbsp;Prendre rendez-vous&nbsp;».</p>\n<p>La page suivante s’affiche&nbsp;:</p>"
+                "content": "<p>Marie-Claude ouvre le site MonDocteur et clique sur «&nbsp;Prendre rendez-vous&nbsp;».</p><p>La page suivante s’affiche&nbsp;:</p>"
               }
             },
             {
@@ -235,7 +235,7 @@
           "components": [
             {
               "type": "stepper",
-              "instruction": "<p><br></p>",
+              "instruction": "",
               "steps": [
                 {
                   "elements": [
@@ -243,7 +243,7 @@
                       "id": "2b5f6288-d8bf-45d2-999e-213c870b3aad",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Pour utiliser des outils et services numériques, il faut avoir&nbsp;:</p>\n<ul>\n    <li>un<strong> appareil numérique</strong> (ordinateur, smartphone ou tablette) <strong>adapté à ses besoins et en bon état</strong>,</li>\n    <li>une <strong>connexion internet</strong> (wifi, abonnement mobile 4G/5G) suffisante.</li>\n</ul>"
+                      "content": "<p>Pour utiliser des outils et services numériques, il faut avoir&nbsp;:</p><ul>    <li>un<strong> appareil numérique</strong> (ordinateur, smartphone ou tablette) <strong>adapté à ses besoins et en bon état</strong>,</li>    <li>une <strong>connexion internet</strong> (wifi, abonnement mobile 4G/5G) suffisante.</li></ul>"
                     }
                   ]
                 },
@@ -344,7 +344,7 @@
                 "id": "a637c0d7-717a-4511-bf84-fe3c74ed7178",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Les usages numériques demandent <strong>plusieurs compétences</strong>. Ces compétences ne sont pas toujours apprises à l’école, au travail ou dans la vie quotidienne.</p>\n<p><br></p>\n<p>De plus, les outils et les services numériques <strong>évoluent rapidement</strong>. Apprendre à se servir du numérique, ce n’est donc pas seulement mémoriser comment fonctionne chaque outil ou service. C’est surtout <strong>être capable de se repérer et de s’adapter</strong> aux évolutions et aux changements des outils numériques et de leurs usages.</p>"
+                "content": "<p>Les usages numériques demandent <strong>plusieurs compétences</strong>. Ces compétences ne sont pas toujours apprises à l’école, au travail ou dans la vie quotidienne.</p><p>De plus, les outils et les services numériques <strong>évoluent rapidement</strong>. Apprendre à se servir du numérique, ce n’est donc pas seulement mémoriser comment fonctionne chaque outil ou service. C’est surtout <strong>être capable de se repérer et de s’adapter</strong> aux évolutions et aux changements des outils numériques et de leurs usages.</p>"
               }
             },
             {
@@ -392,16 +392,16 @@
                   "type": "image-text",
                   "slides": [
                     {
-                      "title": "Situation 1 : Brahim",
+                      "title": "Situation 1 : Brahim",
                       "description": "",
-                      "text": "Brahim souhaite acheter des billets de train sur internet.<br>Au moment de payer, il abandonne : il a peur que quelqu’un vole les informations de sa carte bancaire. ",
+                      "text": "Brahim souhaite acheter des billets de train sur internet.<br>Au moment de payer, il abandonne : il a peur que quelqu’un vole les informations de sa carte bancaire. ",
                       "image": {
                         "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/decouverte1_situation1.png",
                         "alt": ""
                       }
                     },
                     {
-                      "title": "Situation 2 : Diego",
+                      "title": "Situation 2 : Diego",
                       "description": "",
                       "text": "Diego souhaite acheter un nouvel ordinateur.<br>Il compare plusieurs modèles, mais il ne comprend pas leurs différences. Il ne sait pas lequel choisir et se sent perdu.",
                       "image": {
@@ -410,16 +410,16 @@
                       }
                     },
                     {
-                      "title": "Situation 3 : Martine",
+                      "title": "Situation 3 : Martine",
                       "description": "",
-                      "text": "Martine a oublié le mot de passe de son compte.<br>Elle ne sait pas comment récupérer l'accès à son compte. ",
+                      "text": "Martine a oublié le mot de passe de son compte.<br>Elle ne sait pas comment récupérer l’accès à son compte. ",
                       "image": {
                         "src": "https://assets.pix.org/draft/modules/NR_Ecrans&Sante_IND/decouverte1_situation3.png",
                         "alt": ""
                       }
                     },
                     {
-                      "title": "Situation 4 : Guy-Claude",
+                      "title": "Situation 4 : Guy-Claude",
                       "description": "",
                       "text": "Guy-Claude n’a pas d’ordinateur ni de smartphone.<br>Quand il doit faire une démarche en ligne, il demande de l’aide à un ami car il ne sait pas comment faire.",
                       "image": {
@@ -649,7 +649,7 @@
                       "id": "1b2f064d-6d7f-4615-bbe4-336e9e78e39e",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Mélissa se rend sur le site web habituel de l’assurance maladie.</p><p>Mélissa est perdue : elle ne retrouve plus le bouton permettant d’accéder à son compte.</p>"
+                      "content": "<p>Mélissa se rend sur le site web habituel de l’assurance maladie.</p><p>Mélissa est perdue&nbsp;: elle ne retrouve plus le bouton permettant d’accéder à son compte.</p>"
                     },
                     {
                       "id": "82b82870-5f03-4956-9ac6-1040be788e9d",
@@ -701,7 +701,7 @@
                       "id": "d150a6c6-90bf-4802-beb0-eb4a7b196932",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Mélissa est sur la page de connexion à son espace personnel. Elle entre son identifiant et son mot de passe comme d’habitude. Mais au moment de valider... impossible de finaliser la connexion !</p>\n<p>Mélissa est bloquée. Un message apparaît à l’écran.</p>"
+                      "content": "<p>Mélissa est sur la page de connexion à son espace personnel. Elle entre son identifiant et son mot de passe comme d’habitude. Mais au moment de valider... impossible de finaliser la connexion !</p><p>Mélissa est bloquée. Un message apparaît à l’écran.</p>"
                     },
                     {
                       "id": "24638be4-ba35-40f5-9f49-48ad10e06a58",
@@ -720,7 +720,7 @@
                       "proposals": [
                         {
                           "id": "1",
-                          "content": "<p>Le site web de l’assurance maladie est victime d'un bug informatique.</p>",
+                          "content": "<p>Le site web de l’assurance maladie est victime d’un bug informatique.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.</p>",
                             "diagnosis": "<p>Il ne s’agit pas d’un bug informatique. Le site web applique simplement une mesure de sécurité renforcée en envoyant un code de vérification par SMS.</p>"
@@ -811,7 +811,7 @@
                 "id": "18ff4668-f68e-41e3-bf76-5f952021b550",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Votre voisin a des difficultés avec le numérique : il ne sait pas comment faire pour consulter ses résultats d’analyse médicale en ligne. Il vous demande de l’aide.</p>"
+                "content": "<p>Votre voisin a des difficultés avec le numérique&nbsp;: il ne sait pas comment faire pour consulter ses résultats d’analyse médicale en ligne. Il vous demande de l’aide.</p>"
               }
             },
             {
@@ -826,7 +826,7 @@
                     "id": "1",
                     "content": "<p>Je prends du temps pour lui montrer comment réaliser lui-même certaines démarches.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Excellente idée&nbsp;! C’est une manière d’aider votre voisin à <strong>gagner en autonomie</strong>. Vous pouvez aussi l'orienter vers une <strong>structure d'accompagnement</strong>.</p>"
+                      "diagnosis": "<p>Excellente idée&nbsp;! C’est une manière d’aider votre voisin à <strong>gagner en autonomie</strong>. Vous pouvez aussi l’orienter vers une <strong>structure d’accompagnement</strong>.</p>"
                     }
                   },
                   {
@@ -840,7 +840,7 @@
                     "id": "3",
                     "content": "<p>Je fais les démarches à sa place.</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est une possibilité. Cependant, il est préférable de montrer à votre voisin comment réaliser lui-même la démarche pour l’aider à <strong>gagner en autonomie</strong>. Vous pouvez aussi l'orienter vers une <strong>structure d'accompagnement</strong>.</p>"
+                      "diagnosis": "<p>C’est une possibilité. Cependant, il est préférable de montrer à votre voisin comment réaliser lui-même la démarche pour l’aider à <strong>gagner en autonomie</strong>. Vous pouvez aussi l’orienter vers une <strong>structure d’accompagnement</strong>.</p>"
                     }
                   }
                 ]
