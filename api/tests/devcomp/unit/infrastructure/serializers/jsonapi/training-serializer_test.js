@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { Training } from '../../../../../../src/devcomp/domain/models/Training.js';
+import { UserRecommendedTraining } from '../../../../../../src/devcomp/domain/read-models/UserRecommendedTraining.js';
 import { trainingSerializer } from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -438,6 +439,33 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
 
       // then
       expect(json).to.deep.equal(expectedSerializedTraining);
+    });
+
+    it('should serialize the isHighlighted attribute', function () {
+      // given
+      const training = new UserRecommendedTraining({
+        id: 1,
+        title: 'Training 1',
+        link: 'https://example.net',
+        type: 'webinar',
+        duration: { hours: 5 },
+        locales: ['fr-fr'],
+        editorName: 'Ministère education nationale',
+        editorLogoUrl: 'https://assets.pix.org/contenu-formatif/editeur/editor_logo_url.svg',
+        deliveryMode: Training.modes.REMOTE,
+        registrationRequired: false,
+        program: 'training program',
+        objectives: ['objective 1'],
+        description: 'description',
+        isRelevant: true,
+        isHighlighted: true,
+      });
+
+      // when
+      const json = trainingSerializer.serialize(training);
+
+      // then
+      expect(json.data.attributes['is-highlighted']).to.equal(true);
     });
   });
 
