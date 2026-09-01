@@ -1895,7 +1895,12 @@
             "ariaLabelSortUp": "De tabel is gesorteerd op naame, in alfabetisch volgorde. Klik op om in omgekeerde alfabetische volgorde te sorteren.",
             "label": "Achternaam"
           },
-          "last-participation-date": "Laatste deelname",
+          "last-participation-date": {
+            "ariaLabelDefaultSort": "De tabel is momenteel niet gesorteerd op datum van deelname. Klik om in oplopende volgorde te sorteren.",
+            "ariaLabelSortDown": "De tabel is gesorteerd op aflopende datum van deelname. Klik om in oplopende volgorde te sorteren.",
+            "ariaLabelSortUp": "De tabel is gesorteerd op datum van deelname in oplopende volgorde. Klik om aflopend te sorteren.",
+            "label": "Laatste deelname"
+          },
           "login-method": "Inlogmethode(n)",
           "mainCheckbox": "Hele kolom selecteren/deselecteren",
           "participation-count": {

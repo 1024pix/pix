@@ -20,6 +20,7 @@ export default class ListController extends Controller {
   @tracked pageNumber = null;
   @tracked pageSize = 50;
   @tracked participationCountOrder = null;
+  @tracked latestParticipationSort = null;
   @tracked lastnameSort = 'asc';
   @tracked divisionSort = null;
 
@@ -40,6 +41,7 @@ export default class ListController extends Controller {
     this.divisionSort = null;
     this.pageNumber = null;
     this.lastnameSort = null;
+    this.latestParticipationSort = null;
   }
 
   @action
@@ -50,6 +52,7 @@ export default class ListController extends Controller {
     this.divisionSort = null;
     this.participationCountOrder = null;
     this.pageNumber = null;
+    this.latestParticipationSort = null;
   }
 
   @action
@@ -57,6 +60,18 @@ export default class ListController extends Controller {
     if (!this.divisionSort) this.divisionSort = 'asc';
     else this.divisionSort = this.divisionSort === 'asc' ? 'desc' : 'asc';
 
+    this.participationCountOrder = null;
+    this.lastnameSort = null;
+    this.pageNumber = null;
+    this.latestParticipationSort = null;
+  }
+
+  @action
+  sortByLatestParticipation() {
+    if (!this.latestParticipationSort) this.latestParticipationSort = 'asc';
+    else this.latestParticipationSort = this.latestParticipationSort === 'asc' ? 'desc' : 'asc';
+
+    this.divisionSort = null;
     this.participationCountOrder = null;
     this.lastnameSort = null;
     this.pageNumber = null;

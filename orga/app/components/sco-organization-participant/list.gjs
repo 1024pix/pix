@@ -224,6 +224,8 @@ export default class ScoList extends Component {
               @onSortByLastname={{@sortByLastname}}
               @participationCountOrder={{@participationCountOrder}}
               @onSortByParticipationCount={{@sortByParticipationCount}}
+              @latestParticipationSort={{@latestParticipationSort}}
+              @onSortByLatestParticipation={{@sortByLatestParticipation}}
               @divisionSort={{@divisionSort}}
               @onSortByDivision={{@sortByDivision}}
               @allSelected={{allSelected}}

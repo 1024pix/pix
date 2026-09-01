@@ -104,8 +104,19 @@ import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip'
     <:header>{{t "pages.sco-organization-participants.table.column.participation-count.label"}}</:header>
     <:cell>{{@student.participationCount}}</:cell>
   </PixTableColumn>
-  <PixTableColumn @context={{@context}}>
-    <:header>{{t "pages.sco-organization-participants.table.column.last-participation-date"}}</:header>
+  <PixTableColumn
+    @context={{@context}}
+    @onSort={{@onSortByLatestParticipation}}
+    @sortOrder={{@latestParticipationSnpmort}}
+    @ariaLabelDefaultSort={{t
+      "pages.sco-organization-participants.table.column.last-participation-date.ariaLabelDefaultSort"
+    }}
+    @ariaLabelSortAsc={{t "pages.sco-organization-participants.table.column.last-participation-date.ariaLabelSortUp"}}
+    @ariaLabelSortDesc={{t
+      "pages.sco-organization-participants.table.column.last-participation-date.ariaLabelSortDown"
+    }}
+  >
+    <:header>{{t "pages.sco-organization-participants.table.column.last-participation-date.label"}}</:header>
     <:cell>{{#if @student.lastParticipationDate}}
         <div class="organization-participant__align-element">
           <span>{{formatDate @student.lastParticipationDate format="L"}}</span>
