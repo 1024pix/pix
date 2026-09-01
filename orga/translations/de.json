@@ -2151,10 +2151,10 @@
         "warning": "Die von dir hinzugefügten Mitglieder erhalten Zugriff auf die Ergebnisse der Teilnehmer:innen und die Kampagnenanalysen."
       },
       "invited-members": "Nach Erhalt der E-Mail können die Eingeladenen ein neues Pix-Konto erstellen oder sich mit einem bestehenden Pix-Konto anmelden.",
-      "several-email-requirement": "Sie können mehrere Mitglieder einladen, indem Sie die E-Mail-Adressen durch Kommas trennen.",
+      "several-email-requirement": "Du kannst mehrere Mitglieder einladen, indem du die E-Mail-Adressen durch Kommas trennst.",
       "success": {
-        "invitation": "Du kannst mehrere Mitglieder einladen, indem du die E-Mail-Adressen durch Kommas trennst.",
-        "multiple-invitations": "Eine Einladung wurde erfolgreich an die E-Mail-Adresse {email} gesendet."
+        "invitation": "Eine Einladung wurde erfolgreich an die E-Mail-Adresse {email} gesendet.",
+        "multiple-invitations": "Eine Einladung wurde erfolgreich an die E-Mail-Adressen gesendet."
       },
       "title": "Ein Mitglied einladen",
       "warning": "Die unten von dir hinzugefügten Mitglieder erhalten Zugriff auf die Ergebnisse der Teilnehmer:innen und die Kampagnenanalysen. Bitte stelle sicher, dass die eingeladenen Personen Mitglieder deiner Organisation sind."
