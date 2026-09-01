@@ -1083,12 +1083,12 @@
                 "id": "52f3e50d-8fa0-4d7c-bde8-fb9af9e6016e",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le site <a href=\"https://arene.comparia.beta.gouv.fr/?vs=qwen-3-8-27b,gemma-4-31b-it\" target=\"_blank\">compar:IA</a> permet de comparer les réponses de deux logiciels d’intelligence artificielle.</p><p>Ouvrez le lien&nbsp;: les deux IA et la question sont déjà sélectionnées. Lancez la comparaison, puis lisez attentivement leurs réponses.</p><blockquote>«&nbsp;Que s’est-il passé le 4 juin 1989&nbsp;?&nbsp;»</blockquote><p>Même lorsqu’elles répondent à la même question, les IA ne présentent pas toujours les informations de la même manière.</p>"
+                "content": "<p>Le site <a href=\"https://arene.comparia.beta.gouv.fr/?vs=qwen-3-8-27b,gemma-4-31b-it\" target=\"_blank\">compar:IA</a> permet de comparer les réponses de deux logiciels d’intelligence artificielle.</p><p>Ouvrez le lien&nbsp;: les deux IA sont déjà sélectionnées. Lancez la comparaison, puis lisez attentivement leurs réponses.</p><blockquote>«&nbsp;Que s’est-il passé le 4 juin 1989&nbsp;?&nbsp;»</blockquote><p>Cliquez sur «&nbsp; Terminer et découvrir les modèles&nbsp;» dans compar:IA pour voir quel logiciel d’IA générative vous a donné quelle réponse, puis répondez aux questions suivantes.</p>"
               }
             },
             {
               "type": "stepper",
-              "instruction": "<p>Cliquez sur «&nbsp; Terminer et découvrir les modèles&nbsp;» dans compar:IA pour voir quel logiciel d’IA générative vous a donné quelle réponse, puis répondez aux questions suivantes.</p>",
+              "instruction": "",
               "steps": [
                 {
                   "elements": [
@@ -1148,7 +1148,7 @@
                           "content": "<p>Gemma, une IA américaine</p>",
                           "feedback": {
                             "state": "Et non.",
-                            "diagnosis": "Regardez à nouveau laquelle des deux IA évite cette information."
+                            "diagnosis": "Regardez à nouveau laquelle des deux IA évite cette information. Pensez bien à révéler les modèles dans compar:IA pour voir quel logiciel d'IA vous a donné quelle réponse."
                           }
                         },
                         {
