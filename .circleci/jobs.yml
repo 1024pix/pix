@@ -250,6 +250,10 @@ commands:
           name: Lint translations
           command: npm run lint:translations
           when: always
+      - run:
+          name: Lint types
+          command: npm run lint:types --if-present
+          when: always
 
   frontend_test:
     parameters:

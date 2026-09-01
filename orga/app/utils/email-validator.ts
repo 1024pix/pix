@@ -1,4 +1,4 @@
-export default function isEmailValid(email) {
+export default function isEmailValid(email: string | null | undefined): boolean {
   if (!email) {
     return false;
   }

@@ -2,12 +2,14 @@ import pixRecommendedConfig from '@1024pix/eslint-plugin/config';
 import babelParser from '@babel/eslint-parser';
 import emberRecommendedConfig from 'eslint-plugin-ember/configs/recommended';
 import emberGjsRecommendedConfig from 'eslint-plugin-ember/configs/recommended-gjs';
+import emberGtsRecommendedConfig from 'eslint-plugin-ember/configs/recommended-gts';
 import { parser as emberParser } from 'eslint-plugin-ember/recommended';
 import i18nJsonPlugin from 'eslint-plugin-i18n-json';
 import nRecommendedConfig from 'eslint-plugin-n';
 import prettierRecommendedConfig from 'eslint-plugin-prettier/recommended';
 import qunitRecommendedConfig from 'eslint-plugin-qunit/configs/recommended';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 const unconventionalJsFiles = ['blueprints/**/files/*', 'app/vendor/*'];
 const compiledOutputFiles = ['dist/*', 'tmp/*'];
@@ -30,6 +32,9 @@ export default [
   ...pixRecommendedConfig,
   ...emberRecommendedConfig,
   ...emberGjsRecommendedConfig,
+  // recommended-gts ships its rules unscoped; keep its TS-specific tweaks
+  // (prefer-rest-params, no-undef off, …) away from .js/.gjs files
+  ...emberGtsRecommendedConfig.map((config) => ({ ...config, files: ['**/*.ts', '**/*.gts'] })),
   qunitRecommendedConfig,
   prettierRecommendedConfig,
   {
@@ -65,8 +70,28 @@ export default [
       sourceType: 'module',
     },
   },
+  ...tseslint.configs.recommendedTypeChecked.map((config) => ({
+    ...config,
+    files: ['**/*.ts', '**/*.gts'],
+  })),
   {
-    files: ['tests/**/*.js', 'tests/**/*.gjs'],
+    // Re-applied with .gts included, see https://github.com/ember-cli/ember-addon-blueprint/issues/119
+    ...tseslint.configs.eslintRecommended,
+    files: ['**/*.ts', '**/*.gts'],
+  },
+  {
+    files: ['**/*.ts', '**/*.gts'],
+    languageOptions: {
+      parser: emberParser,
+      sourceType: 'module',
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
+    files: ['tests/**/*.js', 'tests/**/*.gjs', 'tests/**/*.ts', 'tests/**/*.gts'],
 
     languageOptions: {
       globals: {
@@ -97,7 +122,7 @@ export default [
     },
   },
   {
-    files: ['tests/**/*.js', 'tests/**/*.gjs'],
+    files: ['tests/**/*.js', 'tests/**/*.gjs', 'tests/**/*.ts', 'tests/**/*.gts'],
 
     languageOptions: {
       globals: {
