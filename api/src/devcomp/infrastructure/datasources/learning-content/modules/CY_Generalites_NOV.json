@@ -830,7 +830,7 @@
                           "content": "<p>Faire de l’espionnage industriel.</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !&nbsp;🎉</p>",
-                            "diagnosis": "<p>Le vol d’informations confidentielles peut servir à espionner une entreprise, une administration ou un État.</p>"
+                            "diagnosis": "<p>Le vol d’informations confidentielles peut servir à espionner une entreprise, un service public ou un État.</p>"
                           }
                         }
                       ],
