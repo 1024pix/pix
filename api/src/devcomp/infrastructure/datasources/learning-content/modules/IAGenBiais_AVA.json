@@ -1169,7 +1169,7 @@
                     {
                       "id": "1e271e52-d75e-4d68-8fa7-de2af127f576",
                       "type": "qcu",
-                      "instruction": "<p>Pourquoi deux IA peuvent-elles répondre très différemment à une même question ?</p>",
+                      "instruction": "<p>Pourquoi ces deux IA ont répondu si différemment à cette question ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -1190,10 +1190,10 @@
                         },
                         {
                           "id": "3",
-                          "content": "<p>Parce que les deux IA n’ont pas compris la question de la même manière.</p>",
+                          "content": "<p>Parce que deux IA différentes donnent toujours des réponses différentes à une même question.</p>",
                           "feedback": {
                             "state": "Et non.",
-                            "diagnosis": "Ici, la différence vient surtout de la manière dont leur comportement est encadré."
+                            "diagnosis": "Sur des faits bien établis, plusieurs IA peuvent fournir des réponses similaires. Les écarts apparaissent surtout quand leurs règles et choix d’alignement diffèrent."
                           }
                         }
                       ],
