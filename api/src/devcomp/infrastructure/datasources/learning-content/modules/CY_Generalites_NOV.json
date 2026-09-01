@@ -7,13 +7,13 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Les actualités parlent souvent d’entreprises victimes de cyberattaques. Mais qu’est-ce que ça veut dire ?<br>Dans ce module, vous allez découvrir ce qu’est une cyberattaque, ce que cherchent les auteurs de cyberattaque et qui peut être visé. <br><br></p>",
+    "description": "<p>Les actualités parlent souvent d’entreprises victimes de cyberattaques. Mais qu’est-ce que ça veut dire ?<br>Dans ce module, vous allez découvrir ce qu’est une cyberattaque ou un piratage informatique, ce que cherchent les auteurs de cyberattaque et qui peut être visé. <br><br></p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
       "<p>Identifier les principales motivations des auteurs de cyberattaque</p>",
       "<p>Savoir qui peut être victime d’une cyberattaque</p>",
-      "<p>Comprendre que des auteurs de cyberattaque peuvent agir en groupes</p>"
+      "<p>Connaître les conséquences possibles d’une cyberattaque</p>"
     ],
     "tabletSupport": "comfortable"
   },
@@ -58,13 +58,13 @@
                       "userName": "Tobias",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Une cyberattaque ? C’est quoi ?  Quelqu’un a fait exploser les ordinateurs de la mairie ?"
+                      "content": "Une cyberattaque ? C’est quoi ?"
                     },
                     {
                       "userName": "Susana",
                       "direction": "incoming",
                       "type": "Texte",
-                      "content": "Mais non, personne n’a détruit de matériel. Ça veut dire que des pirates informatiques ont réussi à entrer dans les ordinateurs de la ville."
+                      "content": "Ça veut dire que des pirates informatiques ont réussi à infiltrer les ordinateurs de la ville."
                     },
                     {
                       "userName": "Tobias",
@@ -96,7 +96,7 @@
                 "id": "ee73c45d-aff9-48a1-80bc-9deecc2ec112",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Alors, que veulent vraiment les pirates informatiques ? Et qui sont les victimes des cyberattaques ?</p>"
+                "content": "<p>Mais pourquoi les pirates informatiques lancent des cyberattaques ? Et qui sont les victimes des cyberattaques ?</p>"
               }
             }
           ]
@@ -127,7 +127,7 @@
                     {
                       "id": "f4b56353-d009-48a3-a178-510868f9a2fa",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Qui est la victime de cette cyberattaque ?</p>",
+                      "instruction": "<p>Qui est la victime visée par&nbsp;cette cyberattaque ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -157,38 +157,38 @@
                   ]
                 },
                 {
-                  "elements": [                    
+                  "elements": [
                     {
                       "id": "d1f31716-8453-40aa-96d2-54cb86102ca7",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>L’assurance de Mona a subi une cyberattaque et toutes les données (noms, prénoms, mails, téléphones) de ses clients ont été volées.</p>"
+                      "content": "<p>L’opérateur téléphonique de Mona a subi une cyberattaque et toutes les données (noms, prénoms, adresses mail, numéros de téléphone) de ses clients ont été volées.</p>"
                     },
                     {
                       "id": "3d04d91f-d62b-4793-9463-4a8db9cbc300",
                       "type": "qcu-discovery",
-                      "instruction": "<p>Qui est la victime de cette cyberattaque ?</p>",
+                      "instruction": "<p>Qui est la victime visée par cette cyberattaque ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
                           "id": "1",
                           "content": "<p>Un particulier&nbsp;: Mona</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. C’est l’<strong>entreprise d’assurance</strong> qui a été touchée par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences.</p>"
+                            "diagnosis": "<p>Eh non. C’est l’<strong>opérateur téléphonique</strong> qui a été touché par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Une entreprise&nbsp;: L’assurance</p>",
                           "feedback": {
-                            "diagnosis": "<p>Exactement ! C’est l’<strong>entreprise d’assurance</strong> qui a été touchée par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences.</p>"
+                            "diagnosis": "<p>Exactement ! C’est l’<strong>opérateur téléphonique</strong> qui a été touché par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
                           }
                         },
                         {
                           "id": "3",
                           "content": "<p>Je ne sais pas.</p>",
                           "feedback": {
-                            "diagnosis": "<p>C’est l’<strong>entreprise d’assurance</strong> qui a été touchée par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences.</p>"
+                            "diagnosis": "<p>C’est l’<strong>opérateur téléphonique</strong> qui a été touché par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
                           }
                         }
                       ],
@@ -211,7 +211,7 @@
                 "id": "06fba3ba-1327-494e-bea6-c2e7b21e5392",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une <strong>cyberattaque </strong>est un ensemble d’<strong>actions illégales</strong> visant un ou plusieurs systèmes informatiques dans un <strong>but malveillant</strong>.&nbsp;☠️ </p><p>La <strong>victime </strong>peut être n’importe qui&nbsp;: un particulier, une entreprise, une administration, une association ou même un État.</p>"
+                "content": "<p>Une <strong>cyberattaque </strong>est un ensemble d’<strong>actions illégales</strong> visant un ou plusieurs systèmes informatiques (des ordinateurs, des réseaux informatiques ou des services en ligne par exemple) dans un <strong>but malveillant</strong>. ☠️</p><p>La victime de la cyberattaque peut être n’importe qui&nbsp;: un particulier, une entreprise, un service public, une association ou même un État.</p>"
               }
             }
           ]
@@ -341,7 +341,7 @@
                 "id": "e5ad7f55-fcdf-4674-9010-6c4fdf739a88",
                 "type": "text",
                 "tag": "did-you-know",
-                "content": "<p>Vos <strong>données personnelles volées</strong> pendant les cyberattaques sont <strong>précieuses </strong>pour les pirates informatiques. 💎<br>Ils peuvent les <strong>revendre </strong>ou <strong>s’en servir</strong> eux-même, par exemple pour usurper des identités ou créer des arnaques personnalisées.</p>"
+                "content": "<p>Vos <strong>données personnelles volées</strong> pendant les cyberattaques sont <strong>précieuses </strong>pour les pirates informatiques. 💎<br>Ils peuvent les <strong>revendre </strong>ou <strong>s’en servir</strong> eux-mêmes, par exemple pour usurper une identité (se faire passer pour quelqu’un) ou créer des arnaques personnalisées.</p>"
               }
             }
           ]
@@ -357,7 +357,7 @@
                 "id": "42bbc673-1fa0-4056-a6c8-24f5ef827e68",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Mais tous les auteurs de cyberattaque ne sont pas intéressés par le gain financier. Découvrez d’autres motivations possibles.</p>"
+                "content": "<p>Certains auteurs de cyberattaque ne sont pas intéressés par le gain financier. Découvrez d’autres motivations possibles.</p>"
               }
             }
           ]
@@ -527,7 +527,7 @@
                 "id": "09189183-b657-442d-95ad-f4723d864adb",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Certains auteurs de cyberattaques ne cherchent pas à gagner de l’argent, ils ont d’autres motivations&nbsp;:&nbsp;</p><ul><li>des<strong> idéaux politiques</strong>, <strong>sociaux </strong>ou <strong>éthiques</strong>, ✊️</li><li>la <strong>recherche de reconnaissance personnelle</strong>, 🏆️</li><li>de l’<strong>espionnage industriel</strong>. 🥷</li></ul><p><br>Ces cyberattaques visent souvent des organisations, des entreprises, des services publics ou des États. <br><br></p>"
+                "content": "<p>Certains auteurs de cyberattaques ne cherchent pas à gagner de l’argent, ils ont d’autres motivations&nbsp;:&nbsp;</p><ul>    <li>des<strong> idéaux politiques</strong>, <strong>sociaux </strong>ou <strong>éthiques</strong>, ✊️</li>    <li>la <strong>recherche de reconnaissance personnelle</strong>, 🏆️</li>    <li>de l’<strong>espionnage industriel</strong>. 🥷</li></ul><p><br>Ces cyberattaques visent souvent des organisations, des entreprises, des services publics ou des États.</p>"
               }
             }
           ]
@@ -543,7 +543,7 @@
                 "id": "565d01ca-9d53-41ec-a509-66ab8aaec50f",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Peu importe les motivations des auteurs, toutes les cyberattaques ont des conséquences.<br>Découvrez les conséquences directes et indirectes que ces cyberattaques peuvent avoir sur les victimes.</p>"
+                "content": "<p>Peu importe les motivations des auteurs, toutes les cyberattaques ont des conséquences.<br>Découvrez les conséquences directes et indirectes que ces cyberattaques peuvent avoir.</p>"
               }
             }
           ]
@@ -630,7 +630,7 @@
                 "id": "8e6a0b7f-1231-4c7b-8689-4f9a6aafa0b6",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une cyberattaque est une menace importante, elle peut avoir des<strong> conséquences très graves</strong>&nbsp;: </p><ul><li><strong>Pour les part</strong><strong>iculiers </strong>: perte d’argent, usurpation d’identité ou diffusion d’informations personnelles.&nbsp;🙍</li><li><strong>Pour les organisations et entreprises </strong>: interruption d’activité, perte financière, vol d’informations confidentielles, atteinte à la réputation, perte de confiance des clients ou des partenaires. 🏢</li><li><strong>Pour la so</strong><strong>ciété </strong>: perturbation des services essentiels, comme les hôpitaux, les transports, les réseaux d’énergie ou les administrations publiques. 🌍</li></ul><p><br>Les auteurs de cyberattaques de grande ampleur sont souvent membres de<strong> groupes organisés</strong>.</p><p>Ces groupes<strong> ont </strong>des <strong>ressources</strong>, des <strong>outils </strong>et du <strong>temps </strong>pour mener des attaques à grande échelle.<br><br></p>"
+                "content": "<p>Une cyberattaque est une menace importante, elle peut avoir des<strong> conséquences très graves</strong>&nbsp;: </p><ul><li><strong>Pour les part</strong><strong>iculiers </strong>: perte d’argent, usurpation d’identité ou diffusion d’informations personnelles.&nbsp;🙍</li><li><strong>Pour les organisations et entreprises </strong>: interruption d’activité, perte financière, vol d’informations confidentielles, atteinte à la réputation, perte de confiance des clients ou des partenaires. 🏢</li><li><strong>Pour la so</strong><strong>ciété </strong>: perturbation des services essentiels, comme les hôpitaux, les transports, les réseaux d’énergie ou les services publiques. 🌍</li></ul><p><br>Les auteurs de cyberattaques de grande ampleur sont souvent membres de<strong> groupes organisés</strong>.</p><p>Ces groupes<strong> ont </strong>des <strong>ressources</strong>, des <strong>outils </strong>et du <strong>temps </strong>pour mener des attaques à grande échelle.<br><br></p>"
               }
             }
           ]
@@ -652,7 +652,7 @@
                 "id": "90ac5905-a0ae-4cb0-b267-d17abe0b9109",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>Une <strong>cyberattaque </strong>est un ensemble d’<strong>actions illégales</strong> visant un ou plusieurs <strong>systèmes informatiques</strong> dans un <strong>but malveillant</strong>. ☠️</li><li>Les <strong>victimes </strong>peuvent être des particuliers, une organisation, une entreprise ou même un État.&nbsp;🧑🏼‍🦰🏠 🏢</li><li>La plupart des cyberattaques ont une<strong> motivation financière</strong>. Mais d’<strong>autres motivations</strong> existent comme la <strong>défense d’idéaux politiques</strong> ou l’<strong>espionnage industriel</strong> par exemple.&nbsp;💸</li><li>Les cyberattaques peuvent avoir des <strong>conséquences graves</strong>, comme des pertes financières, des usurpations d’identité ou des perturbations de services essentiels. 😔</li><li>Certains auteurs de cyberattaques font partie de <strong>réseaux</strong> et de <strong>groupes organisés</strong>.&nbsp;💪</li></ul>"
+                "content": "<ul><li>Une <strong>cyberattaque </strong>est un ensemble d’<strong>actions illégales</strong> visant un ou plusieurs <strong>systèmes informatiques</strong> dans un <strong>but malveillant</strong>. ☠️</li><li>Les <strong>victimes </strong>peuvent être des particuliers, une organisation, un service public, une entreprise ou même un État.&nbsp;🧑🏼‍🦰🏠 🏢</li><li>La plupart des cyberattaques ont une<strong> motivation financière</strong>. Mais d’<strong>autres motivations</strong> existent comme la <strong>défense d’idéaux politiques</strong> ou l’<strong>espionnage industriel</strong> par exemple.&nbsp;💸</li><li>Les cyberattaques peuvent avoir des <strong>conséquences graves</strong>, comme des pertes financières, des usurpations d’identité ou des perturbations de services essentiels. 😔</li><li>Certains auteurs de cyberattaques font partie de <strong>réseaux</strong> et de <strong>groupes organisés</strong>.&nbsp;💪</li></ul>"
               }
             }
           ]
@@ -703,19 +703,8 @@
                     "solution": "B"
                   },
                   {
-                    "id": "2c781c87-84bc-4c44-8321-f1f44915ef86",
-                    "text": "Une cyberattaque peut demander beaucoup de temps, de compétences et de ressources. ",
-                    "image": {
-                      "url": "",
-                      "altText": ""
-                    },
-                    "proposalA": "Vrai",
-                    "proposalB": "Faux",
-                    "solution": "A"
-                  },
-                  {
                     "id": "0b0c36a1-aef5-430b-9d03-2079cf64e49b",
-                    "text": "Une cyberattaque peut viser une personne, une entreprise ou une administration.",
+                    "text": "Une cyberattaque peut viser une personne, une entreprise ou un service public.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -787,7 +776,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Faire passer un message politique.</p>",
+                          "content": "<p>Défendre des idées.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.<br></p>",
                             "diagnosis": "<p>Demandez-vous ce que les auteurs cherchent à obtenir de la victime.</p>"
@@ -830,7 +819,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Faire passer un message politique.</p>",
+                          "content": "<p>Défendre des idées.</p>",
                           "feedback": {
                             "state": "<p>Mauvaise réponse.<br></p>",
                             "diagnosis": "<p>Demandez-vous ce qui a été volé au laboratoire et pourquoi.</p>"
@@ -841,7 +830,7 @@
                           "content": "<p>Faire de l’espionnage industriel.</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !&nbsp;🎉</p>",
-                            "diagnosis": "<p>Le vol d’informations confidentielles peut servir à espionner une entreprise, une administration ou un État.</p>"
+                            "diagnosis": "<p>Le vol d’informations confidentielles peut servir à espionner une entreprise, un service public ou un État.</p>"
                           }
                         }
                       ],
@@ -873,7 +862,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Faire passer un message politique.</p>",
+                          "content": "<p>Défendre des idées.</p>",
                           "feedback": {
                             "state": "<p>Bonne réponse !&nbsp;🎉</p>",
                             "diagnosis": "<p>L’attaque sert ici à défendre une cause et à attirer l’attention.</p>"
@@ -928,7 +917,7 @@
                     "id": "1",
                     "content": "<p>Je me renseigne auprès du site pour savoir quelles données ont été volées.</p>",
                     "feedback": {
-                      "diagnosis": "<p>C’est une bonne réaction. Les informations publiées par le site peuvent vous aider à comprendre quelles données ont été volées et quels risques surveiller dans les jours suivants. Les auteurs de cyberattaques peuvent utiliser vos données personnelles pour créer des messages d’arnaque très crédibles.</p>"
+                      "diagnosis": "<p>C’est une bonne réaction. Les informations publiées par le site peuvent vous aider à comprendre quelles données ont été volées et à quoi faire attention dans les jours suivants. Les auteurs de cyberattaques peuvent utiliser vos données personnelles pour créer des messages d’arnaque très crédibles.</p>"
                     }
                   },
                   {
