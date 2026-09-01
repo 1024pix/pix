@@ -287,7 +287,7 @@
                 "id": "67e2d9fe-21b5-4484-93eb-478f24556015",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>Comment obtenir une réponse vraiment adaptée à nos besoins ?</h5><p>Pour obtenir un résultat adapté, on peut préciser&nbsp;:</p><ul><li><strong>à qui</strong> on s’adresse (un débutant, un expert du sujet, etc.),</li><li><strong>de quelle manière</strong> (de manière brève, pédagogue, professionnelle, etc.),</li><li><strong>un rôle</strong> à jouer («&nbsp;en tant que formateur&nbsp;», «&nbsp;comme si vous étiez un expert du domaine&nbsp;», etc.).</li></ul>"
+                "content": "<h5>Comment obtenir une réponse vraiment adaptée à nos besoins ?</h5><p>Pour obtenir un résultat adapté, on peut préciser&nbsp;:</p><ul><li><strong>à qui</strong> on s’adresse (un débutant, un expert du sujet, etc.),</li><li><strong>de quelle manière</strong> (de manière brève, avec une tonalité pédagogue, professionnelle, etc.),</li><li><strong>un rôle</strong> à jouer («&nbsp;en tant que formateur&nbsp;», «&nbsp;comme si vous étiez un expert du domaine&nbsp;», etc.).</li></ul>"
               }
             }
           ]
@@ -432,7 +432,7 @@
                 "id": "d0365e25-bb4e-400a-be87-ac15cef1a59a",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Quelques conseils pour écrire un prompt efficace&nbsp;:</p><ul> <li> Utilisez un verbe d’<strong>action.</strong></li> <li> Donnez du <strong>contexte.</strong></li><li>Précisez éventuellement le<strong> ton.</strong></li><li>Attribuez si nécessaire une<strong> identité</strong> ou un <strong>rôle</strong>à l’IA.</li> <li>Précisez le <strong>format attendu.</strong></li></ul><p>Après chaque réponse, vous pouvez ajuster ou préciser votre prompt pour obtenir un meilleur résultat.</p><p>Une réponse peut paraître claire et bien formulée mais contenir des résultats qui<strong> ne correspondent pas à ce qu’on attend&nbsp;</strong>ou être partiellement <strong>fausse. <br></strong></p><p><strong>&nbsp;Relire&nbsp;</strong>la réponse de l’IA est essentiel avant de l’utiliser ou de la présenter à quelqu’un.</p>"
+                "content": "<p>Quelques conseils pour écrire un prompt efficace&nbsp;:</p><ul> <li> Utilisez un verbe d’<strong>action.</strong></li> <li> Donnez du <strong>contexte.</strong></li><li>Précisez éventuellement le<strong> ton.</strong></li><li>Attribuez si nécessaire une<strong> identité</strong> ou un <strong>rôle</strong>à l’IA.</li> <li>Précisez le <strong>format attendu.</strong></li></ul><p>Après chaque réponse, vous pouvez ajuster ou préciser votre prompt pour obtenir un meilleur résultat.</p><p>Une réponse peut paraître claire et bien formulée mais contenir des résultats qui<strong> ne correspondent pas à ce qu’on attend&nbsp;</strong>ou être partiellement <strong>fausse. <br></strong></p><p><strong>Relire</strong> la réponse de l’IA est essentiel avant de l’utiliser ou de la présenter à quelqu’un.</p>"
               }
             }
           ]
