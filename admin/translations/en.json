@@ -655,6 +655,11 @@
             "level": "Level {index}",
             "previous-version-capacity": "Previous value: {previousVersionCapacity}",
             "save-error": "An error occurred while saving the scoring.",
+            "save-scoring-button": "Save scoring",
+            "save-scoring-modal": {
+              "content": "This action will save the scoring configuration on the active version.",
+              "title": "Confirm scoring save"
+            },
             "success-notification": "The scoring has been successfully updated",
             "title": "Bounds of capacity by mesh"
           },

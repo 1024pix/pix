@@ -62,5 +62,25 @@ module('Unit | Adapters | certification-version', function (hooks) {
         assert.ok(true);
       });
     });
+
+    module('when the saveScoring adapterOption is set', function () {
+      test('calls PATCH on the /scoring sub-route with serialized data', async function (assert) {
+        const serializedData = {
+          data: {
+            type: 'certification-versions',
+            id: '456',
+            attributes: { 'global-scoring-configuration': [] },
+          },
+        };
+        sinon.stub(adapter, 'serialize').returns(serializedData);
+        const snapshot = { id: '456', adapterOptions: { saveScoring: true } };
+
+        await adapter.updateRecord(null, null, snapshot);
+
+        const expectedUrl = `${ENV.APP.API_HOST}/api/admin/certification-versions/456/scoring`;
+        sinon.assert.calledWith(adapter.ajax, expectedUrl, 'PATCH', { data: serializedData });
+        assert.ok(true);
+      });
+    });
   });
 });

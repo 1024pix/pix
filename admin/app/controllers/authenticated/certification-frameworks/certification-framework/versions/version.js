@@ -9,6 +9,16 @@ export default class VersionController extends Controller {
   @service store;
 
   @action
+  async saveScoring(version, calibrationScoringConfiguration) {
+    version.globalScoringConfiguration = version.globalScoringConfiguration?.length
+      ? [...version.globalScoringConfiguration]
+      : (calibrationScoringConfiguration?.globalScoringConfiguration ?? []);
+    version.competencesScoringConfiguration =
+      calibrationScoringConfiguration?.competencesScoringConfiguration ?? [];
+    await version.save({ adapterOptions: { saveScoring: true } });
+  }
+
+  @action
   async activateVersion(draftVersion) {
     try {
       await draftVersion.save({ adapterOptions: { activate: true } });

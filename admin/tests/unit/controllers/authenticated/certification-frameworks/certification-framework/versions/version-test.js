@@ -26,6 +26,40 @@ module(
       };
     });
 
+    module('#saveScoring', function () {
+      test('sets globalScoringConfiguration from calibration when version has none and saves', async function (assert) {
+        const calibrationConfig = [{ meshLevel: 0, bounds: { min: -4, max: -1 } }];
+        const version = {
+          globalScoringConfiguration: [],
+          competencesScoringConfiguration: null,
+          save: sinon.stub().resolves(),
+        };
+        const calibrationScoringConfiguration = { globalScoringConfiguration: calibrationConfig, competencesScoringConfiguration: [] };
+
+        await controller.saveScoring(version, calibrationScoringConfiguration);
+
+        assert.deepEqual(version.globalScoringConfiguration, calibrationConfig);
+        sinon.assert.calledOnce(version.save);
+      });
+
+      test('keeps existing globalScoringConfiguration when version already has one', async function (assert) {
+        const existingConfig = [{ meshLevel: 0, bounds: { min: -8, max: -2 } }];
+        const version = {
+          globalScoringConfiguration: existingConfig,
+          competencesScoringConfiguration: null,
+          save: sinon.stub().resolves(),
+        };
+        const calibrationScoringConfiguration = {
+          globalScoringConfiguration: [{ meshLevel: 0, bounds: { min: -4, max: -1 } }],
+          competencesScoringConfiguration: [],
+        };
+
+        await controller.saveScoring(version, calibrationScoringConfiguration);
+
+        assert.deepEqual(version.globalScoringConfiguration, existingConfig);
+      });
+    });
+
     module('#activateVersion', function () {
       test('activates the version', async function (assert) {
         const draftVersion = { id: 42, save: sinon.stub().resolves() };
