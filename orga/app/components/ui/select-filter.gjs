@@ -1,4 +1,5 @@
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 
@@ -15,7 +16,7 @@ export default class SelectFilter extends Component {
       @onChange={{this.onChange}}
       @options={{@options}}
       @value={{@selectedOption}}
-      @placeholder={{@emptyOptionLabel}}
+      @texts={{hash placeholder=@emptyOptionLabel}}
     >
       <:label>{{@label}}</:label>
     </PixSelect>

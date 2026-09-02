@@ -240,6 +240,7 @@
         "label": "Search by external id"
       },
       "placeholder": "-- Select --",
+      "search-label-list": "Search",
       "title": "Filters"
     },
     "form": {
@@ -466,7 +467,8 @@
       }
     },
     "locale-switcher": {
-      "label": "Select a language"
+      "label": "Select a language",
+      "placeholder": "Select a language"
     },
     "organization-participants-header": {
       "default": {
@@ -811,6 +813,7 @@
         "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign.",
         "label": "Campaign owner",
         "placeholder": "Owner’s first and last name",
+        "search-label": "Search for an owner",
         "search-placeholder": "Search for an owner",
         "title": "Campaign owner"
       },

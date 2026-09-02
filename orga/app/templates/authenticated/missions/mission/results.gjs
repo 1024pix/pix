@@ -1,6 +1,7 @@
 import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
+import { hash } from '@ember/helper';
 import t from 'ember-intl/helpers/t';
 import ResultTable from 'pix-orga/components/mission/result-table';
 import DivisionsFilter from 'pix-orga/components/ui/divisions-filter';
@@ -32,9 +33,8 @@ import DivisionsFilter from 'pix-orga/components/ui/divisions-filter';
     <PixMultiSelect
       @options={{@controller.resultOptions}}
       @values={{@controller.results}}
-      @placeholder={{t "pages.missions.mission.table.result.filters.global-result.label"}}
+      @texts={{hash placeholder=(t "pages.missions.mission.table.result.filters.global-result.label")}}
       @onChange={{@controller.onSelectResults}}
-      @isSearchable={{false}}
       @screenReaderOnly={{true}}
     >
       <:label>{{t "pages.missions.mission.table.result.filters.global-result.label"}}</:label>

@@ -240,6 +240,7 @@
         "label": "Zoeken op extern identificatienummer"
       },
       "placeholder": "-- Selecteer --",
+      "search-label-list": "Zoeken",
       "title": "Filters"
     },
     "form": {
@@ -466,7 +467,8 @@
       }
     },
     "locale-switcher": {
-      "label": "Selecteer een taal"
+      "label": "Selecteer een taal",
+      "placeholder": "Selecteer een taal"
     },
     "organization-participants-header": {
       "default": {
@@ -811,6 +813,7 @@
         "info": "De eigenaar van de campagne en de beheerders van deze organisatie zijn de enige personen die deze campagne kunnen wijzigen of archiveren.",
         "label": "Eigenaar van de campagne",
         "placeholder": "Naam en voornaam eigenaar",
+        "search-label": "Een eigenaar zoeken",
         "search-placeholder": "Een eigenaar zoeken",
         "title": "Eigenaar van de campagne"
       },

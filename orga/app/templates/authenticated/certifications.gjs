@@ -2,6 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -32,9 +33,7 @@ export default class Certifications extends Component {
             @hideDefaultOption={{true}}
             @onChange={{@controller.onSelectDivision}}
             @isSearchable={{true}}
-            @locale={{this.locale.currentLocale}}
-            @isValidationActive={{true}}
-            @placeholder={{@controller.firstTwoDivisions}}
+            @texts={{hash placeholder=@controller.firstTwoDivisions}}
             required={{true}}
           >
             <:label>{{t "pages.certifications.select-label"}}</:label>

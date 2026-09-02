@@ -3,7 +3,7 @@ import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -119,10 +119,12 @@ export default class UpdateForm extends Component {
           @onChange={{this.onChangeCampaignOwner}}
           @value={{this.ownerIdOption}}
           @isSearchable={{true}}
-          @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
-          @locale={{this.locale.currentLocale}}
-          @searchPlaceholder={{t "pages.campaign-creation.owner.search-placeholder"}}
-          @requiredLabel={{t "common.form.mandatory-fields-title"}}
+          @texts={{hash
+            placeholder=(t "pages.campaign-creation.owner.placeholder")
+            searchPlaceholder=(t "pages.campaign-creation.owner.search-placeholder")
+            selectSearchLabel=(t "pages.campaign-creation.owner.search-label")
+            requiredLabel=(t "common.form.mandatory-fields-title")
+          }}
           @hideDefaultOption={{true}}
         >
           <:label>{{t "pages.campaign-creation.owner.label"}}</:label>

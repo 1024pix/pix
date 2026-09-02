@@ -1,9 +1,11 @@
 import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
+import { hash } from '@ember/helper';
 import t from 'ember-intl/helpers/t';
 import ActivityTable from 'pix-orga/components/mission/activity-table';
 import DivisionsFilter from 'pix-orga/components/ui/divisions-filter';
+
 <template>
   <PixFilterBanner
     @title={{t "common.filters.title"}}
@@ -32,9 +34,8 @@ import DivisionsFilter from 'pix-orga/components/ui/divisions-filter';
     <PixMultiSelect
       @options={{@controller.statusOptions}}
       @values={{@controller.statuses}}
-      @placeholder={{t "pages.missions.mission.table.activities.filters.status.label"}}
+      @texts={{hash placeholder=(t "pages.missions.mission.table.activities.filters.status.label")}}
       @onChange={{@controller.onSelectStatuses}}
-      @isSearchable={{false}}
       @screenReaderOnly={{true}}
     >
       <:label>{{t "pages.missions.mission.table.activity.filters.status.label"}}</:label>

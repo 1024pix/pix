@@ -240,6 +240,7 @@
         "label": "Recherche sur l'identifiant externe"
       },
       "placeholder": "-- Sélectionner --",
+      "search-label-list": "Rechercher",
       "title": "Filtres"
     },
     "form": {
@@ -466,7 +467,8 @@
       }
     },
     "locale-switcher": {
-      "label": "Sélectionnez une langue"
+      "label": "Sélectionnez une langue",
+      "placeholder": "Sélectionnez une langue"
     },
     "organization-participants-header": {
       "default": {
@@ -811,6 +813,7 @@
         "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier ou archiver cette campagne.",
         "label": "Propriétaire de la campagne",
         "placeholder": "Nom et prénom du propriétaire",
+        "search-label": "Rechercher un propriétaire",
         "search-placeholder": "Rechercher un propriétaire",
         "title": "Propriétaire de la campagne"
       },

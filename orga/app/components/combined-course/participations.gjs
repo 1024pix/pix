@@ -5,17 +5,19 @@ import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
-import { uniqueId } from '@ember/helper';
+import { hash, uniqueId } from '@ember/helper';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import EmptyState from 'pix-orga/components/campaign/empty-state';
 import Pagination from 'pix-orga/components/ui/pagination';
 import ParticipationStatus from 'pix-orga/components/ui/participation-status';
 import ENV from 'pix-orga/config/environment';
 import { COMBINED_COURSE_PARTICIPATION_STATUSES } from 'pix-orga/models/combined-course-participation.js';
+import { isSearchValid } from 'pix-orga/utils/normalize-text.js';
 
 const debounceTime = ENV.pagination.debounce;
 
@@ -24,6 +26,8 @@ export default class CombinedCourse extends Component {
   @service locale;
   @service router;
   @service currentUser;
+
+  @tracked searchQuery = '';
 
   get statusesOptions() {
     return [
@@ -69,7 +73,16 @@ export default class CombinedCourse extends Component {
   }
 
   get divisionOptions() {
-    return this.args.divisions.map((division) => ({ label: division.name, value: division.name }));
+    return this.args.divisions.flatMap((division) => {
+      if ((this.searchQuery && isSearchValid(division.name, this.searchQuery)) || !this.searchQuery)
+        return { label: division.name, value: division.name };
+
+      return [];
+    });
+  }
+
+  get selectedFields() {
+    return this.args.divisions?.filter((division) => this.args.divisionsFilter?.includes(division.name)).join(',');
   }
 
   @action
@@ -88,6 +101,11 @@ export default class CombinedCourse extends Component {
     this.args.onFilter(eventName, divisions);
   }
 
+  @action
+  onSearch(query) {
+    this.searchQuery = query;
+  }
+
   <template>
     <PixFilterBanner @clearFiltersLabel={{t "common.filters.actions.clear"}} @onClearFilters={{@clearFilters}}>
       <PixSearchInput
@@ -102,21 +120,29 @@ export default class CombinedCourse extends Component {
 
       {{#if this.displayDivisionColumn}}
         <PixMultiSelect
-          @placeholder={{t this.divisionFilterLabels.placeholder}}
-          @emptyMessage={{t this.divisionFilterLabels.empty}}
+          @texts={{hash
+            placeholder=(t this.divisionFilterLabels.placeholder)
+            emptySearchMessage=(t this.divisionFilterLabels.empty)
+            searchLabel=(t "common.filters.search-label-list")
+          }}
           @screenReaderOnly={{true}}
           @values={{@divisionsFilter}}
           @onChange={{this.onSearchDivisions}}
           @options={{this.divisionOptions}}
           @isSearchable={{true}}
+          @onSearch={{this.onSearch}}
         >
           <:label>{{t this.divisionFilterLabels.label}}</:label>
+          <:placeholder>{{this.selectedFields}}</:placeholder>
           <:default as |option|>{{option.label}}</:default>
         </PixMultiSelect>
       {{/if}}
 
       <PixMultiSelect
-        @placeholder={{t "pages.combined-course.filters.status.placeholder"}}
+        @texts={{hash
+          placeholder=(t "pages.combined-course.filters.status.placeholder")
+          searchLabel=(t "common.filters.search-label-list")
+        }}
         @screenReaderOnly={{true}}
         @options={{this.statusesOptions}}
         @onChange={{this.onSelectStatus}}

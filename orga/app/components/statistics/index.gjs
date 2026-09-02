@@ -3,6 +3,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { hash } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -122,7 +123,7 @@ export default class Statistics extends Component {
           @onChange={{this.handleDomainFilter}}
           @value={{this.currentDomainFilter}}
           @options={{this.domainsName}}
-          @placeholder={{t "common.filters.placeholder"}}
+          @texts={{hash placeholder=(t "common.filters.placeholder")}}
           @hideDefaultOption={{true}}
         >
           <:label>{{t "pages.statistics.select-label"}}</:label>
