@@ -10,7 +10,7 @@ import { t } from 'ember-intl';
 import get from 'lodash/get';
 
 import isEmailValid from '../../../utils/email-validator.js';
-import { FormValidation } from '../../../utils/form-validation';
+import { createFormValidation } from '../../../utils/form-validation';
 import isPasswordValid, { PASSWORD_RULES } from '../../../utils/password-validator.js';
 import NewPasswordInput from '../new-password-input';
 import CguCheckbox from './cgu-checkbox';
@@ -36,7 +36,7 @@ export default class SignupForm extends Component {
   @tracked isLoading = false;
   @tracked globalError = null;
 
-  validation = new FormValidation({
+  validation = createFormValidation({
     firstName: {
       validate: (value) => Boolean(value),
       error: VALIDATION_ERRORS.firstName,
@@ -70,7 +70,7 @@ export default class SignupForm extends Component {
       this[id] = value.trim();
     }
 
-    this.validation[id].validate(this[id]);
+    this.validation.fields[id].validate(this[id]);
   }
 
   @action
@@ -134,8 +134,8 @@ export default class SignupForm extends Component {
           @id="firstName"
           name="firstName"
           {{on "change" this.handleInputChange}}
-          @validationStatus={{this.validation.firstName.status}}
-          @errorMessage={{t this.validation.firstName.error}}
+          @validationStatus={{this.validation.fields.firstName.status}}
+          @errorMessage={{t this.validation.fields.firstName.error}}
           placeholder={{t "pages.join.signup.fields.firstname.placeholder"}}
           aria-required="true"
           autocomplete="given-name"
@@ -147,8 +147,8 @@ export default class SignupForm extends Component {
           @id="lastName"
           name="lastName"
           {{on "change" this.handleInputChange}}
-          @validationStatus={{this.validation.lastName.status}}
-          @errorMessage={{t this.validation.lastName.error}}
+          @validationStatus={{this.validation.fields.lastName.status}}
+          @errorMessage={{t this.validation.fields.lastName.error}}
           placeholder={{t "pages.join.signup.fields.lastname.placeholder"}}
           aria-required="true"
           autocomplete="family-name"
@@ -160,8 +160,8 @@ export default class SignupForm extends Component {
           @id="email"
           name="email"
           {{on "change" this.handleInputChange}}
-          @validationStatus={{this.validation.email.status}}
-          @errorMessage={{t this.validation.email.error}}
+          @validationStatus={{this.validation.fields.email.status}}
+          @errorMessage={{t this.validation.fields.email.error}}
           placeholder={{t "pages.join.signup.fields.email.placeholder"}}
           aria-required="true"
           autocomplete="email"
@@ -173,8 +173,8 @@ export default class SignupForm extends Component {
           @id="password"
           name="password"
           {{on "change" this.handleInputChange}}
-          @validationStatus={{this.validation.password.status}}
-          @errorMessage={{t this.validation.password.error}}
+          @validationStatus={{this.validation.fields.password.status}}
+          @errorMessage={{t this.validation.fields.password.error}}
           @rules={{PASSWORD_RULES}}
           aria-required="true"
         >
@@ -185,8 +185,8 @@ export default class SignupForm extends Component {
           @id="cgu"
           name="cgu"
           {{on "change" this.handleInputChange}}
-          @validationStatus={{this.validation.cgu.status}}
-          @errorMessage={{t this.validation.cgu.error}}
+          @validationStatus={{this.validation.fields.cgu.status}}
+          @errorMessage={{t this.validation.fields.cgu.error}}
           aria-required="true"
         />
       </fieldset>
