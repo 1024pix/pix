@@ -138,7 +138,7 @@
                 "type": "embed",
                 "isCompletionRequired": false,
                 "title": "Découverte 1",
-                "url": "https://epreuves.pix.fr/fr/ui-kit/qcm-qcu-select/nr_datacenter_nov.json.html",
+                "url": "https://epreuves.pix.fr/fr/ui-kit/qcm-qcu-select/nr_datacenter_nov.html",
                 "instruction": "<p>Quand Tom appuie sur «&nbsp;J’aime&nbsp;», où cette information est-elle enregistrée et traitée ?</p>",
                 "solution": "",
                 "height": 550
