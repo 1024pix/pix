@@ -1,4 +1,4 @@
-import JoiDate from '@joi/date';
+import { JoiDate } from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
