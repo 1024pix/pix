@@ -465,7 +465,7 @@ const configuration = (function () {
     logOpsMetrics: toBoolean(process.env.LOG_OPS_METRICS),
     lti: {
       authorizedPlatforms: process.env.LTI_AUTHORIZED_PLATFORMS?.split(',') ?? [],
-      jwkModulusLength: 4096,
+      jwkModulusLength: _getNumber(process.env.LTI_JWK_MODULUS_LENGTH, 4096),
     },
     mailing: {
       enabled: toBoolean(process.env.MAILING_ENABLED),
@@ -603,9 +603,6 @@ const configuration = (function () {
   };
 
   if (process.env.NODE_ENV === 'test') {
-    // TODO: no env var for jwkModulusLength
-    config.lti.jwkModulusLength = 2048;
-
     // TODO: Rather use config.caching.redisUrl = process.env.REDIS_URL;
     config.caching.redisUrl = null;
 
