@@ -688,7 +688,7 @@
                       "id": "989597aa-693b-4791-98ac-03562231dca6",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p><strong>🤔 Mais l’empreinte carbone ne mesure que l’impact sur le réchauffement climatique ?</strong></p><p>En effet, c’est l’une des <strong>limites</strong> de l’empreinte carbone. Elle ne présente qu’un facteur d’impact environnemental&nbsp;: les <strong>émissions de gaz à effet de serre</strong>. Elle ne donne aucune information sur les <strong>autres impacts</strong> environnementaux, comme la raréfaction de l’<strong>eau douce</strong>, l’épuisement des <strong>ressources minérales et métalliques</strong>, l’acidification des océans, etc.</p>"
+                      "content": "<p><strong>🤔 Mais l’empreinte carbone ne mesure que l’impact sur le réchauffement climatique ?</strong></p><p>En effet, c’est l’une des <strong>limites</strong> de l’empreinte carbone. Elle ne présente qu’un type d’impact environnemental&nbsp;: les <strong>émissions de gaz à effet de serre</strong>. Elle ne donne aucune information sur les <strong>autres impacts</strong> environnementaux, comme la raréfaction de l’<strong>eau douce</strong>, l’épuisement des <strong>ressources minérales et métalliques</strong>, l’acidification des océans, etc.</p>"
                     }
                   ]
                 }
@@ -713,7 +713,7 @@
                 "id": "40c90095-fccd-42e9-aa92-0c565d891189",
                 "type": "text",
                 "tag": " ",
-                "content": "<ul><li>L’empreinte carbone estime l’<strong>impact d’une activité</strong> (comme regarder un film) ou de la <strong>construction d’un objet</strong> (comme un ordinateur) sur le <strong>réchauffement climatique</strong>.🌏</li><li>L’empreinte carbone permet de <strong>comparer différentes activités</strong>, numériques ou non, et de <strong>fixer des objectifs</strong> pour réduire les émissions.📐</li><li>Pour calculer l’empreinte carbone, on définit les activités, la période, puis on <strong>additionne les émissions de gaz à effet de serre</strong> associées.🤔</li><li>Mais elle a une limite importante&nbsp;: elle ne <strong>prend pas en compte d’autres impacts</strong>, comme la raréfaction de l’eau douce ou l’épuisement des ressources minérales.⚠️</li></ul>"
+                "content": "<ul><li>L’empreinte carbone estime l’<strong>impact d’une activité</strong> (comme regarder un film) ou de la <strong>construction d’un objet</strong> (comme un ordinateur) sur le <strong>réchauffement climatique</strong>.🌏</li><li>L’empreinte carbone permet de <strong>comparer différentes activités</strong>, numériques ou non, et de <strong>fixer des objectifs</strong> pour réduire les émissions de gaz à effet de serre.📐</li><li>Pour calculer l’empreinte carbone, on définit les activités, la période, puis on <strong>additionne les émissions de gaz à effet de serre</strong> associées.🤔</li><li>Mais l'empreint carbone a une limite importante&nbsp;: elle ne <strong>prend pas en compte d’autres impacts</strong>, comme la raréfaction de l’eau douce ou l’épuisement des ressources minérales.⚠️</li></ul>"
               }
             }
           ]
