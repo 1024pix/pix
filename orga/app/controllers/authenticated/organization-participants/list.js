@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-import { decodeExtraFilters, encodeExtraFilters } from '../../../utils/extra-filter-serializer.js';
+import { decodeExtraFilters, encodeExtraFilters } from '../../../utils/extra-filter-serializer';
 
 export default class ListController extends Controller {
   @service currentUser;
