@@ -61,7 +61,7 @@
                       "userName": "Alice",
                       "direction": "outgoing",
                       "type": "Texte",
-                      "content": "Nos activités numériques émettent aussi des gaz à effet de serre qui augmentent le réchauffement climatique. Mais certaines beaucoup plus que d’autres…"
+                      "content": "Nos activités numériques émettent aussi des gaz à effet de serre qui augmentent le réchauffement climatique. Et certaines beaucoup plus que d’autres…"
                     },
                     {
                       "userName": "Benoît",
@@ -191,21 +191,21 @@
                           "id": "0",
                           "content": "de l’oxygène (O)",
                           "feedback": {
-                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                            "diagnosis": "<strong>Eh non !</strong> Un trajet en voiture émet du dioxyde de carbone (CO2)."
                           }
                         },
                         {
                           "id": "1",
                           "content": "du dioxyde de carbone (CO2)",
                           "feedback": {
-                            "diagnosis": "Bien vu ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                            "diagnosis": "<strong>Bien vu !</strong> Un trajet en voiture émet du dioxyde de carbone (CO2)."
                           }
                         },
                         {
                           "id": "2",
                           "content": "du méthane (CH4)",
                           "feedback": {
-                            "diagnosis": "Eh non ! Un trajet en voiture émet du dioxyde de carbone (CO2)."
+                            "diagnosis": "<strong>Eh non !</strong> Un trajet en voiture émet du dioxyde de carbone (CO2)."
                           }
                         }
                       ],
