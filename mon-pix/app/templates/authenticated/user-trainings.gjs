@@ -1,8 +1,8 @@
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import Card from 'mon-pix/components/training/card';
 import Header from 'mon-pix/components/training/header';
+import PaginationWrapper from 'mon-pix/components/ui/pagination-wrapper';
 <template>
   {{pageTitle (t "pages.user-trainings.title")}}
 
@@ -17,10 +17,9 @@ import Header from 'mon-pix/components/training/header';
             </li>
           {{/each}}
         </ul>
-        <PixPagination
+        <PaginationWrapper
           @pagination={{@model.trainings.meta.pagination}}
           @pageOptions={{@controller.pageOptions}}
-          @locale={{@controller.locale.currentLanguage}}
           @isCondensed="true"
         />
       </div>
