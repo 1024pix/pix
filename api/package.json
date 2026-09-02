@@ -125,7 +125,6 @@
     "@xmldom/xmldom": "^0.9.10",
     "bcrypt": "^6.0.0",
     "cron-parser": "^5.0.0",
-    "datadog-metrics": "^0.12.0",
     "dataloader": "^2.2.2",
     "dayjs": "^1.11.5",
     "debug": "^4.3.4",
@@ -199,7 +198,6 @@
     "typescript": "^7.0.2"
   },
   "overrides": {
-    "@datadog/datadog-api-client": "1.60.0",
     "eslint": "$eslint",
     "handlebars": ">=4.7.9",
     "hapi-swagger": {
