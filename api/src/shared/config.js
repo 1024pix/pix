@@ -606,11 +606,6 @@ const configuration = (function () {
     // TODO: no env var for jwkModulusLength
     config.lti.jwkModulusLength = 2048;
 
-    config.mailing.brevo.templates.emailChangeTemplateId = 'test-email-change-template-id';
-
-    // TODO: MISSING ENV VAR
-    config.logging.enableLogKnexQueries = false;
-
     // TODO: Rather use config.caching.redisUrl = process.env.REDIS_URL;
     config.caching.redisUrl = null;
 
