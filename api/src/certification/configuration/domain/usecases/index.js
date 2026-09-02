@@ -6,10 +6,12 @@ import * as attachableTargetProfileRepository from '../../infrastructure/reposit
 import * as calibratedChallengesRepository from '../../infrastructure/repositories/calibrated-challenges-repository.js';
 import * as calibrationRepository from '../../infrastructure/repositories/calibration-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
+import * as certificationCoursesToScoreRepository from '../../infrastructure/repositories/certification-courses-to-score-repository.js';
 import * as certificationInfoRepository from '../../infrastructure/repositories/certification-info-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
+import { scoreCertificationJobRepository } from '../../infrastructure/repositories/jobs/score-certification-job-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
 import * as ScoBlockedAccessDatesRepository from '../../infrastructure/repositories/sco-blocked-access-dates-repository.js';
 import * as versionDetailsRepository from '../../infrastructure/repositories/version-details-repository.js';
@@ -56,6 +58,8 @@ import { updateVersionComment } from './update-version-comment.js';
 const dependencies = {
   calibratedChallengesRepository,
   attachableTargetProfileRepository,
+  certificationCoursesToScoreRepository,
+  scoreCertificationJobRepository,
   centerRepository,
   ScoBlockedAccessDatesRepository,
   certificationInfoRepository,
