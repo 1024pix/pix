@@ -1001,7 +1001,7 @@
                     "id": "2",
                     "content": "<p>Éviter d’acheter un nouvel ordinateur si je n’en ai pas vraiment besoin.</p>",
                     "feedback": {
-                      "diagnosis": "<p>Très bonne idée ! Comme nous avons pu le voir, <strong>fabriquer un ordinateur émet des gaz à effet de serre</strong>. On peut éviter ces émissions en n’achetant pas de nouvel ordinateur.</p><p>Par ailleurs, vous pouvez aussi utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation.</p>"
+                      "diagnosis": "<p>Très bonne idée ! Comme nous avons pu le voir, <strong>fabriquer un ordinateur émet des gaz à effet de serre</strong>. On peut éviter ces émissions en n’achetant pas de nouvel ordinateur si ce n'est pas absolument nécessaire.</p><p>Par ailleurs, vous pouvez aussi utiliser <a href=\"https://impactco2.fr/outils/usagenumerique\" target=\"_blank\">ce simulateur de l’ADEME</a> pour estimer votre empreinte carbone numérique et <a href=\"https://impactco2.fr/outils/alimentation#repas\" target=\"_blank\">ce simulateur</a> pour estimer l’impact carbone de votre alimentation.</p>"
                     }
                   }
                 ]
