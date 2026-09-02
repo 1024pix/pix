@@ -9,9 +9,9 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
 
-import isEmailValid from '../../../utils/email-validator.js';
+import isEmailValid from '../../../utils/email-validator';
 import { createFormValidation } from '../../../utils/form-validation';
-import isPasswordValid, { PASSWORD_RULES } from '../../../utils/password-validator.js';
+import isPasswordValid, { PASSWORD_RULES } from '../../../utils/password-validator';
 import NewPasswordInput from '../new-password-input';
 import CguCheckbox from './cgu-checkbox';
 
