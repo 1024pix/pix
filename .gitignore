@@ -114,3 +114,7 @@ GEMINI.md
 !nodemon.json
 !timings.json
 !dependencies.json
+
+# Typescript
+!tsconfig.json
+tsconfig.tsbuildinfo
