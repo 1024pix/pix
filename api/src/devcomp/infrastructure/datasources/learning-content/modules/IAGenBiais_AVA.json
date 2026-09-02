@@ -1102,7 +1102,7 @@
                           "id": "1",
                           "content": "<p>Il ne s’est rien passé de spécial.</p>",
                           "feedback": {
-                            "state": "Et non.",
+                            "state": "Mauvaise réponse.",
                             "diagnosis": "Comparez attentivement les deux réponses."
                           }
                         },
