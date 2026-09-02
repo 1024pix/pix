@@ -75,6 +75,7 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
       order: sort.participationCount == 'desc' ? 'desc' : 'asc',
     });
   }
+
   if (sort?.lastnameSort) {
     orderByClause.unshift({
       column: 'lastName',
@@ -86,6 +87,13 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
     orderByClause.unshift({
       column: 'division',
       order: sort.divisionSort == 'desc' ? 'desc' : 'asc',
+    });
+  }
+
+  if (sort?.latestParticipationSort) {
+    orderByClause.unshift({
+      column: 'lastParticipationDate',
+      order: sort.latestParticipationSort === 'desc' ? 'desc' : 'asc',
     });
   }
 

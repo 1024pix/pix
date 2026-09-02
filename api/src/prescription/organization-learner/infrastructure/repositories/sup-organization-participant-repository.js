@@ -52,6 +52,13 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
     });
   }
 
+  if (sort?.latestParticipationSort) {
+    orderByClause.unshift({
+      column: 'lastParticipationDate',
+      order: sort.latestParticipationSort === 'desc' ? 'desc' : 'asc',
+    });
+  }
+
   const query = knexConn
     .with(
       'participants',

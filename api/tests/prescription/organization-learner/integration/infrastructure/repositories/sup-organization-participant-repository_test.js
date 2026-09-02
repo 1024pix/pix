@@ -822,6 +822,130 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         expect(participants[1].id).to.equal(skywalkerId);
         expect(participants[2].id).to.equal(kenobiId);
       });
+
+      context('sorting latest participation', function () {
+        let organizationId, organizationLearnerId1, organizationLearnerId2, organizationLearnerId3;
+
+        beforeEach(async function () {
+          organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+
+          const organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+          const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+          const organizationLearner3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+
+          organizationLearnerId1 = organizationLearner1.id;
+          organizationLearnerId2 = organizationLearner2.id;
+          organizationLearnerId3 = organizationLearner3.id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId,
+            organizationLearnerId: organizationLearnerId1,
+            userId: organizationLearner1.userId,
+            createdAt: '2022-01-01',
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: otherCampaignId,
+            organizationLearnerId: organizationLearnerId2,
+            userId: organizationLearner2.userId,
+            createdAt: '2020-01-01',
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId,
+            organizationLearnerId: organizationLearnerId3,
+            userId: organizationLearner3.userId,
+            createdAt: '2021-01-01',
+          });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should return sup participants sorted by ascendant', async function () {
+          // when
+          const { data: participants } =
+            await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+              organizationId,
+              sort: {
+                latestParticipationSort: 'asc',
+              },
+            });
+
+          // then
+          expect(participants).to.have.lengthOf(3);
+          expect(participants[0].id).to.equal(organizationLearnerId2);
+          expect(participants[1].id).to.equal(organizationLearnerId3);
+          expect(participants[2].id).to.equal(organizationLearnerId1);
+        });
+
+        it('should return sup participants sorted by descendant', async function () {
+          // when
+          const { data: participants } =
+            await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+              organizationId,
+              sort: {
+                latestParticipationSort: 'desc',
+              },
+            });
+
+          // then
+          expect(participants).to.have.lengthOf(3);
+          expect(participants[0].id).to.equal(organizationLearnerId1);
+          expect(participants[1].id).to.equal(organizationLearnerId3);
+          expect(participants[2].id).to.equal(organizationLearnerId2);
+        });
+      });
+
+      it('should return sup participants sorted by name if identical latest participation', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const { id: organizationLearnerId1, userId: userId1 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Aaaah',
+        });
+        const { id: organizationLearnerId2, userId: userId2 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Dupont',
+        });
+        const { id: organizationLearnerId3, userId: userId3 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Dupond',
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          organizationLearnerId: organizationLearnerId1,
+          userId: userId1,
+          createdAt: '2024-01-01',
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          organizationLearnerId: organizationLearnerId2,
+          userId: userId2,
+          createdAt: '2022-01-01',
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          organizationLearnerId: organizationLearnerId3,
+          userId: userId3,
+          createdAt: '2022-01-01',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data: participants } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId,
+          sort: {
+            latestParticipationSort: 'asc',
+          },
+        });
+
+        // then
+        expect(participants).to.have.lengthOf(3);
+        expect(participants[0].id).to.equal(organizationLearnerId3);
+        expect(participants[1].id).to.equal(organizationLearnerId2);
+        expect(participants[2].id).to.equal(organizationLearnerId1);
+      });
     });
 
     context('#participantCount', function () {

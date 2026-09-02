@@ -20,6 +20,8 @@ import List from 'pix-orga/components/sup-organization-participant/list';
     @sortByParticipationCount={{@controller.sortByParticipationCount}}
     @sortByLastname={{@controller.sortByLastname}}
     @lastnameSort={{@controller.lastnameSort}}
+    @latestParticipationSort={{@controller.latestParticipationSort}}
+    @sortByLatestParticipation={{@controller.sortByLatestParticipation}}
     @deleteStudents={{@controller.deleteStudents}}
     @hasComputeOrganizationLearnerCertificabilityEnabled={{@controller.hasComputeOrganizationLearnerCertificabilityEnabled}}
   />

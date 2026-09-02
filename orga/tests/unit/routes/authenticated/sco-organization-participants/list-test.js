@@ -17,6 +17,7 @@ module('Unit | Route | authenticated/sco-organization-participants/list', functi
   const participationCountOrderSymbol = Symbol('participationCountOrder');
   const lastnameSortSymbol = Symbol('lastnameSort');
   const divisionSortSymbol = Symbol('divisionSort');
+  const latestParticipationSortSymbol = Symbol('latestParticipationSort');
   const params = {
     search: searchSymbol,
     divisions: divisionsSymbol,
@@ -27,6 +28,7 @@ module('Unit | Route | authenticated/sco-organization-participants/list', functi
     participationCountOrder: participationCountOrderSymbol,
     lastnameSort: lastnameSortSymbol,
     divisionSort: divisionSortSymbol,
+    latestParticipationSort: latestParticipationSortSymbol,
   };
 
   hooks.beforeEach(function () {
@@ -48,6 +50,7 @@ module('Unit | Route | authenticated/sco-organization-participants/list', functi
           participationCount: participationCountOrderSymbol,
           lastnameSort: lastnameSortSymbol,
           divisionSort: divisionSortSymbol,
+          latestParticipationSort: latestParticipationSortSymbol,
         },
         page: {
           number: pageNumberSymbol,

@@ -1898,7 +1898,12 @@
             "ariaLabelSortUp": "Die Tabelle wird nach Namen in alphabetischer Reihenfolge sortiert. Klicken Sie, um in umgekehrter alphabetischer Reihenfolge zu sortieren.",
             "label": "Name"
           },
-          "last-participation-date": "Letzte Teilnahme",
+          "last-participation-date": {
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach dem Datum der Beteiligungen sortiert. Klicken Sie, um aufsteigend zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle wird nach dem Datum der Teilnahme absteigend sortiert. Klicken Sie, um aufsteigend zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle wird nach dem Datum der Teilnahme aufsteigend sortiert. Klicken Sie, um absteigend zu sortieren.",
+            "label": "Letzte Teilnahme"
+          },
           "login-method": "Verbindungsmethode(n)",
           "mainCheckbox": "Die gesamte Spalte auswählen/abwählen",
           "participation-count": {
@@ -2029,7 +2034,12 @@
             "ariaLabelSortUp": "Die Tabelle wird nach Namen in alphabetischer Reihenfolge sortiert. Klicken Sie, um in umgekehrter alphabetischer Reihenfolge zu sortieren.",
             "label": "Name"
           },
-          "last-participation-date": "Letzte Teilnahme",
+          "last-participation-date": {
+            "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach dem Datum der Beteiligungen sortiert. Klicken Sie, um aufsteigend zu sortieren.",
+            "ariaLabelSortDown": "Die Tabelle wird nach dem Datum der Teilnahme absteigend sortiert. Klicken Sie, um aufsteigend zu sortieren.",
+            "ariaLabelSortUp": "Die Tabelle wird nach dem Datum der Teilnahme aufsteigend sortiert. Klicken Sie, um absteigend zu sortieren.",
+            "label": "Letzte Teilnahme"
+          },
           "participation-count": {
             "ariaLabelDefaultSort": "Die Tabelle ist derzeit nicht nach der Anzahl der Teilnahmen sortiert. Klicken Sie, um in aufsteigender Reihenfolge zu sortieren.",
             "ariaLabelSortDown": "Die Tabelle wird nach der Anzahl der Teilnahmen absteigend sortiert. Klicken Sie, um in aufsteigender Reihenfolge zu sortieren.",

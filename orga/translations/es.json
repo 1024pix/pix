@@ -1898,7 +1898,12 @@
             "ariaLabelSortUp": "La tabla está ordenada alfabéticamente por nombre. Haga clic para ordenar en orden alfabético inverso.",
             "label": "Nombre"
           },
-          "last-participation-date": "Última participación",
+          "last-participation-date": {
+            "ariaLabelDefaultSort": "La tabla no está actualmente ordenada por fecha de participación. Haga clic para ordenar en orden ascendente.",
+            "ariaLabelSortDown": "La tabla está ordenada por fecha de participación descendente. Haga clic para ordenar en orden ascendente.",
+            "ariaLabelSortUp": "La tabla está ordenada por fecha de participación en orden ascendente. Haga clic para ordenar en orden descendente.",
+            "label": "Última participación"
+          },
           "login-method": "Método(s) de conexión",
           "mainCheckbox": "Seleccionar/deseleccionar toda la columna",
           "participation-count": {
@@ -2029,7 +2034,12 @@
             "ariaLabelSortUp": "La tabla está ordenada alfabéticamente por nombre. Haga clic para ordenar en orden alfabético inverso.",
             "label": "Nombre"
           },
-          "last-participation-date": "Última participación",
+          "last-participation-date": {
+            "ariaLabelDefaultSort": "La tabla no está actualmente ordenada por fecha de participación. Haga clic para ordenar en orden ascendente.",
+            "ariaLabelSortDown": "La tabla está ordenada por fecha de participación descendente. Haga clic para ordenar en orden ascendente.",
+            "ariaLabelSortUp": "La tabla está ordenada por fecha de participación en orden ascendente. Haga clic para ordenar en orden descendente.",
+            "label": "Última participación"
+          },
           "participation-count": {
             "ariaLabelDefaultSort": "La tabla no está actualmente ordenada por número de entradas. Haga clic para ordenar en orden ascendente.",
             "ariaLabelSortDown": "La tabla está ordenada por número descendente de entradas. Haga clic para ordenar en orden ascendente.",

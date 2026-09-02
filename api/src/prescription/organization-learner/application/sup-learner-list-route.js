@@ -36,6 +36,7 @@ const register = async function (server) {
             sort: Joi.object({
               participationCount: Joi.string().empty(''),
               lastnameSort: Joi.string().empty(''),
+              latestParticipationSort: Joi.string().empty(''),
             }).default({}),
           }).default({}),
         },

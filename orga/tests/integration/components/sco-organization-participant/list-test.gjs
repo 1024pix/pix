@@ -86,7 +86,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     );
     assert.ok(
       screen.getByRole('columnheader', {
-        name: t('pages.sco-organization-participants.table.column.last-participation-date'),
+        name: t('pages.sco-organization-participants.table.column.last-participation-date.label'),
       }),
     );
     assert.ok(
@@ -654,6 +654,46 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
         // then
         assert.ok(sortByDivision.called);
+      });
+    });
+
+    module('latest participation column', function () {
+      test('it should trigger ascending sort', async function (assert) {
+        // given
+        const latestParticipationSort = null;
+        const sortByLatestParticipation = sinon.spy();
+        const divisions = [];
+        const connectionTypes = [];
+        const certificability = [];
+        const search = null;
+        const noop = this.noop;
+
+        const screen = await render(
+          <template>
+            <ScoOrganizationParticipantList
+              @students={{undefined}}
+              @onFilter={{noop}}
+              @searchFilter={{search}}
+              @divisionsFilter={{divisions}}
+              @connectionTypeFilter={{connectionTypes}}
+              @certificabilityFilter={{certificability}}
+              @onClickLearner={{noop}}
+              @onResetFilter={{noop}}
+              @latestParticipationSort={{latestParticipationSort}}
+              @sortByLatestParticipation={{sortByLatestParticipation}}
+            />
+          </template>,
+        );
+
+        // when
+        await click(
+          screen.getByRole('button', {
+            name: t('pages.sco-organization-participants.table.column.last-participation-date.ariaLabelDefaultSort'),
+          }),
+        );
+
+        // then
+        assert.ok(sortByLatestParticipation.called);
       });
     });
   });

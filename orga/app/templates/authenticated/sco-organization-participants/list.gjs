@@ -23,6 +23,8 @@ import List from 'pix-orga/components/sco-organization-participant/list';
       @sortByDivision={{@controller.sortByDivision}}
       @divisionSort={{@controller.divisionSort}}
       @lastnameSort={{@controller.lastnameSort}}
+      @latestParticipationSort={{@controller.latestParticipationSort}}
+      @sortByLatestParticipation={{@controller.sortByLatestParticipation}}
       @hasComputeOrganizationLearnerCertificabilityEnabled={{@controller.hasComputeOrganizationLearnerCertificabilityEnabled}}
       @refreshValues={{@controller.refresh}}
     />
