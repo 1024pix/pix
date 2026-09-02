@@ -1,4 +1,5 @@
 import PixNavigation from '@1024pix/pix-ui/components/pix-navigation';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -66,9 +67,11 @@ export default class ModulixNavigation extends Component {
     <PixNavigation
       id="module-navigation"
       class="app-navigation module-navigation"
-      @navigationAriaLabel={{t "navigation.nav-bar.aria-label"}}
-      @openLabel={{t "navigation.nav-bar.open"}}
-      @closeLabel={{t "navigation.nav-bar.close"}}
+      @texts={{hash
+        mainNavigation=(t "navigation.nav-bar.aria-label")
+        openMenu=(t "navigation.nav-bar.open")
+        closeMenu=(t "navigation.nav-bar.close")
+      }}
       {{didInsert this.setHTMLElementOffset}}
     >
       <:brand>
