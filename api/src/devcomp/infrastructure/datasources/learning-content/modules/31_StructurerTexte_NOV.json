@@ -195,28 +195,28 @@
                     "id": "1",
                     "content": "<p>VLC</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. Ici, il s’agit de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
+                      "diagnosis": "<p>Eh non. Ici, il s’agit de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄 🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
                     }
                   },
                   {
                     "id": "2",
                     "content": "<p>Libre Office Writer</p>",
                     "feedback": {
-                      "diagnosis": "<p>Exactement !&nbsp;<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
+                      "diagnosis": "<p>Exactement !&nbsp;<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄 🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
                     }
                   },
                   {
                     "id": "3",
                     "content": "<p>Finder</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. Ici, il s’agissait de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
+                      "diagnosis": "<p>Eh non. Ici, il s’agissait de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou qui évoquent l’écriture. 📄 🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
                     }
                   },
                   {
                     "id": "4",
                     "content": "<p>Chrome</p>",
                     "feedback": {
-                      "diagnosis": "<p>Eh non. Ici, il s’agit de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou des icônes qui font penser à l’écriture. 📄🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
+                      "diagnosis": "<p>Eh non. Ici, il s’agit de Libre Office Writer.<br>Les <strong>logiciels de traitement de texte</strong> sont souvent représentés par des icônes qui montrent une page, un crayon ou des icônes qui font penser à l’écriture. 📄 🖊️ <br>Quand un logiciel de traitement de texte est ouvert, il y a une page blanche sur laquelle écrire, comme si on avait pris une feuille de papier.</p>"
                     }
                   }
                 ],
