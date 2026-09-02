@@ -602,14 +602,6 @@ const configuration = (function () {
     },
   };
 
-  if (process.env.NODE_ENV === 'test') {
-    // TODO: Rather use config.caching.redisUrl = process.env.REDIS_URL;
-    config.caching.redisUrl = null;
-
-    // TODO: utiliser `config.mutex.redisUrl` à la place dans le code des tests
-    config.redis = { url: process.env.REDIS_URL };
-  }
-
   return config;
 })();
 

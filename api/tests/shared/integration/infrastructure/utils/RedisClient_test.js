@@ -7,14 +7,14 @@ import { RedisClient } from '../../../../../src/shared/infrastructure/utils/Redi
 
 describe('Integration | Infrastructure | Utils | RedisClient', function () {
   beforeEach(async function () {
-    const redisClient = new RedisClient(config.redis.url);
+    const redisClient = new RedisClient(config.caching.redisUrl);
     await redisClient.flushall();
   });
 
   it('stores and retrieve a value for a key', async function () {
     // given
     const key = new Date().toISOString();
-    const redisClient = new RedisClient(config.redis.url);
+    const redisClient = new RedisClient(config.caching.redisUrl);
 
     // when
     await redisClient.set(key, 'value');
@@ -28,7 +28,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
   it('should delete a value with prefix', async function () {
     // given
     const value = new Date().toISOString();
-    const redisClientWithPrefix = new RedisClient(config.redis.url, { prefix: 'client-prefix:' });
+    const redisClientWithPrefix = new RedisClient(config.caching.redisUrl, { prefix: 'client-prefix:' });
     await redisClientWithPrefix.set('AVRIL', value);
 
     // when
@@ -40,8 +40,8 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
   it('should separate storage for identical keys saved with different prefixes', async function () {
     // given
-    const redisClient1 = new RedisClient(config.redis.url, { prefix: 'test1' });
-    const redisClient2 = new RedisClient(config.redis.url, { prefix: 'test2' });
+    const redisClient1 = new RedisClient(config.caching.redisUrl, { prefix: 'test1' });
+    const redisClient2 = new RedisClient(config.caching.redisUrl, { prefix: 'test2' });
     await redisClient1.set('key', 'value1');
     await redisClient2.set('key', 'value2');
 
@@ -56,7 +56,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
     // given
     const keyToAdd = randomUUID();
     const keyToRemove = randomUUID();
-    const redisClient = new RedisClient(config.redis.url);
+    const redisClient = new RedisClient(config.caching.redisUrl);
 
     await redisClient.lpush(keyToAdd, 'value2');
 
@@ -85,7 +85,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
   it('should create value and decrement it to -1', async function () {
     // given
-    const client = new RedisClient(config.redis.url);
+    const client = new RedisClient(config.caching.redisUrl);
 
     // when
     await client.decr('toto');
@@ -96,7 +96,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
   it('should decrement value', async function () {
     // given
-    const client = new RedisClient(config.redis.url);
+    const client = new RedisClient(config.caching.redisUrl);
     await client.set('toto', 1);
 
     // when
@@ -108,7 +108,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
   it('should create value and increment it to 1', async function () {
     // given
-    const client = new RedisClient(config.redis.url);
+    const client = new RedisClient(config.caching.redisUrl);
 
     // when
     await client.incr('toto');
@@ -119,7 +119,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
   it('should increment value', async function () {
     // given
-    const client = new RedisClient(config.redis.url);
+    const client = new RedisClient(config.caching.redisUrl);
     await client.set('toto', 1);
 
     // when
@@ -131,7 +131,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
   it('should flush all values', async function () {
     // given
-    const client = new RedisClient(config.redis.url);
+    const client = new RedisClient(config.caching.redisUrl);
     await client.set('toto', 'tata');
 
     // when
@@ -143,7 +143,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
   it('should ping redis', async function () {
     // given
-    const client = new RedisClient(config.redis.url);
+    const client = new RedisClient(config.caching.redisUrl);
 
     // when
     const result = await client.ping();
@@ -155,7 +155,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
   describe('quit', function () {
     it('should close the connection', async function () {
       // given
-      const client = new RedisClient(config.redis.url);
+      const client = new RedisClient(config.caching.redisUrl);
 
       // when
       await client.quit();
@@ -167,7 +167,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
     context('when the connection is already closed', function () {
       it('should not throw an error', async function () {
         // given
-        const client = new RedisClient(config.redis.url);
+        const client = new RedisClient(config.caching.redisUrl);
 
         // when
         await client.quit();
