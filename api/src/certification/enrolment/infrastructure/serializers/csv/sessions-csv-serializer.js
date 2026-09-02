@@ -87,7 +87,6 @@ function _getDataFromColumnNames({ expectedHeadersKeys, headers, line }) {
         convertDateValue({
           dateString: currentValue,
           inputFormat: 'DD/MM/YYYY',
-          outputFormat: 'YYYY-MM-DD',
         }) ?? currentValue;
     } else if (key === 'extraTimePercentage') {
       data[key] = currentValue || null;

@@ -164,12 +164,16 @@ class SharedCsvParser {
   }
 
   _buildDateAttribute(dateString) {
-    const convertedDate = convertDateValue({
+    let convertedDate = convertDateValue({
       dateString,
       inputFormat: 'DD/MM/YYYY',
-      alternativeInputFormat: 'DD/MM/YY',
-      outputFormat: 'YYYY-MM-DD',
     });
+    if (convertedDate === null) {
+      convertedDate = convertDateValue({
+        dateString,
+        inputFormat: 'DD/MM/YY',
+      });
+    }
     return convertedDate || dateString;
   }
 
