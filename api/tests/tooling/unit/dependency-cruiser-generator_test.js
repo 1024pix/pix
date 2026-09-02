@@ -17,13 +17,13 @@ describe('Unit | Tooling | Dependency cruiser generator', function () {
           name: 'shared-dependency-violation',
           severity: 'error',
           from: { path: '^src/shared/' },
-          to: { path: '^src/(?!shared/)' },
+          to: { path: '^src/(?!shared/)', pathNot: '^src/.+/domain/events/' },
         },
         {
           name: 'banner-dependency-violation',
           severity: 'error',
           from: { path: '^src/banner/' },
-          to: { path: '^src/(?!banner/|shared/)' },
+          to: { path: '^src/(?!banner/|shared/)', pathNot: '^src/.+/domain/events/' },
         },
       ]);
     });
@@ -38,7 +38,7 @@ describe('Unit | Tooling | Dependency cruiser generator', function () {
           name: 'banner-dependency-violation',
           severity: 'error',
           from: { path: '^src/banner/' },
-          to: { path: '^src/(?!banner/|other/|shared/application/api/)' },
+          to: { path: '^src/(?!banner/|other/|shared/application/api/)', pathNot: '^src/.+/domain/events/' },
         },
       ]);
     });
