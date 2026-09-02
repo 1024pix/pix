@@ -54,6 +54,7 @@ describe('Profile | Integration | Domain | Usecases | share-profile-reward', fun
     describe('if the reward belongs to the user', function () {
       let profileRewardId;
       let campaignParticipationId;
+      let organizationId;
       let userId;
 
       before(async function () {
@@ -62,8 +63,11 @@ describe('Profile | Integration | Domain | Usecases | share-profile-reward', fun
           rewardId: 1,
           userId: userId,
         }).id;
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           userId,
+          campaignId,
         }).id;
 
         await databaseBuilder.commit();
@@ -80,6 +84,7 @@ describe('Profile | Integration | Domain | Usecases | share-profile-reward', fun
 
         expect(organizationsProfileRewards).to.have.lengthOf(1);
         expect(organizationsProfileRewards[0].profileRewardId).to.equal(profileRewardId);
+        expect(organizationsProfileRewards[0].organizationId).to.equal(organizationId);
       });
     });
 
