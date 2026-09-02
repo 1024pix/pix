@@ -1,6 +1,7 @@
 import { AuditLoggingJob } from '../../../domain/models/jobs/AuditLoggingJob.js';
 import { featureToggles } from '../../feature-toggles/index.js';
-import { JobRepository, JobRetry } from './job-repository.js';
+import { JobRetry } from '../../jobs/default-config.js';
+import { JobRepository } from './job-repository.js';
 
 class AuditLoggingJobRepository extends JobRepository {
   constructor() {
