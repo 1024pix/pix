@@ -4,7 +4,9 @@ import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { MissingAttributesError, NotFoundError } from '../../../shared/domain/errors.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import * as organizationApi from '../../../team/application/api/organization.js';
+import { StructureNotFoundError } from '../../domain/errors.js';
 import { AttachedOrganization } from '../../domain/models/AttachedOrganization.js';
 import { OrganizationForAdmin } from '../../domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../domain/models/OrganizationLearnerType.js';
@@ -311,6 +313,8 @@ const update = async function ({ organization }) {
   await _addTags(knexConn, organization.tagsToAdd);
   await _removeTags(knexConn, organization.tagsToRemove);
 
+  await _updateStructureCategory(knexConn, organization.id, organization.categoryId);
+
   await knexConn(ORGANIZATIONS_TABLE_NAME)
     .update({
       ...organizationRawData,
@@ -550,6 +554,31 @@ async function _removeTags(knexConn, organizationTags) {
       organizationTags.map((organizationTag) => [organizationTag.organizationId, organizationTag.tagId]),
     )
     .delete();
+}
+
+async function _updateStructureCategory(knexConn, organizationId, categoryId) {
+  if (!categoryId) return;
+
+  const structure = await knexConn('fct_structures')
+    .join('structures', 'structures.id', 'fct_structures.structure_id')
+    .where({ organization_id: organizationId })
+    .select({ id: 'structures.id', currentCategoryId: 'structures.category_id' })
+    .first();
+
+  if (!structure) {
+    logger.error({
+      event: 'Not_found_structure',
+      message: `Not found structure for organization ${organizationId}`,
+    });
+    throw new StructureNotFoundError({
+      message: `Structure not found for organization ${organizationId}`,
+      meta: { organizationId },
+    });
+  }
+
+  if (structure.currentCategoryId === categoryId) return;
+
+  await knexConn('structures').where({ id: structure.id }).update({ category_id: categoryId, updated_at: new Date() });
 }
 
 function _toDomain(rawOrganization) {

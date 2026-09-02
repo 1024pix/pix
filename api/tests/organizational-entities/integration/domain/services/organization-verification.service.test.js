@@ -5,10 +5,12 @@ import {
   AdministrationTeamNotFound,
   CountryNotFoundError,
   OrganizationLearnerTypeNotFound,
+  StructureCategoryNotFound,
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import * as organizationVerificationService from '../../../../../src/organizational-entities/domain/services/organization-verification.service.js';
 import * as administrationTeamRepository from '../../../../../src/organizational-entities/infrastructure/repositories/administration-team-repository.js';
 import * as organizationLearnerTypeRepository from '../../../../../src/organizational-entities/infrastructure/repositories/organization-learner-type-repository.js';
+import * as structureCategoryRepository from '../../../../../src/organizational-entities/infrastructure/repositories/structure-category-repository.js';
 import * as countryRepository from '../../../../../src/shared/infrastructure/repositories/country-repository.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -132,6 +134,47 @@ describe('Integration | Organizational Entities | Domain | Services | organizati
           new AdministrationTeamNotFound({
             meta: {
               administrationTeamId: unknownAdministrationTeamId,
+            },
+          }),
+        );
+      });
+    });
+  });
+
+  describe('#checkStructureCategoryExists', function () {
+    describe('when the structure category exists', function () {
+      it('does not throw an error', async function () {
+        // given
+        const structureCategory = databaseBuilder.factory.buildStructureCategory();
+        await databaseBuilder.commit();
+
+        // then
+        await expect(
+          organizationVerificationService.checkStructureCategoryExists(
+            structureCategory.id,
+            structureCategoryRepository,
+          ),
+        ).not.to.be.rejected;
+      });
+    });
+
+    describe('when the structure category does not exist', function () {
+      it('throws an error', async function () {
+        // given
+        const unknownStructureCategoryId = 99000;
+
+        // when
+        const error = await catchErr(organizationVerificationService.checkStructureCategoryExists)(
+          unknownStructureCategoryId,
+          structureCategoryRepository,
+        );
+
+        // then
+        expect(error).to.deepEqualInstance(
+          new StructureCategoryNotFound({
+            message: `Structure category not found for id ${unknownStructureCategoryId}`,
+            meta: {
+              structureCategoryId: unknownStructureCategoryId,
             },
           }),
         );

@@ -142,6 +142,14 @@ class ParentOrganizationNotInNetworkError extends DomainError {
   }
 }
 
+class StructureCategoryNotFound extends DomainError {
+  constructor({ code = 'STRUCTURE_CATEGORY_NOT_FOUND', message = 'Structure category does not exist', meta } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class StructureNotFoundError extends DomainError {
   constructor({ code = 'STRUCTURE_NOT_FOUND', message = 'Structure not found', meta } = {}) {
     super(message);
@@ -176,6 +184,7 @@ export {
   OrganizationLearnerTypeNotFound,
   OrganizationNotFound,
   ParentOrganizationNotInNetworkError,
+  StructureCategoryNotFound,
   StructureNotFoundError,
   TagNotFoundError,
   UnableToAttachCertificationCenterToOrganization,

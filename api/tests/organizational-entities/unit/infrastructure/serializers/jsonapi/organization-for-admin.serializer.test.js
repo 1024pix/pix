@@ -230,6 +230,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         countryCode: '99100',
         organizationLearnerTypeName: 'Teacher',
         organizationLearnerTypeId: 123,
+        categoryId: '4',
       };
 
       // when
@@ -256,6 +257,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'country-code': organizationAttributes.countryCode,
             'organization-learner-type-id': organizationAttributes.organizationLearnerTypeId,
             'organization-learner-type-name': organizationAttributes.organizationLearnerTypeName,
+            'category-id': organizationAttributes.categoryId,
           },
         },
       });
@@ -293,6 +295,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
           id: 123,
           name: 'Teacher',
         }),
+        categoryId: 4,
       });
       expect(organization).to.be.instanceOf(OrganizationForAdmin);
       expect(organization).to.deep.equal(expectedOrganization);
@@ -366,6 +369,23 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
 
       // then
       expect(organization.parentOrganizationId).to.equal(5);
+    });
+
+    it('should deserialize categoryId as null if not present', function () {
+      // when
+      const organization = organizationForAdminSerializer.deserialize({
+        data: {
+          type: 'organizations',
+          id: '7',
+          attributes: {
+            name: 'Lycée St Cricq',
+            type: Organization.types.SCO,
+          },
+        },
+      });
+
+      // then
+      expect(organization.categoryId).to.be.null;
     });
 
     it('should not deserialize country code if not present', function () {
