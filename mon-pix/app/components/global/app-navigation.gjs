@@ -2,6 +2,7 @@ import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixNavigation from '@1024pix/pix-ui/components/pix-navigation';
 import PixNavigationButton from '@1024pix/pix-ui/components/pix-navigation-button';
 import PixNavigationSeparator from '@1024pix/pix-ui/components/pix-navigation-separator';
+import { hash } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -58,9 +59,11 @@ export default class AppNavigation extends Component {
   <template>
     <PixNavigation
       class="app-navigation"
-      @navigationAriaLabel={{t "navigation.nav-bar.aria-label"}}
-      @openLabel={{t "navigation.nav-bar.open"}}
-      @closeLabel={{t "navigation.nav-bar.close"}}
+      @texts={{hash
+        mainNavigation=(t "navigation.nav-bar.aria-label")
+        openMenu=(t "navigation.nav-bar.open")
+        closeMenu=(t "navigation.nav-bar.close")
+      }}
     >
       <:brand>
         <PixLogo @color="white" />
