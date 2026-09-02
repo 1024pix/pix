@@ -738,7 +738,7 @@
                 "cards": [
                   {
                     "id": "1de50b70-8780-4b5e-a3ff-9ff80269bfa6",
-                    "text": "Le dioxyde de carbone (CO₂) est le seul gaz à effet de serre.",
+                    "text": "Le dioxyde de carbone (CO2) est le seul gaz à effet de serre.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -749,7 +749,7 @@
                   },
                   {
                     "id": "9dd5ab20-eaab-464c-90b3-bd54c9ffc990",
-                    "text": "1kg de méthane contribue autant à l’effet de serre que 1kg de CO₂.",
+                    "text": "1 kg de méthane (CH4) contribue autant à l’effet de serre que 1 kg de dioxyde de carbone (CO2).",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -760,7 +760,7 @@
                   },
                   {
                     "id": "aa12edd4-44b5-45d7-adce-4b55ba5cabbf",
-                    "text": "L’empreinte carbone est exprimée en équivalent CO₂ (CO₂eq)",
+                    "text": "L’empreinte carbone est exprimée en équivalent CO2 (CO2eq).",
                     "image": {
                       "url": "",
                       "altText": ""
