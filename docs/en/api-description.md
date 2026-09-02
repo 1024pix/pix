@@ -108,7 +108,6 @@ A notable pattern: **success handlers**. When a database transaction commits, a 
 The API takes monitoring seriously:
 
 - **Pino** for structured logs with full request context.
-- **Datadog metrics** (histograms, gauges) for latency, error rates, and database pool health.
 - **Prometheus** endpoint for scraping.
 - **Database pool metrics** exported per connection.
 - **Execution context manager** (`AsyncLocalStorage`) threads request/job/script context through the entire call stack so every log line knows which user triggered it, which request it belongs to, and how many DB queries it made.

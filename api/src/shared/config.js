@@ -389,7 +389,6 @@ export const config = {
       1000,
     ),
     engineeringUserId: _getNumber(process.env.ENGINEERING_USER_ID),
-    metricsFlushIntervalSecond: _getNumber(process.env.METRICS_FLUSH_INTERVAL_SECOND, 15),
     startJobInWebProcess: toBoolean(process.env.START_JOB_IN_WEB_PROCESS),
   },
   jwtConfig: {
@@ -511,8 +510,6 @@ export const config = {
         parseJSONEnv('PROMETHEUS_METRICS_BUCKETS'),
       ),
     },
-    flushIntervalSeconds: _getNumber(process.env.DIRECT_METRICS_FLUSH_INTERVAL, 5),
-    isDirectMetricsEnabled: toBoolean(process.env.FT_ENABLE_DIRECT_METRICS),
     isOppsyDisabled: toBoolean(process.env.FT_OPPSY_DISABLED),
   },
   module: {
