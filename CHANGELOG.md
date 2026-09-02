@@ -1,5 +1,36 @@
 # Pix Changelog
 
+# [5.493.0](https://github.com/1024pix/pix/compare/v5.492.0...v5.493.0) (2026-09-02)
+
+### :rocket: Amélioration
+
+- [#17325](https://github.com/1024pix/pix/pull/17325) MDX-244 CY_Generalite_IND retours interne mdx
+- [#17338](https://github.com/1024pix/pix/pull/17338) MDX-250 Inégalités_NOV Corrections avant envoi en relecture
+- [#17344](https://github.com/1024pix/pix/pull/17344) modifs module CY GEN NOV relecture
+- [#17291](https://github.com/1024pix/pix/pull/17291) PixOrga - Implémentation du nouveau PixSelect 
+- [#17335](https://github.com/1024pix/pix/pull/17335) Pouvoir modifier la categorie d'une organisation côté API (PIX-23564)
+- [#17320](https://github.com/1024pix/pix/pull/17320) Tagger les contenus formatifs que l'on veut mettre en avant (PIX-24005)
+
+### :bug: Correction
+
+- [#17356](https://github.com/1024pix/pix/pull/17356) corrige le partage d'attestation (PIX-24107)
+- [#17345](https://github.com/1024pix/pix/pull/17345) Deadlock pgboss dans les tests
+
+### :building_construction: Tech
+
+- [#17341](https://github.com/1024pix/pix/pull/17341) Ajouter les fondations pour migrer PixOrga sur TS
+- [#17213](https://github.com/1024pix/pix/pull/17213) Internaliser les traductions pour la Pagination des applications (PIX-REFACTO).
+- [#17148](https://github.com/1024pix/pix/pull/17148) Supprime l'utilisation de `dayjs` dans l'utilitaire de date dans `shared`
+- [#17347](https://github.com/1024pix/pix/pull/17347) Utilise des contextes CircleCI pour les jobs e2e.
+
+### :arrow_up: Montée de version
+
+- [#17360](https://github.com/1024pix/pix/pull/17360) Update dependency @1024pix/pix-ui to ^68.1.0 (orga)
+- [#17311](https://github.com/1024pix/pix/pull/17311) Update dependency @warp-drive/build-config to ^5.8.2 (orga)
+- [#17313](https://github.com/1024pix/pix/pull/17313) Update dependency @warp-drive/build-config to v5.8.2 (admin)
+- [#17346](https://github.com/1024pix/pix/pull/17346) Update dependency npm-run-all2 to ^9.0.3
+- [#17238](https://github.com/1024pix/pix/pull/17238) Update dependency samlify to v2.13.0 [SECURITY]
+
 # [5.492.0](https://github.com/1024pix/pix/compare/v5.491.0...v5.492.0) (2026-09-01)
 
 ### :rocket: Amélioration
