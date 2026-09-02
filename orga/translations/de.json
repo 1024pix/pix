@@ -240,6 +240,7 @@
         "label": "Externe ID-Suche"
       },
       "placeholder": "-- -- Auswählen --",
+      "search-label-list": "Externe",
       "title": "Filter"
     },
     "form": {
@@ -466,7 +467,8 @@
       }
     },
     "locale-switcher": {
-      "label": "Wählen Sie eine Sprache"
+      "label": "Wählen Sie eine Sprache",
+      "placeholder": "Wählen Sie eine Sprache"
     },
     "organization-participants-header": {
       "default": {
@@ -811,6 +813,7 @@
         "info": "Der Besitzer der Kampagne sowie die Administratoren dieser Organisation, sind die einzigen Personen, die diese Kampagne bearbeiten oder archivieren können.",
         "label": "Besitzer der Kampagne",
         "placeholder": "Name und Vorname des Besitzers",
+        "search-label": "Nach einem Besitzer suchen",
         "search-placeholder": "Nach einem Besitzer suchen",
         "title": "Besitzer der Kampagne"
       },

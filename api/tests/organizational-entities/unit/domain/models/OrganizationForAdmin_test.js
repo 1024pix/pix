@@ -460,6 +460,36 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
       expect(organization.countryCode).to.equal(initialCountryCode);
     });
 
+    it('updates category id', async function () {
+      // given
+      const organization = new OrganizationForAdmin({ categoryId: 1 });
+
+      // when
+      organization.updateWithDataProtectionOfficerAndTags({
+        categoryId: 2,
+        features,
+        organizationLearnerType,
+      });
+
+      // then
+      expect(organization.categoryId).to.equal(2);
+    });
+
+    it('does not update category id to empty value', async function () {
+      // given
+      const organization = new OrganizationForAdmin({ categoryId: 1 });
+
+      // when
+      organization.updateWithDataProtectionOfficerAndTags({
+        categoryId: null,
+        features,
+        organizationLearnerType,
+      });
+
+      // then
+      expect(organization.categoryId).to.equal(1);
+    });
+
     context('updates organization isManagingStudents', function () {
       it('updates organization isManagingStudents when LEARNER_IMPORT feature does not exist', function () {
         // given

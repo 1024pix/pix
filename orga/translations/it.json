@@ -240,6 +240,7 @@
         "label": "Ricerca di identificatore esterno"
       },
       "placeholder": "-- Seleziona...",
+      "search-label-list": "Ricerca",
       "title": "Filtri"
     },
     "form": {
@@ -466,7 +467,8 @@
       }
     },
     "locale-switcher": {
-      "label": "Selezionare una lingua"
+      "label": "Selezionare una lingua",
+      "placeholder": "Selezionare una lingua"
     },
     "organization-participants-header": {
       "default": {
@@ -811,6 +813,7 @@
         "info": "Il proprietario della campagna e gli amministratori di questa organizzazione sono le uniche persone che possono modificare o archiviare questa campagna.",
         "label": "Proprietario della campagna",
         "placeholder": "Nome e cognome del proprietario",
+        "search-label": "Trovare un proprietario",
         "search-placeholder": "Trovare un proprietario",
         "title": "Proprietario della campagna"
       },

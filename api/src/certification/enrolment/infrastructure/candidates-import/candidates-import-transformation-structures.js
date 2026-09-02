@@ -34,7 +34,7 @@ const _getTransformationsStruct = (translate) => [
     header: translate('candidate-list-template.headers.birth-date'),
     property: 'birthdate',
     transformFn: (cellVal) => {
-      return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
+      return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY' });
     },
   },
   {

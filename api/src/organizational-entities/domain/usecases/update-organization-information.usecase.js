@@ -9,6 +9,7 @@ const updateOrganizationInformation = withTransaction(async function ({
   organizationLearnerTypeRepository,
   organizationVerificationService,
   countryRepository,
+  structureCategoryRepository,
   learnersApi,
 }) {
   const existingOrganization = await organizationForAdminRepository.get({
@@ -33,6 +34,13 @@ const updateOrganizationInformation = withTransaction(async function ({
 
   if (organization.countryCode) {
     await organizationVerificationService.checkCountryExists(organization.countryCode, countryRepository);
+  }
+
+  if (organization.categoryId) {
+    await organizationVerificationService.checkStructureCategoryExists(
+      organization.categoryId,
+      structureCategoryRepository,
+    );
   }
 
   existingOrganization.updateWithDataProtectionOfficerAndTags(

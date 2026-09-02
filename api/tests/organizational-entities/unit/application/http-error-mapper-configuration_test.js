@@ -6,6 +6,7 @@ import {
   CountryNotFoundError,
   NetworkAlreadyExistError,
   ParentOrganizationNotInNetworkError,
+  StructureCategoryNotFound,
   StructureNotFoundError,
   TagNotFoundError,
   UnableToAttachCertificationCenterToOrganization,
@@ -128,6 +129,25 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       // then
       expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('Parent organization not in network');
+      expect(error.meta).to.equal(meta);
+    });
+  });
+
+  context('when mapping "StructureCategoryNotFound"', function () {
+    it('should return a UnprocessableEntityError Http Error', function () {
+      // given
+      const httpErrorMapper = organizationalEntitiesDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === StructureCategoryNotFound.name,
+      );
+
+      const meta = { structureCategoryId: 99 };
+
+      // when
+      const error = httpErrorMapper.httpErrorFn(new StructureCategoryNotFound({ meta }));
+
+      // then
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
+      expect(error.message).to.equal('Structure category does not exist');
       expect(error.meta).to.equal(meta);
     });
   });

@@ -1,43 +1,71 @@
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat.js';
-
-dayjs.extend(customParseFormat, {
-  parseTwoDigitYear: (yearString) => {
-    const year = parseInt(yearString);
-    const currentYear = new Date().getFullYear();
-    return 2000 + year < currentYear ? 2000 + year : 1900 + year;
-  },
-});
-
-function isValidDate(dateValue, format) {
-  return dayjs(dateValue, format, true).isValid() || dateValue instanceof Date;
+export function isValidDate(dateValue, format) {
+  return convertDateValue({ dateString: dateValue, inputFormat: format }) !== null;
 }
 
-function convertDateValue({ dateString, inputFormat, alternativeInputFormat = null, outputFormat }) {
-  const isDateInstance = dateString instanceof Date;
-
-  if (isDateInstance) {
-    return formatDate([dateString], outputFormat);
+export function convertDateValue({ dateString, inputFormat }) {
+  const dateObject = toDateObject({ dateString, inputFormat });
+  if (dateObject === null) {
+    return null;
   }
-
-  if (isValidDate(dateString, inputFormat)) {
-    return formatDate([dateString, inputFormat, true], outputFormat);
-  } else if (alternativeInputFormat && isValidDate(dateString, alternativeInputFormat)) {
-    return formatDate([dateString, alternativeInputFormat, true], outputFormat);
-  }
-
-  return null;
+  return toIsoDateString(dateObject);
 }
 
-function formatDate(params, outputFormat) {
-  return dayjs(...params).format(outputFormat);
+function toDateObject({ dateString, inputFormat }) {
+  if (dateString instanceof Date) {
+    return Number.isNaN(dateString.getTime()) ? null : dateString;
+  }
+
+  if (typeof dateString !== 'string' || typeof inputFormat !== 'string') {
+    return null;
+  }
+
+  if (!formatIsMatching(dateString, inputFormat)) {
+    return null;
+  }
+
+  const year = expandTwoDigitYear(extractDatePart(dateString, inputFormat, 'Y'));
+  const month = parseInt(extractDatePart(dateString, inputFormat, 'M')) - 1;
+  const dayOfMonth = parseInt(extractDatePart(dateString, inputFormat, 'D'));
+
+  const dateObject = new Date(year, month, dayOfMonth);
+  if (month !== dateObject.getMonth() || dayOfMonth !== dateObject.getDate()) {
+    return null;
+  }
+  return dateObject;
+}
+
+function formatIsMatching(dateString, inputFormat) {
+  return dateString.replace(/[0-9]/g, ' ') === inputFormat.replace(/(D|M|Y)/g, ' ');
+}
+
+function extractDatePart(dateString, inputFormat, formatToken) {
+  const formatCharacters = inputFormat.split('');
+  return dateString
+    .split('')
+    .filter((_, index) => formatCharacters[index] === formatToken)
+    .join('');
+}
+
+function expandTwoDigitYear(year) {
+  if (year.length !== 2) {
+    return year;
+  }
+  const currentTwoDigitYear = new Date().getFullYear().toString().slice(-2);
+  return year < currentTwoDigitYear ? `20${year}` : `19${year}`;
+}
+
+function toIsoDateString(date) {
+  const year = String(date.getFullYear()).padStart(4, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const dayOfMonth = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${dayOfMonth}`;
 }
 
 /**
  * @param {Date} date
  * @returns {Date} a new Date object
  */
-function anonymizeGeneralizeDate(date) {
+export function anonymizeGeneralizeDate(date) {
   if (!date) return null;
 
   const newDate = new Date(date);
@@ -45,5 +73,3 @@ function anonymizeGeneralizeDate(date) {
   newDate.setUTCHours(0, 0, 0, 0);
   return newDate;
 }
-
-export { anonymizeGeneralizeDate, convertDateValue, isValidDate };
