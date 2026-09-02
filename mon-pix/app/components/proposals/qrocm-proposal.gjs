@@ -1,7 +1,7 @@
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
-import { fn, get } from '@ember/helper';
+import { fn, get, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -26,7 +26,7 @@ export default class QrocmProposal extends Component {
               data-test="challenge-response-proposal-selector"
               @isDisabled={{@isAnswerFieldDisabled}}
               @screenReaderOnly={{true}}
-              @placeholder={{block.placeholder}}
+              @texts={{hash placeholder=block.placeholder}}
               @value={{get @answersValue block.input}}
               @hideDefaultOption={{true}}
               @options={{block.options}}
