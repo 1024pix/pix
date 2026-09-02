@@ -1,4 +1,10 @@
-export default function isPasswordValid(password) {
+interface PasswordRule {
+  id: string;
+  i18nKey: string;
+  validate: (password: string) => boolean;
+}
+
+export default function isPasswordValid(password: string | null | undefined): boolean {
   if (!password) {
     return false;
   }
@@ -7,15 +13,15 @@ export default function isPasswordValid(password) {
   return invalidRules.length === 0;
 }
 
-export function getInvalidRuleIds(rules, password) {
+function getInvalidRuleIds(rules: PasswordRule[], password: string): string[] {
   return rules.filter((rule) => !rule.validate(password)).map((rule) => rule.id);
 }
 
-export const PASSWORD_RULES = [
+export const PASSWORD_RULES: PasswordRule[] = [
   {
     id: 'minLength',
     i18nKey: 'common.validation.password.rules.min-length',
-    validate: (password) => password.length && password.length >= 8,
+    validate: (password) => password.length >= 8,
   },
   {
     id: 'containsUppercase',

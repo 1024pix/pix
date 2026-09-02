@@ -1,6 +1,6 @@
 import { setupTest } from 'ember-qunit';
-import extraFilterSerializer from 'pix-orga/utils/extra-filter-serializer.js';
-import paramsValidator from 'pix-orga/utils/params-validator.js';
+import extraFilterSerializer from 'pix-orga/utils/extra-filter-serializer';
+import paramsValidator from 'pix-orga/utils/params-validator';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

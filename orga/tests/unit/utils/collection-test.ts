@@ -12,7 +12,7 @@ module('Unit | Utils | collection', function (hooks) {
     });
 
     test('it returns 0 for an empty array', function (assert) {
-      const numbers = [];
+      const numbers: number[] = [];
       const result = sum(numbers);
       assert.strictEqual(result, 0, 'Sum of an empty array should be 0');
     });
@@ -26,7 +26,7 @@ module('Unit | Utils | collection', function (hooks) {
     });
 
     test('it returns 0 for an empty array', function (assert) {
-      const items = [];
+      const items: { value: number }[] = [];
       const result = sumBy(items, 'value');
       assert.strictEqual(result, 0, 'Sum of an empty array should be 0');
     });
@@ -53,7 +53,7 @@ module('Unit | Utils | collection', function (hooks) {
     });
 
     test('it returns null for an empty array', function (assert) {
-      const items = [];
+      const items: { value: number }[] = [];
       const result = minBy(items, 'value');
       assert.strictEqual(result, null, 'Should return null for empty array');
     });
@@ -87,7 +87,7 @@ module('Unit | Utils | collection', function (hooks) {
     });
 
     test('it returns null for an empty array', function (assert) {
-      const items = [];
+      const items: { value: number }[] = [];
       const result = maxBy(items, 'value');
       assert.strictEqual(result, null, 'Should return null for empty array');
     });
@@ -151,7 +151,7 @@ module('Unit | Utils | collection', function (hooks) {
     });
 
     test('it returns an empty array for empty input', function (assert) {
-      const items = [];
+      const items: { value: number }[] = [];
       const result = orderBy(items, 'value');
       assert.deepEqual(result, [], 'Should return empty array for empty input');
     });

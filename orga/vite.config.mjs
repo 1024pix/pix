@@ -56,10 +56,6 @@ export default defineConfig({
       },
     },
   },
-  esbuild: {
-    sourcemap: true,
-    sourcesContent: true,
-  },
   optimizeDeps: {
     exclude: ['ember-exam'],
   },

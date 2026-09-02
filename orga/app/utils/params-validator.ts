@@ -1,6 +1,6 @@
 import { CERTIFICABILITY_TYPES } from '../helpers/certificability-types';
 
-export function validateCertificabilityParams(params) {
+export function validateCertificabilityParams(params: { certificability?: string | string[] }): void {
   if (params.certificability) {
     const certificabilityParams = !Array.isArray(params.certificability)
       ? [params.certificability]

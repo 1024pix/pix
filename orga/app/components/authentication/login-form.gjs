@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
-import { FormValidation } from 'pix-orga/utils/form-validation';
+import { createFormValidation } from 'pix-orga/utils/form-validation';
 
 const VALIDATION_ERRORS = {
   login: 'pages.login-form.errors.empty-email',
@@ -26,7 +26,7 @@ export default class LoginForm extends Component {
   @tracked password = '';
   @tracked login = '';
 
-  validation = new FormValidation({
+  validation = createFormValidation({
     login: {
       validate: (value) => Boolean(value),
       error: VALIDATION_ERRORS.login,
@@ -85,13 +85,13 @@ export default class LoginForm extends Component {
   @action
   updatePassword(event) {
     this.password = event.target.value?.trim();
-    this.validation.password.validate(this.password);
+    this.validation.fields.password.validate(this.password);
   }
 
   @action
   updateLogin(event) {
     this.login = event.target.value?.trim();
-    this.validation.login.validate(this.login);
+    this.validation.fields.login.validate(this.login);
   }
 
   <template>
@@ -112,8 +112,8 @@ export default class LoginForm extends Component {
         {{on "input" this.updateLogin}}
         @value={{this.login}}
         placeholder={{t "pages.login-form.email.placeholder"}}
-        @validationStatus={{this.validation.login.status}}
-        @errorMessage={{t this.validation.login.error}}
+        @validationStatus={{this.validation.fields.login.status}}
+        @errorMessage={{t this.validation.fields.login.error}}
         autocomplete="email"
         aria-required="true"
       >
@@ -126,8 +126,8 @@ export default class LoginForm extends Component {
           name="password"
           {{on "input" this.updatePassword}}
           @value={{this.password}}
-          @validationStatus={{this.validation.password.status}}
-          @errorMessage={{t this.validation.password.error}}
+          @validationStatus={{this.validation.fields.password.status}}
+          @errorMessage={{t this.validation.fields.password.error}}
           autocomplete="current-password"
           aria-required={{true}}
         >

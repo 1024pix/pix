@@ -1,4 +1,4 @@
-import isPasswordValid from 'pix-orga/utils/password-validator.js';
+import isPasswordValid from 'pix-orga/utils/password-validator';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | password validator', function () {

@@ -1,5 +1,5 @@
 import { setupTest } from 'ember-qunit';
-import paramsValidator from 'pix-orga/utils/params-validator.js';
+import paramsValidator from 'pix-orga/utils/params-validator';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 module('Unit | Route | authenticated/sup-organization-participants/list', function (hooks) {

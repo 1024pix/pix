@@ -1,6 +1,6 @@
 import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
-import extraFilterSerializer from 'pix-orga/utils/extra-filter-serializer.js';
+import extraFilterSerializer from 'pix-orga/utils/extra-filter-serializer';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
