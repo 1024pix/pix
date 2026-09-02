@@ -1091,7 +1091,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
       });
 
       // then
-      const createdOrganizations = await knex('organizations').select();
+      const createdOrganizations = await knex('organizations').select().orderBy('type');
       expect(createdOrganizations).to.have.lengthOf(3);
 
       const [proOrganization, scoOrganization, sco1dOrganization] = createdOrganizations;
