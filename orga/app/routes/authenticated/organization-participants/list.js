@@ -3,7 +3,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
 import extraFilters from '../../../utils/extra-filter-serializer';
-import paramsValidator from '../../../utils/params-validator.js';
+import paramsValidator from '../../../utils/params-validator';
 export default class ListRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },

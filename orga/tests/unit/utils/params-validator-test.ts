@@ -6,7 +6,7 @@ module('Unit | Utils | params-validator', function (hooks) {
   setupTest(hooks);
   module('encodeExtraFilters', () => {
     test('it remove invalid params from string', function (assert) {
-      const params = {
+      const params: { certificability: string | string[] } = {
         certificability: 'serge',
       };
 
@@ -36,7 +36,7 @@ module('Unit | Utils | params-validator', function (hooks) {
     });
 
     test('it keep valid status from string', function (assert) {
-      const params = {
+      const params: { certificability: string | string[] } = {
         certificability: 'eligible',
       };
 
