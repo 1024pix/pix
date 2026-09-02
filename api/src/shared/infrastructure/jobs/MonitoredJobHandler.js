@@ -1,8 +1,7 @@
 import dayjs from 'dayjs';
 
 class MonitoredJobHandler {
-  constructor(metrics, handler, logger) {
-    this.metrics = metrics;
+  constructor(handler, logger) {
     this.handler = handler;
     this.logger = logger;
   }
@@ -50,19 +49,9 @@ class MonitoredJobHandler {
       },
       'PGBOSS JOB COMPLETED',
     );
-    this.metrics.addMetricPoint({
-      type: 'histogram',
-      name: 'captain.job.duration',
-      tags: ['method:pg-boss', `jobName:${name}`, `statusCode:SUCCESS`],
-      value: executionTime,
-    });
   }
 
   logJobFailed(name, job, error) {
-    const startedOn = dayjs(job.startedOn);
-    const completedOn = dayjs();
-    const executionTime = completedOn.diff(startedOn, 'second', true);
-
     this.logger.error(
       {
         type: 'JOB_LOG_ERROR',
@@ -75,12 +64,6 @@ class MonitoredJobHandler {
       },
       'PGBOSS ERROR IN JOB',
     );
-    this.metrics.addMetricPoint({
-      type: 'histogram',
-      name: 'captain.job.duration',
-      tags: ['method:pg-boss', `jobName:${name}`, `statusCode:FAILED`],
-      value: executionTime,
-    });
   }
 }
 
