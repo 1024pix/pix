@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
-import { createOpenIdClientMock } from '../../../../tooling/mocks/openid-client.mock.js';
+import { createOpenIdClientMock, OIDC_PROVIDER_TEST_CONFIG } from '../../../../tooling/mocks/openid-client.mock.js';
 
 describe('Unit | Identity Access Management | Domain | Services | pole-emploi-oidc-authentication-service', function () {
   let openidClient;
@@ -19,7 +19,7 @@ describe('Unit | Identity Access Management | Domain | Services | pole-emploi-oi
         // when
         const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService(
           {
-            ...settings.oidcExampleNet,
+            ...OIDC_PROVIDER_TEST_CONFIG,
             identityProvider: 'POLE_EMPLOI',
             organizationName: 'France Travail',
             shouldCloseSession: true,
@@ -40,11 +40,11 @@ describe('Unit | Identity Access Management | Domain | Services | pole-emploi-oi
   describe('#initializeClientConfig', function () {
     it('creates an openid client config', async function () {
       // given
-      sinon.stub(settings, 'poleEmploi').value(settings.oidcExampleNet);
+      sinon.stub(settings, 'poleEmploi').value(OIDC_PROVIDER_TEST_CONFIG);
 
       const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService(
         {
-          ...settings.oidcExampleNet,
+          ...OIDC_PROVIDER_TEST_CONFIG,
           additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
           identityProvider: 'POLE_EMPLOI',
           organizationName: 'France Travail',
@@ -78,7 +78,7 @@ describe('Unit | Identity Access Management | Domain | Services | pole-emploi-oi
       };
       const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService(
         {
-          ...settings.oidcExampleNet,
+          ...OIDC_PROVIDER_TEST_CONFIG,
           additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
           identityProvider: 'POLE_EMPLOI',
           organizationName: 'France Travail',

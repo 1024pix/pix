@@ -7,7 +7,7 @@ import Joi from './config-joi.js';
 
 let isEnvLoaded = false;
 
-// load environment variables
+// Load environment variables from .env files
 if (!isEnvLoaded) {
   try {
     if (process.env.NODE_ENV === 'test') {
@@ -603,17 +603,6 @@ const configuration = (function () {
   };
 
   if (process.env.NODE_ENV === 'test') {
-    // TODO: no env var for this block
-    config.oidcExampleNet = {
-      clientId: 'client',
-      clientSecret: 'secret',
-      enabled: true,
-      enabledForPixAdmin: true,
-      openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
-      organizationName: 'Oidc Example',
-      postLogoutRedirectUri: 'https://app.dev.pix.local/connexion',
-      redirectUri: 'https://app.dev.pix.local/connexion/oidc-example-net',
-    };
     // TODO: no env var for jwkModulusLength
     config.lti.jwkModulusLength = 2048;
 
@@ -627,9 +616,6 @@ const configuration = (function () {
 
     // TODO: utiliser `config.mutex.redisUrl` à la place dans le code des tests
     config.redis = { url: process.env.REDIS_URL };
-
-    // TODO: MISSING ENV VAR
-    config.identityProviderConfigKey = null;
   }
 
   return config;

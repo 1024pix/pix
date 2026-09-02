@@ -3,8 +3,8 @@ import { randomUUID } from 'node:crypto';
 import { expect } from 'chai';
 
 import { FwbOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/fwb-oidc-authentication-service.js';
-import { config } from '../../../../../src/shared/config.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
+import { OIDC_PROVIDER_TEST_CONFIG } from '../../../../tooling/mocks/openid-client.mock.js';
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
@@ -18,7 +18,7 @@ describe('Integration | Identity Access Management | Domain | Service | fwb-oidc
       const logoutUrlUUID = randomUUID();
       const key = `${userId}:${logoutUrlUUID}`;
       const fwbOidcAuthenticationService = new FwbOidcAuthenticationService({
-        ...config.oidcExampleNet,
+        ...OIDC_PROVIDER_TEST_CONFIG,
         additionalRequiredProperties: { logoutUrl: 'https://logout-url.org' },
         identityProvider: 'FWB',
         organizationName: 'Fédération Wallonie-Bruxelles',
