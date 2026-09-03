@@ -72,7 +72,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
     await httpTestServer.register([pinoPluginWithLogger]);
   }
 
-  describe('Ensure that datadog configured log format is what we send', function () {
+  describe('Ensure that configured log format is what we send', function () {
     it('should log the error and the request result when there is an unexpected error', async function () {
       // given
       const messages = [];

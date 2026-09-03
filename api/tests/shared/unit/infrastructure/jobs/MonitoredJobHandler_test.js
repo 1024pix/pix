@@ -7,7 +7,6 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
   context('handle', function () {
     it('should execute and monitor a job', async function () {
       // given
-      const metricsMock = { addMetricPoint: sinon.stub() };
       const handlerMock = { handle: sinon.stub() };
       const loggerMock = { info: sinon.stub(), error: sinon.stub() };
       sinon.useFakeTimers({ now: new Date('2022-02-27T13:00:00Z'), toFake: ['Date'] });
@@ -19,7 +18,7 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
       };
 
       // when
-      const monitorJobHandler = new MonitoredJobHandler(metricsMock, handlerMock, loggerMock);
+      const monitorJobHandler = new MonitoredJobHandler(handlerMock, loggerMock);
       await monitorJobHandler.handle('MyJob', jobData);
 
       // then
@@ -44,12 +43,10 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
         },
         'PGBOSS JOB COMPLETED',
       );
-      expect(metricsMock.addMetricPoint).to.have.been.called;
     });
 
     it('should log failure when job failed', async function () {
       // given
-      const metricsMock = { addMetricPoint: sinon.stub() };
       const handlerMock = { handle: sinon.stub().rejects(new Error('error in handler')) };
       const loggerMock = { info: sinon.stub(), error: sinon.stub() };
       sinon.useFakeTimers({ now: new Date('2022-02-27T13:00:00Z'), toFake: ['Date'] });
@@ -61,7 +58,7 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
       };
 
       // when
-      const monitorJobHandler = new MonitoredJobHandler(metricsMock, handlerMock, loggerMock);
+      const monitorJobHandler = new MonitoredJobHandler(handlerMock, loggerMock);
       await expect(monitorJobHandler.handle('MyJob', jobData)).to.be.rejectedWith('error in handler');
 
       // then
@@ -76,8 +73,6 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
       expect(payload.handlerName).to.equal('MyJob');
       expect(payload.error).to.equal('error in handler');
       expect(payload.stack).to.contains('Error: error in handler\n');
-
-      expect(metricsMock.addMetricPoint).to.have.been.called;
     });
   });
 });

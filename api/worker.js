@@ -1,15 +1,12 @@
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { checkJobGroups, JobGroup } from './src/shared/application/jobs/job-controller.js';
-import { config, schema as configSchema } from './src/shared/config.js';
+import { schema as configSchema } from './src/shared/config.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
-import { DatadogMetrics } from './src/shared/infrastructure/metrics/datadog-metrics.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
 import { child } from './src/shared/infrastructure/utils/logger.js';
 import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
 
 const logger = child('worker', { event: 'worker' });
-
-const metrics = new DatadogMetrics({ config });
 
 const isRunningFromCli = import.meta.filename === process.argv[1];
 
@@ -40,7 +37,6 @@ async function exitOnSignal(signal) {
   isShuttingDown = true;
 
   logger.info(`Received signal: ${signal}.`);
-  await metrics.clearMetrics();
   await releaseInfrastructure();
 }
 

@@ -108,7 +108,6 @@ Un pattern notable : les **success handlers**. Lorsqu'une transaction base de do
 L'API accorde une grande importance à la supervision :
 
 - **Pino** pour des logs structurés avec le contexte complet de la requête.
-- **Métriques Datadog** (histogrammes, jauges) pour la latence, les taux d'erreur et la santé du pool de connexions.
 - **Endpoint Prometheus** pour le scraping.
 - **Métriques du pool de connexions** exportées par connexion.
 - **Gestionnaire de contexte d'exécution** (`AsyncLocalStorage`) qui propage le contexte requête/job/script à travers toute la pile d'appels, afin que chaque ligne de log sache quel utilisateur l'a déclenchée, à quelle requête elle appartient, et combien de requêtes SQL ont été effectuées.

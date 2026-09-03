@@ -42,7 +42,6 @@ async function _exitOnSignal(signal) {
   logger.info(`Received signal: ${signal}.`);
   logger.info('Stopping HAPI server...');
   await server.stop({ timeout: 30000 });
-  await server.directMetrics?.clearMetrics();
   if (server.oppsy) {
     logger.info('Stopping HAPI Oppsy server...');
     await server.oppsy.stop();

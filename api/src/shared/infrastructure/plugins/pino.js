@@ -88,19 +88,15 @@ const plugin = {
     server.events.on('response', (request) => {
       const info = request.info;
 
-      const shouldLog = !config.metrics.isDirectMetricsEnabled;
-
-      if (shouldLog || request.raw.res.statusCode != 200) {
-        logger.info(
-          {
-            queryParams: request.query,
-            req: request,
-            res: request.raw.res,
-            responseTime: (info.completed !== undefined ? info.completed : info.responded) - info.received,
-          },
-          'request completed',
-        );
-      }
+      logger.info(
+        {
+          queryParams: request.query,
+          req: request,
+          res: request.raw.res,
+          responseTime: (info.completed !== undefined ? info.completed : info.responded) - info.received,
+        },
+        'request completed',
+      );
     });
   },
 };
