@@ -103,7 +103,7 @@ class KeyValueStorage {
       },
 
       ttl(key) {
-        return storage.ttl(key);
+        return storage.ttl(prefix + key);
       },
 
       lpush({ key, value }) {
@@ -123,7 +123,7 @@ class KeyValueStorage {
       },
 
       smembers(key) {
-        return storage.smembers(key);
+        return storage.smembers(prefix + key);
       },
 
       async keys(pattern) {

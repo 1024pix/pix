@@ -4,6 +4,7 @@ import { expect } from 'chai';
 
 import { RevokedUserAccess } from '../../../../../src/identity-access-management/domain/models/RevokedUserAccess.js';
 import { revokedUserAccessRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/revoked-user-access.repository.js';
+import { config } from '../../../../../src/shared/config.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
 
@@ -35,15 +36,16 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   describe('#revokeSession', function () {
     it('saves revoked access for user session in TemporaryStorage', async function () {
       // given
-      const revokeUntil = new Date();
-      const revokedTimeStamp = Math.floor(revokeUntil.getTime() / 1000);
+      const sessionId = crypto.randomUUID();
 
       // when
-      await revokedUserAccessRepository.revokeSession({ userId: 12345, sessionId: 67890, revokeUntil });
+      await revokedUserAccessRepository.revokeSession({ userId: 12345, sessionId });
 
       // then
-      const result = await revokedUserAccessTemporaryStorage.get('12345:67890');
-      expect(result).to.equal(revokedTimeStamp);
+      const result = await revokedUserAccessTemporaryStorage.smembers('12345:sessions');
+      expect(result).to.deep.equal([sessionId]);
+      const ttl = await revokedUserAccessTemporaryStorage.ttl('12345:sessions');
+      expect(ttl).to.equal(config.authentication.revokedUserAccessLifespanMs / 1000);
     });
   });
 
@@ -75,11 +77,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const revokedAllTimeStamp = Math.floor(new Date('2026-08-27T15:00:50Z').getTime() / 1000);
         await revokedUserAccessTemporaryStorage.save({ key: '12345:all', value: revokedAllTimeStamp });
 
-        const session1RevokedTimestamp = Math.floor(new Date().getTime('2026-08-27T16:00:50Z') / 1000);
-        await revokedUserAccessTemporaryStorage.save({ key: '12345:session1', value: session1RevokedTimestamp });
-
-        const session2RevokedTimestamp = Math.floor(new Date().getTime('2026-08-27T17:00:50Z') / 1000);
-        await revokedUserAccessTemporaryStorage.save({ key: '12345:session2', value: session2RevokedTimestamp });
+        await revokedUserAccessTemporaryStorage.sadd({ key: '12345:sessions', value: 'session1' });
+        await revokedUserAccessTemporaryStorage.sadd({ key: '12345:sessions', value: 'session2' });
 
         // when
         const result = await revokedUserAccessRepository.findByUserId(12345);
