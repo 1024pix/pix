@@ -76,7 +76,7 @@ async function findByUserId(userId) {
 
   const { all: revokedAllTimeStamp, ...revokedSessionTimeStamps } = revokedTimeStamps;
 
-  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionTimeStamps });
+  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessions: Object.keys(revokedSessionTimeStamps).sort() });
 }
 
 export const revokedUserAccessRepository = { revokeAll, revokeSession, findByUserId };
