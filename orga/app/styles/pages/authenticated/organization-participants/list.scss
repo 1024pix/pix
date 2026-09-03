@@ -12,6 +12,7 @@ $margin-right: 32px;
   &__align-element {
     display: inline-flex;
     gap:var(--pix-spacing-2x);
+    align-items: center;
     justify-content: center;
 
     &--column {
