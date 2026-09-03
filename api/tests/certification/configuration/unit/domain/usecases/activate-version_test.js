@@ -147,6 +147,33 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
       });
     });
 
+    it('only persists calibrated challenges whose tube is selected for the version', async function () {
+      // given
+      const challengeInVersion = { challengeId: 'chalA', tubeId: 'tubeA', alpha: 1.5, delta: -0.5 };
+      const challengeOutsideVersion = { challengeId: 'chalB', tubeId: 'tubeB', alpha: 1.2, delta: 0.3 };
+      const calibration = { calibratedChallenges: [challengeInVersion, challengeOutsideVersion] };
+      const draftVersion = domainBuilder.certification.configuration
+        .versionBuilder()
+        .asDraft({ startDate: new Date('2025-01-01') })
+        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 42, externalCalibrationId: 7 })
+        .withRealisticScoringConfigurations()
+        .build();
+      versionRepository.getById.resolves(draftVersion);
+      versionRepository.findActiveByScope.resolves(null);
+      versionRepository.save.resolves(draftVersion.id);
+      calibrationRepository.find.resolves(calibration);
+      calibratedChallengesRepository.saveMany.resolves();
+
+      // when
+      await activateVersion({ id: 42, versionRepository, calibrationRepository, calibratedChallengesRepository });
+
+      // then
+      sinon.assert.calledWithExactly(calibratedChallengesRepository.saveMany, {
+        calibratedChallenges: [challengeInVersion],
+        versionId: 42,
+      });
+    });
+
     it('activates the draft version', async function () {
       // given
       const now = new Date('2025-09-01');
