@@ -657,10 +657,10 @@
             "save-error": "An error occurred while saving the scoring.",
             "save-scoring-button": "Save scoring",
             "save-scoring-modal": {
-              "content": "This action will save the scoring configuration on the active version.",
+              "content": "This action will save the scoring configuration to the active version and will trigger the scoring that has already been applied to that version. This action is irreversible, the scoring cannot be modified.",
               "title": "Confirm scoring save"
             },
-            "success-notification": "The scoring has been successfully updated",
+            "success-notification": "The scoring has been successfully activated. Certifications already completed for this version will be scored.",
             "title": "Bounds of capacity by mesh"
           },
           "title": "Creating a Certification Release"
@@ -668,9 +668,9 @@
       },
       "deletion-modal": {
         "action-button": "Confirm deletion",
-        "content": "You are about to delete a certification version !!!!",
+        "content": "You are about to delete a certification version.",
         "error-message": "An error has occured",
-        "success-message": "That version has indeed been removed",
+        "success-message": "That version has indeed been removed.",
         "title": "Confirmation of version deletion"
       },
       "labels": {
@@ -1691,6 +1691,7 @@
               "cancelled_by_jury": "Cancelled",
               "error": "Error",
               "fraud": "Rejected for fraud",
+              "pending-scoring": "Pending scoring",
               "rejected": "Rejected",
               "validated": "Validated"
             },
