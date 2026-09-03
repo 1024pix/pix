@@ -60,7 +60,7 @@ function _getDate(dateAsString) {
 }
 
 function _removeTrailingSlashFromUrl(url) {
-  return url.replace(/\/$/, '');
+  return url?.replace(/\/$/, '');
 }
 
 function _getLogForHumans() {
@@ -368,16 +368,8 @@ export const config = {
     },
   },
   lcms: {
-    url: _removeTrailingSlashFromUrl(
-      (process.env.IS_RUNNING_PLAYWRIGHT === 'true' && process.env.PLAYWRIGHT_LCMS_API_URL) ||
-        process.env.CYPRESS_LCMS_API_URL ||
-        process.env.LCMS_API_URL ||
-        '',
-    ),
-    apiKey:
-      (process.env.IS_RUNNING_PLAYWRIGHT === 'true' && process.env.PLAYWRIGHT_LCMS_API_KEY) ||
-      process.env.CYPRESS_LCMS_API_KEY ||
-      process.env.LCMS_API_KEY,
+    url: _removeTrailingSlashFromUrl(process.env.LCMS_API_URL),
+    apiKey: process.env.LCMS_API_KEY,
     oauthBasicToken: process.env.LCMS_API_OAUTH_BASIC_TOKEN,
     releaseId: process.env.LCMS_API_RELEASE_ID || null,
   },
