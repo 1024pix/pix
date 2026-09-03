@@ -11,10 +11,8 @@ const postMessage = async function (request, h) {
     'x-forwarded-proto': request.headers['x-forwarded-proto'],
     'x-forwarded-host': request.headers['x-forwarded-host'],
   };
-  const apiBaseUrl = request.server.info.uri;
-
   try {
-    const stream = await usecases.converse({ messages, clientTools, documentContext, authorizationHeader, forwardedHeaders, apiBaseUrl });
+    const stream = await usecases.converse({ messages, clientTools, documentContext, authorizationHeader, forwardedHeaders });
     return h.response(Readable.fromWeb(stream)).type('text/event-stream');
   } catch (err) {
     request.log(['error', 'llm-assistant'], { message: err.message, stack: err.stack, cause: err.cause?.message });

@@ -114,6 +114,7 @@ const schema = Joi.object({
   API_DATA_PASSWORD: Joi.string().optional(),
   API_DATA_QUERIES: Joi.string().optional(),
   BASE_URL: Joi.string().optional(),
+  PIX_API_URL: Joi.string().uri().optional(),
   BREVO_ACCOUNT_CREATION_TEMPLATE_ID: Joi.number().optional(),
   BREVO_API_KEY: Joi.string().optional(),
   BREVO_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID: Joi.number().optional(),
@@ -276,7 +277,7 @@ const configuration = (function () {
     },
     // Variable d'environnement temporaire pour LTI en attendant la mise à place d'une gateway
     // Ne pas utiliser pour d'autres usages
-    baseUrl: process.env.BASE_URL ?? 'https://api.pix.fr',
+    baseUrl: process.env.PIX_API_URL ?? process.env.BASE_URL ?? 'https://api.pix.fr',
     bcryptNumberOfSaltRounds: _getNumber(process.env.BCRYPT_NUMBER_OF_SALT_ROUNDS, 10),
     caching: {
       redisUrl: process.env.REDIS_URL,
