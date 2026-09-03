@@ -42,7 +42,7 @@ class RedisMutex {
   }
 }
 
-export const redisMutex = new RedisMutex({ redisUrl: config.mutex.redisUrl });
+export const redisMutex = new RedisMutex({ redisUrl: config.redisUrl });
 
 export function quitMutex() {
   return redisMutex.quit();

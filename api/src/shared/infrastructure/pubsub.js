@@ -25,15 +25,15 @@ function getPubSub() {
   if (pubSub) return pubSub;
 
   try {
-    if (!config.caching.redisUrl) {
+    if (!config.redisUrl) {
       pubSub = createPubSub();
       return pubSub;
     }
 
-    publishClient = new Redis(config.caching.redisUrl);
+    publishClient = new Redis(config.redisUrl);
     publishClient.on('error', (err) => logger.error({ err }, 'PubSub : error in Publish client'));
 
-    subscribeClient = new Redis(config.caching.redisUrl);
+    subscribeClient = new Redis(config.redisUrl);
     subscribeClient.on('error', (err) => logger.error({ err }, 'PubSub : error in Subscribe client'));
 
     pubSub = createPubSub({

@@ -302,8 +302,8 @@ export const config = {
   // Ne pas utiliser pour d'autres usages
   baseUrl: process.env.BASE_URL ?? 'https://api.pix.fr',
   bcryptNumberOfSaltRounds: _getNumber(process.env.BCRYPT_NUMBER_OF_SALT_ROUNDS, 10),
+  redisUrl: process.env.REDIS_URL,
   caching: {
-    redisUrl: process.env.REDIS_URL,
     redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
     redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
   },
@@ -516,9 +516,6 @@ export const config = {
     secret: process.env.REDIRECTION_URL_SECRET,
     jsonSchemaCacheMaxAge: _getNumber(process.env.DEVCOMP_MODULE_JSON_SCHEMA_CACHE_MAX_AGE, 900),
   },
-  mutex: {
-    redisUrl: process.env.REDIS_URL,
-  },
   partner: {
     fetchTimeOut: ms(process.env.FETCH_TIMEOUT_MILLISECONDS || '20s'),
   },
@@ -575,7 +572,6 @@ export const config = {
   },
   temporaryStorage: {
     expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
-    redisUrl: process.env.REDIS_URL,
   },
   temporaryStorageForEmailValidationDemands: {
     expirationDelaySeconds: ms(process.env.EMAIL_VALIDATION_DEMAND_TEMPORARY_STORAGE_LIFESPAN || '3d') / 1000,
