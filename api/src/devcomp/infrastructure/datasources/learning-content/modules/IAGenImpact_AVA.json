@@ -369,11 +369,11 @@
                     {
                       "id": "d9b18008-bd8e-47bc-b05b-20afcbd790cb",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/image-provisoire.png",
-                      "alt": "",
-                      "alternativeText": "",
+                      "url": "https://assets.pix.org/modules/IAGenImpact_Ava/photo_carte_graphique.jpg",
+                      "alt": "Composant électronique décrit dans l'alternative textuel",
+                      "alternativeText": "<p>Une main tient un composant électronique rectangulaire, noir et assez imposant. Sa face avant comporte deux grands ventilateurs circulaires entourés d’une coque aux formes anguleuses. Sur le côté gauche, une plaque métallique permet de le fixer à l’intérieur d’un ordinateur.</p>",
                       "legend": "",
-                      "licence": "provisoire - nous n’avons pas les droits"
+                      "licence": ""
                     },
                     {
                       "id": "e69da63c-0a10-4149-be48-cd62115c1fc7",
