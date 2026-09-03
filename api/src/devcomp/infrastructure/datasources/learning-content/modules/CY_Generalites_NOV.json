@@ -179,7 +179,7 @@
                         },
                         {
                           "id": "2",
-                          "content": "<p>Une entreprise&nbsp;: L’assurance</p>",
+                          "content": "<p>Une entreprise&nbsp;: L’opérateur téléphonique</p>",
                           "feedback": {
                             "diagnosis": "<p>Exactement ! C’est l’<strong>opérateur téléphonique</strong> qui a été touché par cette cyberattaque. Par contre, les clients risquent de subir aussi des conséquences suite au vol de leurs données personnelles.</p>"
                           }
@@ -377,7 +377,7 @@
                       "id": "8516972f-cce3-4582-8945-3134a4721fce",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>Le site web <u>boeufcharentais.pix.com</u> vend de la viande bovine. Depuis hier, il subit une cyberattaque, le site entier a été remplacé par une grande photo d’abattoir.</p>"
+                      "content": "<p>Le site web <u>boeufcharentais.pix.com</u> vend de la viande bovine. Depuis hier, il subit une cyberattaque&nbsp;: le site entier a été remplacé par une grande photo d’abattoir.</p>"
                     },
                     {
                       "id": "81d4fa72-2577-4766-88f5-400e08e0763d",
@@ -424,7 +424,7 @@
                       "id": "22b4ba76-0a16-4d7b-ac56-9ee991dea2c2",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>Un grand groupe de fabrication de matériel électronique a subi une cyberattaque. Les auteurs ont récupéré les plans de leur futur smartphone pour les revendre à leurs concurrents.</p>"
+                      "content": "<p>Un grand groupe de fabrication de matériel électronique a subi une cyberattaque. Les plans de leur prochain modèle de smartphone ont été volés pour les revendre à des concurrents.</p>"
                     },
                     {
                       "id": "d2130578-2de0-454b-b389-7070f3a4ee91",
@@ -527,7 +527,7 @@
                 "id": "09189183-b657-442d-95ad-f4723d864adb",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Certains auteurs de cyberattaques ne cherchent pas à gagner de l’argent, ils ont d’autres motivations&nbsp;:&nbsp;</p><ul>    <li>des<strong> idéaux politiques</strong>, <strong>sociaux </strong>ou <strong>éthiques</strong>, ✊️</li>    <li>la <strong>recherche de reconnaissance personnelle</strong>, 🏆️</li>    <li>de l’<strong>espionnage industriel</strong>. 🥷</li></ul><p><br>Ces cyberattaques visent souvent des organisations, des entreprises, des services publics ou des États.</p>"
+                "content": "<p>Certains auteurs de cyberattaques ne cherchent pas à gagner de l’argent. Ils ont d’autres motivations&nbsp;:&nbsp;</p><ul>    <li>des<strong> idéaux politiques</strong>, <strong>sociaux </strong>ou <strong>éthiques</strong>, ✊️</li>    <li>la <strong>recherche de reconnaissance personnelle</strong>, 🏆️</li>    <li>de l’<strong>espionnage industriel</strong>. 🥷</li></ul><p><br>Ces cyberattaques visent souvent des organisations, des entreprises, des services publics ou des États.</p>"
               }
             }
           ]
@@ -630,7 +630,7 @@
                 "id": "8e6a0b7f-1231-4c7b-8689-4f9a6aafa0b6",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une cyberattaque est une menace importante, elle peut avoir des<strong> conséquences très graves</strong>&nbsp;: </p><ul><li><strong>Pour les part</strong><strong>iculiers </strong>: perte d’argent, usurpation d’identité ou diffusion d’informations personnelles.&nbsp;🙍</li><li><strong>Pour les organisations et entreprises </strong>: interruption d’activité, perte financière, vol d’informations confidentielles, atteinte à la réputation, perte de confiance des clients ou des partenaires. 🏢</li><li><strong>Pour la so</strong><strong>ciété </strong>: perturbation des services essentiels, comme les hôpitaux, les transports, les réseaux d’énergie ou les services publiques. 🌍</li></ul><p><br>Les auteurs de cyberattaques de grande ampleur sont souvent membres de<strong> groupes organisés</strong>.</p><p>Ces groupes<strong> ont </strong>des <strong>ressources</strong>, des <strong>outils </strong>et du <strong>temps </strong>pour mener des attaques à grande échelle.<br><br></p>"
+                "content": "<p>Une cyberattaque est une menace importante, elle peut avoir des<strong> conséquences très graves</strong>&nbsp;: </p><ul><li><strong>Pour les part</strong><strong>iculiers </strong>: perte d’argent, usurpation d’identité ou diffusion d’informations personnelles.&nbsp;🙍</li><li><strong>Pour les organisations et entreprises </strong>: interruption d’activité, perte financière, vol d’informations confidentielles, atteinte à la réputation, perte de confiance des clients ou des partenaires. 🏢</li><li><strong>Pour la so</strong><strong>ciété </strong>: perturbation des services essentiels, comme les hôpitaux, les transports, les réseaux d’énergie ou les services publics. 🌍</li></ul><p><br>Les auteurs de cyberattaques de grande ampleur sont souvent membres de<strong> groupes organisés</strong>.</p><p>Ces groupes<strong> ont </strong>des <strong>ressources</strong>, des <strong>outils </strong>et du <strong>temps </strong>pour mener des attaques à grande échelle.<br><br></p>"
               }
             }
           ]
