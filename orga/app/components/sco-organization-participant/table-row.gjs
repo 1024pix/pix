@@ -85,14 +85,15 @@ import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip'
         <p class="sco-organization-participant-list-page__user-account-blocked">{{t
             (get USER_ACCOUNT_BLOCKING_TYPES "blocked")
           }}</p>
-      {{else if (not @student.isAssociated)}}
-        <p class="sco-organization-participant-list-page__no-user-account">{{t (get CONNECTION_TYPES "none")}}
-          <EmptyConnectionMethodTooltip @id={{@student.id}} />
-        </p>
-      {{else}}
+      {{/if}}
+      {{#if @student.isAssociated}}
         {{#each @student.authenticationMethods as |authenticationMethod|}}
           <p class="organization-participant__align-element">{{t (get CONNECTION_TYPES authenticationMethod)}}</p>
         {{/each}}
+      {{else}}
+        <p class="sco-organization-participant-list-page__no-user-account">{{t (get CONNECTION_TYPES "none")}}
+          <EmptyConnectionMethodTooltip @id={{@student.id}} />
+        </p>
       {{/if}}
     </:cell>
   </PixTableColumn>
