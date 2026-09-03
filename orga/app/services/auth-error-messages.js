@@ -1,5 +1,4 @@
 import Service, { service } from '@ember/service';
-import get from 'lodash/get';
 
 const DEFAULT_MESSAGE = { i18nKey: 'common.api-error-messages.default' };
 
@@ -80,7 +79,7 @@ export default class AuthErrorMessagesService extends Service {
   @service url;
 
   getHttpErrorMessage(originalError, defaultMessage = DEFAULT_MESSAGE) {
-    const error = get(originalError, 'errors[0]') || originalError;
+    const error = originalError?.errors?.[0] || originalError;
 
     const message = HTTP_STATUS_MAPPING[error?.status];
 
@@ -88,7 +87,7 @@ export default class AuthErrorMessagesService extends Service {
   }
 
   getAuthenticationErrorMessage(originalError) {
-    const error = get(originalError, 'errors[0]') || originalError;
+    const error = originalError?.errors?.[0] || originalError;
     const message = AUTHENTICATION_ERROR_CODES_MAPPING[error?.code];
     if (!message) {
       return this.getHttpErrorMessage(originalError, AUTHENTICATION_DEFAULT_MESSAGE);

@@ -8,7 +8,6 @@ import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
-import get from 'lodash/get';
 
 export default class OidcSignupForm extends Component {
   @service intl;
@@ -63,7 +62,7 @@ export default class OidcSignupForm extends Component {
     try {
       await this.args.onSubmit();
     } catch (responseError) {
-      const error = get(responseError, 'errors[0]');
+      const error = responseError?.errors?.[0];
       this.signupErrorMessage = this.authErrorMessages.getAuthenticationErrorMessage(error);
     } finally {
       this.isLoading = false;

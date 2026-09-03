@@ -8,7 +8,6 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import get from 'lodash/get';
 import { createFormValidation } from 'pix-orga/utils/form-validation';
 
 const VALIDATION_ERRORS = {
@@ -54,7 +53,7 @@ export default class LoginForm extends Component {
       await this.args.onSubmit(login, this.password);
     } catch (error) {
       // Handling error for those different cases: EmberSimpleAuth, JSON:API response, non-JSON:API response
-      const extractedError = get(error, error.responseJSON ? 'responseJSON.errors[0]' : 'errors[0]') ?? error;
+      const extractedError = (error.responseJSON ? error?.responseJSON?.errors?.[0] : error?.errors?.[0]) ?? error;
 
       // TODO: should be managed with a code instead of status only
       const isInvitationAlreadyAcceptedByAnotherUser = extractedError.status === '409';

@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import get from 'lodash/get';
 import ENV from 'pix-orga/config/environment';
 
 import Location from '../../../utils/location';
@@ -119,7 +118,7 @@ export default class LoginOidcRoute extends Route {
 
       return { identityProviderSlug, shouldCreateUserAccount: false };
     } catch (response) {
-      const apiError = get(response, 'errors[0]');
+      const apiError = response?.errors?.[0];
       if (!apiError) {
         throw response;
       }
