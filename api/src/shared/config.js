@@ -162,9 +162,9 @@ const schema = Joi.object({
   LLM_DELETE_CHATS_JOB_DRY_RUN: Joi.string().optional().valid('true', 'false'),
   LLM_DELETE_CHATS_JOB_CRON: Joi.string().optional(),
   LLM_DELETE_CHATS_JOB_MS_BETWEEN_CHUNKS: Joi.number().min(0).optional(),
-  LLM_ASSISTANT_INFERENCE_URL: Joi.string().uri().requiredForApi(),
-  LLM_ASSISTANT_INFERENCE_CLIENT_ID: Joi.string().requiredForApi(),
-  LLM_ASSISTANT_INFERENCE_CLIENT_SECRET: Joi.string().requiredForApi(),
+  LLM_ASSISTANT_BASE_URL: Joi.string().uri().requiredForApi(),
+  LLM_ASSISTANT_API_KEY: Joi.string().requiredForApi(),
+  LLM_ASSISTANT_MODEL: Joi.string().requiredForApi(),
   LMNR_BASE_URL: Joi.string().optional(),
   LMNR_PROJECT_API_KEY: Joi.string().optional(),
   LOG_ENABLED: Joi.string().required().valid('true', 'false'),
@@ -416,9 +416,9 @@ const configuration = (function () {
       },
     },
     llmAssistant: {
-      inferenceUrl: process.env.LLM_ASSISTANT_INFERENCE_URL,
-      inferenceClientId: process.env.LLM_ASSISTANT_INFERENCE_CLIENT_ID,
-      inferenceClientSecret: process.env.LLM_ASSISTANT_INFERENCE_CLIENT_SECRET,
+      baseUrl: process.env.LLM_ASSISTANT_BASE_URL,
+      apiKey: process.env.LLM_ASSISTANT_API_KEY,
+      model: process.env.LLM_ASSISTANT_MODEL,
       lmnrBaseUrl: process.env.LMNR_BASE_URL,
       lmnrProjectApiKey: process.env.LMNR_PROJECT_API_KEY,
     },
@@ -628,9 +628,9 @@ const configuration = (function () {
     config.llm.configurationEditorApi.authSecret = 'Le secret dans les tests';
     config.llm.inferenceApi.authSecret = 'Le secret dans les tests';
 
-    config.llmAssistant.inferenceUrl = 'https://llm-assistant-test.pix.fr/api/inference';
-    config.llmAssistant.inferenceClientId = 'test-client-id';
-    config.llmAssistant.inferenceClientSecret = 'test-client-secret';
+    config.llmAssistant.baseUrl = 'https://llm-assistant-test.pix.fr/v1';
+    config.llmAssistant.apiKey = 'test-api-key';
+    config.llmAssistant.model = 'test-model';
 
     config.domain.tldFr = '.fr';
     config.domain.tldOrg = '.org';

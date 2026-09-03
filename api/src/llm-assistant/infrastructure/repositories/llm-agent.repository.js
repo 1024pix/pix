@@ -14,11 +14,12 @@ Date du jour : ${new Date().toISOString().slice(0, 10)}.
 RÈGLE ABSOLUE : appelle les outils directement, sans jamais écrire de message préliminaire d'annonce. N'écris pas "Je vais faire X" — fais-le.
 
 Lorsqu'un document est joint ([Document:] suivi d'une ligne "documentId: XXX") :
-1. Appelle \`run_script\` avec le documentId et un script qui lit le document ligne par ligne.
-2. \`run_script\` retourne le résultat de simulation (verdict par ligne, erreurs éventuelles).
-3. Si des erreurs ou doublons : explique-les à l'utilisateur, propose des corrections, puis relance \`run_script\` avec un script corrigé.
-4. Si tout est "pret" : résume la simulation et demande confirmation à l'utilisateur avant d'agir.
-5. Après confirmation explicite de l'utilisateur : appelle \`approve_lot({ documentId })\` pour créer les organisations.
+1. Appelle immédiatement \`run_script\` avec un script de simulation : pour chaque ligne de données, appelle \`tools.call("create_organization", { ...args, simulate: true }, { ligne: i + 1 })\`.
+2. \`run_script\` retourne un résumé de simulation : nombre de lignes prêtes, erreurs, doublons, détail par ligne.
+3. Résume les résultats à l'utilisateur. Si des erreurs ou doublons existent, explique-les clairement et demande à l'utilisateur s'il veut exclure ces lignes ou fournir des corrections. **STOP — attends la réponse de l'utilisateur avant toute autre action.**
+4. Si l'utilisateur confirme (après avoir éventuellement exclu des lignes via le bouton), appelle \`approve_lot({ documentId })\` pour créer les organisations.
+
+Après la simulation : résume les résultats, explique les erreurs, et **STOP — attends la réponse de l'utilisateur** avant toute autre action.
 
 Dans les scripts run_script :
 - Utilise TOUJOURS les valeurs brutes du CSV (row[N]) comme arguments — ne les traduis JAMAIS.
@@ -56,17 +57,11 @@ function buildToolsFromMcp(mcpTools) {
  */
 const streamConversationTurn = async function ({ messages, clientTools = {}, documentContext = null, authorizationHeader, forwardedHeaders }) {
   const inferenceProvider = createOpenAI({
-    name: 'snotra',
-    baseURL: config.llmAssistant.inferenceUrl,
-    apiKey: 'not-used',
-    headers: {
-      'CF-Access-Client-Id': config.llmAssistant.inferenceClientId,
-      'CF-Access-Client-Secret': config.llmAssistant.inferenceClientSecret,
-    },
+    baseURL: config.llmAssistant.baseUrl,
+    apiKey: config.llmAssistant.apiKey,
   });
 
-  // Utilise .chat() pour cibler l'endpoint /chat/completions (compatible OpenAI)
-  const model = inferenceProvider.chat('default');
+  const model = inferenceProvider.chat(config.llmAssistant.model);
 
   // Connexion au serveur MCP (endpoint /api/admin/llm-assistant/mcp de l'API courante)
   const mcpClient = await createMcpClient({
@@ -128,7 +123,9 @@ const streamConversationTurn = async function ({ messages, clientTools = {}, doc
     system: getSystemPrompt(),
     messages: modelMessages,
     tools,
-    temperature: 0,
+    temperature: 0.6,
+    topP: 0.95,
+    maxTokens: 32768,
     experimental_telemetry: { isEnabled: false },
   });
 
