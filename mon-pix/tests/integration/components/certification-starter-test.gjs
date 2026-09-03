@@ -106,18 +106,41 @@ module('Integration | Component | certification-starter', function (hooks) {
           );
         });
 
-        test('should be possible to update the selected language', async function (assert) {
-          // given
-          const screen = await renderComponent();
+        module('when candidate subscription is CORE', function () {
+          test('should be possible to update the selected language', async function (assert) {
+            // given
+            setCertificationCandidate(this, { hasStartedTest: false, subscription: 'CORE' });
+            const screen = await renderComponent();
 
-          // when
-          await click(screen.getByRole('button', { name: 'Langue de certification' }));
-          await click(screen.getByText('anglais - EN'));
+            // when
+            await click(screen.getByRole('button', { name: 'Langue de certification' }));
+            await click(screen.getByText('anglais - EN'));
 
-          // then
-          assert.ok(
-            screen.getByRole('button', { name: 'Langue de certification' }).textContent.includes('anglais - EN'),
-          );
+            // then
+
+            assert.ok(
+              screen.getByRole('button', { name: 'Langue de certification' }).textContent.includes('anglais - EN'),
+            );
+          });
+        });
+
+        module('when candidate subscription is not CORE', function () {
+          test('should be not possible to update the french selected language', async function (assert) {
+            // given
+            setCertificationCandidate(this, { hasStartedTest: false, subscription: 'DROIT' });
+            const screen = await renderComponent();
+
+            // then
+            assert.ok(
+              screen.getByRole('button', { name: 'Langue de certification' }).textContent.includes('français - FR'),
+            );
+            assert.ok(
+              screen.getByRole('button', { name: 'Langue de certification' }).hasAttribute('aria-disabled', 'true'),
+            );
+            assert
+              .dom(screen.getByText(t('pages.certification-start.language-selector.pix-plus-explanation')))
+              .exists();
+          });
         });
 
         module('when the language confirmation checkbox is not checked and code filled', function () {

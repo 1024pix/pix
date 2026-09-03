@@ -981,7 +981,8 @@
         "options": {
           "english": "Engels - EN",
           "french": "Frans - FR"
-        }
+        },
+        "pix-plus-explanation": "Test alleen beschikbaar in het Frans."
       },
       "link-to-user-certification": "Bekijk mijn certificaten",
       "non-eligible-subscription": "Je komt niet in aanmerking voor {subscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
