@@ -6,8 +6,8 @@ const { lcms: lcmsConfig } = config;
 const getRelease = async function () {
   let signature;
 
-  if (process.env.APP) {
-    signature = `${process.env.APP}-${process.env.CONTAINER}@${process.env.REGION_NAME}`;
+  if (config.infra.appName) {
+    signature = `${config.infra.appName}-${config.infra.containerName}@${config.version}`;
   } else {
     signature = 'pix-api';
   }

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { DeleteAndAnonymiseCombinedCoursesScript } from '../../../../src/quest/scripts/delete-and-anonymise-combined-courses.js';
+import { config } from '../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 
 describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
@@ -22,7 +23,6 @@ describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
   describe('Handle', function () {
     let usecasesStub, domainTransactionStub, jobClientStub;
     const combinedCourseId = Symbol('1');
-    const ENGINEERING_USER_ID = 99999;
 
     beforeEach(async function () {
       script = new DeleteAndAnonymiseCombinedCoursesScript();
@@ -35,7 +35,6 @@ describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
           return;
         },
       };
-      sinon.stub(process, 'env').value({ ENGINEERING_USER_ID });
 
       usecasesStub = {
         deleteAndAnonymizeCombinedCourses: sinon.stub(),
@@ -57,7 +56,7 @@ describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
       //then
       expect(usecasesStub.deleteAndAnonymizeCombinedCourses).to.be.calledWithExactly({
         combinedCourseIds: [combinedCourseId],
-        userId: ENGINEERING_USER_ID,
+        userId: config.infra.engineeringUserId,
       });
 
       expect(logger.info).to.have.been.calledWithExactly(
@@ -70,7 +69,7 @@ describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
       usecasesStub.deleteAndAnonymizeCombinedCourses
         .withArgs({
           combinedCourseIds: [combinedCourseId],
-          userId: ENGINEERING_USER_ID,
+          userId: config.infra.engineeringUserId,
         })
         .rejects();
 

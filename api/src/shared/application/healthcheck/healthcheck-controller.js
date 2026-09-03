@@ -20,10 +20,8 @@ const get = function (request) {
     version: packageJSON.version,
     description: packageJSON.description,
     environment: config.environment,
-
-    'container-version': process.env.CONTAINER_VERSION,
-
-    'container-app-name': process.env.APP,
+    'container-version': config.version,
+    'container-app-name': config.infra.appName,
     'current-lang': getBaseLocale(locale),
   };
 };

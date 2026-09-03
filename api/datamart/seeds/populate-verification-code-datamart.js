@@ -2,6 +2,7 @@ import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { chunkify } from './cases/tools.js';
 import caseVerificationCodeOK from './cases/verification-code/verification-code-only.js';
 
+// eslint-disable-next-line n/no-process-env
 const NUMBER_OF_SEEDS = Number(process.env.DATAMART_NUMBER_OF_SEEDS) || 100;
 
 const insertGeneralPublicDatamart = async (knex) => {

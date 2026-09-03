@@ -1,5 +1,3 @@
-import { setImmediate } from 'node:timers/promises';
-
 import { expect } from 'chai';
 
 import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
@@ -9,11 +7,12 @@ import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
+import { waitFor } from '../../../../tooling/test-utils/wait.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   beforeEach(async function () {
     await featureToggles.set('isFetchingModulesFromLearningContentEnabled', true);
-    await setImmediate();
+    await waitFor(() => featureToggles.use('isFetchingModulesFromLearningContentEnabled')?.value);
   });
 
   describe('#getById', function () {

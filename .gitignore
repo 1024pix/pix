@@ -35,7 +35,11 @@
 # system
 .DS_Store
 
+# Environment variables
 .env*
+
+# Allow .env.test setup
+!api/tests/setup/.env.test
 
 # CircleCI
 *.circle-cache-key

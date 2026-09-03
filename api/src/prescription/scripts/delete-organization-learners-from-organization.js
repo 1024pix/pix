@@ -1,5 +1,6 @@
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
+import { config } from '../../shared/config.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { usecases } from '../learner-management/domain/usecases/index.js';
 
@@ -48,7 +49,7 @@ export class DeleteOrganizationLearnersFromOrganizationScript extends ScriptWith
     }
     logger.info(`Anonymized data : ${options.executeAnonymization}`);
     await DomainTransaction.execute(async () => {
-      const engineeringUserId = process.env.ENGINEERING_USER_ID;
+      const engineeringUserId = config.infra.engineeringUserId;
 
       let organizationLearnerToDeleteIds;
 

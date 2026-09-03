@@ -134,12 +134,6 @@ LOG_LEVEL=debug
 LOG_FOR_HUMANS=true
 ```
 
-- allow dropping the database schema without stopping the API:
-
-```dotenv
-FORCE_DROP_DATABASE=true
-```
-
 - connect to a different learning content repository than the default (test):
 
 ```dotenv

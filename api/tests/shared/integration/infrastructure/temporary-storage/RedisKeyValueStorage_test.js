@@ -2,10 +2,10 @@ import { randomUUID } from 'node:crypto';
 
 import { expect } from 'chai';
 
-import { config as settings } from '../../../../../src/shared/config.js';
+import { config } from '../../../../../src/shared/config.js';
 import { RedisKeyValueStorage } from '../../../../../src/shared/infrastructure/key-value-storages/RedisKeyValueStorage.js';
 
-const REDIS_URL = settings.redis.url;
+const REDIS_URL = config.caching.redisUrl;
 
 describe('Integration | Infrastructure | KeyValueStorage | RedisKeyValueStorage', function () {
   // this check is used to prevent failure when redis is not setup

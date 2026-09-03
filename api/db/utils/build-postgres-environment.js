@@ -23,6 +23,7 @@ export function buildPostgresEnvironment({
       directory: seedsDirectory,
       loadExtensions: ['.js'],
     },
+    // eslint-disable-next-line n/no-process-env
     asyncStackTraces: process.env.KNEX_ASYNC_STACKTRACE_ENABLED !== 'false',
     customFlags: {
       disableJsonTypesParsing,

@@ -30,6 +30,7 @@ export default defineConfig([
       'n/no-sync': ['error', { ignores: ['catchErrSync'] }],
       'n/no-process-exit': 'error',
       'n/no-unpublished-import': 'off',
+      'n/no-process-env': ['error', { allowedVariables: ['NODE_ENV'] }],
     },
   },
   // Overridden language options for CommonJS files
@@ -54,6 +55,19 @@ export default defineConfig([
       'mocha/no-top-level-hooks': 'error',
       'mocha/no-setup-in-describe': 'off',
       'mocha/consistent-spacing-between-blocks': 'off',
+    },
+  },
+  {
+    files: [
+      'tests/setup/*.js',
+      'src/shared/config.js',
+      'db/migrations/*.js',
+      'src/shared/infrastructure/validate-environment-variables.js',
+      'src/shared/infrastructure/open-telemetry/scalingo-detector.js',
+      'scripts/*.js',
+    ],
+    rules: {
+      'n/no-process-env': 'off',
     },
   },
   // Overridden rules for "translations" files

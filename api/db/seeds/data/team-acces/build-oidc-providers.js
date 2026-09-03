@@ -119,6 +119,7 @@ async function _buildNotVisibleOidcProviders(databaseBuilder) {
 }
 
 async function _buildOidcProvidersFromEnv(databaseBuilder) {
+  // eslint-disable-next-line n/no-process-env
   const oidcProvidersJson = process.env.OIDC_PROVIDERS;
   if (!oidcProvidersJson) {
     debugOidcProvidersSeeds('No environment variable OIDC_PROVIDERS defined, no loading from environment.');

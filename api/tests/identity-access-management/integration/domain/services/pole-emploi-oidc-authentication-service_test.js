@@ -7,9 +7,9 @@ import { UserToCreate } from '../../../../../src/identity-access-management/doma
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { userToCreateRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
-import { config } from '../../../../../src/shared/config.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { knex } from '../../../../tooling/databases.js';
+import { OIDC_PROVIDER_TEST_CONFIG } from '../../../../tooling/mocks/openid-client.mock.js';
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
@@ -29,7 +29,7 @@ describe('Integration | Identity Access Management | Domain | Services | pole-em
         lastName: 'Troisjours',
       });
       const poleEmploiAuthenticationService = new PoleEmploiOidcAuthenticationService({
-        ...config.oidcExampleNet,
+        ...OIDC_PROVIDER_TEST_CONFIG,
         additionalRequiredProperties: { logoutUrl: 'https://logout-url.fr', afterLogoutUrl: 'https://after-logout.fr' },
         identityProvider: 'POLE_EMPLOI',
         organizationName: 'France Travail',
@@ -66,7 +66,7 @@ describe('Integration | Identity Access Management | Domain | Services | pole-em
       const logoutUrlUUID = randomUUID();
       const key = `${userId}:${logoutUrlUUID}`;
       const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
-        ...config.oidcExampleNet,
+        ...OIDC_PROVIDER_TEST_CONFIG,
         additionalRequiredProperties: {
           logoutUrl: 'https://logout-url.fr',
           afterLogoutUrl: 'https://after-logout.fr',

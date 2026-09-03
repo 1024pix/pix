@@ -41,6 +41,17 @@ const openIdConfigurationResponse = {
   ],
 };
 
+export const OIDC_PROVIDER_TEST_CONFIG = {
+  clientId: 'client',
+  clientSecret: 'secret',
+  enabled: true,
+  enabledForPixAdmin: true,
+  openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
+  organizationName: 'Oidc Example',
+  postLogoutRedirectUri: 'https://app.dev.pix.local/connexion',
+  redirectUri: 'https://app.dev.pix.local/connexion/oidc-example-net',
+};
+
 export function createOpenIdClientMock(oidcProviderConfig = Symbol('oidcProviderConfig')) {
   return {
     discovery: sinon.stub().resolves(oidcProviderConfig),
@@ -89,7 +100,6 @@ export async function createMockedTestOidcProviders(mockedProviders) {
           connectionMethodCode,
           enabled: true,
           enabledForPixAdmin: true,
-          configKey: 'oidcExampleNet',
           shouldCloseSession: true,
           identityProvider,
           openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',

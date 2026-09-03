@@ -6,12 +6,11 @@ import { OIDC_ERRORS } from '../../../../../src/identity-access-management/domai
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
-import { config as settings } from '../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { OidcError, OidcMissingFieldsError } from '../../../../../src/shared/domain/errors.js';
 import { AuthenticationSessionContent } from '../../../../../src/shared/domain/models/AuthenticationSessionContent.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { createOpenIdClientMock } from '../../../../tooling/mocks/openid-client.mock.js';
+import { createOpenIdClientMock, OIDC_PROVIDER_TEST_CONFIG } from '../../../../tooling/mocks/openid-client.mock.js';
 import { catchErr, catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
@@ -201,7 +200,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         save: sinon.stub().resolves(),
       };
 
-      const oidcAuthenticationService = new OidcAuthenticationService(settings.oidcExampleNet, {
+      const oidcAuthenticationService = new OidcAuthenticationService(OIDC_PROVIDER_TEST_CONFIG, {
         sessionTemporaryStorage,
         openidClient,
       });
@@ -225,11 +224,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         get: sinon.stub().resolves(idToken),
         delete: sinon.stub().resolves(),
       };
-      const postLogoutRedirectUriEncoded = encodeURIComponent(settings.oidcExampleNet.postLogoutRedirectUri);
+      const postLogoutRedirectUriEncoded = encodeURIComponent(OIDC_PROVIDER_TEST_CONFIG.postLogoutRedirectUri);
       const endSessionUrl = `https://example.net/logout?post_logout_redirect_uri=${postLogoutRedirectUriEncoded}&id_token_hint=some_dummy_id_token`;
       openidClient.buildEndSessionUrl.resolves(endSessionUrl);
 
-      const oidcAuthenticationService = new OidcAuthenticationService(settings.oidcExampleNet, {
+      const oidcAuthenticationService = new OidcAuthenticationService(OIDC_PROVIDER_TEST_CONFIG, {
         sessionTemporaryStorage,
         openidClient,
       });
@@ -241,7 +240,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // then
       expect(openidClient.buildEndSessionUrl).to.have.been.calledWith(MOCK_OIDC_PROVIDER_CONFIG, {
         id_token_hint: idToken,
-        post_logout_redirect_uri: settings.oidcExampleNet.postLogoutRedirectUri,
+        post_logout_redirect_uri: OIDC_PROVIDER_TEST_CONFIG.postLogoutRedirectUri,
       });
       expect(result).to.equal(
         'https://example.net/logout?post_logout_redirect_uri=https%3A%2F%2Fapp.dev.pix.local%2Fconnexion&id_token_hint=some_dummy_id_token',
@@ -265,7 +264,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           throw errorThrown;
         });
 
-        const oidcAuthenticationService = new OidcAuthenticationService(settings.oidcExampleNet, {
+        const oidcAuthenticationService = new OidcAuthenticationService(OIDC_PROVIDER_TEST_CONFIG, {
           sessionTemporaryStorage,
           openidClient,
         });

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { DeleteAndAnonymiseOrganizationLearnerScript } from '../../../../src/prescription/scripts/delete-and-anonymise-organization-learners.js';
+import { config } from '../../../../src/shared/config.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
 describe('DeleteAndAnonymiseOrganizationLearnerScript', function () {
@@ -30,12 +31,10 @@ describe('DeleteAndAnonymiseOrganizationLearnerScript', function () {
   describe('Handle', function () {
     let script;
     let logger;
-    const ENGINEERING_USER_ID = 99999;
 
     beforeEach(async function () {
       script = new DeleteAndAnonymiseOrganizationLearnerScript();
       logger = { info: sinon.spy(), error: sinon.spy() };
-      sinon.stub(process, 'env').value({ ENGINEERING_USER_ID });
     });
 
     describe('anonymise organization learners', function () {
@@ -45,7 +44,7 @@ describe('DeleteAndAnonymiseOrganizationLearnerScript', function () {
         now = new Date('2024-01-17');
         sinon.useFakeTimers({ now, toFake: ['Date'] });
 
-        databaseBuilder.factory.buildUser({ id: ENGINEERING_USER_ID });
+        databaseBuilder.factory.buildUser({ id: config.infra.engineeringUserId });
         organization = databaseBuilder.factory.buildOrganization();
         campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
         learner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
@@ -75,7 +74,7 @@ describe('DeleteAndAnonymiseOrganizationLearnerScript', function () {
         expect(organizationLearnerResult[0].id).to.equal(learner.id);
         expect(organizationLearnerResult[0].updatedAt).to.deep.equal(now);
         expect(organizationLearnerResult[0].deletedAt).to.deep.equal(now);
-        expect(organizationLearnerResult[0].deletedBy).to.equal(ENGINEERING_USER_ID);
+        expect(organizationLearnerResult[0].deletedBy).to.equal(config.infra.engineeringUserId);
       });
 
       it('anonymise given deleted organization learners id', async function () {
@@ -125,11 +124,11 @@ describe('DeleteAndAnonymiseOrganizationLearnerScript', function () {
         const participationResult = await knex('campaign-participations').whereNotNull('deletedAt');
         expect(participationResult).lengthOf(2);
         expect(participationResult[0].deletedAt).to.deep.equal(now);
-        expect(participationResult[0].deletedBy).to.equal(ENGINEERING_USER_ID);
+        expect(participationResult[0].deletedBy).to.equal(config.infra.engineeringUserId);
         expect(participationResult[0].participantExternalId).to.be.null;
         expect(participationResult[0].userId).to.be.null;
         expect(participationResult[1].deletedAt).to.deep.equal(now);
-        expect(participationResult[1].deletedBy).to.equal(ENGINEERING_USER_ID);
+        expect(participationResult[1].deletedBy).to.equal(config.infra.engineeringUserId);
         expect(participationResult[1].participantExternalId).to.be.null;
         expect(participationResult[1].userId).to.be.null;
       });
