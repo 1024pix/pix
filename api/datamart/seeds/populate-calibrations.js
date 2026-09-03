@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { seedsConfig } from '../../config/seeds-config.js';
 import { knex as apiKnex } from '../../db/knex-database-connection.js';
 import {
   CALIBRATION_SCOPES,
@@ -7,7 +8,6 @@ import {
   fromCalibrationScope,
 } from '../../src/certification/configuration/domain/models/Calibration.js';
 import { VERSION_STATUSES } from '../../src/certification/configuration/domain/models/Version.js';
-import { config } from '../../src/shared/config.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { knex as datamartKnex } from '../knex-database-connection.js';
 
@@ -123,7 +123,7 @@ async function removeExistingCalibrationData() {
 }
 
 export async function seed() {
-  if (!config.seeds.context.certification) {
+  if (!seedsConfig.context.certification) {
     logger.info('Certification seeds are disabled, skipping calibrations');
     return;
   }

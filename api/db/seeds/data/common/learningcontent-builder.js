@@ -1,4 +1,4 @@
-import { config } from '../../../../src/shared/config.js';
+import { seedsConfig } from '../../../../config/seeds-config.js';
 import { lcmsClient } from '../../../../src/shared/infrastructure/lcms-client.js';
 import { logger, SCOPES } from '../../../../src/shared/infrastructure/utils/logger.js';
 
@@ -8,7 +8,7 @@ export async function learningContentBuilder({ databaseBuilder }) {
   const totalCounts = Object.entries(learningContent).map(([model, entities]) => [model, entities.length]);
 
   learningContent.frameworks = learningContent.frameworks.filter((framework) =>
-    config.seeds.learningContent.frameworks.includes(framework.name),
+    seedsConfig.learningContent.frameworks.includes(framework.name),
   );
 
   learningContent.areas = learningContent.areas.filter(belongsToOneOfFrameworks(learningContent.frameworks));
@@ -26,7 +26,7 @@ export async function learningContentBuilder({ databaseBuilder }) {
   learningContent.challenges = learningContent.challenges
     .filter(belongsToOneOfSkills(learningContent.skills))
     .filter(isValidatedOrArchived)
-    .filter(hasOneOfLocales(config.seeds.learningContent.locales))
+    .filter(hasOneOfLocales(seedsConfig.learningContent.locales))
     .filter(keepingPrototypeAndOneAlternativeBySkillAndLocale());
 
   learningContent.tutorials = learningContent.tutorials.filter(isUsedByOneOf(learningContent.skills));
