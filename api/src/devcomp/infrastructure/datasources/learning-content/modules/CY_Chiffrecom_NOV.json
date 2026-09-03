@@ -233,14 +233,14 @@
                           "id": "1",
                           "content": "Oui",
                           "feedback": {
-                            "diagnosis": "<p>Eh non.</p><p>Avec le protocole HTTPS, l’information est transformée pour devenir incompréhensible pendant le trajet.</p>"
+                            "diagnosis": "<p>Eh non.</p><p>Avec le protocole HTTPS, l’information peut toujours être vue par les pirates informatiques, mais elle est transformée pour devenir incompréhensible pendant le trajet.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "Non",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu !</p><p>Avec le protocole HTTPS, l’information est transformée pour devenir incompréhensible pendant le trajet.</p>"
+                            "diagnosis": "<p>Bien vu !</p><p>Avec le protocole HTTPS, l’information peut toujours être vue par les pirates informatiques, mais elle est transformée pour devenir incompréhensible pendant le trajet.</p>"
                           }
                         }
                       ],
@@ -249,15 +249,6 @@
                   ]
                 }
               ]
-            },
-            {
-              "type": "element",
-              "element": {
-                "id": "1c3c80d4-0a8b-4156-89d0-a608d407a234",
-                "type": "text",
-                "tag": " ",
-                "content": ""
-              }
             }
           ]
         },
