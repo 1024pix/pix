@@ -15,7 +15,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-s
     await usecases.revokeSession({ userId, sessionId });
 
     // then
-    const revokeTimeStamp = await revokedUserAccessTemporaryStorage.get(`${userId}:${sessionId}`);
-    expect(revokeTimeStamp).to.be.a('number');
+    const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
+    expect(revokedKeys).to.deep.equal([`${userId}:${sessionId}`]);
   });
 });
