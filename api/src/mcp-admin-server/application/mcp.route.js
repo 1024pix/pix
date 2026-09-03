@@ -2,22 +2,24 @@ import { securityPreHandlers } from '../../shared/application/security-pre-handl
 import { mcpController } from './mcp.controller.js';
 
 const register = async function (server) {
+  const mcpSecurityPre = [
+    {
+      method: (request, h) =>
+        securityPreHandlers.hasAtLeastOneAccessOf([
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleMetier,
+        ])(request, h),
+      assign: 'hasAuthorizationToAccessAdminScope',
+    },
+  ];
+
   server.route([
     {
       method: 'POST',
       path: '/api/admin/mcp',
       config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
+        pre: mcpSecurityPre,
         payload: {
           parse: true,
           allow: 'application/json',
@@ -27,6 +29,19 @@ const register = async function (server) {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, SUPPORT ou METIER**',
           "- Elle expose un endpoint MCP (Model Context Protocol) JSON-RPC pour l'assistant LLM",
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/mcp',
+      config: {
+        pre: mcpSecurityPre,
+        handler: mcpController.handleSse,
+        tags: ['api', 'admin', 'mcp-admin-server', 'mcp'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, SUPPORT ou METIER**',
+          "- Elle expose le canal SSE pour les réponses MCP asynchrones (Streamable HTTP transport)",
         ],
       },
     },
