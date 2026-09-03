@@ -38,6 +38,7 @@ const register = async function (server) {
       config: {
         pre: mcpSecurityPre,
         handler: mcpController.handleSse,
+        timeout: { server: false },
         tags: ['api', 'admin', 'mcp-admin-server', 'mcp'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, SUPPORT ou METIER**',
