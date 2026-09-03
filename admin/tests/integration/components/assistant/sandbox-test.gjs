@@ -1,7 +1,6 @@
+import { setupTest } from 'ember-qunit';
 import { executer } from 'pix-admin/components/assistant/sandbox/bac-a-sable';
 import { module, test } from 'qunit';
-
-import { setupTest } from 'ember-qunit';
 
 module('Integration | Component | assistant/sandbox', function (hooks) {
   setupTest(hooks);
@@ -44,7 +43,7 @@ module('Integration | Component | assistant/sandbox', function (hooks) {
 
     // then — sandbox must NOT have modified the args; simulate: false is preserved
     assert.strictEqual(receivedArgs.length, 1);
-    assert.strictEqual(receivedArgs[0].simulate, false, 'sandbox passes args faithfully without overriding simulate');
+    assert.false(receivedArgs[0].simulate, 'sandbox passes args faithfully without overriding simulate');
     assert.strictEqual(receivedArgs[0].name, 'Test');
   });
 
@@ -54,10 +53,7 @@ module('Integration | Component | assistant/sandbox', function (hooks) {
     const script = `throw new Error('something went wrong');`;
 
     // when / then
-    await assert.rejects(
-      executer({ script, sheets: {}, onToolCall }),
-      /something went wrong/,
-    );
+    await assert.rejects(executer({ script, sheets: {}, onToolCall }), /something went wrong/);
   });
 
   test('onToolCall returning { error } does not break execution — script continues and done is posted', async function (assert) {

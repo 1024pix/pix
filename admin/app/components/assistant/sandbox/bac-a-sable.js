@@ -1,4 +1,5 @@
 const TIMEOUT_MS = 30_000;
+const MAX_TOOL_CALLS = 500;
 
 /**
  * Builds the srcdoc HTML for the sandboxed iframe.
@@ -45,8 +46,8 @@ function buildSrcdoc(script) {
         .then(function () {
           return new Function('sheets', 'tools', '"use strict";\\nreturn (async function() {\\n' + userScript + '\\n})();')(sheets, tools);
         })
-        .then(function () {
-          window.parent.postMessage({ type: 'done' }, '*');
+        .then(function (result) {
+          window.parent.postMessage({ type: 'done', result: result !== undefined ? result : null }, '*');
         })
         .catch(function (err) {
           window.parent.postMessage({ type: 'error', message: err && err.message ? err.message : String(err) }, '*');
@@ -62,7 +63,7 @@ function buildSrcdoc(script) {
     }
   });
 })();
-<\/script></body></html>`;
+</script></body></html>`;
 }
 
 /**
@@ -83,13 +84,17 @@ function buildSrcdoc(script) {
  * @param {Function} options.onToolCall  - Async callback `({ id, name, args, ligne })` → result.
  * @returns {Promise<void>} Resolves when the script posts `done`, rejects on error or timeout.
  */
-export async function executer({ script, sheets, onToolCall }) {
+export async function execute({ script, sheets, onToolCall }) {
   return new Promise((resolve, reject) => {
     const iframe = document.createElement('iframe');
     iframe.setAttribute('sandbox', 'allow-scripts');
     iframe.style.display = 'none';
 
     let finished = false;
+    let pendingCalls = 0;
+    let totalCalls = 0;
+    let doneReceived = false;
+    let scriptResult = null;
 
     function cleanup() {
       finished = true;
@@ -97,6 +102,13 @@ export async function executer({ script, sheets, onToolCall }) {
       clearTimeout(timeoutHandle);
       if (iframe.parentNode) {
         iframe.parentNode.removeChild(iframe);
+      }
+    }
+
+    function checkDone() {
+      if (doneReceived && pendingCalls === 0) {
+        cleanup();
+        resolve(scriptResult);
       }
     }
 
@@ -108,6 +120,13 @@ export async function executer({ script, sheets, onToolCall }) {
       if (!data || typeof data !== 'object') return;
 
       if (data.type === 'tool.call') {
+        totalCalls++;
+        if (totalCalls > MAX_TOOL_CALLS) {
+          cleanup();
+          reject(new Error(`Script exceeded the tool call limit (${MAX_TOOL_CALLS})`));
+          return;
+        }
+        pendingCalls++;
         try {
           const result = await onToolCall({ id: data.id, name: data.name, args: data.args, ligne: data.ligne });
           if (!finished) {
@@ -116,19 +135,31 @@ export async function executer({ script, sheets, onToolCall }) {
         } catch (err) {
           // Surface tool errors back to the script as a result so execution can continue.
           if (!finished) {
-            iframe.contentWindow.postMessage({
-              type: 'tool.result',
-              id: data.id,
-              result: { error: err && err.message ? err.message : String(err) },
-            }, '*');
+            iframe.contentWindow.postMessage(
+              {
+                type: 'tool.result',
+                id: data.id,
+                result: { error: err && err.message ? err.message : String(err) },
+              },
+              '*',
+            );
           }
+        } finally {
+          pendingCalls--;
+          checkDone();
         }
         return;
       }
 
       if (data.type === 'done') {
-        cleanup();
-        resolve();
+        // Remove listener now — no more messages expected from the script.
+        // But defer cleanup/resolve until all pending onToolCall invocations finish.
+        window.removeEventListener('message', onMessage);
+        doneReceived = true;
+        // Capture the script's return value to pass to resolve().
+        // Overwrite on each done so we always have the final value.
+        scriptResult = data.result;
+        checkDone();
         return;
       }
 
