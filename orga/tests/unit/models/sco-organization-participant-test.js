@@ -5,14 +5,14 @@ module('Unit | Model | sco-organization-participant', function (hooks) {
   setupTest(hooks);
   module('#authenticationMethods', function () {
     module('when not reconciled', function () {
-      test('it should return empty message', function (assert) {
+      test('it should return "none" message', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const organizationScoParticipant = { lastName: 'Last', firstName: 'First', birthdate: '2010-10-10' };
         // when
         const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
         // then
-        assert.deepEqual(model.authenticationMethods, ['empty']);
+        assert.deepEqual(model.authenticationMethods, ['none']);
       });
     });
 
