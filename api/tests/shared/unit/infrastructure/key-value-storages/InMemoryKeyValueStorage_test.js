@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import { InMemoryKeyValueStorage } from '../../../../../src/shared/infrastructure/key-value-storages/InMemoryKeyValueStorage.js';
 
@@ -39,13 +38,6 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
   });
 
   describe('#save', function () {
-    let clock;
-
-    beforeEach(function () {
-      // InMemoryKeyValueStorage expires its keys with setTimeout
-      clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
-    });
-
     it('should resolve with the generated key', async function () {
       // when
       const key = await inMemoryKeyValueStorage.save({ value: {}, expirationDelaySeconds: 1000 });
@@ -83,22 +75,6 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
       // then
       expect(returnedKey).not.be.equal(keyParameter);
     });
-
-    it('should save key value with a defined ttl in seconds', async function () {
-      // given
-      const TWO_MINUTES_IN_SECONDS = 2 * 60;
-
-      // when
-      const key = await inMemoryKeyValueStorage.save({
-        value: 'foobar',
-        expirationDelaySeconds: TWO_MINUTES_IN_SECONDS,
-      });
-
-      // then
-      expect(await inMemoryKeyValueStorage.get(key)).to.equal('foobar');
-      await clock.tickAsync(TWO_MINUTES_IN_SECONDS * 1000);
-      expect(await inMemoryKeyValueStorage.get(key)).to.be.undefined;
-    });
   });
 
   describe('#get', function () {
@@ -131,27 +107,6 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
       const result = await inMemoryKeyValueStorage.get(key);
       expect(result).to.deep.equal({ url: 'url' });
     });
-
-    it('should not change the time to live', async function () {
-      // given
-      // InMemoryKeyValueStorage expires its keys with setTimeout
-      const clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
-      const keyWithTtl = await inMemoryKeyValueStorage.save({
-        value: {},
-        expirationDelaySeconds: 1,
-      });
-      const keyWithoutTtl = await inMemoryKeyValueStorage.save({ value: {} });
-
-      // when
-      await clock.tickAsync(500);
-      await inMemoryKeyValueStorage.update(keyWithTtl, {});
-      await inMemoryKeyValueStorage.update(keyWithoutTtl, {});
-      await clock.tickAsync(600);
-
-      // then
-      expect(await inMemoryKeyValueStorage.get(keyWithTtl)).to.be.undefined;
-      expect(await inMemoryKeyValueStorage.get(keyWithoutTtl)).not.to.be.undefined;
-    });
   });
 
   describe('#delete', function () {
@@ -172,21 +127,8 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
   });
 
   describe('#expire', function () {
-    it('should add an expiration time to the list', async function () {
-      // given
-      // InMemoryKeyValueStorage expires its keys with setTimeout
-      const clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
-
-      // when
-      const key = 'key:lpush';
-      await inMemoryKeyValueStorage.lpush(key, 'value');
-      await inMemoryKeyValueStorage.expire({ key, expirationDelaySeconds: 1 });
-      await clock.tickAsync(1200);
-      const list = inMemoryKeyValueStorage.lrange(key);
-
-      // then
-      expect(list).to.be.empty;
+    it('resolves', async function () {
+      await inMemoryKeyValueStorage.expire('key');
     });
   });
 

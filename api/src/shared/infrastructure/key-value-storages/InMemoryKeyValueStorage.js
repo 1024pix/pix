@@ -11,11 +11,8 @@ class InMemoryKeyValueStorage extends KeyValueStorage {
     super();
   }
 
-  async save({ key, value, expirationDelaySeconds }) {
-    const storageKey = trim(key) || InMemoryKeyValueStorage.generateKey();
-    if (expirationDelaySeconds) {
-      setTimeout(() => this.#store.delete(storageKey), expirationDelaySeconds * 1000);
-    }
+  async save({ key, value }) {
+    const storageKey = key?.trim() ?? InMemoryKeyValueStorage.generateKey();
     this.#store.set(storageKey, value);
     return storageKey;
   }
