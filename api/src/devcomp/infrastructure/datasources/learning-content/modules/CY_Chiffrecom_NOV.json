@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Quand vous naviguez sur le web, vous échangez des informations avec des sites web&nbsp;: un mot de passe, une adresse, des coordonnées bancaires, etc.</p><p>Ce module présente les risques liés aux échanges d’informations sur internet. Vous découvrirez un moyen de sécuriser les information, et les limites de cette sécurisation.</p>",
+    "description": "<p>Quand vous naviguez sur le web, vous échangez des informations avec des sites web&nbsp;: un mot de passe, une adresse, des coordonnées bancaires, etc.</p><p>Ce module présente les risques liés aux échanges d’informations sur internet. Vous découvrirez un moyen de sécuriser les informations, et les limites de cette sécurisation.</p>",
     "duration": 10,
     "level": "novice",
     "objectives": [
@@ -291,7 +291,7 @@
                 "id": "86f869f0-176f-458f-a682-d7956c62204b",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Ce protocole sécurisé est important à reconnaître quand vous naviguez sur le web. Examinons ensemble les indices qui vous indiquent que votre connexion est sécurisée par le protocole HTTPS.</p>"
+                "content": "<p>Ce protocole sécurisé est important à reconnaître quand vous naviguez sur le web. Examinons ensemble les indices qui vous indiquent que votre connexion est sécurisée ou non par le protocole HTTPS.</p>"
               }
             }
           ]
@@ -383,7 +383,7 @@
               "element": {
                 "id": "f65f9607-f421-4a9a-a922-dcc88258d913",
                 "type": "custom",
-                "title": "Voici quelques exemples d’avertissement selon le navigateur que vous utilisez.",
+                "title": "Voici quelques exemples d’avertissements selon le navigateur que vous utilisez.",
                 "instruction": "",
                 "functionalInstruction": "",
                 "tagName": "pix-carousel",
@@ -469,7 +469,7 @@
                 "id": "bf922517-8a6c-48b2-92e2-182f10bd1513",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Le HTTPS est un bon protocole mais vous protège-il de tous les dangers du web ?</p>"
+                "content": "<p>Le protocole HTTPS sécurise la connexion entre l'utilisateur et le site. Mais vous protège-il de tous les dangers du web ?</p>"
               }
             }
           ]
@@ -623,7 +623,7 @@
                 "cards": [
                   {
                     "id": "ec2b1f37-8e1c-4bed-ba9a-016a580321de",
-                    "text": "Avec HTTP, les informations échangées peuvent être lues pendant leur trajet.",
+                    "text": "Avec le protocole HTTP, les informations échangées peuvent être lues pendant leur trajet.",
                     "image": {
                       "url": "",
                       "altText": ""
@@ -634,14 +634,14 @@
                   },
                   {
                     "id": "d95d6ea5-8fc3-4345-a87b-4c6773703834",
-                    "text": "Avec HTTPS, les informations qui circulent peuvent être interceptées, mais leur contenu est illisible.",
+                    "text": "Avec le protocole HTTPS, les informations qui circulent peuvent être interceptées, mais leur contenu est illisible.",
                     "image": {
                       "url": "",
                       "altText": ""
                     },
                     "proposalA": "Vrai",
                     "proposalB": "Faux",
-                    "solution": "B"
+                    "solution": "A"
                   },
                   {
                     "id": "d38ac08c-653b-415d-9c1d-d5c71b3d19a8",
