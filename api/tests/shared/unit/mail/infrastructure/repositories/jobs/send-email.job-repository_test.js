@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { JobRetry } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { JobRetry } from '../../../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { sendEmailJobRepository } from '../../../../../../../src/shared/mail/infrastructure/repositories/jobs/send-email.job-repository.js';
 
 describe('Unit | Email | Infrastructure | Jobs | SendEmailJobRepository', function () {

@@ -1,4 +1,5 @@
-import { JobRepository, JobRetry } from '../../../../infrastructure/repositories/jobs/job-repository.js';
+import { JobRetry } from '../../../../infrastructure/jobs/default-config.js';
+import { JobRepository } from '../../../../infrastructure/repositories/jobs/job-repository.js';
 
 class SendEmailJobRepository extends JobRepository {
   constructor() {

@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ScheduleComputeOrganizationLearnersCertificabilityJobController } from '../../../../../src/prescription/learner-management/application/jobs/schedule-compute-organization-learners-certificability-job-controller.js';
 import { ValidateSiecleFileJob } from '../../../../../src/prescription/learner-management/domain/models/jobs/ValidateSiecleFileJob.js';
+import { AnonymizeUserEvent } from '../../../../../src/privacy/domain/events/AnonymizeUserEvent.js';
 import { AuditLoggingJobController } from '../../../../../src/shared/application/jobs/audit-logging.job-controller.js';
 import { JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
 import { config } from '../../../../../src/shared/config.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
+import { JobExpireIn } from '../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
-import { JobExpireIn } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 
 class FakePgBoss {
   start() {
@@ -38,12 +38,34 @@ class FakePgBoss {
   getQueues() {
     return;
   }
+  getQueue() {
+    return;
+  }
+  getQueueStats() {
+    return { queuedCount: 0 };
+  }
   getDb() {
     return {
       async exececuteSql() {
         return;
       },
     };
+  }
+
+  publish() {
+    return;
+  }
+
+  subscribe() {
+    return;
+  }
+
+  unsubscribe() {
+    return;
+  }
+
+  deleteQueue() {
+    return;
   }
 }
 
@@ -56,7 +78,15 @@ describe('Unit | JobClient', function () {
 
       // when
       const jobClient = new JobClient();
-      await jobClient.initialize({ jobGroups: [JobGroup.DEFAULT], worker: false }, () => pgBossStub);
+      await jobClient.initialize(
+        {
+          jobGroups: [JobGroup.DEFAULT],
+
+          isTestOnly: true,
+          worker: false,
+        },
+        () => pgBossStub,
+      );
 
       // then
       expect(pgBossStub.on).to.have.been.calledWith('error');
@@ -73,6 +103,7 @@ describe('Unit | JobClient', function () {
       await jobClient.initialize(
         {
           jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: false,
           worker: true,
         },
         () => pgBossStub,
@@ -121,6 +152,7 @@ describe('Unit | JobClient', function () {
       await jobClient.initialize(
         {
           jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: false,
           worker: true,
         },
         () => pgBossStub,
@@ -141,6 +173,7 @@ describe('Unit | JobClient', function () {
       await jobClient.initialize(
         {
           jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: false,
           worker: true,
         },
         () => pgBossStub,
@@ -161,6 +194,7 @@ describe('Unit | JobClient', function () {
       await jobClient.initialize(
         {
           jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: true,
           worker: true,
         },
         () => pgBossStub,
@@ -171,7 +205,7 @@ describe('Unit | JobClient', function () {
     });
 
     describe('cron Job', function () {
-      it('schedule ScheduleComputeOrganizationLearnersCertificabilityJob', async function () {
+      it('schedule TestScheduleComputeOrganizationLearnersCertificabilityJob', async function () {
         //given
         const pgBossStub = new FakePgBoss();
         sinon.stub(pgBossStub, 'schedule');
@@ -182,6 +216,7 @@ describe('Unit | JobClient', function () {
         await jobClient.initialize(
           {
             jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
             worker: true,
           },
           () => pgBossStub,
@@ -189,20 +224,17 @@ describe('Unit | JobClient', function () {
 
         // then
         expect(pgBossStub.schedule).to.have.been.calledWith(
-          'ScheduleComputeOrganizationLearnersCertificabilityJob',
+          'TEST.ScheduleComputeOrganizationLearnersCertificabilityJob',
           '0 21 * * *',
           undefined,
           { tz: 'Europe/Paris', expireInSeconds: JobExpireIn.INFINITE },
         );
       });
 
-      it('unschedule legacyName from ScheduleComputeOrganizationLearnersCertificabilityJob', async function () {
+      it('unschedule legacyName from TestScheduleComputeOrganizationLearnersCertificabilityJob', async function () {
         //given
         const pgBossStub = new FakePgBoss();
         sinon.stub(pgBossStub, 'unschedule');
-        sinon
-          .stub(ScheduleComputeOrganizationLearnersCertificabilityJobController.prototype, 'legacyName')
-          .get(() => 'legyNameForScheduleComputeOrganizationLearnersCertificabilityJobController');
         sinon.stub(config.features.scheduleComputeOrganizationLearnersCertificability, 'cron').value('0 21 * * *');
 
         // when
@@ -210,15 +242,14 @@ describe('Unit | JobClient', function () {
         await jobClient.initialize(
           {
             jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
             worker: true,
           },
           () => pgBossStub,
         );
 
         // then
-        expect(pgBossStub.unschedule).to.have.been.calledWith(
-          'legyNameForScheduleComputeOrganizationLearnersCertificabilityJobController',
-        );
+        expect(pgBossStub.unschedule).to.have.been.calledWith('TEST.ComputeOrganizationLearnersCertificabilityJob');
       });
 
       context('when a cron job is disabled', function () {
@@ -234,17 +265,111 @@ describe('Unit | JobClient', function () {
           await jobClient.initialize(
             {
               jobGroups: [JobGroup.DEFAULT],
+              isTestOnly: true,
               worker: true,
             },
             () => pgBossStub,
           );
 
           // then
-          expect(pgBossStub.unschedule).to.have.been.calledWith('CpfExportSenderJob');
+          expect(pgBossStub.unschedule).to.have.been.calledWith('Test.CpfExportSenderJob');
         });
       });
     });
+
+    describe('event Job', function () {
+      it('subscribe to AnonymizeUserEvent', async function () {
+        //given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'subscribe');
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.subscribe).to.have.been.calledWith(
+          AnonymizeUserEvent.eventName,
+          'test.to-register.event-queue',
+        );
+      });
+
+      it('unsubscribe to AnonymizeUserEvent', async function () {
+        //given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'unsubscribe');
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.unsubscribe).to.have.been.calledWith(
+          AnonymizeUserEvent.eventName,
+          'test.to-delete.event-queue',
+        );
+      });
+
+      it('does not delete queue when queue is not empty', async function () {
+        //given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'deleteQueue');
+        sinon.stub(pgBossStub, 'createQueue');
+        sinon.stub(pgBossStub, 'getQueueStats').resolves({ queuedCount: 1 });
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.deleteQueue).to.not.have.been.called;
+        expect(pgBossStub.createQueue).to.have.been.calledWith('test.to-delete.event-queue');
+      });
+
+      it('deletes queue when queue is empty', async function () {
+        //given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'deleteQueue');
+        sinon.stub(pgBossStub, 'getQueueStats').resolves({ queuedCount: 0 });
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.deleteQueue).to.have.been.calledWith();
+      });
+    });
   });
+
   context('#getQueuesStats', function () {
     it('returns stats', async function () {
       // given
@@ -264,6 +389,7 @@ describe('Unit | JobClient', function () {
       await jobClient.initialize(
         {
           jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: true,
           worker: true,
         },
         () => pgBossStub,
@@ -333,6 +459,7 @@ describe('Unit | JobClient', function () {
       await jobClient.initialize(
         {
           jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: true,
           worker: true,
         },
         () => pgBossStub,
@@ -346,6 +473,48 @@ describe('Unit | JobClient', function () {
         { name: 'FirstJob', ageInSeconds: 42 },
         { name: 'SecondJob', ageInSeconds: 3600 },
       ]);
+    });
+  });
+
+  context('#publishEvent', function () {
+    it('should publish an event', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon.stub(pgBossStub, 'publish');
+
+      const jobClient = new JobClient();
+      await jobClient.initialize(
+        {
+          jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: true,
+          worker: true,
+        },
+        () => pgBossStub,
+      );
+
+      // when
+      await jobClient.publishEvent(
+        'UN_EVENEMENT',
+        {
+          userId: 123,
+          adminId: 456,
+        },
+        {
+          priority: 1,
+        },
+      );
+
+      // then
+      expect(pgBossStub.publish).to.have.been.calledWith(
+        'UN_EVENEMENT',
+        {
+          userId: 123,
+          adminId: 456,
+        },
+        {
+          priority: 1,
+        },
+      );
     });
   });
 });
