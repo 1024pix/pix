@@ -177,6 +177,75 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
       });
     });
 
+    context('scenario 3: clientTools are merged with MCP tools', function () {
+      it('forwards clientTools to the inference request alongside MCP tools', async function () {
+        // given
+        const sseChunks = [
+          'data: {"id":"chatcmpl-ct","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"role":"assistant","content":"Ok"},"finish_reason":null}]}\n\n',
+          'data: {"id":"chatcmpl-ct","object":"chat.completion.chunk","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}\n\n',
+          'data: [DONE]\n\n',
+        ];
+
+        let capturedBody = null;
+        const { port, close } = await new Promise((resolve) => {
+          const server = http.createServer((req, res) => {
+            let body = '';
+            req.on('data', (chunk) => {
+              body += chunk;
+            });
+            req.on('end', () => {
+              capturedBody = body;
+              res.writeHead(200, {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                Connection: 'keep-alive',
+              });
+              for (const chunk of sseChunks) {
+                res.write(chunk);
+              }
+              res.end();
+            });
+          });
+          server.listen(0, '127.0.0.1', () => {
+            const { port: p } = server.address();
+            resolve({ port: p, close: () => new Promise((res) => server.close(res)) });
+          });
+        });
+        config.llmAssistant.inferenceUrl = `http://127.0.0.1:${port}`;
+
+        const runScriptClientTool = {
+          run_script: {
+            type: 'function',
+            description: 'Exécute un script côté client',
+            parameters: { type: 'object', properties: { script: { type: 'string' } }, required: ['script'] },
+          },
+        };
+
+        try {
+          // when
+          const stream = await streamConversationTurn({
+            messages,
+            clientTools: runScriptClientTool,
+            authorizationHeader,
+          });
+
+          const decoder = new TextDecoder();
+          for await (const chunk of stream) {
+            decoder.decode(chunk);
+          }
+          await waitForStreamFinalizationToBeDone();
+
+          // then
+          expect(capturedBody).to.not.be.null;
+          const inferenceRequest = JSON.parse(capturedBody);
+          const toolNames = (inferenceRequest.tools ?? []).map((t) => t.function?.name ?? t.name);
+          expect(toolNames).to.include('run_script');
+        } finally {
+          await close();
+        }
+      });
+    });
+
     context('scenario 2: tool call (sequence measured 2026-08-24)', function () {
       it('returns a non-empty ReadableStream without error', async function () {
         // given — séquence SSE avec tool_calls (format OpenAI)

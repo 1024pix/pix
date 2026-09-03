@@ -9,7 +9,22 @@ function getSystemPrompt() {
   return `Tu es un assistant pour les équipes de Pix backoffice.
 Tu les aides à réaliser des opérations complexes via le langage naturel.
 Toute action générée par le LLM nécessite une approbation humaine explicite avant d'être exécutée.
-Date du jour : ${new Date().toISOString().slice(0, 10)}.`;
+Date du jour : ${new Date().toISOString().slice(0, 10)}.
+
+RÈGLE ABSOLUE : appelle les outils directement, sans jamais écrire de message préliminaire d'annonce. N'écris pas "Je vais faire X" — fais-le.
+
+Lorsqu'un document est joint ([Document:] suivi d'une ligne "documentId: XXX") :
+1. Appelle \`run_script\` avec le documentId et un script qui lit le document ligne par ligne.
+2. \`run_script\` retourne le résultat de simulation (verdict par ligne, erreurs éventuelles).
+3. Si des erreurs ou doublons : explique-les à l'utilisateur, propose des corrections, puis relance \`run_script\` avec un script corrigé.
+4. Si tout est "pret" : résume la simulation et demande confirmation à l'utilisateur avant d'agir.
+5. Après confirmation explicite de l'utilisateur : appelle \`approve_lot({ documentId })\` pour créer les organisations.
+
+Dans les scripts run_script :
+- Utilise TOUJOURS les valeurs brutes du CSV (row[N]) comme arguments — ne les traduis JAMAIS.
+- \`const rows = sheets[0];\` pour accéder aux lignes (ne rebinde jamais \`sheets\`).
+- \`{ ligne: i + 1 }\` dans \`tools.call\`, jamais le contenu de la ligne.
+N'appelle \`list_reference_values\` qu'en cas d'erreur pour aider à corriger une valeur.`;
 }
 
 /**
@@ -35,10 +50,11 @@ function buildToolsFromMcp(mcpTools) {
  *
  * @param {Object} params
  * @param {Array} params.messages - Messages au format UIMessage ou ModelMessage
+ * @param {Record<string, object>} params.clientTools - Tools côté client envoyés par AssistantChatTransport
  * @param {string} params.authorizationHeader - Header Authorization de la requête entrante
  * @returns {Promise<ReadableStream>} Flux SSE UI stream
  */
-const streamConversationTurn = async function ({ messages, authorizationHeader, forwardedHeaders }) {
+const streamConversationTurn = async function ({ messages, clientTools = {}, documentContext = null, authorizationHeader, forwardedHeaders }) {
   const inferenceProvider = createOpenAI({
     name: 'snotra',
     baseURL: config.llmAssistant.inferenceUrl,
@@ -60,20 +76,59 @@ const streamConversationTurn = async function ({ messages, authorizationHeader, 
   });
 
   // Récupération et conversion des tools MCP en DynamicTool AI SDK (déclaratifs)
+  // puis fusion avec les tools client (envoyés par AssistantChatTransport).
+  // clientTools vient du body sous forme { toolName: { description, parameters } } —
+  // il faut les convertir en dynamicTool avant de les passer à streamText.
   const { tools: mcpTools } = await mcpClient.listTools();
-  const tools = buildToolsFromMcp(mcpTools);
+  const convertedClientTools = {};
+  for (const [name, schema] of Object.entries(clientTools)) {
+    convertedClientTools[name] = dynamicTool({
+      description: schema.description,
+      inputSchema: jsonSchema(schema.parameters ?? {}),
+    });
+  }
+  const tools = { ...buildToolsFromMcp(mcpTools), ...convertedClientTools };
 
   // Conversion des UIMessages en ModelMessages (pour les tours 2+, avec résultats de tools).
   // Les UIMessage ont un champ `parts` ; les ModelMessage ont `content`.
   // On ne convertit que si le premier message est un UIMessage.
   const isUiMessages = messages.length > 0 && Array.isArray(messages[0].parts);
-  const modelMessages = isUiMessages ? await convertToModelMessages(messages, { tools }) : messages;
+  const rawModelMessages = isUiMessages ? await convertToModelMessages(messages, { tools }) : messages;
+
+  // Garde au maximum 20 messages pour éviter de saturer le contexte LLM.
+  // On tronque depuis le début mais on ne coupe jamais un tour assistant incomplet :
+  // on remonte jusqu'au premier message 'user' dans la fenêtre retenue.
+  const MAX_MESSAGES = 20;
+  let modelMessages = rawModelMessages;
+  if (rawModelMessages.length > MAX_MESSAGES) {
+    const truncated = rawModelMessages.slice(-MAX_MESSAGES);
+    const firstUserIdx = truncated.findIndex((m) => m.role === 'user');
+    modelMessages = firstUserIdx > 0 ? truncated.slice(firstUserIdx) : truncated;
+  }
+
+  // Injecter le contexte document dans le dernier message user (après conversion pour éviter
+  // que convertToModelMessages ne l'ignore).
+  if (documentContext) {
+    const lastUserIdx = modelMessages.reduce((acc, msg, i) => (msg.role === 'user' ? i : acc), -1);
+    if (lastUserIdx >= 0) {
+      const orig = modelMessages[lastUserIdx];
+      const existingContent = Array.isArray(orig.content)
+        ? orig.content
+        : [{ type: 'text', text: String(orig.content ?? '') }];
+      modelMessages = [
+        ...modelMessages.slice(0, lastUserIdx),
+        { ...orig, content: [{ type: 'text', text: documentContext }, ...existingContent] },
+        ...modelMessages.slice(lastUserIdx + 1),
+      ];
+    }
+  }
 
   const result = streamText({
     model,
     system: getSystemPrompt(),
     messages: modelMessages,
     tools,
+    temperature: 0,
     experimental_telemetry: { isEnabled: false },
   });
 
