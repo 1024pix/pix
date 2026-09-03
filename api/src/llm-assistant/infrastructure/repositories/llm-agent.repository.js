@@ -55,7 +55,7 @@ function buildToolsFromMcp(mcpTools) {
  * @param {string} params.authorizationHeader - Header Authorization de la requête entrante
  * @returns {Promise<ReadableStream>} Flux SSE UI stream
  */
-const streamConversationTurn = async function ({ messages, clientTools = {}, documentContext = null, authorizationHeader, forwardedHeaders }) {
+const streamConversationTurn = async function ({ messages, clientTools = {}, documentContext = null, authorizationHeader, forwardedHeaders, apiBaseUrl }) {
   const inferenceProvider = createOpenAI({
     baseURL: config.llmAssistant.baseUrl,
     apiKey: config.llmAssistant.apiKey,
@@ -63,11 +63,10 @@ const streamConversationTurn = async function ({ messages, clientTools = {}, doc
 
   const model = inferenceProvider.chat(config.llmAssistant.model);
 
-  // Connexion au serveur MCP (endpoint /api/admin/llm-assistant/mcp de l'API courante)
   const mcpClient = await createMcpClient({
     authorizationHeader,
     forwardedHeaders,
-    apiBaseUrl: config.baseUrl,
+    apiBaseUrl: apiBaseUrl ?? config.baseUrl,
   });
 
   // Récupération et conversion des tools MCP en DynamicTool AI SDK (déclaratifs)
