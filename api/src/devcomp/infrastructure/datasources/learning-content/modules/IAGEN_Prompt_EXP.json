@@ -7,7 +7,7 @@
   "visibility": "public",
   "details": {
     "image": "https://assets.pix.org/modules/placeholder-details.svg",
-    "description": "<p>Les logiciels d’intelligence artificielle (IA) génératives produisent des réponses à partir des connaissances acquises pendant leur entraînement et du contexte fourni dans les prompts des utilisateurs. <br>Ce module présente leurs limites face aux informations récentes, propres à une organisation ou à un domaine métier. Il présente ensuite l’enrichissement de contexte et la génération augmentée par récupération (retrieval augmented generation ou RAG), qui permet aux IA génératives de récupérer des extraits pertinents dans une base documentaire pour générer une réponse</p>",
+    "description": "<p>Les logiciels d’intelligence artificielle (IA) génératives produisent des réponses à partir des connaissances acquises pendant leur entraînement et du contexte fourni dans les prompts des utilisateurs. <br>Ce module présente les limites des logiciels d'IA générative face aux informations récentes ou propres à une organisation. Vous allez découvrir également l’enrichissement de contexte et la génération augmentée par récupération (retrieval augmented generation ou RAG), qui permet aux logiciels d'IA générative de récupérer des extraits pertinents dans une base documentaire pour générer une réponse.</p>",
     "duration": 10,
     "level": "expert",
     "objectives": [
