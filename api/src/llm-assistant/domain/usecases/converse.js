@@ -1,5 +1,5 @@
-const converse = async function ({ messages, authorizationHeader, forwardedHeaders, llmAgentRepository }) {
-  return llmAgentRepository.streamConversationTurn({ messages, authorizationHeader, forwardedHeaders });
+const converse = async function ({ messages, clientTools = {}, documentContext = null, authorizationHeader, forwardedHeaders, llmAgentRepository }) {
+  return llmAgentRepository.streamConversationTurn({ messages, clientTools, documentContext, authorizationHeader, forwardedHeaders });
 };
 
 export { converse };
