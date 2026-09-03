@@ -371,6 +371,41 @@
         "title": "Vérification de possibilité de complétion de quête"
       }
     },
+    "assistant": {
+      "batch-tool": {
+        "columns": {
+          "source-row": "Ligne source",
+          "name": "Nom",
+          "status": "Statut",
+          "detail": "Détail",
+          "actions": "Actions"
+        },
+        "status": {
+          "created": "créée",
+          "failure": "échec",
+          "in-progress": "en cours…",
+          "ready": "prête",
+          "error": "erreur",
+          "duplicate": "doublon",
+          "excluded": "exclue"
+        },
+        "actions": {
+          "view": "Voir",
+          "exclude": "Exclure",
+          "stop": "Arrêter",
+          "resume": "Reprendre",
+          "download": "Télécharger le bilan"
+        },
+        "errors": {
+          "no-simulation": "Aucune simulation trouvée. Lancez d'abord run_script.",
+          "unresolved-errors": "Le lot contient des erreurs non résolues — relancez la simulation.",
+          "partial-creation": "lot partiellement créé",
+          "script-prefix": "Erreur de script :"
+        },
+        "script-label": "Script",
+        "preparing": "Préparation de l'exécution…"
+      }
+    },
     "autonomous-courses": {
       "actions": {
         "new": "Nouveau parcours autonome"

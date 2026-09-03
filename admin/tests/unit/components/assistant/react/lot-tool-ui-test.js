@@ -98,7 +98,11 @@ module('Unit | Component | assistant/react/LotToolUI', function (hooks) {
     test('first 6 succeed, 7th execution fails — lot is "termine" with mixed results', async function (assert) {
       const lot = new Lot();
       for (let i = 1; i <= 7; i++) {
-        lot.ajouterAppel({ ligneSource: i + 1, nom: 'create_organization', args: { simulate: true, externalId: `EXT-${i}` } });
+        lot.ajouterAppel({
+          ligneSource: i + 1,
+          nom: 'create_organization',
+          args: { simulate: true, externalId: `EXT-${i}` },
+        });
         lot.enregistrerResultatSimulation(i, { wouldCreate: true });
       }
       lot.terminerSimulation();
@@ -216,7 +220,10 @@ module('Unit | Component | assistant/react/LotToolUI', function (hooks) {
       const removeChildStub = sinon.stub(document.body, 'removeChild');
 
       let csvContent = null;
-      BlobStub.callsFake((parts) => { csvContent = parts[0]; return mockBlob; });
+      BlobStub.callsFake((parts) => {
+        csvContent = parts[0];
+        return mockBlob;
+      });
 
       exporterBilan(lot);
 
@@ -250,7 +257,10 @@ module('Unit | Component | assistant/react/LotToolUI', function (hooks) {
       sinon.stub(document.body, 'removeChild');
 
       let csvContent = null;
-      BlobStub.callsFake((parts) => { csvContent = parts[0]; return {}; });
+      BlobStub.callsFake((parts) => {
+        csvContent = parts[0];
+        return {};
+      });
 
       exporterBilan(lot);
       sinon.restore();

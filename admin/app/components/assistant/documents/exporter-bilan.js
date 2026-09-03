@@ -21,13 +21,7 @@ export function exportReport(batch) {
       }
       return s;
     };
-    return [
-      escape(call.sourceRow ?? ''),
-      escape(call.name),
-      escape(status),
-      escape(id),
-      escape(link),
-    ].join(',');
+    return [escape(call.sourceRow ?? ''), escape(call.name), escape(status), escape(id), escape(link)].join(',');
   });
 
   const csv = [header, ...rows].join('\n');

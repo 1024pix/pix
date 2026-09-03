@@ -364,6 +364,41 @@
         "title": "Checking whether a quest can be completed"
       }
     },
+    "assistant": {
+      "batch-tool": {
+        "columns": {
+          "source-row": "Source row",
+          "name": "Name",
+          "status": "Status",
+          "detail": "Detail",
+          "actions": "Actions"
+        },
+        "status": {
+          "created": "created",
+          "failure": "failure",
+          "in-progress": "in progress…",
+          "ready": "ready",
+          "error": "error",
+          "duplicate": "duplicate",
+          "excluded": "excluded"
+        },
+        "actions": {
+          "view": "View",
+          "exclude": "Exclude",
+          "stop": "Stop",
+          "resume": "Resume",
+          "download": "Download report"
+        },
+        "errors": {
+          "no-simulation": "No simulation found. Run run_script first.",
+          "unresolved-errors": "The batch contains unresolved errors — rerun the simulation.",
+          "partial-creation": "batch partially created",
+          "script-prefix": "Script error:"
+        },
+        "script-label": "Script",
+        "preparing": "Preparing execution…"
+      }
+    },
     "autonomous-courses": {
       "actions": {
         "new": "Nouveau parcours autonome"

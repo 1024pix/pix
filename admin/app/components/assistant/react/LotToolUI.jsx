@@ -1,287 +1,372 @@
-import { useEffect, useRef, useState } from 'react';
-import Lot from '../domain/lot.js';
-import { executer } from '../sandbox/bac-a-sable.js';
-import { exporterBilan } from '../documents/exporter-bilan.js';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { EmberContext } from './AssistantApp.jsx';
+import Batch from '../domain/lot.js';
+import { execute } from '../sandbox/bac-a-sable.js';
+import { exportReport } from '../documents/exporter-bilan.js';
 
 // Module-level registry: documentId → DocumentDepose
-// AssistantApp.jsx registers documents here before the LLM calls run_script
 export const documentRegistry = new Map();
 
-function appelStatutDisplay(appel) {
-  // Determine display status considering execution results
-  if (appel.resultat?.id !== undefined) {
-    return { label: 'créée', cls: 'badge--success' };
+// Module-level registry: documentId → Batch (simulated, pending execution)
+export const simulatedBatches = new Map();
+
+function callStatusDisplay(call, t) {
+  if (call.result?.id !== undefined) {
+    return { label: t('components.assistant.batch-tool.status.created'), cls: 'badge--success' };
   }
-  // After execution with error (post-approval call with no simulate)
   const isExecFailure =
-    appel.verdict === 'pret' &&
-    appel.resultat?.error !== undefined &&
-    appel.resultat?.wouldCreate === undefined;
+    call.verdict === 'ready' &&
+    call.result?.error !== undefined &&
+    call.result?.wouldCreate === undefined;
   if (isExecFailure) {
-    return { label: 'échec', cls: 'badge--error' };
+    return { label: t('components.assistant.batch-tool.status.failure'), cls: 'badge--error' };
   }
-  const verdict = appel.verdict;
-  if (verdict === null) return { label: 'en cours…', cls: 'badge--loading' };
+  if (call.verdict === null) {
+    return { label: t('components.assistant.batch-tool.status.in-progress'), cls: 'badge--loading' };
+  }
   const map = {
-    pret: { label: 'prête', cls: 'badge--success' },
-    erreur: { label: 'erreur', cls: 'badge--error' },
-    doublon: { label: 'doublon', cls: 'badge--warning' },
-    exclue: { label: 'exclue', cls: 'badge--neutral' },
+    ready:    { label: t('components.assistant.batch-tool.status.ready'),    cls: 'badge--success' },
+    error:    { label: t('components.assistant.batch-tool.status.error'),    cls: 'badge--error' },
+    duplicate: { label: t('components.assistant.batch-tool.status.duplicate'), cls: 'badge--warning' },
+    excluded: { label: t('components.assistant.batch-tool.status.excluded'), cls: 'badge--neutral' },
   };
-  return map[verdict] ?? { label: verdict, cls: 'badge--info' };
+  return map[call.verdict] ?? { label: call.verdict, cls: 'badge--info' };
 }
 
-export default function LotToolUI({ args, addResult, status }) {
-  const [lot] = useState(() => new Lot());
-  const [tick, setTick] = useState(0);
-  const [simError, setSimError] = useState(null);
-  const [executing, setExecuting] = useState(false);
-  const [resultSent, setResultSent] = useState(false);
-  const [arrete, setArrete] = useState(false);
-  const approveDisabledRef = useRef(false);
-  const stopRequestedRef = useRef(false);
+// Column config: width + wrap governs all table layout — no CSS nth-child needed.
+const BATCH_COLUMNS = [
+  { tKey: 'source-row', width: '3rem' },
+  { tKey: 'name',       width: '22%',  wrap: true },
+  { tKey: 'status',     width: '5rem' },
+  { tKey: 'detail',     width: 'auto', wrap: true },
+  { tKey: 'actions',    width: '5rem' },
+];
 
-  // Force re-render when lot mutates
+function BatchTable({ batch, onExclude }) {
+  const { t } = useContext(EmberContext);
+  return (
+    <table className="lot-tool-ui__table">
+      <colgroup>
+        {BATCH_COLUMNS.map((col, i) => <col key={i} style={{ width: col.width }} />)}
+      </colgroup>
+      <thead>
+        <tr>
+          {BATCH_COLUMNS.map((col, i) => (
+            <th key={i}>{t(`components.assistant.batch-tool.columns.${col.tKey}`)}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {batch.calls.map((call) => {
+          const { label, cls } = callStatusDisplay(call, t);
+          const orgId = call.result?.id;
+          const detail =
+            call.result?.error
+              ? JSON.stringify(call.result.error).slice(0, 80)
+              : call.result?.wouldCreate
+                ? '(simulation ok)'
+                : '';
+          return (
+            <tr key={call.index}>
+              <td>{call.sourceRow ?? '—'}</td>
+              <td className="col--wrap">{call.args?.name ?? call.name}</td>
+              <td>
+                <span className={`badge ${cls}`}>{label}</span>
+              </td>
+              <td className="col--wrap">
+                {orgId ? (
+                  <a href={`/organizations/${orgId}`} target="_blank" rel="noreferrer">
+                    {t('components.assistant.batch-tool.actions.view')}
+                  </a>
+                ) : (
+                  detail
+                )}
+              </td>
+              <td>
+                {onExclude && (call.verdict === 'error' || call.verdict === 'duplicate') && (
+                  <button className="btn--secondary btn--small" onClick={() => onExclude(call)}>
+                    {t('components.assistant.batch-tool.actions.exclude')}
+                  </button>
+                )}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+function buildSimulationSummary(batch, documentId) {
+  return {
+    documentId,
+    simulation: 'complete',
+    ready: batch.calls.filter((c) => c.verdict === 'ready').length,
+    errors: batch.calls.filter((c) => c.verdict === 'error').length,
+    duplicates: batch.calls.filter((c) => c.verdict === 'duplicate').length,
+    rows: batch.calls.map((c) => ({
+      sourceRow: c.sourceRow,
+      name: c.args?.name,
+      verdict: c.verdict,
+      ...(c.result?.error ? { detail: c.result.error } : {}),
+    })),
+  };
+}
+
+// run_script tool UI — simulation only
+export default function LotToolUI({ args, addResult, status }) {
+  const { getAccessToken } = useContext(EmberContext);
+  const { t } = useContext(EmberContext);
+  const [batch] = useState(() => new Batch());
+  const [, setTick] = useState(0);
+  const [scriptError, setScriptError] = useState(null);
+
   const refresh = () => setTick((n) => n + 1);
+  const isRunning = status?.type === 'running' || status === 'running';
 
   useEffect(() => {
-    if (status?.type !== 'running' && status !== 'running') return;
+    if (isRunning) return;
+    if (batch.state !== 'pending') return;
 
-    const document = documentRegistry.get(args.documentId);
+    const document = documentRegistry.get(args.documentId) ??
+      (documentRegistry.size === 1 ? [...documentRegistry.values()][0] : null);
     if (!document) {
-      setSimError(`Document introuvable : ${args.documentId}`);
+      const msg = `Document not found: ${args.documentId}`;
+      setScriptError(msg);
+      addResult({ error: msg });
       return;
     }
-    lot.document = document;
+    batch.document = document;
 
     let cancelled = false;
 
     async function runSimulation() {
       try {
-        await executer({
+        const scriptReturn = await execute({
           script: args.script,
-          sheets: document.feuilles,
-          onToolCall: async ({ id, name, args: callArgs, ligne }) => {
+          sheets: Object.values(document.feuilles),
+          onToolCall: async ({ name, args: callArgs, ligne }) => {
             const enrichedArgs = { ...callArgs, simulate: true };
-            lot.ajouterAppel({ ligneSource: ligne, nom: name, args: enrichedArgs });
-            const rang = lot.appels.length;
+            batch.addCall({ sourceRow: ligne, name, args: enrichedArgs });
+            const index = batch.calls.length;
             if (!cancelled) refresh();
 
-            const res = await fetch('/api/admin/llm-assistant/tools/create_organization', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(enrichedArgs),
-            });
-            const result = await res.json();
+            let result;
+            try {
+              const token = await getAccessToken();
+              const controller = new AbortController();
+              const timer = setTimeout(() => controller.abort(), 30_000);
+              try {
+                const res = await fetch('/api/admin/llm-assistant/tools/create_organization', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                  body: JSON.stringify(enrichedArgs),
+                  signal: controller.signal,
+                });
+                result = await res.json();
+              } finally {
+                clearTimeout(timer);
+              }
+            } catch (err) {
+              result = { error: err?.message ?? String(err) };
+            }
 
-            lot.enregistrerResultatSimulation(rang, result);
+            batch.recordSimulationResult(index, result);
             if (!cancelled) refresh();
             return result;
           },
         });
+
         if (!cancelled) {
-          lot.terminerSimulation();
+          if (batch.calls.length === 0) {
+            // Script didn't call any tools — pass its return value directly to the LLM.
+            if (scriptReturn !== null && scriptReturn !== undefined) {
+              addResult(scriptReturn);
+            } else {
+              addResult({ error: 'Script returned no result and made no tool calls.' });
+            }
+            return;
+          }
+          batch.finishSimulation();
+          // Store batch so approve_lot tool can execute it
+          const docId = args.documentId ?? document.id;
+          simulatedBatches.set(docId, batch);
+          addResult(buildSimulationSummary(batch, docId));
           refresh();
         }
       } catch (err) {
         if (!cancelled) {
-          setSimError(err.message ?? String(err));
+          const msg = err.message ?? String(err);
+          setScriptError(msg);
+          addResult({ error: `Script execution error: ${msg}` });
         }
       }
     }
 
     runSimulation();
     return () => { cancelled = true; };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isRunning]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const hasBlockingIssues = lot.appels.some(
-    (a) => a.verdict === 'erreur' || a.verdict === 'doublon',
+  function handleExclude(call) {
+    call.exclude();
+    refresh();
+  }
+
+  return (
+    <div className="lot-tool-ui">
+      {scriptError && (
+        <div className="lot-tool-ui__error" role="alert">
+          {t('components.assistant.batch-tool.errors.script-prefix')} {scriptError}
+        </div>
+      )}
+
+      {batch.calls.length > 0 && (
+        <BatchTable batch={batch} onExclude={handleExclude} />
+      )}
+
+      <details className="lot-tool-ui__script">
+        <summary>{t('components.assistant.batch-tool.script-label')}</summary>
+        <pre>{args.script}</pre>
+      </details>
+    </div>
   );
+}
 
-  const canApprove = lot.etat === 'simule' && !hasBlockingIssues;
+// approve_lot tool UI — execution
+export function ApproveLotToolUI({ args, addResult, status }) {
+  const { getAccessToken, t } = useContext(EmberContext);
+  const [batch, setBatch] = useState(null);
+  const [, setTick] = useState(0);
+  const [started, setStarted] = useState(false);
+  const [stopped, setStopped] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+  const stopRequestedRef = useRef(false);
 
-  async function runExecution() {
-    const aExecuter = lot.appelsAExecuter();
-    for (const appel of aExecuter) {
+  const refresh = () => setTick((n) => n + 1);
+  const isRunning = status?.type === 'running' || status === 'running';
+
+  async function runExecution(batchToRun) {
+    const activeBatch = batchToRun ?? batch;
+    const toExecute = activeBatch.callsToExecute();
+    for (const call of toExecute) {
       if (stopRequestedRef.current) {
-        setArrete(true);
-        setExecuting(false);
+        setStopped(true);
+        setStarted(false);
         refresh();
         return;
       }
-      const { simulate: _simulate, ...realArgs } = appel.args;
-      const res = await fetch('/api/admin/llm-assistant/tools/create_organization', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(realArgs),
-      });
-      const result = await res.json();
-      lot.enregistrerResultatExecution(appel.rang, result);
+      const { simulate: _simulate, ...realArgs } = call.args;
+      let result;
+      try {
+        const token = await getAccessToken();
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 30_000);
+        try {
+          const res = await fetch('/api/admin/llm-assistant/tools/create_organization', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify(realArgs),
+            signal: controller.signal,
+          });
+          result = await res.json();
+        } finally {
+          clearTimeout(timer);
+        }
+      } catch (err) {
+        result = { error: err?.message ?? String(err) };
+      }
+      activeBatch.recordExecutionResult(call.index, result);
       refresh();
     }
-    setExecuting(false);
-    setResultSent(true);
-    addResult(lot);
-  }
 
-  async function handleApprouver() {
-    if (approveDisabledRef.current) return;
-    approveDisabledRef.current = true;
-    stopRequestedRef.current = false;
-    setExecuting(true);
+    setStarted(false);
+    setIsDone(true);
 
-    lot.approuver();
-    lot.demarrerExecution();
-    refresh();
-    await runExecution();
-  }
-
-  function handleArreter() {
-    stopRequestedRef.current = true;
-  }
-
-  async function handleReprendre() {
-    stopRequestedRef.current = false;
-    setArrete(false);
-    setExecuting(true);
-    await runExecution();
-  }
-
-  function handleAnnuler() {
-    addResult({ error: 'cancelled' });
-    setResultSent(true);
-  }
-
-  function handleExclure(appel) {
-    appel.exclure();
+    const created = activeBatch.calls.filter((c) => c.result?.id !== undefined);
+    const failures = activeBatch.calls.filter(
+      (c) => c.verdict === 'ready' && c.result?.error !== undefined && c.result?.id === undefined,
+    );
+    addResult({
+      execution: 'complete',
+      created: created.map((c) => ({ sourceRow: c.sourceRow, name: c.args?.name, id: c.result.id })),
+      failures: failures.map((c) => ({ sourceRow: c.sourceRow, name: c.args?.name, error: c.result.error })),
+    });
     refresh();
   }
 
-  const isSimulationDone = lot.etat !== 'a_simuler';
-  const isTermine = lot.etat === 'termine';
-  const pretCount = lot.appels.filter((a) => a.verdict === 'pret').length;
+  useEffect(() => {
+    if (isRunning) return;
+    if (started) return;
 
-  const hasAnyFailure = isTermine && lot.appels.some(
-    (a) => a.verdict === 'pret' && a.resultat?.error !== undefined && a.resultat?.id === undefined,
+    // Resolve batch lazily — args.documentId is only complete once streaming ends
+    const docId = args?.documentId;
+    const resolvedBatch =
+      (docId ? simulatedBatches.get(docId) : null) ??
+      (simulatedBatches.size === 1 ? [...simulatedBatches.values()][0] : null) ??
+      null;
+
+    if (!resolvedBatch) {
+      addResult({ error: t('components.assistant.batch-tool.errors.no-simulation') });
+      return;
+    }
+
+    setBatch(resolvedBatch);
+
+    try {
+      resolvedBatch.approve();
+    } catch {
+      addResult({ error: t('components.assistant.batch-tool.errors.unresolved-errors') });
+      return;
+    }
+    resolvedBatch.startExecution();
+    setStarted(true);
+    stopRequestedRef.current = false;
+    refresh();
+    runExecution(resolvedBatch);
+  }, [isRunning]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function handleResume() {
+    stopRequestedRef.current = false;
+    setStopped(false);
+    setStarted(true);
+    await runExecution(batch);
+  }
+
+  if (!batch) {
+    return <div className="lot-tool-ui__loading">{t('components.assistant.batch-tool.preparing')}</div>;
+  }
+
+  const hasAnyFailure = isDone && batch.calls.some(
+    (c) => c.verdict === 'ready' && c.result?.error !== undefined && c.result?.id === undefined,
   );
 
   return (
     <div className="lot-tool-ui">
-      {simError && (
-        <div className="lot-tool-ui__error" role="alert">
-          Erreur de script : {simError}
-        </div>
-      )}
-
-      {lot.appels.length > 0 && (
-        <table className="lot-tool-ui__table">
-          <thead>
-            <tr>
-              <th>Ligne source</th>
-              <th>Nom</th>
-              <th>Statut</th>
-              <th>Détail</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lot.appels.map((appel) => {
-              const { label, cls } = appelStatutDisplay(appel);
-              const orgId = appel.resultat?.id;
-              const detail =
-                appel.resultat?.error
-                  ? JSON.stringify(appel.resultat.error).slice(0, 80)
-                  : appel.resultat?.wouldCreate
-                    ? '(simulation ok)'
-                    : '';
-              return (
-                <tr key={appel.rang}>
-                  <td>{appel.ligneSource ?? '—'}</td>
-                  <td>{appel.nom}</td>
-                  <td>
-                    <span className={`badge ${cls}`}>{label}</span>
-                  </td>
-                  <td>
-                    {orgId ? (
-                      <a href={`/organizations/${orgId}`} target="_blank" rel="noreferrer">
-                        Voir
-                      </a>
-                    ) : (
-                      detail
-                    )}
-                  </td>
-                  <td>
-                    {(appel.verdict === 'erreur' || appel.verdict === 'doublon') && (
-                      <button className="btn--secondary btn--small" onClick={() => handleExclure(appel)}>
-                        Exclure
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
-
-      {lot.document?.plagesVues?.length > 0 && (
-        <div className="lot-tool-ui__plages">
-          <strong>Lignes lues :</strong>
-          <ul>
-            {lot.document.plagesVues.map((p, i) => (
-              <li key={i}>{p.feuille} L{p.from}–{p.to}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <details className="lot-tool-ui__script">
-        <summary>Script</summary>
-        <pre>{args.script}</pre>
-      </details>
+      <BatchTable batch={batch} onExclude={null} />
 
       {hasAnyFailure && (
         <div className="lot-tool-ui__bilan-bandeau" role="alert">
-          lot partiellement créé
+          {t('components.assistant.batch-tool.errors.partial-creation')}
         </div>
       )}
 
-      {isSimulationDone && !resultSent && (
-        <div className="lot-tool-ui__controls">
-          {!executing && !isTermine && (
-            <>
-              <button className="btn--secondary" onClick={handleAnnuler}>
-                Annuler
-              </button>
-              <button
-                className="btn--primary"
-                onClick={handleApprouver}
-                disabled={!canApprove || approveDisabledRef.current}
-              >
-                Créer les {pretCount} organisations
-              </button>
-            </>
-          )}
-          {executing && (
-            <button className="btn--secondary" onClick={handleArreter}>
-              Arrêter
-            </button>
-          )}
-          {arrete && !executing && (
-            <button className="btn--secondary" onClick={handleReprendre}>
-              Reprendre
-            </button>
-          )}
-        </div>
-      )}
-
-      {isTermine && (
-        <div className="lot-tool-ui__controls">
-          <button className="btn--secondary" onClick={() => exporterBilan(lot)}>
-            Télécharger le bilan
+      <div className="lot-tool-ui__controls">
+        {started && (
+          <button className="btn--secondary" onClick={() => { stopRequestedRef.current = true; }}>
+            {t('components.assistant.batch-tool.actions.stop')}
           </button>
-        </div>
-      )}
+        )}
+        {stopped && !started && (
+          <button className="btn--secondary" onClick={handleResume}>
+            {t('components.assistant.batch-tool.actions.resume')}
+          </button>
+        )}
+        {isDone && (
+          <button className="btn--secondary" onClick={() => exportReport(batch)}>
+            {t('components.assistant.batch-tool.actions.download')}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

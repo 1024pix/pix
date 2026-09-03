@@ -40,7 +40,7 @@ module('Unit | Component | assistant/react/ListReferenceValuesToolUI', function 
     assert.deepEqual(addResult.firstCall.args[0], referenceResult);
   });
 
-  test('appelle addResult avec l\'erreur et affiche un message — le LLM peut ainsi récupérer', async function (assert) {
+  test("appelle addResult avec l'erreur et affiche un message — le LLM peut ainsi récupérer", async function (assert) {
     assert.expect(3);
     const errorResult = { error: { validation: 'MCP error -32602: Invalid arguments' } };
     const getAccessToken = sinon.stub().resolves('jwt-token');
@@ -63,8 +63,8 @@ module('Unit | Component | assistant/react/ListReferenceValuesToolUI', function 
 
     // addResult doit être appelé même en cas d'erreur : c'est ce qui permet au runtime
     // @assistant-ui de déclencher sendAutomaticallyWhen et de re-soumettre au LLM
-    await waitFor(() => assert.ok(addResult.calledOnce, 'addResult appelé même en cas d\'erreur'));
-    assert.deepEqual(addResult.firstCall.args[0], errorResult, 'addResult reçoit l\'objet erreur');
-    assert.ok(container.querySelector('.tool-error'), 'un message d\'erreur est affiché');
+    await waitFor(() => assert.ok(addResult.calledOnce, "addResult appelé même en cas d'erreur"));
+    assert.deepEqual(addResult.firstCall.args[0], errorResult, "addResult reçoit l'objet erreur");
+    assert.ok(container.querySelector('.tool-error'), "un message d'erreur est affiché");
   });
 });

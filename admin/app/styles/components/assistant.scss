@@ -34,8 +34,8 @@
   bottom: 5.5rem;
   right: 1.5rem;
   z-index: 999;
-  width: 420px;
-  height: 600px;
+  width: 50vw;
+  height: 66.67vh;
   background: var(--pix-neutral-0);
   border-radius: var(--pix-spacing-3x);
   box-shadow: var(--pix-shadow-md);
@@ -69,6 +69,21 @@
   min-height: 0;
   overflow: hidden;
   background: var(--aui-bg);
+}
+
+/* ── Error banner ──────────────────────────────────────── */
+.assistant-error-banner {
+  @extend %pix-body-xs;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pix-spacing-2x);
+  padding: var(--pix-spacing-2x) var(--pix-spacing-3x);
+  background: var(--pix-error-50);
+  border-bottom: 1px solid var(--pix-error-100);
+  color: var(--pix-error-700);
+  flex-shrink: 0;
 }
 
 /* ── Header ────────────────────────────────────────────── */
@@ -194,6 +209,20 @@
 
 .message__text {
   margin: 0;
+}
+
+.message__attachment-ref {
+  @extend %pix-body-xs;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pix-spacing-1x);
+  background: rgb(var(--pix-neutral-0-inline) / 0.25);
+  border-radius: var(--pix-spacing-2x);
+  padding: 2px var(--pix-spacing-2x);
+  margin-bottom: var(--pix-spacing-1x);
+  font-weight: var(--pix-font-medium);
+  opacity: 0.85;
 }
 
 /* Hide assistant bubble when it has no text content (tool-call-only messages) */
@@ -341,6 +370,200 @@
   cursor: not-allowed;
 }
 
+.composer__attach-label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  align-self: flex-end;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--pix-spacing-2x);
+  color: var(--aui-text-muted);
+  transition: color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    color: var(--aui-primary);
+    background: var(--aui-primary-light);
+  }
+}
+
+.composer__attach-input {
+  display: none;
+}
+
+.composer__attachment {
+  @extend %pix-body-xs;
+
+  display: flex;
+  align-items: center;
+  gap: var(--pix-spacing-2x);
+  padding: var(--pix-spacing-1x) var(--pix-spacing-2x);
+  background: var(--aui-primary-light);
+  border-radius: var(--pix-spacing-2x);
+  margin-bottom: var(--pix-spacing-2x);
+  color: var(--aui-primary);
+}
+
+.composer__attachment-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: var(--pix-font-medium);
+}
+
+.composer__attachment-remove {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
+  color: var(--aui-primary);
+  opacity: 0.7;
+  font-size: 1rem;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.composer__file-error {
+  @extend %pix-body-xs;
+
+  color: var(--pix-error-700);
+  background: var(--pix-error-50);
+  border: 1px solid var(--pix-error-100);
+  border-radius: var(--pix-spacing-2x);
+  padding: var(--pix-spacing-1x) var(--pix-spacing-2x);
+  margin-bottom: var(--pix-spacing-2x);
+}
+
+/* ── Lot tool UI ───────────────────────────────────────── */
+.lot-tool-ui {
+  @extend %pix-body-s;
+
+  margin: var(--pix-spacing-1x) 0;
+}
+
+.lot-tool-ui__error {
+  color: var(--pix-error-700);
+  background: var(--pix-error-50);
+  border: 1px solid var(--pix-error-100);
+  border-radius: var(--pix-spacing-2x);
+  padding: var(--pix-spacing-2x) var(--pix-spacing-3x);
+  margin-bottom: var(--pix-spacing-2x);
+}
+
+.lot-tool-ui__loading {
+  color: var(--aui-text-muted);
+  font-style: italic;
+  padding: var(--pix-spacing-2x) 0;
+}
+
+.lot-tool-ui__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  // table-layout: fixed + <colgroup> in the component controls column widths.
+  // To adjust sizes or add columns, edit LOT_COLUMNS in LotToolUI.jsx — no CSS change needed.
+  table-layout: fixed;
+}
+
+.lot-tool-ui__table th {
+  background: var(--pix-neutral-20);
+  font-weight: var(--pix-font-bold);
+  text-align: left;
+  padding: var(--pix-spacing-1x) var(--pix-spacing-2x);
+  border-bottom: 2px solid var(--aui-border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lot-tool-ui__table td {
+  padding: var(--pix-spacing-1x) var(--pix-spacing-2x);
+  border-bottom: 1px solid var(--aui-border);
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Columns marked wrap: true in LOT_COLUMNS get .col--wrap on their <td>
+.lot-tool-ui__table td.col--wrap {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.lot-tool-ui__table a {
+  color: var(--aui-primary);
+  text-decoration: underline;
+}
+
+.lot-tool-ui__table tr:last-child td {
+  border-bottom: none;
+}
+
+.lot-tool-ui__controls {
+  display: flex;
+  gap: var(--pix-spacing-2x);
+  margin-top: var(--pix-spacing-3x);
+  flex-wrap: wrap;
+}
+
+.lot-tool-ui__script {
+  margin-top: var(--pix-spacing-2x);
+  font-size: 0.75rem;
+  color: var(--aui-text-muted);
+
+  summary {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  pre {
+    margin: var(--pix-spacing-1x) 0 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: var(--_pix-font-family-monospace);
+    font-size: 0.75rem;
+    background: var(--pix-neutral-20);
+    padding: var(--pix-spacing-2x);
+    border-radius: var(--pix-spacing-1x);
+    max-height: 8rem;
+    overflow-y: auto;
+  }
+}
+
+/* ── Badges ────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 1px var(--pix-spacing-1x);
+  border-radius: var(--pix-spacing-1x);
+  font-size: 0.75rem;
+  font-weight: var(--pix-font-medium);
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.badge--success  { background: var(--pix-success-50);  color: var(--pix-success-700); }
+.badge--error    { background: var(--pix-error-50);    color: var(--pix-error-700); }
+.badge--warning  { background: var(--pix-warning-50);  color: var(--pix-warning-700); }
+.badge--neutral  { background: var(--pix-neutral-100); color: var(--aui-text-muted); }
+.badge--info     { background: var(--pix-info-50);     color: var(--pix-info-700); }
+.badge--loading  {
+  background: var(--pix-info-50);
+  color: var(--pix-info-700);
+  animation: badge-pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 /* ── Tool card ─────────────────────────────────────────── */
 .tool-card {
   @extend %pix-body-s;
@@ -435,6 +658,11 @@
 
 .btn--secondary:hover {
   background: var(--pix-neutral-20);
+}
+
+.btn--small {
+  padding: 2px var(--pix-spacing-2x);
+  font-size: 0.75rem;
 }
 
 .field-error {
