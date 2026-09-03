@@ -1785,9 +1785,12 @@
       },
       "connection-types": {
         "email": "Adresse e-mail",
-        "empty": "–",
         "identifiant": "Identifiant",
         "mediacentre": "Mediacentre",
+        "no-login-method-tooltip": {
+          "content": "L'élève doit jouer une campagne pour lier un compte à votre organisation.",
+          "label": "Information sur les méthodes de connections"
+        },
         "none": "Aucune",
         "without-mediacentre": "Sans Mediacentre"
       },
