@@ -49,7 +49,11 @@ const mcpController = {
     if (!transport) {
       return h.response({ error: 'Session not found or expired' }).code(404);
     }
-    await transport.handleRequest(request.raw.req, request.raw.res);
+    try {
+      await transport.handleRequest(request.raw.req, request.raw.res);
+    } catch {
+      // Client disconnected mid-stream — response headers already sent, nothing to do.
+    }
     return h.abandon;
   },
 };

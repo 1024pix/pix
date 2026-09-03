@@ -1,4 +1,4 @@
-const TIMEOUT_MS = 30_000;
+const TIMEOUT_MS = 120_000;
 const MAX_TOOL_CALLS = 500;
 
 /**
