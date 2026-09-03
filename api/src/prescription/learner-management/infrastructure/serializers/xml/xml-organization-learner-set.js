@@ -17,6 +17,7 @@ export class XMLOrganizationLearnersSet {
   constructor() {
     this.organizationLearnersByStudentId = new Map();
     this.studentIds = [];
+    this.schoolYear = null;
   }
 
   add(id, xmlNode) {
@@ -39,6 +40,10 @@ export class XMLOrganizationLearnersSet {
         currentStudent.division = structure.CODE_STRUCTURE[0];
       }
     });
+  }
+
+  addSchoolYear(schoolYear) {
+    this.schoolYear = schoolYear;
   }
 
   _check(xmlNode) {
@@ -101,7 +106,11 @@ export class XMLOrganizationLearnersSet {
   }
 
   get organizationLearners() {
-    return Array.from(this.organizationLearnersByStudentId.values());
+    return Array.from(
+      this.organizationLearnersByStudentId
+        .values()
+        .map((organizationLearner) => ({ ...organizationLearner, attributes: { schoolYear: this.schoolYear } })),
+    );
   }
 }
 

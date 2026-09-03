@@ -105,6 +105,7 @@ describe('Integration | Serializers | siecle-parser', function () {
           status: 'AP',
           nationalStudentId: '00000000123',
           division: '4A',
+          attributes: { schoolYear: null },
         },
         {
           lastName: 'COVERT',
@@ -122,6 +123,7 @@ describe('Integration | Serializers | siecle-parser', function () {
           status: 'ST',
           nationalStudentId: '00000000124',
           division: '4A',
+          attributes: { schoolYear: null },
         },
       ];
 
@@ -136,6 +138,25 @@ describe('Integration | Serializers | siecle-parser', function () {
 
       //then
       expect(result).to.deep.equal(expectedOrganizationLearners);
+    });
+
+    it('should set schoolYear attribute from ANNEE_SCOLAIRE node when present', async function () {
+      // given
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-two-valid-students-and-school-year.xml`;
+
+      // when
+      const encoding = await detectEncoding(path);
+      const readableStream = fs.createReadStream(path);
+
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, encoding);
+      const parser = SiecleParser.create(siecleFileStreamer);
+
+      const result = await parser.parse();
+
+      //then
+      expect(result).to.have.lengthOf(2);
+      expect(result[0].attributes).to.deep.equal({ schoolYear: '2016' });
+      expect(result[1].attributes).to.deep.equal({ schoolYear: '2016' });
     });
 
     it('should ignore invalid organizationLearners', async function () {
