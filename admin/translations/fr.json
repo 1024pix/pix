@@ -1692,6 +1692,7 @@
               "cancelled_by_jury": "Annulée",
               "error": "Erreur",
               "fraud": "Rejetée pour fraude",
+              "pending-scoring": "En attente de scoring",
               "rejected": "Rejetée",
               "validated": "Validée"
             },
