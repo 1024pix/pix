@@ -3,8 +3,8 @@ import { RedisClient } from './RedisClient.js';
 
 class RedisMonitor {
   constructor() {
-    if (config.caching.redisUrl) {
-      this._client = new RedisClient(config.caching.redisUrl, { name: 'redis-monitor' });
+    if (config.redisUrl) {
+      this._client = new RedisClient(config.redisUrl, { name: 'redis-monitor' });
     }
   }
 

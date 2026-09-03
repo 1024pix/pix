@@ -1,13 +1,10 @@
 import { config } from '../../config.js';
-
-const redisUrl = config.temporaryStorage.redisUrl;
-
 import { InMemoryKeyValueStorage } from './InMemoryKeyValueStorage.js';
 import { RedisKeyValueStorage } from './RedisKeyValueStorage.js';
 
 function _createKeyValueStorage({ prefix }) {
-  if (redisUrl) {
-    return new RedisKeyValueStorage(redisUrl, prefix);
+  if (config.redisUrl) {
+    return new RedisKeyValueStorage(config.redisUrl, prefix);
   } else {
     return new InMemoryKeyValueStorage();
   }
