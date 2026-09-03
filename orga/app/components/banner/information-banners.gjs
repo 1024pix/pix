@@ -1,6 +1,6 @@
 import PixBannerAlert from '@1024pix/pix-ui/components/pix-banner-alert';
 
-import textWithMultipleLang from '../../helpers/text-with-multiple-lang.js';
+import textWithMultipleLang from '../../helpers/text-with-multiple-lang';
 
 <template>
   {{#each @banners as |banner|}}
