@@ -2,7 +2,7 @@ import { render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CombinedCourseHeader from 'pix-orga/components/combined-course/header';
-import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
+import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

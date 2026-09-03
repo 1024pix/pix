@@ -7,7 +7,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { or } from 'ember-truth-helpers';
 
-import { EVENT_NAME } from '../../../helpers/metrics-event-name';
+import { EVENT_NAME } from '../../../constants/metrics-event-name';
 
 export default class CampaignTabs extends Component {
   @service intl;

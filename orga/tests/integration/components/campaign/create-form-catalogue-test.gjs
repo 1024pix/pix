@@ -3,7 +3,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { t } from 'ember-intl/test-support';
 import CreateForm from 'pix-orga/components/campaign/create-form-catalogue';
-import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
+import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

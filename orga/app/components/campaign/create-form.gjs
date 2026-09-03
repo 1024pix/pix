@@ -12,7 +12,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq, gt, not } from 'ember-truth-helpers';
-import { ID_PIX_TYPES } from 'pix-orga/helpers/id-pix-types.js';
+import { ID_PIX_TYPES } from 'pix-orga/constants/id-pix-types';
 import { orderBy } from 'pix-orga/utils/collection';
 
 import displayCampaignErrors from '../../helpers/display-campaign-errors';

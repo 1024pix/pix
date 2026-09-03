@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
-import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
+import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
 
 import FormSection from '../ui/form-section';
 import AssessmentGoalCustomization from './create-form/assessment-goal-customization';
