@@ -2,13 +2,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { ValidateSiecleFileJob } from '../../../../../src/prescription/learner-management/domain/models/jobs/ValidateSiecleFileJob.js';
-import { AnonymizeUserEvent } from '../../../../../src/privacy/domain/events/AnonymizeUserEvent.js';
 import { AuditLoggingJobController } from '../../../../../src/shared/application/jobs/audit-logging.job-controller.js';
 import { JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
 import { config } from '../../../../../src/shared/config.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { JobExpireIn } from '../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
+import { TestEvent } from './test-event.js';
 
 class FakePgBoss {
   start() {
@@ -278,7 +278,7 @@ describe('Unit | JobClient', function () {
     });
 
     describe('event Job', function () {
-      it('subscribe to AnonymizeUserEvent', async function () {
+      it('subscribe to TestEvent', async function () {
         //given
         const pgBossStub = new FakePgBoss();
         sinon.stub(pgBossStub, 'subscribe');
@@ -295,13 +295,10 @@ describe('Unit | JobClient', function () {
         );
 
         // then
-        expect(pgBossStub.subscribe).to.have.been.calledWith(
-          AnonymizeUserEvent.eventName,
-          'test.to-register.event-queue',
-        );
+        expect(pgBossStub.subscribe).to.have.been.calledWith(TestEvent.eventName, 'test.to-register.event-queue');
       });
 
-      it('unsubscribe to AnonymizeUserEvent', async function () {
+      it('unsubscribe to TestEvent', async function () {
         //given
         const pgBossStub = new FakePgBoss();
         sinon.stub(pgBossStub, 'unsubscribe');
@@ -318,10 +315,7 @@ describe('Unit | JobClient', function () {
         );
 
         // then
-        expect(pgBossStub.unsubscribe).to.have.been.calledWith(
-          AnonymizeUserEvent.eventName,
-          'test.to-delete.event-queue',
-        );
+        expect(pgBossStub.unsubscribe).to.have.been.calledWith(TestEvent.eventName, 'test.to-delete.event-queue');
       });
 
       it('does not delete queue when queue is not empty', async function () {
