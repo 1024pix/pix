@@ -28,6 +28,7 @@ const register = async function (server) {
             trigger: Joi.string().optional(),
             tools: Joi.object().optional(),
             metadata: Joi.object().optional(),
+            documentContext: Joi.string().optional(),
             messages: Joi.array()
               .items(
                 Joi.object({

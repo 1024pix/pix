@@ -147,5 +147,41 @@ describe('Acceptance | LlmAssistant | Application | Route | Conversation', funct
       expect(response.headers['content-type']).to.include('text/event-stream');
       expect(response.payload).to.not.be.empty;
     });
+
+    it('returns 200 text/event-stream when client tools are included in the payload', async function () {
+      // given — SSE OpenAI-compatible format (simple text response)
+      const sseChunks = [
+        'data: {"id":"chatcmpl-2","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"role":"assistant","content":"Ok"},"finish_reason":null}]}\n\n',
+        'data: {"id":"chatcmpl-2","object":"chat.completion.chunk","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}\n\n',
+        'data: [DONE]\n\n',
+      ];
+
+      fakeInferenceServer = await startFakeInferenceServer(sseChunks);
+      config.llmAssistant.inferenceUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
+
+      const headers = generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id });
+
+      // when
+      const response = await httpServer.inject({
+        method: 'POST',
+        url: '/api/admin/llm-assistant/conversations/messages',
+        headers,
+        payload: {
+          messages: [{ role: 'user', content: 'Exécute le script' }],
+          tools: {
+            run_script: {
+              type: 'function',
+              description: 'Exécute un script côté client',
+              parameters: { type: 'object', properties: { script: { type: 'string' } }, required: ['script'] },
+            },
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-type']).to.include('text/event-stream');
+      expect(response.payload).to.not.be.empty;
+    });
   });
 });
