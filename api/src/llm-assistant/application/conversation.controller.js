@@ -1,4 +1,4 @@
-import { Readable } from 'node:stream';
+import { PassThrough, Readable } from 'node:stream';
 
 import { usecases } from '../domain/usecases/index.js';
 
@@ -13,7 +13,16 @@ const postMessage = async function (request, h) {
   };
   try {
     const stream = await usecases.converse({ messages, clientTools, documentContext, authorizationHeader, forwardedHeaders });
-    return h.response(Readable.fromWeb(stream)).type('text/event-stream');
+    const readable = Readable.fromWeb(stream);
+    const safe = new PassThrough();
+    // Absorb stream errors so Hapi never tries to set headers on an already-started
+    // SSE response (which throws ERR_HTTP_HEADERS_SENT and crashes the process).
+    readable.on('error', (err) => {
+      request.log(['error', 'llm-assistant'], { message: err.message, stack: err.stack });
+      safe.end();
+    });
+    readable.pipe(safe);
+    return h.response(safe).type('text/event-stream');
   } catch (err) {
     request.log(['error', 'llm-assistant'], { message: err.message, stack: err.stack, cause: err.cause?.message });
     throw err;

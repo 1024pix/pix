@@ -77,6 +77,9 @@ const streamConversationTurn = async function ({ messages, clientTools = {}, doc
   // clientTools vient du body sous forme { toolName: { description, parameters } } —
   // il faut les convertir en dynamicTool avant de les passer à streamText.
   const { tools: mcpTools } = await mcpClient.listTools();
+  // Close immediately — we only needed the tool schemas. Leaving it open keeps
+  // a SSE GET connection alive that can error 30+ seconds later and crash Hapi.
+  await mcpClient.close();
   const convertedClientTools = {};
   for (const [name, schema] of Object.entries(clientTools)) {
     convertedClientTools[name] = dynamicTool({
