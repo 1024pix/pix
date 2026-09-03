@@ -286,7 +286,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', areas: [area] });
       });
 
-      test('it should display tubes selection component only if the user selects an attestation, adds a target profile to content and adds capped tubes requirements', async function (assert) {
+      test('it should display tubes selection component when the necessary conditions are met', async function (assert) {
         //given
         const attestations = [
           { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
@@ -336,6 +336,11 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
         await click(screen.getByRole('option', { name: 'Parentalite' }));
         await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+          }),
+        );
+        await click(
           screen.getByRole('button', {
             name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
           }),
@@ -367,11 +372,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         );
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Parentalite' }));
-        await click(
-          screen.getByRole('button', {
-            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
-          }),
-        );
 
         await fillIn(
           screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -389,6 +389,18 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
         await click(
           screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+        );
+
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+          }),
+        );
+
+        await click(
+          screen.getByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
+          }),
         );
 
         //then
@@ -423,6 +435,11 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         );
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Parentalite' }));
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+          }),
+        );
         await click(
           screen.getByRole('button', {
             name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
@@ -483,6 +500,11 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         );
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Parentalite' }));
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+          }),
+        );
 
         await click(
           screen.getByRole('button', {

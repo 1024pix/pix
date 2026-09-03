@@ -24,7 +24,7 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
       label: 'Parentalite',
     });
 
-    server.create('target-profile', { id: 1, areas });
+    server.create('target-profile', { id: 1, internalName: 'internalName', areas });
 
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
@@ -70,6 +70,12 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     await click(screen.getByRole('option', { name: 'Parentalite' }));
 
     await click(
+      screen.getByRole('radio', {
+        name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+      }),
+    );
+
+    await click(
       screen.getByRole('button', {
         name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
       }),
@@ -84,6 +90,7 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
       screen.getByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ }),
     ).findByRole('listbox');
     await click(within(tubesListbox).getByRole('option', { name: '4' }));
+
     await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '50');
     await fillIn(
       screen.getByRole('textbox', {
@@ -127,6 +134,13 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     );
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+    await click(
+      screen.getByRole('radio', {
+        name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+      }),
+    );
+
     await click(
       screen.getByRole('button', {
         name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),

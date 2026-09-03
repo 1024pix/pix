@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
@@ -19,7 +20,8 @@ import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
 
 import Card from '../card';
-import CappedTubesCriterion from '../target-profiles/badge-form/capped-tubes-criterion';
+import CampaignCriterion from '../common/tubes-selection/campaign-criterion';
+import CappedTubesCriterion from '../common/tubes-selection/capped-tubes-criterion';
 import SelectAttestation from './select-attestation';
 
 export default class CombinedCourseBlueprintForm extends Component {
@@ -36,6 +38,8 @@ export default class CombinedCourseBlueprintForm extends Component {
   @tracked areas;
   @tracked targetProfilesSnapshots = [];
   @tracked currentTargetProfile = null;
+  @tracked usesCappedTubesSelectionForCriteria;
+  @tracked schemaThreshold = null;
 
   constructor() {
     super(...arguments);
@@ -116,10 +120,13 @@ export default class CombinedCourseBlueprintForm extends Component {
       return;
     }
 
+    // TODO si ensemble du schema : on envoie, à la place de cappedTubeRequirements, le threshold sélectionné.
+    // Si le backend reçoit juste le threshold, et pas une sélection de tubes : il devra alors créer des successRquirements pour tous les tubes
+
     try {
       await this.blueprint.save({
-        adapterOptions: this.validCappedTubeRequirements.length
-          ? { cappedTubeRequirements: this.validCappedTubeRequirements }
+        adapterOptions: this.cappedTubeRequirements.length
+          ? { cappedTubeRequirements: this.cappedTubeRequirements }
           : null,
       });
       this.pixToast.sendSuccessNotification({
@@ -269,20 +276,32 @@ export default class CombinedCourseBlueprintForm extends Component {
     }
 
     const errors = [];
-    for (const requirement of requirements) {
-      if (!requirement.threshold) {
-        errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'));
+    if (this.usesCappedTubesSelectionForCriteria === undefined && this.blueprint.rewardId) {
+      errors.push(
+        this.intl.t('components.combined-course-blueprints.reward-requirements.errors.missing-criteria-selection'),
+      );
+      return errors;
+    }
+
+    if (this.usesCappedTubesSelectionForCriteria) {
+      for (const requirement of requirements) {
+        if (!requirement.threshold) {
+          errors.push(
+            this.intl.t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'),
+          );
+        }
+
+        if (!requirement.tubes || requirement.tubes.length < 1) {
+          errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.tubes-required'));
+        }
       }
-      if (!requirement.tubes || requirement.tubes.length < 1) {
-        errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.tubes-required'));
+    } else {
+      if (!this.schemaThreshold) {
+        errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'));
       }
     }
 
     return errors;
-  }
-
-  get validCappedTubeRequirements() {
-    return this.cappedTubeRequirements.filter((requirement) => requirement.tubes?.length && requirement.threshold);
   }
 
   @action
@@ -320,6 +339,20 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   addCappedTubeSubset() {
     this.cappedTubeRequirements = [...this.cappedTubeRequirements, {}];
+  }
+
+  @action
+  toggleCriteriaSelectionMode(e) {
+    this.usesCappedTubesSelectionForCriteria = e.target.value === 'use-tubes-selection';
+  }
+
+  @action
+  setSchemaThreshold(e) {
+    this.schemaThreshold = e.target.value;
+  }
+
+  get blueprintHasTargetProfiles() {
+    return this.blueprint.content.filter((item) => item.type === 'campaign').length > 0;
   }
 
   <template>
@@ -367,6 +400,11 @@ export default class CombinedCourseBlueprintForm extends Component {
         @removeCappedTubeCriterion={{this.removeCappedTubeCriterion}}
         @cappedTubeRequirements={{this.cappedTubeRequirements}}
         @addCappedTubeSubset={{this.addCappedTubeSubset}}
+        @usesCappedTubesSelectionForCriteria={{this.usesCappedTubesSelectionForCriteria}}
+        @toggleCriteriaSelectionMode={{this.toggleCriteriaSelectionMode}}
+        @schemaThreshold={{this.schemaThreshold}}
+        @setSchemaThreshold={{this.setSchemaThreshold}}
+        @blueprintHasTargetProfiles={{this.blueprintHasTargetProfiles}}
       />
 
       <fieldset class="controls">
@@ -603,30 +641,64 @@ const RewardRequirementsSection = <template>
           {{t "components.combined-course-blueprints.labels.reward-requirements.description"}}
         </:label>
       </PixTextarea>
-
       {{#unless @updateMode}}
-        {{#each @cappedTubeRequirements as |criterion index|}}
-          <CappedTubesCriterion
-            @id={{concat "cappedTubeCriterion" index}}
-            @areas={{@areas}}
-            @onThresholdChange={{fn @onCappedTubesThresholdChange criterion}}
-            @onNameChange={{fn @onCappedTubesNameChange criterion}}
-            @onTubesSelectionChange={{fn @onCappedTubesSelectionChange criterion}}
-            @remove={{fn @removeCappedTubeCriterion index}}
-            @displayExpandAllButtons={{true}}
-          />
-        {{/each}}
-        <br />
-        {/*TODO info if no target profile selected*/}
-        <PixButton
-          class="badge-form-criterion__add"
-          @variant="primary"
-          @size="small"
-          @triggerAction={{@addCappedTubeSubset}}
-          @iconBefore="add"
-        >
-          {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
-        </PixButton>
+        {{#if (not @blueprintHasTargetProfiles)}}
+          <PixNotificationAlert @withIcon="info">{{t
+              "components.combined-course-blueprints.attestation.missing-target-profile"
+            }}</PixNotificationAlert>
+        {{else}}
+          <fieldset class="badge-form-criteria-choice">
+            <p>{{t "components.combined-course-blueprints.labels.reward-requirements.reward-criteria-choice"}}</p>
+
+            <PixRadioButton
+              name="subsetNumberChoice"
+              @checked={{not @usesCappedTubesSelectionForCriteria}}
+              @value="use-all-tubes"
+              {{on "change" @toggleCriteriaSelectionMode}}
+            >
+              <:label>{{t
+                  "components.combined-course-blueprints.labels.reward-requirements.entire-target-profile-criteria-option"
+                }}</:label>
+            </PixRadioButton>
+
+            <PixRadioButton
+              name="subsetNumberChoice"
+              @checked={{@usesCappedTubesSelectionForCriteria}}
+              @value="use-tubes-selection"
+              {{on "change" @toggleCriteriaSelectionMode}}
+            >
+              <:label>{{t
+                  "components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option"
+                }}</:label>
+            </PixRadioButton>
+          </fieldset>
+
+          {{#if @usesCappedTubesSelectionForCriteria}}
+            {{#each @cappedTubeRequirements as |criterion index|}}
+              <CappedTubesCriterion
+                @id={{concat "cappedTubeCriterion" index}}
+                @areas={{@areas}}
+                @onThresholdChange={{fn @onCappedTubesThresholdChange criterion}}
+                @onNameChange={{fn @onCappedTubesNameChange criterion}}
+                @onTubesSelectionChange={{fn @onCappedTubesSelectionChange criterion}}
+                @remove={{fn @removeCappedTubeCriterion index}}
+                @displayExpandAllButtons={{true}}
+              />
+            {{/each}}
+            <PixButton
+              class="badge-form-criterion__add"
+              @variant="primary"
+              @size="small"
+              @triggerAction={{@addCappedTubeSubset}}
+              @iconBefore="add"
+            >
+              {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
+            </PixButton>
+          {{else if (eq @usesCappedTubesSelectionForCriteria false)}}
+            <CampaignCriterion @onThresholdChange={{@setSchemaThreshold}} />
+          {{/if}}
+        {{/if}}
+
       {{/unless}}
     {{/if}}
   </Card>

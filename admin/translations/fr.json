@@ -787,7 +787,8 @@
     "combined-course-blueprints": {
       "attestation": {
         "select-label": "Ajouter une attestation",
-        "select-placeholder": "Sélectionner une attestation"
+        "select-placeholder": "Sélectionner une attestation",
+        "missing-target-profile": "Ajouter un profil cible pour sélectionner des critères d'obtention"
       },
       "create": {
         "addItemButton": "Ajouter",
@@ -830,8 +831,8 @@
         "reward-requirements": {
           "add-new-tubes-selection": "Ajouter une nouvelle sélection de sujets",
           "description": "Description des critères d’obtention",
-          "multiple-subsets-option": "sur une sélection de sujets du schéma de parcours",
-          "one-subset-option": "sur l'ensemble du schéma de parcours",
+          "capped-tubes-selection-option": "sur une sélection de sujets du schéma de parcours",
+          "entire-target-profile-criteria-option": "sur l'ensemble du contenu du schéma de parcours",
           "reward-criteria-choice": "Définir un critère d'obtention :"
         },
         "survey-link": "Url du questionnaire de fin de parcours",
@@ -856,7 +857,8 @@
       "reward-requirements": {
         "errors": {
           "threshold-required": "Le taux de réussite doit être renseigné",
-          "tubes-required": "Le critère d'obtention doit contenir au moins un sujet"
+          "tubes-required": "Le critère d'obtention doit contenir au moins un sujet",
+          "missing-criteria-selection": "Un critère d'obtention doit être sélectionné"
         },
         "levels": "Niveaux",
         "requirements-group-name": "Groupe de critères",

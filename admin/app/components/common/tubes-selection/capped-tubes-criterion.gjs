@@ -9,8 +9,8 @@ import { t } from 'ember-intl';
 import sortBy from 'lodash/sortBy';
 import tubesForThematic from 'pix-admin/utils/tubes-for-thematic';
 
-import ExpandableAccordions from '../../common/expandable-accordions';
-import Areas from '../../common/tubes-selection/areas';
+import ExpandableAccordions from '../expandable-accordions';
+import Areas from './areas';
 
 export default class CappedTubesCriterion extends Component {
   @tracked selectedTubeIds = [];

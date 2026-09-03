@@ -782,7 +782,8 @@
     "combined-course-blueprints": {
       "attestation": {
         "select-label": "Add an attestation",
-        "select-placeholder": "Select an attestation"
+        "select-placeholder": "Select an attestation",
+        "missing-target-profile": "Add a target profile to select reward requirements"
       },
       "create": {
         "addItemButton": "Add",
@@ -825,8 +826,8 @@
         "reward-requirements": {
           "add-new-tubes-selection": "Add a new selection of capped tubes",
           "description": "Reward requirements",
-          "multiple-subsets-option": "on multiple sets of capped tubes",
-          "one-subset-option": "on the whole combined course blueprint",
+          "capped-tubes-selection-option": "on a selection of capped tubes",
+          "entire-target-profile-criteria-option": "on the whole blueprint content",
           "reward-criteria-choice": "Choose a reward requirement rule :"
         },
         "survey-link": "Survey link url",
@@ -851,7 +852,8 @@
       "reward-requirements": {
         "errors": {
           "threshold-required": "The threshold must be defined",
-          "tubes-required": "The requirement group must contain at least one element"
+          "tubes-required": "The requirement group must contain at least one element",
+          "missing-criteria-selection": "You have to select a requirement option"
         },
         "levels": "Levels",
         "requirements-group-name": "Requirements group",

@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import CappedTubesCriterion from 'pix-admin/components/target-profiles/badge-form/capped-tubes-criterion';
+import CappedTubesCriterion from 'pix-admin/components/common/tubes-selection/capped-tubes-criterion';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
