@@ -88,10 +88,12 @@ import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip'
       {{/if}}
       {{#if @student.isAssociated}}
         {{#each @student.authenticationMethods as |authenticationMethod|}}
-          <p class="organization-participant__align-element">{{t (get CONNECTION_TYPES authenticationMethod)}}</p>
+          <p>{{t (get CONNECTION_TYPES authenticationMethod)}}</p>
         {{/each}}
       {{else}}
-        <p class="sco-organization-participant-list-page__no-user-account">{{t (get CONNECTION_TYPES "none")}}
+        <p class="organization-participant__align-element sco-organization-participant-list-page__no-user-account">{{t
+            (get CONNECTION_TYPES "none")
+          }}
           <EmptyConnectionMethodTooltip @id={{@student.id}} />
         </p>
       {{/if}}
