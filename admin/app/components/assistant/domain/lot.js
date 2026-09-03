@@ -1,117 +1,107 @@
-class Appel {
-  constructor({ rang, ligneSource, nom, args }) {
-    this.rang = rang;
-    this.ligneSource = ligneSource;
-    this.nom = nom;
+class ToolCall {
+  constructor({ index, sourceRow, name, args }) {
+    this.index = index;
+    this.sourceRow = sourceRow;
+    this.name = name;
     this.args = args;
     this.verdict = null;
-    this.resultat = null;
+    this.result = null;
   }
 
-  simuler(resultat) {
-    this.resultat = resultat;
-    this.verdict = resultat.error !== undefined ? 'erreur' : 'pret';
+  simulate(result) {
+    this.result = result;
+    this.verdict = result.error !== undefined ? 'error' : 'ready';
   }
 
-  marquerDoublon() {
-    this.verdict = 'doublon';
+  markAsDuplicate() {
+    this.verdict = 'duplicate';
   }
 
-  exclure() {
-    this.verdict = 'exclue';
+  exclude() {
+    this.verdict = 'excluded';
   }
 
-  executer(resultat) {
-    this.resultat = resultat;
+  execute(result) {
+    this.result = result;
   }
 }
 
-export default class Lot {
+export default class Batch {
   constructor() {
-    this.appels = [];
-    this.etat = 'a_simuler';
+    this.calls = [];
+    this.state = 'pending';
     this.document = null;
   }
 
-  ajouterAppel({ ligneSource, nom, args }) {
-    if (this.etat !== 'a_simuler') {
-      throw new Error('ajouterAppel interdit : lot pas en état a_simuler');
+  addCall({ sourceRow, name, args }) {
+    if (this.state !== 'pending') {
+      throw new Error('addCall forbidden: batch not in pending state');
     }
-    const rang = this.appels.length + 1;
-    const appel = new Appel({ rang, ligneSource, nom, args });
-    this.appels.push(appel);
+    const index = this.calls.length + 1;
+    const call = new ToolCall({ index, sourceRow, name, args });
+    this.calls.push(call);
   }
 
-  enregistrerResultatSimulation(rang, resultat) {
-    const appel = this.appels.find((a) => a.rang === rang);
-    appel.simuler(resultat);
+  recordSimulationResult(index, result) {
+    const call = this.calls.find((c) => c.index === index);
+    call.simulate(result);
 
-    // Detect external ID duplicates across all appels that have a verdict
-    const byExternalId = new Map();
-    for (const a of this.appels) {
-      if (a.args.externalId == null) continue;
-      const id = a.args.externalId;
-      if (!byExternalId.has(id)) {
-        byExternalId.set(id, []);
-      }
-      byExternalId.get(id).push(a);
-    }
-
-    for (const group of byExternalId.values()) {
-      if (group.length > 1) {
-        for (const a of group) {
-          a.marquerDoublon();
-        }
+    // Mark duplicates: keep first occurrence (by index), flag all subsequent ones.
+    // Runs incrementally — only looks at calls that have a verdict.
+    const seenExternalIds = new Map();
+    for (const c of this.calls) {
+      if (c.verdict === null) continue;
+      const id = c.args.externalId;
+      if (id == null) continue;
+      if (seenExternalIds.has(id)) {
+        c.markAsDuplicate();
+      } else {
+        seenExternalIds.set(id, c);
       }
     }
   }
 
-  terminerSimulation() {
-    const incomplete = this.appels.some((a) => a.verdict === null);
+  finishSimulation() {
+    const incomplete = this.calls.some((c) => c.verdict === null);
     if (incomplete) {
-      throw new Error('simulation-incomplete : tous les appels doivent avoir un verdict');
+      throw new Error('simulation-incomplete: all calls must have a verdict');
     }
-    this.etat = 'simule';
+    this.state = 'simulated';
   }
 
-  approuver() {
-    const hasBlockingIssue = this.appels.some(
-      (a) => (a.verdict === 'erreur' || a.verdict === 'doublon'),
-    );
+  approve() {
+    const hasBlockingIssue = this.calls.some((c) => c.verdict === 'error' || c.verdict === 'duplicate');
     if (hasBlockingIssue) {
-      throw new Error('lot-a-des-erreurs-non-exclues');
+      throw new Error('batch-has-unresolved-errors');
     }
-    this.etat = 'approuve';
+    this.state = 'approved';
   }
 
-  appelsAExecuter() {
-    if (this.etat !== 'approuve' && this.etat !== 'en_cours') {
-      throw new Error('appelsAExecuter interdit : lot pas en état approuve ou en_cours');
+  callsToExecute() {
+    if (this.state !== 'approved' && this.state !== 'running') {
+      throw new Error('callsToExecute forbidden: batch not in approved or running state');
     }
-    return this.appels.filter((a) => a.verdict === 'pret');
+    // Exclude calls already created (result.id defined) to prevent double-creation on resume
+    return this.calls.filter((c) => c.verdict === 'ready' && c.result?.id === undefined);
   }
 
-  demarrerExecution() {
-    this.etat = 'en_cours';
+  startExecution() {
+    this.state = 'running';
   }
 
-  enregistrerResultatExecution(rang, resultat) {
-    const appel = this.appels.find((a) => a.rang === rang);
+  recordExecutionResult(index, result) {
+    const call = this.calls.find((c) => c.index === index);
     // Do not overwrite if already executed (has an id result)
-    if (appel.resultat && appel.resultat.id !== undefined) {
+    if (call.result && call.result.id !== undefined) {
       return;
     }
-    appel.executer(resultat);
+    call.execute(result);
 
-    // Check if all pret appels are now executed
-    const pretAppels = this.appels.filter((a) => a.verdict === 'pret');
-    const allDone = pretAppels.every((a) => a.resultat && a.resultat.id !== undefined);
-    if (allDone && pretAppels.length > 0) {
-      this.etat = 'termine';
+    // Check if all ready calls are now executed
+    const readyCalls = this.calls.filter((c) => c.verdict === 'ready');
+    const allDone = readyCalls.every((c) => c.result && c.result.id !== undefined);
+    if (allDone && readyCalls.length > 0) {
+      this.state = 'done';
     }
-  }
-
-  arreter() {
-    this.etat = 'termine';
   }
 }

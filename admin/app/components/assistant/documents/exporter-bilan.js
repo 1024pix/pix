@@ -1,20 +1,17 @@
 /**
- * Exports a CSV bilan for a Lot and triggers browser download.
+ * Exports a CSV report for a Batch and triggers browser download.
  *
- * Columns: ligne_source, nom, statut, id_organisation, lien
- * statut uses the display label (pret → "créée", others as verdict value)
- *
- * @param {import('../domain/lot.js').default} lot
+ * Columns: source_row, name, status, organisation_id, link
  */
-export function exporterBilan(lot) {
-  const header = 'ligne_source,nom,statut,id_organisation,lien';
+export function exportReport(batch) {
+  const header = 'source_row,name,status,organisation_id,link';
 
-  const rows = lot.appels.map((appel) => {
-    const id = appel.resultat?.id ?? '';
-    const lien = id ? `${window.location.origin}/organizations/${id}` : '';
-    let statut = appel.verdict ?? '';
-    if (statut === 'pret' && id) {
-      statut = 'créée';
+  const rows = batch.calls.map((call) => {
+    const id = call.result?.id ?? '';
+    const link = id ? `${window.location.origin}/organizations/${id}` : '';
+    let status = call.verdict ?? '';
+    if (status === 'ready' && id) {
+      status = 'created';
     }
     // Escape CSV fields that may contain commas or quotes
     const escape = (v) => {
@@ -25,11 +22,11 @@ export function exporterBilan(lot) {
       return s;
     };
     return [
-      escape(appel.ligneSource ?? ''),
-      escape(appel.nom),
-      escape(statut),
+      escape(call.sourceRow ?? ''),
+      escape(call.name),
+      escape(status),
       escape(id),
-      escape(lien),
+      escape(link),
     ].join(',');
   });
 
@@ -39,7 +36,7 @@ export function exporterBilan(lot) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'bilan-organisations.csv';
+  a.download = 'batch-report.csv';
   a.style.display = 'none';
   document.body.appendChild(a);
   a.click();

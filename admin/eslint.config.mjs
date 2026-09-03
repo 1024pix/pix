@@ -36,7 +36,14 @@ export default [
   qunitRecommendedConfig,
   prettierRecommendedConfig,
   {
-    ignores: [...unconventionalJsFiles, ...compiledOutputFiles, ...dependenciesFiles, ...miscFiles, ...emberTryFiles, ...playwrightFiles],
+    ignores: [
+      ...unconventionalJsFiles,
+      ...compiledOutputFiles,
+      ...dependenciesFiles,
+      ...miscFiles,
+      ...emberTryFiles,
+      ...playwrightFiles,
+    ],
   },
   {
     languageOptions: {

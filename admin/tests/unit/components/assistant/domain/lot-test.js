@@ -1,242 +1,224 @@
-import Lot from 'pix-admin/components/assistant/domain/lot';
+import Batch from 'pix-admin/components/assistant/domain/lot';
 import { module, test } from 'qunit';
 
 module('Unit | Component | assistant/domain/lot', function () {
-  module('#ajouterAppel()', function () {
-    test('creates Appel with correct rang (1-based, increments)', function (assert) {
+  module('#addCall()', function () {
+    test('creates ToolCall with correct index (1-based, increments)', function (assert) {
       // given
-      const lot = new Lot();
+      const batch = new Batch();
 
       // when
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'A1' } });
-      lot.ajouterAppel({ ligneSource: 3, nom: 'create_organization', args: { externalId: 'A2' } });
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'A1' } });
+      batch.addCall({ sourceRow: 3, name: 'create_organization', args: { externalId: 'A2' } });
 
       // then
-      assert.strictEqual(lot.appels.length, 2);
-      assert.strictEqual(lot.appels[0].rang, 1, 'first appel has rang 1');
-      assert.strictEqual(lot.appels[1].rang, 2, 'second appel has rang 2');
+      assert.strictEqual(batch.calls.length, 2);
+      assert.strictEqual(batch.calls[0].index, 1, 'first call has index 1');
+      assert.strictEqual(batch.calls[1].index, 2, 'second call has index 2');
     });
 
-    test('throws when lot is not in a_simuler state', function (assert) {
+    test('throws when batch is not in pending state', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'A1' } });
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      lot.terminerSimulation();
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'A1' } });
+      batch.recordSimulationResult(1, { wouldCreate: true });
+      batch.finishSimulation();
 
       // when / then
       assert.throws(
-        () => lot.ajouterAppel({ ligneSource: 3, nom: 'create_organization', args: { externalId: 'A2' } }),
-        /ajouterAppel interdit/,
-        'throws when etat is not a_simuler',
+        () => batch.addCall({ sourceRow: 3, name: 'create_organization', args: { externalId: 'A2' } }),
+        /addCall forbidden/,
+        'throws when state is not pending',
       );
     });
   });
 
-  module('#enregistrerResultatSimulation()', function () {
-    test('sets verdict to "pret" when result has wouldCreate', function (assert) {
+  module('#recordSimulationResult()', function () {
+    test('sets verdict to "ready" when result has wouldCreate', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'X1' } });
 
       // when
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
+      batch.recordSimulationResult(1, { wouldCreate: true });
 
       // then
-      assert.strictEqual(lot.appels[0].verdict, 'pret');
-      assert.deepEqual(lot.appels[0].resultat, { wouldCreate: true });
+      assert.strictEqual(batch.calls[0].verdict, 'ready');
+      assert.deepEqual(batch.calls[0].result, { wouldCreate: true });
     });
 
-    test('sets verdict to "erreur" when result has error', function (assert) {
+    test('sets verdict to "error" when result has error', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'X1' } });
 
       // when
-      lot.enregistrerResultatSimulation(1, { error: 'invalid data' });
+      batch.recordSimulationResult(1, { error: 'invalid data' });
 
       // then
-      assert.strictEqual(lot.appels[0].verdict, 'erreur');
-      assert.deepEqual(lot.appels[0].resultat, { error: 'invalid data' });
+      assert.strictEqual(batch.calls[0].verdict, 'error');
+      assert.deepEqual(batch.calls[0].result, { error: 'invalid data' });
     });
 
-    test('marks both appels as doublon when they share the same externalId', function (assert) {
+    test('marks both calls as duplicate when they share the same externalId', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'SAME' } });
-      lot.ajouterAppel({ ligneSource: 3, nom: 'create_organization', args: { externalId: 'SAME' } });
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'SAME' } });
+      batch.addCall({ sourceRow: 3, name: 'create_organization', args: { externalId: 'SAME' } });
 
       // when — simulate both
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      lot.enregistrerResultatSimulation(2, { wouldCreate: true });
+      batch.recordSimulationResult(1, { wouldCreate: true });
+      batch.recordSimulationResult(2, { wouldCreate: true });
 
       // then
-      assert.strictEqual(lot.appels[0].verdict, 'doublon', 'first appel marked doublon');
-      assert.strictEqual(lot.appels[1].verdict, 'doublon', 'second appel marked doublon');
+      assert.strictEqual(batch.calls[0].verdict, 'duplicate', 'first call marked duplicate');
+      assert.strictEqual(batch.calls[1].verdict, 'duplicate', 'second call marked duplicate');
     });
 
-    test('does not mark doublon when externalId is null', function (assert) {
+    test('does not mark duplicate when externalId is null', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: null } });
-      lot.ajouterAppel({ ligneSource: 3, nom: 'create_organization', args: { externalId: null } });
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: null } });
+      batch.addCall({ sourceRow: 3, name: 'create_organization', args: { externalId: null } });
 
       // when
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      lot.enregistrerResultatSimulation(2, { wouldCreate: true });
+      batch.recordSimulationResult(1, { wouldCreate: true });
+      batch.recordSimulationResult(2, { wouldCreate: true });
 
       // then
-      assert.strictEqual(lot.appels[0].verdict, 'pret', 'null externalId does not trigger doublon');
-      assert.strictEqual(lot.appels[1].verdict, 'pret');
+      assert.strictEqual(batch.calls[0].verdict, 'ready', 'null externalId does not trigger duplicate');
+      assert.strictEqual(batch.calls[1].verdict, 'ready');
     });
   });
 
-  module('#terminerSimulation()', function () {
-    test('sets etat to "simule" when all appels have a verdict', function (assert) {
+  module('#finishSimulation()', function () {
+    test('sets state to "simulated" when all calls have a verdict', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'X1' } });
+      batch.recordSimulationResult(1, { wouldCreate: true });
 
       // when
-      lot.terminerSimulation();
+      batch.finishSimulation();
 
       // then
-      assert.strictEqual(lot.etat, 'simule');
+      assert.strictEqual(batch.state, 'simulated');
     });
 
-    test('throws when some appels do not have a verdict yet', function (assert) {
+    test('throws when some calls do not have a verdict yet', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
-      lot.ajouterAppel({ ligneSource: 3, nom: 'create_organization', args: { externalId: 'X2' } });
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      // appel 2 not yet simulated
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'X1' } });
+      batch.addCall({ sourceRow: 3, name: 'create_organization', args: { externalId: 'X2' } });
+      batch.recordSimulationResult(1, { wouldCreate: true });
+      // call 2 not yet simulated
 
       // when / then
-      assert.throws(() => lot.terminerSimulation(), /simulation-incomplete/, 'throws when not all verdicts set');
+      assert.throws(() => batch.finishSimulation(), /simulation-incomplete/, 'throws when not all verdicts set');
     });
   });
 
-  module('#approuver()', function () {
-    test('throws "lot-a-des-erreurs-non-exclues" when an erreur appel exists', function (assert) {
+  module('#approve()', function () {
+    test('throws when an error call exists', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
-      lot.enregistrerResultatSimulation(1, { error: 'bad data' });
-      lot.terminerSimulation();
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'X1' } });
+      batch.recordSimulationResult(1, { error: 'bad data' });
+      batch.finishSimulation();
 
       // when / then
-      assert.throws(() => lot.approuver(), /lot-a-des-erreurs-non-exclues/);
+      assert.throws(() => batch.approve(), /batch-has-unresolved-errors/);
     });
 
-    test('throws "lot-a-des-erreurs-non-exclues" when a doublon appel exists', function (assert) {
+    test('throws when a duplicate call exists', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'SAME' } });
-      lot.ajouterAppel({ ligneSource: 3, nom: 'create_organization', args: { externalId: 'SAME' } });
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      lot.enregistrerResultatSimulation(2, { wouldCreate: true });
-      lot.terminerSimulation();
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'SAME' } });
+      batch.addCall({ sourceRow: 3, name: 'create_organization', args: { externalId: 'SAME' } });
+      batch.recordSimulationResult(1, { wouldCreate: true });
+      batch.recordSimulationResult(2, { wouldCreate: true });
+      batch.finishSimulation();
 
       // when / then
-      assert.throws(() => lot.approuver(), /lot-a-des-erreurs-non-exclues/);
+      assert.throws(() => batch.approve(), /batch-has-unresolved-errors/);
     });
 
     test('succeeds after excluding all errors', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
-      lot.ajouterAppel({ ligneSource: 3, nom: 'create_organization', args: { externalId: 'X2' } });
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      lot.enregistrerResultatSimulation(2, { error: 'bad' });
-      lot.terminerSimulation();
-      lot.appels[1].exclure();
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'X1' } });
+      batch.addCall({ sourceRow: 3, name: 'create_organization', args: { externalId: 'X2' } });
+      batch.recordSimulationResult(1, { wouldCreate: true });
+      batch.recordSimulationResult(2, { error: 'bad' });
+      batch.finishSimulation();
+      batch.calls[1].exclude();
 
       // when
-      lot.approuver();
+      batch.approve();
 
       // then
-      assert.strictEqual(lot.etat, 'approuve');
+      assert.strictEqual(batch.state, 'approved');
     });
   });
 
-  module('#appelsAExecuter()', function () {
-    test('returns only appels with verdict "pret" (not "exclue")', function (assert) {
+  module('#callsToExecute()', function () {
+    test('returns only calls with verdict "ready" (not "excluded")', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
-      lot.ajouterAppel({ ligneSource: 3, nom: 'create_organization', args: { externalId: 'X2' } });
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      lot.enregistrerResultatSimulation(2, { wouldCreate: true });
-      lot.terminerSimulation();
-      lot.appels[1].exclure();
-      lot.approuver();
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'X1' } });
+      batch.addCall({ sourceRow: 3, name: 'create_organization', args: { externalId: 'X2' } });
+      batch.recordSimulationResult(1, { wouldCreate: true });
+      batch.recordSimulationResult(2, { wouldCreate: true });
+      batch.finishSimulation();
+      batch.calls[1].exclude();
+      batch.approve();
 
       // when
-      const result = lot.appelsAExecuter();
+      const result = batch.callsToExecute();
 
       // then
-      assert.strictEqual(result.length, 1, 'only one pret appel returned');
-      assert.strictEqual(result[0].rang, 1, 'the pret appel is rang 1');
+      assert.strictEqual(result.length, 1, 'only one ready call returned');
+      assert.strictEqual(result[0].index, 1, 'the ready call is index 1');
     });
   });
 
-  module('#enregistrerResultatExecution()', function () {
-    test('does not re-execute appels that already have an id result', function (assert) {
+  module('#recordExecutionResult()', function () {
+    test('does not re-execute calls that already have an id result', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
-      lot.ajouterAppel({ ligneSource: 3, nom: 'create_organization', args: { externalId: 'X2' } });
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      lot.enregistrerResultatSimulation(2, { wouldCreate: true });
-      lot.terminerSimulation();
-      lot.approuver();
-      lot.demarrerExecution();
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'X1' } });
+      batch.addCall({ sourceRow: 3, name: 'create_organization', args: { externalId: 'X2' } });
+      batch.recordSimulationResult(1, { wouldCreate: true });
+      batch.recordSimulationResult(2, { wouldCreate: true });
+      batch.finishSimulation();
+      batch.approve();
+      batch.startExecution();
 
-      // execute appel 1 first
-      lot.enregistrerResultatExecution(1, { id: 'org-1', name: 'Org 1' });
-      const resultatApres = lot.appels[0].resultat;
+      // execute call 1 first
+      batch.recordExecutionResult(1, { id: 'org-1', name: 'Org 1' });
+      const resultAfter = batch.calls[0].result;
 
-      // attempt to re-execute appel 1
-      lot.enregistrerResultatExecution(1, { id: 'org-OVERWRITE', name: 'Should not overwrite' });
+      // attempt to re-execute call 1
+      batch.recordExecutionResult(1, { id: 'org-OVERWRITE', name: 'Should not overwrite' });
 
-      // then — resultat should not have changed
-      assert.deepEqual(lot.appels[0].resultat, resultatApres, 'resultat was not overwritten');
+      // then — result should not have changed
+      assert.deepEqual(batch.calls[0].result, resultAfter, 'result was not overwritten');
     });
 
-    test('sets etat to "termine" when all pret appels have been executed', function (assert) {
+    test('sets state to "done" when all ready calls have been executed', function (assert) {
       // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      lot.terminerSimulation();
-      lot.approuver();
-      lot.demarrerExecution();
+      const batch = new Batch();
+      batch.addCall({ sourceRow: 2, name: 'create_organization', args: { externalId: 'X1' } });
+      batch.recordSimulationResult(1, { wouldCreate: true });
+      batch.finishSimulation();
+      batch.approve();
+      batch.startExecution();
 
       // when
-      lot.enregistrerResultatExecution(1, { id: 'org-1', name: 'Org 1' });
+      batch.recordExecutionResult(1, { id: 'org-1', name: 'Org 1' });
 
       // then
-      assert.strictEqual(lot.etat, 'termine');
-    });
-  });
-
-  module('#arreter()', function () {
-    test('sets etat to "termine" for partial completion', function (assert) {
-      // given
-      const lot = new Lot();
-      lot.ajouterAppel({ ligneSource: 2, nom: 'create_organization', args: { externalId: 'X1' } });
-      lot.enregistrerResultatSimulation(1, { wouldCreate: true });
-      lot.terminerSimulation();
-      lot.approuver();
-      lot.demarrerExecution();
-
-      // when
-      lot.arreter();
-
-      // then
-      assert.strictEqual(lot.etat, 'termine');
+      assert.strictEqual(batch.state, 'done');
     });
   });
 });
