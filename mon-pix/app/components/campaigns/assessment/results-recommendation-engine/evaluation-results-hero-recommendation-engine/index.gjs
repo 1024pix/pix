@@ -17,6 +17,7 @@ import AcquiredBadgesCompact from './acquired-badges-compact';
 export default class EvaluationResultsHeroRecommendationEngine extends Component {
   @service currentUser;
   @service media;
+  @service intl;
 
   @tracked stagedMessageContentShowMoreEnabled = false;
   @tracked isResetModalVisible = false;
@@ -57,6 +58,12 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
     const isContentOverflowingContainer = content.scrollHeight > container?.offsetHeight;
 
     return this.media.isMobile && isContentOverflowingContainer;
+  }
+
+  get onSeeRecommendationButtonLabel() {
+    return this.args.highlightedTraining
+      ? this.intl.t('pages.skill-review.hero.see-my-other-recommendations')
+      : this.intl.t('pages.skill-review.hero.see-my-recommendations');
   }
 
   @action toggleStagedMessage() {
@@ -126,7 +133,7 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
               @size="small"
               @variant="secondary-white"
             >
-              {{t "pages.skill-review.hero.see-my-recommendations"}}
+              {{this.onSeeRecommendationButtonLabel}}
             </PixButton>
           {{/if}}
           {{#if @campaignParticipationResult.canReset}}

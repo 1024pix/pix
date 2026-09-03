@@ -2231,6 +2231,7 @@
           "description": "Dein Organisator fordert dich auf, diesen Pfad erneut zu absolvieren.",
           "title": "Verbessere deine Ergebnisse"
         },
+        "see-my-other-recommendations": "Meine anderen Empfehlungen ansehen",
         "see-my-recommendations": "Meine Empfehlungen ansehen",
         "see-trainings": "Übung ansehen",
         "shared-message": "Deine Ergebnisse wurden um {date} an {time} gesendet.",

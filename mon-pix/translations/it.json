@@ -2231,6 +2231,7 @@
           "description": "Il tuo organizzatore ti chiederà di ripetere il percorso.",
           "title": "Migliorare i risultati"
         },
+        "see-my-other-recommendations": "Vedere le mie altre raccomandazioni",
         "see-my-recommendations": "Vedere le mie raccomandazioni",
         "see-trainings": "Vedere i corsi",
         "shared-message": "I risultati sono stati inviati da {date} a {time}.",

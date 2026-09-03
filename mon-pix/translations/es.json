@@ -2231,6 +2231,7 @@
           "description": "Tu organizador te pedira que repites la prueba.",
           "title": "Mejora tus resultados"
         },
+        "see-my-other-recommendations": "Ver mis otras recomendaciones",
         "see-my-recommendations": "Ver mis recomendaciones",
         "see-trainings": "Ver los cursos",
         "shared-message": "Tus resultados se enviaron el {date} a las {time}.",
