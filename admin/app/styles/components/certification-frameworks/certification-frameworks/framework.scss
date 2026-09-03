@@ -17,6 +17,10 @@
   color: var(--pix-neutral-800);
 }
 
+.version-creation-form__stepper {
+  margin-block: var(--pix-spacing-8x);
+}
+
 .version-creation-form__buttons {
   display: flex;
   gap: var(--pix-spacing-2x);

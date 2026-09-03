@@ -680,6 +680,12 @@
             "success-notification": "Le scoring a bien été activé",
             "title": "Bornes de capacités par mailles"
           },
+          "stepper": {
+            "step-1": "Sélection référentiel",
+            "step-2": "Configuration",
+            "step-3": "Calibration",
+            "step-4": "Scoring"
+          },
           "title": "Création d'une version de certification"
         }
       },
