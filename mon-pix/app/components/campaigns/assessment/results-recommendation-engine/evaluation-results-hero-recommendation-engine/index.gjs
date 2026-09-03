@@ -13,11 +13,11 @@ import { t } from 'ember-intl';
 import MarkdownToHtml from '../../../../markdown-to-html';
 import HighlightedCard from '../highlighted-card/highlighted-card';
 import AcquiredBadgesCompact from './acquired-badges-compact';
+import RecommendationButton from './recommendation-button';
 
 export default class EvaluationResultsHeroRecommendationEngine extends Component {
   @service currentUser;
   @service media;
-  @service intl;
 
   @tracked stagedMessageContentShowMoreEnabled = false;
   @tracked isResetModalVisible = false;
@@ -60,12 +60,6 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
     return this.media.isMobile && isContentOverflowingContainer;
   }
 
-  get onSeeRecommendationButtonLabel() {
-    return this.args.highlightedTraining
-      ? this.intl.t('pages.skill-review.hero.see-my-other-recommendations')
-      : this.intl.t('pages.skill-review.hero.see-my-recommendations');
-  }
-
   @action toggleStagedMessage() {
     this.stagedMessageContentShowMoreEnabled = !this.stagedMessageContentShowMoreEnabled;
   }
@@ -73,11 +67,6 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
   @action
   toggleResetModalVisibility() {
     this.isResetModalVisible = !this.isResetModalVisible;
-  }
-
-  @action
-  onSeeRecommendationsButtonClicked() {
-    this.args.onSeeRecommendationsButtonClicked();
   }
 
   <template>
@@ -128,13 +117,7 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
 
         <div class="evaluation-results-hero-recommendation-engine__actions">
           {{#if @hasTrainings}}
-            <PixButton
-              @triggerAction={{this.onSeeRecommendationsButtonClicked}}
-              @size="small"
-              @variant="secondary-white"
-            >
-              {{this.onSeeRecommendationButtonLabel}}
-            </PixButton>
+            <RecommendationButton @onSeeRecommendationsButtonClicked={{@onSeeRecommendationsButtonClicked}} />
           {{/if}}
           {{#if @campaignParticipationResult.canReset}}
             <PixButton

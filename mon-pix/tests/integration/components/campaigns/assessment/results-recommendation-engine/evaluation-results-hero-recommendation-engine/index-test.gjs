@@ -346,44 +346,6 @@ module(
     });
 
     module('when campaign has recommended trainings', function () {
-      module('when there is an highlighted training', function () {
-        test('it displays a see-recommended-trainings button with another label', async function (assert) {
-          // given
-          stubCurrentUserService(this.owner, { firstName: 'Hermione' });
-          const campaign = { organizationId: 1, hasCustomResultPageButton: false };
-          const campaignParticipationResult = { masteryRate: 0.75 };
-          const onSeeRecommendationsButtonClicked = sinon.stub();
-
-          const store = this.owner.lookup('service:store');
-          const highlightedTraining = store.createRecord('training', {
-            title: 'title',
-            internalTitle: 'internalTitle',
-            link: 'my-training-link',
-            type: 'webinaire',
-            locales: ['fr-fr'],
-            duration: { days: 2 },
-          });
-
-          // when
-          const screen = await render(
-            <template>
-              <EvaluationResultsHeroRecommendationEngine
-                @campaign={{campaign}}
-                @highlightedTraining={{highlightedTraining}}
-                @campaignParticipationResult={{campaignParticipationResult}}
-                @hasTrainings={{true}}
-                @onSeeRecommendationsButtonClicked={{onSeeRecommendationsButtonClicked}}
-              />
-            </template>,
-          );
-
-          // then
-          assert
-            .dom(screen.getByRole('button', { name: t('pages.skill-review.hero.see-my-other-recommendations') }))
-            .exists();
-        });
-      });
-
       test('it displays a see-recommended-trainings button', async function (assert) {
         // given
         stubCurrentUserService(this.owner, { firstName: 'Hermione' });
@@ -405,32 +367,6 @@ module(
         assert
           .dom(await screen.findByRole('button', { name: t('pages.skill-review.hero.see-my-recommendations') }))
           .exists();
-      });
-
-      module('when clicking on the see-recommended-trainings button', function () {
-        test('it calls the function passed as argument of onSeeRecommendationsButtonClicked', async function (assert) {
-          // given
-          stubCurrentUserService(this.owner, { firstName: 'Hermione' });
-          const campaign = { organizationId: 1, hasCustomResultPageButton: false };
-          const campaignParticipationResult = { masteryRate: 0.75 };
-          const onSeeRecommendationsButtonClicked = sinon.stub();
-
-          // when
-          const screen = await render(
-            <template>
-              <EvaluationResultsHeroRecommendationEngine
-                @campaign={{campaign}}
-                @campaignParticipationResult={{campaignParticipationResult}}
-                @hasTrainings={{true}}
-                @onSeeRecommendationsButtonClicked={{onSeeRecommendationsButtonClicked}}
-              />
-            </template>,
-          );
-          await click(await screen.findByRole('button', { name: t('pages.skill-review.hero.see-my-recommendations') }));
-
-          // then
-          assert.ok(onSeeRecommendationsButtonClicked.calledOnce);
-        });
       });
     });
 
