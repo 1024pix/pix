@@ -7,13 +7,9 @@ import {
   executeInContext,
   EXECUTORS,
 } from '../../../../../../src/shared/infrastructure/execution-context-manager.js';
+import { JobExpireIn, JobPriority, JobRetry } from '../../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { JobClient } from '../../../../../../src/shared/infrastructure/jobs/JobClient.js';
-import {
-  JobExpireIn,
-  JobPriority,
-  JobRepository,
-  JobRetry,
-} from '../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { JobRepository } from '../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Infrastructure | Repositories | Jobs | job-repository', function () {

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { ValidateSiecleFileJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateSiecleFileJob.js';
 import { validateSiecleFileJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/validate-siecle-file-job-repository.js';
 import { EMPTY_CORRELATION_INFO } from '../../../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { JobRetry } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { JobRetry } from '../../../../../../../src/shared/infrastructure/jobs/default-config.js';
 
 describe('Integration | Prescription | Infrastructure | Repository | Jobs | validateSiecleFileJobRepository', function () {
   describe('#performAsync', function () {

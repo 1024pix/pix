@@ -12,6 +12,10 @@ export const jobChai = (_chai, utils) => {
     return this;
   });
 
+  utils.addProperty(Assertion.prototype, 'publishedEvent', function () {
+    return this;
+  });
+
   Assertion.addMethod('withJobsCount', async function (expectedCount) {
     const jobName = this._obj;
     const rawJobs = await JobClient.instance.fetch(jobName, { includeMetadata: true, batchSize: expectedCount + 1 });
@@ -72,26 +76,48 @@ export const jobChai = (_chai, utils) => {
     );
   });
 
-  Assertion.addMethod('withJobPayloads', async function (payloads) {
-    const jobs = await this.withJobsCount(payloads.length);
+  Assertion.addMethod('withJobPayloads', _checkPayloads);
 
-    const jobName = this._obj;
-    const actualPayloads = jobs.map((job) => job.data);
-
-    try {
-      sinon.assert.match(actualPayloads, payloads);
-    } catch {
-      this.assert(
-        false,
-        `Job '${jobName}' was performed with a different payload`,
-        undefined,
-        payloads,
-        actualPayloads,
-      );
-    }
-  });
+  Assertion.addMethod('withEventPayloads', _checkPayloads);
 
   Assertion.addMethod('withJobPayload', async function (payload) {
     await this.withJobPayloads([payload]);
   });
+
+  Assertion.addMethod('withEventPayload', async function (payload) {
+    await this.withEventPayloads([payload]);
+  });
 };
+
+async function _checkPayloads(payloads) {
+  const jobs = await this.withJobsCount(payloads.length);
+
+  const jobName = this._obj;
+  const actualPayloads = jobs.map((job) => job.data);
+
+  const actualPayloadsWithoutCorrelactionContext = _withoutCorrelactionContext(actualPayloads);
+  const expectedPayloadsWithoutCorrelactionContext = _withoutCorrelactionContext(payloads);
+
+  assert.exists(
+    actualPayloadsWithoutCorrelactionContext,
+    `Payload actualPayloadWithoutCorreslationContext is undefined`,
+  );
+  assert.exists(
+    expectedPayloadsWithoutCorrelactionContext,
+    `Payload expectedPayloadWithoutCorreslationContext is undefined`,
+  );
+  try {
+    sinon.assert.match(actualPayloadsWithoutCorrelactionContext, expectedPayloadsWithoutCorrelactionContext);
+  } catch {
+    this.assert(false, `Job '${jobName}' was performed with a different payload`, undefined, payloads, actualPayloads);
+  }
+}
+
+function _withoutCorrelactionContext(payloads) {
+  const newPayloads = [];
+  payloads.forEach((payload) => {
+    delete payload.correlationContext;
+    newPayloads.push(payload);
+  });
+  return newPayloads;
+}

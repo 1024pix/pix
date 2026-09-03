@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { config } from '../../config.js';
 import { EntityValidationError } from '../../domain/errors.js';
-import { JobExpireIn } from '../../infrastructure/repositories/jobs/job-repository.js';
+import { JobExpireIn } from '../../infrastructure/jobs/default-config.js';
 
 export const JobGroup = {
   DEFAULT: 'default',

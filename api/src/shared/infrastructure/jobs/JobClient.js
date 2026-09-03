@@ -21,6 +21,7 @@ export class JobClient {
   /** @type {PgBoss} */
   #pgBoss = null;
   #isTestOnly = false;
+  #usesFixtureJobs = false;
   #isInitialized = false;
 
   static get instance() {
@@ -40,6 +41,7 @@ export class JobClient {
   ) {
     if (this.#isInitialized) return;
     this.#isTestOnly = isTestOnly;
+    this.#usesFixtureJobs = Boolean(pgBossFactory);
 
     if (worker) {
       this.#pgBoss = pgBossFactory
@@ -91,10 +93,25 @@ export class JobClient {
   }
 
   async #registerJobs(jobGroups = []) {
-    const globPattern = `${workerDirPath}/src/**/application/**/*job-controller.js`;
+    const jobControllerPatterns = [`${workerDirPath}/src/**/application/**/*job-controller.js`];
+    const eventHandlerPatterns = [`${workerDirPath}/src/**/application/**/*event-handler.js`];
+    if (this.#usesFixtureJobs) {
+      jobControllerPatterns.push(`${workerDirPath}/tests/**/*job-controller.js`);
+      eventHandlerPatterns.push(`${workerDirPath}/tests/**/*event-handler.js`);
+    }
+    const excludePattern = ['**/job-controller.js', '**/event-handler.js', '**/job-schedule-controller.js'];
 
-    logger.info(`Search for job handlers in ${globPattern}`);
-    const jobFiles = await Array.fromAsync(glob(globPattern, { exclude: ['**/job-controller.js'] }));
+    logger.info(`Search for job handlers in ${jobControllerPatterns}`);
+    let jobControllerFiles = [];
+    for (const pattern of jobControllerPatterns) {
+      jobControllerFiles = jobControllerFiles.concat(await Array.fromAsync(glob(pattern, { exclude: excludePattern })));
+    }
+
+    logger.info(`Search for event handlers in ${eventHandlerPatterns}`);
+    let jobFiles = jobControllerFiles;
+    for (const pattern of eventHandlerPatterns) {
+      jobFiles = jobFiles.concat(await Array.fromAsync(glob(pattern, { exclude: excludePattern })));
+    }
     logger.info(`${jobFiles.length} job handlers files found.`);
 
     let jobModules = {};
@@ -104,11 +121,10 @@ export class JobClient {
     }
 
     let jobRegisteredCount = 0;
+    let eventHandlerCount = 0;
     let cronJobCount = 0;
     for (const [moduleName, ModuleClass] of Object.entries(jobModules)) {
       const job = new ModuleClass();
-
-      instrumentJobController(moduleName, ModuleClass);
 
       instrumentJobController(moduleName, ModuleClass);
 
@@ -137,6 +153,9 @@ export class JobClient {
           }
 
           cronJobCount++;
+        } else if (job.eventName) {
+          await this.#subscribeEventHandler({ eventName: job.eventName, handlerName: job.jobName });
+          eventHandlerCount++;
         } else {
           jobRegisteredCount++;
         }
@@ -147,10 +166,29 @@ export class JobClient {
         if (job.jobCron) {
           await this.#unscheduleCronJob(job.jobName);
           logger.info(`Job CRON "${job.jobName}" is unscheduled.`);
+        } else if (job.eventName) {
+          await this.#unsubscribeEventHandler({
+            eventName: job.eventName,
+            handlerName: job.jobName,
+          });
+          logger.info(`Event handler "${job.jobName}" unsubscribed from "${job.eventName}".`);
+
+          const stats = await this.#pgBoss.getQueueStats(job.jobName);
+
+          if (stats.queuedCount > 0) {
+            logger.info(`Event handler "${job.jobName}" has ${stats.queuedCount} pending events.`);
+            logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
+            await this.registerJob(job.jobName, ModuleClass);
+          } else {
+            await this.#pgBoss.deleteQueue(job.jobName);
+
+            logger.info(`Event handler "${job.jobName}" subscribed for "${job.eventName}". No pending events.`);
+          }
         }
       }
     }
     logger.info(`${jobRegisteredCount} jobs registered for groups "${jobGroups}".`);
+    logger.info(`${eventHandlerCount} event handler subscribed for groups "${jobGroups}".`);
     logger.info(`${cronJobCount} cron jobs scheduled for groups "${jobGroups}".`);
   }
 
@@ -209,8 +247,22 @@ export class JobClient {
     });
   }
 
+  async #subscribeEventHandler({ eventName, handlerName }) {
+    return this.#pgBoss.subscribe(eventName, handlerName);
+  }
+
+  async #unsubscribeEventHandler({ eventName, handlerName }) {
+    return this.#pgBoss.unsubscribe(eventName, handlerName);
+  }
+
   async #unscheduleCronJob(name) {
     return this.#pgBoss.unschedule(name);
+  }
+
+  async publishEvent(name, payload, options) {
+    this.#assertIsInitialized();
+    logger.info({ type: 'EVENT_LOG', handlerName: name }, 'PGBOSS EVENT PUBLISHED');
+    await this.#pgBoss.publish(name, payload, options);
   }
 
   async send(name, payload, options) {
