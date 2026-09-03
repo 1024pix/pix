@@ -413,6 +413,20 @@
       },
       "header": {
         "title": "Assistant Pix"
+      },
+      "error-banner": {
+        "message": "Une erreur est survenue. Veuillez réessayer.",
+        "retry": "Réessayer"
+      },
+      "empty-state": {
+        "title": "Comment puis-je vous aider ?",
+        "hint": "Essayez : « Crée une organisation lycée à Paris »"
+      },
+      "composer": {
+        "placeholder": "Envoyer un message…",
+        "send-aria-label": "Envoyer",
+        "attach-aria-label": "Joindre un fichier",
+        "remove-attachment-aria-label": "Retirer le document"
       }
     },
     "autonomous-courses": {

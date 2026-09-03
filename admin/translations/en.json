@@ -406,6 +406,20 @@
       },
       "header": {
         "title": "Pix Assistant"
+      },
+      "error-banner": {
+        "message": "An error occurred. Please try again.",
+        "retry": "Retry"
+      },
+      "empty-state": {
+        "title": "How can I help you?",
+        "hint": "Try: \"Create a lycée organisation in Paris\""
+      },
+      "composer": {
+        "placeholder": "Send a message…",
+        "send-aria-label": "Send",
+        "attach-aria-label": "Attach a file",
+        "remove-attachment-aria-label": "Remove document"
       }
     },
     "autonomous-courses": {
