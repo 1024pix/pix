@@ -731,8 +731,12 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       );
     });
 
-    test('it should display dash for authentication method', async function (assert) {
-      assert.ok(within(screen.getAllByRole('row')[1]).getByRole('cell', { name: '\u2013' }));
+    test('it should display None for authentication method', async function (assert) {
+      assert.ok(
+        within(screen.getAllByRole('row')[1]).getByRole('cell', {
+          name: t('pages.sco-organization-participants.connection-types.none'),
+        }),
+      );
     });
 
     test('it should not display actions menu for username', async function (assert) {
