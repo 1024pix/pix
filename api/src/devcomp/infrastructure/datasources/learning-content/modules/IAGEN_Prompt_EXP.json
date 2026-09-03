@@ -229,7 +229,7 @@
                           "id": "1",
                           "content": "<p>Oui, le prompt suffit.</p>",
                           "feedback": {
-                            "diagnosis": "<p>En effet !</p><p>L’IA peut être utile pour donner des idées d’activités génériques et le prompt donne suffisamment de détails et donc de contexte, comme le public concerné, son âge, le type de lieu en plein air.</p>"
+                            "diagnosis": "<p>En effet !</p><p>L’IA peut être utile pour donner des idées d’activités dans ce cas. Le prompt donne des éléments de contexte, comme le public concerné, son âge ou le lieu.</p>"
                           }
                         },
                         {
