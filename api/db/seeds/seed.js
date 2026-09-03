@@ -1,4 +1,4 @@
-import { config } from '../../src/shared/config.js';
+import { seedsConfig } from '../../config/seeds-config.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { DatabaseBuilder } from '../database-builder/database-builder.js';
 import { databaseConnection } from '../knex-database-connection.js';
@@ -40,43 +40,43 @@ export async function seed() {
   await organizationBuilder({ databaseBuilder });
 
   // SCOPE
-  if (config.seeds.context.prescription) {
+  if (seedsConfig.context.prescription) {
     logger.info('Seeding : Prescription');
     await teamPrescriptionDataBuilder({ databaseBuilder });
   }
 
-  if (config.seeds.context.devcomp) {
+  if (seedsConfig.context.devcomp) {
     logger.info('Seeding : Devcomp');
     await teamDevcompDataBuilder({ databaseBuilder });
   }
 
-  if (config.seeds.context.acces) {
+  if (seedsConfig.context.acces) {
     logger.info('Seeding : Acces');
     await teamAccesDataBuilder(databaseBuilder);
   }
 
-  if (config.seeds.context.junior) {
+  if (seedsConfig.context.junior) {
     logger.info('Seeding : Junior');
     await team1dDataBuilder(databaseBuilder);
   }
 
-  if (config.seeds.context.contenu) {
+  if (seedsConfig.context.contenu) {
     logger.info('Seeding : Contenu');
     await teamContenuDataBuilder({ databaseBuilder });
   }
 
-  if (config.seeds.context.certification) {
+  if (seedsConfig.context.certification) {
     logger.info('Seeding : Certification');
     await complementaryCertificationBuilder({ databaseBuilder });
     await teamCertificationDataBuilder({ databaseBuilder });
   }
 
-  if (config.seeds.context.evaluation) {
+  if (seedsConfig.context.evaluation) {
     logger.info('Seeding : Evaluation');
     await teamEvaluationDataBuilder({ databaseBuilder });
   }
 
-  if (config.seeds.context.acquisition) {
+  if (seedsConfig.context.acquisition) {
     logger.info('Seeding : Acquisition');
     teamAcquisitionDataBuilder({ databaseBuilder });
   }

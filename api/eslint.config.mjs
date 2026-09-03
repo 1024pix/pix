@@ -61,6 +61,7 @@ export default defineConfig([
     files: [
       'tests/setup/*.js',
       'src/shared/config.js',
+      'config/seeds-config.js',
       'db/migrations/*.js',
       'src/shared/infrastructure/validate-environment-variables.js',
       'src/shared/infrastructure/open-telemetry/scalingo-detector.js',
