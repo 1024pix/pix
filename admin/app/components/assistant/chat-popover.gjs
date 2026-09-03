@@ -11,6 +11,7 @@ import AssistantApp from './react/AssistantApp.jsx';
 export default class ChatPopover extends Component {
   @service session;
   @service router;
+  @service intl;
 
   @tracked isOpen = false;
 
@@ -29,14 +30,18 @@ export default class ChatPopover extends Component {
     this.router.transitionTo('authenticated.organizations.get', id);
   }
 
+  get t() {
+    return (key, options) => this.intl.t(key, options);
+  }
+
   <template>
-    <button type="button" class="chat-toggle-btn" aria-label="Ouvrir l'assistant" {{on "click" this.toggle}}>
+    <button type="button" class="chat-toggle-btn" aria-label={{this.intl.t "components.assistant.toggle-button.aria-label"}} {{on "click" this.toggle}}>
       💬
     </button>
-    <div class="chat-panel" role="region" aria-label="Panneau assistant" style={{if this.isOpen "" "display: none;"}}>
+    <div class="chat-panel" role="region" aria-label={{this.intl.t "components.assistant.panel.aria-label"}} style={{if this.isOpen "" "display: none;"}}>
       <ReactBridge
         @reactComponent={{AssistantApp}}
-        @props={{hash getAccessToken=this.getAccessToken onNavigateToOrganization=this.navigateToOrganization}}
+        @props={{hash getAccessToken=this.getAccessToken onNavigateToOrganization=this.navigateToOrganization t=this.t}}
       />
     </div>
   </template>

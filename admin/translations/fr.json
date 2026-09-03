@@ -404,6 +404,15 @@
         },
         "script-label": "Script",
         "preparing": "Préparation de l'exécution…"
+      },
+      "toggle-button": {
+        "aria-label": "Ouvrir l'assistant"
+      },
+      "panel": {
+        "aria-label": "Panneau assistant"
+      },
+      "header": {
+        "title": "Assistant Pix"
       }
     },
     "autonomous-courses": {
