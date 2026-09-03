@@ -30,7 +30,10 @@ function parseJSONEnv(varName) {
   return undefined;
 }
 
-function toBoolean(environmentVariable) {
+function toBoolean(environmentVariable, defaultValue = false) {
+  if (environmentVariable === undefined || environmentVariable === '') {
+    return defaultValue;
+  }
   return environmentVariable === 'true';
 }
 
@@ -433,7 +436,7 @@ export const config = {
     deleteChatsJob: {
       lifespan: _getNumber(process.env.LLM_DELETE_CHATS_JOB_LIFESPAN, 80),
       cron: process.env.LLM_DELETE_CHATS_JOB_CRON || '0 19 * * *',
-      dryRun: process.env.LLM_DELETE_CHATS_JOB_DRY_RUN ? toBoolean(process.env.LLM_DELETE_CHATS_JOB_DRY_RUN) : true,
+      dryRun: toBoolean(process.env.LLM_DELETE_CHATS_JOB_DRY_RUN, true),
       chunkSize: _getNumber(process.env.LLM_DELETE_CHATS_JOB_CHUNK_SIZE, 3_333),
       msBetweenChunks: _getNumber(process.env.LLM_DELETE_CHATS_JOB_MS_BETWEEN_CHUNKS, 10),
     },
@@ -530,24 +533,12 @@ export const config = {
     persistWarnings: toBoolean(process.env.PGBOSS_PERSIST_WARNINGS, false),
     useListenNotify: toBoolean(process.env.PGBOSS_USE_LISTEN_NOTIFY, true),
     statesMonitoringJobCron: process.env.PGBOSS_STATES_MONITORING_JOB_CRON || '* * * * *',
-    validationFileJobEnabled: process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED
-      ? toBoolean(process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED)
-      : true,
-    importFileJobEnabled: process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED
-      ? toBoolean(process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED)
-      : true,
-    plannerJobEnabled: process.env.PGBOSS_PLANNER_JOB_ENABLED
-      ? toBoolean(process.env.PGBOSS_PLANNER_JOB_ENABLED)
-      : true,
-    exportSenderJobEnabled: process.env.PGBOSS_EXPORT_SENDER_JOB_ENABLED
-      ? toBoolean(process.env.PGBOSS_EXPORT_SENDER_JOB_ENABLED)
-      : true,
-    updateCombinedCourseJobEnabled: process.env.PGBOSS_UPDATE_COMBINED_COURSE_JOB_ENABLED
-      ? toBoolean(process.env.PGBOSS_UPDATE_COMBINED_COURSE_JOB_ENABLED)
-      : true,
-    computeCertificabilityJobEnabled: process.env.PGBOSS_COMPUTE_CERTIFICABILITY_JOB_ENABLED
-      ? toBoolean(process.env.PGBOSS_COMPUTE_CERTIFICABILITY_JOB_ENABLED)
-      : true,
+    validationFileJobEnabled: toBoolean(process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED, true),
+    importFileJobEnabled: toBoolean(process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED, true),
+    plannerJobEnabled: toBoolean(process.env.PGBOSS_PLANNER_JOB_ENABLED, true),
+    exportSenderJobEnabled: toBoolean(process.env.PGBOSS_EXPORT_SENDER_JOB_ENABLED, true),
+    updateCombinedCourseJobEnabled: toBoolean(process.env.PGBOSS_UPDATE_COMBINED_COURSE_JOB_ENABLED, true),
+    computeCertificabilityJobEnabled: toBoolean(process.env.PGBOSS_COMPUTE_CERTIFICABILITY_JOB_ENABLED, true),
   },
   poleEmploi: {
     clientId: process.env.POLE_EMPLOI_CLIENT_ID,
