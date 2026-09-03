@@ -3,7 +3,6 @@ import nock from 'nock';
 import * as moduleRepository from '../../src/devcomp/infrastructure/repositories/module-repository.js';
 import * as tutorialRepository from '../../src/devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as missionRepository from '../../src/school/infrastructure/repositories/mission-repository.js';
-import { featureToggles } from '../../src/shared/infrastructure/feature-toggles/index.js';
 import { JobClient } from '../../src/shared/infrastructure/jobs/JobClient.js';
 import { clearMutex } from '../../src/shared/infrastructure/mutex/RedisMutex.js';
 import { releaseInfrastructure } from '../../src/shared/infrastructure/release-infrastructure.js';
@@ -42,7 +41,6 @@ export const mochaHooks = {
       tutorialRepository.clearCache();
       missionRepository.clearCache();
       moduleRepository.clearCache();
-      await featureToggles.resetDefaults();
       await clearMutex();
       await JobClient.instance.flushJobs();
       await datamartBuilder.clean();
