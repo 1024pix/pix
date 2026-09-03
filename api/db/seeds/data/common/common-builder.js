@@ -26,6 +26,7 @@ import {
 import {
   acceptPixOrgaTermsOfService,
   createPixAppTermsOfService,
+  createPixCertifTermsOfService,
   createPixOrgaTermsOfService,
 } from './tooling/legal-documents.js';
 import { createTargetProfile } from './tooling/target-profile-tooling.js';
@@ -39,6 +40,7 @@ export const commonBuilder = async function ({ databaseBuilder }) {
   // legal-document
   createPixOrgaTermsOfService(databaseBuilder);
   createPixAppTermsOfService(databaseBuilder);
+  createPixCertifTermsOfService(databaseBuilder);
 
   // administration teams
   _createAdministrationTeams(databaseBuilder);

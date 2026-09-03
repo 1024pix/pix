@@ -1,6 +1,8 @@
 import {
   LEGAL_DOCUMENT_PIX_APP_TOS_ID_V1,
   LEGAL_DOCUMENT_PIX_APP_TOS_ID_V2,
+  LEGAL_DOCUMENT_PIX_CERTIF_TOS_ID_V1,
+  LEGAL_DOCUMENT_PIX_CERTIF_TOS_ID_V2,
   LEGAL_DOCUMENT_PIX_ORGA_TOS_ID_V1,
   LEGAL_DOCUMENT_PIX_ORGA_TOS_ID_V2,
 } from '../constants.js';
@@ -47,5 +49,20 @@ export function createPixAppTermsOfService(databaseBuilder) {
     type: 'TOS',
     service: 'pix-app',
     versionAt: '2022-01-01',
+  });
+}
+
+export function createPixCertifTermsOfService(databaseBuilder) {
+  databaseBuilder.factory.buildLegalDocumentVersion({
+    id: LEGAL_DOCUMENT_PIX_CERTIF_TOS_ID_V1,
+    type: 'TOS',
+    service: 'pix-certif',
+    versionAt: '2018-01-01',
+  });
+  databaseBuilder.factory.buildLegalDocumentVersion({
+    id: LEGAL_DOCUMENT_PIX_CERTIF_TOS_ID_V2,
+    type: 'TOS',
+    service: 'pix-certif',
+    versionAt: '2021-01-01',
   });
 }
