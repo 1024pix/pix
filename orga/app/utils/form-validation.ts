@@ -1,5 +1,5 @@
 import { tracked } from '@glimmer/tracking';
-import camelCase from 'lodash/camelCase.js';
+import camelCase from 'pix-orga/utils/camel-case';
 
 const COMMON_API_ERROR = 'common.error';
 

@@ -60,7 +60,17 @@ export default [
     },
     rules: {
       'no-irregular-whitespace': 'off',
-      'no-restricted-imports': ['error', { paths: ['lodash'] }],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['lodash', 'lodash/*', 'lodash-es', 'lodash-es/*', 'lodash.*'],
+              message: 'lodash is not a dependency of this app no more. Use native JS or a small helper in app/utils.',
+            },
+          ],
+        },
+      ],
     },
   },
   {

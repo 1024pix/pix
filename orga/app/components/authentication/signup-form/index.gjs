@@ -7,7 +7,6 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import get from 'lodash/get';
 
 import isEmailValid from '../../../utils/email-validator';
 import { createFormValidation } from '../../../utils/form-validation';
@@ -111,7 +110,7 @@ export default class SignupForm extends Component {
 
   #getApiErrorMessage(errorResponse) {
     // EmberAdapter and EmberSimpleAuth use different error formats, so we manage both cases below
-    const error = get(errorResponse, errorResponse?.isAdapterError ? 'errors[0]' : 'responseJSON.errors[0]');
+    const error = errorResponse?.isAdapterError ? errorResponse?.errors?.[0] : errorResponse?.responseJSON?.errors?.[0];
     return this.authErrorMessages.getAuthenticationErrorMessage(error);
   }
 
