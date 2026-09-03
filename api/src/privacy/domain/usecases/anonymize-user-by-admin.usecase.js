@@ -1,4 +1,4 @@
-import { UserNotFoundError } from '../../../shared/domain/errors.js';
+import { UserAlreadyAnonymizedError, UserNotFoundError } from '../../../shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLoggingJob.js';
 import { AnonymizeUserEvent } from '../events/AnonymizeUserEvent.js';
 
@@ -12,6 +12,7 @@ export const anonymizeUserByAdmin = async function ({
   userId,
   updatedByUserId,
   adminMemberRepository,
+  userRepository,
   eventJobPublisherService,
   auditLoggingJobRepository,
 }) {
@@ -20,6 +21,11 @@ export const anonymizeUserByAdmin = async function ({
   });
   if (!anonymizedBy) {
     throw new UserNotFoundError(`Admin not found for id: ${updatedByUserId}`);
+  }
+
+  const targetUser = await userRepository.get(userId);
+  if (targetUser.hasBeenAnonymised) {
+    throw new UserAlreadyAnonymizedError();
   }
 
   await eventJobPublisherService.publishEvent(new AnonymizeUserEvent({ userId, updatedByUserId }));

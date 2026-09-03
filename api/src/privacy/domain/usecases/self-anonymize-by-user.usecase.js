@@ -1,4 +1,4 @@
-import { ForbiddenAccess } from '../../../shared/domain/errors.js';
+import { ForbiddenAccess, UserAlreadyAnonymizedError } from '../../../shared/domain/errors.js';
 import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLoggingJob.js';
 import { createSelfDeleteUserAccountEmail } from '../emails/create-self-delete-user-account.email.js';
 import { AnonymizeUserEvent } from '../events/AnonymizeUserEvent.js';
@@ -21,7 +21,9 @@ export async function selfAnonymizeByUser({
   if (!canAnonymize) throw new ForbiddenAccess();
 
   // Keep a copy of email and firstName to send email to User after anonymization
-  const { email, firstName } = await userRepository.get(userId);
+  const { email, firstName, hasBeenAnonymised } = await userRepository.get(userId);
+
+  if (hasBeenAnonymised) throw new UserAlreadyAnonymizedError();
 
   await eventJobPublisherService.publishEvent(new AnonymizeUserEvent({ userId, updatedByUserId: userId }));
 
