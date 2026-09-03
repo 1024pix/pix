@@ -373,60 +373,60 @@
     },
     "assistant": {
       "batch-tool": {
-        "columns": {
-          "source-row": "Ligne source",
-          "name": "Nom",
-          "status": "Statut",
-          "detail": "Détail",
-          "actions": "Actions"
-        },
-        "status": {
-          "created": "créée",
-          "failure": "échec",
-          "in-progress": "en cours…",
-          "ready": "prête",
-          "error": "erreur",
-          "duplicate": "doublon",
-          "excluded": "exclue"
-        },
         "actions": {
-          "view": "Voir",
+          "download": "Télécharger le bilan",
           "exclude": "Exclure",
-          "stop": "Arrêter",
           "resume": "Reprendre",
-          "download": "Télécharger le bilan"
+          "stop": "Arrêter",
+          "view": "Voir"
+        },
+        "columns": {
+          "actions": "Actions",
+          "detail": "Détail",
+          "name": "Nom",
+          "source-row": "Ligne source",
+          "status": "Statut"
         },
         "errors": {
           "no-simulation": "Aucune simulation trouvée. Lancez d'abord run_script.",
-          "unresolved-errors": "Le lot contient des erreurs non résolues — relancez la simulation.",
           "partial-creation": "lot partiellement créé",
-          "script-prefix": "Erreur de script :"
+          "script-prefix": "Erreur de script :",
+          "unresolved-errors": "Le lot contient des erreurs non résolues — relancez la simulation."
         },
+        "preparing": "Préparation de l'exécution…",
         "script-label": "Script",
-        "preparing": "Préparation de l'exécution…"
+        "status": {
+          "created": "créée",
+          "duplicate": "doublon",
+          "error": "erreur",
+          "excluded": "exclue",
+          "failure": "échec",
+          "in-progress": "en cours…",
+          "ready": "prête"
+        }
       },
-      "toggle-button": {
-        "aria-label": "Ouvrir l'assistant"
+      "composer": {
+        "attach-aria-label": "Joindre un fichier",
+        "placeholder": "Envoyer un message…",
+        "remove-attachment-aria-label": "Retirer le document",
+        "send-aria-label": "Envoyer"
       },
-      "panel": {
-        "aria-label": "Panneau assistant"
-      },
-      "header": {
-        "title": "Assistant Pix"
+      "empty-state": {
+        "hint": "Essayez : « Crée une organisation lycée à Paris »",
+        "title": "Comment puis-je vous aider ?"
       },
       "error-banner": {
         "message": "Une erreur est survenue. Veuillez réessayer.",
         "retry": "Réessayer"
       },
-      "empty-state": {
-        "title": "Comment puis-je vous aider ?",
-        "hint": "Essayez : « Crée une organisation lycée à Paris »"
+      "header": {
+        "title": "Assistant Pix"
       },
-      "composer": {
-        "placeholder": "Envoyer un message…",
-        "send-aria-label": "Envoyer",
-        "attach-aria-label": "Joindre un fichier",
-        "remove-attachment-aria-label": "Retirer le document"
+      "panel": {
+        "aria-label": "Panneau assistant"
+      },
+      "toggle-button": {
+        "aria-label": "Ouvrir l'assistant"
       }
     },
     "autonomous-courses": {

@@ -34,11 +34,24 @@ export default class ChatPopover extends Component {
     return (key, options) => this.intl.t(key, options);
   }
 
+  get toggleAriaLabel() {
+    return this.intl.t('components.assistant.toggle-button.aria-label');
+  }
+
+  get panelAriaLabel() {
+    return this.intl.t('components.assistant.panel.aria-label');
+  }
+
   <template>
-    <button type="button" class="chat-toggle-btn" aria-label={{this.intl.t "components.assistant.toggle-button.aria-label"}} {{on "click" this.toggle}}>
+    <button type="button" class="chat-toggle-btn" aria-label={{this.toggleAriaLabel}} {{on "click" this.toggle}}>
       💬
     </button>
-    <div class="chat-panel" role="region" aria-label={{this.intl.t "components.assistant.panel.aria-label"}} style={{if this.isOpen "" "display: none;"}}>
+    <div
+      class="chat-panel"
+      role="region"
+      aria-label={{this.panelAriaLabel}}
+      style={{if this.isOpen "" "display: none;"}}
+    >
       <ReactBridge
         @reactComponent={{AssistantApp}}
         @props={{hash getAccessToken=this.getAccessToken onNavigateToOrganization=this.navigateToOrganization t=this.t}}

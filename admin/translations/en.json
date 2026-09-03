@@ -366,60 +366,60 @@
     },
     "assistant": {
       "batch-tool": {
-        "columns": {
-          "source-row": "Source row",
-          "name": "Name",
-          "status": "Status",
-          "detail": "Detail",
-          "actions": "Actions"
-        },
-        "status": {
-          "created": "created",
-          "failure": "failure",
-          "in-progress": "in progress…",
-          "ready": "ready",
-          "error": "error",
-          "duplicate": "duplicate",
-          "excluded": "excluded"
-        },
         "actions": {
-          "view": "View",
+          "download": "Download report",
           "exclude": "Exclude",
-          "stop": "Stop",
           "resume": "Resume",
-          "download": "Download report"
+          "stop": "Stop",
+          "view": "View"
+        },
+        "columns": {
+          "actions": "Actions",
+          "detail": "Detail",
+          "name": "Name",
+          "source-row": "Source row",
+          "status": "Status"
         },
         "errors": {
           "no-simulation": "No simulation found. Run run_script first.",
-          "unresolved-errors": "The batch contains unresolved errors — rerun the simulation.",
           "partial-creation": "batch partially created",
-          "script-prefix": "Script error:"
+          "script-prefix": "Script error:",
+          "unresolved-errors": "The batch contains unresolved errors — rerun the simulation."
         },
+        "preparing": "Preparing execution…",
         "script-label": "Script",
-        "preparing": "Preparing execution…"
+        "status": {
+          "created": "created",
+          "duplicate": "duplicate",
+          "error": "error",
+          "excluded": "excluded",
+          "failure": "failure",
+          "in-progress": "in progress…",
+          "ready": "ready"
+        }
       },
-      "toggle-button": {
-        "aria-label": "Open assistant"
+      "composer": {
+        "attach-aria-label": "Attach a file",
+        "placeholder": "Send a message…",
+        "remove-attachment-aria-label": "Remove document",
+        "send-aria-label": "Send"
       },
-      "panel": {
-        "aria-label": "Assistant panel"
-      },
-      "header": {
-        "title": "Pix Assistant"
+      "empty-state": {
+        "hint": "Try: \"Create a lycée organisation in Paris\"",
+        "title": "How can I help you?"
       },
       "error-banner": {
         "message": "An error occurred. Please try again.",
         "retry": "Retry"
       },
-      "empty-state": {
-        "title": "How can I help you?",
-        "hint": "Try: \"Create a lycée organisation in Paris\""
+      "header": {
+        "title": "Pix Assistant"
       },
-      "composer": {
-        "placeholder": "Send a message…",
-        "send-aria-label": "Send",
-        "attach-aria-label": "Attach a file",
-        "remove-attachment-aria-label": "Remove document"
+      "panel": {
+        "aria-label": "Assistant panel"
+      },
+      "toggle-button": {
+        "aria-label": "Open assistant"
       }
     },
     "autonomous-courses": {
