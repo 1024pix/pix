@@ -1,5 +1,26 @@
 # Pix Changelog
 
+# [5.494.0](https://github.com/1024pix/pix/compare/v5.493.0...v5.494.0) (2026-09-03)
+
+### :rocket: Amélioration
+
+- [#17349](https://github.com/1024pix/pix/pull/17349) coquilles et harmonisation CY_Virus_AVA
+- [#17362](https://github.com/1024pix/pix/pull/17362) MDX-104 Relecture finale JRO
+- [#17352](https://github.com/1024pix/pix/pull/17352) Modifs de dernières minutes avant envoi experts Structurertexte_nov
+- [#17357](https://github.com/1024pix/pix/pull/17357) Module CY generalites NOV - correction coquilles
+- [#17354](https://github.com/1024pix/pix/pull/17354) Permettre de trier par date de dernière participation dans la liste des étudiants et élèves (PIX-17778)
+- [#17337](https://github.com/1024pix/pix/pull/17337) Update IAGenImpact_AVA.json - ajout illus
+
+### :building_construction: Tech
+
+- [#17358](https://github.com/1024pix/pix/pull/17358) Ajoute la configuration pour faire du TypeScript sur l'API
+- [#17364](https://github.com/1024pix/pix/pull/17364) Convertir PixOrga transforms en TS
+- [#17359](https://github.com/1024pix/pix/pull/17359) Convertir PixOrga utils en TS
+- [#17378](https://github.com/1024pix/pix/pull/17378) Gérer une valeur par défaut dans toBoolean de la config API
+- [#17329](https://github.com/1024pix/pix/pull/17329) Ne plus utiliser les variables d'env TEST_*
+- [#17374](https://github.com/1024pix/pix/pull/17374) Supprimer Datadog metrics de l'API
+- [#17379](https://github.com/1024pix/pix/pull/17379) Utiliser uniquement config.redisUrl dans l'API
+
 # [5.493.0](https://github.com/1024pix/pix/compare/v5.492.0...v5.493.0) (2026-09-02)
 
 ### :rocket: Amélioration
