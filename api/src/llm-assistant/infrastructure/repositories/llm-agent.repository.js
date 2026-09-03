@@ -63,11 +63,13 @@ const streamConversationTurn = async function ({ messages, clientTools = {}, doc
 
   const model = inferenceProvider.chat(config.llmAssistant.model);
 
-  // Connexion au serveur MCP (endpoint /api/admin/llm-assistant/mcp de l'API courante)
+  // Use loopback to avoid Scalingo's load balancer overwriting x-forwarded-host,
+  // which would break JWT audience validation on the MCP endpoint.
+  const loopbackBaseUrl = `http://127.0.0.1:${config.port}`;
   const mcpClient = await createMcpClient({
     authorizationHeader,
     forwardedHeaders,
-    apiBaseUrl: config.baseUrl,
+    apiBaseUrl: loopbackBaseUrl,
   });
 
   // Récupération et conversion des tools MCP en DynamicTool AI SDK (déclaratifs)
