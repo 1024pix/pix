@@ -40,7 +40,7 @@
               "element": {
                 "id": "92f6a3d9-cbc1-415e-99e9-003843882e8e",
                 "type": "qcm",
-                "instruction": "<p>Qu’est-ce qui pourrait expliquer que la réponse générée par l’outil d’IA soit incorrecte ?</p>",
+                "instruction": "<p>Qu’est-ce qui pourrait expliquer que la réponse générée par le logiciel d’IA générative soit incorrecte ?</p>",
                 "hasShortProposals": false,
                 "proposals": [
                   {
