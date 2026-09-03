@@ -74,6 +74,18 @@ class InMemoryKeyValueStorage extends KeyValueStorage {
     return this.#store.get(key) || [];
   }
 
+  async sadd(key, ...values) {
+    const set = this.#store.get(key) ?? new Set();
+    const prevSize = set.size;
+    for (const value of values) set.add(value);
+    this.#store.set(key, set);
+    return set.size - prevSize;
+  }
+
+  async smembers(key) {
+    return Array.from(this.#store.get(key) ?? []);
+  }
+
   keys(pattern) {
     const regex = new RegExp(`^${pattern.replace(/\*/g, '.*')}$`);
     return Array.from(this.#store.keys()).filter((key) => regex.test(key));

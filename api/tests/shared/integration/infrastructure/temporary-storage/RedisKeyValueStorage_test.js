@@ -110,6 +110,32 @@ describe('Integration | Infrastructure | KeyValueStorage | RedisKeyValueStorage'
     });
   });
 
+  describe('set methods', function () {
+    it('allows udpating and reading set keys', async function () {
+      // given
+      const key = randomUUID();
+      const storage = new RedisKeyValueStorage(config.redisUrl, 'some-prefix:');
+
+      // when
+      const sadd1 = await storage.sadd(key, 'value1');
+      const members1 = await storage.smembers(key);
+      const sadd2 = await storage.sadd(key, 'value2');
+      const members2 = await storage.smembers(key);
+      const sadd3 = await storage.sadd(key, 'value1');
+      const members3 = await storage.smembers(key);
+
+      // then
+      expect(sadd1).to.equal(1);
+      expect(members1).to.deep.equal(['value1']);
+      expect(sadd2).to.equal(1);
+      expect(members2).to.deep.equal(['value1', 'value2']);
+      expect(sadd3).to.equal(0);
+      expect(members3).to.deep.equal(['value1', 'value2']);
+
+      await storage.delete(key);
+    });
+  });
+
   describe('#lrange', function () {
     it('should return a list of values', async function () {
       // given

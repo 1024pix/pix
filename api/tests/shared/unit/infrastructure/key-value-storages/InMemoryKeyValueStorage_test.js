@@ -200,4 +200,32 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
       expect(values).to.deep.equal(['prefix:key1', 'prefix:key2', 'prefix:key3', 'otherprefix:key4']);
     });
   });
+
+  describe('#sadd', function () {
+    it('adds values to a set', async function () {
+      // given
+      const key = 'key';
+
+      // when
+      const added = await inMemoryKeyValueStorage.sadd(key, 'value1', 'value2', 'value1');
+
+      // then
+      expect(added).to.equal(2);
+      expect(store.get(key)).to.deep.equal(new Set(['value1', 'value2']));
+    });
+  });
+
+  describe('#smembers', function () {
+    it('adds values to a set', async function () {
+      // given
+      const key = 'key';
+      store.set(key, new Set(['value1', 'value2']));
+
+      // when
+      const members = await inMemoryKeyValueStorage.smembers(key);
+
+      // then
+      expect(members).to.deep.equal(['value1', 'value2']);
+    });
+  });
 });

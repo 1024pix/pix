@@ -57,6 +57,14 @@ class KeyValueStorage {
     throw new Error('Method #flushAll() must be overridden');
   }
 
+  async sadd(/* key, ...values */) {
+    throw new Error('Method sadd() must be overridden');
+  }
+
+  async smembers(/* key */) {
+    throw new Error('Method smembers() must be overridden');
+  }
+
   quit() {
     throw new Error('Method #quit() must be overridden');
   }
@@ -108,6 +116,14 @@ class KeyValueStorage {
 
       lrange(key) {
         return storage.lrange(prefix + key);
+      },
+
+      sadd({ key, value }) {
+        return storage.sadd(prefix + key, value);
+      },
+
+      smembers(key) {
+        return storage.smembers(key);
       },
 
       async keys(pattern) {
