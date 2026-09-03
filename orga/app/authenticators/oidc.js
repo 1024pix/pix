@@ -2,7 +2,7 @@ import { service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 import ENV from 'pix-orga/config/environment';
-import { decodeToken } from 'pix-orga/helpers/jwt';
+import { decodeToken } from 'pix-orga/utils/jwt';
 
 export default class OidcAuthenticator extends BaseAuthenticator {
   @service oidcIdentityProviders;
