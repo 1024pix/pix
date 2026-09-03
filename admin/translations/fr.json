@@ -663,10 +663,10 @@
             "save-error": "Une erreur s'est produite lors de l'enregistrement du scoring.",
             "save-scoring-button": "Enregistrer le scoring",
             "save-scoring-modal": {
-              "content": "Cette action va enregistrer la configuration de scoring sur la version active.",
+              "content": "Cette action va enregistrer la configuration de scoring sur la version active et va déclencher le scoring déjà passée sur cette version. Cette action est irréversible, le scoring ne pourra pas être modifié.",
               "title": "Confirmation de l'enregistrement du scoring"
             },
-            "success-notification": "Le scoring a bien été mis à jour",
+            "success-notification": "Le scoring a bien été activé. Les certifications déjà passée sur la version seront scorées.",
             "title": "Bornes de capacités par mailles"
           },
           "title": "Création d'une version de certification"
@@ -676,7 +676,7 @@
         "action-button": "Confirmer la suppression",
         "content": "Vous vous apprêtez à supprimer une version.",
         "error-message": "Une erreur s'est produite",
-        "success-message": "La version à bien été supprimée",
+        "success-message": "La version à bien été supprimée.",
         "title": "Confirmation de suppression d'une version"
       },
       "labels": {
