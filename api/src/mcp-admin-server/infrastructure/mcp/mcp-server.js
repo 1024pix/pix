@@ -7,6 +7,7 @@ import { makeAdministrationTeamRepository } from '../repositories/administration
 import { makeCountryRepository } from '../repositories/country.repository.js';
 import { makeOrganizationRepository } from '../repositories/organization.repository.js';
 import { makeOrganizationLearnerTypeRepository } from '../repositories/organization-learner-type.repository.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 const createMcpServer = async function ({ authorizationHeader, forwardedHeaders = {}, apiBaseUrl }) {
   const server = new McpServer({ name: 'pix-admin', version: '1.0.0' });
@@ -31,8 +32,16 @@ const createMcpServer = async function ({ authorizationHeader, forwardedHeaders 
       simulate: z.boolean().optional().describe('Si true, simule la création sans appel API'),
     },
     async (args) => {
-      const result = await createOrganization({ args, ...repositories });
-      return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+      const t0 = Date.now();
+      logger.info(`mcp create_organization → (simulate=${args.simulate ?? false})`);
+      try {
+        const result = await createOrganization({ args, ...repositories });
+        logger.info(`mcp create_organization ← ${Date.now() - t0}ms ok`);
+        return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+      } catch (err) {
+        logger.info(`mcp create_organization ← ${Date.now() - t0}ms erreur: ${err.message}`);
+        throw err;
+      }
     },
   );
 

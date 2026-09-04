@@ -2,6 +2,7 @@ import { logger } from '../../shared/infrastructure/utils/logger.js';
 import { createMcpClient } from '../infrastructure/mcp/mcp-client.js';
 
 const CONNECT_TIMEOUT_MS = 5_000;
+const CALL_TIMEOUT_MS = 15_000;
 
 const toolExecutionController = {
   async listTools(request, h) {
@@ -50,7 +51,10 @@ const toolExecutionController = {
         setTimeout(() => reject(new Error(`MCP connection timeout after ${CONNECT_TIMEOUT_MS}ms`)), CONNECT_TIMEOUT_MS),
       );
       client = await Promise.race([createMcpClient({ authorizationHeader, forwardedHeaders, apiBaseUrl }), connectTimeout]);
-      result = await client.callTool({ name: toolName, arguments: args });
+      const callTimeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(`MCP tool call timeout after ${CALL_TIMEOUT_MS}ms`)), CALL_TIMEOUT_MS),
+      );
+      result = await Promise.race([client.callTool({ name: toolName, arguments: args }), callTimeout]);
     } catch (err) {
       // transport MCP injoignable (connexion refusée, réseau inaccessible…)
       logger.info(`relais ← ${toolName} | durée=${Date.now() - t0}ms | statut=panne-transport`);
