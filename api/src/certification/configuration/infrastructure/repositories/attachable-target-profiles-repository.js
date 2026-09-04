@@ -1,6 +1,5 @@
 // @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { isBlank } from '../../../../shared/infrastructure/utils/lodash-utils.js';
 import { AttachableTargetProfile } from '../../domain/models/AttachableTargetProfile.js';
 
 /**
@@ -25,7 +24,7 @@ export async function find({ searchTerm } = {}) {
 }
 
 function _searchByCriteria({ builder, searchTerm }) {
-  if (!isBlank(searchTerm)) {
+  if (searchTerm !== undefined && searchTerm.trim().length !== 0) {
     const filteredBuilder = _searchByTargetProfileName({ builder, searchTerm });
     const isNumberOnly = /^\d+$/.test(searchTerm);
     if (isNumberOnly) {
