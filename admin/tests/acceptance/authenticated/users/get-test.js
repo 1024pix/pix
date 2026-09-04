@@ -118,7 +118,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator click on anonymize button and confirm modal', function () {
-    test('anonymizes the user and remove all authentication methods', async function (assert) {
+    test('anonymizes the user and redirect to user list', async function (assert) {
       // given
       sinon.stub(Location, 'getHref').returns('https://admin.pix.fr/');
 
@@ -153,53 +153,19 @@ module('Acceptance | authenticated/users/get', function (hooks) {
         organizationMemberships: [organizationMembership],
         certificationCenterMemberships: [certificationCenterMembership],
       });
-      const expectedAuthenticationMethodCountBeforeAnonymisation = 3;
-      const expectedAuthenticationMethodCountAfterAnonymisation = 0;
-      const connectionTabLabel = this.intl.t('pages.user-details.navbar.connections');
+
       const screen = await visit(`/users/${userToAnonymise.id}`);
-      assert
-        .dom(
-          screen.getByRole('link', {
-            name: `${connectionTabLabel} (${expectedAuthenticationMethodCountBeforeAnonymisation})`,
-          }),
-        )
-        .exists();
 
       await click(screen.getByRole('button', { name: 'Anonymiser cet utilisateur' }));
 
       await screen.findByRole('dialog');
 
-      // when & then #1
+      // when
       await click(screen.getByRole('button', { name: 'Confirmer' }));
 
-      const attributesList = within(screen.getByLabelText('Informations utilisateur'));
-      assert.dom(attributesList.getByText('Prénom').nextElementSibling).hasText('(anonymised)');
-      assert.dom(attributesList.getByText('Nom').nextElementSibling).hasText('(anonymised)');
-
-      // when & then #2
-      await click(
-        screen.getByRole('link', {
-          name: `${connectionTabLabel} (${expectedAuthenticationMethodCountAfterAnonymisation})`,
-        }),
-      );
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
-      assert
-        .dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC – app.pix.fr"))
-        .exists();
-
-      // when & then #3
-      await click(screen.getByRole('link', { name: 'Organisations de l’utilisateur' }));
-      assert.deepEqual(currentURL(), `/users/${userToAnonymise.id}/organizations`);
-      assert.dom(screen.queryByText('Organization #1')).doesNotExist();
-
-      // when & then #4
-      await click(
-        screen.getByLabelText(this.intl.t('pages.user-details.navbar.certification-centers-list-aria-label')),
-      );
-      assert.deepEqual(currentURL(), `/users/${userToAnonymise.id}/certification-center-memberships`);
-      assert.dom(screen.queryByText('Certification Center #1')).doesNotExist();
+      // then
+      assert.deepEqual(currentURL(), `/users/list`);
+      assert.dom(screen.getByText('La demande d’anonymisation de l’utilisateur a bien été envoyée')).exists();
     });
   });
 
