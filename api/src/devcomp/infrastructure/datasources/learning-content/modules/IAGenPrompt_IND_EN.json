@@ -627,7 +627,7 @@
                 "id": "509c650d-c46b-435a-81fd-cf7268e94648",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>🎯 <strong>Mission: find a venue for the Jolieville tournament!</strong></p><p>Tom is looking for a venue that can host the volleyball tournament. He needs at least four courts. </p>\n<p>His maximum budget is 300 pixmoney, but he is of course looking for a good deal. 💸</p><p>Jolieville town council has created AI software to answer questions about its sports facilities.&nbsp;🥅</p>\n\n"
+                "content": "<p>🎯 <strong>Mission: find a venue for the Pinecrest tournament!</strong></p><p>Tom is looking for a venue that can host the volleyball tournament. He needs at least four courts. </p>\n<p>His maximum budget is 300 pixmoney, but he is of course looking for a good deal. 💸</p><p>Pinecrest town council has created AI software to answer questions about its sports facilities.&nbsp;🥅</p>\n\n"
               }
             },
             {
@@ -638,7 +638,7 @@
                 "isCompletionRequired": true,
                 "title": "LLM simulator",
                 "url": "https://epreuves.pix.fr/pix-llm/pix-llm.html?lang=en&mode=cmruvfrfl00029e01fksqb8as",
-                "instruction": "<p>Use Jolieville's AI software below to find the sports hall that meets his needs.&nbsp;🔍</p><p>Once you have found it, enter the name of the sports hall below.&nbsp;👇</p>",
+                "instruction": "<p>Use Pinecrest's AI software below to find the sports hall that meets his needs.&nbsp;🔍</p><p>Once you have found it, enter the name of the sports hall below.&nbsp;👇</p>",
                 "solution": "pix-llm-success",
                 "height": 550
               }
