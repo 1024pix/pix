@@ -197,6 +197,15 @@ describe('Integration | API | Controller Error', function () {
       );
     });
 
+    it('responds Conflict when a UserAlreadyAnonymizedError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.UserAlreadyAnonymizedError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal('Ce compte a déjà été anonymisé.');
+      expect(responseCode(response)).to.equal('USER_ALREADY_ANONYMIZED');
+    });
+
     it('responds Conflict when a ChallengeAlreadyAnsweredError error occurs', async function () {
       routeHandler.throws(new DomainErrors.ChallengeAlreadyAnsweredError());
       const response = await server.requestObject(request);
