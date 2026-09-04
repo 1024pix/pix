@@ -134,7 +134,7 @@ const streamConversationTurn = async function ({ messages, clientTools = {}, doc
     experimental_telemetry: { isEnabled: false },
   });
 
-  return result.toUIMessageStreamResponse().body;
+  return result.toUIMessageStreamResponse({ sendReasoning: true }).body;
 };
 
 export { buildToolsFromMcp,getSystemPrompt, streamConversationTurn };
