@@ -407,7 +407,7 @@
       "error-link": "(see import page).",
       "in-progress": "An import is in progress",
       "in-progress-link": "(check import status).",
-      "success": "Participants have been imported on {date} by {firstName} {lastName}."
+      "success": "Participants have been imported on {date} by {firstname} {lastname}."
     },
     "index": {
       "action-cards": {
