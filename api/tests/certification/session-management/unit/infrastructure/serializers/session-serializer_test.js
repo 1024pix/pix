@@ -121,13 +121,14 @@ describe('Unit | Certification | session-management | Serializer | session-seria
       expect(session.version).to.equal(3);
     });
 
-    EMPTY_BLANK_AND_NULL.forEach((examinerGlobalComment) => {
-      it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, function () {
+    EMPTY_BLANK_AND_NULL.forEach((emptyValue) => {
+      it(`should return no examiner comment if comment is "${emptyValue}"`, function () {
         // given
-        jsonApiSession.data.attributes['examiner-global-comment'] = examinerGlobalComment;
+        const jsonApiSessionWithEmptyExaminerComment = structuredClone(jsonApiSession);
+        jsonApiSessionWithEmptyExaminerComment.data.attributes['examiner-global-comment'] = emptyValue;
 
         // when
-        const result = serializer.deserialize(jsonApiSession);
+        const result = serializer.deserialize(jsonApiSessionWithEmptyExaminerComment);
 
         // then
         expect(result.examinerGlobalComment).to.be.null;

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { buildFramework } from '../../../../../db/database-builder/factory/learning-content/build-framework.js';
 import { CampaignLearningContent } from '../../../../../src/shared/domain/models/CampaignLearningContent.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { buildFramework } from '../../../../tooling/domain-builder/factory/build-framework.js';
 
 describe('Unit | Domain | Models | CampaignLearningContent', function () {
   let framework;

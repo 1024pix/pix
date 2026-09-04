@@ -5,7 +5,7 @@ import Mocha from 'mocha';
  * problèmes d'isolation des tests.
  *
  * Exemple d'exécution avec une seed aléatoire :
- * npm run test:api:unit -- --require ./tests/test-random.js --bail
+ * npm run test:api:unit -- --require ./tests/setup/test-random.js --bail
  *
  * Exemple d'exécution avec une seed fixe, nombre flottant: 0 < seed < 1 :
  * SEED=0.12243342423 npm run test:api:unit -- --require ./tests/test-random.js --bail

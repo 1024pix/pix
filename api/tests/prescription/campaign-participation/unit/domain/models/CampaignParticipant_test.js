@@ -289,14 +289,13 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
       beforeEach(function () {
         userIdentity = { id: 1 };
-      });
-
-      it('throws a ForbiddenAccess exception when the user is not in the organization learners on managingStudents cases', async function () {
         restrictedCampaign = domainBuilder.buildCampaignToStartParticipation({
           externalIdLabel: null,
           isManagingStudents: true,
         });
+      });
 
+      it('throws a ForbiddenAccess exception when the user is not in the organization learners on managingStudents cases', async function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation: restrictedCampaign,
           userIdentity,
@@ -312,11 +311,6 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       });
 
       it('throws a ForbiddenAccess exception when the user is not in the organization learners on feature cases', async function () {
-        restrictedCampaign = domainBuilder.buildCampaignToStartParticipation({
-          externalIdLabel: null,
-          hasLearnersImportFeature: true,
-        });
-
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation: restrictedCampaign,
           userIdentity,

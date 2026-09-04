@@ -29,10 +29,11 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | can-self-an
   });
 
   context('When feature flag is enabled', function () {
+    beforeEach(async function () {
+      await featureToggles.set('isSelfAccountDeletionEnabled', true);
+    });
     context('When user is eligible', function () {
       it('returns true', async function () {
-        // given
-        await featureToggles.set('isSelfAccountDeletionEnabled', true);
         // when
         const result = await anonymizeServices.canSelfAnonymize({ userId, ...dependencies });
 

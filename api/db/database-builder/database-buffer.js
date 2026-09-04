@@ -16,6 +16,7 @@ const databaseBuffer = {
 
   purge() {
     this.objectsToInsert = {};
+    this.nextId = INITIAL_ID;
   },
 };
 
