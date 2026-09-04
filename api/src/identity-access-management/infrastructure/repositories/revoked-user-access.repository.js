@@ -64,9 +64,9 @@ async function findByUserId(userId) {
   }
 
   const revokedAllTimeStamp = await revokedUserAccessTemporaryStorage.get(`${userId}:all`);
-  const revokedSessions = await revokedUserAccessTemporaryStorage.smembers(`${userId}:sessions`);
+  const revokedSessionIds = await revokedUserAccessTemporaryStorage.smembers(`${userId}:sessions`);
 
-  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessions });
+  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionIds });
 }
 
 export const revokedUserAccessRepository = { revokeAll, revokeSession, findByUserId };

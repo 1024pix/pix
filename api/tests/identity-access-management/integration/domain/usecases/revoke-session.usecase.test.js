@@ -15,7 +15,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-s
     await usecases.revokeSession({ userId, sessionId });
 
     // then
-    const revokedSessions = await revokedUserAccessTemporaryStorage.smembers(`${userId}:sessions`);
-    expect(revokedSessions).to.deep.equal([sessionId]);
+    const revokedSessionIds = await revokedUserAccessTemporaryStorage.smembers(`${userId}:sessions`);
+    expect(revokedSessionIds).to.deep.equal([sessionId]);
   });
 });
