@@ -1,6 +1,6 @@
-import trapFocus from '@1024pix/pix-ui/addon/modifiers/trap-focus';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import trapFocus from '@1024pix/pix-ui/modifiers/trap-focus';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
