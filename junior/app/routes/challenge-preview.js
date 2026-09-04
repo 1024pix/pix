@@ -3,9 +3,10 @@ import { service } from '@ember/service';
 
 export default class ChallengePreviewRoute extends Route {
   @service router;
-  @service store;
+  @service storeRequest;
 
-  model(params) {
-    return this.store.findRecord('challenge', params.challenge_id);
+  async model(params) {
+    const { content } = await this.storeRequest.findRecord('challenge', params.challenge_id);
+    return content.data;
   }
 }

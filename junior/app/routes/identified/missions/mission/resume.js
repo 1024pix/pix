@@ -4,14 +4,16 @@ import { service } from '@ember/service';
 export default class MissionResumeRoute extends Route {
   @service router;
   @service store;
+  @service storeRequest;
   @service currentLearner;
 
-  model() {
+  async model() {
     const mission = this.modelFor('identified.missions.mission');
-    return this.store.queryRecord('assessment', {
+    const { content } = await this.storeRequest.postQuery('assessment', {
       missionId: mission.id,
       learnerId: this.currentLearner.learner.id,
     });
+    return content.data;
   }
 
   afterModel(assessment) {

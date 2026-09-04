@@ -16,7 +16,7 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         const transition = { to: { queryParams: { challengeId: challenge.id } } };
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
-        sinon.stub(store, 'findRecord').returns(challenge);
+        sinon.stub(store, 'request').resolves({ content: { data: challenge } });
 
         const result = await route.model({}, transition);
 
@@ -36,8 +36,10 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         const organizationLearner = store.createRecord('organization-learner', { features: ['ORALIZATION'] });
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
-        sinon.stub(store, 'queryRecord').returns(challenge);
-        sinon.stub(store, 'findRecord').returns(organizationLearner);
+        const requestStub = sinon.stub(store, 'request');
+        requestStub.onCall(0).resolves({ content: { data: challenge } });
+        requestStub.onCall(1).resolves({ content: { data: activity } });
+        requestStub.onCall(2).resolves({ content: { data: organizationLearner } });
 
         const result = await route.model();
 
@@ -52,7 +54,7 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         const assessment = { id: 2 };
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
-        sinon.stub(store, 'queryRecord').returns(null);
+        sinon.stub(store, 'request').resolves({ content: { data: null } });
 
         await route.model();
 

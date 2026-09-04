@@ -16,6 +16,7 @@ const CHALLENGE_DISPLAY_DELAY = ENV.APP.CHALLENGE_DISPLAY_DELAY;
 
 export default class Challenge extends Component {
   @service store;
+  @service storeRequest;
   @service router;
   @service intl;
   @tracked answerHasBeenValidated = false;
@@ -99,10 +100,6 @@ export default class Challenge extends Component {
     this.validationWarning = errorValue;
   }
 
-  _createActivityAnswer(challenge) {
-    return this.store.createRecord('activity-answer', { challenge });
-  }
-
   get #assessmentId() {
     return this.args.assessment?.id;
   }
@@ -124,14 +121,19 @@ export default class Challenge extends Component {
       this.displayValidationWarning = false;
     }
 
-    this.answer = this._createActivityAnswer(this.args.challenge);
-    this.answer.value = this.answerValue;
+    const data = { challenge: this.args.challenge, value: this.answerValue };
+    const meta = {};
+    if (this.#assessmentId) meta.assessmentId = this.#assessmentId;
+    if (this.#isPreview) meta.isPreview = this.#isPreview;
+    const bodyOptions = { meta };
+
     try {
-      await this.answer.save({ adapterOptions: { assessmentId: this.#assessmentId, isPreview: this.#isPreview } });
+      const { content } = await this.storeRequest.createRecord('activity-answer', data, { bodyOptions });
+      this.answer = content.data;
       this.answerHasBeenValidated = true;
       this.scrollToTop();
-    } catch {
-      this.answer.rollbackAttributes();
+    } catch (error) {
+      console.log(error);
     }
   }
 

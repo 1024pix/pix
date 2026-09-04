@@ -3,12 +3,18 @@ import { service } from '@ember/service';
 
 export default class MissionsRoute extends Route {
   @service store;
+  @service storeRequest;
   //TODO rename this service
   @service currentLearner;
 
   async model() {
-    const missions = await this.store.findAll('mission');
-    const organizationLearner = await this.store.findRecord('organization-learner', this.currentLearner.learner.id);
+    const { content } = await this.storeRequest.query('mission');
+    const missions = content.data;
+    const { content: organizationLearnerContent } = await this.storeRequest.findRecord(
+      'organization-learner',
+      this.currentLearner.learner.id,
+    );
+    const organizationLearner = organizationLearnerContent.data;
     return {
       missions,
       organizationLearner,

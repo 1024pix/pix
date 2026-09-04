@@ -6,6 +6,7 @@ import { styleToolkit } from '../utils/layout';
 
 export default class SchoolRoute extends Route {
   @service store;
+  @service storeRequest;
   @service currentLearner;
   @service router;
 
@@ -20,9 +21,10 @@ export default class SchoolRoute extends Route {
 
   async model(_params, transition) {
     try {
-      const school = await this.store.queryRecord('school', {
-        code: transition.to.parent.params.code,
+      const { content } = await this.storeRequest.queryRecord('school', {
+        code: transition.to.parent.params.code?.toUpperCase(),
       });
+      const school = content.data;
       const divisions = [...new Set(school.organizationLearners.map((learner) => learner.division))];
       return {
         code: school.code,
