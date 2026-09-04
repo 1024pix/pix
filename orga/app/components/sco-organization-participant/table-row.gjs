@@ -6,8 +6,8 @@ import { LinkTo } from '@ember/routing';
 import { formatDate, t } from 'ember-intl';
 import { not } from 'ember-truth-helpers';
 
-import { CONNECTION_TYPES } from '../../helpers/connection-types';
-import { USER_ACCOUNT_BLOCKING_TYPES } from '../../helpers/user-account-blocking-types';
+import { CONNECTION_TYPES } from '../../constants/connection-types';
+import { USER_ACCOUNT_BLOCKING_TYPES } from '../../constants/user-account-blocking-types';
 import CertificabilityCell from '../certificability/cell';
 import Tooltip from '../certificability/tooltip';
 import IconTrigger from '../dropdown/icon-trigger';

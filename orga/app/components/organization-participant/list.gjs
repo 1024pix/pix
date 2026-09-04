@@ -15,7 +15,7 @@ import { formatDate, t } from 'ember-intl';
 import { eq, not } from 'ember-truth-helpers';
 import Pagination from 'pix-orga/components/ui/pagination';
 
-import { getColumnName } from '../../helpers/import-format.js';
+import { getColumnName } from '../../helpers/import-format';
 import CertificabilityCell from '../certificability/cell';
 import Tooltip from '../certificability/tooltip';
 import DropdownIconTrigger from '../dropdown/icon-trigger';

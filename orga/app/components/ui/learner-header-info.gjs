@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { gt } from 'ember-truth-helpers';
 
-import { CONNECTION_TYPES } from '../../helpers/connection-types';
+import { CONNECTION_TYPES } from '../../constants/connection-types';
 import Date from './date';
 import Information from './information';
 import InformationWrapper from './information-wrapper';

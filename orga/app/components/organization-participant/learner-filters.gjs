@@ -7,7 +7,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import ENV from 'pix-orga/config/environment';
 
-import { getColumnName } from '../../helpers/import-format.js';
+import { getColumnName } from '../../helpers/import-format';
 import UiMultiSelectFilter from '../ui/multi-select-filter';
 
 const debounceTime = ENV.pagination.debounce;

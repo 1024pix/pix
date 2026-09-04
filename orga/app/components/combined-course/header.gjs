@@ -9,7 +9,7 @@ import ActivityType from 'pix-orga/components/activity-type';
 import CopyPasteButton from 'pix-orga/components/copy-paste-button';
 import Breadcrumb from 'pix-orga/components/ui/breadcrumb';
 import PageTitle from 'pix-orga/components/ui/page-title';
-import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
+import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
 
 export default class CombinedCourseHeader extends Component {
   @service intl;

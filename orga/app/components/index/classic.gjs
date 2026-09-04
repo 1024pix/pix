@@ -11,7 +11,7 @@ import OrganizationInfo from 'pix-orga/components/index/organization-information
 import ParticipationStatistics from 'pix-orga/components/index/participation-statistics';
 import Welcome from 'pix-orga/components/index/welcome';
 
-import { EVENT_NAME } from '../../helpers/metrics-event-name';
+import { EVENT_NAME } from '../../constants/metrics-event-name';
 
 export default class IndexClassic extends Component {
   @service currentUser;

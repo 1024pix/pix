@@ -3,7 +3,7 @@ import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { formatNumber, t } from 'ember-intl';
 
-import { MAX_REACHABLE_LEVEL } from '../../helpers/levels-info';
+import { MAX_REACHABLE_LEVEL } from '../../constants/levels-info';
 
 export default class CoverRateGauge extends Component {
   get id() {

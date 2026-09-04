@@ -11,7 +11,7 @@ import { recordIdentifierFor } from '@warp-drive/core';
 import { t } from 'ember-intl';
 import { gt } from 'ember-truth-helpers';
 import SafeMarkdownToHtml from 'pix-orga/components/safe-markdown-to-html';
-import { EVENT_NAME } from 'pix-orga/helpers/metrics-event-name';
+import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
 
 import Badges from '../campaign/badges';
 import { COMBINED_COURSE_BLUEPRINT_OVERVIEW, getCourseInfo, TARGET_PROFILE_OVERVIEW } from './course-card.gjs';

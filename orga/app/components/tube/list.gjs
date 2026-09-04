@@ -9,7 +9,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 
-import { EVENT_NAME } from '../../helpers/metrics-event-name';
+import { EVENT_NAME } from '../../constants/metrics-event-name';
 import Header from '../table/header';
 import Thematic from './thematic';
 import Tube from './tube';

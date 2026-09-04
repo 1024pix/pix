@@ -7,7 +7,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq, not } from 'ember-truth-helpers';
-import { ID_PIX_TYPES } from 'pix-orga/helpers/id-pix-types.js';
+import { ID_PIX_TYPES } from 'pix-orga/constants/id-pix-types';
 
 import displayCampaignErrors from '../../../helpers/display-campaign-errors';
 import ExplanationCard from '../../ui/explanation-card';

@@ -12,7 +12,7 @@ import { t } from 'ember-intl';
 import { or } from 'ember-truth-helpers';
 import UiDeletionModal from 'pix-orga/components/ui/deletion-modal';
 
-import { ID_PIX_TYPES } from '../../../helpers/id-pix-types';
+import { ID_PIX_TYPES } from '../../../constants/id-pix-types';
 import CopyPasteButton from '../../copy-paste-button';
 import SafeMarkdownToHtml from '../../safe-markdown-to-html';
 import TargetProfileTooltip from './target-profile-tooltip';

@@ -9,7 +9,7 @@ import { eq, not } from 'ember-truth-helpers';
 import Pagination from 'pix-orga/components/ui/pagination';
 import ENV from 'pix-orga/config/environment';
 
-import { CONNECTION_TYPES } from '../../helpers/connection-types';
+import { CONNECTION_TYPES } from '../../constants/connection-types';
 import ImportInformationBanner from '../import-information-banner';
 import InElement from '../in-element';
 import SelectableList from '../selectable-list';
