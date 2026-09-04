@@ -1,6 +1,6 @@
 import { StudentForEnrolment } from '../read-models/StudentForEnrolment.js';
 
-const findStudentsForEnrolment = async function ({
+export async function findStudentsForEnrolment({
   certificationCenterId,
   sessionId,
   page,
@@ -25,9 +25,7 @@ const findStudentsForEnrolment = async function ({
     data: _buildStudentsForEnrolment({ students: paginatedStudents.data, candidates }),
     pagination: paginatedStudents.pagination,
   };
-};
-
-export { findStudentsForEnrolment };
+}
 
 function _buildStudentsForEnrolment({ students, candidates }) {
   return students.map((student) => StudentForEnrolment.fromStudentsAndCandidates({ student, candidates }));

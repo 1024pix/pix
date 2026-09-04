@@ -14,7 +14,7 @@ import { SessionStartedDeletionError } from '../errors.js';
  * @throws {SessionStartedDeletionError} the session has already started
  * @throws {NotFoundError} the session does not exist or its access is restricted
  */
-const deleteSession = async ({ sessionId, sessionRepository, sessionManagementRepository }) => {
+export async function deleteSession({ sessionId, sessionRepository, sessionManagementRepository }) {
   if (!(await sessionManagementRepository.hasNoStartedCertification({ id: sessionId }))) {
     throw new SessionStartedDeletionError();
   }
@@ -26,6 +26,4 @@ const deleteSession = async ({ sessionId, sessionRepository, sessionManagementRe
       throw new NotFoundError("La session n'existe pas ou son accès est restreint");
     }
   });
-};
-
-export { deleteSession };
+}

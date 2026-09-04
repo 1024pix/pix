@@ -19,7 +19,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   beforeEach(function () {
     candidateRepository = { deleteBySessionId: sinon.stub(), save: sinon.stub() };
     sessionRepository = { create: sinon.stub() };
-    sessionCodeService = { getNewInvigilatorPassword: sinon.stub().returns('Y722GA') };
+    sessionCodeService = { generateInvigilatorPassword: sinon.stub().returns('Y722GA') };
     eventAdapter = { onCandidatesEnrolledWithMassSessionsImport: sinon.stub() };
     temporarySessionsStorageForMassImportService = {
       getByKeyAndUserId: sinon.stub(),
@@ -210,7 +210,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
         // then
         expect(sessionRepository.create).not.to.have.been.called;
-        expect(sessionCodeService.getNewInvigilatorPassword).not.to.have.been.called;
+        expect(sessionCodeService.generateInvigilatorPassword).not.to.have.been.called;
         expect(candidateRepository.deleteBySessionId).to.have.been.calledOnceWith({
           sessionId: 1234,
         });

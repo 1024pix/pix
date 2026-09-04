@@ -8,7 +8,7 @@ const { Serializer } = jsonapiSerializer;
 /**
  * @param {UserCertificationEligibility} userCertificationEligibility
  */
-const serialize = function (userCertificationEligibility) {
+function serialize(userCertificationEligibility) {
   return new Serializer('isCertifiables', {
     transform(userCertificationEligibility) {
       if (userCertificationEligibility.doubleCertificationEligibility) {
@@ -31,6 +31,6 @@ const serialize = function (userCertificationEligibility) {
     },
     attributes: ['isCertifiable', 'doubleCertificationEligibility'],
   }).serialize(userCertificationEligibility);
-};
+}
 
 export const userCertificationEligibilitySerializer = { serialize };

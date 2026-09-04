@@ -6,7 +6,7 @@
  * @param {object} params
  * @param {EligibilityService} params.eligibilityService
  */
-const getUserCertificationEligibility = async function ({
+export async function getUserCertificationEligibility({
   userId,
   limitDate = new Date(),
   eligibilityService,
@@ -23,6 +23,4 @@ const getUserCertificationEligibility = async function ({
     complementaryCertificationCourseRepository,
     complementaryCertificationBadgeWithOffsetVersionRepository,
   });
-};
-
-export { getUserCertificationEligibility };
+}

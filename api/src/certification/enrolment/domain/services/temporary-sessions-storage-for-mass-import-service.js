@@ -6,7 +6,7 @@ import { randomUUID } from 'node:crypto';
 
 const EXPIRATION_DELAY_SECONDS = config.temporarySessionsStorageForMassImport.expirationDelaySeconds;
 
-const save = async function ({ sessions, userId }) {
+export async function save({ sessions, userId }) {
   const uuid = randomUUID();
   await sessionMassImportTemporaryStorage.save({
     key: `${userId}:${uuid}`,
@@ -15,16 +15,14 @@ const save = async function ({ sessions, userId }) {
   });
 
   return uuid;
-};
+}
 
-const getByKeyAndUserId = async function ({ cachedValidatedSessionsKey, userId }) {
+export async function getByKeyAndUserId({ cachedValidatedSessionsKey, userId }) {
   const key = `${userId}:${cachedValidatedSessionsKey}`;
   return sessionMassImportTemporaryStorage.get(key);
-};
+}
 
-const remove = async function ({ cachedValidatedSessionsKey, userId }) {
+export async function remove({ cachedValidatedSessionsKey, userId }) {
   const key = `${userId}:${cachedValidatedSessionsKey}`;
   await sessionMassImportTemporaryStorage.delete(key);
-};
-
-export { getByKeyAndUserId, remove, save };
+}

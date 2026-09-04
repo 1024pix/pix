@@ -3,7 +3,7 @@ import { usecases } from '../domain/usecases/index.js';
 import { candidateSerializer } from '../infrastructure/serializers/candidate-serializer.js';
 import { timelineSerializer } from '../infrastructure/serializers/timeline-serializer.js';
 
-const addCandidate = async function (request, h, dependencies = { candidateSerializer }) {
+async function addCandidate(request, h, dependencies = { candidateSerializer }) {
   const sessionId = request.params.sessionId;
   const candidate = await dependencies.candidateSerializer.deserialize(request.payload);
   const candidateId = await usecases.addCandidateToSession({
@@ -14,29 +14,29 @@ const addCandidate = async function (request, h, dependencies = { candidateSeria
 
   const serializedId = candidateSerializer.serializeId(candidateId);
   return h.response(serializedId).created();
-};
+}
 
-const getEnrolledCandidates = async function (request, h, dependencies = { candidateSerializer }) {
+async function getEnrolledCandidates(request, h, dependencies = { candidateSerializer }) {
   const sessionId = request.params.sessionId;
   const enrolledCandidates = await usecases.getEnrolledCandidatesInSession({ sessionId });
   return dependencies.candidateSerializer.serialize(enrolledCandidates);
-};
+}
 
-const getSessionCandidates = async function (request, h, dependencies = { candidateSerializer }) {
+async function getSessionCandidates(request, h, dependencies = { candidateSerializer }) {
   const sessionId = request.params.sessionId;
   const enrolledCandidates = await usecases.getEnrolledCandidatesInSession({ sessionId });
   return dependencies.candidateSerializer.serializeForSession(enrolledCandidates);
-};
+}
 
-const deleteCandidate = async function (request, h) {
+async function deleteCandidate(request, h) {
   const candidateId = request.params.certificationCandidateId;
 
   await usecases.deleteUnlinkedCertificationCandidate({ candidateId });
 
   return h.response().code(204);
-};
+}
 
-const updateEnrolledCandidate = async function (request, h, dependencies = { candidateSerializer }) {
+async function updateEnrolledCandidate(request, h, dependencies = { candidateSerializer }) {
   const candidateId = request.params.certificationCandidateId;
   const enrolledCandidateData = request.payload.data.attributes;
   const editedCandidate = dependencies.candidateSerializer.deserializeForEdition({
@@ -49,9 +49,9 @@ const updateEnrolledCandidate = async function (request, h, dependencies = { can
   });
 
   return h.response().code(204);
-};
+}
 
-const validateCertificationInstructions = async function (request, h, dependencies = { candidateSerializer }) {
+async function validateCertificationInstructions(request, h, dependencies = { candidateSerializer }) {
   const certificationCandidateId = request.params.certificationCandidateId;
 
   const candidate = await usecases.candidateHasSeenCertificationInstructions({
@@ -59,9 +59,9 @@ const validateCertificationInstructions = async function (request, h, dependenci
   });
 
   return dependencies.candidateSerializer.serializeForParticipation(candidate);
-};
+}
 
-const getCandidate = async function (request, h, dependencies = { candidateSerializer }) {
+async function getCandidate(request, h, dependencies = { candidateSerializer }) {
   const certificationCandidateId = request.params.certificationCandidateId;
 
   const candidate = await usecases.getCandidate({
@@ -69,9 +69,9 @@ const getCandidate = async function (request, h, dependencies = { candidateSeria
   });
 
   return dependencies.candidateSerializer.serializeForParticipation(candidate);
-};
+}
 
-const getTimeline = async function (request, h, dependencies = { timelineSerializer }) {
+async function getTimeline(request, h, dependencies = { timelineSerializer }) {
   const certificationCandidateId = request.params.certificationCandidateId;
 
   const timeline = await usecases.getCandidateTimeline({
@@ -79,9 +79,9 @@ const getTimeline = async function (request, h, dependencies = { timelineSeriali
   });
 
   return dependencies.timelineSerializer.serialize(timeline);
-};
+}
 
-const certificationCandidateController = {
+export const certificationCandidateController = {
   addCandidate,
   getEnrolledCandidates,
   getSessionCandidates,
@@ -91,4 +91,3 @@ const certificationCandidateController = {
   validateCertificationInstructions,
   updateEnrolledCandidate,
 };
-export { certificationCandidateController };

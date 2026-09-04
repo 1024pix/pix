@@ -3,20 +3,20 @@ import { expect } from 'chai';
 import * as sessionCodeService from '../../../../../../src/certification/enrolment/domain/services/session-code-service.js';
 
 describe('Unit | Service | CodeSession', function () {
-  describe('#getNewSessionCode', function () {
+  describe('#generateSessionCode', function () {
     it('should return a non ambiguous session code with 4 random capital letters and 2 random numbers', function () {
       // when
-      const result = sessionCodeService.getNewSessionCode();
+      const result = sessionCodeService.generateSessionCode();
 
       // then
       expect(result).to.match(/[B,C,D,F,G,H,J,K,M,P,Q,R,T,V,W,X,Y]{4}[2,3,4,6,7,8,9]{2}/);
     });
   });
 
-  describe('#getNewInvigilatorPassword', function () {
+  describe('#generateInvigilatorPassword', function () {
     it('should return a 6 characters password made of non ambiguous characters', function () {
       // when
-      const result = sessionCodeService.getNewInvigilatorPassword();
+      const result = sessionCodeService.generateInvigilatorPassword();
 
       // then
       expect(result).to.match(/^[23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?]{6}$/);

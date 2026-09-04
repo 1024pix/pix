@@ -6,8 +6,6 @@
  * @param {object} params
  * @param {CenterRepository} params.centerRepository
  */
-const getCenter = function ({ id, centerRepository }) {
+export function getCenter({ id, centerRepository }) {
   return centerRepository.getById({ id });
-};
-
-export { getCenter };
+}

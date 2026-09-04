@@ -9,70 +9,72 @@ import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
 //  - header -> Header in the ods file under which the cell values will be found
 //  - property -> Property name of the target object in which the value will be put
 //  - transformFn -> Transformation function through which the cell value will be processed into the final value
-const _getTransformationsStruct = (translate) => [
-  {
-    header: translate('candidate-list-template.headers.birthname'),
-    property: 'lastName',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.firstname'),
-    property: 'firstName',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.externalid'),
-    property: 'externalId',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.extra-time'),
-    property: 'extraTimePercentage',
-    transformFn: _toNonZeroValueOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.birth-date'),
-    property: 'birthdate',
-    transformFn: (cellVal) => {
-      return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY' });
+function _getTransformationsStruct(translate) {
+  return [
+    {
+      header: translate('candidate-list-template.headers.birthname'),
+      property: 'lastName',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
     },
-  },
-  {
-    header: translate('candidate-list-template.headers.birthcity'),
-    property: 'birthCity',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.birthcity-postcode'),
-    property: 'birthPostalCode',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.birthcity-inseecode'),
-    property: 'birthINSEECode',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.birthcountry'),
-    property: 'birthCountry',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.email-convocation'),
-    property: 'email',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.email-results'),
-    property: 'resultRecipientEmail',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: translate('candidate-list-template.headers.gender'),
-    property: 'sex',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-];
+    {
+      header: translate('candidate-list-template.headers.firstname'),
+      property: 'firstName',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
+    },
+    {
+      header: translate('candidate-list-template.headers.externalid'),
+      property: 'externalId',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
+    },
+    {
+      header: translate('candidate-list-template.headers.extra-time'),
+      property: 'extraTimePercentage',
+      transformFn: _toNonZeroValueOrNull,
+    },
+    {
+      header: translate('candidate-list-template.headers.birth-date'),
+      property: 'birthdate',
+      transformFn: (cellVal) => {
+        return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY' });
+      },
+    },
+    {
+      header: translate('candidate-list-template.headers.birthcity'),
+      property: 'birthCity',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
+    },
+    {
+      header: translate('candidate-list-template.headers.birthcity-postcode'),
+      property: 'birthPostalCode',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
+    },
+    {
+      header: translate('candidate-list-template.headers.birthcity-inseecode'),
+      property: 'birthINSEECode',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
+    },
+    {
+      header: translate('candidate-list-template.headers.birthcountry'),
+      property: 'birthCountry',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
+    },
+    {
+      header: translate('candidate-list-template.headers.email-convocation'),
+      property: 'email',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
+    },
+    {
+      header: translate('candidate-list-template.headers.email-results'),
+      property: 'resultRecipientEmail',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
+    },
+    {
+      header: translate('candidate-list-template.headers.gender'),
+      property: 'sex',
+      transformFn: _toNotEmptyTrimmedStringOrNull,
+    },
+  ];
+}
 
 export function getTransformationStructsForPixCertifCandidatesImport({ i18n, habilitations, isSco }) {
   const translate = i18n.__;
