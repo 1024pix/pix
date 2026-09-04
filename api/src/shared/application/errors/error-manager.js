@@ -42,6 +42,7 @@ const FORBIDDEN_ERRORS = [
 ];
 
 const CONFLICT_ERRORS = [
+  SharedDomainErrors.UserAlreadyAnonymizedError,
   SharedDomainErrors.ChallengeAlreadyAnsweredError,
   SharedDomainErrors.UserAlreadyExistsWithAuthenticationMethodError,
   SharedDomainErrors.UnexpectedUserAccountError,

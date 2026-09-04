@@ -1,4 +1,6 @@
-import { ForbiddenAccess } from '../../../shared/domain/errors.js';
+import { ForbiddenAccess, UserAlreadyAnonymizedError } from '../../../shared/domain/errors.js';
+import { AnonymizeUserEvent } from '../../../shared/domain/events/AnonymizeUserEvent.js';
+import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLoggingJob.js';
 import { createSelfDeleteUserAccountEmail } from '../emails/create-self-delete-user-account.email.js';
 
 /**
@@ -6,31 +8,42 @@ import { createSelfDeleteUserAccountEmail } from '../emails/create-self-delete-u
  * @param{number} params.userId
  * @returns {Promise<boolean>}
  */
-export const selfAnonymizeByUser = async function ({
+export async function selfAnonymizeByUser({
   userId,
   locale,
   userRepository,
   emailRepository,
   anonymizeServices,
+  eventJobPublisherService,
+  auditLoggingJobRepository,
 }) {
   const canAnonymize = await anonymizeServices.canSelfAnonymize({ userId });
   if (!canAnonymize) throw new ForbiddenAccess();
 
-  const user = await userRepository.get(userId);
+  // Keep a copy of email and firstName to send email to User after anonymization
+  const { email, firstName, hasBeenAnonymised } = await userRepository.get(userId);
 
-  const anonymizedByUserId = userId;
-  const anonymizedByUserRole = 'USER';
-  const client = 'PIX_APP';
+  if (hasBeenAnonymised) throw new UserAlreadyAnonymizedError();
 
-  await anonymizeServices.anonymizeUser({ userId, anonymizedByUserId, anonymizedByUserRole, client });
+  await eventJobPublisherService.publishEvent(new AnonymizeUserEvent({ userId, updatedByUserId: userId }));
 
-  if (user.email) {
+  await auditLoggingJobRepository.performAsync(
+    AuditLoggingJob.forUser({
+      client: 'PIX_APP',
+      action: 'ANONYMIZATION',
+      userId,
+      updatedByUserId: userId,
+      role: 'USER',
+    }),
+  );
+
+  if (email) {
     await emailRepository.sendEmailAsync(
       createSelfDeleteUserAccountEmail({
         locale: locale,
-        email: user.email,
-        firstName: user.firstName,
+        email,
+        firstName,
       }),
     );
   }
-};
+}
