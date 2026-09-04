@@ -277,6 +277,9 @@ export default function AssistantApp({ getAccessToken, onNavigateToOrganization,
   const [fileError, setFileError] = useState(null);
   const pendingDocRef = useRef(null);
   pendingDocRef.current = pendingDoc;
+  // Persists the document context for injection on every subsequent turn, even after
+  // pendingDoc is cleared (which only controls the one-time attachment pill display).
+  const documentContextRef = useRef(null);
 
   // Clean up documents registered in this session when component unmounts
   useEffect(() => {
@@ -311,6 +314,7 @@ export default function AssistantApp({ getAccessToken, onNavigateToOrganization,
       const { name, sheets } = await readFile(file);
       const doc = new DocumentDepose({ id: crypto.randomUUID(), nom: name, feuilles: sheets });
       documentRegistry.set(doc.id, doc);
+      documentContextRef.current = `[Document: ${doc.nom}]\ndocumentId: ${doc.id}\n${doc.sommaire()}`;
       setPendingDoc(doc);
     } catch (err) {
       setFileError(err?.message ?? 'Cannot read this file');
@@ -328,19 +332,22 @@ export default function AssistantApp({ getAccessToken, onNavigateToOrganization,
         }),
         body: { tools: clientToolSchemas },
         fetch: async (url, options) => {
-          const doc = pendingDocRef.current;
-          if (doc && typeof options?.body === 'string') {
+          const docCtx = documentContextRef.current;
+          if (docCtx && typeof options?.body === 'string') {
             try {
               const parsed = JSON.parse(options.body);
-              parsed.documentContext = `[Document: ${doc.nom}]\ndocumentId: ${doc.id}\n${doc.sommaire()}`;
+              parsed.documentContext = docCtx;
 
-              // Record the filename against the last user message id so UserMessage
-              // can render the attachment pill from the runtime state.
-              const msgs = parsed.messages;
-              if (Array.isArray(msgs) && msgs.length > 0) {
-                const lastMsg = msgs[msgs.length - 1];
-                if (lastMsg?.role === 'user' && lastMsg.id) {
-                  setMessageAttachment(lastMsg.id, doc.nom);
+              // Show the attachment pill only on the first user message after upload
+              // (pendingDoc is cleared after that turn; documentContextRef persists).
+              const doc = pendingDocRef.current;
+              if (doc) {
+                const msgs = parsed.messages;
+                if (Array.isArray(msgs) && msgs.length > 0) {
+                  const lastMsg = msgs[msgs.length - 1];
+                  if (lastMsg?.role === 'user' && lastMsg.id) {
+                    setMessageAttachment(lastMsg.id, doc.nom);
+                  }
                 }
               }
 
