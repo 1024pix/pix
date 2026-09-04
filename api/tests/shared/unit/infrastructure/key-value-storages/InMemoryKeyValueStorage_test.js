@@ -1,26 +1,25 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import { InMemoryKeyValueStorage } from '../../../../../src/shared/infrastructure/key-value-storages/InMemoryKeyValueStorage.js';
 
 describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', function () {
-  let inMemoryKeyValueStorage;
+  let store, inMemoryKeyValueStorage;
 
   beforeEach(function () {
-    inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
+    store = new Map();
+    inMemoryKeyValueStorage = new InMemoryKeyValueStorage({ store });
   });
 
   describe('#increment', function () {
     it('should call client incr to increment value', async function () {
       // given
       const key = 'valueKey';
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
 
       // when
       await inMemoryKeyValueStorage.increment(key);
 
       // then
-      expect(await inMemoryKeyValueStorage.get(key)).to.equal('1');
+      expect(store.get(key)).to.equal('1');
     });
   });
 
@@ -28,24 +27,16 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
     it('should call client incr to decrement value', async function () {
       // given
       const key = 'valueKey';
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
 
       // when
       await inMemoryKeyValueStorage.decrement(key);
 
       // then
-      expect(await inMemoryKeyValueStorage.get(key)).to.equal('-1');
+      expect(store.get(key)).to.equal('-1');
     });
   });
 
   describe('#save', function () {
-    let clock;
-
-    beforeEach(function () {
-      // InMemoryKeyValueStorage expires its keys with setTimeout
-      clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
-    });
-
     it('should resolve with the generated key', async function () {
       // when
       const key = await inMemoryKeyValueStorage.save({ value: {}, expirationDelaySeconds: 1000 });
@@ -83,31 +74,14 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
       // then
       expect(returnedKey).not.be.equal(keyParameter);
     });
-
-    it('should save key value with a defined ttl in seconds', async function () {
-      // given
-      const TWO_MINUTES_IN_SECONDS = 2 * 60;
-
-      // when
-      const key = await inMemoryKeyValueStorage.save({
-        value: 'foobar',
-        expirationDelaySeconds: TWO_MINUTES_IN_SECONDS,
-      });
-
-      // then
-      expect(await inMemoryKeyValueStorage.get(key)).to.equal('foobar');
-      await clock.tickAsync(TWO_MINUTES_IN_SECONDS * 1000);
-      expect(await inMemoryKeyValueStorage.get(key)).to.be.undefined;
-    });
   });
 
   describe('#get', function () {
     it('should retrieve the value if it exists', async function () {
       // given
+      const key = 'testkey';
       const value = { name: 'name' };
-      const expirationDelaySeconds = 1000;
-
-      const key = await inMemoryKeyValueStorage.save({ value, expirationDelaySeconds });
+      store.set(key, value);
 
       // when
       const result = await inMemoryKeyValueStorage.get(key);
@@ -120,134 +94,90 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
   describe('#update', function () {
     it('should set a new value', async function () {
       // given
-      const key = await inMemoryKeyValueStorage.save({
-        value: { name: 'name' },
-      });
+      const key = 'testkey';
+      const value = { name: 'name' };
+      store.set(key, value);
 
       // when
       await inMemoryKeyValueStorage.update(key, { url: 'url' });
 
       // then
-      const result = await inMemoryKeyValueStorage.get(key);
-      expect(result).to.deep.equal({ url: 'url' });
-    });
-
-    it('should not change the time to live', async function () {
-      // given
-      // InMemoryKeyValueStorage expires its keys with setTimeout
-      const clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
-      const keyWithTtl = await inMemoryKeyValueStorage.save({
-        value: {},
-        expirationDelaySeconds: 1,
-      });
-      const keyWithoutTtl = await inMemoryKeyValueStorage.save({ value: {} });
-
-      // when
-      await clock.tickAsync(500);
-      await inMemoryKeyValueStorage.update(keyWithTtl, {});
-      await inMemoryKeyValueStorage.update(keyWithoutTtl, {});
-      await clock.tickAsync(600);
-
-      // then
-      expect(await inMemoryKeyValueStorage.get(keyWithTtl)).to.be.undefined;
-      expect(await inMemoryKeyValueStorage.get(keyWithoutTtl)).not.to.be.undefined;
+      expect(store.get(key)).to.deep.equal({ url: 'url' });
     });
   });
 
   describe('#delete', function () {
     it('should delete the value if it exists', async function () {
       // given
+      const key = 'testkey';
       const value = { name: 'name' };
-      const expirationDelaySeconds = 1000;
-
-      const key = await inMemoryKeyValueStorage.save({ value, expirationDelaySeconds });
+      store.set(key, value);
 
       // when
       await inMemoryKeyValueStorage.delete(key);
 
       // then
-      const savedKey = await inMemoryKeyValueStorage.get(key);
-      expect(savedKey).to.be.undefined;
+      expect(store.has(key)).to.be.false;
     });
   });
 
   describe('#expire', function () {
-    it('should add an expiration time to the list', async function () {
-      // given
-      // InMemoryKeyValueStorage expires its keys with setTimeout
-      const clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
-
-      // when
-      const key = 'key:lpush';
-      await inMemoryKeyValueStorage.lpush(key, 'value');
-      await inMemoryKeyValueStorage.expire({ key, expirationDelaySeconds: 1 });
-      await clock.tickAsync(1200);
-      const list = inMemoryKeyValueStorage.lrange(key);
-
-      // then
-      expect(list).to.be.empty;
+    it('resolves', async function () {
+      await inMemoryKeyValueStorage.expire('key');
     });
   });
 
   describe('#lpush', function () {
     it('should add value into key list', async function () {
       // given
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
+      const key = 'key:lpush';
+      const value = 'value';
 
       // when
       const length = await inMemoryKeyValueStorage.lpush('key:lpush', 'value');
 
       // then
       expect(length).to.equal(1);
+      expect(store.get(key)).to.deep.equal([value]);
     });
   });
 
   describe('#lrem', function () {
     it('should remove values into key list', async function () {
       // given
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
+      const key = 'key:lrem';
+      store.set(key, ['value1', 'value2', 'value1']);
 
       // when
-      const key = 'key:lrem';
-      await inMemoryKeyValueStorage.lpush(key, 'value1');
-      await inMemoryKeyValueStorage.lpush(key, 'value2');
-      await inMemoryKeyValueStorage.lpush(key, 'value1');
-
       const length = await inMemoryKeyValueStorage.lrem(key, 'value1');
 
       // then
       expect(length).to.equal(2);
+      expect(store.get(key)).to.deep.equal(['value2']);
     });
   });
 
   describe('#lrange', function () {
     it('should return key values list', async function () {
       // given
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
+      const key = 'key:lrange';
+      store.set(key, ['value1', 'value2', 'value3']);
 
       // when
-      const key = 'key:lrange';
-      await inMemoryKeyValueStorage.lpush(key, 'value1');
-      await inMemoryKeyValueStorage.lpush(key, 'value2');
-      await inMemoryKeyValueStorage.lpush(key, 'value3');
-
       const values = await inMemoryKeyValueStorage.lrange(key);
 
       // then
-      expect(values).to.have.lengthOf(3);
-      expect(values).to.deep.equal(['value3', 'value2', 'value1']);
+      expect(values).to.deep.equal(['value1', 'value2', 'value3']);
     });
   });
 
   describe('#keys', function () {
     it('should return matching keys', async function () {
       // given
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
-      inMemoryKeyValueStorage.save({ key: 'prefix:key1', value: true });
-      inMemoryKeyValueStorage.save({ key: 'prefix:key2', value: true });
-      inMemoryKeyValueStorage.save({ key: 'prefix:key3', value: true });
-      inMemoryKeyValueStorage.save({ key: 'otherprefix:key4', value: true });
+      store.set('prefix:key1', true);
+      store.set('prefix:key2', true);
+      store.set('prefix:key3', true);
+      store.set('otherprefix:key4', true);
 
       // when
       const values = inMemoryKeyValueStorage.keys('prefix:*');
@@ -258,17 +188,44 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
 
     it('should return matching keys for all keys', async function () {
       // given
-      const inMemoryKeyValueStorage = new InMemoryKeyValueStorage();
-      inMemoryKeyValueStorage.save({ key: 'prefix:key1', value: true });
-      inMemoryKeyValueStorage.save({ key: 'prefix:key2', value: true });
-      inMemoryKeyValueStorage.save({ key: 'prefix:key3', value: true });
-      inMemoryKeyValueStorage.save({ key: 'otherprefix:key4', value: true });
+      store.set('prefix:key1', true);
+      store.set('prefix:key2', true);
+      store.set('prefix:key3', true);
+      store.set('otherprefix:key4', true);
 
       // when
-      const values = inMemoryKeyValueStorage.keys('*');
+      const values = await inMemoryKeyValueStorage.keys('*');
 
       // then
       expect(values).to.deep.equal(['prefix:key1', 'prefix:key2', 'prefix:key3', 'otherprefix:key4']);
+    });
+  });
+
+  describe('#sadd', function () {
+    it('adds values to a set', async function () {
+      // given
+      const key = 'key';
+
+      // when
+      const added = await inMemoryKeyValueStorage.sadd(key, 'value1', 'value2', 'value1');
+
+      // then
+      expect(added).to.equal(2);
+      expect(store.get(key)).to.deep.equal(new Set(['value1', 'value2']));
+    });
+  });
+
+  describe('#smembers', function () {
+    it('adds values to a set', async function () {
+      // given
+      const key = 'key';
+      store.set(key, new Set(['value1', 'value2']));
+
+      // when
+      const members = await inMemoryKeyValueStorage.smembers(key);
+
+      // then
+      expect(members).to.deep.equal(['value1', 'value2']);
     });
   });
 });

@@ -669,8 +669,8 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       // then
       expect(response.statusCode).to.equal(204);
 
-      const revokeSessionTimestamp = await revokedUserAccessTemporaryStorage.get(`${userId}:${sessionId}`);
-      expect(revokeSessionTimestamp).to.be.a('number');
+      const revokeSessionTimestamp = await revokedUserAccessTemporaryStorage.smembers(`${userId}:sessions`);
+      expect(revokeSessionTimestamp).to.deep.equal([sessionId]);
     });
   });
 });

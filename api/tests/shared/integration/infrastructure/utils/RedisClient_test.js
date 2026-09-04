@@ -152,6 +152,30 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
     expect(result).to.equal('PONG');
   });
 
+  describe('set methods', function () {
+    it('allows updating and reading set keys', async function () {
+      // given
+      const key = randomUUID();
+      const client = new RedisClient(config.caching.redisUrl);
+
+      // when
+      const sadd1 = await client.sadd(key, 'value1');
+      const members1 = await client.smembers(key);
+      const sadd2 = await client.sadd(key, 'value2');
+      const members2 = await client.smembers(key);
+      const sadd3 = await client.sadd(key, 'value1');
+      const members3 = await client.smembers(key);
+
+      // then
+      expect(sadd1).to.equal(1);
+      expect(members1).to.deep.equal(['value1']);
+      expect(sadd2).to.equal(1);
+      expect(members2).to.deep.equal(['value1', 'value2']);
+      expect(sadd3).to.equal(0);
+      expect(members3).to.deep.equal(['value1', 'value2']);
+    });
+  });
+
   describe('quit', function () {
     it('should close the connection', async function () {
       // given

@@ -85,6 +85,14 @@ class RedisKeyValueStorage extends KeyValueStorage {
     return this._client.lrange(key, start, stop);
   }
 
+  async sadd(key, ...values) {
+    return this._client.sadd(key, ...values);
+  }
+
+  async smembers(key) {
+    return this._client.smembers(key);
+  }
+
   async keys(pattern) {
     const keys = await this._client.keys(pattern);
     return keys.map((key) => key.slice(this.#prefix.length));

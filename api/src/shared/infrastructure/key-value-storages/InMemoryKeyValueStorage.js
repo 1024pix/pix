@@ -1,27 +1,21 @@
-import lodash from 'lodash';
-
-const { trim, noop } = lodash;
-
 import { KeyValueStorage } from './KeyValueStorage.js';
 
 class InMemoryKeyValueStorage extends KeyValueStorage {
-  #store = new Map();
+  #store;
 
-  constructor() {
+  constructor({ store = new Map() } = {}) {
     super();
+    this.#store = store;
   }
 
-  async save({ key, value, expirationDelaySeconds }) {
-    const storageKey = trim(key) || InMemoryKeyValueStorage.generateKey();
-    if (expirationDelaySeconds) {
-      setTimeout(() => this.#store.delete(storageKey), expirationDelaySeconds * 1000);
-    }
+  async save({ key, value }) {
+    const storageKey = key?.trim() ?? InMemoryKeyValueStorage.generateKey();
     this.#store.set(storageKey, value);
     return storageKey;
   }
 
   async update(key, value) {
-    const storageKey = trim(key);
+    const storageKey = key.trim();
     this.#store.set(storageKey, value);
   }
 
@@ -50,11 +44,11 @@ class InMemoryKeyValueStorage extends KeyValueStorage {
   }
 
   quit() {
-    noop;
+    // noop
   }
 
   async expire() {
-    noop;
+    // noop
   }
 
   async ttl() {
@@ -78,6 +72,18 @@ class InMemoryKeyValueStorage extends KeyValueStorage {
 
   async lrange(key) {
     return this.#store.get(key) || [];
+  }
+
+  async sadd(key, ...values) {
+    const set = this.#store.get(key) ?? new Set();
+    const prevSize = set.size;
+    for (const value of values) set.add(value);
+    this.#store.set(key, set);
+    return set.size - prevSize;
+  }
+
+  async smembers(key) {
+    return Array.from(this.#store.get(key) ?? []);
   }
 
   keys(pattern) {

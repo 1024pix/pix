@@ -6,7 +6,7 @@ import { featureToggles } from '../../../shared/infrastructure/feature-toggles/i
 import { RevokedUserAccess } from '../../domain/models/RevokedUserAccess.js';
 
 const revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
-const revokedUserAccessLifespanMs = config.authentication.revokedUserAccessLifespanMs;
+const { revokedUserAccessLifespanMs } = config.authentication;
 
 const isSessionLogoutEnabled = featureToggles.use('isSessionLogoutEnabled');
 
@@ -40,18 +40,15 @@ async function revokeAll({ userId, revokeUntil }) {
  * @param {Object} params - The params object.
  * @param {string} params.userId - The ID of the user to revoke access for.
  * @param {string} params.sessionId - The ID of the user’s session to revoke.
- * @param {Date} params.revokeUntil - The date until the user's access should be revoked.
  */
-async function revokeSession({ userId, sessionId, revokeUntil }) {
+async function revokeSession({ userId, sessionId }) {
   Joi.assert(userId, Joi.required());
   Joi.assert(sessionId, Joi.required());
-  Joi.assert(revokeUntil, Joi.date().required());
 
-  await revokedUserAccessTemporaryStorage.save({
-    key: `${userId}:${sessionId}`,
-    value: Math.floor(revokeUntil.getTime() / 1000),
-    expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
-  });
+  const key = `${userId}:sessions`;
+
+  await revokedUserAccessTemporaryStorage.sadd({ key, value: sessionId });
+  await revokedUserAccessTemporaryStorage.expire({ key, expirationDelaySeconds: revokedUserAccessLifespanMs / 1000 });
 }
 
 /**
@@ -66,17 +63,10 @@ async function findByUserId(userId) {
     return new RevokedUserAccess({ revokedAllTimeStamp });
   }
 
-  const revokeKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
+  const revokedAllTimeStamp = await revokedUserAccessTemporaryStorage.get(`${userId}:all`);
+  const revokedSessionIds = await revokedUserAccessTemporaryStorage.smembers(`${userId}:sessions`);
 
-  const revokedTimeStamps = Object.fromEntries(
-    await Promise.all(
-      revokeKeys.map(async (key) => [key.split(':')[1], await revokedUserAccessTemporaryStorage.get(key)]),
-    ),
-  );
-
-  const { all: revokedAllTimeStamp, ...revokedSessionTimeStamps } = revokedTimeStamps;
-
-  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionTimeStamps });
+  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionIds });
 }
 
 export const revokedUserAccessRepository = { revokeAll, revokeSession, findByUserId };
