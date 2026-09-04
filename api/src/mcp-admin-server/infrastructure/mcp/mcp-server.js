@@ -41,7 +41,7 @@ const createMcpServer = async function ({ authorizationHeader, forwardedHeaders 
       const parsed = createOrganizationZodSchema.safeParse(args);
       if (!parsed.success) {
         const err = parsed.error.errors[0];
-        const result = { error: { notFound: err.path.join('.'), message: err.message } };
+        const result = { error: { notFound: err.path.join('.'), availableValues: err.options ?? [] } };
         logger.info(`mcp create_organization ← ${Date.now() - t0}ms validation-error: ${err.message}`);
         return { content: [{ type: 'text', text: JSON.stringify(result) }] };
       }
