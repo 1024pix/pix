@@ -11,7 +11,7 @@ function truncateCell(value) {
 }
 
 function formatRow(row) {
-  return (row || []).map(truncateCell).join('|');
+  return JSON.stringify((row || []).map(truncateCell));
 }
 
 export default class DocumentDepose {

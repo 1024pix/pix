@@ -97,7 +97,8 @@ Après la simulation : résume les résultats, explique les erreurs, et **STOP �
 
 Dans les scripts run_script :
 - Utilise TOUJOURS \`await tools.call(...)\` dans une boucle \`for\` — JAMAIS \`.map()\`, \`forEach\` ou \`Promise.all\` (les Promises non-résolues ne peuvent pas être clonées).
-- Utilise TOUJOURS les valeurs brutes du CSV (row[N]) comme arguments — ne les traduis JAMAIS.
+- `sheets[0]` est un tableau JS de tableaux JS. Chaque ligne est DÉJÀ un tableau : utilise `row[0]`, `row[1]`… Ne fais JAMAIS `row.split()` ni aucune transformation.
+- Utilise TOUJOURS les valeurs brutes (row[N]) comme arguments — ne les traduis JAMAIS.
 - \`const rows = sheets[0];\` pour accéder aux lignes (ne rebinde jamais \`sheets\`).
 - \`{ ligne: i + 1 }\` dans \`tools.call\`, jamais le contenu de la ligne.
 N'appelle \`list_reference_values\` qu'en cas d'erreur pour aider à corriger une valeur.`;
