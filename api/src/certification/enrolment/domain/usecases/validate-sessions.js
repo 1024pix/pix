@@ -43,7 +43,7 @@ export async function validateSessions({
   const validatedSessions = await PromiseUtils.mapSeries(sessionsData, async (sessionDTO) => {
     const { sessionId } = sessionDTO;
 
-    const accessCode = sessionCodeService.getNewSessionCode();
+    const accessCode = sessionCodeService.generateSessionCode();
     const session = new SessionEnrolment({
       ...sessionDTO,
       certificationCandidates: [],

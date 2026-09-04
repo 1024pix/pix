@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationCenterController } from './certification-center-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -30,7 +30,7 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationCentersGetDivisionsRoute = {
   name: 'certification/enrolment/certification-centers-get-divisions-api',

@@ -1,7 +1,7 @@
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { usecases } from '../domain/usecases/index.js';
 
-const getAttendanceSheet = async function (request, h) {
+async function getAttendanceSheet(request, h) {
   const sessionId = request.params.sessionId;
   const { userId } = request.auth.credentials;
 
@@ -12,9 +12,8 @@ const getAttendanceSheet = async function (request, h) {
     .response(attendanceSheet)
     .header('Content-Type', 'application/pdf')
     .header('Content-Disposition', `attachment; filename=${fileName}`);
-};
+}
 
-const attendanceSheetController = {
+export const attendanceSheetController = {
   getAttendanceSheet,
 };
-export { attendanceSheetController };

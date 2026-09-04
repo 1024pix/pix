@@ -59,7 +59,18 @@ export async function onCandidateReconciled({ candidate, dependencies = { eventA
  * @param {typeof EVENT_NAMES[keyof typeof EVENT_NAMES]} params.name
  */
 async function pushCandidateEvents({ candidates, name, dependencies = { eventApi } }) {
-  const toDTO = (candidate) => ({
+  const dtoEvents = candidates.map((candidate) => ({
+    name,
+    candidateId: candidate.id,
+    createdAt: candidate.createdAt,
+    metadata: toDTO(candidate),
+  }));
+
+  await dependencies.eventApi.pushEvents(dtoEvents);
+}
+
+function toDTO(candidate) {
+  return {
     id: candidate.id,
     firstName: candidate.firstName,
     lastName: candidate.lastName,
@@ -83,13 +94,5 @@ async function pushCandidateEvents({ candidates, name, dependencies = { eventApi
     subscription: candidate.subscription,
     accessibilityAdjustmentNeeded: candidate.accessibilityAdjustmentNeeded,
     reconciledAt: candidate.reconciledAt,
-  });
-
-  const dtoEvents = candidates.map((candidate) => ({
-    name,
-    candidateId: candidate.id,
-    createdAt: candidate.createdAt,
-    metadata: toDTO(candidate),
-  }));
-  await dependencies.eventApi.pushEvents(dtoEvents);
+  };
 }

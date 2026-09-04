@@ -9,8 +9,8 @@ describe('Certification | Enrolment | Unit | UseCase | create-session', function
   beforeEach(function () {
     sessionRepository = { create: sinon.fake.resolves(123) };
     sessionCodeService = {
-      getNewSessionCode: sinon.fake.returns('MONSUPERCODE'),
-      getNewInvigilatorPassword: sinon.fake.returns('Y722GA'),
+      generateSessionCode: sinon.fake.returns('MONSUPERCODE'),
+      generateInvigilatorPassword: sinon.fake.returns('Y722GA'),
     };
     dependencies = { sessionCodeService, sessionRepository };
   });

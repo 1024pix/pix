@@ -35,7 +35,7 @@ function deserializeForEdition({ candidateId, candidateData }) {
   });
 }
 
-const serializeForParticipation = function (candidate) {
+function serializeForParticipation(candidate) {
   return new Serializer('certification-candidate', {
     attributes: [
       'firstName',
@@ -48,7 +48,7 @@ const serializeForParticipation = function (candidate) {
       'doubleCertificationEligibility',
     ],
   }).serialize(candidate);
-};
+}
 
 function serializeId(candidateId) {
   return new Serializer('certification-candidate', {}).serialize({ id: candidateId });
