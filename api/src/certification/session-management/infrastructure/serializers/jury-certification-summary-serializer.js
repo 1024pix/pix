@@ -1,8 +1,4 @@
-import lodash from 'lodash';
-
 const { Serializer } = jsonapiSerializer;
-
-const { get } = lodash;
 
 import jsonapiSerializer from 'jsonapi-serializer';
 
@@ -12,7 +8,7 @@ export function serialize(juryCertificationSummary, meta, { translate }) {
       // eslint-disable-next-line no-unused-vars
       const { certificationIssueReports, ...result } = juryCertificationSummary;
       result.certificationObtained = juryCertificationSummary.getCertificationLabel(translate);
-      result.examinerComment = get(juryCertificationSummary, 'certificationIssueReports[0].description');
+      result.examinerComment = extractExaminerComment(juryCertificationSummary);
       result.numberOfCertificationIssueReports = juryCertificationSummary.certificationIssueReports.length;
       result.reachedResultKey = juryCertificationSummary.reachedResultKey;
       result.numberOfCertificationIssueReportsWithRequiredAction =
@@ -39,4 +35,10 @@ export function serialize(juryCertificationSummary, meta, { translate }) {
     ],
     meta,
   }).serialize(juryCertificationSummary);
+}
+
+function extractExaminerComment(juryCertificationSummary) {
+  if (juryCertificationSummary.certificationIssueReports.length > 0) {
+    return juryCertificationSummary.certificationIssueReports[0].description;
+  }
 }

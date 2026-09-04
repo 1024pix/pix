@@ -2,11 +2,6 @@ import pkg from 'lodash';
 
 const { runInContext } = pkg;
 const _ = runInContext();
-
-const isBlank = (string) => {
-  return string == null || (_.isString(string) && string.trim().length === 0);
-};
-
 _.mixin({
   /*
    * Returns the second element of an array.
@@ -65,7 +60,6 @@ _.mixin({
       }
     }
   },
-  isBlank,
   isArrayOfString: function (x) {
     return _.isArray(x) && _.every(x, _.isString);
   },
@@ -77,4 +71,4 @@ _.mixin({
   },
 });
 
-export { _, isBlank };
+export { _ };
