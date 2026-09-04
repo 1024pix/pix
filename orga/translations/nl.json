@@ -407,7 +407,7 @@
       "error-link": "(zie de importpagina).",
       "in-progress": "Bezig met importeren",
       "in-progress-link": "(controleer importstatus).",
-      "success": "De deelnemers zijn geïmporteerd op {date} door {firstName} {lastName}."
+      "success": "De deelnemers zijn geïmporteerd op {date} door {firstname} {lastname}."
     },
     "index": {
       "action-cards": {
