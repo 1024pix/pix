@@ -172,6 +172,7 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
       lastName: participation.lastName,
       group: participation.group,
       division: participation.division,
+      nationalStudentId: participation.nationalStudentId,
       userId,
       organizationId: combinedCourseData.organizationId,
     });
