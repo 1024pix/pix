@@ -80,6 +80,13 @@ class SiecleParser {
           }
         });
 
+        const streamerToParseSchoolYear = new saxPath.SaXPath(stream, '/BEE_ELEVES/PARAMETRES/ANNEE_SCOLAIRE');
+        streamerToParseSchoolYear.once('match', (xmlNode) => {
+          xml2js.parseString(xmlNode, (err, nodeData) => {
+            if (!err) this.organizationLearnersSet.addSchoolYear(nodeData.ANNEE_SCOLAIRE);
+          });
+        });
+
         streamerToParseOrganizationLearners.on('end', resolve);
       });
     } catch (err) {

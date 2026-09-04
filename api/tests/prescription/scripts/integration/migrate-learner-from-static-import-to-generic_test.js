@@ -220,6 +220,24 @@ describe('Script | Prod | Migrate learner from static import to generic', functi
 
         expect(organizationLearners).lengthOf(2);
       });
+
+      it('should return learner whose attributes only hold a schoolYear but not an already migrated one', async function () {
+        const learnerWithSchoolYear = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organizationSCO.id,
+          attributes: { schoolYear: 2025 },
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: anotherOrganizationSCO.id,
+          attributes: { schoolYear: 2025, middleName: 'already migrated' },
+        });
+
+        await databaseBuilder.commit();
+
+        const organizationLearners = await findOrganizationLearnersToMigrate('SCO');
+
+        expect(organizationLearners).lengthOf(1);
+        expect(organizationLearners[0].id).to.equal(learnerWithSchoolYear.id);
+      });
     });
 
     describe('Handle', function () {
@@ -303,6 +321,52 @@ describe('Script | Prod | Migrate learner from static import to generic', functi
             birthdate: '2012-01-16',
           },
         ]);
+      });
+
+      it('should keep the schoolYear when migrating a learner whose attributes hold one', async function () {
+        const script = new MigrateLearnerFromStaticImportToGeneric();
+        const logger = { info: sinon.spy(), error: sinon.spy() };
+
+        const { id } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organizationSCO.id,
+          middleName: 'oui',
+          thirdName: 'non',
+          preferredLastName: 'quoi',
+          sex: 'M',
+          birthCity: 'Tournai',
+          nationalStudentId: '197446465',
+          birthCityCode: '15468',
+          birthCountryCode: 'B487',
+          birthProvinceCode: '184',
+          MEFCode: '666',
+          status: 'AT-AT',
+          division: 'StormTrooper',
+          birthdate: '2012-01-16',
+          attributes: { schoolYear: 2025 },
+        });
+
+        await databaseBuilder.commit();
+
+        await script.handle({ options: { dryRun: false, typology: 'SCO' }, logger });
+
+        const { attributes } = await knex('organization-learners').select('attributes').where({ id }).first();
+
+        expect(attributes).to.deep.equal({
+          schoolYear: 2025,
+          middleName: 'oui',
+          thirdName: 'non',
+          preferredLastName: 'quoi',
+          sex: 'M',
+          birthCity: 'Tournai',
+          nationalStudentId: '197446465',
+          birthCityCode: '15468',
+          birthCountryCode: 'B487',
+          birthProvinceCode: '184',
+          MEFCode: '666',
+          status: 'AT-AT',
+          division: 'StormTrooper',
+          birthdate: '2012-01-16',
+        });
       });
     });
   });

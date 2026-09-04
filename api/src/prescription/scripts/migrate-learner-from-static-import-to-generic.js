@@ -44,6 +44,7 @@ export class MigrateLearnerFromStaticImportToGeneric extends Script {
             return {
               id: learner.id,
               attributes: {
+                ...learner.attributes,
                 middleName: learner.middleName ?? null,
                 thirdName: learner.thirdName ?? null,
                 preferredLastName: learner.preferredLastName ?? null,
@@ -63,6 +64,7 @@ export class MigrateLearnerFromStaticImportToGeneric extends Script {
             return {
               id: learner.id,
               attributes: {
+                ...learner.attributes,
                 middleName: learner.middleName ?? null,
                 thirdName: learner.thirdName ?? null,
                 preferredLastName: learner.preferredLastName ?? null,
@@ -110,7 +112,15 @@ export function findOrganizationLearnersToMigrate(typology) {
 
   const query = knexConn('organization-learners')
     .select('organization-learners.*')
-    .whereNull('attributes')
+    .where((builder) => {
+      // migrate learners not yet migrated: `attributes` is either NULL or only holds a
+      // `schoolYear` value (e.g. `{"schoolYear": 2025}`) coming from SIECLE/FREGATA import
+      builder
+        .whereNull('organization-learners.attributes')
+        .orWhereRaw(
+          `jsonb_typeof("organization-learners"."attributes") = 'object' AND "organization-learners"."attributes" - 'schoolYear' = '{}'::jsonb`,
+        );
+    })
     .whereIn(
       'organization-learners.organizationId',
       knexConn('organizations').select('id').where({ type, isManagingStudents: true }),
