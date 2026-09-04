@@ -60,14 +60,14 @@ const sessionFiltersValidationSchema = Joi.object({
   version: Joi.number().valid(AlgorithmEngineVersion.V2, AlgorithmEngineVersion.V3).optional(),
 });
 
-const validateForMassSessionImport = function (session) {
+export function validateForMassSessionImport(session) {
   const { error } = sessionValidationForMassImportJoiSchema.validate(session, validationConfiguration);
   if (error) {
     return error.details.map(({ message }) => message);
   }
-};
+}
 
-const validateAndNormalizeFilters = function (filters) {
+export function validateAndNormalizeFilters(filters) {
   const { value, error } = sessionFiltersValidationSchema.validate(filters, { abortEarly: true });
 
   if (error) {
@@ -75,6 +75,4 @@ const validateAndNormalizeFilters = function (filters) {
   }
 
   return value;
-};
-
-export { validateAndNormalizeFilters, validateForMassSessionImport };
+}

@@ -9,21 +9,21 @@ import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-ut
 /**
  * @returns {Promise<Array<CertifiableBadgeAcquisition>>}
  */
-const findStillValidBadgeAcquisitions = async function ({
+export async function findStillValidBadgeAcquisitions({
   userId,
   limitDate = new Date(),
   dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
 }) {
   return _findBadgeAcquisitions({ userId, limitDate, shouldGetOutdated: false, dependencies });
-};
+}
 
-const findLatestBadgeAcquisitions = async function ({
+export async function findLatestBadgeAcquisitions({
   userId,
   limitDate = new Date(),
   dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
 }) {
   return _findBadgeAcquisitions({ userId, limitDate, shouldGetOutdated: true, dependencies });
-};
+}
 
 /**
  * @param {object} params
@@ -34,7 +34,7 @@ const findLatestBadgeAcquisitions = async function ({
  *
  * @returns {Array<CertifiableBadgeAcquisition>} acquired complementary certification badges by a user
  */
-const _findBadgeAcquisitions = async function ({
+async function _findBadgeAcquisitions({
   userId,
   limitDate = new Date(),
   shouldGetOutdated = false,
@@ -70,6 +70,4 @@ const _findBadgeAcquisitions = async function ({
   );
 
   return badgeAcquisitions.filter(Boolean);
-};
-
-export { findLatestBadgeAcquisitions, findStillValidBadgeAcquisitions };
+}

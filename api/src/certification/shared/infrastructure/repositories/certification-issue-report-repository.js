@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 
-const save = async function ({ certificationIssueReport }) {
+export async function save({ certificationIssueReport }) {
   const knexConn = DomainTransaction.getConnection();
 
   //eslint-disable-next-line no-unused-vars
@@ -16,9 +16,9 @@ const save = async function ({ certificationIssueReport }) {
     .returning('*');
 
   return new CertificationIssueReport(data);
-};
+}
 
-const get = async function ({ id }) {
+export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
 
   const certificationIssueReport = await knexConn('certification-issue-reports').where({ id }).first();
@@ -26,20 +26,18 @@ const get = async function ({ id }) {
     throw new NotFoundError(`Certification issue report ${id} does not exist`);
   }
   return new CertificationIssueReport(certificationIssueReport);
-};
+}
 
-const findByCertificationCourseId = async function ({ certificationCourseId }) {
+export async function findByCertificationCourseId({ certificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
 
   const certificationIssueReports = await knexConn('certification-issue-reports').where({ certificationCourseId });
   return certificationIssueReports.map(
     (certificationIssueReport) => new CertificationIssueReport(certificationIssueReport),
   );
-};
+}
 
-const remove = async function ({ id }) {
+export async function remove({ id }) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('certification-issue-reports').where({ id }).del();
-};
-
-export { findByCertificationCourseId, get, remove, save };
+}
