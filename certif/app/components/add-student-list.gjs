@@ -2,7 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
+import PaginationWrapper from 'pix-certif/components/ui/pagination-wrapper';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { fn } from '@ember/helper';
@@ -218,7 +218,7 @@ export default class AddStudentList extends Component {
         </:columns>
       </PixTable>
 
-      <PixPagination @pagination={{@studentList.meta}} />
+      <PaginationWrapper @pagination={{@studentList.meta}} />
 
       {{#if this.showStickyBar}}
         <div class='add-student-list__bottom-action-bar'>

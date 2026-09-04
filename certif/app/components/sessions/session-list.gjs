@@ -1,5 +1,5 @@
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
+import PaginationWrapper from 'pix-certif/components/ui/pagination-wrapper';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
@@ -215,7 +215,7 @@ export default class SessionList extends Component {
         </:columns>
       </PixTable>
 
-      <PixPagination @pagination={{@sessionSummaries.meta}} @locale={{this.locale.currentLanguage}} />
+      <PaginationWrapper @pagination={{@sessionSummaries.meta}} />
     {{else}}
       <div class='table__empty content-text'>
         {{t 'pages.sessions.list.table.empty'}}
