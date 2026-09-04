@@ -14,6 +14,7 @@ import {
   OrganizationBatchUpdateError,
   OrganizationLearnerTypeNotFound,
   OrganizationNotFound,
+  StructureCategoryNotFound,
 } from '../errors.js';
 
 /**
@@ -23,6 +24,7 @@ import {
  * @param {OrganizationForAdminRepository} params.organizationForAdminRepository
  * @param {AdministrationTeamRepository} params.administrationTeamRepository
  * @param {CountryRepository} params.countryRepository
+ * @param {StructureCategoryRepository} params.structureCategoryRepository
  * @return {Promise<void>}
  */
 export const updateOrganizationsInBatch = withTransaction(
@@ -32,6 +34,7 @@ export const updateOrganizationsInBatch = withTransaction(
     administrationTeamRepository,
     countryRepository,
     organizationLearnerTypeRepository,
+    structureCategoryRepository,
   }) => {
     const dtos = await _getCsvData(filePath);
     if (dtos.length === 0) return;
@@ -40,12 +43,14 @@ export const updateOrganizationsInBatch = withTransaction(
     const administrationTeamIds = new Set();
     const countryCodes = new Set();
     const organizationLearnerTypeIds = new Set();
+    const structureCategoryIds = new Set();
 
     for (const dto of dtos) {
       organizationIds.add(dto.id);
       if (dto.administrationTeamId) administrationTeamIds.add(dto.administrationTeamId);
       if (dto.countryCode) countryCodes.add(dto.countryCode);
       if (dto.organizationLearnerTypeId) organizationLearnerTypeIds.add(dto.organizationLearnerTypeId);
+      if (dto.categoryId) structureCategoryIds.add(dto.categoryId);
     }
 
     const existingOrganizationIds = await _toExistingSet(Array.from(new Set([...organizationIds])), (ids) =>
@@ -64,11 +69,16 @@ export const updateOrganizationsInBatch = withTransaction(
       organizationLearnerTypeRepository.findExistingIds({ ids }),
     );
 
+    const existingStructureCategoryIds = await _toExistingSet(Array.from(structureCategoryIds), (ids) =>
+      structureCategoryRepository.findExistingIds(ids),
+    );
+
     _validateAllDtos(dtos, {
       existingOrganizationIds,
       existingAdministrationTeamIds,
       existingCountryCodes,
       existingOrganizationLearnerTypeIds,
+      existingStructureCategoryIds,
     });
 
     for (const dto of dtos) {
@@ -85,7 +95,13 @@ async function _toExistingSet(values, finder) {
 
 function _validateAllDtos(
   dtos,
-  { existingOrganizationIds, existingAdministrationTeamIds, existingCountryCodes, existingOrganizationLearnerTypeIds },
+  {
+    existingOrganizationIds,
+    existingAdministrationTeamIds,
+    existingCountryCodes,
+    existingOrganizationLearnerTypeIds,
+    existingStructureCategoryIds,
+  },
 ) {
   for (const dto of dtos) {
     if (!existingOrganizationIds.has(String(dto.id))) {
@@ -128,6 +144,13 @@ function _validateAllDtos(
       throw new OrganizationLearnerTypeNotFound({
         message: `Organization learner type not found for id ${dto.organizationLearnerTypeId}`,
         meta: { organizationLearnerTypeId: dto.organizationLearnerTypeId },
+      });
+    }
+
+    if (dto.categoryId && !existingStructureCategoryIds.has(String(dto.categoryId))) {
+      throw new StructureCategoryNotFound({
+        message: `Structure category not found for id ${dto.categoryId}`,
+        meta: { categoryId: dto.categoryId },
       });
     }
   }

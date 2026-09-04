@@ -7,6 +7,7 @@ import {
   DpoEmailInvalid,
   OrganizationLearnerTypeNotFound,
   OrganizationNotFound,
+  StructureCategoryNotFound,
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
@@ -53,26 +54,36 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
       databaseBuilder.factory.buildOrganizationLearnerType({ id: 12 });
       databaseBuilder.factory.buildOrganizationLearnerType({ id: 34 });
 
+      databaseBuilder.factory.buildStructureCategory({ label: 'Initial - Category', id: 50 });
+      databaseBuilder.factory.buildStructureCategory({ label: 'New - Category', id: 100 });
+
       databaseBuilder.factory.buildCertificationCpfCountry({
         code: '99100',
         commonName: 'France',
         originalName: 'France',
       });
 
-      organization1 = databaseBuilder.factory.buildOrganization({
-        externalId: 111,
-        identityProviderForCampaigns: null,
-        documentationUrl: null,
-        administrationTeamId: null,
-        countryCode: 99200,
-        name: 'Org 1 Before',
-      });
-      organization2 = databaseBuilder.factory.buildOrganization({
-        externalId: 222,
-        name: 'Org 2 Before',
-        administrationTeamId: null,
-        countryCode: 99200,
-      });
+      organization1 = databaseBuilder.factory.buildOrganizationWithStructure({
+        organizationData: {
+          externalId: 111,
+          identityProviderForCampaigns: null,
+          documentationUrl: null,
+          administrationTeamId: null,
+          countryCode: 99200,
+          name: 'Org 1 Before',
+        },
+        categoryId: 50,
+      }).organization;
+
+      organization2 = databaseBuilder.factory.buildOrganizationWithStructure({
+        organizationData: {
+          externalId: 222,
+          name: 'Org 2 Before',
+          administrationTeamId: null,
+          countryCode: 99200,
+        },
+        categoryId: 50,
+      }).organization;
 
       await databaseBuilder.commit();
     });
@@ -81,8 +92,8 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
       // given
       const headers = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';');
       const fileData = `${headers}
-      ${organization1.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;foo@email.com;1234;99100;12
-      ${organization2.id};New Name;;;;;;Cali;;5678;99100;34`;
+      ${organization1.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;foo@email.com;1234;99100;12;100
+      ${organization2.id};New Name;;;;;;Cali;;5678;99100;34;`;
       filePath = await createTempFile('test.csv', fileData);
 
       // when
@@ -97,6 +108,13 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
       expect(updatedOrganization1.countryCode).to.equal(99100);
       expect(updatedOrganization1.organizationLearnerTypeId).to.equal(12);
 
+      const updatedOrganization1Category = await knex('fct_structures')
+        .select({ id: 'structures.category_id' })
+        .join('structures', 'structures.id', 'fct_structures.structure_id')
+        .where({ organization_id: organization1.id })
+        .first();
+      expect(updatedOrganization1Category.id).to.equal(100);
+
       const dpo1 = await knex('data-protection-officers').where({ organizationId: organization1.id }).first();
       expect(dpo1.firstName).to.equal('Adam');
       expect(dpo1.lastName).to.equal('Troisjour');
@@ -107,6 +125,13 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
       expect(updatedOrganization2.administrationTeamId).to.equal(5678);
       expect(updatedOrganization2.countryCode).to.equal(99100);
       expect(updatedOrganization2.organizationLearnerTypeId).to.equal(34);
+
+      const updatedOrganization2Category = await knex('fct_structures')
+        .select({ id: 'structures.category_id' })
+        .join('structures', 'structures.id', 'fct_structures.structure_id')
+        .where({ organization_id: organization2.id })
+        .first();
+      expect(updatedOrganization2Category.id).to.equal(50);
     });
   });
 
@@ -121,7 +146,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
       // given
       const headers = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';');
       const fileData = `${headers}
-      999999;;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;1234;;`;
+      999999;;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;1234;;;`;
       filePath = await createTempFile('test.csv', fileData);
 
       // when
@@ -139,7 +164,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
 
       const headers = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';');
       const fileData = `${headers}
-      ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;1234;;`;
+      ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;1234;;;`;
       filePath = await createTempFile('test.csv', fileData);
 
       // when
@@ -157,7 +182,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
 
       const headers = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';');
       const fileData = `${headers}
-      ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;;99999;`;
+      ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;;99999;;`;
       filePath = await createTempFile('test.csv', fileData);
 
       // when
@@ -176,7 +201,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
 
         const headers = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';');
         const fileData = `${headers}
-        ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;;;`;
+        ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;;;;`;
         filePath = await createTempFile('test.csv', fileData);
 
         // when
@@ -196,7 +221,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
 
         const headers = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';');
         const fileData = `${headers}
-        ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;foo@email.com;;;`;
+        ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;foo@email.com;;;;`;
         filePath = await createTempFile('test.csv', fileData);
 
         // when
@@ -218,7 +243,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
 
         const headers = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';');
         const fileData = `${headers}
-        ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;foo;;;`;
+        ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;foo;;;;`;
         filePath = await createTempFile('test.csv', fileData);
 
         // when
@@ -241,7 +266,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
 
       const headers = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';');
       const fileData = `${headers}
-      ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;;;5678`;
+      ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;;;5678;`;
       filePath = await createTempFile('test.csv', fileData);
 
       // when
@@ -252,6 +277,29 @@ describe('Integration | Organizational Entities | Domain | UseCase | update-orga
       // then
       expect(error).to.be.instanceOf(OrganizationLearnerTypeNotFound);
       expect(error.meta.organizationLearnerTypeId).to.equal('5678');
+    });
+
+    it('throws a StructureCategoryNotFound error when category id does not exist', async function () {
+      // given
+      const category = databaseBuilder.factory.buildStructureCategory({ id: 50 });
+      const organization = databaseBuilder.factory.buildOrganizationWithStructure({
+        categoryId: category.id,
+      }).organization;
+      await databaseBuilder.commit();
+
+      const headers = ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';');
+      const fileData = `${headers}
+      ${organization.id};;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;;;;999`;
+      filePath = await createTempFile('test.csv', fileData);
+
+      // when
+      const error = await catchErr(usecases.updateOrganizationsInBatch)({
+        filePath,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(StructureCategoryNotFound);
+      expect(error.meta.categoryId).to.equal('999');
     });
   });
 });

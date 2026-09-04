@@ -1462,16 +1462,21 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
           originalName: 'LALALAND',
         });
         databaseBuilder.factory.buildAdministrationTeam({ id: 1234 });
-        firstOrganization = databaseBuilder.factory.buildOrganization({
-          name: 'first organization',
-          type: 'PRO',
-          countryCode: 99100,
-        });
-        otherOrganization = databaseBuilder.factory.buildOrganization({
-          name: 'other organization',
-          type: 'PRO',
-          countryCode: 99100,
-        });
+        databaseBuilder.factory.buildStructureCategory({ id: 50 });
+        firstOrganization = databaseBuilder.factory.buildOrganizationWithStructure({
+          organizationData: {
+            name: 'first organization',
+            type: 'PRO',
+            countryCode: 99100,
+          },
+        }).organization;
+        otherOrganization = databaseBuilder.factory.buildOrganizationWithStructure({
+          organizationData: {
+            name: 'other organization',
+            type: 'PRO',
+            countryCode: 99100,
+          },
+        }).organization;
 
         await databaseBuilder.commit();
       });
@@ -1479,8 +1484,8 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       it('responds with a 204 - no content', async function () {
         // given
         const input = `${ORGANIZATIONS_UPDATE_HEADER.columns.map(({ name }) => name).join(';')}
-      ${firstOrganization.id};MSFT;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;1234;99500;
-      ${otherOrganization.id};APPL;;;;;;Cali;;1234;99500;`;
+      ${firstOrganization.id};MSFT;12;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;;1234;99500;;50
+      ${otherOrganization.id};APPL;;;;;;Cali;;1234;99500;;`;
 
         const options = {
           method: 'POST',
