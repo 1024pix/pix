@@ -1144,7 +1144,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(actualUser.pixCertifTermsOfServiceAccepted).to.be.true;
       });
 
-      it('updates the pixCertifTermsOfServiceValidatedAt', async function () {
+      it('updates the lastPixCertifTermsOfServiceValidatedAt', async function () {
         // given
         const user = databaseBuilder.factory.buildUser({
           pixCertifTermsOfServiceAccepted: true,

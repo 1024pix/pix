@@ -1,3 +1,4 @@
+import { STATUS } from '../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { CertificationPointOfContact } from '../../../../src/organizational-entities/domain/read-models/CertificationPointOfContact.js';
 import {
   ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID,
@@ -12,7 +13,7 @@ const buildCertificationPointOfContact = function ({
   lastName = 'Brebis',
   email = 'chevre.brebis@example.net',
   lang = 'fr',
-  pixCertifTermsOfServiceAccepted = true,
+  pixCertifTosStatus = { status: STATUS.ACCEPTED, acceptedAt: null, documentPath:null },
   allowedCertificationCenterAccesses = [buildAllowedCertificationCenterAccess()],
   certificationCenterMemberships = [_buildCertificationCenterMembership({ userId: id })],
 } = {}) {
@@ -22,9 +23,9 @@ const buildCertificationPointOfContact = function ({
     lastName,
     email,
     lang,
-    pixCertifTermsOfServiceAccepted,
     allowedCertificationCenterAccesses,
     certificationCenterMemberships,
+    pixCertifTosStatus,
   });
 };
 

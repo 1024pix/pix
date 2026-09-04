@@ -1,3 +1,5 @@
+import { STATUS } from '../../../legal-documents/domain/models/LegalDocumentStatus.js';
+
 class CertificationPointOfContact {
   constructor({
     id,
@@ -5,18 +7,21 @@ class CertificationPointOfContact {
     lastName,
     email,
     lang,
-    pixCertifTermsOfServiceAccepted,
     allowedCertificationCenterAccesses,
     certificationCenterMemberships,
+    pixCertifTosStatus,
   }) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.lang = lang;
-    this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
+    this.pixCertifTermsOfServiceAccepted = pixCertifTosStatus.status === STATUS.ACCEPTED;
     this.allowedCertificationCenterAccesses = allowedCertificationCenterAccesses;
     this.certificationCenterMemberships = certificationCenterMemberships;
+    this.pixCertifTermsOfServiceStatus = pixCertifTosStatus.status;
+    this.pixCertifTermsOfServiceDocumentPath = pixCertifTosStatus.documentPath;
+    this.lastPixCertifTermsOfServiceValidatedAt = pixCertifTosStatus.acceptedAt;
   }
 }
 
