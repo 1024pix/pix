@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { EmberContext } from './AssistantApp.jsx';
 import Batch from '../domain/lot.js';
-import { execute } from '../sandbox/bac-a-sable.js';
 import { exportReport } from '../documents/exporter-bilan.js';
 
 // Module-level registry: documentId → DocumentDepose
@@ -142,58 +141,51 @@ export default function LotToolUI({ args, addResult, status }) {
 
     async function runSimulation() {
       try {
-        const scriptReturn = await execute({
-          script: args.script,
-          sheets: Object.values(document.feuilles),
-          onToolCall: async ({ name, args: callArgs, ligne }) => {
-            const enrichedArgs = { ...callArgs, simulate: true };
-            batch.addCall({ sourceRow: ligne, name, args: enrichedArgs });
-            const index = batch.calls.length;
-            if (!cancelled) refresh();
-
-            let result;
-            try {
-              const token = await getAccessToken();
-              const controller = new AbortController();
-              const timer = setTimeout(() => controller.abort(), 30_000);
-              try {
-                const res = await fetch('/api/admin/llm-assistant/tools/create_organization', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                  body: JSON.stringify(enrichedArgs),
-                  signal: controller.signal,
-                });
-                result = await res.json();
-              } finally {
-                clearTimeout(timer);
-              }
-            } catch (err) {
-              result = { error: err?.message ?? String(err) };
-            }
-
-            batch.recordSimulationResult(index, result);
-            if (!cancelled) refresh();
-            return result;
-          },
-        });
-
-        if (!cancelled) {
-          if (batch.calls.length === 0) {
-            // Script didn't call any tools — pass its return value directly to the LLM.
-            if (scriptReturn !== null && scriptReturn !== undefined) {
-              addResult(scriptReturn);
-            } else {
-              addResult({ error: 'Script returned no result and made no tool calls.' });
-            }
-            return;
-          }
-          batch.finishSimulation();
-          // Store batch so approve_lot tool can execute it
-          const docId = args.documentId ?? document.id;
-          simulatedBatches.set(docId, batch);
-          addResult(buildSimulationSummary(batch, docId));
-          refresh();
+        const token = await getAccessToken();
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 130_000);
+        let response;
+        try {
+          const res = await fetch('/api/admin/llm-assistant/run-script', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ script: args.script, sheets: Object.values(document.feuilles) }),
+            signal: controller.signal,
+          });
+          response = await res.json();
+        } finally {
+          clearTimeout(timer);
         }
+
+        if (cancelled) return;
+
+        if (response.error) {
+          setScriptError(response.error);
+          addResult({ error: `Script execution error: ${response.error}` });
+          return;
+        }
+
+        const { calls: serverCalls, scriptReturn } = response;
+
+        if (serverCalls.length === 0) {
+          if (scriptReturn !== null && scriptReturn !== undefined) {
+            addResult(scriptReturn);
+          } else {
+            addResult({ error: 'Script returned no result and made no tool calls.' });
+          }
+          return;
+        }
+
+        for (const call of serverCalls) {
+          batch.addCall({ sourceRow: call.sourceRow, name: call.name, args: call.args });
+          batch.recordSimulationResult(batch.calls.length, call.result);
+        }
+
+        batch.finishSimulation();
+        const docId = args.documentId ?? document.id;
+        simulatedBatches.set(docId, batch);
+        addResult(buildSimulationSummary(batch, docId));
+        refresh();
       } catch (err) {
         if (!cancelled) {
           const msg = err.message ?? String(err);
