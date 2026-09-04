@@ -31,7 +31,8 @@ export default class ScoOrganizationParticipant extends Model {
   get authenticationMethods() {
     const messages = [];
 
-    if (!this.isAssociated) messages.push('empty');
+    if (!this.isAssociated) return ['none'];
+
     if (this.hasEmail) messages.push('email');
     if (this.hasUsername) messages.push('identifiant');
     if (this.isAuthenticatedFromGar) messages.push('mediacentre');

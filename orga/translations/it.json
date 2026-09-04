@@ -1785,9 +1785,12 @@
       },
       "connection-types": {
         "email": "Indirizzo e-mail",
-        "empty": "-",
         "identifiant": "Identificatore",
         "mediacentre": "Mediacentre",
+        "no-login-method-tooltip": {
+          "content": "Lo studente deve partecipare a una campagna per collegare un account alla vostra organizzazione.",
+          "label": "Informazioni sui metodi di connessione"
+        },
         "none": "No",
         "without-mediacentre": "Senza Mediacentre"
       },

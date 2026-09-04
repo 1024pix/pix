@@ -12,6 +12,7 @@ import CertificabilityCell from '../certificability/cell';
 import Tooltip from '../certificability/tooltip';
 import IconTrigger from '../dropdown/icon-trigger';
 import Item from '../dropdown/item';
+import EmptyConnectionMethodTooltip from '../ui/empty-connection-method-tooltip';
 import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip';
 
 <template>
@@ -85,9 +86,17 @@ import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip'
             (get USER_ACCOUNT_BLOCKING_TYPES "blocked")
           }}</p>
       {{/if}}
-      {{#each @student.authenticationMethods as |authenticationMethod|}}
-        <p>{{t (get CONNECTION_TYPES authenticationMethod)}}</p>
-      {{/each}}
+      {{#if @student.isAssociated}}
+        {{#each @student.authenticationMethods as |authenticationMethod|}}
+          <p>{{t (get CONNECTION_TYPES authenticationMethod)}}</p>
+        {{/each}}
+      {{else}}
+        <p class="organization-participant__align-element sco-organization-participant-list-page__no-user-account">{{t
+            (get CONNECTION_TYPES "none")
+          }}
+          <EmptyConnectionMethodTooltip @id={{@student.id}} />
+        </p>
+      {{/if}}
     </:cell>
   </PixTableColumn>
   <PixTableColumn

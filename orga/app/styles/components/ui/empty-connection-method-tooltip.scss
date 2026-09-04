@@ -1,0 +1,14 @@
+
+
+.empty-connection-method-tooltip {
+  display: inline-flex;
+  font-weight: var(--pix-font-normal);
+
+  &__icon {
+    fill: var(--pix-neutral-500);
+  }
+
+  [role='tooltip'] {
+    text-align: left;
+  }
+}

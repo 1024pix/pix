@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import ScoOrganizationParticipantTableRow from 'pix-orga/components/sco-organization-participant/table-row';
 import { module, test } from 'qunit';
@@ -178,6 +179,48 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
       assert
         .dom(screen.getByText(t('pages.sco-organization-participants.user-account-blocking-types.blocked')))
         .exists();
+    });
+  });
+
+  module('when student is not associated', function () {
+    test('it display a none label and a tooltip', async function (assert) {
+      // given
+      const noop = sinon.stub();
+      const student = {
+        firstName: 'Jean',
+        lastName: 'Bon',
+        birthdate: '2020/01/01',
+        division: '3A',
+        authenticationMethods: ['none'],
+        participationCount: 0,
+        isCertifiable: false,
+        isAssociated: false,
+      };
+
+      // when
+      const screen = await render(
+        <template>
+          <ScoOrganizationParticipantTableRow
+            @showCheckbox={{noop}}
+            @student={{student}}
+            @isStudentSelected={{noop}}
+            @openAuthenticationMethodModal={{noop}}
+            @onToggleStudent={{noop}}
+            @onClickLearner={{noop}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByText(t('pages.sco-organization-participants.connection-types.none'))).exists();
+      await click(
+        screen.getByLabelText(t('pages.sco-organization-participants.connection-types.no-login-method-tooltip.label')),
+      );
+
+      // then
+      assert.ok(
+        screen.getByText(t('pages.sco-organization-participants.connection-types.no-login-method-tooltip.content')),
+      );
     });
   });
 });

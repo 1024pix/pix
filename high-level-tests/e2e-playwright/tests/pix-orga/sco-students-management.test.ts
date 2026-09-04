@@ -519,8 +519,8 @@ test.describe('SCO import does not auto-reconcile a learner when the user alread
           page.getByRole('paragraph').filter({ hasText: 'Les participants ont bien été importés' }),
         ).toBeVisible();
 
-        await expect(page.getByRole('cell', { name: '–' }).nth(0)).toBeVisible();
-        await expect(page.getByRole('cell', { name: '–' }).nth(1)).toBeVisible();
+        await expect(page.getByRole('cell', { name: 'Aucune' }).nth(0)).toBeVisible();
+        await expect(page.getByRole('cell', { name: 'Aucune' }).nth(1)).toBeVisible();
       });
     });
   });

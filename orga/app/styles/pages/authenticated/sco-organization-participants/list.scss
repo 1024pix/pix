@@ -1,12 +1,25 @@
 .sco-organization-participant-list-page {
+  .pix-tooltip__trigger-element {
+    display: flex; align-items: center;
+  }
+
   &__user-account-temporarily-blocked {
     margin-bottom: var(--pix-spacing-2x);
-    color: var(--pix-warning-500);
+    color: var(--pix-error-500);
+    font-weight: var(--pix-font-bold);
   }
 
   &__user-account-blocked {
     margin-bottom: var(--pix-spacing-2x);
-    color: var(--pix-warning-500);
+    color: var(--pix-error-500);
+    font-weight: var(--pix-font-bold);
+  }
+
+  &__no-user-account {
+    color: var(--pix-secondary-700);
+    font-weight: var(--pix-font-bold);
+
+
   }
 
   &__authentication-methods {
@@ -21,4 +34,3 @@
     flex-wrap: wrap;
   }
 }
-

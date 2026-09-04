@@ -1785,9 +1785,12 @@
       },
       "connection-types": {
         "email": "E-mailadres",
-        "empty": "-",
         "identifiant": "Gebruikersnaam",
         "mediacentre": "Mediacentrum",
+        "no-login-method-tooltip": {
+          "content": "De leerling moet een campagne spelen om een account aan uw organisatie te koppelen.",
+          "label": "Informatie over de verbindingsmethoden"
+        },
         "none": "Geen",
         "without-mediacentre": "Zonder mediacentrum"
       },
