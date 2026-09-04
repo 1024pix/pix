@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
+import MultiSelectSearch from 'pix-certif/components/ui/multi-select-search-wrapper';
 import PaginationWrapper from 'pix-certif/components/ui/pagination-wrapper';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
@@ -128,20 +128,16 @@ export default class AddStudentList extends Component {
 
       <div class='add-student-list__filters'>
         <span>{{t 'pages.sco.enrol-candidates-in-session.list.table.filter.title'}}</span>
-        <PixMultiSelect
-          @emptyMessage={{this.emptyMessage}}
+        <MultiSelectSearch
+          @firstItem={{t 'pages.sco.enrol-candidates-in-session.list.table.filter.placeholder'}}
           @id='add-student-list__multi-select'
           @onChange={{this.selectDivision}}
-          @placeholder={{t 'pages.sco.enrol-candidates-in-session.list.table.filter.placeholder'}}
-          @isSearchable={{true}}
-          @locale={{this.locale.currentLocale}}
           @screenReaderOnly={{true}}
           @values={{this.selectedDivisions}}
           @options={{@certificationCenterDivisions}}
         >
           <:label>{{t 'pages.sco.enrol-candidates-in-session.list.table.filter.extra-information'}}</:label>
-          <:default as |option|>{{option.label}}</:default>
-        </PixMultiSelect>
+        </MultiSelectSearch>
       </div>
 
       <PixTable @data={{@studentList}} @variant='certif'>
