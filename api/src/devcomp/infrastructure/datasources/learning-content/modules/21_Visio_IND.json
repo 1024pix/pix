@@ -6,7 +6,7 @@
   "isBeta": true,
   "visibility": "public",
   "details": {
-    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "image": "https://assets.pix.org/draft/modules/21_Visio_IND/picto_visio_ind.svg",
     "description": "<p>Les outils de visioconférence sont de plus en plus utilisés. Ils intègrent de nombreuses fonctionnalités pour faciliter les échanges à distance&nbsp;: les messages écrits, les réactions, le partage d’écran, etc. Dans ce module, vous allez découvrir comment interagir et prendre part activement à une visioconférence.&nbsp;💻🎤</p>",
     "duration": 10,
     "level": "independent",
@@ -93,7 +93,7 @@
                       "id": "af059184-6aa4-4542-8b5c-664ac6f53920",
                       "type": "text",
                       "tag": "context",
-                      "content": "<p>Samuel parle depuis plusieurs minutes de ses idées.\n</p>\n<p>Roy souhaite poser une question, mais hésite&nbsp;: il ne sait pas vraiment comment s’y prendre pour ne pas couper la parole de Samuel.</p>"
+                      "content": "<p>Samuel parle depuis plusieurs minutes de ses idées.</p><p>Roy souhaite poser une question, mais hésite&nbsp;: il ne sait pas vraiment comment s’y prendre pour ne pas couper la parole de Samuel.</p>"
                     },
                     {
                       "id": "176fdf66-11b9-4e5d-bf41-c0187d26ee26",
@@ -105,21 +105,21 @@
                           "id": "0",
                           "content": "<p>Lever la main</p>",
                           "feedback": {
-                            "diagnosis": "<p>Exactement&nbsp;!</p>\n<p>Pour indiquer aux autres participants qu’il souhaite intervenir, Roy peut utiliser la fonctionnalité «&nbsp;<strong>lever la main</strong>&nbsp;» de l’outil de visioconférence.</p>"
+                            "diagnosis": "<p>Exactement&nbsp;!</p><p>Pour indiquer aux autres participants qu’il souhaite intervenir, Roy peut utiliser la fonctionnalité «&nbsp;<strong>lever la main</strong>&nbsp;» de l’outil de visioconférence.</p>"
                           }
                         },
                         {
                           "id": "1",
                           "content": "<p>Ouvrir son micro</p>",
                           "feedback": {
-                            "diagnosis": "<p>Ce n’est pas nécessaire&nbsp;: le micro de Roy est déjà ouvert&nbsp;!</p>\n<p>Pour indiquer aux autres participants qu’il souhaite intervenir, Roy peut utiliser la fonctionnalité «&nbsp;<strong>lever la main</strong>&nbsp;» de l’outil de visioconférence.</p>"
+                            "diagnosis": "<p>Ce n’est pas nécessaire&nbsp;: le micro de Roy est déjà ouvert&nbsp;!</p><p>Pour indiquer aux autres participants qu’il souhaite intervenir, Roy peut utiliser la fonctionnalité «&nbsp;<strong>lever la main</strong>&nbsp;» de l’outil de visioconférence.</p>"
                           }
                         },
                         {
                           "id": "2",
                           "content": "<p>Attendre que Samuel ait terminé</p>",
                           "feedback": {
-                            "diagnosis": "<p>C’est possible mais cela peut prendre du temps… </p>\n<p>Pour indiquer aux autres participants qu’il souhaite intervenir, Roy peut utiliser la fonctionnalité «&nbsp;<strong>lever la main</strong>&nbsp;» de l’outil de visioconférence.</p>"
+                            "diagnosis": "<p>C’est possible mais cela peut prendre du temps… </p><p>Pour indiquer aux autres participants qu’il souhaite intervenir, Roy peut utiliser la fonctionnalité «&nbsp;<strong>lever la main</strong>&nbsp;» de l’outil de visioconférence.</p>"
                           }
                         }
                       ],
@@ -164,7 +164,7 @@
                 "id": "62102d5c-c369-4d64-89e0-64970d526b13",
                 "type": "text",
                 "tag": "context",
-                "content": "<p>Pour la fête de quartier, Gaby propose à l’oral de réserver le foodtruck de ses cousins qui font de délicieux burgers.&nbsp;🍔</p>\n<p>Il ajoute&nbsp;: «&nbsp;Je vous envoie le lien, regardez les photos sur leur compte, c’est vraiment super bon&nbsp;!&nbsp;».</p>"
+                "content": "<p>Pour la fête de quartier, Gaby propose à l’oral de réserver le foodtruck de ses cousins qui font de délicieux burgers.&nbsp;🍔</p><p>Il ajoute&nbsp;: «&nbsp;Je vous envoie le lien, regardez les photos sur leur compte, c’est vraiment super bon&nbsp;!&nbsp;».</p>"
               }
             },
             {
@@ -241,10 +241,13 @@
             {
               "type": "element",
               "element": {
-                "id": "d0390b02-3457-4d44-90cd-52338dde1849",
-                "type": "text",
-                "tag": " ",
-                "content": "<p>[Possible aussi en infographie ou avec une illustration complémentaire]</p><br>\n<h5>Quels sont les différents moyens pour intervenir en visioconférence&nbsp;?<br></h5>\n<p>Les outils de visioconférence proposent les fonctionnalités suivantes&nbsp;:</p>\n<ul>\n    <li>La fonctionnalité «&nbsp;<strong>lever la main</strong>&nbsp;» permet de signaler qu’on souhaite intervenir à l’oral, sans couper la parole de la personne qui parle.&nbsp;✋</li>\n    <li>La fonctionnalité de <strong>dialogue en ligne  (chat)</strong> permet de communiquer par écrit,&nbsp;de partager des liens ou des documents.&nbsp;💬</li>\n    <li>Sur certains outils de visioconférence, il existe une fonctionnalité pour <strong>afficher un émoji sur l’écran des autres participants</strong>. Cela permet de réagir sans prendre la parole.&nbsp;🙂</li>\n</ul>"
+                "id": "e225d5f0-ea02-4bdf-a731-33abab2b3415",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/21_Visio_IND/cs_visio_ind_lecon_1_v2.png",
+                "alt": "",
+                "alternativeText": "<h5>Quels sont les différents moyens pour intervenir en visioconférence&nbsp;?<br></h5><ul>    <li><strong>Lever la main</strong> permet de signaler qu’on souhaite intervenir, sans couper la parole.&nbsp;✋</li><li>La fonctionnalité <strong>envoyer un émoji</strong> permet de réagir à ce qui est dit à l’oral avec un émoji.&nbsp;🙂</li><li>La fonctionnalité de <strong>dialogue en ligne (chat)</strong> permet d’envoyer des messages, des liens ou des documents.💬</li></ul>",
+                "legend": "",
+                "licence": ""
               }
             }
           ]
@@ -260,7 +263,7 @@
                 "id": "7d4a3a6f-36be-4cbb-a86d-22410445cfe7",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Lors d’une visioconférence, les échanges peuvent porter sur un sujet qui demande un support visuel (diaporama, logiciel, image, schéma, etc.). Pour cela, un participant de la réunion peut partager ce qui s'affiche sur son écran aux autres. Il devient présentateur.</p>"
+                "content": "<p>Lors d’une visioconférence, les échanges peuvent porter sur un sujet qui demande un support visuel (diaporama, logiciel, image, schéma, etc.). Pour cela, un participant de la réunion peut partager ce qui s’affiche sur son écran aux autres. Il devient présentateur.</p>"
               }
             }
           ]
@@ -298,7 +301,7 @@
                 "id": "65529006-fcdd-4b15-8dfc-7797cd1d3a0f",
                 "type": "expand",
                 "title": "[🕹️ Simulateur Visio]",
-                "content": "<ul><li>Inès partage son écran sur lequel on voit un tableur avec le budget.</li><br></ul>"
+                "content": "<ul>    <li>Inès partage son écran sur lequel on voit un tableur avec le budget.</li></ul><p><img src=\"https://assets.pix.org/draft/modules/21_Visio_IND/cs_visio_ind_illu_budget_fete_quartier.png\" alt=\"budget d’inès\"></p>"
               }
             },
             {
@@ -312,8 +315,8 @@
                     "type": "select",
                     "input": "0",
                     "display": "inline",
-                    "placeholder": "Sélectionnez une option",
-                    "ariaLabel": "Sélectionnez une option",
+                    "placeholder": "- Sélectionnez -",
+                    "ariaLabel": "- Sélectionnez -",
                     "tolerances": [],
                     "options": [
                       {
@@ -341,8 +344,8 @@
                     "type": "select",
                     "input": "1",
                     "display": "inline",
-                    "placeholder": "Sélectionnez une option",
-                    "ariaLabel": "Sélectionnez une option",
+                    "placeholder": "- Sélectionnez -",
+                    "ariaLabel": "- Sélectionnez -",
                     "tolerances": [],
                     "options": [
                       {
@@ -370,8 +373,8 @@
                     "type": "select",
                     "input": "2",
                     "display": "inline",
-                    "placeholder": "Sélectionnez une option",
-                    "ariaLabel": "Sélectionnez une option",
+                    "placeholder": "- Sélectionnez -",
+                    "ariaLabel": "- Sélectionnez -",
                     "tolerances": [],
                     "options": [
                       {
@@ -397,14 +400,14 @@
                   },
                   {
                     "type": "text",
-                    "content": "<br><p>Les vignettes des participants</p>"
+                    "content": "<br><p>Les vignettes des participants&nbsp;</p>"
                   },
                   {
                     "type": "select",
                     "input": "3",
                     "display": "inline",
-                    "placeholder": "Sélectionnez une option",
-                    "ariaLabel": "Sélectionnez une option",
+                    "placeholder": "- Sélectionnez -",
+                    "ariaLabel": "- Sélectionnez -",
                     "tolerances": [],
                     "options": [
                       {
@@ -454,7 +457,7 @@
                 "id": "f6a1d0be-7e6c-4bbc-858f-895b3843c1e9",
                 "type": "text",
                 "tag": " ",
-                "content": "<h5>Que se passe-t-il pour le présentateur quand il partage son écran&nbsp;?</h5><p>Souvent, quand le présentateur partage son écran, il ne voit plus les autres participants. Donc, si quelqu’un lève la main, fait oui de la tête, ou envoie un message dans le chat, <strong>il est possible que le présentateur ne le voie pas</strong>.&nbsp;❌</p><p>Heureusement, il y a souvent un <strong>signal sonore</strong> pour indiquer des messages, des mains levées ou des réactions des participants.&nbsp;🔊<br></p><h5>Et lorsqu’il a terminé sa présentation&nbsp;?</h5><p>Lorsque le présentateur n’a plus besoin de montrer ce qui s’affiche sur son écran, il <strong>arrête le partage</strong>. Cela permet de laisser la place à un autre présentateur ou de discuter en voyant mieux les participants.&nbsp;👥</p>"
+                "content": "<h5>Que se passe-t-il pour le présentateur quand il partage son écran&nbsp;?</h5><p>Souvent, quand le présentateur partage son écran, il ne voit plus les autres participants. Donc, si quelqu’un lève la main, fait oui de la tête, ou envoie un message dans le chat, <strong>il est possible que le présentateur ne le voie pas</strong>.&nbsp;❌</p><p>Heureusement, il y a souvent un <strong>signal sonore</strong> pour indiquer des messages, des mains levées ou des réactions des participants.&nbsp;🔊</p><h5>Et lorsqu’il a terminé sa présentation&nbsp;?</h5><p>Lorsque le présentateur n’a plus besoin de montrer ce qui s’affiche sur son écran, il <strong>arrête le partage</strong>. Cela permet de laisser la place à un autre présentateur ou de discuter en voyant mieux les participants.&nbsp;👥</p>"
               }
             }
           ]
@@ -502,14 +505,14 @@
                           "id": "0",
                           "content": "<p>Ouvrir le document qu’il doit présenter et fermer les autres fenêtres.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Bien vu&nbsp;! Avant de partager son écran, il est recommandé de&nbsp;:</p>\n<ul>\n    <li><strong>préparer les contenus que l’on souhaite présenter,</strong></li>\n    <li><strong>fermer les fenêtres inutiles</strong>.</li>\n</ul>"
+                            "diagnosis": "<p>Bien vu&nbsp;! Avant de partager son écran, il est recommandé de&nbsp;:</p><ul>    <li><strong>préparer les contenus que l’on souhaite présenter,</strong></li>    <li><strong>fermer les fenêtres inutiles</strong>.</li></ul>"
                           }
                         },
                         {
                           "id": "1",
                           "content": "<p>Garder toutes ses fenêtres ouvertes pour accéder rapidement à tout.</p>",
                           "feedback": {
-                            "diagnosis": "<p>Eh non. Multiplier les fenêtres ouvertes augmente le risque de partager le mauvais contenu par erreur. Cela peut aussi ralentir l’ordinateur pendant la présentation. Mieux vaut ne garder que l’essentiel&nbsp;:</p>\n<ul>\n    <li><strong>en préparant à l’avance les contenus que l’on souhaite présenter</strong>,</li><li><strong>en fermant les fenêtres inutiles</strong>.</li>\n</ul>"
+                            "diagnosis": "<p>Eh non. Multiplier les fenêtres ouvertes augmente le risque de partager le mauvais contenu par erreur. Cela peut aussi ralentir l’ordinateur pendant la présentation. Mieux vaut ne garder que l’essentiel&nbsp;:</p><ul>    <li><strong>en préparant à l’avance les contenus que l’on souhaite présenter</strong>,</li><li><strong>en fermant les fenêtres inutiles</strong>.</li></ul>"
                           }
                         },
                         {
@@ -535,7 +538,7 @@
                     {
                       "id": "d5fbe30a-cad4-4ecc-abe3-feb237eee0c2",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/21_Visio_IND/choix-boutons-visio.png",
+                      "url": "https://assets.pix.org/draft/modules/21_Visio_IND/cs_visio_ind_decouverte_3_img1.png",
                       "alt": "Choix Boutons Visio",
                       "alternativeText": "",
                       "legend": "",
@@ -551,7 +554,7 @@
                           "id": "0",
                           "content": "Le bouton 1",
                           "feedback": {
-                            "diagnosis": "<p>Eh non&nbsp;! Pour montrer quelque chose sur son écran, il faut utiliser la <strong>fonctionnalité «&nbsp;partage d’écran&nbsp;»</strong> intégrée à l’outil de visioconférence (ici, le bouton 2 🖥️).<br>Si la fonctionnalité n’apparaît pas ou est bloquée, il faut demander à l’organisateur de la réunion.</p>"
+                            "diagnosis": "<p>Eh non&nbsp;! Pour montrer quelque chose sur son écran, il faut utiliser la <strong>fonctionnalité «&nbsp;partage d’écran&nbsp;»</strong> intégrée à l’outil de visioconférence (ici, le bouton 2 🖥️).<br>Si la fonctionnalité n’apparaît pas ou est bloquée, il faut demander à l’organisateur de la réunion.</p>"
                           }
                         },
                         {
@@ -565,7 +568,7 @@
                           "id": "2",
                           "content": "Le bouton 3",
                           "feedback": {
-                            "diagnosis": "<p>Eh non&nbsp;! Pour montrer quelque chose sur son écran, il faut utiliser la <strong>fonctionnalité «&nbsp;partage d’écran&nbsp;»</strong> intégrée à l’outil de visioconférence (ici, le bouton 2 🖥️).<br>Si la fonctionnalité n’apparaît pas ou est bloquée, il faut demander à l’organisateur de la réunion.</p>"
+                            "diagnosis": "<p>Eh non&nbsp;! Pour montrer quelque chose sur son écran, il faut utiliser la <strong>fonctionnalité «&nbsp;partage d’écran&nbsp;»</strong> intégrée à l’outil de visioconférence (ici, le bouton 2 🖥️).<br>Si la fonctionnalité n’apparaît pas ou est bloquée, il faut demander à l’organisateur de la réunion.</p>"
                           }
                         }
                       ],
@@ -584,7 +587,7 @@
                     {
                       "id": "5c9d8384-4092-426f-8d36-fcd33e0f03c9",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/21_Visio_IND/partage-ecran-choix.jpg",
+                      "url": "https://assets.pix.org/draft/modules/21_Visio_IND/cs_visio_ind_decouverte_3_img2_v2.png",
                       "alt": "Choix Boutons Visio",
                       "alternativeText": "ce sera un simulateur à terme ici",
                       "legend": "",
@@ -641,7 +644,16 @@
                       "id": "c9e05731-9b73-4b66-9fbe-fe917a4a9d94",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>[peut-être sous forme d’infographie]</p><p><br><br>Les outils de visioconférence proposent plusieurs modes de partage d’écran. Vous pouvez généralement partager&nbsp;:</p><ul>    <li><strong>un onglet de votre navigateur web&nbsp;</strong>:<ul>                        <li>✔️&nbsp;Les participants verront uniquement le contenu de l’onglet partagé.</li><li>❌&nbsp;Les participants ne verront pas les contenus des autres onglets ou fenêtres ouverts sur votre ordinateur.</li>        </ul>    </li>    <li><strong>une fenêtre de votre ordinateur</strong> :<ul>                        <li>✔️&nbsp;Les participants verront l’ensemble de la fenêtre partagée (si c’est la fenêtre du navigateur, ils verront lorsque vous changez d’onglet).</li><li>❌ Les participants ne verront pas les contenus des autres fenêtres ouvertes sur votre ordinateur.</li>        </ul>    </li>    <li><strong>tout votre écran</strong> :<ul>            <li>✔️&nbsp;Les participants verront tout ce qui se passe sur votre&nbsp;écran d’ordinateur.</li>        </ul>    </li></ul>"
+                      "content": "<p>Les outils de visioconférence proposent plusieurs modes de partage d’écran. Vous pouvez généralement partager&nbsp;:</p>"
+                    },
+                    {
+                      "id": "4e009730-3426-4ea6-928a-117a2f83cfac",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/21_Visio_IND/cs_visio_ind_lecon_3_v2.svg",
+                      "alt": "",
+                      "alternativeText": "<ul>    <li><strong>un onglet de votre navigateur web&nbsp;</strong>:<ul>            <li>✔️&nbsp;Les participants verront uniquement le contenu de l’onglet partagé.</li>            <li>❌&nbsp;Les participants ne verront pas le contenu des autres onglets ou fenêtres ouverts sur votre ordinateur.</li>        </ul>    </li>    <li><strong>une fenêtre de votre ordinateur</strong>&nbsp;:<ul>            <li>✔️&nbsp;Les participants verront l’ensemble de la fenêtre partagée (si c’est la fenêtre du navigateur, ils verront lorsque vous changez d’onglet).</li>            <li>❌ Les participants ne verront pas le contenu des autres fenêtres ouvertes sur votre ordinateur.</li>        </ul>    </li>    <li><strong>tout votre écran</strong>&nbsp;:<ul>            <li>✔️&nbsp;Les participants verront tout ce qui se passe sur votre&nbsp;écran d’ordinateur.</li>        </ul>    </li></ul>",
+                      "legend": "",
+                      "licence": ""
                     }
                   ]
                 },
@@ -673,10 +685,31 @@
             {
               "type": "element",
               "element": {
+                "id": "7fe3cc9a-536d-4676-aa4b-b8758a7c873f",
+                "type": "text",
+                "tag": " ",
+                "content": "<h5>Pour interagir avec les participants lors d’une visioconférence, il y a plusieurs possibilités&nbsp;:</h5>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "6eb7f409-7e69-4e0e-b5fb-2e0239b116a5",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/21_Visio_IND/infographie-recap.svg",
+                "alt": "Détaillé dans l’alternative textuelle",
+                "alternativeText": "<ul>                        <li><strong>Lever la main&nbsp;✋</strong></li>            <li><strong>Écrire un message&nbsp;💬</strong></li>            <li><strong>Réagir avec un émoji&nbsp;👍</strong><br></li>        </ul>",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
                 "id": "2d3a41de-ac67-4ca1-923a-37c48d780a37",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>[le premier bulletpoint va peut-être apparaître sous forme d’innfographie, en reprenant l’infographie de la leçon 1]</p><ul>    <li>Pour interagir avec les participants lors d’une visioconférence, il y a plusieurs possibilités&nbsp;:<ul>            <li><strong>Parler&nbsp;🗣️</strong></li>            <li><strong>Lever la main&nbsp;✋</strong></li>            <li><strong>Écrire un message&nbsp;💬</strong></li>            <li><strong>Réagir avec des émojis&nbsp;👍</strong><br></li>        </ul>    </li>    <li>La fonctionnalité de <strong>partage d’écran</strong> permet de montrer tout ou une partie de son écran aux autres participants. Cela permet d’échanger autour d’un support visuel commun comme un document ou un logiciel.&nbsp;💻<br></li>    <li>Selon la situation, il est possible de partager <strong>un onglet de son navigateur</strong>, <strong>une fenêtre de son ordinateur&nbsp;</strong>ou bien <strong>tout son écran</strong>.</li></ul>"
+                "content": "<ul>    <li>La fonctionnalité de <strong>partage d’écran</strong> permet de montrer tout ou une partie de son écran aux autres participants. Cela permet d’échanger autour d’un support visuel commun comme un document ou un logiciel.&nbsp;💻<br></li>    <li>Selon la situation, il est possible de partager <strong>un onglet de son navigateur</strong>, <strong>une fenêtre de son ordinateur&nbsp;</strong>ou bien <strong>tout son écran</strong>.</li></ul>"
               }
             }
           ]
@@ -925,7 +958,7 @@
                   },
                   "invalid": {
                     "state": "<p>Mauvaise réponse&nbsp;!</p>",
-                    "diagnosis": "<p>Il y a plusieurs éléments à observer&nbsp;: vous pouvez regarder autour des vidéos des participants, au-dessus de l'écran partagé, dans la liste des participants, ou dans la fenêtre de dialogue en ligne (chat).</p>"
+                    "diagnosis": "<p>Il y a plusieurs éléments à observer&nbsp;: vous pouvez regarder autour des vidéos des participants, au-dessus de l’écran partagé, dans la liste des participants, ou dans la fenêtre de dialogue en ligne (chat).</p>"
                   }
                 }
               }
@@ -943,7 +976,7 @@
                 "id": "49d0ff3e-e02e-460c-81a5-3c2f1ea8e862",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Vous souhaitez faire une présentation pendant une visioconférence avec des proches ou des collègues.</p><p><br></p><p>[⚠️&nbsp;Warning&nbsp;: Pour le moment cette activité n’est pas jouable, le feedback est celui d’un module sur les mots de passe]</p>"
+                "content": "<p>Vous souhaitez faire une présentation pendant une visioconférence avec des proches ou des collègues.</p><p>[⚠️&nbsp;Warning&nbsp;: Pour le moment cette activité n’est pas jouable, le feedback est celui d’un module sur les mots de passe]</p>"
               }
             },
             {
