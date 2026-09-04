@@ -7,7 +7,7 @@ import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-al
 import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -272,7 +272,7 @@ export default class CandidateCreationModal extends Component {
               @onChange={{this.selectBirthCountry}}
               @value={{this.selectedCountryInseeCode}}
               @hideDefaultOption={{true}}
-              @requiredLabel={{t 'common.forms.required'}}
+              @texts={{hash requiredLabel=(t 'common.forms.required')}}
               required
             >
               <:label>{{t 'common.labels.candidate.birth-country'}}</:label>
@@ -417,7 +417,7 @@ export default class CandidateCreationModal extends Component {
                 @value={{this.selectedBillingMode}}
                 @placeholder={{this.billingMenuPlaceholder}}
                 @hideDefaultOption={{true}}
-                @requiredLabel={{t 'common.forms.required'}}
+                @texts={{hash requiredLabel=(t 'common.forms.required')}}
               >
                 <:label>{{t 'common.forms.certification-labels.pricing'}}</:label>
               </PixSelect>
