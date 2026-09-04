@@ -1,11 +1,11 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import CampaignParticipationResetButton from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/evaluation-results-hero-recommendation-engine/campaign-participation-reset-button';
+import CampaignParticipationResetButton from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/evaluation-results-hero-recommendation-engine/action-buttons/campaign-participation-reset-button';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
-import { waitForDialog } from '../../../../../../helpers/wait-for';
+import setupIntlRenderingTest from '../../../../../../../helpers/setup-intl-rendering';
+import { waitForDialog } from '../../../../../../../helpers/wait-for';
 
 module(
   'Integration | Components | Campaigns | Assessment | ResultsRecommendationEngine | Campaign Participation Reset Button',

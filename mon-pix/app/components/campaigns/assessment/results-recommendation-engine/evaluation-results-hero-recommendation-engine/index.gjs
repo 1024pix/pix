@@ -9,8 +9,7 @@ import { t } from 'ember-intl';
 import MarkdownToHtml from '../../../../markdown-to-html';
 import HighlightedCard from '../highlighted-card/highlighted-card';
 import AcquiredBadgesCompact from './acquired-badges-compact';
-import CampaignParticipationResetButton from './campaign-participation-reset-button';
-import RecommendationButton from './recommendation-button';
+import ActionButtons from './action-buttons';
 
 export default class EvaluationResultsHeroRecommendationEngine extends Component {
   @service currentUser;
@@ -106,17 +105,25 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
           <AcquiredBadgesCompact @acquiredBadges={{@campaignParticipationResult.acquiredBadges}} />
         {{/if}}
 
-        <div class="evaluation-results-hero-recommendation-engine__actions">
-          {{#if @hasTrainings}}
-            <RecommendationButton @onSeeRecommendationsButtonClicked={{@onSeeRecommendationsButtonClicked}} />
-          {{/if}}
-          {{#if @campaignParticipationResult.canReset}}
-            <CampaignParticipationResetButton @campaign={{@campaign}} />
-          {{/if}}
-        </div>
+        {{#unless this.media.isMobile}}
+          <ActionButtons
+            @onSeeRecommendationsButtonClicked={{@onSeeRecommendationsButtonClicked}}
+            @campaign={{@campaign}}
+            @canResetCampaignParticipationResult={{@campaignParticipationResult.canReset}}
+            @hasTrainings={{@hasTrainings}}
+          />
+        {{/unless}}
       </div>
       {{#if @highlightedTraining}}
         <HighlightedCard @highlightedTraining={{@highlightedTraining}} @onCardClick={{@onCardClick}} />
+      {{/if}}
+      {{#if this.media.isMobile}}
+        <ActionButtons
+          @onSeeRecommendationsButtonClicked={{@onSeeRecommendationsButtonClicked}}
+          @campaign={{@campaign}}
+          @canResetCampaignParticipationResult={{@campaignParticipationResult.canReset}}
+          @hasTrainings={{@hasTrainings}}
+        />
       {{/if}}
     </div>
     {{#if @campaignParticipationResult.hasReachedStage}}

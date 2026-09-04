@@ -1,14 +1,14 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import RecommendationButton from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/evaluation-results-hero-recommendation-engine/recommendation-button';
+import RecommendationButton from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/evaluation-results-hero-recommendation-engine/action-buttons/recommendation-button';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../../../../helpers/setup-intl-rendering';
 
 module(
-  'Integration | Components | Campaigns | Assessment | ResultsRecommendationEngine | Recommendation Button',
+  'Integration | Components | Campaigns | Assessment | ResultsRecommendationEngine | Action Buttons | Recommendation Button',
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
