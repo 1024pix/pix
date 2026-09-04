@@ -187,6 +187,11 @@ export const ltiController = {
 
     logger.info({ token: verifiedToken }, 'Launch');
 
+    await fetchMemberships(
+      verifiedToken['https://purl.imsglobal.org/spec/lti-nrps/claim/namesroleservice'].context_memberships_url,
+      request.url.origin,
+    );
+
     // "https://purl.imsglobal.org/spec/lti/claim/message_type": "LtiDeepLinkingRequest",
     const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
     if (messageType === 'LtiDeepLinkingRequest') {
@@ -349,5 +354,31 @@ export const ltiController = {
     // Send score
   },
 };
+
+async function fetchMemberships(url, requestOrigin) {
+  const origin = new URL(requestOrigin);
+  origin.protocol = 'https';
+
+  const accessToken = await getAccessToken({
+    origin: origin.href,
+    platform: PLATFORM,
+    scope: 'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
+  });
+
+  const membershipsRes = await fetch(url, {
+    headers: {
+      Authorization: accessToken.token_type + ' ' + accessToken.access_token,
+    },
+  });
+
+  logger.info(
+    {
+      status: membershipsRes.statusText,
+      payload: await membershipsRes.json(),
+      headers: membershipsRes.headers,
+    },
+    'Memberships response',
+  );
+}
 
 /* eslint-enable n/no-unsupported-features/node-builtins */
