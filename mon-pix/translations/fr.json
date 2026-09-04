@@ -2231,6 +2231,7 @@
           "description": "Votre organisateur vous invite à repasser ce parcours.",
           "title": "Améliorez vos résultats"
         },
+        "see-my-other-recommendations": "Voir mes autres recommandations",
         "see-my-recommendations": "Voir mes recommandations",
         "see-trainings": "Voir les formations",
         "shared-message": "Vos résultats ont été envoyés le {date} à {time}.",

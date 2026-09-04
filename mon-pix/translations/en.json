@@ -2231,6 +2231,7 @@
           "description": "Your organizer invites you to take this customised test again.",
           "title": "Improve your results"
         },
+        "see-my-other-recommendations": "See my other recommendations",
         "see-my-recommendations": "See my recommendations",
         "see-trainings": "See trainings",
         "shared-message": "Your results were sent on {date} at {time}.",

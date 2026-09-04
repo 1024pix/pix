@@ -2231,6 +2231,7 @@
           "description": "Je organisator zal je vragen de cursus te herhalen.",
           "title": "Verbeter uw resultaten"
         },
+        "see-my-other-recommendations": "Bekijk mijn andere aanbevelingen",
         "see-my-recommendations": "Bekijk mijn aanbevelingen",
         "see-trainings": "Bekijk de cursussen",
         "shared-message": "Je resultaten zijn verzonden op {date} om {time}.",
