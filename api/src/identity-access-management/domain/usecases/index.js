@@ -91,6 +91,7 @@ import { addOidcProvider } from './add-oidc-provider.js';
 import { addPixAuthenticationMethod } from './add-pix-authentication-method.usecase.js';
 import { addUserEmailWithValidation } from './add-user-email-with-validation.usecase.js';
 import { anonymizeGarAuthenticationMethods } from './anonymize-gar-authentication-methods.usecase.js';
+import { anonymizeUser } from './anonymize-user.usecase.js';
 import { assertUserIsBlocked } from './assert-user-is-blocked.js';
 import { authenticateAnonymousUser } from './authenticate-anonymous-user.usecase.js';
 import { authenticateApplication } from './authenticate-application.js';
@@ -143,6 +144,7 @@ const usecasesWithoutInjectedDependencies = {
   addOidcProvider,
   addPixAuthenticationMethod,
   anonymizeGarAuthenticationMethods,
+  anonymizeUser,
   assertUserIsBlocked,
   authenticateAnonymousUser,
   authenticateApplication,
