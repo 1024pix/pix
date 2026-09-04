@@ -2,6 +2,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
+  defaultCompetencesScoringConfiguration,
+  defaultGlobalScoringConfiguration,
+} from '../../../../../db/database-builder/factory/build-certification-version.js';
+import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
 } from '../../../../../src/certification/configuration/domain/models/Calibration.js';
@@ -927,6 +931,73 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
     });
   });
 
+  describe('PATCH /api/admin/certification-versions/{certificationVersionId}/scoring', function () {
+    it('updates the scoring configuration of a version', async function () {
+      // given
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive()
+        .withParameters({
+          id: 42,
+          scope: SCOPES.PIX_PLUS_DROIT,
+          globalScoringConfiguration: [],
+          competencesScoringConfiguration: null,
+        })
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
+
+      const globalScoringConfiguration = [{ meshLevel: 1, bounds: { min: -2, max: 3 } }];
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/certification-versions/42/scoring`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
+        payload: {
+          data: {
+            id: 42,
+            attributes: {
+              'global-scoring-configuration': globalScoringConfiguration,
+            },
+            type: 'certification-versions',
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      const updatedVersion = await knex('certification_versions').where({ id: 42 }).first();
+      expect(updatedVersion.globalScoringConfiguration).to.deep.equal(globalScoringConfiguration);
+    });
+
+    it('returns 403 when the user is not a super admin', async function () {
+      // given
+      const certifUser = databaseBuilder.factory.buildUser.withRole({ role: 'CERTIF' });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/certification-versions/42/scoring`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: certifUser.id }),
+        payload: {
+          data: {
+            id: 42,
+            attributes: { 'global-scoring-configuration': [] },
+            type: 'certification-versions',
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
   describe('PATCH /api/admin/certification-versions/{certificationVersionId}/activation', function () {
     it('activates the draft version, archives the active one, and persists calibrated challenges', async function () {
       // given
@@ -938,7 +1009,14 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       const draftVersion = domainBuilder.certification.configuration
         .versionBuilder()
         .asDraft({ startDate: new Date('2025-01-01') })
-        .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 11, externalCalibrationId: 2 })
+        .withParameters({
+          scope: SCOPES.CORE,
+          tubeIds: ['tubeA'],
+          id: 11,
+          externalCalibrationId: 2,
+          globalScoringConfiguration: defaultGlobalScoringConfiguration,
+          competencesScoringConfiguration: defaultCompetencesScoringConfiguration,
+        })
         .insertToDB({ databaseBuilder });
 
       await domainBuilder.certification.configuration

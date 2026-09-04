@@ -16,7 +16,6 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     versionSummaries.push(
       server.create('certification-version-summary', {
         id: 13,
-        scope: 'CORE',
         startDate: new Date('2023-10-10'),
         expirationDate: null,
         assessmentDuration: 90,
@@ -27,7 +26,6 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     versionSummaries.push(
       server.create('certification-version-summary', {
         id: 14,
-        scope: 'CORE',
         startDate: null,
         expirationDate: null,
         assessmentDuration: 66,
@@ -38,7 +36,6 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     versionSummaries.push(
       server.create('certification-version-summary', {
         id: 15,
-        scope: 'CORE',
         startDate: new Date('2020-01-01'),
         expirationDate: new Date('2021-01-01'),
         assessmentDuration: 90,
@@ -49,6 +46,7 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     server.create('certification-framework', { id: 'CORE', versionSummaries });
     server.create('certification-version', {
       id: 13,
+      scope: 'CORE',
       status: 'active',
       globalScoringConfiguration: [{ bounds: { min: -4, max: 2 }, meshLevel: 0 }],
     });
@@ -70,14 +68,34 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
 
   module('when admin member has role "SUPER ADMIN"', function () {
     module('when trying to load scoring for a non-draft version', function () {
-      test('redirects to versions list', async function (assert) {
+      test('redirects to framework page for a CORE active version', async function (assert) {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
         await visit(`/certification-frameworks/CORE/versions/13/scoring`);
         assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
+      });
+
+      test('redirects to framework page for an archived version', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
         await visit(`/certification-frameworks/CORE/versions/15/scoring`);
         assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
+      });
+
+      test('allows access for a Pix+ active version without scoring', async function (assert) {
+        server.create('certification-version-summary', { id: 20, status: 'active' });
+        server.create('certification-framework', { id: 'DROIT', versionSummaries: [] });
+        server.create('certification-version', {
+          id: 20,
+          scope: 'DROIT',
+          status: 'active',
+          globalScoringConfiguration: [],
+        });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        await visit(`/certification-frameworks/DROIT/versions/20/scoring`);
+
+        assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/versions/20/scoring');
       });
     });
 
@@ -153,6 +171,58 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
         await visit(`/certification-frameworks/CORE/versions/14/scoring`);
 
         assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
+      });
+    });
+
+    module('action buttons', function () {
+      test('shows the "Activer" button for a draft version', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        const screen = await visit(`/certification-frameworks/CORE/versions/14/scoring`);
+
+        assert
+          .dom(
+            screen.getByText(
+              t('components.certification-frameworks.certification-framework.versions.activate-version.button-label'),
+            ),
+          )
+          .exists();
+        assert
+          .dom(
+            screen.queryByText(
+              t('components.certification-frameworks.certification-framework.versions.scoring.save-scoring-button'),
+            ),
+          )
+          .doesNotExist();
+      });
+
+      test('shows the "Enregistrer le scoring" button for an active Pix+ version', async function (assert) {
+        server.create('certification-version-summary', { id: 20, status: 'active' });
+        server.create('certification-framework', { id: 'DROIT', versionSummaries: [] });
+        server.create('certification-version', {
+          id: 20,
+          scope: 'DROIT',
+          status: 'active',
+          globalScoringConfiguration: [],
+        });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        const screen = await visit(`/certification-frameworks/DROIT/versions/20/scoring`);
+
+        assert
+          .dom(
+            screen.getByText(
+              t('components.certification-frameworks.certification-framework.versions.scoring.save-scoring-button'),
+            ),
+          )
+          .exists();
+        assert
+          .dom(
+            screen.queryByText(
+              t('components.certification-frameworks.certification-framework.versions.activate-version.button-label'),
+            ),
+          )
+          .doesNotExist();
       });
     });
 

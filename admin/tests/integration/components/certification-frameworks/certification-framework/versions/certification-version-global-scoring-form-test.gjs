@@ -63,7 +63,7 @@ module(
         const screen = await render(
           <template>
             <GlobalScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -92,7 +92,7 @@ module(
         const screen = await render(
           <template>
             <GlobalScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -132,8 +132,8 @@ module(
         const screen = await render(
           <template>
             <GlobalScoringForm
-              @draftVersion={{draftVersion}}
-              @activeVersion={{activeVersion}}
+              @editVersion={{draftVersion}}
+              @previousVersion={{activeVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -162,7 +162,7 @@ module(
         const screen = await render(
           <template>
             <GlobalScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -188,7 +188,7 @@ module(
         const screen = await render(
           <template>
             <GlobalScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -215,7 +215,7 @@ module(
         const screen = await render(
           <template>
             <GlobalScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -242,7 +242,7 @@ module(
         const screen = await render(
           <template>
             <GlobalScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -276,7 +276,7 @@ module(
         const screen = await render(
           <template>
             <GlobalScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,

@@ -55,6 +55,7 @@ module('Acceptance | Certification Framework | item | Framework | new', function
       assessmentDuration: 90,
       maximumAssessmentLength: 32,
       status: 'active',
+      hasGlobalScoring: true,
     });
     server.schema.certificationVersions.find(versionSummaryDroit.id).update({ areas });
     server.create('certification-framework', { id: 'DROIT', versionSummaries: [versionSummaryDroit] });

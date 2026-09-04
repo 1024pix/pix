@@ -231,6 +231,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             attributes: {
               'assessment-duration': 1,
               'expiration-date': null,
+              'has-global-scoring': true,
               'maximum-assessment-length': 1,
               'start-date': new Date('2021-01-01'),
               status: VERSION_STATUSES.ACTIVE,
@@ -242,6 +243,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             attributes: {
               'assessment-duration': 4,
               'expiration-date': null,
+              'has-global-scoring': false,
               'maximum-assessment-length': 4,
               'start-date': new Date('2024-02-02'),
               status: VERSION_STATUSES.DRAFT,
@@ -253,6 +255,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             attributes: {
               'assessment-duration': 2,
               'expiration-date': null,
+              'has-global-scoring': true,
               'maximum-assessment-length': 2,
               'start-date': new Date('2022-02-02'),
               status: VERSION_STATUSES.ACTIVE,
@@ -264,6 +267,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             attributes: {
               'assessment-duration': 3,
               'expiration-date': new Date('2022-02-02'),
+              'has-global-scoring': true,
               'maximum-assessment-length': 3,
               'start-date': new Date('2022-01-01'),
               status: VERSION_STATUSES.ARCHIVED,
@@ -340,6 +344,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             attributes: {
               'assessment-duration': 2,
               'expiration-date': null,
+              'has-global-scoring': true,
               'maximum-assessment-length': 2,
               'start-date': new Date('2022-02-02'),
               status: VERSION_STATUSES.ACTIVE,
@@ -351,6 +356,7 @@ describe('Acceptance | Application | Certification | Configuration | certificati
             attributes: {
               'assessment-duration': 3,
               'expiration-date': new Date('2022-02-02'),
+              'has-global-scoring': true,
               'maximum-assessment-length': 3,
               'start-date': new Date('2022-01-01'),
               status: VERSION_STATUSES.ARCHIVED,

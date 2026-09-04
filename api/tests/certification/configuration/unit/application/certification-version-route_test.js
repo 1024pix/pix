@@ -382,4 +382,102 @@ describe('Unit | Certification | Configuration | Application | Router | certific
       });
     });
   });
+
+  describe('PATCH /api/admin/certification-versions/{certificationVersionId}/scoring', function () {
+    const validPayload = {
+      data: {
+        id: '1',
+        attributes: {
+          'global-scoring-configuration': [{ meshLevel: 1, bounds: { min: 0, max: 100 } }],
+        },
+        type: 'certification-versions',
+      },
+    };
+
+    context('when the user has no role', function () {
+      it('should return 403 HTTP status code', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        sinon.stub(certificationVersionController, 'saveScoringConfiguration').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'PATCH',
+          `/api/admin/certification-versions/1/scoring`,
+          validPayload,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(certificationVersionController.saveScoringConfiguration);
+      });
+    });
+
+    context('when the user is super admin', function () {
+      it('should return 204 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        sinon
+          .stub(certificationVersionController, 'saveScoringConfiguration')
+          .callsFake((request, h) => h.response().code(204));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'PATCH',
+          `/api/admin/certification-versions/1/scoring`,
+          validPayload,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(204);
+        sinon.assert.calledOnce(certificationVersionController.saveScoringConfiguration);
+      });
+    });
+
+    context('when the version id is not valid', function () {
+      it('should return 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        sinon.stub(certificationVersionController, 'saveScoringConfiguration').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'PATCH',
+          `/api/admin/certification-versions/NOT_AN_ID/scoring`,
+          validPayload,
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationVersionController.saveScoringConfiguration);
+      });
+    });
+
+    context('when global-scoring-configuration is missing', function () {
+      it('should return 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
+        sinon.stub(certificationVersionController, 'saveScoringConfiguration').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PATCH', `/api/admin/certification-versions/1/scoring`, {
+          data: { id: '1', attributes: {}, type: 'certification-versions' },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        sinon.assert.notCalled(certificationVersionController.saveScoringConfiguration);
+      });
+    });
+  });
 });

@@ -36,3 +36,10 @@ export class VersionNotDraftError extends DomainError {
     super("Impossible de modifier une version qui ne soit pas en cours d'édition");
   }
 }
+
+export class CoreVersionRequiresScoringError extends DomainError {
+  constructor() {
+    super("Impossible d'activer une version CORE sans configuration de scoring");
+    this.code = 'CORE_VERSION_REQUIRES_SCORING';
+  }
+}

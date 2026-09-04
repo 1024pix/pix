@@ -12,14 +12,14 @@ export default class GlobalScoringForm extends Component {
   @service intl;
 
   get globalScoringConfiguration() {
-    const savedConfiguration = this.args.draftVersion.globalScoringConfiguration;
+    const savedConfiguration = this.args.editVersion.globalScoringConfiguration;
     return savedConfiguration?.length
       ? savedConfiguration
-      : this.args.calibrationScoringConfiguration.globalScoringConfiguration;
+      : (this.args.calibrationScoringConfiguration?.globalScoringConfiguration ?? []);
   }
 
-  get activeVersionConfiguration() {
-    return this.args.activeVersion?.globalScoringConfiguration ?? [];
+  get previousVersionConfiguration() {
+    return this.args.previousVersion?.globalScoringConfiguration ?? [];
   }
 
   @action
@@ -31,7 +31,7 @@ export default class GlobalScoringForm extends Component {
     if (isMax && newArray.at(index + 1)) {
       newArray.at(index + 1).bounds.min = Number(event.target.value);
     }
-    this.args.draftVersion.globalScoringConfiguration = newArray;
+    this.args.editVersion.globalScoringConfiguration = newArray;
   }
 
   @action
@@ -55,8 +55,8 @@ export default class GlobalScoringForm extends Component {
   }
 
   @action
-  activeVersionBound(meshLevel, name) {
-    const bounds = this.activeVersionConfiguration.find((mesh) => mesh.meshLevel === meshLevel)?.bounds;
+  previousVersionBound(meshLevel, name) {
+    const bounds = this.previousVersionConfiguration.find((mesh) => mesh.meshLevel === meshLevel)?.bounds;
     return bounds ? bounds[name] : '—';
   }
 
@@ -85,7 +85,7 @@ export default class GlobalScoringForm extends Component {
             >
               <:label>{{t
                   "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
-                  previousVersionCapacity=(this.activeVersionBound mesh.meshLevel "min")
+                  previousVersionCapacity=(this.previousVersionBound mesh.meshLevel "min")
                 }}</:label>
             </PixInput>
 
@@ -103,7 +103,7 @@ export default class GlobalScoringForm extends Component {
             >
               <:label>{{t
                   "components.certification-frameworks.certification-framework.versions.scoring.previous-version-capacity"
-                  previousVersionCapacity=(this.activeVersionBound mesh.meshLevel "max")
+                  previousVersionCapacity=(this.previousVersionBound mesh.meshLevel "max")
                 }}</:label>
             </PixInput>
           </section>

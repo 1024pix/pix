@@ -1,5 +1,4 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn } from '@ember/helper';
@@ -185,14 +184,5 @@ export default class CertificationVersionCalibrationReport extends Component {
         </p>
       {{/if}}
     </Card>
-    <section class="actions-container">
-      <PixButtonLink
-        @route="authenticated.certification-frameworks.certification-framework.versions.version.scoring"
-        @variant="primary"
-        @isDisabled={{this.hasHighAlert}}
-      >
-        {{t "common.actions.next"}}
-      </PixButtonLink>
-    </section>
   </template>
 }

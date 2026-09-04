@@ -655,10 +655,17 @@
             "cannot-be-lower-error": "La capacité maximale d'un niveau doit être strictement supérieur à sa capacité minimale.",
             "competences": {
               "level": "Niveau",
+              "no-configuration": "Aucune configuration disponible pour cette compétence.",
               "title": "Bornes de capacités par compétences"
             },
             "level": "Niveau {index}",
             "previous-version-capacity": "Ancienne valeur : {previousVersionCapacity}",
+            "save-error": "Une erreur s'est produite lors de l'enregistrement du scoring.",
+            "save-scoring-button": "Enregistrer le scoring",
+            "save-scoring-modal": {
+              "content": "Cette action va enregistrer la configuration de scoring sur la version active.",
+              "title": "Confirmation de l'enregistrement du scoring"
+            },
             "success-notification": "Le scoring a bien été mis à jour",
             "title": "Bornes de capacités par mailles"
           },

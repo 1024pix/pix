@@ -77,6 +77,26 @@ describe('Certification | Configuration | Integration | Repository | FrameworkIn
     });
   });
 
+  describe('#findAll — hasGlobalScoring', function () {
+    it('returns hasGlobalScoring=false for an active version with empty scoring configuration', async function () {
+      // given
+      const frameworkInfo = domainBuilder.certification.configuration
+        .frameworkInfoBuilder()
+        .withActiveVersion({ hasScoring: false })
+        .withParameters({ scope: SCOPES.PIX_PLUS_DROIT })
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await frameworkInfoRepository.findAll();
+      const droitInfo = result.find((f) => f.scope === SCOPES.PIX_PLUS_DROIT);
+
+      // then
+      expect(droitInfo.versionSummaries[0].hasGlobalScoring).to.be.false;
+      expect(droitInfo).to.deepEqualInstance(frameworkInfo);
+    });
+  });
+
   describe('#find', function () {
     context('when no info found for framework name', function () {
       it('return null', async function () {

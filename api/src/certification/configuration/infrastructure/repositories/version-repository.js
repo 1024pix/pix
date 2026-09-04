@@ -105,6 +105,18 @@ export async function updateComments({ id, comments }) {
   });
 }
 
+export async function updateScoring({ id, globalScoringConfiguration, competencesScoringConfiguration }) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('certification_versions')
+    .where({ id })
+    .update({
+      globalScoringConfiguration: JSON.stringify(globalScoringConfiguration),
+      competencesScoringConfiguration: competencesScoringConfiguration
+        ? JSON.stringify(competencesScoringConfiguration)
+        : null,
+    });
+}
+
 function buildBaseQuery() {
   const knexConn = DomainTransaction.getConnection();
 
