@@ -108,7 +108,7 @@
                 "id": "a59ec2a3-4b75-4052-82d8-dca2a9728525",
                 "type": "text",
                 "tag": " ",
-                "content": "<p>Une IA générative peut produire une réponse claire et convaincante. Mais peut-elle répondre avec justesse à tous les prompts sans disposer d’informations spécifiques sur la situation ?</p>"
+                "content": "<p>Un logiciel d'IA générative peut produire une réponse claire et convaincante. Mais peut-il répondre avec justesse à tous les prompts sans disposer d’informations spécifiques sur la situation ?</p>"
               }
             },
             {
@@ -136,7 +136,7 @@
                     {
                       "id": "07e134c7-37a2-42ba-8328-baea94048ca3",
                       "type": "qcu-discovery",
-                      "instruction": "<p>À votre avis, une IA peut-elle répondre à ce prompt de façon pertinente ?</p>",
+                      "instruction": "<p>À votre avis, un logiciel d'IA générative peut-il répondre à ce prompt de façon pertinente ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -179,7 +179,7 @@
                     {
                       "id": "95d86f51-b012-4e57-8667-f98aeda35075",
                       "type": "qcu-discovery",
-                      "instruction": "<p>À votre avis, une IA peut-elle répondre à ce prompt de façon pertinente ?</p>",
+                      "instruction": "<p>À votre avis, un logiciel d'IA générative peut-il répondre à ce prompt de façon pertinente ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -222,7 +222,7 @@
                     {
                       "id": "689e9311-6d0d-40da-8c28-ebd4ee994bb6",
                       "type": "qcu-discovery",
-                      "instruction": "<p>À votre avis, une IA peut-elle répondre à ce prompt de façon pertinente ?</p>",
+                      "instruction": "<p>À votre avis, logiciel d'IA générative peut-il répondre à ce prompt de façon pertinente ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
@@ -265,7 +265,7 @@
                     {
                       "id": "0caf3557-f09f-4424-a4a8-47488018d19c",
                       "type": "qcu-discovery",
-                      "instruction": "<p>À votre avis, une IA peut-elle répondre à ce prompt de façon pertinente ?</p>",
+                      "instruction": "<p>À votre avis, logiciel d'IA générative peut-il répondre à ce prompt de façon pertinente ?</p>",
                       "hasShortProposals": false,
                       "proposals": [
                         {
