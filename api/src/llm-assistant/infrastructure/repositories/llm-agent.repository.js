@@ -177,14 +177,24 @@ const streamConversationTurn = async function ({ messages, clientTools = {}, doc
   const rawModelMessages = isUiMessages ? await convertToModelMessages(messages, { tools }) : messages;
 
   // Garde au maximum 20 messages pour éviter de saturer le contexte LLM.
-  // On tronque depuis le début mais on ne coupe jamais un tour assistant incomplet :
-  // on remonte jusqu'au premier message 'user' dans la fenêtre retenue.
+  // On tronque depuis le début mais on garantit toujours au moins un message 'user' :
+  // - si la fenêtre commence au milieu d'un tour, on remonte au premier 'user' dans la fenêtre
+  // - si la fenêtre ne contient aucun 'user' (outil en cascade très long), on préfixe le
+  //   dernier 'user' trouvé avant la fenêtre — Qwen rejette sinon avec "No user query found".
   const MAX_MESSAGES = 20;
   let modelMessages = rawModelMessages;
   if (rawModelMessages.length > MAX_MESSAGES) {
     const truncated = rawModelMessages.slice(-MAX_MESSAGES);
     const firstUserIdx = truncated.findIndex((m) => m.role === 'user');
-    modelMessages = firstUserIdx > 0 ? truncated.slice(firstUserIdx) : truncated;
+    if (firstUserIdx > 0) {
+      modelMessages = truncated.slice(firstUserIdx);
+    } else if (firstUserIdx === -1) {
+      const beforeWindow = rawModelMessages.slice(0, -MAX_MESSAGES);
+      const lastUserBeforeWindow = beforeWindow.findLastIndex((m) => m.role === 'user');
+      modelMessages = lastUserBeforeWindow >= 0 ? [beforeWindow[lastUserBeforeWindow], ...truncated] : truncated;
+    } else {
+      modelMessages = truncated;
+    }
   }
 
   // Injecter le contexte document dans le dernier message user (après conversion pour éviter
