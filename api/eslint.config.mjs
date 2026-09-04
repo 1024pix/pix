@@ -1,6 +1,6 @@
 import pixRecommendedConfig from '@1024pix/eslint-plugin/config';
 import { fixupPluginRules } from '@eslint/compat';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import { defineConfig } from 'eslint/config';
 import chaiExpect from 'eslint-plugin-chai-expect';
 import i18nJsonPlugin from 'eslint-plugin-i18n-json';
 import knex from 'eslint-plugin-knex';
@@ -9,13 +9,14 @@ import nRecommendedConfig from 'eslint-plugin-n';
 import unicorn from 'eslint-plugin-unicorn';
 
 export default defineConfig([
+  // Linter setup
+  { linterOptions: { reportUnusedDisableDirectives: 'error' } },
   // Loads plugins and apply their rules
   ...pixRecommendedConfig,
   nRecommendedConfig.configs['flat/recommended'],
   chaiExpect.configs['recommended-flat'],
   // Loads plugins only (rules not applied yet)
-  { plugins: { unicorn } },
-  { plugins: { knex: fixupPluginRules(knex) } },
+  { plugins: { unicorn, knex: fixupPluginRules(knex) } },
   // Setup global language options
   { languageOptions: { ecmaVersion: 2025, sourceType: 'module' } },
   // Overridden rules for "js" files
@@ -98,6 +99,4 @@ export default defineConfig([
       'func-style': ['error', 'declaration'],
     },
   },
-  // Ignored files
-  globalIgnores(['tests/tooling/db-schemalint.cjs']),
 ]);
