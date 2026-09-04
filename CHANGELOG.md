@@ -1,5 +1,22 @@
 # Pix Changelog
 
+# [5.496.0](https://github.com/1024pix/pix/compare/v5.495.0...v5.496.0) (2026-09-04)
+
+### :rocket: Amélioration
+
+- [#17388](https://github.com/1024pix/pix/pull/17388) Afficher un tooltip lorsqu'il n'y aucune methode de connection (PIX-23684)
+- [#17383](https://github.com/1024pix/pix/pull/17383) Importer l'année scolaire depuis SIECLE (PIX-23723)
+- [#17366](https://github.com/1024pix/pix/pull/17366) MDX-140 RAG relecture edito
+
+### :building_construction: Tech
+
+- [#17391](https://github.com/1024pix/pix/pull/17391) PixOrga: convertir les models du référentiel en TypeScript
+- [#17397](https://github.com/1024pix/pix/pull/17397) Setup typescript-eslint
+
+### :arrow_up: Montée de version
+
+- [#17396](https://github.com/1024pix/pix/pull/17396) Update pg-boss
+
 # [5.495.0](https://github.com/1024pix/pix/compare/v5.494.0...v5.495.0) (2026-09-04)
 
 ### :rocket: Amélioration
