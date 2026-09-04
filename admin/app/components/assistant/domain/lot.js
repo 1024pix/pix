@@ -52,7 +52,7 @@ export default class Batch {
     for (const c of this.calls) {
       if (c.verdict === null) continue;
       const id = c.args.externalId;
-      if (id == null) continue;
+      if (id == null || id === '') continue;
       if (seenExternalIds.has(id)) {
         c.markAsDuplicate();
       } else {
