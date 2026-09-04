@@ -47,13 +47,3 @@ export const deleteOrganizationLearnerBeforeImportFeature = withTransaction(asyn
     client: 'PIX_ADMIN',
   });
 });
-
-/**
- * Anonymize an organizationLearner and their campaignParticipations
- * @param {object} params
- * @param {number} params.userId
- * @returns {Promise<void>}
- */
-export const anonymizeByUserId = withTransaction(async ({ userId }) => {
-  await usecases.anonymizeUser({ userId });
-});
