@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { certificationPointOfContactSerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/certification-point-of-contact.serializer.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { STATUS } from "../../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js";
 
 describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {
   describe('#serialize()', function () {
@@ -55,10 +56,11 @@ describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-cont
         lastName: 'Summers',
         email: 'buffy.summers@example.net',
         pixCertifTermsOfServiceAccepted: true,
+        pixCertifTosStatus:{ status: STATUS.ACCEPTED, acceptedAt: new Date('2024-06-04'),documentPath:'pix-certif-tos-2024-06-03'  },
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess1, allowedCertificationCenterAccess2],
         certificationCenterMemberships,
       });
-
+      console.log(certificationPointOfContact)
       // when
       const jsonApi = certificationPointOfContactSerializer.serialize(certificationPointOfContact);
 
@@ -73,6 +75,9 @@ describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-cont
             email: 'buffy.summers@example.net',
             lang: 'fr',
             'pix-certif-terms-of-service-accepted': true,
+            "pix-certif-terms-of-service-status": 'accepted' ,
+            'pix-certif-terms-of-service-document-path':`pix-certif-tos-2024-06-03`,
+            'pix-certif-terms-of-service-validated-at' : '2024-06-04T13:18:26.323Z',
           },
           relationships: {
             'allowed-certification-center-accesses': {
