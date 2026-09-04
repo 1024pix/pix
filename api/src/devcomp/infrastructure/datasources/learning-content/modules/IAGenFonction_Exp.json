@@ -54,7 +54,7 @@
                           "size": 10,
                           "display": "inline",
                           "placeholder": "",
-                          "ariaLabel": "champ libre",
+                          "ariaLabel": "",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -92,7 +92,7 @@
                           "size": 10,
                           "display": "inline",
                           "placeholder": "",
-                          "ariaLabel": "champ libre",
+                          "ariaLabel": "",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -131,7 +131,7 @@
                           "size": 10,
                           "display": "inline",
                           "placeholder": "",
-                          "ariaLabel": "champ libre",
+                          "ariaLabel": "",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -238,7 +238,7 @@
                     "size": 3,
                     "display": "inline",
                     "placeholder": "",
-                    "ariaLabel": ":champ libre",
+                    "ariaLabel": "",
                     "tolerances": [],
                     "solutions": [
                       9,
@@ -275,7 +275,16 @@
                       "id": "2310f294-043b-4443-9e37-be15d3326081",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Les modèles de langage actuels utilisent généralement une <strong>b</strong><strong>ibliothèque d’environ 50 000 à 100 000 tokens </strong>associés à leurs<strong> vecteurs. &nbsp;&nbsp;</strong></p><p><strong><br></strong> </p><h4>Comment sont calculés les vecteurs de chaque token ? </h4><p>La transformation du token en vecteur s’appelle la <strong>vectorisation</strong>&nbsp; (ou en anglais, <em>embedding</em>). La <strong>vectorisation </strong>a lieu pendant <strong>l’entraînement</strong>, en s’appuyant sur des milliards de textes et observant le nombre de fois où un mot apparaît et avec quels autres mots il est utilisé. Le <strong>vecteur </strong>capte donc une forme de «&nbsp;<strong>signification </strong>» du <strong>token</strong>.</p><p>[ajout schéma]</p>"
+                      "content": "<p>Les modèles de langage actuels utilisent généralement une <strong>b</strong><strong>ibliothèque d’environ 50 000 à 100 000 tokens </strong>associés à leurs<strong> vecteurs. &nbsp;&nbsp;</strong></p><p><strong><br></strong> </p><h4>Comment sont calculés les vecteurs de chaque token ? </h4><p>La transformation du token en vecteur s’appelle la <strong>vectorisation</strong>&nbsp; (ou en anglais, <em>embedding</em>). La <strong>vectorisation </strong>a lieu pendant <strong>l’entraînement</strong>, en s’appuyant sur des milliards de textes et observant le nombre de fois où un mot apparaît et avec quels autres mots il est utilisé. Le <strong>vecteur </strong>capte donc une forme de «&nbsp;<strong>signification </strong>» du <strong>token</strong>.</p>"
+                    },
+                    {
+                      "id": "88738528-5a51-451e-b550-ed8403e12255",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/IAGenFonction_Exp/lesson1.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
                     }
                   ]
                 },
@@ -296,7 +305,7 @@
         {
           "id": "90e0e584-fd63-4667-b8d2-a8382706fcaa",
           "type": "discovery",
-          "title": "",
+          "title": "Découverte 2",
           "components": [
             {
               "type": "stepper",
@@ -308,7 +317,16 @@
                       "id": "84a09ada-f70a-4720-9246-c51929138e9b",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>Grâce à la vectorisation, une carte de l’ensemble des tokens est obtenue sur laquelle des tokens “proches” en signification ont des vecteurs avec des valeurs “proches” . </p><p>Observons les tokens proches du token “port” dans ce cas.</p><p>[ajout image]</p>"
+                      "content": "<p>Grâce à la vectorisation, une carte de l’ensemble des tokens est obtenue sur laquelle des tokens “proches” en signification ont des vecteurs avec des valeurs “proches” . </p><p>Observons les tokens proches du token “port” dans ce cas.</p>"
+                    },
+                    {
+                      "id": "25e07aa9-8739-4560-86d0-2978736ba2e4",
+                      "type": "image",
+                      "url": "https://assets.pix.org/draft/modules/IAGenFonction_Exp/decouverte2.png",
+                      "alt": "",
+                      "alternativeText": "",
+                      "legend": "",
+                      "licence": ""
                     },
                     {
                       "id": "9a8f030d-920d-4d43-9f0b-40614dd0647a",
@@ -361,6 +379,309 @@
                         }
                       ],
                       "solution": "2"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "a52ce1af-1417-4060-ad65-41e5a91795cc",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Sélectionnez les différents tokens du prompt et observez l’évolution du vecteur “port”.&nbsp; </p>"
+                    },
+                    {
+                      "id": "361baf8e-5e35-47d1-ae28-3d7950740e7b",
+                      "type": "custom",
+                      "title": "Data select",
+                      "instruction": "<p>[Aujourd'hui un carrousel, demain un POI data select]<br></p>",
+                      "functionalInstruction": "<p>Observez puis répondez à la question.<br><br></p>",
+                      "tagName": "pix-carousel",
+                      "props": {
+                        "type": "image",
+                        "slides": [
+                          {
+                            "title": "Le token \"port\" est sélectionné.",
+                            "description": "",
+                            "displayWidth": 0,
+                            "image": {
+                              "src": "https://assets.pix.org/draft/modules/IAGenFonction_Exp/decouverte2_1.png",
+                              "alt": ""
+                            },
+                            "license": {
+                              "name": "",
+                              "attribution": "",
+                              "url": ""
+                            }
+                          },
+                          {
+                            "title": "",
+                            "description": "Les tokens \"port\", \"bran\" et \"cher\" sont sélectionnés.",
+                            "displayWidth": 0,
+                            "image": {
+                              "src": "https://assets.pix.org/draft/modules/IAGenFonction_Exp/decouverte2_2.png",
+                              "alt": ""
+                            },
+                            "license": {
+                              "name": "",
+                              "attribution": "",
+                              "url": ""
+                            }
+                          },
+                          {
+                            "title": "Tous les tokens sont sélectionnés.",
+                            "description": "",
+                            "displayWidth": 0,
+                            "image": {
+                              "src": "https://assets.pix.org/draft/modules/IAGenFonction_Exp/decouverte2_3.png",
+                              "alt": ""
+                            },
+                            "license": {
+                              "name": "",
+                              "attribution": "",
+                              "url": ""
+                            }
+                          }
+                        ],
+                        "randomSlides": false,
+                        "titleLevel": 0,
+                        "disableAnimation": false,
+                        "disableStyleAroundImage": false,
+                        "enableLoop": false,
+                        "imageTextDisplay": ""
+                      }
+                    },
+                    {
+                      "id": "7cde8049-384a-4796-b7e8-77f716d6e464",
+                      "type": "qcm",
+                      "instruction": "<p>Que se passe-t-il lorsque l’on prend en compte les autres tokens du prompt ?&nbsp;</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>L’interprétation des tokens est plus appropriée.</p>"
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Le nombre de lettres dans le token change.</p>"
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Les valeurs du vecteur du token évoluent.</p>"
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Le modèle est ré-entraîné sur des miliers de textes.</p>"
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien vu !<br></p>",
+                          "diagnosis": "<p>Quand on prend en compte les autres tokens du prompt, c’est-à-dire tout le <strong>contexte </strong>de la requête, le modèle fait des calculs pour <strong>ajuster la valeur du vecteur</strong> en fonction des autres vecteurs du prompt et ainsi faire en sorte qu’il ait une<strong> interprétation plus appropriée dans son contexte.</strong><br></p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Pas tout à fait !<br></p>",
+                          "diagnosis": "<p>Quand on prend en compte les autres tokens du prompt, c’est-à-dire tout le <strong>contexte </strong>de la requête, le modèle fait des calculs pour<strong> ajuster la valeur du vecteur</strong> en fonction des autres vecteurs du prompt et ainsi faire en sorte qu’il ait une<strong> interprétation plus appropriée </strong>dans son contexte.<br></p>"
+                        }
+                      },
+                      "solutions": [
+                        "1",
+                        "3"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "6b469d25-07c3-4df2-85df-d488cd984f51",
+          "type": "short-lesson",
+          "title": "Lesson 2",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "6b80fea7-9421-4a02-829e-dd493f9186a9",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<p>Ce mécanisme, appelé <strong>mécanisme d’auto-attention</strong>, permet d’obtenir une <strong>vectorisation contextualisée</strong>, c’est-à-dire que l’on <strong>ajuste la valeur des vecteurs</strong> de chaque token <strong>en fonction des autres tokens du prompt</strong>. Cette série de calculs se base sur certains paramètres du modèle, “appris” durant la phase d’entraînement.&nbsp;<br></p>"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "858fdf4c-2964-4f78-b701-8c44b6782ab7",
+                      "type": "text",
+                      "tag": " ",
+                      "content": "<h5>Combien de tokens de contexte peuvent être pris en compte ? </h5><p>Dans les IA génératives, tout l'historique de la conversation peut être pris en compte dans le contexte, c’est ce que l’on appele la <strong>fenêtre de contexte.</strong><br><br></p>"
+                    },
+                    {
+                      "id": "222a6abb-c42b-4079-bead-48c6fcb683d8",
+                      "type": "text",
+                      "tag": "further-information",
+                      "content": "<p>La taille de cette <strong>f</strong><strong>enêtre de contexte est limitée</strong>. Lorsque la taille de la fenêtre de contexte est faible, le logiciel d’IA a tendance à ne pas prendre compte le début de la conversation. Mais aujourd'hui les fenêtres de contextes de certains modèles vont jusqu’à +1M de tokens, soit un livre de 2000 pages !</p>"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b1cc5840-4f82-4f10-b2c0-9ef795994011",
+          "type": "transition",
+          "title": "transition",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "576bc60d-fc8d-4d1e-b3c1-ce63e3c3e36d",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Le vecteur “port” a été ajusté pour prendre en compte le reste du prompt d’Anna. Que se passe-t-il après ?<br></p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c2bdf7ca-e875-4880-9563-c9a25563b96c",
+          "type": "discovery",
+          "title": "Découverte 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "8c306cbb-3b11-4ef6-a29b-a80ca1786adf",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Un <strong>réseau de neuronnes </strong>prend comme <strong>données d’entrée</strong> les valeurs du <strong>vecteur</strong>.&nbsp; </p><p>Les <strong>données de sortie</strong> de ce réseaux de neuronnes sont des <strong>logits</strong>.<br><br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "515665c8-833a-460f-ad09-21efc24bb89e",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/modules/IAGenFonction_Exp/decouverte3_1.png",
+                "alt": "",
+                "alternativeText": "",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "<p><br></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "20f869b0-dd0e-49fc-a128-e6a04b9ce385",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>D’après vous, qu’est-ce qu’un logit ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>une liste de tokens probables</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non !</strong></p><p>  Le logit est un score qui va permettre de sélectionner le prochain token de la réponse.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>un vecteur qui n’a pas été contextualisé</p>",
+                          "feedback": {
+                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>Le <strong>logit </strong>est un<strong> score qui va permettre de sélectionner le prochain token de la réponse.</strong></p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>un score qui va permettre de sélectionner le prochain token de la réponse</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Bien vu !</p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Je ne sais pas.<br></p>",
+                          "feedback": {
+                            "diagnosis": "<p>Le logit est un score qui va permettre de sélectionner le prochain token de la réponse.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "6bd83417-56a2-4fa1-a56b-a350cfae42d2",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Combien de logit sont calculés par le réseau de neurones ?</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>Un seul logit est calculé.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non, beaucoup plus !</p><p>Un logit est calculé pour chaque token présent dans le bibliothèque de tokens.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>Un logit est calculé pour chaque token du prompt.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non, beaucoup plus !</p><p>Un logit est calculé pour chaque token présent dans le bibliothèque de tokens.</p>"
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>Un logit est calculé pour chaque token présent dans le bibliothèque de tokens.</p>",
+                          "feedback": {
+                            "diagnosis": "<p>Bien vu !<br></p>"
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "content": "<p>Je ne sais pas.<br></p>",
+                          "feedback": {
+                            "diagnosis": ""
+                          }
+                        }
+                      ],
+                      "solution": "3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "a8f06aac-ff51-4c04-b748-91debb5cef77",
+          "type": "short-lesson",
+          "title": "Lesson 3",
+          "components": [
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "297a1501-ee05-43a0-8448-abde2b8d9d47",
+                      "type": "text",
+                      "tag": " ",
+                      "content": ""
                     }
                   ]
                 },
