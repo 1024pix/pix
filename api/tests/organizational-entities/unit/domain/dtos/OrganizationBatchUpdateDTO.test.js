@@ -12,6 +12,7 @@ describe('Unit | Organizational Entities | Domain | DTO | OrganizationBatchUpdat
         dataProtectionOfficerEmail: 'adam.troisjour@example.net',
         administrationTeamId: '1234',
         countryCode: '99100',
+        categoryId: '50',
       };
 
       // when
@@ -33,6 +34,7 @@ describe('Unit | Organizational Entities | Domain | DTO | OrganizationBatchUpdat
         administrationTeamId: '1234',
         countryCode: '99100',
         organizationLearnerTypeId: '',
+        categoryId: '50',
       });
     });
   });

@@ -29,5 +29,6 @@ export class OrganizationBatchUpdateDTO {
     this.administrationTeamId = data.administrationTeamId ?? '';
     this.countryCode = data.countryCode ?? '';
     this.organizationLearnerTypeId = data.organizationLearnerTypeId ?? '';
+    this.categoryId = data.categoryId ?? '';
   }
 }
