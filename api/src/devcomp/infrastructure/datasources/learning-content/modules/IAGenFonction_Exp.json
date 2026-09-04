@@ -54,7 +54,7 @@
                           "size": 10,
                           "display": "inline",
                           "placeholder": "",
-                          "ariaLabel": "",
+                          "ariaLabel": "champ libre",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -92,7 +92,7 @@
                           "size": 10,
                           "display": "inline",
                           "placeholder": "",
-                          "ariaLabel": "",
+                          "ariaLabel": "champ libre",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -131,7 +131,7 @@
                           "size": 10,
                           "display": "inline",
                           "placeholder": "",
-                          "ariaLabel": "",
+                          "ariaLabel": "champ libre",
                           "tolerances": [
                             "t1",
                             "t2",
@@ -238,7 +238,7 @@
                     "size": 3,
                     "display": "inline",
                     "placeholder": "",
-                    "ariaLabel": "",
+                    "ariaLabel": "champ libre",
                     "tolerances": [],
                     "solutions": [
                       9,
