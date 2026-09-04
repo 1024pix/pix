@@ -69,6 +69,7 @@ export class QuestInput {
   #validate() {
     const { error } = schema.validate(this);
     if (error) {
+      console.log(error.details);
       throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this.items });
     }
   }

@@ -1,17 +1,18 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { CombinedCourseBlueprint } from '../models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 
 export const createCombinedCourseBlueprint = async ({
   combinedCourseBlueprintForCreation,
   combinedCourseBlueprintRepository,
   targetProfileRepository,
+  cappedTubeRepository,
 }) => {
   const existingTargetProfiles = await targetProfileRepository.findByIds({
     ids: combinedCourseBlueprintForCreation.targetProfileIds,
   });
 
+  let existingTargetProfileIds;
   if (existingTargetProfiles.length !== combinedCourseBlueprintForCreation.targetProfileIds.length) {
-    const existingTargetProfileIds = existingTargetProfiles.map(({ id }) => id);
+    existingTargetProfileIds = existingTargetProfiles.map(({ id }) => id);
     const notFoundTargetProfileIds = combinedCourseBlueprintForCreation.targetProfileIds.filter(
       (id) => !existingTargetProfileIds.includes(id),
     );
@@ -21,7 +22,14 @@ export const createCombinedCourseBlueprint = async ({
     );
   }
 
+  if (combinedCourseBlueprintForCreation.needsCappedTubesFromTargetProfiles) {
+    const cappedTubes = await cappedTubeRepository.findCappedTubesForTargetProfileIds({
+      targetProfileIds: existingTargetProfileIds,
+    });
+    combinedCourseBlueprintForCreation.setCappedTubes(cappedTubes);
+  }
+
   return combinedCourseBlueprintRepository.save({
-    combinedCourseBlueprint: new CombinedCourseBlueprint({ ...combinedCourseBlueprintForCreation }),
+    combinedCourseBlueprint: combinedCourseBlueprintForCreation.toCombinedCourseBlueprint(),
   });
 };

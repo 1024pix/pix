@@ -1,6 +1,5 @@
 export class TargetProfileCappedTube {
-  constructor({ targetProfileId, level, tubeId }) {
-    this.targetProfileId = targetProfileId;
+  constructor({ level, tubeId }) {
     this.level = level;
     this.tubeId = tubeId;
   }
