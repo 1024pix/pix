@@ -47,6 +47,16 @@ function buildSrcdoc(script) {
           return new Function('sheets', 'tools', '"use strict";\\nreturn (async function() {\\n' + userScript + '\\n})();')(sheets, tools);
         })
         .then(function (result) {
+          // Guard: if the script returned an array of un-awaited Promises (LLM used .map
+          // instead of a for-loop with await), resolve them so postMessage can clone the result.
+          if (Array.isArray(result) && result.length > 0 && result.every(function(r) {
+            return r !== null && typeof r === 'object' && typeof r.then === 'function';
+          })) {
+            return Promise.all(result);
+          }
+          return result;
+        })
+        .then(function (result) {
           window.parent.postMessage({ type: 'done', result: result !== undefined ? result : null }, '*');
         })
         .catch(function (err) {

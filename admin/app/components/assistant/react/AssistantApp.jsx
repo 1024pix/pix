@@ -8,6 +8,7 @@ import {
   ComposerPrimitive,
   AuiIf,
   useAuiState,
+  useMessagePartReasoning,
   // eslint-disable-next-line no-restricted-imports
   useAssistantToolUI,
 } from '@assistant-ui/react';
@@ -76,25 +77,25 @@ export function DynamicToolFallback({ toolName, args, addResult, status }) {
 }
 
 function TextPart() {
-  const part = useAuiState((s) => {
-    if (s.part.type !== 'text' && s.part.type !== 'reasoning') return null;
-    return s.part;
-  });
+  const part = useAuiState((s) => (s.part.type === 'text' ? s.part : null));
   if (!part?.text) return null;
-  if (part.type === 'reasoning') {
-    return (
-      <details className="message__reasoning">
-        <summary>Réflexion</summary>
-        <p className="message__reasoning-text">{part.text}</p>
-      </details>
-    );
-  }
   return (
     <div
       className="message__text"
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(mdConverter.makeHtml(part.text)) }}
     />
+  );
+}
+
+function ReasoningPart() {
+  const reasoning = useMessagePartReasoning();
+  if (!reasoning?.text) return null;
+  return (
+    <details className="message__reasoning">
+      <summary>Réflexion</summary>
+      <p className="message__reasoning-text">{reasoning.text}</p>
+    </details>
   );
 }
 
@@ -133,7 +134,7 @@ function AssistantMessage() {
             <span />
           </div>
         </AuiIf>
-        <MessagePrimitive.Parts components={{ Text: TextPart, tools: { Fallback: DynamicToolFallback } }} />
+        <MessagePrimitive.Parts components={{ Text: TextPart, Reasoning: ReasoningPart, tools: { Fallback: DynamicToolFallback } }} />
       </div>
     </div>
   );

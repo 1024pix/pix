@@ -4,6 +4,80 @@ import { convertToModelMessages, dynamicTool, extractReasoningMiddleware, jsonSc
 import { config } from '../../../shared/config.js';
 import { createMcpClient } from '../mcp/mcp-client.js';
 
+/**
+ * Wraps fetch to convert reasoning_content SSE deltas into <think>…</think> tags
+ * so that extractReasoningMiddleware can pick them up.
+ * Some OpenAI-compatible inference servers (Qwen/QwQ via vLLM) emit reasoning_content
+ * instead of embedding <think> tags in the content field.
+ */
+function createReasoningFetch() {
+  return async (url, init) => {
+    const response = await globalThis.fetch(url, init);
+    const contentType = response.headers.get('content-type') ?? '';
+    if (!response.body || !contentType.includes('text/event-stream')) {
+      return response;
+    }
+
+    let thinkOpen = false;
+    let buf = '';
+
+    const transformedBody = response.body
+      .pipeThrough(new TextDecoderStream())
+      .pipeThrough(
+        new TransformStream({
+          transform(chunk, controller) {
+            buf += chunk;
+            const lines = buf.split('\n');
+            buf = lines.pop() ?? '';
+            const out = [];
+            for (const line of lines) {
+              if (!line.startsWith('data: ') || line === 'data: [DONE]') {
+                out.push(line);
+                continue;
+              }
+              try {
+                const parsed = JSON.parse(line.slice(6));
+                const delta = parsed?.choices?.[0]?.delta;
+                if (!delta) {
+                  out.push(line);
+                  continue;
+                }
+                // Scaleway Serverless Inference uses delta.reasoning (not delta.reasoning_content)
+                const rc = delta.reasoning ?? delta.reasoning_content;
+                if (rc) {
+                  delta.content = (thinkOpen ? '' : '<think>') + rc;
+                  thinkOpen = true;
+                  delete delta.reasoning;
+                  delete delta.reasoning_content;
+                  out.push('data: ' + JSON.stringify(parsed));
+                } else if (thinkOpen) {
+                  thinkOpen = false;
+                  delta.content = '</think>' + (delta.content ?? '');
+                  out.push('data: ' + JSON.stringify(parsed));
+                } else {
+                  out.push(line);
+                }
+              } catch {
+                out.push(line);
+              }
+            }
+            controller.enqueue(out.join('\n') + '\n');
+          },
+          flush(controller) {
+            if (buf) controller.enqueue(buf);
+          },
+        }),
+      )
+      .pipeThrough(new TextEncoderStream());
+
+    return new Response(transformedBody, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+    });
+  };
+}
+
 // Fonction (et non constante) pour que la date soit recalculée à chaque appel.
 function getSystemPrompt() {
   return `Tu es un assistant pour les équipes de Pix backoffice.
@@ -14,7 +88,7 @@ Date du jour : ${new Date().toISOString().slice(0, 10)}.
 RÈGLE ABSOLUE : appelle les outils directement, sans jamais écrire de message préliminaire d'annonce. N'écris pas "Je vais faire X" — fais-le.
 
 Lorsqu'un document est joint ([Document:] suivi d'une ligne "documentId: XXX") :
-1. Appelle immédiatement \`run_script\` avec un script de simulation : pour chaque ligne de données, appelle \`tools.call("create_organization", { ...args, simulate: true }, { ligne: i + 1 })\`.
+1. Appelle immédiatement \`run_script\` avec un script de simulation : pour chaque ligne de données, \`await tools.call("create_organization", { ...args, simulate: true }, { ligne: i + 1 })\`.
 2. \`run_script\` retourne un résumé de simulation : nombre de lignes prêtes, erreurs, doublons, détail par ligne.
 3. Résume les résultats à l'utilisateur. Si des erreurs ou doublons existent, explique-les clairement et demande à l'utilisateur s'il veut exclure ces lignes ou fournir des corrections. **STOP — attends la réponse de l'utilisateur avant toute autre action.**
 4. Si l'utilisateur confirme (après avoir éventuellement exclu des lignes via le bouton), appelle \`approve_lot({ documentId })\` pour créer les organisations.
@@ -22,6 +96,7 @@ Lorsqu'un document est joint ([Document:] suivi d'une ligne "documentId: XXX") :
 Après la simulation : résume les résultats, explique les erreurs, et **STOP — attends la réponse de l'utilisateur** avant toute autre action.
 
 Dans les scripts run_script :
+- Utilise TOUJOURS \`await tools.call(...)\` dans une boucle \`for\` — JAMAIS \`.map()\`, \`forEach\` ou \`Promise.all\` (les Promises non-résolues ne peuvent pas être clonées).
 - Utilise TOUJOURS les valeurs brutes du CSV (row[N]) comme arguments — ne les traduis JAMAIS.
 - \`const rows = sheets[0];\` pour accéder aux lignes (ne rebinde jamais \`sheets\`).
 - \`{ ligne: i + 1 }\` dans \`tools.call\`, jamais le contenu de la ligne.
@@ -59,6 +134,7 @@ const streamConversationTurn = async function ({ messages, clientTools = {}, doc
   const inferenceProvider = createOpenAI({
     baseURL: config.llmAssistant.baseUrl,
     apiKey: config.llmAssistant.apiKey,
+    fetch: createReasoningFetch(),
   });
 
   // Wrap with extractReasoningMiddleware so <think> blocks in the content are

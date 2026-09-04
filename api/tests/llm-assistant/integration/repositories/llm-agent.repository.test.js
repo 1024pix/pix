@@ -119,23 +119,23 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
     const messages = [{ role: 'user', content: 'Crée une organisation' }];
     const authorizationHeader = 'Bearer some-token';
 
-    let originalInferenceUrl;
-    let originalBaseUrl;
+    let originalLlmBaseUrl;
+    let originalPort;
     let mcpServer;
 
     beforeEach(async function () {
-      originalInferenceUrl = config.llmAssistant.inferenceUrl;
-      originalBaseUrl = config.baseUrl;
+      originalLlmBaseUrl = config.llmAssistant.baseUrl;
+      originalPort = config.port;
       // Autorise les connexions vers 127.0.0.1 pour les serveurs fake locaux
       nock.enableNetConnect('127.0.0.1');
-      // Démarre le faux serveur MCP pour tous les tests
+      // Démarre le faux serveur MCP et redirige le loopback vers lui
       mcpServer = await startFakeMcpServer();
-      config.baseUrl = `http://127.0.0.1:${mcpServer.port}`;
+      config.port = mcpServer.port;
     });
 
     afterEach(async function () {
-      config.llmAssistant.inferenceUrl = originalInferenceUrl;
-      config.baseUrl = originalBaseUrl;
+      config.llmAssistant.baseUrl = originalLlmBaseUrl;
+      config.port = originalPort;
       await mcpServer.close();
       nock.disableNetConnect();
       nock.enableNetConnect('localhost:9090');
@@ -153,7 +153,7 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
         ];
 
         const { port, close } = await startFakeInferenceServer(sseChunks);
-        config.llmAssistant.inferenceUrl = `http://127.0.0.1:${port}`;
+        config.llmAssistant.baseUrl = `http://127.0.0.1:${port}`;
 
         try {
           // when
@@ -211,7 +211,7 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
             resolve({ port: p, close: () => new Promise((res) => server.close(res)) });
           });
         });
-        config.llmAssistant.inferenceUrl = `http://127.0.0.1:${port}`;
+        config.llmAssistant.baseUrl = `http://127.0.0.1:${port}`;
 
         const runScriptClientTool = {
           run_script: {
@@ -249,8 +249,9 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
     context('scenario 2: tool call (sequence measured 2026-08-24)', function () {
       it('returns a non-empty ReadableStream without error', async function () {
         // given — séquence SSE avec tool_calls (format OpenAI)
+        // Scaleway Serverless Inference uses delta.reasoning (not delta.reasoning_content)
         const sseChunks = [
-          'data: {"id":"chatcmpl-tc","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"role":"assistant","reasoning_content":"Je vais créer..."},"finish_reason":null}]}\n\n',
+          'data: {"id":"chatcmpl-tc","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"role":"assistant","reasoning":"Je vais créer..."},"finish_reason":null}]}\n\n',
           'data: {"id":"chatcmpl-tc","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"call_abc","type":"function","function":{"name":"create_organization","arguments":""}}]},"finish_reason":null}]}\n\n',
           'data: {"id":"chatcmpl-tc","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"function":{"arguments":"{\\"name\\":\\"}}]},"finish_reason":null}]}\n\n',
           'data: {"id":"chatcmpl-tc","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"function":{"arguments":"\\"Collège Jean-Moulin\\",\\"type\\":\\"SCO\\""}}]},"finish_reason":null}]}\n\n',
@@ -259,7 +260,7 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
         ];
 
         const { port, close } = await startFakeInferenceServer(sseChunks);
-        config.llmAssistant.inferenceUrl = `http://127.0.0.1:${port}`;
+        config.llmAssistant.baseUrl = `http://127.0.0.1:${port}`;
 
         try {
           // when
@@ -277,6 +278,45 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
 
           const fullResponse = parts.join('');
           expect(fullResponse).to.not.be.empty;
+          // Verify reasoning_content from OpenAI delta is forwarded to the UI stream
+          expect(fullResponse).to.include('Je vais créer');
+        } finally {
+          await close();
+        }
+      });
+    });
+
+    context('scenario 4: <think> reasoning blocks are extracted and forwarded', function () {
+      it('includes reasoning content in the stream and strips the <think> tag from text', async function () {
+        // given — model response with <think> blocks (Qwen/QwQ style)
+        const sseChunks = [
+          'data: {"id":"chatcmpl-r","choices":[{"index":0,"delta":{"role":"assistant","content":"<think>"},"finish_reason":null}]}\n\n',
+          'data: {"id":"chatcmpl-r","choices":[{"index":0,"delta":{"content":"Je dois analyser la demande."},"finish_reason":null}]}\n\n',
+          'data: {"id":"chatcmpl-r","choices":[{"index":0,"delta":{"content":"</think>"},"finish_reason":null}]}\n\n',
+          'data: {"id":"chatcmpl-r","choices":[{"index":0,"delta":{"content":"Voici ma réponse."},"finish_reason":null}]}\n\n',
+          'data: {"id":"chatcmpl-r","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}\n\n',
+          'data: [DONE]\n\n',
+        ];
+
+        const { port, close } = await startFakeInferenceServer(sseChunks);
+        config.llmAssistant.baseUrl = `http://127.0.0.1:${port}`;
+
+        try {
+          // when
+          const stream = await streamConversationTurn({ messages, authorizationHeader });
+
+          const parts = [];
+          const decoder = new TextDecoder();
+          for await (const chunk of stream) {
+            parts.push(decoder.decode(chunk));
+          }
+          await waitForStreamFinalizationToBeDone();
+
+          const fullResponse = parts.join('');
+
+          // then — reasoning content forwarded, <think> tag stripped from text stream
+          expect(fullResponse).to.include('analyser');
+          expect(fullResponse).to.not.include('<think>');
         } finally {
           await close();
         }
