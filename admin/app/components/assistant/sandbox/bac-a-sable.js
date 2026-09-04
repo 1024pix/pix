@@ -1,72 +1,13 @@
 const TIMEOUT_MS = 120_000;
 const MAX_TOOL_CALLS = 500;
 
-function buildWorkerScript() {
-  return `
-(function () {
-  'use strict';
-
-  var pendingCalls = new Map();
-
-  var tools = {
-    call: function call(name, args, options) {
-      var ligne = (options && options.ligne) !== undefined ? options.ligne : undefined;
-      var id = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
-      var p = new Promise(function (resolve) {
-        pendingCalls.set(id, resolve);
-      });
-      self.postMessage({ type: 'tool.call', id: id, name: name, args: args, ligne: ligne });
-      return p;
-    }
-  };
-
-  self.addEventListener('message', function (e) {
-    var data = e.data;
-    if (!data || typeof data !== 'object') return;
-
-    if (data.type === 'init') {
-      var sheets = data.sheets;
-      var userScript = data.script;
-      Promise.resolve()
-        .then(function () {
-          return new Function('sheets', 'tools', '"use strict";\\nreturn (async function() {\\n' + userScript + '\\n})();')(sheets, tools);
-        })
-        .then(function (result) {
-          if (Array.isArray(result) && result.length > 0 && result.every(function(r) {
-            return r !== null && typeof r === 'object' && typeof r.then === 'function';
-          })) {
-            return Promise.all(result);
-          }
-          return result;
-        })
-        .then(function (result) {
-          self.postMessage({ type: 'done', result: result !== undefined ? result : null });
-        })
-        .catch(function (err) {
-          self.postMessage({ type: 'error', message: err && err.message ? err.message : String(err) });
-        });
-    }
-
-    if (data.type === 'tool.result') {
-      var resolve = pendingCalls.get(data.id);
-      if (resolve) {
-        pendingCalls.delete(data.id);
-        resolve(data.result);
-      }
-    }
-  });
-})();
-`;
-}
-
 /**
  * Executes a user-supplied script inside a Web Worker.
  *
- * Using a Worker (blob: URL from same origin) instead of an iframe avoids
- * two CSP restrictions present in production:
- *   - frame-src does not include 'self' or about:srcdoc
- *   - script-src does not allow inline scripts (which data: iframes inherit)
- * blob: URLs created from the page origin are covered by script-src 'self'.
+ * The Worker is loaded from /sandbox-worker.js (a static file served by
+ * 'self'), which is allowed by script-src 'self' without needing blob: or
+ * unsafe-inline. Using a static file instead of a blob: URL is necessary
+ * because Firefox does not cover blob: under script-src 'self'.
  *
  * The script has access to:
  *   - `sheets` — the data object provided by the caller
@@ -81,10 +22,7 @@ function buildWorkerScript() {
  */
 export async function execute({ script, sheets, onToolCall }) {
   return new Promise((resolve, reject) => {
-    const blob = new Blob([buildWorkerScript()], { type: 'application/javascript' });
-    const workerUrl = URL.createObjectURL(blob);
-    const worker = new Worker(workerUrl);
-    URL.revokeObjectURL(workerUrl);
+    const worker = new Worker('/sandbox-worker.js');
 
     let finished = false;
     let pendingCalls = 0;
