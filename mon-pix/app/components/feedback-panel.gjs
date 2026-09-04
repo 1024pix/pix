@@ -3,6 +3,7 @@ import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -49,7 +50,9 @@ export default class FeedbackPanel extends Component {
                   <div class="feedback-panel__category-selection">
                     <PixSelect
                       @screenReaderOnly={{true}}
-                      @placeholder={{t "pages.challenge.feedback-panel.form.fields.category-selection.label"}}
+                      @texts={{hash
+                        placeholder=(t "pages.challenge.feedback-panel.form.fields.category-selection.label")
+                      }}
                       @options={{this.categories}}
                       @onChange={{this.displayCategoryOptions}}
                       @value={{this._currentMajorCategory}}
@@ -59,7 +62,9 @@ export default class FeedbackPanel extends Component {
                     {{#if this.displayQuestionDropdown}}
                       <PixSelect
                         @screenReaderOnly={{true}}
-                        @placeholder={{t "pages.challenge.feedback-panel.form.fields.detail-selection.label"}}
+                        @texts={{hash
+                          placeholder=(t "pages.challenge.feedback-panel.form.fields.detail-selection.label")
+                        }}
                         @onChange={{this.showFeedback}}
                         @options={{this.nextCategories}}
                         @value={{this._currentNextCategory}}
