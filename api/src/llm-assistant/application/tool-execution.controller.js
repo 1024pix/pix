@@ -1,3 +1,4 @@
+import { config } from '../../shared/config.js';
 import { logger } from '../../shared/infrastructure/utils/logger.js';
 import { createMcpClient } from '../infrastructure/mcp/mcp-client.js';
 
@@ -8,7 +9,7 @@ const toolExecutionController = {
       'x-forwarded-proto': request.headers['x-forwarded-proto'],
       'x-forwarded-host': request.headers['x-forwarded-host'],
     };
-    const apiBaseUrl = request.server.info.uri;
+    const apiBaseUrl = `http://127.0.0.1:${config.port}`;
 
     let client;
     try {
@@ -33,7 +34,9 @@ const toolExecutionController = {
       'x-forwarded-proto': request.headers['x-forwarded-proto'],
       'x-forwarded-host': request.headers['x-forwarded-host'],
     };
-    const apiBaseUrl = request.server.info.uri;
+    // Use loopback to avoid Scalingo's load balancer rewriting x-forwarded-host,
+    // which would break JWT audience validation (same reason as in llm-agent.repository.js).
+    const apiBaseUrl = `http://127.0.0.1:${config.port}`;
 
     logger.info(`relais → ${toolName}`);
     const t0 = Date.now();
