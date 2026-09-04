@@ -193,7 +193,9 @@ export async function execute({ script, sheets, onToolCall }) {
       }
     });
 
-    iframe.srcdoc = buildSrcdoc(script);
+    // Use a data: URL instead of srcdoc — the production CSP allows frame-src data:
+    // but not about:srcdoc, so srcdoc iframes are blocked in production.
+    iframe.src = `data:text/html;charset=utf-8,${encodeURIComponent(buildSrcdoc(script))}`;
     document.body.appendChild(iframe);
   });
 }
