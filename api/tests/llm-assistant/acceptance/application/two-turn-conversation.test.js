@@ -65,7 +65,6 @@ function makeTextSseChunks(text) {
 describe('Acceptance | LlmAssistant | Application | Route | TwoTurnConversation', function () {
   let httpServer;
   let fakeInferenceServer;
-  let originalInferenceUrl;
   let originalBaseUrl;
   let superAdmin;
   let authHeaders;
@@ -73,8 +72,7 @@ describe('Acceptance | LlmAssistant | Application | Route | TwoTurnConversation'
   let organizationLearnerType;
 
   beforeEach(async function () {
-    originalInferenceUrl = config.llmAssistant.inferenceUrl;
-    originalBaseUrl = config.baseUrl;
+    originalBaseUrl = config.llmAssistant.baseUrl;
 
     superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
@@ -85,15 +83,13 @@ describe('Acceptance | LlmAssistant | Application | Route | TwoTurnConversation'
 
     httpServer = await createServer();
     await httpServer.start();
-    config.baseUrl = `http://localhost:${httpServer.info.port}`;
     nock.enableNetConnect();
 
     authHeaders = generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id });
   });
 
   afterEach(async function () {
-    config.baseUrl = originalBaseUrl;
-    config.llmAssistant.inferenceUrl = originalInferenceUrl;
+    config.llmAssistant.baseUrl = originalBaseUrl;
     nock.disableNetConnect();
     nock.enableNetConnect('localhost:9090');
 
@@ -122,7 +118,7 @@ describe('Acceptance | LlmAssistant | Application | Route | TwoTurnConversation'
       const sseChunks = makeToolCallSseChunks(toolCallId, 'create_organization', toolArgs);
 
       fakeInferenceServer = await startFakeInferenceServer(sseChunks);
-      config.llmAssistant.inferenceUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
+      config.llmAssistant.baseUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
 
       // when
       const response = await httpServer.inject({
@@ -182,7 +178,7 @@ describe('Acceptance | LlmAssistant | Application | Route | TwoTurnConversation'
       // given — réponse textuelle confirmant la création
       const sseChunks = makeTextSseChunks('Organisation créée avec succès !');
       fakeInferenceServer = await startFakeInferenceServer(sseChunks);
-      config.llmAssistant.inferenceUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
+      config.llmAssistant.baseUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
 
       // Historique incluant le tool call de l'assistant et le résultat de l'outil
       const toolCallId = 'call_abc123';
@@ -239,7 +235,7 @@ describe('Acceptance | LlmAssistant | Application | Route | TwoTurnConversation'
       // given — le LLM répond à l'annulation par un message texte
       const sseChunks = makeTextSseChunks("D'accord, j'ai annulé la création de l'organisation.");
       fakeInferenceServer = await startFakeInferenceServer(sseChunks);
-      config.llmAssistant.inferenceUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
+      config.llmAssistant.baseUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
 
       // Historique incluant un résultat d'outil annulé
       const toolCallId = 'call_xyz789';

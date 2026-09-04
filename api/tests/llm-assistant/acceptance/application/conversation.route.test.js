@@ -83,13 +83,11 @@ describe('Acceptance | LlmAssistant | Application | Route | Conversation', funct
   describe('scenario 3: 200 text/event-stream with fake inference', function () {
     let httpServer;
     let fakeInferenceServer;
-    let originalInferenceUrl;
     let originalBaseUrl;
     let superAdmin;
 
     beforeEach(async function () {
-      originalInferenceUrl = config.llmAssistant.inferenceUrl;
-      originalBaseUrl = config.baseUrl;
+      originalBaseUrl = config.llmAssistant.baseUrl;
 
       superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       databaseBuilder.factory.buildAdministrationTeam({ name: 'Commercial' });
@@ -99,16 +97,13 @@ describe('Acceptance | LlmAssistant | Application | Route | Conversation', funct
 
       httpServer = await createServer();
       await httpServer.start();
-      config.baseUrl = `http://localhost:${httpServer.info.port}`;
-      // La boucle locale (buildToolsFromMcp → /api/admin/llm-assistant/mcp) passe par un vrai
-      // appel HTTP sur le port dynamique du serveur de test. nock.disableNetConnect() du setup
-      // l'interdirait sans cette ligne.
-      nock.enableNetConnect('localhost');
+      // Le serveur utilise request.server.info.port pour la boucle MCP loopback,
+      // donc pas besoin de patcher config.port — toutes connexions autorisées.
+      nock.enableNetConnect();
     });
 
     afterEach(async function () {
-      config.baseUrl = originalBaseUrl;
-      config.llmAssistant.inferenceUrl = originalInferenceUrl;
+      config.llmAssistant.baseUrl = originalBaseUrl;
       nock.disableNetConnect();
       nock.enableNetConnect('localhost:9090');
 
@@ -130,7 +125,7 @@ describe('Acceptance | LlmAssistant | Application | Route | Conversation', funct
       ];
 
       fakeInferenceServer = await startFakeInferenceServer(sseChunks);
-      config.llmAssistant.inferenceUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
+      config.llmAssistant.baseUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
 
       const headers = generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id });
 
@@ -157,7 +152,7 @@ describe('Acceptance | LlmAssistant | Application | Route | Conversation', funct
       ];
 
       fakeInferenceServer = await startFakeInferenceServer(sseChunks);
-      config.llmAssistant.inferenceUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
+      config.llmAssistant.baseUrl = `http://127.0.0.1:${fakeInferenceServer.port}`;
 
       const headers = generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id });
 

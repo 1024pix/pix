@@ -12,7 +12,7 @@ const postMessage = async function (request, h) {
     'x-forwarded-host': request.headers['x-forwarded-host'],
   };
   try {
-    const stream = await usecases.converse({ messages, clientTools, documentContext, authorizationHeader, forwardedHeaders });
+    const stream = await usecases.converse({ messages, clientTools, documentContext, authorizationHeader, forwardedHeaders, serverPort: request.server.info.port });
     const readable = Readable.fromWeb(stream);
     const safe = new PassThrough();
 

@@ -71,6 +71,18 @@ describe('Acceptance | McpAdminServer | Application | Route | MCP', function () 
       });
     });
 
+    describe('scenario 2b: tools/list returns list_reference_values as readOnly', function () {
+      it('lists list_reference_values with readOnlyHint annotation', async function () {
+        const client = await createMcpClient({ authorizationHeader, apiBaseUrl, forwardedHeaders });
+        const { tools } = await client.listTools();
+        await client.close();
+
+        const listRefTool = tools.find((t) => t.name === 'list_reference_values');
+        expect(listRefTool).to.exist;
+        expect(listRefTool.annotations?.readOnlyHint).to.equal(true);
+      });
+    });
+
     describe('scenario 3: a creation succeeds', function () {
       it('creates an organization in database with createdBy = user id', async function () {
         // given
@@ -115,6 +127,70 @@ describe('Acceptance | McpAdminServer | Application | Route | MCP', function () 
           administrationTeamId: administrationTeam.id,
           organizationLearnerTypeId: organizationLearnerType.id,
         });
+      });
+    });
+    // ───────────────────────────────────────────────────────────────────────
+    // Scénario 4 : erreur notFound — propagée via le protocole MCP
+    // ───────────────────────────────────────────────────────────────────────
+    describe('scenario 4: notFound error propagates through MCP to client', function () {
+      it('returns isError:false with error.notFound when administrationTeamName is unknown', async function () {
+        const existingTeam = databaseBuilder.factory.buildAdministrationTeam({ name: 'Équipe MCP Connue' });
+        const organizationLearnerType = databaseBuilder.factory.buildOrganizationLearnerType({
+          name: 'Public MCP Connu',
+        });
+        databaseBuilder.factory.buildCertificationCpfCountry({
+          code: 99100,
+          commonName: 'France',
+          originalName: 'France',
+        });
+        await databaseBuilder.commit();
+
+        const client = await createMcpClient({ authorizationHeader, apiBaseUrl, forwardedHeaders });
+
+        // when — team name inconnue : le usecase retourne { error: { notFound, availableValues } }
+        const result = await client.callTool({
+          name: 'create_organization',
+          arguments: {
+            name: 'Org MCP NotFound',
+            type: 'PRO',
+            administrationTeamName: 'Équipe MCP Inconnue',
+            organizationLearnerTypeName: organizationLearnerType.name,
+            countryName: 'France',
+          },
+        });
+        await client.close();
+
+        // then — l'erreur métier arrive sans isError (le tool retourne sans throw)
+        expect(result.isError).to.not.equal(true);
+        const data = JSON.parse(result.content[0].text);
+        expect(data).to.have.nested.property('error.notFound', 'administrationTeamName');
+        expect(data.error.availableValues).to.include(existingTeam.name);
+      });
+    });
+
+    // ───────────────────────────────────────────────────────────────────────
+    // Scénario 5 : erreur Zod — type invalide, MCP renvoie isError:true
+    // ───────────────────────────────────────────────────────────────────────
+    describe('scenario 5: Zod validation error — invalid type returns MCP protocol error', function () {
+      it('returns isError:true with MCP error text when type is not a valid enum value', async function () {
+        const client = await createMcpClient({ authorizationHeader, apiBaseUrl, forwardedHeaders });
+
+        // when — type 'INVALIDE' ne correspond à aucun enum Zod : le SDK MCP valide les args
+        const result = await client.callTool({
+          name: 'create_organization',
+          arguments: {
+            name: 'Org MCP Invalide',
+            type: 'INVALIDE',
+            administrationTeamName: 'Équipe',
+            organizationLearnerTypeName: 'Public',
+            countryName: 'France',
+          },
+        });
+        await client.close();
+
+        // then — erreur de protocole MCP (validation Zod échouée)
+        expect(result.isError).to.equal(true);
+        expect(result.content[0].text).to.be.a('string').and.include('MCP error');
       });
     });
   });

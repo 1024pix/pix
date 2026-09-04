@@ -130,7 +130,7 @@ function buildToolsFromMcp(mcpTools) {
  * @param {string} params.authorizationHeader - Header Authorization de la requête entrante
  * @returns {Promise<ReadableStream>} Flux SSE UI stream
  */
-const streamConversationTurn = async function ({ messages, clientTools = {}, documentContext = null, authorizationHeader, forwardedHeaders }) {
+const streamConversationTurn = async function ({ messages, clientTools = {}, documentContext = null, authorizationHeader, forwardedHeaders, serverPort }) {
   const inferenceProvider = createOpenAI({
     baseURL: config.llmAssistant.baseUrl,
     apiKey: config.llmAssistant.apiKey,
@@ -144,9 +144,9 @@ const streamConversationTurn = async function ({ messages, clientTools = {}, doc
     middleware: extractReasoningMiddleware({ tagName: 'think' }),
   });
 
-  // Use loopback to avoid Scalingo's load balancer overwriting x-forwarded-host,
-  // which would break JWT audience validation on the MCP endpoint.
-  const loopbackBaseUrl = `http://127.0.0.1:${config.port}`;
+  // Use loopback + actual bound port (not 0.0.0.0) to avoid Scalingo's load balancer
+  // overwriting x-forwarded-host, which would break JWT audience validation.
+  const loopbackBaseUrl = `http://127.0.0.1:${serverPort}`;
   const mcpClient = await createMcpClient({
     authorizationHeader,
     forwardedHeaders,

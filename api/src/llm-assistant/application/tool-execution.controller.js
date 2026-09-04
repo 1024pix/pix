@@ -1,6 +1,7 @@
-import { config } from '../../shared/config.js';
 import { logger } from '../../shared/infrastructure/utils/logger.js';
 import { createMcpClient } from '../infrastructure/mcp/mcp-client.js';
+
+const CONNECT_TIMEOUT_MS = 5_000;
 
 const toolExecutionController = {
   async listTools(request, h) {
@@ -9,7 +10,7 @@ const toolExecutionController = {
       'x-forwarded-proto': request.headers['x-forwarded-proto'],
       'x-forwarded-host': request.headers['x-forwarded-host'],
     };
-    const apiBaseUrl = `http://127.0.0.1:${config.port}`;
+    const apiBaseUrl = `http://127.0.0.1:${request.server.info.port}`;
 
     let client;
     try {
@@ -34,9 +35,9 @@ const toolExecutionController = {
       'x-forwarded-proto': request.headers['x-forwarded-proto'],
       'x-forwarded-host': request.headers['x-forwarded-host'],
     };
-    // Use loopback to avoid Scalingo's load balancer rewriting x-forwarded-host,
-    // which would break JWT audience validation (same reason as in llm-agent.repository.js).
-    const apiBaseUrl = `http://127.0.0.1:${config.port}`;
+    // Use loopback + actual bound port (not 0.0.0.0) to avoid Scalingo's load balancer
+    // rewriting x-forwarded-host, which would break JWT audience validation.
+    const apiBaseUrl = `http://127.0.0.1:${request.server.info.port}`;
 
     logger.info(`relais → ${toolName}`);
     const t0 = Date.now();
@@ -44,7 +45,11 @@ const toolExecutionController = {
     let client;
     let result;
     try {
-      client = await createMcpClient({ authorizationHeader, forwardedHeaders, apiBaseUrl });
+      // Timeout guards against silent hangs (e.g. 0.0.0.0 connections on Linux).
+      const connectTimeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(`MCP connection timeout after ${CONNECT_TIMEOUT_MS}ms`)), CONNECT_TIMEOUT_MS),
+      );
+      client = await Promise.race([createMcpClient({ authorizationHeader, forwardedHeaders, apiBaseUrl }), connectTimeout]);
       result = await client.callTool({ name: toolName, arguments: args });
     } catch (err) {
       // transport MCP injoignable (connexion refusée, réseau inaccessible…)

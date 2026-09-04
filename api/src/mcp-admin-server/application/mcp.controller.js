@@ -14,7 +14,9 @@ const mcpController = {
       'x-forwarded-proto': request.headers['x-forwarded-proto'],
       'x-forwarded-host': request.headers['x-forwarded-host'],
     };
-    const apiBaseUrl = request.server.info.uri;
+    // Use loopback to avoid Scalingo's load balancer overwriting x-forwarded-host,
+    // and to prevent 0.0.0.0 binding on Linux where connecting to 0.0.0.0 hangs silently.
+    const apiBaseUrl = `http://127.0.0.1:${request.server.info.port}`;
 
     const sessionId = request.headers['mcp-session-id'];
     if (sessionId) {

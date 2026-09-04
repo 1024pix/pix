@@ -3,7 +3,6 @@ import net from 'node:net';
 import nock from 'nock';
 
 import { createServer } from '../../../../server.js';
-import { createMcpClient } from '../../../../src/llm-assistant/infrastructure/mcp/mcp-client.js';
 import { ORGANIZATION_FEATURE, PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { expect } from '../../../test-helper.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
@@ -315,40 +314,29 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
     });
 
     // ───────────────────────────────────────────────────────────────────────
-    // Scénario 8 : 502 transport injoignable
+    // Scénario 8 : 502 transport injoignable — testé via l'endpoint HTTP
     // ───────────────────────────────────────────────────────────────────────
     describe('scenario 8: 502 when MCP transport is unreachable', function () {
-      it('returns 502 with error.relay when the MCP server port is closed', async function () {
-        // Trouver un port fermé (aucun serveur ne l'écoute)
-        const closedPort = await findFreePort();
+      it('returns 502 with error.relay when the MCP connection is blocked', async function () {
+        // Bloquer toutes les connexions HTTP sortantes : le client MCP ne peut pas joindre
+        // l'endpoint /api/admin/mcp → erreur capturée par le catch → 502.
+        // pg ne passe pas par le module http de Node, donc la DB reste accessible.
+        nock.disableNetConnect();
 
-        // Appeler la route via inject en remplaçant l'URL du serveur MCP — le controller
-        // utilise request.server.info.uri pour construire l'apiBaseUrl du client MCP.
-        // Pour simuler un transport injoignable, on utilise le client MCP directement avec
-        // un port fermé pour valider le comportement du controller.
-        // NOTE : via httpServer.inject, le controller utilise l'apiBaseUrl du vrai serveur,
-        // donc un test de transport injoignable nécessite un deuxième serveur HTTP pointant
-        // vers un mauvais port MCP. Comme ce serait complexe, on valide ce scénario
-        // en appelant directement createMcpClient avec un port fermé.
-        let caughtError = null;
-        let client = null;
         try {
-          client = await createMcpClient({
-            authorizationHeader,
-            forwardedHeaders,
-            apiBaseUrl: `http://localhost:${closedPort}`,
+          const response = await httpServer.inject({
+            method: 'POST',
+            url: '/api/admin/llm-assistant/tools/create_organization',
+            headers: authHeaders,
+            payload: { name: 'Test' },
           });
-          await client.callTool({ name: 'create_organization', arguments: {} });
-        } catch (err) {
-          caughtError = err;
-        } finally {
-          // eslint-disable-next-line no-empty-function
-          if (client) await client.close().catch(() => {});
-        }
 
-        // Le transport injoignable doit lever une exception (le client ne peut pas se connecter)
-        // ce que le controller attrape dans le bloc catch et renvoie en 502
-        expect(caughtError).to.not.equal(null, 'Expected a transport error when port is closed');
+          expect(response.statusCode).to.equal(502);
+          const data = JSON.parse(response.payload);
+          expect(data).to.have.nested.property('error.relay');
+        } finally {
+          nock.enableNetConnect();
+        }
       });
     });
 
@@ -453,6 +441,65 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
     // Pour le valider, il faudrait soit injecter un logger stub, soit analyser stdout.
     // scenario 10: log sequence — skipped because logger not observable in acceptance tests
     // To validate: inject a stub logger or analyse stdout
+
+    // ───────────────────────────────────────────────────────────────────────
+    // Scénario 12 : Zod validation error — type invalide
+    // ───────────────────────────────────────────────────────────────────────
+    describe('scenario 12: Zod validation error — invalid type', function () {
+      it('returns 200 with error.validation when tool args fail schema validation', async function () {
+        const response = await httpServer.inject({
+          method: 'POST',
+          url: '/api/admin/llm-assistant/tools/create_organization',
+          headers: authHeaders,
+          payload: {
+            name: 'Test Org',
+            type: 'INVALID_TYPE',
+            administrationTeamName: 'Team',
+            organizationLearnerTypeName: 'Type',
+            countryName: 'France',
+          },
+        });
+
+        expect(response.statusCode).to.equal(200);
+        const data = JSON.parse(response.payload);
+        expect(data).to.have.nested.property('error.validation');
+        expect(data.error.validation).to.be.a('string').and.include('MCP error');
+      });
+    });
+
+    // ───────────────────────────────────────────────────────────────────────
+    // Scénario 13 : notFound — countryName inconnu
+    // ───────────────────────────────────────────────────────────────────────
+    describe('scenario 13: notFound — unknown countryName', function () {
+      it('returns error.notFound with availableValues for countryName', async function () {
+        databaseBuilder.factory.buildAdministrationTeam({ name: 'Équipe Pays' });
+        databaseBuilder.factory.buildOrganizationLearnerType({ name: 'Public Pays' });
+        databaseBuilder.factory.buildCertificationCpfCountry({
+          code: 99100,
+          commonName: 'France',
+          originalName: 'France',
+        });
+        await databaseBuilder.commit();
+
+        const response = await httpServer.inject({
+          method: 'POST',
+          url: '/api/admin/llm-assistant/tools/create_organization',
+          headers: authHeaders,
+          payload: {
+            name: 'Org Pays Inconnu',
+            type: 'PRO',
+            administrationTeamName: 'Équipe Pays',
+            organizationLearnerTypeName: 'Public Pays',
+            countryName: 'Narnia',
+          },
+        });
+
+        expect(response.statusCode).to.equal(200);
+        const data = JSON.parse(response.payload);
+        expect(data).to.have.nested.property('error.notFound', 'countryName');
+        expect(data.error.availableValues).to.include('France');
+      });
+    });
 
     // ───────────────────────────────────────────────────────────────────────
     // Scénario 11 : GET /api/admin/llm-assistant/tools — liste des outils + annotations

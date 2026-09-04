@@ -120,22 +120,17 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
     const authorizationHeader = 'Bearer some-token';
 
     let originalLlmBaseUrl;
-    let originalPort;
     let mcpServer;
 
     beforeEach(async function () {
       originalLlmBaseUrl = config.llmAssistant.baseUrl;
-      originalPort = config.port;
       // Autorise les connexions vers 127.0.0.1 pour les serveurs fake locaux
       nock.enableNetConnect('127.0.0.1');
-      // Démarre le faux serveur MCP et redirige le loopback vers lui
       mcpServer = await startFakeMcpServer();
-      config.port = mcpServer.port;
     });
 
     afterEach(async function () {
       config.llmAssistant.baseUrl = originalLlmBaseUrl;
-      config.port = originalPort;
       await mcpServer.close();
       nock.disableNetConnect();
       nock.enableNetConnect('localhost:9090');
@@ -157,7 +152,7 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
 
         try {
           // when
-          const stream = await streamConversationTurn({ messages, authorizationHeader });
+          const stream = await streamConversationTurn({ messages, authorizationHeader, serverPort: mcpServer.port });
 
           // then
           expect(stream).to.be.instanceOf(ReadableStream);
@@ -227,6 +222,7 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
             messages,
             clientTools: runScriptClientTool,
             authorizationHeader,
+            serverPort: mcpServer.port,
           });
 
           const decoder = new TextDecoder();
@@ -264,7 +260,7 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
 
         try {
           // when
-          const stream = await streamConversationTurn({ messages, authorizationHeader });
+          const stream = await streamConversationTurn({ messages, authorizationHeader, serverPort: mcpServer.port });
 
           // then
           expect(stream).to.be.instanceOf(ReadableStream);
@@ -303,7 +299,7 @@ describe('LlmAssistant | Integration | Infrastructure | Repositories | llm-agent
 
         try {
           // when
-          const stream = await streamConversationTurn({ messages, authorizationHeader });
+          const stream = await streamConversationTurn({ messages, authorizationHeader, serverPort: mcpServer.port });
 
           const parts = [];
           const decoder = new TextDecoder();
