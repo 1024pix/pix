@@ -1,7 +1,7 @@
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
-import { fn, get } from '@ember/helper';
+import { fn, get, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
@@ -93,7 +93,7 @@ export default class Qrocm extends Component {
             class="challenge-content-proposals__response"
             @value={{get this.answerValues block.input}}
             @screenReaderOnly={{true}}
-            @placeholder={{block.placeholder}}
+            @text={{hash placeholder=block.placeholder}}
             @hideDefaultOption={{true}}
             @options={{block.options}}
             @onChange={{fn this.onSelectChange block.input}}
