@@ -3,6 +3,7 @@ import PixNavigation from '@1024pix/pix-ui/components/pix-navigation';
 import PixNavigationButton from '@1024pix/pix-ui/components/pix-navigation-button';
 import PixStructureSwitcher from '@1024pix/pix-ui/components/pix-structure-switcher';
 import { action } from '@ember/object';
+import { hash } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -53,9 +54,11 @@ export default class Sidebar extends Component {
 
   <template>
     <PixNavigation
-      @navigationAriaLabel={{t 'navigation.sidebar.extra-information'}}
-      @openLabel={{t 'navigation.sidebar.menu-labels.open'}}
-      @closeLabel={{t 'navigation.sidebar.menu-labels.close'}}
+      @texts={{hash
+        mainNavigation=(t "navigation.sidebar.extra-information")
+        openMenu=(t "navigation.sidebar.menu-labels.open")
+        closeMenu=(t "navigation.sidebar.menu-labels.open")
+      }}
     >
       <:brand>
         <LinkTo @route='authenticated'>

@@ -3,6 +3,14 @@
     "description": "The platform dedicated to the organisation of Pix Certification sessions. Pix Certif allows you to create and manage certification sessions."
   },
   "common": {
+    "pagination": {
+      "nextPage": "Go to next page",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}} other {{start, number}-{end, number} of {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}}}",
+      "pageNumber": "Page {current, number} / {total, number}",
+      "pageSize": "Select the number of items by page",
+      "previousPage": "Go to previous page",
+      "title": "See"
+    },
     "actions": {
       "add": "Add",
       "back": "Back",

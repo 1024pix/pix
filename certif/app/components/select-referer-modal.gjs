@@ -2,6 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import t from 'ember-intl/helpers/t';
+import { hash } from '@ember/helper';
 
 <template>
   <PixModal
@@ -16,7 +17,7 @@ import t from 'ember-intl/helpers/t';
           @id='referer'
           @options={{@options}}
           @value={{@selectedReferer}}
-          @placeholder={{t 'pages.team.select-referer-modal.empty-option'}}
+          @texts={{hash placeholder=(t 'pages.team.select-referer-modal.empty-option')}}
           @hideDefaultOption={{true}}
           @onChange={{@onSelectReferer}}
           @emptyOptionNotSelectable={{true}}
