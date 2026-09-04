@@ -20,6 +20,11 @@ const createOrganization = async function ({
 }) {
   const { name, type, administrationTeamName, organizationLearnerTypeName, countryName, externalId, simulate } = args;
 
+  const VALID_TYPES = ['SCO', 'SUP', 'PRO', 'SCO-1D'];
+  if (!VALID_TYPES.includes(type)) {
+    return { error: { notFound: 'type', availableValues: VALID_TYPES } };
+  }
+
   // Paralléliser les 3 lookups
   const [administrationTeams, organizationLearnerTypes, countries] = await Promise.all([
     administrationTeamRepository.findAll(),
