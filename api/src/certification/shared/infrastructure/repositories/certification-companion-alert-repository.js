@@ -14,15 +14,15 @@ export async function create({ assessmentId, status }, { knex = DomainTransactio
   await knex(TABLE_NAME).insert({ assessmentId, status });
 }
 
-export const getAllByAssessmentId = async ({ assessmentId }) => {
+export async function getAllByAssessmentId({ assessmentId }) {
   const knexConn = DomainTransaction.getConnection();
   const certificationCompanionLiveAlertsDto = await knexConn(TABLE_NAME).select('id', 'assessmentId', 'status').where({
     assessmentId,
   });
 
   return certificationCompanionLiveAlertsDto.map(_toDomain);
-};
+}
 
-const _toDomain = (certificationCompanionLiveAlertDto) => {
+function _toDomain(certificationCompanionLiveAlertDto) {
   return new CertificationCompanionLiveAlert(certificationCompanionLiveAlertDto);
-};
+}

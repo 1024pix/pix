@@ -25,17 +25,17 @@ export async function save({ certificationCourse }) {
   return get({ id: certificationCourseId });
 }
 
-const _findCertificationCourse = async function (id, knexConn) {
+async function _findCertificationCourse(id, knexConn) {
   return knexConn('certification-courses').where({ id }).first();
-};
+}
 
-const _findAssessment = async function (certificationCourseId, knexConn) {
+async function _findAssessment(certificationCourseId, knexConn) {
   return knexConn('assessments').where({ certificationCourseId }).first();
-};
+}
 
-const _findAllChallenges = async function (certificationCourseId, knexConn) {
+async function _findAllChallenges(certificationCourseId, knexConn) {
   return knexConn('certification-challenges').where({ courseId: certificationCourseId });
-};
+}
 
 export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();

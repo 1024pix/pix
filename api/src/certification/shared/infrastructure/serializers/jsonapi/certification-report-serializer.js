@@ -4,7 +4,7 @@ const { Serializer, Deserializer } = jsonapiSerializer;
 
 import { CertificationReport } from '../../../domain/models/CertificationReport.js';
 
-const serialize = function (certificationReports) {
+function serialize(certificationReports) {
   return new Serializer('certification-report', {
     attributes: [
       'certificationCourseId',
@@ -20,12 +20,12 @@ const serialize = function (certificationReports) {
       attributes: ['category', 'description', 'subcategory', 'questionNumber'],
     },
   }).serialize(certificationReports);
-};
+}
 
-const deserialize = async function (jsonApiData) {
+async function deserialize(jsonApiData) {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
   const deserializedReport = await deserializer.deserialize(jsonApiData);
   return new CertificationReport(deserializedReport);
-};
+}
 
 export const certificationReportSerializer = { deserialize, serialize };

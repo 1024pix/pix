@@ -6,7 +6,7 @@ function _toDomain(issueReportCategoryModel) {
   return new CertificationIssueReportCategory({ id: issueReportCategoryModel.id });
 }
 
-const get = async function ({ name }) {
+export async function get({ name }) {
   const knexConn = DomainTransaction.getConnection();
   const issueReportCategory = await knexConn('issue-report-categories').where({ name }).first();
 
@@ -14,6 +14,4 @@ const get = async function ({ name }) {
     throw new NotFoundError('The issue report category name does not exist');
   }
   return _toDomain(issueReportCategory);
-};
-
-export { get };
+}

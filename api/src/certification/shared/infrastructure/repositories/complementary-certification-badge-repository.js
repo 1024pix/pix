@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertificationBadge } from '../../domain/models/ComplementaryCertificationBadge.js';
 
-export const getAllWithSameTargetProfile = async (complementaryCertificationBadgeId) => {
+export async function getAllWithSameTargetProfile(complementaryCertificationBadgeId) {
   const knexConn = DomainTransaction.getConnection();
   const complementaryCertificationBadges = await knexConn('complementary-certification-badges')
     .select('complementary-certification-badges.*')
@@ -22,7 +22,7 @@ export const getAllWithSameTargetProfile = async (complementaryCertificationBadg
   }
 
   return complementaryCertificationBadges.map(_toDomain);
-};
+}
 
 function _toDomain(complementaryCertificationBadgeDTO) {
   return new ComplementaryCertificationBadge(complementaryCertificationBadgeDTO);
