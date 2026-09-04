@@ -11,6 +11,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
 import MarkdownToHtml from '../../../../markdown-to-html';
+import HighlightedCard from '../highlighted-card/highlighted-card';
 import AcquiredBadgesCompact from './acquired-badges-compact';
 
 export default class EvaluationResultsHeroRecommendationEngine extends Component {
@@ -174,10 +175,12 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
                 </ul>
               </:footer>
             </PixModal>
-
           {{/if}}
         </div>
       </div>
+      {{#if @highlightedTraining}}
+        <HighlightedCard @highlightedTraining={{@highlightedTraining}} @onCardClick={{@onCardClick}} />
+      {{/if}}
     </div>
     {{#if @campaignParticipationResult.hasReachedStage}}
       <section

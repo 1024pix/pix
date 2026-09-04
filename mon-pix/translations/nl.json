@@ -2300,6 +2300,12 @@
           },
           "title": "Feedback over de aanbevelingen"
         },
+        "highlighted-card": {
+          "editor-label": "Inhoud aangeboden door",
+          "learn-more": "Meer informatie over het programma",
+          "subtitle": "Verdiep bepaalde punten met aanvullende inhoud.",
+          "title": "Omdat nieuwsgierigheid een kracht is."
+        },
         "modal": {
           "actions": {
             "discover-module": "Module starten",

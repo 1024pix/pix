@@ -2300,6 +2300,12 @@
           },
           "title": "Feedback sulle raccomandazioni"
         },
+        "highlighted-card": {
+          "editor-label": "Contenuto offerto da",
+          "learn-more": "Scopri di più sul programma",
+          "subtitle": "Approfondisci alcuni punti con contenuti complementari.",
+          "title": "Perché la curiosità è una forza."
+        },
         "modal": {
           "actions": {
             "discover-module": "Avvia il modulo",

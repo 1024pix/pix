@@ -17,8 +17,10 @@
 
 .evaluation-results-hero-recommendation-engine {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--pix-spacing-6x);
+  align-items: center;
+  justify-content: center;
   min-height: 350px;
   padding: var(--pix-spacing-6x) var(--pix-spacing-3x);
   color: var(--pix-neutral-0);
@@ -31,7 +33,6 @@
     gap: var(--pix-spacing-6x);
     align-items: center;
     justify-content: center;
-    width: 100%;
   }
 
   &__title {
@@ -141,18 +142,19 @@
   }
 }
 
-@include breakpoints.device-is('tablet') {
+@include breakpoints.device-is('desktop') {
   .evaluation-results-recommendation-engine {
     padding-right: 0;
     padding-left: 0;
   }
 
   .evaluation-results-hero-recommendation-engine {
-    gap: var(--pix-spacing-10x);
+    flex-direction: row;
+    gap: var(--pix-spacing-1x);
     justify-content: space-between;
     max-width: 80rem;
     margin: 0 auto var(--pix-spacing-1x);
-    padding: var(--pix-spacing-10x) 15%;
+    padding: var(--pix-spacing-5x) var(--pix-spacing-10x) var(--pix-spacing-5x) calc(var(--pix-spacing-9x) * 2);
     background: url('/images/illustrations/results/coupe-resultat.webp') bottom 0 right 60px / 360px no-repeat,
       url('/images/illustrations/results/triangle-result.svg') bottom 0 right 0 / 460px no-repeat,
       var(--pix-gradient-default-dark);
@@ -160,8 +162,8 @@
     &__content {
       gap: var(--pix-spacing-4x);
       align-items: normal;
-      justify-content: normal;
-      min-width: min(28rem, 100%);
+      justify-content: center;
+      min-width: min(18rem, 100%);
     }
 
     &__title {

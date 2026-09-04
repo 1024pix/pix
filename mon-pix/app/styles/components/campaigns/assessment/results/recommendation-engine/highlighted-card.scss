@@ -1,0 +1,52 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+
+.highlighted-card-container {
+  max-width: 700px;
+
+}
+
+.highlighted-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-1x);
+  padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
+  color: var(--pix-neutral-900);
+  background-color: var(--pix-secondary-100);
+  border-radius: var(--pix-spacing-6x) 0 var(--pix-spacing-6x) var(--pix-spacing-6x);
+  box-shadow: var(--pix-shadow-default);
+
+  @include breakpoints.device-is('desktop'){
+    padding: var(--pix-spacing-7x);
+  }
+
+  &__title {
+    @extend %pix-title-s;
+  }
+
+  &__subtitle {
+    @extend %pix-subtitle-s;
+
+    margin-bottom: var(--pix-spacing-7x);
+  }
+}
+
+.highlighted-card-tag {
+  display: flex;
+  justify-content: flex-end;
+  text-align: end;
+
+  @extend %pix-body-s;
+
+  &__text {
+    max-width: 75%;
+    padding: var(--pix-spacing-1x) var(--pix-spacing-3x);
+    color: var(--pix-secondary-900);
+    background-color: var(--pix-secondary-300);
+    border-radius: var(--pix-spacing-3x) var(--pix-spacing-3x) 0 0;
+
+    &--bold {
+      font-weight: var(--pix-font-bold);
+    }
+  }
+}

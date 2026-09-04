@@ -65,7 +65,9 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     if (this.args.model.campaign.isPartOfCombinedCourse) {
       return [];
     } else {
-      return this.args.model.trainings;
+      return this.highlightedTraining
+        ? this.args.model.trainings.filter((training) => training.id !== this.highlightedTraining.id)
+        : this.args.model.trainings;
     }
   }
 
@@ -88,6 +90,10 @@ export default class EvaluationResultsRecommendationEngine extends Component {
 
   get scrollBehavior() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+  }
+
+  get highlightedTraining() {
+    return this.args.model.trainings.find((training) => training.isHighlighted);
   }
 
   @action revealDrawer() {
@@ -129,7 +135,9 @@ export default class EvaluationResultsRecommendationEngine extends Component {
       <EvaluationResultsHeroRecommendationEngine
         @campaign={{@model.campaign}}
         @campaignParticipationResult={{@model.campaignParticipationResult}}
+        @highlightedTraining={{this.highlightedTraining}}
         @hasTrainings={{this.hasTrainings}}
+        @onCardClick={{this.onCardClick}}
         @onSeeRecommendationsButtonClicked={{this.onSeeRecommendationsButtonClicked}}
         @questResults={{@model.questResults}}
       />

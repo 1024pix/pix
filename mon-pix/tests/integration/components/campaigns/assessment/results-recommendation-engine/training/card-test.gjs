@@ -1,4 +1,5 @@
 import { render, within } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
@@ -12,6 +13,30 @@ module(
   'Integration | Components | Campaigns | Assessment | ResultsRecommendationEngine | Training | Card',
   function (hooks) {
     setupIntlRenderingTest(hooks);
+
+    module('when card displays an highlighted training', function () {
+      module('when device is mobile', function () {
+        test('should not display training illustration', async function (assert) {
+          // given
+          this.owner.register(
+            'service:media',
+            class MediaService extends Service {
+              isMobile = true;
+            },
+          );
+          const store = this.owner.lookup('service:store');
+          const training = store.createRecord('training', _buildTraining({}));
+
+          // when
+          const screen = await render(
+            <template><TrainingCard @isHighlighted={{true}} @training={{training}} /></template>,
+          );
+
+          // then
+          assert.dom(screen.queryByRole('presentation')).doesNotExist();
+        });
+      });
+    });
 
     test('it renders with correct fields', async function (assert) {
       // given

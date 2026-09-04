@@ -4,4 +4,6 @@
 @use 'assessment/results/evaluation-results-tabs/trainings';
 @use 'assessment/results/recommendation-engine/acquired-badges-compact';
 @use 'assessment/results/recommendation-engine/drawer';
+@use 'assessment/results/recommendation-engine/highlighted-card';
+@use 'assessment/results/recommendation-engine/card';
 @use 'invited/learner-reconciliation';

@@ -2300,6 +2300,12 @@
           },
           "title": "Encart de prise de retours sur les recommandations"
         },
+        "highlighted-card": {
+          "editor-label": "Contenu proposé par",
+          "learn-more": "En savoir plus sur le programme",
+          "subtitle": "Approfondissez certains points avec des contenus complémentaires.",
+          "title": "Parce que la curiosité est une force."
+        },
         "modal": {
           "actions": {
             "discover-module": "Découvrir le module",

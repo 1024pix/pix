@@ -2300,6 +2300,12 @@
           },
           "title": "Feedback on the recommendations"
         },
+        "highlighted-card": {
+          "editor-label": "Content offered by",
+          "learn-more": "Learn more about the programme",
+          "subtitle": "Deepen certain points with additional content.",
+          "title": "Because curiosity is a strength."
+        },
         "modal": {
           "actions": {
             "discover-module": "Start the module",

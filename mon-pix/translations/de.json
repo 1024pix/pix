@@ -2300,6 +2300,12 @@
           },
           "title": "Feedback zu den Empfehlungen"
         },
+        "highlighted-card": {
+          "editor-label": "Inhalt angeboten von",
+          "learn-more": "Mehr über das Programm erfahren",
+          "subtitle": "Vertiefe bestimmte Themen mit ergänzenden Inhalten.",
+          "title": "Weil Neugier eine Stärke ist."
+        },
         "modal": {
           "actions": {
             "discover-module": "Modul starten",

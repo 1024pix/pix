@@ -2300,6 +2300,12 @@
           },
           "title": "Comentarios sobre las recomendaciones"
         },
+        "highlighted-card": {
+          "editor-label": "Contenido ofrecido por",
+          "learn-more": "Más información sobre el programa",
+          "subtitle": "Profundiza algunos puntos con contenido complementario.",
+          "title": "Porque la curiosidad es una fortaleza."
+        },
         "modal": {
           "actions": {
             "discover-module": "Iniciar el módulo",
