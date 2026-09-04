@@ -2,7 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -103,7 +103,7 @@ export default class InformationEdit extends Component {
 
       <PixSelect
         @options={{this.certificationCenterTypes}}
-        @placeholder="-- Choisissez --"
+        @texts={{hash placeholder="-- Choisissez --"}}
         @value={{this.form.type}}
         @onChange={{this.onTypeChange}}
         @errorMessage={{this.validator.errors.type}}

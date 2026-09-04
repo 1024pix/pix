@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { hash } from '@ember/helper';
 
 <template>
   <div class="certification-information-pix-edu">
@@ -22,7 +23,7 @@ import PixSelect from '@1024pix/pix-ui/components/pix-select';
               @value={{@selectedJuryLevel}}
               @hideDefaultOption={{true}}
               @onChange={{@selectJuryLevel}}
-              @placeholder="Choisir un niveau"
+              @texts={{hash placeholder="Choisir un niveau"}}
             >
               <:label>Sélectionner un niveau</:label>
             </PixSelect>

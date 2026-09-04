@@ -4,7 +4,7 @@ import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -261,7 +261,7 @@ export default class UserOverview extends Component {
             {{/if}}
             <div class="form-field">
               <PixSelect
-                @placeholder="-- Sélectionnez une langue --"
+                @texts={{hash placeholder="-- Sélectionnez une langue --"}}
                 @options={{this.languageOptions}}
                 @value={{this.form.lang}}
                 @onChange={{this.onChangeLanguage}}
@@ -272,7 +272,7 @@ export default class UserOverview extends Component {
             </div>
             <div class="form-field">
               <PixSelect
-                @placeholder="-- Sélectionnez une locale --"
+                @texts={{hash placeholder="-- Sélectionnez une locale --"}}
                 @options={{this.localeOptions}}
                 @value={{this.form.locale}}
                 @onChange={{this.onLocaleChange}}

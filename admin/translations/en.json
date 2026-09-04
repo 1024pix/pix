@@ -159,6 +159,14 @@
       },
       "generic-error": "An error occurred."
     },
+    "pagination": {
+      "nextPage": "Go to next page",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}} other {{start, number}-{end, number} of {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}}}",
+      "pageNumber": "Page {current, number} / {total, number}",
+      "pageSize": "Select the number of items by page",
+      "previousPage": "Go to previous page",
+      "title": "See"
+    },
     "pix-admin": "Pix Admin",
     "roles": {
       "admin": "Administrator",
@@ -900,8 +908,11 @@
         "combined-course-blueprints": "Courses blueprints",
         "labels": {
           "close": "Close navigation",
+          "expand": "Return to the initial width of the navigation menu",
           "main": "Main navigation",
-          "open": "Open navigation"
+          "open": "Open navigation",
+          "shrink": "Reduce the width of the navigation menu",
+          "title": "Main navigation"
         },
         "logout": "Log out",
         "networks": "Networks",

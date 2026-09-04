@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -81,7 +81,7 @@ export default class CertificationCenterInvitationsAction extends Component {
             @options={{this.localeOptions}}
             @value={{this.invitationLocale}}
             @onChange={{this.changeInvitationLocale}}
-            @placeholder="Choix de la langue"
+            @texts={{hash placeholder="Choix de la langue"}}
             @hideDefaultOption={{true}}
           >
             <:label>Choisir la langue de l’email d’invitation</:label>
@@ -91,7 +91,7 @@ export default class CertificationCenterInvitationsAction extends Component {
             @options={{this.rolesOptions}}
             @value={{this.invitationRole}}
             @onChange={{this.changeInvitationRole}}
-            @placeholder="Choix du Rôle"
+            @texts={{hash placeholder="Choix du Rôle"}}
             @hideDefaultOption={{true}}
           >
             <:label>Choisir le rôle du membre</:label>
