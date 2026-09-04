@@ -1,5 +1,18 @@
 # Pix Changelog
 
+# [5.495.0](https://github.com/1024pix/pix/compare/v5.494.0...v5.495.0) (2026-09-04)
+
+### :rocket: Amélioration
+
+- [#17350](https://github.com/1024pix/pix/pull/17350) Update IAGenPrompt_IND_pro.json - retours Nico
+
+### :building_construction: Tech
+
+- [#17381](https://github.com/1024pix/pix/pull/17381) Déplace la configuration des seeds dans son propre fichier.
+- [#17340](https://github.com/1024pix/pix/pull/17340) Intégrer les retours internes sur les fichiers de traduction 'de', 'it' et 'es' (PIX-23349)
+- [#17159](https://github.com/1024pix/pix/pull/17159) Mise en place de l'event driven design
+- [#17380](https://github.com/1024pix/pix/pull/17380) Supprimer lodash derechef
+
 # [5.494.0](https://github.com/1024pix/pix/compare/v5.493.0...v5.494.0) (2026-09-03)
 
 ### :rocket: Amélioration
