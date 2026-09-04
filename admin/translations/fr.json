@@ -2278,6 +2278,7 @@
         "anonymisation": {
           "default-anonymised-user-message": "Utilisateur anonymisé.",
           "self-anonymisation-message": "Utilisateur anonymisé par lui-même.",
+          "success": "La demande d’anonymisation de l’utilisateur a bien été envoyée.",
           "user-anonymised-by-admin-message": "Utilisateur anonymisé par {fullName}."
         }
       }
