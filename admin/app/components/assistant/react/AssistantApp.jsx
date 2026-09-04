@@ -81,6 +81,14 @@ function TextPart() {
     return s.part;
   });
   if (!part?.text) return null;
+  if (part.type === 'reasoning') {
+    return (
+      <details className="message__reasoning">
+        <summary>Réflexion</summary>
+        <p className="message__reasoning-text">{part.text}</p>
+      </details>
+    );
+  }
   return (
     <div
       className="message__text"
@@ -111,7 +119,11 @@ function AssistantMessage() {
         <AuiIf
           condition={(s) =>
             !s.message.parts.some(
-              (p) => (p.type === 'text' && p.text) || p.type?.startsWith('tool-') || p.type === 'dynamic-tool',
+              (p) =>
+                (p.type === 'text' && p.text) ||
+                p.type?.startsWith('tool-') ||
+                p.type === 'dynamic-tool' ||
+                (p.type === 'reasoning' && p.text),
             )
           }
         >

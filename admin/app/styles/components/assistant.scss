@@ -225,8 +225,8 @@
   opacity: 0.85;
 }
 
-/* Hide assistant bubble when it has no text content (tool-call-only messages) */
-.message--assistant .message__bubble:not(:has(.message__text)) {
+/* Hide assistant bubble when it has no text/reasoning content (tool-call-only messages) */
+.message--assistant .message__bubble:not(:has(.message__text, .message__reasoning)) {
   padding: 0;
   background: transparent;
 }
@@ -254,6 +254,30 @@
 @keyframes thinking-bounce {
   0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
   40% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Reasoning / thinking content ──────────────────────── */
+.message__reasoning {
+  border-left: 2px solid var(--aui-border);
+  padding-left: var(--pix-spacing-2x);
+  margin-bottom: var(--pix-spacing-1x);
+  opacity: 0.65;
+
+  summary {
+    cursor: pointer;
+    color: var(--aui-text-muted);
+    font-size: 0.85em;
+    user-select: none;
+    margin-bottom: var(--pix-spacing-1x);
+  }
+}
+
+.message__reasoning-text {
+  white-space: pre-wrap;
+  font-style: italic;
+  color: var(--aui-text-muted);
+  font-size: 0.9em;
+  margin: 0;
 }
 
 /* ── Markdown content rendered by showdown ─────────────── */
