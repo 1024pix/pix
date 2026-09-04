@@ -232,6 +232,7 @@ class OrganizationForAdmin {
       this.organizationLearnerType.id = organizationBatchUpdateDto.organizationLearnerTypeId;
       this.organizationLearnerType.name = undefined;
     }
+    if (organizationBatchUpdateDto.categoryId) this.categoryId = organizationBatchUpdateDto.categoryId;
   }
 
   updateParentOrganizationId(parentOrganizationId) {
