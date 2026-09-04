@@ -201,7 +201,7 @@
               "element": {
                 "id": "47841717-1ecb-45f3-9dcc-558a03538c39",
                 "type": "custom",
-                "title": "",
+                "title": "Prompt d'Anna",
                 "instruction": "",
                 "functionalInstruction": "",
                 "tagName": "llm-messages",
@@ -654,7 +654,7 @@
                           "id": "4",
                           "content": "<p>Je ne sais pas.<br></p>",
                           "feedback": {
-                            "diagnosis": ""
+                            "diagnosis": "Un logit est calculé pour chaque token présent dans le bibliothèque de tokens.</"
                           }
                         }
                       ],
