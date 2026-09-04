@@ -61,7 +61,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       // then
       expect(result).to.deep.equal({
         revokedAllTimeStamp,
-        revokedSessions: undefined,
+        revokedSessionIds: undefined,
       });
       expect(result).to.be.instanceOf(RevokedUserAccess);
     });
@@ -84,10 +84,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const result = await revokedUserAccessRepository.findByUserId(12345);
 
         // then
-        result.revokedSessions.sort();
+        result.revokedSessionIds.sort();
         expect(result).to.deep.equal({
           revokedAllTimeStamp,
-          revokedSessions: ['session1', 'session2'],
+          revokedSessionIds: ['session1', 'session2'],
         });
         expect(result).to.be.instanceOf(RevokedUserAccess);
       });

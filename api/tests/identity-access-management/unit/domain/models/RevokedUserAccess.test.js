@@ -7,12 +7,12 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
     it('builds a revoke user access model', function () {
       //when
       const revokedAllTimeStamp = Math.floor(new Date().getTime() / 1000);
-      const revokedSessions = [crypto.randomUUID()];
-      const revokedUserAccess = new RevokedUserAccess({ revokedAllTimeStamp, revokedSessions });
+      const revokedSessionIds = [crypto.randomUUID()];
+      const revokedUserAccess = new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionIds });
 
       //then
       expect(revokedUserAccess.revokedAllTimeStamp).to.equal(revokedAllTimeStamp);
-      expect(revokedUserAccess.revokedSessions).to.equal(revokedSessions);
+      expect(revokedUserAccess.revokedSessionIds).to.equal(revokedSessionIds);
     });
   });
 
@@ -54,7 +54,7 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
         //given
         const sid = crypto.randomUUID();
         const decodedToken = { sid };
-        const revokedUserAccess = new RevokedUserAccess({ revokedSessions: [sid] });
+        const revokedUserAccess = new RevokedUserAccess({ revokedSessionIds: [sid] });
 
         //when
         const result = revokedUserAccess.isAccessTokenRevoked(decodedToken);
@@ -69,7 +69,7 @@ describe('Unit | Identity Access Management | Domain | Model | RevokedUserAccess
         //given
         const sid = crypto.randomUUID();
         const decodedToken = { sid };
-        const revokedUserAccess = new RevokedUserAccess({ revokedSessions: [crypto.randomUUID()] });
+        const revokedUserAccess = new RevokedUserAccess({ revokedSessionIds: [crypto.randomUUID()] });
 
         //when
         const result = revokedUserAccess.isAccessTokenRevoked(decodedToken);

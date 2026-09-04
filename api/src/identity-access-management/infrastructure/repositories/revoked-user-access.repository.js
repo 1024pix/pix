@@ -72,9 +72,9 @@ async function findByUserId(userId) {
     ? await revokedUserAccessTemporaryStorage.get(`${userId}:all`)
     : undefined;
 
-  const revokedSessions = revokedKeys.filter((key) => key !== revokedAllKey).map((key) => key.split(':')[1]);
+  const revokedSessionIds = revokedKeys.filter((key) => key !== revokedAllKey).map((key) => key.split(':')[1]);
 
-  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessions });
+  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionIds });
 }
 
 export const revokedUserAccessRepository = { revokeAll, revokeSession, findByUserId };
