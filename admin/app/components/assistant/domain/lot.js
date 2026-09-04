@@ -10,7 +10,7 @@ class ToolCall {
 
   simulate(result) {
     this.result = result;
-    this.verdict = result.error !== undefined ? 'error' : 'ready';
+    this.verdict = (result.error !== undefined || result.errors !== undefined) ? 'error' : 'ready';
   }
 
   markAsDuplicate() {

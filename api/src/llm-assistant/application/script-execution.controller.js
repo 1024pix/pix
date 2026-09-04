@@ -14,6 +14,10 @@ const scriptExecutionController = {
   async runScript(request, h) {
     const { script, sheets } = request.payload;
     const authorizationHeader = request.headers.authorization;
+    const forwardedHeaders = {
+      'x-forwarded-proto': request.headers['x-forwarded-proto'],
+      'x-forwarded-host': request.headers['x-forwarded-host'],
+    };
     const apiBaseUrl = `http://127.0.0.1:${request.server.info.port}`;
 
     const calls = [];
@@ -27,7 +31,7 @@ const scriptExecutionController = {
         try {
           const res = await fetch(`${apiBaseUrl}/api/admin/llm-assistant/tools/${name}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: authorizationHeader },
+            headers: { 'Content-Type': 'application/json', Authorization: authorizationHeader, ...forwardedHeaders },
             body: JSON.stringify(enrichedArgs),
           });
           callEntry.result = await res.json();
