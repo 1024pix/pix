@@ -44,6 +44,10 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     });
   }
 
+  @action onNavigationButtonClick(_) {
+    this.pixMetrics.trackEvent('Moteur de reco - scroll dans les contenus formatifs', {});
+  }
+
   trackTrainingsDisplayed(trainings) {
     trainings.forEach((training, index) => {
       this.pixMetrics.trackEvent('Moteur de reco - Affichage du contenu formatif sur la page de résultats', {
@@ -100,6 +104,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
 
   @action onSeeRecommendationsButtonClicked() {
     if (this.hasTrainings) {
+      this.pixMetrics.trackEvent('Moteur de reco - Clic sur le bouton "Voir mes recommandations"', {});
       const trainingsList = document.getElementById(TRAININGS_LIST_ID);
       trainingsList.focus({ preventScroll: true, focusVisible: true });
       trainingsList.scrollIntoView({ behavior: this.scrollBehavior });
@@ -135,6 +140,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
           @onCardClick={{this.onCardClick}}
           @onModalButtonClick={{this.onModalButtonClick}}
           @onModalAccordionClick={{this.onModalAccordionClick}}
+          @onNavigationButtonClick={{this.onNavigationButtonClick}}
           @onFullyVisible={{this.revealDrawer}}
         />
       {{/if}}

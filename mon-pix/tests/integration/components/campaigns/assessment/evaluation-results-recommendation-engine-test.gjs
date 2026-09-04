@@ -97,6 +97,86 @@ module(
           }).parentElement.parentElement.parentElement;
           assert.strictEqual(document.activeElement, trainings);
         });
+
+        test('should send a tracking event', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+          const pixMetrics = this.owner.lookup('service:pix-metrics');
+          pixMetrics.trackEvent = sinon.stub();
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training],
+          };
+
+          // when
+          const screen = await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+          await click(screen.getByRole('button', { name: t('pages.skill-review.hero.see-my-recommendations') }));
+
+          // then
+          sinon.assert.calledWith(
+            pixMetrics.trackEvent,
+            'Moteur de reco - Clic sur le bouton "Voir mes recommandations"',
+          );
+          assert.ok(true);
+        });
+      });
+
+      module('when clicking on navigation button', function () {
+        test('should send a tracking event', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+
+          const training2 = store.createRecord('training', {
+            title: 'Super training 2',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+
+          const training3 = store.createRecord('training', {
+            title: 'Super training 3',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+
+          const training4 = store.createRecord('training', {
+            title: 'Super training 4',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+
+          const pixMetrics = this.owner.lookup('service:pix-metrics');
+          pixMetrics.trackEvent = sinon.stub();
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training, training2, training3, training4],
+          };
+
+          // when
+          const screen = await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+          const navigationNextButton = screen.getByRole('button', {
+            name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+          });
+          await click(navigationNextButton);
+
+          // then
+          sinon.assert.calledWith(pixMetrics.trackEvent, 'Moteur de reco - scroll dans les contenus formatifs');
+          assert.ok(true);
+        });
       });
 
       module('tracking', function (hooks) {

@@ -82,11 +82,13 @@ export default class Trainings extends Component {
 
   @action
   scrollToPreviousTrainings() {
+    this.args.onNavigationButtonClick('previous');
     this.goToCardIndex(Math.max(this.currentPageFirstCardIndex - TRAININGS_PER_PAGE, 0));
   }
 
   @action
   scrollToNextTrainings() {
+    this.args.onNavigationButtonClick('next');
     this.goToCardIndex(Math.min(this.currentPageFirstCardIndex + TRAININGS_PER_PAGE, this.args.trainings.length - 1));
   }
 
