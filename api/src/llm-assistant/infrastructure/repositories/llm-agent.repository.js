@@ -1,5 +1,5 @@
 import { createOpenAI } from '@ai-sdk/openai';
-import { convertToModelMessages, dynamicTool, jsonSchema, streamText } from 'ai';
+import { convertToModelMessages, dynamicTool, extractReasoningMiddleware, jsonSchema, streamText, wrapLanguageModel } from 'ai';
 
 import { config } from '../../../shared/config.js';
 import { createMcpClient } from '../mcp/mcp-client.js';
@@ -61,7 +61,12 @@ const streamConversationTurn = async function ({ messages, clientTools = {}, doc
     apiKey: config.llmAssistant.apiKey,
   });
 
-  const model = inferenceProvider.chat(config.llmAssistant.model);
+  // Wrap with extractReasoningMiddleware so <think> blocks in the content are
+  // converted to reasoning parts instead of being stripped by DOMPurify on the client.
+  const model = wrapLanguageModel({
+    model: inferenceProvider.chat(config.llmAssistant.model),
+    middleware: extractReasoningMiddleware({ tagName: 'think' }),
+  });
 
   // Use loopback to avoid Scalingo's load balancer overwriting x-forwarded-host,
   // which would break JWT audience validation on the MCP endpoint.
