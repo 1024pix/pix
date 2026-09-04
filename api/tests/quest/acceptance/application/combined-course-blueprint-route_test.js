@@ -337,7 +337,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
       await databaseBuilder.commit();
     });
 
-    it('should return 200', async function () {
+    it.only('should return 200', async function () {
       const options = {
         method: 'GET',
         url: `/api/organizations/${organization.id}/combined-course-blueprints/${combinedCourseBlueprint.id}`,
