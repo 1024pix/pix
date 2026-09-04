@@ -1,24 +1,26 @@
 import pixRecommendedConfig from '@1024pix/eslint-plugin/config';
 import { fixupPluginRules } from '@eslint/compat';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import { defineConfig } from 'eslint/config';
 import chaiExpect from 'eslint-plugin-chai-expect';
 import i18nJsonPlugin from 'eslint-plugin-i18n-json';
 import knex from 'eslint-plugin-knex';
 import mocha from 'eslint-plugin-mocha';
 import nRecommendedConfig from 'eslint-plugin-n';
 import unicorn from 'eslint-plugin-unicorn';
+import tseslint from 'typescript-eslint';
 
 export default defineConfig([
+  // Linter setup
+  { linterOptions: { reportUnusedDisableDirectives: 'error' } },
   // Loads plugins and apply their rules
   ...pixRecommendedConfig,
   nRecommendedConfig.configs['flat/recommended'],
   chaiExpect.configs['recommended-flat'],
   // Loads plugins only (rules not applied yet)
-  { plugins: { unicorn } },
-  { plugins: { knex: fixupPluginRules(knex) } },
+  { plugins: { unicorn, knex: fixupPluginRules(knex) } },
   // Setup global language options
   { languageOptions: { ecmaVersion: 2025, sourceType: 'module' } },
-  // Overridden rules for "js" files
+  // Rules for "js" files
   {
     files: ['**/*.{js,mjs}'],
     rules: {
@@ -33,6 +35,30 @@ export default defineConfig([
       'n/no-process-env': ['error', { allowedVariables: ['NODE_ENV'] }],
     },
   },
+  // Rules for "ts" files
+  {
+    files: ['**/*.ts'],
+    extends: [tseslint.configs.recommendedTypeChecked],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    rules: {
+      'no-console': 'error',
+      'no-empty-function': 'off',
+      '@typescript-eslint/no-empty-function': 'error',
+      'knex/avoid-injections': 'error',
+      'unicorn/no-empty-file': 'error',
+      'unicorn/prefer-node-protocol': 'error',
+      'n/no-sync': ['error', { ignores: ['catchErrSync'] }],
+      'n/no-process-exit': 'error',
+      'n/no-unpublished-import': 'off',
+      'n/no-process-env': ['error', { allowedVariables: ['NODE_ENV'] }],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }],
+    },
+  },
   // Overridden language options for CommonJS files
   {
     files: ['**/*.cjs'],
@@ -40,13 +66,13 @@ export default defineConfig([
   },
   // Overridden rules for "scripts" files
   {
-    files: ['scripts/**/*.js'],
+    files: ['scripts/**/*.{js,ts}'],
     rules: { 'no-console': 'off' },
   },
   // Overridden rules for "tests" files
   {
     ...mocha.configs.recommended,
-    files: ['tests/**/*.js'],
+    files: ['tests/**/*.{js,ts}'],
     rules: {
       ...mocha.configs.recommended.rules,
       'mocha/no-hooks-for-single-case': 'off',
@@ -57,15 +83,16 @@ export default defineConfig([
       'mocha/consistent-spacing-between-blocks': 'off',
     },
   },
+  // Allow process.env for specific files
   {
     files: [
-      'tests/setup/*.js',
-      'src/shared/config.js',
-      'config/seeds-config.js',
-      'db/migrations/*.js',
-      'src/shared/infrastructure/validate-environment-variables.js',
-      'src/shared/infrastructure/open-telemetry/scalingo-detector.js',
-      'scripts/*.js',
+      'tests/setup/*.{js,ts}',
+      'src/shared/config.{js,ts}',
+      'config/seeds-config.{js,ts}',
+      'db/migrations/*.{js,ts}',
+      'src/shared/infrastructure/validate-environment-variables.{js,ts}',
+      'src/shared/infrastructure/open-telemetry/scalingo-detector.{js,ts}',
+      'scripts/*.{js,ts}',
     ],
     rules: {
       'n/no-process-env': 'off',
@@ -90,14 +117,12 @@ export default defineConfig([
   },
   {
     files: [
-      'src/certification/configuration/**/*.{js,mjs}',
-      'src/certification/results/**/*.{js,mjs}',
-      'src/certification/evaluation/**/*.{js,mjs}',
+      'src/certification/configuration/**/*.{js,mjs,ts}',
+      'src/certification/results/**/*.{js,mjs,ts}',
+      'src/certification/evaluation/**/*.{js,mjs,ts}',
     ],
     rules: {
       'func-style': ['error', 'declaration'],
     },
   },
-  // Ignored files
-  globalIgnores(['tests/tooling/db-schemalint.cjs']),
 ]);

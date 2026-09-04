@@ -1,6 +1,7 @@
 {
   "include": ["**/*.ts"],
   "compilerOptions": {
+    "types": ["node", "mocha"],
     "target": "esnext",
     "module": "nodenext",
     "moduleResolution": "nodenext",
