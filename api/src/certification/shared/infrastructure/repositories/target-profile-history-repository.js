@@ -3,7 +3,7 @@ import { TargetProfileHistoryForAdmin } from '../../../../shared/domain/models/T
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { ComplementaryCertificationBadgeForAdmin } from '../../domain/models/ComplementaryCertificationBadgeForAdmin.js';
 
-const getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId = async function ({
+export async function getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId({
   complementaryCertificationId,
 }) {
   const knexConn = DomainTransaction.getConnection();
@@ -25,11 +25,9 @@ const getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId = 
     const badges = await _getTargetProfileComplementaryCertificationBadges({ targetProfile });
     return _toDomain({ targetProfile, badges });
   });
-};
+}
 
-const getDetachedTargetProfilesHistoryByComplementaryCertificationId = async function ({
-  complementaryCertificationId,
-}) {
+export async function getDetachedTargetProfilesHistoryByComplementaryCertificationId({ complementaryCertificationId }) {
   const knexConn = DomainTransaction.getConnection();
   const detachedTargetProfiles = await knexConn('complementary-certification-badges')
     .select({
@@ -54,12 +52,7 @@ const getDetachedTargetProfilesHistoryByComplementaryCertificationId = async fun
     const badges = await _getTargetProfileComplementaryCertificationBadges({ targetProfile });
     return _toDomain({ targetProfile, badges });
   });
-};
-
-export {
-  getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId,
-  getDetachedTargetProfilesHistoryByComplementaryCertificationId,
-};
+}
 
 async function _getTargetProfileComplementaryCertificationBadges({ targetProfile }) {
   const knexConn = DomainTransaction.getConnection();
@@ -79,6 +72,6 @@ async function _getTargetProfileComplementaryCertificationBadges({ targetProfile
   return badgesDTO.map((badge) => new ComplementaryCertificationBadgeForAdmin({ ...badge }));
 }
 
-const _toDomain = ({ targetProfile, badges }) => {
+function _toDomain({ targetProfile, badges }) {
   return new TargetProfileHistoryForAdmin({ ...targetProfile, badges });
-};
+}

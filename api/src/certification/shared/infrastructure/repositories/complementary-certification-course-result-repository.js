@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
-const getPixSourceResultByComplementaryCertificationCourseId = async function ({ complementaryCertificationCourseId }) {
+export async function getPixSourceResultByComplementaryCertificationCourseId({ complementaryCertificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
   const result = await knexConn
     .select('*')
@@ -12,11 +12,9 @@ const getPixSourceResultByComplementaryCertificationCourseId = async function ({
   if (!result) return null;
 
   return ComplementaryCertificationCourseResult.from(result);
-};
+}
 
-const getAllowedJuryLevelIdsByComplementaryCertificationBadgeId = async function ({
-  complementaryCertificationBadgeId,
-}) {
+export async function getAllowedJuryLevelIdsByComplementaryCertificationBadgeId({ complementaryCertificationBadgeId }) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn
     .pluck('complementary-certification-badges.id')
@@ -32,16 +30,16 @@ const getAllowedJuryLevelIdsByComplementaryCertificationBadgeId = async function
         .first(),
     )
     .orderBy('complementary-certification-badges.level', 'asc');
-};
+}
 
-const removeExternalJuryResult = async function ({ complementaryCertificationCourseId }) {
+export async function removeExternalJuryResult({ complementaryCertificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('complementary-certification-course-results')
     .where({ complementaryCertificationCourseId, source: ComplementaryCertificationCourseResult.sources.EXTERNAL })
     .delete();
-};
+}
 
-const save = async function ({
+export async function save({
   complementaryCertificationCourseId,
   complementaryCertificationBadgeId,
   acquired,
@@ -52,11 +50,4 @@ const save = async function ({
     .insert({ complementaryCertificationBadgeId, acquired, complementaryCertificationCourseId, source })
     .onConflict(['complementaryCertificationCourseId', 'source'])
     .merge();
-};
-
-export {
-  getAllowedJuryLevelIdsByComplementaryCertificationBadgeId,
-  getPixSourceResultByComplementaryCertificationCourseId,
-  removeExternalJuryResult,
-  save,
-};
+}

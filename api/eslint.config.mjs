@@ -118,6 +118,7 @@ export default defineConfig([
   {
     files: [
       'src/certification/configuration/**/*.{js,mjs,ts}',
+      'src/certification/shared/**/*.{js,mjs,ts}',
       'src/certification/results/**/*.{js,mjs,ts}',
       'src/certification/evaluation/**/*.{js,mjs,ts}',
     ],
