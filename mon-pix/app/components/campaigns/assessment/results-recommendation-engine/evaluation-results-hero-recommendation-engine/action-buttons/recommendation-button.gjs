@@ -7,7 +7,7 @@ export default class RecommendationButton extends Component {
   @service intl;
 
   get onSeeRecommendationButtonLabel() {
-    return this.args.highlightedTraining
+    return this.args.hasHighlightedTraining
       ? this.intl.t('pages.skill-review.hero.see-my-other-recommendations')
       : this.intl.t('pages.skill-review.hero.see-my-recommendations');
   }
