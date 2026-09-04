@@ -28,6 +28,18 @@ const findById = async function (id) {
   return _toDomain(structureCategory);
 };
 
+/**
+ * @type {function}
+ * @param {Array<string>} ids
+ * @return {Promise<Array<number>>}
+ */
+const findExistingIds = async function (ids) {
+  if (!ids || ids.length === 0) return [];
+  const knexConn = DomainTransaction.getConnection();
+  const structureCategories = await knexConn('structure_categories').select('id').whereIn('id', ids);
+  return structureCategories.map((category) => category.id);
+};
+
 const _toDomain = function (structureCategoryDTO) {
   return new StructureCategory({
     id: structureCategoryDTO.id,
@@ -35,4 +47,4 @@ const _toDomain = function (structureCategoryDTO) {
   });
 };
 
-export { findAll, findById };
+export { findAll, findById, findExistingIds };
