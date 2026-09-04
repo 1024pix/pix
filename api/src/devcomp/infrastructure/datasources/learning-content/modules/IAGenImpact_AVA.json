@@ -205,74 +205,17 @@
                       "id": "8d07ad91-7c48-4d1f-b60a-a311a7b428fd",
                       "type": "text",
                       "tag": " ",
-                      "content": "<p>OpenAI et d’autres entreprises ont entraîné d’autres modèles depuis la sortie de ChatGPT-4.</p><p> Voici ci-dessous quelques exemples&nbsp;:</p>"
+                      "content": "<p>OpenAI et d’autres entreprises ont entraîné d’autres modèles depuis la sortie de ChatGPT-4.</p><p> Voici ci-dessous quelques exemples.</p>"
                     },
                     {
-                      "id": "5347533c-7309-4991-b0b3-133784208d25",
-                      "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/modeles-ia.png",
-                      "alt": "Description de 6 modèles d'IA",
-                      "alternativeText": "<p>Description de 6 modèles d'IA :&nbsp;</p><ul><li>Swiss-ai /Apertus-8B-Instruct-2509<ul><li>Open source</li><li>8 milliards paramètres</li><li>Données d’entraînement : 15 billions de tokens</li></ul></li><li>Swiss-ai/ Apertus-v1.1<ul><li>Open source</li><li>4 milliards paramètres</li><li>Données d’entraînement : 1,7 billions de tokens</li></ul></li><li>Meta / Llama 3.1&nbsp; 8B<ul><li>Semi-ouvert</li><li>8 milliards paramètres</li><li>Données d’entraînement : 15 billions de tokens</li></ul></li><li>Meta / Llama 4 Maverick<ul><li>Semi-ouvert</li><li>400 milliards paramètres</li><li>Données d’entraînement : 22 billions de tokens</li></ul></li><li>Google / Gemma 3 27B&nbsp;<ul><li> Semi-ouvert</li><li>27 milliards paramètres</li><li>Données d’entraînement : 14 billions de tokens</li></ul></li><li>Google / Gemma 3 1B<ul><li>Semi-ouvert</li><li>1 milliards paramètres</li><li>Données d’entraînement : 2 billions de tokens</li></ul></li></ul><p>Source : informations disponibles sur le site Hugging Face, en juillet 2026</p>",
-                      "legend": "",
-                      "licence": "Source : Hugging Face, en juillet 2026"
-                    },
-                    {
-                      "id": "4f7a89dc-de3c-4bc0-9e96-ddb6042a6552",
-                      "type": "qcu-discovery",
-                      "instruction": "<p>À votre avis, parmi ces modèles, lequel a consommé le plus d’énergie au moment de son entraînement ?</p>",
-                      "hasShortProposals": false,
-                      "proposals": [
-                        {
-                          "id": "1",
-                          "content": "<p>Apertus-8B-Instruct-2509</p>",
-                          "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>"
-                          }
-                        },
-                        {
-                          "id": "2",
-                          "content": "<p>Apertus-v1.1</p>",
-                          "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p><p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>"
-                          }
-                        },
-                        {
-                          "id": "3",
-                          "content": "<p>Llama 3.1&nbsp; 8</p>",
-                          "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n"
-                          }
-                        },
-                        {
-                          "id": "4",
-                          "content": "<p>Llama 4 Maverick</p>",
-                          "feedback": {
-                            "diagnosis": "<p><strong>Bien vu !</strong></p>\n<p>&nbsp;<strong>Llama 4 Maverick </strong>est le modèle&nbsp;qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n"
-                          }
-                        },
-                        {
-                          "id": "5",
-                          "content": "<p>Gemma 3 27B</p>",
-                          "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n"
-                          }
-                        },
-                        {
-                          "id": "6",
-                          "content": "<p>Gemma 3 1B</p>",
-                          "feedback": {
-                            "diagnosis": "<p><strong>Eh non ! </strong></p>\n<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n"
-                          }
-                        },
-                        {
-                          "id": "7",
-                          "content": "<p>Je ne sais pas.<br></p>",
-                          "feedback": {
-                            "diagnosis": "<p>La bonne réponse était&nbsp;<strong>Llama 4 Maverick </strong>car c’est celui qui a <strong>l</strong><strong>e plus de paramètres </strong>et <strong>le plus grand corpus de données d'entraînement.</strong></p>\n\n"
-                          }
-                        }
-                      ],
-                      "solution": "4"
+                      "id": "264b67a4-3575-460a-91de-6a3e4be27525",
+                      "type": "embed",
+                      "isCompletionRequired": true,
+                      "title": "Choix du modèle le plus consommateur.",
+                      "url": "https://epreuves.pix.fr/fr/ui-ki-/qcm-qcu-select/mdx-iagenimpact-ava.html",
+                      "instruction": "<p>À votre avis, parmi ces modèles, lequel a consommé le plus d’énergie au moment de son entraînement ?</p>",
+                      "solution": "Llama 4 Maverick",
+                      "height": 500
                     }
                   ]
                 }
@@ -369,11 +312,11 @@
                     {
                       "id": "d9b18008-bd8e-47bc-b05b-20afcbd790cb",
                       "type": "image",
-                      "url": "https://assets.pix.org/draft/modules/IAGenImpact_AVA/image-provisoire.png",
-                      "alt": "",
-                      "alternativeText": "",
+                      "url": "https://assets.pix.org/modules/IAGenImpact_Ava/photo_carte_graphique.jpg",
+                      "alt": "Composant électronique décrit dans l'alternative textuel",
+                      "alternativeText": "<p>Une main tient un composant électronique rectangulaire, noir et assez imposant. Sa face avant comporte deux grands ventilateurs circulaires entourés d’une coque aux formes anguleuses. Sur le côté gauche, une plaque métallique permet de le fixer à l’intérieur d’un ordinateur.</p>",
                       "legend": "",
-                      "licence": "provisoire - nous n’avons pas les droits"
+                      "licence": ""
                     },
                     {
                       "id": "e69da63c-0a10-4149-be48-cd62115c1fc7",
