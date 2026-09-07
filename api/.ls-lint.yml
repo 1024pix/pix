@@ -30,6 +30,7 @@ ls:
 
 ignore:
   - .git
+  - .claude
   - node_modules
   - datamart/migrations
   - db/migrations
