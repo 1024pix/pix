@@ -27,5 +27,9 @@ export default {
   ],
   options: {
     doNotFollow: { path: 'node_modules' },
+    // Without this, type-only imports (mandatory under `verbatimModuleSyntax`)
+    // are invisible to the bounded-context rules below.
+    tsPreCompilationDeps: true,
+    tsConfig: { fileName: 'tsconfig.json' },
   },
 };
