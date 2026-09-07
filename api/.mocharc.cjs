@@ -1,6 +1,7 @@
 module.exports = {
   require: ['./tests/setup/index.js'],
   recursive: true,
+  extension: ['js', 'cjs', 'mjs', 'ts'],
   exit: true,
   timeout: 5000,
   reporter: process.env.MOCHA_REPORTER ?? 'dot',
