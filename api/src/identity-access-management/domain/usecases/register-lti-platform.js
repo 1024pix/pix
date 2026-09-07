@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { InvalidLtiPlatformRegistrationError } from '../errors.js';
 

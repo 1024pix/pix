@@ -6,7 +6,7 @@ import * as url from 'node:url';
 
 import dayjs from 'dayjs';
 
-import { config } from '../../../../../../shared/config.js';
+import { config } from '../../../../../../../config/config.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../../../../domain/models/v3/CertificateMeshLevel.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import jsonwebtoken from 'jsonwebtoken';
 
-import { config } from '../../../../src/shared/config.js';
+import { config } from '../../../../config/config.js';
 
 /**
  * Encodes and signs a payload into a JWT token with a time-limited validity

@@ -2,7 +2,7 @@ import crypto from 'node:crypto';
 
 import Joi from 'joi';
 
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
 
 const SEPARATOR = ':';

@@ -2,6 +2,7 @@ import { CreateBucketCommand, S3Client } from '@aws-sdk/client-s3';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   createParquetArrayBuffer,
@@ -13,7 +14,6 @@ import { usecases } from '../../../../../src/db-history/domain/usecases/index.js
 import { AnswersHistoryRepository } from '../../../../../src/db-history/infrastructure/repositories/answers-history-repository.js';
 import * as answersRepository from '../../../../../src/db-history/infrastructure/repositories/answers-repository.js';
 import * as assessmentsRepository from '../../../../../src/db-history/infrastructure/repositories/assessments-repository.js';
-import { config } from '../../../../../src/shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr, catchErrSync } from '../../../../tooling/test-utils/error.js';

@@ -1,7 +1,7 @@
 import HapiSwagger from 'hapi-swagger';
 
+import { config } from '../../config/config.js';
 import packageJSON from '../../package.json' with { type: 'json' };
-import { config } from './config.js';
 import { logger } from './infrastructure/utils/logger.js';
 
 /**

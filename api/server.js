@@ -2,6 +2,7 @@ import Oppsy from '@1024pix/oppsy';
 import Hapi from '@hapi/hapi';
 import { parse } from 'neoqs';
 
+import { config } from './config/config.js';
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import {
@@ -36,7 +37,6 @@ import { privacyRoutes } from './src/privacy/application/routes.js';
 import { profileRoutes } from './src/profile/routes.js';
 import { questRoutes } from './src/quest/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
-import { config } from './src/shared/config.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
 import { instrumentHapiServer } from './src/shared/infrastructure/open-telemetry/hapi-tracing.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';

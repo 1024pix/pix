@@ -3,8 +3,8 @@ import crypto from 'node:crypto';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
-import { config } from '../../../../../src/shared/config.js';
 
 const defaultRefreshTokenLifespanMs = 3600000;
 

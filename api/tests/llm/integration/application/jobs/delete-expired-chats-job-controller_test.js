@@ -3,9 +3,9 @@ import { randomUUID } from 'node:crypto';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import { DeleteExpiredChatsJobController } from '../../../../../src/llm/application/jobs/delete-expired-chats-job-controller.js';
 import { JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
-import { config } from '../../../../../src/shared/config.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('LLM | Integration | Application | Jobs | DeleteExpiredChatsJobController', function () {

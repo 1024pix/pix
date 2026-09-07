@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../../../config/config.js';
 import { CertificationResultsLinkToken } from '../../../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkToken.js';
-import { config } from '../../../../../../../src/shared/config.js';
 import { InvalidSessionResultTokenError } from '../../../../../../../src/shared/domain/errors.js';
 import { tokenService } from '../../../../../../../src/shared/domain/services/token-service.js';
 

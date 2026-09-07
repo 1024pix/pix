@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { config } from '../../../../../src/shared/config.js';
+import { config } from '../../../../../config/config.js';
 import { categories } from '../../../../../src/shared/domain/models/TargetProfile.js';
 import {
   COUNTRY_FRANCE_CODE,

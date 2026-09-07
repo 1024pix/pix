@@ -1,4 +1,4 @@
-import { config } from '../../../../../src/shared/config.js';
+import { config } from '../../../../../config/config.js';
 
 const INVIGILATOR_PASSWORD_LENGTH = 6;
 const INVIGILATOR_PASSWORD_CHARS = '23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?'.split('');

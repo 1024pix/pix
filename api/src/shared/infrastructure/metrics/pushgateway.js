@@ -3,7 +3,7 @@ import https from 'node:https';
 
 import { Pushgateway } from 'prom-client';
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { child } from '../utils/logger.js';
 import { register } from './register.js';
 

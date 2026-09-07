@@ -2,6 +2,7 @@ import Oppsy from '@1024pix/oppsy';
 import Hapi from '@hapi/hapi';
 import { parse } from 'neoqs';
 
+import { config } from './config/config.js';
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { livretScolaireRoute } from './src/certification/results/application/livret-scolaire-route.js';
@@ -14,7 +15,6 @@ import { organizationsRoute } from './src/maddo/application/organizations-routes
 import { replicationsRoute } from './src/maddo/application/replications-routes.js';
 import { poleEmploiRoute } from './src/prescription/campaign-participation/application/pole-emploi-route.js';
 import { healthcheckRoute } from './src/shared/application/healthcheck/index.js';
-import { config } from './src/shared/config.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
 import { instrumentHapiServer } from './src/shared/infrastructure/open-telemetry/hapi-tracing.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';

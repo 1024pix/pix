@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import {
   MissingOrInvalidCredentialsError,
@@ -9,7 +10,6 @@ import {
 } from '../../../../../src/identity-access-management/domain/errors.js';
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { config } from '../../../../../src/shared/config.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';

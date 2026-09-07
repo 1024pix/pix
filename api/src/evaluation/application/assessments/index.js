@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
+import { config } from '../../../../config/config.js';
 import { checkLLMChatIsEnabled } from '../../../llm/application/pre-handlers/index.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { config } from '../../../shared/config.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { assessmentAuthorization } from '../pre-handlers/assessment-authorization.js';
 import { assessmentController } from './assessment-controller.js';

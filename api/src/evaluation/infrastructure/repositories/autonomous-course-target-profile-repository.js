@@ -1,4 +1,4 @@
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AutonomousCourseTargetProfile } from '../../domain/models/AutonomousCourseTargetProfile.js';
 

@@ -1,8 +1,8 @@
+import { config } from '../../../../../../config/config.js';
 import {
   CombinedCourseParticipationStatuses,
   CombinedCourseStatuses,
 } from '../../../../../prescription/shared/domain/constants.js';
-import { config } from '../../../../../shared/config.js';
 import { cryptoService as injectedCryptoService } from '../../../../../shared/domain/services/crypto-service.js';
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../constants.js';
 import { CombinedCourse } from '../../combined-courses/entities/CombinedCourse.js';

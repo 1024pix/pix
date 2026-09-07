@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { InvalidInputDataError } from '../../../shared/domain/errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';

@@ -1,7 +1,7 @@
+import { config } from '../../../config/config.js';
 import { usecases } from '../../quest/domain/usecases/index.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
-import { config } from '../../shared/config.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 
 // Définition du script

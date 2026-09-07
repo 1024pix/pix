@@ -1,4 +1,4 @@
-import { config } from './config.js';
+import { config } from '../../config/config.js';
 
 export const MAX_FILE_SIZE_UPLOAD = 1048576 * 20; // 20 Mb
 

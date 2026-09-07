@@ -1,5 +1,5 @@
+import { config as appConfig } from '../../../../config/config.js';
 import config from '../../../../config/feature-toggles-config.js';
-import { config as appConfig } from '../../config.js';
 import { featureTogglesStorage } from '../key-value-storages/index.js';
 import { FeatureTogglesClient } from './feature-toggles-client.js';
 

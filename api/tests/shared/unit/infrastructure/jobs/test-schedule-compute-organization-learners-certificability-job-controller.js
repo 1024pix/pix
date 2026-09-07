@@ -1,5 +1,5 @@
+import { config } from '../../../../../config/config.js';
 import { JobScheduleController } from '../../../../../src/shared/application/jobs/job-schedule-controller.js';
-import { config } from '../../../../../src/shared/config.js';
 
 export class TestScheduleComputeOrganizationLearnersCertificabilityJobController extends JobScheduleController {
   constructor() {

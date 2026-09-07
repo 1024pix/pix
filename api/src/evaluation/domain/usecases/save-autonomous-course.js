@@ -1,4 +1,4 @@
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   NotFoundError,

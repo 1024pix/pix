@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { config } from '../../../../../../src/shared/config.js';
+import { config } from '../../../../../../config/config.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 import { EmailingAttempt } from '../../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from '../../../../../../src/shared/mail/domain/models/MailingProviderInvalidEmailError.js';

@@ -1,5 +1,5 @@
+import { config } from '../config/config.js';
 import { buildPostgresEnvironment } from '../db/utils/build-postgres-environment.js';
-import { config } from '../src/shared/config.js';
 
 const baseConfiguration = {
   name: 'datawarehouse',

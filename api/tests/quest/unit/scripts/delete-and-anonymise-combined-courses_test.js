@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../config/config.js';
 import { DeleteAndAnonymiseCombinedCoursesScript } from '../../../../src/quest/scripts/delete-and-anonymise-combined-courses.js';
-import { config } from '../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 
 describe('DeleteAndAnonymiseCombinedCoursesScript', function () {

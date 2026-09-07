@@ -1,4 +1,4 @@
-import { config } from '../src/shared/config.js';
+import { config } from '../config/config.js';
 import { buildPostgresEnvironment, setConnectionString } from './utils/build-postgres-environment.js';
 
 const baseConfiguration = {

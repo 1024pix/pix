@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import { expect } from 'chai';
 
-import { config } from '../../../../../src/shared/config.js';
+import { config } from '../../../../../config/config.js';
 import { RedisKeyValueStorage } from '../../../../../src/shared/infrastructure/key-value-storages/RedisKeyValueStorage.js';
 
 describe('Integration | Infrastructure | KeyValueStorage | RedisKeyValueStorage', function () {

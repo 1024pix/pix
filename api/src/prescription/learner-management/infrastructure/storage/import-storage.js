@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { config } from '../../../../shared/config.js';
+import { config } from '../../../../../config/config.js';
 import { DomainError, FileValidationError } from '../../../../shared/domain/errors.js';
 import { getDataBuffer as gDB } from '../../../../shared/infrastructure/utils/buffer.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';

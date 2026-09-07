@@ -1,7 +1,7 @@
+import { config, schema as configSchema } from './config/config.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { createMaddoServer } from './server.maddo.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
-import { config, schema as configSchema } from './src/shared/config.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';

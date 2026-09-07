@@ -21,7 +21,7 @@ import { NodeSDK } from '@opentelemetry/sdk-node';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { logger } from '../utils/logger.js';
 import { InheritedAttributesSpanProcessor } from './inherited-span-attributes.js';
 import { scalingoDetector } from './scalingo-detector.js';

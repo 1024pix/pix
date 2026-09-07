@@ -1,4 +1,4 @@
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { InMemoryKeyValueStorage } from './InMemoryKeyValueStorage.js';
 import { RedisKeyValueStorage } from './RedisKeyValueStorage.js';
 

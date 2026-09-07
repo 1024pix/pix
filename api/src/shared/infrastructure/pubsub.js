@@ -2,7 +2,7 @@ import { createRedisEventTarget } from '@graphql-yoga/redis-event-target';
 import { createPubSub } from '@graphql-yoga/subscription';
 import { Redis } from 'ioredis';
 
-import { config } from '../config.js';
+import { config } from '../../../config/config.js';
 import { child } from './utils/logger.js';
 
 const logger = child('pubsub', { event: 'pubsub' });

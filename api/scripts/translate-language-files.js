@@ -3,9 +3,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
+import { config } from '../config/config.js';
 import { Script } from '../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../src/shared/application/scripts/script-runner.js';
-import { config } from '../src/shared/config.js';
 
 export class TranslateLanguageFiles extends Script {
   constructor() {

@@ -17,7 +17,7 @@
  */
 import { context, metrics, SpanStatusCode, trace } from '@opentelemetry/api';
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { routeDomainToOwnerTeam } from '../utils/route-domain-to-owner-team.js';
 import { setInheritedAttributes } from './inherited-span-attributes.js';
 

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { config } from '../../../../src/shared/config.js';
+import { config } from '../../../../config/config.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { RevokedUserAccess } from '../../domain/models/RevokedUserAccess.js';

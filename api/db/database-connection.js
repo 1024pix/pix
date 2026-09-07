@@ -3,7 +3,7 @@ import { performance } from 'node:perf_hooks';
 import Knex from 'knex';
 import _ from 'lodash';
 
-import { config } from '../src/shared/config.js';
+import { config } from '../config/config.js';
 import {
   getInContext,
   incrementInContext,

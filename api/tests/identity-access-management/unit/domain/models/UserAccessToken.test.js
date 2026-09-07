@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
-import { config } from '../../../../../src/shared/config.js';
 import { InvalidInputDataError } from '../../../../../src/shared/domain/errors.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 

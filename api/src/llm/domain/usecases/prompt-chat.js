@@ -1,4 +1,4 @@
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { getRequestId } from '../../../shared/infrastructure/execution-context-manager.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { ChatForbiddenError, ChatNotFoundError, LLMApiError, PromptAlreadyOngoingError } from '../errors.js';

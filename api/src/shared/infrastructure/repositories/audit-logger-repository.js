@@ -1,4 +1,4 @@
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { AuditLoggerApiError } from '../../domain/errors.js';
 import { httpAgent } from '../http-agent.js';
 

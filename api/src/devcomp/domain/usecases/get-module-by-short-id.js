@@ -1,4 +1,4 @@
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 
 async function getModuleByShortId({ shortId, encryptedRedirectionUrl, moduleRepository }) {

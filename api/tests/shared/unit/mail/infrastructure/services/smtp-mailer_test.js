@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { config } from '../../../../../../src/shared/config.js';
+import { config } from '../../../../../../config/config.js';
 import { SmtpMailer } from '../../../../../../src/shared/mail/infrastructure/services/smtp-mailer.js';
 
 describe('SMTP Mailer', function () {

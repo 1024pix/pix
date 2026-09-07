@@ -1,4 +1,4 @@
-import { config } from '../../../../src/shared/config.js';
+import { config } from '../../../../config/config.js';
 
 function _buildBlockedUser(databaseBuilder) {
   const blockedUser = databaseBuilder.factory.buildUser.withRawPassword({

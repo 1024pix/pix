@@ -1,6 +1,6 @@
 import Debug from 'debug';
 
-import { config } from '../../../config.js';
+import { config } from '../../../../../config/config.js';
 import { logger } from '../../../infrastructure/utils/logger.js';
 import { EmailingAttempt } from '../../domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from '../../domain/models/MailingProviderInvalidEmailError.js';

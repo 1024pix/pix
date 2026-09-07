@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../config/config.js';
 import datamartKnexConfigs from '../../../../datamart/knexfile.js';
 import datawarehouseKnexConfigs from '../../../../datawarehouse/knexfile.js';
 import { DatabaseConnection } from '../../../../db/database-connection.js';
 import liveKnexConfigs from '../../../../db/knexfile.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
-import { config } from '../../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { databaseBuilder } from '../../../tooling/databases.js';

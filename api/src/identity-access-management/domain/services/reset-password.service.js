@@ -1,4 +1,4 @@
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { InvalidTemporaryKeyError } from '../../../shared/domain/errors.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';

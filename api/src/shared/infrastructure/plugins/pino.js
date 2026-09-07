@@ -1,6 +1,6 @@
 import { stdSerializers } from 'pino';
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { getCorrelationInfo, getInContext, setInContext } from '../execution-context-manager.js';
 import { generateHash } from '../utils/crypto.js';
 import { loggerPino } from '../utils/logger.js';

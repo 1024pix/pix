@@ -1,4 +1,4 @@
-const { config } = require('../../src/shared/config.js');
+const { config } = require('../../config/config.js');
 
 module.exports = {
   connection: {

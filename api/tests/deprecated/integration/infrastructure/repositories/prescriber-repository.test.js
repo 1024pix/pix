@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { config as settings } from '../../../../../config/config.js';
 import { buildLegalDocumentVersion } from '../../../../../db/database-builder/factory/build-legal-document-version.js';
 import { buildLegalDocumentVersionUserAcceptance } from '../../../../../db/database-builder/factory/build-legal-document-version-user-acceptance.js';
 import { Prescriber } from '../../../../../src/deprecated/domain/models/Prescriber.js';
@@ -7,7 +8,6 @@ import { prescriberRepository } from '../../../../../src/deprecated/infrastructu
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
 import { ATTESTATIONS } from '../../../../../src/profile/domain/constants.js';
-import { config as settings } from '../../../../../src/shared/config.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';

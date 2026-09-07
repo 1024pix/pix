@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config as settings } from '../../../../../config/config.js';
 import { assessmentController } from '../../../../../src/evaluation/application/assessments/assessment-controller.js';
 import { assessmentsRoute as moduleUnderTest } from '../../../../../src/evaluation/application/assessments/index.js';
 import { assessmentAuthorization } from '../../../../../src/evaluation/application/pre-handlers/assessment-authorization.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { config as settings } from '../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { config } from '../../../../../src/shared/config.js';
+import { config } from '../../../../../config/config.js';
 import { AuditLoggerApiError } from '../../../../../src/shared/domain/errors.js';
 import { httpAgent } from '../../../../../src/shared/infrastructure/http-agent.js';
 import { auditLoggerRepository } from '../../../../../src/shared/infrastructure/repositories/audit-logger-repository.js';

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { addCorrelationInfos } from '../../../shared/infrastructure/execution-context-manager.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { generateHash } from '../../../shared/infrastructure/utils/crypto.js';

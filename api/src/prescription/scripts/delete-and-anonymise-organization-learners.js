@@ -1,8 +1,8 @@
+import { config } from '../../../config/config.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
-import { config } from '../../shared/config.js';
 import { CLIENTS, PIX_ADMIN } from '../../shared/constants.js';
 import { usecases } from '../learner-management/domain/usecases/index.js';
 // Définition du script

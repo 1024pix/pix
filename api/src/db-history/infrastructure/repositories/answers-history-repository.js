@@ -1,6 +1,6 @@
 import { Readable } from 'node:stream';
 
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { FileValidationError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { S3ObjectStorageProvider } from '../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';

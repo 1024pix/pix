@@ -2,7 +2,7 @@ import { trace } from '@opentelemetry/api';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { config } from '../../../../../src/shared/config.js';
+import { config } from '../../../../../config/config.js';
 import { tracing } from '../../../../../src/shared/infrastructure/open-telemetry/helpers.js';
 import { otelProxy } from '../../../../../src/shared/infrastructure/open-telemetry/otel_proxy.js';
 

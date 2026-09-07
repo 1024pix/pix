@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../../config/config.js';
 import { CpfExportsStorage } from '../../../../../../src/certification/session-management/infrastructure/storage/cpf-exports-storage.js';
-import { config } from '../../../../../../src/shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 
 describe('Unit | Storage | CpfExportsStorage', function () {

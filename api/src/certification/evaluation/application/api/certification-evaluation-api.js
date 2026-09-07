@@ -11,7 +11,7 @@
  * @typedef {import ('../../../../shared/domain/errors.js').AssessmentLackOfChallengesError} AssessmentLackOfChallengesError
  * @typedef {import ('../../../../shared/domain/models/Challenge.js').Challenge} Challenge
  */
-import { config } from '../../../../shared/config.js';
+import { config } from '../../../../../config/config.js';
 import { addCorrelationInfos, getRequestId } from '../../../../shared/infrastructure/execution-context-manager.js';
 import { redisMutex } from '../../../../shared/infrastructure/mutex/RedisMutex.js';
 import { SCOPES } from '../../../../shared/infrastructure/utils/logger.js';

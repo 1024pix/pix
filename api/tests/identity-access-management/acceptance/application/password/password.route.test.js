@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
+import { config } from '../../../../../config/config.js';
 import { PasswordExpirationToken } from '../../../../../src/identity-access-management/domain/models/PasswordExpirationToken.js';
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
-import { config } from '../../../../../src/shared/config.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 

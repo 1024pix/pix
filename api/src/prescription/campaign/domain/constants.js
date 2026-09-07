@@ -1,4 +1,4 @@
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { CsvColumn } from '../../../shared/infrastructure/serializers/csv/csv-column.js';
 import { CampaignExternalIdTypes, CampaignTypes } from '../../shared/domain/constants.js';
 
