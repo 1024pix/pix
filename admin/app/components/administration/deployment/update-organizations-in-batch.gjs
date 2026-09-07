@@ -61,6 +61,13 @@ export default class UpdateOrganizationsInBatch extends Component {
               error.meta,
             ),
           });
+        } else if (error.code === 'STRUCTURE_CATEGORY_NOT_FOUND') {
+          return this.pixToast.sendErrorNotification({
+            message: this.intl.t(
+              'components.administration.update-organizations-in-batch.notifications.errors.category-not-found',
+              { categoryId: error.meta.categoryId },
+            ),
+          });
         }
       }
 
