@@ -17,7 +17,7 @@ jobs:
         with:
           node-version-file: 'package.json'
 
-      - uses: 1024pix/pix-actions/release@main
+      - uses: 1024pix/pix-actions/release@ebfce29cc12796464c8858fd231578fb3e6160b5 # main
         id: semantic
         with:
           changelogTitle: "# Pix Changelog"
