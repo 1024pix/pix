@@ -71,9 +71,7 @@ const getNextChallengeRoute = {
                 skill: skillValidationObject.required(),
                 timer: Joi.number().integer().allow(null),
                 focused: Joi.boolean().optional().allow(null),
-                locales: Joi.array()
-                  .items(Joi.string().valid(...getChallengeLocales()))
-                  .required(),
+                locales: Joi.array().items(Joi.string()).required(),
               })
               .min(1)
               .required(),
