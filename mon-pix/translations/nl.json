@@ -129,15 +129,12 @@
     "no-level": "Geen niveau",
     "or": "of",
     "pagination": {
-      "action": {
-        "next": "Ga naar de volgende pagina",
-        "previous": "Ga naar de vorige pagina",
-        "select-page-size": "Aantal items dat per pagina moet worden weergegeven"
-      },
-      "page-info": "{start, number}-{end, number} op {total, plural, =0 {0 element} =1 {1 element} other {{total, number} elementen}}",
-      "page-number": "Pagina {current, number} / {total, number}",
-      "page-results": "{total, plural, =0 {0 item} =1 {1 item} other {{total, number} items}}",
-      "result-by-page": "Zie"
+      "nextPage": "Ga naar volgende pagina",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}} other {{start, number}-{end, number} sur {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}}}",
+      "pageNumber": "Pagina {current, number} / {total, number}",
+      "pageSize": "Selecteer het aantal items per pagina",
+      "previousPage": "Ga naar volgende pagina",
+      "title": "Zie"
     },
     "password": "Wachtwoord",
     "pix": "Pix",

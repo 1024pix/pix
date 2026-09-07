@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertifiableBadgeAcquisition } from '../../domain/models/CertifiableBadgeAcquisition.js';
 
@@ -62,22 +60,29 @@ export async function findHighestCertifiable({ userId, limitDate = new Date() })
         ),
     });
 
-  const highestCertifiableBadgeAcquisitionByComplementaryCertificationId = _(certifiableBadgeAcquisitions)
-    .groupBy('complementaryCertificationId')
-    .values()
-    .map((certifiableBadgeAcquisitionByComplementaryCertifications) =>
-      maxByComplementaryCertificationBadgeLevel(certifiableBadgeAcquisitionByComplementaryCertifications),
-    )
-    .flatten()
-    .value();
-
-  return _toDomain(highestCertifiableBadgeAcquisitionByComplementaryCertificationId);
+  const highestCertifiableBadgeAcquisitionByComplementaryCertificationId = {};
+  for (const certifiableBadgeAcquisition of certifiableBadgeAcquisitions) {
+    const complementaryCertificationId = certifiableBadgeAcquisition.complementaryCertificationId;
+    const existingEntryForBadge =
+      highestCertifiableBadgeAcquisitionByComplementaryCertificationId[complementaryCertificationId];
+    if (
+      badgeLevelIsNotGreaterThan(
+        existingEntryForBadge,
+        certifiableBadgeAcquisition.complementaryCertificactionBadgeLevel,
+      )
+    ) {
+      continue;
+    }
+    highestCertifiableBadgeAcquisitionByComplementaryCertificationId[complementaryCertificationId] =
+      certifiableBadgeAcquisition;
+  }
+  return _toDomain(Object.values(highestCertifiableBadgeAcquisitionByComplementaryCertificationId));
 }
 
-function maxByComplementaryCertificationBadgeLevel(certifiableBadgeAcquisitionByComplementaryCertifications) {
-  return certifiableBadgeAcquisitionByComplementaryCertifications.reduce(function (a, b) {
-    return a.complementaryCertificactionBadgeLevel >= b.complementaryCertificactionBadgeLevel ? a : b;
-  }, {});
+function badgeLevelIsNotGreaterThan(existingEntryForBadge, otherBadgeLevel) {
+  return (
+    existingEntryForBadge !== undefined && existingEntryForBadge.complementaryCertificationBadgeLevel >= otherBadgeLevel
+  );
 }
 
 function _toDomain(certifiableBadgeAcquisitionsDto) {

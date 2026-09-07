@@ -1,7 +1,3 @@
-import lodash from 'lodash';
-
-const { minBy } = lodash;
-
 import { ChallengesReferential } from '../../../shared/domain/models/ChallengesReferential.js';
 import { juryOptions } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 
@@ -82,7 +78,7 @@ export class ComplementaryCertificationCourseResultForJuryCertificationWithExter
     if (!this.pixSection.acquired) return 'Rejetée';
     if (!this.externalSection.isEvaluated) return 'En attente volet jury';
     if (!this.externalSection.acquired) return 'Rejetée';
-    return minBy([this.pixSection, this.externalSection], ({ level }) => level).label;
+    return [this.pixSection, this.externalSection].reduce((a, b) => (a.level <= b.level ? a : b), {}).label;
   }
 }
 

@@ -129,15 +129,12 @@
     "no-level": "Kein Level",
     "or": "oder",
     "pagination": {
-      "action": {
-        "next": "Zur nächsten Seite gehen",
-        "previous": "Zur vorherigen Seite gehen",
-        "select-page-size": "Anzahl der Elemente, die pro Seite angezeigt werden sollen"
-      },
-      "page-info": "{start, number}-{end, number} auf {total, plural, =0 {0 Element} =1 {1 Element} other {{total, number} Elemente}}",
-      "page-number": "Seite {current, number} / {total, number}",
-      "page-results": "{total, plural, =0 {0 Element} =1 {1 Element} other {{total, number} Elemente}}",
-      "result-by-page": "Siehe"
+      "nextPage": "Zur nächsten Seite wechseln",
+      "pageElementCount": "{totalPage, plural, =1 {{total, plural, =0 {0 Elemente} =1 {1 Element} other {{total, number} Elemente}}} other {{start, number}-{end, number} von  {total, plural, =0 {0 Elemente} =1 {1 Element} other {{total, number} Elemente}}}}",
+      "pageNumber": "Seite  {current, number} / {total, number}",
+      "pageSize": "Anzahl der Elemente pro Seite",
+      "previousPage": "Zur vorherigen Seite wechseln",
+      "title": "Siehe"
     },
     "password": "Passwort",
     "pix": "pix",

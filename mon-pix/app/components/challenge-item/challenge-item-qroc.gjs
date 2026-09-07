@@ -3,6 +3,7 @@ import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -41,15 +42,16 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
                       data-uid="qroc-proposal-uid"
                       data-test="challenge-response-proposal-selector"
                       @isDisabled={{this.isAnswerFieldDisabled}}
-                      @label={{block.ariaLabel}}
                       @screenReaderOnly={{true}}
-                      @placeholder={{block.placeholder}}
+                      @texts={{hash placeholder=block.placeholder}}
                       @value={{this.qrocProposalAnswerValue}}
                       @hideDefaultOption={{true}}
                       @options={{block.options}}
                       @onChange={{this.onChangeSelect}}
                       @size="large"
-                    />
+                    >
+                      <:label>{{block.ariaLabel}}</:label>
+                    </PixSelect>
                   </div>
                 {{else if (eq @challenge.format "paragraphe")}}
                   <div class="challenge-response__proposal challenge-response__proposal--paragraph">
