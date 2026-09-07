@@ -1,5 +1,4 @@
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
@@ -11,6 +10,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
+import PaginationWrapper from 'pix-certif/components/ui/pagination-wrapper';
 
 import dayjsUtcFormat from '../../helpers/dayjs-utc-format';
 import { CREATED, FINALIZED, PROCESSED } from '../../models/session-management';
@@ -215,7 +215,7 @@ export default class SessionList extends Component {
         </:columns>
       </PixTable>
 
-      <PixPagination @pagination={{@sessionSummaries.meta}} @locale={{this.locale.currentLanguage}} />
+      <PaginationWrapper @pagination={{@sessionSummaries.meta}} />
     {{else}}
       <div class='table__empty content-text'>
         {{t 'pages.sessions.list.table.empty'}}

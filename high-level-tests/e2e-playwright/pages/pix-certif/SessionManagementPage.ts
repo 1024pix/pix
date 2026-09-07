@@ -90,8 +90,8 @@ export class SessionManagementPage {
     } else {
       await this.page.getByRole('radio', { name: 'Homme' }).check();
     }
-    await this.page.getByLabel('Nom de naissance').fill(lastName);
-    await this.page.getByLabel('Prénom').fill(firstName);
+    await this.page.getByLabel('Nom de naissance *').fill(lastName);
+    await this.page.getByLabel('Prénom *').fill(firstName);
     await this.page.getByLabel('Date de naissance').fill(birthdate);
     await this.page.getByRole('button', { name: 'Pays de naissance *' }).click();
     await this.page.getByRole('option', { name: birthCountry }).click();
