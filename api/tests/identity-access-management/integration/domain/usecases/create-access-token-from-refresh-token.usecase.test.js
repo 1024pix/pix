@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
+import { UserRefreshToken } from '../../../../../src/identity-access-management/domain/models/UserRefreshToken.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { UnauthorizedError } from '../../../../../src/shared/application/errors/http-errors.js';
@@ -42,6 +43,30 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       expect(expirationDelaySeconds).to.be.a('number');
       const decodedAccessToken = UserAccessToken.decode(accessToken);
       expect(decodedAccessToken.sessionId).to.equal(sessionId);
+    });
+
+    describe('when refresh token is stateless', function () {
+      it('creates a new access token', async function () {
+        // given
+        const source = 'pix';
+        const audience = 'https://app.pix.fr';
+        const sessionId = 'session-id';
+
+        const refreshToken = UserRefreshToken.generate({ userId, source, audience, sessionId });
+
+        // when
+        const { accessToken, expirationDelaySeconds } = await usecases.createAccessTokenFromRefreshToken({
+          refreshToken,
+          audience,
+          locale,
+        });
+
+        // then
+        expect(accessToken).to.be.a('string');
+        expect(expirationDelaySeconds).to.be.a('number');
+        const decodedAccessToken = UserAccessToken.decode(accessToken);
+        expect(decodedAccessToken.sessionId).to.equal(sessionId);
+      });
     });
   });
 
@@ -86,6 +111,29 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       expect(error).to.instanceOf(UnauthorizedError);
       expect(error.message).to.equal('Refresh token is invalid');
       expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
+    });
+
+    describe('when refresh token is stateless', function () {
+      it('throws an unauthorized error', async function () {
+        // given
+        const source = 'pix';
+        const audience = 'https://app.pix.fr';
+        const badAudience = 'https://orga.pix.fr';
+
+        const refreshToken = UserRefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
+
+        // when
+        const error = await catchErr(usecases.createAccessTokenFromRefreshToken)({
+          refreshToken,
+          audience: badAudience,
+          locale,
+        });
+
+        // then
+        expect(error).to.instanceOf(UnauthorizedError);
+        expect(error.message).to.equal('Refresh token is invalid');
+        expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
+      });
     });
   });
 

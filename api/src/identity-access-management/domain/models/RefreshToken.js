@@ -33,6 +33,13 @@ export class RefreshToken {
     return new RefreshToken({ userId, source, value, audience, sessionId });
   }
 
+  /**
+   * @param {string} value
+   */
+  static isStatefulRefreshToken(value) {
+    return /^\d+:\p{Hex_Digit}{8}-\p{Hex_Digit}{4}-\p{Hex_Digit}{4}-\p{Hex_Digit}{4}-\p{Hex_Digit}{12}$/u.test(value);
+  }
+
   get expirationDelaySeconds() {
     return config.authentication.refreshTokenLifespanMs / 1000;
   }
