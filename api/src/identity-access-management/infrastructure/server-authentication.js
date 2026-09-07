@@ -88,7 +88,7 @@ async function validateUserAccessToken(decodedAccessToken, { request, revokedUse
     return { isValid: false };
   }
 
-  return { isValid: true, credentials: { userId: decodedAccessToken.user_id } };
+  return { isValid: true, credentials: { userId: decodedAccessToken.user_id, sessionId: decodedAccessToken.sid } };
 }
 
 async function validateClientApplicationAccessToken(decodedAccessToken) {

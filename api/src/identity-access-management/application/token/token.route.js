@@ -132,4 +132,13 @@ export const tokenRoutes = [
       tags: ['identity-access-management', 'api', 'token'],
     },
   },
+  {
+    method: 'POST',
+    path: '/api/logout',
+    config: {
+      handler: tokenController.revokeSession,
+      notes: ['- Cette route permet de révoquer une session utilisateur'],
+      tags: ['identity-access-management', 'api', 'token'],
+    },
+  },
 ];

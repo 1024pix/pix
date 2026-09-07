@@ -83,6 +83,12 @@ const revokeToken = async function (request, h) {
   return h.response().code(204);
 };
 
+async function revokeSession(request, h) {
+  await usecases.revokeSession(request.auth.credentials);
+
+  return h.response().code(204);
+}
+
 const authenticateApplication = async function (request, h) {
   const { client_id: clientId, client_secret: clientSecret, scope } = request.payload;
 
@@ -100,4 +106,10 @@ const authenticateApplication = async function (request, h) {
     .header('Pragma', 'no-cache');
 };
 
-export const tokenController = { authenticateAnonymousUser, createToken, revokeToken, authenticateApplication };
+export const tokenController = {
+  authenticateAnonymousUser,
+  authenticateApplication,
+  createToken,
+  revokeSession,
+  revokeToken,
+};

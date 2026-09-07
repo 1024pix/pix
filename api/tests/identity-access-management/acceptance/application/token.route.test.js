@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import { UserAccessToken } from '../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { config } from '../../../../src/shared/config.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
+import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateInjectOptions } from '../../../tooling/test-utils/http-server.js';
@@ -634,6 +635,42 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
         detail: 'The scope is not allowed.',
         status: '403',
       });
+    });
+  });
+
+  describe('POST /api/logout', function () {
+    let revokedUserAccessTemporaryStorage;
+
+    beforeEach(async function () {
+      revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
+      await revokedUserAccessTemporaryStorage.flushAll();
+    });
+
+    it('returns 204 and revokes access token’s session', async function () {
+      // given
+      const { id: userId } = databaseBuilder.factory.buildUser();
+      await databaseBuilder.commit();
+
+      const sessionId = crypto.randomUUID();
+
+      const options = generateInjectOptions({
+        url: '/api/logout',
+        method: 'POST',
+        audience: 'https://app.pix.fr',
+        authorizationData: {
+          userId,
+          sessionId,
+        },
+      });
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+
+      const revokeSessionTimestamp = await revokedUserAccessTemporaryStorage.get(`${userId}:${sessionId}`);
+      expect(revokeSessionTimestamp).to.be.a('number');
     });
   });
 });
