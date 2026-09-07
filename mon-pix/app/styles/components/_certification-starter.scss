@@ -112,6 +112,12 @@
   border-bottom: 1px solid var(--pix-neutral-100);
 }
 
+.certification-start-form__pix-plus-explanation {
+  color: var(--pix-neutral-800);
+
+  @extend %pix-body-s;
+}
+
 .certification-start-form__code {
   padding-top: var(--pix-spacing-4x);
 

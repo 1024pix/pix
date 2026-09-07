@@ -981,7 +981,8 @@
         "options": {
           "english": "English - EN",
           "french": "French - FR"
-        }
+        },
+        "pix-plus-explanation": "Test only available in french."
       },
       "link-to-user-certification": "See my certificates",
       "non-eligible-subscription": "You are not eligible to {subscriptionLabel}. However, you can still take your Pix Certification.",

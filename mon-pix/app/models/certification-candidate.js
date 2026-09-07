@@ -20,4 +20,8 @@ export default class CertificationCandidate extends Model {
   get isEligibleToDoubleCertification() {
     return this.isRegisteredToDoubleCertification && this.doubleCertificationEligibility;
   }
+
+  get hasPixPlusSubscription() {
+    return !(this.subscription === 'CORE');
+  }
 }

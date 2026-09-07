@@ -216,10 +216,17 @@ export default class CertificationStarter extends Component {
             @options={{this.languageOptions}}
             @hideDefaultOption={{true}}
             @iconName="language"
+            @isDisabled={{@model.certificationCandidate.hasPixPlusSubscription}}
           >
             <:label>{{t "pages.certification-start.language-selector.label"}}</:label>
             <:default as |language|>{{language.label}}</:default>
           </PixSelect>
+
+          {{#if @model.certificationCandidate.hasPixPlusSubscription}}
+            <span class="certification-start-form__pix-plus-explanation">{{t
+                "pages.certification-start.language-selector.pix-plus-explanation"
+              }}</span>
+          {{/if}}
 
           <PixCheckbox
             @class="certification-start-form__lang-confirm-checkbox"
