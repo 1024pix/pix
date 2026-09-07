@@ -380,6 +380,7 @@ export const config = {
       process.env.LCMS_API_KEY,
     oauthBasicToken: process.env.LCMS_API_OAUTH_BASIC_TOKEN,
     releaseId: process.env.LCMS_API_RELEASE_ID || null,
+    refreshJobCron: process.env.CACHE_RELOAD_TIME || null,
   },
   llm: {
     temporaryStorage: {
