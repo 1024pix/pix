@@ -1,6 +1,7 @@
 import { config } from '../../../../config/config.js';
 import { PIX_ADMIN } from '../../../shared/constants.js';
 import { ForbiddenAccess, PasswordNotMatching, UserNotFoundError } from '../../../shared/domain/errors.js';
+import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { createWarningConnectionEmail } from '../emails/create-warning-connection.email.js';
 import {
@@ -11,6 +12,7 @@ import {
 import { PasswordExpirationToken } from '../models/PasswordExpirationToken.js';
 import { RefreshToken } from '../models/RefreshToken.js';
 import { UserAccessToken } from '../models/UserAccessToken.js';
+import { UserRefreshToken } from '../models/UserRefreshToken.js';
 
 /**
  * typedef { function } authenticateUser
@@ -71,8 +73,15 @@ const authenticateUser = async function ({
 
     const sessionId = authenticationSessionService.generateSessionId();
 
-    const refreshToken = RefreshToken.generate({ userId: user.id, source, audience, sessionId });
-    await refreshTokenRepository.save({ refreshToken });
+    let encodedRefreshToken;
+    const isSessionLogoutEnabled = await featureToggles.get('isSessionLogoutEnabled');
+    if (isSessionLogoutEnabled) {
+      encodedRefreshToken = UserRefreshToken.generate({ userId: user.id, source, audience, sessionId });
+    } else {
+      const refreshToken = RefreshToken.generate({ userId: user.id, source, audience, sessionId });
+      await refreshTokenRepository.save({ refreshToken });
+      encodedRefreshToken = refreshToken.value;
+    }
 
     const { accessToken, expirationDelaySeconds } = UserAccessToken.generateUserToken({
       userId: user.id,
@@ -106,7 +115,7 @@ const authenticateUser = async function ({
       identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
     });
 
-    return { accessToken, refreshToken: refreshToken.value, expirationDelaySeconds };
+    return { accessToken, refreshToken: encodedRefreshToken, expirationDelaySeconds };
   } catch (error) {
     if (error instanceof UserNotFoundError) {
       throw new MissingOrInvalidCredentialsError();
