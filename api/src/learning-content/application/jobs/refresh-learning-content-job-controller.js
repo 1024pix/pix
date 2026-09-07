@@ -1,11 +1,16 @@
-import { JobController } from '../../../shared/application/jobs/job-controller.js';
+import { JobScheduleController } from '../../../shared/application/jobs/job-schedule-controller.js';
+import { config } from '../../../shared/config.js';
 import { logger, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { RefreshLearningContentJob } from '../../domain/models/RefreshLearningContentJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 
-export class RefreshLearningContentJobController extends JobController {
+export class RefreshLearningContentJobController extends JobScheduleController {
   constructor() {
-    super(RefreshLearningContentJob.name);
+    super(RefreshLearningContentJob.name, { jobCron: config.lcms.refreshJobCron });
+  }
+
+  isJobEnabled() {
+    return config.lcms.refreshJobCron !== null;
   }
 
   async handle() {
