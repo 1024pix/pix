@@ -11,6 +11,24 @@ const { revokedUserAccessLifespanMs } = config.authentication;
 const isSessionLogoutEnabled = featureToggles.use('isSessionLogoutEnabled');
 
 /**
+ * Saves the revoke date for a user session.
+ *
+ * @param {Object} params - The params object.
+ * @param {string} params.userId - The ID of the user to revoke access for.
+ * @param {string} params.sessionId - The ID of the user’s session to revoke.
+ */
+async function revokeSession({ userId, sessionId }) {
+  Joi.assert(userId, Joi.required());
+  Joi.assert(sessionId, Joi.required());
+
+  await revokedUserAccessTemporaryStorage.save({
+    key: `${userId}:${sessionId}`,
+    value: '',
+    expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
+  });
+}
+
+/**
  * Saves the revoke date for all the accesses of a user.
  *
  * @param {Object} params - The params object.
@@ -30,24 +48,6 @@ async function revokeAll({ userId, revokeUntil }) {
   await revokedUserAccessTemporaryStorage.save({
     key: `${userId}:all`,
     value: Math.floor(revokeUntil.getTime() / 1000),
-    expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
-  });
-}
-
-/**
- * Saves the revoke date for a user session.
- *
- * @param {Object} params - The params object.
- * @param {string} params.userId - The ID of the user to revoke access for.
- * @param {string} params.sessionId - The ID of the user’s session to revoke.
- */
-async function revokeSession({ userId, sessionId }) {
-  Joi.assert(userId, Joi.required());
-  Joi.assert(sessionId, Joi.required());
-
-  await revokedUserAccessTemporaryStorage.save({
-    key: `${userId}:${sessionId}`,
-    value: '',
     expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
   });
 }
