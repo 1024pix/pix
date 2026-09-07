@@ -1,5 +1,35 @@
 # Pix Changelog
 
+# [5.497.0](https://github.com/1024pix/pix/compare/v5.496.0...v5.497.0) (2026-09-07)
+
+### :rocket: Amélioration
+
+- [#17398](https://github.com/1024pix/pix/pull/17398) Forcer le choix de langue français pour les certifications Pix + (PIX-24134)
+- [#17365](https://github.com/1024pix/pix/pull/17365) Mettre en avant un contenu formatif sur Pix App (moteur de reco) (PIX-24006).
+- [#17351](https://github.com/1024pix/pix/pull/17351) mon-pix: Révoquer la session utilisateur lors de la déconnexion (PIX-24078)
+
+### :bug: Correction
+
+- [#17400](https://github.com/1024pix/pix/pull/17400) Ajoutez une traduction manquante dans Pix App (PIX-23903)
+- [#17392](https://github.com/1024pix/pix/pull/17392) Corriger les variables des libellés du bandeau d'information d'import en anglais et néerlandais (PIX-24142)
+
+### :building_construction: Tech
+
+- [#17342](https://github.com/1024pix/pix/pull/17342) Ajouter des events Plausible sur la page de résultats des campagnes moteur de reco (PIX-24061)
+- [#17386](https://github.com/1024pix/pix/pull/17386) Convertir les helpers PixOrga en TypeScript
+- [#17390](https://github.com/1024pix/pix/pull/17390) Corrige certains tests flaky
+
+### :arrow_up: Montée de version
+
+- [#17375](https://github.com/1024pix/pix/pull/17375) Update dependency @1024pix/pix-ui to ^68.1.1 (orga)
+- [#17403](https://github.com/1024pix/pix/pull/17403) Update dependency @1024pix/pix-ui to ^68.1.2 (orga)
+- [#17370](https://github.com/1024pix/pix/pull/17370) Update dependency @faker-js/faker to v10.5.0 [SECURITY]
+- [#17371](https://github.com/1024pix/pix/pull/17371) Update dependency @faker-js/faker to v10.5.0 [SECURITY]
+- [#17367](https://github.com/1024pix/pix/pull/17367) Update dependency @hapi/inert to v7.1.1 [SECURITY]
+- [#17368](https://github.com/1024pix/pix/pull/17368) Update dependency @xmldom/xmldom to v0.9.12 [SECURITY]
+- [#17372](https://github.com/1024pix/pix/pull/17372) Update dependency joi to v18.2.1 [SECURITY]
+- [#17373](https://github.com/1024pix/pix/pull/17373) Update dependency samlify to v2.13.0 [SECURITY]
+
 # [5.496.0](https://github.com/1024pix/pix/compare/v5.495.0...v5.496.0) (2026-09-04)
 
 ### :rocket: Amélioration
