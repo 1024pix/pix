@@ -15,6 +15,47 @@ export default class UpdateOrganizationsInBatch extends Component {
   @service errorResponseHandler;
 
   @action
+  async handleBatchUpdateError(errorResponse) {
+    const error = errorResponse.errors[0];
+
+    switch (error.code) {
+      case 'ORGANIZATION_NOT_FOUND':
+        return this.pixToast.sendErrorNotification({
+          message: this.intl.t(
+            'components.administration.update-organizations-in-batch.notifications.errors.organization-not-found',
+            error.meta,
+          ),
+        });
+
+      case 'DPO_EMAIL_INVALID':
+        return this.pixToast.sendErrorNotification({
+          message: this.intl.t(
+            'components.administration.update-organizations-in-batch.notifications.errors.data-protection-email-invalid',
+            error.meta,
+          ),
+        });
+
+      case 'STRUCTURE_CATEGORY_NOT_FOUND':
+        return this.pixToast.sendErrorNotification({
+          message: this.intl.t(
+            'components.administration.update-organizations-in-batch.notifications.errors.category-not-found',
+            { categoryId: error.meta.categoryId },
+          ),
+        });
+
+      case 'ORGANIZATION_BATCH_UPDATE_ERROR':
+        return this.pixToast.sendErrorNotification({
+          message: this.intl.t(
+            'components.administration.update-organizations-in-batch.notifications.errors.organization-batch-update-error',
+            error.meta,
+          ),
+        });
+
+      default:
+        this.errorResponseHandler.notify(errorResponse);
+    }
+  }
+  @action
   async updateOrganizationsInBatch(files) {
     let response;
 
@@ -37,41 +78,10 @@ export default class UpdateOrganizationsInBatch extends Component {
         });
         return;
       } else {
-        const json = await response.json();
-        const error = json.errors[0];
+        const errorResponse = await response.json();
 
-        if (error.code === 'ORGANIZATION_NOT_FOUND') {
-          return this.pixToast.sendErrorNotification({
-            message: this.intl.t(
-              'components.administration.update-organizations-in-batch.notifications.errors.organization-not-found',
-              error.meta,
-            ),
-          });
-        } else if (error.code === 'DPO_EMAIL_INVALID') {
-          return this.pixToast.sendErrorNotification({
-            message: this.intl.t(
-              'components.administration.update-organizations-in-batch.notifications.errors.data-protection-email-invalid',
-              error.meta,
-            ),
-          });
-        } else if (error.code === 'ORGANIZATION_BATCH_UPDATE_ERROR') {
-          return this.pixToast.sendErrorNotification({
-            message: this.intl.t(
-              'components.administration.update-organizations-in-batch.notifications.errors.organization-batch-update-error',
-              error.meta,
-            ),
-          });
-        } else if (error.code === 'STRUCTURE_CATEGORY_NOT_FOUND') {
-          return this.pixToast.sendErrorNotification({
-            message: this.intl.t(
-              'components.administration.update-organizations-in-batch.notifications.errors.category-not-found',
-              { categoryId: error.meta.categoryId },
-            ),
-          });
-        }
+        await this.handleBatchUpdateError(errorResponse);
       }
-
-      this.errorResponseHandler.notify(await response.json());
     } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.notifications.generic-error') });
     } finally {
