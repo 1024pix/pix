@@ -61,7 +61,7 @@
     "lint:types": "tsc -b",
     "postdeploy": "DEBUG=knex:query npm run db:migrate",
     "postdeploy:maddo": "node scripts/wait-for-api-deployment && npm run datamart:migrate",
-    "scalingo-postbuild": "node scripts/generate-cron > cron.json && node scripts/generate-procfile",
+    "scalingo-postbuild": "node scripts/generate-procfile",
     "dev": "nodemon -r ./tracing.js index.js",
     "dev:maddo": "MADDO=true nodemon -r ./tracing.maddo.js index.maddo.js",
     "start": "node -r ./tracing.js index.js",
