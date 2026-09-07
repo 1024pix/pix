@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { EntityValidationError } from '../../domain/errors.js';
 import { JobExpireIn } from '../../infrastructure/jobs/default-config.js';
 

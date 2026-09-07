@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Agent, fetch, getGlobalDispatcher } from 'undici';
 
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { ConfigurationNotFoundError, LLMApiError } from '../../domain/errors.js';
 import { Configuration } from '../../domain/models/Configuration.js';

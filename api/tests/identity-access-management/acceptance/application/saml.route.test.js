@@ -3,9 +3,9 @@ import _ from 'lodash';
 import samlify from 'samlify';
 import sinon from 'sinon';
 
+import { config as settings } from '../../../../config/config.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { UserReconciliationSamlIdToken } from '../../../../src/identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
-import { config as settings } from '../../../../src/shared/config.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
+import { config } from '../../../../../config/config.js';
 import { AutonomousCourseTargetProfile } from '../../../../../src/evaluation/domain/models/AutonomousCourseTargetProfile.js';
 import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
-import { config } from '../../../../../src/shared/config.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

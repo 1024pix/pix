@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import { UserReconciliationSamlIdToken } from '../../../../../src/identity-access-management/domain/models/UserReconciliationSamlIdToken.js';
-import { config } from '../../../../../src/shared/config.js';
 import { InvalidExternalUserTokenError } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Identity Access Management | Domain | Model | UserReconciliationSamlIdToken', function () {

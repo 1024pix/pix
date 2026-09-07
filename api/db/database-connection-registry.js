@@ -1,6 +1,6 @@
+import { config } from '../config/config.js';
 import datamartKnexConfigs from '../datamart/knexfile.js';
 import datawarehouseKnexConfigs from '../datawarehouse/knexfile.js';
-import { config } from '../src/shared/config.js';
 import { DatabaseConnection } from './database-connection.js';
 import { configureGlobalExtensions } from './knex-extensions.js';
 import { knexConfigWithPgBouncer } from './knexfile.js';

@@ -1,7 +1,7 @@
 import { setTimeout } from 'node:timers/promises';
 
+import { config } from '../../../../config/config.js';
 import { JobScheduleController } from '../../../shared/application/jobs/job-schedule-controller.js';
-import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 

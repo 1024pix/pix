@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import {
   PasswordResetDemandNotFoundError,
   RevokedPasswordCannotBeReusedError,
 } from '../../../../../src/identity-access-management/domain/errors.js';
 import { resetPasswordService } from '../../../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
-import { config } from '../../../../../src/shared/config.js';
 import { InvalidTemporaryKeyError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';

@@ -1,6 +1,6 @@
 import { trace } from '@opentelemetry/api';
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { DomainError } from '../../domain/errors.js';
 const otelProxySymbol = Symbol('otelProxy');
 export const preventTracingSymbol = Symbol('preventTracing');

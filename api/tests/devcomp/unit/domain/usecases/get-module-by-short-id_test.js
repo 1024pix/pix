@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
 import { getModuleByShortId } from '../../../../../src/devcomp/domain/usecases/get-module-by-short-id.js';
-import { config } from '../../../../../src/shared/config.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 
 describe('Unit | Devcomp | Domain | UseCases | get-module-by-short-id', function () {

@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 
-import { config } from '../../../../src/shared/config.js';
+import { config } from '../../../../config/config.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../../shared/infrastructure/utils/network.js';

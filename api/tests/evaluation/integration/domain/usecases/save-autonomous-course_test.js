@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
+import { config } from '../../../../../config/config.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { config } from '../../../../../src/shared/config.js';
 import {
   NotFoundError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,

@@ -1,4 +1,4 @@
-import { config } from '../../../../shared/config.js';
+import { config } from '../../../../../config/config.js';
 import { CertificateVerificationCodeGenerationTooManyTrials } from '../../../../shared/domain/errors.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 

@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import { parquetWriteBuffer } from 'hyparquet-writer';
 
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { logger as defaultLogger } from '../../../shared/infrastructure/utils/logger.js';
 import { AnswersHistoryRepository } from '../../infrastructure/repositories/answers-history-repository.js';
 import { TARGET_STATE, TARGET_TYPES } from '../constants.js';

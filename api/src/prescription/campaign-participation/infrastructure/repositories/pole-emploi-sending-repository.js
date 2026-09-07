@@ -1,5 +1,5 @@
+import { config } from '../../../../../config/config.js';
 import * as OidcIdentityProviders from '../../../../identity-access-management/domain/constants/oidc-identity-providers.js';
-import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const create = function ({ poleEmploiSending }) {

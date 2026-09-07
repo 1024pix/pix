@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
+import { config as settings } from '../../../../../config/config.js';
 import { createServer } from '../../../../../server.js';
-import { config as settings } from '../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';

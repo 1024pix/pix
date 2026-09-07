@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import { expect } from 'chai';
 
-import { config } from '../../../../../src/shared/config.js';
+import { config } from '../../../../../config/config.js';
 import { RedisClient } from '../../../../../src/shared/infrastructure/utils/RedisClient.js';
 
 describe('Integration | Infrastructure | Utils | RedisClient', function () {

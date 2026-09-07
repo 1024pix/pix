@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 
+import { config } from '../../../../../config/config.js';
 import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
-import { config } from '../../../../shared/config.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CpfExportBuilderJob } from '../../domain/models/CpfExportBuilderJob.js';
 import * as cpfCertificationResultRepository from '../../infrastructure/repositories/cpf-certification-result-repository.js';

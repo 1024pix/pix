@@ -1,7 +1,7 @@
+import { config, schema as configSchema } from './config/config.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { createServer } from './server.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
-import { config, schema as configSchema } from './src/shared/config.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
 import * as prometheusPushGateway from './src/shared/infrastructure/metrics/pushgateway.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';

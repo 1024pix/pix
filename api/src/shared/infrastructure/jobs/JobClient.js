@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import { PgBoss } from 'pg-boss';
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { executeInContext, EXECUTORS } from '../execution-context-manager.js';
 import { instrumentJobController, registerPgBossMetrics } from '../open-telemetry/job-tracing.js';
 import { importNamedExportFromFile } from '../utils/import-named-exports-from-directory.js';

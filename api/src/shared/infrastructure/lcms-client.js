@@ -1,4 +1,4 @@
-import { config } from '../config.js';
+import { config } from '../../../config/config.js';
 import { httpAgent } from './http-agent.js';
 import { logger } from './utils/logger.js';
 

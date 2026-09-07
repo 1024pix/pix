@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../../../config/config.js';
 import { ImportFromSupJobController } from '../../../../../../../src/prescription/learner-management/application/jobs/import-learners/import-from-sup-job-controller.js';
 import { usecases } from '../../../../../../../src/prescription/learner-management/domain/usecases/index.js';
-import { config } from '../../../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../../../src/shared/domain/DomainTransaction.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';

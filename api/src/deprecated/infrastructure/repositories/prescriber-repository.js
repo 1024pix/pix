@@ -1,7 +1,7 @@
+import { config } from '../../../../config/config.js';
 import * as legalDocumentApi from '../../../legal-documents/application/api/legal-documents-api.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../organizational-entities/domain/models/Tag.js';
-import { config } from '../../../shared/config.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ForbiddenAccess, UserNotFoundError } from '../../../shared/domain/errors.js';
 import { Membership } from '../../../shared/domain/models/Membership.js';

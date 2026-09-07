@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import { UserLogin } from '../../../../../src/identity-access-management/domain/models/UserLogin.js';
-import { config } from '../../../../../src/shared/config.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | UserLogin', function () {

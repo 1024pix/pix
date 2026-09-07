@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
+import { config as settings } from '../../../../../../config/config.js';
 import * as poleEmploiService from '../../../../../../src/prescription/campaign-participation/domain/services/pole-emploi-service.js';
-import { config as settings } from '../../../../../../src/shared/config.js';
 
 const ORIGINAL_ENV = settings.apiManager.url;
 

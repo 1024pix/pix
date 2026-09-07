@@ -1,5 +1,5 @@
+import { config } from '../../../../config/config.js';
 import { JobController } from '../../../shared/application/jobs/job-controller.js';
-import { config } from '../../../shared/config.js';
 import { UpdateCombineCourseJob } from '../../domain/models/combined-course-participations/events/UpdateCombinedCourseJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 

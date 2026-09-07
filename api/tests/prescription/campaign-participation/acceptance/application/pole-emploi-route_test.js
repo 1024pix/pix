@@ -9,7 +9,7 @@ import {
 
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-import { config as settings } from '../../../../../src/shared/config.js';
+import { config as settings } from '../../../../../config/config.js';
 
 describe('Acceptance | API | Pole Emploi envois', function () {
   let server, options;

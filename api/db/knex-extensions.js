@@ -2,7 +2,7 @@ import Knex from 'knex';
 import QueryBuilder from 'knex/lib/query/querybuilder.js';
 import pg from 'pg';
 
-import { config } from '../src/shared/config.js';
+import { config } from '../config/config.js';
 import { getInContext, getRequestId } from '../src/shared/infrastructure/execution-context-manager.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 import { routeDomainToOwnerTeam } from '../src/shared/infrastructure/utils/route-domain-to-owner-team.js';

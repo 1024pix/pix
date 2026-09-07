@@ -2,7 +2,7 @@ import { logs, SeverityNumber } from '@opentelemetry/api-logs';
 import pino from 'pino';
 import pretty from 'pino-pretty';
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { CORRELATION_METADATA, getCorrelationInfo } from '../execution-context-manager.js';
 import { tracing } from '../open-telemetry/helpers.js';
 

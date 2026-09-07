@@ -2,7 +2,7 @@
  * Build and manage all Pix application URLs according a locale.
  */
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { getDefaultLocale, getNearestSupportedLocale, isFranceLocale } from './locale-service.js';
 
 const PIX_WEBSITE_DOMAIN_FR = `${config.domain.pix}${config.domain.tldFr}`;

@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../../config/config.js';
 import {
   ImportStorage,
   S3DeleteError,
   S3ReadError,
   S3UploadError,
 } from '../../../../../../src/prescription/learner-management/infrastructure/storage/import-storage.js';
-import { config } from '../../../../../../src/shared/config.js';
 import { FileValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

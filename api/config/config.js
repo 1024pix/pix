@@ -11,9 +11,9 @@ let isEnvLoaded = false;
 if (!isEnvLoaded) {
   try {
     if (process.env.NODE_ENV === 'test') {
-      process.loadEnvFile(url.fileURLToPath(new URL('../../tests/setup/.env.test', import.meta.url)));
+      process.loadEnvFile(url.fileURLToPath(new URL('../tests/setup/.env.test', import.meta.url)));
     } else {
-      process.loadEnvFile(url.fileURLToPath(new URL('../../.env', import.meta.url)));
+      process.loadEnvFile(url.fileURLToPath(new URL('../.env', import.meta.url)));
     }
   } catch {
     // .env file not found, continuing without it

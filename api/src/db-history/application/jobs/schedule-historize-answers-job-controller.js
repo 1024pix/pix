@@ -1,5 +1,5 @@
+import { config } from '../../../../config/config.js';
 import { JobScheduleController } from '../../../shared/application/jobs/job-schedule-controller.js';
-import { config } from '../../../shared/config.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { getDatesOneYearEarlier } from './date-utils.js';
 

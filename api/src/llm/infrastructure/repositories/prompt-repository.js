@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { getCorrelationInfo } from '../../../shared/infrastructure/execution-context-manager.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { LLMApiError } from '../../domain/errors.js';

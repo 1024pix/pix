@@ -1,4 +1,4 @@
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 const getByShortId = async function (request, h, { moduleSerializer }) {

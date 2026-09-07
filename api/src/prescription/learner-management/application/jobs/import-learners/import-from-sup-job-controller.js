@@ -1,5 +1,5 @@
+import { config } from '../../../../../../config/config.js';
 import { JobController } from '../../../../../shared/application/jobs/job-controller.js';
-import { config } from '../../../../../shared/config.js';
 import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { DomainError } from '../../../../../shared/domain/errors.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';

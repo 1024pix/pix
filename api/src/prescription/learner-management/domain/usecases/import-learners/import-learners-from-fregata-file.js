@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import { config } from '../../../../../shared/config.js';
+import { config } from '../../../../../../config/config.js';
 import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { FregataParser } from '../../../infrastructure/serializers/csv/parsers/fregata-parser.js';
 import { ScoOrganizationLearnerSet } from '../../models/ScoOrganizationLearnerSet.js';

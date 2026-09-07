@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../config/config.js';
 import { knex } from '../../../../db/knex-database-connection.js';
-import { config } from '../../../../src/shared/config.js';
 import { executeInContext, getInContext } from '../../../../src/shared/infrastructure/execution-context-manager.js';
 const selectQuery = knex.raw('SELECT 1 as value');
 

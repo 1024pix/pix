@@ -1,6 +1,6 @@
 import boom from '@hapi/boom';
 
-import { config } from '../../shared/config.js';
+import { config } from '../../../config/config.js';
 import { tokenService } from '../../shared/domain/services/token-service.js';
 import {
   jwtApplicationAuthenticationStrategyName,

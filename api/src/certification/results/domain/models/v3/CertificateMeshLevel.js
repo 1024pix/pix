@@ -3,7 +3,7 @@
  */
 import Joi from 'joi';
 
-import { config } from '../../../../../shared/config.js';
+import { config } from '../../../../../../config/config.js';
 import { EntityValidationError } from '../../../../../shared/domain/errors.js';
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../shared/domain/constants/mesh-configuration.js';
 import { Frameworks, hasCoreScope, isEduFramework } from '../../../../shared/domain/models/Frameworks.js';

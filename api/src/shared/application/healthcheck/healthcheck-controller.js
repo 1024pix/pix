@@ -2,9 +2,9 @@ import os from 'node:os';
 
 import Boom from '@hapi/boom';
 
+import { config } from '../../../../config/config.js';
 import { databaseConnectionRegistry } from '../../../../db/database-connection-registry.js';
 import packageJSON from '../../../../package.json' with { type: 'json' };
-import { config } from '../../config.js';
 import { getBaseLocale } from '../../domain/services/locale-service.js';
 import { featureToggles } from '../../infrastructure/feature-toggles/index.js';
 import * as network from '../../infrastructure/utils/network.js';

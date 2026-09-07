@@ -1,8 +1,8 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+import { config } from '../../config/config.js';
 import { DatabaseConnection } from '../../db/database-connection.js';
-import { config } from '../../src/shared/config.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 function isPlatformScalingo() {

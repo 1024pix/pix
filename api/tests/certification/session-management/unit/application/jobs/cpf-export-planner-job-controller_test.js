@@ -4,9 +4,9 @@ import utc from 'dayjs/plugin/utc.js';
 import lodash from 'lodash';
 import sinon from 'sinon';
 
+import { config } from '../../../../../../config/config.js';
 import { CpfExportPlannerJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-planner-job-controller.js';
 import { CpfExportBuilderJob } from '../../../../../../src/certification/session-management/domain/models/CpfExportBuilderJob.js';
-import { config } from '../../../../../../src/shared/config.js';
 
 const { cpf } = config;
 const { noop } = lodash;

@@ -2,8 +2,8 @@ import querystring from 'node:querystring';
 
 import { expect } from 'chai';
 
+import { config } from '../../../../config/config.js';
 import { UserAccessToken } from '../../../../src/identity-access-management/domain/models/UserAccessToken.js';
-import { config } from '../../../../src/shared/config.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';

@@ -1,7 +1,7 @@
+import { config } from '../../../config/config.js';
 import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
-import { config } from '../../shared/config.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
 

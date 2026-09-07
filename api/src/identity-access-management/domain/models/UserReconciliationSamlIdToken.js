@@ -1,4 +1,4 @@
-import { config } from '../../../shared/config.js';
+import { config } from '../../../../config/config.js';
 import { InvalidExternalUserTokenError } from '../../../shared/domain/errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 

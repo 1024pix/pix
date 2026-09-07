@@ -1,6 +1,6 @@
 import os from 'node:os';
 
-import { config } from '../../config.js';
+import { config } from '../../../../config/config.js';
 import { JobClient } from '../../infrastructure/jobs/JobClient.js';
 import { logger } from '../../infrastructure/utils/logger.js';
 import { JobScheduleController } from './job-schedule-controller.js';

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
 import { PasswordExpirationToken } from '../../../../../src/identity-access-management/domain/models/PasswordExpirationToken.js';
-import { config } from '../../../../../src/shared/config.js';
 
 describe('Unit | Identity Access Management | Domain | Model | PasswordExpirationToken', function () {
   beforeEach(function () {

@@ -1,7 +1,7 @@
 import { BrevoClient } from '@getbrevo/brevo';
 import _ from 'lodash';
 
-import { config } from '../../../config.js';
+import { config } from '../../../../../config/config.js';
 import { MailingProviderInvalidEmailError } from '../../domain/models/MailingProviderInvalidEmailError.js';
 import { MailingProvider } from './MailingProvider.js';
 

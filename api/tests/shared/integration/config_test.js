@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { schema } from '../../../src/shared/config.js';
+import { schema } from '../../../config/config.js';
 
 describe('Shared | Integration | Config', function () {
   describe('schema', function () {

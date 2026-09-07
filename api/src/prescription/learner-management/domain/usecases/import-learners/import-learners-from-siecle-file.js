@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import { config } from '../../../../../shared/config.js';
+import { config } from '../../../../../../config/config.js';
 import { DomainTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { SiecleParser } from '../../../infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../../infrastructure/utils/xml/siecle-file-streamer.js';

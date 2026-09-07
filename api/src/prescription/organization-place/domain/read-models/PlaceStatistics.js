@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { config } from '../../../../shared/config.js';
+import { config } from '../../../../../config/config.js';
 
 export class PlaceStatistics {
   #placesLots;

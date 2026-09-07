@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import nock from 'nock';
 
-import { config } from '../../../../../src/shared/config.js';
+import { config } from '../../../../../config/config.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 
