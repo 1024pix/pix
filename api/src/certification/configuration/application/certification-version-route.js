@@ -81,7 +81,7 @@ async function register(server) {
             data: Joi.object({
               id: Joi.number(),
               attributes: Joi.object({
-                'start-date': Joi.date().allow(null).optional(),
+                'start-date': Joi.date().required(),
                 'assessment-duration': Joi.number().required(),
                 'external-calibration-id': Joi.number().allow(null).required(),
                 'minimum-answers-required-for-validation': Joi.number().required(),

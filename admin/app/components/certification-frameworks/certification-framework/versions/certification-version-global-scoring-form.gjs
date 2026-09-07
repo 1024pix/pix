@@ -26,10 +26,11 @@ export default class GlobalScoringForm extends Component {
   updateValue(name, index, event) {
     const isMax = name === 'max';
     const newArray = [...this.globalScoringConfiguration];
-    newArray.at(index).bounds[name] = Number(event.target.value);
+    const value = event.target.value === '' ? null : Number(event.target.value);
+    newArray.at(index).bounds[name] = value;
 
     if (isMax && newArray.at(index + 1)) {
-      newArray.at(index + 1).bounds.min = Number(event.target.value);
+      newArray.at(index + 1).bounds.min = value;
     }
     this.args.editVersion.globalScoringConfiguration = newArray;
   }
@@ -40,18 +41,29 @@ export default class GlobalScoringForm extends Component {
   }
 
   @action
-  isFirstRow(index) {
-    return index === 0;
+  lastMaxValue(index) {
+    return this.#boundsAt(index - 1)?.max;
   }
 
-  @action
-  lastMaxValue(index) {
-    return this.globalScoringConfiguration.at(index - 1)?.bounds.max;
+  #boundsAt(index) {
+    return this.globalScoringConfiguration.at(index).bounds;
   }
 
   @action
   isGreaterThanMin(index) {
-    return this.globalScoringConfiguration.at(index).bounds.max > this.globalScoringConfiguration.at(index).bounds.min;
+    const { max, min } = this.#boundsAt(index);
+    return max == null || min == null || max > min;
+  }
+
+  @action
+  minValidationStatus(index) {
+    return this.#boundsAt(index).min == null ? 'error' : 'default';
+  }
+
+  @action
+  maxValidationStatus(index) {
+    const { max } = this.#boundsAt(index);
+    return max == null || !this.isGreaterThanMin(index) ? 'error' : 'default';
   }
 
   @action
@@ -78,8 +90,12 @@ export default class GlobalScoringForm extends Component {
               type="number"
               step="0.0000000001"
               readonly={{this.isNotFirstRow mesh.meshLevel}}
-              required={{this.isFirstRow mesh.meshLevel}}
-              @requiredLabel={{if (this.isFirstRow mesh.meshLevel) (t "common.forms.mandatory") false}}
+              required="true"
+              @requiredLabel={{t "common.forms.mandatory"}}
+              @errorMessage={{t
+                "components.certification-frameworks.certification-framework.versions.scoring.required-error"
+              }}
+              @validationStatus={{this.minValidationStatus mesh.meshLevel}}
               @value={{if (this.isNotFirstRow mesh.meshLevel) (this.lastMaxValue mesh.meshLevel) mesh.bounds.min}}
               {{on "change" (fn this.updateValue "min" mesh.meshLevel)}}
             >
@@ -92,12 +108,12 @@ export default class GlobalScoringForm extends Component {
             <PixInput
               type="number"
               step="0.0000000001"
-              required={{this.isFirstRow mesh.meshLevel}}
-              @requiredLabel={{if (this.isFirstRow mesh.meshLevel) (t "common.forms.mandatory") false}}
+              required="true"
+              @requiredLabel={{t "common.forms.mandatory"}}
               @errorMessage={{t
                 "components.certification-frameworks.certification-framework.versions.scoring.cannot-be-lower-error"
               }}
-              @validationStatus={{if (this.isGreaterThanMin mesh.meshLevel) "default" "error"}}
+              @validationStatus={{this.maxValidationStatus mesh.meshLevel}}
               @value={{mesh.bounds.max}}
               {{on "change" (fn this.updateValue "max" mesh.meshLevel)}}
             >

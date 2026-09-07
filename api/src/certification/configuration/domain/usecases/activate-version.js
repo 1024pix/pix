@@ -32,8 +32,11 @@ export async function activateVersion({
   if (!calibration) {
     throw new NotFoundError(`No certification version found for id: ${draftVersion.externalCalibrationId}`);
   }
+
+  const filteredChallenges = calibration.calibratedChallenges.filter((c) => draftVersion.tubeIds.includes(c.tubeId));
+
   await calibratedChallengesRepository.saveMany({
-    calibratedChallenges: calibration.calibratedChallenges,
+    calibratedChallenges: filteredChallenges,
     versionId: draftVersion.id,
   });
 
