@@ -1,12 +1,12 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "entry": [
-    "**/scripts/**/*.js",
-    "**/*job-controller.js",
-    "datamart/**/*.js",
-    "datawarehouse/**/*.js",
-    "db/**/*.js",
-    "tests/**/*.{cjs,js}",
+    "**/scripts/**/*.{js,ts}",
+    "**/*job-controller.{js,ts}",
+    "datamart/**/*.{js,ts}",
+    "datawarehouse/**/*.{js,ts}",
+    "db/**/*.{js,ts}",
+    "tests/**/*.{cjs,js,ts}",
   ],
   "ignoreDependencies": [
     "pg-query-stream", // https://knexjs.org/guide/interfaces.html#streams

@@ -1,7 +1,9 @@
 ls:
   .maddo.js: kebab-case
   .js: kebab-case
+  .ts: kebab-case
   _test.js: kebab-case
+  _test.ts: kebab-case
 
   .dir: kebab-case
 
@@ -28,6 +30,7 @@ ls:
 
 ignore:
   - .git
+  - .claude
   - node_modules
   - datamart/migrations
   - db/migrations
