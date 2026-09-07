@@ -1,5 +1,11 @@
 import { UnauthorizedError } from '../../../shared/application/errors/http-errors.js';
+import { InvalidInputDataError } from '../../../shared/domain/errors.js';
+import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
+import { RefreshToken } from '../models/RefreshToken.js';
 import { UserAccessToken } from '../models/UserAccessToken.js';
+import { UserRefreshToken } from '../models/UserRefreshToken.js';
+
+const logger = child('iam:create-access-token-from-refresh-token', { event: SCOPES.IAM });
 
 /**
  * typedef { function } createAccessTokenFromRefreshToken
@@ -11,35 +17,48 @@ import { UserAccessToken } from '../models/UserAccessToken.js';
  * @param {UserRepository} params.userRepository
  * @returns {Promise<{accessToken: (*), expirationDelaySeconds: *}>}
  */
-const createAccessTokenFromRefreshToken = async function ({
+export async function createAccessTokenFromRefreshToken({
   refreshToken,
   audience,
   locale,
   refreshTokenRepository,
   userRepository,
 }) {
-  const foundRefreshToken = await refreshTokenRepository.findByToken({ token: refreshToken });
+  let decodedRefreshToken;
 
-  if (!foundRefreshToken) {
-    throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+  if (RefreshToken.isStatefulRefreshToken(refreshToken)) {
+    decodedRefreshToken = await refreshTokenRepository.findByToken({ token: refreshToken });
+
+    if (!decodedRefreshToken) {
+      throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+    }
+
+    if (!decodedRefreshToken.hasSameAudience(audience)) {
+      throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+    }
+  } else {
+    try {
+      decodedRefreshToken = UserRefreshToken.decode(refreshToken);
+      decodedRefreshToken.assertSameAudience(audience);
+    } catch (err) {
+      if (err instanceof InvalidInputDataError) {
+        logger.warn({ err });
+        throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+      }
+      throw err;
+    }
   }
 
-  if (!foundRefreshToken.hasSameAudience(audience)) {
-    throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
-  }
-
-  const foundUser = await userRepository.findById(foundRefreshToken.userId);
+  const foundUser = await userRepository.findById(decodedRefreshToken.userId);
   const changedLocale = foundUser.changeLocale(locale);
   if (changedLocale) {
     await userRepository.update({ id: foundUser.id, locale: foundUser.locale });
   }
 
   return UserAccessToken.generateUserToken({
-    userId: foundRefreshToken.userId,
-    source: foundRefreshToken.source,
+    userId: decodedRefreshToken.userId,
+    source: decodedRefreshToken.source,
     audience,
-    sessionId: foundRefreshToken.sessionId,
+    sessionId: decodedRefreshToken.sessionId,
   });
-};
-
-export { createAccessTokenFromRefreshToken };
+}
