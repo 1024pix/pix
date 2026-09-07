@@ -218,9 +218,13 @@ export class FeatureTogglesClient {
           this.#currentValues[key] = newValue;
 
           this.#eventTarget.dispatchEvent(new FeatureTogglesEvent('set', key, newValue, oldValue));
-
-          break;
         }
+
+        break;
+      }
+
+      default: {
+        logger.warn({ type: message.type }, 'unknown message type');
       }
     }
   }
