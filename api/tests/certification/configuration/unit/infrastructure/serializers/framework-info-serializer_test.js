@@ -87,6 +87,7 @@ describe('Certification | Configuration | Unit | Serializer | framework-info-ser
               'assessment-duration': 2,
               'maximum-assessment-length': 2,
               status: VERSION_STATUSES.ACTIVE,
+              'has-global-scoring': true,
             },
           },
           {
@@ -98,6 +99,7 @@ describe('Certification | Configuration | Unit | Serializer | framework-info-ser
               'assessment-duration': 3,
               'maximum-assessment-length': 3,
               status: VERSION_STATUSES.ARCHIVED,
+              'has-global-scoring': true,
             },
           },
           {
@@ -109,6 +111,7 @@ describe('Certification | Configuration | Unit | Serializer | framework-info-ser
               'assessment-duration': 6,
               'maximum-assessment-length': 6,
               status: VERSION_STATUSES.ACTIVE,
+              'has-global-scoring': true,
             },
           },
         ],

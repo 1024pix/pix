@@ -7,6 +7,7 @@ import {
 import {
   ActiveCertificationInfoNotFound,
   CertificationVersionDraftAlreadyExistError,
+  CoreVersionRequiresScoringError,
   InvalidScoWhitelistError,
   VersionNotDraftError,
 } from '../domain/errors.js';
@@ -26,6 +27,10 @@ export const configurationDomainErrorMappingConfiguration = [
   },
   {
     name: VersionNotDraftError.name,
+    httpErrorFn: (error) => new ConflictError(error.message, error.code, error.meta),
+  },
+  {
+    name: CoreVersionRequiresScoringError.name,
     httpErrorFn: (error) => new ConflictError(error.message, error.code, error.meta),
   },
 ];

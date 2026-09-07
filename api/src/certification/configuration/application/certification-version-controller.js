@@ -74,6 +74,13 @@ async function activateVersion(request, h) {
   return h.response().code(204);
 }
 
+async function saveScoringConfiguration(request, h) {
+  const id = request.params.certificationVersionId;
+  const { globalScoringConfiguration, competencesScoringConfiguration } = await deserialize(request.payload);
+  await usecases.saveScoringConfiguration({ id, globalScoringConfiguration, competencesScoringConfiguration });
+  return h.response().code(204);
+}
+
 async function getInfo(request) {
   const framework = request.params.framework;
 
@@ -91,6 +98,7 @@ export const certificationVersionController = {
   deleteCertificationVersion,
   update,
   updateComments,
+  saveScoringConfiguration,
   getInfo,
   generateCalibrationReport,
   getCalibrationScoringConfiguration,

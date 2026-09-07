@@ -18,6 +18,13 @@ export default class CertificationFramework extends Model {
     return this.versionSummaries.some((versionSummary) => versionSummary.isDraft);
   }
 
+  get hasPixPlusActiveWithoutScoring() {
+    return (
+      this.scope !== 'CORE' &&
+      this.versionSummaries.some((versionSummary) => versionSummary.isActive && !versionSummary.hasGlobalScoring)
+    );
+  }
+
   get hasTargetProfilesHistory() {
     return this.belongsTo('complementaryCertification').id() !== null;
   }

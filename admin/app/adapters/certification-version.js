@@ -9,6 +9,11 @@ export default class CertificationVersionAdapter extends ApplicationAdapter {
       return this.ajax(`${url}/activation`, 'PATCH');
     }
 
+    if (snapshot.adapterOptions?.saveScoring) {
+      const data = this.serialize(snapshot, { includeId: true });
+      return this.ajax(`${url}/scoring`, 'PATCH', { data });
+    }
+
     let patchUrl = url;
     const changedAttributeKeys = Object.keys(snapshot.changedAttributes());
     if (changedAttributeKeys.length === 1 && changedAttributeKeys.at(0) === 'comments') {

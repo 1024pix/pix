@@ -7,13 +7,13 @@ import GlobalScoringForm from 'pix-admin/components/certification-frameworks/cer
 
 <template>
   <GlobalScoringForm
-    @draftVersion={{@model.draftVersion}}
-    @activeVersion={{@model.activeVersion}}
+    @editVersion={{@model.editVersion}}
+    @previousVersion={{@model.previousVersion}}
     @calibrationScoringConfiguration={{@model.calibrationScoringConfiguration}}
   />
-  {{#if @model.draftVersion.isCoreScope}}
+  {{#if @model.editVersion.isCoreScope}}
     <CompetencesScoringForm
-      @draftVersion={{@model.draftVersion}}
+      @editVersion={{@model.editVersion}}
       @calibrationScoringConfiguration={{@model.calibrationScoringConfiguration}}
     />
   {{/if}}
@@ -21,23 +21,58 @@ import GlobalScoringForm from 'pix-admin/components/certification-frameworks/cer
     <PixButtonLink @route="authenticated.certification-frameworks.certification-framework" @variant="secondary">
       {{t "common.actions.cancel"}}
     </PixButtonLink>
-    <PixButton
-      id="activate-version"
-      @variant="primary-bis"
-      @isDisabled={{@controller.hasGlobalScoringError}}
-      @triggerAction={{@controller.toggleConfirmationModal}}
-    >
-      {{t "components.certification-frameworks.certification-framework.versions.activate-version.button-label"}}
-    </PixButton>
+    {{#if @model.editVersion.isActive}}
+      <PixButton
+        id="save-scoring"
+        @variant="primary-bis"
+        @isDisabled={{@controller.hasGlobalScoringError}}
+        @triggerAction={{@controller.toggleSaveScoringModal}}
+      >
+        {{t "components.certification-frameworks.certification-framework.versions.scoring.save-scoring-button"}}
+      </PixButton>
+    {{else}}
+      <PixButton
+        id="activate-version"
+        @variant="primary-bis"
+        @isDisabled={{@controller.hasGlobalScoringError}}
+        @triggerAction={{@controller.toggleActivationModal}}
+      >
+        {{t "components.certification-frameworks.certification-framework.versions.activate-version.button-label"}}
+      </PixButton>
+    {{/if}}
   </section>
 
-  {{#if @controller.isConfirmationModalOpen}}
+  {{#if @controller.isSaveScoringModalOpen}}
+    <PixModal
+      @title={{t
+        "components.certification-frameworks.certification-framework.versions.scoring.save-scoring-modal.title"
+      }}
+      @showModal={{@controller.isSaveScoringModalOpen}}
+      @onCloseButtonClick={{@controller.toggleSaveScoringModal}}
+    >
+      <:content>
+        <p>{{t
+            "components.certification-frameworks.certification-framework.versions.scoring.save-scoring-modal.content"
+          }}</p>
+      </:content>
+      <:footer>
+        <PixButton @triggerAction={{@controller.toggleSaveScoringModal}} @size="small" @variant="secondary">
+          {{t "common.actions.cancel"}}
+        </PixButton>
+        <PixButton @triggerAction={{@controller.saveScoring}} @size="small">
+          {{t "common.actions.confirm"}}
+        </PixButton>
+      </:footer>
+    </PixModal>
+  {{/if}}
+
+  {{#if @controller.isActivationModalOpen}}
     <PixModal
       @title={{t
         "components.certification-frameworks.certification-framework.versions.activate-version.confirmation-modal.title"
       }}
-      @showModal={{@controller.isConfirmationModalOpen}}
-      @onCloseButtonClick={{@controller.toggleConfirmationModal}}
+      @showModal={{@controller.isActivationModalOpen}}
+      @onCloseButtonClick={{@controller.toggleActivationModal}}
     >
       <:content>
         <p>{{t
@@ -45,10 +80,10 @@ import GlobalScoringForm from 'pix-admin/components/certification-frameworks/cer
           }}</p>
       </:content>
       <:footer>
-        <PixButton @triggerAction={{@controller.toggleConfirmationModal}} @size="small" @variant="secondary">
+        <PixButton @triggerAction={{@controller.toggleActivationModal}} @size="small" @variant="secondary">
           {{t "common.actions.cancel"}}
         </PixButton>
-        <PixButton @triggerAction={{@controller.activateVersion}} @size="small">
+        <PixButton @triggerAction={{@controller.saveScoringAndActivate}} @size="small">
           {{t "common.actions.confirm"}}
         </PixButton>
       </:footer>

@@ -42,6 +42,11 @@ function baseQuery() {
     maximumAssessmentLength: knexConn.raw(
       'certification_versions."challengesConfiguration"->\'maximumAssessmentLength\'',
     ),
+    hasGlobalScoring: knexConn.raw(
+      `CASE WHEN certification_versions."globalScoringConfiguration" IS NOT NULL
+            AND jsonb_array_length(certification_versions."globalScoringConfiguration") > 0
+       THEN true ELSE false END`,
+    ),
   });
 }
 

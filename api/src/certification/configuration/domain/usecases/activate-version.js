@@ -1,5 +1,6 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { VersionNotDraftError } from '../errors.js';
+import { SCOPES } from '../../../shared/domain/models/Scopes.js';
+import { CoreVersionRequiresScoringError, VersionNotDraftError } from '../errors.js';
 
 /**
  * @param {object} params
@@ -19,6 +20,13 @@ export async function activateVersion({
   if (!draftVersion) throw new NotFoundError(`No certification version found for id: ${id}`);
 
   if (!draftVersion.isDraft) throw new VersionNotDraftError();
+
+  if (
+    draftVersion.scope === SCOPES.CORE &&
+    (!draftVersion.globalScoringConfiguration?.length || !draftVersion.competencesScoringConfiguration?.length)
+  ) {
+    throw new CoreVersionRequiresScoringError();
+  }
 
   const calibration = await calibrationRepository.find(draftVersion.externalCalibrationId);
   if (!calibration) {

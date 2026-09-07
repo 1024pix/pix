@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { VersionNotDraftError } from '../../../../../../src/certification/configuration/domain/errors.js';
+import {
+  CoreVersionRequiresScoringError,
+  VersionNotDraftError,
+} from '../../../../../../src/certification/configuration/domain/errors.js';
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { activateVersion } from '../../../../../../src/certification/configuration/domain/usecases/activate-version.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
@@ -70,12 +73,39 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
   });
 
   context('when the version is a draft', function () {
+    context('when the version is CORE and does not have scoring configurations', function () {
+      it('throws a CoreVersionRequiresScoringError', async function () {
+        const draftVersion = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asDraft({ startDate: new Date('2025-01-01') })
+          .withParameters({
+            scope: SCOPES.CORE,
+            tubeIds: ['tubeA'],
+            id: 42,
+            externalCalibrationId: 7,
+            globalScoringConfiguration: null,
+            competencesScoringConfiguration: null,
+          })
+          .build();
+        versionRepository.getById.resolves(draftVersion);
+
+        const err = await catchErr(activateVersion)({
+          id: 42,
+          versionRepository,
+          calibrationRepository,
+          calibratedChallengesRepository,
+        });
+
+        expect(err).to.be.instanceOf(CoreVersionRequiresScoringError);
+      });
+    });
     context('when the calibration does not exist', function () {
       it('throws a NotFoundError', async function () {
         const draftVersion = domainBuilder.certification.configuration
           .versionBuilder()
           .asDraft({ startDate: new Date('2025-01-01') })
           .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 42, externalCalibrationId: 7 })
+          .withRealisticScoringConfigurations()
           .build();
         versionRepository.getById.resolves(draftVersion);
         calibrationRepository.find.resolves(null);
@@ -98,6 +128,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
         .versionBuilder()
         .asDraft({ startDate: new Date('2025-01-01') })
         .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'], id: 42, externalCalibrationId: 7 })
+        .withRealisticScoringConfigurations()
         .build();
       versionRepository.getById.resolves(draftVersion);
       versionRepository.findActiveByScope.resolves(null);
@@ -125,6 +156,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
         .versionBuilder()
         .asDraft({ startDate: new Date('2025-01-01') })
         .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'], id: 42, externalCalibrationId: 7 })
+        .withRealisticScoringConfigurations()
         .build();
       versionRepository.getById.resolves(draftVersion);
       versionRepository.findActiveByScope.resolves(null);
@@ -151,6 +183,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
           .versionBuilder()
           .asDraft({ startDate: new Date('2025-01-01') })
           .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'], id: 42, externalCalibrationId: 7 })
+          .withRealisticScoringConfigurations()
           .build();
         const currentActiveVersion = domainBuilder.certification.configuration
           .versionBuilder()

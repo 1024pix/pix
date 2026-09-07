@@ -145,6 +145,56 @@ async function register(server) {
     },
     {
       method: 'PATCH',
+      path: '/api/admin/certification-versions/{certificationVersionId}/scoring',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
+                request,
+                h,
+              ),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationVersionId: identifiersType.certificationVersionId,
+          }),
+          payload: Joi.object({
+            data: Joi.object({
+              id: Joi.number(),
+              attributes: Joi.object({
+                'global-scoring-configuration': Joi.array()
+                  .items(
+                    Joi.object({
+                      bounds: Joi.object({
+                        min: Joi.number().required(),
+                        max: Joi.number().required(),
+                      }),
+                      meshLevel: Joi.number().required(),
+                    }),
+                  )
+                  .required(),
+                'competences-scoring-configuration': Joi.array().allow(null).optional(),
+              })
+                .required()
+                .unknown(true),
+              type: Joi.string(),
+              relationships: Joi.object().optional(),
+            }),
+          }),
+        },
+        handler: certificationVersionController.saveScoringConfiguration,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte au SUPER ADMIN',
+          "Elle permet de configurer le scoring d'une version active (Pix+ uniquement)",
+        ],
+      },
+    },
+    {
+      method: 'PATCH',
       path: '/api/admin/certification-versions/{certificationVersionId}/comments',
       config: {
         pre: [

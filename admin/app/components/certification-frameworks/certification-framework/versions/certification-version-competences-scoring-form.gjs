@@ -14,7 +14,7 @@ export default class CompetencesScoringForm extends Component {
   @tracked activeTab = 0;
 
   get sortedAreas() {
-    return [...this.args.draftVersion.areas].sort((a, b) => Number(a.code) - Number(b.code));
+    return [...this.args.editVersion.areas].sort((a, b) => Number(a.code) - Number(b.code));
   }
 
   @action

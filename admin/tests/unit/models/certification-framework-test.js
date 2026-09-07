@@ -116,4 +116,51 @@ module('Unit | Model | certification-framework', function (hooks) {
       assert.false(certificationFramework.hasDraft);
     });
   });
+
+  module('#get hasPixPlusActiveWithoutScoring', function () {
+    test('returns true when a Pix+ active version has no scoring', function (assert) {
+      const certificationFramework = store.createRecord('certification-framework', {
+        id: 'DROIT',
+        scope: 'DROIT',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            status: 'active',
+            hasGlobalScoring: false,
+          }),
+        ],
+      });
+      assert.true(certificationFramework.hasPixPlusActiveWithoutScoring);
+    });
+
+    test('returns false when the framework is CORE', function (assert) {
+      const certificationFramework = store.createRecord('certification-framework', {
+        id: 'CORE',
+        scope: 'CORE',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            status: 'active',
+            hasGlobalScoring: false,
+          }),
+        ],
+      });
+      assert.false(certificationFramework.hasPixPlusActiveWithoutScoring);
+    });
+
+    test('returns false when the Pix+ active version has scoring', function (assert) {
+      const certificationFramework = store.createRecord('certification-framework', {
+        id: 'DROIT',
+        scope: 'DROIT',
+        versionSummaries: [
+          store.createRecord('certification-version-summary', {
+            id: 1,
+            status: 'active',
+            hasGlobalScoring: true,
+          }),
+        ],
+      });
+      assert.false(certificationFramework.hasPixPlusActiveWithoutScoring);
+    });
+  });
 });

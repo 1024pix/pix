@@ -104,6 +104,7 @@ module('Acceptance | Certification Frameworks | certification-framework', functi
         assessmentDuration: 90,
         maximumAssessmentLength: 32,
         status: 'active',
+        hasGlobalScoring: true,
       }),
       server.create('certification-version-summary', {
         id: 14,

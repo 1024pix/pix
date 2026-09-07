@@ -4,6 +4,7 @@ import { configurationDomainErrorMappingConfiguration } from '../../../../../src
 import {
   ActiveCertificationInfoNotFound,
   CertificationVersionDraftAlreadyExistError,
+  CoreVersionRequiresScoringError,
   InvalidScoWhitelistError,
   VersionNotDraftError,
 } from '../../../../../src/certification/configuration/domain/errors.js';
@@ -78,6 +79,22 @@ describe('Unit | Certification | Configuration | Application | HttpErrorMapperCo
       //then
       expect(error).to.be.instanceOf(ConflictError);
       expect(error.message).to.equal("Impossible de modifier une version qui ne soit pas en cours d'édition");
+    });
+  });
+
+  context('when mapping "CoreVersionRequiresScoringError"', function () {
+    it('returns an Conflict Http Error', function () {
+      //given
+      const httpErrorMapper = configurationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === CoreVersionRequiresScoringError.name,
+      );
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new CoreVersionRequiresScoringError());
+
+      //then
+      expect(error).to.be.instanceOf(ConflictError);
+      expect(error.message).to.equal("Impossible d'activer une version CORE sans configuration de scoring");
     });
   });
 });

@@ -436,4 +436,35 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       expect(result).to.be.null;
     });
   });
+
+  describe('#updateScoring', function () {
+    it('updates only the scoring fields of the version', async function () {
+      // given
+      domainBuilder.certification.configuration
+        .versionBuilder()
+        .asActive()
+        .withParameters({
+          id: 77,
+          globalScoringConfiguration: [],
+          competencesScoringConfiguration: null,
+          tubeIds: ['rec1'],
+        })
+        .insertToDB({ databaseBuilder });
+      await databaseBuilder.commit();
+
+      const globalScoringConfiguration = [{ meshLevel: 1, bounds: { min: -2, max: 3 } }];
+
+      // when
+      await versionRepository.updateScoring({
+        id: 77,
+        globalScoringConfiguration,
+        competencesScoringConfiguration: null,
+      });
+
+      // then
+      const updatedVersion = await versionRepository.getById({ id: 77 });
+      expect(updatedVersion.globalScoringConfiguration).to.deep.equal(globalScoringConfiguration);
+      expect(updatedVersion.competencesScoringConfiguration).to.be.null;
+    });
+  });
 });

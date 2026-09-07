@@ -61,7 +61,7 @@ module(
         const screen = await render(
           <template>
             <CompetencesScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -86,7 +86,7 @@ module(
         const screen = await render(
           <template>
             <CompetencesScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -118,7 +118,7 @@ module(
         const screen = await render(
           <template>
             <CompetencesScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -157,7 +157,7 @@ module(
         const screen = await render(
           <template>
             <CompetencesScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
@@ -194,7 +194,7 @@ module(
         const screen = await render(
           <template>
             <CompetencesScoringForm
-              @draftVersion={{draftVersion}}
+              @editVersion={{draftVersion}}
               @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
             />
           </template>,
