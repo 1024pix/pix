@@ -40,7 +40,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
     test('it should display home button', function (assert) {
       // then
       assert.dom(screen.getByRole('button', { name: 'Quitter' })).exists();
-      assert.dom(screen.getByText("Besoin d'une pause ?")).isVisible();
+      assert.dom(screen.queryByRole('heading', { name: "Besoin d'une pause ?" })).doesNotExist();
     });
 
     test('it should open modal', async function (assert) {
