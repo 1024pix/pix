@@ -198,7 +198,7 @@ export default class CandidateCreationModal extends Component {
 
           <div class='new-candidate-modal-form__field'>
             <PixInput
-              @id='last-name'
+              @id='lastname'
               {{on 'input' (fn @updateCandidateData @candidateData 'lastName')}}
               required
               aria-required={{true}}
@@ -208,7 +208,7 @@ export default class CandidateCreationModal extends Component {
               <:label>{{t 'common.labels.candidate.birth-name'}}</:label>
             </PixInput>
             <PixInput
-              @id='first-name'
+              @id='firstname'
               {{on 'input' (fn @updateCandidateData @candidateData 'firstName')}}
               required
               aria-required={{true}}
