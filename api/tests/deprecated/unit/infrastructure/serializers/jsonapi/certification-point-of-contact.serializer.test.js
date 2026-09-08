@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { certificationPointOfContactSerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/certification-point-of-contact.serializer.js';
+import { STATUS } from '../../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {
@@ -48,6 +49,13 @@ describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-cont
           role: 'MEMBER',
         },
       ];
+      const lastPixCertifTermsOfServiceValidatedAt = new Date('2024-06-04');
+
+      const pixCertifTermsOfServiceStatus = domainBuilder.buildLegalDocumentStatus({
+        status: STATUS.ACCEPTED,
+        acceptedAt: lastPixCertifTermsOfServiceValidatedAt,
+        documentPath: 'pix-certif-tos-2024-06-03',
+      });
 
       const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
         id: 789,
@@ -55,6 +63,7 @@ describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-cont
         lastName: 'Summers',
         email: 'buffy.summers@example.net',
         pixCertifTermsOfServiceAccepted: true,
+        pixCertifTosStatus: pixCertifTermsOfServiceStatus,
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess1, allowedCertificationCenterAccess2],
         certificationCenterMemberships,
       });
@@ -73,6 +82,9 @@ describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-cont
             email: 'buffy.summers@example.net',
             lang: 'fr',
             'pix-certif-terms-of-service-accepted': true,
+            'pix-certif-terms-of-service-status': 'accepted',
+            'pix-certif-terms-of-service-document-path': `pix-certif-tos-2024-06-03`,
+            'last-pix-certif-terms-of-service-validated-at': lastPixCertifTermsOfServiceValidatedAt,
           },
           relationships: {
             'allowed-certification-center-accesses': {
