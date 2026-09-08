@@ -2,7 +2,7 @@ import { NotFoundError } from '../../../../shared/application/errors/http-errors
 import * as sessionRepository from '../../../session-management/infrastructure/repositories/session-management-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 
-const verifySessionAuthorization = (request, h, dependencies = { sessionRepository }) => {
+export function verifySessionAuthorization(request, h, dependencies = { sessionRepository }) {
   const userId = request.auth.credentials.userId;
   const sessionId = request.params.sessionId;
 
@@ -11,13 +11,13 @@ const verifySessionAuthorization = (request, h, dependencies = { sessionReposito
     sessionId,
     sessionRepository: dependencies.sessionRepository,
   });
-};
+}
 
-const verifyCertificationSessionAuthorization = async (
+export async function verifyCertificationSessionAuthorization(
   request,
   h,
   dependencies = { sessionRepository, certificationCourseRepository },
-) => {
+) {
   const userId = request.auth.credentials.userId;
   const certificationCourseId = request.params.certificationCourseId;
 
@@ -28,11 +28,9 @@ const verifyCertificationSessionAuthorization = async (
     sessionId,
     sessionRepository: dependencies.sessionRepository,
   });
-};
+}
 
-const authorization = { verifySessionAuthorization, verifyCertificationSessionAuthorization };
-
-export { authorization, verifyCertificationSessionAuthorization, verifySessionAuthorization };
+export const authorization = { verifySessionAuthorization, verifyCertificationSessionAuthorization };
 
 async function _isAuthorizedToAccessSession({ userId, sessionId, sessionRepository }) {
   const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession({

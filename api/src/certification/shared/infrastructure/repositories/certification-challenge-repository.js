@@ -7,7 +7,7 @@ const logContext = {
   type: 'repository',
 };
 
-const save = async function ({ certificationChallenge }) {
+export async function save({ certificationChallenge }) {
   const knexConn = DomainTransaction.getConnection();
   const certificationChallengeToSave = new CertificationChallenge({
     challengeId: certificationChallenge.challengeId,
@@ -24,9 +24,9 @@ const save = async function ({ certificationChallenge }) {
     .returning('*');
 
   return new CertificationChallenge(savedCertificationChallenge);
-};
+}
 
-const getNextChallengeByCourseId = async function (courseId, ignoredChallengeIds) {
+export async function getNextChallengeByCourseId(courseId, ignoredChallengeIds) {
   const knexConn = DomainTransaction.getConnection();
   const certificationChallenge = await knexConn('certification-challenges')
     .where({ courseId })
@@ -42,6 +42,4 @@ const getNextChallengeByCourseId = async function (courseId, ignoredChallengeIds
   logger.trace(logContext, 'found challenge');
 
   return new CertificationChallenge(certificationChallenge);
-};
-
-export { getNextChallengeByCourseId, save };
+}

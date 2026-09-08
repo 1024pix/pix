@@ -3,7 +3,7 @@ import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import { CertificationReport } from '../../domain/models/CertificationReport.js';
 
-export const findBySessionId = async ({ sessionId }) => {
+export async function findBySessionId({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();
   const certificationReportsData = await knexConn
     .select({
@@ -54,7 +54,7 @@ export const findBySessionId = async ({ sessionId }) => {
   }
 
   return Array.from(certificationReportsWithIssuesDataByCertif.values(), toDomain);
-};
+}
 
 function toDomain(certificationReportWithIssuesData) {
   const certificationIssueReports = [];

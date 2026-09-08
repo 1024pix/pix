@@ -4,29 +4,29 @@ import {
   CertificationChallengeLiveAlertStatus,
 } from '../../domain/models/CertificationChallengeLiveAlert.js';
 
-const save = async function ({ certificationChallengeLiveAlert }) {
+export async function save({ certificationChallengeLiveAlert }) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('certification-challenge-live-alerts')
-    .insert({ ..._toDTO(certificationChallengeLiveAlert), updatedAt: knexConn.fn.now() })
+    .insert({ ...certificationChallengeLiveAlert, updatedAt: knexConn.fn.now() })
     .onConflict(['id'])
     .merge();
-};
+}
 
-const getByAssessmentId = async ({ assessmentId }) => {
+export async function getByAssessmentId({ assessmentId }) {
   const knexConn = DomainTransaction.getConnection();
   const certificationChallengeLiveAlertsDto = await knexConn('certification-challenge-live-alerts').where({
     assessmentId,
   });
 
   return certificationChallengeLiveAlertsDto.map(_toDomain);
-};
+}
 
 /**
  * @param {object} params
  * @param {number} params.assessmentId
  * @returns {Array<string>} array of challengeId with validated live alert raised for that assessment
  */
-const getLiveAlertValidatedChallengeIdsByAssessmentId = async ({ assessmentId }) => {
+export async function getLiveAlertValidatedChallengeIdsByAssessmentId({ assessmentId }) {
   const knexConn = DomainTransaction.getConnection();
   const liveAlertValidatedChallengeIds = await knexConn('certification-challenge-live-alerts')
     .select('challengeId')
@@ -36,9 +36,9 @@ const getLiveAlertValidatedChallengeIdsByAssessmentId = async ({ assessmentId })
     });
 
   return liveAlertValidatedChallengeIds.map((ccla) => ccla.challengeId);
-};
+}
 
-const getOngoingBySessionIdAndUserId = async ({ sessionId, userId }) => {
+export async function getOngoingBySessionIdAndUserId({ sessionId, userId }) {
   const knexConn = DomainTransaction.getConnection();
   const certificationChallengeLiveAlertDto = await knexConn('certification-courses')
     .leftJoin('assessments', 'certification-courses.id', 'assessments.certificationCourseId')
@@ -55,9 +55,9 @@ const getOngoingBySessionIdAndUserId = async ({ sessionId, userId }) => {
     .first();
 
   return _toDomain(certificationChallengeLiveAlertDto);
-};
+}
 
-const getOngoingByChallengeIdAndAssessmentId = async ({ challengeId, assessmentId }) => {
+export async function getOngoingByChallengeIdAndAssessmentId({ challengeId, assessmentId }) {
   const knexConn = DomainTransaction.getConnection();
   const certificationChallengeLiveAlertDto = await knexConn('certification-challenge-live-alerts')
     .where({
@@ -68,9 +68,9 @@ const getOngoingByChallengeIdAndAssessmentId = async ({ challengeId, assessmentI
     .first();
 
   return _toDomain(certificationChallengeLiveAlertDto);
-};
+}
 
-const getOngoingOrValidatedByChallengeIdAndAssessmentId = async ({ challengeId, assessmentId }) => {
+export async function getOngoingOrValidatedByChallengeIdAndAssessmentId({ challengeId, assessmentId }) {
   const knexConn = DomainTransaction.getConnection();
   const certificationChallengeLiveAlertDto = await knexConn('certification-challenge-live-alerts')
     .where({
@@ -86,21 +86,11 @@ const getOngoingOrValidatedByChallengeIdAndAssessmentId = async ({ challengeId, 
     .first();
 
   return _toDomain(certificationChallengeLiveAlertDto);
-};
+}
 
-const _toDomain = (certificationChallengeLiveAlertDto) => {
+function _toDomain(certificationChallengeLiveAlertDto) {
   if (!certificationChallengeLiveAlertDto) {
     return null;
   }
   return new CertificationChallengeLiveAlert(certificationChallengeLiveAlertDto);
-};
-
-const _toDTO = (certificationChallengeLiveAlertDto) => certificationChallengeLiveAlertDto;
-export {
-  getByAssessmentId,
-  getLiveAlertValidatedChallengeIdsByAssessmentId,
-  getOngoingByChallengeIdAndAssessmentId,
-  getOngoingBySessionIdAndUserId,
-  getOngoingOrValidatedByChallengeIdAndAssessmentId,
-  save,
-};
+}
