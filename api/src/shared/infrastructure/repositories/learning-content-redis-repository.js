@@ -1,5 +1,7 @@
+import { config } from '../../../../config/config.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { learningContentCache } from '../caches/learning-content-redis-cache.js';
+import { featureToggles } from '../feature-toggles/index.js';
 
 export class LearningContentRedisRepository {
   #tableName;
@@ -102,4 +104,26 @@ export class LearningContentRedisRepository {
   #getEntityCacheKey(id) {
     return `${this.#tableName.split('.').at(-1)}:entity:${id}`;
   }
+}
+
+const isLearningContentCacheRedisFeatureToggle = featureToggles.use('isLearningContentCacheRedis');
+const containerIndex = parseInt(config.infra.containerName?.split('-').at(-1) ?? '1');
+
+let isLearningContentCacheRedisValue = getIsLearningContentCacheRedisValue(
+  isLearningContentCacheRedisFeatureToggle.value,
+);
+
+isLearningContentCacheRedisFeatureToggle.watch((value) => {
+  isLearningContentCacheRedisValue = getIsLearningContentCacheRedisValue(value);
+});
+
+export const isLearningContentCacheRedis = {
+  get value() {
+    return isLearningContentCacheRedisValue;
+  },
+};
+
+function getIsLearningContentCacheRedisValue(featureToggleValue) {
+  const [dividend, divisor] = featureToggleValue.split('/').map((s) => parseInt(s));
+  return containerIndex % divisor < dividend;
 }
