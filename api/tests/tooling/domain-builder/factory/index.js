@@ -95,6 +95,7 @@ import { buildJurySession } from './build-jury-session.js';
 import { buildKnowledgeElement, buildKnowledgeElementSnapshot } from './build-knowledge-element.js';
 import { buildLearningContent } from './build-learning-content.js';
 import { buildLegalDocument } from './build-legal-document.js';
+import { buildLegalDocumentStatus } from './build-legal-document-status.js';
 import { buildMembership } from './build-membership.js';
 import { buildMission } from './build-mission.js';
 import { buildOrganization } from './build-organization.js';
@@ -463,6 +464,7 @@ export {
   buildKnowledgeElementSnapshot,
   buildLearningContent,
   buildLegalDocument,
+  buildLegalDocumentStatus,
   buildMembership,
   buildMission,
   buildOrganization,
