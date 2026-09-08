@@ -77,4 +77,8 @@ export class LegalDocumentStatus {
       documentPath: null,
     });
   }
+
+  get isAccepted() {
+    return this.status === STATUS.ACCEPTED;
+  }
 }
