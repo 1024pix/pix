@@ -8,7 +8,7 @@ import { CertificationCpfCountry } from '../../../shared/domain/models/Certifica
  * @param {string} params.matcher
  * @returns {Promise<CertificationCpfCountry | null> }
  */
-const getByMatcher = async function ({ matcher }) {
+export async function getByMatcher({ matcher }) {
   const knexConn = DomainTransaction.getConnection();
   const COLUMNS = ['id', 'code', 'commonName', 'originalName', 'matcher'];
 
@@ -19,6 +19,4 @@ const getByMatcher = async function ({ matcher }) {
   }
 
   return new CertificationCpfCountry(result);
-};
-
-export { getByMatcher };
+}

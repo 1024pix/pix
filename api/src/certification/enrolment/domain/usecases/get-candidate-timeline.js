@@ -38,7 +38,7 @@ import { LastAnsweredEvent } from '../models/timeline/LastAnsweredEvent.js';
  * @param {PlacementProfileService} params.placementProfileService
  * @returns {Promise<CandidateTimeline>}
  */
-export const getCandidateTimeline = async ({
+export async function getCandidateTimeline({
   certificationCandidateId,
   candidateRepository,
   certificationCourseRepository,
@@ -47,7 +47,7 @@ export const getCandidateTimeline = async ({
   eligibilityService,
   complementaryCertificationCourseRepository,
   complementaryCertificationBadgeWithOffsetVersionRepository,
-}) => {
+}) {
   const timeline = new CandidateTimeline({ certificationCandidateId });
 
   const candidate = await candidateRepository.get({ certificationCandidateId });
@@ -94,7 +94,7 @@ export const getCandidateTimeline = async ({
   }
 
   return timeline;
-};
+}
 
 /**
  * @param {object} params
@@ -106,14 +106,14 @@ export const getCandidateTimeline = async ({
  * @param {ComplementaryCertificationBadgeWithOffsetVersionRepository} params.complementaryCertificationBadgeWithOffsetVersionRepository
  * @returns {Promise<Array<TimelineEvent>>}
  */
-const _whenCandidateDidNotStartCertification = async ({
+async function _whenCandidateDidNotStartCertification({
   candidate,
   placementProfileService,
   certificationBadgesService,
   eligibilityService,
   complementaryCertificationCourseRepository,
   complementaryCertificationBadgeWithOffsetVersionRepository,
-}) => {
+}) {
   const certificabilityEvent = await _getCertificabilityEvent({
     candidate,
     userId: candidate.userId,
@@ -126,7 +126,7 @@ const _whenCandidateDidNotStartCertification = async ({
   });
 
   return [certificabilityEvent];
-};
+}
 
 /**
  * @param {object} params
@@ -139,7 +139,7 @@ const _whenCandidateDidNotStartCertification = async ({
  * @param {ComplementaryCertificationBadgeWithOffsetVersionRepository} params.complementaryCertificationBadgeWithOffsetVersionRepository
  * @returns {Promise<Array<TimelineEvent>>}
  */
-const _whenCandidateHasStartedTheTest = async ({
+async function _whenCandidateHasStartedTheTest({
   candidate,
   certificationCourse,
   certificationBadgesService,
@@ -147,7 +147,7 @@ const _whenCandidateHasStartedTheTest = async ({
   eligibilityService,
   complementaryCertificationCourseRepository,
   complementaryCertificationBadgeWithOffsetVersionRepository,
-}) => {
+}) {
   const certificabilityEvent = await _getCertificabilityEvent({
     candidate,
     userId: certificationCourse.getUserId(),
@@ -160,7 +160,7 @@ const _whenCandidateHasStartedTheTest = async ({
   });
 
   return [certificabilityEvent];
-};
+}
 
 /**
  * @param {object} params
@@ -174,7 +174,7 @@ const _whenCandidateHasStartedTheTest = async ({
  * @param {ComplementaryCertificationBadgeWithOffsetVersionRepository} params.complementaryCertificationBadgeWithOffsetVersionRepository
  * @returns {Promise<TimelineEvent>}
  */
-const _getCertificabilityEvent = async ({
+async function _getCertificabilityEvent({
   candidate,
   userId,
   atDate,
@@ -183,7 +183,7 @@ const _getCertificabilityEvent = async ({
   placementProfileService,
   complementaryCertificationCourseRepository,
   complementaryCertificationBadgeWithOffsetVersionRepository,
-}) => {
+}) {
   const userEligibility = await eligibilityService.getUserCertificationEligibility({
     userId,
     limitDate: atDate,
@@ -194,7 +194,7 @@ const _getCertificabilityEvent = async ({
   });
 
   return _determineUserEligibilityStatus({ userEligibility, atDate, candidate });
-};
+}
 
 /**
  * @param {object} params
@@ -203,7 +203,7 @@ const _getCertificabilityEvent = async ({
  * @param {Candidate} params.candidate
  * @returns {TimelineEvent}
  */
-const _determineUserEligibilityStatus = ({ userEligibility, atDate, candidate }) => {
+function _determineUserEligibilityStatus({ userEligibility, atDate, candidate }) {
   if (!userEligibility.isCertifiable) {
     return new CandidateNotCertifiableEvent({ when: atDate });
   }
@@ -221,7 +221,7 @@ const _determineUserEligibilityStatus = ({ userEligibility, atDate, candidate })
   }
 
   return new CandidateCertifiableEvent({ when: atDate });
-};
+}
 
 /**
  * @param {Candidate} candidate

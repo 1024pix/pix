@@ -12,12 +12,10 @@
  * @returns {Center} related certification center
  * @throws {NotFoundError} a candidate is linked to an unexisting certification center
  */
-const getMassImportTemplateInformation = async ({ centerId, centerRepository }) => {
+export async function getMassImportTemplateInformation({ centerId, centerRepository }) {
   const center = await centerRepository.getById({ id: centerId });
   return {
     habilitationLabels: center.habilitations.map((habilitation) => habilitation.label),
     shouldDisplayBillingModeColumns: center.hasBillingMode,
   };
-};
-
-export { getMassImportTemplateInformation };
+}

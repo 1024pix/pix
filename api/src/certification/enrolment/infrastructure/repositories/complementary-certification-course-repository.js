@@ -7,7 +7,7 @@ import { ComplementaryCertificationCourseWithResults } from '../../domain/models
  * @param {number} params.userId
  * @returns {Promise<Array<ComplementaryCertificationCourseWithResults>>}
  */
-const findByUserId = async function ({ userId }) {
+export async function findByUserId({ userId }) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn
     .select({
@@ -55,6 +55,4 @@ const findByUserId = async function ({ userId }) {
   if (!results.length) return [];
 
   return results.map(ComplementaryCertificationCourseWithResults.from);
-};
-
-export { findByUserId };
+}

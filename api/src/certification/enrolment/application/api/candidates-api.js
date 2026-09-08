@@ -9,9 +9,9 @@ import { usecases } from '../../../enrolment/domain/usecases/index.js';
  * @returns {Promise<boolean>}
  * @throws {TypeError} preconditions failed
  */
-export const hasBeenCandidate = async ({ userId }) => {
+export async function hasBeenCandidate({ userId }) {
   if (!userId) {
     throw new TypeError('user identifier is required');
   }
   return usecases.hasBeenCandidate({ userId });
-};
+}

@@ -33,7 +33,7 @@ const CANDIDATE_TABLE_FIRST_ROW = 12;
  * @param params.i18n
  * @returns {Promise<*>}
  */
-const fillCandidatesImportSheet = async function ({
+export async function fillCandidatesImportSheet({
   session,
   enrolledCandidates,
   certificationCenterHabilitations,
@@ -58,9 +58,7 @@ const fillCandidatesImportSheet = async function ({
   _addCandidateRows({ odsBuilder, enrolledCandidates, certificationCenterHabilitations, i18n });
 
   return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath() });
-};
-
-export { fillCandidatesImportSheet };
+}
 
 async function _getCandidatesImportTemplate() {
   const templatePath = _getCandidatesImportTemplatePath();

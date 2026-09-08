@@ -49,7 +49,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     centerRepository = { getById: sinon.stub() };
     centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(center);
     certificationCourseRepository = sinon.stub();
-    sessionCodeService = { getNewSessionCode: sinon.stub().returns(accessCode) };
+    sessionCodeService = { generateSessionCode: sinon.stub().returns(accessCode) };
 
     sessionsImportValidationService = {
       getValidatedSubscriptionsForMassImport: sinon.stub(),

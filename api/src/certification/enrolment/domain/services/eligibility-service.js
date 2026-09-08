@@ -1,14 +1,14 @@
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CertificationEligibility, UserCertificationEligibility } from '../read-models/UserCertificationEligibility.js';
 
-export const getUserCertificationEligibility = async ({
+export async function getUserCertificationEligibility({
   userId,
   limitDate,
   placementProfileService,
   certificationBadgesService,
   complementaryCertificationCourseRepository,
   complementaryCertificationBadgeWithOffsetVersionRepository,
-}) => {
+}) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
   const isCertifiable = placementProfile.isCertifiable();
   let doubleCertificationEligibility = null;
@@ -73,7 +73,7 @@ export const getUserCertificationEligibility = async ({
     isCertifiable,
     doubleCertificationEligibility,
   });
-};
+}
 
 function _isEligible({ badgeIsOutdated, badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt }) {
   return !badgeIsOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt;

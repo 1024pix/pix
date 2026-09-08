@@ -37,7 +37,7 @@ export async function createSession({
     time,
     examiner,
     description,
-    accessCode: sessionCodeService.getNewSessionCode(),
-    invigilatorPassword: sessionCodeService.getNewInvigilatorPassword(),
+    accessCode: sessionCodeService.generateSessionCode(),
+    invigilatorPassword: sessionCodeService.generateInvigilatorPassword(),
   });
 }

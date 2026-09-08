@@ -18,7 +18,7 @@ function _randomNumberCharacter() {
   return sample(numberCharacter);
 }
 
-function _generateSessionCode() {
+export function generateSessionCode() {
   const code =
     '' +
     _randomLetter() +
@@ -30,7 +30,7 @@ function _generateSessionCode() {
   return code;
 }
 
-function _generateInvigilatorPassword() {
+export function generateInvigilatorPassword() {
   const chars = Array.from(INVIGILATOR_PASSWORD_CHARS);
   for (let i = INVIGILATOR_PASSWORD_LENGTH; i >= 0; i--) {
     const j = Math.floor(Math.random() * (chars.length - 1));
@@ -38,13 +38,3 @@ function _generateInvigilatorPassword() {
   }
   return chars.slice(0, INVIGILATOR_PASSWORD_LENGTH).join('');
 }
-
-const getNewSessionCode = function () {
-  return _generateSessionCode();
-};
-
-const getNewInvigilatorPassword = function () {
-  return _generateInvigilatorPassword();
-};
-
-export { getNewInvigilatorPassword, getNewSessionCode };

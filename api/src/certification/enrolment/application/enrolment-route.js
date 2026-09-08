@@ -5,7 +5,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
 import { enrolmentController } from './enrolment-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PUT',
@@ -81,6 +81,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const enrolmentRoute = { name: 'certification/enrolment/enrolment-api', register };

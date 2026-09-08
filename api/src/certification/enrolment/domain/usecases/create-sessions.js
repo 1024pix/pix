@@ -71,7 +71,7 @@ async function _createSession({ sessionRepository, sessionCodeService, sessionDT
     time: sessionDTO.time,
     description: sessionDTO.description,
     accessCode: sessionDTO.accessCode,
-    invigilatorPassword: sessionCodeService.getNewInvigilatorPassword(),
+    invigilatorPassword: sessionCodeService.generateInvigilatorPassword(),
   });
 }
 

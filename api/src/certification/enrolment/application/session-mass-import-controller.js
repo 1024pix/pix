@@ -4,7 +4,7 @@ import { usecases } from '../domain/usecases/index.js';
 import { sessionsCsvSerializer } from '../infrastructure/serializers/csv/sessions-csv-serializer.js';
 import { getCsvHeaders } from '../infrastructure/utils/sessions-import.js';
 
-const createSessions = async function (request, h) {
+async function createSessions(request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
 
   const { cachedValidatedSessionsKey } = request.payload.data.attributes;
@@ -14,13 +14,9 @@ const createSessions = async function (request, h) {
     userId: authenticatedUserId,
   });
   return h.response().code(201);
-};
+}
 
-const validateSessions = async function (
-  request,
-  h,
-  dependencies = { csvHelpers, csvSerializer: sessionsCsvSerializer },
-) {
+async function validateSessions(request, h, dependencies = { csvHelpers, csvSerializer: sessionsCsvSerializer }) {
   const i18n = getI18nFromRequest(request);
 
   const certificationCenterId = request.params.certificationCenterId;
@@ -42,9 +38,9 @@ const validateSessions = async function (
     i18n,
   });
   return h.response(sessionMassImportReport).code(200);
-};
+}
 
-const getTemplate = async function (request, h) {
+async function getTemplate(request, h) {
   const { habilitationLabels, shouldDisplayBillingModeColumns } = await usecases.getMassImportTemplateInformation({
     centerId: request.params.certificationCenterId,
   });
@@ -57,12 +53,10 @@ const getTemplate = async function (request, h) {
     .header('Content-Type', 'text/csv; charset=utf-8')
     .header('content-disposition', 'filename=import-sessions')
     .code(200);
-};
+}
 
-const sessionMassImportController = {
+export const sessionMassImportController = {
   createSessions,
   validateSessions,
   getTemplate,
 };
-
-export { sessionMassImportController };

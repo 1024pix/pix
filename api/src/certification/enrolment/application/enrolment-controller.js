@@ -3,7 +3,7 @@ import { usecases } from '../domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../infrastructure/candidates-import/fill-candidates-import-sheet.js';
 import { candidateSerializer } from '../infrastructure/serializers/candidate-serializer.js';
 
-const enrolStudentsToSession = async function (request, h, dependencies = { candidateSerializer }) {
+async function enrolStudentsToSession(request, h, dependencies = { candidateSerializer }) {
   const sessionId = request.params.sessionId;
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
@@ -11,9 +11,9 @@ const enrolStudentsToSession = async function (request, h, dependencies = { cand
   const enrolledCandidates = await usecases.getEnrolledCandidatesInSession({ sessionId });
   const enrolledCandidatesSerialized = dependencies.candidateSerializer.serialize(enrolledCandidates);
   return h.response(enrolledCandidatesSerialized).created();
-};
+}
 
-const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
+async function getCandidatesImportSheet(request, h, dependencies = { fillCandidatesImportSheet }) {
   const i18n = getI18nFromRequest(request);
 
   const sessionId = request.params.sessionId;
@@ -37,9 +37,9 @@ const getCandidatesImportSheet = async function (request, h, dependencies = { fi
     .response(candidateImportSheet)
     .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
     .header('Content-Disposition', `attachment; filename=${filename + sessionId}.ods`);
-};
+}
 
-const importCertificationCandidatesFromCandidatesImportSheet = async function (request) {
+async function importCertificationCandidatesFromCandidatesImportSheet(request) {
   const i18n = getI18nFromRequest(request);
 
   const sessionId = request.params.sessionId;
@@ -52,12 +52,10 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function (r
   });
 
   return null;
-};
+}
 
-const enrolmentController = {
+export const enrolmentController = {
   enrolStudentsToSession,
   getCandidatesImportSheet,
   importCertificationCandidatesFromCandidatesImportSheet,
 };
-
-export { enrolmentController };

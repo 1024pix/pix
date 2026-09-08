@@ -11,7 +11,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @param {AttendanceSheetPdfUtils} params.attendanceSheetPdfUtils
  * @throws {NotFoundError} the session does not exist or no candidate is enrolled in it
  */
-const getAttendanceSheet = async function ({
+export async function getAttendanceSheet({
   sessionId,
   i18n,
   sessionForAttendanceSheetRepository,
@@ -29,6 +29,4 @@ const getAttendanceSheet = async function ({
   });
 
   return { attendanceSheet, fileName };
-};
-
-export { getAttendanceSheet };
+}

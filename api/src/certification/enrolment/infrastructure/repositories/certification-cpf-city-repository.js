@@ -10,7 +10,7 @@ const COLUMNS = ['id', 'name', 'postalCode', 'INSEECode', 'isActualName'];
  * @param {number} params.INSEECode
  * @returns {Promise<Array<CertificationCpfCity>> }
  */
-const findByINSEECode = async function ({ INSEECode }) {
+export async function findByINSEECode({ INSEECode }) {
   const knexConn = DomainTransaction.getConnection();
   const result = await knexConn
     .select(COLUMNS)
@@ -20,7 +20,7 @@ const findByINSEECode = async function ({ INSEECode }) {
     .orderBy('id');
 
   return result.map((city) => new CertificationCpfCity(city));
-};
+}
 
 /**
  * @function
@@ -28,7 +28,7 @@ const findByINSEECode = async function ({ INSEECode }) {
  * @param {number} params.postalCode
  * @returns {Promise<Array<CertificationCpfCity>> }
  */
-const findByPostalCode = async function ({ postalCode }) {
+export async function findByPostalCode({ postalCode }) {
   const knexConn = DomainTransaction.getConnection();
   const result = await knexConn
     .select(COLUMNS)
@@ -38,6 +38,4 @@ const findByPostalCode = async function ({ postalCode }) {
     .orderBy('id');
 
   return result.map((city) => new CertificationCpfCity(city));
-};
-
-export { findByINSEECode, findByPostalCode };
+}

@@ -5,7 +5,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { sessionMassImportController } from './session-mass-import-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -94,6 +94,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const sessionMassImportRoute = { name: 'certification/enrolment/session-mass-import-api', register };
