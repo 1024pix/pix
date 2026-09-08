@@ -136,6 +136,9 @@ export const schema = Joi.object({
   LCMS_API_OAUTH_BASIC_TOKEN: Joi.string(),
   LCMS_API_URL: Joi.string().uri().requiredForApi(),
   LCMS_API_RELEASE_ID: Joi.any(),
+  LCMS_REDIS_CACHE_DATABASE: Joi.number().integer().valid(1, 2, 3, 4).optional(),
+  LCMS_REDIS_CACHE_CLIENT_POOL_MINIMUM: Joi.number().integer().min(1).optional(),
+  LCMS_REDIS_CACHE_CLIENT_POOL_MAXIMUM: Joi.number().integer().min(1).optional(),
   LLM_CHAT_TEMPORARY_STORAGE_EXP_DELAY_SECONDS: Joi.string().optional(),
   LLM_CONFIGURATION_EDITOR_API_FETCH_CONNECTION_TIMEOUT_MS: Joi.number().min(0).optional(),
   LLM_CONFIGURATION_EDITOR_API_GET_CONFIGURATION_URL: Joi.string().optional(),
@@ -373,6 +376,11 @@ export const config = {
     oauthBasicToken: process.env.LCMS_API_OAUTH_BASIC_TOKEN,
     releaseId: process.env.LCMS_API_RELEASE_ID || null,
     refreshJobCron: process.env.CACHE_RELOAD_TIME || null,
+    redisCache: {
+      database: _getNumber(process.env.LCMS_REDIS_CACHE_DATABASE, 1),
+      clientPoolMinimum: _getNumber(process.env.LCMS_REDIS_CACHE_CLIENT_POOL_MINIMUM),
+      clientPoolMaximum: _getNumber(process.env.LCMS_REDIS_CACHE_CLIENT_POOL_MAXIMUM),
+    },
   },
   llm: {
     temporaryStorage: {
