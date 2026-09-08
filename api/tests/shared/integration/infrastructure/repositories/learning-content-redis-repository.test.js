@@ -1,6 +1,10 @@
+import { setTimeout } from 'node:timers/promises';
+
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../config/config.js';
+import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { LearningContentRedisRepository } from '../../../../../src/shared/infrastructure/repositories/learning-content-redis-repository.js';
 import { knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -375,6 +379,50 @@ describe('Integration | Repository | LearningContentRedis', function () {
         // then
         expect(err).to.be.instanceOf(Error);
         expect(queryHook).to.have.been.calledTwice;
+      });
+    });
+  });
+
+  describe('isEnabled', function () {
+    [
+      ['0/1', 'web-1', false],
+      ['0/1', 'web-2', false],
+      ['0/1', 'web-10', false],
+      ['1/1', 'web-1', true],
+      ['1/1', 'web-2', true],
+      ['1/1', 'web-10', true],
+      ['1/2', 'web-1', true],
+      ['1/2', 'web-2', false],
+      ['1/2', 'web-3', true],
+      ['1/2', 'web-4', false],
+      ['1/2', 'web-10', false],
+      ['1/2', 'web-11', true],
+      ['1/3', 'web-1', true],
+      ['1/3', 'web-2', false],
+      ['1/3', 'web-3', false],
+      ['1/3', 'web-4', true],
+      ['1/3', 'web-5', false],
+      ['1/3', 'web-6', false],
+      ['2/3', 'web-1', true],
+      ['2/3', 'web-2', true],
+      ['2/3', 'web-3', false],
+      ['2/3', 'web-4', true],
+      ['2/3', 'web-5', true],
+      ['2/3', 'web-6', false],
+    ].forEach(([isLearningContentCacheRedis, containerName, expectedValue]) => {
+      describe(`when isLearningContentCacheRedis is ${isLearningContentCacheRedis} and container name is ${containerName}`, function () {
+        it(`returns ${expectedValue}`, async function () {
+          // given
+          sinon.stub(config.infra, 'containerName').value(containerName);
+          await featureToggles.set('isLearningContentCacheRedis', isLearningContentCacheRedis);
+          await setTimeout(5);
+
+          // when
+          const value = LearningContentRedisRepository.isEnabled;
+
+          // then
+          expect(value).to.equal(expectedValue);
+        });
       });
     });
   });

@@ -1,10 +1,22 @@
+import { config } from '../../../../config/config.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { learningContentCache } from '../caches/learning-content-redis-cache.js';
+import { featureToggles } from '../feature-toggles/index.js';
+
+const isLearningContentCacheRedisFeatureToggle = featureToggles.use('isLearningContentCacheRedis');
 
 export class LearningContentRedisRepository {
   #tableName;
   #idType;
   #cache;
+
+  static #isEnabled = isEnabled(isLearningContentCacheRedisFeatureToggle.value);
+
+  static {
+    isLearningContentCacheRedisFeatureToggle.watch((value) => {
+      LearningContentRedisRepository.#isEnabled = isEnabled(value);
+    });
+  }
 
   constructor({ tableName, idType = 'text', cache = learningContentCache }) {
     this.#tableName = tableName;
@@ -117,4 +129,14 @@ export class LearningContentRedisRepository {
   get #shortTableName() {
     return this.#tableName.split('.').at(-1);
   }
+
+  static get isEnabled() {
+    return LearningContentRedisRepository.#isEnabled;
+  }
+}
+
+function isEnabled(featureToggleValue) {
+  const containerIndex = parseInt(config.infra.containerName?.split('-').at(-1) ?? '1') - 1;
+  const [dividend, divisor] = featureToggleValue.split('/').map((s) => parseInt(s));
+  return containerIndex % divisor < dividend;
 }
