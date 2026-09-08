@@ -77,7 +77,7 @@ export default class NewRoute extends Route {
       if (params?.courseId) {
         campaign.course = courses.find(({ id }) => id === params.courseId);
 
-        if (campaign.course.type === 'targetProfile') {
+        if (!campaign.type && campaign.course.type === 'targetProfile') {
           campaign.setType('ASSESSMENT');
         }
         if (campaign.course.type === 'blueprint') {

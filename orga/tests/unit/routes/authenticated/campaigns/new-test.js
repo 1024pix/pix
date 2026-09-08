@@ -666,6 +666,88 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
           });
         });
 
+        module('when campaign type is EXAM', function () {
+          test('should prefill campaign attributes from given source campaign', async function (assert) {
+            // given
+            const route = this.owner.lookup('route:authenticated/campaigns/new');
+
+            const organization = EmberObject.create({
+              id: 12345,
+              targetProfiles: new Promise((resolve) => resolve([])),
+            });
+
+            class CurrentUserStub extends Service {
+              organization = organization;
+              prescriber = { id: Symbol('prescriber id') };
+            }
+
+            this.owner.register('service:current-user', CurrentUserStub);
+
+            const members = Symbol('list of members sorted by firstnames and lastnames');
+            const sourceCampaign = {
+              name: 'A real campaign name',
+              type: 'EXAM',
+              title: Symbol('campaign title'),
+              description: Symbol('campaign description'),
+              targetProfileId: Symbol('campaign target profile id'),
+              ownerId: Symbol('campaign owner id'),
+              multipleSendings: Symbol('campaign multiple sendings activation'),
+              externalIdLabel: Symbol('campaign external id'),
+              customLandingPageText: Symbol('campaign custom landing page text'),
+            };
+            const targetProfile = Symbol('campaign target profile');
+
+            const expectedCampaignAttributes = {
+              ...sourceCampaign,
+              name: 'Copie de A real campaign name',
+              targetProfile,
+              organization,
+            };
+
+            const duplicatedCampaignRecord = EmberObject.create({
+              ...expectedCampaignAttributes,
+              setType(type) {
+                this.type = type;
+              },
+            });
+
+            const source = Symbol('source campaign id');
+
+            const findAllStub = sinon.stub();
+            const findRecordStub = sinon.stub();
+            const createRecordStub = sinon.stub();
+            const peekRecordStub = sinon.stub();
+
+            const courseRecord = {
+              id: sourceCampaign.targetProfileId,
+              type: 'targetProfile',
+            };
+
+            findAllStub.withArgs('member-identity', { adapterOptions: { organizationId: 12345 } }).resolves(members);
+            findAllStub
+              .withArgs('course', { backgroundReload: false, adapterOptions: { organizationId: 12345 } })
+              .resolves([courseRecord]);
+
+            findRecordStub.withArgs('campaign', source).resolves(sourceCampaign);
+            peekRecordStub.withArgs('target-profile', sourceCampaign.targetProfileId).resolves(targetProfile);
+
+            class StoreStub extends Service {
+              findAll = findAllStub;
+              createRecord = createRecordStub.resolves(duplicatedCampaignRecord);
+              findRecord = findRecordStub;
+              peekRecord = peekRecordStub;
+            }
+
+            this.owner.register('service:store', StoreStub);
+
+            // when
+            const model = await route.model({ source });
+            assert.strictEqual(model.campaign.type, 'EXAM');
+            sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
+            assert.false(model.targetProfiles instanceof Promise);
+          });
+        });
+
         test('should return empty campaign when searching for given source campaign raises an error', async function (assert) {
           // given
           const organization = EmberObject.create({
