@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { sessionPublicationController } from './session-publication-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PATCH',
@@ -95,6 +95,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const sessionPublicationRoute = { name: 'certification/session-management/session-publication-api', register };

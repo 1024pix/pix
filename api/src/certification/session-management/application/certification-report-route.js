@@ -6,7 +6,7 @@ import { ABORT_REASONS } from '../../shared/domain/constants/abort-reasons.js';
 import { certificationReportController } from './certification-report-controller.js';
 import { sessionManagementSecurityPreHandlers } from './security-pre-handlers.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -59,7 +59,7 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationReportRoute = {
   name: 'certification/session-management/certification-reports-api',

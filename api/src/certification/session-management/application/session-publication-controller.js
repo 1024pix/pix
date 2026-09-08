@@ -3,23 +3,23 @@ import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as sessionManagementSerializer from '../infrastructure/serializers/session-serializer.js';
 
-const publish = async function (request, h, dependencies = { sessionManagementSerializer }) {
+async function publish(request, h, dependencies = { sessionManagementSerializer }) {
   const sessionId = request.params.id;
 
   const session = await usecases.publishSession({ sessionId });
 
   return dependencies.sessionManagementSerializer.serialize({ session });
-};
+}
 
-const unpublish = async function (request, h, dependencies = { sessionManagementSerializer }) {
+async function unpublish(request, h, dependencies = { sessionManagementSerializer }) {
   const sessionId = request.params.sessionId;
 
   const session = await usecases.unpublishSession({ sessionId });
 
   return dependencies.sessionManagementSerializer.serialize({ session });
-};
+}
 
-const publishInBatch = async function (request, h) {
+async function publishInBatch(request, h) {
   const sessionIds = request.payload.data.attributes.ids;
 
   const result = await usecases.publishSessionsInBatch({ sessionIds });
@@ -29,7 +29,7 @@ const publishInBatch = async function (request, h) {
     throw new SessionPublicationBatchError(result.batchId);
   }
   return h.response().code(204);
-};
+}
 
 export const sessionPublicationController = {
   publish,

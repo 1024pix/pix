@@ -1,6 +1,6 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
-const getStatusesBySessionId = async function (sessionId) {
+export async function getStatusesBySessionId(sessionId) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('certification-courses')
     .select({
@@ -20,9 +20,9 @@ const getStatusesBySessionId = async function (sessionId) {
       'assessment-results.id',
       'certification-courses-last-assessment-results.lastAssessmentResultId',
     );
-};
+}
 
-const publishCertificationCourses = async function (certificationStatuses) {
+export async function publishCertificationCourses(certificationStatuses) {
   const certificationDataToUpdate = certificationStatuses.map(({ certificationCourseId }) => ({
     id: certificationCourseId,
     isPublished: true,
@@ -35,11 +35,9 @@ const publishCertificationCourses = async function (certificationStatuses) {
     .insert(certificationDataToUpdate)
     .onConflict('id')
     .merge(['isPublished', 'updatedAt']);
-};
+}
 
-const unpublishCertificationCoursesBySessionId = async function ({ sessionId }) {
+export async function unpublishCertificationCoursesBySessionId({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('certification-courses').where({ sessionId }).update({ isPublished: false, updatedAt: new Date() });
-};
-
-export { getStatusesBySessionId, publishCertificationCourses, unpublishCertificationCoursesBySessionId };
+}

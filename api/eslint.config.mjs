@@ -116,13 +116,7 @@ export default defineConfig([
     rules: { 'no-useless-assignment': 'off' },
   },
   {
-    files: [
-      'src/certification/configuration/**/*.{js,mjs,ts}',
-      'src/certification/enrolment/**/*.{js,mjs,ts}',
-      'src/certification/shared/**/*.{js,mjs,ts}',
-      'src/certification/results/**/*.{js,mjs,ts}',
-      'src/certification/evaluation/**/*.{js,mjs,ts}',
-    ],
+    files: ['src/certification/**/*.{js,mjs,ts}'],
     rules: {
       'func-style': ['error', 'declaration'],
     },

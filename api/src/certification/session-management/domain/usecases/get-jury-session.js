@@ -8,8 +8,6 @@
  * @param {JurySessionRepository} params.jurySessionRepository
  * @returns {JurySession}
  */
-const getJurySession = async function ({ sessionId, jurySessionRepository }) {
+export async function getJurySession({ sessionId, jurySessionRepository }) {
   return jurySessionRepository.get({ id: sessionId });
-};
-
-export { getJurySession };
+}

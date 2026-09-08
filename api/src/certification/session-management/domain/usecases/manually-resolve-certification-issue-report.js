@@ -1,6 +1,6 @@
 import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../../domain/errors.js';
 
-const manuallyResolveCertificationIssueReport = async function ({
+export async function manuallyResolveCertificationIssueReport({
   certificationIssueReportId,
   resolution,
   certificationIssueReportRepository,
@@ -12,6 +12,4 @@ const manuallyResolveCertificationIssueReport = async function ({
 
   certificationIssueReport.resolveManually(resolution);
   await certificationIssueReportRepository.save({ certificationIssueReport });
-};
-
-export { manuallyResolveCertificationIssueReport };
+}

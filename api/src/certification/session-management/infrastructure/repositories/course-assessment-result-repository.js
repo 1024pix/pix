@@ -38,7 +38,7 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   });
 }
 
-const getLatestAssessmentResult = async function ({ certificationCourseId }) {
+export async function getLatestAssessmentResult({ certificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
 
   const latestAssessmentResultDTO = await knexConn('certification-courses-last-assessment-results')
@@ -95,6 +95,4 @@ const getLatestAssessmentResult = async function ({ certificationCourseId }) {
     assessmentResultDTO: latestAssessmentResultDTO[0],
     competencesMarksDTO,
   });
-};
-
-export { getLatestAssessmentResult };
+}

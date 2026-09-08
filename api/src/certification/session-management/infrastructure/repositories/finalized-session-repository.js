@@ -2,18 +2,18 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { FinalizedSession } from '../../domain/models/FinalizedSession.js';
 
-const save = async function ({ finalizedSession }) {
+export async function save({ finalizedSession }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();
   return finalizedSession;
-};
+}
 
-const remove = async function ({ sessionId }) {
+export async function remove({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('finalized-sessions').where({ sessionId }).delete();
-};
+}
 
-const get = async function ({ sessionId }) {
+export async function get({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();
   const finalizedSessionDto = await knexConn('finalized-sessions').where({ sessionId }).first();
 
@@ -22,9 +22,9 @@ const get = async function ({ sessionId }) {
   }
 
   return _toDomainObject(finalizedSessionDto);
-};
+}
 
-const findFinalizedSessionsToPublish = async function ({ version } = {}) {
+export async function findFinalizedSessionsToPublish({ version } = {}) {
   const knexConn = DomainTransaction.getConnection();
   const versionFilter = version ? { 'sessions.version': version } : {};
   const publishableFinalizedSessions = await knexConn('finalized-sessions')
@@ -39,9 +39,9 @@ const findFinalizedSessionsToPublish = async function ({ version } = {}) {
     .orderBy('finalized-sessions.finalizedAt');
 
   return publishableFinalizedSessions.map(_toDomainObject);
-};
+}
 
-const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}) {
+export async function findFinalizedSessionsWithRequiredAction({ version } = {}) {
   const knexConn = DomainTransaction.getConnection();
   const versionFilter = version ? { 'sessions.version': version } : {};
   const publishableFinalizedSessions = await knexConn('finalized-sessions')
@@ -55,9 +55,7 @@ const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}
     .orderBy('finalized-sessions.finalizedAt', 'DESC');
 
   return publishableFinalizedSessions.map(_toDomainObject);
-};
-
-export { findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction, get, remove, save };
+}
 
 function _toDomainObject({ date, time, ...finalizedSession }) {
   return new FinalizedSession({

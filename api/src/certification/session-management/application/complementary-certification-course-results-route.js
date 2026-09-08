@@ -5,7 +5,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { juryOptions } from '../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { complementaryCertificationCourseResultsController } from './complementary-certification-course-results-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -46,7 +46,7 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const complementaryCertificationCourseResultsRoute = {
   name: 'certification/session-management/complementary-certification-course-results-api',

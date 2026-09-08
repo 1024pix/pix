@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (jurySessions, meta) {
+export function serialize(jurySessions, meta) {
   return new Serializer('sessions', {
     attributes: [
       'certificationCenterName',
@@ -74,11 +74,9 @@ const serialize = function (jurySessions, meta) {
     },
     meta,
   }).serialize(jurySessions);
-};
+}
 
-const serializeForPaginatedList = function (jurySessionsForPaginatedList, injectedSerialize = serialize) {
+export function serializeForPaginatedList(jurySessionsForPaginatedList, injectedSerialize = serialize) {
   const { jurySessions, pagination } = jurySessionsForPaginatedList;
   return injectedSerialize(jurySessions, pagination);
-};
-
-export { serialize, serializeForPaginatedList };
+}

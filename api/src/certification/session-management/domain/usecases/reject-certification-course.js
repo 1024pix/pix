@@ -2,13 +2,13 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationCourseRejected } from '../events/CertificationCourseRejected.js';
 
-export const rejectCertificationCourse = async ({
+export async function rejectCertificationCourse({
   certificationCourseId,
   juryId,
   certificationCourseRepository,
   certificationEvaluationRepository,
   courseAssessmentResultRepository,
-}) => {
+}) {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
 
   const latestAssessmentResult = await courseAssessmentResultRepository.getLatestAssessmentResult({
@@ -30,4 +30,4 @@ export const rejectCertificationCourse = async ({
   if (AlgorithmEngineVersion.isV2(certificationCourse.getVersion())) {
     return certificationEvaluationRepository.rescoreV2Certification({ event });
   }
-};
+}

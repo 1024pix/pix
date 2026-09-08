@@ -13,7 +13,7 @@ import { CertificationCandidatesError } from '../../../../../src/shared/domain/e
  * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
  * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
  **/
-const correctCandidateIdentityInCertificationCourse = async function ({
+export async function correctCandidateIdentityInCertificationCourse({
   command: {
     certificationCourseId,
     firstName,
@@ -56,6 +56,4 @@ const correctCandidateIdentityInCertificationCourse = async function ({
   const updatedCertificationCourse = await certificationCourseRepository.update({ certificationCourse });
 
   return updatedCertificationCourse;
-};
-
-export { correctCandidateIdentityInCertificationCourse };
+}

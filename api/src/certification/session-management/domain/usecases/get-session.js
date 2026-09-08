@@ -1,6 +1,6 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 
-const getSession = async function ({ sessionId, sessionManagementRepository }) {
+export async function getSession({ sessionId, sessionManagementRepository }) {
   const session = await sessionManagementRepository.get({ id: sessionId });
 
   if (!session) {
@@ -12,6 +12,4 @@ const getSession = async function ({ sessionId, sessionManagementRepository }) {
     session,
     hasSomeCleaAcquired,
   };
-};
-
-export { getSession };
+}

@@ -1,7 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 import * as sessionSummarySerializer from '../infrastructure/serializers/session-summary-serializer.js';
 
-const findPaginatedFilteredSessionSummaries = async function (request) {
+async function findPaginatedFilteredSessionSummaries(request) {
   const certificationCenterId = request.params.id;
   const userId = request.auth.credentials.userId;
   const { filter, page } = request.query;
@@ -14,10 +14,8 @@ const findPaginatedFilteredSessionSummaries = async function (request) {
   });
 
   return sessionSummarySerializer.serialize(sessionSummaries, meta);
-};
+}
 
-const certificationCenterController = {
+export const certificationCenterController = {
   findPaginatedFilteredSessionSummaries,
 };
-
-export { certificationCenterController };

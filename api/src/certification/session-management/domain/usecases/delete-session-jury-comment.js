@@ -7,8 +7,6 @@
  * @param {number} params.sessionId
  * @param {SessionJuryCommentRepository} params.sessionJuryCommentRepository
  **/
-const deleteSessionJuryComment = async function ({ sessionId, sessionJuryCommentRepository }) {
+export async function deleteSessionJuryComment({ sessionId, sessionJuryCommentRepository }) {
   await sessionJuryCommentRepository.remove({ id: sessionId });
-};
-
-export { deleteSessionJuryComment };
+}

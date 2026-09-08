@@ -1,6 +1,6 @@
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 
-const findPaginatedFilteredCertificationCenterSessionSummaries = async function ({
+export async function findPaginatedFilteredCertificationCenterSessionSummaries({
   userId,
   certificationCenterId,
   filters,
@@ -21,6 +21,4 @@ const findPaginatedFilteredCertificationCenterSessionSummaries = async function 
     filters,
     page,
   });
-};
-
-export { findPaginatedFilteredCertificationCenterSessionSummaries };
+}

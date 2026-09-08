@@ -1,6 +1,6 @@
 import { CertificationIssueReport } from '../../../shared/domain/models/CertificationIssueReport.js';
 
-const saveCertificationIssueReport = async function ({
+export async function saveCertificationIssueReport({
   certificationIssueReportDTO,
   certificationIssueReportRepository,
   issueReportCategoryRepository,
@@ -15,6 +15,4 @@ const saveCertificationIssueReport = async function ({
   });
 
   return certificationIssueReportRepository.save({ certificationIssueReport });
-};
-
-export { saveCertificationIssueReport };
+}

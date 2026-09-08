@@ -11,12 +11,10 @@ import { CpfImportStatus } from '../models/CpfImportStatus.js';
  * @param {CpfExportsStorage} params.cpfExportsStorage
  * @param {CpfExportRepository} params.cpfExportRepository
  */
-const getPreSignedUrls = async function ({ cpfExportRepository, cpfExportsStorage }) {
+export async function getPreSignedUrls({ cpfExportRepository, cpfExportsStorage }) {
   const filenames = await cpfExportRepository.findFileNamesByStatus({ cpfImportStatus: CpfImportStatus.READY_TO_SEND });
 
   return cpfExportsStorage.preSignFiles({
     keys: filenames,
   });
-};
-
-export { getPreSignedUrls };
+}

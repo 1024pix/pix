@@ -13,15 +13,15 @@ import { AllowedCertificationCenterAccess } from '../../domain/read-models/Allow
  * @param {CertificationCenterAccessApi} [params.certificationCenterAccessApi]
  * @returns {Promise<AllowedCertificationCenterAccess>}
  */
-export const getCertificationCenterAccess = async ({ certificationCenterId, certificationCenterAccessApi }) => {
+export async function getCertificationCenterAccess({ certificationCenterId, certificationCenterAccessApi }) {
   const dto = await certificationCenterAccessApi.getCertificationCenterAccess({ certificationCenterId });
 
   return _toDomain(dto);
-};
+}
 
 /**
  * @param {object} params
  */
-const _toDomain = (dto) => {
+function _toDomain(dto) {
   return new AllowedCertificationCenterAccess(dto);
-};
+}

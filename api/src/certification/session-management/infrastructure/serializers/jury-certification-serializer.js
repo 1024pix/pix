@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (juryCertification, { translate }) {
+export function serialize(juryCertification, { translate }) {
   return new Serializer('certifications', {
     transform(juryCertification) {
       return {
@@ -74,6 +74,4 @@ const serialize = function (juryCertification, { translate }) {
       ],
     },
   }).serialize(juryCertification);
-};
-
-export { serialize };
+}

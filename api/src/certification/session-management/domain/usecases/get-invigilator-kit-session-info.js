@@ -6,8 +6,6 @@
  * @param {object} params
  * @param {SessionForInvigilatorKitRepository} params.sessionForInvigilatorKitRepository
  */
-const getInvigilatorKitSessionInfo = async function ({ sessionId, sessionForInvigilatorKitRepository }) {
+export async function getInvigilatorKitSessionInfo({ sessionId, sessionForInvigilatorKitRepository }) {
   return sessionForInvigilatorKitRepository.get({ id: sessionId });
-};
-
-export { getInvigilatorKitSessionInfo };
+}

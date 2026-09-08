@@ -10,11 +10,11 @@
  * @param {CertificationEvaluationApi} params.certificationEvaluationApi
  * @returns {Promise<void>}
  */
-export const rescoreV3Certification = async ({ event, certificationEvaluationApi }) => {
+export async function rescoreV3Certification({ event, certificationEvaluationApi }) {
   return certificationEvaluationApi.rescoreV3Certification({
     event,
   });
-};
+}
 
 /**
  * @param {object} params
@@ -22,8 +22,8 @@ export const rescoreV3Certification = async ({ event, certificationEvaluationApi
  * @param {CertificationEvaluationApi} params.certificationEvaluationApi
  * @returns {Promise<void>}
  */
-export const rescoreV2Certification = async ({ event, certificationEvaluationApi }) => {
+export async function rescoreV2Certification({ event, certificationEvaluationApi }) {
   return certificationEvaluationApi.rescoreV2Certification({
     event,
   });
-};
+}

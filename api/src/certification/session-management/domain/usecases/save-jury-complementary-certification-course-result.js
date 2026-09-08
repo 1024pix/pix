@@ -1,7 +1,7 @@
 import { InvalidJuryLevelError, NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 
-const saveJuryComplementaryCertificationCourseResult = async function ({
+export async function saveJuryComplementaryCertificationCourseResult({
   complementaryCertificationCourseId,
   juryLevel,
   complementaryCertificationCourseResultRepository,
@@ -41,6 +41,4 @@ const saveJuryComplementaryCertificationCourseResult = async function ({
   });
 
   return complementaryCertificationCourseResultRepository.save(externalComplementaryCertificationCourseResult);
-};
-
-export { saveJuryComplementaryCertificationCourseResult };
+}

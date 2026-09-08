@@ -109,9 +109,9 @@ export async function getCounters({ sessionId }) {
   return _toJurySessionCountersDomainModel({ startedCertifications, certificationsWithScoringError, issueReports });
 }
 
-const _toJurySessionCountersDomainModel = ({ startedCertifications, certificationsWithScoringError, issueReports }) => {
+function _toJurySessionCountersDomainModel({ startedCertifications, certificationsWithScoringError, issueReports }) {
   return new JurySessionCounters({ startedCertifications, certificationsWithScoringError, issueReports });
-};
+}
 
 export async function assignCertificationOfficer({ id, assignedCertificationOfficerId }) {
   const knexConn = DomainTransaction.getConnection();

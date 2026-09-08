@@ -10,7 +10,7 @@
  * @param {FinalizedSessionRepository} params.finalizedSessionRepository
  * @param {CertificationOfficerRepository} params.certificationOfficerRepository
  */
-const assignCertificationOfficerToJurySession = async function ({
+export async function assignCertificationOfficerToJurySession({
   sessionId,
   certificationOfficerId,
   jurySessionRepository,
@@ -30,6 +30,4 @@ const assignCertificationOfficerToJurySession = async function ({
   });
 
   return jurySessionRepository.get({ id: finalizedSession.sessionId });
-};
-
-export { assignCertificationOfficerToJurySession };
+}

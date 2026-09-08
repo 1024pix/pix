@@ -9,7 +9,7 @@
  * @param {number} params.juryCommentAuthorId
  * @param {SessionJuryCommentRepository} params.sessionJuryCommentRepository
  **/
-const commentSessionAsJury = async function ({
+export async function commentSessionAsJury({
   sessionId,
   juryComment,
   juryCommentAuthorId,
@@ -23,6 +23,4 @@ const commentSessionAsJury = async function ({
   });
 
   await sessionJuryCommentRepository.save({ sessionJuryComment });
-};
-
-export { commentSessionAsJury };
+}

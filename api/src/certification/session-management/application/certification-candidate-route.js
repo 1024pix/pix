@@ -7,7 +7,7 @@ import { authorization } from './pre-handlers/authorization.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -78,7 +78,7 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationCandidateRoute = {
   name: 'certification/session-management/certification-candidate-api',

@@ -5,7 +5,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
 import { sessionController } from './session-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -87,6 +87,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const sessionRoute = { name: 'certification/session-management/session-get-api', register };

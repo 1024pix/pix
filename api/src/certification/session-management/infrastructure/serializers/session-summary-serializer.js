@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (sessionSummaries, meta) {
+export function serialize(sessionSummaries, meta) {
   return new Serializer('session-summary', {
     attributes: [
       'address',
@@ -16,6 +16,4 @@ const serialize = function (sessionSummaries, meta) {
     ],
     meta,
   }).serialize(sessionSummaries);
-};
-
-export { serialize };
+}

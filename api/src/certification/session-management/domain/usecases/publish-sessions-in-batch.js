@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { SessionPublicationBatchResult } from '../models/SessionPublicationBatchResult.js';
 
-const publishSessionsInBatch = async function ({
+export async function publishSessionsInBatch({
   sessionIds,
   publishedAt = new Date(),
   batchId = randomUUID(),
@@ -38,6 +38,4 @@ const publishSessionsInBatch = async function ({
     }
   }
   return result;
-};
-
-export { publishSessionsInBatch };
+}

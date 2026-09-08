@@ -3,7 +3,7 @@ import { AssessmentResult } from '../../../../shared/domain/models/AssessmentRes
 import { CpfImportStatus } from '../../domain/models/CpfImportStatus.js';
 import { CpfCertificationResult } from '../../domain/read-models/CpfCertificationResult.js';
 
-const findByBatchId = async function (batchId) {
+export async function findByBatchId(batchId) {
   const knexConn = DomainTransaction.getConnection();
 
   const cpfCertificationResults = await _selectCpfCertificationResults(knexConn)
@@ -20,26 +20,26 @@ const findByBatchId = async function (batchId) {
     .where('certification-courses-cpf-infos.filename', batchId)
     .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
   return cpfCertificationResults.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
-};
+}
 
-const markCertificationCoursesAsExported = async function ({ certificationCourseIds, filename }) {
+export async function markCertificationCoursesAsExported({ certificationCourseIds, filename }) {
   const knexConn = DomainTransaction.getConnection();
 
   return knexConn('certification-courses-cpf-infos')
     .update({ filename, importStatus: CpfImportStatus.READY_TO_SEND, updatedAt: knexConn.fn.now() })
     .whereIn('certificationCourseId', certificationCourseIds);
-};
+}
 
-const countExportableCertificationCoursesByTimeRange = async function ({ startDate, endDate }) {
+export async function countExportableCertificationCoursesByTimeRange({ startDate, endDate }) {
   const knexConn = DomainTransaction.getConnection();
 
   const { count } = await _findSchedulableCpfCertificationResults(knexConn, startDate, endDate)
     .count('certification-courses.id')
     .first();
   return count;
-};
+}
 
-const markCertificationToExport = async function ({ startDate, endDate, limit, offset, batchId }) {
+export async function markCertificationToExport({ startDate, endDate, limit, offset, batchId }) {
   const knexConn = DomainTransaction.getConnection();
 
   return await knexConn
@@ -66,14 +66,7 @@ const markCertificationToExport = async function ({ startDate, endDate, limit, o
         .offset(offset)
         .limit(limit);
     });
-};
-
-export {
-  countExportableCertificationCoursesByTimeRange,
-  findByBatchId,
-  markCertificationCoursesAsExported,
-  markCertificationToExport,
-};
+}
 
 function _selectCpfCertificationResults(qb) {
   return qb
@@ -105,8 +98,8 @@ function _filterQuery(qb, startDate, endDate) {
     .where('sessions.publishedAt', '<=', endDate);
 }
 
-const _findSchedulableCpfCertificationResults = (qb, startDate, endDate) => {
+function _findSchedulableCpfCertificationResults(qb, startDate, endDate) {
   return _filterQuery(_selectCpfCertificationResults(qb), startDate, endDate).whereNull(
     'certification-courses-cpf-infos.importStatus',
   );
-};
+}

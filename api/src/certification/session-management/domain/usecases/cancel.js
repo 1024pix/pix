@@ -18,7 +18,7 @@ import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmE
  * @param {CertificationEvaluationRepository} params.certificationEvaluationRepository
  * @param {CourseAssessmentResultRepository} params.courseAssessmentResultRepository
  */
-export const cancel = async function ({
+export async function cancel({
   certificationCourseId,
   juryId,
   certificationCourseRepository,
@@ -51,4 +51,4 @@ export const cancel = async function ({
   if (AlgorithmEngineVersion.isV2(certificationCourse.getVersion())) {
     await certificationEvaluationRepository.rescoreV2Certification({ event });
   }
-};
+}

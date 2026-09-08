@@ -2,7 +2,7 @@ import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js'
 import { usecases } from '../domain/usecases/index.js';
 import * as invigilatorKitPdf from '../infrastructure/utils/pdf/invigilator-kit-pdf.js';
 
-const getInvigilatorKitPdf = async function (request, h, dependencies = { invigilatorKitPdf }) {
+async function getInvigilatorKitPdf(request, h, dependencies = { invigilatorKitPdf }) {
   const sessionId = request.params.sessionId;
   const { userId } = request.auth.credentials;
 
@@ -19,9 +19,8 @@ const getInvigilatorKitPdf = async function (request, h, dependencies = { invigi
     .response(buffer)
     .header('Content-Disposition', `attachment; filename=${fileName}`)
     .header('Content-Type', 'application/pdf');
-};
+}
 
-const invigilatorKitController = {
+export const invigilatorKitController = {
   getInvigilatorKitPdf,
 };
-export { invigilatorKitController };

@@ -1,6 +1,6 @@
 import { usecases } from '../domain/usecases/index.js';
 
-const saveJuryComplementaryCertificationCourseResult = async function (request, h) {
+async function saveJuryComplementaryCertificationCourseResult(request, h) {
   const { complementaryCertificationCourseId, juryLevel } = request.payload.data.attributes;
 
   await usecases.saveJuryComplementaryCertificationCourseResult({
@@ -8,7 +8,6 @@ const saveJuryComplementaryCertificationCourseResult = async function (request, 
     juryLevel,
   });
   return h.response().code(200);
-};
+}
 
-const complementaryCertificationCourseResultsController = { saveJuryComplementaryCertificationCourseResult };
-export { complementaryCertificationCourseResultsController };
+export const complementaryCertificationCourseResultsController = { saveJuryComplementaryCertificationCourseResult };

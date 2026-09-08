@@ -1,7 +1,7 @@
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as sessionRepository from '../../infrastructure/repositories/session-management-repository.js';
 
-const execute = async function ({
+export async function execute({
   userId,
   certificationCourseId,
   dependencies = { certificationCourseRepository, sessionRepository },
@@ -11,6 +11,4 @@ const execute = async function ({
     userId,
     sessionId: certificationCourse.getSessionId(),
   });
-};
-
-export { execute };
+}
