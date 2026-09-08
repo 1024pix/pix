@@ -1,5 +1,40 @@
 # Pix Changelog
 
+# [5.498.0](https://github.com/1024pix/pix/compare/v5.497.0...v5.498.0) (2026-09-08)
+
+### :rocket: Amélioration
+
+- [#17361](https://github.com/1024pix/pix/pull/17361) Corrections mineures sur la création d'une version
+- [#17401](https://github.com/1024pix/pix/pull/17401) Déplacer les boutons sous la mise en avant (moteur de reco) sur Pix App (PIX-24126).
+- [#17331](https://github.com/1024pix/pix/pull/17331) Permettre l'activation en deux temps d'une version Pix+ (PIX-23963)
+
+### :bug: Correction
+
+- [#17411](https://github.com/1024pix/pix/pull/17411) Réparer Smart Random simulator
+
+### :building_construction: Tech
+
+- [#17405](https://github.com/1024pix/pix/pull/17405) :art: Applique la règle de lint sur la façon de déclarer les fonctions dans le sous domaine `certification/enrolment`
+- [#17406](https://github.com/1024pix/pix/pull/17406) :art: Met en place la règle de linter autour des noms de fonctions pour le sous domaine `certification/shared`
+- [#17402](https://github.com/1024pix/pix/pull/17402) :broom: suppression de certaines utilisations de `lodash` chez Certif
+- [#17399](https://github.com/1024pix/pix/pull/17399) Ajouter nationalStudentId aux organization learners SCO dans les seeds
+- [#17407](https://github.com/1024pix/pix/pull/17407) Convertir les models de campagne de PixOrga en TS
+- [#17408](https://github.com/1024pix/pix/pull/17408) Corriger les configurations d'outillage qui ignorent les fichiers TypeScript
+- [#17413](https://github.com/1024pix/pix/pull/17413) Déplace le fichier de configuration de l'API dans le dossier `config`.
+- [#17385](https://github.com/1024pix/pix/pull/17385) Supprime les variables d'environnement `CYPRESS_` et `PLAYWRIGHT_`.
+- [#17409](https://github.com/1024pix/pix/pull/17409) Utilise pgboss plutôt qu'un cron job scalingo pour rafraichir le cache LCMS périodiquement.
+
+### :arrow_up: Montée de version
+
+- [#17414](https://github.com/1024pix/pix/pull/17414) Pin 1024pix/pix-actions action to ebfce29 (workflows)
+- [#17417](https://github.com/1024pix/pix/pull/17417) Update dependency @1024pix/pix-ui to ^68.1.2 (junior)
+- [#17315](https://github.com/1024pix/pix/pull/17315) Update dependency @1024pix/pix-ui to v68 (certif)
+- [#17316](https://github.com/1024pix/pix/pull/17316) Update dependency @1024pix/pix-ui to v68 (junior)
+- [#17317](https://github.com/1024pix/pix/pull/17317) Update dependency @1024pix/pix-ui to v68 (mon-pix)
+- [#17416](https://github.com/1024pix/pix/pull/17416) Update dependency @formatjs/intl to ^4.1.20
+- [#17423](https://github.com/1024pix/pix/pull/17423) Update dependency @glint/ember-tsc to ^1.11.4 (orga)
+- [#17424](https://github.com/1024pix/pix/pull/17424) Update dependency @glint/template to ^1.9.0 (orga)
+
 # [5.497.0](https://github.com/1024pix/pix/compare/v5.496.0...v5.497.0) (2026-09-07)
 
 ### :rocket: Amélioration
