@@ -11,6 +11,8 @@
 
   &__header {
     display: flex;
+    flex-wrap: wrap;
+    gap: var(--pix-spacing-1x);
     align-items: center;
     justify-content: space-between;
     margin-top: var(--pix-spacing-10x);
@@ -28,12 +30,8 @@
   }
 
   &__navigation {
-    display: none;
-
-    @include breakpoints.device-is('desktop') {
-      display: flex;
-      gap: var(--pix-spacing-2x);
-    }
+    display: flex;
+    gap: var(--pix-spacing-2x);
   }
 
   &__list {
