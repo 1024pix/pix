@@ -44,10 +44,17 @@ module(
         const store = this.owner.lookup('service:store');
         const training = store.createRecord('training', _buildTraining({}));
         const onCardClickStub = sinon.stub();
+        const onHighlightedCardButtonClickStub = sinon.stub();
 
         // when
         const screen = await render(
-          <template><HighlightedCard @highlightedTraining={{training}} @onCardClick={{onCardClickStub}} /></template>,
+          <template>
+            <HighlightedCard
+              @highlightedTraining={{training}}
+              @onCardClick={{onCardClickStub}}
+              @onHighlightedCardButtonClick={{onHighlightedCardButtonClickStub}}
+            />
+          </template>,
         );
         await click(
           screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.highlighted-card.learn-more') }),
@@ -55,6 +62,32 @@ module(
 
         // then
         assert.dom(await screen.findByRole('dialog', { name: training.title })).exists();
+      });
+
+      test('should call onHighlightedCardButtonClick function', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const training = store.createRecord('training', _buildTraining({}));
+        const onCardClickStub = sinon.stub();
+        const onHighlightedCardButtonClickStub = sinon.stub();
+
+        // when
+        const screen = await render(
+          <template>
+            <HighlightedCard
+              @highlightedTraining={{training}}
+              @onCardClick={{onCardClickStub}}
+              @onHighlightedCardButtonClick={{onHighlightedCardButtonClickStub}}
+            />
+          </template>,
+        );
+        await click(
+          screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.highlighted-card.learn-more') }),
+        );
+
+        // then
+        sinon.assert.calledOnceWithExactly(onHighlightedCardButtonClickStub, { trainingId: training.id });
+        assert.ok(true);
       });
     });
 

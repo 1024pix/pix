@@ -31,6 +31,12 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     });
   }
 
+  @action onHighlightedCardButtonClick({ trainingId }) {
+    this.pixMetrics.trackEvent('Moteur de reco - Clic sur la carte du contenu formatif mis en avant', {
+      trainingId,
+    });
+  }
+
   @action onModalButtonClick({ trainingId }) {
     this.pixMetrics.trackEvent('Moteur de reco - Clic sur le bouton "Découvrir le programme/module"', {
       trainingId,
@@ -138,6 +144,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
         @highlightedTraining={{this.highlightedTraining}}
         @hasTrainings={{this.hasTrainings}}
         @onCardClick={{this.onCardClick}}
+        @onHighlightedCardButtonClick={{this.onHighlightedCardButtonClick}}
         @onSeeRecommendationsButtonClicked={{this.onSeeRecommendationsButtonClicked}}
         @questResults={{@model.questResults}}
       />

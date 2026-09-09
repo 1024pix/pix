@@ -120,7 +120,11 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
         {{/unless}}
       </div>
       {{#if @highlightedTraining}}
-        <HighlightedCard @highlightedTraining={{@highlightedTraining}} @onCardClick={{@onCardClick}} />
+        <HighlightedCard
+          @highlightedTraining={{@highlightedTraining}}
+          @onCardClick={{@onCardClick}}
+          @onHighlightedCardButtonClick={{@onHighlightedCardButtonClick}}
+        />
       {{/if}}
       {{#if this.media.isMobile}}
         <ActionButtons

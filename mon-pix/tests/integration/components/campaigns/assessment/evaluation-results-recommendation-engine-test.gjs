@@ -179,6 +179,80 @@ module(
         });
       });
 
+      module('when clicking on the highlighted card button', function () {
+        test('should send a tracking event', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+            isHighlighted: true,
+          });
+
+          const pixMetrics = this.owner.lookup('service:pix-metrics');
+          pixMetrics.trackEvent = sinon.stub();
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training],
+          };
+
+          // when
+          const screen = await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+          await click(
+            screen.getByRole('button', {
+              name: t('pages.skill-review.recommended-engine.highlighted-card.learn-more'),
+            }),
+          );
+
+          // then
+          sinon.assert.calledWith(
+            pixMetrics.trackEvent,
+            'Moteur de reco - Clic sur la carte du contenu formatif mis en avant',
+            { trainingId: training.id },
+          );
+          assert.ok(true);
+        });
+
+        test('should not send the "Clic sur la carte du contenu formatif" tracking event', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+            isHighlighted: true,
+          });
+
+          const pixMetrics = this.owner.lookup('service:pix-metrics');
+          pixMetrics.trackEvent = sinon.stub();
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training],
+          };
+
+          // when
+          const screen = await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+          await click(
+            screen.getByRole('button', {
+              name: t('pages.skill-review.recommended-engine.highlighted-card.learn-more'),
+            }),
+          );
+
+          // then
+          sinon.assert.neverCalledWith(pixMetrics.trackEvent, 'Moteur de reco - Clic sur la carte du contenu formatif');
+          assert.ok(true);
+        });
+      });
+
       module('tracking', function (hooks) {
         hooks.afterEach(function () {
           delete window.IntersectionObserver;
