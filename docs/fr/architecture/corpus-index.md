@@ -57,6 +57,11 @@ de macOS, ne supporte pas les limites de mot `\b`. Un renommage qui les utilise 
 laisse les libellés, ce qui produit un état à moitié appliqué où les liens du sommaire ne résolvent
 plus. Passer par `perl -pi -e`.
 
+**Une source du corpus est hors du dépôt.** `P5` et `P3` de `fiche-api-interne.md` reposent sur une
+page Confluence liée en fin d'ADR 55. Elle peut changer ou disparaître sans que rien ici ne le
+signale, et l'ADR ne reproduit pas la décision. À reporter dans l'ADR : le dossier `api` dans la
+couche application, et le sous-dossier `models` pour les classes de contrat.
+
 ## Les autres fichiers
 
 | Fichier | Rôle |
@@ -89,7 +94,7 @@ Ce que ça ne dit pas : aucune n'a été relue par un tiers **dans cet état**. 
 | `fiche-read-model.md` | — | **créée** le 2026-09-08 par scission de `fiche-objet-valeur.md`. Jamais relue par un tiers |
 | `fiche-racine-agregat.md` | oui | **corrigée** le 2026-09-08 avec la fiche entité. `A4` et `A5` retirés — duplications de `E7` et `E3` à ROI inversés ; numéros non réattribués. Section d'invariants hérités ajoutée. Écart `X2` ajouté : aucune racine n'est déclarée, ce qui bloque `A1` et `A3` |
 | `fiche-service-domaine.md` | oui | **corrigée** le 2026-09-08 avec la fiche usecase. Prémisse fausse retirée : le problème n'est pas une catégorie vide mais un dossier qui mélange deux natures. ROI classé et section sur le type ajoutés — les deux éléments du gabarit qui manquaient. `D6` retiré : c'était une déduction de `D1` et le contenu du § 8. Devient le domicile du discriminant usecase / service |
-| `fiche-api-interne.md` | oui | **corrigée** le 2026-09-08. Écart `X3` ajouté : plusieurs emplacements coexistent pour l'objet de contrat, ce qui bloque `P5` et le script de `P3`. Le § 4 dit pourquoi le ROI de cette couche est décalé dans le temps, ce qui explique ses écarts |
+| `fiche-api-interne.md` | oui | **corrigée** le 2026-09-08. `P5` a une source : la documentation liée à l'ADR 55 décide `application/api/models/`. `X3` est donc une convention non appliquée, pas une décision à prendre. `P3` se vérifie en régénérant `API.md` et en comparant. Le § 4 dit pourquoi le ROI de cette couche est décalé dans le temps |
 | `fiche-controleur.md` | oui | **corrigée** le 2026-09-08. L'écart « contrôle des droits dans le contrôleur » n'y est plus énoncé : il vit sous `X1` de `fiche-route.md`, où sont sa correction et sa vérification |
 | `fiche-entite.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Devient le domicile de `E3` et `E7`, que la fiche racine d'agrégat dupliquait. Écarts refaits en `X1` à `X5`. À faire relire |
 | `fiche-usecase.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Le § 4bis a disparu : le discriminant vit dans `fiche-service-domaine.md`, cette fiche y renvoie. Écarts refaits en `X1` à `X5`, dont deux que d'autres fiches traitaient depuis l'autre bord. À faire relire |
@@ -116,10 +121,11 @@ comble par un ADR court, dont le contenu est déjà rédigé au § 2 de `fiche-r
    tiers dans cet état.
 4. ~~`fiche-route.md`~~ — **corrigée le 2026-09-08.** `R2` reste sans aucune source : c'est le point
    à arbitrer, et il relève d'un ADR plutôt que d'une relecture de fiche.
-5. ~~`fiche-api-interne.md`~~ — **corrigée le 2026-09-08**, avec une réserve : la relecture avait
-   établi que `P5` serait déjà décidé par la documentation liée à l'ADR 55, et ce point **n'a pas été
-   répercuté** faute d'avoir lu cette documentation. Il est inscrit dans l'encadré de la fiche et sous
-   son écart `X3`, dont le verdict changerait si la décision existe déjà.
+5. ~~`fiche-api-interne.md`~~ — **corrigée le 2026-09-08**, puis **répercutée** le même jour après
+   lecture de la documentation liée à l'ADR 55. La relecture avait raison : `P5` est décidé —
+   `application/api/models/`. `X3` cesse d'être une décision à prendre et devient une convention à
+   appliquer, corrigeable par codemod. La même page donne le script de génération de `API.md`, ce qui
+   rend `P3` vérifiable par régénération et comparaison.
 6. ~~`fiche-controleur.md`~~ et ~~`fiche-serialiseur.md`~~ — **corrigées le 2026-09-08**.
 
 ---
