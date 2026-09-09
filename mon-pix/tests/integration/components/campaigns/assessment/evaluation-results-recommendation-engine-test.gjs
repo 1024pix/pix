@@ -179,6 +179,74 @@ module(
         });
       });
 
+      module('when campaign has a highlighted training', function () {
+        test('should send a tracking event on page load', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+            isHighlighted: true,
+          });
+
+          const pixMetrics = this.owner.lookup('service:pix-metrics');
+          pixMetrics.trackEvent = sinon.stub();
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training],
+          };
+
+          // when
+          await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+
+          // then
+          sinon.assert.calledWith(
+            pixMetrics.trackEvent,
+            'Moteur de reco - Mise en avant du contenu formatif sur la page de résultats',
+            { trainingId: training.id },
+          );
+          assert.ok(true);
+        });
+      });
+
+      module('when campaign has no highlighted training', function () {
+        test('should not send a tracking event on page load', async function (assert) {
+          // given
+          const training = store.createRecord('training', {
+            title: 'Super training',
+            duration: { days: 1, hours: 1, minutes: 1 },
+          });
+
+          const pixMetrics = this.owner.lookup('service:pix-metrics');
+          pixMetrics.trackEvent = sinon.stub();
+
+          const model = {
+            campaign,
+            campaignParticipationResult: {
+              campaignParticipationBadges: [Symbol('badges')],
+              competenceResults: [Symbol('competences')],
+              reload: () => {},
+            },
+            trainings: [training],
+          };
+
+          // when
+          await render(<template><EvaluationResultsRecommendationEngine @model={{model}} /></template>);
+
+          // then
+          sinon.assert.neverCalledWith(
+            pixMetrics.trackEvent,
+            'Moteur de reco - Mise en avant du contenu formatif sur la page de résultats',
+          );
+          assert.ok(true);
+        });
+      });
+
       module('when clicking on the highlighted card button', function () {
         test('should send a tracking event', async function (assert) {
           // given

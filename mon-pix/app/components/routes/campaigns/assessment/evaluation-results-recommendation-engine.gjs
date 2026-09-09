@@ -20,6 +20,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     super(...args);
 
     this.trackTrainingsDisplayed(this.trainings);
+    this.trackHighlightedTrainingDisplayed(this.highlightedTraining);
   }
 
   @tracked _drawerRevealedByScroll = false;
@@ -60,6 +61,15 @@ export default class EvaluationResultsRecommendationEngine extends Component {
         trainingId: training.id,
         position: index + 1,
       });
+    });
+  }
+
+  trackHighlightedTrainingDisplayed(highlightedTraining) {
+    if (!highlightedTraining) {
+      return;
+    }
+    this.pixMetrics.trackEvent('Moteur de reco - Mise en avant du contenu formatif sur la page de résultats', {
+      trainingId: highlightedTraining.id,
     });
   }
 
