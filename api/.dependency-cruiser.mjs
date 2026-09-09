@@ -24,6 +24,18 @@ export default {
       from: { path: '^tests/.*integration/(.*)' },
       to: { path: ['@hapi/hapi', '^server\\.js$'] },
     },
+    {
+      name: 'do-not-import-databuilder-in-unit-tests',
+      severity: 'error',
+      from: {
+        path: '^tests/.*unit/(.*)',
+        pathNot: [
+          'tests/tooling/unit/database-builder/database-buffer_test.js',
+          'tests/tooling/unit/database-builder/database-helpers_test.js',
+        ],
+      },
+      to: { path: ['(.*)database-builder/(.*)'] },
+    },
   ],
   options: {
     doNotFollow: { path: 'node_modules' },
