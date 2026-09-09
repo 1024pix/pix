@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import RSVP from 'rsvp';
 
 export default class ChallengeRoute extends Route {
   @service currentUser;
@@ -44,18 +43,19 @@ export default class ChallengeRoute extends Route {
       this.focusedCertificationChallengeWarningManager.reset();
     }
 
-    return RSVP.hash({
-      assessment,
-      challenge,
-      answer,
-      currentChallengeNumber,
-    }).catch((err) => {
+    try {
+      return {
+        assessment,
+        challenge,
+        answer,
+        currentChallengeNumber,
+      };
+    } catch (err) {
       const meta = 'errors' in err ? err.errors[0].meta : null;
       if (meta.field === 'authorization') {
         this.router.transitionTo('authenticated');
-        return;
       }
-    });
+    }
   }
 
   async afterModel({ assessment }) {

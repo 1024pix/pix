@@ -69,6 +69,7 @@ export default [
       'no-restricted-imports': [
         'error',
         'lodash',
+        'rsvp',
         {
           name: '@ember/test-helpers',
           importNames: ['render', 'visit', 'find'],
