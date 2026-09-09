@@ -210,6 +210,35 @@ describe('Integration | Repository | learning-repository', function () {
           expect(queryHook).not.to.have.been.called;
         });
       });
+
+      describe('when id is not found', function () {
+        it('returns null', async function () {
+          // given
+          const id = 'not found';
+
+          // when
+          const dto = await repository.load(id);
+
+          // then
+          expect(dto).to.be.null;
+        });
+
+        describe('when result is cached', function () {
+          it('returns null from cache', async function () {
+            // given
+            const id = 'not found';
+            await repository.load(id);
+            queryHook.reset();
+
+            // when
+            const dto = await repository.load(id);
+
+            // then
+            expect(dto).to.be.null;
+            expect(queryHook).not.to.have.been.called;
+          });
+        });
+      });
     });
 
     describe('when database error', function () {
