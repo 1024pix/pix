@@ -180,7 +180,7 @@ de requêtage. **Deux positions sont cohérentes, une troisième ne l'est pas :*
 - garder le mot et multiplier les repositories : le vocabulaire ne veut plus rien dire.
 
 **Ce qui casse.** Compter les repositories cesse d'être une information. C'est un invariant d'hygiène :
-il ne prévient aucun défaut, il préserve la valeur d'un indicateur. Voir X3 au § 5, et E4 de
+il ne prévient aucun défaut, il préserve la valeur d'un indicateur. Voir X3 au § 5, et X4 de
 `fiche-repository.md` qui traite le même écart depuis l'autre bord.
 
 ### A6. Petit agrégat
@@ -197,7 +197,7 @@ questions à poser à chaque ajout :
 touchent qu'un champ. Et il concentre les écritures concurrentes, donc la contention.
 
 C'est aussi la réponse de la littérature au coût de chargement : réduire l'agrégat plutôt que le
-charger partiellement. Le modèle partiellement rempli est écarté pour la raison exposée dans E4 de
+charger partiellement. Le modèle partiellement rempli est écarté pour la raison exposée dans X4 de
 `fiche-repository.md`.
 
 ### A7. Une transaction, un agrégat
@@ -345,7 +345,7 @@ infrastructure/repositories/
   thing-list-repository.js        findByOrganizationId, paginé
 ```
 
-**Correction.** Aucune sur le découpage : le bénéfice est réel, et c'est instruit en détail dans E4 de
+**Correction.** Aucune sur le découpage : le bénéfice est réel, et c'est instruit en détail dans X4 de
 `fiche-repository.md`, qui tranche l'alternative — le modèle partiellement rempli est à écarter, la
 réponse est de réduire l'agrégat.
 

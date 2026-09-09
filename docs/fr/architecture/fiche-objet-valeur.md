@@ -13,8 +13,8 @@ typage de mordre est dans `migration-typescript.md`.
 > - V3 est aussi l'invariant d'entrée d'une Specification, où il élimine le cas de l'arbre malformé à
 >   l'évaluation. `fiche-specification.md` y renvoie et n'en garde pas de numéro propre.
 > - Les clés de présentation existantes n'ont pas été classées selon les trois cas de V2. Ce classement
->   conditionne E5, et se fait fichier par fichier.
-> - Les numéros d'écart commencent à E2 : E1 et E6 portaient sur le read-model et ont suivi la création
+>   conditionne X5, et se fait fichier par fichier.
+> - Les numéros d'écart commencent à X2 : X1 et X6 portaient sur le read-model et ont suivi la création
 >   de `fiche-read-model.md`. Les numéros ne sont pas réattribués.
 
 ## Sommaire
@@ -31,7 +31,7 @@ typage de mordre est dans `migration-typescript.md`.
 | # | Invariant | ROI | Vérification |
 | --- | --- | --- | --- |
 | [**V1**](#v1-immuable-après-construction) | immuable après construction | moyenne | règle ESLint |
-| [**V2**](#v2-aucune-identité-égalité-par-valeur) | aucune identité, égalité par valeur | moyenne | règle ESLint, après E5 |
+| [**V2**](#v2-aucune-identité-égalité-par-valeur) | aucune identité, égalité par valeur | moyenne | règle ESLint, après X5 |
 | [**V3**](#v3-validation-à-la-construction) | validation à la construction | **forte** | revue |
 | [**V4**](#v4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
 | [**V5**](#v5-porte-le-comportement-lié-à-ses-données) | porte le comportement lié à ses données | **forte** | revue |
@@ -43,10 +43,10 @@ typage de mordre est dans `migration-typescript.md`.
 
 | # | Écart | Verdict |
 | --- | --- | --- |
-| [**E5**](#e5-la-clé-de-présentation-est-fabriquée-dans-le-domaine) | la clé de présentation est fabriquée dans le domaine | **à corriger** |
-| [**E2**](#e2-les-valeurs-sont-validées-à-la-frontière-http-pas-par-leur-type) | les valeurs sont validées à la frontière HTTP, pas par leur type | à surveiller |
-| [**E3**](#e3-validation-à-la-construction-de-chaque-objet-valeur) | validation à la construction de chaque objet-valeur | rien à faire |
-| [**E4**](#e4-limmuabilité-nest-pas-garantie-par-le-langage) | l'immuabilité n'est pas garantie par le langage | rien à faire |
+| [**X5**](#x5-la-clé-de-présentation-est-fabriquée-dans-le-domaine) | la clé de présentation est fabriquée dans le domaine | **à corriger** |
+| [**X2**](#x2-les-valeurs-sont-validées-à-la-frontière-http-pas-par-leur-type) | les valeurs sont validées à la frontière HTTP, pas par leur type | à surveiller |
+| [**X3**](#x3-validation-à-la-construction-de-chaque-objet-valeur) | validation à la construction de chaque objet-valeur | rien à faire |
+| [**X4**](#x4-limmuabilité-nest-pas-garantie-par-le-langage) | l'immuabilité n'est pas garantie par le langage | rien à faire |
 
 Deux artefacts hors numérotation, souvent cherchés : le [discriminant](#le-discriminant) avec le
 read-model et ses quatre tests ; et le [cas de la clé de présentation](#le-cas-de-la-clé-de-présentation)
@@ -226,7 +226,7 @@ Cette clé n'est **pas** une identité du domaine. Trois cas, à ne pas confondr
 | L'objet a une identité métier exprimée par plusieurs attributs | identité composite | c'est une **entité**, et V2 ne s'y applique pas |
 
 Le premier cas est le plus fréquent. Il ne viole V2 que lorsque la clé est fabriquée **dans le
-domaine** — voir E5 au § 5. Le deuxième est un identifiant à part entière, donc V3 s'applique à lui.
+domaine** — voir X5 au § 5. Le deuxième est un identifiant à part entière, donc V3 s'applique à lui.
 Le troisième sort de cette fiche.
 
 Comment les distinguer : chercher qui lit la clé. Si personne ne la relit côté serveur, c'est une clé
@@ -381,12 +381,12 @@ C'est le discriminant du § 1 qui répond, et il repose sur des tests de jugemen
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **E5** La clé de présentation est fabriquée dans le domaine | dérive | Le domaine connaît le framework de son client. V2 devient invérifiable : tout `id` peut être légitime | Le client fonctionne, et la clé est composée une fois pour tous ses lecteurs | **À corriger** |
-| **E2** Les valeurs sont validées à la frontière HTTP, pas par leur type | convention assumée | V3 est doublé ou contourné. Deux identifiants de sens différent ont le même type | Une validation déclarative, en un endroit, avec un message utilisateur | *À surveiller* |
-| **E3** Validation à la construction de chaque objet-valeur | convention assumée | Une validation et un type d'erreur par type | Valeur valide par construction. Aval déchargé | *Rien à faire* |
-| **E4** L'immuabilité n'est pas garantie par le langage | vestige | Champs privés et accesseurs à écrire à la main | Immuabilité réelle, vérifiable par une règle de lint | *Rien à faire* |
+| **X5** La clé de présentation est fabriquée dans le domaine | dérive | Le domaine connaît le framework de son client. V2 devient invérifiable : tout `id` peut être légitime | Le client fonctionne, et la clé est composée une fois pour tous ses lecteurs | **À corriger** |
+| **X2** Les valeurs sont validées à la frontière HTTP, pas par leur type | convention assumée | V3 est doublé ou contourné. Deux identifiants de sens différent ont le même type | Une validation déclarative, en un endroit, avec un message utilisateur | *À surveiller* |
+| **X3** Validation à la construction de chaque objet-valeur | convention assumée | Une validation et un type d'erreur par type | Valeur valide par construction. Aval déchargé | *Rien à faire* |
+| **X4** L'immuabilité n'est pas garantie par le langage | vestige | Champs privés et accesseurs à écrire à la main | Immuabilité réelle, vérifiable par une règle de lint | *Rien à faire* |
 
-### E5. La clé de présentation est fabriquée dans le domaine
+### X5. La clé de présentation est fabriquée dans le domaine
 
 **Ce que dit la théorie.** La règle de dépendance de Clean Architecture : une couche interne ne connaît
 pas les couches externes. Un objet du domaine qui compose une clé pour le store d'un client connaît
@@ -420,7 +420,7 @@ relue par personne côté serveur.
 Le classement précède la correction : appliquer le cas 1 à un objet du cas 2 casse la requête entrante
 qui renvoie la clé.
 
-### E2. Les valeurs sont validées à la frontière HTTP, pas par leur type
+### X2. Les valeurs sont validées à la frontière HTTP, pas par leur type
 
 **Ce que dit la théorie.** Un objet-valeur porte ses règles. Une valeur qui a franchi son constructeur
 est valide partout en aval.
@@ -448,7 +448,7 @@ message utilisateur. Les deux ne s'excluent pas ; c'est leur confusion qui coût
 Réouvrir l'ADR 19 est le préalable si l'équipe veut généraliser. Ne pas l'invoquer comme source à
 l'appui du typage : il conclut l'inverse.
 
-### E3. Validation à la construction de chaque objet-valeur
+### X3. Validation à la construction de chaque objet-valeur
 
 **Ce que dit la théorie.** Chez Evans, l'invariant est tenu à la frontière de l'agrégat. Valider
 chaque objet-valeur à sa construction est un durcissement, cohérent avec sa définition mais non
@@ -467,7 +467,7 @@ constructor({ value }) {
 qu'aucun code en aval ne revérifie. C'est V3, classé en rentabilité forte au § 4. À maintenir comme
 convention explicite plutôt que comme lecture d'Evans.
 
-### E4. L'immuabilité n'est pas garantie par le langage
+### X4. L'immuabilité n'est pas garantie par le langage
 
 **Ce que dit la théorie.** Un objet-valeur est immuable. La théorie suppose un langage capable de le
 garantir.
@@ -504,8 +504,8 @@ l'infrastructure existe.
 | **V7** exposition en lecture seule | même règle, élargie | ~30 lignes de plus | faibles |
 | **V6** aucun cycle de vie propre | script `tests/tooling/` : aucun repository ne porte le nom d'un objet-valeur | ~20 lignes | faibles |
 | **§ 8** un fichier de test existe | même script | ~15 lignes de plus | aucun |
-| **E5** clé composée dans le domaine — signal | règle ESLint : affectation à `id` depuis un littéral de gabarit | ~20 lignes | aucun |
-| **V2** aucune identité | règle ESLint : accesseur ou champ nommé `id` | ~15 lignes | **nombreux avant E5** — voir plus bas |
+| **X5** clé composée dans le domaine — signal | règle ESLint : affectation à `id` depuis un littéral de gabarit | ~20 lignes | aucun |
+| **V2** aucune identité | règle ESLint : accesseur ou champ nommé `id` | ~15 lignes | **nombreux avant X5** — voir plus bas |
 | **V3**, **V5**, **V8** | revue | — | — |
 
 ### V4 — une règle de chemin
@@ -539,11 +539,11 @@ Le troisième est le plus utile et le plus délicat : il faut remonter à l'init
 le type. À restreindre au cas évident — champ initialisé à `[]`, ou affecté depuis un paramètre par
 défaut `= []`.
 
-### E5 et V2 — dans cet ordre
+### X5 et V2 — dans cet ordre
 
 Les deux règles regardent le même champ, et l'ordre entre elles compte.
 
-**E5 d'abord.** Le signal est syntaxique et sans faux positif :
+**X5 d'abord.** Le signal est syntaxique et sans faux positif :
 
 > Une affectation à une propriété `id`, dont la valeur est un littéral de gabarit, dans un fichier du
 > domaine.
@@ -552,8 +552,8 @@ La règle ne prouve rien sur la nature de la clé : elle désigne l'endroit où 
 trois cas de V2. C'est sa fonction.
 
 **V2 ensuite.** Un champ ou accesseur `id` dans un fichier d'objet-valeur. Cette règle est inexploitable
-avant E5 : les clés de présentation composées dans le domaine la déclenchent toutes, et rien ne les
-distingue d'une identité réelle. Une fois E5 traité, il ne reste que les `id` portés — l'identifiant
+avant X5 : les clés de présentation composées dans le domaine la déclenchent toutes, et rien ne les
+distingue d'une identité réelle. Une fois X5 traité, il ne reste que les `id` portés — l'identifiant
 d'autre chose, autorisé par V2 — qu'une liste d'exclusion couvre.
 
 ### V6 et l'existence des tests — un script
@@ -575,8 +575,8 @@ Cet ordre suit le coût, pas le ROI du § 4.
 1. **V4** — configuration `dependency-cruiser`, avec contre-épreuve
 2. **V1** puis **V7** — première règle ESLint sur mesure, ce qui suppose de créer l'infrastructure
 3. **V6 + existence des tests** — un seul script de complétude
-4. **E5 signal** — puis le classement des trois cas, fichier par fichier
-5. **V2** — après E5, avec la liste d'exclusion des identifiants portés
+4. **X5 signal** — puis le classement des trois cas, fichier par fichier
+5. **V2** — après X5, avec la liste d'exclusion des identifiants portés
 
 ### Codemods
 
@@ -585,7 +585,7 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 | Invariant | Codemod | Ce qu'il fait |
 | --- | --- | --- |
 | **V1**, **V7** | oui | Passer un champ public en champ privé avec accesseur, et renommer les usages |
-| **E5** cas 1 | oui, une fois le classement fait | Retirer l'affectation de l'objet et composer la clé dans le sérialiseur |
+| **X5** cas 1 | oui, une fois le classement fait | Retirer l'affectation de l'objet et composer la clé dans le sérialiseur |
 | **V3**, **V5** | non | Chaque cas demande de décider quelle règle valider, et où elle vit |
 
 Un cas d'arrêt sur V1 : si un champ public est **écrit** depuis l'extérieur, le codemod ne peut pas le
@@ -687,13 +687,13 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **V1**, **V2**, **V6** immuabilité, absence d'identité, pas de cycle de vie | Evans, *DDD*, ch. « A Model Expressed in Software » — Value Object | *DDD Reference*, PDF gratuit |
 | **V4** pureté | Evans, même ch. Martin, « The Clean Architecture » | les deux gratuits en ligne |
 | **V5** comportement porté par l'objet | Fowler, « AnemicDomainModel » | bliki gratuit |
-| **V3** validation à la construction | **convention Pix.** Cohérente avec l'invariant d'agrégat d'Evans sans être prescrite sous cette forme. Voir E3 au § 5 | — |
+| **V3** validation à la construction | **convention Pix.** Cohérente avec l'invariant d'agrégat d'Evans sans être prescrite sous cette forme. Voir X3 au § 5 | — |
 | **V7** exposition en lecture seule | **aucune source** — conséquence pratique de V1 | — |
 | **V8** un type par intention | **aucune source.** Proche de Command et du DTO d'entrée, pas nommé ainsi | — |
 | L'identité composite (deuxième et troisième cas de V2) | Evans, même ch. — l'identité d'une entité peut être composée de plusieurs attributs | *DDD Reference* |
-| **E5** la clé de présentation appartient à la couche externe | Martin, *Clean Architecture* (2017), ch. « Presenters and Humble Objects » ; la règle de dépendance | le livre de 2017 |
+| **X5** la clé de présentation appartient à la couche externe | Martin, *Clean Architecture* (2017), ch. « Presenters and Humble Objects » ; la règle de dépendance | le livre de 2017 |
 | Le discriminant avec le read-model | la catégorie voisine n'a **aucun nom en DDD** — sources dans `fiche-read-model.md`, § 10. Les quatre tests du § 1 sont une construction de ce corpus, sans source | — |
-| Validation à la frontière HTTP (E2) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût et retient la validation à la route. À réouvrir, pas à invoquer à l'appui du typage | ADR 19 |
+| Validation à la frontière HTTP (X2) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût et retient la validation à la route. À réouvrir, pas à invoquer à l'appui du typage | ADR 19 |
 
 Deux invariants sur huit n'ont aucune source : V7 et V8. V3 n'en a qu'une partielle. La catégorie
 objet-valeur vient d'Evans ; la façon de l'appliquer ici est en partie conventionnelle. Ce sont des

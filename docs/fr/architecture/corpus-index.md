@@ -50,8 +50,12 @@ fois de préfixe d'invariant dans `fiche-entite.md` et de numérotation des éca
 bloquante à la reprise de cette fiche, où `E3` l'invariant et `E3` l'écart auraient coexisté. `X`
 n'est le préfixe d'invariant d'aucune fiche.
 
-Tranché le 2026-09-08. `fiche-repository.md`, `fiche-objet-valeur.md` et `fiche-read-model.md`
-numérotent encore leurs écarts en `E` : **retard à rattraper**, purement mécanique.
+Tranché le 2026-09-08, et appliqué aux douze fiches le même jour.
+
+Piège rencontré au passage, à connaître si un renommage de ce genre se représente : `sed` de BSD, celui
+de macOS, ne supporte pas les limites de mot `\b`. Un renommage qui les utilise réécrit les ancres et
+laisse les libellés, ce qui produit un état à moitié appliqué où les liens du sommaire ne résolvent
+plus. Passer par `perl -pi -e`.
 
 ## Les autres fichiers
 
@@ -74,14 +78,11 @@ Les huit fiches reprises — repository, objet-valeur, read-model, entité, raci
 service de domaine, specification — portent un **sommaire** conforme au gabarit. Les quatre autres
 l'auront à leur passage : api-interne, contrôleur, route, sérialiseur.
 
-**Retard connu, purement mécanique** : `fiche-repository.md`, `fiche-objet-valeur.md` et
-`fiche-read-model.md` numérotent encore leurs écarts en `E` au lieu de `X`. Six, quatre et trois blocs.
-
 | Fiche | Relue | État |
 | --- | --- | --- |
 | `fiche-repository.md` | oui | **corrigée** le 2026-09-08. Invariant `I11` ajouté, `I8` retiré — il rendait la source visible dans le nom du fichier, ce qui contredit l'uniformité de la couche posée au § 1. Le numéro n'est pas réattribué. Le gabarit en est sorti vers ce fichier ; dix sections, `Sources` au § 10. Sommaire ajouté, et le § 6 dit désormais lesquelles de ses lignes sont datées |
 | `fiche-specification.md` | oui | **corrigée** le 2026-09-08. `S1`/`S2` départagés en distinguant trois cas — donnée absente, arbre malformé, donnée inexploitable. Test `S7` corrigé : il inspectait le prototype au lieu d'une instance. `S3`, `S4` et `S9` retirés, ils réénonçaient `V4`, `V1`/`V2`/`V6`/`V7` et `V3` ; numéros non réattribués. Le candidat est reclassé objet-valeur, pas read-model |
-| `fiche-objet-valeur.md` | oui | **corrigée** le 2026-09-08, puis **scindée**. Le read-model en est sorti vers sa propre fiche. Quatre tests de discrimination ajoutés au § 1, écarts refaits au format en cinq colonnes, `E5` ajouté sur la clé de présentation, définition d'« objet du domaine local » ajoutée. Numéros d'écart commençant à `E2`, non réattribués. Devient le domicile des invariants mécaniques pour le read-model **et** la Specification |
+| `fiche-objet-valeur.md` | oui | **corrigée** le 2026-09-08, puis **scindée**. Le read-model en est sorti vers sa propre fiche. Quatre tests de discrimination ajoutés au § 1, écarts refaits au format en cinq colonnes, `X5` ajouté sur la clé de présentation, définition d'« objet du domaine local » ajoutée. Numéros d'écart commençant à `X2`, non réattribués. Devient le domicile des invariants mécaniques pour le read-model **et** la Specification |
 | `fiche-read-model.md` | — | **créée** le 2026-09-08 par scission de `fiche-objet-valeur.md`. Jamais relue par un tiers |
 | `fiche-racine-agregat.md` | oui | **corrigée** le 2026-09-08 avec la fiche entité. `A4` et `A5` retirés — duplications de `E7` et `E3` à ROI inversés ; numéros non réattribués. Section d'invariants hérités ajoutée. Écart `X2` ajouté : aucune racine n'est déclarée, ce qui bloque `A1` et `A3` |
 | `fiche-service-domaine.md` | oui | **corrigée** le 2026-09-08 avec la fiche usecase. Prémisse fausse retirée : le problème n'est pas une catégorie vide mais un dossier qui mélange deux natures. ROI classé et section sur le type ajoutés — les deux éléments du gabarit qui manquaient. `D6` retiré : c'était une déduction de `D1` et le contenu du § 8. Devient le domicile du discriminant usecase / service |
@@ -153,7 +154,7 @@ avait été classé « à corriger » au motif que le renommage débloquerait un
 chemin. C'était faux : `domain/models/` et `domain/read-models/` sont déjà des dossiers frères dans
 une quinzaine de contextes, donc la règle est écrivable telle quelle. Le renommage n'apportait rien,
 et le mot est celui de l'équipe — l'Ubiquitous Language est la langue de l'équipe, pas celle du livre.
-Ce qui reste à faire est le **classement** des fichiers, pas le renommage : c'est l'écart `E1` de
+Ce qui reste à faire est le **classement** des fichiers, pas le renommage : c'est l'écart `X1` de
 `fiche-read-model.md`.
 
 **Où vivent les invariants communs.** `invariants-clean-archi-ddd.md` semblait l'endroit, puisque ce

@@ -203,7 +203,7 @@ violation en amont, dans un repository qui n'a pas traduit. Voir I1 de `fiche-re
 
 Quand la transaction est fournie par un contexte ambiant, elle n'apparaît pas dans la signature : la
 lecture seule ne suffit pas à savoir si le usecase s'exécute dans une transaction. C'est un coût
-assumé de la convention — voir E3 de `fiche-repository.md` — et la contrepartie est de **documenter le
+assumé de la convention — voir X3 de `fiche-repository.md` — et la contrepartie est de **documenter le
 périmètre** quand il n'est pas évident.
 
 **Ce qui casse.** Sans cette réponse, chaque écriture multiple est un pari : personne ne sait ce qui
