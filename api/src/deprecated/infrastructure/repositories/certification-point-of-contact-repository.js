@@ -83,7 +83,6 @@ const getAuthorizedCenterIds = async function (userId) {
       lastName: 'users.lastName',
       email: 'users.email',
       lang: 'users.lang',
-      pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
       certificationCenterIds: knexConn.raw('array_agg(?? order by ?? asc)', [
         'certificationCenterId',
         'certificationCenterId',

@@ -83,7 +83,6 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
         lastName: userWithMembership.lastName,
         email: userWithMembership.email,
         lang: userWithMembership.lang,
-        pixCertifTermsOfServiceAccepted: userWithMembership.pixCertifTermsOfServiceAccepted,
         certificationCenterIds: [certificationCenter.id],
       };
 
