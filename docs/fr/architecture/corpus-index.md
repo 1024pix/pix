@@ -74,9 +74,12 @@ plus. Passer par `perl -pi -e`.
 Relecture par agent, une par fiche, le 2026-09-08. **Sept sur onze relues** ; quatre ont échoué sur la
 limite de session. `fiche-read-model.md`, créée depuis, porte le total à douze.
 
-Les huit fiches reprises — repository, objet-valeur, read-model, entité, racine d'agrégat, usecase,
-service de domaine, specification — portent un **sommaire** conforme au gabarit. Les quatre autres
-l'auront à leur passage : api-interne, contrôleur, route, sérialiseur.
+**Les douze fiches sont conformes au gabarit** : sommaire, dix sections dans l'ordre, écarts en cinq
+colonnes numérotés `X`, checklist marquée `[auto]` / `[partiel]` / `[humain]`, section sur le type
+réduite à ce qui survit à la migration.
+
+Ce que ça ne dit pas : aucune n'a été relue par un tiers **dans cet état**. La relecture par agent du
+2026-09-08 portait sur les versions antérieures.
 
 | Fiche | Relue | État |
 | --- | --- | --- |
@@ -86,15 +89,16 @@ l'auront à leur passage : api-interne, contrôleur, route, sérialiseur.
 | `fiche-read-model.md` | — | **créée** le 2026-09-08 par scission de `fiche-objet-valeur.md`. Jamais relue par un tiers |
 | `fiche-racine-agregat.md` | oui | **corrigée** le 2026-09-08 avec la fiche entité. `A4` et `A5` retirés — duplications de `E7` et `E3` à ROI inversés ; numéros non réattribués. Section d'invariants hérités ajoutée. Écart `X2` ajouté : aucune racine n'est déclarée, ce qui bloque `A1` et `A3` |
 | `fiche-service-domaine.md` | oui | **corrigée** le 2026-09-08 avec la fiche usecase. Prémisse fausse retirée : le problème n'est pas une catégorie vide mais un dossier qui mélange deux natures. ROI classé et section sur le type ajoutés — les deux éléments du gabarit qui manquaient. `D6` retiré : c'était une déduction de `D1` et le contenu du § 8. Devient le domicile du discriminant usecase / service |
-| `fiche-api-interne.md` | oui | à corriger |
-| `fiche-controleur.md` | oui | à corriger |
+| `fiche-api-interne.md` | oui | **corrigée** le 2026-09-08. Écart `X3` ajouté : plusieurs emplacements coexistent pour l'objet de contrat, ce qui bloque `P5` et le script de `P3`. Le § 4 dit pourquoi le ROI de cette couche est décalé dans le temps, ce qui explique ses écarts |
+| `fiche-controleur.md` | oui | **corrigée** le 2026-09-08. L'écart « contrôle des droits dans le contrôleur » n'y est plus énoncé : il vit sous `X1` de `fiche-route.md`, où sont sa correction et sa vérification |
 | `fiche-entite.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Devient le domicile de `E3` et `E7`, que la fiche racine d'agrégat dupliquait. Écarts refaits en `X1` à `X5`. À faire relire |
 | `fiche-usecase.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Le § 4bis a disparu : le discriminant vit dans `fiche-service-domaine.md`, cette fiche y renvoie. Écarts refaits en `X1` à `X5`, dont deux que d'autres fiches traitaient depuis l'autre bord. À faire relire |
-| `fiche-route.md` | **non** | **à relancer en priorité** |
-| `fiche-serialiseur.md` | **non** | à relancer |
+| `fiche-route.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Écart `X2` ajouté : aucune liste des routes délibérément publiques, ce qui bloque la vérification de `R2`. Section « Note sur le préfixe » retirée, la collision `R` étant levée. `R2` reste **sans aucune source** |
+| `fiche-serialiseur.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. `M3` est le seul invariant du corpus dont la vérification ne peut pas vivre dans ce dépôt : ses consommateurs sont hors du dépôt |
 
-`fiche-route.md` d'abord : elle porte l'affirmation la plus forte du corpus — R2 au meilleur rendement
-et sans aucune source — et personne ne l'a éprouvée.
+**Le manque le plus criant du corpus reste `R2`** : l'invariant au plus fort rendement, sur la couche
+qui porte la sécurité, et son raisonnement n'est écrit nulle part — ni source externe, ni ADR. Il se
+comble par un ADR court, dont le contenu est déjà rédigé au § 2 de `fiche-route.md`.
 
 ## Ordre de relecture proposé
 
@@ -110,11 +114,13 @@ et sans aucune source — et personne ne l'a éprouvée.
    comme prévu. Leur frontière est un test unique — la présence d'une I/O dans la signature — et il
    est désormais énoncé une seule fois, dans la fiche service. Aucune des deux n'a été relue par un
    tiers dans cet état.
-4. **`fiche-route.md`** — hors séquence logique, mais R2 est l'invariant au plus gros rendement du
-   corpus et il n'est adossé à aucune source ni aucun ADR. À arbitrer tôt.
-5. **`fiche-api-interne.md`** — la relecture a établi que P5 est déjà décidé par la documentation liée
-   à l'ADR 55 ; à répercuter.
-6. **`fiche-controleur.md`** et **`fiche-serialiseur.md`** — courtes, peu d'enjeux.
+4. ~~`fiche-route.md`~~ — **corrigée le 2026-09-08.** `R2` reste sans aucune source : c'est le point
+   à arbitrer, et il relève d'un ADR plutôt que d'une relecture de fiche.
+5. ~~`fiche-api-interne.md`~~ — **corrigée le 2026-09-08**, avec une réserve : la relecture avait
+   établi que `P5` serait déjà décidé par la documentation liée à l'ADR 55, et ce point **n'a pas été
+   répercuté** faute d'avoir lu cette documentation. Il est inscrit dans l'encadré de la fiche et sous
+   son écart `X3`, dont le verdict changerait si la décision existe déjà.
+6. ~~`fiche-controleur.md`~~ et ~~`fiche-serialiseur.md`~~ — **corrigées le 2026-09-08**.
 
 ---
 
