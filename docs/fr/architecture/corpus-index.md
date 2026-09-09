@@ -69,8 +69,9 @@ numérotent encore leurs écarts en `E` : **retard à rattraper**, purement méc
 Relecture par agent, une par fiche, le 2026-09-08. **Sept sur onze relues** ; quatre ont échoué sur la
 limite de session. `fiche-read-model.md`, créée depuis, porte le total à douze.
 
-Les cinq fiches reprises — repository, objet-valeur, read-model, entité, racine d'agrégat — portent un
-**sommaire** conforme au gabarit. Les sept autres l'auront à leur passage.
+Les sept fiches reprises — repository, objet-valeur, read-model, entité, racine d'agrégat, usecase,
+service de domaine — portent un **sommaire** conforme au gabarit. Les cinq autres l'auront à leur
+passage.
 
 | Fiche | Relue | État |
 | --- | --- | --- |
@@ -79,11 +80,11 @@ Les cinq fiches reprises — repository, objet-valeur, read-model, entité, raci
 | `fiche-objet-valeur.md` | oui | **corrigée** le 2026-09-08, puis **scindée**. Le read-model en est sorti vers sa propre fiche. Quatre tests de discrimination ajoutés au § 1, écarts refaits au format en cinq colonnes, `E5` ajouté sur la clé de présentation, définition d'« objet du domaine local » ajoutée. Numéros d'écart commençant à `E2`, non réattribués. Reste : le ROI de V3, en contradiction avec `fiche-specification.md` |
 | `fiche-read-model.md` | — | **créée** le 2026-09-08 par scission de `fiche-objet-valeur.md`. Jamais relue par un tiers |
 | `fiche-racine-agregat.md` | oui | **corrigée** le 2026-09-08 avec la fiche entité. `A4` et `A5` retirés — duplications de `E7` et `E3` à ROI inversés ; numéros non réattribués. Section d'invariants hérités ajoutée. Écart `X2` ajouté : aucune racine n'est déclarée, ce qui bloque `A1` et `A3` |
-| `fiche-service-domaine.md` | oui | à corriger — prémisse fausse, deux éléments du gabarit absents |
+| `fiche-service-domaine.md` | oui | **corrigée** le 2026-09-08 avec la fiche usecase. Prémisse fausse retirée : le problème n'est pas une catégorie vide mais un dossier qui mélange deux natures. ROI classé et section sur le type ajoutés — les deux éléments du gabarit qui manquaient. `D6` retiré : c'était une déduction de `D1` et le contenu du § 8. Devient le domicile du discriminant usecase / service |
 | `fiche-api-interne.md` | oui | à corriger |
 | `fiche-controleur.md` | oui | à corriger |
 | `fiche-entite.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Devient le domicile de `E3` et `E7`, que la fiche racine d'agrégat dupliquait. Écarts refaits en `X1` à `X5`. À faire relire |
-| `fiche-usecase.md` | **non** | à relancer |
+| `fiche-usecase.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Le § 4bis a disparu : le discriminant vit dans `fiche-service-domaine.md`, cette fiche y renvoie. Écarts refaits en `X1` à `X5`, dont deux que d'autres fiches traitaient depuis l'autre bord. À faire relire |
 | `fiche-route.md` | **non** | **à relancer en priorité** |
 | `fiche-serialiseur.md` | **non** | à relancer |
 
@@ -100,8 +101,10 @@ et sans aucune source — et personne ne l'a éprouvée.
    comme prévu. Les duplications A4/E7 et A5/E3 sont résolues : l'énoncé vit dans la fiche entité, la
    fiche racine y renvoie et ajoute ce qui change pour une racine. Aucune des deux n'a été relue par
    un tiers dans cet état.
-3. **`fiche-usecase.md`** et **`fiche-service-domaine.md`** — ensemble : leur frontière est un test
-   unique, la présence d'une I/O dans la signature.
+3. ~~`fiche-usecase.md`~~ et ~~`fiche-service-domaine.md`~~ — **corrigées le 2026-09-08**, ensemble
+   comme prévu. Leur frontière est un test unique — la présence d'une I/O dans la signature — et il
+   est désormais énoncé une seule fois, dans la fiche service. Aucune des deux n'a été relue par un
+   tiers dans cet état.
 4. **`fiche-route.md`** — hors séquence logique, mais R2 est l'invariant au plus gros rendement du
    corpus et il n'est adossé à aucune source ni aucun ADR. À arbitrer tôt.
 5. **`fiche-api-interne.md`** — la relecture a établi que P5 est déjà décidé par la documentation liée

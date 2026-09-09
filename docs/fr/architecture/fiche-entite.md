@@ -41,7 +41,6 @@ typage de mordre est dans `migration-typescript.md`.
 | # | Écart | Verdict |
 | --- | --- | --- |
 | [**X1**](#x1-le-constructeur-en-sac-de-propriétés) | le constructeur en sac de propriétés | **à corriger** |
-| [**X2**](#x2-les-règles-vivent-dans-les-usecases) | les règles vivent dans les usecases | **à corriger** |
 | [**X3**](#x3-la-validation-a-lieu-après-laffectation) | la validation a lieu après l'affectation | **à corriger** |
 | [**X4**](#x4-larborescence-ne-distingue-pas-entité-et-objet-valeur) | l'arborescence ne distingue pas entité et objet-valeur | à surveiller |
 | [**X5**](#x5-lentité-non-persistée-porte-un-identifiant-null) | l'entité non persistée porte un identifiant `null` | à surveiller |
@@ -338,10 +337,13 @@ read-model. C'est le test du § 1 qui répond, et il relève du jugement.
 
 Les écarts sont numérotés `X` et non `E`, qui est le préfixe des invariants de cette fiche.
 
+Le numéro **X2** n'est pas attribué. Il portait « les règles vivent dans les usecases », qui est
+énoncé au § 5 de `fiche-usecase.md` sous `X1` — là où se trouve le fichier fautif. Le symptôme vu
+d'ici est le modèle vide ; la correction porte sur le usecase.
+
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
 | **X1** Le constructeur en sac de propriétés | dérive | L'entité s'instancie dans n'importe quel état, donc elle ne protège rien. E3 est faux par construction | L'écriture est rapide, et l'ajout d'un champ ne touche pas au constructeur | **À corriger** |
-| **X2** Les règles vivent dans les usecases | dérive | La même règle réécrite dans plusieurs usecases, et différemment | Le usecase se lit d'une traite, sans ouvrir le modèle | **À corriger** |
 | **X3** La validation a lieu après l'affectation | dérive | Un objet invalide existe le temps du constructeur, et le message porte sur un état déjà construit | Nul | **À corriger** |
 | **X4** L'arborescence ne distingue pas entité et objet-valeur | convention assumée | Le test du § 1 n'est appliqué nulle part de façon visible, et aucune règle de chemin ne peut viser les entités seules | Un seul dossier où chercher, et aucune décision de classement à prendre à chaque fichier | *À surveiller* |
 | **X5** L'entité non persistée porte un identifiant `null` | convention assumée | Chaque consommateur doit traiter le cas `null`, et le type ne l'annonce pas | Une seule classe au lieu de deux, et un seul chemin de code | *À surveiller* |
@@ -375,29 +377,6 @@ souvent des factories de test.
 
 Ordre de travail : la règle du § 6 en avertissement d'abord, pour produire la liste ; puis fichier
 par fichier. La lancer en erreur d'emblée garantit qu'elle sera désactivée.
-
-### X2. Les règles vivent dans les usecases
-
-**Ce que dit la théorie.** La règle qui contraint un état vit sur l'objet qui porte cet état. Fowler
-nomme le symptôme inverse : le modèle anémique.
-
-**Exemple concret.**
-
-```js
-// dans un usecase — la règle est ici, et l'entité l'ignore
-if (thing.archivedAt !== null) throw new AlreadyArchivedError(thing.id);
-await thingRepository.update({ id: thing.id, archivedAt: now });
-```
-
-La même condition existe dans un autre usecase, écrite autrement, et une seule des deux a été mise à
-jour quand la règle a changé.
-
-**Correction.** Déplacer la règle sur l'entité, sous une méthode qui nomme l'intention — c'est E6. Le
-usecase passe de la condition à l'appel : `thing.archive({ archivedBy, now })`.
-
-Ce qui rend la correction non mécanique : il faut décider ce qui est une règle de l'entité et ce qui
-est une règle d'orchestration. Une condition sur l'état de l'entité lui appartient. Une condition sur
-l'existence d'autre chose appartient au usecase.
 
 ### X3. La validation a lieu après l'affectation
 
