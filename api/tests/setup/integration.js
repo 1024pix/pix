@@ -3,6 +3,7 @@ import nock from 'nock';
 import * as moduleRepository from '../../src/devcomp/infrastructure/repositories/module-repository.js';
 import * as tutorialRepository from '../../src/devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as missionRepository from '../../src/school/infrastructure/repositories/mission-repository.js';
+import { learningContentCache } from '../../src/shared/infrastructure/caches/learning-content-redis-cache.js';
 import { JobClient } from '../../src/shared/infrastructure/jobs/JobClient.js';
 import { clearMutex } from '../../src/shared/infrastructure/mutex/RedisMutex.js';
 import { releaseInfrastructure } from '../../src/shared/infrastructure/release-infrastructure.js';
@@ -25,6 +26,8 @@ export const mochaHooks = {
     nock.enableNetConnect('localhost:9090'); // Unmock S3 storage
 
     await JobClient.instance.initialize({ worker: true, isTestOnly: true });
+
+    await learningContentCache.connect();
   },
 
   afterEach: [
@@ -45,6 +48,7 @@ export const mochaHooks = {
       await JobClient.instance.flushJobs();
       await datamartBuilder.clean();
       await databaseBuilder.clean();
+      await learningContentCache.clear();
     },
   ],
 
