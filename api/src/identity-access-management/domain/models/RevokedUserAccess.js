@@ -2,12 +2,12 @@ export class RevokedUserAccess {
   /**
    * @param {{
    *   revokedAllTimeStamp?: number
-   *   revokedSessionTimeStamps?: Record<string, number | undefined>
+   *   revokedSessionIds?: string[]
    * }} param
    */
-  constructor({ revokedAllTimeStamp, revokedSessionTimeStamps }) {
+  constructor({ revokedAllTimeStamp, revokedSessionIds }) {
     this.revokedAllTimeStamp = revokedAllTimeStamp;
-    this.revokedSessionTimeStamps = revokedSessionTimeStamps;
+    this.revokedSessionIds = revokedSessionIds;
   }
 
   isAccessTokenRevoked(decodedToken) {
@@ -17,7 +17,7 @@ export class RevokedUserAccess {
     }
 
     const sessionId = decodedToken.sid;
-    if (this.revokedSessionTimeStamps?.[sessionId] && issuedAt < this.revokedSessionTimeStamps[sessionId]) {
+    if (this.revokedSessionIds?.includes(sessionId)) {
       return true;
     }
 

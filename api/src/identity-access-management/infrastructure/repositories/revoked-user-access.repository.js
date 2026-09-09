@@ -6,9 +6,27 @@ import { featureToggles } from '../../../shared/infrastructure/feature-toggles/i
 import { RevokedUserAccess } from '../../domain/models/RevokedUserAccess.js';
 
 const revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
-const revokedUserAccessLifespanMs = config.authentication.revokedUserAccessLifespanMs;
+const { revokedUserAccessLifespanMs } = config.authentication;
 
 const isSessionLogoutEnabled = featureToggles.use('isSessionLogoutEnabled');
+
+/**
+ * Saves the revoke date for a user session.
+ *
+ * @param {Object} params - The params object.
+ * @param {string} params.userId - The ID of the user to revoke access for.
+ * @param {string} params.sessionId - The ID of the user’s session to revoke.
+ */
+async function revokeSession({ userId, sessionId }) {
+  Joi.assert(userId, Joi.required());
+  Joi.assert(sessionId, Joi.required());
+
+  await revokedUserAccessTemporaryStorage.save({
+    key: `${userId}:${sessionId}`,
+    value: '',
+    expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
+  });
+}
 
 /**
  * Saves the revoke date for all the accesses of a user.
@@ -35,26 +53,6 @@ async function revokeAll({ userId, revokeUntil }) {
 }
 
 /**
- * Saves the revoke date for a user session.
- *
- * @param {Object} params - The params object.
- * @param {string} params.userId - The ID of the user to revoke access for.
- * @param {string} params.sessionId - The ID of the user’s session to revoke.
- * @param {Date} params.revokeUntil - The date until the user's access should be revoked.
- */
-async function revokeSession({ userId, sessionId, revokeUntil }) {
-  Joi.assert(userId, Joi.required());
-  Joi.assert(sessionId, Joi.required());
-  Joi.assert(revokeUntil, Joi.date().required());
-
-  await revokedUserAccessTemporaryStorage.save({
-    key: `${userId}:${sessionId}`,
-    value: Math.floor(revokeUntil.getTime() / 1000),
-    expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
-  });
-}
-
-/**
  * Retrieves the revoked access for a user from the temporary storage.
  *
  * @param {string} userId - The ID of the user to retrieve the revocation date for.
@@ -66,17 +64,17 @@ async function findByUserId(userId) {
     return new RevokedUserAccess({ revokedAllTimeStamp });
   }
 
-  const revokeKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
+  const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
 
-  const revokedTimeStamps = Object.fromEntries(
-    await Promise.all(
-      revokeKeys.map(async (key) => [key.split(':')[1], await revokedUserAccessTemporaryStorage.get(key)]),
-    ),
-  );
+  const revokedAllKey = `${userId}:all`;
 
-  const { all: revokedAllTimeStamp, ...revokedSessionTimeStamps } = revokedTimeStamps;
+  const revokedAllTimeStamp = revokedKeys.includes(revokedAllKey)
+    ? await revokedUserAccessTemporaryStorage.get(`${userId}:all`)
+    : undefined;
 
-  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionTimeStamps });
+  const revokedSessionIds = revokedKeys.filter((key) => key !== revokedAllKey).map((key) => key.split(':')[1]);
+
+  return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionIds });
 }
 
 export const revokedUserAccessRepository = { revokeAll, revokeSession, findByUserId };

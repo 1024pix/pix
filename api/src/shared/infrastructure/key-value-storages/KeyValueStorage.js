@@ -95,7 +95,7 @@ class KeyValueStorage {
       },
 
       ttl(key) {
-        return storage.ttl(key);
+        return storage.ttl(prefix + key);
       },
 
       lpush({ key, value }) {

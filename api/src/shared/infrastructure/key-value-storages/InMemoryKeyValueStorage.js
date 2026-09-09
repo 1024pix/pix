@@ -1,27 +1,21 @@
-import lodash from 'lodash';
-
-const { trim, noop } = lodash;
-
 import { KeyValueStorage } from './KeyValueStorage.js';
 
 class InMemoryKeyValueStorage extends KeyValueStorage {
-  #store = new Map();
+  #store;
 
-  constructor() {
+  constructor({ store = new Map() } = {}) {
     super();
+    this.#store = store;
   }
 
-  async save({ key, value, expirationDelaySeconds }) {
-    const storageKey = trim(key) || InMemoryKeyValueStorage.generateKey();
-    if (expirationDelaySeconds) {
-      setTimeout(() => this.#store.delete(storageKey), expirationDelaySeconds * 1000);
-    }
+  async save({ key, value }) {
+    const storageKey = key?.trim() ?? InMemoryKeyValueStorage.generateKey();
     this.#store.set(storageKey, value);
     return storageKey;
   }
 
   async update(key, value) {
-    const storageKey = trim(key);
+    const storageKey = key.trim();
     this.#store.set(storageKey, value);
   }
 
@@ -50,11 +44,11 @@ class InMemoryKeyValueStorage extends KeyValueStorage {
   }
 
   quit() {
-    noop;
+    // noop
   }
 
   async expire() {
-    noop;
+    // noop
   }
 
   async ttl() {
