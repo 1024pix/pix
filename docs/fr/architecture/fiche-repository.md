@@ -48,12 +48,12 @@ typage de mordre est dans `migration-typescript.md`.
 
 | # | Écart | Verdict |
 | --- | --- | --- |
-| [**E1**](#e1-aucun-port-nest-déclaré) | aucun port n'est déclaré | **à corriger** |
-| [**E2**](#e2-méthode-de-persistance-sur-le-modèle) | méthode de persistance sur le modèle | **à corriger** |
-| [**E3**](#e3-la-connexion-à-la-base-ne-passe-pas-par-la-signature) | la connexion à la base ne passe pas par la signature | à surveiller |
-| [**E4**](#e4-plusieurs-repositories-pour-un-même-agrégat) | plusieurs repositories pour un même agrégat | rien à faire |
-| [**E5**](#e5-domainusecasesindexjs-importe-linfrastructure) | `domain/usecases/index.js` importe l'infrastructure | rien à faire |
-| [**E6**](#e6-le-repository-couvre-aussi-laccès-aux-contextes-voisins) | le repository couvre aussi l'accès aux contextes voisins | rien à faire |
+| [**X1**](#x1-aucun-port-nest-déclaré) | aucun port n'est déclaré | **à corriger** |
+| [**X2**](#x2-méthode-de-persistance-sur-le-modèle) | méthode de persistance sur le modèle | **à corriger** |
+| [**X3**](#x3-la-connexion-à-la-base-ne-passe-pas-par-la-signature) | la connexion à la base ne passe pas par la signature | à surveiller |
+| [**X4**](#x4-plusieurs-repositories-pour-un-même-agrégat) | plusieurs repositories pour un même agrégat | rien à faire |
+| [**X5**](#x5-domainusecasesindexjs-importe-linfrastructure) | `domain/usecases/index.js` importe l'infrastructure | rien à faire |
+| [**X6**](#x6-le-repository-couvre-aussi-laccès-aux-contextes-voisins) | le repository couvre aussi l'accès aux contextes voisins | rien à faire |
 
 Deux artefacts hors numérotation, souvent cherchés : la table de décision
 [« ce que le repository n'est pas »](#ce-que-le-repository-nest-pas) au § 1, et
@@ -362,7 +362,7 @@ Sans cette section, un relecteur signale du code correct.
 | Une fonction ne renvoie rien | autorisé |
 | Un repository de `jobs/` est une classe étendant une classe de base partagée, exportée en singleton | autorisé. Ne pas convertir en module de fonctions |
 | L'accesseur de connexion à la base est importé et non injecté | autorisé. Seule exception à I5 |
-| Une fonction reçoit `connection` en paramètre, avec l'accesseur ambiant en valeur par défaut | autorisé **si l'appelant passe effectivement une autre connexion** — hors transaction, réplica, pool distinct. Voir E3 au § 5 |
+| Une fonction reçoit `connection` en paramètre, avec l'accesseur ambiant en valeur par défaut | autorisé **si l'appelant passe effectivement une autre connexion** — hors transaction, réplica, pool distinct. Voir X3 au § 5 |
 | `getOrCreate*` ne lève pas alors qu'il commence par `get` | autorisé pour I3 seulement. Voir l'avertissement ci-dessous |
 
 Lecture de I1 sur les premières lignes : un identifiant ou un scalaire est le langage du domaine. Ce
@@ -425,14 +425,14 @@ le seul verdict qui engage du travail. Table triée par verdict.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **E1** Aucun port n'est déclaré | dérive | l'injection et le boilerplate | **nul** — aucun contrat vérifiable | **À corriger** |
-| **E2** Méthode de persistance sur le modèle | dérive | différé, à la prochaine migration de schéma | **nul** | **À corriger** |
-| **E3** La connexion à la base ne passe pas par la signature | convention | on ne sait pas, en lisant un usecase, s'il est transactionnel | réel — signatures propres | À surveiller |
-| **E4** Plusieurs repositories pour un même agrégat | convention | quelques fichiers de plus | réel — chaque requête est écrite pour son besoin | Rien à faire |
-| **E5** `domain/usecases/index.js` importe l'infrastructure | vestige assumé en convention | nul — le fichier est toujours au même chemin | le câblage est là où sont les usecases qu'il câble | Rien à faire — exempté dans la règle |
-| **E6** Le repository couvre aussi l'accès aux contextes voisins | convention assumée | nul | réel — un seul concept, le domaine ignore la source | Rien à faire |
+| **X1** Aucun port n'est déclaré | dérive | l'injection et le boilerplate | **nul** — aucun contrat vérifiable | **À corriger** |
+| **X2** Méthode de persistance sur le modèle | dérive | différé, à la prochaine migration de schéma | **nul** | **À corriger** |
+| **X3** La connexion à la base ne passe pas par la signature | convention | on ne sait pas, en lisant un usecase, s'il est transactionnel | réel — signatures propres | À surveiller |
+| **X4** Plusieurs repositories pour un même agrégat | convention | quelques fichiers de plus | réel — chaque requête est écrite pour son besoin | Rien à faire |
+| **X5** `domain/usecases/index.js` importe l'infrastructure | vestige assumé en convention | nul — le fichier est toujours au même chemin | le câblage est là où sont les usecases qu'il câble | Rien à faire — exempté dans la règle |
+| **X6** Le repository couvre aussi l'accès aux contextes voisins | convention assumée | nul | réel — un seul concept, le domaine ignore la source | Rien à faire |
 
-### E1. Aucun port n'est déclaré
+### X1. Aucun port n'est déclaré
 
 Ce que dit la théorie : le domaine déclare l'interface dont il a besoin, l'infrastructure l'implante.
 
@@ -452,7 +452,7 @@ aucune compilation.
 **Correction.** Déclarer le port dans `domain/ports/` et annoter le repository contre lui — voir § 7.
 Uniquement après la migration des modèles en `.ts` : avant, le port ne vérifie rien.
 
-### E2. Méthode de persistance sur le modèle
+### X2. Méthode de persistance sur le modèle
 
 C'est I7. Le modèle porte une méthode dont le repository est le seul consommateur.
 
@@ -467,7 +467,7 @@ class Thing {
 déplacement est mécanique. Exception à vérifier avant : si la forme sérialisée est un format publié,
 la méthode reste sur le modèle — voir I7.
 
-### E3. La connexion à la base ne passe pas par la signature
+### X3. La connexion à la base ne passe pas par la signature
 
 Le repository récupère sa connexion depuis un contexte implicite, au lieu de la recevoir en paramètre.
 
@@ -494,7 +494,7 @@ export async function save({ thing, connection = DomainTransaction.getConnection
 Elle fonctionne : la valeur par défaut est évaluée à chaque appel, donc elle capte la transaction en
 cours, et l'injection ne la gêne pas.
 
-Mais elle n'adresse pas le coût de E3, qui porte sur la lecture d'un **usecase** : celui-ci écrit
+Mais elle n'adresse pas le coût de X3, qui porte sur la lecture d'un **usecase** : celui-ci écrit
 toujours `save({ thing })`. Elle informe le lecteur du repository, qui n'avait aucun doute sur le fait
 qu'il utilise une connexion.
 
@@ -510,7 +510,7 @@ non comme convention générale.
 **Correction.** Aucune sur la forme générale. Documenter le périmètre transactionnel quand il n'est
 pas évident, ce qui est l'objet de U7 dans `fiche-usecase.md`.
 
-### E4. Plusieurs repositories pour un même agrégat
+### X4. Plusieurs repositories pour un même agrégat
 
 DDD associe un repository à une racine d'agrégat. En pratique, un repository est créé par **besoin de
 requête**, pas par agrégat.
@@ -535,8 +535,8 @@ naturellement : beaucoup de modèles, ou un modèle unique partiellement rempli 
 Le **modèle partiellement rempli est à écarter**. Un agrégat est défini par ses invariants ; chargement
 partiel, il ne peut pas les garantir. Fowler nomme cette forme : c'est la variante *Ghost* du pattern
 **Lazy Load** de *PoEAA*. Il en donne le coût — l'objet doit savoir aller chercher ce qui lui manque,
-donc la connaissance de la persistance entre dans le modèle. C'est E2. Choisir cette option pour
-résoudre E4 aggrave E2.
+donc la connaissance de la persistance entre dans le modèle. C'est X2. Choisir cette option pour
+résoudre X4 aggrave X2.
 
 La réponse de la littérature au coût de chargement est ailleurs : **réduire l'agrégat** pour que le
 charger entier soit bon marché. C'est la règle 2 de Vernon, *design small aggregates*, et sa motivation
@@ -562,7 +562,7 @@ toujours chargé entier — et autant de modèles de lecture que de besoins, san
 Contrepoids : Fowler prévient que séparer lecture et écriture ajoute de la complexité et ne doit pas
 être le défaut. À appliquer où la pression de charge existe.
 
-### E5. `domain/usecases/index.js` importe l'infrastructure
+### X5. `domain/usecases/index.js` importe l'infrastructure
 
 Ce fichier câble les dépendances : il importe les repositories du contexte et les injecte dans les
 usecases.
@@ -581,7 +581,7 @@ comportement — et le câblage importerait l'infrastructure où qu'il aille, c'
 ce qui rend celle-ci activable. Ce que l'exemption ne couvre pas : le câblage important
 l'infrastructure d'un **autre** contexte, qui reste une violation et demande une seconde règle.
 
-### E6. Le repository couvre aussi l'accès aux contextes voisins
+### X6. Le repository couvre aussi l'accès aux contextes voisins
 
 Deux fichiers du même dossier, deux sources différentes, un seul concept.
 
@@ -1012,8 +1012,8 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **I9** nommage cohérent dans le contexte | aucune source | — |
 | **I10** aucune règle métier | Martin, *Clean Architecture* (2017), ch. « Business Rules » et « Presenters and Humble Objects » | le livre de 2017 |
 | **I11** n'importe pas un autre repository | aucune source. Déduction : composer deux accès est de l'orchestration, ce que la table du § 1 attribue au usecase | — |
-| Grain de l'agrégat, et le coût de chargement (E4) | Vernon, « Effective Aggregate Design », règle 2 *design small aggregates* — trois articles gratuits. Vernon, *IDDD*, pour la *use case optimal query* | dddcommunity.org |
-| Contre le modèle partiellement rempli (E4) | Fowler, *PoEAA*, pattern **Lazy Load**, variante *Ghost*. Fowler, « CQRS » sur son bliki, pour la mise en garde sur la complexité ajoutée | bliki gratuit en ligne |
+| Grain de l'agrégat, et le coût de chargement (X4) | Vernon, « Effective Aggregate Design », règle 2 *design small aggregates* — trois articles gratuits. Vernon, *IDDD*, pour la *use case optimal query* | dddcommunity.org |
+| Contre le modèle partiellement rempli (X4) | Fowler, *PoEAA*, pattern **Lazy Load**, variante *Ghost*. Fowler, « CQRS » sur son bliki, pour la mise en garde sur la complexité ajoutée | bliki gratuit en ligne |
 | Transaction en ambient context | choix Pix sans ADR. Les ADR 9 et 25 décident la transaction au grain du usecase, pas la forme ambient | ADR 9 et 25, pour ce qu'ils tranchent |
 
 Trois invariants sur dix n'ont aucune source : I3, I6, I9. I11 est une déduction explicite. La partie

@@ -9,7 +9,7 @@ typage de mordre est dans `migration-typescript.md`.
 > **À instruire**
 >
 > - Le classement des fichiers de `read-models/` selon les quatre tests du § 1 n'est pas fait. C'est le
->   travail que décrit E1, et il conditionne la règle de RM3 au § 6.
+>   travail que décrit X1, et il conditionne la règle de RM3 au § 6.
 > - RM1 n'a aucun moyen de vérification déterministe identifié, et c'est l'invariant le plus exposé :
 >   distinguer une dérivation de présentation d'une règle métier n'est pas décidable.
 
@@ -28,7 +28,7 @@ typage de mordre est dans `migration-typescript.md`.
 | --- | --- | --- | --- |
 | [**RM1**](#rm1-aucune-règle-métier) | aucune règle métier | **forte** | aucun moyen — indécidable |
 | [**RM2**](#rm2-aucune-validation) | aucune validation | exemption | signal ESLint |
-| [**RM3**](#rm3-nentre-pas-dans-une-règle) | n'entre pas dans une règle | moyenne | `dependency-cruiser`, après E1 |
+| [**RM3**](#rm3-nentre-pas-dans-une-règle) | n'entre pas dans une règle | moyenne | `dependency-cruiser`, après X1 |
 | [**RM4**](#rm4-emplacement) | emplacement | moyenne | script |
 
 [**Invariants communs**](#les-cinq-invariants-communs), énoncés au § 2 de `fiche-objet-valeur.md` :
@@ -39,9 +39,9 @@ en lecture seule.
 
 | # | Écart | Verdict |
 | --- | --- | --- |
-| [**E1**](#e1-un-dossier-pour-trois-natures-dobjets) | un dossier pour trois natures d'objets | **à corriger** |
-| [**E2**](#e2-le-mot-read-model-vient-de-cqrs) | le mot `read-model` vient de CQRS | à surveiller |
-| [**E3**](#e3-lobjet-est-immuable-alors-que-rien-ne-lexige) | l'objet est immuable alors que rien ne l'exige | rien à faire |
+| [**X1**](#x1-un-dossier-pour-trois-natures-dobjets) | un dossier pour trois natures d'objets | **à corriger** |
+| [**X2**](#x2-le-mot-read-model-vient-de-cqrs) | le mot `read-model` vient de CQRS | à surveiller |
+| [**X3**](#x3-lobjet-est-immuable-alors-que-rien-ne-lexige) | l'objet est immuable alors que rien ne l'exige | rien à faire |
 
 L'artefact le plus cherché n'est pas dans cette fiche : le **discriminant** avec l'objet-valeur et ses
 quatre tests sont au § 1 de `fiche-objet-valeur.md`, énoncés une fois pour les deux.
@@ -212,11 +212,11 @@ compromis appartient au besoin, pas à l'architecture.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **E1** Un dossier pour trois natures d'objets | dérive | Le classement est invisible : un objet-valeur mal rangé ne se distingue pas d'un read-model. RM3 ne peut pas devenir bloquant | Aucun | **À corriger** |
-| **E2** Le mot `read-model` vient de CQRS | convention assumée | Collision avec un concept distinct : qui connaît CQRS suppose un store séparé et de la cohérence à terme | Le mot est en usage et compris de l'équipe. C'est l'Ubiquitous Language, et renommer coûterait une centaine de fichiers | *À surveiller* |
-| **E3** L'objet est immuable alors que rien ne l'exige | convention assumée | Champs privés et accesseurs à écrire pour un objet qui ne fait que sortir | Uniformité avec les objets-valeurs, et une seule règle de lint pour les deux | *Rien à faire* |
+| **X1** Un dossier pour trois natures d'objets | dérive | Le classement est invisible : un objet-valeur mal rangé ne se distingue pas d'un read-model. RM3 ne peut pas devenir bloquant | Aucun | **À corriger** |
+| **X2** Le mot `read-model` vient de CQRS | convention assumée | Collision avec un concept distinct : qui connaît CQRS suppose un store séparé et de la cohérence à terme | Le mot est en usage et compris de l'équipe. C'est l'Ubiquitous Language, et renommer coûterait une centaine de fichiers | *À surveiller* |
+| **X3** L'objet est immuable alors que rien ne l'exige | convention assumée | Champs privés et accesseurs à écrire pour un objet qui ne fait que sortir | Uniformité avec les objets-valeurs, et une seule règle de lint pour les deux | *Rien à faire* |
 
-### E1. Un dossier pour trois natures d'objets
+### X1. Un dossier pour trois natures d'objets
 
 **Ce que dit la théorie.** Un dossier nommé annonce une catégorie, donc des invariants. Trois
 catégories aux invariants opposés sous un même nom rendent le classement invisible.
@@ -232,7 +232,7 @@ Et, sous le premier dossier, deux natures mélangées : des objets qu'une règle
 objets-valeurs, qui doivent satisfaire V3 et V5 — et des objets qui ne font que sortir.
 
 **Correction.** Classer, pas renommer. Le classement est tout le bénéfice ; le nom du dossier n'y
-change rien, voir E2.
+change rien, voir X2.
 
 1. Un objet qu'une règle lit est un **objet-valeur**. Il va dans `domain/models/` et doit satisfaire
    V3 et V5. C'est le déplacement qui coûte, et c'est celui qui rapporte : il révèle lesquels de ces
@@ -250,7 +250,7 @@ ne peut pas être bloquante avant le classement.
 Migration opportuniste, conforme à l'ADR 20 : le neuf suit le discriminant, l'existant se classe quand
 on le touche.
 
-### E2. Le mot `read-model` vient de CQRS
+### X2. Le mot `read-model` vient de CQRS
 
 **Ce que dit la théorie.** Le read-model n'appartient pas au vocabulaire de DDD. La partie tactique
 d'Evans liste Entity, Value Object, Service, Module, Aggregate, Factory, Repository. Le terme vient de
@@ -278,7 +278,7 @@ désigne pas. C'est fait au § 1.
 pièces, ou l'introduction réelle d'un read model CQRS quelque part — auquel cas les deux ne pourraient
 plus porter le même nom.
 
-### E3. L'objet est immuable alors que rien ne l'exige
+### X3. L'objet est immuable alors que rien ne l'exige
 
 **Ce que dit la théorie.** Le DTO de Fowler est un porteur de données. Rien dans le patron n'exige
 l'immuabilité ni l'absence d'identité : ce sont des propriétés du Value Object d'Evans, qui est une
@@ -299,7 +299,7 @@ Un objet littéral gelé rendrait le même service à cet endroit précis.
 
 **Correction.** Aucune. Le coût est réel mais faible, et le bénéfice est de l'uniformité utile : une
 seule règle de lint couvre V1 et V7 pour les deux catégories, alors qu'exempter les read-models
-demanderait à cette règle de savoir distinguer les deux — ce que E1 rend justement impossible
+demanderait à cette règle de savoir distinguer les deux — ce que X1 rend justement impossible
 aujourd'hui.
 
 À noter comme convention explicite, pas comme lecture de Fowler : lui n'exige pas l'immuabilité.
@@ -316,7 +316,7 @@ infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **RM3** n'entre pas dans une règle | règle `dependency-cruiser` de chemin | configuration seule | **après E1** — avant le classement, la règle sort aussi sur les objets-valeurs mal rangés |
+| **RM3** n'entre pas dans une règle | règle `dependency-cruiser` de chemin | configuration seule | **après X1** — avant le classement, la règle sort aussi sur les objets-valeurs mal rangés |
 | **RM4** emplacement | script `tests/tooling/` : aucun read-model hors de `read-models/` | ~20 lignes | faibles |
 | **§ 8** un fichier de test existe | même script | ~15 lignes de plus | aucun |
 | **RM2** aucune validation — signal | règle ESLint : un `throw` dans un fichier de `read-models/` | ~15 lignes | faibles — l'exception de la source externe |
@@ -342,7 +342,7 @@ atteints et la règle ne se déclenche jamais, sans erreur ni avertissement.
 
 Ce qui empêche de la rendre bloquante n'est pas le nommage mais le classement : un objet-valeur rangé
 dans `read-models/` la fait sortir alors qu'il est légitime. À activer en avertissement pour produire
-la liste des fichiers à classer, puis en `error` après E1.
+la liste des fichiers à classer, puis en `error` après X1.
 
 ### RM2 signal — un `throw` dans un read-model
 
@@ -368,7 +368,7 @@ Le script parcourt les fichiers de `read-models/`. Deux vérifications :
 Cet ordre suit le coût, pas le ROI du § 4.
 
 1. **RM3** — en avertissement, pour produire la liste des fichiers à classer
-2. **E1 classement** — fichier par fichier, par les quatre tests
+2. **X1 classement** — fichier par fichier, par les quatre tests
 3. **RM3 en `error`** — une fois la liste vidée
 4. **RM4 + existence des tests** — un seul script de complétude
 5. **RM2 signal** — dernier, son bénéfice étant le plus faible
@@ -379,10 +379,10 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 
 | Écart | Codemod | Ce qu'il fait |
 | --- | --- | --- |
-| **E1** classement | préparation seule | Déplacer un fichier et réécrire ses imports, oui. Décider s'il est objet-valeur ou read-model, non |
+| **X1** classement | préparation seule | Déplacer un fichier et réécrire ses imports, oui. Décider s'il est objet-valeur ou read-model, non |
 | **RM1** règle métier déplacée | non | Décider où la règle vit dans le domaine est de la conception |
 
-Sur E1, un codemod ne doit surtout pas « corriger » en ajoutant une validation vide à un objet
+Sur X1, un codemod ne doit surtout pas « corriger » en ajoutant une validation vide à un objet
 reclassé en objet-valeur : le lint passerait au vert et la dette deviendrait invisible. Il produit un
 `TODO` et un squelette.
 
@@ -405,7 +405,7 @@ C'est l'inverse du choix retenu pour un objet-valeur, qui exige la nominalité �
 valide, et un read-model ne valide pas.
 
 `readonly` est effacé à la compilation : il empêche l'écriture au typage, pas à l'exécution. Si
-l'immuabilité doit tenir à l'exécution, elle repose sur les champs privés d'une classe — c'est E3 au
+l'immuabilité doit tenir à l'exécution, elle repose sur les champs privés d'une classe — c'est X3 au
 § 5, et c'est une convention, pas une nécessité.
 
 Une dérivation de présentation sur un type structurel se déclare comme une fonction séparée, pas comme
@@ -479,12 +479,12 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | Invariant | Source | Où vérifier |
 | --- | --- | --- |
 | La catégorie elle-même | **DDD n'a pas de nom pour cet objet**, et le vide est logique : un objet sans comportement ni invariant n'appartient pas au modèle du domaine. Ce qui est nommé, c'est la **requête** — Vernon, *IDDD*, *use case optimal query* — et l'**objet transporté** — Fowler, *PoEAA*, Data Transfer Object | dddcommunity.org ; *PoEAA* |
-| Le mot `read-model` | **emprunté à CQRS**, où il désigne autre chose. Conservé comme mot de l'équipe — voir E2 au § 5 | `references-ddd.md`, section « Read model » |
+| Le mot `read-model` | **emprunté à CQRS**, où il désigne autre chose. Conservé comme mot de l'équipe — voir X2 au § 5 | `references-ddd.md`, section « Read model » |
 | **RM1** aucune règle métier | **déduction.** Fowler condamne le modèle anémique **du domaine** ; l'appliquer à un objet de transport serait un contresens | bliki gratuit |
 | **RM2** aucune validation | **aucune source** | — |
 | **RM3** n'entre pas dans une règle | **déduction** de la validation à la construction : une règle qui décide à partir d'une forme non validée décide à partir de n'importe quoi | — |
 | **RM4** emplacement | **aucune source.** Convention Pix en place | — |
-| Immuabilité et absence d'identité | **convention Pix**, pas Fowler : le DTO de *PoEAA* n'exige ni l'une ni l'autre. Les énoncés sont ceux de V1 et V2 dans `fiche-objet-valeur.md`, mais leur autorité chez Evans porte sur le Value Object, qu'un read-model n'est pas. Voir E3 au § 5 | *PoEAA* ; *DDD Reference* |
+| Immuabilité et absence d'identité | **convention Pix**, pas Fowler : le DTO de *PoEAA* n'exige ni l'une ni l'autre. Les énoncés sont ceux de V1 et V2 dans `fiche-objet-valeur.md`, mais leur autorité chez Evans porte sur le Value Object, qu'un read-model n'est pas. Voir X3 au § 5 | *PoEAA* ; *DDD Reference* |
 | Un repository peut renvoyer un calcul de synthèse | **vérifié**, et ça ne concerne pas cette fiche : Evans, ch. 6, autorise un repository à renvoyer un décompte ou une somme — des **scalaires**, pas un objet assemblé. Le passage adosse l'exception du § 3 de `fiche-repository.md` | *Final Manuscript* 2003, p. 109 |
 
 Trois des quatre invariants propres n'ont aucune source directe : RM2 et RM4 aucune, RM1 et RM3 sont
