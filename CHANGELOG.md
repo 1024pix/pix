@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## [5.498.1](https://github.com/1024pix/pix/compare/v5.498.0...v5.498.1) (2026-09-09)
+
+### :building_construction: Tech
+
+- [#17425](https://github.com/1024pix/pix/pull/17425) :recycle: Corrige des tests aléatoire dans le contexte du scoring de certification v2 (PIX-24158)
+- [#17433](https://github.com/1024pix/pix/pull/17433) Ajoute une règle pour interdire l'usage des builders de base de données dans les tests unitaires.
+- [#17412](https://github.com/1024pix/pix/pull/17412) Conserver le mode examen lors de la duplication d'une campagne (PIX-23813)
+- [#17434](https://github.com/1024pix/pix/pull/17434) Supprime tous les usages de `RSVP` dans les applications front.
+
+### :arrow_up: Montée de version
+
+- [#17438](https://github.com/1024pix/pix/pull/17438) Mise à jour d'epreuves components
+- [#17314](https://github.com/1024pix/pix/pull/17314) Update dependency @1024pix/pix-ui to v68 (admin)
+- [#17426](https://github.com/1024pix/pix/pull/17426) Update dependency @glint/tsserver-plugin to ^2.7.7 (orga)
+- [#17441](https://github.com/1024pix/pix/pull/17441) Update dependency baseline-browser-mapping to v2.11.0 [SECURITY]
+- [#17439](https://github.com/1024pix/pix/pull/17439) Update dependency csv-parse to v7.0.2 [SECURITY]
+- [#17432](https://github.com/1024pix/pix/pull/17432) Update dependency joi to v18.2.5 [SECURITY]
+- [#17431](https://github.com/1024pix/pix/pull/17431) Update dependency joi to v18.2.5 [SECURITY]
+- [#17430](https://github.com/1024pix/pix/pull/17430) Update dependency joi to v18.2.5 [SECURITY]
+
 # [5.498.0](https://github.com/1024pix/pix/compare/v5.497.0...v5.498.0) (2026-09-08)
 
 ### :rocket: Amélioration
