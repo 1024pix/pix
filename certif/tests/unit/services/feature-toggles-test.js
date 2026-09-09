@@ -2,7 +2,6 @@ import Object from '@ember/object';
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
 
 module('Unit | Service | feature toggles', function (hooks) {
   setupTest(hooks);
@@ -12,7 +11,7 @@ module('Unit | Service | feature toggles', function (hooks) {
       // Given
       const featureToggles = Object.create({});
       const storeStub = Service.create({
-        queryRecord: () => resolve(featureToggles),
+        queryRecord: async () => featureToggles,
       });
       const featureToggleService = this.owner.lookup('service:featureToggles');
       featureToggleService.set('store', storeStub);
