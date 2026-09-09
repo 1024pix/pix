@@ -44,9 +44,13 @@ communs — immuabilité, absence d'identité, pureté, absence de cycle de vie,
 seule — sont énoncés dans la fiche objet-valeur ; la fiche read-model les reprend dans sa checklist
 seulement, parce qu'une checklist doit être copiable telle quelle.
 
-Ambiguïté restante, à trancher : `E` sert à la fois de préfixe d'invariant dans `fiche-entite.md` et
-de numérotation des **écarts** dans chaque fiche. Un écart se cite toujours avec sa fiche, donc la
-confusion ne s'est pas encore produite, mais rien ne la prévient.
+**Les écarts se numérotent `X`**, dans toutes les fiches. L'ambiguïté signalée ici — `E` servait à la
+fois de préfixe d'invariant dans `fiche-entite.md` et de numérotation des écarts partout — est devenue
+bloquante à la reprise de cette fiche, où `E3` l'invariant et `E3` l'écart auraient coexisté. `X`
+n'est le préfixe d'invariant d'aucune fiche.
+
+Tranché le 2026-09-08. `fiche-repository.md`, `fiche-objet-valeur.md` et `fiche-read-model.md`
+numérotent encore leurs écarts en `E` : **retard à rattraper**, purement mécanique.
 
 ## Les autres fichiers
 
@@ -65,8 +69,8 @@ confusion ne s'est pas encore produite, mais rien ne la prévient.
 Relecture par agent, une par fiche, le 2026-09-08. **Sept sur onze relues** ; quatre ont échoué sur la
 limite de session. `fiche-read-model.md`, créée depuis, porte le total à douze.
 
-Les trois fiches reprises — repository, objet-valeur, read-model — portent un **sommaire** conforme au
-gabarit. Les neuf autres l'auront à leur passage.
+Les cinq fiches reprises — repository, objet-valeur, read-model, entité, racine d'agrégat — portent un
+**sommaire** conforme au gabarit. Les sept autres l'auront à leur passage.
 
 | Fiche | Relue | État |
 | --- | --- | --- |
@@ -74,11 +78,11 @@ gabarit. Les neuf autres l'auront à leur passage.
 | `fiche-specification.md` | oui | à corriger — S1/S2 se contredisent, test S7 faux |
 | `fiche-objet-valeur.md` | oui | **corrigée** le 2026-09-08, puis **scindée**. Le read-model en est sorti vers sa propre fiche. Quatre tests de discrimination ajoutés au § 1, écarts refaits au format en cinq colonnes, `E5` ajouté sur la clé de présentation, définition d'« objet du domaine local » ajoutée. Numéros d'écart commençant à `E2`, non réattribués. Reste : le ROI de V3, en contradiction avec `fiche-specification.md` |
 | `fiche-read-model.md` | — | **créée** le 2026-09-08 par scission de `fiche-objet-valeur.md`. Jamais relue par un tiers |
-| `fiche-racine-agregat.md` | oui | à corriger — utilisable comme outil de décision seulement |
+| `fiche-racine-agregat.md` | oui | **corrigée** le 2026-09-08 avec la fiche entité. `A4` et `A5` retirés — duplications de `E7` et `E3` à ROI inversés ; numéros non réattribués. Section d'invariants hérités ajoutée. Écart `X2` ajouté : aucune racine n'est déclarée, ce qui bloque `A1` et `A3` |
 | `fiche-service-domaine.md` | oui | à corriger — prémisse fausse, deux éléments du gabarit absents |
 | `fiche-api-interne.md` | oui | à corriger |
 | `fiche-controleur.md` | oui | à corriger |
-| `fiche-entite.md` | **non** | à relancer |
+| `fiche-entite.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Devient le domicile de `E3` et `E7`, que la fiche racine d'agrégat dupliquait. Écarts refaits en `X1` à `X5`. À faire relire |
 | `fiche-usecase.md` | **non** | à relancer |
 | `fiche-route.md` | **non** | **à relancer en priorité** |
 | `fiche-serialiseur.md` | **non** | à relancer |
@@ -92,8 +96,10 @@ et sans aucune source — et personne ne l'a éprouvée.
    domaine local » dont dépendent I1 et I2 de la fiche repository, et le discriminant avec le
    read-model. `fiche-read-model.md`, issue de la même passe, n'a jamais été relue par un tiers : à
    faire relire avant les autres, puisqu'elle est neuve et non éprouvée.
-2. **`fiche-entite.md`** puis **`fiche-racine-agregat.md`** — ensemble : toute racine est une entité,
-   et la relecture a établi que A4/E7 et A5/E3 sont des duplications intégrales à priorités inversées.
+2. ~~`fiche-entite.md`~~ puis ~~`fiche-racine-agregat.md`~~ — **corrigées le 2026-09-08**, ensemble
+   comme prévu. Les duplications A4/E7 et A5/E3 sont résolues : l'énoncé vit dans la fiche entité, la
+   fiche racine y renvoie et ajoute ce qui change pour une racine. Aucune des deux n'a été relue par
+   un tiers dans cet état.
 3. **`fiche-usecase.md`** et **`fiche-service-domaine.md`** — ensemble : leur frontière est un test
    unique, la présence d'une I/O dans la signature.
 4. **`fiche-route.md`** — hors séquence logique, mais R2 est l'invariant au plus gros rendement du
@@ -238,7 +244,9 @@ sommaire n'en est pas une : il est dans l'en-tête.
      phrase. C'est ce qui rend le verdict lisible d'un coup d'œil.
    - Le verdict découle des deux : **À corriger** quand le coût est payé sans bénéfice, *À surveiller*,
      ou *Rien à faire*. « Convention assumée » ne dispense pas de l'examen.
-   - **Table triée par verdict**, les à corriger en premier, avec un écart numéroté par ligne.
+   - **Table triée par verdict**, les à corriger en premier, avec un écart numéroté par ligne. Les
+     écarts se numérotent **`X1`, `X2`, …**, jamais avec le préfixe d'invariant de la fiche : sinon
+     `E3` l'invariant et `E3` l'écart coexistent, ce qui s'est produit sur `fiche-entite.md`.
    - Puis **un bloc par écart** : ce que dit la théorie, un **exemple concret** de la forme en vigueur
      — code ou arborescence — et une rubrique **Correction** qui dit quoi faire, ou dit qu'il n'y a
      rien à faire et pourquoi. Sans exemple ni correction, un écart ne permet pas de se projeter.
