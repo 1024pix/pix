@@ -15,6 +15,7 @@ import * as thematicRepository from '../../src/shared/infrastructure/repositorie
 import * as tubeRepository from '../../src/shared/infrastructure/repositories/tube-repository.js';
 import { databaseBuilder, datamartBuilder } from '../tooling/databases.js';
 import { mochaHooks as commonHooks } from './common.js';
+import { learningContentCache } from '../../src/shared/infrastructure/caches/learning-content-redis-cache.js';
 
 export const mochaHooks = {
   async beforeAll() {
@@ -25,6 +26,8 @@ export const mochaHooks = {
     nock.enableNetConnect('localhost:9090'); // Unmock S3 storage
 
     await JobClient.instance.initialize({ worker: true, isTestOnly: true });
+
+    await learningContentCache.connect();
   },
 
   afterEach: [
@@ -45,6 +48,7 @@ export const mochaHooks = {
       await JobClient.instance.flushJobs();
       await datamartBuilder.clean();
       await databaseBuilder.clean();
+      await learningContentCache.clear();
     },
   ],
 
