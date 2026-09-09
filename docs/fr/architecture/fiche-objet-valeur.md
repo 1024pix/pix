@@ -10,8 +10,8 @@ typage de mordre est dans `migration-typescript.md`.
 >
 > - Le § 6 annonce des taux de faux positifs estimés, pas mesurés. À éprouver sur le code avant de
 >   rendre une règle bloquante.
-> - Le ROI de V3 est classé en rentabilité forte ici. `fiche-specification.md` classe l'invariant
->   correspondant en hygiène. Contradiction à arbitrer entre les deux fiches.
+> - V3 est aussi l'invariant d'entrée d'une Specification, où il élimine le cas de l'arbre malformé à
+>   l'évaluation. `fiche-specification.md` y renvoie et n'en garde pas de numéro propre.
 > - Les clés de présentation existantes n'ont pas été classées selon les trois cas de V2. Ce classement
 >   conditionne E5, et se fait fichier par fichier.
 > - Les numéros d'écart commencent à E2 : E1 et E6 portaient sur le read-model et ont suivi la création

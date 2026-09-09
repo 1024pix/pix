@@ -9,9 +9,10 @@ Il porte ce qui relève de la conduite du chantier : quelles fiches existent, da
 ordre les relire, pourquoi les regroupements ont été tranchés comme ils l'ont été, et le **gabarit**
 commun des fiches, en fin de document.
 
-Le gabarit vivait au § 10 de `fiche-repository.md`, par accident : c'est la première fiche rédigée,
-donc les règles s'y sont écrites. Un gabarit décrit comment écrire une fiche, pas comment écrire un
-repository.
+**Le gabarit est ici**, en fin de document, et nulle part ailleurs. Il a vécu un temps dans
+`fiche-repository.md` — première fiche rédigée, donc les règles s'y sont écrites — ce qui était un
+accident : un gabarit décrit comment écrire une fiche, pas comment écrire un repository. Toute fiche
+qui renvoie encore ailleurs pour le gabarit est en retard.
 
 ---
 
@@ -69,15 +70,18 @@ numérotent encore leurs écarts en `E` : **retard à rattraper**, purement méc
 Relecture par agent, une par fiche, le 2026-09-08. **Sept sur onze relues** ; quatre ont échoué sur la
 limite de session. `fiche-read-model.md`, créée depuis, porte le total à douze.
 
-Les sept fiches reprises — repository, objet-valeur, read-model, entité, racine d'agrégat, usecase,
-service de domaine — portent un **sommaire** conforme au gabarit. Les cinq autres l'auront à leur
-passage.
+Les huit fiches reprises — repository, objet-valeur, read-model, entité, racine d'agrégat, usecase,
+service de domaine, specification — portent un **sommaire** conforme au gabarit. Les quatre autres
+l'auront à leur passage : api-interne, contrôleur, route, sérialiseur.
+
+**Retard connu, purement mécanique** : `fiche-repository.md`, `fiche-objet-valeur.md` et
+`fiche-read-model.md` numérotent encore leurs écarts en `E` au lieu de `X`. Six, quatre et trois blocs.
 
 | Fiche | Relue | État |
 | --- | --- | --- |
 | `fiche-repository.md` | oui | **corrigée** le 2026-09-08. Invariant `I11` ajouté, `I8` retiré — il rendait la source visible dans le nom du fichier, ce qui contredit l'uniformité de la couche posée au § 1. Le numéro n'est pas réattribué. Le gabarit en est sorti vers ce fichier ; dix sections, `Sources` au § 10. Sommaire ajouté, et le § 6 dit désormais lesquelles de ses lignes sont datées |
-| `fiche-specification.md` | oui | à corriger — S1/S2 se contredisent, test S7 faux |
-| `fiche-objet-valeur.md` | oui | **corrigée** le 2026-09-08, puis **scindée**. Le read-model en est sorti vers sa propre fiche. Quatre tests de discrimination ajoutés au § 1, écarts refaits au format en cinq colonnes, `E5` ajouté sur la clé de présentation, définition d'« objet du domaine local » ajoutée. Numéros d'écart commençant à `E2`, non réattribués. Reste : le ROI de V3, en contradiction avec `fiche-specification.md` |
+| `fiche-specification.md` | oui | **corrigée** le 2026-09-08. `S1`/`S2` départagés en distinguant trois cas — donnée absente, arbre malformé, donnée inexploitable. Test `S7` corrigé : il inspectait le prototype au lieu d'une instance. `S3`, `S4` et `S9` retirés, ils réénonçaient `V4`, `V1`/`V2`/`V6`/`V7` et `V3` ; numéros non réattribués. Le candidat est reclassé objet-valeur, pas read-model |
+| `fiche-objet-valeur.md` | oui | **corrigée** le 2026-09-08, puis **scindée**. Le read-model en est sorti vers sa propre fiche. Quatre tests de discrimination ajoutés au § 1, écarts refaits au format en cinq colonnes, `E5` ajouté sur la clé de présentation, définition d'« objet du domaine local » ajoutée. Numéros d'écart commençant à `E2`, non réattribués. Devient le domicile des invariants mécaniques pour le read-model **et** la Specification |
 | `fiche-read-model.md` | — | **créée** le 2026-09-08 par scission de `fiche-objet-valeur.md`. Jamais relue par un tiers |
 | `fiche-racine-agregat.md` | oui | **corrigée** le 2026-09-08 avec la fiche entité. `A4` et `A5` retirés — duplications de `E7` et `E3` à ROI inversés ; numéros non réattribués. Section d'invariants hérités ajoutée. Écart `X2` ajouté : aucune racine n'est déclarée, ce qui bloque `A1` et `A3` |
 | `fiche-service-domaine.md` | oui | **corrigée** le 2026-09-08 avec la fiche usecase. Prémisse fausse retirée : le problème n'est pas une catégorie vide mais un dossier qui mélange deux natures. ROI classé et section sur le type ajoutés — les deux éléments du gabarit qui manquaient. `D6` retiré : c'était une déduction de `D1` et le contenu du § 8. Devient le domicile du discriminant usecase / service |
