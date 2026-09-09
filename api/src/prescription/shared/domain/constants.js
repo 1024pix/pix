@@ -1,13 +1,4 @@
-const CampaignParticipationStatuses = {
-  STARTED: 'STARTED',
-  SHARED: 'SHARED',
-};
-
-const CampaignTypes = {
-  ASSESSMENT: 'ASSESSMENT',
-  EXAM: 'EXAM',
-  PROFILES_COLLECTION: 'PROFILES_COLLECTION',
-};
+import { CampaignParticipationStatuses, CampaignTypes } from '@1024pix/pix-types';
 
 const CampaignExternalIdTypes = {
   STRING: 'STRING',

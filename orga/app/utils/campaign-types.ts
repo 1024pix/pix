@@ -1,1 +1,1 @@
-export type CampaignType = 'ASSESSMENT' | 'EXAM' | 'PROFILES_COLLECTION';
+export type { CampaignType } from '@1024pix/pix-types';

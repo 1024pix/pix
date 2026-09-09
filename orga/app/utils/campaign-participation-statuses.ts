@@ -1,1 +1,1 @@
-export type CampaignParticipationStatus = 'STARTED' | 'SHARED';
+export type { CampaignParticipationStatus } from '@1024pix/pix-types';
