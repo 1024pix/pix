@@ -10,11 +10,9 @@ typage de mordre est dans `migration-typescript.md`.
 >
 > - Le § 3 mérite une passe attentive : c'est la fiche où la frontière entre exception légitime et
 >   dérive est la plus discutable, la couche étant jeune et ses conventions non stabilisées.
-> - `X3` — plusieurs emplacements coexistent pour l'objet de contrat — bloque la vérification de `P5`.
->   **Point à vérifier avant de trancher** : la relecture du corpus a établi que `P5` serait déjà
->   décidé par la documentation liée à l'ADR 55. Cette documentation n'a pas été lue. Si elle tranche
->   l'emplacement, `X3` n'est pas une décision à prendre mais une convention à appliquer, et son
->   verdict change.
+> - La source de `P5` et de `P3` est une page Confluence liée par l'ADR 55, donc **hors du dépôt**.
+>   Elle peut changer ou disparaître sans que rien ici ne le signale. Le contenu utile tiendrait dans
+>   l'ADR lui-même.
 > - `P7` et `P8` sont des déductions, pas des citations. Ils proposent des conventions là où l'équipe
 >   n'en a pas arrêté.
 
@@ -46,7 +44,7 @@ typage de mordre est dans `migration-typescript.md`.
 | --- | --- | --- |
 | [**X1**](#x1-lapi-renvoie-un-modèle-du-domaine-plutôt-quun-dto) | l'API renvoie un modèle du domaine plutôt qu'un DTO | **à corriger** |
 | [**X2**](#x2-lapi-appelle-un-repository-sans-passer-par-un-usecase) | l'API appelle un repository sans passer par un usecase | **à corriger** |
-| [**X3**](#x3-plusieurs-emplacements-coexistent-pour-lobjet-de-contrat) | plusieurs emplacements coexistent pour l'objet de contrat | **à corriger** |
+| [**X3**](#x3-lobjet-de-contrat-nest-pas-dans-le-dossier-décidé) | l'objet de contrat n'est pas dans le dossier décidé | **à corriger** |
 | [**X4**](#x4-lapi-importe-une-api-ou-un-repository-dun-contexte-tiers) | l'API importe une API ou un repository d'un contexte tiers | **à corriger** |
 | [**X5**](#x5-le-dto-expose-exactement-les-champs-de-lentité) | le DTO expose exactement les champs de l'entité | à surveiller |
 
@@ -146,9 +144,16 @@ paraît superflu. C'est le moment où la porte dérobée s'ouvre.
 **Énoncé.** Chaque fonction exposée porte sa documentation : ce qu'elle prend, ce qu'elle rend, ce
 qu'elle lève. Les types du contrat sont décrits, pas seulement nommés.
 
-Cette documentation n'est pas un commentaire de politesse : **c'est le contrat lui-même**. Générée en
-fichier lisible à la racine du contexte, elle devient consultable sans ouvrir le code du fournisseur,
-ce qui est le but de la couche.
+Cette documentation n'est pas un commentaire de politesse : **c'est le contrat lui-même**. Elle se
+génère en fichier lisible à la racine du contexte, où elle devient consultable sans ouvrir le code du
+fournisseur — ce qui est le but de la couche.
+
+```
+node scripts/generate-api-documentation.js src/<contexte> > src/<contexte>/API.md
+```
+
+Le fichier produit est **committé**. C'est ce qui rend l'invariant vérifiable : régénérer et comparer
+au fichier du dépôt suffit — voir § 6.
 
 **Ce qui casse.** Une fonction exposée sans documentation est une fonction dont le contrat n'existe
 pas : le consommateur doit lire le code du fournisseur, donc la couche a coûté son prix sans rendre
@@ -171,13 +176,14 @@ que le renommage soit stable ensuite, `P6`.
 
 ### P5. Un seul emplacement pour l'objet de contrat
 
-**Énoncé.** Le DTO a un emplacement conventionnel unique dans `application/api/`, et un seul.
+**Énoncé.** Le DTO est dans `application/api/models/`. La convention est décidée : la documentation
+liée à l'ADR 55 pose que les APIs internes vivent dans un dossier `api` de la couche application, et
+que **les classes qui définissent le contrat sont dans un sous-dossier `models`**.
 
-**Ce qui casse.** On cherche avant de trouver, et surtout **aucune vérification automatique n'est
-possible** tant que la convention n'est pas unique. C'est `X3` au § 5, et sa vraie valeur est d'être le
-préalable à toute vérification, pas le rangement lui-même.
+Il n'y a donc rien à trancher, seulement à appliquer — c'est `X3` au § 5.
 
-Le choix importe moins que l'unicité. À trancher une fois, puis à outiller.
+**Ce qui casse.** On cherche avant de trouver, et la vérification de l'emplacement devient impossible
+dès qu'un second emplacement existe. Or c'est le même script qui dit où chercher pour vérifier `P3`.
 
 **Distinguer du read-model.** `domain/read-models/` est une forme assemblée pour une lecture interne ;
 l'objet de contrat est un format publié vers un autre contexte. Le même mot les recouvre parfois, ce
@@ -290,7 +296,7 @@ tunnel. Le dimensionnement reste un travail de conception entre les deux équipe
 | --- | --- | --- | --- | --- |
 | **X1** L'API renvoie un modèle du domaine plutôt qu'un DTO | dérive | Le boilerplate de la couche est payé sans la liberté de refactorer. Chaque champ du modèle devient une promesse implicite | Pas de DTO à écrire ni à maintenir | **À corriger** |
 | **X2** L'API appelle un repository sans passer par un usecase | dérive | Deux comportements pour la même question, selon qu'on la pose de l'intérieur ou de l'extérieur | La lecture est immédiate, sans usecase à écrire | **À corriger** |
-| **X3** Plusieurs emplacements coexistent pour l'objet de contrat | dérive de rangement | `P5` n'est pas vérifiable, donc `P1` et `P3` ne le sont pas non plus par script. On cherche avant de trouver | Nul — aucune décision n'a été prise en échange | **À corriger** |
+| **X3** L'objet de contrat n'est pas dans le dossier décidé | dérive | La convention documentée n'est pas appliquée partout, donc son script de vérification ne peut pas être bloquant. Et le mot `read-model` recouvre deux notions | Nul — la décision existe, elle n'a pas été suivie | **À corriger** |
 | **X4** L'API importe une API ou un repository d'un contexte tiers | dérive | Le graphe déclaré ne décrit plus le graphe réel. Une règle de dépendance passe au vert sur un couplage réel | La composition est faite une fois chez le fournisseur au lieu de chez chaque consommateur | **À corriger** |
 | **X5** Le DTO expose exactement les champs de l'entité | convention assumée, ou absence d'arbitrage | Le contrat suit le modèle : ajouter un champ interne l'expose, le renommer casse le contrat | Réel si c'est délibéré — le contrat est effectivement le modèle, et il n'y a rien à décider | *À surveiller* |
 
@@ -335,32 +341,33 @@ voir `X5` de `fiche-usecase.md`. Mécanique dans la plupart des cas.
 Ce qui ne l'est pas : constater qu'une règle existait dans un usecase voisin et décider si elle
 s'applique. C'est le vrai contenu de la correction.
 
-### X3. Plusieurs emplacements coexistent pour l'objet de contrat
+### X3. L'objet de contrat n'est pas dans le dossier décidé
 
-**Ce que dit la théorie.** Rien : la théorie ne prescrit pas d'arborescence. L'écart est avec la
-vérifiabilité — comme `X2` de `fiche-racine-agregat.md` et `X2` de `fiche-route.md`.
+**Ce que dit la théorie.** Rien : la théorie ne prescrit pas d'arborescence. Mais ici la convention
+**existe** — la documentation liée à l'ADR 55 la pose — donc l'écart n'est pas avec la théorie, il est
+avec une décision déjà prise.
 
-**Exemple concret.** Trois emplacements pour la même nature d'objet :
+C'est le seul écart du corpus dans ce cas, et c'est ce qui le rend le moins coûteux à corriger : il n'y
+a aucun arbitrage à rendre.
+
+**Exemple concret.** Le dossier décidé, et celui qu'on trouve à la place :
 
 ```
-application/api/models/           → un dossier de modèles de contrat
-application/api/read-models/      → un dossier de read-models
-application/api/organization.js   → le DTO à plat, à côté de l'API
+application/api/models/         → décidé par la documentation de l'ADR 55
+application/api/read-models/    → employé dans certains contextes
 ```
 
-**Correction.** Vérifier d'abord si la question est déjà tranchée : la documentation liée à l'ADR 55
-le ferait, selon la relecture du corpus, mais elle n'a pas été lue. Si c'est le cas, il n'y a pas de
-décision à prendre, seulement une convention à appliquer.
+Deux problèmes en un. La convention n'est pas suivie, donc son script ne peut pas être bloquant. Et le
+mot `read-model` désigne ici un DTO de contrat alors qu'il désigne une forme de lecture interne dans
+`domain/read-models/` — c'est exactement le mélange que décrit `X1` de `fiche-read-model.md`.
 
-Sinon, trancher l'emplacement une fois, puis déplacer. Le choix importe moins que l'unicité, et il n'y
-a pas d'argument fort pour l'un des trois — sauf à éviter `read-models/`, qui désigne autre chose dans
-`domain/` et brouille les deux notions.
+**Correction.** Mécanique : déplacer vers `models/` et réécrire les imports. Aucune décision à prendre,
+donc un codemod fait le travail — et le faire à la main casse des imports.
 
-Ce que la correction débloque, et c'est sa vraie valeur : le script de `P5` devient écrivable, et avec
-lui la vérification de `P3` — toute fonction exportée d'une API porte sa documentation — qui a besoin
-de savoir où regarder.
+Ce que la correction débloque : le script de `P5` devient activable en erreur, et avec lui la
+vérification de `P3`, qui a besoin de savoir où chercher les fonctions exportées et leur contrat.
 
-Le déplacement lui-même est mécanisable par codemod. La décision ne l'est pas.
+L'écart précis par contexte est mesuré dans les rapports de divergence, pas ici.
 
 ### X4. L'API importe une API ou un repository d'un contexte tiers
 
@@ -424,9 +431,9 @@ infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 | --- | --- | --- | --- |
 | **P2** passe par un usecase | règle `dependency-cruiser` : `application/api/**` ne dépend pas de `infrastructure/**` | configuration seule | aucun |
 | **P8** pas de transit | règle `dependency-cruiser` : `application/api/**` ne dépend pas d'un autre contexte | configuration seule | aucun |
-| **P3** contrat documenté | script `tests/tooling/` : toute fonction exportée d'une API porte sa documentation | ~30 lignes | aucun |
+| **P3** contrat documenté | régénérer `API.md` et comparer au fichier committé | ~10 lignes | aucun |
 | **P1** un DTO | règle ESLint : un `return` d'API qui rend directement le résultat d'un usecase | ~40 lignes | **à mesurer** |
-| **P5** emplacement | script : l'objet de contrat est à l'emplacement conventionnel | ~20 lignes | aucun — **impossible avant `X3`** |
+| **P5** emplacement | script : l'objet de contrat est dans `application/api/models/` | ~20 lignes | aucun — **bloquant après `X3`** |
 | **P4** DTO sans comportement | voir § 6 de `fiche-objet-valeur.md` | — | — |
 | **P6**, **P7** | revue | — | — |
 
@@ -464,23 +471,34 @@ intermédiaire, expression conditionnelle — suivent la même progression que `
 qui recopie exactement le modèle. C'est `P1` respecté à la lettre et violé en esprit — c'est `X5` — et
 seule la revue l'attrape.
 
-### P3 — la documentation comme contrat
+### P3 — le générateur est déjà l'oracle
 
-Un script qui vérifie que chaque fonction exportée d'une API porte sa documentation est trivial et sans
-faux positif. Il transforme une bonne pratique en garantie, à faible coût.
+Le script de génération existe. La vérification n'est donc pas à écrire, elle est à **brancher** :
+régénérer la documentation et comparer au fichier committé.
 
-Il a besoin de savoir où regarder, donc il gagne à venir après `X3` — mais il est écrivable avant, la
-liste des fonctions exportées ne dépendant pas de l'emplacement du DTO.
+```
+node scripts/generate-api-documentation.js src/<contexte> | diff - src/<contexte>/API.md
+```
+
+Dix lignes en test, aucun faux positif, et c'est plus fort qu'un script qui vérifierait la présence
+d'un commentaire : un contrat modifié sans régénération devient un test rouge, et la documentation
+committée ne peut plus dériver du code.
+
+Ce que ça ne dit pas : que la documentation soit **juste**. Un contrat mal décrit se régénère
+fidèlement. C'est la borne de cette vérification, et elle laisse `P6` en revue.
 
 ### Ordre de mise en œuvre
 
 Cet ordre suit le coût, pas le ROI du § 4.
 
 1. **P2** puis **P8** — configuration `dependency-cruiser`, avec contre-épreuve
-2. **P3** — script de documentation
-3. **`X3`** — trancher l'emplacement du DTO. Ce n'est pas de l'outillage
-4. **P5** — le script, une fois `X3` tranché
+2. **P3** — brancher le générateur en test, sur les contextes qui ont déjà un `API.md` committé
+3. **`X3`** — déplacer les objets de contrat vers `models/`, par codemod
+4. **P5** — le script d'emplacement, activable en erreur après `X3`
 5. **P1** — la règle ESLint, en avertissement d'abord
+
+Les points 1 et 2 ne dépendent de rien et se font aujourd'hui. C'est un changement par rapport à la
+version précédente de cette fiche, qui plaçait une décision en préalable là où il n'y en avait pas.
 
 ### Codemods
 
@@ -488,7 +506,7 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 
 | Écart | Codemod | Ce qu'il fait |
 | --- | --- | --- |
-| **X3** emplacement | oui, une fois la convention tranchée | Déplacer les fichiers et réécrire les imports. Le faire à la main casse des imports |
+| **X3** emplacement | oui, complet | Déplacer vers `models/` et réécrire les imports. La convention étant décidée, il n'y a aucune décision à prendre |
 | **X2** usecase manquant | partiel | Remplacer l'appel de repository par un usecase existant, oui. Écrire celui qui manque, non |
 | **X1** introduire un DTO | préparation seule | Générer un squelette et un `TODO`. **Jamais** un DTO aux mêmes champs que le modèle : le lint passerait au vert et la dette deviendrait invisible |
 | **X4** transit | non | Déplacer la composition chez chaque consommateur est de la conception |
@@ -563,11 +581,11 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [humain]  P1  Le DTO ne recopie pas le modèle champ par champ — voir X5
 [ ] [auto]    P2  Chaque fonction passe par un usecase, jamais par un repository
 [ ] [humain]  P6  Aucun renommage ni retrait sans avoir listé les contextes consommateurs
-[ ] [auto]    P3  Chaque fonction exportée est documentée : entrées, sortie, erreurs levées
+[ ] [auto]    P3  Le fichier API.md régénéré est identique à celui du dépôt
 [ ] [auto]    P8  Aucun import d'un autre contexte : ni repository, ni API tierce
 [ ] [humain]  P7  Aucun paramètre ni branche qui dépend de l'identité de l'appelant
 [ ] [humain]  P4  Le DTO ne porte aucune règle métier, seulement de la mise en forme
-[ ] [partiel] P5  Le DTO est à l'emplacement conventionnel du contexte
+[ ] [auto]    P5  Le DTO est dans application/api/models/
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui de l'API
 [ ] [humain]  Test unitaire avec usecase substitué, portant sur le mapping seul
 ```
@@ -588,16 +606,20 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | La couche elle-même | Pix : **ADR 55**, qui décide les APIs internes synchrones, expose le raisonnement et **énumère les coûts acceptés** — complexité d'injection, boilerplate, duplication des modèles | ADR 55 |
 | **P1** un DTO, jamais le modèle | Evans, *DDD*, ch. « Maintaining Model Integrity » — **Published Language** et **Open Host Service**. Pix : ADR 55, qui accepte la duplication comme contrepartie | *DDD Reference*, PDF gratuit ; ADR 55 |
 | **P2** passe par un usecase | Pix : **ADR 20**. Martin, *Clean Architecture*, ch. « Business Rules » | ADR 20 ; le livre de 2017 |
-| **P3** contrat documenté | Evans, même ch. — un Published Language est par définition documenté | *DDD Reference* |
+| **P3** contrat documenté | Evans, même ch. — un Published Language est par définition documenté. Pix : la **documentation liée à l'ADR 55** donne le script de génération et l'emplacement du fichier produit | *DDD Reference* ; le lien en fin d'ADR 55 |
 | **P4** DTO sans comportement | Evans, ch. « A Model Expressed in Software » — Value Object. Énoncés dans `fiche-objet-valeur.md` | *DDD Reference* |
-| **P5** emplacement unique | **aucune source** — convention à trancher, c'est `X3` | — |
+| **P5** emplacement du DTO | **documentation liée à l'ADR 55** : dossier `api` dans la couche application, sous-dossier `models` pour les classes de contrat. Page Confluence de l'espace EDTDT, donc hors du dépôt | le lien en fin d'ADR 55 |
 | **P6** stabilité du contrat | Evans, ch. « Maintaining Model Integrity ». Vernon, *IDDD*, ch. « Integrating Bounded Contexts » | *DDD Reference* ; dddcommunity.org |
 | **P7** indépendance de l'appelant | **aucune source.** Déduction : une API qui dépend de son appelant n'est pas un Open Host Service | — |
 | **P8** pas de transit | **aucune source.** Déduction de la Context Map d'Evans : le graphe déclaré doit décrire le graphe réel | — |
 
-**Trois invariants sur huit n'ont aucune source** : `P5`, `P7` et `P8`, dont deux sont des déductions
-explicites. C'est cohérent avec la jeunesse de la couche — la décision de l'adopter est documentée par
-l'ADR 55, la façon de l'écrire ne l'est pas encore.
+**Deux invariants sur huit n'ont aucune source** : `P7` et `P8`, tous deux des déductions explicites.
+`P5` en a une, contrairement à ce qu'affirmait la version précédente de cette fiche : la documentation
+liée à l'ADR 55 tranche l'emplacement du DTO.
+
+Le point de fragilité est ailleurs : **cette source est hors du dépôt**. Une page Confluence peut
+changer sans que rien ici ne le signale, et l'ADR qui y renvoie ne reproduit pas la décision. Les deux
+phrases utiles — le dossier `api`, le sous-dossier `models` — tiendraient dans l'ADR.
 
 C'est aussi ce qui rend cette fiche la plus utile à relire à plusieurs : elle propose des conventions
 là où l'équipe n'en a pas encore arrêté.
