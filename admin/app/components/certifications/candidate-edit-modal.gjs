@@ -273,7 +273,6 @@ export default class CandidateEditModal extends Component {
 
           <div class="candidate-edit-modal--content__field">
             <PixSelect
-              @label="Pays de naissance"
               @options={{this.countryOptions}}
               @onChange={{this.selectBirthCountry}}
               @value={{this.selectedCountryOption}}

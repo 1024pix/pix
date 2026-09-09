@@ -1,12 +1,12 @@
 import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 
 import StateTag from './state-tag';
 
@@ -93,7 +93,7 @@ export default class TrainingListSummaryItems extends Component {
         </:columns>
       </PixTable>
 
-      <PixPagination @pagination={{@summaries.meta.pagination}} />
+      <PaginationWrapper @pagination={{@summaries.meta.pagination}} />
 
     {{else}}
       <div class="table__empty">{{t "pages.trainings.training.list.noResult"}}</div>

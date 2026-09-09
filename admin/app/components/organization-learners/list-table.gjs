@@ -1,5 +1,4 @@
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixTable from '@1024pix/pix-ui/components/pix-table';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import { action } from '@ember/object';
@@ -9,6 +8,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import formatDate from 'ember-intl/helpers/format-date';
 import t from 'ember-intl/helpers/t';
+import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 
 export const learnerDetailsMetabaseLink = (learnerId) => {
   return `https://metabase.pix.fr/dashboard/1718?id=${learnerId}`;
@@ -212,7 +212,7 @@ export default class AdminLearnerList extends Component {
         </:columns>
       </PixTable>
 
-      <PixPagination @pagination={{@organizationLearners.meta}} />
+      <PaginationWrapper @pagination={{@organizationLearners.meta}} />
     {{else}}
       <div class="table__empty">{{t "common.tables.empty-result"}}</div>
     {{/if}}

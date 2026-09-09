@@ -6,6 +6,7 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import { isSearchValid } from 'pix-admin/utils/normalize-text.js';
 
 import ListItem from './item';
 
@@ -18,16 +19,9 @@ export default class AutonomousCoursesList extends Component {
 
   @action
   triggerFiltering(key, event) {
-    const normalizeText = (text) =>
-      text
-        .toUpperCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .trim();
+    const valueToSearch = event.target.value;
 
-    const valueToSearch = normalizeText(event.target.value);
-
-    this.items = this.args.items.filter((item) => !valueToSearch || normalizeText(item[key]).includes(valueToSearch));
+    this.items = this.args.items.filter((item) => !valueToSearch || isSearchValid(item[key], valueToSearch));
   }
 
   <template>

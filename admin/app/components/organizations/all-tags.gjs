@@ -7,6 +7,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
+import { isSearchValid } from 'pix-admin/utils/normalize-text.js';
 
 export default class OrganizationAllTags extends Component {
   @service store;
@@ -34,11 +35,7 @@ export default class OrganizationAllTags extends Component {
 
   @action
   async triggerFiltering(elementId) {
-    const valueToSearch = this.searchInputElementValue(elementId)
-      .toUpperCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '');
-    this.tagsToShow = this.allTags.filter((tag) => tag.name.toUpperCase().includes(valueToSearch));
+    this.tagsToShow = this.allTags.filter((tag) => isSearchValid(tag.name, this.searchInputElementValue(elementId)));
   }
 
   @action

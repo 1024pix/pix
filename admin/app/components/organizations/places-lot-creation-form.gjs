@@ -2,7 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -116,12 +116,11 @@ export default class PlacesLotCreationForm extends Component {
           <div class="form-field">
             <PixSelect
               @options={{this.categories}}
-              @placeholder="Sélectionnez une catégorie"
+              @texts={{hash placeholder="Sélectionnez une catégorie" requiredLabel=(t "common.forms.mandatory")}}
               @onChange={{fn this.handleSelectChange "category"}}
               @value={{this.form.category}}
               @validationStatus={{if this.validator.errors.category "error"}}
               @errorMessage={{if this.validator.errors.category (t this.validator.errors.category)}}
-              @requiredLabel={{t "common.forms.mandatory"}}
             >
               <:label>Catégorie</:label>
             </PixSelect>

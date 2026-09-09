@@ -1,6 +1,7 @@
 import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -121,7 +122,7 @@ export default class RequirementForm extends Component {
           @onChange={{this.updateRequirementType}}
           @value={{this.selectedRequirementType}}
           @options={{this.requirementTypeOptions}}
-          @placeholder="Choisissez votre type de requirement"
+          @texts={{hash placeholder="Choisissez votre type de requirement"}}
           @hideDefaultOption={{true}}
         >
           <:label>Sélectionner un type de requirement</:label>

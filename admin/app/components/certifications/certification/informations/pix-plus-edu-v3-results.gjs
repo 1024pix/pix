@@ -2,6 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -99,7 +100,7 @@ export default class PixPlusEduV3Results extends Component {
                 @value={{this.selectedJuryLevel}}
                 @hideDefaultOption={{true}}
                 @onChange={{this.changeJurySelect}}
-                @placeholder={{t "components.certifications.edu-results.v3.waiting"}}
+                @texts={{hash placeholder=(t "components.certifications.edu-results.v3.waiting")}}
               >
                 <:label>{{t "components.certifications.edu-results.v3.select"}}</:label>
               </PixSelect>

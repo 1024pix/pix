@@ -88,7 +88,7 @@ module('Acceptance | Session List', function (hooks) {
         test('it should display all the finalized sessions', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await click(screen.getByRole('button', { name: "Nombre d'élément à afficher par page" }));
+          await click(screen.getByRole('button', { name: "Nombre d'éléments à afficher par page" }));
           await screen.findByRole('listbox');
           await click(screen.getByRole('option', { name: '25' }));
 

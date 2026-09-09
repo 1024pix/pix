@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import { concat, fn } from '@ember/helper';
+import { concat, fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -162,10 +162,12 @@ export default class OrganizationCreationForm extends Component {
             @id="type"
             @onChange={{fn this.handleSelectChange "type"}}
             @options={{this.organizationTypes}}
-            @placeholder={{t "components.organizations.creation.type.placeholder"}}
+            @texts={{hash
+              placeholder=(t "components.organizations.creation.type.placeholder")
+              requiredLabel=(t "common.fields.required-field")
+            }}
             @hideDefaultOption={{true}}
             @value={{this.form.type}}
-            @requiredLabel={{t "common.fields.required-field"}}
             @errorMessage={{if this.validator.errors.type (t this.validator.errors.type)}}
             @isFullWidth={{true}}
           >
@@ -177,10 +179,12 @@ export default class OrganizationCreationForm extends Component {
             @id="administrationTeamId"
             @onChange={{fn this.handleSelectChange "administrationTeamId"}}
             @options={{this.administrationTeamsOptions}}
-            @placeholder={{t "components.organizations.creation.administration-team.selector.placeholder"}}
+            @texts={{hash
+              placeholder=(t "components.organizations.creation.administration-team.selector.placeholder")
+              requiredLabel=(t "common.fields.required-field")
+            }}
             @hideDefaultOption={{true}}
             @value={{this.form.administrationTeamId}}
-            @requiredLabel={{t "common.fields.required-field"}}
             @errorMessage={{if
               this.validator.errors.administrationTeamId
               (t this.validator.errors.administrationTeamId)
@@ -194,10 +198,12 @@ export default class OrganizationCreationForm extends Component {
             @id="organizationLearnerTypeId"
             @onChange={{fn this.handleSelectChange "organizationLearnerTypeId"}}
             @options={{this.organizationLearnerTypesOptions}}
-            @placeholder={{t "components.organizations.creation.organization-learner-type.selector.placeholder"}}
+            @texts={{hash
+              placeholder=(t "components.organizations.creation.organization-learner-type.selector.placeholder")
+              requiredLabel=(t "common.fields.required-field")
+            }}
             @hideDefaultOption={{true}}
             @value={{this.form.organizationLearnerTypeId}}
-            @requiredLabel={{t "common.fields.required-field"}}
             @errorMessage={{if
               this.validator.errors.organizationLearnerTypeId
               (t this.validator.errors.organizationLearnerTypeId)
@@ -211,12 +217,15 @@ export default class OrganizationCreationForm extends Component {
             class="organization-creation-form__field--force-grid-start"
             @onChange={{fn this.handleSelectChange "countryCode"}}
             @options={{this.countriesOptions}}
-            @placeholder={{t "components.organizations.creation.country.selector.placeholder"}}
+            @texts={{hash
+              placeholder=(t "components.organizations.creation.country.selector.placeholder")
+              requiredLabel=(t "common.fields.required-field")
+              selectSearchLabel="Rechercher"
+              searchPlaceholder="Guinée"
+            }}
             @hideDefaultOption={{true}}
             @value={{this.form.countryCode}}
-            @requiredLabel={{t "common.fields.required-field"}}
             @isSearchable={{true}}
-            @locale={{this.locale.currentLocale}}
             @errorMessage={{if this.validator.errors.countryCode (t this.validator.errors.countryCode)}}
             @isFullWidth={{true}}
           >

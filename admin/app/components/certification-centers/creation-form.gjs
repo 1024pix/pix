@@ -2,7 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import { concat, fn } from '@ember/helper';
+import { concat, fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -153,10 +153,12 @@ export default class CreationForm extends Component {
             @id="type"
             @onChange={{fn this.handleSelectChange "type"}}
             @options={{this.certificationCenterTypes}}
-            @placeholder={{t "components.certification-centers.creation.type.placeholder"}}
+            @texts={{hash
+              placeholder=(t "components.certification-centers.creation.type.placeholder")
+              requiredLabel=(t "common.fields.required-field")
+            }}
             @hideDefaultOption={{true}}
             @value={{this.form.type}}
-            @requiredLabel={{t "common.fields.required-field"}}
             @errorMessage={{if this.validator.errors.type (t this.validator.errors.type)}}
             @isFullWidth={{true}}
           >

@@ -3,6 +3,7 @@ import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -88,7 +89,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
             @onChange={{this.setRoleSelection}}
             @value={{this.selectedNewRole}}
             @options={{this.organizationRoles}}
-            @placeholder="- Rôle -"
+            @texts={{hash placeholder="- Rôle -"}}
             @screenReaderOnly={{true}}
           >
             <:label>Sélectionner un rôle</:label>

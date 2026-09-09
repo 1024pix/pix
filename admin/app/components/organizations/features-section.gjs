@@ -1,9 +1,8 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import { concat, fn, get } from '@ember/helper';
+import { concat, fn, get, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -13,6 +12,7 @@ import { t } from 'ember-intl';
 import { and, eq, not, or } from 'ember-truth-helpers';
 import lodashGet from 'lodash/get';
 import lodashSet from 'lodash/set';
+import MultiSelectSearchWrapper from 'pix-admin/components/ui/multi-select-search-wrapper';
 import Organization from 'pix-admin/models/organization';
 
 import Card from '../card';
@@ -54,10 +54,7 @@ export default class OrganizationFeaturesSection extends Component {
   }
 
   get attestationOptions() {
-    return this.attestations.map((attestation) => ({
-      value: attestation.key,
-      label: attestation.label,
-    }));
+    return this.attestations.map((attestation) => ({ value: attestation.key, label: attestation.label }));
   }
 
   get isManagingStudentAvailable() {
@@ -103,6 +100,29 @@ export default class OrganizationFeaturesSection extends Component {
       return this.intl.t('components.organizations.editing.organization-learner-import-format.selector.error');
     }
     return null;
+  }
+
+  get selectedAttestationsIds() {
+    return this.form.features.ATTESTATIONS_MANAGEMENT.params ?? [];
+  }
+
+  get selectedAttestationsLabels() {
+    if (this.attestations) {
+      return this.attestations
+        .map((attestation) => {
+          return { value: attestation.key, label: attestation.label };
+        })
+        .filter((attestation) => this.selectedAttestationsIds.includes(attestation.value))
+        .map((attestation) => attestation.label)
+        .join(', ');
+    }
+    return '';
+  }
+
+  get attestationsMultiSelectPlaceholder() {
+    return this.selectedAttestationsLabels.length
+      ? this.selectedAttestationsLabels
+      : this.intl.t('components.organizations.editing.attestations.selector.placeholder');
   }
 
   @action
@@ -187,6 +207,8 @@ export default class OrganizationFeaturesSection extends Component {
               @editableFeatureList={{this.editableFeatureList}}
               @learnerImportError={{this.learnerImportError}}
               @canEdit={{this.accessControl.hasAccessToOrganizationActionsScope}}
+              @selectedAttestationsLabels={{this.selectedAttestationsLabels}}
+              @attestationsMultiSelectPlaceholder={{this.attestationsMultiSelectPlaceholder}}
             />
           </Card>
         </section>
@@ -284,16 +306,18 @@ const FeaturesForm = <template>
                 required
                 size="small"
                 @aria-required={{true}}
-                @requiredLabel={{t "common.forms.mandatory"}}
+                @texts={{hash
+                  placeholder=(t
+                    "components.organizations.editing.organization-learner-import-format.selector.placeholder"
+                  )
+                  requiredLabel=(t "common.forms.mandatory")
+                }}
                 @options={{@importFormatOptions}}
                 @value={{organizationFeature.params.name}}
                 @onChange={{fn @updateValue "features.LEARNER_IMPORT.params.name"}}
                 @hideDefaultOption={{true}}
                 @isFullWidth={{false}}
                 @isDisabled={{not @canEdit}}
-                @placeholder={{t
-                  "components.organizations.editing.organization-learner-import-format.selector.placeholder"
-                }}
                 @errorMessage={{@learnerImportError}}
               >
                 <:label>
@@ -303,24 +327,21 @@ const FeaturesForm = <template>
             {{/if}}
 
             {{#if (and (eq feature "ATTESTATIONS_MANAGEMENT") (get organizationFeature "active"))}}
-              <PixMultiSelect
+              <MultiSelectSearchWrapper
                 class="features-section__attestations-select
                   {{if @isAttestationsInvalid 'features-section__attestations-select--error'}}"
-                size="small"
-                @isSearchable={{true}}
+                @size="small"
                 @values={{get organizationFeature "params"}}
                 @options={{@attestationOptions}}
                 @onChange={{fn @updateValue "features.ATTESTATIONS_MANAGEMENT.params"}}
                 @isDisabled={{not @canEdit}}
-                @placeholder={{t "components.organizations.editing.attestations.selector.placeholder"}}
               >
                 <:label>
                   {{t "components.organizations.editing.attestations.selector.label"}}
                 </:label>
-                <:default as |option|>
-                  {{option.label}}
-                </:default>
-              </PixMultiSelect>
+
+                <:placeholder>{{@attestationsMultiSelectPlaceholder}}</:placeholder>
+              </MultiSelectSearchWrapper>
               {{#if @isAttestationsInvalid}}
                 <p class="features-section__attestations-error">
                   {{t "components.organizations.editing.attestations.selector.error"}}
