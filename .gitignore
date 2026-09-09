@@ -113,6 +113,7 @@ GEMINI.md
 !.lintstagedrc.json
 !scalingo.json
 !.oxfmtrc.json
+!.oxlintrc.json
 !.prettierrc.json
 !.stylelintrc.json
 !nodemon.json

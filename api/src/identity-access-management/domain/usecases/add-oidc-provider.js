@@ -89,7 +89,7 @@ export const addOidcProvider = withTransaction(async function ({
   addOidcProviderValidator.validate(properties);
 
   const encryptedClientSecret = await cryptoService.encrypt(clientSecret);
-  // eslint-disable-next-line no-unused-vars -- extract clientSecret because only the encrypted value is stored
+  // oxlint-disable-next-line no-unused-vars -- extract clientSecret because only the encrypted value is stored
   const { clientSecret: _, ...propertiesWithoutClientSecret } = properties;
   const propertiesWithEncryptedClientSecret = { encryptedClientSecret, ...propertiesWithoutClientSecret };
 

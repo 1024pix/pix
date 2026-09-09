@@ -5,6 +5,7 @@ import i18nJsonPlugin from 'eslint-plugin-i18n-json';
 import knex from 'eslint-plugin-knex';
 import mocha from 'eslint-plugin-mocha';
 import nRecommendedConfig from 'eslint-plugin-n';
+import oxlint from 'eslint-plugin-oxlint';
 import unicorn from 'eslint-plugin-unicorn';
 import tseslint from 'typescript-eslint';
 
@@ -118,4 +119,5 @@ export default defineConfig([
       'func-style': ['error', 'declaration'],
     },
   },
+  ...oxlint.configs['flat/recommended'],
 ]);

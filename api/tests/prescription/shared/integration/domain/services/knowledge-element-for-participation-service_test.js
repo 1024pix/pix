@@ -130,9 +130,9 @@ describe('Integration | Prescription | Shared | Service | KnowledgeElementForPar
           // then
 
           const keFromDB = await knex('knowledge-elements').orderBy('skillId');
-          // eslint-disable-next-line no-unused-vars
+          // oxlint-disable-next-line no-unused-vars
           const expectedKeFromDb = keFromDB.map(({ id, createdAt, ...keDb }) => keDb);
-          // eslint-disable-next-line no-unused-vars
+          // oxlint-disable-next-line no-unused-vars
           const keToSave = knowledgeElementsToSave.map(({ id, createdAt, ...keTs }) => keTs);
 
           expect(keFromDB.length).to.equal(2);

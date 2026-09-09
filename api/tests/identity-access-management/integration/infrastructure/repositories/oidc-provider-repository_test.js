@@ -60,7 +60,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repositori
         await databaseBuilder.factory.buildOidcProvider(buildOidcProviderProperties);
         await databaseBuilder.commit();
 
-        // eslint-disable-next-line no-unused-vars
+        // oxlint-disable-next-line no-unused-vars
         const { clientSecret, ...oidcProviderProperties } = buildOidcProviderProperties;
         oidcProviderProperties.encryptedClientSecret = '#%@!!!!!!!!!!!!!';
 

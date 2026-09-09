@@ -48,7 +48,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | add-organiz
     const result = await knex('organization-features');
 
     expect(result).lengthOf(2);
-    //eslint-disable-next-line no-unused-vars
+    //oxlint-disable-next-line no-unused-vars
     expect(result.map(({ id, ...data }) => data)).deep.members([
       {
         featureId: learnerImportFeature.id,

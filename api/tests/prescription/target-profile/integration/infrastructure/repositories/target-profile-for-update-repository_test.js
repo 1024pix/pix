@@ -69,7 +69,8 @@ describe('Integration | Repository | Target-profile-for-update', function () {
           targetProfileId: existingTargetProfile.id,
         });
         expect(targetProfileTubesFromDB).to.have.lengthOf(2);
-        // eslint-disable-next-line no-unused-vars
+
+        // oxlint-disable-next-line no-unused-vars
         expect(targetProfileTubesFromDB.map(({ id, ...tube }) => tube)).to.deep.equal([
           {
             ...tube1,
@@ -111,7 +112,8 @@ describe('Integration | Repository | Target-profile-for-update', function () {
           targetProfileId: existingTargetProfile.id,
         });
         expect(targetProfileTubesFromDB).to.have.lengthOf(2);
-        // eslint-disable-next-line no-unused-vars
+
+        // oxlint-disable-next-line no-unused-vars
         expect(targetProfileTubesFromDB.map(({ id, ...tube }) => tube)).to.deep.equal([tube1, tube2]);
       });
     });

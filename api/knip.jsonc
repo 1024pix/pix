@@ -11,6 +11,9 @@
   "ignoreDependencies": [
     "pg-query-stream", // https://knexjs.org/guide/interfaces.html#streams
     "json-autotranslate", // used by api/scripts/translate-language-files.js
+    "@eslint-community/eslint-plugin-eslint-comments",
+    "eslint-plugin-simple-import-sort",
+    "eslint-plugin-yml",
   ],
   "ignoreFiles": [
     "tracing.worker.maddo.js", // used by Procfile-maddo

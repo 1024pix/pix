@@ -29,7 +29,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | add-oidc
       // then
       const oidcProviders = await knex('oidc-providers').select();
       expect(oidcProviders).to.have.lengthOf(1);
-      // eslint-disable-next-line no-unused-vars
+      // oxlint-disable-next-line no-unused-vars
       const { id, createdAt, updatedAt, encryptedClientSecret, ...oidcProvider } = oidcProviders[0];
       expect(oidcProvider).to.deep.equal({
         isVisible: true,
@@ -85,7 +85,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | add-oidc
       // then
       const oidcProviders = await knex('oidc-providers').select();
       expect(oidcProviders).to.have.lengthOf(1);
-      // eslint-disable-next-line no-unused-vars
+      // oxlint-disable-next-line no-unused-vars
       const { id, createdAt, updatedAt, encryptedClientSecret, ...oidcProvider } = oidcProviders[0];
       expect(oidcProvider).to.deep.equal({
         isVisible: false,
@@ -141,7 +141,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | add-oidc
       // then
       const oidcProviders = await knex('oidc-providers').select();
       expect(oidcProviders).to.have.lengthOf(1);
-      // eslint-disable-next-line no-unused-vars
+      // oxlint-disable-next-line no-unused-vars
       const { id, createdAt, updatedAt, encryptedClientSecret, ...oidcProvider } = oidcProviders[0];
       expect(oidcProvider).to.deep.equal({
         isVisible: true,

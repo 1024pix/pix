@@ -32,7 +32,7 @@ export class AnswersHistoryRepository {
 
   async deleteFile({ filename }) {
     // file path constraint to avoid policies issues with the buckets
-    // eslint-disable-next-line no-useless-escape
+    // oxlint-disable-next-line no-useless-escape
     const regex = 'answers/.*\.parquet';
     if (filename.search(regex) !== -1) {
       return this.#client.deleteFile({ key: filename });

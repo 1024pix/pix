@@ -714,7 +714,7 @@ describe('Prescription | Organization Learner | Acceptance | Application | sco-o
         expect(headers['content-type']).to.equal('text/csv;charset=utf-8');
         expect(headers['content-disposition']).to.contains('_organization_learners_password_reset.csv');
 
-        // eslint-disable-next-line no-unused-vars
+        // oxlint-disable-next-line no-unused-vars
         const [fileHeaders, firstRow, ...unusedRows] = payload.split('\n').map((row) => row.trim());
         expect(fileHeaders).to.equal('"Classe";"Nom";"Prénom";"Identifiant";"Mot de passe"');
         expect(firstRow).to.match(/^"3A";/);
