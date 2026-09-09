@@ -1,5 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
-import { click, waitUntil } from '@ember/test-helpers';
+import Service from '@ember/service';
+import { click, settled, waitUntil } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl/test-support';
 import Trainings from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/trainings';
 import { module, test } from 'qunit';
@@ -384,6 +386,60 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
           name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
         });
         assert.dom(nextButtonOnFinalPage).hasAttribute('aria-disabled', 'true');
+      });
+    });
+  });
+
+  module('responsive trainings per page', function () {
+    class MediaServiceStub extends Service {
+      @tracked isMobile = false;
+      @tracked isTablet = false;
+      @tracked isDesktop = false;
+    }
+
+    module('in tablet format', function () {
+      test('it should display next button navigation for a carousel with 3 trainings cards', async function (assert) {
+        // given
+        this.owner.register('service:media', MediaServiceStub);
+        const media = this.owner.lookup('service:media');
+        media.isTablet = true;
+
+        const store = this.owner.lookup('service:store');
+        const trainings = createManyTrainings(store, 3);
+
+        // when
+        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+
+        assert
+          .dom(
+            screen.getByRole('button', {
+              name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+            }),
+          )
+          .exists();
+      });
+    });
+
+    module('in mobile format', function () {
+      test('it should display next button navigation for a carousel with 2 trainings cards', async function (assert) {
+        // given
+        this.owner.register('service:media', MediaServiceStub);
+        const media = this.owner.lookup('service:media');
+        media.isMobile = true;
+
+        const store = this.owner.lookup('service:store');
+        const trainings = createManyTrainings(store, 2);
+
+        // when
+        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+
+        assert
+          .dom(
+            screen.getByRole('button', {
+              name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+            }),
+          )
+          .exists();
       });
     });
   });
