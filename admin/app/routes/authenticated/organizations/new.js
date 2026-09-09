@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import RSVP from 'rsvp';
 
 export default class NewRoute extends Route {
   @service router;
@@ -24,12 +23,12 @@ export default class NewRoute extends Route {
     if (parentOrganizationId) {
       parentOrganization = await this.store.findRecord('organization', parentOrganizationId);
     }
-    return RSVP.hash({
+    return {
       administrationTeams,
       countries,
       parentOrganization,
       organizationLearnerTypes,
-    });
+    };
   }
 
   resetController(controller, isExiting) {

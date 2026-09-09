@@ -5,7 +5,6 @@ import { t } from 'ember-intl/test-support';
 import Login from 'pix-certif/components/login';
 import ENV from 'pix-certif/config/environment';
 import { module, test } from 'qunit';
-import { reject, resolve } from 'rsvp';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -38,11 +37,10 @@ module('Integration | Component | login', function (hooks) {
 
   test('it should call authentication service with appropriate parameters', async function (assert) {
     // given
-    sessionStub.authenticate.callsFake(function (authenticator, email, password) {
+    sessionStub.authenticate.callsFake(async function (authenticator, email, password) {
       this.authenticator = authenticator;
       this.email = email;
       this.password = password;
-      return resolve();
     });
     const sessionServiceObserver = this.owner.lookup('service:session');
     const screen = await render(<template><Login /></template>);
@@ -73,7 +71,7 @@ module('Integration | Component | login', function (hooks) {
       },
     };
 
-    sessionStub.authenticate.callsFake(() => reject(invalidCredentialsErrorMessage));
+    sessionStub.authenticate.callsFake(() => Promise.reject(invalidCredentialsErrorMessage));
     const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'Mauvais mot de passe');
@@ -87,11 +85,10 @@ module('Integration | Component | login', function (hooks) {
 
   test('should authenticate user with trimmed email', async function (assert) {
     // given
-    sessionStub.authenticate.callsFake(function (authenticator, email, password) {
+    sessionStub.authenticate.callsFake(async function (authenticator, email, password) {
       this.authenticator = authenticator;
       this.email = email;
       this.password = password;
-      return resolve();
     });
     const sessionServiceObserver = this.owner.lookup('service:session');
     const screen = await render(<template><Login /></template>);
@@ -116,7 +113,7 @@ module('Integration | Component | login', function (hooks) {
     };
     const currentDomainService = this.owner.lookup('service:current-domain');
     sinon.stub(currentDomainService, 'getExtension').returns('fr');
-    sessionStub.authenticate.callsFake(() => reject(errorResponse));
+    sessionStub.authenticate.callsFake(() => Promise.reject(errorResponse));
     const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'Mauvais mot de passe');
@@ -157,7 +154,7 @@ module('Integration | Component | login', function (hooks) {
       },
     };
 
-    sessionStub.authenticate.callsFake(() => reject(notLinkedToOrganizationErrorMessage));
+    sessionStub.authenticate.callsFake(() => Promise.reject(notLinkedToOrganizationErrorMessage));
     const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
@@ -184,7 +181,7 @@ module('Integration | Component | login', function (hooks) {
       },
     };
 
-    sessionStub.authenticate.callsFake(() => reject(gatewayTimeoutErrorMessage));
+    sessionStub.authenticate.callsFake(() => Promise.reject(gatewayTimeoutErrorMessage));
     const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
@@ -203,7 +200,7 @@ module('Integration | Component | login', function (hooks) {
       errors: [{ status: '502', title: 'Bad Gateway', detail: 'Bad gateway occurred' }],
     };
 
-    sessionStub.authenticate.callsFake(() => reject(msgErrorNotLinkedCertification));
+    sessionStub.authenticate.callsFake(() => Promise.reject(msgErrorNotLinkedCertification));
     const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');

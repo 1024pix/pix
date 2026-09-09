@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import RSVP from 'rsvp';
 
 export default class FrameworkNewRoute extends Route {
   @service store;
@@ -20,10 +19,10 @@ export default class FrameworkNewRoute extends Route {
       'authenticated.certification-frameworks.certification-framework.versions',
     );
 
-    return RSVP.hash({
+    return {
       frameworks,
       scope: certificationFramework.scope,
       activeVersion,
-    });
+    };
   }
 }

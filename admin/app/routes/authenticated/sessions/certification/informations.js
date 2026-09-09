@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import RSVP from 'rsvp';
 
 export default class CertificationInformationsRoute extends Route {
   @service store;
@@ -10,11 +9,11 @@ export default class CertificationInformationsRoute extends Route {
     const certification = await this.modelFor('authenticated.sessions.certification').reload();
     const session = await this.store.findRecord('session', certification.sessionId);
     const certificationIssueReports = await certification.certificationIssueReports;
-    return RSVP.hash({
+    return {
       session,
       certification,
       certificationIssueReports,
-    });
+    };
   }
 
   setupController(controller, model) {

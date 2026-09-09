@@ -4,7 +4,6 @@ import { triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -80,11 +79,10 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   module('When there is a valid invitation and user is not member of certification center yet', function (hooks) {
     let adapter;
     hooks.beforeEach(function () {
-      SessionStub.prototype.authenticate = function (authenticator, email, password) {
+      SessionStub.prototype.authenticate = async function (authenticator, email, password) {
         this.authenticator = authenticator;
         this.email = email;
         this.password = password;
-        return resolve();
       };
 
       adapter = this.owner.lookup('adapter:certification-center-invitation');
@@ -149,11 +147,10 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
             adapter.accept = sinon.stub();
             adapter.accept.rejects({ errors: [{ code: 412, status: '412' }] });
 
-            SessionStub.prototype.authenticate = function (authenticator, email, password) {
+            SessionStub.prototype.authenticate = async function (authenticator, email, password) {
               this.authenticator = authenticator;
               this.email = email;
               this.password = password;
-              return resolve();
             };
 
             const sessionServiceObserver = this.owner.lookup('service:session');

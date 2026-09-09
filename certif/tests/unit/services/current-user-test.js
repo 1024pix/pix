@@ -1,7 +1,6 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
 import sinon from 'sinon';
 
 module('Unit | Service | current-user', function (hooks) {
@@ -91,7 +90,7 @@ module('Unit | Service | current-user', function (hooks) {
       class SessionStub extends Service {
         isAuthenticated = true;
         data = { authenticated: { user_id: 123 } };
-        invalidate = () => resolve('invalidate');
+        invalidate = async () => 'invalidate';
       }
       this.owner.register('service:session', SessionStub);
       const currentUser = this.owner.lookup('service:currentUser');

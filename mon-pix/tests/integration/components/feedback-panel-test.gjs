@@ -4,7 +4,6 @@ import { click, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import FeedbackPanel from 'mon-pix/components/feedback-panel';
 import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { waitForDialog, waitForDialogClose } from '../../helpers/wait-for';
@@ -16,7 +15,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
     createRecord() {
       return Object.create({
         save() {
-          return resolve();
+          return Promise.resolve();
         },
       });
     }

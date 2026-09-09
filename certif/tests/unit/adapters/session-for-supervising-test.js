@@ -1,6 +1,5 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
 
 module('Unit | Adapters | session-for-supervising', function (hooks) {
   setupTest(hooks);
@@ -9,7 +8,7 @@ module('Unit | Adapters | session-for-supervising', function (hooks) {
 
   hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:session-for-supervising');
-    const ajaxStub = () => resolve();
+    const ajaxStub = async () => {};
     adapter.ajax = ajaxStub;
   });
 

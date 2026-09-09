@@ -2,7 +2,6 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { reject } from 'rsvp';
 import sinon from 'sinon';
 
 module('Unit | Service | competence-evaluation', function (hooks) {
@@ -55,7 +54,7 @@ module('Unit | Service | competence-evaluation', function (hooks) {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
         store = Service.create({
-          queryRecord: () => reject({ errors: [{ code: 'IMPROVE_COMPETENCE_EVALUATION_FORBIDDEN' }] }),
+          queryRecord: sinon.stub().rejects({ errors: [{ code: 'IMPROVE_COMPETENCE_EVALUATION_FORBIDDEN' }] }),
           findRecord: sinon.stub().resolves(),
         });
         router = EmberObject.create({ transitionTo: sinon.stub() });
@@ -80,7 +79,7 @@ module('Unit | Service | competence-evaluation', function (hooks) {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
         store = Service.create({
-          queryRecord: () => reject(error),
+          queryRecord: sinon.stub().rejects(error),
           findRecord: sinon.stub().resolves(),
         });
         competenceEvaluationService.set('router', router);

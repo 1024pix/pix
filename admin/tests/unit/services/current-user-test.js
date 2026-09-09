@@ -2,7 +2,6 @@ import Object from '@ember/object';
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { reject, resolve } from 'rsvp';
 
 module('Unit | Service | current-user', function (hooks) {
   setupTest(hooks);
@@ -13,7 +12,7 @@ module('Unit | Service | current-user', function (hooks) {
       const connectedUserId = 1;
       const connectedUser = Object.create({ id: connectedUserId });
       const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser),
+        queryRecord: async () => connectedUser,
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
@@ -53,12 +52,12 @@ module('Unit | Service | current-user', function (hooks) {
       // Given
       const connectedUserId = 1;
       const storeStub = Service.create({
-        queryRecord: () => reject({ errors: [{ code: 401 }] }),
+        queryRecord: () => Promise.reject({ errors: [{ code: 401 }] }),
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
         data: { authenticated: { user_id: connectedUserId } },
-        invalidate: () => resolve('invalidate'),
+        invalidate: async () => 'invalidate',
       });
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.set('store', storeStub);

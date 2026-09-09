@@ -4,7 +4,6 @@ import { t } from 'ember-intl/test-support';
 import LoginForm from 'pix-admin/components/login-form';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
-import { reject } from 'rsvp';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -154,7 +153,7 @@ module('Integration | Component | login-form', function (hooks) {
           ],
         },
       };
-      sessionStub.authenticate = () => reject(errorResponse);
+      sessionStub.authenticate = () => Promise.reject(errorResponse);
 
       const screen = await render(<template><LoginForm /></template>);
 
@@ -181,7 +180,7 @@ module('Integration | Component | login-form', function (hooks) {
           ],
         },
       };
-      sessionStub.authenticate = () => reject(errorResponse);
+      sessionStub.authenticate = () => Promise.reject(errorResponse);
 
       const screen = await render(<template><LoginForm /></template>);
 
@@ -207,7 +206,7 @@ module('Integration | Component | login-form', function (hooks) {
           ],
         },
       };
-      sessionStub.authenticate = () => reject(errorResponse);
+      sessionStub.authenticate = () => Promise.reject(errorResponse);
 
       const screen = await render(<template><LoginForm /></template>);
 
@@ -226,7 +225,7 @@ module('Integration | Component | login-form', function (hooks) {
         status: Number(ApiErrorMessages.LOGIN_NO_PERMISSION.CODE),
         responseJSON: { errors: [{ status: ApiErrorMessages.LOGIN_NO_PERMISSION.CODE }] },
       };
-      sessionStub.authenticate = () => reject(errorResponse);
+      sessionStub.authenticate = () => Promise.reject(errorResponse);
 
       const screen = await render(<template><LoginForm /></template>);
 
@@ -252,7 +251,7 @@ module('Integration | Component | login-form', function (hooks) {
           ],
         },
       };
-      sessionStub.authenticate = () => reject(errorResponse);
+      sessionStub.authenticate = () => Promise.reject(errorResponse);
 
       const screen = await render(<template><LoginForm /></template>);
 
@@ -271,7 +270,7 @@ module('Integration | Component | login-form', function (hooks) {
         status: 418,
         responseJSON: { errors: [{ status: 418 }] },
       };
-      sessionStub.authenticate = () => reject(errorResponse);
+      sessionStub.authenticate = () => Promise.reject(errorResponse);
 
       const screen = await render(<template><LoginForm /></template>);
 

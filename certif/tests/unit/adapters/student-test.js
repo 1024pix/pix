@@ -1,6 +1,5 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
 
 module('Unit | Adapter | student', function (hooks) {
   setupTest(hooks);
@@ -9,7 +8,7 @@ module('Unit | Adapter | student', function (hooks) {
 
   hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:student');
-    const ajaxStub = () => resolve();
+    const ajaxStub = async () => {};
     adapter.ajax = ajaxStub;
   });
 

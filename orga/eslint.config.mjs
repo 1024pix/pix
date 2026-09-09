@@ -63,6 +63,7 @@ export default [
       'no-restricted-imports': [
         'error',
         {
+          paths: ['rsvp'],
           patterns: [
             {
               group: ['lodash', 'lodash/*', 'lodash-es', 'lodash-es/*', 'lodash.*'],

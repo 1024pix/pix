@@ -55,7 +55,7 @@ export default [
     },
     rules: {
       'no-irregular-whitespace': 'off',
-      'no-restricted-imports': ['error', { paths: ['lodash'] }],
+      'no-restricted-imports': ['error', { paths: ['lodash', 'rsvp'] }],
     },
   },
   {
