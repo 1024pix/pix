@@ -15,8 +15,8 @@ export const TRAININGS_LIST_ID = 'results-recommendation-engine-training-list';
 
 export default class Trainings extends Component {
   @service intl;
+  @service media;
 
-  @tracked trainingsPerPage = 3;
   @tracked currentPageFirstCardIndex = 0;
   @tracked spacerWidth = null;
 
@@ -36,8 +36,18 @@ export default class Trainings extends Component {
     };
   });
 
+  get numberOfTrainingsPerPage() {
+    if (this.media.isDesktop) {
+      return 3;
+    } else if (this.media.isTablet) {
+      return 2;
+    } else {
+      return 1;
+    }
+  }
+
   get areNavigationButtonsVisible() {
-    return this.args.trainings.length > this.trainingsPerPage;
+    return this.args.trainings.length > this.numberOfTrainingsPerPage;
   }
 
   get cards() {
@@ -53,13 +63,13 @@ export default class Trainings extends Component {
   }
 
   get isNextButtonDisabled() {
-    return this.currentPageFirstCardIndex + this.trainingsPerPage >= this.args.trainings.length;
+    return this.currentPageFirstCardIndex + this.numberOfTrainingsPerPage >= this.args.trainings.length;
   }
 
   get paginationAnnouncement() {
     const total = this.args.trainings.length;
     const from = this.currentPageFirstCardIndex + 1;
-    const to = Math.min(this.currentPageFirstCardIndex + this.trainingsPerPage, total);
+    const to = Math.min(this.currentPageFirstCardIndex + this.numberOfTrainingsPerPage, total);
 
     return this.intl.t('pages.skill-review.recommended-engine.trainings.pagination-announcement', {
       from,
@@ -83,14 +93,14 @@ export default class Trainings extends Component {
   @action
   scrollToPreviousTrainings() {
     this.args.onNavigationButtonClick('previous');
-    this.goToCardIndex(Math.max(this.currentPageFirstCardIndex - this.trainingsPerPage, 0));
+    this.goToCardIndex(Math.max(this.currentPageFirstCardIndex - this.numberOfTrainingsPerPage, 0));
   }
 
   @action
   scrollToNextTrainings() {
     this.args.onNavigationButtonClick('next');
     this.goToCardIndex(
-      Math.min(this.currentPageFirstCardIndex + this.trainingsPerPage, this.args.trainings.length - 1),
+      Math.min(this.currentPageFirstCardIndex + this.numberOfTrainingsPerPage, this.args.trainings.length - 1),
     );
   }
 
@@ -151,12 +161,14 @@ export default class Trainings extends Component {
           <div class="results-recommendation-engine-training__navigation">
             <PixIconButton
               @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.previous-button-aria-label"}}
+              @variant="secondary"
               @iconName="chevronLeft"
               @isDisabled={{this.isPreviousButtonDisabled}}
               @triggerAction={{this.scrollToPreviousTrainings}}
             />
             <PixIconButton
               @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.next-button-aria-label"}}
+              @variant="secondary"
               @iconName="chevronRight"
               @isDisabled={{this.isNextButtonDisabled}}
               @triggerAction={{this.scrollToNextTrainings}}
