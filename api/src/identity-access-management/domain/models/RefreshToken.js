@@ -7,7 +7,13 @@ import { validateEntity } from '../../../shared/domain/validators/entity-validat
 
 const SEPARATOR = ':';
 
+/**
+ * @deprecated please use UserRefreshToken
+ */
 export class RefreshToken {
+  /**
+   * @deprecated please use UserRefreshToken
+   */
   constructor({ userId, value, audience, sessionId, source }) {
     this.userId = userId;
     this.value = value;
@@ -27,6 +33,9 @@ export class RefreshToken {
     );
   }
 
+  /**
+   * @deprecated please use UserRefreshToken
+   */
   static generate({ userId, source, audience, sessionId }) {
     const uuid = crypto.randomUUID();
     const value = [userId, uuid].filter(Boolean).join(SEPARATOR);
