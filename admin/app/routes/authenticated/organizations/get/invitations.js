@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import RSVP from 'rsvp';
 
 export default class InvitationsRoute extends Route {
   @service store;
@@ -14,10 +13,10 @@ export default class InvitationsRoute extends Route {
   }
 
   async model() {
-    const organization = this.modelFor('authenticated.organizations.get');
-    return RSVP.hash({
-      organization: organization,
-      organizationInvitations: organization.organizationInvitations,
-    });
+    const organization = await this.modelFor('authenticated.organizations.get');
+    return {
+      organization,
+      organizationInvitations: await organization.organizationInvitations,
+    };
   }
 }

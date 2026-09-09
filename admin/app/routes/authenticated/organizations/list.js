@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import RSVP from 'rsvp';
 
 export default class ListRoute extends Route {
   @service store;
@@ -38,10 +37,10 @@ export default class ListRoute extends Route {
       organizations = [];
       administrationTeams = [];
     }
-    return RSVP.hash({
+    return {
       organizations,
       administrationTeams,
-    });
+    };
   }
 
   resetController(controller, isExiting) {
