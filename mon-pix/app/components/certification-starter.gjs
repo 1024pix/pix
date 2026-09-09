@@ -43,6 +43,13 @@ export default class CertificationStarter extends Component {
     : VALID_CERTIFICATION_LOCALES.FRENCH_FRANCE;
   @tracked hasCandidateConfirmedLanguage = !this._isOrgDomain;
 
+  get _certificationLocale() {
+    if (this._isOrgDomain && this.args.model.certificationCandidate.hasPixPlusSubscription) {
+      return VALID_CERTIFICATION_LOCALES.FRENCH_FRANCE;
+    }
+    return this.selectedLanguage;
+  }
+
   get accessCode() {
     return this.inputAccessCode.toUpperCase();
   }
@@ -134,7 +141,7 @@ export default class CertificationStarter extends Component {
     const newCertificationCourse = this.store.createRecord('certification-course', {
       accessCode: this.accessCode,
       sessionId: this.args.model.certificationCandidate.sessionId,
-      locale: this.selectedLanguage,
+      locale: this._certificationLocale,
     });
     try {
       await newCertificationCourse.save();

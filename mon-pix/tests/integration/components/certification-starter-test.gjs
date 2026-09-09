@@ -351,6 +351,43 @@ module('Integration | Component | certification-starter', function (hooks) {
         assert.ok(certificationCourse.save.calledOnce);
       });
 
+      test('should submit with fr-fr locale when candidate has a Pix+ subscription on org domain', async function (assert) {
+        // given
+        const certificationCourse = {
+          id: '456',
+          save: sinon.stub(),
+          deleteRecord: sinon.stub(),
+        };
+
+        const createRecordStub = sinon.stub().returns(certificationCourse);
+
+        class StoreServiceStub extends Service {
+          createRecord = createRecordStub;
+        }
+
+        this.owner.register('service:store', StoreServiceStub);
+
+        stubFranceDomain(this.owner, false);
+
+        model = {
+          certificationCandidate: { hasStartedTest: false, sessionId: 123, hasPixPlusSubscription: true },
+        };
+        const screen = await renderComponent();
+        await fillAccessCode(screen, 'ABC123');
+        await confirmLanguageSelection(screen);
+
+        // when
+        await submitForm();
+
+        // then
+        sinon.assert.calledWithExactly(createRecordStub, 'certification-course', {
+          accessCode: 'ABC123',
+          sessionId: 123,
+          locale: 'fr-fr',
+        });
+        assert.ok(true);
+      });
+
       module('when the creation of certification course is in error', function (hooks) {
         hooks.beforeEach(function () {
           class RouterServiceStub extends Service {
