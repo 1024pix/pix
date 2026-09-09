@@ -12,11 +12,11 @@ import onIntersect from 'mon-pix/modifiers/on-intersect';
 import TrainingCard from './training/card';
 
 export const TRAININGS_LIST_ID = 'results-recommendation-engine-training-list';
-const TRAININGS_PER_PAGE = 3;
 
 export default class Trainings extends Component {
   @service intl;
 
+  @tracked trainingsPerPage = 3;
   @tracked currentPageFirstCardIndex = 0;
   @tracked spacerWidth = null;
 
@@ -37,7 +37,7 @@ export default class Trainings extends Component {
   });
 
   get areNavigationButtonsVisible() {
-    return this.args.trainings.length > TRAININGS_PER_PAGE;
+    return this.args.trainings.length > this.trainingsPerPage;
   }
 
   get cards() {
@@ -53,13 +53,13 @@ export default class Trainings extends Component {
   }
 
   get isNextButtonDisabled() {
-    return this.currentPageFirstCardIndex + TRAININGS_PER_PAGE >= this.args.trainings.length;
+    return this.currentPageFirstCardIndex + this.trainingsPerPage >= this.args.trainings.length;
   }
 
   get paginationAnnouncement() {
     const total = this.args.trainings.length;
     const from = this.currentPageFirstCardIndex + 1;
-    const to = Math.min(this.currentPageFirstCardIndex + TRAININGS_PER_PAGE, total);
+    const to = Math.min(this.currentPageFirstCardIndex + this.trainingsPerPage, total);
 
     return this.intl.t('pages.skill-review.recommended-engine.trainings.pagination-announcement', {
       from,
@@ -83,13 +83,15 @@ export default class Trainings extends Component {
   @action
   scrollToPreviousTrainings() {
     this.args.onNavigationButtonClick('previous');
-    this.goToCardIndex(Math.max(this.currentPageFirstCardIndex - TRAININGS_PER_PAGE, 0));
+    this.goToCardIndex(Math.max(this.currentPageFirstCardIndex - this.trainingsPerPage, 0));
   }
 
   @action
   scrollToNextTrainings() {
     this.args.onNavigationButtonClick('next');
-    this.goToCardIndex(Math.min(this.currentPageFirstCardIndex + TRAININGS_PER_PAGE, this.args.trainings.length - 1));
+    this.goToCardIndex(
+      Math.min(this.currentPageFirstCardIndex + this.trainingsPerPage, this.args.trainings.length - 1),
+    );
   }
 
   @action
@@ -106,7 +108,7 @@ export default class Trainings extends Component {
     this.list.scrollTo({ left: targetCard.offsetLeft, behavior });
   }
 
-  // The list can show more than TRAININGS_PER_PAGE cards at once (a peek of
+  // The list can show more than this.trainingsPerPage cards at once (a peek of
   // the next card is visible by design). The trailing spacer must cover that
   // extra peeked width, otherwise the browser clamps scrollTo() short of the
   // last card's offsetLeft and a previous card re-appears on the left.
