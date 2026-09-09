@@ -23,13 +23,6 @@ const validateFregataFile = async function ({
     const { warnings } = parser.parse(parser.getFileEncoding());
 
     warningsData = warnings;
-
-    await importFromFregataJobRepository.performAsync(
-      new ImportFromFregataJob({
-        organizationImportId: organizationImport.id,
-        locale: i18n.getLocale(),
-      }),
-    );
   } catch (error) {
     if (error instanceof AggregateImportError) {
       errors.push(...error.meta);
@@ -44,6 +37,13 @@ const validateFregataFile = async function ({
     organizationImport.validate({ errors, warnings: warningsData });
     await organizationImportRepository.save(organizationImport);
   }
+
+  await importFromFregataJobRepository.performAsync(
+    new ImportFromFregataJob({
+      organizationImportId: organizationImport.id,
+      locale: i18n.getLocale(),
+    }),
+  );
 };
 
 export { validateFregataFile };
