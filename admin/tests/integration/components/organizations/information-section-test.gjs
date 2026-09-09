@@ -49,6 +49,13 @@ module('Integration | Component | organizations/information-section', function (
         store.createRecord('organization-learner-import-format', { id: '123', name: 'GENERIC' }),
         store.createRecord('organization-learner-import-format', { id: '456', name: 'ONDE' }),
       ]);
+
+    findAllStub
+      .withArgs('structure-category')
+      .resolves([
+        store.createRecord('structure-category', { id: '111', label: 'Catégorie 1' }),
+        store.createRecord('structure-category', { id: '222', label: 'Catégorie 2' }),
+      ]);
   });
 
   module('when editing organization', function () {
@@ -173,6 +180,15 @@ module('Integration | Component | organizations/information-section', function (
       const danemarkOption = await screen.findByRole('option', { name: 'Danemark (99101)' });
       await click(danemarkOption);
 
+      await click(
+        screen.getByRole('button', {
+          name: `${t('components.organizations.editing.category.selector.label')} *`,
+        }),
+      );
+      await screen.findByRole('listbox');
+      const categoryOption = await screen.findByRole('option', { name: 'Catégorie 1' });
+      await click(categoryOption);
+
       await fillByLabel(t('components.organizations.information-section-view.credits'), 50);
       await fillByLabel(t('components.organizations.information-section-view.documentation-link'), 'https://pix.fr/');
 
@@ -200,6 +216,9 @@ module('Integration | Component | organizations/information-section', function (
             .nextElementSibling,
         )
         .hasText('Équipe 2');
+      assert
+        .dom(screen.getByText(t('components.organizations.information-section-view.category')).nextElementSibling)
+        .hasText('Catégorie 1');
       assert
         .dom(screen.getByText(t('components.organizations.information-section-view.credits')).nextElementSibling)
         .hasText('50');

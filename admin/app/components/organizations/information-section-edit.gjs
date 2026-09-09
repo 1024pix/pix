@@ -12,6 +12,7 @@ import Joi from 'joi';
 import lodashGet from 'lodash/get';
 import lodashSet from 'lodash/set';
 import { FormValidator } from 'pix-admin/utils/form-validator';
+import { isSearchValid } from 'pix-admin/utils/normalize-text';
 
 import Card from '../card';
 
@@ -28,6 +29,8 @@ export default class OrganizationInformationSectionEditionMode extends Component
   @tracked administrationTeams = [];
   @tracked organizationLearnerTypes = [];
   @tracked countries = [];
+  @tracked structureCategories = [];
+  @tracked categoriesSearchQuery = '';
 
   noIdentityProviderOption = { label: this.intl.t('common.words.none'), value: 'None' };
   garIdentityProviderOption = { label: 'GAR', value: 'GAR' };
@@ -44,6 +47,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.administrationTeams = await this.store.findAll('administration-team');
     this.organizationLearnerTypes = await this.store.findAll('organization-learner-type');
     this.countries = await this.store.findAll('country');
+    this.structureCategories = await this.store.findAll('structure-category');
   }
 
   #initForm() {
@@ -66,6 +70,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
       organizationLearnerTypeId: this.args.organization.organizationLearnerTypeId
         ? `${this.args.organization.organizationLearnerTypeId}`
         : null,
+      categoryId: this.args.organization.categoryId ? `${this.args.organization.categoryId}` : null,
     };
   }
 
@@ -96,6 +101,21 @@ export default class OrganizationInformationSectionEditionMode extends Component
     return options;
   }
 
+  get categoriesOptions() {
+    const options = this.structureCategories.map((structureCategory) => ({
+      value: structureCategory.id,
+      label: structureCategory.label,
+    }));
+    return options;
+  }
+
+  get filteredCategoriesOptions() {
+    if (!this.categoriesSearchQuery) {
+      return this.categoriesOptions;
+    }
+    return this.categoriesOptions.filter((option) => isSearchValid(option.label, this.categoriesSearchQuery));
+  }
+
   get countriesOptions() {
     const options = this.countries.map((country) => ({
       value: country.code,
@@ -118,6 +138,11 @@ export default class OrganizationInformationSectionEditionMode extends Component
   @action
   updateFormValue(key, event) {
     this.updateValue(key, event.target.value);
+  }
+
+  @action
+  onSearchCategories(query) {
+    this.categoriesSearchQuery = query;
   }
 
   @action
@@ -153,6 +178,8 @@ export default class OrganizationInformationSectionEditionMode extends Component
 
     const countryName = this.countries.find((country) => country.code === this.form.countryCode)?.name;
 
+    const categoryLabel = this.structureCategories.find((category) => category.id === this.form.categoryId)?.label;
+
     this.args.organization.set('name', this.form.name);
     this.args.organization.set('externalId', this.form.externalId);
     this.args.organization.set('provinceCode', this.form.provinceCode);
@@ -169,6 +196,8 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.args.organization.set('countryName', countryName ?? null);
     this.args.organization.set('organizationLearnerTypeId', this.form.organizationLearnerTypeId);
     this.args.organization.set('organizationLearnerTypeName', organizationLearnerTypeName);
+    this.args.organization.set('categoryId', this.form.categoryId);
+    this.args.organization.set('categoryLabel', categoryLabel);
 
     this.closeAndResetForm();
     return this.args.onSubmit();
@@ -276,6 +305,30 @@ export default class OrganizationInformationSectionEditionMode extends Component
               @isFullWidth={{true}}
               {{on "input" (fn this.updateFormValue "externalId")}}
             ><:label>{{t "components.organizations.information-section-view.external-id"}}</:label></PixInput>
+          </div>
+
+          <div class="organization-creation-form__input--full">
+            <PixSelect
+              required
+              @aria-required={{true}}
+              @texts={{hash
+                placeholder=(t "components.organizations.editing.category.selector.placeholder")
+                selectSearchLabel=(t "components.organizations.editing.category.selector.search-label")
+                searchPlaceholder=(t "components.organizations.editing.category.selector.search-placeholder")
+                requiredLabel=(t "common.forms.mandatory")
+              }}
+              @errorMessage={{if this.validator.errors.categoryId (t this.validator.errors.categoryId)}}
+              @validationStatus={{if this.validator.errors.categoryId "error"}}
+              @options={{this.filteredCategoriesOptions}}
+              @value={{this.form.categoryId}}
+              @onChange={{fn this.updateValue "categoryId"}}
+              @onSearch={{this.onSearchCategories}}
+              @hideDefaultOption={{true}}
+              @isSearchable={{true}}
+              @isFullWidth={{true}}
+            >
+              <:label>{{t "components.organizations.editing.category.selector.label"}}</:label>
+            </PixSelect>
           </div>
         </Card>
 
@@ -402,6 +455,10 @@ const ORGANIZATION_FORM_VALIDATION_SCHEMA = Joi.object({
   organizationLearnerTypeId: Joi.string().empty(['', null]).required().messages({
     'any.required': 'components.organizations.editing.organization-learner-type.selector.error-message',
     'string.empty': 'components.organizations.editing.organization-learner-type.selector.error-message',
+  }),
+  categoryId: Joi.string().empty(['', null]).required().messages({
+    'any.required': 'components.organizations.editing.category.selector.error-message',
+    'string.empty': 'components.organizations.editing.category.selector.error-message',
   }),
   identityProviderForCampaigns: Joi.string().empty(['', null]),
 });

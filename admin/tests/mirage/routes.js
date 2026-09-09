@@ -716,6 +716,27 @@ export default function routes() {
     };
   });
 
+  this.get('/admin/structure-categories', async () => {
+    return {
+      data: [
+        {
+          type: 'structure-category',
+          id: '2',
+          attributes: {
+            label: 'Catégorie 2',
+          },
+        },
+        {
+          type: 'structure-category',
+          id: '1',
+          attributes: {
+            label: 'Catégorie 1',
+          },
+        },
+      ],
+    };
+  });
+
   this.get('/admin/oidc/identity-providers', () => {
     return {
       data: [
