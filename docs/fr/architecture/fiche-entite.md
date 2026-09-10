@@ -13,6 +13,11 @@ typage de mordre est dans `migration-typescript.md`.
 > - E3 et E7 sont énoncés ici et valent aussi pour une racine d'agrégat, qui y renvoie. Vérifier à
 >   chaque reprise que les deux fiches ne les réénoncent pas.
 > - Les écarts sont numérotés `X` et non `E`, qui est déjà le préfixe des invariants de cette fiche.
+> - **Contradiction non résolue.** Le modèle de référence de la documentation d'architecture Pix
+>   expose des champs publics assignables — `this.id = id` — ce que `E1` et `E6` de cette fiche
+>   excluent. Cette page décrit l'arborescence d'avant les contextes bornés, donc elle est datée, mais
+>   c'est la seule documentation d'architecture existante. À trancher : soit la fiche prescrit plus que
+>   la documentation et le dit, soit elle s'aligne.
 
 ## Sommaire
 
@@ -41,7 +46,7 @@ typage de mordre est dans `migration-typescript.md`.
 | # | Écart | Verdict |
 | --- | --- | --- |
 | [**X1**](#x1-le-constructeur-en-sac-de-propriétés) | le constructeur en sac de propriétés | **à corriger** |
-| [**X3**](#x3-la-validation-a-lieu-après-laffectation) | la validation a lieu après l'affectation | **à corriger** |
+| [**X3**](#x3-la-validation-a-lieu-après-laffectation) | la validation a lieu après l'affectation | à surveiller |
 | [**X4**](#x4-larborescence-ne-distingue-pas-entité-et-objet-valeur) | l'arborescence ne distingue pas entité et objet-valeur | à surveiller |
 | [**X5**](#x5-lentité-non-persistée-porte-un-identifiant-null) | l'entité non persistée porte un identifiant `null` | à surveiller |
 
@@ -149,8 +154,12 @@ invalide — y compris une opération qui échoue à mi-chemin.
 C'est l'invariant qui distingue une entité d'un objet littéral nommé. Il vaut aussi pour une racine
 d'agrégat, où il porte sur la frontière de cohérence entière ; `fiche-racine-agregat.md` y renvoie.
 
-**À la construction.** Mêmes règles de cohérence que pour un objet-valeur : valider avant d'affecter,
-un seul type d'erreur pour le domaine.
+**À la construction.** Une entité invalide ne s'instancie pas, et un seul type d'erreur de validation
+vaut pour tout le domaine.
+
+Sur la **place** de la validation dans le constructeur, la convention Pix valide `this` après les
+affectations, contre un schéma déclaratif. C'est `X3` au § 5 : ce n'est pas la forme la plus stricte,
+elle est documentée, et son coût porte sur le message d'erreur plutôt que sur l'invariant.
 
 **À chaque changement d'état.** Une méthode qui modifie l'entité vérifie que le nouvel état reste
 valide.
@@ -344,7 +353,7 @@ d'ici est le modèle vide ; la correction porte sur le usecase.
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
 | **X1** Le constructeur en sac de propriétés | dérive | L'entité s'instancie dans n'importe quel état, donc elle ne protège rien. E3 est faux par construction | L'écriture est rapide, et l'ajout d'un champ ne touche pas au constructeur | **À corriger** |
-| **X3** La validation a lieu après l'affectation | dérive | Un objet invalide existe le temps du constructeur, et le message porte sur un état déjà construit | Nul | **À corriger** |
+| **X3** La validation a lieu après l'affectation | convention assumée | Un objet invalide existe le temps du constructeur, et le message porte sur un état déjà construit plutôt que sur l'entrée fautive | Réel — un schéma déclaratif, un seul appel de validation, une forme uniforme entre tous les modèles | *À surveiller* |
 | **X4** L'arborescence ne distingue pas entité et objet-valeur | convention assumée | Le test du § 1 n'est appliqué nulle part de façon visible, et aucune règle de chemin ne peut viser les entités seules | Un seul dossier où chercher, et aucune décision de classement à prendre à chaque fichier | *À surveiller* |
 | **X5** L'entité non persistée porte un identifiant `null` | convention assumée | Chaque consommateur doit traiter le cas `null`, et le type ne l'annonce pas | Une seule classe au lieu de deux, et un seul chemin de code | *À surveiller* |
 
@@ -383,21 +392,34 @@ par fichier. La lancer en erreur d'emblée garantit qu'elle sera désactivée.
 **Ce que dit la théorie.** L'invariant est vrai à tout instant. Un objet dont les champs sont affectés
 puis vérifiés a existé dans un état invalide, même brièvement.
 
-**Exemple concret.**
+**Exemple concret, et c'est le motif documenté.** La documentation d'architecture Pix donne comme
+modèle de référence un constructeur qui affecte tous ses champs, puis valide `this` contre un schéma
+déclaratif :
 
 ```js
-// fautif — l'objet invalide existe, puis on s'en aperçoit
-constructor({ threshold }) {
-  this.#threshold = threshold;
-  this.#assertValid();
+constructor({ id, state, … } = {}) {
+  this.id = id;
+  this.state = state;
+  …
+  validateEntity(certificationAssessmentSchema, this);
 }
 ```
 
-Le défaut n'est pas seulement théorique : le message d'erreur porte sur un état déjà construit, donc
-il décrit l'objet plutôt que l'entrée fautive, ce qui rend le diagnostic plus long.
+Ce n'est donc pas une dérive : c'est la forme prescrite, avec un bénéfice réel — un schéma déclaratif
+au lieu de gardes écrites une à une, un seul appel, et une forme identique dans tous les modèles.
 
-**Correction.** Valider les paramètres, puis affecter. Mécanique, et sans effet sur les appelants —
-c'est le seul des trois écarts à corriger qui se prête à un codemod. Voir § 6.
+**Correction.** Aucune systématique, et c'est un renversement par rapport à la version précédente de
+cette fiche, qui annonçait une correction mécanique. Elle ne l'est pas : valider avant d'affecter
+suppose de renoncer à l'utilitaire partagé, qui valide `this` par construction. Ce serait un
+changement de convention, pas un déplacement de deux lignes.
+
+Ce qui reste à tenir, et c'est la part utile de l'écart : le **message d'erreur**. Une validation sur
+`this` décrit l'objet construit, pas l'entrée fautive, donc le diagnostic est plus long. Là où le
+message compte — une entrée venant d'un import, d'une API, d'un formulaire — valider les paramètres
+avant d'affecter reste préférable.
+
+Ce qui rouvrirait le dossier : un utilitaire qui validerait les paramètres plutôt que `this`. Il
+supprimerait le coût sans rien retirer du bénéfice.
 
 ### X4. L'arborescence ne distingue pas entité et objet-valeur
 
@@ -468,7 +490,7 @@ sont pas des entités. C'est X4, et c'est ce qui plafonne la précision de cette
 | **E6** aucun mutateur nu | règle ESLint : `set` public dans `domain/models/` | ~20 lignes | aucun attendu |
 | **E8** nommage et emplacement | script `tests/tooling/` | ~20 lignes | aucun |
 | **E3** invariants tenus | règle ESLint : constructeur en `= {}` sans appel de validation | ~40 lignes | **élevés sur l'existant** — voir X1 |
-| **X3** validation après affectation | règle ESLint : affectation sur `this` avant un appel de validation | ~25 lignes | faibles |
+| **X3** validation après affectation | sans objet : c'est la forme prescrite. Voir `X3` au § 5 | — | — |
 | **E1** identité explicite | règle ESLint : une classe de `domain/models/` expose un accesseur `id` | ~15 lignes | **à mesurer** — un objet-valeur porteur d'identifiant la déclenche |
 | **E2**, **E5**, **E7** | revue | — | — |
 
@@ -500,18 +522,19 @@ Décidable localement, deux motifs :
 Le second est plus utile et plus délicat : il faut distinguer l'affectation dans le constructeur de
 celle dans une méthode. Commencer par le cas net — `set` explicite — puis élargir.
 
-### E3 et X3 — dans cet ordre
+### E3 — la règle la plus utile et la plus bruyante
 
-Les deux règles regardent le même constructeur, et l'ordre entre elles compte.
+Le motif : un constructeur dont le paramètre est déstructuré avec `= {}` et dont le corps ne comporte
+**aucun appel de validation**, sous aucune forme — ni garde écrite à la main, ni appel à l'utilitaire
+de validation par schéma.
 
-**X3 d'abord.** Le motif est net et sans faux positif notable : une affectation sur `this` qui précède
-un appel de validation dans le même constructeur. La correction est mécanique, donc la règle peut
-passer en `error` rapidement.
+Il désigne exactement la forme dominante de violation, mais il sortira sur beaucoup d'entités
+existantes. **À introduire en avertissement**, avec une décision préalable sur l'ampleur du rattrapage.
+La lancer en erreur d'emblée garantit qu'elle sera désactivée.
 
-**E3 ensuite.** Le motif est un constructeur dont le paramètre est déstructuré avec `= {}` et dont le
-corps ne comporte aucun appel de validation. Il désigne exactement la forme dominante de violation,
-mais il sortira sur beaucoup d'entités existantes. **À introduire en avertissement**, avec une
-décision préalable sur l'ampleur du rattrapage.
+Ce que la règle ne doit **pas** signaler : une validation placée après les affectations. C'est la forme
+prescrite par la documentation d'architecture — voir `X3` au § 5 — et une règle qui l'attraperait
+sortirait sur la quasi-totalité des modèles.
 
 ### Ce qui n'est pas mécanisable
 
@@ -526,9 +549,8 @@ Cet ordre suit le coût, pas le ROI du § 4.
 1. **E4** — configuration `dependency-cruiser`, avec contre-épreuve
 2. **E6** — première règle ESLint sur mesure, ce qui suppose de créer l'infrastructure
 3. **E8** — script de nommage
-4. **X3** — même parcours d'AST que E3, mais sans le bruit
-5. **E3** — en avertissement, pour produire la liste du rattrapage
-6. **E1** — après mesure des faux positifs sur les objets-valeurs porteurs d'identifiant
+4. **E3** — en avertissement, pour produire la liste du rattrapage
+5. **E1** — après mesure des faux positifs sur les objets-valeurs porteurs d'identifiant
 
 ### Codemods
 
@@ -536,7 +558,6 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 
 | Écart ou invariant | Codemod | Ce qu'il fait |
 | --- | --- | --- |
-| **X3** validation après affectation | oui, complet | Déplacer l'appel de validation avant les affectations. Aucun effet sur les appelants |
 | **E8** nommage | oui, complet | Renommer le fichier et réécrire ses imports |
 | **E6** champs publics | partiel | Privatiser un champ et ajouter son accesseur, oui. Si le champ est **écrit** depuis l'extérieur, signaler et s'arrêter — ajouter un mutateur violerait E6 |
 | **X1** sac de propriétés | préparation seule | Repérer les constructeurs fautifs, oui. Décider quels champs sont requis, non |
@@ -615,7 +636,6 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [partiel] E1  L'identité est explicite et ne change pas ; le cas non persisté est traité
 [ ] [humain]  E2  Les comparaisons se fondent sur l'identité, pas sur les champs
 [ ] [auto]    E8  Un fichier, PascalCase, nom du langage ubiquitaire du contexte
-[ ] [auto]    X3  La validation précède l'affectation dans le constructeur
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui de l'entité
 [ ] [humain]  Chaque règle a son test de refus, pas seulement son cas passant
 [ ] [humain]  Si l'objet n'a aucune règle propre, appliquer le test du § 1 : entité, ou read-model ?

@@ -101,9 +101,14 @@ Ce que ça ne dit pas : aucune n'a été relue par un tiers **dans cet état**. 
 | `fiche-route.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Écart `X2` ajouté : aucune liste des routes délibérément publiques, ce qui bloque la vérification de `R2`. Section « Note sur le préfixe » retirée, la collision `R` étant levée. `R2` reste **sans aucune source** |
 | `fiche-serialiseur.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. `M3` est le seul invariant du corpus dont la vérification ne peut pas vivre dans ce dépôt : ses consommateurs sont hors du dépôt |
 
-**Le manque le plus criant du corpus reste `R2`** : l'invariant au plus fort rendement, sur la couche
-qui porte la sécurité, et son raisonnement n'est écrit nulle part — ni source externe, ni ADR. Il se
-comble par un ADR court, dont le contenu est déjà rédigé au § 2 de `fiche-route.md`.
+**Correction du 2026-09-08 sur `R2`.** Ce fichier affirmait que son raisonnement n'était écrit nulle
+part et que c'était le manque le plus criant du corpus. C'est faux : la documentation d'architecture
+Pix — espace Confluence EDTDT, page « 4.Application » — le prescrit explicitement. Voir
+`references-ddd.md`, section « La documentation d'architecture Pix ».
+
+Ce qui reste vrai, et plus étroit : `R2` n'est adossé à **aucun ADR**, sa source vit hors du dépôt, et
+le **motif** que `fiche-route.md` lui donne — un contrôle oublié se voit — n'est pas celui de la
+documentation. C'est ce qu'un ADR gagnerait à trancher.
 
 ## Ordre de relecture proposé
 
