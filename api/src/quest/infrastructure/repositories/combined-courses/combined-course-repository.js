@@ -57,6 +57,20 @@ const findByCampaignId = async ({ campaignId }) => {
   return combinedCourses.map((combinedCourse) => _toDomain(combinedCourse));
 };
 
+const findParentByChildId = async ({ childCombinedCourseId, organizationId }) => {
+  const knexConn = DomainTransaction.getConnection();
+  const parent = await _baseQuery(knexConn)
+    .where('combined_courses.organizationId', organizationId)
+    .whereJsonSupersetOf('quests.successRequirements', [
+      { data: { combinedCourseId: { data: childCombinedCourseId } } },
+    ])
+    .first();
+
+  if (!parent) return null;
+
+  return _toDomain(parent);
+};
+
 const _baseQuery = (knexConn) => {
   return knexConn('combined_courses')
     .select(
@@ -207,6 +221,7 @@ export {
   findByCampaignId,
   findByModuleIdAndOrganizationIds,
   findByOrganizationId,
+  findParentByChildId,
   getByCode,
   getById,
   save,

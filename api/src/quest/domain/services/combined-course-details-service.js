@@ -23,7 +23,12 @@ async function instantiateCombinedCourseDetails({
 
   const modules = await moduleRepository.getByIds({ moduleIds: combinedCourseDetails.moduleIds });
 
-  combinedCourseDetails.setItems({ campaigns, modules });
+  const childCombinedCourses = [];
+  for (const childCombinedCourseId of combinedCourseDetails.childCombinedCourseIds) {
+    childCombinedCourses.push(await combinedCourseRepository.getById({ id: childCombinedCourseId }));
+  }
+
+  combinedCourseDetails.setItems({ campaigns, modules, childCombinedCourses });
 
   let recommendableModuleIds = [];
   if (targetProfileIds.length > 0) {
@@ -58,6 +63,7 @@ async function getCombinedCourseDetails({
       organizationLearnerId,
       organizationId: combinedCourseDetails.organizationId,
       moduleIds: combinedCourseDetails.moduleIds,
+      combinedCourseIds: combinedCourseDetails.childCombinedCourseIds,
     });
 
     dataForQuest = new DataForQuest({ eligibility });

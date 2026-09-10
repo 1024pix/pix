@@ -15,6 +15,8 @@ const serialize = function (combinedCourse) {
       'reward',
       'shortId',
       'surveyUrl',
+      'parentCode',
+      'parentName',
     ],
     items: {
       ref: 'id',

@@ -13,6 +13,7 @@ import { TYPES } from '../../quests/value-objects/Requirement.js';
 import {
   CampaignCombinedCourseItem,
   ModuleCombinedCourseItem,
+  NestedCombinedCourseItem,
   TrainingCombinedCourseItem,
 } from '../value-objects/CombinedCourseItem.js';
 import { CombinedCourseParticipationDetails } from './CombinedCourseParticipationDetails.js';
@@ -21,6 +22,8 @@ import { CombinedCourseReward } from './CombinedCourseReward.js';
 export class CombinedCourseDetails extends CombinedCourse {
   campaigns = [];
   modules = [];
+  childCombinedCourses = [];
+  #parent = null;
   recommendableModuleIds = [];
   recommendedModuleIdsForUser = [];
   cryptoService = null;
@@ -47,9 +50,22 @@ export class CombinedCourseDetails extends CombinedCourse {
     this.recommendableModuleIds = recommendableModuleIds;
   }
 
-  setItems({ campaigns, modules }) {
+  setItems({ campaigns, modules, childCombinedCourses = [] }) {
     this.campaigns = campaigns;
     this.modules = modules;
+    this.childCombinedCourses = childCombinedCourses;
+  }
+
+  setParent(parent) {
+    this.#parent = parent;
+  }
+
+  get parentCode() {
+    return this.#parent?.code ?? null;
+  }
+
+  get parentName() {
+    return this.#parent?.name ?? null;
   }
 
   get hasCampaigns() {
@@ -78,6 +94,12 @@ export class CombinedCourseDetails extends CombinedCourse {
     return this.quest.successRequirements
       .filter((requirement) => requirement.requirement_type === TYPES.OBJECT.PASSAGES)
       .map(({ data }) => data.moduleId.data);
+  }
+
+  get childCombinedCourseIds() {
+    return this.quest.successRequirements
+      .filter((requirement) => requirement.requirement_type === TYPES.OBJECT.COMBINED_COURSES)
+      .map(({ data }) => data.combinedCourseId.data);
   }
 
   get participation() {
@@ -190,6 +212,7 @@ export class CombinedCourseDetails extends CombinedCourse {
         organizationLearner: this.dataForQuest.eligibility.organizationLearner,
         organization: this.dataForQuest.eligibility.organization,
         campaignParticipations: this.dataForQuest.eligibility.campaignParticipations,
+        combinedCourseParticipations: this.dataForQuest.eligibility.combinedCourses,
         passages,
       }),
     });
@@ -283,6 +306,21 @@ export class CombinedCourseDetails extends CombinedCourse {
         if (formationCombinedCourseItem) {
           this.items.push(formationCombinedCourseItem);
         }
+      } else if (requirement.requirement_type === TYPES.OBJECT.COMBINED_COURSES) {
+        const isCompleted = dataForQuest ? requirement.isFulfilled(dataForQuest) : false;
+        const childCombinedCourse = this.childCombinedCourses.find(
+          (child) => child.id === requirement.data.combinedCourseId.data,
+        );
+
+        this.items.push(
+          new NestedCombinedCourseItem({
+            id: `combinedCourse_${childCombinedCourse.id}`,
+            reference: childCombinedCourse.code,
+            title: childCombinedCourse.name,
+            isCompleted,
+            isLocked,
+          }),
+        );
       }
     }
   }
@@ -303,6 +341,7 @@ export class CombinedCourseDetails extends CombinedCourse {
     const successRequirements = this.quest.successRequirements.filter((successRequirements) => {
       return (
         successRequirements.requirement_type === REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS ||
+        successRequirements.requirement_type === REQUIREMENT_TYPES.OBJECT.COMBINED_COURSES ||
         successRequirements.requirement_type === REQUIREMENT_TYPES.CAPPED_TUBES ||
         (successRequirements.requirement_type === REQUIREMENT_TYPES.OBJECT.PASSAGES &&
           this.items.find((item) => item.id === successRequirements.data.moduleId.data))
