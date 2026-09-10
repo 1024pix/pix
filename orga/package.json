@@ -146,7 +146,7 @@
     "handlebars": ">=4.7.9"
   },
   "engines": {
-    "node": "^24.18.0"
+    "node": "^24.20.0"
   },
   "ember": {
     "edition": "octane"
