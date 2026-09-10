@@ -20,7 +20,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
         // given
         const acceptedAt = new Date('2024-06-02');
 
-        const expectedPixCertifTosStatus = domainBuilder.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
           status: STATUS.ACCEPTED,
           acceptedAt: acceptedAt,
           documentPath: null,
@@ -75,7 +75,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
     context('when user has never accepted terms of service', function () {
       it('returns with the CertificationPointOfContact with tos not accepted', async function () {
         // given
-        const expectedPixCertifTosStatus = domainBuilder.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
           status: STATUS.REQUESTED,
           acceptedAt: null,
           documentPath: null,
@@ -138,7 +138,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
         // given
         const legalDocumentPublishedAt = new Date('2024-06-01');
         const acceptedAt = new Date('2024-06-02');
-        const expectedPixCertifTosStatus = domainBuilder.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
           status: STATUS.ACCEPTED,
           acceptedAt: acceptedAt,
           documentPath: 'pix-certif-tos-2024-06-01',
@@ -203,7 +203,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
     context('when user has never accepted pix-certif-tos', function () {
       it('returns the CertificationPointOfContact with requested terms of service', async function () {
         // given
-        const expectedPixCertifTosStatus = domainBuilder.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
           status: STATUS.REQUESTED,
           acceptedAt: null,
           documentPath: 'pix-certif-tos-2024-06-01',
@@ -269,7 +269,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
         const previousLegalDocumentPublishedAt = new Date('2024-06-01');
         const previousAcceptedAt = new Date('2024-06-02');
 
-        const expectedPixCertifTosStatus = domainBuilder.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
           status: STATUS.UPDATE_REQUESTED,
           acceptedAt: null,
           documentPath: `pix-certif-tos-2024-06-03`,
