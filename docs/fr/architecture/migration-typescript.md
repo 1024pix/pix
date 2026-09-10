@@ -71,10 +71,6 @@ grande partie dans le domaine du vérifiable, et le détail des trois niveaux es
 Le bénéfice sur les constantes n'attend pas la migration pour exister : la duplication des littéraux
 entre l'API et les fronts est un défaut d'aujourd'hui.
 
-Deux conditions pour que la piste tienne. Le type doit être **dérivé** du sérialiseur et non écrit à
-côté, sinon il dérive. Et le front doit consommer les valeurs de façon **exhaustive**, sinon l'ajout
-d'une valeur passe en silence.
-
 ## À retirer quand la migration est faite
 
 Ce document disparaît quand `declare module '*.js'` disparaît. Les sections « ordre de migration » et

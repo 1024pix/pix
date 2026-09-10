@@ -398,22 +398,15 @@ seul le dernier résiste :
 | Le changement | Attrapé par |
 | --- | --- |
 | Un champ est retiré ou renommé | le type partagé |
-| Une valeur possible est ajoutée ou retirée | les constantes partagées, si le front les consomme de façon exhaustive |
+| Une valeur possible est ajoutée ou retirée | les constantes partagées |
 | Une valeur inchangée change de **signification** | rien, jamais |
 
 Le troisième cas est le résidu irréductible : `terminé` reste la chaîne `'terminé'`, son type ne bouge
 pas, et pourtant elle ne veut plus dire la même chose. C'est la seule part de `M3` qui restera en revue
 humaine quoi qu'on outille.
 
-Deux réserves sur la piste elle-même.
-
-Le bénéfice sur les valeurs **dépend de la façon dont le front les consomme**. Un `switch` exhaustif
-sur un type union casse à l'ajout d'une valeur ; un `if` sur une chaîne l'ignore en silence. Le paquet
-crée la possibilité, il ne la garantit pas.
-
-Et le paquet **suppose que le type soit dérivé du sérialiseur**, pas écrit à côté. Un type maintenu à
-la main en parallèle du code dériverait, ce qui reproduirait le problème un cran plus loin. Il devient
-aussi un contrat versionné à publier et à faire évoluer, ce qui a son propre coût.
+La réserve à peser : le paquet devient lui-même un contrat versionné, à publier et à faire évoluer.
+C'est le coût à mettre en face.
 
 Ce n'est pas une décision de ce corpus — le passage des fronts à TypeScript ne relève pas de `api/`.
 C'est une piste consignée dans `migration-typescript.md`, à ressortir le jour où la question se pose.
