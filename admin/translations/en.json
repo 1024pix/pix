@@ -1153,6 +1153,15 @@
             "placeholder": "Select attestations"
           }
         },
+        "category": {
+          "selector": {
+            "error-message": "Category is required",
+            "label": "Category",
+            "placeholder": "Choose a category",
+            "search-label": "Search",
+            "search-placeholder": "Search for a category"
+          }
+        },
         "country": {
           "selector": {
             "error-message": "Country is required",

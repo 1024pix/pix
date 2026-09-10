@@ -36,6 +36,13 @@ module('Integration | Component | organizations/information-section-edit', funct
         store.createRecord('organization-learner-type', { id: '789', name: 'Student' }),
         store.createRecord('organization-learner-type', { id: '987', name: 'Teacher' }),
       ]);
+
+    findAllStub
+      .withArgs('structure-category')
+      .resolves([
+        store.createRecord('structure-category', { id: '111', label: 'Catégorie 1' }),
+        store.createRecord('structure-category', { id: '222', label: 'Catégorie 2' }),
+      ]);
   });
 
   module('organization validation', function (hooks) {
@@ -297,6 +304,37 @@ module('Integration | Component | organizations/information-section-edit', funct
       // then
       assert.ok(organizationLearnerTypeErrorMessage);
     });
+
+    test("it should show error message if organization's category is empty", async function (assert) {
+      const organizationWithoutCategory = EmberObject.create({
+        id: 1,
+        name: 'Organization SCO',
+        externalId: 'VELIT',
+        provinceCode: 'h50',
+        email: 'sco.generic.account@example.net',
+        isOrganizationSCO: true,
+        credit: 0,
+        documentationUrl: 'https://pix.fr/',
+        features: {},
+        administrationTeamId: 123,
+        countryCode: '99100',
+        organizationLearnerTypeId: 789,
+        categoryId: null,
+      });
+
+      // when
+      const screen = await render(
+        <template><InformationSectionEdit @organization={{organizationWithoutCategory}} /></template>,
+      );
+      await click(screen.getByRole('button', { name: t('common.actions.save') }));
+
+      const categoryIdErrorMessage = screen.getByText(
+        t('components.organizations.editing.category.selector.error-message'),
+      );
+
+      // then
+      assert.ok(categoryIdErrorMessage);
+    });
   });
 
   module('administration teams select', function () {
@@ -379,6 +417,105 @@ module('Integration | Component | organizations/information-section-edit', funct
             name: `${t('components.organizations.editing.administration-team.selector.label')} *`,
           }),
         ).getByText(t('components.organizations.editing.administration-team.selector.placeholder')),
+      );
+    });
+  });
+
+  module('categories select', function () {
+    test('it should display select with options loaded', async function (assert) {
+      // given
+      const organization = EmberObject.create({
+        id: 1,
+        name: 'Organization SCO',
+        externalId: 'VELIT',
+        provinceCode: 'h50',
+        email: 'sco.generic.account@example.net',
+        isOrganizationSCO: true,
+        credit: 0,
+        documentationUrl: 'https://pix.fr/',
+        features: {},
+        administrationTeamId: 123,
+      });
+
+      //when
+      const screen = await render(<template><InformationSectionEdit @organization={{organization}} /></template>);
+      const categorySelectButton = screen.getByRole('button', {
+        name: `${t('components.organizations.editing.category.selector.label')} *`,
+      });
+      await click(categorySelectButton);
+      const listbox = await screen.findByRole('listbox');
+      const categorySelectContainer = categorySelectButton.closest('.pix-select');
+
+      //then
+      assert.ok(within(listbox).getByRole('option', { name: 'Catégorie 1' }));
+      assert.ok(within(listbox).getByRole('option', { name: 'Catégorie 2' }));
+
+      //when
+      await fillIn(
+        within(categorySelectContainer).getByLabelText(
+          t('components.organizations.editing.category.selector.search-label'),
+        ),
+        'categorie 1',
+      );
+
+      //then
+      assert.ok(within(listbox).getByRole('option', { name: 'Catégorie 1' }));
+      assert.notOk(within(listbox).queryByRole('option', { name: 'Catégorie 2' }));
+    });
+
+    test('it should display current category as pre-selected option if organization has one', async function (assert) {
+      // given
+      const organization = EmberObject.create({
+        id: 1,
+        name: 'Organization SCO',
+        externalId: 'VELIT',
+        provinceCode: 'h50',
+        email: 'sco.generic.account@example.net',
+        isOrganizationSCO: true,
+        credit: 0,
+        documentationUrl: 'https://pix.fr/',
+        features: {},
+        administrationTeamId: 123,
+        categoryId: 222,
+      });
+      const screen = await render(<template><InformationSectionEdit @organization={{organization}} /></template>);
+
+      // then
+      assert.ok(
+        within(
+          screen.getByRole('button', {
+            name: `${t('components.organizations.editing.category.selector.label')} *`,
+          }),
+        ).getByText('Catégorie 2'),
+      );
+    });
+
+    test('it should display the placeholder if organization does not have a category', async function (assert) {
+      // given
+      const organization = EmberObject.create({
+        id: 1,
+        name: 'Organization SCO',
+        externalId: 'VELIT',
+        provinceCode: 'h50',
+        email: 'sco.generic.account@example.net',
+        isOrganizationSCO: true,
+        credit: 0,
+        documentationUrl: 'https://pix.fr/',
+        features: {},
+        administrationTeamId: 123,
+        categoryId: null,
+      });
+
+      //when
+      const screen = await render(<template><InformationSectionEdit @organization={{organization}} /></template>);
+
+      // then
+      assert.ok(
+        within(
+          screen.getByRole('button', {
+            name: `${t('components.organizations.editing.category.selector.label')} *`,
+          }),
+        ).getByText(t('components.organizations.editing.category.selector.placeholder')),
       );
     });
   });
