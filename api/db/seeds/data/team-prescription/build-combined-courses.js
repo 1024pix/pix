@@ -10,6 +10,7 @@ import {
   SCO_ORGANIZATION_ID,
   SUP_ORGANIZATION_ID,
 } from '../common/constants.js';
+import { buildNestedCombinedCourse } from './build-nested-combined-course.js';
 import { PRO_COMBINED_COURSE } from './fixtures/pro-combined-course.js';
 import { COMBINED_COURSE_WITHOUT_CAMPAIGN } from './fixtures/pro-combined-course-without-campaign.js';
 import { COMBINED_COURSE_WITHOUT_MODULES } from './fixtures/pro-combined-course-without-modules.js';
@@ -224,6 +225,8 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
       }
     }
   });
+
+  return combinedCourseId;
 };
 
 export const buildCombinedCourseBlueprints = () => {
@@ -244,6 +247,8 @@ export const buildCombinedCourseBlueprints = () => {
 };
 
 export const buildCombinedCourses = (databaseBuilder) => {
+  const combinedCourseIdByFixture = new Map();
+
   [
     PRO_COMBINED_COURSE,
     COMBINED_COURSE_WITHOUT_CAMPAIGN,
@@ -253,6 +258,13 @@ export const buildCombinedCourses = (databaseBuilder) => {
     SUP_IMPORT_COMBINED_COURSE,
     PRO_MANAGING_COMBINED_COURSE,
   ].forEach((config) => {
-    buildCombinixQuest(databaseBuilder, config);
+    combinedCourseIdByFixture.set(config, buildCombinixQuest(databaseBuilder, config));
   });
+
+  // POC: a combined course composed of combined courses, both children in the PRO organization.
+  // The shortest child comes first so the whole chain stays demoable in a few minutes.
+  buildNestedCombinedCourse(databaseBuilder, [
+    combinedCourseIdByFixture.get(COMBINED_COURSE_WITHOUT_MODULES),
+    combinedCourseIdByFixture.get(PRO_COMBINED_COURSE),
+  ]);
 };
