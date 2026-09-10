@@ -1091,6 +1091,15 @@
             "placeholder": "Select one team"
           }
         },
+        "category": {
+          "selector": {
+            "error-message": "Category is required",
+            "label": "Category",
+            "placeholder": "Choose a category",
+            "search-label": "Search",
+            "search-placeholder": "Search for a category"
+          }
+        },
         "configuration": "Configuration",
         "country": {
           "selector": {

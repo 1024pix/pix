@@ -3,12 +3,14 @@ import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { concat, fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import Joi from 'joi';
 import { FormValidator } from 'pix-admin/utils/form-validator';
+import { isSearchValid } from 'pix-admin/utils/normalize-text';
 
 import Card from '../card';
 
@@ -23,7 +25,9 @@ export default class OrganizationCreationForm extends Component {
     type: this.parentOrganizationType,
     countryCode: this.parentOrganizationCountryCode,
     documentationUrl: this.parentOrganizationDocumentationUrl,
+    categoryId: this.parentOrganizationCategoryId,
   };
+  @tracked categoriesSearchQuery = '';
 
   organizationTypes = [
     { value: 'PRO', label: 'Organisation professionnelle' },
@@ -60,6 +64,21 @@ export default class OrganizationCreationForm extends Component {
     return options;
   }
 
+  get categoriesOptions() {
+    const options = this.args.structureCategories.map((structureCategory) => ({
+      value: structureCategory.id,
+      label: structureCategory.label,
+    }));
+    return options;
+  }
+
+  get filteredCategoriesOptions() {
+    if (!this.categoriesSearchQuery) {
+      return this.categoriesOptions;
+    }
+    return this.categoriesOptions.filter((option) => isSearchValid(option.label, this.categoriesSearchQuery));
+  }
+
   get submitButtonText() {
     return this.args.parentOrganization?.name
       ? 'components.organizations.creation.actions.add-child-organization'
@@ -74,6 +93,10 @@ export default class OrganizationCreationForm extends Component {
     return this.args.parentOrganization?.administrationTeamId
       ? `${this.args.parentOrganization.administrationTeamId}`
       : undefined;
+  }
+
+  get parentOrganizationCategoryId() {
+    return this.args.parentOrganization?.categoryId ? `${this.args.parentOrganization.categoryId}` : undefined;
   }
 
   get parentOrganizationType() {
@@ -119,6 +142,11 @@ export default class OrganizationCreationForm extends Component {
     }
     this.args.onSubmit(this.form);
   };
+
+  @action
+  onSearchCategories(query) {
+    this.categoriesSearchQuery = query;
+  }
 
   <template>
     <form {{on "submit" this.handleSubmit}}>
@@ -250,6 +278,30 @@ export default class OrganizationCreationForm extends Component {
               <:label>{{t "components.organizations.creation.external-id.label"}}</:label>
             </PixInput>
           </div>
+
+          <PixSelect
+            class="organization-creation-form__input--full"
+            @id="categoryId"
+            required
+            @aria-required={{true}}
+            @texts={{hash
+              placeholder=(t "components.organizations.creation.category.selector.placeholder")
+              selectSearchLabel=(t "components.organizations.creation.category.selector.search-label")
+              searchPlaceholder=(t "components.organizations.creation.category.selector.search-placeholder")
+              requiredLabel=(t "common.fields.required-field")
+            }}
+            @errorMessage={{if this.validator.errors.categoryId (t this.validator.errors.categoryId)}}
+            @validationStatus={{if this.validator.errors.categoryId "error"}}
+            @options={{this.filteredCategoriesOptions}}
+            @value={{this.form.categoryId}}
+            @onChange={{fn this.handleSelectChange "categoryId"}}
+            @onSearch={{this.onSearchCategories}}
+            @hideDefaultOption={{true}}
+            @isSearchable={{true}}
+            @isFullWidth={{true}}
+          >
+            <:label>{{t "components.organizations.creation.category.selector.label"}}</:label>
+          </PixSelect>
         </Card>
 
         <Card
@@ -350,6 +402,10 @@ const ORGANIZATION_CREATION_FORM_VALIDATION_SCHEMA = Joi.object({
   }),
   provinceCode: Joi.string().empty(['', null]).optional(),
   externalId: Joi.string().empty(['', null]).optional(),
+  categoryId: Joi.string().empty(['', null]).required().messages({
+    'any.required': 'components.organizations.creation.category.selector.error-message',
+    'string.empty': 'components.organizations.creation.category.selector.error-message',
+  }),
   documentationUrl: Joi.string().uri().empty(['', null]).optional().messages({
     'string.uri': 'components.organizations.creation.error-messages.documentation-url',
   }),

@@ -30,6 +30,11 @@ module('Integration | Component | organizations/creation-form', function (hooks)
     { id: '456', name: 'Teacher' },
   ];
 
+  const structureCategories = [
+    { id: '1234', label: 'Catégorie 1' },
+    { id: '5678', label: 'Catégorie 2' },
+  ];
+
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
 
@@ -48,6 +53,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
           <CreationForm
             @administrationTeams={{administrationTeams}}
             @organizationLearnerTypes={{organizationLearnerTypes}}
+            @structureCategories={{structureCategories}}
             @countries={{countries}}
             @onSubmit={{onSubmit}}
             @onCancel={{onCancel}}
@@ -63,6 +69,9 @@ module('Integration | Component | organizations/creation-form', function (hooks)
         screen.getByLabelText(`${t('components.organizations.creation.organization-learner-type.selector.label')} *`),
       );
       assert.ok(screen.getByLabelText(`${t('components.organizations.creation.country.selector.label')} *`));
+      assert.ok(
+        screen.getByRole('button', { name: `${t('components.organizations.creation.category.selector.label')} *` }),
+      );
       assert.ok(screen.getByRole('textbox', { name: t('components.organizations.creation.province-code') }));
       assert.ok(screen.getByRole('textbox', { name: t('components.organizations.creation.external-id.label') }));
       assert.ok(screen.getByRole('textbox', { name: t('components.organizations.creation.documentation-link') }));
@@ -83,6 +92,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
             @organization={{organization}}
             @administrationTeams={{administrationTeams}}
             @organizationLearnerTypes={{organizationLearnerTypes}}
+            @structureCategories={{structureCategories}}
             @countries={{countries}}
             @onSubmit={{onSubmit}}
             @onCancel={{onCancel}}
@@ -115,6 +125,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
             @organization={{organization}}
             @administrationTeams={{administrationTeams}}
             @organizationLearnerTypes={{organizationLearnerTypes}}
+            @structureCategories={{structureCategories}}
             @countries={{countries}}
             @onSubmit={{onSubmit}}
             @onCancel={{onCancel}}
@@ -148,6 +159,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
               @parentOrganization={{organization}}
               @administrationTeams={{administrationTeams}}
               @organizationLearnerTypes={{organizationLearnerTypes}}
+              @structureCategories={{structureCategories}}
               @countries={{countries}}
               @onSubmit={{onSubmit}}
               @onCancel={{onCancel}}
@@ -157,6 +169,28 @@ module('Integration | Component | organizations/creation-form', function (hooks)
 
         // then
         assert.strictEqual(await screen.getByRole('button', { name: 'Équipe en charge *' }).innerText, 'Équipe 1');
+      });
+
+      test("it prefills the category selector with its parent's", async function (assert) {
+        // given - when
+        const organization = store.createRecord('organization', { categoryId: '1234' });
+
+        const screen = await render(
+          <template>
+            <CreationForm
+              @parentOrganization={{organization}}
+              @administrationTeams={{administrationTeams}}
+              @organizationLearnerTypes={{organizationLearnerTypes}}
+              @structureCategories={{structureCategories}}
+              @countries={{countries}}
+              @onSubmit={{onSubmit}}
+              @onCancel={{onCancel}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.strictEqual(await screen.getByRole('button', { name: 'Catégorie *' }).innerText, 'Catégorie 1');
       });
 
       test("it prefills the type selector with its parent's", async function (assert) {
@@ -169,6 +203,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
               @parentOrganization={{organization}}
               @administrationTeams={{administrationTeams}}
               @organizationLearnerTypes={{organizationLearnerTypes}}
+              @structureCategories={{structureCategories}}
               @countries={{countries}}
               @onSubmit={{onSubmit}}
               @onCancel={{onCancel}}
@@ -193,6 +228,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
               @parentOrganization={{organization}}
               @administrationTeams={{administrationTeams}}
               @organizationLearnerTypes={{organizationLearnerTypes}}
+              @structureCategories={{structureCategories}}
               @countries={{countries}}
               @onSubmit={{onSubmit}}
               @onCancel={{onCancel}}
@@ -219,6 +255,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
               @parentOrganization={{organization}}
               @administrationTeams={{administrationTeams}}
               @organizationLearnerTypes={{organizationLearnerTypes}}
+              @structureCategories={{structureCategories}}
               @countries={{countries}}
               @onSubmit={{onSubmit}}
               @onCancel={{onCancel}}
@@ -243,6 +280,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
               @administrationTeams={{administrationTeams}}
               @organizationLearnerTypes={{organizationLearnerTypes}}
               @countries={{countries}}
+              @structureCategories={{structureCategories}}
               @onSubmit={{onSubmit}}
               @onCancel={{onCancel}}
             />
@@ -256,6 +294,29 @@ module('Integration | Component | organizations/creation-form', function (hooks)
         );
       });
 
+      test('it does not prefill the category selector', async function (assert) {
+        // given - when
+        const screen = await render(
+          <template>
+            <CreationForm
+              @parentOrganization={{null}}
+              @administrationTeams={{administrationTeams}}
+              @organizationLearnerTypes={{organizationLearnerTypes}}
+              @countries={{countries}}
+              @structureCategories={{structureCategories}}
+              @onSubmit={{onSubmit}}
+              @onCancel={{onCancel}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.strictEqual(
+          await screen.getByRole('button', { name: 'Catégorie *' }).innerText,
+          'Sélectionner une catégorie',
+        );
+      });
+
       test('it does not prefill the type selector', async function (assert) {
         // given - when
         const screen = await render(
@@ -264,6 +325,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
               @parentOrganization={{null}}
               @administrationTeams={{administrationTeams}}
               @organizationLearnerTypes={{organizationLearnerTypes}}
+              @structureCategories={{structureCategories}}
               @countries={{countries}}
               @onSubmit={{onSubmit}}
               @onCancel={{onCancel}}
@@ -286,6 +348,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
               @parentOrganization={{null}}
               @administrationTeams={{administrationTeams}}
               @organizationLearnerTypes={{organizationLearnerTypes}}
+              @structureCategories={{structureCategories}}
               @countries={{countries}}
               @onSubmit={{onSubmit}}
               @onCancel={{onCancel}}
@@ -308,6 +371,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
               @parentOrganization={{null}}
               @administrationTeams={{administrationTeams}}
               @organizationLearnerTypes={{organizationLearnerTypes}}
+              @structureCategories={{structureCategories}}
               @countries={{countries}}
               @onSubmit={{onSubmit}}
               @onCancel={{onCancel}}
@@ -335,6 +399,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
           <CreationForm
             @administrationTeams={{administrationTeams}}
             @organizationLearnerTypes={{organizationLearnerTypes}}
+            @structureCategories={{structureCategories}}
             @countries={{countries}}
             @onSubmit={{handleSubmitStub}}
             @onCancel={{onCancel}}
@@ -376,6 +441,14 @@ module('Integration | Component | organizations/creation-form', function (hooks)
       await screen.findByRole('listbox');
       click(await screen.findByRole('option', { name: 'France (99100)' }));
 
+      click(
+        screen.getByRole('button', {
+          name: `${t('components.organizations.creation.category.selector.label')} *`,
+        }),
+      );
+      await screen.findByRole('listbox');
+      click(await screen.findByRole('option', { name: 'Catégorie 1' }));
+
       await fillByLabel(t('components.organizations.creation.documentation-link'), 'https://www.documentation.fr');
 
       await fillByLabel(`${t('components.organizations.creation.dpo.firstname')}DPO`, 'Justin');
@@ -394,6 +467,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
         organizationLearnerTypeId: '123',
         provinceCode: '78',
         countryCode: '99100',
+        categoryId: '1234',
         documentationUrl: 'https://www.documentation.fr',
         dataProtectionOfficerFirstName: 'Justin',
         dataProtectionOfficerLastName: 'Ptipeu',
@@ -415,6 +489,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
                 @administrationTeams={{administrationTeams}}
                 @organizationLearnerTypes={{organizationLearnerTypes}}
                 @countries={{countries}}
+                @structureCategories={{structureCategories}}
                 @onSubmit={{handleSubmitStub}}
               />
             </template>,
@@ -435,6 +510,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
                 @administrationTeams={{administrationTeams}}
                 @organizationLearnerTypes={{organizationLearnerTypes}}
                 @countries={{countries}}
+                @structureCategories={{structureCategories}}
               />
             </template>,
           );
@@ -453,11 +529,15 @@ module('Integration | Component | organizations/creation-form', function (hooks)
           );
           const countryErrorMessage = screen.getByText(t('components.organizations.creation.error-messages.country'));
 
+          const categoryErrorMessage = screen.getByText(
+            t('components.organizations.creation.category.selector.error-message'),
+          );
           assert.ok(nameErrorMessage);
           assert.ok(typeErrorMessage);
           assert.ok(administrationTeamErrorMessage);
           assert.ok(organizationLearnerTypeErrorMessage);
           assert.ok(countryErrorMessage);
+          assert.ok(categoryErrorMessage);
           assert.ok(
             errorNotificationStub.calledWithExactly({
               message: t('components.organizations.creation.error-messages.error-toast'),
@@ -475,6 +555,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
                 @administrationTeams={{administrationTeams}}
                 @organizationLearnerTypes={{organizationLearnerTypes}}
                 @countries={{countries}}
+                @structureCategories={{structureCategories}}
               />
             </template>,
           );
@@ -507,6 +588,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
               @administrationTeams={{administrationTeams}}
               @organizationLearnerTypes={{organizationLearnerTypes}}
               @countries={{countries}}
+              @structureCategories={{structureCategories}}
             />
           </template>,
         );
@@ -558,6 +640,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
                 @administrationTeams={{administrationTeams}}
                 @organizationLearnerTypes={{organizationLearnerTypes}}
                 @countries={{countries}}
+                @structureCategories={{structureCategories}}
               />
             </template>,
           );
@@ -582,6 +665,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
                 @administrationTeams={{administrationTeams}}
                 @organizationLearnerTypes={{organizationLearnerTypes}}
                 @countries={{countries}}
+                @structureCategories={{structureCategories}}
               />
             </template>,
           );
@@ -609,6 +693,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
             @administrationTeams={{administrationTeams}}
             @organizationLearnerTypes={{organizationLearnerTypes}}
             @countries={{countries}}
+            @structureCategories={{structureCategories}}
             @onCancel={{onCancel}}
           />
         </template>,
