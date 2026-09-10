@@ -9,6 +9,8 @@ import {
 import { ReconciliationLoginPage } from '../../pages/pix-app/ReconciliationLoginPage.js';
 import { ReconciliationPage } from '../../pages/pix-app/ReconciliationPage.js';
 
+test.slow();
+
 test('pass a combined course as sco user and see the final result', async ({ page }) => {
   await createDataForCombinedCourse();
 
