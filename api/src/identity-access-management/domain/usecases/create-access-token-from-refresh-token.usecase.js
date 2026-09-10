@@ -27,30 +27,30 @@ export async function createAccessTokenFromRefreshToken({
 }) {
   let decodedRefreshToken;
 
-  if (RefreshToken.isStatefulRefreshToken(refreshToken)) {
-    decodedRefreshToken = await refreshTokenRepository.findByToken({ token: refreshToken });
+  try {
+    if (RefreshToken.isStatefulRefreshToken(refreshToken)) {
+      decodedRefreshToken = await refreshTokenRepository.findByToken({ token: refreshToken });
 
-    if (!decodedRefreshToken) {
-      throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
-    }
-
-    if (!decodedRefreshToken.hasSameAudience(audience)) {
-      throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
-    }
-  } else {
-    try {
-      decodedRefreshToken = UserRefreshToken.decode(refreshToken);
-      decodedRefreshToken.assertSameAudience(audience);
-
-      const revokedUserAccess = await revokedUserAccessRepository.findByUserId(decodedRefreshToken.userId);
-      revokedUserAccess.assertRefreshTokenNotRevoked(decodedRefreshToken);
-    } catch (err) {
-      if (err instanceof InvalidInputDataError) {
-        logger.warn({ err });
+      if (!decodedRefreshToken) {
         throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
       }
-      throw err;
+
+      if (!decodedRefreshToken.hasSameAudience(audience)) {
+        throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+      }
+    } else {
+      decodedRefreshToken = UserRefreshToken.decode(refreshToken);
+      decodedRefreshToken.assertSameAudience(audience);
     }
+
+    const revokedUserAccess = await revokedUserAccessRepository.findByUserId(decodedRefreshToken.userId);
+    revokedUserAccess.assertRefreshTokenNotRevoked(decodedRefreshToken);
+  } catch (err) {
+    if (err instanceof InvalidInputDataError) {
+      logger.warn({ err });
+      throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+    }
+    throw err;
   }
 
   const foundUser = await userRepository.findById(decodedRefreshToken.userId);

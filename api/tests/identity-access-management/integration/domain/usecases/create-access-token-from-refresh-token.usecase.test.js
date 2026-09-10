@@ -170,6 +170,32 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       expect(error.message).to.equal('Refresh token is invalid');
       expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
     });
+
+    describe('when refresh token is stateful', function () {
+      it('throws an unauthorized error', async function () {
+        // given
+        const source = 'pix';
+        const audience = 'https://app.pix.fr';
+        const sessionId = crypto.randomUUID();
+
+        await revokedUserAccessTemporaryStorage.save({ key: `${userId}:${sessionId}`, value: '' });
+
+        const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId });
+        await refreshTokenRepository.save({ refreshToken });
+
+        // when
+        const error = await catchErr(usecases.createAccessTokenFromRefreshToken)({
+          refreshToken: refreshToken.value,
+          audience,
+          locale,
+        });
+
+        // then
+        expect(error).to.instanceOf(UnauthorizedError);
+        expect(error.message).to.equal('Refresh token is invalid');
+        expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
+      });
+    });
   });
 
   context('when the user locale is different from the given locale', function () {
