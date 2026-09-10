@@ -1,5 +1,37 @@
 # Pix Changelog
 
+# [5.499.0](https://github.com/1024pix/pix/compare/v5.498.1...v5.499.0) (2026-09-10)
+
+### :rocket: Amélioration
+
+- [#17418](https://github.com/1024pix/pix/pull/17418) Ajouter l'ID de la catégorie à la modification d'organisations en masse (PIX-23565)
+- [#17452](https://github.com/1024pix/pix/pull/17452) Ajouter un sélecteur de catégorie sur la fiche d'édition d'une organisation (PIX-23563)
+- [#17429](https://github.com/1024pix/pix/pull/17429) migration pour remettre des contraintes "not nullable" supprimés par inadvertance (PIX-24132)
+- [#17404](https://github.com/1024pix/pix/pull/17404) Récupérer les CGU de l'utilisateur de Pix Certif en passant par le nouveau modèle (PIX-22441)
+
+### :bug: Correction
+
+- [#17460](https://github.com/1024pix/pix/pull/17460) Ne pas jeter d'erreur 500 lors de la concurrence de création d'invitation à un CDC (PIX-24219)
+
+### :building_construction: Tech
+
+- [#17410](https://github.com/1024pix/pix/pull/17410) Créer un script permettant l'ajout des ids de contenus formatifs pour la mise en avant en fin de parcours (PIX-24009).
+- [#17070](https://github.com/1024pix/pix/pull/17070) Déplacer le pré-handler d'Assessment dans shared
+- [#17394](https://github.com/1024pix/pix/pull/17394) Ne pas stocker de timestamp pour la révocation de session (PIX-24133)
+
+### :arrow_up: Montée de version
+
+- [#17419](https://github.com/1024pix/pix/pull/17419) Update dependency @1024pix/pix-ui to ^68.1.1 (mon-pix)
+- [#17462](https://github.com/1024pix/pix/pull/17462) Update dependency @1024pix/pix-ui to ^68.1.3 (junior)
+- [#17428](https://github.com/1024pix/pix/pull/17428) Update dependency @testing-library/user-event to ^14.6.6 (mon-pix)
+- [#17449](https://github.com/1024pix/pix/pull/17449) Update dependency @testing-library/user-event to ^14.6.7 (mon-pix)
+- [#17445](https://github.com/1024pix/pix/pull/17445) Update dependency @xmldom/xmldom to >=0.9.12 (admin) [SECURITY]
+- [#17446](https://github.com/1024pix/pix/pull/17446) Update dependency @xmldom/xmldom to >=0.9.12 (certif) [SECURITY]
+- [#17369](https://github.com/1024pix/pix/pull/17369) Update dependency js-yaml to v5.2.2 [SECURITY]
+- [#17442](https://github.com/1024pix/pix/pull/17442) Update dependency nodemailer to v9.1.1 [SECURITY]
+- [#17447](https://github.com/1024pix/pix/pull/17447) Update dependency protobufjs to >=8.6.6 (api) [SECURITY]
+- [#17440](https://github.com/1024pix/pix/pull/17440) Update dependency vitest to v4.1.11 [SECURITY]
+
 ## [5.498.1](https://github.com/1024pix/pix/compare/v5.498.0...v5.498.1) (2026-09-09)
 
 ### :building_construction: Tech
