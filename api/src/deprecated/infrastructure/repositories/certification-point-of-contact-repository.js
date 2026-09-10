@@ -83,7 +83,6 @@ const getAuthorizedCenterIds = async function (userId) {
       lastName: 'users.lastName',
       email: 'users.email',
       lang: 'users.lang',
-      pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
       certificationCenterIds: knexConn.raw('array_agg(?? order by ?? asc)', [
         'certificationCenterId',
         'certificationCenterId',
@@ -117,6 +116,7 @@ const getPointOfContact = async function ({
   userId,
   certificationPointOfContactDTO,
   allowedCertificationCenterAccesses,
+  pixCertifTosStatus,
 }) {
   const certificationCenterMemberships = await _findNotDisabledCertificationCenterMemberships(userId);
 
@@ -124,6 +124,7 @@ const getPointOfContact = async function ({
     ...certificationPointOfContactDTO,
     allowedCertificationCenterAccesses,
     certificationCenterMemberships,
+    pixCertifTosStatus,
   });
 };
 

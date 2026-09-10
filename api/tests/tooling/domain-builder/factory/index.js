@@ -94,7 +94,6 @@ import { buildHint } from './build-hint.js';
 import { buildJurySession } from './build-jury-session.js';
 import { buildKnowledgeElement, buildKnowledgeElementSnapshot } from './build-knowledge-element.js';
 import { buildLearningContent } from './build-learning-content.js';
-import { buildLegalDocument } from './build-legal-document.js';
 import { buildMembership } from './build-membership.js';
 import { buildMission } from './build-mission.js';
 import { buildOrganization } from './build-organization.js';
@@ -224,6 +223,8 @@ import {
 } from './identity-access-management/build-lti-platform-registration.js';
 import { buildUserLogin } from './identity-access-management/build-user-login.js';
 import { builders as learningContentBuilders } from './learning-content/index.js';
+import { buildLegalDocument } from './legal-documents/build-legal-document.js';
+import { buildLegalDocumentStatus } from './legal-documents/build-legal-document-status.js';
 import { buildChat } from './llm/build-chat.js';
 import { buildConfiguration } from './llm/build-configuration.js';
 import { buildAssistantMessage, buildUserMessage } from './llm/build-message.js';
@@ -358,6 +359,11 @@ const maddo = {
 
 const learningContent = learningContentBuilders;
 
+const legalDocuments = {
+  buildLegalDocument,
+  buildLegalDocumentStatus,
+};
+
 const llm = {
   buildAssistantMessage,
   buildChat,
@@ -462,7 +468,6 @@ export {
   buildKnowledgeElement,
   buildKnowledgeElementSnapshot,
   buildLearningContent,
-  buildLegalDocument,
   buildMembership,
   buildMission,
   buildOrganization,
@@ -538,6 +543,7 @@ export {
   evaluation,
   identityAccessManagement,
   learningContent,
+  legalDocuments,
   llm,
   maddo,
   organizationalEntities,

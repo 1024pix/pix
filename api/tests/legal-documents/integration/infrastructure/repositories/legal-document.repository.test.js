@@ -38,7 +38,7 @@ describe('Integration | Legal document | Infrastructure | Repository | legal-doc
       const lastDocument = await legalDocumentRepository.findLastVersionByTypeAndService({ service, type });
 
       // then
-      expect(lastDocument).to.deepEqualInstance(domainBuilder.buildLegalDocument(expectedDocument));
+      expect(lastDocument).to.deepEqualInstance(domainBuilder.legalDocuments.buildLegalDocument(expectedDocument));
     });
 
     it('returns null when no document found', async function () {

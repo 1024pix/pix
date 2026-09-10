@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import * as certificationPointOfContactRepository from '../../../../../src/deprecated/infrastructure/repositories/certification-point-of-contact-repository.js';
+import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { AllowedCertificationCenterAccess } from '../../../../../src/organizational-entities/domain/read-models/AllowedCertificationCenterAccess.js';
 import * as centerRepository from '../../../../../src/organizational-entities/infrastructure/repositories/center-repository.js';
@@ -82,7 +83,6 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
         lastName: userWithMembership.lastName,
         email: userWithMembership.email,
         lang: userWithMembership.lang,
-        pixCertifTermsOfServiceAccepted: userWithMembership.pixCertifTermsOfServiceAccepted,
         certificationCenterIds: [certificationCenter.id],
       };
 
@@ -176,6 +176,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
         userId: userWithMembership.id,
         certificationPointOfContactDTO,
         allowedCertificationCenterAccesses,
+        pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+          status: STATUS.ACCEPTED,
+          acceptedAt: null,
+        }),
       });
 
       // then
@@ -185,7 +189,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
         lastName: userWithMembership.lastName,
         email: userWithMembership.email,
         lang: userWithMembership.lang,
-        pixCertifTermsOfServiceAccepted: userWithMembership.pixCertifTermsOfServiceAccepted,
+        pixCertifTermsOfServiceAccepted: true,
+        pixCertifTermsOfServiceStatus: STATUS.ACCEPTED,
+        pixCertifTermsOfServiceDocumentPath: null,
+        lastPixCertifTermsOfServiceValidatedAt: null,
         allowedCertificationCenterAccesses,
         certificationCenterMemberships: [
           {
@@ -226,6 +233,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
             userId: userWithMembership.id,
             certificationPointOfContactDTO,
             allowedCertificationCenterAccesses,
+            pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+              status: STATUS.ACCEPTED,
+              acceptedAt: null,
+            }),
           });
 
           // then
@@ -254,6 +265,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
             lastName: userWithMembership.lastName,
             email: userWithMembership.email,
             pixCertifTermsOfServiceAccepted: userWithMembership.pixCertifTermsOfServiceAccepted,
+            pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+              status: STATUS.ACCEPTED,
+              acceptedAt: null,
+            }),
             allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
             certificationCenterMemberships: expectedCertificationCenterMemberships,
           });
@@ -362,6 +377,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
           userId: userWithoutMembership.id,
           certificationPointOfContactDTO,
           allowedCertificationCenterAccesses,
+          pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+            status: STATUS.ACCEPTED,
+            acceptedAt: null,
+          }),
         });
 
         // then
@@ -419,6 +438,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
           lastName: userWithoutMembership.lastName,
           email: userWithoutMembership.email,
           pixCertifTermsOfServiceAccepted: userWithoutMembership.pixCertifTermsOfServiceAccepted,
+          pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+            status: STATUS.ACCEPTED,
+            acceptedAt: null,
+          }),
           allowedCertificationCenterAccesses: [
             expectedFirstAllowedCertificationCenterAccess,
             expectedSecondAllowedCertificationCenterAccess,
@@ -489,6 +512,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
           userId: userWithoutMembership.id,
           certificationPointOfContactDTO,
           allowedCertificationCenterAccesses,
+          pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+            status: STATUS.ACCEPTED,
+            acceptedAt: null,
+          }),
         });
 
         // then
@@ -532,6 +559,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
           lastName: userWithoutMembership.lastName,
           email: userWithoutMembership.email,
           pixCertifTermsOfServiceAccepted: userWithoutMembership.pixCertifTermsOfServiceAccepted,
+          pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+            status: STATUS.ACCEPTED,
+            acceptedAt: null,
+          }),
           allowedCertificationCenterAccesses: [
             expectedFirstAllowedCertificationCenterAccess,
             expectedSecondAllowedCertificationCenterAccess,
@@ -606,6 +637,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
             userId: userWithMembership.id,
             certificationPointOfContactDTO,
             allowedCertificationCenterAccesses,
+            pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+              status: STATUS.ACCEPTED,
+              acceptedAt: null,
+            }),
           });
 
           // then
@@ -634,6 +669,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
             lastName: userWithMembership.lastName,
             email: userWithMembership.email,
             pixCertifTermsOfServiceAccepted: userWithMembership.pixCertifTermsOfServiceAccepted,
+            pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+              status: STATUS.ACCEPTED,
+              acceptedAt: null,
+            }),
             allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
             certificationCenterMemberships: expectedCertificationCenterMemberships,
           });
@@ -679,6 +718,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
             lastName: userWithoutMembership.lastName,
             email: userWithoutMembership.email,
             pixCertifTermsOfServiceAccepted: userWithoutMembership.pixCertifTermsOfServiceAccepted,
+            pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+              status: STATUS.ACCEPTED,
+              acceptedAt: null,
+            }),
             allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
             certificationCenterMemberships: [expectedCertificationCenterMembership],
           });
@@ -695,6 +738,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
             userId: userWithoutMembership.id,
             certificationPointOfContactDTO,
             allowedCertificationCenterAccesses,
+            pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+              status: STATUS.ACCEPTED,
+              acceptedAt: null,
+            }),
           });
 
           // then
@@ -719,6 +766,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
             lastName: userWithoutMembership.lastName,
             email: userWithoutMembership.email,
             pixCertifTermsOfServiceAccepted: userWithoutMembership.pixCertifTermsOfServiceAccepted,
+            pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+              status: STATUS.ACCEPTED,
+              acceptedAt: null,
+            }),
             allowedCertificationCenterAccesses: [],
             certificationCenterMemberships: [],
           });
@@ -735,6 +786,10 @@ describe('Integration | Deprecated | Repository | CertificationPointOfContact', 
             userId: userWithoutMembership.id,
             certificationPointOfContactDTO,
             allowedCertificationCenterAccesses,
+            pixCertifTosStatus: domainBuilder.legalDocuments.buildLegalDocumentStatus({
+              status: STATUS.ACCEPTED,
+              acceptedAt: null,
+            }),
           });
 
           // then

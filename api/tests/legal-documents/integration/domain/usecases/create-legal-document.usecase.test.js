@@ -17,7 +17,7 @@ describe('Integration | Legal documents | Domain | Use case | create-legal-docum
     const type = TOS;
     const service = PIX_ORGA;
     const versionAt = new Date('2024-12-01');
-    const expectedDocument = domainBuilder.buildLegalDocument({ service, type, versionAt });
+    const expectedDocument = domainBuilder.legalDocuments.buildLegalDocument({ service, type, versionAt });
 
     // when
     const document = await usecases.createLegalDocument({ service, type, versionAt });
@@ -53,7 +53,11 @@ describe('Integration | Legal documents | Domain | Use case | create-legal-docum
       const service = PIX_ORGA;
       const existingVersionAt = new Date('2024-12-01');
       const newVersionAt = new Date('2024-12-02');
-      const expectedDocument = domainBuilder.buildLegalDocument({ service, type, versionAt: newVersionAt });
+      const expectedDocument = domainBuilder.legalDocuments.buildLegalDocument({
+        service,
+        type,
+        versionAt: newVersionAt,
+      });
 
       databaseBuilder.factory.buildLegalDocumentVersion({ service, type, versionAt: existingVersionAt });
       await databaseBuilder.commit();
