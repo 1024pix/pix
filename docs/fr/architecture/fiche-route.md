@@ -100,6 +100,23 @@ C'est tout l'invariant, et c'est le test à appliquer devant chaque schéma :
 « cet identifiant désigne une organisation active »  → règle métier, dans le domaine
 ```
 
+Sur du code réel, le test se pose souvent sur trois schémas voisins, et il tranche différemment pour
+chacun :
+
+```js
+minutes:   Joi.number().min(0).max(59).default(0),    // forme — une décomposition de durée
+threshold: Joi.number().min(0).max(100).required(),   // forme — un pourcentage
+level:     Joi.number().min(0).max(8).required(),     // règle métier — le nombre de niveaux
+hours:     Joi.number().min(0).max(999).default(0),   // ni l'un ni l'autre — une borne arbitraire
+```
+
+Le troisième est le cas intéressant : le nombre de niveaux du référentiel est une décision métier, et
+elle existe déjà ailleurs sous forme de constante. Le `8` écrit sur la route en est une copie, qui ne
+sera pas mise à jour avec elle.
+
+Le quatrième mérite d'être nommé aussi : un maximum que personne ne peut justifier n'est ni une forme
+ni une règle. Il n'y a rien à déplacer, seulement à retirer ou à motiver.
+
 **Ce qui casse.** Une règle métier écrite dans la validation de route est **contournable** : un
 script, un job ou une API interne qui appellerait le même usecase ne passerait pas par elle. La règle
 existe donc pour un seul chemin d'appel, et personne ne le sait. C'est `X3` au § 5.
@@ -116,13 +133,25 @@ gestionnaire.
 // conforme — le droit est lisible sans ouvrir un autre fichier
 {
   method: 'GET',
-  path: '/api/things/{id}',
+  path: '/api/organizations/{organizationId}/courses',
   config: {
-    pre: [{ method: securityPreHandlers.checkAdminRole }],
-    handler: thingController.getById,
+    pre: [
+      { method: checkDisplayCatalogueIsEnabled },
+      { method: securityPreHandlers.checkUserBelongsToOrganization },
+    ],
+    handler: combinedCourseController.getCourseByOrganizationId,
+    validate: {
+      params: Joi.object({ organizationId: identifiersType.organizationId }),
+    },
+    notes: ["- Récupération du catalogue de parcours liés à l'organisation"],
+    tags: ['api', 'quest', 'catalogue'],
   },
 }
 ```
+
+Cette route unique satisfait `R1`, `R2`, `R3` et `R5`, et se lit en dix secondes : qui y a accès, sous
+quelle condition d'activation, quelle forme d'entrée, quel gestionnaire. C'est la démonstration du ROI
+du patron, plus que n'importe quel énoncé.
 
 **Deux propriétés que rien d'autre ne donne.** On lit une route et on sait qui y a accès. Et une route
 **sans** contrôle se repère à l'absence de pre-handler, donc un oubli est visible.
@@ -166,13 +195,20 @@ manquante.
 **Énoncé.** Elle déclare. Aucune fonction n'est écrite en ligne dans l'objet de configuration.
 
 ```js
-// fautif — du code non testé, invisible depuis le contrôleur
+// fautif, mais bénin — une enveloppe qui n'ajoute rien
+handler: (request, h) => usersMeController.getCurrentUser(request, h),
+
+// fautif, et cette fois nuisible — du code non testé, invisible depuis le contrôleur
 handler: async (request, h) => {
   const id = Number(request.params.id);
   if (Number.isNaN(id)) return h.response().code(400);
-  return thingController.getById(request, h);
+  return userAdminController.getUserDetails(request, h);
 },
 ```
+
+La première forme est la plus répandue, et elle ne cache rien : elle réécrit à la main ce que
+`handler: usersMeController.getCurrentUser` fait déjà. Le coût n'est pas le risque, c'est qu'elle rend
+la seconde forme invisible en revue — une fonction en ligne de plus ne surprend plus personne.
 
 **Ce qui casse.** Ce qui est déclaré est vérifiable ; ce qui est écrit en ligne ne l'est pas. Le code
 en ligne échappe aux règles des autres fiches, et il rend `R1` et `R2` non fiables — une validation ou
@@ -267,26 +303,37 @@ ne s'écrit.
 
 ```js
 // dans le contrôleur — le droit n'est plus lisible depuis la route
-export async function getById(request, h) {
-  const { userId } = request.auth.credentials;
-  if (!(await isAdmin({ userId }))) return h.response().code(403);
+const findTutorials = async function (request, h, dependencies = { tutorialSerializer }) {
+  const authenticatedUserId = request.auth.credentials.userId;
+  const scorecardId = request.params.id;
+
+  const { userId, competenceId } = Scorecard.parseId(scorecardId);
+  if (parseInt(authenticatedUserId) !== parseInt(userId)) {
+    throw new UserNotAuthorizedToAccessEntityError();
+  }
   …
-}
+};
 ```
 
-La route correspondante n'a pas de pre-handler, donc elle est indiscernable d'une route publique.
+Le cas est **rare**, et son unique occurrence est instructive parce qu'elle a une cause identifiable :
+l'identifiant de la ressource est une **clé concaténée**, et le propriétaire est dedans. Le contrôle
+d'appartenance suppose donc de parser l'identifiant, ce qu'aucun pre-handler générique ne sait faire.
+
+C'est la clé de présentation de `V2` — voir `fiche-objet-valeur.md` — qui produit ici une conséquence
+sur la couche d'accès.
+
+À noter aussi : le contrôleur lève une erreur du domaine plutôt que de choisir un code HTTP, donc
+`C2` de `fiche-controleur.md` est respecté. Ce qui est fautif est **l'endroit de la décision**, pas sa
+forme.
 
 **Correction.** Déplacer le contrôle en pre-handler. Deux cas.
 
 Si le droit ne dépend que de l'identité et du rôle, le déplacement est mécanique : un pre-handler
 existant convient presque toujours.
 
-Si le droit dépend d'une donnée métier à charger, il faut choisir entre les deux voies de `R2` — un
-pre-handler qui charge, ou un usecase dont l'autorisation est l'intention. C'est une décision, pas un
-déplacement.
-
-L'ordre de travail est imposé par `X2` : sans la liste des routes publiques, on ne sait pas
-distinguer les routes à corriger de celles qui n'ont rien à déclarer.
+Si le droit dépend d'une donnée métier à charger — ou d'un identifiant à décomposer, comme ici — il
+faut choisir entre les deux voies de `R2` : un pre-handler qui charge, ou un usecase dont
+l'autorisation est l'intention. C'est une décision, pas un déplacement.
 
 ### X3. Une validation de route exprime une règle métier
 
@@ -324,7 +371,9 @@ du patron.
 
 ```js
 // admis — le framework impose de déclarer le traitement d'échec ici
-failAction: (request, h, error) => errorManager.handle(request, h, error),
+failAction: (request, h) => {
+  return sendJsonApiError(new BadRequestError('Un des champs de recherche saisis est invalide.'), h);
+},
 
 // fautif — de la logique déguisée en configuration
 handler: async (request, h) => { /* extraction, garde, appel */ },
@@ -345,10 +394,15 @@ une configuration écrite dans un langage complet n'a aucune barrière contre la
 **Exemple concret.** La déclaration est un objet JavaScript, donc tout y est permis :
 
 ```js
-export const register = async (server) => {
+const ERRORS = { PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE' };
+
+const register = async function (server) {
   server.route([{ method: 'GET', path: '…', config: { … } }]);
 };
 ```
+
+La première ligne est un exemple réel de ce que le format permet : une constante déclarée dans un
+fichier de route, entre deux blocs d'imports.
 
 **Correction.** Aucune. Un format déclaratif pur — JSON, YAML — retirerait la composition des
 pre-handlers et le partage des schémas, qui sont exactement ce qui rend `R1` et `R2` praticables. Le
@@ -361,15 +415,15 @@ l'invariant serait sans objet.
 
 ## 6. Vérification déterministe
 
-La vérification la plus utile de cette fiche est **bloquée par un préalable**, et ce préalable vaut la
-peine d'être fait pour lui-même. C'est `X2`.
+La vérification la plus utile de cette fiche — celle de `R2` — s'écrit aujourd'hui, sans préalable :
+la déclaration d'accès est déjà dans le code, sous trois formes qui se reconnaissent.
 
 Il n'existe aucun plugin ESLint maison : toute règle sur mesure suppose d'abord de créer cette
 infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **R2** contrôles d'accès | script `tests/tooling/` : toute route déclare un pre-handler de sécurité **ou** `auth: false` | ~40 lignes | aucun. Ne couvre pas les routes authentifiées sans restriction — voir la borne au § 2 |
+| **R2** contrôles d'accès | script `tests/tooling/` : toute route déclare un pre-handler de sécurité, **ou** `auth: false`, **ou** une stratégie explicite | ~40 lignes | aucun. Ne couvre pas les routes authentifiées sans restriction — voir la borne au § 2 |
 | **R3** documentation | script : toute route déclare étiquettes et description | ~30 lignes | aucun |
 | **R1** validation déclarée | script : toute route ayant des paramètres d'adresse déclare leur validation | ~30 lignes | faibles — un paramètre validé par un type partagé plutôt qu'un schéma explicite |
 | **R4** aucune logique | règle ESLint : déclaration de fonction dans un objet de route, hors champ de traitement d'échec | ~30 lignes | **à mesurer** — voir `X4` |
@@ -379,13 +433,28 @@ infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 
 Le script est mécanique et n'attend rien :
 
-> Toute route déclare un pre-handler de sécurité, **ou** `auth: false`.
+> Toute route déclare un pre-handler de sécurité, **ou** `auth: false`, **ou** une stratégie
+> d'authentification explicite.
+
+Les trois formes existent réellement, et la troisième est facile à oublier en écrivant le script :
+
+```js
+// une route dont l'authentification est optionnelle : ni pre-handler, ni auth: false
+config: {
+  auth: { strategy: jwtOptionalUserAuthenticationStrategyName },
+  handler: combinedCourseController.getByCode,
+}
+```
+
+Elle est rare — quelques routes contre plusieurs dizaines en `auth: false` et plusieurs centaines à
+pre-handler — mais un script qui l'ignore produit des faux positifs sur du code légitime, et perd sa
+crédibilité au premier passage.
 
 Quarante lignes, aucun faux positif, et un contrôle d'accès retiré par erreur devient un test rouge.
 
-Ce que le script **ne** couvre pas : la route authentifiée sans restriction supplémentaire, qui n'a ni
-l'un ni l'autre. Le script ne peut pas la signaler sans produire du bruit sur un état légitime. C'est
-la borne énoncée au § 2, et elle reste en revue.
+Ce que le script **ne** couvre pas : la route authentifiée sans restriction supplémentaire, qui n'a
+aucune des trois formes. Le script ne peut pas la signaler sans produire du bruit sur un état
+légitime. C'est la borne énoncée au § 2, et elle reste en revue.
 
 Une piste pour la réduire sans tout inventorier : exiger `auth: false` **ou** un pre-handler **ou**
 une mention explicite du type « authentifié suffit » sur les routes concernées. Ça revient à
@@ -459,8 +528,8 @@ sens, `R4` est violé — et c'est un indice de diagnostic sans borne.
 utilisateur autorisé, rarement qu'elle répond 403 pour un autre. Or c'est le second qui prouve que
 `R2` est tenu : le premier passerait tout aussi bien sans aucun contrôle d'accès.
 
-La borne : une route déclarée publique n'a pas de refus à tester, ce qu'admet le § 3 — et c'est encore
-`X2` qui permet de le savoir.
+La borne : une route déclarée publique n'a pas de refus à tester, ce qu'admet le § 3 — et c'est
+`auth: false` qui permet de le savoir sans rien inventorier.
 
 ---
 
