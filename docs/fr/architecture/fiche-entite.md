@@ -110,11 +110,12 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas une entité
 **Énoncé.** L'entité porte son identifiant, et il ne change pas pendant sa vie.
 
 ```js
-// conforme
-class Organization {
-  #id;
-  constructor({ id, … }) { this.#id = id; … }
-  get id() { return this.#id; }
+// conforme — l'identifiant est porté, et rien ne le réassigne ensuite
+class Passage {
+  constructor({ id, moduleId, userId, terminatedAt }) {
+    this.id = id;
+    …
+  }
 }
 ```
 
@@ -134,10 +135,10 @@ Deux instances de mêmes valeurs et d'identifiants différents sont deux entité
 
 ```js
 // conforme
-const isSame = (a, b) => a.id === b.id;
+const isSamePassage = (a, b) => a.id === b.id;
 
-// fautif — la comparaison dépend des champs chargés
-const isSame = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+// fautif — la comparaison dépend des champs chargés par la requête
+const isSamePassage = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 ```
 
 **Ce qui casse.** Une comparaison par champs dépend de l'ordre des clés et de la fraîcheur des
@@ -165,14 +166,15 @@ elle est documentée, et son coût porte sur le message d'erreur plutôt que sur
 valide.
 
 ```js
-// fautif — l'invariant n'existe qu'au constructeur
-archive() { this.archivedAt = new Date(); }
+// fautif — rien ne vérifie qu'un passage déjà terminé ne se termine pas deux fois
+terminate() {
+  this.terminatedAt = new Date();
+}
 
 // conforme — la règle est vérifiée au moment où elle peut être violée
-archive({ archivedBy, now }) {
-  if (this.#archivedAt) throw new AlreadyArchivedError(this.#id);
-  this.#archivedAt = now;
-  this.#archivedBy = archivedBy;
+terminate({ now }) {
+  if (this.terminatedAt) throw new PassageAlreadyTerminatedError(this.id);
+  this.terminatedAt = now;
 }
 ```
 
@@ -194,11 +196,23 @@ ressemble à du code correct. Voir X1 au § 5.
 
 ```js
 // dans un fichier de domain/models/ — fautif
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { anonymizeGeneralizeDate } from '…/shared/infrastructure/utils/date-utils.js';
 ```
 
-Vaut aussi pour l'horloge, l'aléatoire et la configuration. Une entité qui lit l'heure courante n'est
-pas testable de façon déterministe : **la date entre en paramètre**, comme dans l'exemple de E3.
+**Vaut aussi pour l'horloge**, et c'est la violation la plus fréquente parce qu'elle ne ressemble pas
+à un import :
+
+```js
+// fautif — l'entité lit l'heure courante, donc le test ne peut pas la fixer
+terminate() { this.terminatedAt = new Date(); }
+complete()  { this.updatedAt = new Date(); this.status = COMPLETED; }
+
+// conforme — la date entre en paramètre
+terminate({ now }) { this.terminatedAt = now; }
+```
+
+Ces deux méthodes sont par ailleurs **conformes à E6** : elles nomment leur intention. Un même code
+peut satisfaire un invariant et en violer un autre, et c'est le cas le plus courant en revue.
 
 **Corollaire.** Une entité ne charge jamais ce qui lui manque. Si une règle a besoin d'une donnée que
 l'entité n'a pas, c'est au usecase de la fournir.
@@ -213,12 +227,12 @@ n'expose pas de méthode dont le repository est le seul consommateur.
 
 ```js
 // fautif — le modèle porte une méthode dont seule l'infrastructure se sert
-class Thing {
-  toRow() { return { thing_id: this.id, thing_label: this.label }; }
+class Passage {
+  toRow() { return { moduleId: this.moduleId, userId: this.userId, terminatedAt: this.terminatedAt }; }
 }
 
-// conforme — la traduction vit dans le repository
-const toRow = (thing) => ({ thing_id: thing.id, thing_label: thing.label });
+// conforme — la traduction vit dans le repository, en fonction locale
+const toRow = (passage) => ({ moduleId: passage.moduleId, userId: passage.userId, … });
 ```
 
 **Ce qui casse.** Une migration de schéma oblige à modifier le domaine.
@@ -238,12 +252,21 @@ est retiré : l'invariant porte sur le modèle, pas sur le repository.
 `archive()`, `complete()`, `rename()` — et non par un mutateur générique ni une affectation externe.
 
 ```js
-// fautif — l'appelant décide de l'état
-set archivedAt(date) { this.#archivedAt = date; }
+// fautif — l'appelant décide de l'état, et l'objet se protège pourtant en lecture
+class DataForQuest {
+  #success;
+  get success() { return Object.freeze(this.#success); }
+  set success(value) { this.#success = value; }
+}
 
-// conforme — l'intention est nommée, la règle est vérifiée
-archive({ archivedBy, now }) { … }
+// conforme — l'intention est nommée
+complete() { this.status = COMPLETED; }
+terminate({ now }) { this.terminatedAt = now; }
 ```
+
+Le premier exemple est le plus instructif : l'objet gèle ce qu'il expose en lecture, puis offre un
+mutateur public sur le même champ. La protection donne l'apparence d'une garantie qu'un seul `set`
+annule.
 
 **Ce qui casse.** Un mutateur nu annule E3 : l'invariant n'est plus garanti qu'à la naissance.
 
@@ -261,11 +284,13 @@ nommer : un objet dédié à la construction, ou un read-model si l'objet ne por
 agrégat : elle en tient l'identifiant.
 
 ```js
-// conforme
-this.#organizationId = organizationId;
+// conforme — l'identifiant suffit
+this.userId = userId;
+this.moduleId = moduleId;
 
-// fautif — l'entité tient l'instance d'un autre agrégat
-this.#organization = organization;
+// fautif — l'entité tient l'instance d'une entité d'un autre agrégat
+this.user = user;
+this.module = module;
 ```
 
 À l'intérieur d'un même agrégat, tenir les instances est normal : c'est la définition d'un agrégat.
@@ -365,17 +390,18 @@ l'invariant devient vrai pour la première fois.
 **Exemple concret.**
 
 ```js
-// la forme dominante — accepte l'objet vide
-class Thing {
-  constructor({ id, label, threshold } = {}) {
+// accepte l'objet vide, donc s'instancie toujours
+class TrainingTrigger {
+  constructor({ id, trainingId, triggerTubes, type, threshold } = {}) {
     this.id = id;
-    this.label = label;
-    this.threshold = threshold;
+    this.trainingId = trainingId;
+    …
   }
 }
-
-new Thing();   // ne lève pas
 ```
+
+Le motif se reconnaît à la valeur par défaut `= {}` sur le paramètre déstructuré. Sur cet exemple la
+validation existe pour un seul champ — le type de déclencheur — et manque pour tous les autres.
 
 Le motif se reconnaît à trois traits qui vont ensemble : la valeur par défaut `= {}`, tous les champs
 optionnels, et aucun appel de validation dans le corps.
@@ -397,21 +423,33 @@ modèle de référence un constructeur qui affecte tous ses champs, puis valide 
 déclaratif :
 
 ```js
+// la forme documentée : affecter, puis valider this contre un schéma
 constructor({ id, state, … } = {}) {
   this.id = id;
   this.state = state;
   …
   validateEntity(certificationAssessmentSchema, this);
 }
+
+// la forme inverse, qui existe aussi dans le dépôt
+constructor({ id, type, grains }) {
+  assertNotNullOrUndefined(id, 'The id is required for a section');
+  assertIsArray(grains, 'A list of grains is required for a section');
+  this.id = id;
+  …
+}
 ```
 
 Ce n'est donc pas une dérive : c'est la forme prescrite, avec un bénéfice réel — un schéma déclaratif
 au lieu de gardes écrites une à une, un seul appel, et une forme identique dans tous les modèles.
 
-**Correction.** Aucune systématique, et c'est un renversement par rapport à la version précédente de
-cette fiche, qui annonçait une correction mécanique. Elle ne l'est pas : valider avant d'affecter
-suppose de renoncer à l'utilitaire partagé, qui valide `this` par construction. Ce serait un
-changement de convention, pas un déplacement de deux lignes.
+**Correction.** Aucune systématique. Mais la forme « valider puis affecter » **existe dans le dépôt**,
+avec ses propres utilitaires d'assertion, donc l'alternative n'est pas à inventer : les deux
+conventions cohabitent.
+
+Ce qui n'est pas mécanique, c'est de passer de l'une à l'autre sur un modèle donné : l'utilitaire qui
+valide `this` contre un schéma ne se remplace pas par des assertions champ par champ sans réécrire la
+validation.
 
 Ce qui reste à tenir, et c'est la part utile de l'écart : le **message d'erreur**. Une validation sur
 `this` décrit l'objet construit, pas l'entrée fautive, donc le diagnostic est plus long. Là où le
@@ -435,9 +473,9 @@ confirme le classement de cet écart et lui donne une source.
 
 ```
 domain/models/
-  Organization.js    → entité
-  Threshold.js       → objet-valeur
-  Campaign.js        → racine d'agrégat, peut-être
+  Passage.js                    → entité
+  AnswerStatus.js               → objet-valeur
+  CombinedCourseStatistics.js   → read-model, probablement
 ```
 
 **Correction.** Aucune décidée, et c'est le point à trancher plutôt qu'à appliquer.
@@ -458,8 +496,8 @@ contradiction dans les termes, ce qui est précisément pourquoi le cas mérite 
 **Exemple concret.**
 
 ```js
-const thing = new Thing({ id: null, label });   // avant insertion
-const saved = await thingRepository.save({ thing });
+const passage = new Passage({ id: null, moduleId, userId });   // avant insertion
+const saved = await passageRepository.save({ passage });
 ```
 
 Tout consommateur de `Thing` doit alors savoir si l'identifiant peut être `null`, et rien dans la

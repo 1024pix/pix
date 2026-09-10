@@ -176,24 +176,27 @@ V8 sont propres à l'objet-valeur.
 Aucune écriture après le constructeur. Ni mutateur, ni champ public assignable.
 
 ```js
-// conforme
-class Code {
-  #value;
-  constructor({ value }) { /* validation */ this.#value = value; }
-  get value() { return this.#value; }
+// conforme — l'état est privé, rien n'est exposé en écriture
+class AnswerStatus {
+  #status;
+  constructor({ status }) { /* validation */ this.#status = status; }
+  isOK() { return this.#status === OK; }
 }
 
-// fautif — champ public, modifiable de l'extérieur
-class Code {
-  value;
-  constructor({ value }) { this.value = value; }
+// fautif — champ public, réassignable de l'extérieur
+class CombinedCourseStatistics {
+  constructor({ participationsCount, completedParticipationsCount }) {
+    this.participationsCount = participationsCount;
+    this.completedParticipationsCount = completedParticipationsCount;
+  }
 }
 ```
 
-Un changement produit une nouvelle instance, il ne modifie pas l'existante :
+Un changement produit une nouvelle instance, il ne modifie pas l'existante. La forme la plus lisible
+est un constructeur statique nommé :
 
 ```js
-withThreshold(threshold) { return new Criterion({ ...this.toValues(), threshold }); }
+static get OK() { return new AnswerStatus({ status: OK }); }
 ```
 
 **Ce qui casse.** Un objet-valeur mutable partagé entre deux évaluations, ou mis en cache, change sous
@@ -208,6 +211,16 @@ Pas d'identité propre. Pas de suivi dans le temps. Deux instances de mêmes val
 
 Un objet-valeur peut **porter** l'identifiant d'autre chose : c'est une donnée comme une autre. Ce qui
 est interdit, c'est qu'il ait sa propre identité.
+
+```js
+// conforme — aucune identité propre, deux instances de même statut sont la même chose
+class AnswerStatus { #status; }
+
+// à instruire — pourquoi cet objet a-t-il un identifiant ?
+class CombinedCourseStatistics {
+  constructor({ id, participationsCount }) { this.id = id; … }
+}
+```
 
 **Test de discrimination.** Si remplacer une instance par une autre de mêmes valeurs change quelque
 chose pour le métier, ce n'est pas un objet-valeur, c'est une entité.
@@ -241,18 +254,26 @@ de cache.
 *Objet-valeur uniquement.* Une valeur invalide ne s'instancie pas. L'aval ne valide rien.
 
 ```js
-// conforme
-constructor({ value }) {
-  if (value < 0 || value > 100) throw new DomainError('…');
-  this.#value = value;
+// conforme — on valide, puis on affecte, avec une erreur du domaine
+constructor({ id, type, grains }) {
+  assertNotNullOrUndefined(id, 'The id is required for a section');
+  this.#assertTypeIsValid(type);
+  assertIsArray(grains, 'A list of grains is required for a section');
+
+  this.id = id;
+  this.type = type;
+  this.grains = grains;
 }
 
-// fautif — l'objet invalide existe, puis on s'en aperçoit
-constructor({ value }) {
-  this.#value = value;
-  this.assertValid();
+// fautif — aucune validation, et le code le sait
+constructor({ status } = {}) {
+  // TODO: throw a BadAnswerStatus error if the status is bad
+  this.status = status;
 }
 ```
+
+Le second exemple est la forme la plus fréquente de violation : ce n'est pas une validation mal
+placée, c'est une validation absente.
 
 Trois points de cohérence, sans quoi l'invariant est respecté sans être utile :
 
@@ -271,9 +292,18 @@ cohérente. La vérification se duplique, et elle est oubliée quelque part.
 Le symptôme est visible dans les imports :
 
 ```js
-// dans un fichier de domain/models/ — fautif
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
+// dans un objet-valeur de domain/models/ — fautif
+import { logger } from '…/shared/infrastructure/utils/logger.js';
+
+// et son usage, qui est le motif réel : tracer un cas non évaluable
+if (comparisonIsInvalid) {
+  logger.error(`comparaison invalide : ${this.comparison}`);
+  return false;
+}
 ```
+
+Le besoin est légitime, la solution non : la trace se rend à l'appelant. Voir `X3` de
+`fiche-specification.md`, où l'écart est instruit.
 
 Vaut aussi pour la configuration, l'horloge et l'aléatoire. Un objet qui lit l'heure courante n'est
 pas testable de façon déterministe : la date entre en paramètre.
@@ -287,15 +317,22 @@ pas la cause.
 littéral n'apporte déjà.
 
 ```js
-// pauvre : un sac de champs typé
-class Threshold { #value; get value() { return this.#value; } }
+// pauvre : un sac de champs, que trois clés d'un objet littéral remplaceraient
+class CombinedCourseStatistics {
+  constructor({ participationsCount, completedParticipationsCount }) { … }
+}
 
 // utile : la règle est là où est la donnée
-class Threshold {
-  #value;
-  isReachedBy(percentage) { return percentage >= this.#value; }
+class TrainingTrigger {
+  isFulfilled({ knowledgeElements, skills }) {
+    const percentage = this.#validatedPercentage({ knowledgeElements, skills });
+    return this.type === types.GOAL ? percentage <= this.threshold : percentage >= this.threshold;
+  }
 }
 ```
+
+Le second décide quelque chose : un seuil est atteint ou non. C'est ce qui distingue un objet-valeur
+d'un read-model, et c'est le piège du § 1 — une dérivation de présentation ne décide rien.
 
 **Ce qui casse.** La règle qui contraint la donnée s'écrit ailleurs, donc plusieurs fois, donc
 différemment.
@@ -319,12 +356,15 @@ décidé.
 Un accesseur qui rend une collection interne rend un tableau modifiable par l'appelant.
 
 ```js
-// fautif — l'appelant peut pousser dans le tableau interne
-get items() { return this.#items; }
+// fautif — l'appelant reçoit le tableau interne et peut le modifier
+get proposals() { return this.#coreChallenge.proposals; }
 
-// conforme
-get items() { return [...this.#items]; }
+// conforme — une copie, donc l'état interne reste protégé
+get proposals() { return [...this.#coreChallenge.proposals]; }
 ```
+
+Le champ privé ne suffit donc pas : `#coreChallenge` est inaccessible, mais l'accesseur rend une
+référence vers son contenu.
 
 **Attention au gel inopérant.** `Object.freeze` n'affecte pas les champs privés `#` : ce ne sont pas
 des propriétés. Geler une instance dont l'état est privé ne protège rien tout en en donnant
@@ -336,6 +376,11 @@ l'apparence.
 
 *Objet-valeur uniquement.* Quand un même concept entre dans le système sous plusieurs formes, chaque
 forme a son type.
+
+```
+CombinedCourseBlueprintForCreation   → sans identifiant, avant insertion
+CombinedCourseBlueprintForUpdate     → avec identifiant
+```
 
 **Ce qui casse.** Une signature qui accepte l'un accepte l'autre. L'erreur n'apparaît qu'à
 l'exécution, sur un champ absent.
@@ -418,13 +463,10 @@ son consommateur.
 **Exemple concret.**
 
 ```js
-// dans domain/read-models/ — la clé n'existe que pour le store du client
-class Row {
-  constructor({ id, parentId, name }) {
-    this.id = `${id}_${parentId}`;
-    this.name = name;
-  }
-}
+// la clé n'existe que pour le store du client, et rien ne la relit côté serveur
+this.id = `${campaignId}_${competenceId}`;
+this.id = `${userId}_${competenceId}`;
+this.id = `${areaId}_${trainingTriggerId}`;
 ```
 
 Le motif se reconnaît à deux traits : l'objet porte déjà les deux parties, et la concaténation n'est
@@ -453,12 +495,14 @@ ajoute de la complexité et ne doit pas être le défaut.
 **Exemple concret.** Un concept, quatre modèles :
 
 ```
-domain/models/
-  Thing.js                  → l'entité
-  ThingForCreation.js       → sans identifiant
-  ThingForUpdate.js         → un sous-ensemble de champs
-  ThingForAdmin.js          → un autre sous-ensemble
+CombinedCourseBlueprint              → le concept
+CombinedCourseBlueprintForCreation   → sans identifiant
+CombinedCourseBlueprintForUpdate     → un sous-ensemble de champs
+AdminCombinedCourseBlueprintDetails  → un autre sous-ensemble, nommé par son écran
 ```
+
+Le quatrième porte deux signaux du § 1 à lui seul : `Admin` et `Details` nomment un consommateur, pas
+un concept métier.
 
 Les deux derniers ressemblent à des **commandes** au sens de CQRS. C'est la même appropriation que
 celle du mot `read-model`, du côté écriture cette fois : on emprunte le vocabulaire de CQRS sans en

@@ -91,6 +91,14 @@ Une specification peut porter **plusieurs prédicats indépendants** sur le mêm
 métier distingue plusieurs questions — par exemple « cet utilisateur est-il concerné ? » et
 « a-t-il accompli ce qui est demandé ? ». Chaque prédicat est un arbre distinct, évalué séparément.
 
+Les deux énumérations du format sont typiquement celles-ci — un type de critère, et une modalité de
+comparaison :
+
+```js
+export const TYPES = { COMPOSE: 'compose', CAPPED_TUBES: 'cappedTubes', OBJECT: { … } };
+export const COMPARISONS = { ALL: 'all', ONE_OF: 'one-of' };
+```
+
 Un prédicat **vide** est vrai par vacuité : une composition `all` sur une liste vide renvoie `true`.
 Ce n'est pas un défaut, c'est la sémantique attendue — mais il faut le savoir, parce qu'un prédicat
 vide ne cadre plus rien.
@@ -151,17 +159,16 @@ absente rend `false`.
 Le point sensible est toujours le même : l'accès à une propriété du candidat.
 
 ```js
-// fautif — lève si la propriété est absente
-check(item) {
-  const value = item[this.#key];
-  return value >= this.#threshold;
+// fautif — lève si la propriété du candidat est absente
+isFulfilled(dataInput) {
+  return dataInput[this.requirement_type].every((item) => this.#criterion.check({ item }));
 }
 
 // conforme — l'absence est une réponse, pas un incident
-check(item) {
-  const value = item[this.#key];
-  if (value === undefined) return false;
-  return value >= this.#threshold;
+isFulfilled(dataInput) {
+  const items = dataInput[this.requirement_type];
+  if (!items) return false;
+  return items.every((item) => this.#criterion.check({ item }));
 }
 ```
 
@@ -170,10 +177,10 @@ garantit :
 
 ```js
 // une projection : la propriété est toujours un objet, ses champs peuvent être undefined
-this.#learner = { id: learner?.id };
+this.organizationLearner = { id: organizationLearner?.id };
 
 // une valeur par défaut : la collection est toujours itérable
-constructor({ items = [] }) { … }
+constructor({ campaignParticipations = [] }) { … }
 ```
 
 **Ce qui casse.** Une specification mal câblée lève dans un job asynchrone, où l'exception est souvent
@@ -205,7 +212,7 @@ la forme attendue.
 ```js
 // fautif — journalise puis renvoie false : indiscernable d'un candidat non conforme
 if (typeof value !== 'number') {
-  logger.error(…);
+  logger.error({ name: this.requirement_type, value });
   return false;
 }
 ```
@@ -225,14 +232,16 @@ combinateur, et propage le candidat **sans le transformer**.
 
 ```js
 // conforme — le combinateur ne connaît que l'interface, pas les types concrets
-isSatisfiedBy(candidate) {
-  return this.#children.every((child) => child.isSatisfiedBy(candidate));
+isFulfilled(dataInput) {
+  return this.#subRequirements[comparisonFunction]((sub) => sub.isFulfilled(dataInput));
 }
 
 // fautif — il connaît ses enfants, donc la composition n'est plus fermée
-isSatisfiedBy(candidate) {
-  return this.#children.every((child) =>
-    child.type === 'threshold' ? child.check(candidate.score) : child.isSatisfiedBy(candidate),
+isFulfilled(dataInput) {
+  return this.#subRequirements.every((sub) =>
+    sub.requirement_type === TYPES.CAPPED_TUBES
+      ? sub.check(dataInput.cappedTubes)
+      : sub.isFulfilled(dataInput),
   );
 }
 ```
@@ -247,6 +256,20 @@ un type d'enfant, ou qui modifie le candidat avant de le passer, casse la propri
 
 **Énoncé.** Toute valeur ajoutée à une énumération du format est documentée **avant** d'être
 utilisable, et aucune clé existante n'est renommée. Voir § 1.
+
+L'illustration la plus visible de cet invariant est un **nom de champ** : une clé du format publié
+garde sa casse d'origine dans le modèle, même quand elle jure avec les conventions du code.
+
+```js
+class BaseRequirement {
+  requirement_type;   // snake_case, parce que c'est la clé du format écrit à la main
+  comparison;
+}
+```
+
+Renommer ce champ en `requirementType` pour la cohérence interne casserait toutes les specifications
+déjà écrites en base. C'est exactement ce que l'invariant interdit, et c'est pourquoi la forme
+« laide » est la bonne ici.
 
 **Le tiers état est le vrai danger** : une valeur qui existe dans le code sans être documentée. Ceux
 qui écrivent des specifications ne peuvent pas s'en servir, et ceux qui lisent le code ne savent pas si
@@ -266,8 +289,16 @@ noms autorisés et la surface du candidat forment un contrat implicite. Il doit 
 
 Le protocole d'ajout d'un critère comporte plusieurs étapes dans plusieurs fichiers : exposer la
 propriété sur le candidat, enregistrer le nom dans l'énumération, charger la donnée dans le repository
-qui assemble le candidat. **Seule l'étape d'enregistrement est validée**, par le schéma du format. Les
-autres ne le sont par rien.
+qui assemble le candidat.
+
+**Seule l'étape d'enregistrement est validée**, et elle l'est par le schéma du format :
+
+```js
+requirement_type: Joi.string().valid(...Object.values(TYPES.OBJECT))
+```
+
+Les deux autres ne le sont par rien. Un nom peut donc entrer dans l'énumération, passer le schéma, et
+ne correspondre à aucune propriété du candidat.
 
 **Ce qui casse.** Un nom enregistré sans donnée derrière produit une violation de `S1` : selon la
 forme de la propriété, une exception ou un `false` définitif et silencieux. Le critère est écrit, il
@@ -287,14 +318,14 @@ Les trois degrés de violation, du moins au plus grave :
 
 ```js
 // 1. il lit la forme interne du format
-const ids = spec.criteria.map(({ data }) => data.someId.value);
+const ids = quest.successRequirements.map(({ data }) => data.targetProfileId.value);
 
-// 2. il évalue une feuille isolée
-const done = criterion.isSatisfiedBy(candidate);
+// 2. il évalue une exigence isolée
+const done = requirement.isFulfilled(dataInput);
 
 // 3. il reconstruit la specification avec un sous-ensemble
-const filtered = spec.criteria.filter(/* … */);
-return new Specification({ ...spec, criteria: filtered }).isSatisfiedBy(candidate);
+const filtered = quest.successRequirements.filter(/* … */);
+return new Quest({ ...quest, successRequirements: filtered }).isFulfilled(dataInput);
 ```
 
 **Ce qui casse.** Le troisième est rédhibitoire : aucune API publiée ne peut exposer « réinstancie mon
@@ -426,9 +457,22 @@ dépendance de Clean Architecture.
 **Exemple concret.**
 
 ```js
-// dans un fichier de domain/models/ — fautif
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
+// dans un objet-valeur du moteur — l'import
+import { logger } from '…/shared/infrastructure/utils/logger.js';
+
+// et son usage, au cœur de l'évaluation
+isFulfilled(dataInput) {
+  const isFulfilled = this.#subRequirements[comparisonFunction](…);
+
+  logger.debug({ name: this.requirement_type, comparisonFunction, isFulfilled });
+
+  return isFulfilled;
+}
 ```
+
+Le motif est parlant : la trace dit **quel critère a conclu quoi**, ce qui est exactement
+l'information dont on a besoin pour déboguer un moteur piloté par les données. Le besoin est réel,
+l'endroit non.
 
 **Correction, et ce n'est pas de supprimer la trace.** Le besoin est réel : un moteur piloté par les
 données est difficile à déboguer sans savoir quel critère a conclu quoi. La sortie propre est de
@@ -436,8 +480,8 @@ données est difficile à déboguer sans savoir quel critère a conclu quoi. La 
 
 ```js
 // la specification reste pure, l'appelant décide quoi faire de la trace
-isSatisfiedBy(candidate) {
-  return { satisfied: …, trace: [ … ] };
+isFulfilled(dataInput) {
+  return { fulfilled: …, trace: [{ name: this.requirement_type, … }] };
 }
 ```
 
@@ -455,7 +499,7 @@ avec le pattern. L'écart est avec la vérifiabilité.
 **Exemple concret.**
 
 ```js
-const value = candidate[this.#propertyName];   // #propertyName vient du format, en base
+const items = dataInput[this.requirement_type];   // requirement_type vient du format, en base
 ```
 
 Le nom traverse la base de données, donc aucun outil ne peut lier la déclaration à son usage.
@@ -495,8 +539,8 @@ La forme naïve est **fausse** :
 
 ```js
 // FAUX — inspecte le prototype, alors que le contrat porte sur l'instance
-for (const name of Object.values(CRITERION_NAMES)) {
-  expect(Object.getOwnPropertyNames(Candidate.prototype)).to.include(name);
+for (const name of Object.values(TYPES.OBJECT)) {
+  expect(Object.getOwnPropertyNames(DataForQuest.prototype)).to.include(name);
 }
 ```
 
@@ -508,9 +552,9 @@ dit rien du cas inverse.
 La forme juste interroge une instance :
 
 ```js
-const candidate = new Candidate({});
-for (const name of Object.values(CRITERION_NAMES)) {
-  expect(name in candidate, `le critère « ${name} » n'a aucune propriété sur le candidat`).to.be.true;
+const dataInput = new DataForQuest({ eligibility: {}, success: {} });
+for (const name of Object.values(TYPES.OBJECT)) {
+  expect(name in dataInput, `le critère « ${name} » n'a aucune propriété sur le candidat`).to.be.true;
 }
 ```
 
@@ -527,10 +571,10 @@ qui assemble le candidat, pas seulement exposée. Demande une fixture, donc un t
 ### S1 — test de totalité
 
 ```js
-const empty = new Candidate({});
-for (const name of Object.values(CRITERION_NAMES)) {
-  const criterion = buildCriterion({ name, /* … */ });
-  expect(() => criterion.isSatisfiedBy(empty)).to.not.throw();
+const empty = new DataForQuest({ eligibility: {}, success: {} });
+for (const name of Object.values(TYPES.OBJECT)) {
+  const requirement = buildRequirement({ requirement_type: name, /* … */ });
+  expect(() => requirement.isFulfilled(empty)).to.not.throw();
 }
 ```
 
@@ -590,13 +634,13 @@ Le pattern se type bien, et c'est un bon candidat de migration : peu de fichiers
 frontière nette.
 
 ```ts
-export type Candidate = {
-  readonly learner?: { readonly id: number };
-  readonly items: readonly Item[];
+export type DataForQuest = {
+  readonly organizationLearner?: { readonly id: number };
+  readonly campaignParticipations: readonly CampaignParticipation[];
 };
 
-export type Specification<C> = {
-  isSatisfiedBy(candidate: C): boolean;
+export type Requirement<D> = {
+  isFulfilled(dataInput: D): boolean;
 };
 ```
 
@@ -606,8 +650,8 @@ Deux bénéfices, et ils portent précisément sur les invariants les plus souve
 de l'absence à la compilation : sous `strict`, un accès non gardé ne compile plus. Ce qui reste à la
 charge du code : la valeur présente mais hors domaine, qui est le périmètre de `S2`.
 
-**`S7` devient structurel, et `X4` disparaît.** Le nom d'un critère typé en `keyof Candidate` plutôt
-qu'en `string` rend impossible la déclaration d'un critère sans propriété correspondante. Le test de
+**`S7` devient structurel, et `X4` disparaît.** Un `requirement_type` typé en `keyof DataForQuest`
+plutôt qu'en `string` rend impossible la déclaration d'un critère sans propriété correspondante. Le test de
 `S7` devient alors inutile — c'est le seul endroit du corpus où le typage retire un test au lieu d'en
 ajouter un.
 
