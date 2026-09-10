@@ -157,4 +157,28 @@ describe('Unit | Legal documents | Domain | Model | LegalDocumentStatus', functi
       expect(legalDocumentStatus).to.deep.equal({ status: STATUS.REQUESTED, acceptedAt: null, documentPath: null });
     });
   });
+
+  describe('#isAccepted', function () {
+    it('returns true when status is "accepted"', function () {
+      // given
+      const legalDocumentStatus = new LegalDocumentStatus({
+        status: STATUS.ACCEPTED,
+        acceptedAt: new Date('2024-01-01'),
+        documentPath: null,
+      });
+
+      // when / then
+      expect(legalDocumentStatus.isAccepted).to.be.true;
+    });
+
+    [STATUS.REQUESTED, STATUS.UPDATE_REQUESTED, STATUS.NOT_APPLICABLE].forEach((status) => {
+      it(`returns false when status is "${status}"`, function () {
+        // given
+        const legalDocumentStatus = new LegalDocumentStatus({ status, acceptedAt: null, documentPath: null });
+
+        // when / then
+        expect(legalDocumentStatus.isAccepted).to.be.false;
+      });
+    });
+  });
 });
