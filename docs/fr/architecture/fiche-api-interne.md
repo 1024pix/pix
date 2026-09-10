@@ -36,7 +36,7 @@ typage de mordre est dans `migration-typescript.md`.
 | [**P8**](#p8-lapi-ne-transite-pas-vers-un-autre-contexte) | l'API ne transite pas vers un autre contexte | moyenne | `dependency-cruiser` |
 | [**P7**](#p7-le-comportement-ne-dépend-pas-de-lappelant) | le comportement ne dépend pas de l'appelant | moyenne | revue |
 | [**P4**](#p4-le-dto-ne-porte-aucun-comportement-métier) | le DTO ne porte aucun comportement métier | hygiène | voir `fiche-objet-valeur.md` |
-| [**P5**](#p5-un-seul-emplacement-pour-lobjet-de-contrat) | un seul emplacement pour l'objet de contrat | hygiène | script, bloqué par `X3` |
+| [**P5**](#p5-un-seul-emplacement-pour-lobjet-de-contrat) | un seul emplacement pour l'objet de contrat | hygiène | script, bloquant après `X3` |
 
 **Écarts** — triés par verdict, comme au § 5.
 
