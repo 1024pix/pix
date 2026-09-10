@@ -127,6 +127,31 @@ Ce qui reste vrai, et plus étroit : `R2` n'est adossé à **aucun ADR**, sa sou
 le **motif** que `fiche-route.md` lui donne — un contrôle oublié se voit — n'est pas celui de la
 documentation. C'est ce qu'un ADR gagnerait à trancher.
 
+## Passe d'ancrage des exemples — 2026-09-10
+
+Chaque invariant des douze fiches porte désormais un exemple pris dans du code qui existe. La règle 1
+du gabarit reste tenue : aucun nom de contexte, aucun chemin, aucun état constaté — les exemples citent
+des **formes de code et des concepts métier réels**, pas des divergences.
+
+**La passe a corrigé cinq affirmations, en cherchant le code plutôt qu'en le supposant.**
+
+| Fiche | Ce que le code a dit |
+| --- | --- |
+| `fiche-route.md` | `X1` — le contrôle des droits écrit dans le contrôleur — n'a **qu'une occurrence**, et sa cause est identifiable : l'identifiant de la ressource est une clé concaténée qui contient le propriétaire, donc aucun pre-handler générique ne peut faire le contrôle. C'est la clé de présentation de `V2` qui produit une conséquence sur la couche d'accès |
+| `fiche-route.md` | La vérification de `R2` doit reconnaître **trois** formes, pas deux : un pre-handler, `auth: false`, ou une stratégie d'authentification explicite. La troisième est rare mais réelle, et un script qui l'ignore signale du code correct |
+| `fiche-serialiseur.md` | Les conditionnels réellement présents dans les sérialiseurs relèvent du **nommage du transport** et du nettoyage d'une valeur — tous légitimes. La règle annoncée pour `M1` aurait sorti sur du code correct. Elle porte désormais sur les conditions **sur l'objet sérialisé**, ce qui la fait passer de vingt-cinq à quarante lignes |
+| `fiche-api-interne.md` | `X5` — le DTO qui recopie le modèle — n'a **aucune occurrence** relevée : les DTO existants sont des projections de deux ou trois champs, aux noms choisis pour l'échange. L'écart reste énoncé comme vigilance, pas comme chantier. Idem pour `X4`, l'API qui transite vers un contexte tiers |
+| `fiche-usecase.md` | `X1` est plus fort que ce qui était écrit : le test dupliqué n'est pas hypothétique, il existe **déjà** à l'intérieur du modèle, dans la méthode qui attache une organisation |
+
+**Une découverte non prévue** a été écrite dans `fiche-api-interne.md` : une API interne expose la
+**configuration de sérialisation** de son contexte. Le voisin reçoit de quoi produire lui-même la
+réponse HTTP, donc le format de sortie d'un contexte devient une dépendance de l'autre. Aucun
+invariant ne l'interdisait, parce que le cas n'avait pas été imaginé.
+
+**Ce que la passe n'a pas pu faire.** Mesurer les taux de faux positifs annoncés dans les § 6 — cela
+demande d'écrire les règles, pas de lire des fichiers. La réserve posée sur `M1` est la seule qui
+s'appuie sur un échantillon compté.
+
 ## Ordre de relecture proposé
 
 1. ~~`fiche-objet-valeur.md`~~ — **corrigée le 2026-09-08.** Elle livre la définition d'« objet du
