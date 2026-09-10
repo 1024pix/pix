@@ -51,6 +51,30 @@ Les types conditionnels de l'utilitaire d'injection sont des annotations JSDoc d
 Avec `allowJs: false`, `checkJs: false` et `declare module '*.js'`, le compilateur ne les lit pas. Ils
 ne peuvent donc servir d'argument dans aucun sens sur la forme d'injection.
 
+## Piste à ressortir plus tard : un paquet partagé avec les fronts
+
+Ce n'est pas une décision de ce dépôt, et le passage des applications front à TypeScript ne relève pas
+de `api/`. C'est consigné ici parce que le jour où la question se posera, l'API a quelque chose à y
+gagner et personne ne s'en souviendra.
+
+TypeScript est un citoyen de première classe dans Ember. Quand les fronts y passeront, un **paquet
+partagé** peut porter deux choses :
+
+- les **types** de retour des sérialiseurs — la forme de ce que l'API publie ;
+- les **constantes** qui portent du sens — valeurs possibles d'un état, codes d'erreur, énumérations
+  du contrat.
+
+Ce que ça change pour le corpus : `M3` de `fiche-serialiseur.md` est aujourd'hui le seul invariant sans
+aucun moyen de vérification, parce que ses consommateurs sont hors du dépôt. Le paquet le ramène en
+grande partie dans le domaine du vérifiable, et le détail des trois niveaux est au § 7 de cette fiche.
+
+Le bénéfice sur les constantes n'attend pas la migration pour exister : la duplication des littéraux
+entre l'API et les fronts est un défaut d'aujourd'hui.
+
+Deux conditions pour que la piste tienne. Le type doit être **dérivé** du sérialiseur et non écrit à
+côté, sinon il dérive. Et le front doit consommer les valeurs de façon **exhaustive**, sinon l'ajout
+d'une valeur passe en silence.
+
 ## À retirer quand la migration est faite
 
 Ce document disparaît quand `declare module '*.js'` disparaît. Les sections « ordre de migration » et
