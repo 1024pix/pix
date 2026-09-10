@@ -9,9 +9,9 @@ typage de mordre est dans `migration-typescript.md`.
 > **À instruire**
 >
 > - Le § 6 annonce des taux de faux positifs estimés, pas mesurés.
-> - U7 énonce que le périmètre transactionnel est explicite. Les ADR 9 et 25 décident la transaction
->   au grain du usecase ; leur lecture intégrale reste à faire pour confirmer que U7 n'en dit pas plus
->   qu'eux.
+> - **ADR 9 et 25 lus le 2026-09-08.** L'ADR 25 **remplace** l'ADR 9, et sa décision est plus étroite
+>   que le titre ne le suggère : elle porte sur les événements dans les transactions. `U7` en donne la
+>   règle utilisable, désormais sourcée.
 > - X1 et X3 sont des écarts que deux autres fiches traitent depuis l'autre bord. Vérifier à chaque
 >   reprise qu'ils ne sont énoncés qu'ici.
 
@@ -201,16 +201,32 @@ violation en amont, dans un repository qui n'a pas traduit. Voir I1 de `fiche-re
 
 **Énoncé.** Un usecase qui écrit à plusieurs endroits dit ce qui doit être atomique.
 
-Quand la transaction est fournie par un contexte ambiant, elle n'apparaît pas dans la signature : la
-lecture seule ne suffit pas à savoir si le usecase s'exécute dans une transaction. C'est un coût
-assumé de la convention — voir X3 de `fiche-repository.md` — et la contrepartie est de **documenter le
-périmètre** quand il n'est pas évident.
+L'ADR 25 donne le critère, et il est net :
+
+| La situation | Ce qu'il faut faire |
+| --- | --- |
+| Les écritures doivent **échouer ou réussir ensemble** | une transaction, orchestrée dans le usecase, **sans événements** |
+| Elles peuvent échouer **indépendamment** | pas de transaction |
+
+Le second point est celui qu'on oublie : une transaction posée « au cas où » sur des écritures
+indépendantes est un défaut, pas une précaution.
+
+**Aucun événement dans une transaction.** C'est la décision de l'ADR 25, et son motif est mesuré : des
+deadlocks constatés en production, qui épuisaient le pool de connexions. Un enchaînement qui doit
+échouer ensemble se fait donc par **orchestration** dans le usecase, jamais par chorégraphie
+d'événements.
 
 **Ce qui casse.** Sans cette réponse, chaque écriture multiple est un pari : personne ne sait ce qui
 sera annulé si la seconde échoue.
 
-Voir A7 de `fiche-racine-agregat.md` : si une opération doit modifier deux agrégats de façon atomique,
-c'est souvent que la frontière est mal placée.
+**Le coût de la forme ambiante.** La transaction n'apparaît pas dans la signature, donc la lecture
+seule ne suffit pas à savoir si le usecase s'exécute dans une transaction. Voir `X3` de
+`fiche-repository.md`, où cet écart est instruit. La contrepartie est de **documenter le périmètre**
+quand il n'est pas évident.
+
+**Sur plusieurs agrégats.** L'ADR 25 retient explicitement la transaction qui en couvre plusieurs
+quand les écritures doivent échouer ensemble. C'est une position différente de celle de Vernon — voir
+`A7` et `X4` de `fiche-racine-agregat.md`, où le choix est instruit.
 
 ### U8. Enregistré dans l'index des usecases
 
@@ -612,7 +628,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **U3** aucun import d'infrastructure | Martin, « The Clean Architecture » — la règle de dépendance | billet gratuit |
 | **U4** une intention, un fichier | Pix : **ADR 20** pour le caractère obligatoire, **ADR 51** pour l'arborescence. Le nommage par verbe n'a **aucune source** | ADR 20 et 51 |
 | **U5**, **U6** aucune notion de transport | Martin, ch. « Presenters and Humble Objects » | le livre de 2017 |
-| **U7** périmètre transactionnel | Pix : **ADR 9 et 25**, qui décident la transaction au grain du usecase. Vernon, « Effective Aggregate Design », règle 4, pour la cohérence différée | ADR 9 et 25 ; dddcommunity.org |
+| **U7** périmètre transactionnel | Pix : **ADR 25**, qui remplace l'ADR 9 et interdit les événements dans une transaction, sur un motif mesuré — des deadlocks en production. Le critère échouer-ensemble / indépendamment vient de ses conséquences. Vernon, règle 4, pour la cohérence différée | ADR 25 ; dddcommunity.org |
 | **U8** enregistré dans l'index | **aucune source** — outillage Pix | — |
 | **U9** API interne obligatoire | Pix : **ADR 55**, qui décide les APIs internes synchrones et énumère les coûts acceptés | ADR 55 |
 | Le discriminant avec le service de domaine | Evans, *DDD*, ch. « A Model Expressed in Software » — le Service y est défini sans état et sans I/O | *DDD Reference* |

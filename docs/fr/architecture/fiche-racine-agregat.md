@@ -10,6 +10,9 @@ typage de mordre est dans `migration-typescript.md`.
 >
 > - Appliquée telle quelle, cette fiche disqualifie du code existant : peu d'objets satisfont A1 et
 >   A2. Elle sert d'abord à trancher un débat de conception, ensuite à contrôler du code.
+> - `A7` est l'invariant de la littérature, et **Pix a décidé autrement** pour les écritures qui
+>   doivent échouer ensemble — ADR 25, sur un motif mesuré. Le lire avec `X4` au § 5, sans quoi la
+>   fiche paraît prescrire ce que le dépôt contredit.
 > - Les numéros **A4** et **A5** ne sont pas attribués. Ils portaient des invariants identiques à E7
 >   et E3 de `fiche-entite.md`, avec des ROI inversés. Les énoncés vivent désormais là-bas, et les
 >   numéros ne sont pas réattribués.
@@ -46,7 +49,7 @@ particulier : `E3` les invariants tenus à tout instant, et `E7` la référence 
 | [**X1**](#x1-le-mot-agrégat-est-posé-sur-des-dossiers-sans-frontière-nommable) | le mot « agrégat » est posé sur des dossiers sans frontière nommable | **à corriger** |
 | [**X2**](#x2-aucune-racine-nest-déclarée-nulle-part) | aucune racine n'est déclarée nulle part | **à corriger** |
 | [**X3**](#x3-plusieurs-repositories-pour-une-même-frontière) | plusieurs repositories pour une même frontière | à surveiller |
-| [**X4**](#x4-une-opération-modifie-plusieurs-agrégats-dans-la-même-transaction) | une opération modifie plusieurs agrégats dans la même transaction | à surveiller |
+| [**X4**](#x4-une-opération-modifie-plusieurs-agrégats-dans-la-même-transaction) | une opération modifie plusieurs agrégats dans la même transaction | rien à faire |
 
 L'artefact le plus cherché est le [test de discrimination](#le-test-de-discrimination) au § 1 : il
 dit en trois questions s'il y a un agrégat ou non.
@@ -212,8 +215,14 @@ charger partiellement. Le modèle partiellement rempli est écarté pour la rais
 nécessaire, et fait échouer des opérations sans rapport entre elles. Et elle masque une frontière mal
 placée : personne ne se pose la question tant que la transaction absorbe le problème.
 
-C'est l'invariant le plus exigeant, et celui qui se heurte le plus vite à l'existant. Il vaut comme
-règle de conception pour le code nouveau. Voir X4 au § 5.
+**La position Pix est différente, et elle est décidée.** L'ADR 25 retient explicitement la transaction
+qui couvre plusieurs agrégats quand les écritures doivent échouer ou réussir ensemble, et prescrit de
+les orchestrer dans le usecase **sans événements**. Son motif est mesuré : des deadlocks constatés en
+production, causés par des événements à l'intérieur de transactions.
+
+`A7` reste donc l'invariant de la littérature, et il garde sa valeur comme **question de conception** —
+si deux agrégats doivent toujours changer ensemble, la frontière est peut-être mal placée. Mais ce
+n'est pas la règle appliquée. Voir `X4` au § 5, qui instruit l'écart.
 
 ---
 
@@ -271,7 +280,7 @@ depuis le code.
 | **X1** Le mot « agrégat » est posé sur des dossiers sans frontière nommable | dérive | Le dossier promet une garantie qui n'existe pas. On y cherche des invariants absents, et leur absence passe pour normale | Un rangement, quel qu'il soit | **À corriger** |
 | **X2** Aucune racine n'est déclarée nulle part | dérive | A1 n'est vérifiable ni par un humain ni par un outil, et l'indicateur de A3 est incalculable | Nul | **À corriger** |
 | **X3** Plusieurs repositories pour une même frontière | convention assumée | A3 tombe, donc compter les repositories ne dit plus rien de la conception | Réel — chaque requête est écrite pour son besoin, sans champ chargé pour rien | *À surveiller* |
-| **X4** Une opération modifie plusieurs agrégats dans la même transaction | vestige | Une transaction verrouille plus que nécessaire, et masque une frontière mal placée | Réel — la cohérence est immédiate, sans appareil de réconciliation | *À surveiller* |
+| **X4** Une opération modifie plusieurs agrégats dans la même transaction | convention assumée | Une transaction verrouille plus que nécessaire, et masque une frontière mal placée | Réel et **mesuré** — l'alternative par événements a causé des deadlocks en production, et la cohérence immédiate évite tout appareil de compensation | *Rien à faire* |
 
 ### X1. Le mot « agrégat » est posé sur des dossiers sans frontière nommable
 
@@ -370,15 +379,25 @@ await DomainTransaction.execute(async () => {
 });
 ```
 
-**Correction.** Aucune rétroactive, et c'est un choix assumé. L'appareil que demande la cohérence à
-terme — événement, job, réconciliation — coûte plus cher que le problème tant que la charge le
-permet, et les ADR 9 et 25 décident la transaction au grain du usecase.
+**Correction.** Aucune, et ce n'est pas une tolérance : c'est une décision, portée par l'**ADR 25**.
 
-Ce qui est à tenir : quand le cas se présente sur du code neuf, poser la question de A7 plutôt que
-d'élargir la transaction par réflexe. Une transaction qui grossit est souvent le symptôme d'une
+Son raisonnement mérite d'être connu, parce qu'il est l'inverse de l'intuition. Pix avait la
+chorégraphie par événements à l'intérieur des transactions — la forme même qui aurait permis de
+découper. Elle a causé des **deadlocks en production**, en épuisant le pool de connexions. L'ADR 25 en
+tire deux règles : plus d'événements dans une transaction, et les écritures qui doivent échouer
+ensemble sont orchestrées dans le usecase, transaction comprise, même si elles couvrent plusieurs
+agrégats.
+
+C'est donc un bénéfice **mesuré**, ce qui est rare dans ce corpus et ce qui suffit à classer l'écart en
+*rien à faire*. La grille du gabarit est explicite : une mesure change le verdict, une intuition non —
+ici la mesure existe, et elle va contre la littérature.
+
+Ce qui est à tenir : quand le cas se présente sur du code neuf, poser la question de `A7` plutôt que
+d'élargir la transaction par réflexe. Une transaction qui grossit reste un signal possible de
 frontière mal placée, et c'est le seul moment où on la voit.
 
-Ce qui rouvrirait le dossier : de la contention mesurée en production sur une de ces transactions.
+Ce qui rouvrirait le dossier : de la contention mesurée sur une de ces transactions, c'est-à-dire le
+même type de preuve que celle qui a produit l'ADR 25.
 
 ---
 
@@ -530,7 +549,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **A2** point d'entrée unique | Evans, même ch. — c'est la définition de la racine | *DDD Reference* |
 | **A3** un repository par racine | Evans, même ch. — le Repository porte sur les agrégats, pas sur les entités internes | *DDD Reference* |
 | **A6** petit agrégat | Vernon, règle 2 : *design small aggregates* | dddcommunity.org |
-| **A7** une transaction, un agrégat | Vernon, règle 4 : *use eventual consistency outside the boundary*. Pix : ADR 9 et 25 décident la transaction au grain du usecase, ADR 8 et 10 le découplage par événements | ADR 8, 9, 10 et 25 |
+| **A7** une transaction, un agrégat | Vernon, règle 4 : *use eventual consistency outside the boundary*. **Pix décide l'inverse pour le cas échouer-ensemble** : l'ADR 25, qui remplace les ADR 9 et 10, interdit les événements dans une transaction sur un motif mesuré. Voir `X4` | ADR 25 ; dddcommunity.org |
 | Le test de discrimination | Evans, même ch. | *DDD Reference* |
 | **X2** déclarer les racines | **aucune source.** La théorie ne prescrit pas de fichier ; l'écart est avec la vérifiabilité | — |
 | Identifiants typés (§ 7) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût | ADR 19 |

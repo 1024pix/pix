@@ -267,8 +267,11 @@ la règle de D1 ne peut pas être activée en erreur.
 **Correction, et la direction est décidée.** `domain/services/` est réservé aux **vrais services de
 domaine**. Les fichiers qui reçoivent une I/O partent dans `usecases/`.
 
-C'est la position la plus fidèle aux sources : chez Evans, un Service est sans état et ne fait pas
-d'I/O. Elle a deux conséquences à assumer.
+C'est la position la plus fidèle aux sources, et à deux titres. Chez Evans, un Service est sans état et
+ne fait pas d'I/O. Et `docs/fr/Anatomy.md` décrit `domain/services` comme les « Services métier du
+domaine » — le nom dit le métier, pas le partage entre usecases.
+
+Elle a deux conséquences à assumer.
 
 `D1` devient **activable en erreur** une fois le déplacement fait. C'est le bénéfice, et il est
 immédiat : plus personne ne peut ajouter un repository à un fichier de ce dossier.
@@ -512,7 +515,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **D4** dernier recours | Evans, même ch. — il insiste sur le fait qu'un Service ne doit pas dépouiller les objets de leur comportement. Fowler, « AnemicDomainModel » pour le symptôme obtenu quand on l'ignore | bliki gratuit |
 | **D5** nommé par la règle | **aucune source** — convention proposée par cette fiche | — |
 | La distinction service / usecase | Martin, *Clean Architecture*, ch. « Business Rules » — les règles d'entreprise sont indépendantes de l'application, les usecases orchestrent | le livre de 2017 |
-| Le sens du dossier `services/` (X1) | **aucun ADR.** L'ADR 51 fixe l'arborescence sans définir ce que contient `services/`, et l'ADR 20 rend le usecase obligatoire sans traiter le cas du service | ADR 20 et 51 |
+| Le sens du dossier `services/` (X1) | **aucun ADR.** L'ADR 51 fixe l'arborescence sans définir ce que contient `services/`, et l'ADR 20 rend le usecase obligatoire sans traiter le cas du service. `docs/fr/Anatomy.md` le décrit comme les « Services métier du domaine », ce qui appuie la décision sans en tenir lieu | ADR 20 et 51 ; `docs/fr/Anatomy.md` |
 
 **Un invariant sur cinq n'a aucune source** : D5, la convention de nommage. L'essentiel — D1, D2, D3 —
 vient directement de la définition d'Evans, et c'est ce qui rend la fiche opposable : ce n'est pas une

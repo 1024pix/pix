@@ -280,6 +280,31 @@ comme une prescription.
 **Une contradiction qu'elle ouvre.** Son modèle de référence expose des champs publics assignables,
 ce que `V1` de `fiche-objet-valeur.md` et `E1`/`E6` de `fiche-entite.md` excluent. À trancher.
 
+### `docs/fr/Anatomy.md`
+
+Dans le dépôt. Référencé par la page *1.Intro* de la documentation d'architecture comme la source sur
+l'organisation des fichiers. Lu le 2026-09-08.
+
+Il donne le **rôle de chaque dossier**, ce qui source la moitié « emplacement » de plusieurs invariants
+que le corpus donnait pour conventions sans appui.
+
+| Ce qu'il établit | Ce que ça source |
+| --- | --- |
+| `domain/models` → « Entités, aggrégats et value objects du domaine » | `X4` de `fiche-entite.md` : le mélange des trois catégories dans un dossier commun est **documenté**, pas subi |
+| `domain/services` → « Services métier du domaine » | la décision de réserver le dossier aux vrais services : le nom dit bien le métier, pas le partage |
+| `domain/usecases` → « Cas d'usage métier » | le placement de `U4` |
+| `infrastructure/repositories` → « Gestionnaires d'accès aux données » | le placement de `I9` |
+| `infrastructure/serializers` → « Convertisseurs de données Domain objects **←→** HTTP request objects » | `M5` de `fiche-serialiseur.md` : le métier bidirectionnel du sérialiseur |
+| `application` → « Fichiers de définition des routes et contrôleurs HTTP » | le placement de `R5` et `C5` |
+
+**La réserve, et elle est importante** : ce fichier décrit `lib/`, avec les trois couches à la racine.
+Cette arborescence **n'existe plus** — l'ADR 51 l'a remplacée par un triplet répliqué dans chaque
+contexte borné. Le **sens des dossiers** a survécu à la migration, la structure non.
+
+Ce qu'il ne couvre pas : le **nommage des fichiers**. PascalCase pour un modèle, kebab-case pour un
+usecase, le suffixe `-repository` — rien de tout cela n'y figure. Les invariants de nommage restent
+donc sans source, contrairement aux invariants d'emplacement.
+
 ### Le vocabulaire des couches ne vient pas de la Clean Architecture
 
 La page *1.Intro* le dit explicitement : « Les termes utilisés dans notre architecture ne viennent pas
