@@ -1213,6 +1213,28 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
       expect(organizationToUpdate.organizationLearnerType.id).to.equal(5678);
       expect(organizationToUpdate.organizationLearnerType.name).to.equal(undefined);
     });
+
+    it('updates the category id', function () {
+      // given
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin();
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(new OrganizationBatchUpdateDTO({ categoryId: 50 }));
+
+      // then
+      expect(organizationToUpdate.categoryId).to.equal(50);
+    });
+
+    it('does not update the category id if not provided', function () {
+      // given
+      const organizationToUpdate = domainBuilder.buildOrganizationForAdmin({ categoryId: 50 });
+
+      // when
+      organizationToUpdate.updateFromOrganizationBatchUpdateDto(new OrganizationBatchUpdateDTO({ categoryId: '' }));
+
+      // then
+      expect(organizationToUpdate.categoryId).to.equal(50);
+    });
   });
 
   context('#setCountryName', function () {

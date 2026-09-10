@@ -340,6 +340,7 @@
         "description": "Note: Only columns with a value will be modified.",
         "notifications": {
           "errors": {
+            "category-not-found": "Not found category for ID \"{categoryId}\".",
             "data-protection-email-invalid": "DPO email format invalid \"{value}\" for the organization \"{organizationId}\".",
             "organization-batch-update-error": "An error occurred for organization \"{organizationId}\".",
             "organization-not-found": "Organization id not found: \"{organizationId}\"."

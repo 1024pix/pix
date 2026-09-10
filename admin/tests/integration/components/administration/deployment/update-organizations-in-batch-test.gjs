@@ -112,6 +112,41 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       );
     });
 
+    test('it displays an error when category id not found', async function (assert) {
+      // given
+      window.fetch.resolves(
+        fetchResponse({
+          body: {
+            errors: [
+              {
+                code: 'STRUCTURE_CATEGORY_NOT_FOUND',
+                meta: { categoryId: '42' },
+              },
+            ],
+          },
+          status: 422,
+        }),
+      );
+
+      // when
+      const screen = await render(
+        <template><UpdateOrganizationsInBatch /><PixToastContainer @closeButtonAriaLabel="Close" /></template>,
+      );
+      const input = await screen.findByLabelText(
+        t('components.administration.update-organizations-in-batch.upload-button'),
+      );
+      await triggerEvent(input, 'change', { files: [file] });
+
+      // then
+      assert.ok(
+        await screen.findByText(
+          t('components.administration.update-organizations-in-batch.notifications.errors.category-not-found', {
+            categoryId: '42',
+          }),
+        ),
+      );
+    });
+
     test('it displays an error when an unexpected issue happend during import', async function (assert) {
       // given
       window.fetch.resolves(
