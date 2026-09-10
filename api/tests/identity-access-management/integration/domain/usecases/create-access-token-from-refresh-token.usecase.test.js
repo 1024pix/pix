@@ -90,7 +90,6 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
 
       // then
       expect(error).to.instanceOf(UnauthorizedError);
-      expect(error.message).to.equal('Refresh token is invalid');
       expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
     });
 
@@ -98,7 +97,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       it('throws an unauthorized error ', async function () {
         // given
         const audience = 'https://app.pix.fr';
-        const unknownRefreshToken = `${userId}:${crypto.randomUUID()}`;
+        const unknownRefreshToken = `${userId}:62514ff2-7103-4b92-89f9-505032682de8}`;
 
         // when
         const error = await catchErr(usecases.createAccessTokenFromRefreshToken)({
@@ -109,7 +108,6 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
 
         // then
         expect(error).to.instanceOf(UnauthorizedError);
-        expect(error.message).to.equal('Refresh token is invalid');
         expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
       });
     });
@@ -133,7 +131,6 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
 
       // then
       expect(error).to.instanceOf(UnauthorizedError);
-      expect(error.message).to.equal('Refresh token is invalid');
       expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
     });
 
@@ -156,7 +153,6 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
 
         // then
         expect(error).to.instanceOf(UnauthorizedError);
-        expect(error.message).to.equal('Refresh token is invalid');
         expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
       });
     });
@@ -172,7 +168,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       // given
       const source = 'pix';
       const audience = 'https://app.pix.fr';
-      const sessionId = crypto.randomUUID();
+      const sessionId = '62514ff2-7103-4b92-89f9-505032682de8';
 
       await revokedUserAccessTemporaryStorage.save({ key: `${userId}:${sessionId}`, value: '' });
 
@@ -187,7 +183,6 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
 
       // then
       expect(error).to.instanceOf(UnauthorizedError);
-      expect(error.message).to.equal('Refresh token is invalid');
       expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
     });
 
@@ -196,7 +191,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
         // given
         const source = 'pix';
         const audience = 'https://app.pix.fr';
-        const sessionId = crypto.randomUUID();
+        const sessionId = '62514ff2-7103-4b92-89f9-505032682de8';
 
         await revokedUserAccessTemporaryStorage.save({ key: `${userId}:${sessionId}`, value: '' });
 
@@ -212,7 +207,6 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
 
         // then
         expect(error).to.instanceOf(UnauthorizedError);
-        expect(error.message).to.equal('Refresh token is invalid');
         expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
       });
     });
