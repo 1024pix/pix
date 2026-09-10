@@ -465,6 +465,10 @@ signature ne le dit.
 création — `…ForCreation`, sans identifiant. La signature porte alors l'information, et le typage la
 vérifiera. C'est V8 de `fiche-objet-valeur.md` appliqué à une entité.
 
+À lire avec `X7` de cette même fiche, qui borne la pratique : une forme de **création** exprime une
+différence de nature, donc elle est légitime. Une forme de **mise à jour** portant un sous-ensemble de
+champs ne l'est pas, sauf mesure.
+
 Ce qui rouvrirait le dossier : constater que le cas `null` a produit un défaut en production. Sans
 cette pièce, le coût du doublement des types n'est pas démontré.
 

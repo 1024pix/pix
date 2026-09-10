@@ -47,6 +47,7 @@ typage de mordre est dans `migration-typescript.md`.
 | # | Écart | Verdict |
 | --- | --- | --- |
 | [**X5**](#x5-la-clé-de-présentation-est-fabriquée-dans-le-domaine) | la clé de présentation est fabriquée dans le domaine | **à corriger** |
+| [**X7**](#x7-les-modèles-se-multiplient-par-intention-décriture-sans-mesure) | les modèles se multiplient par intention d'écriture, sans mesure | **à corriger** |
 | [**X2**](#x2-les-valeurs-sont-validées-à-la-frontière-http-pas-par-leur-type) | les valeurs sont validées à la frontière HTTP, pas par leur type | à surveiller |
 | [**X3**](#x3-validation-à-la-construction-de-chaque-objet-valeur) | validation à la construction de chaque objet-valeur | rien à faire |
 | [**X4**](#x4-limmuabilité-nest-pas-garantie-par-le-langage) | l'immuabilité n'est pas garantie par le langage | rien à faire |
@@ -334,11 +335,27 @@ l'apparence.
 ### V8. Un type par intention
 
 *Objet-valeur uniquement.* Quand un même concept entre dans le système sous plusieurs formes, chaque
-forme a son type : une forme de création sans identifiant, une forme de mise à jour avec, l'entité
-complète en sortie.
+forme a son type.
 
 **Ce qui casse.** Une signature qui accepte l'un accepte l'autre. L'erreur n'apparaît qu'à
 l'exécution, sur un champ absent.
+
+**Le discriminant, et il est indispensable**, parce que cet invariant est le vecteur d'une dérive —
+voir `X7` au § 5.
+
+Une forme de **création** est un concept distinct : un objet qui n'existe pas encore n'a pas
+d'identité, ce qui est une différence de nature et non un raccourci. `…ForCreation` est légitime.
+
+Une forme de **mise à jour** qui porte un sous-ensemble de champs est autre chose : c'est un modèle
+partiellement rempli, et `X4` de `fiche-repository.md` explique pourquoi il est à écarter. La question
+à poser est celle du motif.
+
+| Motif invoqué | Verdict |
+| --- | --- |
+| L'objet n'a pas encore d'identité | légitime — c'est un concept distinct |
+| Le vocabulaire de l'appel diffère de celui du modèle | légitime — c'est un objet d'entrée nommé |
+| On ne veut pas charger l'entité entière, et le coût est **mesuré** | légitime, et à documenter avec la mesure |
+| On ne veut pas charger l'entité entière, sans mesure | **ce n'est pas un motif** — charger l'entité, la faire changer par une méthode nommée, la sauver. C'est `E6` de `fiche-entite.md` |
 
 ---
 
@@ -367,7 +384,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **V1** immuabilité | moyenne | Le partage devient sûr sans copie défensive |
 | **V7** exposition en lecture seule | moyenne | Ferme la voie par laquelle V1 est annulé de l'extérieur |
 | **V4** pureté | moyenne | Test unitaire sans double, coût d'exécution prévisible |
-| **V8** un type par intention | moyenne | La signature devient une garantie, et le typage la rendra vérifiable |
+| **V8** un type par intention | moyenne | La signature devient une garantie, et le typage la rendra vérifiable. À lire avec son discriminant : sans lui, c'est le vecteur de `X7` |
 | **V2** aucune identité | moyenne | Rend le classement possible : sans lui, rien ne distingue un objet-valeur d'une entité mal rangée |
 | **V6** aucun cycle de vie propre | hygiène | Conséquence de V2. Rien de mesurable ne s'améliore |
 
@@ -387,6 +404,7 @@ C'est le discriminant du § 1 qui répond, et il repose sur des tests de jugemen
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
 | **X5** La clé de présentation est fabriquée dans le domaine | dérive | Le domaine connaît le framework de son client. V2 devient invérifiable : tout `id` peut être légitime | Le client fonctionne, et la clé est composée une fois pour tous ses lecteurs | **À corriger** |
+| **X7** Les modèles se multiplient par intention d'écriture, sans mesure | dérive | Chaque forme est une vue partielle d'une entité, donc un modèle partiellement rempli. Le nombre de modèles cesse de dire combien de concepts a le contexte | Supposé — éviter de charger l'entité entière. Non mesuré, donc **nul** au regard de la grille | **À corriger** |
 | **X2** Les valeurs sont validées à la frontière HTTP, pas par leur type | convention assumée | V3 est doublé ou contourné. Deux identifiants de sens différent ont le même type | Une validation déclarative, en un endroit, avec un message utilisateur | *À surveiller* |
 | **X3** Validation à la construction de chaque objet-valeur | convention assumée | Une validation et un type d'erreur par type | Valeur valide par construction. Aval déchargé | *Rien à faire* |
 | **X4** L'immuabilité n'est pas garantie par le langage | vestige | Champs privés et accesseurs à écrire à la main | Immuabilité réelle, vérifiable par une règle de lint | *Rien à faire* |
@@ -424,6 +442,40 @@ relue par personne côté serveur.
 
 Le classement précède la correction : appliquer le cas 1 à un objet du cas 2 casse la requête entrante
 qui renvoie la clé.
+
+### X7. Les modèles se multiplient par intention d'écriture, sans mesure
+
+**Ce que dit la théorie.** Un agrégat se charge entier, parce que c'est ce qui lui permet de garantir
+ses invariants. La réponse de la littérature au coût de chargement est de **réduire l'agrégat** —
+règle 2 de Vernon — pas de le charger à moitié. Et Fowler prévient que séparer lecture et écriture
+ajoute de la complexité et ne doit pas être le défaut.
+
+**Exemple concret.** Un concept, quatre modèles :
+
+```
+domain/models/
+  Thing.js                  → l'entité
+  ThingForCreation.js       → sans identifiant
+  ThingForUpdate.js         → un sous-ensemble de champs
+  ThingForAdmin.js          → un autre sous-ensemble
+```
+
+Les deux derniers ressemblent à des **commandes** au sens de CQRS. C'est la même appropriation que
+celle du mot `read-model`, du côté écriture cette fois : on emprunte le vocabulaire de CQRS sans en
+avoir l'architecture. Détail dans `references-ddd.md`, section « Read model ».
+
+**Le motif habituel est une optimisation non mesurée** : ne pas charger l'entière. Or la grille de ce
+corpus est explicite — un bénéfice invoqué sans mesure compte pour nul. Le coût, lui, est certain :
+chaque forme partielle est un modèle qui ne peut garantir aucun invariant, et le nombre de fichiers de
+`domain/models/` cesse de dire combien de concepts porte le contexte.
+
+**Correction.** Le discriminant de `V8` tranche fichier par fichier. Ce qui exprime une différence de
+nature reste — l'absence d'identité, un vocabulaire d'entrée distinct. Ce qui n'exprime qu'un
+sous-ensemble de champs disparaît : on charge l'entité, on la fait changer par une méthode nommée, on
+la sauve. C'est `E6` de `fiche-entite.md`.
+
+Ce qui rouvrirait le dossier pour un cas donné : une mesure. Un chargement dont le coût est constaté
+en production justifie une forme partielle, et la mesure s'écrit à côté du modèle.
 
 ### X2. Les valeurs sont validées à la frontière HTTP, pas par leur type
 
@@ -666,7 +718,7 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [auto]    V1  Aucun champ public ; aucune écriture après le constructeur, classe de base comprise
 [ ] [partiel] V7  Aucune collection interne rendue telle quelle ; aucun gel inopérant
 [ ] [auto]    V4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
-[ ] [humain]  V8  Une intention d'écriture distincte a son propre type                     (objet-valeur)
+[ ] [humain]  V8  Une intention d'écriture distincte a son propre type — et son motif tient (X7)
 [ ] [auto]    V2  Aucune clé composée ici : une clé de cache se compose dans le sérialiseur
 [ ] [partiel] V2  Aucune identité propre ; un identifiant porté est admis
 [ ] [partiel] V6  Aucun repository, aucune persistance propre

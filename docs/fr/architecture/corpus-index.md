@@ -73,6 +73,8 @@ dépôt qui fasse autorité.
 | Les champs qui portent une règle sont **privés** | Un champ qui porte une règle ne doit pas pouvoir être réécrit de l'extérieur. Là où rien n'est protégé, c'est de l'hygiène | `V1`, `E1` et `E6` gardent leur règle, avec ce motif. Le modèle de référence de la documentation d'architecture n'est pas la cible |
 | Les deux règles hébergées dans Confluence sont **vraies** | Contrôles d'accès en pre-handler, et objets de contrat dans `application/api/models/` | `R2` et `P5` sont confirmés. Reste à les faire redescendre en ADR |
 | Le mot `read-model` est **conservé** | C'est l'Ubiquitous Language de l'équipe, et le renommer n'apportait rien sur l'outillage | `X2` de `fiche-read-model.md` classé *à surveiller*. Le travail est le classement, pas le renommage |
+| La **désérialisation** relève de `fiche-serialiseur.md` | Le sérialiseur traduit dans les deux sens, ce que `docs/fr/Anatomy.md` documente. 46 fichiers sur 235 ont une fonction de désérialisation | Invariant `M5` ajouté. `M1` limité au sens sortant, et sa règle du § 6 doit exclure le corps des désérialisations — sinon elle sort sur du code correct |
+| Les modèles par **intention d'écriture** ne se multiplient pas sans mesure | `…ForCreation` exprime une différence de nature et reste. `…ForUpdate` portant un sous-ensemble de champs est un modèle partiellement rempli, et c'est le côté commande de CQRS sans CQRS | `V8` gagne son discriminant, et l'écart `X7` de `fiche-objet-valeur.md` est créé. La règle générale est passée dans le gabarit : un bénéfice de performance non mesuré compte pour nul |
 | Pas d'ADR sur la stabilité du format des réponses HTTP | Ce que font les applications front n'est pas le sujet de ce corpus. Et deux tiers de l'écart se règlent par un outil plutôt que par une procédure | `X3` de `fiche-serialiseur.md` se réduit à une règle : ne jamais redéfinir le sens d'une valeur existante. Le reste attend le paquet partagé — voir `migration-typescript.md` |
 
 ## Les autres fichiers
@@ -282,6 +284,10 @@ sommaire n'en est pas une : il est dans l'en-tête.
      phrase. C'est ce qui rend le verdict lisible d'un coup d'œil.
    - Le verdict découle des deux : **À corriger** quand le coût est payé sans bénéfice, *À surveiller*,
      ou *Rien à faire*. « Convention assumée » ne dispense pas de l'examen.
+   - **Un bénéfice de performance invoqué sans mesure compte pour nul.** C'est la règle la plus utile
+     de la grille, parce que c'est le motif le plus fréquent des dérives structurelles : on évite un
+     chargement, on multiplie les modèles, et personne n'a constaté le problème que ça résout. Le coût,
+     lui, est toujours certain. Une mesure change le verdict ; une intuition non.
    - **Table triée par verdict**, les à corriger en premier, avec un écart numéroté par ligne. Les
      écarts se numérotent **`X1`, `X2`, …**, jamais avec le préfixe d'invariant de la fiche : sinon
      `E3` l'invariant et `E3` l'écart coexistent, ce qui s'est produit sur `fiche-entite.md`.
