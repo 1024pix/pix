@@ -12,6 +12,7 @@ const createOrganization = async function ({
   schoolRepository,
   accessCodeGenerator,
   organizationVerificationService,
+  structureCategoryRepository,
 }) {
   if (organization.parentOrganizationId) {
     const parentOrganization = await organizationForAdminRepository.get({
@@ -34,6 +35,14 @@ const createOrganization = async function ({
     organization.administrationTeamId,
     administrationTeamRepository,
   );
+
+  // TODO: Remove if when categoryId is required (PIX-23577)
+  if (organization.categoryId) {
+    await organizationVerificationService.checkStructureCategoryExists(
+      organization.categoryId,
+      structureCategoryRepository,
+    );
+  }
 
   const savedOrganization = await organizationForAdminRepository.save({
     organization,
