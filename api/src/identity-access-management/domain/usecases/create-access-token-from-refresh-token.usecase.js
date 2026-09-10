@@ -23,6 +23,7 @@ export async function createAccessTokenFromRefreshToken({
   locale,
   refreshTokenRepository,
   userRepository,
+  revokedUserAccessRepository,
 }) {
   let decodedRefreshToken;
 
@@ -40,6 +41,9 @@ export async function createAccessTokenFromRefreshToken({
     try {
       decodedRefreshToken = UserRefreshToken.decode(refreshToken);
       decodedRefreshToken.assertSameAudience(audience);
+
+      const revokedUserAccess = await revokedUserAccessRepository.findByUserId(decodedRefreshToken.userId);
+      revokedUserAccess.assertRefreshTokenNotRevoked(decodedRefreshToken);
     } catch (err) {
       if (err instanceof InvalidInputDataError) {
         logger.warn({ err });
