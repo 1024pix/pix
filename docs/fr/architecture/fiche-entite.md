@@ -36,7 +36,7 @@ typage de mordre est dans `migration-typescript.md`.
 | [**E6**](#e6-aucun-mutateur-nu) | aucun mutateur nu | **forte** | règle ESLint |
 | [**E7**](#e7-les-autres-agrégats-sont-référencés-par-identité) | les autres agrégats sont référencés par identité | **forte** | revue |
 | [**E4**](#e4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
-| [**E5**](#e5-aucune-méthode-au-service-de-la-persistance) | aucune méthode au service de la persistance | moyenne | revue |
+| [**E5**](#e5-aucune-méthode-au-service-de-la-persistance) | aucune méthode au service de la persistance | moyenne | knip, partiel |
 | [**E1**](#e1-lidentité-est-explicite-et-stable) | l'identité est explicite et stable | moyenne | règle ESLint, à mesurer |
 | [**E2**](#e2-légalité-se-fonde-sur-lidentité) | l'égalité se fonde sur l'identité | hygiène | revue |
 | [**E8**](#e8-nommage-et-emplacement) | nommage et emplacement | hygiène | script |
@@ -229,8 +229,8 @@ consommé hors du code — la méthode de sérialisation exprime un contrat et n
 Le test qui discrimine : *si le schéma de la base changeait, cette méthode devrait-elle changer ?* Si
 oui, elle est au service de la persistance. Si elle suit un format documenté indépendant, non.
 
-C'est le même invariant que I7 dans `fiche-repository.md`, relevé de deux côtés. Il est énoncé ici,
-où il porte sur le fichier fautif.
+C'est ici son domicile unique. Il figurait aussi dans `fiche-repository.md` sous le numéro `I7`, qui
+est retiré : l'invariant porte sur le modèle, pas sur le repository.
 
 ### E6. Aucun mutateur nu
 
@@ -427,6 +427,10 @@ supprimerait le coût sans rien retirer du bénéfice.
 invariants différents. La théorie ne prescrit rien sur les dossiers, mais un dossier commun rend le
 classement invisible.
 
+**Et c'est documenté.** `docs/fr/Anatomy.md` décrit `domain/models` comme contenant « Entités,
+aggrégats et value objects du domaine ». Le mélange est donc une convention, pas une dérive — ce qui
+confirme le classement de cet écart et lui donne une source.
+
 **Exemple concret.** `domain/models/` contient les trois catégories à plat, sans distinction.
 
 ```
@@ -496,7 +500,8 @@ sont pas des entités. C'est X4, et c'est ce qui plafonne la précision de cette
 | **E3** invariants tenus | règle ESLint : constructeur en `= {}` sans appel de validation | ~40 lignes | **élevés sur l'existant** — voir X1 |
 | **X3** validation après affectation | sans objet : c'est la forme prescrite. Voir `X3` au § 5 | — | — |
 | **E1** identité explicite | règle ESLint : une classe de `domain/models/` expose un accesseur `id` | ~15 lignes | **à mesurer** — un objet-valeur porteur d'identifiant la déclenche |
-| **E2**, **E5**, **E7** | revue | — | — |
+| **E5** pas de méthode de persistance | knip, déjà branché : il signale les exports à consommateur unique | aucun | **à mesurer** |
+| **E2**, **E7** | revue | — | — |
 
 ### E4 — une règle de chemin
 
@@ -540,9 +545,18 @@ Ce que la règle ne doit **pas** signaler : une validation placée après les af
 prescrite par la documentation d'architecture — voir `X3` au § 5 — et une règle qui l'attraperait
 sortirait sur la quasi-totalité des modèles.
 
+### E5 partiel — knip
+
+knip détecte les exports non consommés. Une méthode dont le seul consommateur est le repository
+n'apparaît pas comme non consommée : knip ne la voit pas directement. Il désigne la famille adjacente
+— un export à consommateur unique — qui est le motif de `E5`. À exploiter en lisant sa sortie.
+
+Coût nul, puisqu'il tourne déjà. Faux positifs à mesurer avant d'en faire une règle bloquante. Et il ne
+tranche pas l'exception du format publié, qui reste en revue.
+
 ### Ce qui n'est pas mécanisable
 
-E2, E5 et E7 demandent de savoir ce qui appartient au même agrégat et ce qui est un format publié.
+E2 et E7 demandent de savoir ce qui appartient au même agrégat, et E5 ce qui est un format publié.
 Ces deux informations ne se lisent pas dans un fichier isolé, et elles ne sont écrites nulle part —
 c'est le même manque que celui relevé au § 6 de `fiche-racine-agregat.md`.
 
@@ -636,7 +650,7 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [auto]    E6  Aucun mutateur nu ; chaque changement d'état nomme son intention métier
 [ ] [humain]  E7  Les entités d'un autre agrégat sont référencées par identifiant, pas par instance
 [ ] [auto]    E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
-[ ] [humain]  E5  Aucune méthode dont le repository est le seul consommateur   (sauf format publié)
+[ ] [partiel] E5  Aucune méthode dont le repository est le seul consommateur   (sauf format publié)
 [ ] [partiel] E1  L'identité est explicite et ne change pas ; le cas non persisté est traité
 [ ] [humain]  E2  Les comparaisons se fondent sur l'identité, pas sur les champs
 [ ] [auto]    E8  Un fichier, PascalCase, nom du langage ubiquitaire du contexte
@@ -664,7 +678,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **E5** pas de méthode de persistance | Evans, ch. « A Model Expressed in Software ». L'exception du format publié : ch. « Maintaining Model Integrity », **Published Language** | *DDD Reference* |
 | **E6** aucun mutateur nu | Fowler, « AnemicDomainModel » | bliki gratuit |
 | **E7** référence par identité | Vernon, « Effective Aggregate Design », règle 3 : *reference other aggregates by identity* | dddcommunity.org |
-| **E8** nommage et emplacement | **convention Pix**, cohérente avec ADR 51 | ADR 51 |
+| **E8** nommage et emplacement | l'**emplacement** est documenté : `docs/fr/Anatomy.md` décrit `domain/models`. Le **nommage** — PascalCase, un fichier par entité — n'a **aucune source** | `docs/fr/Anatomy.md` ; ADR 51 |
 | Le test de discrimination entité / objet-valeur | Evans, même ch. — c'est le critère qu'il donne | *DDD Reference* |
 | Validation à la frontière HTTP plutôt que par le type (X5) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût | ADR 19 |
 

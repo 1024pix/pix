@@ -10,8 +10,9 @@ typage de mordre est dans `migration-typescript.md`.
 >
 > - I1 et I2 s'énoncent en termes d'« objet du domaine local ». La définition est livrée, au § 1 de
 >   `fiche-objet-valeur.md`. À relire une fois pour confirmer qu'elle couvre bien les cas de I1 et I2.
-> - I7 est un invariant du modèle. Il figure ici parce qu'il a été relevé depuis le repository. À
->   déplacer vers `fiche-entite.md`, avec un renvoi depuis cette fiche.
+> - Le numéro **I7** n'est pas attribué. Il portait « le modèle ne porte pas de méthode au service de
+>   la persistance », qui est un invariant du **modèle** : il vit désormais sous `E5` de
+>   `fiche-entite.md`, avec sa vérification. Le numéro n'est pas réattribué.
 > - Le grain de chargement — ce qu'un repository peut charger et renvoyer — dépend de la décision sur
 >   ce que désigne un dossier `aggregates/`. Voir `fiche-racine-agregat.md`.
 > - Les coûts du § 6 ne comptent que la règle elle-même. Il n'existe aucun plugin ESLint maison :
@@ -40,7 +41,6 @@ typage de mordre est dans `migration-typescript.md`.
 | [**I2**](#i2-ne-jamais-accepter-une-structure-de-persistance-en-entrée) | n'accepte pas de structure de persistance en entrée | moyenne | typage, après migration |
 | [**I3**](#i3-get-lève-find-renvoie-null-ou-une-collection-vide) | `get*` lève, `find*` renvoie `null` | moyenne | règle ESLint |
 | [**I5**](#i5-les-dépendances-externes-arrivent-en-paramètre-jamais-par-import) | dépendances injectées, jamais importées | moyenne | `dependency-cruiser` |
-| [**I7**](#i7-le-modèle-du-domaine-ne-porte-pas-de-méthode-au-service-de-la-persistance) | pas de méthode de persistance sur le modèle | moyenne | knip, partiel |
 | [**I10**](#i10-aucune-règle-métier-dans-le-repository) *complet* | aucune règle métier | revue seule | aucun moyen |
 | [**I9**](#i9-nommage-du-fichier) | nommage cohérent dans le contexte | hygiène | script |
 
@@ -255,28 +255,17 @@ repository couvert par I5, I6 a une conséquence d'exécution.
 Second effet : l'index cesse d'être la liste exhaustive des ports du contexte, donc toute lecture
 d'ensemble est fausse.
 
-### I7. Le modèle du domaine ne porte pas de méthode au service de la persistance
+### I7 — numéro retiré
 
-**Énoncé.** La traduction vers la forme de stockage est la responsabilité du repository. Le modèle
-n'expose pas de méthode dont le repository est le seul consommateur.
+Cet invariant portait sur le **modèle**, pas sur le repository : il interdit au modèle du domaine
+d'exposer une méthode dont le repository est le seul consommateur. Il figurait ici parce qu'il a été
+relevé depuis le repository.
 
-```js
-// fautif — le modèle porte une méthode dont seule l'infrastructure se sert
-class Thing {
-  toRow() { return { thing_id: this.id, thing_label: this.label }; }
-}
+Il est énoncé sous `E5` de `fiche-entite.md`, avec ses illustrations, son exception du format publié et
+sa vérification par knip. Le numéro n'est pas réattribué.
 
-// conforme — la traduction vit dans le repository
-const toRow = (thing) => ({ thing_id: thing.id, thing_label: thing.label });
-```
-
-**Ce qui casse.** Une migration de schéma oblige à modifier le domaine.
-
-**Exception.** Quand la forme sérialisée est un format publié — écrit à la main, documenté, consommé
-hors du code — la méthode de sérialisation sur le modèle exprime un contrat, pas un schéma de base.
-
-Test qui discrimine : si le schéma de la base changeait, cette méthode devrait-elle changer ? Si oui,
-elle est au service de la persistance. Si elle suit un format documenté indépendant, non.
+Ce qui reste du côté repository : la traduction vers la forme de stockage est **son** travail, sous
+forme de fonction locale. C'est le pendant positif de `E5`, et c'est déjà ce que `I1` exige en sortie.
 
 ### I9. Nommage du fichier
 
@@ -392,7 +381,6 @@ lue comme un blanc-seing fait passer une vraie violation au lieu d'éviter un fa
 | **I2** — n'accepte pas de structure de persistance | moyenne | Corollaire de I1. Pas de mode de violation indépendant, pas de moyen de vérification propre. Tombe si I1 est tenu |
 | **I3** — `get*` lève, `find*` renvoie `null` | moyenne | Supprime deux erreurs symétriques à chaque site d'appel : le `if (!x)` mort après un `get*`, le déréférencement de `null` après un `find*` non testé |
 | **I5** — dépendances injectées, jamais importées | moyenne | Sans lui, le repository est intestable en unitaire, et l'index cesse d'être le point unique où les frontières sont lisibles |
-| **I7** — pas de méthode de persistance sur le modèle | moyenne | Une migration de schéma ne touche pas au domaine |
 | **I10 (complet)** — aucune règle métier | revue seule | La règle vit à un endroit où personne ne la cherche. Bénéfice de lisibilité, non vérifiable |
 | **I9** — nommage cohérent dans le contexte | hygiène | Rend le fichier trouvable. Réduit le bruit de revue |
 
@@ -408,8 +396,8 @@ coûte qu'une ligne de configuration, alors qu'il est de rentabilité moyenne.
 ### Ce que ça n'apporte pas
 
 Ces invariants ne disent pas si le modèle du domaine est le bon, ni si le découpage en contextes est
-juste. Ils garantissent l'étanchéité des couches, pas la pertinence de la modélisation. I7 et I10 sont
-les deux qui touchent le plus au fond, et ce sont ceux qu'on ne sait pas vérifier automatiquement.
+juste. Ils garantissent l'étanchéité des couches, pas la pertinence de la modélisation. I10 est celui
+qui touche le plus au fond, et c'est celui qu'on ne sait pas vérifier automatiquement.
 
 Un invariant respecté sur un mauvais découpage a un ROI négatif, pas nul : le code s'appuie dessus,
 donc la correction devient plus chère. Voir `invariants-clean-archi-ddd.md`.
@@ -454,7 +442,7 @@ Uniquement après la migration des modèles en `.ts` : avant, le port ne vérifi
 
 ### X2. Méthode de persistance sur le modèle
 
-C'est I7. Le modèle porte une méthode dont le repository est le seul consommateur.
+C'est `E5` de `fiche-entite.md`. Le modèle porte une méthode dont le repository est le seul consommateur.
 
 ```js
 // dans domain/models/ — la forme de la base remonte dans le domaine
@@ -465,7 +453,7 @@ class Thing {
 
 **Correction.** Déplacer la fonction de mapping dans le repository, sous forme de fonction locale. Le
 déplacement est mécanique. Exception à vérifier avant : si la forme sérialisée est un format publié,
-la méthode reste sur le modèle — voir I7.
+la méthode reste sur le modèle — voir `E5` de `fiche-entite.md`.
 
 ### X3. La connexion à la base ne passe pas par la signature
 
@@ -507,8 +495,19 @@ que celle en cours — hors transaction, sur un réplica de lecture, sur un pool
 paramètre est utilisé, donc il n'annonce rien de faux. À employer par exception, sur ces fonctions, et
 non comme convention générale.
 
-**Correction.** Aucune sur la forme générale. Documenter le périmètre transactionnel quand il n'est
-pas évident, ce qui est l'objet de U7 dans `fiche-usecase.md`.
+**Ce que les ADR disent, et c'est plus embêtant qu'une simple absence.** L'ADR 9 prescrivait la forme
+**explicite** : `domainTransaction` traverse la signature du usecase et celle du repository, avec une
+transaction vide par défaut. L'ADR 25 **remplace** l'ADR 9 — et il ne traite que des événements dans
+les transactions, sans rien redécider sur ce point.
+
+La forme ambiante a donc remplacé une forme prescrite par un ADR, sans décision écrite. Ce n'est pas
+une convention sans source : c'est une convention **contre** une source, dont l'abandon n'a pas été
+consigné.
+
+**Correction.** Aucune sur la forme, qui est en place partout et fonctionne. Ce qui manque est
+l'écrit : un ADR court qui acte l'abandon de la forme explicite et son motif — des signatures propres
+— et qui reprenne la contrepartie, documenter le périmètre transactionnel quand il n'est pas évident.
+C'est l'objet de `U7` dans `fiche-usecase.md`.
 
 ### X4. Plusieurs repositories pour un même agrégat
 
@@ -622,7 +621,6 @@ qu'aucune infrastructure de plugin n'existe, et la ligne sur les **faux positifs
 | **I11** n'importe pas un autre repository | règle `dependency-cruiser` de chemin | configuration seule | aucun |
 | **I5** dépendances injectées | règle `dependency-cruiser` de chemin | configuration seule | aucun |
 | **I4** erreurs du domaine — partiel | `no-restricted-syntax` ESLint | configuration seule | aucun |
-| **I7** pas de méthode de persistance — partiel | knip, déjà branché | aucun | à mesurer |
 | **I3** `get*` lève, `find*` renvoie `null` | règle ESLint sur mesure | ~50 lignes | faibles, si les préfixes sont listés |
 | **I10** aucune fonction de lecture qui écrit — signal | règle ESLint sur mesure | ~30 lignes | aucun |
 | **I6** enregistré dans l'index, **+ I9** nommage | script `tests/tooling/` | ~40 lignes | aucun |
@@ -711,14 +709,6 @@ Pour « jamais un `Error` nu » :
 
 Pour « l'erreur vient d'un `domain/errors.js` », il faut croiser la classe levée avec la source de son
 import. Règle sur mesure, analyse locale au fichier.
-
-### I7 partiel — knip
-
-knip détecte les exports non consommés. Un `toRow()` dont le seul consommateur est le repository
-n'apparaît pas comme non consommé : knip ne le voit pas directement. Il désigne la famille
-adjacente — un export à consommateur unique — qui est le motif de I7. À exploiter en lisant sa sortie.
-
-Coût nul, puisqu'il tourne déjà. Faux positifs à mesurer avant d'en faire une règle bloquante.
 
 ### I3 — règle ESLint
 
@@ -980,7 +970,6 @@ parcourir sans la lire.
 [ ] [humain]  I2  Aucun paramètre métier n'est une ligne de base ou un DTO étranger, même reconditionné
 [ ] [auto]    I3  Les get* lèvent, les find* renvoient null ou une collection vide
 [ ] [auto]    I5  Aucun import d'API interne ni de client ; ils arrivent en paramètres (sauf la connexion)
-[ ] [partiel] I7  Aucune méthode dont le repository est le seul consommateur ajoutée à un modèle
 [ ] [humain]  I10 Aucun branchement sur une condition métier, aucun enchaînement qui porte une intention
 [ ] [auto]    I9  Nommage cohérent avec le reste du contexte
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui du repository

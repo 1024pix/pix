@@ -8,8 +8,10 @@ typage de mordre est dans `migration-typescript.md`.
 
 > **À instruire**
 >
-> - L'ADR 13, sur la gestion des erreurs entre l'API et l'IHM, n'a pas été lu. Il pourrait préciser le
->   rôle du mappeur d'erreurs invoqué par `C2`, voire le contredire.
+> - **ADR 13 lu le 2026-09-08.** Il conforte `C2` sans le contredire, mais son état est **`Proposed`** :
+>   il ne peut pas être cité comme une décision. Voir le § 10.
+> - Ouvrir une transaction dans un contrôleur est la forme que prescrivait l'ADR 9, remplacé depuis.
+>   La forme dominante place la transaction dans le usecase. Voir `C2`.
 > - Le § 6 annonce des taux de faux positifs estimés, pas mesurés.
 > - L'écart « le contrôle des droits est écrit dans le contrôleur » n'est pas énoncé ici. Il l'est sous
 >   `X1` de `fiche-route.md`, où vivent sa correction et sa vérification.
@@ -119,6 +121,18 @@ Le code de **succès** est une propriété constante de la route — 200, 201, 2
 l'opération. Les codes d'**erreur** viennent du mappeur d'erreurs : le contrôleur laisse remonter
 l'erreur du domaine.
 
+**Pourquoi passer par le mappeur, concrètement.** Le contrat du front n'est pas le statut HTTP mais
+l'objet d'erreur complet : un `code` fonctionnel qui identifie la règle violée, et un objet `meta` qui
+porte les informations dont le front a besoin pour composer son message. C'est ce que décrit l'ADR 13,
+et c'est ce qui permet **plusieurs messages pour un même statut HTTP**. Un `.code(404)` écrit à la main
+produit une réponse sans `code` et sans `meta` : le front retombe sur son message générique.
+
+**Le cas de la transaction.** Ouvrir une transaction dans un contrôleur — `DomainTransaction.execute`
+autour de l'appel — est la forme que prescrivait l'ADR 9, lequel a été remplacé par l'ADR 25. La forme
+dominante aujourd'hui place la transaction dans le usecase, ce qui est cohérent avec `U7` de
+`fiche-usecase.md` : c'est le usecase qui sait ce qui doit être atomique. Un contrôleur qui ouvre une
+transaction décide donc quelque chose, ce que `C2` exclut.
+
 ```js
 // fautif — la décision de statut est prise ici
 const result = await usecases.getSomething({ id });
@@ -191,6 +205,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un `if` sur la présence d'un paramètre optionnel | **autorisé** |
 | Un flux ou un fichier renvoyé plutôt qu'un objet sérialisé, avec ses en-têtes | **autorisé** |
 | Un usecase d'écriture suivi d'un usecase de lecture | **à discuter** — parfois justifié, parfois le signe que le premier devrait renvoyer ce qu'il faut. `C1` |
+| Un `DomainTransaction.execute` autour de l'appel | **vestige** de l'architecture de l'ADR 9, remplacé depuis. À déplacer dans le usecase, pas à absoudre |
 | Deux usecases métier enchaînés | **pas une exception** — intention sans nom. C'est `X1` |
 | Le contrôle des droits écrit ici | **pas une exception** — voir `R2` et `X1` de `fiche-route.md` |
 
@@ -447,6 +462,7 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [auto]    C4  Aucun accès aux repositories ; aucun usecase d'un autre contexte
 [ ] [partiel] C1  Un seul usecase appelé
 [ ] [partiel] C2  Aucune décision : ni règle métier, ni code d'erreur choisi ici
+[ ] [humain]  C2  Aucune transaction ouverte ici — elle appartient au usecase
 [ ] [humain]  C3  Le sérialiseur est injecté par valeur de paramètre par défaut
 [ ] [auto]    C5  Nom de fichier = ressource, nom de fonction = action, objet exporté
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui du contrôleur
@@ -469,10 +485,11 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | --- | --- | --- |
 | La couche, et **C2** | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » — le contrôleur est dépourvu de logique pour que son test soit trivial | le livre de 2017 ; billet gratuit |
 | **C1** un usecase par point d'entrée | Pix : **ADR 20**, qui rend le usecase obligatoire pour toute route | ADR 20 |
+| La transaction hors du contrôleur | Pix : **ADR 25**, qui remplace l'ADR 9. Celui-ci plaçait `DomainTransaction.execute` dans le contrôleur ; l'ADR 25 ne le reprend pas, et la forme dominante place la transaction dans le usecase | ADR 9 et 25 |
 | **C3** sérialiseur injecté | Pix : **ADR 46**, et son motif ESM. L'exception des usecases non injectés y est explicitement assumée | ADR 46 |
 | **C4** aucun accès aux données | Martin, « The Clean Architecture » — la règle de dépendance. Pix : **ADR 55** pour la frontière entre contextes | billet gratuit ; ADR 55 |
 | **C5** nommage | **aucune source** — convention de rangement | — |
-| Le mappeur d'erreurs (`C2`, `X2`) | Pix : **ADR 44**, qui rend le code d'erreur obligatoire. **ADR 13** non lu — voir l'encadré en tête | ADR 13 et 44 |
+| Le mappeur d'erreurs (`C2`, `X2`) | Pix : **ADR 44**, qui rend le code d'erreur obligatoire. **ADR 13** décrit la structure de l'objet d'erreur JSON:API — `status`, `code` fonctionnel, `title`, `detail`, `meta` — et pose que plusieurs messages peuvent correspondre à un même statut HTTP. **Son état est `Proposed`** : il éclaire le raisonnement, il ne fait pas autorité | ADR 13 et 44 |
 
 **Un invariant sur cinq n'a aucune source** : `C5`, et c'est celui que le § 4 classe en hygiène. Les
 quatre autres renvoient à Martin ou à un ADR, ce qui les rend contestables sur pièces.

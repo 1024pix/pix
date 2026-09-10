@@ -542,7 +542,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | --- | --- | --- |
 | La couche, **M1** et **M4** | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » — le *presenter* est dépourvu de logique pour que son test soit trivial | le livre de 2017 ; billet gratuit de 2012 |
 | **M2** uniquement des champs présents | **aucune source** — déduction de `M1` | — |
-| **M5** la désérialisation ne laisse rien entrer | **déduction** de `I1` de `fiche-repository.md`, vu depuis l'autre porte d'entrée. Le métier bidirectionnel du sérialiseur est documenté | `docs/fr/Anatomy.md` |
+| **M5** la désérialisation ne laisse rien entrer | **déduction** de `I1` de `fiche-repository.md`, vu depuis l'autre porte d'entrée. Le métier bidirectionnel est documenté : `docs/fr/Anatomy.md` décrit le sérialiseur comme un « Convertisseur de données Domain objects ←→ HTTP request objects » | `docs/fr/Anatomy.md` |
 | **M3** format stable | Evans, *DDD*, ch. « Maintaining Model Integrity » — **Published Language**, appliqué ici à l'extérieur du système plutôt qu'entre contextes | *DDD Reference*, PDF gratuit |
 | La stabilité du format des réponses HTTP | **aucun ADR**, et c'est cohérent : deux tiers de l'écart se règlent par un outil à venir plutôt que par une procédure. Voir `X3` au § 5 | — |
 
