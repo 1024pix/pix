@@ -488,7 +488,7 @@ export function filterKnowledgeElements(params: {
 ```
 
 Ce que le typage apporte ici, et c'est plus que dans les autres fiches du domaine : **D1 devient
-partiellement structurel**. Un paramètre typé `ThingRepository` est visible dans la signature, donc la
+partiellement structurel**. Un paramètre typé `ModuleMetadataRepository` est visible dans la signature, donc la
 violation se lit sans exécuter le fichier. Combiné à la règle du § 6, il ne reste rien à deviner.
 
 Ce que le typage n'apporte pas : D3 et D4. L'absence d'effet de bord n'est pas exprimable — `readonly`

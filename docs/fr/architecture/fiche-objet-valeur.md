@@ -119,9 +119,9 @@ class Threshold {
 }
 
 // read-model : large, nommé par son écran, dérive sans décider
-class CampaignOverviewForAdmin {
-  constructor({ campaignName, organizationName, participantCount, completedCount }) { … }
-  get completionRate() { return this.completedCount / this.participantCount; }
+class PlacesStatistics {
+  constructor({ placesLots, placeRepartition, organizationId }) { … }
+  get available() { return Math.max(0, this.total - this.occupied); }
 }
 ```
 

@@ -507,13 +507,13 @@ Le repository récupère sa connexion depuis un contexte implicite, au lieu de l
 
 ```js
 // forme en vigueur — la connexion n'apparaît pas dans la signature
-export async function save({ thing }) {
-  const connection = DomainTransaction.getConnection();
+const getByCode = async ({ code }) => {
+  const knexConn = DomainTransaction.getConnection();
   …
-}
+};
 
 // forme explicite, non retenue — la connexion traverse toutes les couches
-export async function save({ thing, connection }) { … }
+const getByCode = async ({ code, knexConn }) => { … };
 ```
 
 La forme en vigueur garde les signatures propres. En contrepartie, un usecase ne dit pas s'il
@@ -522,14 +522,14 @@ s'exécute dans une transaction : il faut ouvrir le fichier qui l'appelle.
 **Une troisième forme, examinée et non retenue comme convention.**
 
 ```js
-export async function save({ thing, connection = DomainTransaction.getConnection() }) { … }
+const getByCode = async ({ code, knexConn = DomainTransaction.getConnection() }) => { … };
 ```
 
 Elle fonctionne : la valeur par défaut est évaluée à chaque appel, donc elle capte la transaction en
 cours, et l'injection ne la gêne pas.
 
 Mais elle n'adresse pas le coût de X3, qui porte sur la lecture d'un **usecase** : celui-ci écrit
-toujours `save({ thing })`. Elle informe le lecteur du repository, qui n'avait aucun doute sur le fait
+toujours `getByCode({ code })`. Elle informe le lecteur du repository, qui n'avait aucun doute sur le fait
 qu'il utilise une connexion.
 
 Et elle en ajoute un : un paramètre par défaut qui appelle un contexte implicite annonce un point

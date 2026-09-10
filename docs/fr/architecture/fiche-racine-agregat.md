@@ -46,7 +46,7 @@ particulier : `E3` les invariants tenus à tout instant, et `E7` la référence 
 
 | # | Écart | Verdict |
 | --- | --- | --- |
-| [**X1**](#x1-le-mot-agrégat-est-posé-sur-des-dossiers-sans-frontière-nommable) | le mot « agrégat » est posé sur des dossiers sans frontière nommable | **à corriger** |
+| [**X1**](#x1-le-mot--agrégat--est-posé-sur-des-dossiers-sans-frontière-nommable) | le mot « agrégat » est posé sur des dossiers sans frontière nommable | **à corriger** |
 | [**X2**](#x2-aucune-racine-nest-déclarée-nulle-part) | aucune racine n'est déclarée nulle part | **à corriger** |
 | [**X3**](#x3-plusieurs-repositories-pour-une-même-frontière) | plusieurs repositories pour une même frontière | à surveiller |
 | [**X4**](#x4-une-opération-modifie-plusieurs-agrégats-dans-la-même-transaction) | une opération modifie plusieurs agrégats dans la même transaction | rien à faire |
