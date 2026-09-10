@@ -500,7 +500,7 @@ const passage = new Passage({ id: null, moduleId, userId });   // avant insertio
 const saved = await passageRepository.save({ passage });
 ```
 
-Tout consommateur de `Thing` doit alors savoir si l'identifiant peut être `null`, et rien dans la
+Tout consommateur de `Passage` doit alors savoir si l'identifiant peut être `null`, et rien dans la
 signature ne le dit.
 
 **Correction.** Aucune sur l'existant. Pour le neuf, préférer un type distinct pour l'intention de
