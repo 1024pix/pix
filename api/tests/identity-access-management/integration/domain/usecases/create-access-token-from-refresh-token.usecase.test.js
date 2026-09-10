@@ -33,12 +33,11 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       const audience = 'https://app.pix.fr';
       const sessionId = 'session-id';
 
-      const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId });
-      await refreshTokenRepository.save({ refreshToken });
+      const refreshToken = UserRefreshToken.generate({ userId, source, audience, sessionId });
 
       // when
       const { accessToken, expirationDelaySeconds } = await usecases.createAccessTokenFromRefreshToken({
-        refreshToken: refreshToken.value,
+        refreshToken,
         audience,
         locale,
       });
@@ -50,18 +49,19 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       expect(decodedAccessToken.sessionId).to.equal(sessionId);
     });
 
-    describe('when refresh token is stateless', function () {
+    describe('when refresh token is stateful', function () {
       it('creates a new access token', async function () {
         // given
         const source = 'pix';
         const audience = 'https://app.pix.fr';
         const sessionId = 'session-id';
 
-        const refreshToken = UserRefreshToken.generate({ userId, source, audience, sessionId });
+        const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId });
+        await refreshTokenRepository.save({ refreshToken });
 
         // when
         const { accessToken, expirationDelaySeconds } = await usecases.createAccessTokenFromRefreshToken({
-          refreshToken,
+          refreshToken: refreshToken.value,
           audience,
           locale,
         });
@@ -93,6 +93,26 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       expect(error.message).to.equal('Refresh token is invalid');
       expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
     });
+
+    describe('when refresh token is stateful', function () {
+      it('throws an unauthorized error ', async function () {
+        // given
+        const audience = 'https://app.pix.fr';
+        const unknownRefreshToken = `${userId}:${crypto.randomUUID()}`;
+
+        // when
+        const error = await catchErr(usecases.createAccessTokenFromRefreshToken)({
+          refreshToken: unknownRefreshToken,
+          audience,
+          locale,
+        });
+
+        // then
+        expect(error).to.instanceOf(UnauthorizedError);
+        expect(error.message).to.equal('Refresh token is invalid');
+        expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
+      });
+    });
   });
 
   context('when the refresh token audience is not the same', function () {
@@ -102,12 +122,11 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       const audience = 'https://app.pix.fr';
       const badAudience = 'https://orga.pix.fr';
 
-      const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
-      await refreshTokenRepository.save({ refreshToken });
+      const refreshToken = UserRefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
 
       // when
       const error = await catchErr(usecases.createAccessTokenFromRefreshToken)({
-        refreshToken: refreshToken.value,
+        refreshToken,
         audience: badAudience,
         locale,
       });
@@ -118,18 +137,19 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       expect(error.code).to.equal('INVALID_REFRESH_TOKEN');
     });
 
-    describe('when refresh token is stateless', function () {
+    describe('when refresh token is stateful', function () {
       it('throws an unauthorized error', async function () {
         // given
         const source = 'pix';
         const audience = 'https://app.pix.fr';
         const badAudience = 'https://orga.pix.fr';
 
-        const refreshToken = UserRefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
+        const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
+        await refreshTokenRepository.save({ refreshToken });
 
         // when
         const error = await catchErr(usecases.createAccessTokenFromRefreshToken)({
-          refreshToken,
+          refreshToken: refreshToken.value,
           audience: badAudience,
           locale,
         });
@@ -205,12 +225,11 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       const audience = 'https://app.pix.fr';
       const newLocale = 'fr-BE';
 
-      const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
-      await refreshTokenRepository.save({ refreshToken });
+      const refreshToken = UserRefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
 
       // when
       await usecases.createAccessTokenFromRefreshToken({
-        refreshToken: refreshToken.value,
+        refreshToken,
         audience,
         locale: newLocale,
       });
@@ -228,12 +247,11 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       const audience = 'https://app.pix.fr';
       const initialLocale = 'fr-FR';
 
-      const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
-      await refreshTokenRepository.save({ refreshToken });
+      const refreshToken = UserRefreshToken.generate({ userId, source, audience, sessionId: 'session-id' });
 
       // when
       await usecases.createAccessTokenFromRefreshToken({
-        refreshToken: refreshToken.value,
+        refreshToken: refreshToken,
         audience,
         locale: initialLocale,
       });
