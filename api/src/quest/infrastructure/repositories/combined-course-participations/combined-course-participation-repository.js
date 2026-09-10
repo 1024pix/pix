@@ -113,6 +113,22 @@ export const findByLearnerIds = async function ({ organizationLearnerIds, combin
   return results.map((row) => new CombinedCourseParticipation(row));
 };
 
+export const findByLearnerIdAndCombinedCourseIds = async function ({ organizationLearnerId, combinedCourseIds }) {
+  if (combinedCourseIds.length === 0) return [];
+  const knexConnection = DomainTransaction.getConnection();
+  const results = await knexConnection('organization_learner_participations')
+    .select('id', 'organizationLearnerId', 'status', 'referenceId', 'createdAt', 'updatedAt')
+    .where('organizationLearnerId', organizationLearnerId)
+    .where('type', OrganizationLearnerParticipationTypes.COMBINED_COURSE)
+    .whereIn(
+      'referenceId',
+      combinedCourseIds.map((combinedCourseId) => combinedCourseId.toString()),
+    )
+    .whereNull('deletedAt');
+
+  return results.map((row) => new CombinedCourseParticipation(row));
+};
+
 export const findPaginatedCombinedCourseParticipationById = async function ({ combinedCourseId, page, filters }) {
   const knexConnection = DomainTransaction.getConnection();
 

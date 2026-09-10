@@ -1,5 +1,11 @@
 export class Eligibility {
-  constructor({ organizationLearner, organization, campaignParticipations = [], passages = [] }) {
+  constructor({
+    organizationLearner,
+    organization,
+    campaignParticipations = [],
+    passages = [],
+    combinedCourseParticipations = [],
+  }) {
     this.organizationLearner = {
       id: organizationLearner?.id,
     };
@@ -9,6 +15,10 @@ export class Eligibility {
       status: passage.status,
       moduleId: passage.referenceId,
       isTerminated: passage.isTerminated,
+    }));
+    this.combinedCourses = combinedCourseParticipations.map(({ combinedCourseId, status }) => ({
+      combinedCourseId,
+      status,
     }));
   }
 

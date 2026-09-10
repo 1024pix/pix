@@ -1,5 +1,6 @@
 import { Eligibility } from '../../domain/models/quests/aggregates/Eligibility.js';
 // We import this repository here to avoid calling it in both dependencies and repositories in ./index.js
+import * as questCombinedCourseParticipationRepository from './combined-course-participations/combined-course-participation-repository.js';
 import * as questOrganizationLearnerParticipationRepository from './combined-course-participations/organization-learner-participation-repository.js';
 export const find = async ({ userId, organizationLearnerWithParticipationApi }) => {
   const result = await organizationLearnerWithParticipationApi.find({ userIds: [userId] });
@@ -11,17 +12,23 @@ export const findByOrganizationAndOrganizationLearnerId = async ({
   organizationId,
   organizationLearnerWithParticipationApi,
   organizationLearnerParticipationRepository = questOrganizationLearnerParticipationRepository,
+  combinedCourseParticipationRepository = questCombinedCourseParticipationRepository,
   moduleIds = [],
+  combinedCourseIds = [],
 }) => {
   const passages = await organizationLearnerParticipationRepository.findByOrganizationLearnerIdAndModuleIds({
     organizationLearnerId,
     moduleIds,
   });
+  const combinedCourseParticipations = await combinedCourseParticipationRepository.findByLearnerIdAndCombinedCourseIds({
+    organizationLearnerId,
+    combinedCourseIds,
+  });
   const result = await organizationLearnerWithParticipationApi.findByOrganizationAndOrganizationLearnerId({
     organizationLearnerId,
     organizationId,
   });
-  return toDomain({ ...result, passages });
+  return toDomain({ ...result, passages, combinedCourseParticipations });
 };
 
 export const findByOrganizationAndOrganizationLearnerIds = async ({
