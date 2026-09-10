@@ -334,7 +334,7 @@ const GeneralInfoSection = <template>
     <PixInput
       @id="internalName"
       @value={{@blueprint.internalName}}
-      @requiredLabel="Champ obligatoire"
+      @requiredLabel={{t "common.forms.mandatory"}}
       {{on "change" (fn @setData "internalName")}}
     >
       <:label>
@@ -345,7 +345,7 @@ const GeneralInfoSection = <template>
     <PixInput
       @id="name"
       @value={{@blueprint.name}}
-      @requiredLabel="Champ obligatoire"
+      @requiredLabel={{t "common.forms.mandatory"}}
       {{on "change" (fn @setData "name")}}
       @subLabel="Ce titre sera visible par les utilisateurs"
     >
@@ -364,6 +364,7 @@ const GeneralInfoSection = <template>
     <PixTextarea
       @id="description"
       @value={{@blueprint.description}}
+      @requiredLabel={{t "common.forms.mandatory"}}
       {{on "change" (fn @setData "description")}}
       rows="10"
       @subLabel={{t "components.combined-course-blueprints.labels.description-sublabel"}}
@@ -376,6 +377,7 @@ const GeneralInfoSection = <template>
     <PixTextarea
       @id="prescriber-description"
       @value={{@blueprint.prescriberDescription}}
+      @requiredLabel={{t "common.forms.mandatory"}}
       {{on "change" (fn @setData "prescriberDescription")}}
       rows="10"
       @subLabel={{t "components.combined-course-blueprints.labels.prescriber-description-sublabel"}}
