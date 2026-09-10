@@ -50,40 +50,22 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
       expect(blueprint).deep.equal(values);
     });
 
-    it('should throw if quest is not provided', function () {
-      // given
-      values.quest = null;
+    ['name', 'quest', 'internalName', 'description', 'prescriberDescription'].forEach((requiredAttribute) => {
+      describe(`when ${requiredAttribute} is not provided`, function () {
+        it('should throw an ObjectValidationError', function () {
+          // given
+          values[requiredAttribute] = null;
 
-      // when
-      const error = catchErrSync(() => new CombinedCourseBlueprint(values))();
+          // when
+          const error = catchErrSync(() => new CombinedCourseBlueprint(values))();
 
-      // then
-      expect(error).to.be.an.instanceOf(ObjectValidationError);
-      expect(error.message).to.equal('Quest is required');
-    });
-
-    it('should throw if name is not provided', function () {
-      // given
-      values.name = null;
-
-      // when
-      const error = catchErrSync(() => new CombinedCourseBlueprint(values))();
-
-      // then
-      expect(error).to.be.an.instanceOf(ObjectValidationError);
-      expect(error.message).to.equal('Name is required');
-    });
-
-    it('should throw if internalName is not provided', function () {
-      // given
-      values.internalName = null;
-
-      // when
-      const error = catchErrSync(() => new CombinedCourseBlueprint(values))();
-
-      // then
-      expect(error).to.be.an.instanceOf(ObjectValidationError);
-      expect(error.message).to.equal('InternalName is required');
+          // then
+          expect(error).to.be.an.instanceOf(ObjectValidationError);
+          expect(error.message).to.equal(
+            `${requiredAttribute.charAt(0).toUpperCase() + requiredAttribute.slice(1)} is required`,
+          );
+        });
+      });
     });
   });
 
@@ -421,14 +403,16 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
       const combinedCourseBlueprintForUpdate = new CombinedCourseBlueprintForUpdate({
         name: 'NewName',
         internalName: 'NewInternalName',
+        description: 'NewDescription',
+        prescriberDescription: 'NewPrescriberDescription',
       });
 
       const expectedUpdatedBlueprint = new CombinedCourseBlueprint({
         id: values.id,
         name: 'NewName',
         internalName: 'NewInternalName',
-        description: null,
-        prescriberDescription: null,
+        description: 'NewDescription',
+        prescriberDescription: 'NewPrescriberDescription',
         illustration: null,
         surveyLink: null,
         rewardRequirementsDescription: null,
