@@ -36,13 +36,10 @@ const createOrganization = async function ({
     administrationTeamRepository,
   );
 
-  // TODO: Remove if when categoryId is required (PIX-23577)
-  if (organization.categoryId) {
-    await organizationVerificationService.checkStructureCategoryExists(
-      organization.categoryId,
-      structureCategoryRepository,
-    );
-  }
+  await organizationVerificationService.checkStructureCategoryExists(
+    organization.categoryId,
+    structureCategoryRepository,
+  );
 
   const savedOrganization = await organizationForAdminRepository.save({
     organization,
