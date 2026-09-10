@@ -110,6 +110,26 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
         userId,
       });
     });
+
+    context('when a membership already exists for both user and certificationCenter', function () {
+      it('throws an AlreadyExistingMembershipError', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(certificationCenterMembershipRepository.create)({
+          certificationCenterId,
+          role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+          userId,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(AlreadyExistingMembershipError);
+      });
+    });
   });
 
   describe('#findByCertificationCenterIdAndUserId', function () {
