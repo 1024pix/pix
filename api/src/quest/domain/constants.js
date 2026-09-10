@@ -6,6 +6,7 @@ export const COMBINED_COURSE_ITEM_TYPES = {
   MODULE: 'module',
   CAMPAIGN: 'campaign',
   FORMATION: 'formation',
+  COMBINED_COURSE: 'combinedCourse',
 };
 
 export const QUEST_HEADER = {

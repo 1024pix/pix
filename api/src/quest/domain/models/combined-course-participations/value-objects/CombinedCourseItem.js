@@ -68,6 +68,12 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
   }
 }
 
+export class NestedCombinedCourseItem extends CombinedCourseItem {
+  get type() {
+    return COMBINED_COURSE_ITEM_TYPES.COMBINED_COURSE;
+  }
+}
+
 export class ModuleCombinedCourseItem extends CombinedCourseItem {
   constructor({
     id,
