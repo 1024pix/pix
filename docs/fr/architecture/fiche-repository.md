@@ -114,21 +114,20 @@ L'invariant se vérifie par fonction, pas par fichier. Un même fichier peut con
 conforme et un passe-plat.
 
 ```js
-// conforme — passage par un constructeur ou une fonction de mapping locale
-const rows = await query;
-return rows.map(toDomain);
+// conforme — passage par une fonction de mapping locale
+const rows = await knexConnection('organization-learners').where({ organizationId });
+return rows.map(_toDomain);
 
-// conforme — la source est l'API d'un voisin, la traduction a lieu quand même
-const dtos = await someApi.find({ ids });
-return dtos.map(toDomain);
-
-// fautif — le DTO du voisin entre intact dans le domaine
-const dtos = await someApi.find({ ids });
-return dtos[0];
-
-// fautif — passe-plat intégral
-return someApi.doSomething({ ... });
+// fautif — passe-plat intégral : le fichier entier fait deux lignes
+const canSelfDeleteAccount = async ({ userId, dependencies = { privacyUsersApi } }) => {
+  return dependencies.privacyUsersApi.canSelfDeleteAccount({ userId });
+};
 ```
+
+Le second cas est le plus instructif, parce qu'il n'a pas l'air d'un problème : la fonction est
+courte, lisible, et son nom est clair. Ce qu'elle renvoie est décidé chez le voisin. Le jour où
+`canSelfDeleteAccount` renverra `{ allowed, reason }` au lieu d'un booléen, notre code cassera à
+l'exécution sans qu'aucune analyse statique l'ait vu passer.
 
 **Ce qui casse.** Un usecase lit un champ dont la forme est décidée par un autre contexte. Un
 renommage là-bas casse le nôtre à l'exécution. `dependency-cruiser` reste vert : la dépendance de
@@ -146,12 +145,12 @@ littéral.
 
 ```js
 // conforme — un objet du domaine, ou des identifiants
-await save({ thing });
-await findById({ id });
+await getOrCreateNewOrganizationLearner({ organizationLearner, userId, organizationId });
+await findOrganizationLearner({ userId, organizationId });
 
 // fautif — le DTO étranger reconditionné en littéral
-const user = await userRepository.findById({ userId });   // I1 violé en amont
-await save({ person: { firstName: user.firstName, lastName: user.lastName } });
+const user = await userApi.getUserDetails({ userId });   // I1 violé en amont
+await save({ learner: { firstName: user.firstName, lastName: user.lastName } });
 ```
 
 **Ce qui casse.** Même mécanique que I1, mais la fuite traverse le usecase.
@@ -166,22 +165,27 @@ domaine. `find…` renvoie `null` pour un élément, un tableau vide pour une co
 
 ```js
 // conforme — get* lève
-const row = await query.first();
-if (!row) throw new NotFoundError(`… ${id} n'existe pas`);
-return toDomain(row);
+const getByCode = async ({ code }) => {
+  const combinedCourse = await _baseQuery(knexConn).where('code', code).first();
+  if (!combinedCourse) {
+    throw new NotFoundError(`Le parcours combiné portant le code ${code} n'existe pas`);
+  }
+  return _toDomain(combinedCourse);
+};
 
-// conforme — find* renvoie null
-const row = await query.first();
-if (!row) return null;
-return toDomain(row);
-
-// fautif — le nom annonce une lecture tolérante, le corps lève
+// fautif — le même corps, sous un nom qui annonce une lecture tolérante
 const findByCode = async ({ code }) => {
-  const row = await query.first();
-  if (!row) throw new NotFoundError(code);
-  return toDomain(row);
+  const combinedCourse = await _baseQuery(knexConn).where('code', code).first();
+  if (!combinedCourse) {
+    throw new NotFoundError(`… ${code} …`);
+  }
+  return _toDomain(combinedCourse);
 };
 ```
+
+La comparaison est le meilleur argument de l'invariant : **les deux corps sont identiques au
+caractère près.** Seul le nom diffère, et c'est lui qui dit à l'appelant s'il doit prévoir un `try`
+ou un test à `null`.
 
 **Ce qui casse.** Le nom est le seul contrat disponible sans typage. S'il ne correspond pas au
 comportement, chaque site d'appel doit lire l'implémentation.
@@ -192,17 +196,21 @@ comportement, chaque site d'appel doit lire l'implémentation.
 pas remonter une erreur du pilote de base. Il ne lève pas d'`Error` nu.
 
 ```js
-// conforme — une contrainte de base traduite en erreur de domaine
-if (isUniqConstraintViolated(error) && error.constraint === 'une_contrainte_nommee') {
-  throw new UneErreurDuDomaine(...);
-}
+} catch (error) {
+  // conforme — une contrainte nommée, traduite en erreur du domaine
+  if (knexUtils.isUniqConstraintViolated(error) && error.constraint === 'one_active_organization_learner') {
+    throw new OrganizationLearnersCouldNotBeSavedError(…);
+  }
 
-// fautif — la ligne suivante du même catch
-throw error;
+  // fautif — la ligne suivante du même catch
+  throw error;
+}
 ```
 
-Le motif fautif est le `catch` qui traduit un cas connu et relâche les autres. Il faut une erreur de
-domaine générique pour les violations non reconnues.
+Le motif fautif est le `catch` qui traduit un cas connu et relâche les autres, et les deux formes
+cohabitent dans le même bloc. Le nom `one_active_organization_learner` est ce qui rend la première
+branche possible : la contrainte dit l'intention métier, donc la traduction est mécanique. Il faut une
+erreur de domaine générique pour les violations non reconnues.
 
 **Ce qui casse.** Le mappeur d'erreurs associe les erreurs du domaine aux codes HTTP et à un code
 d'erreur exploitable par le front. Une erreur non domaine sort en 500, sans code ni métadonnées : le
@@ -218,15 +226,20 @@ ni un client HTTP. Il les reçoit en paramètres nommés, remplis par l'injectio
 `infrastructure/repositories/index.js`.
 
 ```js
-// conforme — la dépendance arrive en paramètre
-export async function findById({ id, someApi }) {
-  const dtos = await someApi.find({ ids: [id] });
-  return dtos.map(toDomain);
-}
+// conforme — l'index du contexte importe l'API, le repository la reçoit
+// infrastructure/repositories/index.js
+import * as userApi from '../../../identity-access-management/application/api/users-api.js';
 
-// fautif — import direct
-import * as someApi from '../../../autre-contexte/application/api/some-api.js';
+// fautif — le repository importe lui-même, et se donne l'API comme valeur par défaut
+import * as privacyUsersApi from '../../../privacy/application/api/users-api.js';
+
+const canSelfDeleteAccount = async ({ userId, dependencies = { privacyUsersApi } }) => { … };
 ```
+
+La forme fautive est la plus fréquente, et c'est celle qui trompe : `dependencies` est bien un
+paramètre, donc le test peut substituer une doublure. Mais l'import reste écrit dans le fichier, donc
+la dépendance de module existe, donc `dependency-cruiser` la voit et la règle de contexte se
+déclenche. **Le paramètre rend testable sans rendre découplé.**
 
 **Exception.** L'accesseur de connexion à la base est importé, pas injecté. C'est la conséquence du
 choix d'ambient context pour la transaction. C'est la seule dépendance dans ce cas.
@@ -240,13 +253,20 @@ substituée par une doublure de test : le repository devient intestable en unita
 l'index du contexte.
 
 ```js
-// conforme — l'index déclare le repository, l'injection le complète
-import * as thingRepository from './thing-repository.js';
-const repositoriesWithoutInjectedDependencies = { thingRepository, /* … */ };
+// conforme — l'index importe l'API du voisin et le repository, puis les marie
+import * as userApi from '../../../identity-access-management/application/api/users-api.js';
+import * as combinedCourseRepository from './combined-courses/combined-course-repository.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
+
+const repositoriesWithoutInjectedDependencies = { combinedCourseRepository, /* … */ };
+const dependencies = { userApi, /* … */ };
 const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies, boundedContext);
 
-// fautif — le fichier existe et n'est pas déclaré
+// fautif — le fichier existe dans le dossier et n'est pas déclaré ici
 ```
+
+C'est ce fichier, et lui seul, qui a le droit d'importer les API des contextes voisins : il est
+l'exception nommée par I5.
 
 **Ce qui casse.** L'injection ne s'applique qu'aux entrées de cet objet. Un repository absent n'a
 jamais ses dépendances remplies : elles restent `undefined`, et il échoue au premier appel. Pour tout
@@ -286,22 +306,31 @@ Le signal outillable est un préfixe de lecture sur une fonction qui écrit.
 
 ```js
 // fautif — le nom annonce une lecture, le corps réactive un enregistrement désactivé
-export async function getOrCreateThing({ ... }) {
-  const existing = await find(...);
+export async function getOrCreateNewOrganizationLearner({ organizationLearner, userId, organizationId }) {
+  const existing = await findOrganizationLearner({ userId, organizationId });
+
   if (existing) {
     if (existing.isDisabled) {
-      await connection('things').update({ isDisabled: false })...   // décision métier
+      await knexConnection('organization-learners')
+        .update({ isDisabled: false })
+        .where({ id: existing.id });        // décision métier
     }
-    return toDomain(existing);
+    return _toDomain({ id: existing.id });
+  } else {
+    // sinon insertion
   }
-  // sinon insertion
 }
 
 // conforme — trois opérations nommées, la décision remonte au usecase
-export async function findThing({ ... }) { … }
-export async function createThing({ ... }) { … }
-export async function reactivateThing({ id }) { … }
+export async function findOrganizationLearner({ userId, organizationId }) { … }
+export async function createOrganizationLearner({ … }) { … }
+export async function reactivateOrganizationLearner({ id }) { … }
 ```
+
+La règle cachée ici est une vraie règle, et elle mérite d'être discutée : **un élève désactivé qui
+revient sur un parcours est réactivé silencieusement.** C'est peut-être exactement ce que le métier
+veut. Mais personne ne cherchera cette décision dans un fichier de `infrastructure/`, sous une
+fonction nommée `getOrCreate…`.
 
 **Ce qui casse.** La règle vit à un endroit où personne ne la cherche. Elle sera réécrite différemment
 ailleurs, et une modification du métier n'ira pas la chercher là.
@@ -316,14 +345,15 @@ un processus relève de `domain/usecases/`.
 Composer deux accès relève du usecase.
 
 ```js
-// fautif — la composition a lieu dans l'adaptateur
-import * as otherRepository from './other-repository.js';
-import * as neighbourRepository from '../../../autre-contexte/infrastructure/repositories/x-repository.js';
+// fautif — la composition a lieu dans l'adaptateur, ici trois fois
+import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
+import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 
 // conforme — le usecase compose, chaque repository reste un port
-export async function doSomething({ id, thingRepository, otherRepository }) {
-  const thing = await thingRepository.getById({ id });
-  return otherRepository.findRelated({ thingId: thing.id });
+export async function findTutorialsForUser({ userId, tutorialRepository, skillRepository }) {
+  const skills = await skillRepository.findByUserId({ userId });
+  return tutorialRepository.findBySkillIds({ skillIds: skills.map(({ id }) => id) });
 }
 ```
 
@@ -428,13 +458,13 @@ En pratique, le contrat d'un repository est le **nom du paramètre** que le usec
 
 ```js
 // le usecase
-export async function doSomething({ id, thingRepository }) {
-  return thingRepository.getById({ id });
+export async function getCombinedCourse({ id, combinedCourseRepository }) {
+  return combinedCourseRepository.getById({ id });
 }
 ```
 
-Rien ne déclare que `thingRepository` sait faire `getById`, ni ce que cette fonction rend. Une faute de
-frappe dans le nom de la méthode échoue à l'exécution. Un repository qui perd une fonction ne casse
+Rien ne déclare que `combinedCourseRepository` sait faire `getById`, ni ce que cette fonction rend.
+Une faute de frappe dans le nom de la méthode échoue à l'exécution. Un repository qui perd une fonction ne casse
 aucune compilation.
 
 **Correction.** Déclarer le port dans `domain/ports/` et annoter le repository contre lui — voir § 7.
@@ -445,11 +475,27 @@ Uniquement après la migration des modèles en `.ts` : avant, le port ne vérifi
 C'est `E5` de `fiche-entite.md`. Le modèle porte une méthode dont le repository est le seul consommateur.
 
 ```js
-// dans domain/models/ — la forme de la base remonte dans le domaine
-class Thing {
-  toRow() { return { thing_id: this.id, thing_label: this.label }; }
+// dans domain/models/ — le modèle sait se persister, dans les deux sens
+class Chat {
+  toDTO() {
+    return {
+      id: this.id,
+      userId: this.userId,
+      configuration: this.configuration.toDTO(),        // et toute la frontière suit
+      messages: this.messages.map((message) => message.toDTO()),
+    };
+  }
+
+  static fromDTO(chatDTO) { … }
 }
+
+// et dans le repository, qui est le seul appelant
+const chatDTO = chat.toDTO();
 ```
+
+Le point intéressant est la **propagation** : la racine délègue à ses objets internes, qui portent
+chacun leur `toDTO()`. Déplacer le mapping dans le repository suppose donc de déplacer toute la
+chaîne, pas une méthode.
 
 **Correction.** Déplacer la fonction de mapping dans le repository, sous forme de fonction locale. Le
 déplacement est mécanique. Exception à vérifier avant : si la forme sérialisée est un format publié,
@@ -516,12 +562,17 @@ requête**, pas par agrégat.
 
 ```
 infrastructure/repositories/
-  thing-repository.js             getById, save
-  thing-for-admin-repository.js   getById avec tout ce qu'un écran d'administration affiche
-  thing-list-repository.js        findByOrganizationId, paginé
+  combined-courses/
+    combined-course-repository.js                     getById, save
+  combined-course-details-repository.js               getById, avec tout ce qu'un écran affiche
+  combined-course-participations/
+    combined-course-participation-repository.js       une entité interne à la frontière
+  prescription/
+    combined-course-participant-repository.js         la même frontière, vue d'un autre besoin
 ```
 
-Trois repositories pour un seul agrégat. DDD n'en aurait qu'un, et les formes de lecture seraient des
+Quatre repositories pour un seul agrégat, rangés en sous-dossiers portant le nom du besoin appelant —
+ce qui dit exactement ce que le découpage est. DDD n'en aurait qu'un, et les formes de lecture seraient des
 read-models qu'il produit.
 
 Le bénéfice est réel : chaque requête est écrite pour son besoin, sans champ chargé pour rien et sans
@@ -586,9 +637,12 @@ Deux fichiers du même dossier, deux sources différentes, un seul concept.
 
 ```
 infrastructure/repositories/
-  thing-repository.js     → une table de la base
-  person-repository.js    → l'API interne d'un autre contexte borné
+  prescriber-repository.js            → des tables de la base
+  privacy-users-api.repository.js     → l'API interne d'un autre contexte borné
 ```
+
+Le nommage trahit d'ailleurs la gêne : le second fichier porte `-api.` dans son nom, comme s'il
+fallait avertir le lecteur que ce repository n'en est pas tout à fait un.
 
 DDD appellerait le second une couche anti-corruption et le rangerait à part. C'est l'écart annoncé au
 § 1.
@@ -805,8 +859,8 @@ Les cas acceptables — effet de bord sans retour — ne comportent pas de `retu
 
 ```js
 // l'étape 1 ne voit pas ceci
-const dtos = await someApi.find({ ids });
-return dtos ? dtos[0] : null;
+const users = await userApi.getUsersByIds({ ids });
+return users ? users[0] : null;
 ```
 
 Les faux positifs de l'étape 2 viennent des fonctions qui renvoient un scalaire extrait de la réponse,
@@ -895,24 +949,27 @@ déstructuré dans le usecase, et l'invariant « implémente un port du domaine 
 le code.
 
 ```ts
-// domain/ports/thing-repository.ts
-import type { Thing } from '../models/Thing.ts';
+// domain/ports/combined-course-repository.ts
+import type { CombinedCourse } from '../models/combined-courses/entities/CombinedCourse.ts';
 
-export type ThingRepository = {
-  findById(params: { id: number }): Promise<Thing | null>;
-  save(params: { thing: Thing }): Promise<number>;
-  deleteByIds(params: { ids: number[] }): Promise<number>;
+export type CombinedCourseRepository = {
+  getById(params: { id: number }): Promise<CombinedCourse>;
+  getByCode(params: { code: string }): Promise<CombinedCourse>;
+  save(params: { combinedCourse: CombinedCourse }): Promise<number>;
 };
 ```
+
+Le type dit ce que le nom promettait sans pouvoir le garantir : `getById` rend un `CombinedCourse`,
+pas `CombinedCourse | null`. **I3 devient une conséquence du typage** pour les `get…`.
 
 ### Forme de conformité
 
 L'implémentation se déclare fonction par fonction. Le message d'erreur désigne la fonction fautive.
 
 ```ts
-import type { ThingRepository } from '../../domain/ports/thing-repository.ts';
+import type { CombinedCourseRepository } from '../../domain/ports/combined-course-repository.ts';
 
-export const findById: ThingRepository['findById'] = async ({ id }) => { … };
+export const getById: CombinedCourseRepository['getById'] = async ({ id }) => { … };
 ```
 
 Un repository est un module de fonctions, conformément à la forme d'injection décidée par ADR 46.
