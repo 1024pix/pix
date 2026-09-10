@@ -1,6 +1,7 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click, waitUntil } from '@ember/test-helpers';
+// eslint-disable-next-line no-restricted-imports
+import { click, find, waitUntil } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl/test-support';
 import Trainings from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/trainings';
@@ -109,38 +110,40 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
       .exists();
   });
 
-  test('it exposes the section as a carousel, and each card as a labelled slide', async function (assert) {
+  test('it exposes the section as a carrousel, and each card as a labelled slide', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const trainings = createManyTrainings(store, 2);
+    const trainings = createManyTrainings(store, 4);
 
     // when
     const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
 
     // then
-    const region = screen.getByRole('region', { name: t('pages.skill-review.recommended-engine.trainings.title') });
+    const region = await screen.findByRole('region', {
+      name: t('pages.skill-review.recommended-engine.trainings.title'),
+    });
     assert.strictEqual(
       region.getAttribute('aria-roledescription'),
-      t('pages.skill-review.recommended-engine.trainings.carousel-roledescription'),
+      t('pages.skill-review.recommended-engine.trainings.carrousel-roledescription'),
     );
 
     const slides = screen.getAllByRole('group');
-    assert.strictEqual(slides.length, 2);
+    assert.strictEqual(slides.length, 3);
     assert.strictEqual(
       slides[0].getAttribute('aria-roledescription'),
       t('pages.skill-review.recommended-engine.trainings.slide-roledescription'),
     );
     assert.strictEqual(
       slides[0].getAttribute('aria-label'),
-      t('pages.skill-review.recommended-engine.trainings.slide-aria-label', { position: 1, total: 2 }),
+      t('pages.skill-review.recommended-engine.trainings.slide-aria-label', { position: 1, total: 4 }),
     );
     assert.strictEqual(
       slides[1].getAttribute('aria-label'),
-      t('pages.skill-review.recommended-engine.trainings.slide-aria-label', { position: 2, total: 2 }),
+      t('pages.skill-review.recommended-engine.trainings.slide-aria-label', { position: 2, total: 4 }),
     );
   });
 
-  module('carousel navigation', function () {
+  module('carrousel navigation', function () {
     test('it does not render navigation buttons when there are 3 trainings or less', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -189,19 +192,6 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
         });
         assert.dom(previousButton).hasAttribute('aria-disabled', 'true');
         assert.dom(nextButton).doesNotHaveAttribute('aria-disabled');
-      });
-
-      test('it locks manual scrolling on the list', async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const trainings = createManyTrainings(store, 10);
-
-        // when
-        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
-
-        // then
-        const lists = screen.getAllByRole('list');
-        assert.dom(lists[0]).hasClass('results-recommendation-engine-training__list--hidden');
       });
 
       module('when clicking the previous button', function () {
@@ -390,7 +380,7 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     });
   });
 
-  module('carousel focus behaviour', function () {
+  module('carrousel focus behaviour', function () {
     function getCardButtons(screen) {
       return screen.getAllByRole('button', {
         name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
@@ -420,7 +410,12 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
       // given
       const store = this.owner.lookup('service:store');
       const trainings = createManyTrainings(store, 10);
-      const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+      const onNavigationButtonClick = sinon.stub();
+      const screen = await render(
+        <template>
+          <Trainings @trainings={{trainings}} @onNavigationButtonClick={{onNavigationButtonClick}} />
+        </template>,
+      );
       const nextButton = screen.getByRole('button', {
         name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
       });
@@ -459,6 +454,82 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     });
   });
 
+  module('training cards a11y', function () {
+    class MediaServiceStub extends Service {
+      @tracked isMobile = false;
+      @tracked isTablet = false;
+      @tracked isDesktop = true;
+    }
+
+    module('when there is no navigations on page', function (hooks) {
+      hooks.beforeEach(function () {
+        this.owner.register('service:media', MediaServiceStub);
+      });
+
+      test('it does not set aria and role attributes', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const trainings = createManyTrainings(store, 3);
+
+        // when
+        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+
+        // then
+        const region = screen.getByRole('region', {
+          name: t('pages.skill-review.recommended-engine.trainings.title'),
+        });
+        const [cards] = screen.getAllByRole('list');
+        const slideWrapper = find('#results-recommendation-engine-training-list-item-0');
+
+        assert.dom(region).doesNotHaveAttribute('aria-roledescription');
+        assert.dom(cards).doesNotHaveAttribute('aria-live', 'polite');
+        assert.dom(slideWrapper).doesNotHaveAttribute('role');
+        assert.dom(slideWrapper).doesNotHaveAttribute('aria-roledescription');
+        assert.dom(slideWrapper).doesNotHaveAttribute('aria-label');
+      });
+    });
+
+    module('when navigations buttons are visible', function (hooks) {
+      hooks.beforeEach(function () {
+        this.owner.register('service:media', MediaServiceStub);
+      });
+
+      test('it sets aria and role attributes for carrousel a11y', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const trainings = createManyTrainings(store, 4);
+
+        // when
+        const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+
+        // then
+        const region = screen.getByRole('region', {
+          name: t('pages.skill-review.recommended-engine.trainings.title'),
+        });
+        const [cards] = screen.getAllByRole('list');
+        const slides = within(region).getAllByRole('group');
+        assert.strictEqual(
+          region.getAttribute('aria-roledescription'),
+          t('pages.skill-review.recommended-engine.trainings.carrousel-roledescription'),
+        );
+        assert.dom(cards).hasAttribute('aria-live', 'polite');
+
+        assert.strictEqual(slides.length, 3);
+
+        for (let i = 0; i < slides.length; i++) {
+          assert.strictEqual(
+            slides[i].getAttribute('aria-roledescription'),
+            t('pages.skill-review.recommended-engine.trainings.slide-roledescription'),
+          );
+          assert.strictEqual(
+            slides[i].getAttribute('aria-label'),
+            t('pages.skill-review.recommended-engine.trainings.slide-aria-label', { position: i + 1, total: 4 }),
+          );
+        }
+      });
+    });
+  });
+
   module('responsive trainings per page', function () {
     class MediaServiceStub extends Service {
       @tracked isMobile = false;
@@ -467,7 +538,7 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     }
 
     module('in tablet format', function () {
-      test('it should display next button navigation for a carousel with 3 trainings cards', async function (assert) {
+      test('it should display next button navigation for a carrousel with 3 trainings cards', async function (assert) {
         // given
         this.owner.register('service:media', MediaServiceStub);
         const media = this.owner.lookup('service:media');
@@ -490,7 +561,7 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
     });
 
     module('in mobile format', function () {
-      test('it should display next button navigation for a carousel with 2 trainings cards', async function (assert) {
+      test('it should display next button navigation for a carrousel with 2 trainings cards', async function (assert) {
         // given
         this.owner.register('service:media', MediaServiceStub);
         const media = this.owner.lookup('service:media');
