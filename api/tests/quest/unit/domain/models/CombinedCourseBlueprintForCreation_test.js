@@ -36,15 +36,19 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprintForCreation ',
       expect(blueprint).deep.equal(values);
     });
 
-    it('should throw a validation error if a required field is not provided', function () {
-      // given
-      values.name = null;
+    ['name', 'internalName', 'description', 'prescriberDescription'].forEach((requiredAttribute) => {
+      describe(`when ${requiredAttribute} is not provided`, function () {
+        it('should throw a validation error', function () {
+          // given
+          values[requiredAttribute] = null;
 
-      // when
-      const error = catchErrSync(() => new CombinedCourseBlueprintForCreation(values))();
+          // when
+          const error = catchErrSync(() => new CombinedCourseBlueprintForCreation(values))();
 
-      // then
-      expect(error).to.be.an.instanceOf(EntityValidationError);
+          // then
+          expect(error).to.be.an.instanceOf(EntityValidationError);
+        });
+      });
     });
   });
 

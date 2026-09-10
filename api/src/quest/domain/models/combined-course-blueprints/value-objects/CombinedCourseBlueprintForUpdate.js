@@ -2,8 +2,8 @@ export class CombinedCourseBlueprintForUpdate {
   constructor({
     name,
     internalName,
-    description = null,
-    prescriberDescription = null,
+    description,
+    prescriberDescription,
     illustration = null,
     surveyLink = null,
     rewardRequirementsDescription = null,

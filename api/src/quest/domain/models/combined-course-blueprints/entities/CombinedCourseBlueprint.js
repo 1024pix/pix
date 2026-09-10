@@ -18,8 +18,8 @@ export class CombinedCourseBlueprint {
     id,
     name,
     internalName,
-    description = null,
-    prescriberDescription = null,
+    description,
+    prescriberDescription,
     illustration = null,
     surveyLink = null,
     createdAt = null,
@@ -179,6 +179,8 @@ export class CombinedCourseBlueprint {
     if (!this.name) throw new ObjectValidationError('Name is required');
     if (!this.internalName) throw new ObjectValidationError('InternalName is required');
     if (!this.quest) throw new ObjectValidationError('Quest is required');
+    if (!this.description) throw new ObjectValidationError('Description is required');
+    if (!this.prescriberDescription) throw new ObjectValidationError('PrescriberDescription is required');
   }
 
   generateItems({ targetProfiles, modules, recommendableModules }) {

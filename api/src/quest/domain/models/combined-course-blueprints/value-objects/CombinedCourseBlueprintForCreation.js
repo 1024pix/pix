@@ -7,8 +7,8 @@ import { Quest } from '../../quests/entities/Quest.js';
 const schema = Joi.object({
   name: Joi.string().required(),
   internalName: Joi.string().required(),
-  description: Joi.string().allow(null),
-  prescriberDescription: Joi.string().allow(null),
+  description: Joi.string().required(),
+  prescriberDescription: Joi.string().required(),
   illustration: Joi.string().uri().allow(null),
   rewardRequirementsDescription: Joi.string().allow(null),
   quest: Joi.object().instance(Quest),
