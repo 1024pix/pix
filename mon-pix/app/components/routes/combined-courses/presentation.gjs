@@ -45,6 +45,14 @@ const Header = <template>
           }}
         </PixButton>
       {{/if}}
+      {{#if (and (eq @combinedCourse.status "COMPLETED") @combinedCourse.parentCode)}}
+        <PixButtonLink
+          @route="combined-courses.presentation"
+          @model={{@combinedCourse.parentCode}}
+          @size="large"
+          class="combined-course-back-to-parent-button"
+        >{{t "common.actions.continue"}}</PixButtonLink>
+      {{/if}}
       {{#if (and (eq @combinedCourse.status "COMPLETED") @isSurveyEnabled)}}
         <PixTooltip @id="tooltip-satisfaction-survey" @position="right" @isInline={{true}}>
           <:triggerElement>

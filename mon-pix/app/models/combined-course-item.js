@@ -4,6 +4,7 @@ export const CombinedCourseItemTypes = {
   CAMPAIGN: 'campaign',
   FORMATION: 'formation',
   MODULE: 'module',
+  COMBINED_COURSE: 'combinedCourse',
 };
 
 export const CombinedCourseAssets = {
@@ -26,6 +27,7 @@ export default class CombinedCourseItem extends Model {
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
   get route() {
+    if (this.type === CombinedCourseItemTypes.COMBINED_COURSE) return 'combined-courses.presentation';
     return this.type === CombinedCourseItemTypes.CAMPAIGN ? 'campaigns' : 'module';
   }
 
@@ -39,6 +41,7 @@ export default class CombinedCourseItem extends Model {
   get iconUrl() {
     if (this.type === CombinedCourseItemTypes.CAMPAIGN) return CombinedCourseAssets.CAMPAIGN_ICON;
     if (this.type === CombinedCourseItemTypes.FORMATION) return CombinedCourseAssets.FORMATION_ICON;
+    if (this.type === CombinedCourseItemTypes.COMBINED_COURSE) return CombinedCourseAssets.CAMPAIGN_ICON;
 
     return this.image;
   }
