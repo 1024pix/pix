@@ -4,6 +4,7 @@ import {
   AdministrationTeamNotFound,
   CountryNotFoundError,
   OrganizationLearnerTypeNotFound,
+  StructureCategoryNotFound,
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
@@ -26,6 +27,7 @@ describe('Integration | UseCases | create-organization', function () {
       commonName: 'France',
       originalName: 'France',
     });
+    databaseBuilder.factory.buildStructureCategory({ id: 1, label: 'Catégorie - sco - école' });
 
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
     await databaseBuilder.commit();
@@ -45,6 +47,7 @@ describe('Integration | UseCases | create-organization', function () {
       organizationLearnerType: new OrganizationLearnerType({
         id: 5678,
       }),
+      categoryId: 1,
     });
 
     // when
@@ -62,6 +65,7 @@ describe('Integration | UseCases | create-organization', function () {
     expect(createdOrganization.countryCode).to.equal(99100);
     expect(createdOrganization.externalId).to.equal('My external Id');
     expect(createdOrganization.provinceCode).to.equal('078');
+    expect(createdOrganization.categoryId).to.equal(1);
   });
 
   describe('error cases', function () {
@@ -169,6 +173,33 @@ describe('Integration | UseCases | create-organization', function () {
         expect(error).to.be.instanceOf(CountryNotFoundError);
         expect(error.message).to.equal('Country not found for code 99999');
         expect(error.meta).to.deep.equal({ countryCode: 99999 });
+      });
+    });
+
+    describe('when structure category does not exist', function () {
+      it('throws StructureCategoryNotFound', async function () {
+        // given
+        const nonExistingCategoryId = 99999;
+        const organization = new OrganizationForAdmin({
+          name: 'ACME',
+          type: 'PRO',
+          documentationUrl: 'https://pix.fr',
+          createdBy: superAdminUserId,
+          administrationTeamId: 1234,
+          countryCode: 99100,
+          organizationLearnerType: new OrganizationLearnerType({
+            id: 5678,
+          }),
+          categoryId: nonExistingCategoryId,
+        });
+
+        // when
+        const error = await catchErr(usecases.createOrganization)({ organization });
+
+        // then
+        expect(error).to.be.instanceOf(StructureCategoryNotFound);
+        expect(error.message).to.equal('Structure category not found for id 99999');
+        expect(error.meta).to.deep.equal({ structureCategoryId: 99999 });
       });
     });
 
