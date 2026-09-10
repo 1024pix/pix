@@ -16,9 +16,9 @@ typage de mordre est dans `migration-typescript.md`.
 >   conditionne X5, et se fait fichier par fichier.
 > - Les numéros d'écart commencent à X2 : X1 et X6 portaient sur le read-model et ont suivi la création
 >   de `fiche-read-model.md`. Les numéros ne sont pas réattribués.
-> - **Contradiction non résolue**, la même que dans `fiche-entite.md` : le modèle de référence de la
->   documentation d'architecture Pix expose des champs publics assignables, ce que `V1` exclut. À
->   trancher pour les deux fiches ensemble.
+> - **Contradiction tranchée le 2026-09-08**, comme dans `fiche-entite.md` : la fiche garde sa règle.
+>   Le motif retenu est qu'un champ qui porte une règle ne doit pas pouvoir être réécrit de
+>   l'extérieur — ce qui, pour un objet-valeur immuable par définition, vaut pour tous ses champs.
 
 ## Sommaire
 

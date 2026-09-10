@@ -13,11 +13,11 @@ typage de mordre est dans `migration-typescript.md`.
 > - E3 et E7 sont énoncés ici et valent aussi pour une racine d'agrégat, qui y renvoie. Vérifier à
 >   chaque reprise que les deux fiches ne les réénoncent pas.
 > - Les écarts sont numérotés `X` et non `E`, qui est déjà le préfixe des invariants de cette fiche.
-> - **Contradiction non résolue.** Le modèle de référence de la documentation d'architecture Pix
->   expose des champs publics assignables — `this.id = id` — ce que `E1` et `E6` de cette fiche
->   excluent. Cette page décrit l'arborescence d'avant les contextes bornés, donc elle est datée, mais
->   c'est la seule documentation d'architecture existante. À trancher : soit la fiche prescrit plus que
->   la documentation et le dit, soit elle s'aligne.
+> - **Contradiction tranchée le 2026-09-08.** Le modèle de référence de la documentation
+>   d'architecture expose des champs publics assignables, ce que `E1` et `E6` excluent. La fiche garde
+>   sa règle, avec son motif explicite : **un champ qui porte une règle ne doit pas pouvoir être
+>   réécrit de l'extérieur.** Là où rien n'est protégé, c'est de l'hygiène et non un invariant. La
+>   page de documentation est antérieure aux contextes bornés et n'est pas la cible.
 
 ## Sommaire
 
