@@ -1,3 +1,5 @@
+import { InvalidInputDataError } from '../../../shared/domain/errors.js';
+
 export class RevokedUserAccess {
   /**
    * @param {{
@@ -10,6 +12,13 @@ export class RevokedUserAccess {
     this.revokedSessionIds = revokedSessionIds;
   }
 
+  /**
+   * @param {{
+   *   iat: number
+   *   sid: string
+   * }} decodedToken
+   * @returns
+   */
   isAccessTokenRevoked(decodedToken) {
     const issuedAt = decodedToken.iat;
     if (this.revokedAllTimeStamp && issuedAt < this.revokedAllTimeStamp) {
@@ -22,5 +31,17 @@ export class RevokedUserAccess {
     }
 
     return false;
+  }
+
+  /**
+   * @param {import('./UserRefreshToken.js').UserRefreshToken} refreshToken
+   */
+  assertRefreshTokenNotRevoked(refreshToken) {
+    if (this.revokedSessionIds?.includes(refreshToken.sessionId)) {
+      throw new InvalidInputDataError(
+        `Refresh token is revoked because sessionId ${refreshToken.sessionId} is revoked`,
+        'INVALID_REFRESH_TOKEN',
+      );
+    }
   }
 }
