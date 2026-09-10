@@ -103,12 +103,21 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un service 
 ni API interne, ni client de stockage.
 
 ```js
-// conforme — tout ce dont il a besoin lui est donné sous forme d'objets du domaine
-export function computeEligibleReward({ profile, availableRewards, thresholds }) { … }
+// conforme — tout ce dont il a besoin lui est donné, la date comprise
+export function filterKnowledgeElements({
+  knowledgeElements,
+  createdAt,
+  isImproving = false,
+  minimumDelayInDaysBeforeImproving = MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
+}) { … }
 
 // fautif — reçoit un repository, donc fait des I/O : c'est un usecase
-export async function computeEligibleReward({ profileId, rewardRepository }) { … }
+const getModuleByLink = async function ({ link, moduleMetadataRepository }) { … };
 ```
+
+Le premier importe `dayjs` et une constante partagée, et c'est conforme : D1 interdit
+l'infrastructure, pas les bibliothèques de calcul. Ce qui compte est que **la date de référence entre
+en paramètre** — le service ne lit pas l'heure, donc son test la fixe.
 
 L'interdiction s'étend à l'infrastructure implicite — journal, horloge, aléatoire, configuration. Une
 date ou un générateur **entre en paramètre**, comme pour une entité.
@@ -126,12 +135,19 @@ Jamais une ligne de base, jamais le DTO d'un autre contexte, jamais un objet fa�
 HTTP.
 
 ```js
-// conforme
-export function applyBonus({ score, bonus }) { return new Score({ … }); }
-
-// fautif — la ligne de base entre dans le calcul
-export function applyBonus({ scoreRow, bonus }) { return scoreRow.score_value + bonus; }
+// conforme — des objets du domaine et des scalaires, un nombre en sortie
+export const getMasteryPercentage = (knowledgeElements, skillIds, round = true) => { … };
 ```
+
+Un détail de ce service réel mérite d'être lu comme un signal :
+
+```js
+skillIds.some((id) => String(id) === String(knowledgeElement.skillId))
+```
+
+La double conversion en chaîne dit que **les deux identifiants n'arrivent pas dans le même type**.
+Le service se protège d'entrées non normalisées, ce qui est exactement ce que D2 vise à rendre
+inutile : si les entrées étaient des objets du domaine validés, la comparaison serait directe.
 
 **Ce qui casse.** La règle devient dépendante d'une forme décidée ailleurs — un schéma de base ou le
 contrat d'un voisin — donc un changement là-bas la casse.
@@ -145,17 +161,36 @@ une projection pour l'affichage, ce n'est pas une règle métier qu'il porte mai
 classe instanciée sans état. Et il ne **mute pas** ce qu'il reçoit.
 
 ```js
-// fautif — modifie son entrée, donc l'appelant a un objet différent après l'appel
-export function applyBonus({ score, bonus }) {
-  score.value += bonus;
-  return score;
+// conforme, malgré les apparences — les objets mutés sont ceux que le service vient de créer
+function computeTubesFromSkills(skills) {
+  const tubes = [];
+
+  skills.forEach((skill) => {
+    const existingTube = tubes.find((tube) => tube.name === skill.tubeNameWithoutPrefix);
+    if (existingTube) {
+      existingTube.addSkill(skill);                       // un tube local
+    } else {
+      tubes.push(new Tube({ skills: [skill], name: skill.tubeNameWithoutPrefix }));
+    }
+  });
+
+  tubes.forEach((tube) => {
+    tube.skills = _.sortBy(tube.skills, ['difficulty']);  // idem
+  });
+
+  return tubes;
 }
 
-// conforme — renvoie un nouvel objet
-export function applyBonus({ score, bonus }) {
-  return new Score({ value: score.value + bonus });
+// fautif — la même écriture, mais sur un objet reçu
+export function sortSkills({ tube }) {
+  tube.skills = _.sortBy(tube.skills, ['difficulty']);
+  return tube;
 }
 ```
+
+L'exemple conforme est le plus utile des deux, parce qu'il ressemble à une violation : deux mutations
+et une affectation de propriété. **D3 porte sur les entrées, pas sur les objets construits sur
+place** — un service qui assemble sa réponse par étapes reste sans état.
 
 **Ce qui casse.** La signature suggère une fonction pure et le comportement ne l'est pas. C'est le
 défaut le plus coûteux à diagnostiquer de cette fiche : l'appelant voit un objet changer sans qu'aucune
@@ -184,8 +219,9 @@ appartient presque toujours à cet objet.
 **Énoncé.** Le fichier porte le nom de ce qu'il calcule ou décide, pas celui d'une entité.
 
 ```
-compute-mastery-percentage.js       — dit ce que ça fait
-score-service.js                    — ne dit rien, et attire tout ce qui touche au score
+get-competence-level.js         — dit ce que ça fait
+get-campaign-progression.js     — idem
+scorecard-service.js            — ne dit rien, et attire tout ce qui touche à la carte de score
 ```
 
 **Ce qui casse.** Un nom de ressource suffixé `-service` devient un dépotoir : il n'existe aucune
@@ -257,12 +293,15 @@ appelle un usecase.
 
 ```
 domain/services/
-  compute-mastery-percentage.js   → prend des objets, calcule, renvoie : vrai service
-  get-user-profile.js             → reçoit un repository, charge, assemble : usecase
+  get-mastery-percentage-service.js   → prend des objets, calcule, renvoie : vrai service
+  module-service.js                   → reçoit un repository, charge, lève : usecase
+  index.js                            → un fichier de câblage : il importe les repositories
+                                        de trois contextes et appelle injectDependencies
 ```
 
-Le dossier ne distingue pas les deux, donc un relecteur ne sait pas quel jeu d'invariants appliquer, et
-la règle de D1 ne peut pas être activée en erreur.
+Le dossier ne distingue pas ces natures, donc un relecteur ne sait pas quel jeu d'invariants
+appliquer, et la règle de D1 ne peut pas être activée en erreur. Le troisième cas est l'exception
+nommée, symétrique de celle de `domain/usecases/index.js` — voir X5 de `fiche-repository.md`.
 
 **Correction, et la direction est décidée.** `domain/services/` est réservé aux **vrais services de
 domaine**. Les fichiers qui reçoivent une I/O partent dans `usecases/`.
@@ -296,15 +335,15 @@ leur comportement. Fowler nomme le résultat obtenu quand on l'ignore : le modè
 
 ```js
 // dans domain/services/ — la règle porte sur un seul objet
-export function isThresholdReached({ threshold, percentage }) {
-  return percentage >= threshold.value;
-}
+function computeTubesFromSkills(skills) { … }
 ```
 
-Le signal est celui de D4 : un seul objet du domaine en entrée. La règle appartient à `Threshold`.
+Le signal est celui de D4 : une seule collection d'objets du domaine en entrée, et un objet du domaine
+en sortie. Grouper des acquis par tube est une règle du modèle d'apprentissage, pas un calcul
+transverse.
 
-**Correction.** Déplacer la règle sur l'objet, sous une méthode nommée — `threshold.isReachedBy(percentage)`.
-Les appelants passent de la fonction à la méthode.
+**Correction.** Déplacer la règle sur l'objet, sous une fabrique nommée — `Tube.groupFromSkills(skills)`.
+Les appelants passent de la fonction à la méthode statique.
 
 Ce qui rend la correction non mécanique : décider si la règle appartient à l'objet demande de savoir
 si elle contraint son état ou si elle relie deux objets. Le signal de D4 désigne où regarder, il ne
@@ -322,9 +361,14 @@ définition dit ce qu'il fait. Un nom de ressource ne dit rien.
 **Exemple concret.**
 
 ```
-domain/services/score-service.js
-  → computeScore, formatScore, compareScores, isScoreValid, …
+domain/services/scorecard-service.js
+  → computeScorecard, computeLevelUpInformation, resetScorecard,
+    _computeResetSkillsNotIncludedInCampaign, …
 ```
+
+Deux détails de cette liste réelle disent tout : `resetScorecard` **écrit**, donc le fichier héberge
+déjà un usecase ; et `_computeResetSkillsNotIncludedInCampaign` est exporté avec un tiret bas, donc
+même son auteur savait qu'il n'aurait pas dû sortir.
 
 Le fichier n'a aucun critère pour refuser une fonction de plus, et il grossit jusqu'à devenir la
 seule chose que personne n'ose ouvrir.
@@ -435,11 +479,12 @@ Un service de domaine est un **module de fonctions**, et son typage n'a rien de 
 paramètres nommés, des objets du domaine en entrée et en sortie.
 
 ```ts
-export function computeEligibleReward(params: {
-  profile: Profile;
-  availableRewards: readonly Reward[];
-  thresholds: readonly Threshold[];
-}): Reward | null { … }
+export function filterKnowledgeElements(params: {
+  knowledgeElements: readonly KnowledgeElement[];
+  createdAt: Date;
+  isImproving?: boolean;
+  minimumDelayInDaysBeforeImproving?: number;
+}): readonly KnowledgeElement[] { … }
 ```
 
 Ce que le typage apporte ici, et c'est plus que dans les autres fiches du domaine : **D1 devient
