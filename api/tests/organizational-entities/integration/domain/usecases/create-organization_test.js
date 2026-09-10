@@ -16,18 +16,18 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | UseCases | create-organization', function () {
-  let superAdminUserId;
+  let superAdminUserId, administrationTeamId, organizationLearnerTypeId, countryCode, categoryId;
 
   beforeEach(async function () {
     superAdminUserId = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildAdministrationTeam({ id: 1234, name: 'Équipe 1' });
-    databaseBuilder.factory.buildOrganizationLearnerType({ id: 5678 });
-    databaseBuilder.factory.buildCertificationCpfCountry({
+    administrationTeamId = databaseBuilder.factory.buildAdministrationTeam({ id: 1234, name: 'Équipe 1' }).id;
+    organizationLearnerTypeId = databaseBuilder.factory.buildOrganizationLearnerType({ id: 5678 }).id;
+    countryCode = databaseBuilder.factory.buildCertificationCpfCountry({
       code: 99100,
       commonName: 'France',
       originalName: 'France',
-    });
-    databaseBuilder.factory.buildStructureCategory({ id: 1, label: 'Catégorie - sco - école' });
+    }).code;
+    categoryId = databaseBuilder.factory.buildStructureCategory({ id: 1, label: 'Catégorie - sco - école' }).id;
 
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
     await databaseBuilder.commit();
@@ -40,14 +40,14 @@ describe('Integration | UseCases | create-organization', function () {
       type: 'PRO',
       documentationUrl: 'https://pix.fr',
       createdBy: superAdminUserId,
-      administrationTeamId: 1234,
-      countryCode: 99100,
+      administrationTeamId,
+      countryCode,
       externalId: 'My external Id',
       provinceCode: '078',
       organizationLearnerType: new OrganizationLearnerType({
-        id: 5678,
+        id: organizationLearnerTypeId,
       }),
-      categoryId: 1,
+      categoryId,
     });
 
     // when
@@ -62,10 +62,10 @@ describe('Integration | UseCases | create-organization', function () {
     expect(createdOrganization.dataProtectionOfficer.firstName).to.equal('');
     expect(createdOrganization.dataProtectionOfficer.lastName).to.equal('');
     expect(createdOrganization.dataProtectionOfficer.email).to.equal('');
-    expect(createdOrganization.countryCode).to.equal(99100);
+    expect(createdOrganization.countryCode).to.equal(countryCode);
     expect(createdOrganization.externalId).to.equal('My external Id');
     expect(createdOrganization.provinceCode).to.equal('078');
-    expect(createdOrganization.categoryId).to.equal(1);
+    expect(createdOrganization.categoryId).to.equal(categoryId);
   });
 
   describe('error cases', function () {
@@ -78,9 +78,10 @@ describe('Integration | UseCases | create-organization', function () {
             type: 'PRO',
             documentationUrl: 'https://pix.fr',
             createdBy: superAdminUserId,
-            administrationTeamId: 1234,
+            administrationTeamId,
             parentOrganizationId: 9999,
-            countryCode: 99100,
+            countryCode,
+            categoryId,
           });
 
           // when
@@ -101,10 +102,11 @@ describe('Integration | UseCases | create-organization', function () {
           documentationUrl: 'https://pix.fr',
           createdBy: superAdminUserId,
           administrationTeamId: 9999,
-          countryCode: 99100,
+          countryCode,
           organizationLearnerType: new OrganizationLearnerType({
-            id: 5678,
+            id: organizationLearnerTypeId,
           }),
+          categoryId,
         });
 
         // when
@@ -127,11 +129,12 @@ describe('Integration | UseCases | create-organization', function () {
           type: 'PRO',
           documentationUrl: 'https://pix.fr',
           createdBy: superAdminUserId,
-          administrationTeamId: 1234,
-          countryCode: 99100,
+          administrationTeamId,
+          countryCode,
           organizationLearnerType: new OrganizationLearnerType({
             id: 9012,
           }),
+          categoryId,
         });
 
         // when
@@ -159,11 +162,12 @@ describe('Integration | UseCases | create-organization', function () {
           type: 'PRO',
           documentationUrl: 'https://pix.fr',
           createdBy: superAdminUserId,
-          administrationTeamId: 1234,
+          administrationTeamId,
           countryCode: 99999,
           organizationLearnerType: new OrganizationLearnerType({
-            id: 5678,
+            id: organizationLearnerTypeId,
           }),
+          categoryId,
         });
 
         // when
@@ -185,10 +189,10 @@ describe('Integration | UseCases | create-organization', function () {
           type: 'PRO',
           documentationUrl: 'https://pix.fr',
           createdBy: superAdminUserId,
-          administrationTeamId: 1234,
-          countryCode: 99100,
+          administrationTeamId,
+          countryCode,
           organizationLearnerType: new OrganizationLearnerType({
-            id: 5678,
+            id: organizationLearnerTypeId,
           }),
           categoryId: nonExistingCategoryId,
         });
@@ -211,6 +215,7 @@ describe('Integration | UseCases | create-organization', function () {
           type: 'PRO',
           administrationTeamId: undefined,
           countryCode: undefined,
+          categoryId: undefined,
         });
 
         // when
@@ -233,11 +238,12 @@ describe('Integration | UseCases | create-organization', function () {
         type: Organization.types.SCO1D,
         documentationUrl: 'https://pix.fr',
         createdBy: superAdminUserId,
-        administrationTeamId: 1234,
-        countryCode: 99100,
+        administrationTeamId,
+        countryCode,
         organizationLearnerType: new OrganizationLearnerType({
-          id: 5678,
+          id: organizationLearnerTypeId,
         }),
+        categoryId,
       });
 
       // when

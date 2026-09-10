@@ -461,6 +461,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
             commonName: 'France',
             originalName: 'France',
           });
+          const categoryId = databaseBuilder.factory.buildStructureCategory().id;
           await databaseBuilder.commit();
 
           // when
@@ -481,6 +482,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
                   'province-code': '078',
                   'organization-learner-type-id': 123,
                   'organization-learner-type-name': null,
+                  'category-id': categoryId,
                 },
               },
             },
@@ -519,6 +521,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
             originalName: 'France',
           });
           const { organization: parentOrganization } = databaseBuilder.factory.buildNetworkAndHeadOrganization();
+          const categoryId = databaseBuilder.factory.buildStructureCategory().id;
           await databaseBuilder.commit();
 
           // when
@@ -537,6 +540,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
                   'parent-organization-id': parentOrganization.id,
                   'country-code': 99100,
                   'organization-learner-type-id': 5678,
+                  'category-id': categoryId,
                 },
               },
             },
