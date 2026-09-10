@@ -106,17 +106,30 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un usecase.
 
 **Énoncé.** Le usecase ordonne des opérations. Il ne décide pas selon une propriété métier.
 
-```js
-// fautif — la règle « un parcours archivé n'accepte plus de participation » vit ici,
-// donc elle sera réécrite ailleurs
-if (course.archivedAt !== null) {
-  throw new CourseArchivedError();
-}
-await participationRepository.save({ … });
+Les deux formes se rencontrent souvent **côte à côte**, ce qui rend le discriminant facile à voir :
 
+```js
+const combinedCourseBlueprint = await combinedCourseBlueprintRepository.findById({ id });
+
+// orchestration — le chargement n'a rien rendu
+if (!combinedCourseBlueprint) {
+  throw new NotFoundError();
+}
+
+// règle métier — « un parcours ne se crée que depuis un modèle partagé à son organisation »
+if (!combinedCourseBlueprint.organizationIds.includes(organizationId)) {
+  throw new ForbiddenAccess();
+}
+```
+
+Le second `if` lit une propriété du modèle chargé pour décider. La règle appartient donc à ce modèle,
+qui la porterait sous un nom :
+
+```js
 // conforme — la règle est sur l'objet qui la porte
-course.addParticipation({ learnerId });
-await courseRepository.save({ course });
+if (!combinedCourseBlueprint.isSharedWith({ organizationId })) {
+  throw new ForbiddenAccess();
+}
 ```
 
 **Comment discriminer.** Un `if` qui teste l'existence d'un résultat de chargement est de
@@ -135,8 +148,18 @@ dérouler mentalement des conditions pour savoir ce qu'il fait, U1 est probablem
 le câblage a lieu dans l'index du contexte.
 
 ```js
-// conforme
-export async function startCourse({ userId, code, courseRepository, participationRepository }) { … }
+// conforme — onze dépendances, aucun import
+export const createCombinedCourse = async ({
+  combinedCourseForCreation,
+  creatorId,
+  campaignRepository,
+  targetProfileRepository,
+  accessCodeGenerator,
+  accessCodeRepository,
+  combinedCourseRepository,
+  combinedCourseBlueprintRepository,
+  …
+}) => { … };
 ```
 
 **Ce qui casse.** Sous ESM les exports sont immuables : un module importé ne peut pas être substitué
@@ -152,9 +175,18 @@ déstructuré, donc rien ne les distingue dans la signature. C'est X4 au § 5.
 ni de celui d'un autre contexte.
 
 ```js
-// fautif
-import { knex } from '../../../db/knex-database-connection.js';
+// fautif, et cette forme-là est la plus fréquente : elle n'a pas l'air d'une base de données
+import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
+
+const areCombinedCoursesEnabled = await featureToggles.get('areCombinedCoursesEnabled');
+if (!areCombinedCoursesEnabled) {
+  throw new CombinedCoursesDisabledError();
+}
 ```
+
+Le mot `infrastructure/` est dans le chemin, et c'est le seul indice. Le drapeau se lit à distance,
+donc le usecase ne peut plus être exercé sans le mécanisme de drapeaux — alors qu'un paramètre
+`areCombinedCoursesEnabled` reçu de l'appelant rendrait le même service.
 
 **Ce qui casse.** La couche métier devient dépendante de la façon dont les données sont stockées ou
 atteintes, donc un changement d'infrastructure remonte jusqu'au domaine.
@@ -247,10 +279,10 @@ contexte. Il passe par l'**API interne** de ce contexte, injectée comme les aut
 
 ```js
 // fautif — le domaine d'un voisin, atteint directement
-import { Thing } from '../../autre-contexte/domain/models/Thing.js';
+import { Campaign } from '../../prescription/campaign/domain/models/Campaign.js';
 
-// conforme — l'API interne, injectée
-export async function doSomething({ id, autreContexteApi }) { … }
+// conforme — l'API interne du voisin, injectée
+export const getVerifiedCode = async ({ code, campaignsApi, combinedCourseRepository }) => { … };
 ```
 
 **Ce qui casse.** Les deux contextes cessent d'être découplés : un changement interne chez le voisin
@@ -333,17 +365,30 @@ ici, où se trouve le fichier fautif — `fiche-entite.md` y renvoie.
 **Exemple concret.**
 
 ```js
-// dans un usecase — la règle est ici, et l'entité l'ignore
-if (thing.archivedAt !== null) throw new AlreadyArchivedError(thing.id);
-await thingRepository.update({ id: thing.id, archivedAt: now });
+// dans un usecase — la règle est ici, et le modèle l'ignore
+if (!combinedCourseBlueprint.organizationIds.includes(organizationId)) {
+  throw new ForbiddenAccess();
+}
 ```
 
-La même condition existe dans un autre usecase, écrite autrement, et une seule des deux a été mise à
-jour quand la règle a changé.
+Le modèle expose la liste, le usecase fait le test. Et la duplication n'est pas une hypothèse : le
+même test est **déjà** écrit à l'intérieur du modèle, dans la méthode qui attache une organisation.
+
+```js
+// dans le modèle — la même question, posée deux fois dans deux fichiers
+attachOrganizations({ organizationIds }) {
+  organizationIds.map((organizationId) => {
+    if (this.organizationIds.includes(organizationId)) { … }
+  });
+}
+```
+
+Le jour où le partage se fera aussi par groupe d'organisations, les deux endroits devront changer, et
+seul celui qu'on cherchera changera.
 
 **Correction.** Déplacer la règle sur l'objet qui porte l'état, sous une méthode qui nomme
 l'intention — c'est E6 de `fiche-entite.md`. Le usecase passe de la condition à l'appel :
-`thing.archive({ archivedBy, now })`.
+`combinedCourseBlueprint.isSharedWith({ organizationId })`.
 
 Ce qui rend la correction non mécanique : il faut décider ce qui appartient à l'objet et ce qui est de
 l'orchestration. Une condition sur l'état d'un objet lui appartient. Une condition sur l'existence
@@ -359,7 +404,11 @@ Martin la traite sous *Presenters and Humble Objects*.
 ```js
 // dans un usecase — la forme de la réponse est décidée ici
 return {
-  data: { type: 'things', id: String(thing.id), attributes: { … } },
+  data: {
+    type: 'combined-courses',
+    id: String(combinedCourse.id),
+    attributes: { name: combinedCourse.name, code: combinedCourse.code },
+  },
 };
 ```
 
@@ -401,11 +450,12 @@ un livre.
 vient du câblage :
 
 ```js
-export async function startCourse({ userId, code, courseRepository, participationRepository }) { … }
+export const getVerifiedCode = async ({ code, campaignRepository, combinedCourseRepository }) => { … };
 ```
 
 Un lecteur ne peut pas savoir, sans ouvrir l'index, si `code` est une entrée métier ou une dépendance
-injectée.
+injectée. Ici c'en est une, mais `accessCodeGenerator` — vu plus haut, dans la même position — est
+une dépendance.
 
 **Correction.** Aucune décidée. La forme alternative — deux objets de paramètres, `(input, deps)` —
 est incrémentale : les fonctions existantes continuent de lire le premier argument, et les nouvelles
@@ -421,9 +471,9 @@ l'attacher à la migration.
 **Exemple concret.**
 
 ```js
-export async function getThing({ id, thingRepository }) {
-  return thingRepository.getById({ id });
-}
+export const getCombinedCourseById = async ({ id, combinedCourseRepository }) => {
+  return combinedCourseRepository.getById({ id });
+};
 ```
 
 **Correction.** Aucune. L'ADR 20 rend le usecase obligatoire, et le bénéfice est réel : le point
@@ -541,17 +591,25 @@ Un usecase se type **une fois que ses dépendances le sont**. Il est en bout de 
 des ports et des modèles, donc son typage ne vérifie rien tant que ceux-ci sont en JavaScript.
 
 ```ts
-type StartCourseInput = { userId: number; code: string };
-type StartCourseDeps = { courseRepository: CourseRepository; userRepository: UserRepository };
+type GetVerifiedCodeInput = { code: string };
+type GetVerifiedCodeDeps = {
+  campaignRepository: CampaignRepository;
+  combinedCourseRepository: CombinedCourseRepository;
+};
 
-export async function startCourse(input: StartCourseInput, deps: StartCourseDeps): Promise<void> { … }
+export const getVerifiedCode = async (
+  input: GetVerifiedCodeInput,
+  deps: GetVerifiedCodeDeps,
+): Promise<VerifiedCode> => { … };
 ```
 
 La forme ci-dessus sépare entrées et dépendances, ce qui n'est pas la convention actuelle. Avec un
 seul objet, le typage reste possible et correct :
 
 ```ts
-export async function startCourse(params: StartCourseInput & StartCourseDeps): Promise<void> { … }
+export const getVerifiedCode = async (
+  params: GetVerifiedCodeInput & GetVerifiedCodeDeps,
+): Promise<VerifiedCode> => { … };
 ```
 
 La signature ne distingue toujours pas les deux — c'est X4, et le typage ne le résout pas. Les deux
