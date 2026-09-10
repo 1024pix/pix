@@ -11,8 +11,8 @@ typage de mordre est dans `migration-typescript.md`.
 > - Le § 3 mérite une passe attentive : c'est la fiche où la frontière entre exception légitime et
 >   dérive est la plus discutable, la couche étant jeune et ses conventions non stabilisées.
 > - La source de `P5` et de `P3` est une page Confluence liée par l'ADR 55, donc **hors du dépôt**.
->   Elle peut changer ou disparaître sans que rien ici ne le signale. Le contenu utile tiendrait dans
->   l'ADR lui-même.
+>   **Validé le 2026-09-08** : la règle est tenue pour vraie. Reste à la faire redescendre dans
+>   l'ADR 55 — deux phrases, le dossier `api` et le sous-dossier `models`.
 > - `P7` et `P8` sont des déductions, pas des citations. Ils proposent des conventions là où l'équipe
 >   n'en a pas arrêté.
 

@@ -62,6 +62,18 @@ page Confluence liée en fin d'ADR 55. Elle peut changer ou disparaître sans qu
 signale, et l'ADR ne reproduit pas la décision. À reporter dans l'ADR : le dossier `api` dans la
 couche application, et le sous-dossier `models` pour les classes de contrat.
 
+## Décisions prises
+
+Consignées pour ne pas être rejouées. Chacune reste à porter dans un ADR — c'est le seul endroit du
+dépôt qui fasse autorité.
+
+| Décision | Ce qu'elle tranche | Conséquence dans le corpus |
+| --- | --- | --- |
+| `domain/services/` est réservé aux **vrais services de domaine** | Les fichiers qui font des I/O partent dans `usecases/`. Le dossier devient rare, voire vide par endroits — c'est normal | `X1` de `fiche-service-domaine.md` a une direction. `D1` devient activable en erreur une fois le déplacement fait |
+| Les champs qui portent une règle sont **privés** | Un champ qui porte une règle ne doit pas pouvoir être réécrit de l'extérieur. Là où rien n'est protégé, c'est de l'hygiène | `V1`, `E1` et `E6` gardent leur règle, avec ce motif. Le modèle de référence de la documentation d'architecture n'est pas la cible |
+| Les deux règles hébergées dans Confluence sont **vraies** | Contrôles d'accès en pre-handler, et objets de contrat dans `application/api/models/` | `R2` et `P5` sont confirmés. Reste à les faire redescendre en ADR |
+| Le mot `read-model` est **conservé** | C'est l'Ubiquitous Language de l'équipe, et le renommer n'apportait rien sur l'outillage | `X2` de `fiche-read-model.md` classé *à surveiller*. Le travail est le classement, pas le renommage |
+
 ## Les autres fichiers
 
 | Fichier | Rôle |
@@ -98,7 +110,7 @@ Ce que ça ne dit pas : aucune n'a été relue par un tiers **dans cet état**. 
 | `fiche-controleur.md` | oui | **corrigée** le 2026-09-08. L'écart « contrôle des droits dans le contrôleur » n'y est plus énoncé : il vit sous `X1` de `fiche-route.md`, où sont sa correction et sa vérification |
 | `fiche-entite.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Devient le domicile de `E3` et `E7`, que la fiche racine d'agrégat dupliquait. Écarts refaits en `X1` à `X5`. À faire relire |
 | `fiche-usecase.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Le § 4bis a disparu : le discriminant vit dans `fiche-service-domaine.md`, cette fiche y renvoie. Écarts refaits en `X1` à `X5`, dont deux que d'autres fiches traitaient depuis l'autre bord. À faire relire |
-| `fiche-route.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Écart `X2` ajouté : aucune liste des routes délibérément publiques, ce qui bloque la vérification de `R2`. Section « Note sur le préfixe » retirée, la collision `R` étant levée. `R2` reste **sans aucune source** |
+| `fiche-route.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers, puis **deux fois rectifiée** le même jour. `R2` a une source — la documentation d'architecture Pix. Et l'écart `X2` que j'y avais ajouté était faux : `auth: false` déclare déjà une route publique, donc la vérification de `R2` n'a aucun préalable. Numéro `X2` retiré |
 | `fiche-serialiseur.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. `M3` est le seul invariant du corpus dont la vérification ne peut pas vivre dans ce dépôt : ses consommateurs sont hors du dépôt |
 
 **Correction du 2026-09-08 sur `R2`.** Ce fichier affirmait que son raisonnement n'était écrit nulle

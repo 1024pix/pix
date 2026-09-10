@@ -8,8 +8,9 @@ typage de mordre est dans `migration-typescript.md`.
 
 > **À instruire**
 >
-> - Le sens du dossier `domain/services/` n'a jamais été décidé par écrit. C'est X1 au § 5, et les
->   trois positions possibles y sont posées sans être tranchées.
+> - **Décision prise le 2026-09-08** : `domain/services/` est réservé aux vrais services de domaine.
+>   Les fichiers qui font des I/O partent dans `usecases/`. `X1` au § 5 en donne la conséquence, et
+>   `D1` devient activable en erreur une fois le déplacement fait. Reste à écrire dans un ADR.
 > - Le numéro **D6** n'est pas attribué. Il portait « testable en unitaire pur », qui est une
 >   déduction de D1 et le contenu du § 8, pas un invariant propre.
 > - D4 est le plus rentable des invariants de cette fiche et n'a aucun moyen de vérification. Le seul
@@ -235,13 +236,14 @@ agrégats parce qu'ils auraient dû n'en faire qu'un. Voir A1 de `fiche-racine-a
 
 Les écarts sont numérotés `X` et non `D`, qui est le préfixe des invariants de cette fiche.
 
-**Les trois sont des dérives, et aucun n'est une convention assumée.** Ce n'est pas un jugement sévère
-mais une conséquence : le sens du dossier `domain/services/` n'a jamais été décidé par écrit, donc il
-n'y a jamais eu de convention à assumer. C'est X1, et les deux autres en découlent.
+**Les trois sont des dérives, et aucun n'est une convention assumée.** La raison est historique : le
+sens du dossier n'avait jamais été décidé, donc il n'y avait pas de convention à assumer. Il l'est
+depuis le 2026-09-08 — `services/` est réservé aux vrais services — ce qui donne à `X1` une direction
+au lieu d'un arbitrage.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **X1** Le dossier `services/` mélange deux natures de fichiers | dérive | Personne ne sait si un fichier de ce dossier a le droit de faire des I/O. D1 est inactivable, et le mot induit en erreur qui vient du DDD | Nul — aucune décision n'a été prise en échange | **À corriger** |
+| **X1** Le dossier `services/` mélange deux natures de fichiers | dérive | Tant que le mélange dure, `D1` reste inactivable et le mot induit en erreur qui vient du DDD | Nul | **À corriger** — direction décidée |
 | **X2** La règle est placée dans un service plutôt que sur un objet | dérive | Les modèles se vident de leur logique, et la règle est plus loin de sa donnée | L'écriture est plus rapide, et l'invariant de l'objet n'a pas à être réexaminé | **À corriger** |
 | **X3** Le fichier est nommé par la ressource et suffixé `-service` | dérive | Le fichier attire tout ce qui touche à la ressource, sans critère pour refuser | Nul | **À corriger** |
 
@@ -262,20 +264,25 @@ domain/services/
 Le dossier ne distingue pas les deux, donc un relecteur ne sait pas quel jeu d'invariants appliquer, et
 la règle de D1 ne peut pas être activée en erreur.
 
-**Correction.** Trois positions cohérentes. Le tiers état — garder le mot sans décider — est le seul à
-éviter, parce qu'il laisse chacun deviner.
+**Correction, et la direction est décidée.** `domain/services/` est réservé aux **vrais services de
+domaine**. Les fichiers qui reçoivent une I/O partent dans `usecases/`.
 
-| Position | Ce qu'elle implique |
-| --- | --- |
-| **Réserver `services/` aux vrais services** | Déplacer les sous-usecases dans `usecases/`. La règle de D1 devient activable en erreur. Le dossier devient rare, voire vide dans certains contextes — et c'est normal |
-| **Acter que `services/` désigne un sous-usecase partagé** | Documenter le choix, renoncer à D1, appliquer les invariants de `fiche-usecase.md`. Le mot reste trompeur pour qui vient du DDD |
-| **Renommer le dossier** pour ce qu'il contient | Par exemple `shared-usecases/`. Coût : un renommage mécanisable. Bénéfice : le vocabulaire redevient honnête, et `services/` reste disponible pour son sens d'origine |
+C'est la position la plus fidèle aux sources : chez Evans, un Service est sans état et ne fait pas
+d'I/O. Elle a deux conséquences à assumer.
 
-La troisième est la plus propre et la moins chère. La première est la plus fidèle aux sources. La
-seconde demande le moins de travail immédiat et le plus d'explications ensuite.
+`D1` devient **activable en erreur** une fois le déplacement fait. C'est le bénéfice, et il est
+immédiat : plus personne ne peut ajouter un repository à un fichier de ce dossier.
 
-Quelle que soit la position retenue, le préalable est le même : classer les fichiers existants par le
-test du § 1. La règle du § 6, en avertissement, produit la liste.
+Et le dossier devient **rare, voire vide dans certains contextes**. C'est normal, pas un signe que la
+décision était mauvaise : une règle qui traverse plusieurs agrégats sans rien charger est une chose
+peu fréquente.
+
+Deux positions avaient été écartées : acter que `services/` désigne un sous-usecase partagé, ce qui
+aurait obligé à renoncer à `D1` ; et renommer le dossier en `shared-usecases/`, moins cher mais qui
+laissait le vrai service sans domicile.
+
+Le préalable au déplacement est le classement des fichiers existants, par le test du § 1. La règle du
+§ 6, en avertissement, produit la liste.
 
 ### X2. La règle est placée dans un service plutôt que sur un objet
 

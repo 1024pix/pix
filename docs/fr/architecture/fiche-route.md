@@ -13,9 +13,11 @@ typage de mordre est dans `migration-typescript.md`.
 >   prescriptive. Ce qui n'a pas de source, c'est le **motif** que cette fiche lui donne — la
 >   visibilité d'un oubli. La page en donne un autre. Voir le § 4.
 > - Cette page porte son propre `TODO` : elle dit décrire la pratique plutôt que prescrire un contrat.
->   À valider avant de s'y adosser fermement.
-> - `X2` — aucune liste des routes délibérément publiques — bloque la vérification de `R2`. À traiter
->   avant tout le reste de cette fiche.
+>   **Validé le 2026-09-08** : la règle est tenue pour vraie. Reste à la faire redescendre dans un ADR,
+>   sa source vivant hors du dépôt.
+> - Le numéro **X2** n'est pas attribué. Il portait « aucune liste des routes délibérément publiques »,
+>   ce qui était faux : `auth: false` déclare une route publique, et c'est employé. La vérification de
+>   `R2` n'a donc aucun préalable. Le numéro n'est pas réattribué.
 > - La section « Note sur le préfixe » a été retirée : la collision entre `R` route et `R` read-model
 >   est levée, le read-model emploie `RM`.
 
@@ -32,7 +34,7 @@ typage de mordre est dans `migration-typescript.md`.
 
 | # | Invariant | ROI | Vérification |
 | --- | --- | --- | --- |
-| [**R2**](#r2-les-contrôles-daccès-sont-déclarés-en-pre-handler) | les contrôles d'accès sont déclarés en pre-handler | **forte** | script, bloqué par `X2` |
+| [**R2**](#r2-les-contrôles-daccès-sont-déclarés-en-pre-handler) | les contrôles d'accès sont déclarés en pre-handler | **forte** | script, faisable aujourd'hui |
 | [**R1**](#r1-la-route-déclare-et-valide-la-forme-de-ses-entrées) | la route déclare et valide la forme de ses entrées | **forte** | script, faux positifs faibles |
 | [**R4**](#r4-aucune-logique-dans-la-route) | aucune logique dans la route | moyenne | règle ESLint, à mesurer |
 | [**R3**](#r3-la-route-est-documentée) | la route est documentée | moyenne | script, sans faux positif |
@@ -43,7 +45,6 @@ typage de mordre est dans `migration-typescript.md`.
 | # | Écart | Verdict |
 | --- | --- | --- |
 | [**X1**](#x1-le-contrôle-des-droits-est-écrit-dans-le-contrôleur) | le contrôle des droits est écrit dans le contrôleur | **à corriger** |
-| [**X2**](#x2-aucune-liste-des-routes-délibérément-publiques) | aucune liste des routes délibérément publiques | **à corriger** |
 | [**X3**](#x3-une-validation-de-route-exprime-une-règle-métier) | une validation de route exprime une règle métier | **à corriger** |
 | [**X4**](#x4-des-fonctions-sont-écrites-en-ligne-dans-la-déclaration) | des fonctions sont écrites en ligne dans la déclaration | à surveiller |
 | [**X5**](#x5-la-route-est-un-fichier-de-configuration-écrit-en-javascript) | la route est un fichier de configuration écrit en JavaScript | rien à faire |
@@ -64,7 +65,8 @@ C'est un fichier de configuration écrit en JavaScript. Toute expression évalu�
 déclaration est un signal — voir `X5` au § 5 pour ce que ce choix coûte.
 
 **Ce qui donne à cette couche son rendement particulier** : la route est le seul endroit du dépôt où
-les droits d'accès sont auditables en lecture. Tout contrôle qui sort de la route pour aller dans un
+les droits d'accès sont auditables en lecture. Deux déclarations suffisent à savoir qui accède à quoi —
+un pre-handler de sécurité, ou `auth: false`. Tout contrôle qui sort de la route pour aller dans un
 contrôleur devient invisible à l'audit. C'est `R2`.
 
 ### Ce qu'une route n'est pas
@@ -140,9 +142,15 @@ la requête en premier paramètre, l'objet de réponse en second, `h.response(tr
 d'autorisation, et une réponse 403 avec `takeover()` en cas d'interdiction. Plusieurs autorisations se
 combinent par l'utilitaire prévu à cet effet plutôt qu'à la main.
 
-**Les routes délibérément publiques se déclarent comme telles**, pas simplement dépourvues de
-pre-handler. Sinon « public » ne se distingue pas de « oublié », et c'est le préalable à toute
-vérification automatique — `X2`.
+**Les routes délibérément publiques se déclarent comme telles**, par `auth: false`. C'est ce qui
+permet de vérifier `R2` sans rien écrire d'autre : une route déclare un pre-handler de sécurité, ou se
+déclare publique.
+
+**La borne, et elle est réelle.** Une route qui n'a ni l'un ni l'autre est **authentifiée sans
+restriction supplémentaire** — tout utilisateur connecté y accède. C'est un état légitime et fréquent,
+et il ne se distingue pas d'une restriction oubliée. Aucune déclaration ne lèvera cette ambiguïté :
+savoir si « authentifié suffit » est une question de métier, pas de forme. C'est ce qui reste en revue
+humaine, et c'est le seul angle mort de `R2`.
 
 ### R3. La route est documentée
 
@@ -236,10 +244,15 @@ lisible, pas qu'il est juste.
 
 ## 5. Écarts avec la théorie
 
+Le numéro **X2** n'est pas attribué. Il portait « aucune liste des routes délibérément publiques » et
+affirmait que `R2` était invérifiable — ce qui était faux : `auth: false` déclare une route publique, et
+la convention est employée. Ce qu'il en reste de vrai est une borne de `R2`, énoncée au § 2 : une route
+authentifiée sans restriction supplémentaire ne se distingue pas d'une restriction oubliée, et aucune
+déclaration ne lèvera cette ambiguïté, la question étant sémantique.
+
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
 | **X1** Le contrôle des droits est écrit dans le contrôleur | dérive | La route cesse d'être auditable, et un oubli devient invisible. Aucun audit des accès n'est possible sans lire tous les contrôleurs | Le droit qui dépend d'une donnée à charger s'écrit sans pre-handler dédié | **À corriger** |
-| **X2** Aucune liste des routes délibérément publiques | dérive | `R2` n'est pas vérifiable : « public » ne se distingue pas de « oublié ». Le script produirait du bruit et serait désactivé | Nul | **À corriger** |
 | **X3** Une validation de route exprime une règle métier | dérive | La règle ne vaut que pour le chemin HTTP. Un script ou un job appelant le même usecase la contourne | Le refus est immédiat, avec un message utilisateur | **À corriger** |
 | **X4** Des fonctions sont écrites en ligne dans la déclaration | dérive | Du code non testé, invisible depuis le contrôleur, qui échappe aux règles des autres fiches | Réel dans un cas : le framework impose de déclarer le traitement d'échec de validation sur la route | *À surveiller* |
 | **X5** La route est un fichier de configuration écrit en JavaScript | convention assumée | Rien n'empêche structurellement d'y écrire de la logique — d'où la nécessité de `R4` | Réel — les pre-handlers se composent, les schémas se partagent, et la déclaration reste dans le langage du reste du dépôt | *Rien à faire* |
@@ -274,31 +287,6 @@ déplacement.
 
 L'ordre de travail est imposé par `X2` : sans la liste des routes publiques, on ne sait pas
 distinguer les routes à corriger de celles qui n'ont rien à déclarer.
-
-### X2. Aucune liste des routes délibérément publiques
-
-**Ce que dit la théorie.** Rien : la théorie ne prescrit pas de fichier. L'écart est avec la
-vérifiabilité, pas avec un livre — comme `X2` de `fiche-racine-agregat.md`.
-
-**Exemple concret.** Deux routes sans pre-handler, indiscernables :
-
-```js
-{ method: 'POST', path: '/api/token', handler: authController.token }        // publique, voulu
-{ method: 'GET',  path: '/api/things/{id}', handler: thingController.get }   // oubli
-```
-
-Aucune analyse ne peut trancher entre les deux, et un humain non plus sans connaître l'intention.
-
-**Correction.** Déclarer la liste, versionnée dans le dépôt. Ce que ça débloque est disproportionné au
-coût.
-
-Le script de `R2` devient écrivable et sans faux positif : toute route déclare un pre-handler de
-sécurité, ou figure dans la liste. Quarante lignes.
-
-Et **la liste est elle-même un artefact de sécurité utile**, indépendamment du script : elle rend
-explicite ce qui est exposé sans authentification. C'est le meilleur rapport effort sur bénéfice
-identifié dans le corpus — établir la liste une fois, puis quarante lignes, et un contrôle d'accès
-oublié devient impossible à fusionner.
 
 ### X3. Une validation de route exprime une règle métier
 
@@ -381,23 +369,27 @@ infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **R2** contrôles d'accès | script `tests/tooling/` : toute route déclare un pre-handler de sécurité **ou** figure dans la liste des routes publiques | ~40 lignes | aucun — **impossible avant `X2`** |
+| **R2** contrôles d'accès | script `tests/tooling/` : toute route déclare un pre-handler de sécurité **ou** `auth: false` | ~40 lignes | aucun. Ne couvre pas les routes authentifiées sans restriction — voir la borne au § 2 |
 | **R3** documentation | script : toute route déclare étiquettes et description | ~30 lignes | aucun |
 | **R1** validation déclarée | script : toute route ayant des paramètres d'adresse déclare leur validation | ~30 lignes | faibles — un paramètre validé par un type partagé plutôt qu'un schéma explicite |
 | **R4** aucune logique | règle ESLint : déclaration de fonction dans un objet de route, hors champ de traitement d'échec | ~30 lignes | **à mesurer** — voir `X4` |
 | **R5** un gestionnaire | revue | — | — |
 
-### R2 — et son préalable, qui est le vrai travail
+### R2 — écrivable aujourd'hui, sans préalable
 
-Vérifier que toute route est protégée est mécanique. Il manque une seule chose : **la liste des routes
-délibérément publiques**.
+Le script est mécanique et n'attend rien :
 
-Sans elle, le script produit du bruit sur chaque route publique et sera désactivé dans la semaine.
-Avec elle, il devient une garantie forte.
+> Toute route déclare un pre-handler de sécurité, **ou** `auth: false`.
 
-Le détail de la correction et de ce qu'elle débloque est sous `X2` au § 5. L'essentiel tient en une
-phrase : établir la liste une fois, puis quarante lignes de script, et un contrôle d'accès oublié
-devient impossible à fusionner.
+Quarante lignes, aucun faux positif, et un contrôle d'accès retiré par erreur devient un test rouge.
+
+Ce que le script **ne** couvre pas : la route authentifiée sans restriction supplémentaire, qui n'a ni
+l'un ni l'autre. Le script ne peut pas la signaler sans produire du bruit sur un état légitime. C'est
+la borne énoncée au § 2, et elle reste en revue.
+
+Une piste pour la réduire sans tout inventorier : exiger `auth: false` **ou** un pre-handler **ou**
+une mention explicite du type « authentifié suffit » sur les routes concernées. Ça revient à
+inventorier huit cents routes, donc à mettre en balance avec ce que ça rapporte.
 
 ### R3 et R1 — deux scripts triviaux
 
@@ -415,15 +407,13 @@ mesurer avant de rendre bloquante : le motif admis et le motif fautif ont la mê
 
 ### Ordre de mise en œuvre
 
-Cet ordre ne suit ni le coût ni le ROI : il suit les dépendances.
+Cet ordre suit le ROI, ce qui est inhabituel dans le corpus : ici la vérification la plus rentable est
+aussi celle qui n'attend rien.
 
-1. **`X2`** — établir la liste des routes publiques. Ce n'est pas de l'outillage
-2. **R2** — le script, une fois la liste écrite
-3. **`X1`** — corriger les contrôles écrits dans les contrôleurs, que le script révèle
-4. **R3** puis **R1** — les deux scripts triviaux
-5. **R4** — la règle ESLint, en avertissement d'abord
-
-Le premier point est le seul qui compte vraiment. Les autres sont des scripts de trente lignes.
+1. **R2** — le script, dès maintenant
+2. **`X1`** — corriger les contrôles écrits dans les contrôleurs, que le script ne voit pas
+3. **R3** puis **R1** — les deux scripts triviaux
+4. **R4** — la règle ESLint, en avertissement d'abord
 
 ### Codemods
 
@@ -433,7 +423,6 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 | --- | --- | --- |
 | **R3** documentation | partiel | Ajouter les champs manquants est mécanique. Le texte de la description est du contenu : le codemod pose l'emplacement et un `TODO`, pas la phrase |
 | **X1** contrôle déplacé | partiel | Insérer un pre-handler existant, oui, quand le droit ne dépend que du rôle. Décider quel droit s'applique, non |
-| **X2** la liste | non | C'est l'inventaire lui-même, et il demande de connaître l'intention de chaque route |
 
 ---
 
@@ -484,8 +473,9 @@ le script correspondant existe. `[partiel]` reste, réduite à ce qu'il ne couvr
 entièrement : aucun moyen déterministe n'est identifié.
 
 ```
-[ ] [partiel] R2  Un pre-handler de sécurité est déclaré, ou la route est déclarée publique
+[ ] [auto]    R2  Un pre-handler de sécurité est déclaré, ou auth: false
 [ ] [humain]  R2  Aucun contrôle de droit délégué au contrôleur
+[ ] [humain]  R2  Si la route est authentifiée sans restriction, c'est voulu — pas un oubli
 [ ] [partiel] R1  La forme de toutes les entrées est déclarée et validée
 [ ] [humain]  R1  Aucune validation n'exprime une règle métier
 [ ] [partiel] R4  Aucune fonction en ligne, sauf traitement d'échec de validation
