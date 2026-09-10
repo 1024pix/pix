@@ -37,13 +37,8 @@
   &__list {
     display: flex;
     margin-top: var(--pix-spacing-4x);
+    overflow-x: hidden;
     overflow-y: hidden;
-
-    &--hidden {
-      @include breakpoints.device-is('desktop') {
-        overflow-x: hidden;
-      }
-    }
 
     // Width is set inline by the component at desktop breakpoints (see
     // updateSpacerWidth in trainings.gjs), which reserves enough trailing
