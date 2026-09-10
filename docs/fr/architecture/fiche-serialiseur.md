@@ -8,9 +8,12 @@ typage de mordre est dans `migration-typescript.md`.
 
 > **À instruire**
 >
-> - `M3` porte sur un contrat dont les consommateurs sont **hors du dépôt**, et aucun ADR ne traite de
->   la stabilité du format des réponses HTTP. C'est un manque au vu du nombre d'applications front
->   concernées.
+> - `M3` n'a **aujourd'hui** aucun moyen de vérification, parce que ses consommateurs sont hors du
+>   dépôt. Cette limite est conjoncturelle, pas structurelle : une piste identifiée la lève en grande
+>   partie — voir le § 7 et `migration-typescript.md`. Ce qui restera hors de portée, c'est le
+>   changement de **sens** d'un champ.
+> - Ce que font les applications front du contrat **n'est pas le sujet de ce corpus**, qui porte sur
+>   `api/`. Ce qui l'est : ne pas casser ce qu'on publie.
 > - Le § 6 annonce des taux de faux positifs estimés, pas mesurés. Le second motif de `M1` demande de
 >   distinguer un accesseur d'une méthode métier, ce qui n'est pas décidable au nom seul.
 
@@ -28,7 +31,7 @@ typage de mordre est dans `migration-typescript.md`.
 | # | Invariant | ROI | Vérification |
 | --- | --- | --- | --- |
 | [**M1**](#m1-aucune-logique) | aucune logique | **forte** | règle ESLint, simple |
-| [**M3**](#m3-le-format-de-réponse-est-un-contrat-externe) | le format de réponse est un contrat externe | **forte** | aucun moyen |
+| [**M3**](#m3-le-format-de-réponse-est-un-contrat-externe) | le format de réponse est un contrat externe | **forte** | aucun moyen aujourd'hui — piste au § 7 |
 | [**M2**](#m2-nexpose-que-des-champs-présents-sur-lobjet-reçu) | n'expose que des champs présents sur l'objet reçu | moyenne | typage, après migration |
 | [**M4**](#m4-un-sérialiseur-par-ressource-exposée) | un sérialiseur par ressource exposée | hygiène | script |
 
@@ -135,6 +138,10 @@ déclarent en dépendre. Ceux d'une API HTTP le sont moins.
 ne le signale : ni la compilation, ni les tests, ni les consommateurs, jusqu'à ce qu'un comportement
 devienne faux quelque part.
 
+Et il faut distinguer deux choses sous ce mot. **Changer l'ensemble des valeurs possibles** d'un champ
+— ajouter ou retirer un état — est un changement de forme, donc rattrapable par un outil. **Redéfinir
+ce qu'une valeur inchangée signifie** ne l'est par aucun outil, présent ou futur. Voir le § 7.
+
 ### M4. Un sérialiseur par ressource exposée
 
 **Énoncé.** Un fichier par ressource, nommé d'après elle.
@@ -174,8 +181,12 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **M4** un sérialiseur par ressource | hygiène | Aucun gain mesurable. Rend le fichier trouvable, et rend visible la violation de `M1` entre fichiers |
 
 Les deux invariants en rentabilité forte ont des vérifiabilités opposées : `M1` se lit dans le fichier
-et se contrôle par une règle simple, `M3` n'a **aucun moyen** parce qu'il porte sur des consommateurs
-hors du dépôt. C'est la tension propre à cette fiche.
+et se contrôle par une règle simple, `M3` n'a **aucun moyen aujourd'hui** parce que ses consommateurs
+sont hors du dépôt.
+
+Cette asymétrie n'est pas définitive. Un paquet de types partagé entre l'API et les applications front
+rendrait `M3` vérifiable par le compilateur pour tout ce qui est retrait ou renommage — voir § 7. La
+tension se réduirait alors au seul changement de sens d'un champ.
 
 ### Ce que ça n'apporte pas
 
@@ -244,13 +255,21 @@ pas la règle, il en augmente la portée.
 Un champ `status` dont les valeurs possibles changent de sens produit un diff d'une ligne et casse un
 affichage ailleurs.
 
-**Correction.** Aucune rétroactive possible. Ce qui est à tenir est une procédure, pas une propriété du
-code : ajouter sans casser, coordonner un retrait, et **ne jamais changer le sens d'un champ existant**
-— en ajouter un nouveau à la place.
+**Correction.** Aucune rétroactive possible, et la bonne réponse n'est pas une procédure de
+coordination entre équipes — ce qui se passe côté front n'est pas le sujet de ce corpus.
 
-Le manque à combler est ailleurs : aucun ADR ne traite de la stabilité du format des réponses HTTP.
-C'est le point signalé dans l'encadré en tête, et c'est ce qui rend cet écart impossible à arbitrer
-sur pièces aujourd'hui.
+Ce qui est à tenir côté API tient en une phrase, et elle est plus étroite qu'il n'y paraît : **ne
+jamais redéfinir ce qu'une valeur existante signifie**, en ajouter une nouvelle à la place. C'est la
+seule partie de l'écart qu'aucun outil ne rattrapera jamais, donc la seule qui mérite d'être une règle
+tenue à la main.
+
+Tout le reste — retrait de champ, renommage, ajout ou retrait d'une valeur possible — a une piste
+mécanique : un paquet de types **et de constantes** partagé avec les fronts, une fois ceux-ci en
+TypeScript, en fait des erreurs de compilation. Voir § 7. Ça vaut mieux qu'une procédure, parce
+qu'une procédure s'oublie.
+
+Donc pas d'ADR sur une procédure de coordination : le sujet est d'attendre le bon outil pour deux
+tiers de l'écart, et de tenir la règle du sens pour le tiers restant.
 
 ### X4. Le sérialiseur reçoit un modèle du domaine plutôt qu'un read-model
 
@@ -290,7 +309,7 @@ infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 | **M1** aucune méthode métier | même règle : appel de méthode sur l'objet sérialisé | ~10 lignes de plus | **à mesurer** |
 | **M4** un fichier par ressource | script `tests/tooling/` : nommage et unicité | ~15 lignes | aucun |
 | **M2** champs présents | typage, après migration du read-model reçu | — | aucun — voir § 7 |
-| **M3** format stable | aucun moyen : les consommateurs sont hors du dépôt | — | — |
+| **M3** format stable | aucun moyen aujourd'hui. Piste : un paquet de types partagé avec les fronts — voir § 7 | — | — |
 
 ### M1 — la seule règle qui compte ici, et elle est simple
 
@@ -307,13 +326,18 @@ Le second motif — un appel de méthode sur l'objet sérialisé — attrape `X2
 de distinguer un accesseur d'une méthode métier, ce qui n'est pas décidable au nom seul. À écrire après
 le premier, et à mesurer avant de rendre bloquant.
 
-### M3 — ce qui n'est pas mécanisable, et pourquoi
+### M3 — pas mécanisable aujourd'hui, et par quoi ça changerait
 
-`M3` demande de connaître les consommateurs du format. C'est une question de coordination, pas
-d'analyse statique, et aucune règle de lint ne la rapprochera.
+`M3` demande de savoir ce que les consommateurs lisent. Aucune règle de lint ne l'apprendra depuis ce
+dépôt, et c'est la seule ligne du corpus dont la vérification vit ailleurs.
 
-Le seul outil utile serait un test de contrat côté consommateur, ce qui sort du périmètre de l'API.
-C'est la seule ligne du corpus dont la vérification est hors du dépôt.
+**Ce qui lèverait la limite** : un paquet de types partagé entre l'API et les applications front, une
+fois celles-ci en TypeScript. Le compilateur du front refuserait alors un champ retiré ou renommé, et
+la vérification cesserait d'être une affaire de coordination. Le détail est au § 7.
+
+**Ce qui resterait hors de portée**, même avec ce paquet : le changement de **sens** d'un champ. Un
+`status` dont les valeurs changent de signification garde son type. C'est la part de `M3` qui reste en
+revue quoi qu'il arrive, et c'est la plus dangereuse.
 
 ### Ordre de mise en œuvre
 
@@ -346,8 +370,53 @@ Le gain est direct et ne dépend pas de la migration du reste : il suffit que le
 soit typé. Cela fait du sérialiseur un candidat plus précoce que le contrôleur ou la route, à condition
 que les read-models soient migrés d'abord.
 
-Ce que le typage n'apporte pas : `M1` et `M3`. Une condition reste écrivable dans un fichier typé, et
-la stabilité d'un contrat externe n'est pas une propriété de type.
+Ce que le typage n'apporte pas **dans ce dépôt seul** : `M1` et `M3`. Une condition reste écrivable
+dans un fichier typé, et la stabilité du contrat n'est pas vérifiable tant que le type ne franchit pas
+la frontière.
+
+### La piste qui changerait `M3`
+
+TypeScript est un citoyen de première classe dans Ember. Le jour où les applications front y passent,
+**un paquet de types partagé entre l'API et les fronts** peut porter la forme de retour des
+sérialiseurs.
+
+Ce que ça change, et c'est considérable pour cette fiche : retirer ou renommer un champ devient une
+**erreur de compilation chez le consommateur**. `M3` cesse d'être une procédure de coordination pour
+devenir une contrainte mécanique, ce qu'aucune autre approche ne permet.
+
+**Le paquet peut aussi porter les constantes**, et c'est ce qui rend la piste presque complète. Les
+chaînes qui portent du sens — les valeurs possibles d'un `status`, les codes d'erreur, les
+énumérations du contrat — deviennent des types partagés au lieu d'être recopiées de chaque côté.
+
+Ce que ça ajoute : ajouter ou retirer une valeur possible devient à son tour une erreur de
+compilation. Et ça retire une classe de défauts qui existe **dès aujourd'hui**, sans attendre quoi que
+ce soit — la duplication des littéraux entre l'API et les fronts.
+
+Ce qui reste alors hors de portée est beaucoup plus étroit que ce que `M3` couvre. Trois niveaux, et
+seul le dernier résiste :
+
+| Le changement | Attrapé par |
+| --- | --- |
+| Un champ est retiré ou renommé | le type partagé |
+| Une valeur possible est ajoutée ou retirée | les constantes partagées, si le front les consomme de façon exhaustive |
+| Une valeur inchangée change de **signification** | rien, jamais |
+
+Le troisième cas est le résidu irréductible : `terminé` reste la chaîne `'terminé'`, son type ne bouge
+pas, et pourtant elle ne veut plus dire la même chose. C'est la seule part de `M3` qui restera en revue
+humaine quoi qu'on outille.
+
+Deux réserves sur la piste elle-même.
+
+Le bénéfice sur les valeurs **dépend de la façon dont le front les consomme**. Un `switch` exhaustif
+sur un type union casse à l'ajout d'une valeur ; un `if` sur une chaîne l'ignore en silence. Le paquet
+crée la possibilité, il ne la garantit pas.
+
+Et le paquet **suppose que le type soit dérivé du sérialiseur**, pas écrit à côté. Un type maintenu à
+la main en parallèle du code dériverait, ce qui reproduirait le problème un cran plus loin. Il devient
+aussi un contrat versionné à publier et à faire évoluer, ce qui a son propre coût.
+
+Ce n'est pas une décision de ce corpus — le passage des fronts à TypeScript ne relève pas de `api/`.
+C'est une piste consignée dans `migration-typescript.md`, à ressortir le jour où la question se pose.
 
 Les contraintes de syntaxe imposées par la configuration sont dans `migration-typescript.md`.
 
@@ -385,7 +454,7 @@ entièrement : aucun moyen déterministe n'est identifié.
 ```
 [ ] [auto]    M1  Aucune condition — ni if, ni ternaire, ni && en position de valeur
 [ ] [partiel] M1  Aucun appel de méthode métier sur l'objet sérialisé
-[ ] [humain]  M3  Aucun champ renommé, retiré, ou dont le sens change, sans coordination
+[ ] [humain]  M3  Aucune valeur existante ne change de signification ; on en ajoute une nouvelle
 [ ] [humain]  M2  Tous les champs déclarés existent sur l'objet reçu
 [ ] [auto]    M4  Un fichier par ressource exposée, nommé d'après elle
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui du sérialiseur
@@ -408,11 +477,13 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | La couche, **M1** et **M4** | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » — le *presenter* est dépourvu de logique pour que son test soit trivial | le livre de 2017 ; billet gratuit de 2012 |
 | **M2** uniquement des champs présents | **aucune source** — déduction de `M1` | — |
 | **M3** format stable | Evans, *DDD*, ch. « Maintaining Model Integrity » — **Published Language**, appliqué ici à l'extérieur du système plutôt qu'entre contextes | *DDD Reference*, PDF gratuit |
-| La stabilité du format des réponses HTTP | **aucun ADR** — c'est le manque signalé dans l'encadré en tête | — |
+| La stabilité du format des réponses HTTP | **aucun ADR**, et c'est cohérent : deux tiers de l'écart se règlent par un outil à venir plutôt que par une procédure. Voir `X3` au § 5 | — |
 
 **Un invariant sur quatre n'a aucune source** : `M2`, déduit de `M1`. L'essentiel repose sur un seul
 chapitre de Martin, ce qui est cohérent avec la minceur de la couche : il n'y a pas grand-chose à
 décider, donc peu à documenter.
 
 `M3` est le seul invariant du corpus qui porte sur un contrat dont les consommateurs sont **hors du
-dépôt**. C'est aussi le seul dont la vérification ne peut pas vivre dans ce dépôt.
+dépôt**, et le seul dont la vérification ne peut pas vivre ici — aujourd'hui. Un paquet de types
+partagé avec les fronts la ramènerait pour l'essentiel, ce qui ferait de cette fiche celle où le
+typage rapporte le plus. Voir § 7.
