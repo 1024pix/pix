@@ -1,4 +1,5 @@
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
+import { concat } from '@ember/helper';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { service } from '@ember/service';
@@ -19,7 +20,6 @@ export default class Trainings extends Component {
 
   @tracked currentPageFirstCardIndex = 0;
   @tracked spacerWidth = null;
-  @tracked cardsFocusable = [];
 
   titleId = `results-recommendation-engine-training-title-${guidFor(this)}`;
 
@@ -152,7 +152,10 @@ export default class Trainings extends Component {
       tabindex="-1"
       class="results-recommendation-engine-training"
       aria-labelledby={{this.titleId}}
-      aria-roledescription={{t "pages.skill-review.recommended-engine.trainings.carousel-roledescription"}}
+      aria-roledescription={{if
+        this.areNavigationButtonsVisible
+        "carousel"
+      }}
       {{onIntersect @onFullyVisible threshold=1}}
     >
       <div class="results-recommendation-engine-training__header">
@@ -168,6 +171,7 @@ export default class Trainings extends Component {
         {{#if this.areNavigationButtonsVisible}}
           <div class="results-recommendation-engine-training__navigation">
             <PixIconButton
+              aria-controls={{TRAININGS_LIST_ID}}
               @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.previous-button-aria-label"}}
               @variant="secondary"
               @iconName="chevronLeft"
@@ -175,6 +179,7 @@ export default class Trainings extends Component {
               @triggerAction={{this.scrollToPreviousTrainings}}
             />
             <PixIconButton
+              aria-controls={{TRAININGS_LIST_ID}}
               @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.next-button-aria-label"}}
               @variant="secondary"
               @iconName="chevronRight"
@@ -187,16 +192,21 @@ export default class Trainings extends Component {
       </div>
 
       <ul
-        class="results-recommendation-engine-training__list
-          {{if this.areNavigationButtonsVisible 'results-recommendation-engine-training__list--hidden'}}"
+        id="results-recommendation-engine-training-list"
+        class="results-recommendation-engine-training__list"
+        aria-live="{{if this.areNavigationButtonsVisible 'polite'}}"
         {{this.registerList}}
       >
         {{#each @trainings as |training index|}}
-          <li class="results-recommendation-engine-training-list__item">
+          <li class="results-recommendation-engine-training-list__item" aria-hidden="{{this.isCardDisabled index}}">
             <div
-              role="group"
-              aria-roledescription={{t "pages.skill-review.recommended-engine.trainings.slide-roledescription"}}
-              aria-label={{this.slideAriaLabel index}}
+              role={{if this.areNavigationButtonsVisible "group"}}
+              aria-roledescription={{if
+                this.areNavigationButtonsVisible
+                "diapositive"
+              }}
+              id={{concat "results-recommendation-engine-training-list-item-" index}}
+              aria-label={{if this.areNavigationButtonsVisible (this.slideAriaLabel index)}}
             ><TrainingCard
                 @training={{training}}
                 @onCardClick={{@onCardClick}}
