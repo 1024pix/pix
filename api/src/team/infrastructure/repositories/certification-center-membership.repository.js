@@ -98,7 +98,16 @@ const countByUserId = async function (userId) {
 
 const create = async function ({ certificationCenterId, role, userId }) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME).insert({ certificationCenterId, role, userId });
+  try {
+    await knexConn(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME).insert({ certificationCenterId, role, userId });
+  } catch (err) {
+    if (knexUtils.isUniqConstraintViolated(err)) {
+      throw new AlreadyExistingMembershipError(
+        `User is already member of certification center ${certificationCenterId}`,
+      );
+    }
+    throw err;
+  }
 };
 
 const findByCertificationCenterIdAndUserId = async function ({ certificationCenterId, userId }) {
