@@ -178,6 +178,14 @@ les énonce pour les deux catégories. Migration opportuniste, conforme à l'ADR
 Ce qui est à tenir dans tous les cas : ne pas invoquer CQRS pour justifier une décision sur ces
 objets, l'architecture correspondante n'étant pas en place.
 
+**La même appropriation existe du côté écriture**, et elle est passée inaperçue plus longtemps. Les
+modèles `…ForCreation` et `…ForUpdate` ressemblent aux **commandes** de CQRS. Le motif est le même
+qu'un read-model : ne pas passer par l'agrégat entier. L'architecture manquante est la même aussi.
+
+La différence tient au motif invoqué. Un read-model répond à un besoin de lecture réel. Une forme
+d'écriture partielle répond le plus souvent à une optimisation **non mesurée**, ce qui la rend plus
+difficile à défendre. C'est `X7` de `fiche-objet-valeur.md`.
+
 ### Repository
 
 Evans, *DDD*, chapitre **« The Life Cycle of a Domain Object »** (ch. 6).

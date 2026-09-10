@@ -30,9 +30,10 @@ typage de mordre est dans `migration-typescript.md`.
 
 | # | Invariant | ROI | Vérification |
 | --- | --- | --- | --- |
-| [**M1**](#m1-aucune-logique) | aucune logique | **forte** | règle ESLint, simple |
+| [**M1**](#m1-aucune-logique-dans-le-sens-sortant) | aucune logique dans le sens sortant | **forte** | règle ESLint, simple |
 | [**M3**](#m3-le-format-de-réponse-est-un-contrat-externe) | le format de réponse est un contrat externe | **forte** | aucun moyen aujourd'hui — piste au § 7 |
 | [**M2**](#m2-nexpose-que-des-champs-présents-sur-lobjet-reçu) | n'expose que des champs présents sur l'objet reçu | moyenne | typage, après migration |
+| [**M5**](#m5-la-désérialisation-ne-laisse-pas-entrer-la-forme-du-transport) | la désérialisation ne laisse pas entrer la forme du transport | moyenne | revue |
 | [**M4**](#m4-un-sérialiseur-par-ressource-exposée) | un sérialiseur par ressource exposée | hygiène | script |
 
 **Écarts** — triés par verdict, comme au § 5.
@@ -48,11 +49,18 @@ typage de mordre est dans `migration-typescript.md`.
 
 ## 1. Rôle
 
-Un sérialiseur met en forme un objet du domaine vers le format de réponse attendu par les
-consommateurs de l'API HTTP.
+Un sérialiseur traduit entre les objets du domaine et le format d'échange HTTP. **Dans les deux
+sens** : il met en forme une réponse, et il déserialise une charge utile entrante. C'est le métier que
+lui donne `docs/fr/Anatomy.md`.
 
-Il est **déclaratif** : une liste de champs, éventuellement des relations incluses. Il ne calcule pas,
-ne filtre pas selon une condition métier, ne décide pas.
+Les deux sens n'ont pas les mêmes invariants, et c'est le point à retenir de cette fiche.
+
+**Vers l'extérieur**, il est **déclaratif** : une liste de champs, éventuellement des relations
+incluses. Il ne calcule pas, ne filtre pas selon une condition métier, ne décide pas. C'est `M1`.
+
+**Vers le domaine**, il **traduit** : il renomme, il convertit un type, il construit des objets du
+domaine. Ces opérations sont sa raison d'être, et les interdire n'aurait aucun sens. Ce qui lui est
+interdit dans ce sens, c'est de laisser entrer la forme du transport — c'est `M5`.
 
 C'est un *presenter* au sens de Martin, et comme le contrôleur, un *humble object* : assez bête pour
 que son test soit trivial.
@@ -77,10 +85,12 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un sériali
 
 ## 2. Invariants
 
-### M1. Aucune logique
+### M1. Aucune logique dans le sens sortant
 
-**Énoncé.** Pas de condition, pas de calcul, pas de décision. Le sérialiseur met en forme ce qu'il
-reçoit.
+**Énoncé.** Pas de condition, pas de calcul, pas de décision **dans la sérialisation**. Le sérialiseur
+met en forme ce qu'il reçoit.
+
+Cet invariant ne porte **pas** sur la désérialisation, dont la traduction est le métier. Voir `M5`.
 
 ```js
 // fautif — une règle métier vit désormais dans la mise en forme
@@ -150,6 +160,38 @@ ce qu'une valeur inchangée signifie** ne l'est par aucun outil, présent ou fut
 aussi visible la violation décrite sous `M1` — deux sérialiseurs pour une même ressource sautent aux
 yeux quand la convention est d'en avoir un.
 
+### M5. La désérialisation ne laisse pas entrer la forme du transport
+
+**Énoncé.** Une fonction de désérialisation rend des objets du domaine, ou un objet d'entrée aux clés
+du domaine. Jamais la structure du format d'échange.
+
+```js
+// conforme — la forme JSON:API s'arrête ici
+const deserialize = function (json) {
+  const attributes = json.data.attributes;
+  return { networkName: attributes['name'], organizationId: attributes['organization-id'] };
+};
+
+// fautif — la forme du transport continue vers le domaine
+const deserialize = (json) => json.data.attributes;
+```
+
+**Ce qui est sa raison d'être, donc autorisé sans réserve** : renommer un champ, convertir un type,
+construire un objet du domaine, se garder d'une relation absente. C'est de la traduction. Une garde
+`if (relationships && relationships.tags)` est correcte ici, alors que la même forme serait fautive
+dans une sérialisation.
+
+**Ce qui reste interdit** : décider. Une condition qui choisit entre deux formes de sortie selon une
+propriété métier est une règle, et elle appartient au domaine — comme dans le sens sortant.
+
+**Ce qui n'est pas son travail** : valider. La forme des entrées se déclare sur la route, c'est `R1`
+de `fiche-route.md`. Un sérialiseur qui vérifie qu'un champ est présent double une garantie qui existe
+déjà, et il la double mal — sans message utilisateur et sans documentation générée.
+
+**Ce qui casse.** La forme JSON:API entre dans le domaine, et un changement de format d'échange
+remonte jusqu'aux modèles. C'est la même mécanique que `I1` de `fiche-repository.md`, vue depuis
+l'autre porte d'entrée.
+
 ---
 
 ## 3. Exceptions légitimes
@@ -168,6 +210,9 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Une condition qui choisit entre deux formes de réponse | **pas une exception** — c'est `M1` violé, donc `X1` |
 | Un champ calculé depuis une méthode métier de l'objet | **pas une exception** — c'est `M2` violé, donc `X2` |
 | Deux sérialiseurs pour la même ressource selon l'appelant | **pas une exception** — c'est `M1` à l'échelle du fichier |
+| Un `if` sur une relation absente dans une **désérialisation** | **autorisé** — c'est de la traduction, `M5`. La même forme serait fautive dans une sérialisation |
+| Un `parseInt` ou un renommage de clé dans une désérialisation | **autorisé** — c'est la raison d'être du sens entrant |
+| Une désérialisation qui vérifie la présence d'un champ | **pas une exception** — la forme des entrées se déclare sur la route, `R1` |
 
 ---
 
@@ -178,6 +223,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **M1** aucune logique | **forte** | Une règle écrite ici serait invisible depuis le domaine et réécrite ailleurs. Le coût d'une fuite est maximal à cet endroit précis |
 | **M3** format stable | **forte** | Les applications front continuent de fonctionner. C'est la seule couche dont les consommateurs sont partiellement inconnus |
 | **M2** uniquement des champs présents | moyenne | Un champ manquant devient une erreur visible au lieu d'un `null` que le front interprète comme une donnée absente |
+| **M5** la désérialisation ne laisse rien entrer | moyenne | La forme du format d'échange s'arrête à la frontière. Un changement de JSON:API ne remonte pas jusqu'aux modèles |
 | **M4** un sérialiseur par ressource | hygiène | Aucun gain mesurable. Rend le fichier trouvable, et rend visible la violation de `M1` entre fichiers |
 
 Les deux invariants en rentabilité forte ont des vérifiabilités opposées : `M1` se lit dans le fichier
@@ -305,7 +351,7 @@ infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **M1** aucune condition | règle ESLint : structure conditionnelle dans `infrastructure/serializers/`, hors `??` et `?.` | ~20 lignes | faibles si les deux exclusions sont posées |
+| **M1** aucune condition | règle ESLint : structure conditionnelle dans `infrastructure/serializers/`, hors `??`, `?.` et **hors fonction de désérialisation** | ~25 lignes | faibles si les trois exclusions sont posées |
 | **M1** aucune méthode métier | même règle : appel de méthode sur l'objet sérialisé | ~10 lignes de plus | **à mesurer** |
 | **M4** un fichier par ressource | script `tests/tooling/` : nommage et unicité | ~15 lignes | aucun |
 | **M2** champs présents | typage, après migration du read-model reçu | — | aucun — voir § 7 |
@@ -315,9 +361,15 @@ infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 
 Un sérialiseur est déclaratif : une structure conditionnelle y est un signal fiable.
 
-**Les deux exclusions à poser d'emblée**, sans quoi la règle sera rejetée à la première exécution :
-l'opérateur de coalescence `??` et l'accès optionnel `?.`. Ce sont des protections de forme, présentes
-dans presque tous les sérialiseurs, et parfaitement légitimes.
+**Les trois exclusions à poser d'emblée**, sans quoi la règle sera rejetée à la première exécution.
+
+L'opérateur de coalescence `??` et l'accès optionnel `?.` : ce sont des protections de forme,
+présentes dans presque tous les sérialiseurs.
+
+Et **le corps des fonctions de désérialisation**. C'est l'exclusion la plus importante et la plus
+facile à oublier : une désérialisation contient légitimement des `if`, des conversions et des
+constructions d'objets — c'est `M5`. Une règle qui ne l'exclut pas sortirait sur un fichier de
+sérialiseur sur cinq, tous corrects, et serait désactivée dans la semaine.
 
 Ce qui reste signalé : `if`, ternaire, `&&` en position de valeur, `switch`. Tous décidables sans
 quitter le fichier.
@@ -325,6 +377,15 @@ quitter le fichier.
 Le second motif — un appel de méthode sur l'objet sérialisé — attrape `X2` en même temps, mais demande
 de distinguer un accesseur d'une méthode métier, ce qui n'est pas décidable au nom seul. À écrire après
 le premier, et à mesurer avant de rendre bloquant.
+
+### M5 — pourquoi la revue, et pas une règle
+
+Distinguer une traduction d'une décision demande de savoir ce qui est métier. Le motif fautif — rendre
+`json.data.attributes` tel quel — est détectable, mais c'est le cas le plus grossier et probablement
+le plus rare.
+
+Ce qui rendrait `M5` structurel est le typage : une fonction de désérialisation dont le type de retour
+est celui d'un objet du domaine ne peut pas rendre la forme du transport. Voir § 7.
 
 ### M3 — pas mécanisable aujourd'hui, et par quoi ça changerait
 
@@ -341,7 +402,7 @@ revue quoi qu'il arrive, et c'est la plus dangereuse.
 
 ### Ordre de mise en œuvre
 
-1. **M1 conditions** — la règle simple, avec ses deux exclusions
+1. **M1 conditions** — la règle simple, avec ses trois exclusions, dont celle des désérialisations
 2. **M4** — script de nommage et d'unicité
 3. **M1 méthodes** — après mesure
 4. **M2** — par le typage, une fois les read-models migrés
@@ -369,6 +430,10 @@ const attributes: SerializableFields<CombinedCourseReadModel> = ['name', 'code',
 Le gain est direct et ne dépend pas de la migration du reste : il suffit que le **read-model reçu**
 soit typé. Cela fait du sérialiseur un candidat plus précoce que le contrôleur ou la route, à condition
 que les read-models soient migrés d'abord.
+
+**`M5` devient structurel aussi.** Une fonction de désérialisation dont le type de retour est celui
+d'un objet du domaine ne peut plus rendre la forme du transport : le compilateur refuse
+`json.data.attributes`.
 
 Ce que le typage n'apporte pas **dans ce dépôt seul** : `M1` et `M3`. Une condition reste écrivable
 dans un fichier typé, et la stabilité du contrat n'est pas vérifiable tant que le type ne franchit pas
@@ -419,7 +484,8 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 
 | Objet | Type de test | Ce qu'on vérifie |
 | --- | --- | --- |
-| Sérialiseur | **unitaire pur** — aucune doublure, aucun serveur | la forme produite, champ par champ |
+| Sérialisation | **unitaire pur** — aucune doublure, aucun serveur | la forme produite, champ par champ |
+| Désérialisation | **unitaire pur** | l'objet du domaine produit, et le cas de la relation absente |
 
 L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6 de
 `fiche-repository.md`.
@@ -445,18 +511,25 @@ correspondante existe. `[partiel]` reste, réduite à ce qu'elle ne couvre pas. 
 entièrement : aucun moyen déterministe n'est identifié.
 
 ```
-[ ] [auto]    M1  Aucune condition — ni if, ni ternaire, ni && en position de valeur
+[ ] [auto]    M1  Aucune condition dans la sérialisation — ni if, ni ternaire, ni &&
 [ ] [partiel] M1  Aucun appel de méthode métier sur l'objet sérialisé
 [ ] [humain]  M3  Aucune valeur existante ne change de signification ; on en ajoute une nouvelle
 [ ] [humain]  M2  Tous les champs déclarés existent sur l'objet reçu
+[ ] [humain]  M5  La désérialisation rend des objets du domaine, jamais json.data.attributes
+[ ] [humain]  M5  Elle ne valide pas : la forme des entrées est déclarée sur la route
 [ ] [auto]    M4  Un fichier par ressource exposée, nommé d'après elle
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui du sérialiseur
 [ ] [humain]  Test unitaire pur, couvrant les valeurs absentes et pas seulement le cas nominal
 [ ] [humain]  Un seul sérialiseur pour cette ressource, quel que soit l'appelant
 ```
 
-À terme il reste quatre lignes, toutes de jugement, dont `M3` qui n'aura jamais de moyen. `M2` sortira
-de la liste par le typage et non par une règle de lint — c'est le seul invariant du corpus dans ce cas.
+À terme il reste six lignes, toutes de jugement. Deux d'entre elles sortiront par le **typage** et non
+par une règle de lint : `M2`, et `M5` dans son premier volet — un type de retour du domaine interdit
+de rendre la forme du transport. C'est le seul endroit du corpus où le typage retire des lignes de
+checklist.
+
+Ce qui restera : `M3` dans sa part irréductible, et les deux lignes de `M5` qui portent sur une
+décision — traduire n'est pas décider, et valider n'est pas son travail.
 
 ---
 
@@ -469,12 +542,12 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | --- | --- | --- |
 | La couche, **M1** et **M4** | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » — le *presenter* est dépourvu de logique pour que son test soit trivial | le livre de 2017 ; billet gratuit de 2012 |
 | **M2** uniquement des champs présents | **aucune source** — déduction de `M1` | — |
+| **M5** la désérialisation ne laisse rien entrer | **déduction** de `I1` de `fiche-repository.md`, vu depuis l'autre porte d'entrée. Le métier bidirectionnel du sérialiseur est documenté | `docs/fr/Anatomy.md` |
 | **M3** format stable | Evans, *DDD*, ch. « Maintaining Model Integrity » — **Published Language**, appliqué ici à l'extérieur du système plutôt qu'entre contextes | *DDD Reference*, PDF gratuit |
 | La stabilité du format des réponses HTTP | **aucun ADR**, et c'est cohérent : deux tiers de l'écart se règlent par un outil à venir plutôt que par une procédure. Voir `X3` au § 5 | — |
 
-**Un invariant sur quatre n'a aucune source** : `M2`, déduit de `M1`. L'essentiel repose sur un seul
-chapitre de Martin, ce qui est cohérent avec la minceur de la couche : il n'y a pas grand-chose à
-décider, donc peu à documenter.
+**Deux invariants sur cinq n'ont aucune source directe** : `M2` et `M5`, tous deux des déductions. Le
+reste repose sur un seul chapitre de Martin, ce qui est cohérent avec la minceur de la couche.
 
 `M3` est le seul invariant du corpus qui porte sur un contrat dont les consommateurs sont **hors du
 dépôt**, et le seul dont la vérification ne peut pas vivre ici — aujourd'hui. Un paquet de types
