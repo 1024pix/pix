@@ -19,6 +19,7 @@ export default class Trainings extends Component {
 
   @tracked currentPageFirstCardIndex = 0;
   @tracked spacerWidth = null;
+  @tracked cardsFocusable = [];
 
   titleId = `results-recommendation-engine-training-title-${guidFor(this)}`;
 
@@ -88,6 +89,13 @@ export default class Trainings extends Component {
 
   get scrollBehavior() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+  }
+
+  @action
+  isCardDisabled(index) {
+    const lastCardFocusable = this.currentPageFirstCardIndex + this.trainingsPerPage;
+    const isFocusable = index >= this.currentPageFirstCardIndex && index < lastCardFocusable;
+    return !isFocusable;
   }
 
   @action
@@ -194,6 +202,7 @@ export default class Trainings extends Component {
                 @onCardClick={{@onCardClick}}
                 @onModalButtonClick={{@onModalButtonClick}}
                 @onModalAccordionClick={{@onModalAccordionClick}}
+                @disabled={{this.isCardDisabled index}}
               /></div>
           </li>
         {{/each}}

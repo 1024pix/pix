@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click, settled, waitUntil } from '@ember/test-helpers';
+import { click, waitUntil } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl/test-support';
 import Trainings from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/trainings';
@@ -386,6 +386,75 @@ module('Integration | Components | Campaigns | Assessment | ResultsRecommendatio
           name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
         });
         assert.dom(nextButtonOnFinalPage).hasAttribute('aria-disabled', 'true');
+      });
+    });
+  });
+
+  module('carousel focus behaviour', function () {
+    function getCardButtons(screen) {
+      return screen.getAllByRole('button', {
+        name: t('pages.skill-review.recommended-engine.training-card.aria-label'),
+        hidden: true,
+      });
+    }
+
+    test('it makes only the visible cards on the current page focusable', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const trainings = createManyTrainings(store, 10);
+
+      // when
+      const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+
+      // then
+      const cardButtons = getCardButtons(screen);
+      [0, 1, 2].forEach((index) => {
+        assert.dom(cardButtons[index]).doesNotHaveAttribute('disabled');
+      });
+      [3, 4, 5, 6, 7, 8, 9].forEach((index) => {
+        assert.dom(cardButtons[index]).hasAttribute('disabled');
+      });
+    });
+
+    test('it updates focusable cards when navigating to the next page', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const trainings = createManyTrainings(store, 10);
+      const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+      const nextButton = screen.getByRole('button', {
+        name: t('pages.skill-review.recommended-engine.trainings.next-button-aria-label'),
+      });
+
+      // when
+      await click(nextButton);
+      const lists = screen.getAllByRole('list');
+      await waitUntil(() => lists[0].scrollLeft !== 0);
+
+      // then
+      const cardButtons = getCardButtons(screen);
+      [0, 1, 2].forEach((index) => {
+        assert.dom(cardButtons[index]).hasAttribute('disabled');
+      });
+      [3, 4, 5].forEach((index) => {
+        assert.dom(cardButtons[index]).doesNotHaveAttribute('disabled');
+      });
+      [6, 7, 8, 9].forEach((index) => {
+        assert.dom(cardButtons[index]).hasAttribute('disabled');
+      });
+    });
+
+    test('it makes all cards focusable when there is only one page', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const trainings = createManyTrainings(store, 3);
+
+      // when
+      const screen = await render(<template><Trainings @trainings={{trainings}} /></template>);
+
+      // then
+      const cardButtons = getCardButtons(screen);
+      cardButtons.forEach((button) => {
+        assert.dom(button).doesNotHaveAttribute('disabled');
       });
     });
   });
