@@ -57,11 +57,29 @@ aucune règle du domaine ne le lit.
 
 ```js
 // la forme d'un écran, pas un concept du domaine
-class CampaignOverview {
-  constructor({ campaignName, organizationName, participantCount, completedCount }) { … }
-  get completionRate() { return this.completedCount / this.participantCount; }
+class PlacesStatistics {
+  #placesLots;
+  #placeRepartition;
+
+  constructor({ placesLots = [], placeRepartition, organizationId } = {}) {
+    this.id = `${organizationId}_place_statistics`;   // la clé de présentation, voir V2
+    this.#placesLots = placesLots;
+    this.#placeRepartition = placeRepartition;
+  }
+
+  get total()    { return _.sumBy(this.#activePlacesLots, 'count'); }
+  get occupied() { return this.#placeRepartition.totalRegisteredParticipant + …; }
+  get available() {
+    const available = this.total - this.occupied;
+    return available < 0 ? 0 : available;
+  }
 }
 ```
+
+Aucun concept du métier ne s'appelle « statistiques de places » : c'est le contenu d'un écran. Les
+trois accesseurs sont des **soustractions et des sommes sur les données déjà chargées** — ils ne
+décident rien, ils mettent en forme. Et le `id` concaténé n'identifie rien : il satisfait le store du
+front, qui exige une clé.
 
 ### Ce que le mot désigne, et ce qu'il ne désigne pas
 
@@ -116,15 +134,29 @@ Le cas de la clé de présentation, qui se rencontre surtout ici, est traité au
 Sa valeur est sa forme. Y mettre une règle métier la rend invisible depuis le domaine.
 
 ```js
-// conforme — dérivation de présentation
-get completionRate() { return this.completedCount / this.participantCount; }
+// conforme — dérivation de présentation : une soustraction, plancher à zéro
+get available() {
+  const available = this.total - this.occupied;
+  return available < 0 ? 0 : available;
+}
 
 // fautif — une décision métier, invisible depuis le domaine
-get isEligibleForCertification() { return this.score >= 80 && this.hasCompletedAllSteps; }
+get hasReachedMaximumPlacesLimit() {
+  if (!this.#isMaximumPlacesLimitEnabled || this.occupied === 0) return false;
+
+  const thresholdLock = config.features.organizationPlacesManagementThreshold;
+  const maximumPlaces = this.total + this.total * thresholdLock;
+  return this.occupied >= maximumPlaces;
+}
 ```
 
-Le second exemple ne se distingue du premier ni par sa forme ni par sa longueur. Il s'en distingue
-parce qu'un métier a fixé le `80`, et que ce seuil vaut ailleurs.
+Les deux accesseurs vivent dans le même fichier, tiennent en quelques lignes, et n'utilisent que des
+données déjà là. Le second est fautif pour trois raisons cumulées : **un seuil fixé par le métier**,
+**un drapeau qui ouvre ou ferme la règle**, et **une lecture de la configuration** — laquelle viole en
+plus `V4`.
+
+Et cette limite décide vraiment : quelque part, une inscription est refusée quand elle est atteinte.
+Cette décision se prend donc à deux endroits, dont un que le domaine ne voit pas.
 
 **Ce qui casse.** La règle sera réécrite dans le domaine, différemment, et les deux divergeront sans
 que rien ne le signale.
@@ -133,6 +165,26 @@ que rien ne le signale.
 
 C'est une projection de données déjà lues par notre propre requête. Les valider est redondant, et
 l'échec n'aurait pas de traitement sensé : on ne refuse pas une donnée qu'on vient de lire chez soi.
+
+```js
+// fautif — un read-model qui valide ce que notre propre requête vient de lire
+const validationSchema = Joi.object({
+  id: Joi.number().required(),
+  count: Joi.number().required().allow(null),
+  activationDate: Joi.date().required(),
+});
+
+class PlacesLot {
+  constructor(params = {}) {
+    validateEntity(validationSchema, params);
+    …
+  }
+}
+```
+
+La fonction s'appelle `validateEntity`, et c'est le bon indice : le schéma décrit **ce que la table
+garantit déjà** — une date d'activation obligatoire, un identifiant numérique. Si la lecture ramenait
+autre chose, lever ici ne changerait rien au problème et casserait juste l'affichage.
 
 **L'exception.** Un objet construit à partir d'une **source externe** — l'API d'un autre contexte, un
 service tiers — n'est plus une projection de données de confiance. Traduire redevient nécessaire, et
@@ -148,6 +200,25 @@ Un read-model sort du domaine. Il n'y rentre pas comme paramètre d'une décisio
 Cet invariant est un **test de classement**, pas une interdiction. Si une règle lit ses valeurs pour
 décider, l'objet n'est pas un read-model : c'est un objet-valeur, et V3 et V5 s'appliquent à lui. Le
 cas se rencontre avec le candidat évalué par une Specification — voir `fiche-specification.md`.
+
+Le cas symétrique, plus fréquent, est un **modèle du domaine qui fabrique le read-model** :
+
+```js
+// dans domain/models/ — le modèle importe et construit une forme de sortie
+import { OrganizationLearnerDTO } from '../read-models/OrganizationLearnerDTO.js';
+
+get organizationLearners() {
+  return this.#organizationLearners.map((learner) => {
+    const displayName = `${learner.firstName}${this.#getDistinctiveLastNamePostfix(learner)}`;
+    return new OrganizationLearnerDTO({ ...learner, displayName });
+  });
+}
+```
+
+Le calcul lui-même est du domaine : distinguer deux élèves homonymes en gardant le minimum de lettres
+du nom de famille est une règle, et une bonne. Ce qui est fautif est **le type de retour** : le modèle
+décide de la forme que verra le front. Le même calcul, renvoyant les valeurs sans les emballer,
+laisserait le repository ou le contrôleur composer la sortie.
 
 **Ce qui casse.** Une règle qui décide à partir d'une forme non validée décide à partir de n'importe
 quoi. C'est la conséquence directe de RM2 : sans validation, aucune garantie n'accompagne les valeurs.
@@ -288,12 +359,25 @@ autre catégorie.
 suppose :
 
 ```js
-class CampaignOverview {
-  #campaignName;
-  constructor({ campaignName }) { this.#campaignName = campaignName; }
-  get campaignName() { return this.#campaignName; }
+class PlacesLot {
+  #id;
+  #activationDate;
+
+  constructor(params = {}) {
+    this.#id = params.id;
+    this.count = params.count;                       // public
+    this.organizationId = params.organizationId;     // public
+    this.#activationDate = params.activationDate;
+  }
+
+  get id()             { return this.#id; }
+  get activationDate() { return this.#activationDate; }
 }
 ```
+
+La forme est plus intéressante que prévu : **la moitié des champs sont privés avec accesseur, l'autre
+moitié est publique**. Le coût d'écriture est payé — six lignes pour trois champs — et le bénéfice
+n'est pas obtenu, puisque l'objet reste modifiable par les deux champs restants.
 
 Un objet littéral gelé rendrait le même service à cet endroit précis.
 
@@ -335,6 +419,10 @@ La règle est écrivable telle quelle : les deux dossiers sont déjà frères.
   to: { path: 'src/.+/domain/read-models/' },
 }
 ```
+
+Elle attrape des cas réels, et pas ceux qu'on attendrait : ce sont surtout des **modèles du domaine
+qui fabriquent des read-models**, pas des règles qui en lisent un. Le sens de la flèche est inversé,
+le couplage est le même — un modèle du domaine connaît la forme d'une sortie.
 
 `severity: 'error'` est obligatoire : la valeur par défaut est `warn`, et seul `error` fait échouer la
 commande. Écrire `src/.+/` et non `src/[^/]+/`, sinon les contextes à sous-contextes ne sont pas
@@ -394,9 +482,10 @@ Un read-model est un **type structurel**. Sa forme est son contenu, et rien n'a 
 autre forme identique lui soit substituée.
 
 ```ts
-export type CampaignOverview = {
-  readonly campaignName: string;
-  readonly participantCount: number;
+export type PlacesStatistics = {
+  readonly id: string;
+  readonly total: number;
+  readonly occupied: number;
 };
 ```
 
@@ -412,7 +501,7 @@ Une dérivation de présentation sur un type structurel se déclare comme une fo
 un accesseur :
 
 ```ts
-export const completionRate = (o: CampaignOverview): number => …;
+export const available = (s: PlacesStatistics): number => Math.max(0, s.total - s.occupied);
 ```
 
 Les contraintes de syntaxe imposées par la configuration sont dans `migration-typescript.md`.
