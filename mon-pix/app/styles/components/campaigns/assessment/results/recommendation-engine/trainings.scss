@@ -54,7 +54,12 @@
 }
 
 .results-recommendation-engine-training-list {
+
   &__item {
+    &--disabled {
+      pointer-events: none;
+    }
+
     padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
   }
 }
