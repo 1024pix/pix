@@ -107,8 +107,27 @@ l'on ne pense pas à chercher une règle, donc celui où une fuite coûte le plu
 **Ce qui reste autorisé** : les valeurs par défaut et l'accès optionnel — `x ?? null`, `x?.y`. Ce sont
 des protections de forme, pas des décisions.
 
+**Et surtout le nommage du transport**, qui est le métier du sérialiseur et qui prend souvent la forme
+de conditions :
+
+```js
+// conforme — des conditions, mais sur le nom du type de la réponse
+typeForAttribute(attribute) {
+  if (attribute === 'userSavedTutorial') return 'user-saved-tutorial';
+  if (attribute === 'tutorialEvaluation') return 'tutorial-evaluation';
+  return attribute;
+}
+
+// conforme aussi — une hygiène de transport, sur la valeur et non sur l'objet
+function _cleanValue(value) {
+  if (value) return value.replaceAll('\u0000', '');
+  return '';
+}
+```
+
 La frontière est nette : si l'expression **choisit entre deux formes de réponse**, c'est une décision ;
-si elle protège d'une valeur absente, non.
+si elle protège d'une valeur absente, nomme un type ou nettoie une chaîne, non. C'est cette distinction
+que la règle du § 6 doit porter — voir la réserve qui y est faite.
 
 Cette frontière vaut aussi entre fichiers. Deux sérialiseurs pour la même ressource selon l'appelant
 sont la même violation à une autre granularité : c'est au usecase de ne renvoyer que ce qui est
@@ -120,11 +139,11 @@ autorisé.
 pas sur l'objet, c'est au usecase ou au read-model de le fournir.
 
 ```js
-// fautif — le champ est fabriqué ici
-attributes: { …, progression: computeProgression(course) }
+// fautif — le champ est fabriqué ici, à partir de trois autres
+duration: `${days}d${hours}h${minutes}m`,
 
-// conforme — l'objet reçu le porte
-attributes: ['name', 'progression']
+// conforme — l'objet reçu le porte, déjà composé
+attributes: ['title', 'duration']
 ```
 
 **Ce qui casse.** Un champ qui sort systématiquement à `null` sans que personne ne sache pourquoi. Le
@@ -166,15 +185,22 @@ yeux quand la convention est d'en avoir un.
 du domaine. Jamais la structure du format d'échange.
 
 ```js
-// conforme — la forme JSON:API s'arrête ici
-const deserialize = function (json) {
-  const attributes = json.data.attributes;
-  return { networkName: attributes['name'], organizationId: attributes['organization-id'] };
+// conforme — la désérialisation rend un objet du domaine
+const deserialize = async function (payload) {
+  const deserializedData = await new Deserializer({ keyForAttribute: 'camelCase' }).deserialize(payload);
+  return new CombinedCourseBlueprintForUpdate(deserializedData);
 };
 
-// fautif — la forme du transport continue vers le domaine
-const deserialize = (json) => json.data.attributes;
+// fautif — la forme du transport continue vers le domaine, augmentée d'un champ calculé
+const deserialize = async function (payload) {
+  const deserializedTraining = await new Deserializer({ … }).deserialize(payload);
+  const { days, hours, minutes } = deserializedTraining.duration;
+  return { ...deserializedTraining, duration: `${days}d${hours}h${minutes}m` };
+};
 ```
+
+Le second cas est le plus fréquent, et le `...` en est le signe : tout ce que le format contenait
+continue, et un champ de plus est ajouté. Personne ne sait plus quelles clés arrivent dans le usecase.
 
 **Ce qui est sa raison d'être, donc autorisé sans réserve** : renommer un champ, convertir un type,
 construire un objet du domaine, se garder d'une relation absente. C'est de la traduction. Une garde
@@ -263,6 +289,12 @@ attributes: user.hasAdminRole ? ['name', 'email', 'internalId'] : ['name']
 
 Deux formes de réponse, donc une décision d'autorisation prise dans la mise en forme.
 
+**Le volume de cet écart n'est pas connu, et il est probablement faible.** Sur deux cents
+sérialiseurs, une quarantaine contiennent une condition, et les formes rencontrées à
+l'échantillonnage relèvent toutes du nommage de transport autorisé par `M1`. Le verdict reste
+*à corriger* — une seule occurrence coûte cher — mais la règle du § 6 est ce qui dira combien il y en
+a, et c'est à faire avant d'ouvrir un chantier.
+
 **Correction.** Faire renvoyer par le usecase **uniquement ce qui est autorisé**, et sérialiser sans
 condition. Si les deux formes sont vraiment deux ressources, ce sont deux points d'entrée avec
 chacun leurs droits déclarés sur la route — `R2` de `fiche-route.md`.
@@ -277,8 +309,8 @@ cette décision remonte souvent jusqu'au découpage de l'API.
 **Exemple concret.** Deux formes, le second est le plus discret :
 
 ```js
-progression: computeProgression(course),        // calcul explicite
-label: course.buildDisplayLabel(),              // appel d'une méthode métier de l'objet
+duration: `${days}d${hours}h${minutes}m`,       // composition explicite
+objectives: rawObjectives.split('\n').map((o) => o.trim()).filter(Boolean),   // découpage
 ```
 
 Le second passe pour de la mise en forme parce qu'il ressemble à un accesseur.
@@ -326,11 +358,11 @@ pour des raisons différentes. Les coupler fait dépendre l'une de l'autre.
 
 ```js
 // le sérialiseur déclare des champs de l'entité elle-même
-attributes: ['name', 'code', 'createdAt']     // ce sont les champs de Course
+attributes: ['name', 'code', 'description', 'illustration']   // ce sont les champs de CombinedCourse
 ```
 
-Ajouter un champ à `Course` pour un besoin interne l'expose dans la réponse. Le renommer casse le
-format.
+Ajouter un champ à `CombinedCourse` pour un besoin interne l'expose dans la réponse. Le renommer casse
+le format.
 
 **Correction.** Aucune systématique, et le bénéfice de la convention est réel : écrire un read-model
 pour chaque écran a un coût, et le modèle est déjà disponible.
@@ -351,28 +383,37 @@ infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **M1** aucune condition | règle ESLint : structure conditionnelle dans `infrastructure/serializers/`, hors `??`, `?.` et **hors fonction de désérialisation** | ~25 lignes | faibles si les trois exclusions sont posées |
+| **M1** aucune condition | règle ESLint : structure conditionnelle **sur l'objet sérialisé**, hors `??`, `?.`, hors fonction de désérialisation et hors fonction de nommage du transport | ~40 lignes | **à mesurer** — voir la réserve ci-dessous |
 | **M1** aucune méthode métier | même règle : appel de méthode sur l'objet sérialisé | ~10 lignes de plus | **à mesurer** |
 | **M4** un fichier par ressource | script `tests/tooling/` : nommage et unicité | ~15 lignes | aucun |
 | **M2** champs présents | typage, après migration du read-model reçu | — | aucun — voir § 7 |
 | **M3** format stable | aucun moyen aujourd'hui. Piste : un paquet de types partagé avec les fronts — voir § 7 | — | — |
 
-### M1 — la seule règle qui compte ici, et elle est simple
+### M1 — la règle qui compte ici, et sa réserve
 
-Un sérialiseur est déclaratif : une structure conditionnelle y est un signal fiable.
+Un sérialiseur est déclaratif, donc une structure conditionnelle y est un signal — mais **un signal
+moins fiable qu'il n'y paraît**. Une quarantaine de fichiers sur deux cents en contiennent une, et les
+formes rencontrées à l'échantillonnage sont légitimes. Une règle qui signale « toute condition dans un
+fichier de sérialiseur » produirait donc surtout du bruit, et serait désactivée dans la semaine.
 
-**Les trois exclusions à poser d'emblée**, sans quoi la règle sera rejetée à la première exécution.
+**Les quatre exclusions à poser d'emblée**, sans quoi c'est ce qui arrivera.
 
 L'opérateur de coalescence `??` et l'accès optionnel `?.` : ce sont des protections de forme,
 présentes dans presque tous les sérialiseurs.
 
-Et **le corps des fonctions de désérialisation**. C'est l'exclusion la plus importante et la plus
-facile à oublier : une désérialisation contient légitimement des `if`, des conversions et des
-constructions d'objets — c'est `M5`. Une règle qui ne l'exclut pas sortirait sur un fichier de
-sérialiseur sur cinq, tous corrects, et serait désactivée dans la semaine.
+**Le corps des fonctions de désérialisation.** Une désérialisation contient légitimement des `if`, des
+conversions et des constructions d'objets — c'est `M5`.
 
-Ce qui reste signalé : `if`, ternaire, `&&` en position de valeur, `switch`. Tous décidables sans
-quitter le fichier.
+**Les fonctions de nommage du transport**, comme celle qui traduit un nom d'attribut en type
+JSON:API : ce sont des conditions sur une chaîne de format, pas sur l'objet du domaine.
+
+**Les fonctions utilitaires qui prennent une valeur**, et non l'objet sérialisé — le nettoyage d'une
+chaîne, par exemple.
+
+Ce qui reste signalé après ces quatre exclusions : `if`, ternaire, `&&` en position de valeur et
+`switch` **portant sur l'objet sérialisé ou une de ses propriétés**. C'est ce dernier point qui fait
+passer la règle de vingt-cinq à quarante lignes, et qui la rend défendable : la question posée n'est
+plus « y a-t-il une condition » mais « la mise en forme dépend-elle de ce qu'on met en forme ».
 
 Le second motif — un appel de méthode sur l'objet sérialisé — attrape `X2` en même temps, mais demande
 de distinguer un accesseur d'une méthode métier, ce qui n'est pas décidable au nom seul. À écrire après
