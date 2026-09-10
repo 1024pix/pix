@@ -16,6 +16,9 @@ typage de mordre est dans `migration-typescript.md`.
 >   conditionne X5, et se fait fichier par fichier.
 > - Les numéros d'écart commencent à X2 : X1 et X6 portaient sur le read-model et ont suivi la création
 >   de `fiche-read-model.md`. Les numéros ne sont pas réattribués.
+> - **Contradiction non résolue**, la même que dans `fiche-entite.md` : le modèle de référence de la
+>   documentation d'architecture Pix expose des champs publics assignables, ce que `V1` exclut. À
+>   trancher pour les deux fiches ensemble.
 
 ## Sommaire
 
@@ -252,7 +255,9 @@ constructor({ value }) {
 
 Trois points de cohérence, sans quoi l'invariant est respecté sans être utile :
 
-- **valider avant d'affecter**, pas après sur `this` ;
+- **valider avant d'affecter** quand le message d'erreur doit désigner l'entrée fautive. La convention
+  Pix valide `this` après les affectations, contre un schéma déclaratif : voir `X3` de
+  `fiche-entite.md`, qui instruit cet écart ;
 - **un seul type d'erreur de validation** pour le domaine, sinon les appelants rattrapent et
   reconvertissent ;
 - **valider à tous les niveaux** d'une composition, pas seulement à la racine.

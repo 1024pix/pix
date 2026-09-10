@@ -241,6 +241,49 @@ du DDD affaiblirait celles qui en viennent vraiment.
 | Le repository comme port vers un contexte voisin | **lecture ports & adaptateurs**, pas DDD à la lettre — voir la note sous « Repository ». Cohérent avec ADR 55 sans y être nommé ainsi |
 | Le mot `read-model` | **emprunté à CQRS**, pas à DDD, et l'architecture CQRS n'est pas en place — voir « Read model » ci-dessus. **Conservé** le 2026-09-08 : DDD n'a aucun nom pour cet objet, le mot est celui de l'équipe, et le renommage n'apportait rien sur l'outillage. Ce qui est à faire est le classement des trois natures qu'il recouvre |
 
+### La documentation d'architecture Pix
+
+Espace Confluence **EDTDT**, série de cinq pages : *1.Intro*, *2.Domaine*, *3.Infrastructure*,
+*4.Application*, *5.Bout en bout*. Lue le 2026-09-08. C'est la seule documentation d'architecture
+existante, et elle source plusieurs points que le corpus donnait pour conventions sans appui.
+
+| Ce qu'elle établit | Ce que ça source |
+| --- | --- |
+| La logique d'autorisation « doit être réalisée autant que possible dans les securityPreHandlers, plutôt que dans les controllers ou les usecases » | `R2` de `fiche-route.md`, qui était donné sans source |
+| Le contrat d'un securityPreHandler : paramètres, valeurs de retour, utilitaire de combinaison des accès | la forme prescrite de `R2` |
+| Le domaine « se compose de deux grosses parties : les use cases et les entités » | le placement des usecases dans `domain/` |
+| L'infrastructure contient « les repositories, la sérialisation et différents services » | le placement des sérialiseurs dans `infrastructure/` |
+| L'application dépend de l'infrastructure, qui dépend du domaine | le fait que `C4` vise `infrastructure/repositories/` et non toute l'infrastructure |
+| « Dans la majorité des cas on utilise le format json-api, c'est le format à privilégier » | le format de sortie supposé par `fiche-serialiseur.md` |
+| Le modèle de référence valide `this` après avoir affecté ses champs, contre un schéma déclaratif | `X3` de `fiche-entite.md`, qui passe de dérive à convention assumée |
+
+**Trois réserves sur cette source, et elles comptent.**
+
+Elle est **hors du dépôt**. Une page Confluence change sans que rien ici ne le signale.
+
+Elle est **datée** : la page *5.Bout en bout* emploie des chemins `api/lib/…`, donc elle décrit
+l'arborescence d'avant l'ADR 51 et les contextes bornés.
+
+Et la page *4.Application* porte son **propre `TODO`** : « préciser des pistes d'améliorations ou
+valider ce qui est documenté ici en précisant que c'est le contrat qu'il faut suivre (plutôt que
+d'écrire que c'est ce qui est fait actuellement) ». Elle se présente donc comme une description, pas
+comme une prescription.
+
+**Une contradiction qu'elle ouvre.** Son modèle de référence expose des champs publics assignables,
+ce que `V1` de `fiche-objet-valeur.md` et `E1`/`E6` de `fiche-entite.md` excluent. À trancher.
+
+### Le vocabulaire des couches ne vient pas de la Clean Architecture
+
+La page *1.Intro* le dit explicitement : « Les termes utilisés dans notre architecture ne viennent pas
+de la clean architecture et sont empruntés à d'autres style d'architecture », avec un renvoi à l'article
+d'Octo sur *application / domaine / infrastructure* comme mots de la layered, hexagonal et clean
+architecture.
+
+Conséquence pour le corpus : `invariants-clean-archi-ddd.md` pose que Pix vient de la Clean
+Architecture d'Uncle Bob, ce que les ADR 46, 51 et 55 confirment pour les **principes**. Mais le
+**nommage** des trois couches est emprunté à la layered et à l'hexagonale. Ne pas invoquer Martin pour
+justifier un nom de dossier.
+
 ### Corrections — ces conventions ont bien une source, contrairement à ce que j'avais écrit
 
 | Convention | Source réelle |

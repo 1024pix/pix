@@ -8,9 +8,12 @@ typage de mordre est dans `migration-typescript.md`.
 
 > **À instruire**
 >
-> - `R2` n'a **aucune source**, ni externe ni ADR, alors que c'est l'invariant au plus fort rendement
->   du corpus. La pratique existe, le raisonnement n'est écrit nulle part, donc personne ne peut la
->   défendre ni la contester sur pièces. Candidate évidente à un ADR.
+> - `R2` **a une source**, contrairement à ce que ce corpus a longtemps affirmé : la documentation
+>   d'architecture de l'espace Confluence EDTDT, page « 4.Application », l'énonce de façon
+>   prescriptive. Ce qui n'a pas de source, c'est le **motif** que cette fiche lui donne — la
+>   visibilité d'un oubli. La page en donne un autre. Voir le § 4.
+> - Cette page porte son propre `TODO` : elle dit décrire la pratique plutôt que prescrire un contrat.
+>   À valider avant de s'y adosser fermement.
 > - `X2` — aucune liste des routes délibérément publiques — bloque la vérification de `R2`. À traiter
 >   avant tout le reste de cette fiche.
 > - La section « Note sur le préfixe » a été retirée : la collision entre `R` route et `R` read-model
@@ -126,10 +129,16 @@ gestionnaire.
 se distingue pas d'un fichier qui n'en a pas besoin. Il n'existe alors aucun moyen d'auditer les accès
 du dépôt autrement qu'en lisant tous les contrôleurs, un par un. C'est `X1` au § 5.
 
-**Le cas limite, et il est fréquent.** Un droit qui dépend d'une donnée métier à charger. Deux voies
-acceptables : un pre-handler qui charge ce qu'il faut, ou un usecase dont c'est l'intention et qui
-lève une erreur d'autorisation. Écrire le contrôle dans le contrôleur est le raccourci à refuser,
-précisément parce qu'il casse l'auditabilité.
+**Le cas limite, et il est fréquent.** Un droit qui dépend d'une donnée métier à charger. La
+documentation d'architecture dit « autant que possible » dans un pre-handler, et écarte **à la fois**
+le contrôleur et le usecase. L'ordre de préférence est donc : un pre-handler qui charge ce qu'il faut ;
+à défaut un usecase dont l'autorisation est l'intention et qui lève une erreur dédiée ; jamais le
+contrôleur.
+
+**Le contrat d'un pre-handler de sécurité est documenté**, ce qui retire toute latitude sur la forme :
+la requête en premier paramètre, l'objet de réponse en second, `h.response(true)` en cas
+d'autorisation, et une réponse 403 avec `takeover()` en cas d'interdiction. Plusieurs autorisations se
+combinent par l'utilitaire prévu à cet effet plutôt qu'à la main.
 
 **Les routes délibérément publiques se déclarent comme telles**, pas simplement dépourvues de
 pre-handler. Sinon « public » ne se distingue pas de « oublié », et c'est le préalable à toute
@@ -186,6 +195,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un pre-handler qui charge une donnée pour décider du droit | **autorisé**, c'est la première voie du cas limite de `R2` |
 | Une route qui renvoie un fichier, avec ses en-têtes déclarés | **autorisé** |
 | Plusieurs pre-handlers chaînés | **autorisé** — c'est la forme normale d'un contrôle composé |
+| Plusieurs autorisations combinées par l'utilitaire documenté | **autorisé**, et c'est la forme prescrite — pas une composition écrite à la main |
 | Une limite de taille de charge déclarée sur la route | **autorisé** — c'est une contrainte de forme, donc `R1` |
 | Une validation qui exprime une règle métier | **pas une exception** — elle est contournable. `R1`, et `X3` |
 | Un contrôle de droit dans le contrôleur | **pas une exception** — c'est `X1` |
@@ -202,10 +212,17 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **R3** documentation déclarée | moyenne | La documentation d'API est générée depuis le code, donc elle ne dérive pas. Rentable à proportion du nombre de consommateurs externes |
 | **R5** une adresse, un gestionnaire | hygiène | Aucun gain mesurable. Rend l'audit de `R2` mécanique |
 
-**`R2` est l'invariant au plus fort rendement du corpus**, et c'est le seul de ce niveau qui n'ait
-aucune source. La raison de son rendement n'est pas qu'il prévient un défaut de plus que les autres :
-c'est qu'il rend une **omission** visible. Les autres invariants du corpus se vérifient sur ce qui est
-écrit ; celui-là se vérifie sur ce qui est absent.
+**`R2` est l'invariant au plus fort rendement du corpus.** La raison de son rendement n'est pas qu'il
+prévient un défaut de plus que les autres : c'est qu'il rend une **omission** visible. Les autres
+invariants du corpus se vérifient sur ce qui est écrit ; celui-là se vérifie sur ce qui est absent.
+
+**Ce motif est une déduction de cette fiche**, et il faut le distinguer de la règle elle-même. La
+documentation d'architecture prescrit bien `R2`, mais pour trois raisons différentes : du code
+« clairement identifié, simple et factorisé entre les différentes routes ». L'auditabilité — le fait
+qu'un contrôle oublié se voie — n'y figure pas.
+
+La distinction compte : si l'équipe conteste le classement en rentabilité forte, c'est le motif qu'elle
+discute, pas la règle.
 
 ### Ce que ça n'apporte pas
 
@@ -492,14 +509,19 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | --- | --- | --- |
 | La couche | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » — l'adaptateur est dépourvu de logique | le livre de 2017 ; billet gratuit de 2012 |
 | **R1** validation de forme sur la route | Pix : **ADR 2**, qui pose que l'intelligence métier est dans l'API et que le front ne fait que des contrôles de surface. **ADR 19** pour les identifiants typés | ADR 2 et 19 |
-| **R2** contrôles d'accès en pre-handler | **aucune source**, ni externe ni ADR | — |
+| **R2** contrôles d'accès en pre-handler | **documentation d'architecture Pix**, page « 4.Application » : la logique d'autorisation « doit être réalisée autant que possible dans les securityPreHandlers, plutôt que dans les controllers ou les usecases ». La page donne aussi le contrat d'un securityPreHandler et l'utilitaire de combinaison des accès. Aucun ADR | espace Confluence EDTDT, page « 4.Application » |
 | **R3** documentation déclarée | **aucune source** — convention Pix | — |
 | **R4** aucune logique | Martin, même ch. | le livre de 2017 |
 | **R5** une adresse, un gestionnaire | **aucune source** — convention de rangement | — |
 
-**Trois invariants sur cinq n'ont aucune source**, et `R2` en fait partie. C'est le manque le plus
-criant du corpus : l'invariant au plus fort rendement, sur la couche qui porte la sécurité, et le
-raisonnement n'est écrit nulle part. Personne ne pourrait ni le défendre ni le contester sur pièces.
+**Deux invariants sur cinq n'ont aucune source** : `R3` et `R5`. `R2` en a une, contrairement à ce que
+ce corpus a affirmé jusqu'au 2026-09-08 — la documentation d'architecture la porte.
 
-Il se comble par un ADR court, dont le contenu est déjà écrit ici : les deux propriétés de `R2` au
-§ 2, et le préalable de `X2`.
+Ce qui reste à combler est plus étroit que ce qui était annoncé, et de deux natures.
+
+La règle n'est adossée à **aucun ADR** : elle vit dans une page Confluence, hors du dépôt, comme `P5`
+de `fiche-api-interne.md`. Une page peut changer sans que rien ici ne le signale.
+
+Et le **motif** du classement en rentabilité forte reste une déduction de cette fiche. La
+documentation en donne un autre, plus faible. C'est ce qu'un ADR gagnerait à trancher : pas
+l'existence de la règle, mais ce qu'elle vaut.
