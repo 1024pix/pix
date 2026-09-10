@@ -94,12 +94,25 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un contrôl
 
 ```js
 // fautif — quelle est l'intention métier de cette séquence ?
-await usecases.archiveCourse({ courseId });
-await usecases.notifyParticipants({ courseId });
+const passage = await usecases.createPassage({ moduleId, moduleVersion, userId });
+
+const passageStartedData = {
+  occurredAt: new Date(occurredAt),
+  passageId: passage.id,
+  sequenceNumber,
+  type: 'PASSAGE_STARTED',
+};
+
+await usecases.recordPassageEvents({ events: [passageStartedData] });
 
 // conforme — l'intention composée a un nom, un fichier et un test d'intégration
-await usecases.archiveCourseAndNotifyParticipants({ courseId });
+const passage = await usecases.startPassage({ moduleId, moduleVersion, userId, occurredAt });
 ```
+
+L'exemple montre le coût réel de la violation, et il est plus lourd que « deux appels au lieu d'un » :
+entre les deux appels, le contrôleur **fabrique la charge de l'événement**. Il décide du type
+`PASSAGE_STARTED`, convertit la date, relie l'événement au passage créé. Trois décisions du domaine
+prises dans un fichier testé unitairement avec des doublures — donc aucune ne l'est vraiment.
 
 **Ce qui casse.** La composition vit dans un contrôleur, où elle n'est vérifiée qu'en acceptance — le
 test le plus lent et le plus tardif du dépôt. Et l'intention n'a pas de nom, donc elle est
@@ -134,14 +147,32 @@ dominante aujourd'hui place la transaction dans le usecase, ce qui est cohérent
 transaction décide donc quelque chose, ce que `C2` exclut.
 
 ```js
+// fautif — la transaction enveloppe un seul appel de usecase
+const createdOrUpdatedTrainingTrigger = await DomainTransaction.execute(async () => {
+  return usecases.createOrUpdateTrainingTrigger({ trainingId, threshold, tubes, type });
+});
+```
+
+La forme réelle est la plus révélatrice : il n'y a **qu'un** appel à l'intérieur. Le contrôleur ne
+compose rien, donc la transaction n'y sert à rien qu'elle ne servirait mieux dans le usecase — où le
+périmètre atomique serait lisible avec la règle qu'il protège.
+
+```js
 // fautif — la décision de statut est prise ici
-const result = await usecases.getSomething({ id });
-if (!result) return h.response().code(404);
+const replication = replicationRepository.getByName(replicationName);
+
+if (!replication) {
+  return h.response().code(404);
+}
 
 // conforme — le usecase lève, le mappeur traduit
-const result = await usecases.getSomething({ id });
-return h.response(serializer.serialize(result));
+const results = await usecases.getQuestResultsForCampaignParticipation({ userId, campaignParticipationId });
+return h.response(dependencies.questResultSerializer.serialize(results));
 ```
+
+La forme fautive cumule d'ailleurs deux violations : elle choisit le statut, **et** elle lit un
+repository, donc `C4`. Les deux vont souvent ensemble — un contrôleur qui charge lui-même n'a
+personne à qui déléguer la décision d'absence.
 
 **Ce qui casse.** Le même cas d'absence produit deux réponses différentes selon le point d'entrée
 emprunté, et le front ne reçoit pas le code d'erreur exploitable que le mappeur aurait produit. C'est
@@ -167,10 +198,10 @@ contrôleur ne connaît que les usecases de **son** contexte.
 
 ```js
 // fautif — la porte dérobée
-import { thingRepository } from '../../infrastructure/repositories/index.js';
+import * as challengeToPlayRepository from '../../infrastructure/repositories/challenge-to-play-repository.js';
 
 // fautif — la frontière franchie hors API interne
-import { usecases } from '../../../autre-contexte/domain/usecases/index.js';
+import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 ```
 
 **Ce qui casse.** Une lecture « juste pour afficher » contourne les règles du domaine, et la même
@@ -248,11 +279,16 @@ travail de usecase — Martin la place dans la couche *Use Cases*, pas dans l'ad
 **Exemple concret.**
 
 ```js
-const archive = async function (request, h) {
-  const { courseId } = request.params;
-  await usecases.archiveCourse({ courseId });
-  await usecases.notifyParticipants({ courseId });
-  return h.response().code(204);
+const create = async function (request, h, { usecases, passageSerializer }) {
+  const { 'module-id': moduleId, 'occurred-at': occurredAt, 'sequence-number': sequenceNumber } =
+    request.payload.data.attributes;
+
+  const passage = await usecases.createPassage({ moduleId, userId });
+  await usecases.recordPassageEvents({
+    events: [{ occurredAt: new Date(occurredAt), passageId: passage.id, sequenceNumber, type: 'PASSAGE_STARTED' }],
+  });
+
+  return h.response(passageSerializer.serialize(passage)).created();
 };
 ```
 
@@ -275,8 +311,11 @@ Le cas « écriture puis lecture » est à traiter à part : voir le faux ami de
 **Exemple concret.**
 
 ```js
-const result = await usecases.getSomething({ id });
-if (!result) return h.response().code(404);
+const replication = replicationRepository.getByName(replicationName);
+
+if (!replication) {
+  return h.response().code(404);
+}
 ```
 
 Deux défauts en un : la décision est prise ici, et le usecase renvoie `null` là où `I3` de
@@ -297,8 +336,8 @@ en sautant le domaine. Et l'ADR 55 décide que toute frontière de contexte pass
 **Exemple concret.**
 
 ```js
-import { thingRepository } from '../../infrastructure/repositories/index.js';
-import { usecases as voisinUsecases } from '../../../autre-contexte/domain/usecases/index.js';
+import { chatRepository } from '../infrastructure/repositories/index.js';
+import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 ```
 
 **Correction.** Mécanique dans le premier cas : écrire le usecase qui manque, souvent une délégation
@@ -418,10 +457,10 @@ test, et les usecases typés rendent vérifiable ce que le contrôleur appelle s
 absente devient une erreur de compilation.
 
 ```ts
-const getById = async function (
+const getQuestResults = async function (
   request: Request,
   h: ResponseToolkit,
-  dependencies = { thingSerializer },
+  dependencies = { questResultSerializer },
 ) { … }
 ```
 
