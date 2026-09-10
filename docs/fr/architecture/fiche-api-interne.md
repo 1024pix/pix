@@ -100,15 +100,19 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas une API int
 
 ```js
 // conforme
-export const getOrganization = async (id) => {
-  return new OrganizationDTO(await usecases.getOrganizationById({ id }));
+export const getUser = async (id) => {
+  return new UserDTO(await usecases.getUserById({ id }));
 };
 
 // fautif — le modèle du domaine devient le contrat
-export const getOrganization = async (id) => {
-  return usecases.getOrganizationById({ id });
+export const getByUserId = async (userId) => {
+  return usecases.getProfileRewardsByUserId({ userId });
 };
 ```
+
+La forme fautive se reconnaît à sa longueur : **une seule ligne, sans `new`**. Un fichier d'API dont
+toutes les fonctions ont cette forme n'a pas de contrat — il a une liste de raccourcis vers les
+usecases du contexte.
 
 **Ce qui casse.** Chaque champ du modèle devient une promesse implicite. Un renommage interne casse
 les voisins à l'exécution, sans qu'aucune règle de dépendance ne bouge : `dependency-cruiser` reste
@@ -127,10 +131,27 @@ appelle un usecase, jamais un repository directement.
 
 ```js
 // fautif — court-circuite les règles métier
-export const findLearners = async ({ organizationId, learnerRepository }) => {
-  return learnerRepository.findByOrganization({ organizationId });
-};
+import * as challengeToPlayRepository from '../../infrastructure/repositories/challenge-to-play-repository.js';
+
+export function get(challengeId) {
+  return challengeToPlayRepository.get(challengeId);
+}
 ```
+
+Le même fichier réel va plus loin, et c'est le cas le plus parlant de la fiche :
+
+```js
+import { challengeToPlaySerializer } from '../../infrastructure/serializers/jsonapi/challenge-to-play-serializer.js';
+
+export function getSerializationConfig() {
+  return challengeToPlaySerializer.config;
+}
+```
+
+Ici le contrat publié n'expose pas seulement un modèle du domaine : il expose **la configuration de
+sérialisation** du contexte. Le voisin reçoit de quoi produire lui-même la réponse HTTP, donc le
+format de sortie d'un contexte devient une dépendance de l'autre. Rien dans `P1` ne l'interdisait
+explicitement, parce que personne n'imaginait le cas.
 
 **Ce qui casse.** Une lecture porte aussi des règles — filtrage des éléments supprimés, droits,
 périmètre. Les court-circuiter pour les voisins seulement crée **deux comportements pour la même
@@ -216,6 +237,23 @@ export const getThing = async ({ id, callerContext }) => {
   return callerContext === 'admin' ? fullDTO : partialDTO;
 };
 ```
+
+**La forme limite, réelle et plus fréquente** : non pas une branche, mais une fonction par appelant.
+
+```js
+export const getByIdForAdmin = async (id) => {
+  const targetProfileForAdmin = await usecases.getTargetProfileForAdmin({ targetProfileId: id });
+  return new TargetProfile(targetProfileForAdmin);
+};
+```
+
+Le nom porte l'appelant, mais **le contrat, lui, ne dépend de rien** : une fonction, un DTO, un
+comportement. C'est la sortie honorable de `P7` quand deux consommateurs ont vraiment besoin de deux
+projections — deux fonctions nommées, plutôt qu'une fonction qui se demande qui l'appelle.
+
+Ce qui reste à surveiller sur cette forme : le nom dit un **écran** plutôt qu'un besoin métier, donc
+le contrat se périme si l'écran change. `getWithFullReferential` vieillirait mieux que
+`getByIdForAdmin`.
 
 **Ce qui casse.** Une fonction qui se comporte selon son appelant recrée le couplage que la couche
 existe pour supprimer : le fournisseur connaît ses consommateurs, donc il ne peut plus évoluer sans
@@ -308,8 +346,16 @@ qu'on publie est un langage dédié à l'échange, pas le modèle interne.
 **Exemple concret.**
 
 ```js
-export const getOrganization = async (id) => {
-  return usecases.getOrganizationById({ id });   // le modèle sort tel quel
+export const save = async (userId, rewardId) => {
+  return usecases.rewardUser({ userId, rewardId });          // le modèle sort tel quel
+};
+
+export const getByUserId = async (userId) => {
+  return usecases.getProfileRewardsByUserId({ userId });     // idem
+};
+
+export const findByUserIdAndRewardId = async ({ rewardId, userId }) => {
+  return usecases.findByUserIdAndRewardId({ rewardId, userId });   // idem
 };
 ```
 
@@ -328,9 +374,9 @@ applicatives dans la couche *Use Cases*, que tout appelant traverse.
 **Exemple concret.**
 
 ```js
-export const findLearners = async ({ organizationId, learnerRepository }) => {
-  return learnerRepository.findByOrganization({ organizationId });
-};
+export function get(challengeId) {
+  return challengeToPlayRepository.get(challengeId);
+}
 ```
 
 Le filtrage des apprenants supprimés, s'il existe, vit dans le usecase que cet appel contourne.
@@ -374,6 +420,10 @@ L'écart précis par contexte est mesuré dans les rapports de divergence, pas i
 **Ce que dit la théorie.** La Context Map d'Evans doit décrire les dépendances réelles. Un
 intermédiaire non déclaré la rend fausse.
 
+**Aucune occurrence n'a été relevée à l'échantillonnage** : les fichiers d'API interne n'importent pas
+d'API tierce. L'écart est énoncé parce que rien ne l'empêche et que la règle du § 6 coûte une
+configuration, pas parce qu'il est constaté.
+
 **Exemple concret.**
 
 ```js
@@ -395,17 +445,34 @@ seule une fois payé.
 **Ce que dit la théorie.** Le langage publié est choisi pour l'échange. Qu'il coïncide avec le modèle
 interne est possible, mais ce doit être une coïncidence constatée, pas un défaut d'arbitrage.
 
-**Exemple concret.**
+**Exemple concret, et il est rare.** Les DTO existants sont au contraire des projections étroites,
+souvent trois champs, avec des noms choisis pour l'échange :
 
 ```js
-export class OrganizationDTO {
-  constructor(organization) {
-    this.id = organization.id;
-    this.name = organization.name;
-    this.createdAt = organization.createdAt;    // tous les champs, sans exception
+// conforme — une projection délibérée, pas une recopie
+export class UserDTO {
+  constructor(user) {
+    this.firstName = user.firstName;
+    this.lastName = user.lastName;
+    this.id = user.id;
   }
 }
+
+// conforme aussi, et plus démonstratif — les noms sont ceux du contrat, pas ceux du modèle
+export class CampaignParticipation {
+  constructor({ participantFirstName, participantLastName, campaignParticipationId, sharedAt, … }) { … }
+
+  get id() { return this.campaignParticipationId; }
+  get isShared() { return Boolean(this.sharedAt); }
+}
 ```
+
+Le second aplatit une structure imbriquée, renomme l'identifiant, et dérive un booléen de
+présentation. C'est exactement ce qu'un langage publié doit faire.
+
+**L'écart reste énoncé parce que la pente existe** : un DTO écrit à la hâte au moment d'ouvrir une
+API prend la forme du modèle, et personne ne revient dessus. Aucune occurrence n'a été relevée à
+l'échantillonnage, ce qui place cet écart au rang de vigilance et non de chantier.
 
 **Correction.** Aucune tant que la coïncidence est **délibérée**, et c'est ce qui classe l'écart en
 *à surveiller* plutôt qu'à corriger : un contrat qui reprend le modèle peut être le bon contrat.
@@ -519,13 +586,13 @@ L'API interne est le meilleur endroit du dépôt pour du typage, parce que **c'e
 plusieurs équipes lisent**.
 
 ```ts
-export type OrganizationDTO = {
+export type UserDTO = {
   readonly id: number;
-  readonly name: string;
-  readonly identityProvider: string | null;
+  readonly firstName: string;
+  readonly lastName: string;
 };
 
-export const getOrganization: (id: number) => Promise<OrganizationDTO | null> = async (id) => { … };
+export const getUser: (id: number) => Promise<UserDTO | null> = async (id) => { … };
 ```
 
 Deux bénéfices, et ils portent sur les deux invariants en rentabilité forte.
