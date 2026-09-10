@@ -134,12 +134,23 @@ Le test : formuler la phrase « à tout instant, dans cet agrégat, … doit êt
 vient pas, il n'y a pas de frontière à protéger.
 
 ```
-// nommable — il y a un agrégat
-« à tout instant, la somme des parts d'une campagne combinée vaut 100 % »
+// nommable — il y a un agrégat, et le code le vérifie
+« à tout instant, toute participation portée par un parcours combiné est
+  une participation de ce contexte, et non une forme quelconque »
+
+    participations: Joi.array().items(Joi.object().instance(CombinedCourseParticipation))
 
 // non nommable — il n'y en a pas
 « ces objets sont toujours chargés ensemble »
 ```
+
+Le premier énoncé est **mince** : il contraint un type, pas une quantité métier. Un invariant mince
+reste un invariant, mais c'est un signal — si c'est tout ce que la frontière garantit, la question de
+A6 se pose aussitôt : porter cette collection vaut-il son chargement ?
+
+Le second n'est pas un invariant mais une observation sur les habitudes de chargement. C'est le seul
+énoncé disponible pour un objet assemblé pour un écran, et c'est exactement pourquoi ces objets ne
+sont pas des agrégats.
 
 **Ce qui casse.** Sans frontière nommable, chaque écriture portant sur plusieurs objets est une
 décision improvisée : personne ne sait ce qu'une transaction doit couvrir, ni ce qui peut se
@@ -155,13 +166,29 @@ import direct, ni par un repository dédié, ni par un accesseur qui rend la ré
 modifiable.
 
 ```js
-// fautif — l'appelant obtient la collection interne et peut la modifier
-get items() { return this.#items; }
+// fautif — le champ est public : l'appelant obtient la collection interne,
+// peut la modifier, et peut même la remplacer entièrement
+class CombinedCourse {
+  constructor({ participations = [] } = {}) {
+    this.participations = participations;
+  }
+}
 
-// conforme — lecture seule, et les modifications passent par des méthodes nommées
-get items() { return [...this.#items]; }
-addItem(item) { /* vérifie l'invariant de la frontière */ }
+// conforme — la racine ne rend que des résultats, jamais la collection
+get participationsCount() {
+  return this.#participations.length;
+}
+get completedParticipationsCount() {
+  return this.#participations.filter((participation) => participation.isCompleted()).length;
+}
 ```
+
+Les deux formes coexistent dans le même fichier réel : le champ est public, **et** la racine expose
+déjà deux comptages dérivés. C'est la moitié du travail faite. Passer `#participations` en privé
+suffit, puisque les accesseurs qui remplacent la collection existent déjà.
+
+Ces deux comptages sont d'ailleurs la forme qu'Evans autorise explicitement pour traverser la
+frontière : un scalaire calculé, pas la collection — voir le § 10.
 
 **Ce qui casse.** La règle de frontière devient contournable, donc ce n'est plus une garantie mais une
 convention. C'est la différence que porte tout l'intérêt de la catégorie.
@@ -291,10 +318,11 @@ en permanence. Sans cette règle, il n'y a pas d'agrégat.
 lecture :
 
 ```
-domain/models/things/
+domain/models/<un-domaine>/
   aggregates/
-    ThingOverview.js       → assemblé pour un écran : aucune règle commune
-    ThingWithDetails.js    → idem
+    …Details.js                  → assemblé pour un écran : aucune règle commune
+    …ParticipationDetails.js     → idem
+    DataFor….js                  → le candidat d'une Specification : un objet-valeur
 ```
 
 Le mot annonce des invariants tenus. Un relecteur qui ne les trouve pas conclut que la fiche est mal
@@ -328,9 +356,13 @@ quelques lignes suffit :
 ```md
 ## Racines d'agrégat de ce contexte
 
-- **Thing** — à tout instant, la somme des parts vaut 100 %
-- **Other** — à tout instant, au moins un membre est actif
+- **CombinedCourse** — à tout instant, toute participation portée est une participation
+  de ce contexte
+- **CombinedCourseBlueprint** — _invariant de frontière non formulé_
 ```
+
+La deuxième ligne est le vrai apport du fichier : une racine dont personne n'a écrit ce qu'elle
+garantit se voit immédiatement, alors qu'aujourd'hui il faut ouvrir le modèle et deviner.
 
 Ce que ça débloque, et c'est disproportionné au coût : A1 devient revuable, l'indicateur de A3
 devient calculable, et A6 a un point de comparaison. C'est le premier travail à faire sur cette
@@ -349,10 +381,18 @@ les besoins de requête. Un repository par racine.
 
 ```
 infrastructure/repositories/
-  thing-repository.js             getById, save
-  thing-for-admin-repository.js   getById avec tout ce qu'un écran d'administration affiche
-  thing-list-repository.js        findByOrganizationId, paginé
+  combined-courses/
+    combined-course-repository.js               getById, save
+  combined-course-details-repository.js         getById, avec tout ce qu'un écran affiche
+  combined-course-participations/
+    combined-course-participation-repository.js une entité interne à la frontière
+    organization-learner-participation-repository.js
+  prescription/
+    combined-course-participant-repository.js   la même frontière, vue d'un autre besoin
 ```
+
+Cinq fichiers, une frontière de cohérence. Le rangement en sous-dossiers, par besoin appelant, dit
+bien ce qu'il est : un découpage par requête, pas par agrégat.
 
 **Correction.** Aucune sur le découpage : le bénéfice est réel, et c'est instruit en détail dans X4 de
 `fiche-repository.md`, qui tranche l'alternative — le modèle partiellement rempli est à écarter, la
@@ -373,11 +413,18 @@ transaction couvre un agrégat.
 **Exemple concret.** Un usecase transactionnel qui écrit dans deux frontières distinctes :
 
 ```js
-await DomainTransaction.execute(async () => {
-  await thingRepository.save({ thing });
-  await otherRepository.save({ other });   // autre agrégat
+export const updateUserPassword = withTransaction(async function ({ … }) {
+  const user = await userRepository.getByEmail(email);
+  …
+  await authenticationMethodRepository.updatePassword({ userId, hashedPassword });
+  await userRepository.updateEmailConfirmed(userId);   // autre agrégat
 });
 ```
+
+L'exemple est le meilleur argument de la décision : `User` et `AuthenticationMethod` sont deux
+agrégats, et un mot de passe changé sans courriel confirmé — ou l'inverse — laisse un compte dans un
+état dont personne ne veut. **Ces deux écritures doivent échouer ensemble.** La cohérence à terme n'y
+répondrait pas ; elle laisserait une fenêtre pendant laquelle le compte est cassé.
 
 **Correction.** Aucune, et ce n'est pas une tolérance : c'est une décision, portée par l'**ADR 25**.
 
