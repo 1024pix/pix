@@ -512,7 +512,8 @@ export async function createCombinedCourseBlueprintInDB(name: string) {
     .insert({
       name,
       internalName: name,
-      description: null,
+      description: 'description',
+      prescriberDescription: 'prescriberDescription',
       illustration: null,
       createdAt: someDate,
       updatedAt: someDate,
