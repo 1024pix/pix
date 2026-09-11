@@ -92,8 +92,8 @@ test(
       await expect(
         pixCertifProPage.getByText("Ce candidat est déjà dans la liste, vous ne pouvez pas l'ajouter à nouveau."),
       ).toBeVisible();
-      await pixCertifProPage.getByRole('button', { name: 'Fermer la notification' }).click();
       await pixCertifProPage.getByRole('button', { name: "Fermer la modale d'ajout de candidat" }).click();
+      await pixCertifProPage.getByRole('button', { name: 'Fermer la notification' }).click();
       const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData();
       expect(enrolledCandidatesSoFar).toMatchObject([
         {
