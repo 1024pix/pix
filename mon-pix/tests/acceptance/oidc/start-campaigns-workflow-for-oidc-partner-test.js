@@ -47,7 +47,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
         await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
         // then
-        assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+        assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
       });
 
       test('should redirect to an oidc authentication form when landing page has been seen', async function (assert) {
@@ -128,7 +128,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
           await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
 
           // then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
         });
 
         test('should begin campaign participation', async function (assert) {
@@ -163,7 +163,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
           await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
 
           // then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
         });
 
         test('should redirect to oidc authentication form when landing page has been seen', async function (assert) {

@@ -90,7 +90,7 @@ Router.map(function () {
   this.route('campaigns', { path: '/campagnes/:code' }, function () {
     this.route('entry-point', { path: '/' });
     this.route('archived-error', { path: '/oups' });
-    this.route('campaign-landing-page', { path: '/presentation' });
+    this.route('campaign-landing-page', { path: '/programme' });
     this.route('fill-in-participant-external-id', { path: '/identifiant' });
     this.route('entrance', { path: '/entree' });
     this.route('profiles-collection', { path: '/collecte' }, function () {

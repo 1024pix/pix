@@ -20,7 +20,7 @@ module('Unit | Service | PixMetrics', function (hooks) {
   module('trackPage', function () {
     test('it should redact id from url', function (assert) {
       // given
-      const currentURL = '/campagnes/SCOASSMUL/presentation';
+      const currentURL = '/campagnes/SCOASSMUL/programme';
       const currentRoute = {
         name: 'campaigns.campaign-landing-page',
         params: {},
@@ -44,7 +44,7 @@ module('Unit | Service | PixMetrics', function (hooks) {
 
       // then
       sinon.assert.calledOnceWithExactly(metricsService.trackPage, {
-        plausibleAttributes: { u: `${new URL(window.location).origin}/campagnes/_ID_/presentation` },
+        plausibleAttributes: { u: `${new URL(window.location).origin}/campagnes/_ID_/programme` },
         params: 1,
       });
       assert.ok(true);
@@ -87,7 +87,7 @@ module('Unit | Service | PixMetrics', function (hooks) {
   module('trackEvent', function () {
     test('it should not called mertricsService if disabled props to true', function (assert) {
       // given
-      const currentURL = '/campagnes/SCOASSMUL/presentation';
+      const currentURL = '/campagnes/SCOASSMUL/programme';
       const currentRoute = {
         name: 'campaigns.campaign-landing-page',
         params: {},
@@ -115,7 +115,7 @@ module('Unit | Service | PixMetrics', function (hooks) {
 
     test('it should redact id from url', function (assert) {
       // given
-      const currentURL = '/campagnes/SCOASSMUL/presentation';
+      const currentURL = '/campagnes/SCOASSMUL/programme';
       const currentRoute = {
         name: 'campaigns.campaign-landing-page',
         params: {},
@@ -140,7 +140,7 @@ module('Unit | Service | PixMetrics', function (hooks) {
       // then
       sinon.assert.calledOnceWithExactly(metricsService.trackEvent, {
         eventName: 'mon-event',
-        plausibleAttributes: { u: `${new URL(window.location).origin}/campagnes/_ID_/presentation` },
+        plausibleAttributes: { u: `${new URL(window.location).origin}/campagnes/_ID_/programme` },
         params: 1,
       });
       assert.ok(true);

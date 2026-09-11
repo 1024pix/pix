@@ -72,7 +72,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
 
             // then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           });
 
           module('When user create its account', function () {
@@ -106,7 +106,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
 
               // then
-              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
 
               // when
               await click(screen.getByRole('button', { name: 'Je commence' }));
@@ -223,7 +223,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await visit(`/campagnes/${campaign.code}`);
 
             // then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           });
 
           test('should redirect to sco-signup-or-login page when landing page has been seen', async function (assert) {
@@ -364,7 +364,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
 
             // then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           });
 
           test('should redirect to simple login page when landing page has been seen', async function (assert) {
@@ -409,7 +409,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await visit(`/campagnes/${campaign.code}`);
 
             // then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           });
 
           test('should redirect to tutorial page after starting campaign', async function (assert) {
@@ -480,7 +480,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await visit(`/campagnes/${campaign.code}`);
 
           // then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
         });
 
         module('When campaign has custom text for the landing page', function () {
@@ -512,7 +512,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await visit(`/campagnes/${campaign.code}`);
 
           //then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
         });
       });
 
@@ -540,7 +540,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
 
             //then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           });
 
           test('should try to reconcile automatically before redirect to invited sco student page', async function (assert) {
@@ -611,7 +611,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await visit(`/campagnes/${campaign.code}`);
 
             //then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           });
 
           test('should begin campaign participation when landing page has been seen', async function (assert) {
@@ -652,7 +652,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
 
           //then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
         });
 
         test('should redirect to invited sup student page when landing page has been seen', async function (assert) {
@@ -741,7 +741,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await visit(`/campagnes/${campaign.code}`);
 
           // then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
         });
 
         test('should show an error message when user starts the campaign', async function (assert) {
@@ -779,7 +779,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await visit(`/campagnes/${campaign.code}`);
 
           // then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
         });
 
         test('should redirect to tutorial page after starting campaign', async function (assert) {
@@ -852,7 +852,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
 
             // then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           });
 
           test('should redirect to reconciliation form when landing page has been seen', async function (assert) {
@@ -945,7 +945,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             await visit(`/campagnes/${campaign.code}`);
 
             //then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           });
 
           module('When user is already reconciled in another organization', function () {
@@ -967,7 +967,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
 
               // then
-              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
             });
           });
         });

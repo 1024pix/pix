@@ -170,7 +170,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
             await click(screen.getByRole('link', { name: 'Continuer' }));
 
             // then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           });
         });
 
@@ -210,7 +210,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
           // then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
         });
       });
     });
@@ -291,7 +291,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
           // then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
         });
       });
     });

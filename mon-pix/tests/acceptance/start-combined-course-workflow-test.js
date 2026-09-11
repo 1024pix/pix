@@ -164,7 +164,7 @@ module('Acceptance | Combined course | Start Combined course workflow', function
             await click(screen.getByText(combinedCourseCampaignItem.title));
 
             //then
-            assert.strictEqual(currentURL(), '/campagnes/ABCDIAG/presentation');
+            assert.strictEqual(currentURL(), '/campagnes/ABCDIAG/programme');
           });
         });
 

@@ -103,7 +103,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
                 type: 'SCO',
               });
               const screen = await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
-              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
 
               await click(screen.getByRole('button', { name: "C'est parti !" }));
               // when
@@ -184,7 +184,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
           const screen = await visit(`/campagnes/${campaign.code}`);
 
           // then
-          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
           assert.dom(screen.getByRole('button', { name: "C'est parti !" })).exists();
         });
       });

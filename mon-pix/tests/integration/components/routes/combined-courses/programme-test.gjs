@@ -1,14 +1,14 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import CombinedCoursesPresentation from 'mon-pix/components/routes/combined-courses/presentation';
+import CombinedCoursesPresentation from 'mon-pix/components/routes/combined-courses/programme';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import { CombinedCourseStatuses } from '../../../../../models/combined-course.js';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js';
 
-module('Integration | Component | Combined Courses | Presentation', function (hooks) {
+module('Integration | Component | Combined Courses | Programme', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('in all cases', function () {

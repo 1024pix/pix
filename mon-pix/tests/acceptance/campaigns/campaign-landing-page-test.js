@@ -34,7 +34,7 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
             const screen = await visit(`/campagnes/${campaign.code}`);
 
             // then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
             assert.dom(screen.getByRole('button', { name: 'Je commence' })).exists();
             assert.dom(screen.queryByRole('button', { name: 'Français' })).doesNotExist();
           });
@@ -48,7 +48,7 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
             const screen = await visit(`/campagnes/${campaign.code}`);
 
             // then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
             assert.dom(screen.getByRole('button', { name: 'Je commence' })).exists();
           });
 
@@ -61,7 +61,7 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
               await click(screen.getByRole('option', { name: 'English' }));
 
               // then
-              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
               assert.dom(screen.getByRole('button', { name: 'Begin' })).exists();
             });
           });
@@ -73,7 +73,7 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
             const screen = await visit(`/campagnes/${campaign.code}?lang=en`);
 
             // then
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
             assert.dom(screen.getByRole('button', { name: 'Begin' })).exists();
           });
 
@@ -86,7 +86,7 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
               await click(screen.getByRole('option', { name: 'Français' }));
 
               // then
-              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/programme`);
               assert.dom(screen.getByRole('button', { name: 'Je commence' })).exists();
             });
           });
@@ -105,7 +105,7 @@ module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
         const screen = await visit(`/campagnes/${autonomousCourse.code}`);
 
         // then
-        assert.strictEqual(currentURL(), `/campagnes/${autonomousCourse.code}/presentation`);
+        assert.strictEqual(currentURL(), `/campagnes/${autonomousCourse.code}/programme`);
         assert
           .dom(screen.getByText(`${t('pages.autonomous-course.landing-page.texts.title')} ${autonomousCourse.title}`))
           .exists();
