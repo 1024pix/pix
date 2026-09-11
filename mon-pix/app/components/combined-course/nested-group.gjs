@@ -87,7 +87,7 @@ const Composition = <template>
                 (t "pages.combined-courses.items.group.start")
               )
             }}
-            @onClick={{noop}}
+            @onClick={{@onActivityClick}}
             @isCombinedCourseCompleted={{false}}
           />
         {{/each}}
@@ -95,5 +95,3 @@ const Composition = <template>
     {{/if}}
   </div>
 </template>
-
-function noop() {}

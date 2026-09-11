@@ -73,9 +73,10 @@ async function enterNextItem(page: Page) {
   return clickIfVisible(page, /^(Commencer|Continuer) mon parcours$/, 15_000);
 }
 
-// Every challenge of this content release is a QCU whose right answer is the first
-// proposal, so answering correctly is picking the first radio. Mastery then reaches the
-// 50 % the parent's attestation requires.
+// Every challenge of these tubes is a yes/no question whose right answer is « Oui. »
+// (27 of them, all identical in form). Some challenges shuffle their proposals, so the
+// answer is picked by its label rather than by position — otherwise the score, and the
+// attestation that depends on it, would be left to chance.
 async function runCampaign(page: Page, label: string) {
   await shot(page, `${label}-campagne`);
   await page.getByRole('button', { name: 'Je commence' }).click();
@@ -93,13 +94,15 @@ async function runCampaign(page: Page, label: string) {
   for (let i = 0; i < 20; i++) {
     if (await results.isVisible().catch(() => false)) break;
 
-    const firstProposal = page.getByRole('radio').first();
+    const anyProposal = page.getByRole('radio').first();
     try {
-      await firstProposal.waitFor({ state: 'visible', timeout: 10_000 });
+      await anyProposal.waitFor({ state: 'visible', timeout: 10_000 });
     } catch {
       break;
     }
-    await firstProposal.check();
+    const rightProposal = page.getByRole('radio', { name: 'Oui.' }).first();
+    const proposal = (await rightProposal.count()) > 0 ? rightProposal : anyProposal;
+    await proposal.check();
 
     const validate = page.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }).first();
     await expect(validate).toBeEnabled({ timeout: 20_000 });
@@ -191,6 +194,18 @@ test('a user walks the seeded parent combined course and obtains the attestation
     await expect(page.getByText(FINAL_ASSESSMENT)).toBeVisible();
     // the point of the target model: the child's own activity shows up on the parent page
     await expect(page.getByText('Évaluation de vos connaissances').first()).toBeVisible();
+  });
+
+  await test.step('Entering by the activity itself starts the parcours', async () => {
+    // a learner clicks the activity they can see, not only the button above it: that
+    // click must start the parcours, exactly as in a standalone combined course
+    await page.getByRole('link').filter({ hasText: 'Évaluation de vos connaissances' }).first().click();
+    await page.waitForTimeout(3000);
+    expect(page.url()).toContain('/campagnes/');
+    await runCampaign(page, 'etape-1');
+    await expect(parentHeading).toBeVisible();
+    await expect(page.getByText('Complété !').first()).toBeVisible();
+    await shot(page, 'parent-apres-etape-1');
   });
 
   await test.step('Walk every activity from the parent page', async () => {

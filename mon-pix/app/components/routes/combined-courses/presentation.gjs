@@ -103,7 +103,11 @@ export default class CombinedCoursePresentation extends Component {
           {{/if}}
         {{/unless}}
         {{#if (eq item.type CombinedCourseItemTypes.COMBINED_COURSE)}}
-          <NestedGroup @item={{item}} @isCurrent={{eq @combinedCourse.nextCombinedCourseItem item}} />
+          <NestedGroup
+            @item={{item}}
+            @isCurrent={{eq @combinedCourse.nextCombinedCourseItem item}}
+            @onActivityClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}}
+          />
         {{else}}
           <CombinedCourseItem
             @item={{item}}
@@ -134,7 +138,8 @@ export default class CombinedCoursePresentation extends Component {
 
   @action
   goToNextItem() {
-    const item = this.args.combinedCourse.nextCombinedCourseItem;
+    // the component can be torn down mid-transition, which used to throw here
+    const item = this.args.combinedCourse?.nextCombinedCourseItem;
     if (!item) return;
 
     // a nested course is not a destination: dive into its next activity
