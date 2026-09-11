@@ -1,0 +1,12 @@
+{
+  "name": "@1024pix/pix-types",
+  "version": "0.0.1",
+  "description": "Types partagés entre les applications",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts"
+    }
+  }
+}
