@@ -1004,14 +1004,8 @@
         },
         "modals": {
           "change-member-role": {
+            "admin": "Administrateur",
             "information": "Vous vous apprêtez à changer le rôle de {firstName} {lastName}.",
-            "select-role": {
-              "label": "Sélectionner un rôle",
-              "options": {
-                "admin": "Administrateur",
-                "member": "Membre"
-              }
-            },
             "title": "Modifier le rôle"
           },
           "leave-certification-center": {

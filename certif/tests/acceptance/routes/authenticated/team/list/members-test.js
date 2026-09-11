@@ -45,12 +45,10 @@ module('Acceptance | Routes | Team | List | Members', function (hooks) {
 
       // when
       await clickByName(t('pages.team.members.actions.edit-role'));
-      await screen.findByRole('dialog');
-      await clickByName(t('pages.team.members.modals.change-member-role.select-role.label'));
-      await screen.findByRole('listbox');
+      debugger;
       await click(
-        screen.getByRole('option', {
-          name: t('pages.team.members.modals.change-member-role.select-role.options.admin'),
+        screen.getByRole('checkbox', {
+          name: t('pages.team.members.modals.change-member-role.admin'),
         }),
       );
       await clickByName(t('pages.team.members.actions.save'));
