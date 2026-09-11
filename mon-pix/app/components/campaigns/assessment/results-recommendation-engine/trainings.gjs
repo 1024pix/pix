@@ -1,4 +1,5 @@
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
+import { concat } from '@ember/helper';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { service } from '@ember/service';
@@ -12,10 +13,10 @@ import onIntersect from 'mon-pix/modifiers/on-intersect';
 import TrainingCard from './training/card';
 
 export const TRAININGS_LIST_ID = 'results-recommendation-engine-training-list';
-const TRAININGS_PER_PAGE = 3;
 
 export default class Trainings extends Component {
   @service intl;
+  @service media;
 
   @tracked currentPageFirstCardIndex = 0;
   @tracked spacerWidth = null;
@@ -36,8 +37,18 @@ export default class Trainings extends Component {
     };
   });
 
+  get trainingsPerPage() {
+    if (this.media.isDesktop) {
+      return 3;
+    } else if (this.media.isTablet) {
+      return 2;
+    } else {
+      return 1;
+    }
+  }
+
   get areNavigationButtonsVisible() {
-    return this.args.trainings.length > TRAININGS_PER_PAGE;
+    return this.args.trainings.length > this.trainingsPerPage;
   }
 
   get cards() {
@@ -53,13 +64,13 @@ export default class Trainings extends Component {
   }
 
   get isNextButtonDisabled() {
-    return this.currentPageFirstCardIndex + TRAININGS_PER_PAGE >= this.args.trainings.length;
+    return this.currentPageFirstCardIndex + this.trainingsPerPage >= this.args.trainings.length;
   }
 
   get paginationAnnouncement() {
     const total = this.args.trainings.length;
     const from = this.currentPageFirstCardIndex + 1;
-    const to = Math.min(this.currentPageFirstCardIndex + TRAININGS_PER_PAGE, total);
+    const to = Math.min(this.currentPageFirstCardIndex + this.trainingsPerPage, total);
 
     return this.intl.t('pages.skill-review.recommended-engine.trainings.pagination-announcement', {
       from,
@@ -81,15 +92,24 @@ export default class Trainings extends Component {
   }
 
   @action
+  isCardDisabled(index) {
+    const lastCardFocusable = this.currentPageFirstCardIndex + this.trainingsPerPage;
+    const isFocusable = index >= this.currentPageFirstCardIndex && index < lastCardFocusable;
+    return !isFocusable;
+  }
+
+  @action
   scrollToPreviousTrainings() {
     this.args.onNavigationButtonClick('previous');
-    this.goToCardIndex(Math.max(this.currentPageFirstCardIndex - TRAININGS_PER_PAGE, 0));
+    this.goToCardIndex(Math.max(this.currentPageFirstCardIndex - this.trainingsPerPage, 0));
   }
 
   @action
   scrollToNextTrainings() {
     this.args.onNavigationButtonClick('next');
-    this.goToCardIndex(Math.min(this.currentPageFirstCardIndex + TRAININGS_PER_PAGE, this.args.trainings.length - 1));
+    this.goToCardIndex(
+      Math.min(this.currentPageFirstCardIndex + this.trainingsPerPage, this.args.trainings.length - 1),
+    );
   }
 
   @action
@@ -106,7 +126,7 @@ export default class Trainings extends Component {
     this.list.scrollTo({ left: targetCard.offsetLeft, behavior });
   }
 
-  // The list can show more than TRAININGS_PER_PAGE cards at once (a peek of
+  // The list can show more than this.trainingsPerPage cards at once (a peek of
   // the next card is visible by design). The trailing spacer must cover that
   // extra peeked width, otherwise the browser clamps scrollTo() short of the
   // last card's offsetLeft and a previous card re-appears on the left.
@@ -132,7 +152,10 @@ export default class Trainings extends Component {
       tabindex="-1"
       class="results-recommendation-engine-training"
       aria-labelledby={{this.titleId}}
-      aria-roledescription={{t "pages.skill-review.recommended-engine.trainings.carousel-roledescription"}}
+      aria-roledescription={{if
+        this.areNavigationButtonsVisible
+        "carousel"
+      }}
       {{onIntersect @onFullyVisible threshold=1}}
     >
       <div class="results-recommendation-engine-training__header">
@@ -148,13 +171,17 @@ export default class Trainings extends Component {
         {{#if this.areNavigationButtonsVisible}}
           <div class="results-recommendation-engine-training__navigation">
             <PixIconButton
+              aria-controls={{TRAININGS_LIST_ID}}
               @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.previous-button-aria-label"}}
+              @variant="secondary"
               @iconName="chevronLeft"
               @isDisabled={{this.isPreviousButtonDisabled}}
               @triggerAction={{this.scrollToPreviousTrainings}}
             />
             <PixIconButton
+              aria-controls={{TRAININGS_LIST_ID}}
               @ariaLabel={{t "pages.skill-review.recommended-engine.trainings.next-button-aria-label"}}
+              @variant="secondary"
               @iconName="chevronRight"
               @isDisabled={{this.isNextButtonDisabled}}
               @triggerAction={{this.scrollToNextTrainings}}
@@ -165,21 +192,27 @@ export default class Trainings extends Component {
       </div>
 
       <ul
-        class="results-recommendation-engine-training__list
-          {{if this.areNavigationButtonsVisible 'results-recommendation-engine-training__list--hidden'}}"
+        id="results-recommendation-engine-training-list"
+        class="results-recommendation-engine-training__list"
+        aria-live="{{if this.areNavigationButtonsVisible 'polite'}}"
         {{this.registerList}}
       >
         {{#each @trainings as |training index|}}
-          <li class="results-recommendation-engine-training-list__item">
+          <li class="results-recommendation-engine-training-list__item" aria-hidden="{{this.isCardDisabled index}}">
             <div
-              role="group"
-              aria-roledescription={{t "pages.skill-review.recommended-engine.trainings.slide-roledescription"}}
-              aria-label={{this.slideAriaLabel index}}
+              role={{if this.areNavigationButtonsVisible "group"}}
+              aria-roledescription={{if
+                this.areNavigationButtonsVisible
+                "diapositive"
+              }}
+              id={{concat "results-recommendation-engine-training-list-item-" index}}
+              aria-label={{if this.areNavigationButtonsVisible (this.slideAriaLabel index)}}
             ><TrainingCard
                 @training={{training}}
                 @onCardClick={{@onCardClick}}
                 @onModalButtonClick={{@onModalButtonClick}}
                 @onModalAccordionClick={{@onModalAccordionClick}}
+                @disabled={{this.isCardDisabled index}}
               /></div>
           </li>
         {{/each}}

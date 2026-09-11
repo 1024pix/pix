@@ -107,6 +107,7 @@ export default class Card extends Component {
           class="results-recommendation-engine-training-card__button"
           type="button"
           aria-label={{t "pages.skill-review.recommended-engine.training-card.aria-label"}}
+          disabled={{@disabled}}
           {{on "click" this.showModal}}
         ></button>
       </div>

@@ -219,6 +219,32 @@ module(
       });
     });
 
+    module('when argument disabled is true', function () {
+      test('it should disable the button on the card', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const training = store.createRecord(
+          'training',
+          _buildTraining({ type: 'modulix', duration: { days: 1, hours: 2, minutes: 10 } }),
+        );
+        const onCardClickStub = sinon.stub();
+
+        // when
+        const screen = await render(
+          <template>
+            <TrainingCard @training={{training}} @onCardClick={{onCardClickStub}} @disabled={{true}} />
+          </template>,
+        );
+
+        // then
+        assert
+          .dom(
+            screen.getByRole('button', { name: t('pages.skill-review.recommended-engine.training-card.aria-label') }),
+          )
+          .hasAttribute('disabled');
+      });
+    });
+
     module('when user clicks on a training card', function () {
       test('should display a modal with training information', async function (assert) {
         // given
