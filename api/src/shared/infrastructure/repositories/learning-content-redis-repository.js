@@ -3,7 +3,7 @@ import { learningContentCache } from '../caches/learning-content-redis-cache.js'
 
 export class LearningContentRedisRepository {
   #tableName;
-  #idType; // eslint-disable-line no-unused-private-class-members
+  #idType;
   #cache;
 
   constructor({ tableName, idType = 'text', cache = learningContentCache }) {
@@ -49,12 +49,12 @@ export class LearningContentRedisRepository {
    * @param {string[]|number[]} ids
    * @returns {Promise<(object|null)[]>}
    */
-  async getMany(ids) {
+  getMany(ids) {
     const idsToLoad = new Set(ids);
     idsToLoad.delete(undefined);
     idsToLoad.delete(null);
 
-    // FIXME
+    return this.loadMany(idsToLoad);
   }
 
   /**
@@ -62,8 +62,29 @@ export class LearningContentRedisRepository {
    * @param {string[]|number[]} ids
    * @returns {Promise<(object|null)[]>}
    */
-  async loadMany(_ids) {
-    // FIXME
+  async loadMany(ids) {
+    if (ids.length === 0) return [];
+
+    const keys = ids.map((id) => this.#getEntityCacheKey(id));
+
+    const cachedEntities = await this.#cache.getEntities(keys);
+
+    const missingIds = ids.filter((id, index) => cachedEntities[index] === undefined);
+
+    if (missingIds.length === 0) return cachedEntities;
+
+    const knexConn = DomainTransaction.getConnection();
+    const entities = await knexConn
+      .select(`${this.#tableName}.*`)
+      .from(knexConn.raw(`unnest(?::${this.#idType}[]) with ordinality as ids(id, idx)`, [missingIds])) // eslint-disable-line knex/avoid-injections
+      .leftJoin(this.#tableName, `${this.#tableName}.id`, 'ids.id')
+      .orderBy('ids.idx');
+
+    const missingKeys = keys.filter((key, index) => cachedEntities[index] === undefined);
+    await this.#cache.setEntities(missingKeys.map((key, index) => [key, entities[index] ?? null]));
+
+    let missingIndex = 0;
+    return cachedEntities.map((cachedEntity) => (cachedEntity === undefined ? entities[missingIndex++] : cachedEntity));
   }
 
   /**
