@@ -134,41 +134,14 @@
             {
               "type": "element",
               "element": {
-                "id": "0c6f4d09-1eb4-4b35-acf6-e82b70cefd0e",
-                "type": "qcu-discovery",
+                "id": "bc3fcc8f-d329-48f1-8d15-74c3a626b05f",
+                "type": "embed",
+                "isCompletionRequired": false,
+                "title": "Découverte 1",
+                "url": "https://epreuves.pix.fr/fr/ui-kit/qcm-qcu-select/nr_datacenter_nov.html",
                 "instruction": "<p>Quand Tom appuie sur «&nbsp;J’aime&nbsp;», où cette information est-elle enregistrée et traitée ?</p>",
-                "hasShortProposals": false,
-                "proposals": [
-                  {
-                    "id": "1",
-                    "content": "<p>Dans un centre de données</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Bien vu !</p><p>La mention J’aime part vers ce grand bâtiment appelé <strong>centre de données</strong> où sont stockées et gérées les informations. C’est là que l’action de Tom est enregistrée.</p>"
-                    }
-                  },
-                  {
-                    "id": "2",
-                    "content": "<p>Dans un satellite</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Eh non !</p><p>La mention J’aime part vers ce grand bâtiment appelé <strong>centre de données</strong> où sont stockées et gérées les informations. C’est là que l’action de Tom est enregistrée.</p>"
-                    }
-                  },
-                  {
-                    "id": "3",
-                    "content": "<p>Dans sa box internet</p>",
-                    "feedback": {
-                      "diagnosis": "<p>Eh non !</p><p>La mention J’aime part vers ce grand bâtiment appelé <strong>centre de données</strong> où sont stockées et gérées les informations. C’est là que l’action de Tom est enregistrée.</p>"
-                    }
-                  },
-                  {
-                    "id": "4",
-                    "content": "<p>Je ne sais pas.</p>",
-                    "feedback": {
-                      "diagnosis": "<p>La mention J’aime part vers ce grand bâtiment appelé <strong>centre de données</strong> où sont stockées et gérées les informations. C’est là que l’action de Tom est enregistrée.</p>"
-                    }
-                  }
-                ],
-                "solution": "1"
+                "solution": "",
+                "height": 550
               }
             }
           ]
