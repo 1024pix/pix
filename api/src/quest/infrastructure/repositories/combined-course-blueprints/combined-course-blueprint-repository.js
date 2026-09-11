@@ -59,7 +59,7 @@ export async function save({ combinedCourseBlueprint }) {
 
   const doesCombinedCourseBlueprintExists = !!combinedCourseBlueprint.id;
   if (doesCombinedCourseBlueprintExists) {
-    await updateShares({ combinedCourseBlueprint, knexConn });
+    await _updateShares({ combinedCourseBlueprint, knexConn });
   }
 
   const quest = await questRepository.findById({ questId });
@@ -67,7 +67,7 @@ export async function save({ combinedCourseBlueprint }) {
   return _toDomain({ ...createdBlueprint[0], organizationIds: combinedCourseBlueprint.organizationIds }, quest);
 }
 
-async function updateShares({ combinedCourseBlueprint, knexConn }) {
+async function _updateShares({ combinedCourseBlueprint, knexConn }) {
   const currentCombinedCourseBlueprint = await findById({ id: combinedCourseBlueprint.id });
   if (!currentCombinedCourseBlueprint) {
     throw new NotFoundError(`No combined course blueprint found with id ${combinedCourseBlueprint.id}`);
@@ -91,12 +91,12 @@ async function updateShares({ combinedCourseBlueprint, knexConn }) {
   }
 
   if (organizationIdsToAdd.length > 0) {
-    for (const organizationId of organizationIdsToAdd) {
-      await knexConn('combined_course_blueprint_shares').insert({
-        organizationId,
-        combinedCourseBlueprintId: currentCombinedCourseBlueprint.id,
-      });
-    }
+    const combinedCourseBlueprintShares = organizationIdsToAdd.map((organizationId) => ({
+      organizationId,
+      combinedCourseBlueprintId: currentCombinedCourseBlueprint.id,
+    }));
+
+    await knexConn.batchInsert('combined_course_blueprint_shares', combinedCourseBlueprintShares);
   }
 }
 
