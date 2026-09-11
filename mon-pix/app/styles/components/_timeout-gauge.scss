@@ -1,47 +1,22 @@
-.timeout-gauge-wrapper {
-  padding-top: 0;
-}
-
 .timeout-gauge {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  width: 100%;
-  font-weight: var(--pix-font-bold);
-  font-size: 1.25rem;
-  font-style: normal;
-}
-
-.timeout-gauge-container {
-  position: relative;
-  z-index: 0;
-  width: 100px;
-  height: 36px;
-  overflow: hidden;
-  background-color: var(--pix-neutral-20);
-  border-radius: 5px;
-}
-
-.timeout-gauge-progress {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  height: 100%;
-  background-color: var(--pix-neutral-20);
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-
-.timeout-gauge-clock {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+  justify-content:flex-end;
+
+  &__stop-icon {
+    color: var(--pix-error-500)
+  }
+
+  &__content {
+    position: relative;
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    width: fit-content;
+    padding: var(--pix-spacing-1x);
+    font-weight: var(--pix-font-bold);
+    font-size: 1.25rem;
+    font-style: normal;
+    border-radius: 5px;
+  }
 }
