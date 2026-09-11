@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CombinedCourseStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CombinedCourseStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import { combinedCourseSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-serializer.js';

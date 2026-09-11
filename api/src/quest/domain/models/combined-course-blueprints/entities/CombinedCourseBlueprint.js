@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses } from '../../../../../prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../prescription/shared/domain/constants.ts';
 import { ObjectValidationError } from '../../../../../shared/domain/errors.js';
 import { CombinedCourse } from '../../combined-courses/entities/CombinedCourse.js';
 import {

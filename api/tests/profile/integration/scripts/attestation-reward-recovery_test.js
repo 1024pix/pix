@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.ts';
 import {
   AttestationRewardRecoveryScript,
   TARGET_PROFILE_IDS,

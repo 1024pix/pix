@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.ts';
 import { CombinedCourseBlueprint } from '../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { OrganizationLearnerParticipationTypes } from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';

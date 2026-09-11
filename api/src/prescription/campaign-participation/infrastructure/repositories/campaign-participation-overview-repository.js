@@ -4,7 +4,7 @@ import {
   OrganizationLearnerParticipationTypes,
 } from '../../../../quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.ts';
 import { CampaignParticipationOverview } from '../../domain/read-models/CampaignParticipationOverview.js';
 
 const findByUserIdWithFilters = async function ({ userId, states }) {

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { CampaignCollectiveResult } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignCollectiveResult.js';
 import * as campaignCollectiveResultRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-collective-result-repository.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';

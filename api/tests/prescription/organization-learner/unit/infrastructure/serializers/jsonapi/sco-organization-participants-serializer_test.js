@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { ScoOrganizationParticipant } from '../../../../../../../src/prescription/organization-learner/domain/read-models/ScoOrganizationParticipant.js';
 import { scoOrganizationParticipantsSerializer } from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/sco-organization-participants-serializer.js';
-import { CampaignParticipationStatuses as campaignParticipationsStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses as campaignParticipationsStatuses } from '../../../../../../../src/prescription/shared/domain/constants.ts';
 
 describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer', function () {
   describe('#serialize', function () {

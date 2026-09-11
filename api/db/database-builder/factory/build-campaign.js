@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.ts';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildOrganization } from './build-organization.js';

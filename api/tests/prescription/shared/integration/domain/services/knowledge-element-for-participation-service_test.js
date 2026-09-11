@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import knowledgeElementForParticipationService from '../../../../../../src/prescription/shared/domain/services/knowledge-element-for-participation-service.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { CampaignAssessmentParticipationResult } from '../../../../../../../src/prescription/campaign-participation/domain/models/CampaignAssessmentParticipationResult.js';
 import { campaignAssessmentParticipationResultSerializer } from '../../../../../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
-import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.ts';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 const { SHARED } = CampaignParticipationStatuses;

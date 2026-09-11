@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import nock from 'nock';
 import sinon from 'sinon';
 
-import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
 import { CombinedCourseReward } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';

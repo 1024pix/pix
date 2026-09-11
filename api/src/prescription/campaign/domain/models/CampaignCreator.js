@@ -1,5 +1,5 @@
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
-import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignTypes } from '../../../shared/domain/constants.ts';
 import {
   CampaignTypeError,
   OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,

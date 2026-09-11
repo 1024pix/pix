@@ -1,5 +1,5 @@
 import { CampaignParticipationForUserManagement } from '../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationForUserManagement.js';
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.ts';
 
 const buildCampaignParticipationForUserManagement = function ({
   id = 1,

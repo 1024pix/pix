@@ -8,7 +8,7 @@ import * as participationsForUserManagementRepository from '../../../../../../sr
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';

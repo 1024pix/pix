@@ -1,3 +1,4 @@
+import type { CampaignParticipationStatus, CampaignType } from '@1024pix/pix-types';
 import type { Type } from '@warp-drive/core/types/symbols';
 import Model, { type AsyncBelongsTo, attr, belongsTo } from '@warp-drive/legacy/model';
 import type {
@@ -8,8 +9,6 @@ import type {
 } from '@warp-drive/legacy/serializer/transform';
 
 import type DateOnlyTransform from '../transforms/date-only';
-import type { CampaignParticipationStatus } from '../utils/campaign-participation-statuses';
-import type { CampaignType } from '../utils/campaign-types';
 import type Organization from './organization';
 
 export default class ScoOrganizationParticipant extends Model {

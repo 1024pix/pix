@@ -1,5 +1,5 @@
 import { CampaignToStartParticipation } from '../../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
-import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.ts';
 
 export function buildCampaignToStartParticipation({
   id = 1,

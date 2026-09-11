@@ -5,7 +5,7 @@ import { campaignParticipationOverviewSerializer } from '../../../../../../../sr
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../../src/prescription/shared/domain/constants.ts';
 
 const { SHARED } = CampaignParticipationStatuses;
 

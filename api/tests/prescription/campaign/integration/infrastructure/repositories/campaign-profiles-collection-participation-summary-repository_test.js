@@ -5,7 +5,7 @@ import * as campaignProfilesCollectionParticipationSummaryRepository from '../..
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 

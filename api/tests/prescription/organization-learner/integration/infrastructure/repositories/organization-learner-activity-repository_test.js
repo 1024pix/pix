@@ -4,7 +4,7 @@ import * as organizationLearnerActivityRepository from '../../../../../../src/pr
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 

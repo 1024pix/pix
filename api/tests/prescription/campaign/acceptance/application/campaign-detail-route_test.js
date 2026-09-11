@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
-} from '../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';

@@ -1,4 +1,4 @@
-import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.ts';
 import { buildAssessmentCampaignForSkills } from './build-assessment-campaign-for-skills.js';
 
 const buildAssessmentCampaign = function (attributes, skills = [{ id: 'skill', name: 'skillName' }]) {

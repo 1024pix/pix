@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { QuestInput } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/QuestInput.js';
 import {

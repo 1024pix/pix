@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
 import { CampaignParticipant } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
-import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import {
   AlreadyExistingCampaignParticipationError,
   CannotResetCampaignParticipationError,

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { CampaignParticipationInfo } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipationInfo.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () {

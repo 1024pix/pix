@@ -1,5 +1,5 @@
 import { CampaignManagement } from '../../../../src/prescription/campaign/domain/models/CampaignManagement.js';
-import { CampaignExternalIdTypes, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignExternalIdTypes, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.ts';
 
 const buildCampaignManagement = function ({
   alternativeTextToExternalIdHelpImage = null,

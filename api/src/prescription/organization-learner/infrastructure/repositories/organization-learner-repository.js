@@ -8,7 +8,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { OrganizationLearner as OrganizationLearnerToManage } from '../../../learner-management/domain/models/OrganizationLearner.js';
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.ts';
 import { ParticipantRepartition } from '../../domain/models/ParticipantRepartition.js';
 import { AttestationParticipantStatus } from '../../domain/read-models/AttestationParticipantStatus.js';
 import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';
