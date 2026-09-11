@@ -73,4 +73,29 @@ describe('Unit | Identity Access Management | Domain | Model | RefreshToken', fu
       expect(withDifferentAudience).to.be.false;
     });
   });
+
+  describe('#RefreshToken.isStatefulRefreshToken', function () {
+    it('returns true if token uses legacy format', function () {
+      // given
+      const legacyToken = '123456:91b952ad-c0f7-4ea6-94a7-28f4b489153e';
+      const invalidToken1 = 'abcdef:91b952ad-c0f7-4ea6-94a7-28f4b489153e';
+      const invalidToken2 = '12345:91b952ad-c0f7-4ea6-94a7-28f4b489153z';
+      const invalidToken3 = 'invalid-token';
+      const jwtToken = 'Abcd1324.EfGh5678.IJKl90';
+
+      // when
+      const result1 = RefreshToken.isStatefulRefreshToken(legacyToken);
+      const result2 = RefreshToken.isStatefulRefreshToken(invalidToken1);
+      const result3 = RefreshToken.isStatefulRefreshToken(invalidToken2);
+      const result4 = RefreshToken.isStatefulRefreshToken(invalidToken3);
+      const result5 = RefreshToken.isStatefulRefreshToken(jwtToken);
+
+      // then
+      expect(result1).to.be.true;
+      expect(result2).to.be.false;
+      expect(result3).to.be.false;
+      expect(result4).to.be.false;
+      expect(result5).to.be.false;
+    });
+  });
 });

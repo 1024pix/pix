@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import jsonwebtoken from 'jsonwebtoken';
 import sinon from 'sinon';
 
 import { config } from '../../../../../config/config.js';
@@ -11,6 +12,7 @@ import {
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
+import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
@@ -43,11 +45,47 @@ describe('Integration | Identity Access Management | Domain | UseCase | authenti
       expect(result).to.be.an.instanceOf(Object);
       expect(result).to.have.all.keys('accessToken', 'refreshToken', 'expirationDelaySeconds');
       expect(result.accessToken).to.be.a('string');
-      expect(result.refreshToken).to.be.a('string');
+      expect(result.refreshToken)
+        .to.be.a('string')
+        .that.matches(/^\d+:\p{Hex_Digit}{8}-\p{Hex_Digit}{4}-\p{Hex_Digit}{4}-\p{Hex_Digit}{4}-\p{Hex_Digit}{12}$/u);
       expect(result.expirationDelaySeconds).to.be.a('number');
 
       const decodedAccessToken = UserAccessToken.decode(result.accessToken);
       expect(decodedAccessToken.sessionId).to.be.a('string');
+    });
+
+    describe('when isSessionLogoutEnabled is true', function () {
+      beforeEach(async function () {
+        await featureToggles.set('isSessionLogoutEnabled', true);
+      });
+
+      it('generates a JWT for refresh token', async function () {
+        // given
+        const email = 'user_exists@example.net';
+        const password = 'some password';
+        const { id: userId } = databaseBuilder.factory.buildUser.withRawPassword({ email, rawPassword: password });
+        await databaseBuilder.commit();
+
+        const audience = 'https://app.pix.fr';
+        const requestedApplication = RequestedApplication.fromOrigin(audience);
+
+        // when
+        const result = await usecases.authenticateUser({ username: email, password, requestedApplication, audience });
+
+        // then
+        expect(result.refreshToken).to.be.a('string');
+
+        const decodedRefreshToken = jsonwebtoken.verify(result.refreshToken, config.authentication.secret);
+        expect(decodedRefreshToken).to.include({
+          user_id: userId,
+          aud: audience,
+        });
+        expect(decodedRefreshToken)
+          .to.have.property('sid')
+          .that.matches(/^\p{Hex_Digit}{8}-\p{Hex_Digit}{4}-\p{Hex_Digit}{4}-\p{Hex_Digit}{4}-\p{Hex_Digit}{12}$/u);
+        expect(decodedRefreshToken).to.have.property('iat').that.is.a('number');
+        expect(decodedRefreshToken).to.have.property('exp').that.is.a('number');
+      });
     });
 
     it('saves the last dates of login', async function () {
