@@ -16,6 +16,7 @@
       "edit": "Edit",
       "next": "Next",
       "save": "Save",
+      "search": "Search",
       "validate": "Validate"
     },
     "api-error-messages": {
@@ -152,6 +153,7 @@
       "send-new-label": "Resend the invitation to {invitationEmail}"
     },
     "loading": "Loading...",
+    "no-results": "No results",
     "not-specified": "Not specified",
     "notifications": {
       "close-button": {
@@ -1096,7 +1098,7 @@
             "error-message": "Category is required",
             "label": "Category",
             "placeholder": "Choose a category",
-            "search-label": "Search",
+            "search-label": "Search for a category",
             "search-placeholder": "Search for a category"
           }
         },
@@ -1167,7 +1169,7 @@
             "error-message": "Category is required",
             "label": "Category",
             "placeholder": "Choose a category",
-            "search-label": "Search",
+            "search-label": "Search for a category",
             "search-placeholder": "Search for a category"
           }
         },
