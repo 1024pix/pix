@@ -9,9 +9,9 @@ export default defineConfig({
   use: { ...sharedConfig.use, actionTimeout: 30_000, screenshot: 'only-on-failure', trace: 'retain-on-failure' },
   projects: [
     {
-      name: 'poc-seeded-metacomb',
+      name: 'poc-seeded-parent-course',
       testDir: 'tests/pix-app',
-      testMatch: 'poc-seeded-metacomb.test.ts',
+      testMatch: 'poc-seeded-parent-course.test.ts',
     },
   ],
 });

@@ -225,8 +225,6 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
       }
     }
   });
-
-  return combinedCourseId;
 };
 
 export const buildCombinedCourseBlueprints = () => {
@@ -247,8 +245,6 @@ export const buildCombinedCourseBlueprints = () => {
 };
 
 export const buildCombinedCourses = (databaseBuilder) => {
-  const combinedCourseIdByFixture = new Map();
-
   [
     PRO_COMBINED_COURSE,
     COMBINED_COURSE_WITHOUT_CAMPAIGN,
@@ -258,13 +254,9 @@ export const buildCombinedCourses = (databaseBuilder) => {
     SUP_IMPORT_COMBINED_COURSE,
     PRO_MANAGING_COMBINED_COURSE,
   ].forEach((config) => {
-    combinedCourseIdByFixture.set(config, buildCombinixQuest(databaseBuilder, config));
+    buildCombinixQuest(databaseBuilder, config);
   });
 
-  // POC: a combined course composed of combined courses, both children in the PRO organization.
-  // The shortest child comes first so the whole chain stays demoable in a few minutes.
-  buildNestedCombinedCourse(databaseBuilder, [
-    combinedCourseIdByFixture.get(COMBINED_COURSE_WITHOUT_MODULES),
-    combinedCourseIdByFixture.get(PRO_COMBINED_COURSE),
-  ]);
+  // POC: a combined course composed of combined courses, on its own data.
+  buildNestedCombinedCourse(databaseBuilder);
 };
