@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import * as certificationPointOfContactRepository from '../../../../../src/deprecated/infrastructure/repositories/certification-point-of-contact-repository.js';
-import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
+import { STATUS } from '../../../../../src/legal-documents/application/api/legal-documents-api.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { AllowedCertificationCenterAccess } from '../../../../../src/organizational-entities/domain/read-models/AllowedCertificationCenterAccess.js';
 import * as centerRepository from '../../../../../src/organizational-entities/infrastructure/repositories/center-repository.js';

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
-import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
+import { STATUS } from '../../../../../src/legal-documents/application/api/legal-documents-api.js';
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../../src/team/domain/models/CertificationCenterMembership.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
