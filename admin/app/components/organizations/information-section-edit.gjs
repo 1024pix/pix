@@ -11,8 +11,8 @@ import { t } from 'ember-intl';
 import Joi from 'joi';
 import lodashGet from 'lodash/get';
 import lodashSet from 'lodash/set';
+import SelectSearchWrapper from 'pix-admin/components/ui/select-search-wrapper';
 import { FormValidator } from 'pix-admin/utils/form-validator';
-import { isSearchValid } from 'pix-admin/utils/normalize-text';
 
 import Card from '../card';
 
@@ -30,7 +30,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
   @tracked organizationLearnerTypes = [];
   @tracked countries = [];
   @tracked structureCategories = [];
-  @tracked categoriesSearchQuery = '';
 
   noIdentityProviderOption = { label: this.intl.t('common.words.none'), value: 'None' };
   garIdentityProviderOption = { label: 'GAR', value: 'GAR' };
@@ -109,13 +108,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
     return options;
   }
 
-  get filteredCategoriesOptions() {
-    if (!this.categoriesSearchQuery) {
-      return this.categoriesOptions;
-    }
-    return this.categoriesOptions.filter((option) => isSearchValid(option.label, this.categoriesSearchQuery));
-  }
-
   get countriesOptions() {
     const options = this.countries.map((country) => ({
       value: country.code,
@@ -138,11 +130,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
   @action
   updateFormValue(key, event) {
     this.updateValue(key, event.target.value);
-  }
-
-  @action
-  onSearchCategories(query) {
-    this.categoriesSearchQuery = query;
   }
 
   @action
@@ -307,29 +294,27 @@ export default class OrganizationInformationSectionEditionMode extends Component
             ><:label>{{t "components.organizations.information-section-view.external-id"}}</:label></PixInput>
           </div>
 
-          <div class="organization-creation-form__input--full">
-            <PixSelect
-              required
-              @aria-required={{true}}
-              @texts={{hash
-                placeholder=(t "components.organizations.editing.category.selector.placeholder")
-                selectSearchLabel=(t "components.organizations.editing.category.selector.search-label")
-                searchPlaceholder=(t "components.organizations.editing.category.selector.search-placeholder")
-                requiredLabel=(t "common.forms.mandatory")
-              }}
-              @errorMessage={{if this.validator.errors.categoryId (t this.validator.errors.categoryId)}}
-              @validationStatus={{if this.validator.errors.categoryId "error"}}
-              @options={{this.filteredCategoriesOptions}}
-              @value={{this.form.categoryId}}
-              @onChange={{fn this.updateValue "categoryId"}}
-              @onSearch={{this.onSearchCategories}}
-              @hideDefaultOption={{true}}
-              @isSearchable={{true}}
-              @isFullWidth={{true}}
-            >
-              <:label>{{t "components.organizations.editing.category.selector.label"}}</:label>
-            </PixSelect>
-          </div>
+          <SelectSearchWrapper
+            class="organization-creation-form__input--full"
+            required
+            @aria-required={{true}}
+            @texts={{hash
+              placeholder=(t "components.organizations.editing.category.selector.placeholder")
+              selectSearchLabel=(t "components.organizations.editing.category.selector.search-label")
+              searchPlaceholder=(t "components.organizations.editing.category.selector.search-placeholder")
+              requiredLabel=(t "common.forms.mandatory")
+            }}
+            @errorMessage={{if this.validator.errors.categoryId (t this.validator.errors.categoryId)}}
+            @validationStatus={{if this.validator.errors.categoryId "error"}}
+            @options={{this.categoriesOptions}}
+            @value={{this.form.categoryId}}
+            @onChange={{fn this.updateValue "categoryId"}}
+            @hideDefaultOption={{true}}
+            @isFullWidth={{true}}
+          >
+            <:label>{{t "components.organizations.editing.category.selector.label"}}</:label>
+          </SelectSearchWrapper>
+
         </Card>
 
         <Card
