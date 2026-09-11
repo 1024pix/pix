@@ -8,7 +8,7 @@ import { getOrganizationLearnerWithParticipations } from '../../../../../../src/
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import * as stageAcquisitionComparisonService from '../../../../../../src/prescription/stages/domain/services/stage-and-stage-acquisition-comparison-service.js';
 import * as stageAcquisitionRepository from '../../../../../../src/prescription/stages/infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageRepository from '../../../../../../src/prescription/stages/infrastructure/repositories/stage-repository.js';

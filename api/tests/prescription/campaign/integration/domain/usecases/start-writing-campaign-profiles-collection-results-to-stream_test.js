@@ -14,7 +14,7 @@ import * as organizationLearnerImportFormatRepository from '../../../../../../sr
 import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import {
   CAMPAIGN_FEATURES,

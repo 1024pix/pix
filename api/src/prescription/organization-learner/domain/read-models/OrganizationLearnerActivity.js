@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignTypes } from '../../../shared/domain/constants.ts';
 
 const { countBy } = lodash;
 

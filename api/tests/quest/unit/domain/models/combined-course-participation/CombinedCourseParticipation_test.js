@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CombinedCourseParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CombinedCourseParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { CombinedCourseParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseParticipation ', function () {

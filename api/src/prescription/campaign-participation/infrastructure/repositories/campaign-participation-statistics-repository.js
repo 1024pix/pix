@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 
 const participationNeitherDeletedNorImproved = (queryBuilder) =>
   queryBuilder.whereNull('campaign-participations.deletedAt').where('campaign-participations.isImproved', false);

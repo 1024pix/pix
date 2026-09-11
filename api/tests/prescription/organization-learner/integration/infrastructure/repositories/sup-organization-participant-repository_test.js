@@ -6,7 +6,7 @@ import * as supOrganizationParticipantRepository from '../../../../../../src/pre
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Integration | Infrastructure | Repository | sup-organization-participant-repository', function () {

@@ -2,7 +2,7 @@ import { CAMPAIGN_FEATURES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 import { CampaignParticipantActivity } from '../../domain/read-models/CampaignParticipantActivity.js';
 
 // TODO move to its own model

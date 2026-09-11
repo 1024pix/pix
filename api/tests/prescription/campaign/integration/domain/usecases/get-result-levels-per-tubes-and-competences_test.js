@@ -4,7 +4,7 @@ import { CampaignResultLevelsPerTubesAndCompetences } from '../../../../../../sr
 import { CompetenceResultForKnowledgeElementSnapshots } from '../../../../../../src/prescription/campaign/domain/models/CompetenceResultForKnowledgeElementSnapshots.js';
 import { TubeResultForKnowledgeElementSnapshots } from '../../../../../../src/prescription/campaign/domain/models/TubeResultForKnowledgeElementSnapshots.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';

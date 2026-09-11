@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses, CampaignTypes, MaxMasteryRate } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes, MaxMasteryRate } from '../../../shared/domain/constants.ts';
 import { getNewAcquiredStages } from '../../../stages/domain/services/get-new-acquired-stages-service.js';
 import { BadgeResult } from './BadgeResult.js';
 import { CompetenceResult } from './CompetenceResult.js';

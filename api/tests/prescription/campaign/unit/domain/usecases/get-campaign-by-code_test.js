@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { FRENCH_SPOKEN } from '../../../../../../src/shared/domain/services/locale-service.js';
 
 describe('Unit | UseCase | get-campaign-by-code', function () {

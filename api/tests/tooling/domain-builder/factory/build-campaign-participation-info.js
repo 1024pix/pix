@@ -1,5 +1,5 @@
 import { CampaignParticipationInfo } from '../../../../src/prescription/campaign/domain/read-models/CampaignParticipationInfo.js';
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.ts';
 
 function buildCampaignParticipationInfo({
   participantFirstName = 'participantFirstName',

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { CampaignParticipantActivity } from '../../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipantActivity.js';
 import { campaignParticipantActivitySerializer } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
-import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.ts';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
