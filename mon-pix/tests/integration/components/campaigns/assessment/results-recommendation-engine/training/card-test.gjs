@@ -36,6 +36,64 @@ module(
           assert.dom(screen.queryByRole('presentation')).doesNotExist();
         });
       });
+
+      module('when user clicks on the highlighted training card button', function () {
+        test('should not call onCardClick function', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const training = store.createRecord('training', _buildTraining({}));
+          const onCardClickStub = sinon.stub();
+          const onHighlightedCardButtonClickStub = sinon.stub();
+
+          // when
+          const screen = await render(
+            <template>
+              <TrainingCard
+                @isHighlighted={{true}}
+                @training={{training}}
+                @onCardClick={{onCardClickStub}}
+                @onHighlightedCardButtonClick={{onHighlightedCardButtonClickStub}}
+              />
+            </template>,
+          );
+          await click(
+            screen.getByRole('button', {
+              name: t('pages.skill-review.recommended-engine.highlighted-card.learn-more'),
+            }),
+          );
+
+          // then
+          sinon.assert.notCalled(onCardClickStub);
+          assert.ok(true);
+        });
+
+        test('should call onHighlightedCardButtonClick function', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const training = store.createRecord('training', _buildTraining({}));
+          const onHighlightedCardButtonClickStub = sinon.stub();
+
+          // when
+          const screen = await render(
+            <template>
+              <TrainingCard
+                @isHighlighted={{true}}
+                @training={{training}}
+                @onHighlightedCardButtonClick={{onHighlightedCardButtonClickStub}}
+              />
+            </template>,
+          );
+          await click(
+            screen.getByRole('button', {
+              name: t('pages.skill-review.recommended-engine.highlighted-card.learn-more'),
+            }),
+          );
+
+          // then
+          sinon.assert.calledOnceWithExactly(onHighlightedCardButtonClickStub, { trainingId: training.id });
+          assert.ok(true);
+        });
+      });
     });
 
     test('it renders with correct fields', async function (assert) {

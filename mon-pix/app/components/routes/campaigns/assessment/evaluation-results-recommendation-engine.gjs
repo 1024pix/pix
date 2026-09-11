@@ -20,6 +20,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
     super(...args);
 
     this.trackTrainingsDisplayed(this.trainings);
+    this.trackHighlightedTrainingDisplayed(this.highlightedTraining);
   }
 
   @tracked _drawerRevealedByScroll = false;
@@ -27,6 +28,12 @@ export default class EvaluationResultsRecommendationEngine extends Component {
 
   @action onCardClick({ trainingId }) {
     this.pixMetrics.trackEvent('Moteur de reco - Clic sur la carte du contenu formatif', {
+      trainingId,
+    });
+  }
+
+  @action onHighlightedCardButtonClick({ trainingId }) {
+    this.pixMetrics.trackEvent('Moteur de reco - Clic sur la carte du contenu formatif mis en avant', {
       trainingId,
     });
   }
@@ -54,6 +61,15 @@ export default class EvaluationResultsRecommendationEngine extends Component {
         trainingId: training.id,
         position: index + 1,
       });
+    });
+  }
+
+  trackHighlightedTrainingDisplayed(highlightedTraining) {
+    if (!highlightedTraining) {
+      return;
+    }
+    this.pixMetrics.trackEvent('Moteur de reco - Mise en avant du contenu formatif sur la page de résultats', {
+      trainingId: highlightedTraining.id,
     });
   }
 
@@ -137,7 +153,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
         @campaignParticipationResult={{@model.campaignParticipationResult}}
         @highlightedTraining={{this.highlightedTraining}}
         @hasTrainings={{this.hasTrainings}}
-        @onCardClick={{this.onCardClick}}
+        @onHighlightedCardButtonClick={{this.onHighlightedCardButtonClick}}
         @onSeeRecommendationsButtonClicked={{this.onSeeRecommendationsButtonClicked}}
         @questResults={{@model.questResults}}
       />
