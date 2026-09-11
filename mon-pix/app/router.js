@@ -141,7 +141,7 @@ Router.map(function () {
   this.route('logout', { path: '/deconnexion' });
   this.route('not-connected', { path: '/nonconnecte' });
 
-  this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
+  this.route('reset-password', { path: '/changer-mot-de-passe' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
 

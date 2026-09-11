@@ -32,12 +32,8 @@ module('Unit | Route | reset-password', function (hooks) {
           sinon.stub(requestManagerService, 'request');
         });
 
-        test('it adds an error with its translation in error service', async function (assert) {
+        test('it adds an error and redirects to password-reset-demand', async function (assert) {
           // given
-          const params = {
-            temporary_key: 'pwd-reset-demand-token',
-          };
-
           requestManagerService.request.rejects({
             errors: [
               {
@@ -47,12 +43,13 @@ module('Unit | Route | reset-password', function (hooks) {
           });
 
           // when
-          await route.model(params);
+          await route.model();
 
           // then
           assert.strictEqual(errorService.errors.length, 1);
-          const errorTranslationKey = 'pages.reset-password.error.expired-demand';
-          assert.strictEqual(errorService.errors[0], errorTranslationKey);
+          assert.strictEqual(errorService.errors[0], 'pages.reset-password.error.expired-demand');
+
+          sinon.assert.calledWith(route.router.replaceWith, 'password-reset-demand');
         });
       });
     });
