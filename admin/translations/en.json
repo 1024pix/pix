@@ -673,6 +673,12 @@
             "success-notification": "The scoring has been successfully activated",
             "title": "Bounds of capacity by mesh"
           },
+          "stepper": {
+            "step-1": "Framework selection",
+            "step-2": "Configuration",
+            "step-3": "Calibration",
+            "step-4": "Scoring"
+          },
           "title": "Creating a Certification Release"
         }
       },
