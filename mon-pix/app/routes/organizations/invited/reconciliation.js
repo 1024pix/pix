@@ -27,7 +27,7 @@ export default class ReconciliationRoute extends Route {
       if (verifiedCode.type === 'campaign') {
         this.router.replaceWith('campaigns.fill-in-participant-external-id', verifiedCode.id);
       } else {
-        this.router.replaceWith('combined-courses.presentation', verifiedCode.id);
+        this.router.replaceWith('combined-courses.programme', verifiedCode.id);
       }
     }
   }

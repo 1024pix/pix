@@ -69,7 +69,7 @@ module('Unit | Route | organizations/invited/student-sco', function (hooks) {
 
       // then
 
-      sinon.assert.calledWith(route.router.replaceWith, 'combined-courses.presentation', verifiedCode.id);
+      sinon.assert.calledWith(route.router.replaceWith, 'combined-courses.programme', verifiedCode.id);
       assert.ok(true);
     });
   });

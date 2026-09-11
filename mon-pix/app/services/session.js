@@ -52,7 +52,7 @@ export default class CurrentSessionService extends SessionService {
     const baseUrl = window.location.protocol + '//' + window.location.host;
 
     if (this.verifiedCode?.type === 'combined-course') {
-      return baseUrl + this.router.urlFor('combined-courses.presentation', { code: this.verifiedCode.id });
+      return baseUrl + this.router.urlFor('combined-courses.programme', { code: this.verifiedCode.id });
     } else if (this.verifiedCode?.type === 'campaign') {
       return baseUrl + this.router.urlFor('campaigns', { code: this.verifiedCode.id });
     } else {

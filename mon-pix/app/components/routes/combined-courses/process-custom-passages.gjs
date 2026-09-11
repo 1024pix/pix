@@ -54,7 +54,7 @@ export default class ResultsLoader extends Component {
 
   @action
   onClick() {
-    this.router.transitionTo('combined-courses.presentation', this.args.code);
+    this.router.transitionTo('combined-courses.programme', this.args.code);
   }
 
   <template>

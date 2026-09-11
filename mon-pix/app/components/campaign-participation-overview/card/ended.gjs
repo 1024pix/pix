@@ -43,11 +43,7 @@ export default class Ended extends Component {
         {{/unless}}
         <PixButtonLink
           class="campaign-participation-overview-card-content__action"
-          @route={{if
-            (eq @model.campaignType "COMBINED_COURSE")
-            "combined-courses.presentation"
-            "campaigns.entry-point"
-          }}
+          @route={{if (eq @model.campaignType "COMBINED_COURSE") "combined-courses.programme" "campaigns.entry-point"}}
           @model={{@model.campaignCode}}
           @variant={{if @model.canRetry "primary" "secondary"}}
         >

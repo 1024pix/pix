@@ -11,7 +11,7 @@ export default class CampaignsRoute extends Route {
     if (verifiedCode.type === 'campaign') {
       return this.store.queryRecord('campaign', { filter: { code: params.code } });
     } else {
-      this.router.replaceWith('combined-courses.presentation', verifiedCode.id);
+      this.router.replaceWith('combined-courses.programme', verifiedCode.id);
     }
   }
 

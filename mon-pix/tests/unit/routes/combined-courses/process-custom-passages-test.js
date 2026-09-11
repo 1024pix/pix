@@ -24,7 +24,7 @@ module('Unit | Route | Combined Course | Process custom passages', function (hoo
       route.beforeModel(transition);
 
       // then
-      assert.ok(replaceWithStub.calledWithExactly('combined-courses.presentation', 'test-code'));
+      assert.ok(replaceWithStub.calledWithExactly('combined-courses.programme', 'test-code'));
     });
 
     test('should not call transition if user came from campaign result', function (assert) {

@@ -7,7 +7,7 @@ export default class CombinedCoursePresentationRoute extends Route {
     const { code } = transition.to.params;
 
     if (!transition.from || transition.from.name !== 'campaigns.assessment.results') {
-      return this.router.replaceWith('combined-courses.presentation', code);
+      return this.router.replaceWith('combined-courses.programme', code);
     }
   }
 

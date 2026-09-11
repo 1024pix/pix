@@ -17,7 +17,7 @@ module('Unit | Route | combined-courses | presentation', function (hooks) {
     // Then
     assert.deepEqual(route.metrics.context.code, 'COMBINIX');
     assert.strictEqual(route.metrics.context.type, 'combined-course');
-    assert.ok(paramsForStub.calledWith('combined-courses.presentation'));
+    assert.ok(paramsForStub.calledWith('combined-courses.programme'));
   });
 
   test('deactivate should unset metrics context', function (assert) {

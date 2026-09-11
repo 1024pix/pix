@@ -103,7 +103,7 @@ module('Unit | Route | Invited', function (hooks) {
 
           //then
           const expectedResult = route.router.replaceWith.calledWithExactly(
-            'combined-courses.presentation',
+            'combined-courses.programme',
             verifiedCode.id,
           );
           assert.true(expectedResult);
@@ -199,7 +199,7 @@ module('Unit | Route | Invited', function (hooks) {
 
         //then
         const expectedResult = route.router.replaceWith.calledWithExactly(
-          'combined-courses.presentation',
+          'combined-courses.programme',
           verifiedCode.id,
         );
         assert.true(expectedResult);
