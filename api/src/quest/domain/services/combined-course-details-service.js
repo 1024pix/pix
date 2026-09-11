@@ -48,7 +48,11 @@ async function getCombinedCourseDetails({
   combinedCourseParticipationRepository,
   eligibilityRepository,
   recommendedModuleRepository,
+  combinedCourseRepository,
+  campaignRepository,
+  moduleRepository,
   reward,
+  withChildItems = false,
 }) {
   const participation = await combinedCourseParticipationRepository.findByLearnerId({
     organizationLearnerId,
@@ -84,6 +88,32 @@ async function getCombinedCourseDetails({
     dataForQuest,
     reward,
   });
+
+  // POC: the parent page renders a nested course as an expanded group listing the
+  // child's own activities, so each child is resolved for the same learner. Opt-in,
+  // which both keeps Pix Orga out of it and stops the recursion at one level.
+  if (withChildItems) {
+    for (const childCombinedCourseId of combinedCourseDetails.childCombinedCourseIds) {
+      const childDetails = await instantiateCombinedCourseDetails({
+        combinedCourseId: childCombinedCourseId,
+        combinedCourseRepository,
+        campaignRepository,
+        recommendedModuleRepository,
+        moduleRepository,
+      });
+      await getCombinedCourseDetails({
+        combinedCourseDetails: childDetails,
+        organizationLearnerId,
+        combinedCourseParticipationRepository,
+        eligibilityRepository,
+        recommendedModuleRepository,
+      });
+      combinedCourseDetails.attachChildItems({
+        combinedCourseId: childCombinedCourseId,
+        items: childDetails.items,
+      });
+    }
+  }
 
   return combinedCourseDetails;
 }

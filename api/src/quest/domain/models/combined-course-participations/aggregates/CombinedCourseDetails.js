@@ -60,6 +60,27 @@ export class CombinedCourseDetails extends CombinedCourse {
     this.#parent = parent;
   }
 
+  // POC: a nested course is rendered as a group listing its own activities. Their
+  // redirection is overridden with this course's url, so finishing an activity brings
+  // the learner back to the parent instead of the child.
+  attachChildItems({ combinedCourseId, items }) {
+    const nestedItem = this.items.find((item) => item.id === `combinedCourse_${combinedCourseId}`);
+    if (!nestedItem) return;
+
+    nestedItem.childItems = items.map((item) => ({
+      id: String(item.id),
+      type: item.type,
+      title: item.title,
+      reference: item.reference,
+      shortId: item.shortId ?? null,
+      isCompleted: Boolean(item.isCompleted),
+      isLocked: Boolean(item.isLocked),
+      duration: item.duration ?? null,
+      image: item.image ?? null,
+      redirection: this.#combinedCourseUrl,
+    }));
+  }
+
   get parentCode() {
     return this.#parent?.code ?? null;
   }

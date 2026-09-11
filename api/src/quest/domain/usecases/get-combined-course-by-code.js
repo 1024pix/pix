@@ -48,6 +48,7 @@ export async function getCombinedCourseByCode({
   return combinedCourseDetailsService.getCombinedCourseDetails({
     organizationLearnerId,
     combinedCourseDetails,
+    withChildItems: true,
     reward: {
       id: attestation.id,
       key: attestation.key,
