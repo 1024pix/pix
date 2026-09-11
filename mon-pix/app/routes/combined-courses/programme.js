@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-export default class CombinedCoursePresentationRoute extends Route {
+export default class CombinedCourseProgrammeRoute extends Route {
   @service session;
   @service store;
   @service router;

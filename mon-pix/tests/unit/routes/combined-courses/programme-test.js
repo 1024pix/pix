@@ -2,12 +2,12 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | combined-courses | presentation', function (hooks) {
+module('Unit | Route | combined-courses | programme', function (hooks) {
   setupTest(hooks);
 
   test('activate should set metrics context', function (assert) {
     // Given
-    const route = this.owner.lookup('route:combined-courses/presentation');
+    const route = this.owner.lookup('route:combined-courses/programme');
     route.metrics = { context: {} };
     const paramsForStub = sinon.stub(route, 'paramsFor').returns({ code: 'COMBINIX' });
 
@@ -22,7 +22,7 @@ module('Unit | Route | combined-courses | presentation', function (hooks) {
 
   test('deactivate should unset metrics context', function (assert) {
     // Given
-    const route = this.owner.lookup('route:combined-courses/presentation');
+    const route = this.owner.lookup('route:combined-courses/programme');
     route.metrics = {
       context: {
         code: 'COMBINIX',
