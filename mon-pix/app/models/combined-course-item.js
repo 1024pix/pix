@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@warp-drive/legacy/model';
+import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 
 export const CombinedCourseItemTypes = {
   CAMPAIGN: 'campaign',
@@ -24,38 +24,32 @@ export default class CombinedCourseItem extends Model {
   @attr('number') duration;
   @attr('string') image;
   @attr('string') shortId;
-  // POC: the activities of a nested combined course, as plain objects
-  // eslint-disable-next-line ember/no-empty-attrs
-  @attr() childItems;
+  // the activities of a nested combined course: combined course items too, so the very
+  // same component renders them
+  @hasMany('combined-course-item', { async: false, inverse: null }) childItems;
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
-  // A nested course is rendered as a group listing its own activities, so each one
-  // carries where it goes. Only modules take a redirection query param.
   get activities() {
-    return (this.childItems ?? []).map((activity) => {
-      const isModule = activity.type === CombinedCourseItemTypes.MODULE;
-      return {
-        ...activity,
-        route: isModule ? 'module' : 'campaigns',
-        models: isModule ? [activity.shortId, activity.reference] : [activity.reference],
-        query: isModule ? { redirection: activity.redirection } : {},
-        isPlaceholder: activity.type === CombinedCourseItemTypes.FORMATION,
-      };
-    });
+    return this.hasMany('childItems').value() ?? [];
   }
 
   get nextActivity() {
-    return this.activities.find((activity) => !activity.isCompleted && !activity.isPlaceholder);
+    return this.activities.find(
+      (activity) => !activity.isCompleted && activity.type !== CombinedCourseItemTypes.FORMATION,
+    );
   }
 
   get completedActivitiesCount() {
     return this.activities.filter((activity) => activity.isCompleted).length;
   }
 
-  // before its diagnosis, a child's modules are not computed yet: a placeholder stands
-  // for them, so no total can be shown
+  // before its diagnosis, a child's modules are not computed yet: a placeholder item
+  // stands for them, so no total can be shown
   get hasReliableActivitiesCount() {
-    return this.activities.length > 0 && !this.activities.some((activity) => activity.isPlaceholder);
+    return (
+      this.activities.length > 0 &&
+      !this.activities.some((activity) => activity.type === CombinedCourseItemTypes.FORMATION)
+    );
   }
 
   get route() {

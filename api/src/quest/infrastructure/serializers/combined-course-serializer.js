@@ -36,6 +36,26 @@ const serialize = function (combinedCourse) {
         'shortId',
         'childItems',
       ],
+      // the activities of a nested course are serialized as combined course items too,
+      // so the front renders them with the very same component
+      childItems: {
+        ref: 'id',
+        included: true,
+        attributes: [
+          'title',
+          'reference',
+          'type',
+          'redirection',
+          'isCompleted',
+          'isLocked',
+          'masteryRate',
+          'validatedStagesCount',
+          'totalStagesCount',
+          'duration',
+          'image',
+          'shortId',
+        ],
+      },
     },
     reward: {
       ref: 'id',
@@ -43,7 +63,7 @@ const serialize = function (combinedCourse) {
       attributes: ['status', 'type', 'requirementsDescription', 'label', 'templateName', 'data'],
     },
     typeForAttribute: (attribute) => {
-      if (attribute === 'items') return 'combined-course-items';
+      if (attribute === 'items' || attribute === 'childItems') return 'combined-course-items';
       if (attribute === 'reward') return 'combined-course-rewards';
       return attribute;
     },

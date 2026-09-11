@@ -77,7 +77,12 @@ export class CombinedCourseDetails extends CombinedCourse {
       isLocked: Boolean(item.isLocked),
       duration: item.duration ?? null,
       image: item.image ?? null,
-      redirection: this.#combinedCourseUrl,
+      masteryRate: item.masteryRate ?? null,
+      validatedStagesCount: item.validatedStagesCount ?? null,
+      totalStagesCount: item.totalStagesCount ?? null,
+      // only a module takes a redirection: a campaign returns through its own end of
+      // course button, which the child-to-parent redirect already sends here
+      redirection: item.type === COMBINED_COURSE_ITEM_TYPES.MODULE ? this.#combinedCourseUrl : null,
     }));
   }
 

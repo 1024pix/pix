@@ -138,15 +138,11 @@ export default class CombinedCoursePresentation extends Component {
     if (!item) return;
 
     // a nested course is not a destination: dive into its next activity
-    if (item.type === CombinedCourseItemTypes.COMBINED_COURSE) {
-      const activity = item.nextActivity;
-      if (!activity) return;
-      this.router.transitionTo(activity.route, ...activity.models, { queryParams: activity.query });
-      return;
-    }
+    const target = item.type === CombinedCourseItemTypes.COMBINED_COURSE ? item.nextActivity : item;
+    if (!target) return;
 
-    this.router.transitionTo(item.route, ...item.models, {
-      queryParams: { redirection: item.redirection },
+    this.router.transitionTo(target.route, ...target.models, {
+      queryParams: { redirection: target.redirection },
     });
   }
 

@@ -1,53 +1,43 @@
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
-import { and, eq, not, or } from 'ember-truth-helpers';
+import { eq } from 'ember-truth-helpers';
+import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
+import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 
 // POC: a nested combined course is not a destination any more, it is a group in the
-// parent's list. Only the current group is expanded, and its activities are clicked
-// straight from the parent page.
-const Activity = <template>
-  <div
-    class="combined-course-group__activity
-      {{if @activity.isCompleted 'combined-course-group__activity--completed'}}
-      {{if @activity.isLocked 'combined-course-group__activity--locked'}}
-      {{unless (or @activity.isCompleted @activity.isLocked) 'combined-course-group__activity--current'}}"
-  >
-    <div class="combined-course-group__activity-icon">
-      {{#if @activity.image}}
-        <img src={{@activity.image}} alt="" role="presentation" />
-      {{else}}
-        <PixIcon @name={{if (eq @activity.type "campaign") "distance" "acute"}} @ariaHidden={{true}} />
+// parent's list. Only the current group is expanded, and its activities are rendered
+// with the very same component as in a standalone combined course.
+
+// What a group is made of, shown when it is not expanded. Built from the child's real
+// activities, so it never announces something the API did not compute.
+const Composition = <template>
+  <span class="combined-course-group__composition">
+    {{#each @activities as |activity index|}}
+      {{#if index}}
+        <span class="combined-course-group__composition-separator" aria-hidden="true">›</span>
       {{/if}}
-    </div>
-    <div class="combined-course-group__activity-text">
-      <span class="combined-course-group__activity-title">{{@activity.title}}</span>
-      {{#if @activity.duration}}
-        <span class="combined-course-group__activity-meta">{{t
-            "pages.combined-courses.items.duration"
-            duration=@activity.duration
-          }}</span>
-      {{/if}}
-    </div>
-    {{#if @activity.isCompleted}}
-      <span class="combined-course-group__activity-state">{{t "pages.combined-courses.items.completed"}}
-        <PixIcon @name="checkCircle" @plainIcon={{true}} @ariaHidden={{true}} />
+      <span class="combined-course-group__chip">
+        {{#if activity.iconUrl}}
+          <img src={{activity.iconUrl}} alt="" role="presentation" />
+        {{/if}}
+        {{#if (eq activity.type CombinedCourseItemTypes.CAMPAIGN)}}
+          {{t "pages.combined-courses.items.group.diagnostic"}}
+        {{else if (eq activity.type CombinedCourseItemTypes.FORMATION)}}
+          {{t "pages.combined-courses.items.formation.title"}}
+        {{else}}
+          {{activity.title}}
+        {{/if}}
       </span>
-    {{else if @activity.isLocked}}
-      <span class="combined-course-group__activity-state">
-        <PixIcon @name="lock" @plainIcon={{true}} @ariaLabel={{t "pages.combined-courses.items.group.locked"}} />
-      </span>
-    {{/if}}
-  </div>
+    {{/each}}
+  </span>
 </template>;
 
 <template>
   <div
     class="combined-course-group
       {{if @isCurrent 'combined-course-group--current'}}
-      {{if @item.isCompleted 'combined-course-group--completed'}}
-      {{if @item.isLocked 'combined-course-group--locked'}}"
+      {{if @item.isCompleted 'combined-course-group--completed'}}"
   >
     <div class="combined-course-group__header">
       <span class="combined-course-group__badge">
@@ -55,12 +45,16 @@ const Activity = <template>
       </span>
       <div class="combined-course-group__text">
         <span class="combined-course-group__title">{{@item.title}}</span>
-        {{#if (and @isCurrent @item.hasReliableActivitiesCount)}}
-          <span class="combined-course-group__progress">{{t
-              "pages.combined-courses.items.group.progress"
-              done=@item.completedActivitiesCount
-              total=@item.activities.length
-            }}</span>
+        {{#if @isCurrent}}
+          {{#if @item.hasReliableActivitiesCount}}
+            <span class="combined-course-group__progress">{{t
+                "pages.combined-courses.items.group.progress"
+                done=@item.completedActivitiesCount
+                total=@item.activities.length
+              }}</span>
+          {{/if}}
+        {{else}}
+          <Composition @activities={{@item.activities}} />
         {{/if}}
       </div>
       {{#if @item.isCompleted}}
@@ -68,7 +62,7 @@ const Activity = <template>
           <PixIcon @name="checkCircle" @plainIcon={{true}} @ariaHidden={{true}} />
         </span>
       {{else if @item.isLocked}}
-        <span class="combined-course-group__state">
+        <span class="combined-course-group__state combined-course-group__state--locked">
           <PixIcon @name="lock" @plainIcon={{true}} @ariaLabel={{t "pages.combined-courses.items.group.locked"}} />
         </span>
       {{else}}
@@ -81,15 +75,17 @@ const Activity = <template>
     {{#if @isCurrent}}
       <div class="combined-course-group__activities">
         {{#each @item.activities as |activity|}}
-          {{#if (and (not activity.isLocked) (not activity.isPlaceholder))}}
-            <LinkTo @route={{activity.route}} @models={{activity.models}} @query={{activity.query}}>
-              <Activity @activity={{activity}} />
-            </LinkTo>
-          {{else}}
-            <Activity @activity={{activity}} />
-          {{/if}}
+          <CombinedCourseItem
+            @item={{activity}}
+            @isLocked={{activity.isLocked}}
+            @isNextItemToComplete={{eq @item.nextActivity activity}}
+            @onClick={{noop}}
+            @isCombinedCourseCompleted={{false}}
+          />
         {{/each}}
       </div>
     {{/if}}
   </div>
 </template>
+
+function noop() {}
