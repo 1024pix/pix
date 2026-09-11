@@ -116,7 +116,7 @@ const getPointOfContact = async function ({
   userId,
   certificationPointOfContactDTO,
   allowedCertificationCenterAccesses,
-  pixCertifTosStatus,
+  pixCertifTosStatusDTO,
 }) {
   const certificationCenterMemberships = await _findNotDisabledCertificationCenterMemberships(userId);
 
@@ -124,7 +124,7 @@ const getPointOfContact = async function ({
     ...certificationPointOfContactDTO,
     allowedCertificationCenterAccesses,
     certificationCenterMemberships,
-    pixCertifTosStatus,
+    pixCertifTosStatusDTO,
   });
 };
 

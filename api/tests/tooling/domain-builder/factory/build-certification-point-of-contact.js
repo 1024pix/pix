@@ -4,6 +4,7 @@ import {
   ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID,
   buildAllowedCertificationCenterAccess,
 } from './build-allowed-certification-center-access.js';
+import { buildLegalDocumentStatusDTO } from './legal-documents/build-legal-document-status-DTO.js';
 
 const CERTIFICATION_POINT_OF_CONTACT_BUILDER_MEMBERSHIP_DEFAULT_ID = 1231;
 
@@ -13,7 +14,7 @@ const buildCertificationPointOfContact = function ({
   lastName = 'Brebis',
   email = 'chevre.brebis@example.net',
   lang = 'fr',
-  pixCertifTosStatus = _buildLegalDocumentStatus(),
+  pixCertifTosStatusDTO = buildLegalDocumentStatusDTO(),
   allowedCertificationCenterAccesses = [buildAllowedCertificationCenterAccess()],
   certificationCenterMemberships = [_buildCertificationCenterMembership({ userId: id })],
 } = {}) {
@@ -25,7 +26,7 @@ const buildCertificationPointOfContact = function ({
     lang,
     allowedCertificationCenterAccesses,
     certificationCenterMemberships,
-    pixCertifTosStatus,
+    pixCertifTosStatusDTO,
   });
 };
 
@@ -42,12 +43,5 @@ function _buildCertificationCenterMembership({
     role,
   };
 }
-
-/*
- * /!\ We can not use standard entity builders because legalDocumentStatus is another bounded context
- */
-const _buildLegalDocumentStatus = function () {
-  return { status: STATUS.ACCEPTED, acceptedAt: null, documentPath: null, isAccepted: true };
-};
 
 export { buildCertificationPointOfContact, CERTIFICATION_POINT_OF_CONTACT_BUILDER_MEMBERSHIP_DEFAULT_ID };

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { certificationPointOfContactSerializer } from '../../../../../../src/deprecated/infrastructure/serializers/jsonapi/certification-point-of-contact.serializer.js';
-import { STATUS } from '../../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
+import { STATUS } from '../../../../../../src/legal-documents/application/api/legal-documents-api.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {
@@ -51,7 +51,7 @@ describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-cont
       ];
       const lastPixCertifTermsOfServiceValidatedAt = new Date('2024-06-04');
 
-      const pixCertifTermsOfServiceStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
+      const pixCertifTermsOfServiceStatus = domainBuilder.legalDocuments.buildLegalDocumentStatusDTO({
         status: STATUS.ACCEPTED,
         acceptedAt: lastPixCertifTermsOfServiceValidatedAt,
         documentPath: 'pix-certif-tos-2024-06-03',
