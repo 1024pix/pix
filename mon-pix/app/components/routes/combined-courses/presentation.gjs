@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { get } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -76,7 +77,7 @@ const Header = <template>
 </template>;
 
 const Step = <template>
-  <h2 class="combined-course__step-title">{{t "pages.combined-courses.content.step" stepNumber=(@stepNumber)}}
+  <h2 class="combined-course__step-title">{{t "pages.combined-courses.content.step" stepNumber=@stepNumber}}
   </h2>
 </template>;
 
@@ -104,7 +105,7 @@ export default class CombinedCoursePresentation extends Component {
       {{#each @combinedCourse.items as |item index|}}
         {{#unless @combinedCourse.areItemsOfTheSameType}}
           {{#if (@combinedCourse.isPreviousItemDifferent index)}}
-            <Step @stepNumber={{this.getCurrentStep}} />
+            <Step @stepNumber={{get this.stepNumbers index}} />
           {{/if}}
         {{/unless}}
         <CombinedCourseItem
@@ -124,8 +125,6 @@ export default class CombinedCoursePresentation extends Component {
   @service intl;
   @service store;
   @service router;
-
-  step = 1;
 
   @action
   async startQuestParticipation(e) {
@@ -154,9 +153,18 @@ export default class CombinedCoursePresentation extends Component {
     );
   }
 
-  @action
-  getCurrentStep() {
-    return this.step++;
+  // derived from the items rather than counted during render: a counter incremented
+  // by the template drifts on every re-render (Étape 3, Étape 4 on the second one)
+  get stepNumbers() {
+    let step = 0;
+    let previousType = null;
+    return this.args.combinedCourse.items.map((item) => {
+      if (item.typeForStepDisplay !== previousType) {
+        step += 1;
+        previousType = item.typeForStepDisplay;
+      }
+      return step;
+    });
   }
 }
 

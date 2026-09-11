@@ -186,6 +186,9 @@ test('a user walks the seeded parent combined course to the attestation', async 
 
       await clickContinue(page);
       await expect(page.getByRole('heading', { name: PARENT.name, level: 1 })).toBeVisible();
+      // step titles are derived from the items, so they must not drift across renders
+      await expect(page.getByRole('heading', { name: 'Étape 1' })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Étape 2' })).toBeVisible();
       log(`[parent after child ${index + 1}]`, await body(page));
       await shot(page, `parent-apres-enfant-${index + 1}`);
     });
