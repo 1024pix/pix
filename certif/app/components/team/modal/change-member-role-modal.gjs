@@ -1,47 +1,36 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { or } from 'ember-truth-helpers';
+import { eq, or } from 'ember-truth-helpers';
 
-const ARIA_LABEL_MEMBER_TRANSLATION = 'pages.team.members.modals.change-member-role.select-role.options.member';
-const ARIA_LABEL_ADMIN_TRANSLATION = 'pages.team.members.modals.change-member-role.select-role.options.admin';
+export default class  extends Component {
+  @tracked role;
 
-export default class ChangeMemberRoleModal extends Component {
-  @service intl;
-  @tracked role = null;
-
-  roleOptions = [
-    {
-      value: 'ADMIN',
-      label: this.intl.t(ARIA_LABEL_ADMIN_TRANSLATION),
-      disabled: false,
-    },
-    {
-      value: 'MEMBER',
-      label: this.intl.t(ARIA_LABEL_MEMBER_TRANSLATION),
-      disabled: false,
-    },
-  ];
-
-  displayRoleByOrganizationRole = {
-    ADMIN: this.intl.t(ARIA_LABEL_ADMIN_TRANSLATION),
-    MEMBER: this.intl.t(ARIA_LABEL_MEMBER_TRANSLATION),
-  };
+  setRole() {
+    this.role = this.args.member.role;
+  }
 
   @action
-  setRoleSelection(value) {
-    this.role = value;
+  toggleRole() {
+    if(!this.role) {
+      this.setRole();
+    }
+    if (this.role === 'MEMBER') {
+      this.role = 'ADMIN';
+    } else {
+      this.role = 'MEMBER';
+    }
   }
 
   @action
   closeModal() {
-    this.role = null;
+    this.setRole();
     this.args.onClose();
   }
 
@@ -60,15 +49,9 @@ export default class ChangeMemberRoleModal extends Component {
           }}
         </p>
 
-        <PixSelect
-          @hideDefaultOption={{true}}
-          @onChange={{this.setRoleSelection}}
-          @options={{this.roleOptions}}
-          @value={{or this.role @member.role}}
-          class='change-member-role-modal__select-role'
-        >
-          <:label>{{t 'pages.team.members.modals.change-member-role.select-role.label'}}</:label>
-        </PixSelect>
+        <PixCheckbox @variant='primary' {{on 'click' this.toggleRole}} @checked={{eq (or this.role @member.role) 'ADMIN'}}>
+          <:label>{{t 'pages.team.members.modals.change-member-role.admin'}}</:label>
+        </PixCheckbox>
       </:content>
       <:footer>
         <PixButton @triggerAction={{this.closeModal}} @variant='secondary' @isBorderVisible={{true}}>
