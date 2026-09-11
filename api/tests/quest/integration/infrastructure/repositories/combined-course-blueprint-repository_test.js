@@ -411,4 +411,38 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       expect(result.length).to.equal(0);
     });
   });
+
+  describe('#updateSharesCombinedCourseBlueprint', function () {
+    it('should update combined course blueprint share for a given organizationId', async function () {
+      // given
+      const organization1 = databaseBuilder.factory.buildOrganization();
+      const organization2 = databaseBuilder.factory.buildOrganization();
+      const organization3 = databaseBuilder.factory.buildOrganization();
+      const organization4 = databaseBuilder.factory.buildOrganization();
+
+      const combinedCourseBlueprintShare = databaseBuilder.factory.buildCombinedCourseBlueprintShare({
+        organizationId: organization1.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const combinedCourseBlueprint = await combinedCourseBluePrintRepository.findById({
+        id: combinedCourseBlueprintShare.combinedCourseBlueprintId,
+      });
+
+      const combinedCourseBlueprintToUpdate = domainBuilder.buildCombinedCourseBlueprint({
+        ...combinedCourseBlueprint,
+        organizationIds: [organization2.id, organization3.id],
+      });
+
+      // when
+      const result = await combinedCourseBluePrintRepository.save({
+        combinedCourseBlueprint: combinedCourseBlueprintToUpdate,
+      });
+
+      // then
+      expect(result.organizationIds).deep.equal([organization2.id, organization3.id]);
+      expect(result.organizationIds).not.contain(organization4.id);
+    });
+  });
 });
