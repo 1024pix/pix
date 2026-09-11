@@ -3,14 +3,13 @@ import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { concat, fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
-import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import Joi from 'joi';
+import SelectSearchWrapper from 'pix-admin/components/ui/select-search-wrapper';
 import { FormValidator } from 'pix-admin/utils/form-validator';
-import { isSearchValid } from 'pix-admin/utils/normalize-text';
 
 import Card from '../card';
 
@@ -70,13 +69,6 @@ export default class OrganizationCreationForm extends Component {
       label: structureCategory.label,
     }));
     return options;
-  }
-
-  get filteredCategoriesOptions() {
-    if (!this.categoriesSearchQuery) {
-      return this.categoriesOptions;
-    }
-    return this.categoriesOptions.filter((option) => isSearchValid(option.label, this.categoriesSearchQuery));
   }
 
   get submitButtonText() {
@@ -142,11 +134,6 @@ export default class OrganizationCreationForm extends Component {
     }
     this.args.onSubmit(this.form);
   };
-
-  @action
-  onSearchCategories(query) {
-    this.categoriesSearchQuery = query;
-  }
 
   <template>
     <form {{on "submit" this.handleSubmit}}>
@@ -279,7 +266,7 @@ export default class OrganizationCreationForm extends Component {
             </PixInput>
           </div>
 
-          <PixSelect
+          <SelectSearchWrapper
             class="organization-creation-form__input--full"
             @id="categoryId"
             required
@@ -292,16 +279,14 @@ export default class OrganizationCreationForm extends Component {
             }}
             @errorMessage={{if this.validator.errors.categoryId (t this.validator.errors.categoryId)}}
             @validationStatus={{if this.validator.errors.categoryId "error"}}
-            @options={{this.filteredCategoriesOptions}}
+            @options={{this.categoriesOptions}}
             @value={{this.form.categoryId}}
             @onChange={{fn this.handleSelectChange "categoryId"}}
-            @onSearch={{this.onSearchCategories}}
             @hideDefaultOption={{true}}
-            @isSearchable={{true}}
             @isFullWidth={{true}}
           >
             <:label>{{t "components.organizations.creation.category.selector.label"}}</:label>
-          </PixSelect>
+          </SelectSearchWrapper>
         </Card>
 
         <Card
