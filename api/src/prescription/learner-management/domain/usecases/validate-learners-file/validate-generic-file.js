@@ -32,7 +32,6 @@ const validateGenericFile = async function ({
     });
 
     learnerSet.addLearners(learners);
-    await importFromGenericFileJobRepository.performAsync(new ImportFromGenericFileJob({ organizationImportId }));
   } catch (error) {
     if (Array.isArray(error)) {
       errors.push(...error);
@@ -46,6 +45,8 @@ const validateGenericFile = async function ({
     organizationImport.validate({ errors });
     await organizationImportRepository.save(organizationImport);
   }
+
+  await importFromGenericFileJobRepository.performAsync(new ImportFromGenericFileJob({ organizationImportId }));
 };
 
 export { validateGenericFile };

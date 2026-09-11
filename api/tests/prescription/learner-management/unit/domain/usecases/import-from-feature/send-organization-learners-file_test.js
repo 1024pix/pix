@@ -13,7 +13,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
     organizationLearnerImportFormatRepositoryStub,
     validateGenericFileJobRepositoryStub,
     commonCsvLearnerParserStub,
-    dependencieStub,
+    dependenciesStub,
     importStorageStub,
     organizationImportStub,
     importFormat,
@@ -53,7 +53,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
       .withArgs(new ValidateGenericFileJob({ organizationImportId }))
       .resolves();
 
-    dependencieStub = {
+    dependenciesStub = {
       createReadStream: sinon.stub(),
       getDataBuffer: sinon.stub(),
     };
@@ -93,8 +93,8 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
       // given
       organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(importFormat);
 
-      dependencieStub.createReadStream.withArgs(uploadedFilepath).returns(dataStream);
-      dependencieStub.getDataBuffer.withArgs(dataStream).resolves(dataBuffer);
+      dependenciesStub.createReadStream.withArgs(uploadedFilepath).returns(dataStream);
+      dependenciesStub.getDataBuffer.withArgs(dataStream).resolves(dataBuffer);
 
       GenericParser.buildParser.withArgs({ buffer: dataBuffer, importFormat }).returns(commonCsvLearnerParserStub);
 
@@ -111,7 +111,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
         organizationImportRepository: organizationImportRepositoryStub,
         organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
         validateGenericFileJobRepository: validateGenericFileJobRepositoryStub,
-        dependencies: dependencieStub,
+        dependencies: dependenciesStub,
       });
 
       // then
@@ -120,10 +120,13 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
         organizationImportSavedStub,
       );
       expect(importStorageStub.deleteFile.called, 'importStorageStub.delete').to.be.false;
+      expect(validateGenericFileJobRepositoryStub.performAsync.firstCall).calledAfter(
+        organizationImportRepositoryStub.save.secondCall,
+      );
     });
   });
 
-  context(' error cases', function () {
+  context('error cases', function () {
     it('should upload errors', async function () {
       // given
       organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(null);
@@ -137,7 +140,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
         organizationImportRepository: organizationImportRepositoryStub,
         organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
         validateGenericFileJobRepository: validateGenericFileJobRepositoryStub,
-        dependencies: dependencieStub,
+        dependencies: dependenciesStub,
       });
 
       // then
@@ -172,7 +175,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
           validateGenericFileJobRepository: validateGenericFileJobRepositoryStub,
-          dependencies: dependencieStub,
+          dependencies: dependenciesStub,
         });
 
         expect(
@@ -200,7 +203,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
           validateGenericFileJobRepository: validateGenericFileJobRepositoryStub,
-          dependencies: dependencieStub,
+          dependencies: dependenciesStub,
         });
 
         expect(
@@ -219,8 +222,8 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
         // given
         organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(importFormat);
 
-        dependencieStub.createReadStream.withArgs(uploadedFilepath).returns(dataStream);
-        dependencieStub.getDataBuffer.withArgs(dataStream).resolves(dataBuffer);
+        dependenciesStub.createReadStream.withArgs(uploadedFilepath).returns(dataStream);
+        dependenciesStub.getDataBuffer.withArgs(dataStream).resolves(dataBuffer);
 
         GenericParser.buildParser.withArgs({ buffer: dataBuffer, importFormat }).returns(commonCsvLearnerParserStub);
 
@@ -240,7 +243,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
             organizationImportRepository: organizationImportRepositoryStub,
             organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
             validateGenericFileJobRepository: validateGenericFileJobRepositoryStub,
-            dependencies: dependencieStub,
+            dependencies: dependenciesStub,
           });
         } catch {
           // do something
@@ -264,7 +267,7 @@ describe('Unit | UseCase | sendOrganizationLearnersFile', function () {
             organizationImportRepository: organizationImportRepositoryStub,
             organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
             validateGenericFileJobRepository: validateGenericFileJobRepositoryStub,
-            dependencies: dependencieStub,
+            dependencies: dependenciesStub,
           });
         } catch {
           // do something
