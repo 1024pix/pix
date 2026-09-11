@@ -6,7 +6,7 @@ const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONT
 
 export class LearningContentRedisRepository {
   #tableName;
-  #idType; // eslint-disable-line no-unused-private-class-members
+  #idType;
   #cache;
 
   constructor({ tableName, idType = 'text', cache = learningContentCache }) {
@@ -57,12 +57,12 @@ export class LearningContentRedisRepository {
    * @param {string[]|number[]} ids
    * @returns {Promise<(object|null)[]>}
    */
-  async getMany(ids) {
+  getMany(ids) {
     const idsToLoad = new Set(ids);
     idsToLoad.delete(undefined);
     idsToLoad.delete(null);
 
-    // FIXME
+    return this.loadMany(idsToLoad);
   }
 
   /**
@@ -70,8 +70,33 @@ export class LearningContentRedisRepository {
    * @param {string[]|number[]} ids
    * @returns {Promise<(object|null)[]>}
    */
-  async loadMany(_ids) {
-    // FIXME
+  async loadMany(ids) {
+    const keys = ids.map((id) => this.#getEntityCacheKey(id));
+
+    const cachedEntities = await this.#cache.mget(keys);
+
+    const missingIds = ids.filter((id, index) => cachedEntities[index] === undefined);
+
+    if (missingIds.length === 0) return cachedEntities;
+
+    try {
+      const knexConn = DomainTransaction.getConnection();
+      const entities = await knexConn
+        .select(`${this.#tableName}.*`)
+        .from(knexConn.raw(`unnest(?::${this.#idType}[]) with ordinality as ids(id, idx)`, [missingIds])) // eslint-disable-line knex/avoid-injections
+        .leftJoin(this.#tableName, `${this.#tableName}.id`, 'ids.id')
+        .orderBy('ids.idx');
+
+      await this.#cache.setMany(ids.map((id, index) => [id, entities[index] ?? null]));
+
+      let missingIndex = 0;
+      return cachedEntities.map((cachedEntity) =>
+        cachedEntity === undefined ? entities[missingIndex++] : cachedEntity,
+      );
+    } catch (err) {
+      logger.error({ err, table: this.#tableName }, 'error loading entities');
+      throw err;
+    }
   }
 
   /**
