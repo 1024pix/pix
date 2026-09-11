@@ -1,5 +1,5 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
+import { click, settled } from '@ember/test-helpers';
 import CandidateEditModal from 'pix-admin/components/certifications/candidate-edit-modal';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -219,6 +219,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await clickByName('Femme');
 
       await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+      // eslint-disable-next-line ember/no-settled-after-test-helper
+      await settled();
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -268,6 +270,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await clickByName('Femme');
 
       await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+      // eslint-disable-next-line ember/no-settled-after-test-helper
+      await settled();
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -346,6 +350,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await clickByName('Homme');
 
       await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+      // eslint-disable-next-line ember/no-settled-after-test-helper
+      await settled();
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -383,6 +389,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+        // eslint-disable-next-line ember/no-settled-after-test-helper
+        await settled();
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'DANEMARK' }));
 
@@ -426,6 +434,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+        // eslint-disable-next-line ember/no-settled-after-test-helper
+        await settled();
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -470,6 +480,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+        // eslint-disable-next-line ember/no-settled-after-test-helper
+        await settled();
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -512,6 +524,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+        // eslint-disable-next-line ember/no-settled-after-test-helper
+        await settled();
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'DANEMARK' }));
 
