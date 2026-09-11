@@ -1,5 +1,30 @@
 # Pix Changelog
 
+# [5.500.0](https://github.com/1024pix/pix/compare/v5.499.0...v5.500.0) (2026-09-11)
+
+### :rocket: Amélioration
+
+- [#17467](https://github.com/1024pix/pix/pull/17467) Rendre la description et la description prescripteur obligatoires pour les blueprints de parcours combinés (PIX-24105)
+
+### :bug: Correction
+
+- [#17420](https://github.com/1024pix/pix/pull/17420) Corrections sur le blocage de langue de certif pour les pix-plus
+- [#17477](https://github.com/1024pix/pix/pull/17477) Réparer un test E2E cassé
+
+### :building_construction: Tech
+
+- [#17427](https://github.com/1024pix/pix/pull/17427) :art: Applique la règle de lint du nommage de fonction sur tout le contexte Certification
+- [#17464](https://github.com/1024pix/pix/pull/17464) Ajouter une contrainte NOT NULL sur les descriptions de la table combined_course_blueprints (PIX-24105)
+- [#17473](https://github.com/1024pix/pix/pull/17473) Mise à jour des snapshots des tests E2E recette certif
+- [#17469](https://github.com/1024pix/pix/pull/17469) Répare les e2e de combined-course-blueprint
+
+### :arrow_up: Montée de version
+
+- [#17465](https://github.com/1024pix/pix/pull/17465) Update dependency @1024pix/pix-ui to ^68.1.4 (junior)
+- [#17466](https://github.com/1024pix/pix/pull/17466) Update dependency @1024pix/pix-ui to ^68.1.5 (junior)
+- [#17471](https://github.com/1024pix/pix/pull/17471) Update dependency @1024pix/pix-ui to ^68.1.6 (junior)
+- [#17450](https://github.com/1024pix/pix/pull/17450) Update dependency @warp-drive/core to ^5.8.2 (orga)
+
 # [5.499.0](https://github.com/1024pix/pix/compare/v5.498.1...v5.499.0) (2026-09-10)
 
 ### :rocket: Amélioration
