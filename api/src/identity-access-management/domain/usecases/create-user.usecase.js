@@ -158,7 +158,7 @@ async function _assertValidData({ password, user, userRepository, userValidator,
   if (validationErrors.some((error) => error instanceof Error)) {
     const relevantErrors = validationErrors.filter((error) => error instanceof Error);
     for (const error of relevantErrors) {
-      logger.warn(error, 'user creation validation error');
+      logger.debug(error, 'user creation validation error');
     }
     throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
   }
