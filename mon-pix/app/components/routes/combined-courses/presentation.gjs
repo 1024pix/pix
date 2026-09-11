@@ -9,8 +9,10 @@ import { t } from 'ember-intl';
 import { and, eq } from 'ember-truth-helpers';
 import Attestation from 'mon-pix/components/combined-course/attestation';
 import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
+import NestedGroup from 'mon-pix/components/combined-course/nested-group';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
 import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
+import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 
 const CompletedText = <template>
   <div class="completed-text">
@@ -45,14 +47,6 @@ const Header = <template>
             "pages.combined-courses.content.resume-button"
           }}
         </PixButton>
-      {{/if}}
-      {{#if (and (eq @combinedCourse.status "COMPLETED") @combinedCourse.parentCode)}}
-        <PixButtonLink
-          @route="combined-courses.presentation"
-          @model={{@combinedCourse.parentCode}}
-          @size="large"
-          class="combined-course-back-to-parent-button"
-        >{{t "common.actions.continue"}}</PixButtonLink>
       {{/if}}
       {{#if (and (eq @combinedCourse.status "COMPLETED") @isSurveyEnabled)}}
         <PixTooltip @id="tooltip-satisfaction-survey" @position="right" @isInline={{true}}>
@@ -108,13 +102,17 @@ export default class CombinedCoursePresentation extends Component {
             <Step @stepNumber={{get this.stepNumbers index}} />
           {{/if}}
         {{/unless}}
-        <CombinedCourseItem
-          @item={{item}}
-          @isLocked={{item.isLocked}}
-          @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
-          @onClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}}
-          @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
-        />
+        {{#if (eq item.type CombinedCourseItemTypes.COMBINED_COURSE)}}
+          <NestedGroup @item={{item}} @isCurrent={{eq @combinedCourse.nextCombinedCourseItem item}} />
+        {{else}}
+          <CombinedCourseItem
+            @item={{item}}
+            @isLocked={{item.isLocked}}
+            @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
+            @onClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}}
+            @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
+          />
+        {{/if}}
       {{/each}}
     </section>
   </template>
@@ -137,6 +135,16 @@ export default class CombinedCoursePresentation extends Component {
   @action
   goToNextItem() {
     const item = this.args.combinedCourse.nextCombinedCourseItem;
+    if (!item) return;
+
+    // a nested course is not a destination: dive into its next activity
+    if (item.type === CombinedCourseItemTypes.COMBINED_COURSE) {
+      const activity = item.nextActivity;
+      if (!activity) return;
+      this.router.transitionTo(activity.route, ...activity.models, { queryParams: activity.query });
+      return;
+    }
+
     this.router.transitionTo(item.route, ...item.models, {
       queryParams: { redirection: item.redirection },
     });

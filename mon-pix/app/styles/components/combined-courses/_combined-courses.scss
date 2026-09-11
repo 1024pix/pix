@@ -340,3 +340,160 @@
     gap: var(--pix-spacing-1x);
   }
 }
+
+// POC : un parcours combiné imbriqué est un groupe dans la liste du parent, pas une
+// destination. Seul le groupe courant est déplié.
+.combined-course-group {
+  margin-bottom: var(--pix-spacing-4x);
+  background: rgb(var(--pix-primary-100-inline), 0.2);
+  border: 1px solid var(--pix-primary-100);
+  border-radius: var(--pix-spacing-4x);
+
+  &--completed {
+    background: var(--pix-neutral-0);
+  }
+
+  &--current {
+    background: var(--pix-neutral-0);
+    border: 6px solid var(--pix-primary-500);
+    box-shadow: 0 4px 16px rgb(var(--pix-primary-500-inline), 0.12);
+  }
+
+  &__header {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+  }
+
+  &__badge {
+    display: flex;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--pix-primary-700);
+    background: rgb(var(--pix-primary-100-inline), 0.5);
+    border-radius: 50%;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-1x);
+  }
+
+  &__title {
+    @extend %pix-title-xxs;
+  }
+
+  &__progress {
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-500);
+  }
+
+  &__state {
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    margin-left: auto;
+    color: var(--pix-primary-500);
+    font-weight: var(--pix-font-bold);
+
+    @extend %pix-body-m;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__tag {
+    margin-left: auto;
+  }
+
+  &__activities {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+    padding: 0 var(--pix-spacing-6x) var(--pix-spacing-6x) var(--pix-spacing-16x, 64px);
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  &__activity {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    padding: 12px var(--pix-spacing-5x, 20px);
+    background: rgb(var(--pix-primary-100-inline), 0.2);
+    border: 1px solid var(--pix-primary-100);
+    border-radius: var(--pix-spacing-4x);
+
+    &--completed {
+      background: var(--pix-neutral-0);
+    }
+
+    &--current {
+      background: var(--pix-neutral-0);
+      border: 2px solid var(--pix-primary-500);
+    }
+  }
+
+  &__activity-icon {
+    display: flex;
+    flex: 0 0 32px;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+
+    img,
+    svg {
+      max-width: 32px;
+      max-height: 32px;
+    }
+  }
+
+  &__activity-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-1x);
+  }
+
+  &__activity-title {
+    @extend %pix-title-xxs;
+  }
+
+  &__activity-meta {
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-500);
+  }
+
+  &__activity-state {
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    margin-left: auto;
+    color: var(--pix-primary-500);
+    font-weight: var(--pix-font-bold);
+
+    @extend %pix-body-s;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

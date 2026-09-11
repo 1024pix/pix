@@ -1302,6 +1302,10 @@
           "description": "Terminez votre diagnostic pour débloquer un programme de modules adapté à votre résultat !",
           "title": "Programme personnalisé de modules"
         },
+        "group": {
+          "locked": "Verrouillé, se débloque à la fin de l’étape précédente",
+          "progress": "{done, plural, =0 {Aucune activité} =1 {# activité} other {# activités}} sur {total}"
+        },
         "tagText": "Vous en êtes là !"
       },
       "process-custom-passages": {
