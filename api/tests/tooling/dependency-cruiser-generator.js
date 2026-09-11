@@ -29,10 +29,7 @@ export function buildForbiddenRules(contexts = []) {
         name: `${context.name}-dependency-violation`,
         severity: 'error',
         from: { path: `^src/${context.name}/` },
-        to: {
-          path: `^src/(?!${dependsOn.join('/|')}/)`,
-          pathNot: '^src/.+/domain/events/',
-        },
+        to: { path: `^src/(?!${dependsOn.join('/|')}/)` },
       };
     });
   forbiddenRules.push(...dependsOnRules);

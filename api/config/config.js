@@ -487,6 +487,11 @@ export const config = {
     workerConnexionPoolMaxSize: _getNumber(process.env.PGBOSS_WORKER_CONNECTION_POOL_MAX_SIZE, 15),
     localConcurrency: _getNumber(process.env.PGBOSS_LOCAL_CONCURRENCY, 1),
     retentionSeconds: _getNumber(process.env.PGBOSS_RETENTION_SECONDS, 30 * 24 * 3600),
+    deadLetterQueueName: process.env.PGBOSS_DEAD_LETTER_QUEUE_NAME || 'dead-letter-queue',
+    deadLetterQueueRetentionSeconds: _getNumber(
+      process.env.PGBOSS_DEAD_LETTER_QUEUE_RETENTION_SECONDS,
+      10 * 365 * 24 * 3600,
+    ),
     persistWarnings: toBoolean(process.env.PGBOSS_PERSIST_WARNINGS, false),
     useListenNotify: toBoolean(process.env.PGBOSS_USE_LISTEN_NOTIFY, true),
     statesMonitoringJobCron: process.env.PGBOSS_STATES_MONITORING_JOB_CRON || '* * * * *',

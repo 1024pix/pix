@@ -2274,6 +2274,7 @@
         "anonymisation": {
           "default-anonymised-user-message": "Anonymised user.",
           "self-anonymisation-message": "User anonymised by themself.",
+          "success": "The anonymisation request for the user has been successfully sent.",
           "user-anonymised-by-admin-message": "User anonymised by {fullName}."
         }
       }

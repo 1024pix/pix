@@ -444,6 +444,13 @@ class TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization extends Doma
   }
 }
 
+class UserAlreadyAnonymizedError extends DomainError {
+  constructor() {
+    super('User account already anonymized');
+    this.code = 'USER_ALREADY_ANONYMIZED';
+  }
+}
+
 class UserAlreadyExistsWithAuthenticationMethodError extends DomainError {
   constructor(message = 'Il existe déjà un compte qui possède cette méthode d‘authentification.') {
     super(message);
@@ -1109,6 +1116,7 @@ export {
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
   UnexpectedUserAccountError,
   UnicityConstraintError,
+  UserAlreadyAnonymizedError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserCouldNotBeReconciledError,
