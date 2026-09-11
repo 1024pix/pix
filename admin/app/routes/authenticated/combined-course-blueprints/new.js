@@ -11,8 +11,6 @@ export default class NewRoute extends Route {
 
   async model() {
     const attestations = await this.store.findAll('attestation');
-    const frameworks = await this.store.findAll('framework');
-
-    return { attestations, frameworks };
+    return { attestations };
   }
 }

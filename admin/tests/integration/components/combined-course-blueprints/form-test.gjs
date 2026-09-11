@@ -10,7 +10,93 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | CombinedCourseBlueprints::form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('creation mode', function () {
+  module('creation mode', function (hooks) {
+    let findRecordStub;
+
+    hooks.beforeEach(function () {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      findRecordStub = sinon.stub(store, 'findRecord');
+      const tube1 = {
+        id: 'tubeId3',
+        name: '@tubeName3',
+        practicalTitle: 'Tube 3',
+        skills: [],
+        level: 8,
+      };
+      findRecordStub.withArgs('tube', 'tubeId3').resolves(tube1);
+
+      const thematic1 = {
+        id: 'thematicId2',
+        name: 'Thématique 2',
+        tubes: [tube1],
+      };
+      findRecordStub.withArgs('thematic', 'thematicId2').resolves(thematic1);
+
+      const competence1 = {
+        id: 'competenceId2',
+        index: '2',
+        name: 'Titre competence 2',
+        thematics: [thematic1],
+      };
+      findRecordStub.withArgs('competence', 'competenceId2').resolves(competence1);
+
+      const area1 = {
+        id: 'areaId2',
+        title: 'Titre domaine 2',
+        code: 2,
+        competences: [competence1],
+      };
+      findRecordStub.withArgs('area', 'areaId2').resolves(area1);
+
+      findRecordStub
+        .withArgs('target-profile', '1')
+        .resolves({ internalName: 'super pc', imageUrl: 'imageUrl', areas: [area1] });
+
+      const tube2 = {
+        id: 'tubeId4',
+        name: '@tubeName4',
+        practicalTitle: 'Tube 4',
+        skills: [],
+        level: 8,
+      };
+      findRecordStub.withArgs('tube', 'tubeId3').resolves(tube2);
+
+      const thematic2 = {
+        id: 'thematicId3',
+        name: 'Thématique 3',
+        tubes: [tube2],
+      };
+      findRecordStub.withArgs('thematic', 'thematicId2').resolves(thematic2);
+
+      const competence2 = {
+        id: 'competenceId3',
+        index: '3',
+        name: 'Titre competence 3',
+        thematics: [thematic2],
+      };
+      findRecordStub.withArgs('competence', 'competenceId2').resolves(competence2);
+
+      const area2 = {
+        id: 'areaId3',
+        title: 'Titre domaine 3',
+        code: 3,
+        competences: [competence2],
+      };
+      findRecordStub.withArgs('area', 'areaId2').resolves(area2);
+
+      findRecordStub
+        .withArgs('target-profile', '2')
+        .resolves({ internalName: 'super pc 2', imageUrl: 'imageUrl', areas: [area1, area2] });
+
+      findRecordStub.withArgs('module', 'module-123').resolves({
+        id: 'full-id-module-123',
+        shortId: 'module-123',
+        title: 'module 123',
+        details: { image: 'image' },
+      });
+    });
     test('it should save blueprint in store and transition to combined course blueprint screen when data is valid', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -25,27 +111,13 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       router.transitionTo.resolves();
 
       sinon.stub(store, 'createRecord').withArgs('combined-course-blueprint').returns(blueprintStub);
-      const findRecordStub = sinon.stub(store, 'findRecord');
-      findRecordStub.withArgs('module', 'module-123').resolves({
-        id: 'full-id-module-123',
-        shortId: 'module-123',
-        title: 'module 123',
-        details: { image: 'image' },
-      });
-      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', imageUrl: 'imageUrl' });
 
       const attestations = [
         { id: 5, key: 'PARENTHOOD', label: 'Parentalite' },
         { id: 6, key: 'SIXTH_GRADE', label: '6eme' },
       ];
-      const frameworks = [
-        {
-          id: '123',
-          name: 'Pix',
-          areas: [],
-        },
-      ];
-      const model = { attestations, frameworks };
+
+      const model = { attestations };
 
       //when
       const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
@@ -115,7 +187,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       //then
       assert.ok(screen.getByRole('heading', { name: t('components.combined-course-blueprints.create.title') }));
       sinon.assert.calledOnceWith(blueprintStub.save, { adapterOptions: null });
-      assert.ok(findRecordStub.calledTwice);
       assert.strictEqual(blueprintStub.name, 'name');
       assert.strictEqual(blueprintStub.internalName, 'internalName');
       assert.deepEqual(blueprintStub.content, [
@@ -138,29 +209,16 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
     test('it should not allow user to add an item unless type option is checked and item id is filled', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
       const router = this.owner.lookup('service:router');
       sinon.stub(router, 'transitionTo');
       router.transitionTo.resolves();
-
-      const findRecordStub = sinon.stub(store, 'findRecord');
-      findRecordStub
-        .withArgs('module', 'module-123')
-        .resolves({ id: 'full-id-module-123', shortId: 'module-123', title: 'module 123' });
-      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
 
       const attestations = [
         { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
         { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
       ];
-      const frameworks = [
-        {
-          id: '123',
-          name: 'Pix',
-          areas: [],
-        },
-      ];
-      const model = { attestations, frameworks };
+
+      const model = { attestations };
 
       //when
       const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
@@ -171,8 +229,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         .hasAttribute('aria-disabled');
     });
 
-    module('saving capped tube requirement for attestation', function (hooks) {
-      let store, blueprint, attestations, tube, tube2, thematic, competence, area, framework;
+    module('adding capped tube requirement for attestation', function (hooks) {
+      let store, blueprint, attestations, tube, tube2, thematic, competence, area;
 
       hooks.beforeEach(function () {
         store = this.owner.lookup('service:store');
@@ -225,30 +283,28 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           competences: [competence],
         });
 
-        framework = store.createRecord('framework', {
-          id: 'frameworkId',
-          name: 'Pix',
-          areas: [area],
-        });
+        findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', areas: [area] });
       });
 
-      test('it should display tubes selection component only if the user selects an attestation and add capped tubes requirements', async function (assert) {
+      test('it should display tubes selection component when the necessary conditions are met', async function (assert) {
         //given
-        const frameworks = [
-          {
-            id: 123,
-            name: 'Pix',
-            areas: [],
-          },
-        ];
-
         const attestations = [
           { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
           { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
         ];
 
-        const model = { attestations, frameworks };
+        const model = { attestations };
         const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+        //when
+        await fillIn(
+          screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+          1,
+        );
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+        );
 
         //then
         assert.ok(
@@ -268,7 +324,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         );
         assert.notOk(
           await screen.queryByRole('heading', {
-            name: 'Critère d’obtention sur une sélection de sujets du profil cible',
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-criteria'),
           }),
         );
 
@@ -280,6 +336,11 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
         await click(screen.getByRole('option', { name: 'Parentalite' }));
         await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+          }),
+        );
+        await click(
           screen.getByRole('button', {
             name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
           }),
@@ -287,7 +348,9 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
 
         //then
         assert.ok(
-          screen.getByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' }),
+          screen.getByRole('heading', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-criteria'),
+          }),
         );
         assert.ok(
           screen.getByRole('textbox', {
@@ -297,73 +360,9 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         assert.ok(screen.queryByLabelText('Taux de réussite requis', { exact: false }));
       });
 
-      test('it should display tubes from multiple frameworks', async function (assert) {
-        // given
-        // Framework Pix6e
-        const tubePix6e = store.createRecord('tube', {
-          id: 'tubeId3',
-          name: '@tubeName3',
-          practicalTitle: 'Tube 3',
-          skills: [],
-          level: 8,
-        });
-        const thematicPix6e = store.createRecord('thematic', {
-          id: 'thematicId2',
-          name: 'Thématique 2',
-          tubes: [tubePix6e],
-        });
-        const competencePix6e = store.createRecord('competence', {
-          id: 'competenceId2',
-          index: '2',
-          name: 'Titre competence 2',
-          thematics: [thematicPix6e],
-        });
-        const areaPix6e = store.createRecord('area', {
-          id: 'areaId2',
-          title: 'Titre domaine 2',
-          code: 2,
-          competences: [competencePix6e],
-        });
-        const frameworkPix6e = store.createRecord('framework', {
-          id: 'frameworkId2',
-          name: 'Pix 6e',
-          areas: [areaPix6e],
-        });
-
-        // Framework Numérique Responsable
-        const tubeNumeriqueResponsable = store.createRecord('tube', {
-          id: 'tubeId4',
-          name: '@tubeName4',
-          practicalTitle: 'Tube 4',
-          skills: [],
-          level: 8,
-        });
-        const thematicNumeriqueResponsable = store.createRecord('thematic', {
-          id: 'thematicId3',
-          name: 'Thématique 3',
-          tubes: [tubeNumeriqueResponsable],
-        });
-        const competenceNumeriqueResponsable = store.createRecord('competence', {
-          id: 'competenceId3',
-          index: '3',
-          name: 'Titre competence 3',
-          thematics: [thematicNumeriqueResponsable],
-        });
-        const areaNumeriqueResponsable = store.createRecord('area', {
-          id: 'areaId3',
-          title: 'Titre domaine 3',
-          code: 3,
-          competences: [competenceNumeriqueResponsable],
-        });
-        const frameworkNumeriqueResponsable = store.createRecord('framework', {
-          id: 'frameworkId3',
-          name: 'Numérique Responsable',
-          areas: [areaNumeriqueResponsable],
-        });
-
+      test('it should display tubes from selected target profiles', async function (assert) {
         const model = {
           attestations,
-          frameworks: [framework, frameworkPix6e, frameworkNumeriqueResponsable],
           blueprint,
         };
 
@@ -375,6 +374,31 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         );
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+        await fillIn(
+          screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+          1,
+        );
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+        );
+
+        await fillIn(
+          screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+          2,
+        );
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+        );
+
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+          }),
+        );
+
         await click(
           screen.getByRole('button', {
             name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
@@ -382,78 +406,42 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         );
 
         //then
-        assert.ok(screen.getByText('1 · Titre domaine'));
         assert.ok(screen.getByText('2 · Titre domaine 2'));
         assert.ok(screen.getByText('3 · Titre domaine 3'));
-      });
 
-      test('it should not include tubes from unexpected frameworks', async function (assert) {
-        // given
-        const thematic2 = store.createRecord('thematic', {
-          id: 'thematicId2',
-          name: 'Thématique',
-          tubes: [],
-        });
-
-        const competence2 = store.createRecord('competence', {
-          id: 'competenceId2',
-          index: '3',
-          name: 'Compétence',
-          thematics: [thematic2],
-        });
-
-        const area2 = store.createRecord('area', {
-          id: 'areaId2',
-          title: 'Area',
-          code: 3,
-          competences: [competence2],
-        });
-
-        const excludedFramework = store.createRecord('framework', {
-          id: 'otherFrameworkIdE',
-          name: 'Other Framework',
-          areas: [area2],
-        });
-
-        const model = {
-          attestations,
-          frameworks: [framework, excludedFramework],
-          blueprint,
-        };
-
-        //when
-        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
-
-        await click(
-          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-        );
-        await screen.findByRole('listbox');
-        await click(screen.getByRole('option', { name: 'Parentalite' }));
-        await click(
-          screen.getByRole('button', {
-            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
-          }),
-        );
-
-        //then
-        assert.ok(screen.getByText('1 · Titre domaine'));
-        assert.notOk(screen.queryByText('3 · Area'));
+        await click(screen.getByRole('button', { name: t('components.expandable-accordions.expand-all') }));
+        assert.ok(screen.getByText('@tubeName3 : Tube 3'));
+        assert.ok(screen.getByText('@tubeName4 : Tube 4'));
       });
 
       test('it should save blueprint with selected tubes requirements when they are selected', async function (assert) {
         //when
         const model = {
           attestations,
-          frameworks: [framework],
           blueprint,
         };
         const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+        await fillIn(
+          screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+          1,
+        );
+        await screen.findByRole('link', { name: 'super pc', exact: false });
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+        );
 
         await click(
           screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
         );
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Parentalite' }));
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+          }),
+        );
         await click(
           screen.getByRole('button', {
             name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
@@ -461,7 +449,9 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         );
 
         assert.ok(
-          screen.getByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' }),
+          screen.getByRole('heading', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-criteria'),
+          }),
         );
 
         await clickByName('1 · Titre domaine');
@@ -496,16 +486,29 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       test('it should save blueprint with multiple selections of capped tubes', async function (assert) {
         const model = {
           attestations,
-          frameworks: [framework],
           blueprint,
         };
         const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+        await fillIn(
+          screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+          1,
+        );
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+        );
 
         await click(
           screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
         );
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Parentalite' }));
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+          }),
+        );
 
         await click(
           screen.getByRole('button', {
@@ -513,7 +516,9 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           }),
         );
         assert.ok(
-          screen.getByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' }),
+          screen.getByRole('heading', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-criteria'),
+          }),
         );
 
         await clickByName('1 · Titre domaine');
@@ -571,6 +576,461 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
             ],
           },
         });
+      });
+
+      module('when the submitted capped tube requirements are not valid', function () {
+        async function renderFormAndAddTubesSelection(model) {
+          const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+          await fillIn(
+            screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+            1,
+          );
+          await screen.findByRole('link', { name: 'super pc', exact: false });
+          await click(
+            screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+          );
+
+          await click(
+            screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+          );
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+          await click(
+            screen.getByRole('radio', {
+              name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+            }),
+          );
+
+          return screen;
+        }
+
+        test('it should display error and not save if no capped tubes have been selected', async function (assert) {
+          // given
+          const pixToast = this.owner.lookup('service:pixToast');
+          const pixToastErrorStub = sinon.stub(pixToast, 'sendErrorNotification');
+          const pixToastSuccessStub = sinon.stub(pixToast, 'sendSuccessNotification');
+          const model = { attestations, blueprint };
+
+          const screen = await renderFormAndAddTubesSelection(model);
+
+          // when
+          await click(
+            screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }),
+          );
+
+          // then
+          sinon.assert.calledOnce(pixToastErrorStub);
+          sinon.assert.calledWith(pixToastErrorStub, {
+            message: t('components.combined-course-blueprints.reward-requirements.errors.tubes-required'),
+          });
+          sinon.assert.notCalled(pixToastSuccessStub);
+          sinon.assert.notCalled(blueprint.save);
+          assert.ok(true);
+        });
+
+        test('it should display both errors and not save when neither tubes nor threshold are filled', async function (assert) {
+          // given
+          const pixToast = this.owner.lookup('service:pixToast');
+          const pixToastErrorStub = sinon.stub(pixToast, 'sendErrorNotification');
+          const pixToastSuccessStub = sinon.stub(pixToast, 'sendSuccessNotification');
+          const model = { attestations, blueprint };
+
+          const screen = await renderFormAndAddTubesSelection(model);
+
+          // when
+          await click(
+            screen.getByRole('button', {
+              name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
+            }),
+          );
+
+          await click(
+            screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }),
+          );
+
+          // then
+          sinon.assert.calledTwice(pixToastErrorStub);
+          sinon.assert.calledWith(pixToastErrorStub, {
+            message: t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'),
+          });
+          sinon.assert.calledWith(pixToastErrorStub, {
+            message: t('components.combined-course-blueprints.reward-requirements.errors.tubes-required'),
+          });
+          sinon.assert.notCalled(pixToastSuccessStub);
+          sinon.assert.notCalled(blueprint.save);
+          assert.ok(true);
+        });
+
+        test('it should display the threshold error and not save when tubes are selected without a threshold', async function (assert) {
+          // given
+          const pixToast = this.owner.lookup('service:pixToast');
+          const pixToastErrorStub = sinon.stub(pixToast, 'sendErrorNotification');
+          const pixToastSuccessStub = sinon.stub(pixToast, 'sendSuccessNotification');
+          const model = { attestations, blueprint };
+
+          const screen = await renderFormAndAddTubesSelection(model);
+          await click(
+            screen.getByRole('button', {
+              name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
+            }),
+          );
+
+          await clickByName('1 · Titre domaine');
+          await clickByName('1 Titre competence');
+          await click(screen.getByLabelText('@tubeName1 : Tube 1'));
+
+          const allSelects = await screen.getAllByText(/Sélection du niveau du sujet suivant : Tube/);
+          await click(allSelects[0]);
+          const allCells = screen.getAllByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ });
+          const tubesListbox = await within(allCells[0]).findByRole('listbox');
+          await click(within(tubesListbox).getByRole('option', { name: '4' }));
+
+          // when
+          await click(
+            screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }),
+          );
+
+          // then
+          sinon.assert.calledOnceWithExactly(pixToastErrorStub, {
+            message: t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'),
+          });
+          sinon.assert.notCalled(pixToastSuccessStub);
+          sinon.assert.notCalled(blueprint.save);
+          assert.ok(true);
+        });
+
+        test('it should display the tubes error and not save when a threshold is filled without tubes', async function (assert) {
+          // given
+          const pixToast = this.owner.lookup('service:pixToast');
+          const pixToastErrorStub = sinon.stub(pixToast, 'sendErrorNotification');
+          const pixToastSuccessStub = sinon.stub(pixToast, 'sendSuccessNotification');
+          const model = { attestations, blueprint };
+
+          const screen = await renderFormAndAddTubesSelection(model);
+          await click(
+            screen.getByRole('button', {
+              name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
+            }),
+          );
+
+          await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '75');
+
+          // when
+          await click(
+            screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }),
+          );
+
+          // then
+          sinon.assert.calledOnceWithExactly(pixToastErrorStub, {
+            message: t('components.combined-course-blueprints.reward-requirements.errors.tubes-required'),
+          });
+          sinon.assert.notCalled(pixToastSuccessStub);
+          sinon.assert.notCalled(blueprint.save);
+          assert.ok(true);
+        });
+      });
+    });
+
+    module('adding reward requirements on the whole content of the blueprint', function (hooks) {
+      let store, blueprint, attestations, tube, thematic, competence, area;
+
+      hooks.beforeEach(function () {
+        store = this.owner.lookup('service:store');
+
+        blueprint = store.createRecord('combined-course-blueprint', {
+          id: '1',
+          name: 'name',
+        });
+        sinon.stub(blueprint, 'save');
+        blueprint.save.resolves();
+
+        attestations = [
+          { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
+          { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
+        ];
+
+        tube = store.createRecord('tube', {
+          id: 'tubeId1',
+          name: '@tubeName1',
+          practicalTitle: 'Tube 1',
+          skills: [],
+          level: 8,
+        });
+
+        thematic = store.createRecord('thematic', {
+          id: 'thematicId',
+          name: 'Thématique',
+          tubes: [tube],
+        });
+
+        competence = store.createRecord('competence', {
+          id: 'competenceId',
+          index: '1',
+          name: 'Titre competence',
+          thematics: [thematic],
+        });
+
+        area = store.createRecord('area', {
+          id: 'areaId',
+          title: 'Titre domaine',
+          code: 1,
+          competences: [competence],
+        });
+
+        findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', areas: [area] });
+      });
+
+      async function renderFormAndSelectAttestation(model) {
+        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+        await fillIn(
+          screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+          1,
+        );
+        await screen.findByRole('link', { name: 'super pc', exact: false });
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+        );
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+        );
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+        return screen;
+      }
+
+      test('it should display the whole schema criterion when the whole blueprint option is selected', async function (assert) {
+        // given
+        const model = { attestations, blueprint };
+        const screen = await renderFormAndSelectAttestation(model);
+
+        // when
+        await click(
+          screen.getByRole('radio', {
+            name: t(
+              'components.combined-course-blueprints.labels.reward-requirements.entire-blueprint-criteria-option',
+            ),
+          }),
+        );
+
+        // then
+        assert.ok(screen.getByLabelText('Taux de réussite requis', { exact: false }));
+        assert.notOk(
+          screen.queryByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
+          }),
+        );
+        assert.notOk(
+          screen.queryByRole('heading', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-criteria'),
+          }),
+        );
+      });
+
+      test('it should display an error and not save when the whole blueprint option is selected without a threshold', async function (assert) {
+        // given
+        const pixToast = this.owner.lookup('service:pixToast');
+        const pixToastErrorStub = sinon.stub(pixToast, 'sendErrorNotification');
+        const pixToastSuccessStub = sinon.stub(pixToast, 'sendSuccessNotification');
+        const model = { attestations, blueprint };
+        const screen = await renderFormAndSelectAttestation(model);
+
+        await click(
+          screen.getByRole('radio', {
+            name: t(
+              'components.combined-course-blueprints.labels.reward-requirements.entire-blueprint-criteria-option',
+            ),
+          }),
+        );
+
+        // when
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }),
+        );
+
+        // then
+        sinon.assert.calledOnceWithExactly(pixToastErrorStub, {
+          message: t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'),
+        });
+        sinon.assert.notCalled(pixToastSuccessStub);
+        sinon.assert.notCalled(blueprint.save);
+        assert.ok(true);
+      });
+
+      test('it should save the blueprint with the schema threshold adapter option', async function (assert) {
+        // given
+        const model = { attestations, blueprint };
+        const screen = await renderFormAndSelectAttestation(model);
+
+        await click(
+          screen.getByRole('radio', {
+            name: t(
+              'components.combined-course-blueprints.labels.reward-requirements.entire-blueprint-criteria-option',
+            ),
+          }),
+        );
+        await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '75');
+
+        // when
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }),
+        );
+
+        // then
+        sinon.assert.calledOnceWithExactly(blueprint.save, { adapterOptions: { schemaThreshold: '75' } });
+        assert.ok(true);
+      });
+
+      test('it should empty the capped tube requirements on save when switching back to the whole blueprint option', async function (assert) {
+        // given
+        const model = { attestations, blueprint };
+        const screen = await renderFormAndSelectAttestation(model);
+
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
+          }),
+        );
+        await click(
+          screen.getByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
+          }),
+        );
+
+        await clickByName('1 · Titre domaine');
+        await clickByName('1 Titre competence');
+        await click(screen.getByLabelText('@tubeName1 : Tube 1'));
+
+        const allSelects = await screen.getAllByText(/Sélection du niveau du sujet suivant : Tube/);
+        await click(allSelects[0]);
+        const allCells = screen.getAllByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ });
+        const tubesListbox = await within(allCells[0]).findByRole('listbox');
+        await click(within(tubesListbox).getByRole('option', { name: '4' }));
+        await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '99');
+
+        // when
+        await click(
+          screen.getByRole('radio', {
+            name: t(
+              'components.combined-course-blueprints.labels.reward-requirements.entire-blueprint-criteria-option',
+            ),
+          }),
+        );
+
+        assert.notOk(
+          screen.queryByRole('heading', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-criteria'),
+          }),
+        );
+        await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '75');
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }),
+        );
+
+        // then
+        sinon.assert.calledOnceWithExactly(blueprint.save, { adapterOptions: { schemaThreshold: '75' } });
+      });
+    });
+
+    module('not adding reward requirements', function (hooks) {
+      let store, blueprint, attestations, tube, thematic, competence, area;
+
+      hooks.beforeEach(function () {
+        store = this.owner.lookup('service:store');
+
+        blueprint = store.createRecord('combined-course-blueprint', {
+          id: '1',
+          name: 'name',
+        });
+        sinon.stub(blueprint, 'save');
+        blueprint.save.resolves();
+
+        attestations = [
+          { id: '5', key: 'PARENTHOOD', label: 'Parentalite' },
+          { id: '6', key: 'SIXTH_GRADE', label: '6eme' },
+        ];
+
+        tube = store.createRecord('tube', {
+          id: 'tubeId1',
+          name: '@tubeName1',
+          practicalTitle: 'Tube 1',
+          skills: [],
+          level: 8,
+        });
+
+        thematic = store.createRecord('thematic', {
+          id: 'thematicId',
+          name: 'Thématique',
+          tubes: [tube],
+        });
+
+        competence = store.createRecord('competence', {
+          id: 'competenceId',
+          index: '1',
+          name: 'Titre competence',
+          thematics: [thematic],
+        });
+
+        area = store.createRecord('area', {
+          id: 'areaId',
+          title: 'Titre domaine',
+          code: 1,
+          competences: [competence],
+        });
+
+        findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', areas: [area] });
+      });
+
+      async function renderFormAndSelectAttestation(model) {
+        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+        await fillIn(
+          screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+          1,
+        );
+        await screen.findByRole('link', { name: 'super pc', exact: false });
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+        );
+
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
+        );
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+        return screen;
+      }
+
+      test('it should display the radio button to not add criteria', async function (assert) {
+        // given
+        const model = { attestations, blueprint };
+        const screen = await renderFormAndSelectAttestation(model);
+
+        // when
+        await click(
+          screen.getByRole('radio', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.no-criteria-option'),
+          }),
+        );
+
+        // then
+        assert.notOk(screen.queryByLabelText('Taux de réussite requis', { exact: false }));
+        assert.notOk(
+          screen.queryByRole('button', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection'),
+          }),
+        );
+        assert.notOk(
+          screen.queryByRole('heading', {
+            name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-criteria'),
+          }),
+        );
       });
     });
   });
@@ -908,7 +1368,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       findRecordStub
         .withArgs('module', 'module123')
         .resolves({ id: 'full-id-module123', shortId: 'module123', title: 'module 123' });
-      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
+      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', areas: [] });
 
       const frameworks = [
         {
@@ -943,13 +1403,14 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       assert.ok(screen.getByText('Profil cible'));
       assert.ok(screen.getByText('Module'));
     });
+
     test('it should remove item when user clicks on remove button', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
 
       const findRecordStub = sinon.stub(store, 'findRecord');
 
-      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
+      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', areas: [] });
 
       const frameworks = [
         {
@@ -978,13 +1439,14 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       //then
       assert.notOk(screen.queryByRole('cell', { name: /super pc/ }));
     });
+
     test('it should remove only the selected item in a list of duplicates when user clicks on remove button', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
 
       const findRecordStub = sinon.stub(store, 'findRecord');
 
-      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc' });
+      findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', areas: [] });
 
       const frameworks = [
         {

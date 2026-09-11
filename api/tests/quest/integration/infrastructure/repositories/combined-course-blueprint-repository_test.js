@@ -31,7 +31,6 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
           illustration: 'http://example.pix/illustration/ia.svg',
           content,
           organizationIds: [],
-          quest: new QuestInput({ items: content }).toQuest(),
         }),
       });
 

@@ -51,6 +51,7 @@ const dependencies = {
   profileRewardRepository: repositories.profileRewardRepository,
   combinedCourseBlueprintShareRepository: repositories.combinedCourseBlueprintShareRepository,
   learningContentRepository: repositories.learningContentRepository,
+  cappedTubeRepository: repositories.cappedTubeRepository,
   accessCodeGenerator,
   logger,
 };

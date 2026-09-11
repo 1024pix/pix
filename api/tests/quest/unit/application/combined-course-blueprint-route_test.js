@@ -63,11 +63,11 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
         },
       };
 
+      // when
       const httpTestServer = new HttpTestServer();
       httpTestServer.setupAuthentication();
       await httpTestServer.register(combinedCourseBlueprintRoute);
 
-      // when
       await httpTestServer.request(
         'POST',
         '/api/admin/combined-course-blueprints',

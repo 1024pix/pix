@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/constants.js';
+import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { AdminCombinedCourseBlueprintDetails } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/AdminCombinedCourseBlueprintDetails.js';
 import { QuestInput } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/QuestInput.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
@@ -8,8 +8,6 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails ', function () {
   describe('#constructor', function () {
     it('should set content alongside inherited properties', function () {
-      const items = [{ type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: 12 }];
-      const quest = new QuestInput({ items }).toQuest();
       const rewardRequirements = [{ threshold: 50, areas: [domainBuilder.buildArea()] }];
       const content = [{ type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: 12 }];
       const name = 'external name';
@@ -18,7 +16,6 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails '
       const prescriberDescription = 'prescriber description';
 
       const details = new AdminCombinedCourseBlueprintDetails({
-        quest,
         rewardRequirements,
         content,
         name,
@@ -28,8 +25,8 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails '
       });
 
       expect(details.content).to.deep.equal(content);
-      expect(details.quest).to.equal(quest);
       expect(details.rewardRequirements).to.equal(rewardRequirements);
+      expect(details.targetProfileIds).to.deep.equal([12]);
     });
   });
 
@@ -75,6 +72,38 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails '
         { type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: targetProfileId },
       ]);
       expect(details.rewardRequirements).to.be.lengthOf(2);
+    });
+    it('should preserve the reward and the capped tube requirements of the persisted quest', function () {
+      // given
+      const targetProfileId = 42;
+      const quest = new QuestInput({
+        items: [{ type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN, value: targetProfileId }],
+        rewardId: 5,
+        rewardType: REWARD_TYPES.ATTESTATION,
+        cappedTubeRequirements: [{ tubes: [{ tubeId: 'tubeId1', level: 4 }], threshold: 75, name: 'grp' }],
+      }).toQuest();
+      const combinedCourseBlueprint = {
+        id: 1,
+        name: 'test',
+        internalName: 'internal',
+        description: 'description',
+        prescriberDescription: 'prescriber description',
+        quest,
+      };
+
+      // when
+      const details = AdminCombinedCourseBlueprintDetails.buildFromBlueprint({
+        combinedCourseBlueprint,
+        modulesById: {},
+        attestationLabel: 'Mon attestation',
+      });
+
+      // then
+      expect(details.quest).to.equal(quest);
+      expect(details.quest.rewardId).to.equal(5);
+      expect(details.quest.rewardType).to.equal(REWARD_TYPES.ATTESTATION);
+      expect(details.quest.hasCappedTubeRequirements).to.be.true;
+      expect(details.targetProfileIds).to.deep.equal([targetProfileId]);
     });
   });
 });

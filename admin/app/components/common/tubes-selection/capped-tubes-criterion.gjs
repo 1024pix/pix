@@ -7,20 +7,17 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import sortBy from 'lodash/sortBy';
+import tubesForThematic from 'pix-admin/utils/tubes-for-thematic';
 
-import ExpandableAccordions from '../../common/expandable-accordions';
-import Areas from '../../common/tubes-selection/areas';
+import ExpandableAccordions from '../expandable-accordions';
+import Areas from './areas';
 
 export default class CappedTubesCriterion extends Component {
   @tracked selectedTubeIds = [];
   @tracked tubeLevels = {};
-  @tracked areasList = [];
 
-  constructor() {
-    super(...arguments);
-    Promise.resolve(this.args.areas).then((areas) => {
-      this.areasList = areas;
-    });
+  get title() {
+    return this.args.title ?? 'Critère d’obtention sur une sélection de sujets du profil cible';
   }
 
   get displaySkillDifficultySelection() {
@@ -32,7 +29,7 @@ export default class CappedTubesCriterion extends Component {
   }
 
   get areas() {
-    return sortBy(this.areasList, 'code');
+    return sortBy(this.args.areas ?? [], 'code');
   }
 
   @action
@@ -78,23 +75,19 @@ export default class CappedTubesCriterion extends Component {
   }
 
   get _selectedTubes() {
-    return (
-      this.areasList
-        .flatMap((area) => {
-          const competences = [...area.hasMany('competences').value()];
-          return competences.flatMap((competence) => {
-            const thematics = [...competence.hasMany('thematics').value()];
-            return thematics.flatMap((thematic) => [...thematic.hasMany('tubes').value()]);
-          });
-        })
-        .filter((tube) => this.selectedTubeIds.includes(tube.id)) ?? []
-    );
+    return (this.args.areas ?? [])
+      .flatMap((area) =>
+        area.sortedCompetences.flatMap((competence) =>
+          competence.sortedThematics.flatMap((thematic) => tubesForThematic(thematic)),
+        ),
+      )
+      .filter((tube) => this.selectedTubeIds.includes(tube.id));
   }
 
   <template>
     <article class="badge-form-criterion" data-testid={{@id}}>
       <header>
-        <h3>Critère d’obtention sur une sélection de sujets du profil cible</h3>
+        <h3>{{this.title}}</h3>
         <PixButton @variant="secondary" @size="small" @triggerAction={{@remove}}>
           Supprimer
         </PixButton>

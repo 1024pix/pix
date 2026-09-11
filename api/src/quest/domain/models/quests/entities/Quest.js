@@ -178,6 +178,10 @@ class Quest {
     }
     return result;
   }
+
+  get hasCappedTubeRequirements() {
+    return this.#flattenRequirementsByType(this.#successRequirements.data, REQUIREMENT_TYPES.CAPPED_TUBES).length > 0;
+  }
 }
 
 export { Quest };

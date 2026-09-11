@@ -3,7 +3,9 @@ import sinon from 'sinon';
 
 import * as targetProfileApi from '../../../../../../src/prescription/target-profile/application/api/target-profile-api.js';
 import { TargetProfile } from '../../../../../../src/prescription/target-profile/application/api/TargetProfile.js';
+import { TargetProfileCappedTube as TargetProfileCappedTubeDTO } from '../../../../../../src/prescription/target-profile/application/api/TargetProfileCappedTube.js';
 import { TargetProfileSkill } from '../../../../../../src/prescription/target-profile/application/api/TargetProfileSkill.js';
+import { TargetProfileCappedTube } from '../../../../../../src/prescription/target-profile/domain/models/TargetProfileCappedTube.js';
 import { TargetProfileForSpecifier } from '../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
 import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -163,6 +165,30 @@ describe('Unit | API | TargetProfile', function () {
       // then
       expect(result).to.have.lengthOf(3);
       expect(result).to.deep.equal(expectedTargetProfiles);
+    });
+  });
+
+  describe('#findCappedTubesForTargetProfileIds', function () {
+    it('should return a target profile capped tube', async function () {
+      const targetProfileIds = [1, 2, 3];
+      const cappedTubesForTargetProfiles = [
+        new TargetProfileCappedTube({ id: 1, targetProfileId: 1, level: 1, tubeId: 'tubeId1' }),
+        new TargetProfileCappedTube({ id: 2, targetProfileId: 2, level: 8, tubeId: 'tubeId2' }),
+        new TargetProfileCappedTube({ id: 3, targetProfileId: 3, level: 2, tubeId: 'tubeId3' }),
+      ];
+      const expectedCappedTubeForTargetProfilesDTOs = [
+        new TargetProfileCappedTubeDTO({ targetProfileId: 1, level: 1, tubeId: 'tubeId1' }),
+        new TargetProfileCappedTubeDTO({ targetProfileId: 2, level: 8, tubeId: 'tubeId2' }),
+        new TargetProfileCappedTubeDTO({ targetProfileId: 3, level: 2, tubeId: 'tubeId3' }),
+      ];
+
+      const findCappedTubesForTargetProfileIdsStub = sinon.stub(usecases, 'findCappedTubesForTargetProfileIds');
+
+      findCappedTubesForTargetProfileIdsStub.withArgs({ targetProfileIds }).resolves(cappedTubesForTargetProfiles);
+      const result = await targetProfileApi.findCappedTubesForTargetProfileIds(targetProfileIds);
+      //then
+      expect(result).to.have.lengthOf(3);
+      expect(result).to.deep.equal(expectedCappedTubeForTargetProfilesDTOs);
     });
   });
 });

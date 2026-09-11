@@ -1,8 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import { REWARD_TYPES } from '../../domain/constants.js';
 import { CombinedCourseBlueprintForCreation } from '../../domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForCreation.js';
-import { QuestInput } from '../../domain/models/combined-course-blueprints/value-objects/QuestInput.js';
 
 const { Deserializer, Serializer } = jsonapiSerializer;
 
@@ -26,15 +24,9 @@ const deserialize = async function (payload) {
   const deserializedData = await new Deserializer({
     keyForAttribute: 'camelCase',
   }).deserialize(payload);
-  const questInput = new QuestInput({
-    items: deserializedData.content ?? [],
-    rewardId: deserializedData.rewardId,
-    rewardType: REWARD_TYPES[deserializedData.rewardType] ?? null,
-    cappedTubeRequirements: deserializedData.cappedTubeRequirements ?? [],
-  });
+
   return new CombinedCourseBlueprintForCreation({
     ...deserializedData,
-    quest: questInput.toQuest(),
   });
 };
 
