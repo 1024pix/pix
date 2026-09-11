@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.ts';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildCampaign } from './build-campaign.js';

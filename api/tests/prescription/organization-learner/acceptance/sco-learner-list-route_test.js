@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';

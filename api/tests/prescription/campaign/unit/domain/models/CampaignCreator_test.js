@@ -8,7 +8,7 @@ import {
 } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { CampaignCreator } from '../../../../../../src/prescription/campaign/domain/models/CampaignCreator.js';
 import { CampaignForCreation } from '../../../../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/constants.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

@@ -10,7 +10,7 @@ import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import {

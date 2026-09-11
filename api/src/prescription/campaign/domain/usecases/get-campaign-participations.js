@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 import * as stageAndStageAcquisitionComparisonService from '../../../stages/domain/services/stage-and-stage-acquisition-comparison-service.js';
 import { CampaignResultLevelsPerTubesAndCompetences } from '../models/CampaignResultLevelsPerTubesAndCompetences.js';
 import {

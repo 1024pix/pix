@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { CampaignParticipationStatuses, CampaignTypes, MaxMasteryRate } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes, MaxMasteryRate } from '../../../shared/domain/constants.ts';
 
 const { SHARED } = CampaignParticipationStatuses;
 

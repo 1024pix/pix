@@ -4,7 +4,7 @@ import { OrganizationLearnerActivity } from '../../../../../../src/prescription/
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Read-Models | OrganizationLearnerActivity', function () {

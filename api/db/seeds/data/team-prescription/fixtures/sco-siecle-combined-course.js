@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { SCO_MANAGING_ORGANIZATION_ID } from '../../common/constants.js';

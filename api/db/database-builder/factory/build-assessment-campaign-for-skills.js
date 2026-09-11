@@ -1,4 +1,4 @@
-import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.ts';
 import { buildCampaign } from './build-campaign.js';
 import { buildCampaignSkill } from './build-campaign-skill.js';
 

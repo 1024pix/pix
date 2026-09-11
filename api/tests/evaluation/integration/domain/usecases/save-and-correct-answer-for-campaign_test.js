@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import { CompetenceEvaluation } from '../../../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/constants.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';

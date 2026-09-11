@@ -1,5 +1,5 @@
 import { ObjectValidationError } from '../../../../shared/domain/errors.js';
-import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignTypes } from '../../../shared/domain/constants.ts';
 import { ArchivedCampaignError } from '../../../shared/domain/errors.js';
 import {
   CampaignCodeFormatError,

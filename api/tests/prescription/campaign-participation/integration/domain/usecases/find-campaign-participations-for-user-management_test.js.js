@@ -8,7 +8,7 @@ import { usecases } from '../../../../../../src/prescription/campaign-participat
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 

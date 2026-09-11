@@ -1,6 +1,6 @@
 import { exit } from 'node:process';
 
-import { CampaignParticipationStatuses } from '../../prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../prescription/shared/domain/constants.ts';
 import { usecases } from '../../quest/domain/usecases/index.js';
 import { isoDateParser } from '../../shared/application/scripts/parsers.js';
 import { Script } from '../../shared/application/scripts/script.js';

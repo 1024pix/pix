@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseParticipationDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseParticipationDetails.js';
 import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';

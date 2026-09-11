@@ -4,7 +4,7 @@ import * as campaignParticipationInfoRepository from '../../../../../../src/pres
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 const { STARTED } = CampaignParticipationStatuses;

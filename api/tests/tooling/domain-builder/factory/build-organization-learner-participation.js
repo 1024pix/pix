@@ -1,5 +1,5 @@
 import { OrganizationLearnerParticipation } from '../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerParticipation.js';
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.ts';
 
 const buildOrganizationLearnerParticipation = function ({
   id = '123',

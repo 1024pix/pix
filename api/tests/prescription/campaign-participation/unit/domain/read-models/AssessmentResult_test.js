@@ -4,7 +4,7 @@ import { AssessmentResult } from '../../../../../../src/prescription/campaign-pa
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 

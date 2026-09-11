@@ -1,5 +1,5 @@
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 
 function buildCampaign({
   id = 1,

@@ -5,7 +5,7 @@ import {
   CampaignParticipationStatuses,
   CombinedCourseParticipationStatuses,
   CombinedCourseStatuses,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../../src/quest/domain/constants.js';
 import { CombinedCourseDetails } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
 import { CombinedCourseReward } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';

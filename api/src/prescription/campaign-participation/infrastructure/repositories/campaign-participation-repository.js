@@ -9,7 +9,7 @@ import { Campaign } from '../../../campaign/domain/models/Campaign.js';
 import { CampaignParticipationInfo } from '../../../campaign/domain/read-models/CampaignParticipationInfo.js';
 import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../shared/domain/models/KnowledgeElementCollection.js';
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { AvailableCampaignParticipation } from '../../domain/read-models/AvailableCampaignParticipation.js';

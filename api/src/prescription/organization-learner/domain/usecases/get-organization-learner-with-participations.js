@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 
 export const getOrganizationLearnerWithParticipations = async function ({
   organizationId,

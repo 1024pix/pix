@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { OrganizationLearnerActivity } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerActivity.js';
 import { OrganizationLearnerParticipation } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerParticipation.js';
 import { organizationLearnerActivitySerializer } from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organization-learner-activity-serializer.js';
-import { CampaignTypes } from '../../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../../src/prescription/shared/domain/constants.ts';
 
 describe('Unit | Serializer | JSONAPI | organization-learner-participation-serialize', function () {
   describe('#serialize', function () {

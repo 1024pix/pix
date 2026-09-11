@@ -6,7 +6,7 @@ import { EntityValidationError, ForbiddenAccess } from '../../../../shared/domai
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { validateEmailSyntax } from '../../../../shared/domain/services/email-validation-service.js';
 import { OrganizationLearner } from '../../../learner-management/domain/models/OrganizationLearner.js';
-import { CampaignExternalIdTypes, CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignExternalIdTypes, CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 import { CampaignParticipation } from './CampaignParticipation.js';
 
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";

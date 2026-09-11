@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../domain/constants.js';
 import { CampaignCollectiveResult } from '../../domain/read-models/CampaignCollectiveResult.js';
 import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';

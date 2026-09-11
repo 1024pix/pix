@@ -6,7 +6,7 @@ import {
   CampaignParticipationDeletedError,
 } from '../../../../../src/shared/domain/errors.js';
 import { CampaignParticipationLoggerContext } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 import { ArchivedCampaignError } from '../../../shared/domain/errors.js';
 
 class CampaignParticipation {

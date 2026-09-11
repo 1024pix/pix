@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { PIX_COUNT_BY_LEVEL } from '../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';

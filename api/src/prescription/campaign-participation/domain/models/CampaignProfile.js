@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 import { CampaignProfileCompetence } from './CampaignProfileCompetence.js';
 
 const { SHARED } = CampaignParticipationStatuses;

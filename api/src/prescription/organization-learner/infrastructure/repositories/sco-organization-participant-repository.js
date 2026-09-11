@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../src/prescription/shared/domain/constants.ts';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../identity-access-management/domain/constants/identity-providers.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';

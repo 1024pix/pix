@@ -3,7 +3,7 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
 import { validateEntity } from '../../../../shared/domain/validators/entity-validator.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 
 const validationSchema = Joi.object({
   participantFirstName: Joi.string().required().allow(''),

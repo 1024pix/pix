@@ -7,7 +7,7 @@ import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../src/pr
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { ORGANIZATION_FEATURE, PIX_ADMIN } from '../../../../../../src/shared/constants.js';

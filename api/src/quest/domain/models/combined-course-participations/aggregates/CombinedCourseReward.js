@@ -1,4 +1,4 @@
-import { CombinedCourseStatuses } from '../../../../../prescription/shared/domain/constants.js';
+import { CombinedCourseStatuses } from '../../../../../prescription/shared/domain/constants.ts';
 
 export const CombinedCourseRewardStatuses = {
   NOT_STARTED: 'NOT_STARTED',

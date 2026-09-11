@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import * as OidcIdentityProviders from '../../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { CampaignToJoin } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignToJoin.js';
 import * as campaignToJoinRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
-import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';

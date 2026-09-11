@@ -5,7 +5,7 @@ import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecase
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
