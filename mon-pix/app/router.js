@@ -107,6 +107,7 @@ Router.map(function () {
   });
   this.route('combined-courses', { path: '/parcours' }, function () {
     this.route('programme', { path: '/:code' });
+    this.route('tunnel', { path: 'in-progress/:code' });
     this.route('generic-error', { path: '/oups' });
     this.route('disabled-feature-error', { path: '/erreur' });
     this.route('process-custom-passages', { path: '/:code/chargement' });
