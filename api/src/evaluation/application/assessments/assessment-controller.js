@@ -53,11 +53,8 @@ async function completeAssessment(request) {
       });
     }
 
-    if (assessment.userId && isQuestEnabled) {
-      await questUsecases.rewardUser({ userId: assessment.userId });
-    }
-
     if (assessment.userId && assessment.isCampaignParticipationAvailable() && isQuestEnabled) {
+      await questUsecases.rewardUser({ userId: assessment.userId });
       await shareProfileRewardWithOrganization(assessment.campaignParticipationId, assessment.userId);
     }
 
