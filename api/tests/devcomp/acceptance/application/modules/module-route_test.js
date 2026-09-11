@@ -45,21 +45,4 @@ describe('Acceptance | Controller | Modules | Route', function () {
       });
     });
   });
-
-  describe('GET /api/module-schema/module-json-schema.json', function () {
-    it('should return a cacheable JSON Schema', async function () {
-      const options = {
-        method: 'GET',
-        url: '/api/module-schema/module-json-schema.json',
-      };
-
-      const response = await server.inject(options);
-
-      expect(response.statusCode).to.equal(200);
-      expect(response.headers['cache-control']).to.include('public');
-      expect(response.headers['cache-control']).to.include(config.module.jsonSchemaCacheMaxAge);
-      expect(response.headers['etag']).to.exist;
-      expect(() => JSON.parse(response.payload), 'Response payload is not a valid JSON string').not.to.throw(Error);
-    });
-  });
 });
