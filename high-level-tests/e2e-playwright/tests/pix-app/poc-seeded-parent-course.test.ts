@@ -238,4 +238,24 @@ test('a user walks the seeded parent combined course and obtains the attestation
     log('[parent completed]', await body(page));
     await shot(page, 'parent-termine-attestation-obtenue');
   });
+
+  await test.step('A completed nested course can be unfolded to look back at its detail', async () => {
+    const group = page.getByRole('button', { name: new RegExp(CHILDREN[0]) }).first();
+    await expect(group).toHaveAttribute('aria-expanded', 'false');
+    await group.click();
+    await expect(group).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByText('Évaluation de vos connaissances').first()).toBeVisible();
+    await shot(page, 'parent-parcours-enfant-deplie');
+  });
+
+  await test.step('The attestation downloads as a real PDF', async () => {
+    const download = page.waitForEvent('download', { timeout: 30_000 });
+    await page.getByRole('button', { name: 'Je télécharge mon attestation' }).click();
+    const file = await (await download).path();
+    const pdf = await fs.readFile(file);
+    log('[attestation]', pdf.length, 'octets');
+    // a failed generation would download nothing at all, or an empty file
+    expect(pdf.length).toBeGreaterThan(10_000);
+    expect(pdf.subarray(0, 5).toString()).toBe('%PDF-');
+  });
 });

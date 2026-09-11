@@ -329,7 +329,10 @@ export const buildNestedCombinedCourse = (databaseBuilder) => {
   const { id: rewardId } = buildAttestation({
     key: 'POCIACULTURE',
     label: "Culture de l'IA",
-    templateName: 'poc-ia-culture-attestation-template',
+    // POC : le PDF est généré depuis un template stocké sur S3. Aucun template propre au
+    // POC n'existe, donc on réutilise celui des attestations 6e — le visuel parle de 6e,
+    // mais le téléchargement aboutit partout où les seeds standard fonctionnent.
+    templateName: 'sixth-grade-attestation-template',
   });
 
   const successRequirements = [
