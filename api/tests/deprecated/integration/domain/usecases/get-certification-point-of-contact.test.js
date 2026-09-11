@@ -20,7 +20,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
         // given
         const acceptedAt = new Date('2024-06-02');
 
-        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatusDTO = domainBuilder.legalDocuments.buildLegalDocumentStatusDTO({
           status: STATUS.ACCEPTED,
           acceptedAt: acceptedAt,
           documentPath: null,
@@ -50,7 +50,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          pixCertifTosStatus: expectedPixCertifTosStatus,
+          pixCertifTosStatusDTO: expectedPixCertifTosStatusDTO,
           allowedCertificationCenterAccesses: [
             domainBuilder.buildAllowedCertificationCenterAccess({
               id: certificationCenter.id,
@@ -75,7 +75,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
     context('when user has never accepted terms of service', function () {
       it('returns with the CertificationPointOfContact with tos not accepted', async function () {
         // given
-        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatusDTO({
           status: STATUS.REQUESTED,
           acceptedAt: null,
           documentPath: null,
@@ -105,7 +105,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          pixCertifTosStatus: expectedPixCertifTosStatus,
+          pixCertifTosStatusDTO: expectedPixCertifTosStatus,
           allowedCertificationCenterAccesses: [
             domainBuilder.buildAllowedCertificationCenterAccess({
               id: certificationCenter.id,
@@ -138,7 +138,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
         // given
         const legalDocumentPublishedAt = new Date('2024-06-01');
         const acceptedAt = new Date('2024-06-02');
-        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatusDTO({
           status: STATUS.ACCEPTED,
           acceptedAt: acceptedAt,
           documentPath: 'pix-certif-tos-2024-06-01',
@@ -178,7 +178,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          pixCertifTosStatus: expectedPixCertifTosStatus,
+          pixCertifTosStatusDTO: expectedPixCertifTosStatus,
           allowedCertificationCenterAccesses: [
             domainBuilder.buildAllowedCertificationCenterAccess({
               id: certificationCenter.id,
@@ -203,7 +203,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
     context('when user has never accepted pix-certif-tos', function () {
       it('returns the CertificationPointOfContact with requested terms of service', async function () {
         // given
-        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatusDTO({
           status: STATUS.REQUESTED,
           acceptedAt: null,
           documentPath: 'pix-certif-tos-2024-06-01',
@@ -240,7 +240,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          pixCertifTosStatus: expectedPixCertifTosStatus,
+          pixCertifTosStatusDTO: expectedPixCertifTosStatus,
           allowedCertificationCenterAccesses: [
             domainBuilder.buildAllowedCertificationCenterAccess({
               id: certificationCenter.id,
@@ -269,7 +269,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
         const previousLegalDocumentPublishedAt = new Date('2024-06-01');
         const previousAcceptedAt = new Date('2024-06-02');
 
-        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
+        const expectedPixCertifTosStatus = domainBuilder.legalDocuments.buildLegalDocumentStatusDTO({
           status: STATUS.UPDATE_REQUESTED,
           acceptedAt: null,
           documentPath: `pix-certif-tos-2024-06-03`,
@@ -315,7 +315,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          pixCertifTosStatus: expectedPixCertifTosStatus,
+          pixCertifTosStatusDTO: expectedPixCertifTosStatus,
           allowedCertificationCenterAccesses: [
             domainBuilder.buildAllowedCertificationCenterAccess({
               id: certificationCenter.id,

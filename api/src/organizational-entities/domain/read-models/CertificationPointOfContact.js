@@ -7,19 +7,19 @@ class CertificationPointOfContact {
     lang,
     allowedCertificationCenterAccesses,
     certificationCenterMemberships,
-    pixCertifTosStatus,
+    pixCertifTosStatusDTO,
   }) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.lang = lang;
-    this.pixCertifTermsOfServiceAccepted = pixCertifTosStatus.isAccepted;
+    this.pixCertifTermsOfServiceAccepted = pixCertifTosStatusDTO.isAccepted;
     this.allowedCertificationCenterAccesses = allowedCertificationCenterAccesses;
     this.certificationCenterMemberships = certificationCenterMemberships;
-    this.pixCertifTermsOfServiceStatus = pixCertifTosStatus.status;
-    this.pixCertifTermsOfServiceDocumentPath = pixCertifTosStatus.documentPath;
-    this.lastPixCertifTermsOfServiceValidatedAt = pixCertifTosStatus.acceptedAt;
+    this.pixCertifTermsOfServiceStatus = pixCertifTosStatusDTO.status;
+    this.pixCertifTermsOfServiceDocumentPath = pixCertifTosStatusDTO.documentPath;
+    this.lastPixCertifTermsOfServiceValidatedAt = pixCertifTosStatusDTO.acceptedAt;
   }
 }
 

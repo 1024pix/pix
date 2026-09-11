@@ -51,7 +51,7 @@ describe('Unit | Deprecated | Serializer | JSONAPI | certification-point-of-cont
       ];
       const lastPixCertifTermsOfServiceValidatedAt = new Date('2024-06-04');
 
-      const pixCertifTermsOfServiceStatus = domainBuilder.legalDocuments.buildLegalDocumentStatus({
+      const pixCertifTermsOfServiceStatus = domainBuilder.legalDocuments.buildLegalDocumentStatusDTO({
         status: STATUS.ACCEPTED,
         acceptedAt: lastPixCertifTermsOfServiceValidatedAt,
         documentPath: 'pix-certif-tos-2024-06-03',

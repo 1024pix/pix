@@ -25,7 +25,7 @@ const acceptLegalDocumentByUserId = async ({ userId, service, type }) => {
  * @returns {Promise<LegalDocumentStatusDTO>} - A promise that resolves with the status of the legal document.
  */
 const getLegalDocumentStatusByUserId = async ({ userId, service, type }) => {
-  const legalDocumentStatus = usecases.getLegalDocumentStatusByUserId({ userId, service, type });
+  const legalDocumentStatus = await usecases.getLegalDocumentStatusByUserId({ userId, service, type });
   return new LegalDocumentStatusDTO(legalDocumentStatus);
 };
 
