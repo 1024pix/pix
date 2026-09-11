@@ -340,3 +340,208 @@
     gap: var(--pix-spacing-1x);
   }
 }
+
+// POC : un parcours combiné imbriqué est un groupe dans la liste du parent, pas une
+// destination. Seul le groupe courant est déplié.
+.combined-course-group {
+  margin-bottom: var(--pix-spacing-4x);
+  background: rgb(var(--pix-primary-100-inline), 0.2);
+  border: 1px solid var(--pix-primary-100);
+  border-radius: var(--pix-spacing-4x);
+
+  &--completed {
+    background: var(--pix-neutral-0);
+  }
+
+  &--current {
+    background: var(--pix-neutral-0);
+    border: 6px solid var(--pix-primary-500);
+    box-shadow: 0 4px 16px rgb(var(--pix-primary-500-inline), 0.12);
+
+    // la maquette fait déborder le groupe courant de la colonne, à partir de la tablette
+    @include breakpoints.device-is('tablet') {
+      margin: 0 calc(var(--pix-spacing-6x) * -1) var(--pix-spacing-4x);
+    }
+
+    .combined-course-group__header {
+      padding: var(--pix-spacing-5x, 20px) var(--pix-spacing-6x);
+    }
+
+    .combined-course-group__badge {
+      flex: 0 0 48px;
+      width: 48px;
+      height: 48px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .combined-course-group__title {
+      @extend %pix-title-xs;
+    }
+  }
+
+  &__header {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+  }
+
+  // un groupe terminé se replie : on peut y revenir pour en revoir le détail
+  &__header--expandable {
+    width: 100%;
+    font: inherit;
+    text-align: left;
+    background: none;
+    border: 0;
+    cursor: pointer;
+
+    &:hover .combined-course-group__title {
+      text-decoration: underline;
+    }
+  }
+
+  &__chevron {
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    color: var(--pix-neutral-500);
+  }
+
+  &__badge {
+    display: flex;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--pix-primary-700);
+    background: rgb(var(--pix-primary-100-inline), 0.5);
+    border-radius: 50%;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--pix-spacing-1x);
+
+    // sans ça les pastilles de composition écrasent l'état, qui passe sur deux lignes
+    min-width: 0;
+  }
+
+  &__title {
+    @extend %pix-title-xxs;
+  }
+
+  &__progress {
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-500);
+  }
+
+  &__state {
+    display: flex;
+    flex: 0 0 auto;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    margin-left: auto;
+    color: var(--pix-primary-500);
+    font-weight: var(--pix-font-bold);
+    white-space: nowrap;
+
+    @extend %pix-body-m;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__composition {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+  }
+
+  &__composition-separator {
+    color: var(--pix-neutral-100);
+  }
+
+  &__chip {
+    display: inline-flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    padding: var(--pix-spacing-1x) 12px var(--pix-spacing-1x) var(--pix-spacing-2x);
+    background: rgb(var(--pix-primary-100-inline), 0.3);
+    border-radius: 50px;
+
+    @extend %pix-body-s;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__tag {
+    margin-left: auto;
+  }
+
+  &__activities {
+    // l'activité courante garde la bordure violette de la maquette, en 2 px : l'épaisseur
+    // du groupe répétée à l'intérieur écrasait la hiérarchie
+    .combined-course-item--current {
+      width: 100%;
+      margin-left: 0;
+      border: 2px solid var(--pix-primary-500);
+      box-shadow: none;
+
+      @include breakpoints.device-is('tablet') {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .combined-course-item__icon {
+        min-width: var(--pix-spacing-8x);
+        max-width: var(--pix-spacing-8x);
+        min-height: var(--pix-spacing-8x);
+        max-height: var(--pix-spacing-8x);
+      }
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+    padding: 0 var(--pix-spacing-6x) var(--pix-spacing-6x) 64px;
+
+    .combined-course-item {
+      width: 100%;
+      margin-bottom: 0;
+      margin-left: 0;
+    }
+  }
+
+}
+
+.combined-course-item__action {
+  padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
+  color: var(--pix-neutral-0);
+  font-weight: var(--pix-font-bold);
+  background: var(--pix-primary-500);
+  border-radius: 50px;
+
+  @extend %pix-body-m;
+}

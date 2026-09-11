@@ -17,6 +17,8 @@ export default class CombinedCourse extends Model {
   @attr('string') description;
   @attr('string') illustration;
   @attr('string') surveyUrl;
+  @attr('string') parentCode;
+  @attr('string') parentName;
 
   @hasMany('combined-course-item', { async: false, inverse: 'combinedCourse' }) items;
   @belongsTo('combined-course-reward', { async: false, inverse: null }) reward;
@@ -42,7 +44,8 @@ export default class CombinedCourse extends Model {
     const items = this.hasMany('items').value();
     return (
       items.every((item) => item.type === CombinedCourseItemTypes.MODULE) ||
-      items.every((item) => item.type === CombinedCourseItemTypes.CAMPAIGN)
+      items.every((item) => item.type === CombinedCourseItemTypes.CAMPAIGN) ||
+      items.every((item) => item.type === CombinedCourseItemTypes.COMBINED_COURSE)
     );
   }
 

@@ -10,6 +10,7 @@ import {
   SCO_ORGANIZATION_ID,
   SUP_ORGANIZATION_ID,
 } from '../common/constants.js';
+import { buildNestedCombinedCourse } from './build-nested-combined-course.js';
 import { PRO_COMBINED_COURSE } from './fixtures/pro-combined-course.js';
 import { COMBINED_COURSE_WITHOUT_CAMPAIGN } from './fixtures/pro-combined-course-without-campaign.js';
 import { COMBINED_COURSE_WITHOUT_MODULES } from './fixtures/pro-combined-course-without-modules.js';
@@ -256,4 +257,7 @@ export const buildCombinedCourses = (databaseBuilder) => {
   ].forEach((config) => {
     buildCombinixQuest(databaseBuilder, config);
   });
+
+  // POC: a combined course composed of combined courses, on its own data.
+  buildNestedCombinedCourse(databaseBuilder);
 };
