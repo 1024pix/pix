@@ -474,6 +474,12 @@
   }
 
   &__activities {
+    // pas de bordure violette sur l'activité : c'est le groupe qui porte l'emphase
+    .combined-course-item--current {
+      border: 1px solid var(--pix-primary-100);
+      box-shadow: none;
+    }
+
     display: flex;
     flex-direction: column;
     gap: var(--pix-spacing-2x);
@@ -486,4 +492,14 @@
     }
   }
 
+}
+
+.combined-course-item__action {
+  padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
+  color: var(--pix-neutral-0);
+  font-weight: var(--pix-font-bold);
+  background: var(--pix-primary-500);
+  border-radius: 50px;
+
+  @extend %pix-body-m;
 }

@@ -24,6 +24,7 @@ export default class CombinedCourseItem extends Model {
   @attr('number') duration;
   @attr('string') image;
   @attr('string') shortId;
+  @attr('string') participationStatus;
   // the activities of a nested combined course: combined course items too, so the very
   // same component renders them
   @hasMany('combined-course-item', { async: false, inverse: null }) childItems;
@@ -31,6 +32,12 @@ export default class CombinedCourseItem extends Model {
 
   get activities() {
     return this.hasMany('childItems').value() ?? [];
+  }
+
+  // a module the learner never opened still carries a NOT_STARTED passage, so the mere
+  // presence of a status does not mean the activity was begun
+  get isStarted() {
+    return Boolean(this.participationStatus) && this.participationStatus !== 'NOT_STARTED';
   }
 
   get nextActivity() {

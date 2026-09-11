@@ -22,7 +22,7 @@ const ATTESTATION_OBTAINED = 'Vous avez obtenu votre attestation !';
 
 const screenshotDir = process.env.SCREENSHOT_DIR;
 
-test.setTimeout(900_000);
+test.setTimeout(1_800_000);
 
 const log = (...args: unknown[]) => {
   // eslint-disable-next-line no-console
@@ -43,15 +43,19 @@ async function body(page: Page) {
   return (await page.locator('body').innerText()).replace(/\n+/g, ' | ').slice(0, 400);
 }
 
+// A module's navigation bar carries a "Terminer" button that stays disabled until the
+// last grain, so being visible is not enough: only an enabled button is clicked, and
+// the click itself is bounded.
 async function clickIfVisible(page: Page, name: string | RegExp, timeout = 4000) {
-  const button = page.getByRole('button', { name });
+  const button = page.getByRole('button', { name }).first();
   try {
-    await button.first().waitFor({ state: 'visible', timeout });
+    await button.waitFor({ state: 'visible', timeout });
+    if (!(await button.isEnabled())) return false;
+    await button.click({ timeout: 10_000 });
+    return true;
   } catch {
     return false;
   }
-  await button.first().click();
-  return true;
 }
 
 // "Continuer" is a link when the target is an absolute URL, and a button when the
@@ -111,6 +115,14 @@ async function runCampaign(page: Page, label: string) {
 
   await clickContinue(page);
   await page.waitForTimeout(4000);
+
+  // the diagnosis leads through the page standing for the computation of the
+  // personalised program before landing back on the parent
+  if (page.url().includes('/chargement')) {
+    await shot(page, `${label}-programme-personnalise`);
+    await clickContinue(page, 60_000);
+    await page.waitForTimeout(4000);
+  }
 }
 
 async function runModule(page: Page, label: string) {
@@ -118,9 +130,32 @@ async function runModule(page: Page, label: string) {
   await page.waitForTimeout(4000);
   await shot(page, `${label}-module`);
   await page.getByRole('button', { name: 'Commencer le module' }).click();
-  for (let i = 0; i < 40; i++) {
-    if (await clickIfVisible(page, 'Terminer', 3000)) break;
-    if (!(await clickIfVisible(page, /^(Continuer|Suivant|Vérifier)$/, 3000))) break;
+  // A real content module carries far more controls than a plain read: answerable
+  // activities, steppers, flashcards, simulators. They are advanced or skipped, never
+  // answered, since only the campaigns feed the mastery the attestation needs.
+  const advanceLabels = [
+    /^Continuer$/,
+    /^Passer l.activité$/,
+    /^Passer$/,
+    /^Suivant$/,
+    /^Voir la réponse$/,
+    /^Oui !$/,
+    /^Commencer$/,
+  ];
+  for (let i = 0; i < 200; i++) {
+    if (await clickIfVisible(page, /^Terminer$/, 1200)) break;
+
+    let advanced = false;
+    for (const label of advanceLabels) {
+      if (await clickIfVisible(page, label, 1200)) {
+        advanced = true;
+        break;
+      }
+    }
+    if (!advanced) {
+      log(`[${label} bloqué]`, page.url(), await body(page));
+      break;
+    }
   }
   await clickContinue(page, 30_000);
   await page.waitForTimeout(4000);
@@ -159,7 +194,7 @@ test('a user walks the seeded parent combined course and obtains the attestation
   });
 
   await test.step('Walk every activity from the parent page', async () => {
-    for (let step = 0; step < 12; step++) {
+    for (let step = 0; step < 20; step++) {
       if (await completedHeading.isVisible().catch(() => false)) break;
 
       expect(await enterNextItem(page)).toBe(true);

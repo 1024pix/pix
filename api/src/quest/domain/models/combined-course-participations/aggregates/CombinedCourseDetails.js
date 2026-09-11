@@ -75,6 +75,7 @@ export class CombinedCourseDetails extends CombinedCourse {
       shortId: item.shortId ?? null,
       isCompleted: Boolean(item.isCompleted),
       isLocked: Boolean(item.isLocked),
+      participationStatus: item.participationStatus ?? null,
       duration: item.duration ?? null,
       image: item.image ?? null,
       masteryRate: item.masteryRate ?? null,

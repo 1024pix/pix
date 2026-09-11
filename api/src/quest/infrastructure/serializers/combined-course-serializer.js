@@ -48,6 +48,7 @@ const serialize = function (combinedCourse) {
           'redirection',
           'isCompleted',
           'isLocked',
+          'participationStatus',
           'masteryRate',
           'validatedStagesCount',
           'totalStagesCount',

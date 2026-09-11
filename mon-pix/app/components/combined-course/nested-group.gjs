@@ -78,7 +78,15 @@ const Composition = <template>
           <CombinedCourseItem
             @item={{activity}}
             @isLocked={{activity.isLocked}}
-            @isNextItemToComplete={{eq @item.nextActivity activity}}
+            @isNextItemToComplete={{false}}
+            @actionLabel={{if
+              (eq @item.nextActivity activity)
+              (if
+                activity.isStarted
+                (t "pages.combined-courses.items.group.resume")
+                (t "pages.combined-courses.items.group.start")
+              )
+            }}
             @onClick={{noop}}
             @isCombinedCourseCompleted={{false}}
           />

@@ -4,9 +4,9 @@ import { PRO_ORGANIZATION_ID } from '../common/constants.js';
  * POC: a combined course whose items are combined courses.
  *
  * Target scenario, self-contained (it shares nothing with the other combined course
- * fixtures): three themed children, each a diagnosis plus a module, then a final
- * assessment covering the three themes, and an attestation delivered by the PARENT
- * when half of the assessed subjects are mastered.
+ * fixtures): three themed children, each a diagnosis followed by a personalised program
+ * of recommended modules, then a final assessment covering the three themes, and an
+ * attestation delivered by the PARENT when half of the assessed subjects are mastered.
  *
  * Everything sits in the PRO organization: a participation is indexed by
  * organizationLearnerId, so a parent could never see a child's participation across
@@ -19,7 +19,7 @@ const PARENT = {
   code: 'IAPARCOUR',
   name: "Culture de l'IA",
   description:
-    "Trois parcours pour comprendre l'intelligence artificielle, puis un bilan qui reprend les trois thématiques. Chaque étape est un parcours complet, avec son évaluation et son module.",
+    "Trois parcours pour comprendre l'intelligence artificielle, puis un bilan qui reprend les trois thématiques. Chaque étape est un parcours complet : une évaluation, puis les modules que vos résultats recommandent.",
   rewardRequirementsDescription:
     'Terminez les trois thématiques, puis maîtrisez la moitié des sujets évalués par le bilan.',
 };
@@ -30,43 +30,82 @@ const BILAN = {
   targetProfileName: "Bilan culture de l'IA",
 };
 
-// Real tubes and skills from the learning content. The modules are the DEMO ones on
-// purpose: every real content module carries interactive activities (custom, qab,
-// qcu-*) that cannot be walked through without answering, and runs 13 to 17 grains,
-// which makes the chain undemoable in a meeting. Only two such demo modules exist, so
-// the third theme is a diagnosis on its own — which also shows that children need not
-// share the same composition. Giving it a real module is one line:
-// ia-fonctionnement-ind is d03cef94-74af-463d-8901-c886b48d6e0b.
+// Real tubes, skills and Modulix modules from the learning content. Each module is
+// backed by a training whose trigger recommends it whatever the score, so the learner
+// always ends up with a personalised program of two to three modules — which is what
+// the feature looks like in the end.
 const THEMES = [
   {
     combinedCourseCode: 'IADECOUV',
     name: "L'IA, comment ça marche ?",
-    description: "Une évaluation pour situer vos connaissances, puis un module pour comprendre ce qui se cache derrière le mot « IA ».",
+    description:
+      'Une évaluation pour situer vos connaissances, puis les modules recommandés pour comprendre ce qui se cache derrière le mot « IA ».',
     campaignCode: 'DIAGIA1',
     campaignName: "Diagnostic : les généralités de l'IA",
     tube: { id: 'tube1khBbCQ6l3h0nO', level: 2 },
     skillIds: ['skillSrz72rrZ1svW7', 'skill2mTsL9gpMLkBFH'],
-    moduleId: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a', // demo-combinix-1
+    modules: [
+      { id: '40ab5711-4025-4052-a269-00fd0448d60a', link: '/modules/cc0cbab7/ia-dit-ia', title: 'IA, vous avez dit IA ?' },
+      {
+        id: 'd03cef94-74af-463d-8901-c886b48d6e0b',
+        link: '/modules/76961c86/ia-fonctionnement-ind',
+        title: "Comment l'IA générative apprend-elle à discuter avec vous ?",
+      },
+      {
+        id: '01151659-77c1-41cc-8724-89091357af3d',
+        link: '/modules/e67ec5d0/chatgpt-vraiment-neutre',
+        title: 'ChatGPT est-il vraiment neutre ?',
+      },
+    ],
   },
   {
     combinedCourseCode: 'IADROIT',
     name: "IA et droit d'auteur",
-    description: "Une évaluation pour situer vos connaissances, puis un module sur ce que vous pouvez créer et diffuser avec une IA générative.",
+    description:
+      'Une évaluation pour situer vos connaissances, puis les modules recommandés sur ce que vous pouvez créer et diffuser avec une IA générative.',
     campaignCode: 'DIAGIA2',
     campaignName: "Diagnostic : IA et droit d'auteur",
     tube: { id: 'tube1Dv6ySGMHKX8it', level: 3 },
     skillIds: ['skill1yZMIdN77l5SbL', 'skill12U1iI3iKGHOJ1'],
-    moduleId: 'f32a2238-4f65-4698-b486-15d51935d335', // demo-combinix-2
+    modules: [
+      {
+        id: 'eb919a5a-23e2-4d9f-92a7-12b3265874ba',
+        link: '/modules/df76d3d5/ia-droit-auteur-creer-diffuser',
+        title: "IA générative et droit d'auteur : créer et diffuser",
+      },
+      {
+        id: '109a3efd-96b3-4c69-8b3b-e8a8efd32688',
+        link: '/modules/b1938302/ia-droit-auteur-proteger',
+        title: "IA générative et droits d'auteur : comprendre les enjeux",
+      },
+    ],
   },
   {
     combinedCourseCode: 'IAENVIRO',
     name: 'IA et impact environnemental',
-    description: 'Une évaluation pour situer vos connaissances, puis un module sur ce que consomme réellement une IA générative.',
+    description:
+      'Une évaluation pour situer vos connaissances, puis les modules recommandés sur ce que consomme réellement une IA générative.',
     campaignCode: 'DIAGIA3',
     campaignName: "Diagnostic : l'impact environnemental de l'IA",
     tube: { id: 'tube2e8oftoVpKncEm', level: 4 },
     skillIds: ['skill2Hvro2sD8LgfoS', 'skill2frakfSQIDgGS5'],
-    moduleId: null,
+    modules: [
+      {
+        id: '1137b471-e347-4601-abd7-bc82ce587d7e',
+        link: '/modules/f4a3d9ed/ia-gen-impact-ava',
+        title: "Les IA génératives : quels impacts sur l'environnement ?",
+      },
+      {
+        id: '05ff418a-3329-44bf-9094-14014301df3c',
+        link: '/modules/da86e4a7/centre-de-donnee-novice',
+        title: "L'impact caché de nos usages numériques en ligne",
+      },
+      {
+        id: '7ee3ef2d-b29d-4029-86cf-f88ceb4ddea2',
+        link: '/modules/e89cf72c/centre-de-donnees-mieux-faire',
+        title: 'Centres de données : peut-on mieux faire ?',
+      },
+    ],
   },
 ];
 
@@ -124,7 +163,11 @@ function buildThemedChild(databaseBuilder, theme) {
     buildCombinedCourseBlueprint,
     buildQuestForCombinedCourse,
     buildTargetProfile,
+    buildTargetProfileTraining,
     buildTargetProfileTube,
+    buildTraining,
+    buildTrainingTrigger,
+    buildTrainingTriggerTube,
   } = databaseBuilder.factory;
 
   const { id: targetProfileId } = buildTargetProfile({
@@ -140,16 +183,37 @@ function buildThemedChild(databaseBuilder, theme) {
     title: 'Évaluation de vos connaissances',
     code: theme.campaignCode,
     customResultPageButtonText: 'Continuer',
-    customResultPageButtonUrl: `/parcours/${theme.combinedCourseCode}`,
+    // the end of a diagnosis leads back to the PARENT, through the page that stands for
+    // the computation of the personalised program
+    customResultPageButtonUrl: `/parcours/${PARENT.code}/chargement`,
   });
   theme.skillIds.forEach((skillId) => buildCampaignSkill({ campaignId, skillId }));
 
-  // No training attached: the module is a plain item, never a recommendation,
-  // so the demo runs the same way whatever the diagnosis score.
-  const successRequirements = [campaignParticipationRequirement(campaignId)];
-  if (theme.moduleId) {
-    successRequirements.push(passageRequirement(theme.moduleId));
-  }
+  // A modulix training per module makes it recommendable: before the diagnosis the
+  // child announces « Programme personnalisé de modules », and after it the recommended
+  // modules show up as activities. The trigger recommends whatever the score, so the
+  // demo behaves the same in every result bracket.
+  theme.modules.forEach((module) => {
+    const { id: trainingId } = buildTraining({
+      title: module.title,
+      internalTitle: module.title,
+      link: module.link,
+      type: 'modulix',
+      duration: '0 years 0 mons 0 days 0 hours 10 mins 0.0 secs',
+      locales: ['fr', 'fr-fr'],
+      editorName: 'Pix',
+      editorLogoUrl: 'https://assets.pix.org/modules/placeholder-details.svg',
+      isDisabled: false,
+    });
+    const { id: trainingTriggerId } = buildTrainingTrigger({ trainingId, threshold: 0, type: 'prerequisite' });
+    buildTrainingTriggerTube({ trainingTriggerId, tubeId: theme.tube.id, level: theme.tube.level });
+    buildTargetProfileTraining({ targetProfileId, trainingId });
+  });
+
+  const successRequirements = [
+    campaignParticipationRequirement(campaignId),
+    ...theme.modules.map((module) => passageRequirement(module.id)),
+  ];
 
   const { id: blueprintQuestId } = buildQuestForCombinedCourse({ successRequirements });
   const { id: combinedCourseBlueprintId } = buildCombinedCourseBlueprint({
