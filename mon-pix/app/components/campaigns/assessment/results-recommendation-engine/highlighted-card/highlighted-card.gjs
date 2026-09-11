@@ -15,7 +15,6 @@ import Card from '../training/card';
       <Card
         @isHighlighted={{true}}
         @training={{@highlightedTraining}}
-        @onCardClick={{@onCardClick}}
         @onHighlightedCardButtonClick={{@onHighlightedCardButtonClick}}
       />
     </div>

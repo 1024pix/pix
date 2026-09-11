@@ -122,7 +122,6 @@ export default class EvaluationResultsHeroRecommendationEngine extends Component
       {{#if @highlightedTraining}}
         <HighlightedCard
           @highlightedTraining={{@highlightedTraining}}
-          @onCardClick={{@onCardClick}}
           @onHighlightedCardButtonClick={{@onHighlightedCardButtonClick}}
         />
       {{/if}}

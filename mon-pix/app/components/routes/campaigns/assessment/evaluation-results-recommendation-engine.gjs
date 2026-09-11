@@ -153,7 +153,6 @@ export default class EvaluationResultsRecommendationEngine extends Component {
         @campaignParticipationResult={{@model.campaignParticipationResult}}
         @highlightedTraining={{this.highlightedTraining}}
         @hasTrainings={{this.hasTrainings}}
-        @onCardClick={{this.onCardClick}}
         @onHighlightedCardButtonClick={{this.onHighlightedCardButtonClick}}
         @onSeeRecommendationsButtonClicked={{this.onSeeRecommendationsButtonClicked}}
         @questResults={{@model.questResults}}
