@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { NotAnEventError } from '../../../../../src/shared/domain/errors.js';
+import { JobRetry } from '../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { publishEvent } from '../../../../../src/shared/infrastructure/jobs/event-job-publisher-service.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -95,6 +96,27 @@ describe('Unit | Privacy | Domain | Services | event-job-publisher-service', fun
         retryBackoff: true,
         priority: 9,
       });
+    });
+
+    it('calls `publishEvent` with no retry when retryLimit is 0', async function () {
+      const event = new FakeEvent({ data: 456 }, { retryLimit: 0, retryDelay: 0 });
+      const result = await publishEvent(event, FakeJobClient);
+
+      expect(result.options).to.include({ retryLimit: 0, retryDelay: 0 });
+    });
+
+    it('calls `publishEvent` without backoff when retryBackoff is false', async function () {
+      const event = new FakeEvent({ data: 456 }, { retryBackoff: false });
+      const result = await publishEvent(event, FakeJobClient);
+
+      expect(result.options).to.include({ retryBackoff: false });
+    });
+
+    it('calls `publishEvent` with the NO_RETRY strategy', async function () {
+      const event = new FakeEvent({ data: 456 }, JobRetry.NO_RETRY);
+      const result = await publishEvent(event, FakeJobClient);
+
+      expect(result.options).to.include(JobRetry.NO_RETRY);
     });
   });
 });

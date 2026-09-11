@@ -11,11 +11,11 @@ export function publishEvent(event, jobClientClass = JobClient) {
   }
 
   const options = {
-    expireInSeconds: event.options?.expireInSeconds || JobExpireIn.INFINITE,
-    retryLimit: event.options?.retryLimit || JobRetry.FEW_RETRY.retryLimit,
-    retryDelay: event.options?.retryDelay || JobRetry.FEW_RETRY.retryDelay,
-    retryBackoff: event.options?.retryBackoff || JobRetry.FEW_RETRY.retryBackoff,
-    priority: event.options?.priority || JobPriority.DEFAULT,
+    expireInSeconds: event.options?.expireInSeconds ?? JobExpireIn.INFINITE,
+    retryLimit: event.options?.retryLimit ?? JobRetry.FEW_RETRY.retryLimit,
+    retryDelay: event.options?.retryDelay ?? JobRetry.FEW_RETRY.retryDelay,
+    retryBackoff: event.options?.retryBackoff ?? JobRetry.FEW_RETRY.retryBackoff,
+    priority: event.options?.priority ?? JobPriority.DEFAULT,
   };
 
   const correlationContext = getCorrelationInfo();
