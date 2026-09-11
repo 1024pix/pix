@@ -1,8 +1,10 @@
+import PixButtonAction from '@1024pix/pix-ui/components/pix-button-action';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { LinkTo } from '@ember/routing';
+import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
@@ -100,43 +102,37 @@ const Duration = <template>
     }}</span>
 </template>;
 
-function hasWhiteBackground(item) {
-  return item.isCompleted || !item.isLocked;
-}
+export default class CombinedCourseStepItem extends Component {
+  hasWhiteBackground(item) {
+    return item.isCompleted || !item.isLocked;
+  }
 
-<template>
-  {{#if (eq @item.type CombinedCourseItemTypes.FORMATION)}}
-    <Content
-      @title={{t "pages.combined-courses.items.formation.title"}}
-      @isLocked={{true}}
-      @iconUrl={{@item.iconUrl}}
-      class="combined-course-item--formation"
-      @displayDuration={{true}}
-    >
-      <:description>
-        <p>{{t "pages.combined-courses.items.formation.description"}}</p>
-      </:description>
-    </Content>
-  {{else}}
-    {{#if (and @isLocked (not @item.isCompleted))}}
+  <template>
+    {{#if (eq @item.type CombinedCourseItemTypes.FORMATION)}}
       <Content
-        @title={{@item.title}}
+        @title={{t "pages.combined-courses.items.formation.title"}}
         @isLocked={{true}}
         @iconUrl={{@item.iconUrl}}
-        @displayDuration={{eq @item.type "MODULE"}}
+        class="combined-course-item--formation"
+        @displayDuration={{true}}
       >
-        <:duration>
-          {{#if @item.duration}}<Duration @item={{@item}} />{{/if}}
-        </:duration>
+        <:description>
+          <p>{{t "pages.combined-courses.items.formation.description"}}</p>
+        </:description>
       </Content>
     {{else}}
-      <LinkTo
-        {{on "click" @onClick}}
-        @route={{@item.route}}
-        @models={{@item.models}}
-        @query={{hash redirection=@item.redirection}}
-        disabled
-      >
+      {{#if (and @isLocked (not @item.isCompleted))}}
+        <Content
+          @title={{@item.title}}
+          @isLocked={{true}}
+          @iconUrl={{@item.iconUrl}}
+          @displayDuration={{eq @item.type "MODULE"}}
+        >
+          <:duration>
+            {{#if @item.duration}}<Duration @item={{@item}} />{{/if}}
+          </:duration>
+        </Content>
+      {{else}}
         <Content
           @title={{@item.title}}
           @isCompleted={{@item.isCompleted}}
@@ -156,8 +152,7 @@ function hasWhiteBackground(item) {
             {{/if}}
           </:duration>
         </Content>
-
-      </LinkTo>
+      {{/if}}
     {{/if}}
-  {{/if}}
-</template>
+  </template>
+}

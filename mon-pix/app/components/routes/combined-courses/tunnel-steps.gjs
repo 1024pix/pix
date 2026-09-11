@@ -2,6 +2,7 @@ import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import CombinedCourseStepItem from 'mon-pix/components/combined-course/combined-course-step-item';
@@ -12,6 +13,12 @@ const Step = <template>
 </template>;
 
 export default class TunnelSteps extends Component {
+  @tracked selectedItem = null;
+
+  setSelectedItem(item) {
+    this.selectedItem = item;
+  }
+
   <template>
     <section class="combined-course">
       <div class="combined-course__exit">
@@ -29,7 +36,7 @@ export default class TunnelSteps extends Component {
           @item={{item}}
           @isLocked={{item.isLocked}}
           @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
-          @onClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}}
+          @onClick={{this.setSelectedItem item}}
           @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
         />
       {{/each}}
