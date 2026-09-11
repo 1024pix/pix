@@ -23,7 +23,7 @@ export default class StudentScoController extends Controller {
     if (verifiedCode.type === 'campaign') {
       this.router.transitionTo('campaigns.fill-in-participant-external-id', verifiedCode.id);
     } else {
-      this.router.transitionTo('combined-courses.presentation', verifiedCode.id);
+      this.router.transitionTo('combined-courses.programme', verifiedCode.id);
     }
   }
 

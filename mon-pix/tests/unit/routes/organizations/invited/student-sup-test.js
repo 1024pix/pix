@@ -74,7 +74,7 @@ module('Unit | Route | campaigns/invited/student-sup', function (hooks) {
         userId: user.id,
       });
 
-      sinon.assert.calledWith(route.router.transitionTo, 'combined-courses.presentation', verifiedCode.id);
+      sinon.assert.calledWith(route.router.transitionTo, 'combined-courses.programme', verifiedCode.id);
       assert.ok(true);
     });
   });
