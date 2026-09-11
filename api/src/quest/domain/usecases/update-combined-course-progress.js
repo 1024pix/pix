@@ -22,6 +22,35 @@ export async function updateCombinedCourseProgress({
     combinedCourseId: combinedCourse.id,
   });
 
+  // POC: a nested course is not visited any more, so it never gets a participation of
+  // its own nor a reassessment. The parent cascades into its children BEFORE computing
+  // its own items, otherwise it would read their previous state.
+  const parentParticipation = await combinedCourseParticipationRepository.findByLearnerId({
+    organizationLearnerId,
+    combinedCourseId: combinedCourse.id,
+  });
+
+  if (parentParticipation) {
+    for (const childCombinedCourseId of combinedCourseDetails.childCombinedCourseIds) {
+      const child = await combinedCourseRepository.getById({ id: childCombinedCourseId });
+      await combinedCourseParticipationRepository.save({
+        organizationLearnerId,
+        combinedCourseId: childCombinedCourseId,
+      });
+      await updateCombinedCourseProgress({
+        userId,
+        code: child.code,
+        combinedCourseRepository,
+        combinedCourseParticipationRepository,
+        organizationLearnerPrescriptionRepository,
+        organizationLearnerParticipationRepository,
+        combinedCourseDetailsService,
+        profileRewardRepository,
+        successRepository,
+      });
+    }
+  }
+
   const combinedCourseDetailsBeforeUpdate = await combinedCourseDetailsService.getCombinedCourseDetails({
     organizationLearnerId,
     combinedCourseDetails,
