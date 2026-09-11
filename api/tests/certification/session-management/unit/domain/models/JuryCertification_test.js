@@ -183,6 +183,40 @@ describe('Unit | Domain | Models | JuryCertification', function () {
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
+
+    context('when there is no assessment result', function () {
+      it('should set status to "pending-scoring" when there is no scoring configuration', function () {
+        // given
+        juryCertificationDTO.assessmentResultStatus = null;
+        juryCertificationDTO.hasScoringConfiguration = false;
+
+        // when
+        const juryCertification = JuryCertification.from({
+          juryCertificationDTO,
+          certificationIssueReports: [],
+          competenceMarkDTOs: [],
+        });
+
+        // then
+        expect(juryCertification.status).to.equal('pending-scoring');
+      });
+
+      it('should set status to null when there is a scoring configuration', function () {
+        // given
+        juryCertificationDTO.assessmentResultStatus = null;
+        juryCertificationDTO.hasScoringConfiguration = true;
+
+        // when
+        const juryCertification = JuryCertification.from({
+          juryCertificationDTO,
+          certificationIssueReports: [],
+          competenceMarkDTOs: [],
+        });
+
+        // then
+        expect(juryCertification.status).to.be.null;
+      });
+    });
   });
 
   describe('#get reachedResultKey', function () {
@@ -320,6 +354,18 @@ describe('Unit | Domain | Models | JuryCertification', function () {
             });
           });
         });
+      });
+    });
+
+    context('when status is "pending-scoring"', function () {
+      it('returns null', function () {
+        const juryCertification = domainBuilder.certification.sessionManagement.buildJuryCertification({
+          version: AlgorithmEngineVersion.V3,
+          certificationFramework: Frameworks.EDU_2ND_DEGRE,
+          status: 'pending-scoring',
+        });
+
+        expect(juryCertification.reachedResultKey).to.be.null;
       });
     });
   });
