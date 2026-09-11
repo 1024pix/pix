@@ -153,7 +153,6 @@ export const schema = Joi.object({
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
   MAILING_ENABLED: Joi.string().optional().valid('true', 'false'),
   MAILING_PROVIDER: Joi.string().optional().valid('brevo', 'mailpit'),
-  DEVCOMP_MODULE_JSON_SCHEMA_CACHE_MAX_AGE: Joi.number().optional(),
   NODE_ENV: Joi.string().optional().valid('development', 'test', 'production'),
   PGBOSS_STATES_MONITORING_JOB_CRON: Joi.string().optional(),
   POLE_EMPLOI_CLIENT_ID: Joi.string().optional(),
@@ -477,7 +476,6 @@ export const config = {
   },
   module: {
     secret: process.env.REDIRECTION_URL_SECRET,
-    jsonSchemaCacheMaxAge: _getNumber(process.env.DEVCOMP_MODULE_JSON_SCHEMA_CACHE_MAX_AGE, 900),
   },
   partner: {
     fetchTimeOut: ms(process.env.FETCH_TIMEOUT_MILLISECONDS || '20s'),
