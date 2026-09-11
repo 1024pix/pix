@@ -16,6 +16,7 @@
       "edit": "Modifier",
       "next": "Suivant",
       "save": "Enregistrer",
+      "search": "Rechercher",
       "validate": "Valider"
     },
     "api-error-messages": {
@@ -159,6 +160,7 @@
       "send-new-label": "Renvoyer l'invitation à {invitationEmail}"
     },
     "loading": "Chargement en cours",
+    "no-results": "Pas de résultat",
     "not-specified": "Non spécifié",
     "notifications": {
       "close-button": {
@@ -1104,7 +1106,7 @@
             "error-message": "La catégorie est requise",
             "label": "Catégorie",
             "placeholder": "Sélectionner une catégorie",
-            "search-label": "Rechercher",
+            "search-label": "Rechercher une catégorie",
             "search-placeholder": "Rechercher une catégorie"
           }
         },
@@ -1175,7 +1177,7 @@
             "error-message": "La catégorie est requise",
             "label": "Catégorie",
             "placeholder": "Sélectionner une catégorie",
-            "search-label": "Rechercher",
+            "search-label": "Rechercher une catégorie",
             "search-placeholder": "Rechercher une catégorie"
           }
         },
