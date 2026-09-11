@@ -390,6 +390,27 @@
     padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
   }
 
+  // un groupe terminé se replie : on peut y revenir pour en revoir le détail
+  &__header--expandable {
+    width: 100%;
+    font: inherit;
+    text-align: left;
+    background: none;
+    border: 0;
+    cursor: pointer;
+
+    &:hover .combined-course-group__title {
+      text-decoration: underline;
+    }
+  }
+
+  &__chevron {
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    color: var(--pix-neutral-500);
+  }
+
   &__badge {
     display: flex;
     flex: 0 0 40px;
@@ -409,8 +430,12 @@
 
   &__text {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: var(--pix-spacing-1x);
+
+    // sans ça les pastilles de composition écrasent l'état, qui passe sur deux lignes
+    min-width: 0;
   }
 
   &__title {
@@ -425,6 +450,7 @@
 
   &__state {
     display: flex;
+    flex: 0 0 auto;
     gap: var(--pix-spacing-2x);
     align-items: center;
     justify-content: center;
@@ -433,6 +459,7 @@
     margin-left: auto;
     color: var(--pix-primary-500);
     font-weight: var(--pix-font-bold);
+    white-space: nowrap;
 
     @extend %pix-body-m;
 
@@ -474,10 +501,25 @@
   }
 
   &__activities {
-    // pas de bordure violette sur l'activité : c'est le groupe qui porte l'emphase
+    // l'activité courante garde la bordure violette de la maquette, en 2 px : l'épaisseur
+    // du groupe répétée à l'intérieur écrasait la hiérarchie
     .combined-course-item--current {
-      border: 1px solid var(--pix-primary-100);
+      width: 100%;
+      margin-left: 0;
+      border: 2px solid var(--pix-primary-500);
       box-shadow: none;
+
+      @include breakpoints.device-is('tablet') {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .combined-course-item__icon {
+        min-width: var(--pix-spacing-8x);
+        max-width: var(--pix-spacing-8x);
+        min-height: var(--pix-spacing-8x);
+        max-height: var(--pix-spacing-8x);
+      }
     }
 
     display: flex;
