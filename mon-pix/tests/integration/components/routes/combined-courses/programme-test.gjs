@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import CombinedCoursesPresentation from 'mon-pix/components/routes/combined-courses/presentation';
+import CombinedCoursesProgramme from 'mon-pix/components/routes/combined-courses/programme';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -24,9 +24,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(screen.getByRole('heading', { name: 'Combinix' }));
@@ -43,9 +41,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
       assert.ok(screen.getByText('Le but de ma quête', { exact: false }));
       const expectedLink = screen.getByRole('link', { name: 'plus de détails' });
       assert.ok(expectedLink.hasAttribute('href', 'http://pix.fr'));
@@ -64,9 +60,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       const link = screen.getByRole('link', { name: t('common.actions.quit') });
@@ -94,9 +88,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(combinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(screen.getByText(t('pages.combined-courses.items.formation.title')));
@@ -115,9 +107,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.content.start-button') }));
@@ -151,9 +141,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       store.adapterFor.withArgs('combined-course').returns({ start: sinon.stub().withArgs('COMBINIX9').resolves() });
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
       await click(screen.getByRole('button', { name: t('pages.combined-courses.content.start-button') }));
 
       // then
@@ -181,9 +169,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(combinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(screen.getByText('ma campagne'));
@@ -211,9 +197,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(combinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(screen.getByText('mon module'));
@@ -243,9 +227,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(combinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(screen.getByText('ma campagne'));
@@ -277,9 +259,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(combinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(screen.getByText('mon module'));
@@ -310,9 +290,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(combinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(screen.getByText(t('pages.combined-courses.items.completed')));
@@ -352,9 +330,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
     combinedCourse.items.push(campaignCombinedCourseItem, moduleCombinedCourseItem);
 
     // when
-    const screen = await render(
-      <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-    );
+    const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
     // then
     await click(screen.getByRole('button', { name: t('pages.combined-courses.content.resume-button') }));
@@ -393,9 +369,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
     combinedCourse.items.push(campaignCombinedCourseItem, moduleCombinedCourseItem);
 
     // when
-    const screen = await render(
-      <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-    );
+    const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
     // then
     assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.content.resume-button') }));
@@ -413,9 +387,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(screen.getByRole('heading', { name: t('pages.combined-courses.completed.title') }));
@@ -435,9 +407,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       const link = screen.getByRole('link', { name: t('pages.combined-courses.completed.survey-button') });
@@ -459,9 +429,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.notOk(screen.queryByRole('link', { name: t('pages.combined-courses.completed.survey-button') }));
@@ -481,9 +449,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.notOk(screen.queryByRole('link', { name: t('pages.combined-courses.completed.survey-button') }));
@@ -510,9 +476,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(moduleCombinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.ok(
@@ -542,9 +506,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(moduleCombinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.notOk(
@@ -574,9 +536,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(campaignCombinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.notOk(
@@ -617,9 +577,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(campaignCombinedCourseItem, moduleCombinedCourseItem);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
       // then
       assert.ok(screen.getByRole('heading', { name: t('pages.combined-courses.content.step', { stepNumber: 1 }) }));
       assert.ok(screen.getByRole('heading', { name: t('pages.combined-courses.content.step', { stepNumber: 2 }) }));
@@ -655,9 +613,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       combinedCourse.items.push(campaignCombinedCourseItem, campaignCombinedCourse2Item);
 
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
 
       // then
       assert.notOk(screen.queryByRole('heading', { name: 'étape 1' }));
@@ -681,9 +637,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       });
       combinedCourse.reward = reward;
       // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
+      const screen = await render(<template><CombinedCoursesProgramme @combinedCourse={{combinedCourse}} /></template>);
       // then
       assert.dom(screen.getByRole('article')).hasClass('attestation');
     });

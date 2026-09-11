@@ -72,7 +72,7 @@ const Step = <template>
   </h2>
 </template>;
 
-export default class CombinedCoursePresentation extends Component {
+export default class CombinedCourseProgramme extends Component {
   <template>
     <section class="combined-course">
       <div class="combined-course__exit">

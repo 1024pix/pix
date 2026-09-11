@@ -106,7 +106,7 @@ Router.map(function () {
     this.route('existing-participation', { path: '/participation-existante' });
   });
   this.route('combined-courses', { path: '/parcours' }, function () {
-    this.route('presentation', { path: '/:code' });
+    this.route('programme', { path: '/:code' });
     this.route('generic-error', { path: '/oups' });
     this.route('disabled-feature-error', { path: '/erreur' });
     this.route('process-custom-passages', { path: '/:code/chargement' });

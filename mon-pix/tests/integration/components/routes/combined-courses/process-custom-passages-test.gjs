@@ -51,7 +51,7 @@ module('Integration | Component | Combined Courses | Process custom passages', f
       await click(screen.getByRole('button', { name: t('common.actions.continue') }));
 
       // then
-      sinon.assert.calledWithExactly(routerService.transitionTo, 'combined-courses.presentation', 'MyCode');
+      sinon.assert.calledWithExactly(routerService.transitionTo, 'combined-courses.programme', 'MyCode');
       assert.ok(true);
     });
   });
