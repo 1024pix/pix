@@ -137,7 +137,9 @@ export class JobClient {
 
         if (!job.jobCron && job.legacyName) {
           logger.warn(`Temporary Job" ${job.legacyName}" registered from module "${moduleName}."`);
-          await this.registerJob(job.legacyName, ModuleClass, { isDeadLetterQueueEnabled: job.isDeadLetterQueueEnabled });
+          await this.registerJob(job.legacyName, ModuleClass, {
+            isDeadLetterQueueEnabled: job.isDeadLetterQueueEnabled,
+          });
         }
 
         if (job.jobCron) {
@@ -179,7 +181,9 @@ export class JobClient {
           if (stats.queuedCount > 0) {
             logger.info(`Event handler "${job.jobName}" has ${stats.queuedCount} pending events.`);
             logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
-            await this.registerJob(job.jobName, ModuleClass, { isDeadLetterQueueEnabled: job.isDeadLetterQueueEnabled });
+            await this.registerJob(job.jobName, ModuleClass, {
+              isDeadLetterQueueEnabled: job.isDeadLetterQueueEnabled,
+            });
           } else {
             await this.#pgBoss.deleteQueue(job.jobName);
 
