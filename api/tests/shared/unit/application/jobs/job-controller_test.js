@@ -42,7 +42,24 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
       jobName,
       jobGroup,
       expireIn,
+      isDeadLetterQueueEnabled: false,
     });
+  });
+
+  it('should set isDeadLetterQueueEnabled to false by default', function () {
+    // when
+    const controller = new JobController('jobName');
+
+    // then
+    expect(controller.isDeadLetterQueueEnabled).to.be.false;
+  });
+
+  it('should allow enabling the dead letter queue', function () {
+    // when
+    const controller = new JobController('jobName', { isDeadLetterQueueEnabled: true });
+
+    // then
+    expect(controller.isDeadLetterQueueEnabled).to.be.true;
   });
 
   it('should set isJobEnabled to true by default', function () {

@@ -141,6 +141,85 @@ describe('Unit | JobClient', function () {
       });
     });
 
+    describe('dead letter queue', function () {
+      it('creates the dead letter queue on worker initialization', async function () {
+        // given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'createQueue');
+        sinon.stub(pgBossStub, 'updateQueue');
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.createQueue).to.have.been.calledWith(config.pgBoss.deadLetterQueueName, {
+          retentionSeconds: config.pgBoss.deadLetterQueueRetentionSeconds,
+        });
+        expect(pgBossStub.updateQueue).to.have.been.calledWith(config.pgBoss.deadLetterQueueName, {
+          retentionSeconds: config.pgBoss.deadLetterQueueRetentionSeconds,
+        });
+      });
+
+      it('attaches the dead letter queue to an event handler queue', async function () {
+        // given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'createQueue');
+        sinon.stub(pgBossStub, 'updateQueue');
+        sinon.stub(config.pgBoss, 'useListenNotify').value(false);
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.createQueue).to.have.been.calledWith('test.to-register.event-queue', {
+          retentionSeconds: config.pgBoss.retentionSeconds,
+          notify: false,
+          deadLetter: config.pgBoss.deadLetterQueueName,
+        });
+      });
+
+      it('does not attach a dead letter queue to a plain job queue', async function () {
+        // given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'createQueue');
+        sinon.stub(pgBossStub, 'updateQueue');
+        sinon.stub(config.pgBoss, 'useListenNotify').value(false);
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.createQueue).to.have.been.calledWith(AuditLoggingJob.name, {
+          retentionSeconds: config.pgBoss.retentionSeconds,
+          notify: false,
+        });
+      });
+    });
+
     it('should register legacyName from AuditLoggingJob', async function () {
       // given
       const pgBossStub = new FakePgBoss();

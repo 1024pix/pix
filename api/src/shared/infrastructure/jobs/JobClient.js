@@ -79,6 +79,7 @@ export class JobClient {
     await this.#pgBoss.start();
 
     if (worker) {
+      await this.#ensureDeadLetterQueue();
       await this.#registerJobs(jobGroups);
       registerPgBossMetrics(this);
     }
@@ -132,11 +133,11 @@ export class JobClient {
 
       if (job.isJobEnabled) {
         logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
-        await this.registerJob(job.jobName, ModuleClass);
+        await this.registerJob(job.jobName, ModuleClass, { isDeadLetterQueueEnabled: job.isDeadLetterQueueEnabled });
 
         if (!job.jobCron && job.legacyName) {
           logger.warn(`Temporary Job" ${job.legacyName}" registered from module "${moduleName}."`);
-          await this.registerJob(job.legacyName, ModuleClass);
+          await this.registerJob(job.legacyName, ModuleClass, { isDeadLetterQueueEnabled: job.isDeadLetterQueueEnabled });
         }
 
         if (job.jobCron) {
@@ -178,7 +179,7 @@ export class JobClient {
           if (stats.queuedCount > 0) {
             logger.info(`Event handler "${job.jobName}" has ${stats.queuedCount} pending events.`);
             logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
-            await this.registerJob(job.jobName, ModuleClass);
+            await this.registerJob(job.jobName, ModuleClass, { isDeadLetterQueueEnabled: job.isDeadLetterQueueEnabled });
           } else {
             await this.#pgBoss.deleteQueue(job.jobName);
 
@@ -192,8 +193,8 @@ export class JobClient {
     logger.info(`${cronJobCount} cron jobs scheduled for groups "${jobGroups}".`);
   }
 
-  async registerJob(name, handlerClass) {
-    await this.#ensureQueue(name);
+  async registerJob(name, handlerClass, { isDeadLetterQueueEnabled } = {}) {
+    await this.#ensureQueue(name, { isDeadLetterQueueEnabled });
 
     if (this.#isTestOnly) return;
 
@@ -236,15 +237,22 @@ export class JobClient {
 
   // createQueue does not update an existing queue (ON CONFLICT DO NOTHING), so options
   // must be re-applied through updateQueue to reach queues created by previous deployments
-  async #ensureQueue(name) {
-    await this.#pgBoss.createQueue(name, {
+  async #ensureQueue(name, { isDeadLetterQueueEnabled } = {}) {
+    const options = {
       retentionSeconds: config.pgBoss.retentionSeconds,
       notify: config.pgBoss.useListenNotify && !this.#isTestOnly,
-    });
-    await this.#pgBoss.updateQueue(name, {
-      retentionSeconds: config.pgBoss.retentionSeconds,
-      notify: config.pgBoss.useListenNotify && !this.#isTestOnly,
-    });
+    };
+    if (isDeadLetterQueueEnabled) {
+      options.deadLetter = config.pgBoss.deadLetterQueueName;
+    }
+    await this.#pgBoss.createQueue(name, options);
+    await this.#pgBoss.updateQueue(name, options);
+  }
+
+  async #ensureDeadLetterQueue() {
+    const options = { retentionSeconds: config.pgBoss.deadLetterQueueRetentionSeconds };
+    await this.#pgBoss.createQueue(config.pgBoss.deadLetterQueueName, options);
+    await this.#pgBoss.updateQueue(config.pgBoss.deadLetterQueueName, options);
   }
 
   async #subscribeEventHandler({ eventName, handlerName }) {
