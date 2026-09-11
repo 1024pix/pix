@@ -71,7 +71,6 @@ module(
           // given
           const store = this.owner.lookup('service:store');
           const training = store.createRecord('training', _buildTraining({}));
-          const onCardClickStub = sinon.stub();
           const onHighlightedCardButtonClickStub = sinon.stub();
 
           // when
@@ -80,7 +79,6 @@ module(
               <TrainingCard
                 @isHighlighted={{true}}
                 @training={{training}}
-                @onCardClick={{onCardClickStub}}
                 @onHighlightedCardButtonClick={{onHighlightedCardButtonClickStub}}
               />
             </template>,
