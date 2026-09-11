@@ -4,7 +4,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
 import { finalizeController } from './finalize-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PUT',
@@ -42,6 +42,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const finalizeRoute = { name: 'certification/session-management/finalization-api', register };

@@ -6,7 +6,7 @@ import { sendJsonApiError, UnprocessableEntityError } from '../../../shared/appl
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { superviseController } from '../../session-management/application/supervise-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'POST',
@@ -37,6 +37,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const superviseRoute = { name: 'certification/session-management/session-supervise-api', register };

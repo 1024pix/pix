@@ -5,7 +5,7 @@ import * as juryCertificationSerializer from '../infrastructure/serializers/jury
 import * as juryCommentSerializer from '../infrastructure/serializers/jury-comment-serializer.js';
 import * as v3CertificationDetailsForAdministrationSerializer from '../infrastructure/serializers/v3-certification-course-details-for-administration-serializer.js';
 
-const reject = async function (request, h) {
+async function reject(request, h) {
   const certificationCourseId = request.params.certificationCourseId;
   const juryId = request.auth.credentials.userId;
   await usecases.rejectCertificationCourse({
@@ -13,9 +13,9 @@ const reject = async function (request, h) {
     juryId,
   });
   return h.response().code(204);
-};
+}
 
-const unreject = async function (request, h) {
+async function unreject(request, h) {
   const certificationCourseId = request.params.certificationCourseId;
   const juryId = request.auth.credentials.userId;
   await usecases.unrejectCertificationCourse({
@@ -23,9 +23,9 @@ const unreject = async function (request, h) {
     juryId,
   });
   return h.response().code(204);
-};
+}
 
-const updateJuryComment = async function (request, h, dependencies = { juryCommentSerializer }) {
+async function updateJuryComment(request, h, dependencies = { juryCommentSerializer }) {
   const certificationCourseId = request.params.certificationCourseId;
   const assessmentResultCommentByJury = await dependencies.juryCommentSerializer.deserialize(request.payload);
   const juryId = request.auth.credentials.userId;
@@ -37,7 +37,7 @@ const updateJuryComment = async function (request, h, dependencies = { juryComme
   });
 
   return null;
-};
+}
 
 async function getCertificationV3Details(
   request,

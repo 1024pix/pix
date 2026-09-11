@@ -1,23 +1,22 @@
 import { usecases } from '../domain/usecases/index.js';
 
-const commentAsJury = async function (request, h) {
+async function commentAsJury(request, h) {
   const sessionId = request.params.sessionId;
   const juryCommentAuthorId = request.auth.credentials.userId;
   const juryComment = request.payload['jury-comment'];
   await usecases.commentSessionAsJury({ sessionId, juryCommentAuthorId, juryComment });
 
   return h.response().code(204);
-};
+}
 
-const deleteJuryComment = async function (request, h) {
+async function deleteJuryComment(request, h) {
   const sessionId = request.params.sessionId;
   await usecases.deleteSessionJuryComment({ sessionId });
 
   return h.response().code(204);
-};
+}
 
-const juryCommentController = {
+export const juryCommentController = {
   commentAsJury,
   deleteJuryComment,
 };
-export { juryCommentController };

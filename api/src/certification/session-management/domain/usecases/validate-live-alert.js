@@ -16,7 +16,7 @@ import { CertificationIssueReportCategory } from '../../../shared/domain/models/
  * @param {IssueReportCategoryRepository} params.issueReportCategoryRepository
  * @param {CertificationIssueReportRepository} params.certificationIssueReportRepository
  */
-export const validateLiveAlert = async ({
+export async function validateLiveAlert({
   userId,
   sessionId,
   subcategory,
@@ -25,7 +25,7 @@ export const validateLiveAlert = async ({
   issueReportCategoryRepository,
   certificationIssueReportRepository,
   answerRepository,
-}) => {
+}) {
   const certificationChallengeLiveAlert =
     await certificationChallengeLiveAlertRepository.getOngoingBySessionIdAndUserId({
       sessionId,
@@ -66,7 +66,7 @@ export const validateLiveAlert = async ({
   await certificationChallengeLiveAlertRepository.save({
     certificationChallengeLiveAlert,
   });
-};
+}
 
 async function _dismissLiveAlertForAnsweredChallenge({
   certificationChallengeLiveAlert,

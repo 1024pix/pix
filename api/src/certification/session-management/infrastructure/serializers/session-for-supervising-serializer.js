@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (sessions) {
+export function serialize(sessions) {
   return new Serializer('sessionForSupervising', {
     attributes: ['room', 'examiner', 'accessCode', 'date', 'time', 'certificationCandidates', 'address', 'hasExpired'],
     transform(record) {
@@ -33,6 +33,4 @@ const serialize = function (sessions) {
       ],
     },
   }).serialize(sessions);
-};
-
-export { serialize };
+}

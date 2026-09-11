@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { finalizedSessionController } from './finalized-session-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -60,6 +60,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const finalizedSessionRoute = { name: 'certification/session-management/finalized-session-api', register };

@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { SessionForInvigilatorKit } from '../../domain/read-models/SessionForInvigilatorKit.js';
 
-const get = async function ({ id }) {
+export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn
     .select(
@@ -20,9 +20,7 @@ const get = async function ({ id }) {
     .first();
 
   return _toDomain(results);
-};
-
-export { get };
+}
 
 function _toDomain(results) {
   return new SessionForInvigilatorKit({

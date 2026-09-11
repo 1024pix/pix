@@ -1,7 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js';
 
-const findByCertificationCourseId = async function ({ certificationCourseId }) {
+export async function findByCertificationCourseId({ certificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
   const competenceMarks = await knexConn
     .select(
@@ -28,10 +28,8 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
     .orderBy('competence-marks.id');
 
   return competenceMarks.map(_toDomain);
-};
+}
 
 function _toDomain(competenceMark) {
   return new CompetenceMark(competenceMark);
 }
-
-export { findByCertificationCourseId };

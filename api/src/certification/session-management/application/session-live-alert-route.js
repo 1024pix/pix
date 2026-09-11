@@ -5,7 +5,7 @@ import { responseObjectErrorDoc } from '../../../shared/infrastructure/open-api-
 import { authorization } from './pre-handlers/authorization.js';
 import { sessionLiveAlertController } from './session-live-alert-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PATCH',
@@ -86,6 +86,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const sessionLiveAlertRoute = { name: 'certification/session-management/session-live-alert-api', register };

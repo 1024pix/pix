@@ -1,14 +1,12 @@
 import { usecases } from '../domain/usecases/index.js';
 
-export const unfinalizeSession = async function (request, h) {
+export async function unfinalizeSession(request, h) {
   const sessionId = request.params.sessionId;
   await usecases.unfinalizeSession({ sessionId });
 
   return h.response().code(204);
-};
+}
 
-const unfinalizeController = {
+export const unfinalizeController = {
   unfinalizeSession,
 };
-
-export { unfinalizeController };

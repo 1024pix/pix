@@ -5,7 +5,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../shared/domain/constants/mesh-configuration.js';
 import { certificationCourseController } from './certification-course-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PATCH',
@@ -198,6 +198,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationCourseRoute = { name: 'certification/session-management/certification-course-api', register };

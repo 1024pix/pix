@@ -5,7 +5,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { invigilatorKitController } from './invigilator-kit-controller.js';
 import { authorization } from './pre-handlers/authorization.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -35,6 +35,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const invigilatorKitRoute = { name: 'certification/session-management/invigilator-kit-api', register };

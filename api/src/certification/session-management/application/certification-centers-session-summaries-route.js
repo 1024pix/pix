@@ -4,7 +4,7 @@ import { certificationCenterController } from '../../../../src/certification/ses
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { SESSION_STATUSES } from '../../shared/domain/constants.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'GET',
@@ -34,7 +34,7 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationCentersSessionSummariesRoute = {
   name: 'certification/session-management/session-summaries-api',

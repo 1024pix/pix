@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { unfinalizeController } from './unfinalize-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PATCH',
@@ -33,6 +33,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const unfinalizeRoute = { name: 'certification/session-management/unfinalize-api', register };

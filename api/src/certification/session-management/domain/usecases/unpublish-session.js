@@ -1,6 +1,6 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 
-const unpublishSession = async function ({
+export async function unpublishSession({
   sessionId,
   certificationRepository,
   sessionManagementRepository,
@@ -21,9 +21,7 @@ const unpublishSession = async function ({
   await _updateFinalizedSession(finalizedSessionRepository, sessionId);
 
   return sessionManagementRepository.get({ id: sessionId });
-};
-
-export { unpublishSession };
+}
 
 async function _updateFinalizedSession(finalizedSessionRepository, sessionId) {
   const finalizedSession = await finalizedSessionRepository.get({ sessionId });

@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { InvigilatorSession } from '../../domain/read-models/InvigilatorSession.js';
 
-const get = async function ({ id }) {
+export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const foundSession = await knexConn
     .select('invigilatorPassword', 'finalizedAt')
@@ -13,6 +13,4 @@ const get = async function ({ id }) {
     throw new NotFoundError('Session not found.');
   }
   return new InvigilatorSession({ ...foundSession });
-};
-
-export { get };
+}

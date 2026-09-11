@@ -5,7 +5,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { certificationIssueReportsController } from './certification-issue-reports-controller.js';
 import { sessionManagementSecurityPreHandlers } from './security-pre-handlers.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'DELETE',
@@ -65,7 +65,7 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationIssueReportsRoute = {
   name: 'certification/session-management/certification-issue-reports-api',

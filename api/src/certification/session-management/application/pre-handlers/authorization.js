@@ -63,7 +63,7 @@ async function checkUserHaveInvigilatorAccessForSession(request, h, dependencies
   }
 }
 
-const checkUserHaveInvigilatorAccessForSessionCandidate = async function (
+async function checkUserHaveInvigilatorAccessForSessionCandidate(
   request,
   h,
   dependencies = { invigilatorAccessRepository },
@@ -85,12 +85,10 @@ const checkUserHaveInvigilatorAccessForSessionCandidate = async function (
   } catch {
     return _replyForbiddenError(h);
   }
-};
+}
 
-const authorization = {
+export const authorization = {
   checkUserHaveCertificationCenterMembershipForSession,
   checkUserHaveInvigilatorAccessForSession,
   checkUserHaveInvigilatorAccessForSessionCandidate,
 };
-
-export { authorization };

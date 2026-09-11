@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { cancellationController } from './cancellation-controller.js';
 
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PATCH',
@@ -55,6 +55,6 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const cancellationRoute = { name: 'certification/session-management/cancellation-api', register };

@@ -15,7 +15,7 @@ import { SessionAlreadyPublishedError, SessionNotFinalizedError } from '../error
  * @throws {SessionAlreadyPublishedError} the session is already published
  * @throws {SessionNotFinalizedError} the session is not finalized
  */
-const unfinalizeSession = async function ({ sessionId, sessionManagementRepository, finalizedSessionRepository }) {
+export async function unfinalizeSession({ sessionId, sessionManagementRepository, finalizedSessionRepository }) {
   return DomainTransaction.execute(async () => {
     const session = await sessionManagementRepository.get({ id: sessionId });
 
@@ -35,6 +35,4 @@ const unfinalizeSession = async function ({ sessionId, sessionManagementReposito
 
     await sessionManagementRepository.unfinalize({ id: sessionId });
   });
-};
-
-export { unfinalizeSession };
+}

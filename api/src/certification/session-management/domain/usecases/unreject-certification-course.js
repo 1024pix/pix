@@ -1,12 +1,12 @@
 import { CertificationCourseUnrejected } from '../../../../shared/domain/events/CertificationCourseUnrejected.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 
-export const unrejectCertificationCourse = async ({
+export async function unrejectCertificationCourse({
   certificationCourseId,
   juryId,
   certificationCourseRepository,
   certificationEvaluationRepository,
-}) => {
+}) {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   certificationCourse.unrejectForFraud();
   await certificationCourseRepository.update({ certificationCourse });
@@ -20,4 +20,4 @@ export const unrejectCertificationCourse = async ({
   if (AlgorithmEngineVersion.isV2(certificationCourse.getVersion())) {
     return certificationEvaluationRepository.rescoreV2Certification({ event });
   }
-};
+}

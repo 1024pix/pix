@@ -13,7 +13,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
  * @param {SharedSessionRepository} params.sharedSessionRepository
  * @param {SessionPublicationService} params.sessionPublicationService
  */
-const publishSession = async function ({
+export async function publishSession({
   sessionId,
   publishedAt = new Date(),
   certificationRepository,
@@ -43,6 +43,4 @@ const publishSession = async function ({
 
     return sessionManagementRepository.get({ id: sessionId });
   });
-};
-
-export { publishSession };
+}

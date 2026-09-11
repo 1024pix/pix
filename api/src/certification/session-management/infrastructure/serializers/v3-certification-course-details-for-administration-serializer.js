@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function ({ certificationDetails }) {
+export function serialize({ certificationDetails }) {
   const attributes = [
     'certificationCourseId',
     'certificationChallengesForAdministration',
@@ -52,6 +52,4 @@ const serialize = function ({ certificationDetails }) {
       ],
     },
   }).serialize(certificationDetails);
-};
-
-export { serialize };
+}

@@ -3,7 +3,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { SessionManagement } from '../../domain/models/SessionManagement.js';
 
-const get = async function ({ id }) {
+export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const foundSession = await knexConn
     .select(
@@ -50,15 +50,15 @@ const get = async function ({ id }) {
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
 
   return new SessionManagement({ ...foundSession, certificationCandidates });
-};
+}
 
-const isFinalized = async function ({ id }) {
+export async function isFinalized({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const session = await knexConn.select('id').from('sessions').where({ id }).whereNotNull('finalizedAt').first();
   return Boolean(session);
-};
+}
 
-const doesUserHaveCertificationCenterMembershipForSession = async function ({ userId, sessionId }) {
+export async function doesUserHaveCertificationCenterMembershipForSession({ userId, sessionId }) {
   const knexConn = DomainTransaction.getConnection();
   const sessions = await knexConn
     .select('sessions.id')
@@ -75,9 +75,9 @@ const doesUserHaveCertificationCenterMembershipForSession = async function ({ us
       'certification-centers.id',
     );
   return Boolean(sessions.length);
-};
+}
 
-const unfinalize = async function ({ id }) {
+export async function unfinalize({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const updates = await knexConn('sessions')
     .where({ id })
@@ -85,24 +85,24 @@ const unfinalize = async function ({ id }) {
   if (updates === 0) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
-};
+}
 
-const flagResultsAsSentToPrescriber = async function ({ id, resultsSentToPrescriberAt }) {
+export async function flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt }) {
   const knexConn = DomainTransaction.getConnection();
   const [flaggedSession] = await knexConn('sessions')
     .where({ id })
     .update({ resultsSentToPrescriberAt })
     .returning('*');
   return new SessionManagement(flaggedSession);
-};
+}
 
-const updatePublishedAt = async function ({ id, publishedAt }) {
+export async function updatePublishedAt({ id, publishedAt }) {
   const knexConn = DomainTransaction.getConnection();
   const [publishedSession] = await knexConn('sessions').where({ id }).update({ publishedAt }).returning('*');
   return new SessionManagement(publishedSession);
-};
+}
 
-const hasSomeCleaAcquired = async function ({ id }) {
+export async function hasSomeCleaAcquired({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const result = await knexConn
     .select(1)
@@ -129,21 +129,10 @@ const hasSomeCleaAcquired = async function ({ id }) {
     .where('complementary-certifications.key', ComplementaryCertificationKeys.CLEA)
     .first();
   return Boolean(result);
-};
+}
 
-const hasNoStartedCertification = async function ({ id }) {
+export async function hasNoStartedCertification({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const result = await knexConn.select(1).from('certification-courses').where('sessionId', id).first();
   return !result;
-};
-
-export {
-  doesUserHaveCertificationCenterMembershipForSession,
-  flagResultsAsSentToPrescriber,
-  get,
-  hasNoStartedCertification,
-  hasSomeCleaAcquired,
-  isFinalized,
-  unfinalize,
-  updatePublishedAt,
-};
+}

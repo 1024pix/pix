@@ -1,6 +1,6 @@
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
-const deleteCertificationIssueReport = async function ({
+export async function deleteCertificationIssueReport({
   certificationIssueReportId,
   certificationCourseRepository,
   certificationIssueReportRepository,
@@ -17,6 +17,4 @@ const deleteCertificationIssueReport = async function ({
   }
 
   return certificationIssueReportRepository.remove({ id: certificationIssueReportId });
-};
-
-export { deleteCertificationIssueReport };
+}

@@ -6,7 +6,7 @@ import { identifiersType } from '../../../shared/domain/types/identifiers-type.j
 import { certificationOfficerController } from './certification-officer-controller.js';
 
 const Joi = BaseJoi.extend(JoiDate);
-const register = async function (server) {
+async function register(server) {
   server.route([
     {
       method: 'PATCH',
@@ -37,7 +37,7 @@ const register = async function (server) {
       },
     },
   ]);
-};
+}
 
 export const certificationOfficerRoute = {
   name: 'certification/session-management/session-certification-officer-api',

@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionJuryComment } from '../../domain/models/SessionJuryComment.js';
 
-const get = async function ({ id }) {
+export async function get({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const result = await knexConn
     .select({
@@ -20,27 +20,25 @@ const get = async function ({ id }) {
   }
 
   return new SessionJuryComment(result);
-};
+}
 
-const save = async function ({ sessionJuryComment }) {
+export async function save({ sessionJuryComment }) {
   const columnsToSave = {
     juryComment: sessionJuryComment.comment,
     juryCommentAuthorId: sessionJuryComment.authorId,
     juryCommentedAt: sessionJuryComment.updatedAt,
   };
   await _persist(sessionJuryComment.id, columnsToSave);
-};
+}
 
-const remove = async function ({ id }) {
+export async function remove({ id }) {
   const columnsToSave = {
     juryComment: null,
     juryCommentAuthorId: null,
     juryCommentedAt: null,
   };
   await _persist(id, columnsToSave);
-};
-
-export { get, remove, save };
+}
 
 async function _persist(sessionId, columnsToSave) {
   const knexConn = DomainTransaction.getConnection();

@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (finalizedSessions) {
+export function serialize(finalizedSessions) {
   return new Serializer('with-required-action-session', {
     transform(finalizedSession) {
       return { ...finalizedSession, id: finalizedSession.sessionId };
@@ -16,6 +16,4 @@ const serialize = function (finalizedSessions) {
       'assignedCertificationOfficerName',
     ],
   }).serialize(finalizedSessions);
-};
-
-export { serialize };
+}

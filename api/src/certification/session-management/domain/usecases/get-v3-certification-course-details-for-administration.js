@@ -1,9 +1,9 @@
-export const getV3CertificationCourseDetailsForAdministration = async ({
+export async function getV3CertificationCourseDetailsForAdministration({
   certificationCourseId,
   competenceRepository,
   v3CertificationCourseDetailsForAdministrationRepository,
   versionApi,
-}) => {
+}) {
   const competences = await competenceRepository.list();
 
   const courseDetails =
@@ -18,4 +18,4 @@ export const getV3CertificationCourseDetailsForAdministration = async ({
   courseDetails.setCompetencesDetails(competences);
 
   return courseDetails;
-};
+}

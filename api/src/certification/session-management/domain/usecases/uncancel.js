@@ -16,7 +16,7 @@ import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmE
  * @param {CertificationEvaluationRepository} params.certificationEvaluationRepository
  * @param {SessionManagementRepository} params.sessionManagementRepository
  */
-export const uncancel = async function ({
+export async function uncancel({
   certificationCourseId,
   juryId,
   certificationCourseRepository,
@@ -41,4 +41,4 @@ export const uncancel = async function ({
   if (AlgorithmEngineVersion.isV2(certificationCourse.getVersion())) {
     return certificationEvaluationRepository.rescoreV2Certification({ event });
   }
-};
+}

@@ -8,7 +8,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @param {object} params
  * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
  */
-export const dismissLiveAlert = async ({ userId, sessionId, certificationChallengeLiveAlertRepository }) => {
+export async function dismissLiveAlert({ userId, sessionId, certificationChallengeLiveAlertRepository }) {
   const certificationChallengeLiveAlert =
     await certificationChallengeLiveAlertRepository.getOngoingBySessionIdAndUserId({
       sessionId,
@@ -24,4 +24,4 @@ export const dismissLiveAlert = async ({ userId, sessionId, certificationChallen
   await certificationChallengeLiveAlertRepository.save({
     certificationChallengeLiveAlert,
   });
-};
+}

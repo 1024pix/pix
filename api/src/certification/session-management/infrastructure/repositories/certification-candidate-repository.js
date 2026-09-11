@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCandidate } from '../../domain/models/CertificationCandidate.js';
 
-export const getByCertificationCourseId = async ({ certificationCourseId }) => {
+export async function getByCertificationCourseId({ certificationCourseId }) {
   const knexConn = DomainTransaction.getConnection();
   const certificationCandidate = await knexConn('certification-courses')
     .select(
@@ -20,14 +20,14 @@ export const getByCertificationCourseId = async ({ certificationCourseId }) => {
     throw new NotFoundError();
   }
 
-  return _toDomain(certificationCandidate);
-};
+  return toDomain(certificationCandidate);
+}
 
-const _toDomain = (candidateData) => {
+function toDomain(candidateData) {
   return new CertificationCandidate({
     id: candidateData.id,
     userId: candidateData.userId,
     reconciledAt: candidateData.reconciledAt,
     resultRecipientEmail: candidateData.resultRecipientEmail,
   });
-};
+}

@@ -17,7 +17,7 @@ import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js'
  * @param {CourseAssessmentResultRepository} params.courseAssessmentResultRepository
  * @param {SharedCompetenceMarkRepository} params.sharedCompetenceMarkRepository
  */
-const updateJuryComment = async function ({
+export async function updateJuryComment({
   certificationCourseId,
   assessmentResultCommentByJury,
   juryId,
@@ -46,6 +46,4 @@ const updateJuryComment = async function ({
       await sharedCompetenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId }));
     }
   });
-};
-
-export { updateJuryComment };
+}
