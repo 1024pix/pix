@@ -4,7 +4,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
-import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
+import CombinedCourseStepItem from 'mon-pix/components/combined-course/combined-course-step-item';
 
 const Step = <template>
   <h2 class="combined-course__step-title">{{t "pages.combined-courses.content.step" stepNumber=(@stepNumber)}}
@@ -25,7 +25,7 @@ export default class TunnelSteps extends Component {
             <Step @stepNumber={{this.getCurrentStep}} />
           {{/if}}
         {{/unless}}
-        <CombinedCourseItem
+        <CombinedCourseStepItem
           @item={{item}}
           @isLocked={{item.isLocked}}
           @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
