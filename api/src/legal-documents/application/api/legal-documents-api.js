@@ -1,4 +1,6 @@
+import { STATUS } from '../../domain/models/LegalDocumentStatus.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { LegalDocumentStatusDTO } from './LegalDocumentStatusDTO.js';
 
 /**
  * Accepts a legal document for a user by their ID.
@@ -20,10 +22,11 @@ const acceptLegalDocumentByUserId = async ({ userId, service, type }) => {
  * @param {string} params.userId - The ID of the user.
  * @param {string} params.service - The service associated with the legal document. (e.g. 'pix-orga')
  * @param {string} params.type - The type of the legal document. (e.g. 'TOS')
- * @returns {Promise<LegalDocumentStatus>} - A promise that resolves with the status of the legal document.
+ * @returns {Promise<LegalDocumentStatusDTO>} - A promise that resolves with the status of the legal document.
  */
 const getLegalDocumentStatusByUserId = async ({ userId, service, type }) => {
-  return usecases.getLegalDocumentStatusByUserId({ userId, service, type });
+  const legalDocumentStatus = usecases.getLegalDocumentStatusByUserId({ userId, service, type });
+  return new LegalDocumentStatusDTO(legalDocumentStatus);
 };
 
-export { acceptLegalDocumentByUserId, getLegalDocumentStatusByUserId };
+export { acceptLegalDocumentByUserId, getLegalDocumentStatusByUserId, STATUS };
