@@ -1106,6 +1106,15 @@
             "placeholder": "Sélectionner une équipe"
           }
         },
+        "category": {
+          "selector": {
+            "error-message": "La catégorie est requise",
+            "label": "Catégorie",
+            "placeholder": "Sélectionner une catégorie",
+            "search-label": "Rechercher",
+            "search-placeholder": "Rechercher une catégorie"
+          }
+        },
         "configuration": "Paramétrage",
         "country": {
           "selector": {
