@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { waitUntil } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import Badges from 'pix-orga/components/campaign/badges';
 import { module, test } from 'qunit';
@@ -25,6 +26,23 @@ module('Integration | Component | Campaign | Badges', function (hooks) {
 
     assert.strictEqual(badgeImages[1].getAttribute('src'), 'img2.svg');
     assert.strictEqual(badgeImages[1].getAttribute('alt'), 'alt-img2');
+  });
+
+  test('should render a default image', async function (assert) {
+    // given
+    const badges = [{ title: 'badge1', imageUrl: 'bad_url.gif', altMessage: 'alt-img1' }];
+    const acquiredBadges = [];
+
+    // when
+    const screen = await render(<template><Badges @badges={{badges}} @acquiredBadges={{acquiredBadges}} /></template>);
+    const image = screen.getByRole('img');
+
+    await waitUntil(() => {
+      return image.src.endsWith('.svg');
+    });
+
+    // then
+    assert.ok(image.src.endsWith('/images/badge_no_url.svg'));
   });
 
   test('should render unacquired in the title', async function (assert) {
