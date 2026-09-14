@@ -248,4 +248,134 @@ describe('Integration | Repository | LearningContentRedis', function () {
       });
     });
   });
+
+  describe('getMany', function () {
+    it('returns entities', async function () {
+      // given
+      const ids = ['entity4', null, 'entity1', 'entity4', undefined, 'entity5', 'entity5'];
+
+      // when
+      const dtos = await repository.getMany(ids);
+
+      // then
+      expect(dtos).to.deep.equal([
+        { id: 'entity4', name: 'Entity 4', group: 'group2' },
+        { id: 'entity1', name: 'Entity 1', group: 'group1' },
+        { id: 'entity5', name: 'Entity 5', group: 'group2' },
+      ]);
+      expect(queryHook).to.have.been.calledOnce;
+    });
+  });
+
+  describe('#find', function () {
+    describe('when no database errors', function () {
+      it('returns matched entities', async function () {
+        // given
+        const group = 'group1';
+        const cacheKey = 'findByGroup(group1)';
+        const callback = (knex) => knex.where({ group }).orderBy('id');
+
+        // when
+        const dtos = await repository.find(cacheKey, callback);
+
+        // then
+        expect(dtos).to.deep.equal([
+          { id: 'entity1', name: 'Entity 1', group: 'group1' },
+          { id: 'entity2', name: 'Entity 2', group: 'group1' },
+          { id: 'entity3', name: 'Entity 3', group: 'group1' },
+        ]);
+        expect(queryHook).to.have.been.calledTwice;
+      });
+
+      describe('when result is cached', function () {
+        it('returns entities from cache', async function () {
+          // given
+          const group = 'group1';
+          const cacheKey = 'findByGroup(group1)';
+          const callback = (knex) => knex.where({ group }).orderBy('id');
+          await repository.find(cacheKey, callback);
+          queryHook.reset();
+
+          // when
+          const dtos = await repository.find(cacheKey, callback);
+
+          // then
+          expect(dtos).to.deep.equal([
+            { id: 'entity1', name: 'Entity 1', group: 'group1' },
+            { id: 'entity2', name: 'Entity 2', group: 'group1' },
+            { id: 'entity3', name: 'Entity 3', group: 'group1' },
+          ]);
+          expect(queryHook).not.to.have.been.called;
+        });
+      });
+
+      describe('when no matching results', function () {
+        it('returns an empty array', async function () {
+          // given
+          const group = 'unknownGroup';
+          const cacheKey = 'findByGroup(unknownGroup)';
+          const callback = (knex) => knex.where({ group }).orderBy('id');
+
+          // when
+          const dtos = await repository.find(cacheKey, callback);
+
+          // then
+          expect(dtos).to.deep.equal([]);
+          expect(queryHook).to.have.been.calledOnce;
+        });
+
+        describe('when result is cached', function () {
+          it('returns an empty array from cache', async function () {
+            // given
+            const group = 'unknownGroup';
+            const cacheKey = 'findByGroup(unknownGroup)';
+            const callback = (knex) => knex.where({ group }).orderBy('id');
+            await repository.find(cacheKey, callback);
+            queryHook.reset();
+
+            // when
+            const dtos = await repository.find(cacheKey, callback);
+
+            // then
+            expect(dtos).to.deep.equal([]);
+            expect(queryHook).not.to.have.been.called;
+          });
+        });
+      });
+    });
+
+    describe('when database error in find ids query', function () {
+      it('throws an Error', async function () {
+        // given
+        const group = 'group1';
+        const cacheKey = 'findByGroup(group1)';
+        const callback = (knex) => knex.where({ group }).orderBy('id');
+        queryHook.onFirstCall().throws(new Error());
+
+        // when
+        const err = await catchErr((...args) => repository.find(...args))(cacheKey, callback);
+
+        // then
+        expect(err).to.be.instanceOf(Error);
+        expect(queryHook).to.have.been.calledOnce;
+      });
+    });
+
+    describe('when database error in load entities query', function () {
+      it('throws an Error', async function () {
+        // given
+        const group = 'group1';
+        const cacheKey = 'findByGroup(group1)';
+        const callback = (knex) => knex.where({ group }).orderBy('id');
+        queryHook.onSecondCall().throws(new Error());
+
+        // when
+        const err = await catchErr((...args) => repository.find(...args))(cacheKey, callback);
+
+        // then
+        expect(err).to.be.instanceOf(Error);
+        expect(queryHook).to.have.been.calledTwice;
+      });
+    });
+  });
 });
