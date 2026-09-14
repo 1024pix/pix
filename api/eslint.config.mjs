@@ -84,6 +84,7 @@ export default defineConfig([
   {
     files: [
       'tests/setup/*.{js,ts}',
+      'vitest.config.{js,ts}',
       'config/config.{js,ts}',
       'config/seeds-config.{js,ts}',
       'db/migrations/*.{js,ts}',
