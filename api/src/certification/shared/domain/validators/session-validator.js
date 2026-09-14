@@ -56,6 +56,8 @@ const sessionFiltersValidationSchema = Joi.object({
     .optional(),
   certificationCenterName: Joi.string().trim().optional(),
   certificationCenterExternalId: Joi.string().trim().optional(),
+  startDate: Joi.string().trim().optional(),
+  endDate: Joi.string().trim().optional(),
   certificationCenterType: Joi.string().trim().valid(types.SUP, types.SCO, types.PRO).optional(),
   version: Joi.number().valid(AlgorithmEngineVersion.V2, AlgorithmEngineVersion.V3).optional(),
 });
