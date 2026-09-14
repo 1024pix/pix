@@ -474,8 +474,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-sibling-hooks
+    // TODO: merge into the beforeEach above the next time this file is edited — it only
+    // exists as a second hook because it needs the assessmentId the first one builds.
     beforeEach(async function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
