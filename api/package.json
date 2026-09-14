@@ -185,6 +185,7 @@
     "@types/sinon-chai": "4.0.1",
     "@types/zip-stream": "7.0.0",
     "@typescript/native": "npm:typescript@7.0.2",
+    "@vitest/eslint-plugin": "^1.6.27",
     "chai": "6.3.0",
     "chai-as-promised": "8.0.2",
     "dependency-cruiser": "18.7.1",
