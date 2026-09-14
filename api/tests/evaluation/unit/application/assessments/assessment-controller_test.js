@@ -121,6 +121,40 @@ describe('Evaluation | Unit | Application | assessment-controller', function () 
     });
 
     context('quest rewards', function () {
+      it('should call the rewardUser use case if there is a userId and quest is enabled and a campaign participation available', async function () {
+        // given
+        const userId = 12;
+        const campaignParticipationId = 456;
+        const profileRewardId = 789;
+        assessment.userId = userId;
+        assessment.campaignParticipationId = campaignParticipationId;
+        assessment.isCampaignParticipationAvailable.returns(true);
+        featureToggles.get.resolves(true);
+        questUsecases.getQuestResultsForCampaignParticipation.resolves([{ profileRewardId }]);
+        evaluationUsecases.completeAssessment.resolves(assessment);
+
+        // when
+        await assessmentController.completeAssessment({ params: { id: assessmentId } });
+
+        // then
+        expect(questUsecases.rewardUser).to.have.been.calledWithExactly({
+          userId: 12,
+        });
+      });
+      it('should not call the rewardUser use case if there is no campaign participation available', async function () {
+        // given
+        featureToggles.get.resolves(true);
+        assessment.userId = 12;
+        assessment.isCampaignParticipationAvailable.returns(false);
+        evaluationUsecases.completeAssessment.resolves(assessment);
+
+        // when
+        await assessmentController.completeAssessment({ params: { id: assessmentId } });
+
+        // then
+        expect(questUsecases.rewardUser).to.not.have.been.called;
+      });
+
       it('should not call the rewardUser usecase if the questEnabled flag is false', async function () {
         // given
         featureToggles.get.resolves(false);
@@ -132,21 +166,6 @@ describe('Evaluation | Unit | Application | assessment-controller', function () 
 
         // then
         expect(questUsecases.rewardUser).to.have.not.been.called;
-      });
-
-      it('should call the rewardUser use case if there is a userId and quest is enabled', async function () {
-        // given
-        featureToggles.get.resolves(true);
-        assessment.userId = 12;
-        evaluationUsecases.completeAssessment.resolves(assessment);
-
-        // when
-        await assessmentController.completeAssessment({ params: { id: assessmentId } });
-
-        // then
-        expect(questUsecases.rewardUser).to.have.been.calledWithExactly({
-          userId: 12,
-        });
       });
 
       it('should not call the rewardUser use case if there is no userId', async function () {
