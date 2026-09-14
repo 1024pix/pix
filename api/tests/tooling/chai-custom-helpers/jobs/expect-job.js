@@ -19,10 +19,10 @@ export const jobChai = (_chai, utils) => {
   Assertion.addMethod('withJobsCount', async function (expectedCount) {
     const jobName = this._obj;
     const rawJobs = await JobClient.instance.fetch(jobName, { includeMetadata: true, batchSize: expectedCount + 1 });
-    const jobs = rawJobs.toSorted((a, b) => {
-      if (a.createdOn > b.createdOn) return 1;
-      return -1;
-    });
+    // Returning 0 for equal timestamps matters: jobs inserted by a single batched call share
+    // the same `createdOn`, and a comparator that answers -1 in both directions breaks the
+    // comparison contract, which makes the sort result unspecified.
+    const jobs = rawJobs.toSorted((a, b) => new Date(a.createdOn).getTime() - new Date(b.createdOn).getTime());
 
     const actualCount = jobs?.length ?? 0;
     assert.strictEqual(
