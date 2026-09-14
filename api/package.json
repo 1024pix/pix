@@ -179,6 +179,7 @@
     "@types/pg": "^8.23.1",
     "@types/sinon": "^22.0.0",
     "@types/sinon-chai": "^4.0.0",
+    "@vitest/eslint-plugin": "^1.6.27",
     "chai": "^6.2.2",
     "chai-as-promised": "^8.0.2",
     "dependency-cruiser": "^18.0.0",
