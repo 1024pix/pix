@@ -164,8 +164,16 @@ function _toDomain(jurySessionFromDB, counters) {
 }
 
 function _setupFilters(query, filters) {
-  const { ids, certificationCenterName, status, certificationCenterExternalId, certificationCenterType, version } =
-    filters;
+  const {
+    ids,
+    certificationCenterName,
+    status,
+    certificationCenterExternalId,
+    certificationCenterType,
+    version,
+    startDate,
+    endDate,
+  } = filters;
 
   if (ids) {
     query.whereIn('sessions.id', ids);
@@ -206,5 +214,17 @@ function _setupFilters(query, filters) {
   }
   if (status === statuses.PROCESSED) {
     query.whereNotNull('publishedAt');
+  }
+
+  if (startDate && endDate) {
+    query.whereBetween('sessions.date', [startDate, endDate]);
+  }
+
+  if (startDate && !endDate) {
+    query.where('sessions.date', '>=', startDate);
+  }
+
+  if (!startDate && endDate) {
+    query.where('sessions.date', '<=', endDate);
   }
 }

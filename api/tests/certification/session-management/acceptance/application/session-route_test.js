@@ -41,7 +41,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         expect(response.result.data[0].type).to.equal('sessions');
       });
 
-      it('should return a 200 status code with paginated and filtered data', async function () {
+      it('should return a 200 status code with paginated and filtered data by id', async function () {
         // given
         options.url = '/api/admin/sessions?filter[ids][]=121&filter[ids][]=333&page[number]=1&page[size]=2';
 
@@ -53,6 +53,24 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         expect(response.result.data).to.have.lengthOf(2);
         expect(response.result.data[0].type).to.equal('sessions');
         expect(response.result.data[1].type).to.equal('sessions');
+      });
+
+      it('should return a 200 status code with paginated and filtered data by date', async function () {
+        // given
+        databaseBuilder.factory.buildSession({ id: 444, date: '2026-01-01' });
+        databaseBuilder.factory.buildSession({ id: 555, date: '2026-01-03' });
+        await databaseBuilder.commit();
+
+        options.url =
+          '/api/admin/sessions?filter[startDate]=2026-01-01&filter[endDate]=2026-01-02&page[number]=1&page[size]=2';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.have.lengthOf(1);
+        expect(response.result.data[0].id).to.equal('444');
       });
 
       it('should return a 200 status code with empty result', async function () {
