@@ -6,7 +6,7 @@ import { DemoAssessment } from '../../../../../src/shared/domain/read-models/Dem
 describe('Unit | Domain | Read-Models | DemoAssessment', function () {
   describe('#constructor', function () {
     let assessment;
-    before(function () {
+    beforeAll(function () {
       assessment = new DemoAssessment({ title: 'Mon Course' });
     });
 

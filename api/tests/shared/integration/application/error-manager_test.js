@@ -37,7 +37,7 @@ describe('Integration | API | Controller Error', function () {
     return payload.errors[0].title;
   }
 
-  before(async function () {
+  beforeAll(async function () {
     routeHandler = sinon.stub();
     const moduleUnderTest = {
       name: 'test-route',

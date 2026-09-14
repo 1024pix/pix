@@ -6,7 +6,7 @@ describe('Unit | Tooling | Http-test-server', function () {
   describe('#constructor', function () {
     let server;
 
-    before(function () {
+    beforeAll(function () {
       server = new HttpTestServer();
     });
 
