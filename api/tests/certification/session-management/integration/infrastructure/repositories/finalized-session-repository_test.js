@@ -41,7 +41,7 @@ describe('Integration | Repository | Finalized-session', function () {
     });
 
     context('When the session does exist', function () {
-      it('is idempotent', function (done) {
+      it('is idempotent', async function () {
         // given
         const finalizedSession = new FinalizedSession({
           sessionId: 1234,
@@ -51,13 +51,13 @@ describe('Integration | Repository | Finalized-session', function () {
           sessionTime: '14:00:00',
           isPublishable: true,
         });
+        await finalizedSessionRepository.save({ finalizedSession });
 
         // when
-        expect(async () => {
-          await finalizedSessionRepository.save({ finalizedSession });
-          await finalizedSessionRepository.save({ finalizedSession });
-          done();
-        }).not.to.throw();
+        const promise = finalizedSessionRepository.save({ finalizedSession });
+
+        // then
+        await expect(promise).to.be.fulfilled;
       });
 
       it('updates a finalized session', async function () {
