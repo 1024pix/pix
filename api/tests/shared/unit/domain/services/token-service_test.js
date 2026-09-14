@@ -134,6 +134,23 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
         expect(result).to.be.an('object');
       });
     });
+
+    context('when the token does not have the expected audience', function () {
+      it('returns false', function () {
+        // given
+        const payload = { aud: 'wrong audience' };
+        const secret = 'someSecret';
+        const expiresIn = '3d';
+        const token = jsonwebtoken.sign(payload, secret, { expiresIn, header: { typ: tokenType.ACCESS_TOKEN } });
+        const expectedAudience = 'expected audience';
+
+        // when
+        const result = tokenService.getDecodedToken(token, secret, { expectedAudience });
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
   });
 
   describe('#extractUserId', function () {
