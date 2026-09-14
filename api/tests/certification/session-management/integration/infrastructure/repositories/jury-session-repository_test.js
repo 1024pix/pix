@@ -558,6 +558,62 @@ describe('Integration | Repository | JurySession', function () {
         });
       });
 
+      context('when there is a filter on the date', function () {
+        let firstSession;
+        let secondSession;
+        let thirdSession;
+
+        beforeEach(function () {
+          firstSession = databaseBuilder.factory.buildSession({ id: 121, date: '2026-01-01' });
+          secondSession = databaseBuilder.factory.buildSession({ id: 333, date: '2026-01-03' });
+          thirdSession = databaseBuilder.factory.buildSession({ id: 555, date: '2026-01-10' });
+
+          return databaseBuilder.commit();
+        });
+
+        it('should return session between 2 differente date', async function () {
+          // given
+          const filters = { startDate: '2026-01-01', endDate: '2026-01-04' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+          // when
+          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(jurySessions.length).to.equal(2);
+          expect(jurySessions.map(({ id }) => id)).to.have.members([firstSession.id, secondSession.id]);
+        });
+
+        it('should return session after 1 date', async function () {
+          // given
+          const filters = { startDate: '2026-01-03' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+          // when
+          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(jurySessions.map(({ id }) => id)).to.have.members([secondSession.id, thirdSession.id]);
+        });
+        it('should return session before 1 date', async function () {
+          // given
+          const filters = { endDate: '2026-01-03' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+          // when
+          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(jurySessions.map(({ id }) => id)).to.have.members([firstSession.id, secondSession.id]);
+        });
+      });
+
       context('when there is a filter on the version', function () {
         context('when there is a filter on sessions version', function () {
           let expectedSessionId;

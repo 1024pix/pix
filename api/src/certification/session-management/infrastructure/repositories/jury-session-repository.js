@@ -53,7 +53,8 @@ export async function findPaginatedFiltered({ filters, page }) {
     .modify(_setupFilters, filters)
     .orderByRaw('?? DESC NULLS FIRST', 'publishedAt')
     .orderByRaw('?? DESC', 'finalizedAt')
-    .orderBy('sessions.date', 'DESC');
+    .orderBy('sessions.date', 'DESC')
+    .orderBy('sessions.id', 'DESC');
 
   const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
   const jurySessions = results.map(_toDomain);
@@ -164,8 +165,16 @@ function _toDomain(jurySessionFromDB, counters) {
 }
 
 function _setupFilters(query, filters) {
-  const { ids, certificationCenterName, status, certificationCenterExternalId, certificationCenterType, version } =
-    filters;
+  const {
+    ids,
+    certificationCenterName,
+    status,
+    certificationCenterExternalId,
+    certificationCenterType,
+    version,
+    startDate,
+    endDate,
+  } = filters;
 
   if (ids) {
     query.whereIn('sessions.id', ids);
@@ -206,5 +215,13 @@ function _setupFilters(query, filters) {
   }
   if (status === statuses.PROCESSED) {
     query.whereNotNull('publishedAt');
+  }
+
+  if (startDate) {
+    query.where('sessions.date', '>=', startDate);
+  }
+
+  if (endDate) {
+    query.where('sessions.date', '<=', endDate);
   }
 }
