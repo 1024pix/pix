@@ -645,7 +645,16 @@ describe('Integration | Repository | Target-profile', function () {
       context('when datamart is not available', function () {
         it('should return target profile with undefined duration', async function () {
           // given
-          sinon.stub(datamartKnex, 'select').rejects(new Error('Datamart is down'));
+          // Stub the whole query chain rather than `select` alone: the repository calls
+          // `.from().where().first()` on its return value, so a `select` that resolves to a
+          // rejected promise makes `.from()` raise a TypeError instead — the catch block
+          // would then be reached without the datamart query ever having failed.
+          const failingQuery = {
+            from: sinon.stub().returnsThis(),
+            where: sinon.stub().returnsThis(),
+            first: sinon.stub().rejects(new Error('Datamart is down')),
+          };
+          sinon.stub(datamartKnex, 'select').returns(failingQuery);
           databaseBuilder.factory.buildOrganization({ id: 66 });
           const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
 
