@@ -158,11 +158,13 @@ function hasWhiteBackground(item) {
             {{/if}}
           </:duration>
           <:blockEnd>
-            {{#if @isNextItemToComplete}}
-              <PixTag @color="purple-light" class="combined-course-item__tag">{{t
+            {{#if @isNextItemToComplete }}
+              {{#if @displayNextItemTag}}
+                <PixTag @color="purple-light" class="combined-course-item__tag">{{t
                   "pages.combined-courses.items.tagText"
                 }}
-                <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
+                  <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
+              {{/if}}
             {{/if}}
           </:blockEnd>
         </Content>
