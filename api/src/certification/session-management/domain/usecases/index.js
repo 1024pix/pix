@@ -20,6 +20,8 @@ import {
   sessionSummaryRepository,
   sharedCompetenceMarkRepository,
 } from '../../infrastructure/repositories/index.js';
+import { publishSessionJobRepository } from '../../infrastructure/repositories/publish-session-job-repository.js';
+import * as sessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
 import * as sessionPublicationService from '../services/session-publication-service.js';
 import { abortCertificationCourse } from './abort-certification-course.js';
@@ -46,11 +48,12 @@ import { getV3CertificationCourseDetailsForAdministration } from './get-v3-certi
 import { manuallyResolveCertificationIssueReport } from './manually-resolve-certification-issue-report.js';
 import { processAutoJury } from './process-auto-jury.js';
 import { publishSession } from './publish-session.js';
-import { publishSessionsInBatch } from './publish-sessions-in-batch.js';
 import { registerPublishableSession } from './register-publishable-session.js';
 import { rejectCertificationCourse } from './reject-certification-course.js';
 import { saveCertificationIssueReport } from './save-certification-issue-report.js';
 import { saveJuryComplementaryCertificationCourseResult } from './save-jury-complementary-certification-course-result.js';
+import { sessionPublicationRequest } from './session-publication-request.js';
+import { sessionsPublicationRequest } from './sessions-publication-request.js';
 import { superviseSession } from './supervise-session.js';
 import { uncancel } from './uncancel.js';
 import { unfinalizeSession } from './unfinalize-session.js';
@@ -157,9 +160,11 @@ const dependencies = {
   certificationRepository,
   certificationIssueReportRepository,
   certificationCenterMembershipRepository,
+  publishSessionJobRepository,
   sessionPublicationService,
   versionApi,
   userRepository,
+  sessionRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -188,7 +193,8 @@ const usecasesWithoutInjectedDependencies = {
   manuallyResolveCertificationIssueReport,
   processAutoJury,
   publishSession,
-  publishSessionsInBatch,
+  sessionPublicationRequest,
+  sessionsPublicationRequest,
   registerPublishableSession,
   rejectCertificationCourse,
   saveCertificationIssueReport,
@@ -204,6 +210,4 @@ const usecasesWithoutInjectedDependencies = {
   updateEduV3ExternalJuryResult,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
-
-export { usecases };
+export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
