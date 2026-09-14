@@ -75,7 +75,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       const payload = { amstram: 'gram' };
       const secret = 'someSecret';
       const expiresIn = '3d';
-      const token = tokenService.encodeToken(payload, secret, expiresIn);
+      const token = jsonwebtoken.sign(payload, secret, { expiresIn, header: { typ: tokenType.ACCESS_TOKEN } });
 
       // when
       const result = tokenService.getDecodedToken(token, secret);
@@ -90,10 +90,28 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
         const payload = { amstram: 'gram' };
         const secret = 'someSecret';
         const expiresIn = 0;
-        const token = tokenService.encodeToken(payload, secret, expiresIn);
+        const token = jsonwebtoken.sign(payload, secret, { expiresIn, header: { typ: tokenType.ACCESS_TOKEN } });
 
         // when
         const result = tokenService.getDecodedToken(token, secret);
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    context('when the token does not have the expected typ header', function () {
+      it('returns false', function () {
+        // given
+        const payload = { amstram: 'gram' };
+        const secret = 'someSecret';
+        const expiresIn = '3d';
+        const type = tokenType.ACCESS_TOKEN;
+        const expectedType = tokenType.REFRESH_TOKEN;
+        const token = jsonwebtoken.sign(payload, secret, { expiresIn, header: { typ: type } });
+
+        // when
+        const result = tokenService.getDecodedToken(token, secret, { expectedType });
 
         // then
         expect(result).to.be.false;
