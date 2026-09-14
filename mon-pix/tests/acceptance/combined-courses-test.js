@@ -46,4 +46,8 @@ module('Acceptance | CombinedCourses', function (hooks) {
     // then
     assert.strictEqual(currentURL(), '/parcours/erreur');
   });
+
+  // TODO: tester la redirection vers une campagne (page programme)
+  // TODO: tester la redirection vers un module (page programme)
+  // TODO: tester l'absence de redirection au sein d'une page tunnel
 });

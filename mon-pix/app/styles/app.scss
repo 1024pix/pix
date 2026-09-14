@@ -46,6 +46,7 @@
 @use 'components/certifications/certification-ender' as *;
 @use 'components/combined-courses/combined-courses' as *;
 @use 'components/combined-courses/attestation' as *;
+@use 'components/combined-courses/step-details' as *;
 @use '../components/routes/combined-courses/process-custom-passages' as *;
 @use 'components/communication-banner' as *;
 @use 'components/companion/blocker' as *;

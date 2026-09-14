@@ -1,9 +1,6 @@
 //import TunnelSteps from 'mon-pix/components/combined-course/tunnel/tunnel-steps';
-import CombinedCoursePresentation from 'mon-pix/components/routes/combined-courses/presentation'
+import CombinedCoursePresentation from 'mon-pix/components/routes/combined-courses/presentation';
 
-<template>
-  <CombinedCoursePresentation
-    @combinedCourse={{@model}}
-    @isTunnel="true"
-  />
-</template>
+// TODO remove unused components (tunnel-steps, CombinedCourseStepItem)
+
+<template><CombinedCoursePresentation @combinedCourse={{@model}} @isTunnel="true" /></template>

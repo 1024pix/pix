@@ -1301,9 +1301,9 @@
           "description": "Terminez votre diagnostic pour débloquer un programme de modules adapté à votre résultat !",
           "title": "Programme personnalisé de modules"
         },
-        "tagText": "Vous en êtes là !",
+        "start-campaign": "Commencer",
         "start-module": "Commencer le module",
-        "start-campaign": "Commencer l'évaluation"
+        "tagText": "Vous en êtes là !"
       },
       "process-custom-passages": {
         "description": "Nous analysons vos résultats et construisons votre plan de formation personnalisé.",
