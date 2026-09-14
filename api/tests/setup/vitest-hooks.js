@@ -6,9 +6,8 @@ const INITIALIZED = Symbol.for('pix.vitest.setup.initialized');
 // on, so that `expect` always resolves to the chai import present in the test file and can
 // never silently fall back to Vitest's own `expect`.
 //
-// `context` is Mocha's alias for `describe` (5299 call sites), and `before`/`after` are its
-// aliases for `beforeAll`/`afterAll` (38 call sites, aliased rather than renamed so that the
-// runner swap touches no test file).
+// `context` is Mocha's alias for `describe`, kept because rewriting its 5299 call sites would
+// bury the change that matters under an unreviewable diff.
 Object.assign(globalThis, {
   describe,
   context: describe,
@@ -17,8 +16,6 @@ Object.assign(globalThis, {
   afterEach,
   beforeAll,
   afterAll,
-  before: beforeAll,
-  after: afterAll,
 });
 
 /**
