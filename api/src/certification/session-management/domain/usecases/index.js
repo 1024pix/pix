@@ -51,6 +51,7 @@ import { registerPublishableSession } from './register-publishable-session.js';
 import { rejectCertificationCourse } from './reject-certification-course.js';
 import { saveCertificationIssueReport } from './save-certification-issue-report.js';
 import { saveJuryComplementaryCertificationCourseResult } from './save-jury-complementary-certification-course-result.js';
+import { sessionPublication } from './session-publication.js';
 import { superviseSession } from './supervise-session.js';
 import { uncancel } from './uncancel.js';
 import { unfinalizeSession } from './unfinalize-session.js';
@@ -188,6 +189,7 @@ const usecasesWithoutInjectedDependencies = {
   manuallyResolveCertificationIssueReport,
   processAutoJury,
   publishSession,
+  sessionPublication,
   publishSessionsInBatch,
   registerPublishableSession,
   rejectCertificationCourse,
