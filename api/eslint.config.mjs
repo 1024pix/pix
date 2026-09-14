@@ -1,5 +1,4 @@
 import pixRecommendedConfig from '@1024pix/eslint-plugin/config';
-import { fixupPluginRules } from '@eslint/compat';
 import { defineConfig } from 'eslint/config';
 import chaiExpect from 'eslint-plugin-chai-expect';
 import i18nJsonPlugin from 'eslint-plugin-i18n-json';
@@ -17,7 +16,7 @@ export default defineConfig([
   nRecommendedConfig.configs['flat/recommended'],
   chaiExpect.configs['recommended-flat'],
   // Loads plugins only (rules not applied yet)
-  { plugins: { unicorn, knex: fixupPluginRules(knex) } },
+  { plugins: { unicorn, knex } },
   // Setup global language options
   { languageOptions: { ecmaVersion: 2025, sourceType: 'module' } },
   // Rules for "js" files

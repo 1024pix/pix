@@ -184,7 +184,7 @@
     "eslint": "^9.39.5",
     "eslint-plugin-chai-expect": "^4.1.0",
     "eslint-plugin-i18n-json": "^4.0.1",
-    "eslint-plugin-knex": "v0.2.2",
+    "eslint-plugin-knex": "github:1024pix/eslint-plugin-knex#3daac673bbad04866f0a38ad71c8ada1315d6b00",
     "eslint-plugin-mocha": "^11.3.0",
     "eslint-plugin-n": "^18.3.0",
     "eslint-plugin-unicorn": "^65.0.1",
