@@ -155,10 +155,16 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
   describe('quit', function () {
     it('should close the connection', async function () {
       // given
+      // ioredis connects asynchronously, and its `quit()` resolves on the QUIT reply — the
+      // socket closes, and the status becomes 'end', only on a later tick. So establish the
+      // connection first, then observe the 'end' event rather than assuming quit() implies it.
       const client = new RedisClient(config.redisUrl);
+      await client.ping();
+      const connectionEnded = new Promise((resolve) => client._client.once('end', resolve));
 
       // when
       await client.quit();
+      await connectionEnded;
 
       // then
       expect(client._client.status).to.equal('end');
@@ -168,9 +174,12 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
       it('should not throw an error', async function () {
         // given
         const client = new RedisClient(config.redisUrl);
+        await client.ping();
+        const connectionEnded = new Promise((resolve) => client._client.once('end', resolve));
 
         // when
         await client.quit();
+        await connectionEnded;
         await client.quit();
 
         // then
