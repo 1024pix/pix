@@ -2,9 +2,9 @@ import { defineConfig } from 'vitest/config';
 
 const isCI = Boolean(process.env.CI);
 
-const project = (name, setupFile, include) => ({
+const project = (name, setupFile, include, overrides = {}) => ({
   extends: true,
-  test: { name, setupFiles: [`./tests/setup/${setupFile}`], include },
+  test: { name, setupFiles: [`./tests/setup/${setupFile}`], include, ...overrides },
 });
 
 export default defineConfig({
@@ -45,7 +45,19 @@ export default defineConfig({
     // database URLs at module scope, which would leak into the other projects if they shared
     // a worker.
     projects: [
-      project('unit', 'vitest-unit.js', ['tests/**/unit/**/*test.{js,ts}']),
+      // Unit tests touch no database, so nothing forces them to be serial. Each worker gets
+      // its own module graph and re-runs the setup file, so the fake connection strings are
+      // set per worker. Locally this takes the suite from ~50s to ~32s; 50% measured faster
+      // than 100%, where the transform cost of over-subscribed workers outweighs the gain.
+      //
+      // Serial on CI on purpose: api_unit_test runs on a `small` executor (1 vCPU, 2 GB) and
+      // `os.availableParallelism()` reports the host's cores, not the container's cgroup
+      // quota — a percentage there would spawn a dozen workers on a single core.
+      project('unit', 'vitest-unit.js', ['tests/**/unit/**/*test.{js,ts}'], {
+        fileParallelism: !isCI,
+        maxWorkers: isCI ? 1 : '50%',
+        minWorkers: 1,
+      }),
       project('integration', 'vitest-integration.js', ['tests/**/integration/**/*test.{js,ts}']),
       project('acceptance', 'vitest-acceptance.js', ['tests/**/acceptance/**/*test.{js,ts}']),
       // Backs the `modulix:test` script. These tests validate module JSON content, so they run
