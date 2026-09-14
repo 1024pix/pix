@@ -1,0 +1,71 @@
+@use 'pix-design-tokens/typography';
+
+.step-details {
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
+    margin-bottom: var(--pix-spacing-10x);
+  }
+
+  &__icon {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  &__title {
+    @extend %pix-title-s;
+  }
+
+  &__description {
+    @extend %pix-body-m;
+  }
+
+  &__objectives {
+    &--items {
+       @extend %pix-body-m;
+
+       font-weight: var(--pix-font-bold);
+    }
+  }
+
+  &__indicators {
+    @extend %pix-body-s;
+
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    margin-top: var(--pix-spacing-2x);
+
+    dl {
+      display: inline-flex;
+      gap: var(--pix-spacing-1x);
+      align-items: center;
+
+    @extend %pix-body-s;
+
+      dt {
+      width: 16px;
+      height: 16px;
+      line-height: normal;
+
+      .duration {
+       &__icon {
+        width: 16px;
+        height: 16px;
+      }
+     }
+
+    .level {
+      &__icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+     }
+
+    }
+
+  }
+
+
+}

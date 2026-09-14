@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CombinedCoursesPresentation from 'mon-pix/components/routes/combined-courses/presentation';
+import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,17 +11,26 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js'
 
 module('Integration | Component | Combined Courses | Presentation', function (hooks) {
   setupIntlRenderingTest(hooks);
+  let combinedCourseItems, store;
+  hooks.beforeEach(function () {
+    store = this.owner.lookup('service:store');
+
+    combinedCourseItems = store.createRecord('combined-course-item', {
+      id: 0,
+      type: CombinedCourseItemTypes.CAMPAIGN,
+      title: 'Ma campagne',
+    });
+  });
 
   module('in all cases', function () {
     test('should display Combinix title', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-
       const combinedCourse = store.createRecord('combined-course', {
         id: 1,
         status: 'NOT_STARTED',
         code: 'COMBINIX9',
         name: 'Combinix',
+        items: [combinedCourseItems],
       });
 
       // when
@@ -31,6 +41,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       // then
       assert.ok(screen.getByRole('heading', { name: 'Combinix' }));
     });
+
     test('should display description on course if they exist', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -40,6 +51,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         status: CombinedCourseStatuses.NOT_STARTED,
         code: 'COMBINIX9',
         description: 'Le but de ma quête : [plus de détails](http://pix.fr)',
+        items: [combinedCourseItems],
       });
 
       // when
@@ -61,6 +73,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         status: 'NOT_STARTED',
         code: 'COMBINIX9',
         name: 'Combinix',
+        items: [combinedCourseItems],
       });
 
       // when
@@ -71,6 +84,53 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       // then
       const link = screen.getByRole('link', { name: t('common.actions.quit') });
       assert.dom(link).hasAttribute('href', '/');
+    });
+
+    test('should display resume button with next item link', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const router = this.owner.lookup('service:router');
+
+      sinon.stub(router, 'transitionTo');
+
+      const campaignCombinedCourseItem = store.createRecord('combined-course-item', {
+        id: 1,
+        title: 'ma campagne',
+        reference: 'ABCDIAG1',
+        type: 'CAMPAIGN',
+        isCompleted: true,
+      });
+
+      const moduleCombinedCourseItem = store.createRecord('combined-course-item', {
+        id: 2,
+        title: 'mon module',
+        reference: 'mon-module',
+        shortId: 'abc123',
+        type: 'module',
+        redirection: 'une+url+chiffree',
+        isCompleted: false,
+      });
+
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: CombinedCourseStatuses.STARTED,
+        code: 'COMBINIX9',
+      });
+
+      combinedCourse.items.push(campaignCombinedCourseItem, moduleCombinedCourseItem);
+
+      // when
+      const screen = await render(
+        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
+      );
+
+      // then
+      await click(screen.getByRole('button', { name: t('pages.combined-courses.content.resume-button') }));
+      assert.ok(
+        router.transitionTo.calledWith('module', 'abc123', 'mon-module', {
+          queryParams: { redirection: 'une+url+chiffree' },
+        }),
+      );
     });
   });
 
@@ -112,6 +172,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         id: 1,
         status: CombinedCourseStatuses.NOT_STARTED,
         code: 'COMBINIX9',
+        items: [combinedCourseItems],
       });
 
       // when
@@ -187,7 +248,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
 
       // then
       assert.ok(screen.getByText('ma campagne'));
-      assert.ok(screen.getByRole('link', { name: /ma campagne/ }));
+      assert.ok(screen.getByRole('button', { name: /ma campagne/ }));
       assert.ok(screen.getByText(t('pages.combined-courses.items.tagText')));
     });
 
@@ -217,79 +278,11 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
 
       // then
       assert.ok(screen.getByText('mon module'));
-      assert.notOk(screen.queryByRole('link', { name: /mon module/ }));
+      assert.notOk(await screen.queryByRole('link', { name: /mon module/ }));
     });
   });
 
   module('when participation is started', function () {
-    test('should display diagnostic campaign with related link', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const router = this.owner.lookup('service:router');
-
-      const combinedCourseItem = store.createRecord('combined-course-item', {
-        id: 1,
-        title: 'ma campagne',
-        reference: 'ABCDIAG1',
-        type: 'campaign',
-      });
-
-      const combinedCourse = store.createRecord('combined-course', {
-        id: 1,
-        status: CombinedCourseStatuses.STARTED,
-        code: 'COMBINIX9',
-      });
-
-      combinedCourse.items.push(combinedCourseItem);
-
-      // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
-
-      // then
-      assert.ok(screen.getByText('ma campagne'));
-      assert.strictEqual(
-        screen.getByRole('link', { name: /ma campagne/ }).getAttribute('href'),
-        router.urlFor('campaigns', { code: combinedCourseItem.reference }),
-      );
-    });
-    test('should display modules with with related link', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const router = this.owner.lookup('service:router');
-
-      const combinedCourseItem = store.createRecord('combined-course-item', {
-        id: 1,
-        title: 'mon module',
-        reference: 'mon-module',
-        shortId: 'abc123',
-        type: 'module',
-        redirection: 'une+url+chiffree',
-      });
-
-      const combinedCourse = store.createRecord('combined-course', {
-        id: 1,
-        status: CombinedCourseStatuses.STARTED,
-        code: 'COMBINIX9',
-      });
-
-      combinedCourse.items.push(combinedCourseItem);
-
-      // when
-      const screen = await render(
-        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-      );
-
-      // then
-      assert.ok(screen.getByText('mon module'));
-      assert.strictEqual(
-        screen.getByRole('link', { name: /mon module/ }).getAttribute('href'),
-        router.urlFor('module', combinedCourseItem.shortId, combinedCourseItem.reference, {
-          queryParams: { redirection: combinedCourseItem.redirection },
-        }),
-      );
-    });
     test('should display completed status for finished items', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -318,98 +311,22 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       assert.ok(screen.getByText(t('pages.combined-courses.items.completed')));
     });
   });
-  test('should display resume button with next item link', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const router = this.owner.lookup('service:router');
 
-    sinon.stub(router, 'transitionTo');
-
-    const campaignCombinedCourseItem = store.createRecord('combined-course-item', {
-      id: 1,
-      title: 'ma campagne',
-      reference: 'ABCDIAG1',
-      type: 'CAMPAIGN',
-      isCompleted: true,
-    });
-
-    const moduleCombinedCourseItem = store.createRecord('combined-course-item', {
-      id: 2,
-      title: 'mon module',
-      reference: 'mon-module',
-      shortId: 'abc123',
-      type: 'module',
-      redirection: 'une+url+chiffree',
-      isCompleted: false,
-    });
-
-    const combinedCourse = store.createRecord('combined-course', {
-      id: 1,
-      status: CombinedCourseStatuses.STARTED,
-      code: 'COMBINIX9',
-    });
-
-    combinedCourse.items.push(campaignCombinedCourseItem, moduleCombinedCourseItem);
-
-    // when
-    const screen = await render(
-      <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-    );
-
-    // then
-    await click(screen.getByRole('button', { name: t('pages.combined-courses.content.resume-button') }));
-    assert.ok(
-      router.transitionTo.calledWith('module', 'abc123', 'mon-module', {
-        queryParams: { redirection: 'une+url+chiffree' },
-      }),
-    );
-  });
-  test('when an item is locked, its link does not exist', async function (assert) {
-    const store = this.owner.lookup('service:store');
-
-    const campaignCombinedCourseItem = store.createRecord('combined-course-item', {
-      id: 1,
-      title: 'ma campagne',
-      reference: 'ABCDIAG1',
-      type: 'CAMPAIGN',
-      isCompleted: false,
-      isLocked: false,
-    });
-
-    const moduleCombinedCourseItem = store.createRecord('combined-course-item', {
-      id: 2,
-      title: 'mon module',
-      reference: 'ABCMODU1',
-      type: 'MODULE',
-      isCompleted: true,
-      isLocked: true,
-    });
-
-    const combinedCourse = store.createRecord('combined-course', {
-      id: 1,
-      status: 'STARTED',
-      code: 'COMBINIX9',
-    });
-    combinedCourse.items.push(campaignCombinedCourseItem, moduleCombinedCourseItem);
-
-    // when
-    const screen = await render(
-      <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
-    );
-
-    // then
-    assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.content.resume-button') }));
-    assert.notOk(screen.queryByRole('link', { name: 'mon module' }));
-  });
   module('when participation is completed', function () {
     test('should display that combined course is finished', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
+      const completedCombinedCourseItem = store.createRecord('combined-course-item', {
+        id: 2,
+        type: CombinedCourseItemTypes.CAMPAIGN,
+        title: 'Ma campagne',
+        isCompleted: true,
+      });
 
       const combinedCourse = store.createRecord('combined-course', {
         id: 1,
         status: CombinedCourseStatuses.COMPLETED,
         code: 'COMBINIX9',
+        items: [completedCombinedCourseItem],
       });
 
       // when
@@ -421,6 +338,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       assert.ok(screen.getByRole('heading', { name: t('pages.combined-courses.completed.title') }));
       assert.notOk(screen.queryByText(t('pages.combined-courses.items.tagText')));
     });
+
     test('should display survey cta if available', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -432,6 +350,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         code: 'COMBINIX9',
         organizationId: 123,
         surveyUrl: 'combinix.survey.link',
+        items: [combinedCourseItems],
       });
 
       // when
@@ -456,6 +375,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         status: CombinedCourseStatuses.COMPLETED,
         code: 'COMBINIX9',
         organizationId: 123,
+        items: [combinedCourseItems],
       });
 
       // when
@@ -464,7 +384,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       );
 
       // then
-      assert.notOk(screen.queryByRole('link', { name: t('pages.combined-courses.completed.survey-button') }));
+      assert.notOk(await screen.queryByRole('link', { name: t('pages.combined-courses.completed.survey-button') }));
     });
 
     test('should not display survey cta if feature toggle is disabled', async function (assert) {
@@ -478,6 +398,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         code: 'COMBINIX9',
         organizationId: 123,
         surveyUrl: 'combinix.survey.link',
+        items: [combinedCourseItems],
       });
 
       // when
@@ -486,7 +407,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       );
 
       // then
-      assert.notOk(screen.queryByRole('link', { name: t('pages.combined-courses.completed.survey-button') }));
+      assert.notOk(await screen.queryByRole('link', { name: t('pages.combined-courses.completed.survey-button') }));
     });
 
     test('should display retry text for modules if there are any in the course', async function (assert) {
@@ -521,6 +442,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
           .find((element) => element.textContent === t('pages.combined-courses.completed.retry-text')),
       );
     });
+
     test('should hide retry text for modules if the combined course is not completed', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -553,6 +475,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
           .find((element) => element.textContent === t('pages.combined-courses.completed.retry-text')),
       );
     });
+
     test('should hide retry text for modules if there are any in the course', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -586,6 +509,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       );
     });
   });
+
   module('when items are of different types', function () {
     test('should display steps', async function (assert) {
       // given
@@ -625,6 +549,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       assert.ok(screen.getByRole('heading', { name: t('pages.combined-courses.content.step', { stepNumber: 2 }) }));
     });
   });
+
   module('when items are of same types', function () {
     test('should not display steps', async function (assert) {
       // given
@@ -660,9 +585,10 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       );
 
       // then
-      assert.notOk(screen.queryByRole('heading', { name: 'étape 1' }));
+      assert.notOk(await screen.queryByRole('heading', { name: 'étape 1' }));
     });
   });
+
   module('when there is a reward attached to the combined course', function () {
     test('it should display the attestation component', async function (assert) {
       // given
@@ -678,6 +604,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         id: 1,
         status: CombinedCourseStatuses.COMPLETED,
         code: 'COMBINIX9',
+        items: [combinedCourseItems],
       });
       combinedCourse.reward = reward;
       // when
@@ -685,7 +612,88 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
         <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
       );
       // then
-      assert.dom(screen.getByRole('article')).hasClass('attestation');
+      assert.ok(screen.getByText(reward.label, { exact: false }));
+    });
+  });
+
+  module('when in tunnel mode', function () {
+    test('should not display header', async function (assert) {
+      // given
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: 'NOT_STARTED',
+        code: 'COMBINIX9',
+        name: 'Combinix',
+        items: [combinedCourseItems],
+      });
+
+      // when
+      const screen = await render(
+        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} @isTunnel={{true}} /></template>,
+      );
+
+      // then
+      assert.notOk(await screen.queryByRole('heading', { name: combinedCourse.name }));
+    });
+
+    test('should not display reward info', async function (assert) {
+      // given
+      const reward = store.createRecord('combined-course-reward', {
+        id: 1,
+        type: 'attestations',
+        status: 'OBTAINED',
+        label: 'Sensibilisation au numérique',
+        data: {},
+      });
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: 'NOT_STARTED',
+        code: 'COMBINIX9',
+        name: 'Combinix',
+        items: [combinedCourseItems],
+      });
+      combinedCourse.reward = reward;
+
+      // when
+      const screen = await render(
+        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} @isTunnel={{true}} /></template>,
+      );
+
+      // then
+      assert.notOk(await screen.queryByText(reward.label, { exact: false }));
+    });
+
+    test('should not display retry text', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const moduleCombinedCourseItem = store.createRecord('combined-course-item', {
+        id: 2,
+        title: 'mon module',
+        reference: 'mon-module',
+        type: 'module',
+        redirection: 'une+url+chiffree',
+        isCompleted: true,
+      });
+
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: CombinedCourseStatuses.COMPLETED,
+        code: 'COMBINIX9',
+      });
+      combinedCourse.items.push(moduleCombinedCourseItem);
+
+      // when
+      const screen = await render(
+        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} @isTunnel={{true}} /></template>,
+      );
+
+      // then
+      assert.notOk(
+        await screen
+          .queryAllByRole('paragraph')
+          .find((element) => element.textContent === t('pages.combined-courses.completed.retry-text')),
+      );
     });
   });
 });

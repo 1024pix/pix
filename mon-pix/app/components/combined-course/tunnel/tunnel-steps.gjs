@@ -8,6 +8,7 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import CombinedCourseStepItem from 'mon-pix/components/combined-course/combined-course-step-item';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
+
 import StepDetails from './step-details';
 
 const Step = <template>
@@ -67,7 +68,7 @@ export default class TunnelSteps extends Component {
               <Step @stepNumber={{this.getCurrentStep}} @stepType={{item.type}} />
             {{/if}}
           {{/unless}}
-          <button onClick={{fn this.setSelectedItem item}} class="combined-course__step-item-button">
+          <button onClick={{fn this.setSelectedItem item}} class="combined-course__step-item-button" type="button">
             <CombinedCourseStepItem
               @item={{item}}
               @isLocked={{item.isLocked}}

@@ -81,52 +81,6 @@ export default class CombinedCoursePresentation extends Component {
     this.selectedItem = this.args.combinedCourse.nextCombinedCourseItem;
   }
 
-  <template>
-    <section class="combined-course">
-      <div class="combined-course__exit">
-        <PixButtonLink @variant="tertiary" @route="authenticated" @iconAfter="doorOpen">
-          {{t "common.actions.quit"}}
-        </PixButtonLink>
-      </div>
-      {{#unless @isTunnel}}
-        <Header
-          @combinedCourse={{@combinedCourse}}
-          @startQuestParticipation={{this.startQuestParticipation}}
-          @goToNextItem={{this.goToNextItem}}
-          @isSurveyEnabled={{this.isSurveyEnabled}}
-        />
-        {{#if (eq @combinedCourse.reward.type "attestations")}}
-          <Attestation @attestation={{@combinedCourse.reward}} />
-        {{/if}}
-        <hr class="combined-course__divider" />
-        {{#if this.shouldDisplayRetryModulesText}}
-          <p class="combined-course__retry-text">{{t "pages.combined-courses.completed.retry-text"}}</p>
-        {{/if}}
-      {{/unless}}
-      {{#each @combinedCourse.items as |item index|}}
-        {{#unless @combinedCourse.areItemsOfTheSameType}}
-          {{#if (@combinedCourse.isPreviousItemDifferent index)}}
-            <Step @stepNumber={{this.getCurrentStep}} />
-          {{/if}}
-        {{/unless}}
-        <CombinedCourseItem
-          @item={{item}}
-          @isLocked={{item.isLocked}}
-          @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
-          @onClick={{this.onClickAction}}
-          @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
-          @displayNextItemTag={{not @isTunnel}}
-        />
-      {{/each}}
-      {{#if @isTunnel}}
-        <StepDetails
-          @item={{this.selectedItem}}
-          @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem this.selectedItem}}
-        />
-      {{/if}}
-    </section>
-  </template>
-
   @service currentUser;
   @service session;
   @service featureToggles;
@@ -183,6 +137,53 @@ export default class CombinedCoursePresentation extends Component {
   setSelectedItem(item) {
     this.selectedItem = item;
   }
+
+  <template>
+    <section class="combined-course">
+      <div class="combined-course__exit">
+        <PixButtonLink @variant="tertiary" @route="authenticated" @iconAfter="doorOpen">
+          {{t "common.actions.quit"}}
+        </PixButtonLink>
+      </div>
+      {{#unless @isTunnel}}
+        <Header
+          @combinedCourse={{@combinedCourse}}
+          @startQuestParticipation={{this.startQuestParticipation}}
+          @goToNextItem={{this.goToNextItem}}
+          @isSurveyEnabled={{this.isSurveyEnabled}}
+        />
+        {{#if (eq @combinedCourse.reward.type "attestations")}}
+          <Attestation @attestation={{@combinedCourse.reward}} />
+        {{/if}}
+        <hr class="combined-course__divider" />
+        {{#if this.shouldDisplayRetryModulesText}}
+          <p class="combined-course__retry-text">{{t "pages.combined-courses.completed.retry-text"}}</p>
+        {{/if}}
+      {{/unless}}
+      {{#each @combinedCourse.items as |item index|}}
+        {{#unless @combinedCourse.areItemsOfTheSameType}}
+          {{#if (@combinedCourse.isPreviousItemDifferent index)}}
+            <Step @stepNumber={{this.getCurrentStep}} />
+          {{/if}}
+        {{/unless}}
+        <CombinedCourseItem
+          @item={{item}}
+          @isLocked={{item.isLocked}}
+          @isNextItemToComplete={{eq this.selectedItem item}}
+          @onClick={{this.onClickAction}}
+          @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
+          @displayNextItemTag={{not @isTunnel}}
+        />
+      {{/each}}
+      {{#if @isTunnel}}
+        <StepDetails
+          @item={{this.selectedItem}}
+          @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem this.selectedItem}}
+          @onClick={{this.goToNextItem}}
+        />
+      {{/if}}
+    </section>
+  </template>
 }
 
 function noop() {}
