@@ -44,6 +44,10 @@ export class JuryCertificationSummary {
       return `${this.certificationFramework}.NONE`;
     }
 
+    if (this.status === STARTED) {
+      return null;
+    }
+
     const resultKey = this.eduV3ExternalJuryResult || (this.reachedMeshIndex ?? 'BELOW_MINIMUM');
 
     return `${this.certificationFramework}.${resultKey}`;

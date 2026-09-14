@@ -45,6 +45,12 @@ export default class Card extends Component {
   }
 
   @action
+  showHighlightedCardModal() {
+    this.args.onHighlightedCardButtonClick({ trainingId: this.args.training.id });
+    this.modalIsOpen = true;
+  }
+
+  @action
   closeModal() {
     this.modalIsOpen = false;
   }
@@ -65,7 +71,7 @@ export default class Card extends Component {
             {{/if}}
           </ul>
           <PixButton
-            @triggerAction={{this.showModal}}
+            @triggerAction={{this.showHighlightedCardModal}}
             class="results-recommendation-engine-highlighted-training-card-description__button"
           >
             {{t "pages.skill-review.recommended-engine.highlighted-card.learn-more"}}

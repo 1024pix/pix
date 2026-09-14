@@ -387,6 +387,18 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
           });
         });
       });
+
+      context('when status is "started" (no assessment result)', function () {
+        it('returns null', function () {
+          const juryCertificationSummary = domainBuilder.certification.sessionManagement.buildJuryCertificationSummary({
+            certificationFramework: Frameworks.EDU_2ND_DEGRE,
+            algorithmVersion: AlgorithmEngineVersion.V3,
+            status: null,
+          });
+
+          expect(juryCertificationSummary.reachedResultKey).to.be.null;
+        });
+      });
     });
   });
 });

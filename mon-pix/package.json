@@ -1,6 +1,6 @@
 {
   "name": "mon-pix",
-  "version": "5.500.0",
+  "version": "5.501.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques",
   "license": "AGPL-3.0",
@@ -143,7 +143,7 @@
     "braces": ">=3.0.3"
   },
   "engines": {
-    "node": "^24.18.0"
+    "node": "^24.20.0"
   },
   "ember": {
     "edition": "octane"

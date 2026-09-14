@@ -134,6 +134,14 @@ module('Acceptance | Organizations | Create', function (hooks) {
       await screen.findByRole('listbox');
       await click(screen.getByText('France (99100)'));
 
+      await click(
+        screen.getByRole('button', {
+          name: `${t('components.organizations.creation.category.selector.label')} *`,
+        }),
+      );
+      await screen.findByRole('listbox');
+      await click(screen.getByText('Catégorie 1'));
+
       await fillByLabel(`${t('components.organizations.creation.dpo.firstname')}DPO`, 'Justin');
       await fillByLabel(`${t('components.organizations.creation.dpo.lastname')}DPO`, 'Ptipeu');
       await fillByLabel(`${t('components.organizations.creation.dpo.email')}DPO`, 'justin.ptipeu@example.net');

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseBlueprintForCreation } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForCreation.js';
-import { QuestInput } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/QuestInput.js';
+import { REQUIREMENT_TYPES } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -21,11 +21,6 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       { type: 'module', value: moduleId, shortId: '6a68bf32' },
       { type: 'campaign', value: targetProfileId },
     ];
-    const questInput = new QuestInput({
-      items: content,
-      rewardId: attestation.id,
-      rewardType: REWARD_TYPES.ATTESTATION,
-    });
     const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
       name: 'Mon épure',
       internalName: 'Une épure pour tel niveau',
@@ -33,7 +28,8 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       description: 'Description',
       prescriberDescription: 'Description pour les prescripteurs',
       content,
-      quest: questInput.toQuest(),
+      rewardId: attestation.id,
+      rewardType: 'ATTESTATION',
     });
 
     const expectedQuest = combinedCourseBlueprintForCreation.quest.toDTO();
@@ -84,7 +80,6 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       description: 'Description',
       prescriberDescription: 'Description pour les prescripteurs',
       content,
-      quest: new QuestInput({ items: content }).toQuest(),
     });
 
     await usecases.createCombinedCourseBlueprint({ combinedCourseBlueprintForCreation });
@@ -120,10 +115,60 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       description: 'Description',
       prescriberDescription: 'Description pour les prescripteurs',
       content,
-      quest: new QuestInput({ items: content }).toQuest(),
     });
 
     const error = await catchErr(usecases.createCombinedCourseBlueprint)({ combinedCourseBlueprintForCreation });
     expect(error).to.be.instanceOf(NotFoundError);
+  });
+
+  it('should build capped tube requirements from the target profiles when a schema threshold is defined', async function () {
+    // given
+    const firstTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+    const secondTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+    databaseBuilder.factory.buildTargetProfileTube({
+      targetProfileId: firstTargetProfileId,
+      tubeId: 'tubeId1',
+      level: 3,
+    });
+    databaseBuilder.factory.buildTargetProfileTube({
+      targetProfileId: secondTargetProfileId,
+      tubeId: 'tubeId1',
+      level: 6,
+    });
+    databaseBuilder.factory.buildTargetProfileTube({
+      targetProfileId: secondTargetProfileId,
+      tubeId: 'tubeId2',
+      level: 8,
+    });
+    await databaseBuilder.commit();
+
+    const content = [
+      { type: 'campaign', value: firstTargetProfileId },
+      { type: 'campaign', value: secondTargetProfileId },
+    ];
+    const combinedCourseBlueprintForCreation = new CombinedCourseBlueprintForCreation({
+      name: 'Mon épure',
+      internalName: 'Une épure pour tel niveau',
+      content,
+      schemaThreshold: 75,
+      description: 'Description prescrit',
+      prescriberDescription: 'Description prescripteur',
+    });
+
+    // when
+    const combinedCourseBlueprint = await usecases.createCombinedCourseBlueprint({
+      combinedCourseBlueprintForCreation,
+    });
+
+    // then
+    const cappedTubeRequirements = combinedCourseBlueprint.quest.successRequirements.filter(
+      ({ requirement_type }) => requirement_type === REQUIREMENT_TYPES.CAPPED_TUBES,
+    );
+    expect(cappedTubeRequirements).lengthOf(1);
+    expect(cappedTubeRequirements[0].data.threshold).to.equal(75);
+    expect(cappedTubeRequirements[0].data.cappedTubes).to.have.deep.members([
+      { tubeId: 'tubeId1', level: 6 },
+      { tubeId: 'tubeId2', level: 8 },
+    ]);
   });
 });

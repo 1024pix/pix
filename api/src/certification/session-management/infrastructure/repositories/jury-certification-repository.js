@@ -120,6 +120,9 @@ function _selectJuryCertifications(knexConn) {
       commentByAutoJury: 'assessment-results.commentByAutoJury',
       certificationFramework: 'certification-courses.framework',
       lastAnswerAt: 'certification-courses.lastAnswerAt',
+      hasScoringConfiguration: knexConn.raw(
+        `(certification_versions."globalScoringConfiguration" IS NOT NULL AND jsonb_array_length(certification_versions."globalScoringConfiguration") > 0)`,
+      ),
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
@@ -133,7 +136,8 @@ function _selectJuryCertifications(knexConn) {
       'assessment-results.id',
       'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
-    .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id');
+    .leftJoin('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
+    .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id', 'certification_versions.id');
 }
 
 async function _toDomainWithComplementaryCertifications({

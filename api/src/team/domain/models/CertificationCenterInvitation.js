@@ -1,4 +1,4 @@
-import JoiDate from '@joi/date';
+import { JoiDate } from '@joi/date';
 import BaseJoi from 'joi';
 
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';

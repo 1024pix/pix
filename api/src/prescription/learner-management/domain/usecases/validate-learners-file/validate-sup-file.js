@@ -24,14 +24,6 @@ const validateSupFile = async function ({
     const { warnings } = parser.parse(parser.getFileEncoding());
 
     warningsData = warnings;
-
-    await importFromSupJobRepository.performAsync(
-      new ImportFromSupJob({
-        organizationImportId: organizationImport.id,
-        type,
-        locale: i18n.getLocale(),
-      }),
-    );
   } catch (error) {
     if (error instanceof AggregateImportError) {
       errors.push(...error.meta);
@@ -46,6 +38,14 @@ const validateSupFile = async function ({
     organizationImport.validate({ errors, warnings: warningsData });
     await organizationImportRepository.save(organizationImport);
   }
+
+  await importFromSupJobRepository.performAsync(
+    new ImportFromSupJob({
+      organizationImportId: organizationImport.id,
+      type,
+      locale: i18n.getLocale(),
+    }),
+  );
 };
 
 export { validateSupFile };

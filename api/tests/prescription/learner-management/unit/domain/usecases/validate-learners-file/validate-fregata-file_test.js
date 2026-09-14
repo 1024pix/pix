@@ -122,6 +122,9 @@ describe('Unit | UseCase | validateFregataFile', function () {
           organizationImportId,
         }),
       );
+      expect(importFromFregataJobRepositoryStub.performAsync.firstCall).calledAfter(
+        organizationImportRepositoryStub.save.firstCall,
+      );
     });
   });
 

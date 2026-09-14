@@ -21,6 +21,7 @@ import CreationForm from 'pix-admin/components/organizations/creation-form';
       @onSubmit={{@controller.addOrganization}}
       @onCancel={{@controller.redirectOnCancel}}
       @parentOrganization={{@model.parentOrganization}}
+      @structureCategories={{@model.structureCategories}}
     />
   </main>
 </template>

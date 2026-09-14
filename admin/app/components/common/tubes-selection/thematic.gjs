@@ -2,10 +2,11 @@ import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import tubesForThematic from 'pix-admin/utils/tubes-for-thematic';
 
 export default class Thematic extends Component {
   get thematicTubes() {
-    return this.args.thematic.hasMany('tubes').value();
+    return tubesForThematic(this.args.thematic);
   }
 
   get selectedTubeIds() {

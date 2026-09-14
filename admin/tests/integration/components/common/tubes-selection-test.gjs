@@ -1,12 +1,14 @@
 import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import { click, triggerEvent } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
+import { t } from 'ember-intl/test-support';
 import TubesSelection from 'pix-admin/components/common/tubes-selection';
+import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Integration | Component | Common::TubesSelection', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
+
   let screen;
 
   hooks.beforeEach(async function () {
@@ -40,7 +42,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
 
   test('it should display a list of tubes without clicking on each accordion on expand all', async function (assert) {
     // when
-    await clickByName('Tout déplier');
+    await clickByName(t('components.expandable-accordions.expand-all'));
 
     // then
     assert.dom(screen.getByText('@tubeName1 : Tube 1')).isVisible();
@@ -50,7 +52,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
 
   test('it should hide the tubes on collapse all', async function (assert) {
     // given
-    await clickByName('Tout déplier');
+    await clickByName(t('components.expandable-accordions.expand-all'));
 
     // when
     await clickByName('Tout replier');

@@ -30,7 +30,7 @@ export function createResetPasswordDemandEmail({ email, temporaryKey, locale = F
       homeName: getPixWebsiteDomain(locale),
       homeUrl: getPixWebsiteUrl(locale),
       helpdeskUrl: getSupportUrl(locale),
-      resetUrl: getPixAppUrl(locale, { pathname: `/changer-mot-de-passe/${temporaryKey}` }),
+      resetUrl: getPixAppUrl(locale, { pathname: '/changer-mot-de-passe', hash: temporaryKey }),
       clickOnTheButton: i18n.__('reset-password-demand-email.params.clickOnTheButton'),
       contactUs: i18n.__('reset-password-demand-email.params.contactUs'),
       doNotAnswer: i18n.__('reset-password-demand-email.params.doNotAnswer'),

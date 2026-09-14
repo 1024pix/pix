@@ -1,11 +1,8 @@
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 
 const isAcquired = (badge, acquiredBadges = []) => {
-  // if (hideBadgesAcquisition) {
-  //   return true;
-  // }
-
   let acquired = false;
   acquiredBadges.forEach((acquiredBadge) => {
     if (acquiredBadge.id === badge.id) {
@@ -20,6 +17,10 @@ const getBadgeImageClass = (badge, acquiredBadges = [], hideBadgesAcquisition = 
   if (!isAcquired(badge, acquiredBadges)) return 'badge--unacquired';
 };
 
+function setDefaultBadge(event) {
+  event.target.setAttribute('src', '/images/badge_no_url.svg');
+}
+
 <template>
   {{#each @badges as |badge|}}
     <PixTooltip @id="badge-tooltip-{{badge.id}}">
@@ -30,6 +31,7 @@ const getBadgeImageClass = (badge, acquiredBadges = [], hideBadgesAcquisition = 
           tabindex="0"
           class={{getBadgeImageClass badge @acquiredBadges @hideBadgesAcquisition}}
           aria-describedby="badge-tooltip-{{badge.id}}"
+          {{on "error" setDefaultBadge}}
         />
       </:triggerElement>
       <:tooltip>

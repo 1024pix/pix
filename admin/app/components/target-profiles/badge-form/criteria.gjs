@@ -9,8 +9,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 import Card from '../../card';
-import CampaignCriterion from './campaign-criterion';
-import CappedTubesCriterion from './capped-tubes-criterion';
+import CampaignCriterion from '../../common/tubes-selection/campaign-criterion';
+import CappedTubesCriterion from '../../common/tubes-selection/capped-tubes-criterion';
 
 export default class Criteria extends Component {
   @service store;

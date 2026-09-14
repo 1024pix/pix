@@ -42,9 +42,6 @@ const sendOrganizationLearnersFile = async function ({
     encoding = parser.getEncoding();
 
     filename = await importStorage.sendFile({ filepath: payload.path });
-    await validateGenericFileJobRepository.performAsync(
-      new ValidateGenericFileJob({ organizationImportId: organizationImport.id }),
-    );
   } catch (error) {
     if (Array.isArray(error)) {
       errors.push(...error);
@@ -61,6 +58,10 @@ const sendOrganizationLearnersFile = async function ({
       if (filename) await importStorage.deleteFile({ filename });
     }
   }
+
+  await validateGenericFileJobRepository.performAsync(
+    new ValidateGenericFileJob({ organizationImportId: organizationImport.id }),
+  );
 };
 
 export { sendOrganizationLearnersFile };

@@ -15,9 +15,12 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { and, eq, gt, not, or } from 'ember-truth-helpers';
+import sortBy from 'lodash/sortBy';
+import uniqBy from 'lodash/uniqBy';
 
 import Card from '../card';
-import CappedTubesCriterion from '../target-profiles/badge-form/capped-tubes-criterion';
+import CampaignCriterion from '../common/tubes-selection/campaign-criterion';
+import CappedTubesCriterion from '../common/tubes-selection/capped-tubes-criterion';
 import SelectAttestation from './select-attestation';
 
 export default class CombinedCourseBlueprintForm extends Component {
@@ -30,10 +33,13 @@ export default class CombinedCourseBlueprintForm extends Component {
   @tracked blueprint;
   @tracked itemAddDisabled = true;
   @tracked itemToAdd = null;
-  @tracked hasUniqueCappedTubesSubset = false;
-  @tracked hasMultipleCappedTubeSubsets = false;
   @tracked cappedTubeRequirements = [];
   @tracked areas;
+  @tracked targetProfilesSnapshots = [];
+  @tracked currentTargetProfile = null;
+  @tracked usesCappedTubesSelectionForCriteria = false;
+  @tracked usesAllTargetProfilesForCriteria = false;
+  @tracked schemaThreshold = null;
 
   constructor() {
     super(...arguments);
@@ -43,21 +49,22 @@ export default class CombinedCourseBlueprintForm extends Component {
         this.blueprint.unloadRecord();
       }
     });
-    if (!this.args.updateMode) {
-      Promise.resolve(this.args.model.frameworks).then(async () => {
-        await this.refreshAreas();
-      });
-    }
   }
 
   @action
-  addItem(event) {
+  async addItem(event) {
     event.preventDefault();
 
     this.addToContent();
 
+    if (this.itemType === 'campaign') {
+      this.currentTargetProfile = await this.store.findRecord('target-profile', this.itemValue, { reload: true });
+      await this.refreshAreas();
+    }
+
     this.itemValue = null;
     document.getElementsByName('itemType')[0].focus();
+    this.itemToAdd = null;
   }
 
   addToContent() {
@@ -85,7 +92,6 @@ export default class CombinedCourseBlueprintForm extends Component {
           label: targetProfile.internalName,
           image: targetProfile.imageUrl,
         };
-        await this.refreshAreas();
       }
     } catch (responseError) {
       this.#handleErrorForResource(this.itemType, responseError);
@@ -114,12 +120,19 @@ export default class CombinedCourseBlueprintForm extends Component {
       return;
     }
 
+    if (!this.usesCappedTubesSelectionForCriteria) {
+      this.cappedTubeRequirements = [];
+    }
+
+    let adapterOptions = null;
+    if (this.cappedTubeRequirements.length) {
+      adapterOptions = { cappedTubeRequirements: this.cappedTubeRequirements };
+    } else if (this.schemaThreshold) {
+      adapterOptions = { schemaThreshold: this.schemaThreshold };
+    }
+
     try {
-      await this.blueprint.save({
-        adapterOptions: this.validCappedTubeRequirements.length
-          ? { cappedTubeRequirements: this.validCappedTubeRequirements }
-          : null,
-      });
+      await this.blueprint.save({ adapterOptions: adapterOptions });
       this.pixToast.sendSuccessNotification({
         message: this.args.updateMode
           ? this.intl.t('components.combined-course-blueprints.update.notifications.success')
@@ -181,49 +194,116 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  removeRequirement(index) {
+  async removeItem(index) {
+    const itemToRetrieve = this.blueprint.content.find((item, i) => i === index);
+    if (itemToRetrieve.type === 'campaign') {
+      this.targetProfilesSnapshots = this.targetProfilesSnapshots.filter(
+        (targetProfileSnapshot) => targetProfileSnapshot.id != itemToRetrieve.value,
+      );
+      await this.refreshAreas();
+    }
     this.blueprint.content = this.blueprint.content.filter((item, i) => i !== index);
   }
 
   async refreshAreas() {
-    const frameworks = this.args.model.frameworks.filter(
-      (framework) =>
-        framework.name === 'Pix' || framework.name === 'Pix 6e' || framework.name === 'Numérique Responsable',
-    );
+    if (this.currentTargetProfile) {
+      const currentTargetProfileSnapshot = await this.#snapshotTargetProfile(this.currentTargetProfile);
 
-    const areasByFramework = await Promise.all(
-      frameworks.map(async (framework) => {
-        if (framework.areas.isFulfilled) {
-          await framework.areas.reload();
-        }
-        return framework.areas;
-      }),
-    );
+      this.targetProfilesSnapshots = [...this.targetProfilesSnapshots, currentTargetProfileSnapshot];
+      this.currentTargetProfile = null;
+    }
+    const areas = this.targetProfilesSnapshots.flatMap((snapshot) => snapshot.areas);
+    const competences = areas.flatMap((area) => area.competences);
+    const thematics = competences.flatMap((competence) => competence.thematics);
 
-    this.areas = areasByFramework.flat();
+    const childrenOf = (nodes, parentId, key) =>
+      uniqBy(
+        nodes.filter((node) => node.id === parentId).flatMap((node) => node[key]),
+        'id',
+      );
+
+    this.areas = uniqBy(areas, 'id').map((area) => ({
+      ...area,
+      sortedCompetences: sortBy(childrenOf(areas, area.id, 'competences'), 'index').map((competence) => ({
+        ...competence,
+        sortedThematics: sortBy(childrenOf(competences, competence.id, 'thematics'), 'index').map((thematic) => ({
+          ...thematic,
+          tubes: childrenOf(thematics, thematic.id, 'tubes'),
+        })),
+      })),
+    }));
+  }
+
+  async #snapshotTargetProfile(targetProfile) {
+    const areas = await targetProfile.areas;
+
+    return {
+      id: targetProfile.id,
+      areas: await Promise.all(
+        areas.map(async (area) => ({
+          id: area.id,
+          code: area.code,
+          title: area.title,
+          color: area.color,
+          competences: await Promise.all(
+            (await area.competences).map(async (competence) => ({
+              id: competence.id,
+              index: competence.index,
+              name: competence.name,
+              thematics: await Promise.all(
+                (await competence.thematics).map(async (thematic) => ({
+                  id: thematic.id,
+                  index: thematic.index,
+                  name: thematic.name,
+                  tubes: ((await thematic.tubes) ?? []).map((tube) => ({
+                    id: tube.id,
+                    name: tube.name,
+                    practicalTitle: tube.practicalTitle,
+                    level: tube.level,
+                    mobile: tube.mobile,
+                    tablet: tube.tablet,
+                  })),
+                })),
+              ),
+            })),
+          ),
+        })),
+      ),
+    };
   }
 
   get cappedTubesRequirementsErrors() {
-    const requirements = this.cappedTubeRequirements;
-    if (requirements.length === 0) {
-      return [];
+    const errors = [];
+
+    if (this.usesAllTargetProfilesForCriteria && !this.schemaThreshold) {
+      errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'));
+      return errors;
+    } else if (!this.usesCappedTubesSelectionForCriteria) {
+      if (this.cappedTubeRequirements?.length === 0) {
+        return errors;
+      }
     }
 
-    const errors = [];
-    for (const requirement of requirements) {
-      if (!requirement.threshold) {
-        errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'));
-      }
-      if (!requirement.tubes || requirement.tubes.length < 1) {
+    const requirements = this.cappedTubeRequirements;
+    if (this.usesCappedTubesSelectionForCriteria) {
+      if (this.cappedTubeRequirements?.length < 1) {
         errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.tubes-required'));
+      }
+
+      for (const requirement of requirements) {
+        if (!requirement.threshold) {
+          errors.push(
+            this.intl.t('components.combined-course-blueprints.reward-requirements.errors.threshold-required'),
+          );
+        }
+
+        if (!requirement.tubes || requirement.tubes.length < 1) {
+          errors.push(this.intl.t('components.combined-course-blueprints.reward-requirements.errors.tubes-required'));
+        }
       }
     }
 
     return errors;
-  }
-
-  get validCappedTubeRequirements() {
-    return this.cappedTubeRequirements.filter((requirement) => requirement.tubes?.length && requirement.threshold);
   }
 
   @action
@@ -263,6 +343,21 @@ export default class CombinedCourseBlueprintForm extends Component {
     this.cappedTubeRequirements = [...this.cappedTubeRequirements, {}];
   }
 
+  @action
+  toggleCriteriaSelectionMode(e) {
+    this.usesCappedTubesSelectionForCriteria = e.target.value === 'use-tubes-selection';
+    this.usesAllTargetProfilesForCriteria = e.target.value === 'use-all-tubes';
+  }
+
+  @action
+  setSchemaThreshold(e) {
+    this.schemaThreshold = e.target.value;
+  }
+
+  get blueprintHasTargetProfiles() {
+    return this.blueprint.content.filter((item) => item.type === 'campaign').length > 0;
+  }
+
   <template>
     <form class="combined-course-blueprint-form">
       <h1 class="combined-course-blueprint-form__title">
@@ -287,7 +382,7 @@ export default class CombinedCourseBlueprintForm extends Component {
           @blueprint={{this.blueprint}}
           @updateMode={{@updateMode}}
           @handleKeyPress={{this.handleKeyPress}}
-          @removeRequirement={{this.removeRequirement}}
+          @removeRequirement={{this.removeItem}}
           @itemValue={{this.itemValue}}
           @itemAddDisabled={{this.itemAddDisabled}}
           @itemToAdd={{this.itemToAdd}}
@@ -308,6 +403,12 @@ export default class CombinedCourseBlueprintForm extends Component {
         @removeCappedTubeCriterion={{this.removeCappedTubeCriterion}}
         @cappedTubeRequirements={{this.cappedTubeRequirements}}
         @addCappedTubeSubset={{this.addCappedTubeSubset}}
+        @usesCappedTubesSelectionForCriteria={{this.usesCappedTubesSelectionForCriteria}}
+        @usesAllTargetProfilesForCriteria={{this.usesAllTargetProfilesForCriteria}}
+        @toggleCriteriaSelectionMode={{this.toggleCriteriaSelectionMode}}
+        @schemaThreshold={{this.schemaThreshold}}
+        @setSchemaThreshold={{this.setSchemaThreshold}}
+        @blueprintHasTargetProfiles={{this.blueprintHasTargetProfiles}}
       />
 
       <fieldset class="controls">
@@ -546,29 +647,78 @@ const RewardRequirementsSection = <template>
           {{t "components.combined-course-blueprints.labels.reward-requirements.description"}}
         </:label>
       </PixTextarea>
-
       {{#unless @updateMode}}
-        {{#each @cappedTubeRequirements as |criterion index|}}
-          <CappedTubesCriterion
-            @id={{concat "cappedTubeCriterion" index}}
-            @areas={{@areas}}
-            @onThresholdChange={{fn @onCappedTubesThresholdChange criterion}}
-            @onNameChange={{fn @onCappedTubesNameChange criterion}}
-            @onTubesSelectionChange={{fn @onCappedTubesSelectionChange criterion}}
-            @remove={{fn @removeCappedTubeCriterion index}}
-            @displayExpandAllButtons={{true}}
-          />
-        {{/each}}
-        <br />
-        <PixButton
-          class="badge-form-criterion__add"
-          @variant="primary"
-          @size="small"
-          @triggerAction={{@addCappedTubeSubset}}
-          @iconBefore="add"
-        >
-          {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
-        </PixButton>
+        {{#if @blueprintHasTargetProfiles}}
+          <fieldset class="badge-form-criteria-choice">
+            <p>{{t "components.combined-course-blueprints.labels.reward-requirements.reward-criteria-choice"}}</p>
+
+            <PixRadioButton
+              name="subsetNumberChoice"
+              @checked={{@usesAllTargetProfilesForCriteria}}
+              @value="use-all-tubes"
+              {{on "change" @toggleCriteriaSelectionMode}}
+            >
+              <:label>{{t
+                  "components.combined-course-blueprints.labels.reward-requirements.entire-blueprint-criteria-option"
+                }}</:label>
+            </PixRadioButton>
+
+            <PixRadioButton
+              name="subsetNumberChoice"
+              @checked={{@usesCappedTubesSelectionForCriteria}}
+              @value="use-tubes-selection"
+              {{on "change" @toggleCriteriaSelectionMode}}
+            >
+              <:label>{{t
+                  "components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option"
+                }}</:label>
+            </PixRadioButton>
+
+            <PixRadioButton
+              name="subsetNumberChoice"
+              checked={{if
+                (and (not @usesAllTargetProfilesForCriteria) (not @usesCappedTubesSelectionForCriteria))
+                "checked"
+              }}
+              @value="no-criteria"
+              {{on "change" @toggleCriteriaSelectionMode}}
+            >
+              <:label>{{t
+                  "components.combined-course-blueprints.labels.reward-requirements.no-criteria-option"
+                }}</:label>
+            </PixRadioButton>
+          </fieldset>
+
+          {{#if @usesCappedTubesSelectionForCriteria}}
+            {{#each @cappedTubeRequirements as |criterion index|}}
+              <CappedTubesCriterion
+                @id={{concat "cappedTubeCriterion" index}}
+                @title={{t "components.combined-course-blueprints.labels.reward-requirements.capped-tubes-criteria"}}
+                @areas={{@areas}}
+                @onThresholdChange={{fn @onCappedTubesThresholdChange criterion}}
+                @onNameChange={{fn @onCappedTubesNameChange criterion}}
+                @onTubesSelectionChange={{fn @onCappedTubesSelectionChange criterion}}
+                @remove={{fn @removeCappedTubeCriterion index}}
+                @displayExpandAllButtons={{true}}
+              />
+            {{/each}}
+            <PixButton
+              class="badge-form-criterion__add"
+              @variant="primary"
+              @size="small"
+              @triggerAction={{@addCappedTubeSubset}}
+              @iconBefore="add"
+            >
+              {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
+            </PixButton>
+          {{else if @usesAllTargetProfilesForCriteria}}
+            <CampaignCriterion
+              @onThresholdChange={{@setSchemaThreshold}}
+              @title={{t "components.combined-course-blueprints.labels.reward-requirements.entire-blueprint-criteria"}}
+            />
+          {{/if}}
+        {{/if}}
+
       {{/unless}}
     {{/if}}
   </Card>

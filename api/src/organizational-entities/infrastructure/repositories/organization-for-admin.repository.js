@@ -246,15 +246,16 @@ const save = async function ({ organization }) {
     'countryCode',
   ]);
 
+  const [structure] = await knexConn('structures').returning('*').insert({ category_id: organization.categoryId });
+
   const [organizationCreated] = await knexConn(ORGANIZATIONS_TABLE_NAME)
     .returning('*')
     .insert({
       ...data,
       organizationLearnerTypeId: organization.organizationLearnerType.id,
     });
-  const savedOrganization = _toDomain(organizationCreated);
 
-  const [structure] = await knexConn('structures').returning('*').insert({});
+  const savedOrganization = _toDomain({ ...organizationCreated, categoryId: structure.category_id });
 
   if (organization.parentOrganizationId) {
     const parentFctStructure = await knexConn('fct_structures')

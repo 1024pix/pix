@@ -125,6 +125,9 @@ describe('Unit | UseCase | validateSupFile', function () {
           organizationImportId,
         }),
       );
+      expect(importFromSupJobRepositoryStub.performAsync.firstCall).calledAfter(
+        organizationImportRepositoryStub.save.firstCall,
+      );
     });
   });
 

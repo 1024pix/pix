@@ -14,6 +14,7 @@ export const assessmentResultStatus = {
   CANCELLED: 'cancelled',
   CANCELLED_BY_JURY: 'cancelled_by_jury',
   ERROR: 'error',
+  PENDING_SCORING: 'pending-scoring',
   VALIDATED: 'validated',
   REJECTED: 'rejected',
 };
@@ -78,6 +79,12 @@ export default class Certification extends Model {
   }
 
   get statusLabelAndValue() {
+    if (this.status === assessmentResultStatus.PENDING_SCORING) {
+      return {
+        value: assessmentResultStatus.PENDING_SCORING,
+        label: this.intl.t('pages.certifications.certification.details.v3.assessment-result-status.pending-scoring'),
+      };
+    }
     return certificationStatuses.find((certificationStatus) => certificationStatus.value === this.status);
   }
 
@@ -117,6 +124,7 @@ export default class Certification extends Model {
   }
 
   get result() {
+    if (!this.reachedResultKey) return null;
     return this.intl.t(`common.certification.meshLevels.${this.reachedResultKey}`, {
       pixScore: this.pixScore,
     });

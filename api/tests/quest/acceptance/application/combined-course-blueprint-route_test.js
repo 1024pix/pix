@@ -47,6 +47,13 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
           key: ATTESTATIONS.SIXTH_GRADE,
         });
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+        const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: 1 });
+        const tube = databaseBuilder.factory.learningContent.buildTube({ id: 'tube1' });
+        databaseBuilder.factory.buildTargetProfileTube({
+          targetProfileId: targetProfile.id,
+          tubeId: tube.id,
+        });
+
         await databaseBuilder.commit();
 
         const payload = {
@@ -61,11 +68,11 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
               'reward-id': `${attestation.id}`,
               'reward-type': 'ATTESTATION',
               'reward-requirements-description': 'Description of the reward requirements',
+              'survey-link': 'http://example.pix/images/illustration.svg',
               content: [
                 {
-                  type: 'module',
-                  value: 'e67ec5d0',
-                  shortId: 'short-e67ec5d0',
+                  type: 'campaign',
+                  value: 1,
                 },
               ],
               'capped-tube-requirements': [
@@ -116,7 +123,6 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
                   shortId: 'short-e67ec5d0',
                 },
               ],
-              'capped-tube-requirements': [{ threshold: 20, tubes: [{ tubeId: 'tube1', level: 5 }] }],
             },
           },
         };

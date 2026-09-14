@@ -23,11 +23,14 @@ export default class NewRoute extends Route {
     if (parentOrganizationId) {
       parentOrganization = await this.store.findRecord('organization', parentOrganizationId);
     }
+    const structureCategories = await this.store.findAll('structure-category');
+
     return {
       administrationTeams,
       countries,
       parentOrganization,
       organizationLearnerTypes,
+      structureCategories,
     };
   }
 

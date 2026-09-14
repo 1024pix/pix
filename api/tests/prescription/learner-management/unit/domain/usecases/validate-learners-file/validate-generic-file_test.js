@@ -14,7 +14,7 @@ describe('Unit | UseCase | validateGenericFile', function () {
     importFromGenericFileJobRepositoryStub,
     commonCsvLearnerParserStub,
     importOrganizationLearnerSetStub,
-    dependencieStub,
+    dependenciesStub,
     importStorageStub,
     organizationImportStub,
     dataBuffer,
@@ -49,7 +49,7 @@ describe('Unit | UseCase | validateGenericFile', function () {
       .withArgs(new ImportFromGenericFileJob({ organizationImportId }))
       .resolves();
 
-    dependencieStub = {
+    dependenciesStub = {
       createReadStream: sinon.stub(),
       getDataBuffer: sinon.stub(),
     };
@@ -91,7 +91,7 @@ describe('Unit | UseCase | validateGenericFile', function () {
 
       importStorageStub.readFile.withArgs({ filename: s3Filepath }).resolves(dataStream);
 
-      dependencieStub.getDataBuffer.withArgs(dataStream).resolves(dataBuffer);
+      dependenciesStub.getDataBuffer.withArgs(dataStream).resolves(dataBuffer);
 
       GenericParser.buildParser.withArgs({ buffer: dataBuffer, importFormat }).returns(commonCsvLearnerParserStub);
 
@@ -110,7 +110,7 @@ describe('Unit | UseCase | validateGenericFile', function () {
         organizationImportRepository: organizationImportRepositoryStub,
         organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
         importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
-        dependencies: dependencieStub,
+        dependencies: dependenciesStub,
       });
 
       // then
@@ -121,10 +121,13 @@ describe('Unit | UseCase | validateGenericFile', function () {
         'organizationImportRepository.save',
       ).to.be.true;
       expect(importStorageStub.deleteFile.called, 'importStorage.deleteFile').to.be.false;
+      expect(importFromGenericFileJobRepositoryStub.performAsync.firstCall).calledAfter(
+        organizationImportRepositoryStub.save.firstCall,
+      );
     });
   });
 
-  context(' error cases', function () {
+  context('error cases', function () {
     context('when there is an error occured', function () {
       it('should throw and delete file on storage', async function () {
         // given
@@ -140,7 +143,7 @@ describe('Unit | UseCase | validateGenericFile', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
           importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
-          dependencies: dependencieStub,
+          dependencies: dependenciesStub,
         });
 
         expect(validateError).to.instanceOf(AggregateImportError);
@@ -167,7 +170,7 @@ describe('Unit | UseCase | validateGenericFile', function () {
             organizationImportRepository: organizationImportRepositoryStub,
             organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
             importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
-            dependencies: dependencieStub,
+            dependencies: dependenciesStub,
           });
 
           expect(
@@ -190,7 +193,7 @@ describe('Unit | UseCase | validateGenericFile', function () {
             organizationImportRepository: organizationImportRepositoryStub,
             organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
             importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
-            dependencies: dependencieStub,
+            dependencies: dependenciesStub,
           });
 
           expect(

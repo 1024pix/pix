@@ -2,14 +2,17 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
+import Location from 'mon-pix/utils/location';
 
 export default class ResetPasswordRoute extends Route {
   @service requestManager;
   @service errors;
   @service router;
 
-  async model(params) {
-    const passwordResetTemporaryKey = params.temporary_key;
+  async model() {
+    const { hash } = new URL(Location.getHref());
+    const passwordResetTemporaryKey = hash.slice(1);
+
     try {
       await this.requestManager.request({
         url: `${ENV.APP.API_HOST}/api/check-password-reset-demand`,

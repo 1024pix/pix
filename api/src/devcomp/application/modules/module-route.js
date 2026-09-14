@@ -21,16 +21,6 @@ const register = async function (server) {
         tags: ['api', 'modules'],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/module-schema/module-json-schema.json',
-      config: {
-        auth: false,
-        handler: handlerWithDependencies(modulesController.getJsonSchema),
-        notes: ['- Permet de récupérer le JSON Schema de la structure des modules'],
-        tags: ['api', 'modules'],
-      },
-    },
   ]);
 };
 

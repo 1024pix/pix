@@ -12,6 +12,7 @@ const createOrganization = async function ({
   schoolRepository,
   accessCodeGenerator,
   organizationVerificationService,
+  structureCategoryRepository,
 }) {
   if (organization.parentOrganizationId) {
     const parentOrganization = await organizationForAdminRepository.get({
@@ -33,6 +34,11 @@ const createOrganization = async function ({
   await organizationVerificationService.checkAdministrationTeamExists(
     organization.administrationTeamId,
     administrationTeamRepository,
+  );
+
+  await organizationVerificationService.checkStructureCategoryExists(
+    organization.categoryId,
+    structureCategoryRepository,
   );
 
   const savedOrganization = await organizationForAdminRepository.save({

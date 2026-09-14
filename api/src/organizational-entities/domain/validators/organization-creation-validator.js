@@ -36,6 +36,11 @@ const organizationValidationJoiSchema = Joi.object({
     .messages({
       'any.required': "Le public prescrit n'est pas renseigné.",
     }),
+
+  categoryId: Joi.number().empty(null, '').required().messages({
+    'any.required': "La catégorie n'est pas renseignée.",
+    'number.base': "L'ID de catégorie doit être un nombre entier.",
+  }),
 });
 
 const validate = function (organizationCreationParams) {

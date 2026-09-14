@@ -6,6 +6,8 @@ import {
   ORGANIZATION_LEARNER_TYPE_PROFESSIONAL_ID,
   ORGANIZATION_LEARNER_TYPE_STUDENT_ID,
   ORGANIZATION_LEARNER_TYPE_TEACHER_ID,
+  STRUCTURE_CATEGORY_LONG_ID,
+  STRUCTURE_CATEGORY_MEDIUM_ID,
   STRUCTURE_CATEGORY_PRO_ID,
   STRUCTURE_CATEGORY_SCO_ID,
   STRUCTURE_CATEGORY_SUP_ID,
@@ -102,6 +104,15 @@ function _createStructureCategories(databaseBuilder) {
   databaseBuilder.factory.buildStructureCategory({
     id: STRUCTURE_CATEGORY_PRO_ID,
     label: 'Structure - Catégorie - professionnelle',
+  });
+  databaseBuilder.factory.buildStructureCategory({
+    id: STRUCTURE_CATEGORY_MEDIUM_ID,
+    label: "Enseignement SCO - Secondaire public - Établissement Régional d'Enseignement Adapté (EREA)",
+  });
+  databaseBuilder.factory.buildStructureCategory({
+    id: STRUCTURE_CATEGORY_LONG_ID,
+    label:
+      'Secteur public - Administration publique centrale et déconcentrée - Administrations déconcentrées (Prefecture, Rectorat,DPJJ...)',
   });
 }
 

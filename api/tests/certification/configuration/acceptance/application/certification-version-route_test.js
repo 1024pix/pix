@@ -932,7 +932,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   });
 
   describe('PATCH /api/admin/certification-versions/{certificationVersionId}/scoring', function () {
-    it('updates the scoring configuration of a version', async function () {
+    it('updates the scoring configuration of a version and enqueues scoring jobs for existing certifications', async function () {
       // given
       domainBuilder.certification.configuration
         .versionBuilder()
@@ -944,6 +944,13 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           competencesScoringConfiguration: null,
         })
         .insertToDB({ databaseBuilder });
+
+      const finalizedSession = databaseBuilder.factory.buildSession({ finalizedAt: new Date('2025-01-01') });
+      const course = databaseBuilder.factory.buildCertificationCourse({
+        sessionId: finalizedSession.id,
+        versionId: 42,
+      });
+
       await databaseBuilder.commit();
 
       const globalScoringConfiguration = [{ meshLevel: 1, bounds: { min: -2, max: 3 } }];
@@ -970,6 +977,9 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
       expect(response.statusCode).to.equal(204);
       const updatedVersion = await knex('certification_versions').where({ id: 42 }).first();
       expect(updatedVersion.globalScoringConfiguration).to.deep.equal(globalScoringConfiguration);
+      await expect('ScoreCertificationJob').to.have.been.performed.withJobPayload(
+        sinon.match({ certificationCourseId: course.id }),
+      );
     });
 
     it('returns 403 when the user is not a super admin', async function () {

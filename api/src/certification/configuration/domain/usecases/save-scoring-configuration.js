@@ -1,4 +1,5 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { ScoreCertificationJob } from '../models/ScoreCertificationJob.js';
 
 /**
  * @param {object} params
@@ -6,12 +7,16 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
  * @param {Array} params.globalScoringConfiguration
  * @param {Array|null} params.competencesScoringConfiguration
  * @param {object} params.versionRepository
+ * @param {object} params.certificationCoursesToScoreRepository
+ * @param {object} params.scoreCertificationJobRepository
  */
 export async function saveScoringConfiguration({
   id,
   globalScoringConfiguration,
   competencesScoringConfiguration,
   versionRepository,
+  certificationCoursesToScoreRepository,
+  scoreCertificationJobRepository,
 }) {
   const version = await versionRepository.getById({ id });
 
@@ -20,4 +25,9 @@ export async function saveScoringConfiguration({
   }
 
   await versionRepository.updateScoring({ id, globalScoringConfiguration, competencesScoringConfiguration });
+
+  const certificationCourseIds = await certificationCoursesToScoreRepository.findIdsByVersionId({ versionId: id });
+  await scoreCertificationJobRepository.performAsync(
+    ...certificationCourseIds.map((certificationCourseId) => new ScoreCertificationJob({ certificationCourseId })),
+  );
 }

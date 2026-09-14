@@ -136,6 +136,7 @@ module('Unit | Model | certification', function (hooks) {
   module('#statusLabelAndValue', function () {
     [
       { value: assessmentStates.STARTED, label: 'Démarrée' },
+      { value: assessmentResultStatus.PENDING_SCORING, label: 'En attente de scoring' },
       { value: assessmentResultStatus.ERROR, label: 'En erreur' },
       { value: assessmentResultStatus.VALIDATED, label: 'Validée' },
       { value: assessmentResultStatus.REJECTED, label: 'Rejetée' },

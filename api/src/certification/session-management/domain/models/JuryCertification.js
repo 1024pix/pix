@@ -105,6 +105,10 @@ export class JuryCertification {
       return `${this.certificationFramework}.NONE`;
     }
 
+    if (this.status === 'pending-scoring') {
+      return null;
+    }
+
     const resultKey = this.eduV3ExternalJuryResult || (this.reachedMeshIndex ?? 'BELOW_MINIMUM');
 
     return `${this.certificationFramework}.${resultKey}`;
@@ -154,7 +158,9 @@ export class JuryCertification {
       birthCountry: juryCertificationDTO.birthCountry,
       birthPostalCode: juryCertificationDTO.birthPostalCode,
       createdAt: juryCertificationDTO.createdAt,
-      status: juryCertificationDTO.assessmentResultStatus,
+      status:
+        juryCertificationDTO.assessmentResultStatus ??
+        (juryCertificationDTO.hasScoringConfiguration ? null : 'pending-scoring'),
       isPublished: juryCertificationDTO.isPublished,
       isRejectedForFraud: juryCertificationDTO.isRejectedForFraud,
       juryId: juryCertificationDTO.juryId,

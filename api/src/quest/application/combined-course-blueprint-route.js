@@ -51,6 +51,7 @@ const register = async function (server) {
                 'reward-requirements-description': Joi.string().allow(null),
                 content: Joi.array(),
                 createdAt: Joi.date(),
+                'schema-threshold': Joi.number().allow(null),
                 'survey-link': Joi.string().allow(null),
                 'capped-tube-requirements': Joi.array()
                   .items(

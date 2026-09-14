@@ -24,6 +24,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
           administrationTeamId: 1234,
           countryCode: 99123,
           organizationLearnerType: { id: 1 },
+          categoryId: 800,
         };
 
         // when/then
@@ -45,6 +46,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             administrationTeamId: 1234,
             countryCode: 99123,
             organizationLearnerType: { id: 1 },
+            categoryId: 800,
           };
 
           try {
@@ -78,6 +80,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             administrationTeamId: 1234,
             countryCode: 99123,
             organizationLearnerType: { id: 1 },
+            categoryId: 800,
           };
 
           try {
@@ -103,6 +106,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             administrationTeamId: 1234,
             countryCode: 99123,
             organizationLearnerType: { id: 1 },
+            categoryId: 800,
           };
 
           try {
@@ -124,6 +128,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
               administrationTeamId: 1234,
               countryCode: 99123,
               organizationLearnerType: { id: 1 },
+              categoryId: 800,
             };
 
             // when/then
@@ -142,6 +147,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             administrationTeamId: 1234,
             countryCode: 99123,
             organizationLearnerType: { id: 1 },
+            categoryId: 800,
           };
           const error = await catchErr(organizationCreationValidator.validate)(organizationCreationParams);
 
@@ -164,6 +170,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             countryCode: 99123,
             administrationTeamId: undefined,
             organizationLearnerType: { id: 1 },
+            categoryId: 800,
           };
 
           try {
@@ -190,6 +197,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             administrationTeamId: 1234,
             countryCode: undefined,
             organizationLearnerType: { id: 1 },
+            categoryId: 800,
           };
 
           try {
@@ -214,6 +222,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             administrationTeamId: 1234,
             countryCode: 98999,
             organizationLearnerType: { id: 1 },
+            categoryId: 800,
           };
 
           try {
@@ -238,6 +247,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             administrationTeamId: 1234,
             countryCode: 100000,
             organizationLearnerType: { id: 1 },
+            categoryId: 800,
           };
 
           try {
@@ -263,6 +273,58 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             type: 'PRO',
             administrationTeamId: 1234,
             countryCode: 99998,
+            categoryId: 800,
+          };
+
+          try {
+            // when
+            organizationCreationValidator.validate(organizationCreationParams);
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
+        });
+      });
+
+      context('on categoryId attribute', function () {
+        it('should reject with error when categoryId is missing', function () {
+          // given
+          const expectedError = {
+            attribute: 'categoryId',
+            message: "La catégorie n'est pas renseignée.",
+          };
+          const organizationCreationParams = {
+            name: 'ACME',
+            type: 'PRO',
+            administrationTeamId: 1234,
+            countryCode: 99998,
+            organizationLearnerType: { id: 1 },
+          };
+
+          try {
+            // when
+            organizationCreationValidator.validate(organizationCreationParams);
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
+        });
+
+        it('should reject with error when categoryId is NaN', function () {
+          // given
+          const expectedError = {
+            attribute: 'categoryId',
+            message: "L'ID de catégorie doit être un nombre entier.",
+          };
+          const organizationCreationParams = {
+            name: 'ACME',
+            type: 'PRO',
+            administrationTeamId: 1234,
+            countryCode: 99998,
+            organizationLearnerType: { id: 1 },
+            categoryId: 'notAnumber',
           };
 
           try {
@@ -284,6 +346,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
           administrationTeamId: MISSING_VALUE,
           countryCode: MISSING_VALUE,
           organizationLearnerType: { id: 1 },
+          categoryId: MISSING_VALUE,
         };
 
         try {
@@ -292,7 +355,7 @@ describe('Unit | Domain | Validators | organization-validator', function () {
           expect.fail('should have thrown an error');
         } catch (errors) {
           // then
-          expect(errors.invalidAttributes).to.have.lengthOf(5);
+          expect(errors.invalidAttributes).to.have.lengthOf(6);
         }
       });
     });

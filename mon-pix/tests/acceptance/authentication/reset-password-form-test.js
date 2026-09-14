@@ -30,10 +30,10 @@ module('Acceptance | Reset Password Form', function (hooks) {
     });
 
     // when
-    await visit('/changer-mot-de-passe/temporaryKey');
+    await visit('/changer-mot-de-passe#temporaryKey');
 
     // then
-    assert.strictEqual(currentURL(), '/changer-mot-de-passe/temporaryKey');
+    assert.strictEqual(currentURL(), '/changer-mot-de-passe#temporaryKey');
   });
 
   test('stays on /changer-mot-de-passe when password is successfully reset', async function (assert) {
@@ -51,7 +51,7 @@ module('Acceptance | Reset Password Form', function (hooks) {
       email: 'brandone.martins@pix.com',
     });
 
-    const screen = await visit('/changer-mot-de-passe/brandone-reset-key');
+    const screen = await visit('/changer-mot-de-passe#brandone-reset-key');
     const passwordInput = screen.getByLabelText(
       t('components.authentication.password-reset-form.fields.password.label'),
     );
@@ -61,7 +61,7 @@ module('Acceptance | Reset Password Form', function (hooks) {
     await clickByLabel(t('components.authentication.password-reset-form.actions.submit'));
 
     // then
-    assert.strictEqual(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
+    assert.strictEqual(currentURL(), '/changer-mot-de-passe#brandone-reset-key');
   });
 
   test('allows connected user to visit reset-password page', async function (assert) {
@@ -82,9 +82,9 @@ module('Acceptance | Reset Password Form', function (hooks) {
     await authenticate(user);
 
     // when
-    await visit('/changer-mot-de-passe/brandone-reset-key');
+    await visit('/changer-mot-de-passe#brandone-reset-key');
 
     // then
-    assert.strictEqual(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
+    assert.strictEqual(currentURL(), '/changer-mot-de-passe#brandone-reset-key');
   });
 });

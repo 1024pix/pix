@@ -2,20 +2,10 @@ import { CombinedCourseBlueprintForCreation } from './CombinedCourseBlueprintFor
 import { QuestInput } from './QuestInput.js';
 
 export class AdminCombinedCourseBlueprintDetails extends CombinedCourseBlueprintForCreation {
-  constructor({
-    id,
-    attestationLabel,
-    content,
-    rewardRequirements = [],
-    organizationIds = [],
-    createdAt,
-    updatedAt,
-    ...rest
-  }) {
+  constructor({ id, attestationLabel, rewardRequirements = [], organizationIds = [], createdAt, updatedAt, ...rest }) {
     super(rest);
     this.id = id;
     this.attestationLabel = attestationLabel;
-    this.content = content;
     this.rewardRequirements = rewardRequirements;
     this.organizationIds = organizationIds;
     this.createdAt = createdAt;

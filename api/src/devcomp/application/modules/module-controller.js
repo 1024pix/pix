@@ -1,4 +1,3 @@
-import { config } from '../../../../config/config.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 const getByShortId = async function (request, h, { moduleSerializer }) {
@@ -9,17 +8,6 @@ const getByShortId = async function (request, h, { moduleSerializer }) {
   return moduleSerializer.serialize(module);
 };
 
-const getJsonSchema = async function (_request, h) {
-  const { jsonSchema, jsonSchemaChecksum } = usecases.getModuleJsonSchema();
-
-  return h
-    .response(jsonSchema)
-    .type('application/json')
-    .charset('UTF-8')
-    .header('Cache-Control', `public, max-age=${config.module.jsonSchemaCacheMaxAge}`)
-    .etag(jsonSchemaChecksum);
-};
-
-const modulesController = { getByShortId, getJsonSchema };
+const modulesController = { getByShortId };
 
 export { modulesController };

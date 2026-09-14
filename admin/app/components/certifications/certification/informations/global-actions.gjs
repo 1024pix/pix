@@ -56,7 +56,11 @@ export default class CertificationInformationGlobalActions extends Component {
   }
 
   get displayRescoringCertificationButton() {
-    return Boolean(!this.args.certification.isPublished && this.args.session.finalizedAt);
+    return Boolean(
+      this.args.certification.status !== 'pending-scoring' &&
+      !this.args.certification.isPublished &&
+      this.args.session.finalizedAt,
+    );
   }
 
   @action

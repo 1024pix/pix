@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import BadgeForm from 'pix-admin/components/target-profiles/badge-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -119,7 +120,7 @@ module('Integration | Component | BadgeForm', function (hooks) {
       await click(screen.getByRole('checkbox', { name: 'sur une sélection de sujets du profil cible' }));
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'Tout déplier' })).exists();
+      assert.dom(screen.getByRole('button', { name: t('components.expandable-accordions.expand-all') })).exists();
       assert.dom(screen.getByRole('button', { name: 'Tout replier' })).exists();
     });
 

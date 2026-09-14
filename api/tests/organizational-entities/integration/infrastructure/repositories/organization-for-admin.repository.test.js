@@ -1180,6 +1180,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       });
       databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
 
+      const category = databaseBuilder.factory.buildStructureCategory();
+
       await databaseBuilder.commit();
 
       const organization = new OrganizationForAdmin({
@@ -1192,6 +1194,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           id: organizationLearnerType.id,
           name: organizationLearnerType.name,
         }),
+        categoryId: category.id,
       });
 
       // when
@@ -1205,6 +1208,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       expect(savedOrganization.countryCode).to.equal(99100);
       expect(savedOrganization.organizationLearnerType).to.be.instanceOf(OrganizationLearnerType);
       expect(savedOrganization.organizationLearnerType.id).to.equal(organizationLearnerType.id);
+      expect(savedOrganization.categoryId).to.equal(category.id);
     });
 
     it('creates a structure and fct_structure associated to the created organization', async function () {

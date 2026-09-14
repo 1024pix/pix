@@ -675,10 +675,10 @@
             "save-error": "Une erreur s'est produite lors de l'enregistrement du scoring.",
             "save-scoring-button": "Activer le scoring",
             "save-scoring-modal": {
-              "content": "Cette action va enregistrer la configuration de scoring sur la version active.",
-              "title": "Confirmation de l'activation du scoring"
+              "content": "Cette action va enregistrer la configuration de scoring sur la version active et va déclencher le scoring déjà passée sur cette version. Cette action est irréversible, le scoring ne pourra pas être modifié.",
+              "title": "Confirmation de l'enregistrement du scoring"
             },
-            "success-notification": "Le scoring a bien été activé",
+            "success-notification": "Le scoring a bien été activé. Les certifications déjà passées sur la version seront scorées.",
             "title": "Bornes de capacités par mailles"
           },
           "title": "Création d'une version de certification"
@@ -688,7 +688,7 @@
         "action-button": "Confirmer la suppression",
         "content": "Vous vous apprêtez à supprimer une version.",
         "error-message": "Une erreur s'est produite",
-        "success-message": "La version à bien été supprimée",
+        "success-message": "La version à bien été supprimée.",
         "title": "Confirmation de suppression d'une version"
       },
       "labels": {
@@ -848,9 +848,12 @@
         "prescriber-description-sublabel": "Cette description sera visible par les prescripteurs dans Pix Orga",
         "reward-requirements": {
           "add-new-tubes-selection": "Ajouter une nouvelle sélection de sujets",
+          "capped-tubes-criteria": "Critère d’obtention sur une sélection de sujets du schéma de parcours",
+          "capped-tubes-selection-option": "sur une sélection de sujets du schéma de parcours",
           "description": "Description des critères d’obtention",
-          "multiple-subsets-option": "sur une sélection de sujets du schéma de parcours",
-          "one-subset-option": "sur l'ensemble du schéma de parcours",
+          "entire-blueprint-criteria": "Critère d’obtention sur l'ensemble du contenu du schéma de parcours",
+          "entire-blueprint-criteria-option": "sur l'ensemble du contenu du schéma de parcours",
+          "no-criteria-option": "pas de critère lié aux sujets du schéma de parcours",
           "reward-criteria-choice": "Définir un critère d'obtention :"
         },
         "survey-link": "Url du questionnaire de fin de parcours",
@@ -895,6 +898,10 @@
         "title": "Mettre à jour un schéma de parcours",
         "updateButton": "Mettre à jour le schéma de parcours"
       }
+    },
+    "expandable-accordions": {
+      "collapse-all": "Tout replier",
+      "expand-all": "Tout déplier"
     },
     "layout": {
       "menu-bar": {
@@ -1097,6 +1104,15 @@
           "selector": {
             "label": "Équipe en charge",
             "placeholder": "Sélectionner une équipe"
+          }
+        },
+        "category": {
+          "selector": {
+            "error-message": "La catégorie est requise",
+            "label": "Catégorie",
+            "placeholder": "Sélectionner une catégorie",
+            "search-label": "Rechercher",
+            "search-placeholder": "Rechercher une catégorie"
           }
         },
         "configuration": "Paramétrage",
@@ -1716,6 +1732,7 @@
               "cancelled_by_jury": "Annulée",
               "error": "Erreur",
               "fraud": "Rejetée pour fraude",
+              "pending-scoring": "En attente de scoring",
               "rejected": "Rejetée",
               "validated": "Validée"
             },

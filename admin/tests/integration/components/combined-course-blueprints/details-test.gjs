@@ -156,7 +156,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
     assert.dom(screen.queryByText('Competence Test Name')).doesNotExist();
 
     //when
-    await clickByName('Tout déplier');
+    await clickByName(t('components.expandable-accordions.expand-all'));
 
     //then
     assert.dom(screen.getByText('Competence Test Name')).isVisible();

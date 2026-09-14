@@ -1,12 +1,12 @@
 {
   "name": "pix-admin",
-  "version": "5.500.0",
+  "version": "5.501.0",
   "private": false,
   "description": "Interface d'administration pour les membres de Pix.",
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "^24.18.0"
+    "node": "^24.20.0"
   },
   "ember": {
     "edition": "octane"

@@ -66,6 +66,7 @@ export default class JuryCertificationSummary extends Model {
   }
 
   get result() {
+    if (!this.reachedResultKey) return null;
     return this.intl.t(`common.certification.meshLevels.${this.reachedResultKey}`, {
       pixScore: this.pixScore,
     });
