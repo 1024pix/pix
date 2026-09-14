@@ -39,6 +39,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
   organizationValidator,
   countryRepository,
   organizationLearnerTypeRepository,
+  structureCategoryRepository,
   organizationVerificationService,
 }) {
   if (isEmpty(organizations)) {
@@ -61,6 +62,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
       transformedOrganizationsData,
       countryRepository,
       organizationLearnerTypeRepository,
+      structureCategoryRepository,
       organizationVerificationService,
     });
 
@@ -100,10 +102,11 @@ async function _createOrganizations({
   organizationForAdminRepository,
   countryRepository,
   organizationLearnerTypeRepository,
+  structureCategoryRepository,
   organizationVerificationService,
 }) {
   return PromiseUtils.mapSeries(transformedOrganizationsData, async (organizationToCreate, index) => {
-    const { administrationTeamId, parentOrganizationId, countryCode, organizationLearnerType } =
+    const { administrationTeamId, parentOrganizationId, countryCode, organizationLearnerType, categoryId } =
       organizationToCreate.organization;
 
     await organizationVerificationService.checkAdministrationTeamExists(
@@ -129,6 +132,8 @@ async function _createOrganizations({
       organizationLearnerType.id,
       organizationLearnerTypeRepository,
     );
+
+    await organizationVerificationService.checkStructureCategoryExists(categoryId, structureCategoryRepository);
 
     try {
       const createdOrganization = await organizationForAdminRepository.save({

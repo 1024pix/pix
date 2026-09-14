@@ -66,6 +66,10 @@ const schema = Joi.object({
     'any.required': "L'id du public prescrit est manquant",
     'number.base': "L'id du public prescrit n'est pas un nombre",
   }),
+  categoryId: Joi.number().strict().empty(null).required().messages({
+    'any.required': "L'id de la catégorie est manquant",
+    'number.base': "L'id de la catégorie n'est pas un nombre",
+  }),
 });
 
 const validate = function (organization) {

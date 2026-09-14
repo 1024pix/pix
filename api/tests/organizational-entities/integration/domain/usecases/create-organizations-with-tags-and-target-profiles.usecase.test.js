@@ -6,6 +6,7 @@ import {
   CountryNotFoundError,
   OrganizationLearnerTypeNotFound,
   ParentOrganizationNotInNetworkError,
+  StructureCategoryNotFound,
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
@@ -31,7 +32,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
     byDefaultFeatureId,
     administrationTeamId,
     countryCode,
-    organizationLearnerTypeId;
+    organizationLearnerTypeId,
+    categoryId;
 
   beforeEach(async function () {
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
@@ -45,6 +47,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
       commonName: 'Lalaland',
     }).code;
     organizationLearnerTypeId = databaseBuilder.factory.buildOrganizationLearnerType({ id: 1234 }).id;
+    categoryId = databaseBuilder.factory.buildStructureCategory().id;
     ondeImportFormat = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
       name: ORGANIZATION_FEATURE.LEARNER_IMPORT.FORMAT.ONDE,
     });
@@ -90,6 +93,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             administrationTeamId: null,
             countryCode: null,
             organizationLearnerTypeId: null,
+            categoryId: null,
           },
         ];
 
@@ -139,6 +143,10 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             attribute: 'organizationLearnerTypeId',
             message: "L'id du public prescrit est manquant",
           },
+          {
+            attribute: 'categoryId',
+            message: "L'id de la catégorie est manquant",
+          },
         ]);
       });
     });
@@ -163,6 +171,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             administrationTeamId,
             countryCode,
             organizationLearnerTypeId,
+            categoryId,
           },
           {
             type: 'PRO',
@@ -180,6 +189,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             administrationTeamId,
             countryCode,
             organizationLearnerTypeId,
+            categoryId,
           },
           {
             type: 'PRO',
@@ -197,6 +207,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             administrationTeamId,
             countryCode,
             organizationLearnerTypeId,
+            categoryId,
           },
         ];
 
@@ -239,6 +250,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             administrationTeamId,
             countryCode,
             organizationLearnerTypeId,
+            categoryId,
           },
           {
             type: 'PRO',
@@ -256,6 +268,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             administrationTeamId,
             countryCode,
             organizationLearnerTypeId,
+            categoryId,
           },
           {
             type: 'PRO',
@@ -273,6 +286,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             administrationTeamId,
             countryCode,
             organizationLearnerTypeId,
+            categoryId,
           },
         ];
 
@@ -318,6 +332,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -335,6 +350,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -352,6 +368,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -384,6 +401,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             'administrationTeamId',
             'countryCode',
             'organizationLearnerTypeId',
+            'categoryId',
           ),
         );
 
@@ -419,6 +437,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -436,6 +455,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -453,6 +473,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -491,6 +512,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -508,6 +530,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId: 9999,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -549,6 +572,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -566,6 +590,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId: anotherAdministrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -603,6 +628,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode: invalidCountryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -641,6 +667,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -678,6 +705,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -695,6 +723,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId: nonExistingOrganizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -733,6 +762,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -750,6 +780,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -763,6 +794,127 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
       expect(organizationsInDB).to.have.lengthOf(2);
       expect(organizationsInDB[0].organizationLearnerTypeId).to.equal(organizationLearnerTypeId);
       expect(organizationsInDB[1].organizationLearnerTypeId).to.equal(organizationLearnerTypeId);
+    });
+  });
+
+  describe('when one provided category id is not found in database', function () {
+    it('should rollback', async function () {
+      // given
+      const nonExistingCategoryId = 888;
+
+      const organizationsWithOneNonExistingOrganizationLearnerType = [
+        {
+          type: 'SCO',
+          externalId: 'a100',
+          name: 'Collège Bob',
+          provinceCode: '044',
+          credit: 1,
+          emailInvitations: '',
+          locale: 'fr-fr',
+          tags: '',
+          targetProfiles: '',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'ADMIN',
+          administrationTeamId,
+          countryCode,
+          organizationLearnerTypeId,
+          categoryId,
+        },
+        {
+          type: 'PRO',
+          externalId: 'a200',
+          name: 'Thomas Transports',
+          provinceCode: '044',
+          credit: 1,
+          emailInvitations: '',
+          locale: 'fr-fr',
+          tags: '',
+          targetProfiles: '',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'MEMBER',
+          administrationTeamId,
+          countryCode,
+          organizationLearnerTypeId,
+          categoryId: nonExistingCategoryId,
+        },
+      ];
+
+      // when
+      const error = await catchErr(usecases.createOrganizationsWithTagsAndTargetProfiles)({
+        organizations: organizationsWithOneNonExistingOrganizationLearnerType,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(StructureCategoryNotFound);
+      expect(error.meta).to.deep.equal({
+        structureCategoryId: nonExistingCategoryId,
+      });
+      const organizationsInDB = await knex('organizations').select();
+      expect(organizationsInDB).to.have.lengthOf(0);
+    });
+  });
+
+  describe('when provided category is found in database', function () {
+    it('should save the organizations', async function () {
+      // given
+      const organizationsWithExistingCategory = [
+        {
+          type: 'PRO',
+          externalId: 'a200',
+          name: 'Thomas Transports',
+          provinceCode: '044',
+          credit: 1,
+          emailInvitations: '',
+          locale: 'fr-fr',
+          tags: '',
+          targetProfiles: '',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'MEMBER',
+          administrationTeamId,
+          countryCode,
+          organizationLearnerTypeId,
+          categoryId,
+        },
+        {
+          type: 'PRO',
+          externalId: 'a300',
+          name: "Les boulangeries de l'ouest",
+          provinceCode: '056',
+          credit: 15,
+          emailInvitations: '',
+          locale: 'fr-fr',
+          tags: '',
+          targetProfiles: '',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+          organizationInvitationRole: 'ADMIN',
+          administrationTeamId,
+          countryCode,
+          organizationLearnerTypeId,
+          categoryId,
+        },
+      ];
+
+      // when
+      await usecases.createOrganizationsWithTagsAndTargetProfiles({
+        organizations: organizationsWithExistingCategory,
+      });
+
+      // then
+      const organizationsInDB = await knex('organizations').select();
+      expect(organizationsInDB).to.have.lengthOf(2);
+      const createdOrganizationsIds = organizationsInDB.map((organization) => organization.id);
+      const createdStructures = await knex
+        .select('structures.*')
+        .from('fct_structures')
+        .whereIn('organization_id', createdOrganizationsIds)
+        .join('structures', 'structures.id', 'fct_structures.structure_id');
+
+      expect(createdStructures[0].category_id).to.equal(categoryId);
+      expect(createdStructures[1].category_id).to.equal(categoryId);
     });
   });
 
@@ -792,6 +944,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -809,6 +962,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -826,6 +980,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -858,6 +1013,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             'administrationTeamId',
             'countryCode',
             'organizationLearnerTypeId',
+            'categoryId',
           ),
         );
 
@@ -895,6 +1051,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -912,6 +1069,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -954,6 +1112,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -1008,6 +1167,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'PRO',
@@ -1024,6 +1184,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -1068,6 +1229,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
         {
           type: 'SCO-1D',
@@ -1082,6 +1244,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           administrationTeamId,
           countryCode,
           organizationLearnerTypeId,
+          categoryId,
         },
       ];
 
@@ -1125,6 +1288,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             parentOrganizationId: parentOrganization.id,
             countryCode,
             organizationLearnerTypeId,
+            categoryId,
           },
         ];
 
@@ -1159,6 +1323,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             parentOrganizationId: 12345,
             countryCode,
             organizationLearnerTypeId,
+            categoryId,
           },
         ];
 
@@ -1190,6 +1355,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             parentOrganizationId: parentOrganization.id,
             countryCode,
             organizationLearnerTypeId,
+            categoryId,
           },
         ];
 
