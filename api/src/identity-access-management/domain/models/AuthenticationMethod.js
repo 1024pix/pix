@@ -32,7 +32,7 @@ class PixAuthenticationComplement {
   }
 
   get hasRevokedPassword() {
-    return this.password == REVOKED_PASSWORD_VALUE;
+    return this.password === REVOKED_PASSWORD_VALUE;
   }
 }
 
