@@ -4,10 +4,12 @@ import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { and, eq } from 'ember-truth-helpers';
+import { and, eq, not } from 'ember-truth-helpers';
 import Attestation from 'mon-pix/components/combined-course/attestation';
 import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
+import StepDetails from 'mon-pix/components/combined-course/tunnel/step-details';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
 import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 
@@ -73,6 +75,12 @@ const Step = <template>
 </template>;
 
 export default class CombinedCoursePresentation extends Component {
+  constructor() {
+    super(...arguments);
+
+    this.selectedItem = this.args.combinedCourse.nextCombinedCourseItem;
+  }
+
   <template>
     <section class="combined-course">
       <div class="combined-course__exit">
@@ -80,19 +88,21 @@ export default class CombinedCoursePresentation extends Component {
           {{t "common.actions.quit"}}
         </PixButtonLink>
       </div>
-      <Header
-        @combinedCourse={{@combinedCourse}}
-        @startQuestParticipation={{this.startQuestParticipation}}
-        @goToNextItem={{this.goToNextItem}}
-        @isSurveyEnabled={{this.isSurveyEnabled}}
-      />
-      {{#if (eq @combinedCourse.reward.type "attestations")}}
-        <Attestation @attestation={{@combinedCourse.reward}} />
-      {{/if}}
-      <hr class="combined-course__divider" />
-      {{#if this.shouldDisplayRetryModulesText}}
-        <p class="combined-course__retry-text">{{t "pages.combined-courses.completed.retry-text"}}</p>
-      {{/if}}
+      {{#unless @isTunnel}}
+        <Header
+          @combinedCourse={{@combinedCourse}}
+          @startQuestParticipation={{this.startQuestParticipation}}
+          @goToNextItem={{this.goToNextItem}}
+          @isSurveyEnabled={{this.isSurveyEnabled}}
+        />
+        {{#if (eq @combinedCourse.reward.type "attestations")}}
+          <Attestation @attestation={{@combinedCourse.reward}} />
+        {{/if}}
+        <hr class="combined-course__divider" />
+        {{#if this.shouldDisplayRetryModulesText}}
+          <p class="combined-course__retry-text">{{t "pages.combined-courses.completed.retry-text"}}</p>
+        {{/if}}
+      {{/unless}}
       {{#each @combinedCourse.items as |item index|}}
         {{#unless @combinedCourse.areItemsOfTheSameType}}
           {{#if (@combinedCourse.isPreviousItemDifferent index)}}
@@ -103,10 +113,17 @@ export default class CombinedCoursePresentation extends Component {
           @item={{item}}
           @isLocked={{item.isLocked}}
           @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
-          @onClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}}
+          @onClick={{this.onClickAction}}
           @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
+          @displayNextItemTag={{not @isTunnel}}
         />
       {{/each}}
+      {{#if @isTunnel}}
+        <StepDetails
+          @item={{this.selectedItem}}
+          @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem this.selectedItem}}
+        />
+      {{/if}}
     </section>
   </template>
 
@@ -116,6 +133,8 @@ export default class CombinedCoursePresentation extends Component {
   @service intl;
   @service store;
   @service router;
+
+  @tracked selectedItem;
 
   step = 1;
 
@@ -147,8 +166,22 @@ export default class CombinedCoursePresentation extends Component {
   }
 
   @action
+  onClickAction(item) {
+    if (this.args.isTunnel) {
+      this.setSelectedItem(item);
+    } else if (this.args.combinedCourse.status === 'NOT_STARTED') {
+      this.startQuestParticipation(noop);
+    }
+  }
+
+  @action
   getCurrentStep() {
     return this.step++;
+  }
+
+  @action
+  setSelectedItem(item) {
+    this.selectedItem = item;
   }
 }
 

@@ -45,7 +45,7 @@ const Content = <template>
           @isCampaignType
           (t "pages.combined-courses.items.aria-label-completed-campaign" value=@masteryRate)
         }}
-      >πf
+      >
         <div>
         </div>
         <div
