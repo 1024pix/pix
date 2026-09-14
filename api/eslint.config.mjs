@@ -73,6 +73,16 @@ export default defineConfig([
   {
     ...mocha.configs.recommended,
     files: ['tests/**/*.{js,ts}'],
+    languageOptions: {
+      ...mocha.configs.recommended.languageOptions,
+      globals: {
+        ...mocha.configs.recommended.languageOptions?.globals,
+        // Vitest hook names, unknown to eslint-plugin-mocha, injected by
+        // tests/setup/vitest-hooks.js.
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+      },
+    },
     rules: {
       ...mocha.configs.recommended.rules,
       'mocha/no-hooks-for-single-case': 'off',
