@@ -7,6 +7,11 @@ import { Membership } from '../../../../../src/shared/domain/models/Membership.j
 import { usecases as teamUsecases } from '../../../../../src/team/domain/usecases/index.js';
 import { COUNTRY_FRANCE_CODE } from '../../common/constants.js';
 import { acceptPixOrgaTermsOfService } from '../../common/tooling/legal-documents.js';
+import {
+  STRUCTURE_CATEGORY_PRO_ID,
+  STRUCTURE_CATEGORY_SCO_ID,
+  STRUCTURE_CATEGORY_SUP_ID,
+} from '../../team-acquisition/constants.js';
 import { SHARED_ORGANIZATION_USER_ID } from './constants.js';
 
 /**
@@ -37,6 +42,7 @@ export class CommonOrganizations {
         externalId: 'SCO_MANAGING_STUDENTS_EXTERNAL_ID',
         administrationTeamId: administrationTeam.id,
         countryCode: COUNTRY_FRANCE_CODE,
+        categoryId: STRUCTURE_CATEGORY_SCO_ID,
         organizationLearnerType: new OrganizationLearnerType({
           id: organizationLearnerType.id,
         }),
@@ -82,6 +88,7 @@ export class CommonOrganizations {
         externalId: 'PRO_EXTERNAL_ID',
         administrationTeamId: administrationTeam.id,
         countryCode: COUNTRY_FRANCE_CODE,
+        categoryId: STRUCTURE_CATEGORY_PRO_ID,
         organizationLearnerType: new OrganizationLearnerType({
           id: organizationLearnerType.id,
         }),
@@ -125,6 +132,7 @@ export class CommonOrganizations {
         externalId: 'SUP_EXTERNAL_ID',
         administrationTeamId: administrationTeam.id,
         countryCode: COUNTRY_FRANCE_CODE,
+        categoryId: STRUCTURE_CATEGORY_SUP_ID,
         organizationLearnerType: new OrganizationLearnerType({
           id: organizationLearnerType.id,
         }),
