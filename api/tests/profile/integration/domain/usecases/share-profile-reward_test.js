@@ -10,7 +10,7 @@ describe('Profile | Integration | Domain | Usecases | share-profile-reward', fun
     describe('if the reward does not exist', function () {
       let user;
 
-      before(async function () {
+      beforeAll(async function () {
         user = databaseBuilder.factory.buildUser();
         await databaseBuilder.commit();
       });
@@ -29,7 +29,7 @@ describe('Profile | Integration | Domain | Usecases | share-profile-reward', fun
       let profileReward;
       let user;
 
-      before(async function () {
+      beforeAll(async function () {
         const otherUserId = databaseBuilder.factory.buildUser().id;
         user = databaseBuilder.factory.buildUser();
         profileReward = databaseBuilder.factory.buildProfileReward({
@@ -57,7 +57,7 @@ describe('Profile | Integration | Domain | Usecases | share-profile-reward', fun
       let organizationId;
       let userId;
 
-      before(async function () {
+      beforeAll(async function () {
         userId = databaseBuilder.factory.buildUser().id;
         profileRewardId = databaseBuilder.factory.buildProfileReward({
           rewardId: 1,
@@ -93,7 +93,7 @@ describe('Profile | Integration | Domain | Usecases | share-profile-reward', fun
       let organizationId;
       let userId;
 
-      before(async function () {
+      beforeAll(async function () {
         userId = databaseBuilder.factory.buildUser().id;
         organizationId = databaseBuilder.factory.buildOrganization().id;
         profileRewardId = databaseBuilder.factory.buildProfileReward({
