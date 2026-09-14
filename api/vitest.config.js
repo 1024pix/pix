@@ -1,5 +1,7 @@
 import { defineConfig } from 'vitest/config';
 
+import { AlphabeticalSequencer } from './tests/setup/vitest-sequencer.js';
+
 const isCI = Boolean(process.env.CI);
 
 const project = (name, setupFile, include) => ({
@@ -26,6 +28,10 @@ export default defineConfig({
     minWorkers: 1,
     isolate: false,
     fileParallelism: false,
+
+    // Stable alphabetical file order, like Mocha's glob expansion. Vitest's default sequencer
+    // sorts by cached durations, which varies between runs.
+    sequence: { sequencer: AlphabeticalSequencer },
 
     testTimeout: 5000, // .mocharc.cjs `timeout`
     retry: Number(process.env.VITEST_RETRIES ?? 0), // .mocharc.cjs `retries`
