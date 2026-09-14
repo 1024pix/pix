@@ -1,5 +1,34 @@
 # Pix Changelog
 
+# [5.501.0](https://github.com/1024pix/pix/compare/v5.500.0...v5.501.0) (2026-09-14)
+
+### :rocket: Amélioration
+
+- [#17455](https://github.com/1024pix/pix/pull/17455) Ajouter du tracking pour l'affichage d'une mise en avant de CF (PIX-24010).
+- [#17470](https://github.com/1024pix/pix/pull/17470) Ajouter la catégorie à la création d'organisation (PIX-23567)
+- [#17363](https://github.com/1024pix/pix/pull/17363) Déclencher les jobs de scoring lors de l'activation du scoring sur une version Pix+ déjà active (PIX-24086)
+- [#17459](https://github.com/1024pix/pix/pull/17459) Définir les tubes disponibles à la création d'un schéma à partir des profils cibles sélectionnés (PIX-24077)
+- [#17458](https://github.com/1024pix/pix/pull/17458) Restreindre l'attribution de la récompense de quête aux évaluations avec participation à une campagne (PIX-24210).
+
+### :bug: Correction
+
+- [#17488](https://github.com/1024pix/pix/pull/17488) Ajout du `categoryId` dans la création des organisations des seeds certif (PIX-24259).
+- [#17454](https://github.com/1024pix/pix/pull/17454) Créer les jobs d'import après la sauvegarde finale de chaque étape du pipeline d'import de prescrits (PIX-24209)
+- [#17421](https://github.com/1024pix/pix/pull/17421) Réduire au maximum l’exposition du jeton de réinitialisation de mot de passe (temporaryKey) dans les URL (PIX-24167)
+
+### :building_construction: Tech
+
+- [#17476](https://github.com/1024pix/pix/pull/17476) :recycle: Utilise une case à cocher pour ajouter des droits `ADMIN` à un membre de centre de certification
+- [#17490](https://github.com/1024pix/pix/pull/17490) Afficher une image par défaut lorsque l'image d'un badge est introuvable.
+- [#17444](https://github.com/1024pix/pix/pull/17444) Convertir les models "participants" de PixOrga en TS
+- [#17484](https://github.com/1024pix/pix/pull/17484) Supprimer la route renvoyant le JSON schema des modules (PIX-23949).
+- [#17478](https://github.com/1024pix/pix/pull/17478) Utiliser un batchInsert pour mettre à jour les combinedCourseBlueprintShares (PIX-24221)
+
+### :arrow_up: Montée de version
+
+- [#17099](https://github.com/1024pix/pix/pull/17099) Update dependency @joi/date to v3 (api)
+- [#17472](https://github.com/1024pix/pix/pull/17472) Update node
+
 # [5.500.0](https://github.com/1024pix/pix/compare/v5.499.0...v5.500.0) (2026-09-11)
 
 ### :rocket: Amélioration
