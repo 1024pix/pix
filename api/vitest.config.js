@@ -33,15 +33,17 @@ export default defineConfig({
     // sorts by cached durations, which varies between runs.
     sequence: { sequencer: AlphabeticalSequencer },
 
-    testTimeout: 5000, // .mocharc.cjs `timeout`
-    retry: Number(process.env.VITEST_RETRIES ?? 0), // .mocharc.cjs `retries`
+    testTimeout: 5000,
+    retry: Number(process.env.VITEST_RETRIES ?? 0), // CircleCI sets it to 2 on integration and acceptance
     env: { NODE_ENV: 'test' }, // config/config.js loads tests/setup/.env.test when NODE_ENV=test
 
     // clearMocks / mockReset / restoreMocks are left at their defaults: they only affect
     // `vi.*` mocks, which are unused here. Sinon is restored by tests/setup/common.js.
 
     reporters: isCI
-      ? ['dot', ['junit', { suiteName: 'pix-api', classnameTemplate: '{filepath}', addFileAttribute: true }]]
+      ? // `classname` defaults to the path relative to the root, which is what Mocha's
+        // `showRelativePaths` produced and what CircleCI groups timings by.
+        ['dot', ['junit', { suiteName: 'pix-api', addFileAttribute: true }]]
       : ['dot'],
     outputFile: { junit: process.env.VITEST_JUNIT_OUTPUT ?? './test-results/test-results.xml' },
 
@@ -52,8 +54,9 @@ export default defineConfig({
       project('unit', 'vitest-unit.js', ['tests/**/unit/**/*test.{js,ts}']),
       project('integration', 'vitest-integration.js', ['tests/**/integration/**/*test.{js,ts}']),
       project('acceptance', 'vitest-acceptance.js', ['tests/**/acceptance/**/*test.{js,ts}']),
-      // Replaces `TEST_SETUP_MODE=unit` in the `modulix:test` script: those tests validate
-      // JSON content and must run without a database.
+      // Backs the `modulix:test` script. These tests validate module JSON content, so they run
+      // with the unit setup and need no database — including the one that lives under
+      // `acceptance/`, which the acceptance project also picks up with a database.
       project('modulix', 'vitest-unit.js', [
         'tests/devcomp/unit/infrastructure/datasources/learning-content/module-datasource_test.js',
         'tests/devcomp/unit/infrastructure/datasources/learning-content/validation/module-validation_test.js',
