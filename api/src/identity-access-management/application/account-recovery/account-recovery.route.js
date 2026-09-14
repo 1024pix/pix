@@ -1,4 +1,4 @@
-import JoiDate from '@joi/date';
+import { JoiDate } from '@joi/date';
 import BaseJoi from 'joi';
 
 import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
