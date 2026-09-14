@@ -7,11 +7,11 @@ const ORIGINAL_ENV = settings.apiManager.url;
 
 describe('Unit | Service | Pole Emploi Service', function () {
   describe('#generateLink', function () {
-    before(function () {
+    beforeAll(function () {
       settings.apiManager.url = 'https://url-externe';
     });
 
-    after(function () {
+    afterAll(function () {
       settings.apiManager.url = ORIGINAL_ENV;
     });
 
