@@ -1,6 +1,8 @@
-// `./unit.js` sets the fake database URLs at module scope and only then dynamically imports
-// `common.js`, so it must stay the first import: nothing from `src/` may be evaluated before
-// the fake connection strings are in place.
+// Import order matters here. `./vitest-env.js` clears the env vars Vite injects, and
+// `./unit.js` sets the fake database URLs at module scope before dynamically importing
+// `common.js` — both must run before anything from `src/` is evaluated.
+import './vitest-env.js';
+
 import { mochaHooks } from './unit.js';
 import { registerMochaHooks } from './vitest-hooks.js';
 
