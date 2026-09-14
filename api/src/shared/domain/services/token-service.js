@@ -36,11 +36,18 @@ function encodeToken(payload, secret, expiresIn, { type = tokenType.ACCESS_TOKEN
  *
  * @param {string} token the JWT token
  * @param {string} secret the secret to use to verify the signature
+ * @param {{
+ *   expectedType?: tokenType[keyof tokenType]
+ * }} options
  * @returns the contained payload, otherwise false when the signature is not valid or the token is expired
  */
-function getDecodedToken(token, secret = config.authentication.secret) {
+function getDecodedToken(token, secret = config.authentication.secret, { expectedType = tokenType.ACCESS_TOKEN } = {}) {
   try {
-    return jsonwebtoken.verify(token, secret);
+    const decodedToken = jsonwebtoken.verify(token, secret, { complete: true });
+
+    Joi.assert(decodedToken.header.typ, Joi.string().valid(expectedType).required());
+
+    return decodedToken.payload;
   } catch {
     return false;
   }

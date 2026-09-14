@@ -60,7 +60,7 @@ Cypress.Commands.add('loginExternalPlatformForTheFirstTime', () => {
       saml_id: 'SamlIdOfDaenerys',
       source: 'external',
     },
-    { expiresIn: '1h' }
+    { expiresIn: '1h', header: { typ: 'at+jwt' } }
   ).then((externalUserToken) => {
     cy.visitMonPix(`/campagnes/?externalUser=${externalUserToken}`);
   });
@@ -74,7 +74,7 @@ Cypress.Commands.add('loginExternalPlatformForTheSecondTime', () => {
       source: 'external',
       aud: Cypress.env('APP_URL'),
     },
-    { expiresIn: '1h' }
+    { expiresIn: '1h', header: { typ: 'at+jwt' } }
   ).then((token) => {
     cy.visitMonPix(`/connexion/gar#${token}`);
   });
@@ -87,7 +87,7 @@ Cypress.Commands.add('loginWithAlmostExpiredToken', () => {
     user_id: 1,
     aud: Cypress.env('APP_URL'),
   }, {
-    expiresIn: '4s',
+    expiresIn: '4s', header: { typ: 'at+jwt' },
   }).then((token) => {
     cy.visitMonPix(`/connexion/gar#${token}`);
   });
