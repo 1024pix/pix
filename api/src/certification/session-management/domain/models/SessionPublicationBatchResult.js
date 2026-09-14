@@ -1,4 +1,4 @@
-class SessionPublicationBatchResult {
+export class SessionPublicationBatchResult {
   constructor(batchId) {
     this.batchId = batchId;
     this.publicationErrors = {};
@@ -12,5 +12,3 @@ class SessionPublicationBatchResult {
     this.publicationErrors[sessionId] = error;
   }
 }
-
-export { SessionPublicationBatchResult };

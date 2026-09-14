@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import * as certificationRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-repository.js';
 import { AssessmentResult, status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
@@ -62,20 +61,17 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
     context(
       'when all certification latest assessment result are validated, rejected or certification is cancelled',
       function () {
-        let now;
-
-        beforeEach(function () {
-          now = new Date('2022-12-25');
-          sinon.useFakeTimers({ now, toFake: ['Date'] });
-        });
-
         it('should set certifications as published within the session and update pixCertificationStatus according to assessment result status', async function () {
+          const now = new Date('2022-12-25');
           // when
-          await certificationRepository.publishCertificationCourses([
-            { certificationCourseId: 1 },
-            { certificationCourseId: 2 },
-            { certificationCourseId: 3 },
-          ]);
+          await certificationRepository.publishCertificationCourses({
+            certificationCourseIds: [
+              { certificationCourseId: 1 },
+              { certificationCourseId: 2 },
+              { certificationCourseId: 3 },
+            ],
+            publishedAt: now,
+          });
 
           // then
           const certifications = await knex('certification-courses')
