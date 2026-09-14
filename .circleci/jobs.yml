@@ -62,7 +62,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.18.0
+        default: 24.20.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -71,7 +71,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.18.0
+        default: 24.20.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -80,7 +80,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.18.0
+        default: 24.20.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -99,7 +99,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.18.0
+        default: 24.20.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
@@ -110,7 +110,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.18.0
+        default: 24.20.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
@@ -126,7 +126,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.18.0
+        default: 24.20.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -139,7 +139,7 @@ executors:
     resource_class: medium
   playwright-executor-medium:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.62.1-noble
+      - image: mcr.microsoft.com/playwright:v1.63.0-noble
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -156,7 +156,7 @@ executors:
     resource_class: medium
   playwright-executor-large:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.62.1-noble
+      - image: mcr.microsoft.com/playwright:v1.63.0-noble
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
