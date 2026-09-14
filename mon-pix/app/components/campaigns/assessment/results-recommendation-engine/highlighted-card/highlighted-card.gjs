@@ -12,7 +12,11 @@ import Card from '../training/card';
     <div class="highlighted-card">
       <h2 class="highlighted-card__title">{{t "pages.skill-review.recommended-engine.highlighted-card.title"}}</h2>
       <p class="highlighted-card__subtitle">{{t "pages.skill-review.recommended-engine.highlighted-card.subtitle"}}</p>
-      <Card @isHighlighted={{true}} @training={{@highlightedTraining}} @onCardClick={{@onCardClick}} />
+      <Card
+        @isHighlighted={{true}}
+        @training={{@highlightedTraining}}
+        @onHighlightedCardButtonClick={{@onHighlightedCardButtonClick}}
+      />
     </div>
   </div>
 </template>
