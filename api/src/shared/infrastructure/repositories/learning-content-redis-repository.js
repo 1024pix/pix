@@ -20,8 +20,17 @@ export class LearningContentRedisRepository {
    * @param {QueryBuilderCallback} callback
    * @returns {Promise<object[]>}
    */
-  async find(_cacheKey, _callback) {
-    // FIXME
+  async find(cacheKey, callback) {
+    const cachedIds = await this.#cache.getIds(cacheKey);
+
+    if (cachedIds !== undefined) return this.loadMany(cachedIds);
+
+    const knexConn = DomainTransaction.getConnection();
+    const ids = await callback(knexConn.pluck(`${this.#tableName}.id`).from(this.#tableName));
+
+    await this.#cache.setIds(cacheKey, ids);
+
+    return this.loadMany(ids);
   }
 
   /**
@@ -54,7 +63,7 @@ export class LearningContentRedisRepository {
     idsToLoad.delete(undefined);
     idsToLoad.delete(null);
 
-    return this.loadMany(idsToLoad);
+    return this.loadMany(Array.from(idsToLoad));
   }
 
   /**
