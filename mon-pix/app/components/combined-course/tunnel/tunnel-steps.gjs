@@ -8,7 +8,6 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import CombinedCourseStepItem from 'mon-pix/components/combined-course/combined-course-step-item';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
-
 import StepDetails from './step-details';
 
 const Step = <template>

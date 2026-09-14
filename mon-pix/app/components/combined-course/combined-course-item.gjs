@@ -1,9 +1,8 @@
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import { hash } from '@ember/helper';
+import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
-import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
@@ -131,13 +130,7 @@ function hasWhiteBackground(item) {
         </:duration>
       </Content>
     {{else}}
-      <LinkTo
-        {{on "click" @onClick}}
-        @route={{@item.route}}
-        @models={{@item.models}}
-        @query={{hash redirection=@item.redirection}}
-        disabled
-      >
+      <button {{on "click" (fn @onClick @item)}}>
         <Content
           @title={{@item.title}}
           @isCompleted={{@item.isCompleted}}
@@ -159,15 +152,17 @@ function hasWhiteBackground(item) {
           </:duration>
           <:blockEnd>
             {{#if @isNextItemToComplete}}
-              <PixTag @color="purple-light" class="combined-course-item__tag">{{t
-                  "pages.combined-courses.items.tagText"
-                }}
-                <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
+              {{#if @displayNextItemTag}}
+                <PixTag @color="purple-light" class="combined-course-item__tag">{{t
+                    "pages.combined-courses.items.tagText"
+                  }}
+                  <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
+              {{/if}}
             {{/if}}
           </:blockEnd>
         </Content>
+      </button>
 
-      </LinkTo>
     {{/if}}
   {{/if}}
 </template>
