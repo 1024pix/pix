@@ -23,6 +23,7 @@ export class JobController {
     this.jobName = jobName;
     this.jobGroup = options.jobGroup ?? JobGroup.DEFAULT;
     this.expireIn = options.expireIn ?? JobExpireIn.INFINITE;
+    this.isDeadLetterQueueEnabled = options.isDeadLetterQueueEnabled ?? false;
 
     this.#validate();
   }

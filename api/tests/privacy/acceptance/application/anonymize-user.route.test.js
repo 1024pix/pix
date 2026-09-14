@@ -1,81 +1,73 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
+import { AnonymizeUserEventHandler } from '../../../../src/identity-access-management/application/jobs/anonymize-user.event-handler.js';
+import { RemoveLegalDocumentByUserEventHandler } from '../../../../src/legal-documents/application/remove-legal-document-by-user.event-handler.js';
+import { AnonymizeLearnersAndCampaignParticipationsEventHandler } from '../../../../src/prescription/learner-management/application/jobs/anonymize-learners-and-campaign-participations-event-handler.js';
+import { PIX_ADMIN } from '../../../../src/shared/constants.js';
+import { AuditLoggingJob } from '../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
-import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import { SendEmailJobController } from '../../../../src/shared/mail/application/jobs/send-email.job-controller.js';
+import { AnonymizeCertificationCenterMembershipEventHandler } from '../../../../src/team/application/certification-center-membership/anonymize-certification-center-membership.event-handler.js';
+import { AnonymizeMembershipEventHandler } from '../../../../src/team/application/membership/anonymize-membership.event-handler.js';
+import { databaseBuilder } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
+
+const anonymizeUserEventHandlerSubscribers = [
+  AnonymizeUserEventHandler,
+  RemoveLegalDocumentByUserEventHandler,
+  AnonymizeLearnersAndCampaignParticipationsEventHandler,
+  AnonymizeCertificationCenterMembershipEventHandler,
+  AnonymizeMembershipEventHandler,
+];
 
 describe('Acceptance | Privacy | Application | Route | anonymize-user', function () {
   let server;
 
+  const now = new Date('2024-04-05T03:04:05Z');
+
   beforeEach(async function () {
     server = await getServer();
+    sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   describe('POST /api/admin/users/{id}/anonymize', function () {
-    let superAdmin;
-    let response;
-    let userId;
-    let certificationCenterId;
-    let organizationId;
-
-    beforeEach(async function () {
-      superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-      userId = databaseBuilder.factory.buildUser.withRawPassword().id;
-      organizationId = databaseBuilder.factory.buildOrganization().id;
+    it('anomymizes user', async function () {
+      const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({
         organizationId,
-        userId: userId,
-      });
-      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId,
         userId: userId,
       });
       databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId });
       await databaseBuilder.commit();
 
-      response = await server.inject({
+      const response = await server.inject({
         method: 'POST',
         url: `/api/admin/users/${userId}/anonymize`,
         payload: {},
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       });
-    });
 
-    it('anomymizes user', async function () {
-      // then
       expect(response.statusCode).to.equal(204);
 
-      const user = await knex('users').where({ id: userId }).first();
-      expect(user.firstName).to.equal('(anonymised)');
-      expect(user.lastName).to.equal('(anonymised)');
-      expect(user.email).to.be.null;
-      expect(user.username).to.be.null;
-      expect(user.hasBeenAnonymised).to.be.true;
-    });
+      anonymizeUserEventHandlerSubscribers.forEach((eventHandler) => {
+        _expectHandlerReceivePayload(eventHandler, {
+          userId,
+          updatedByUserId: superAdmin.id,
+        });
+      });
 
-    it('removes authentication methods', async function () {
-      // then
-      expect(response.statusCode).to.equal(204);
-
-      const authenticationMethods = await knex('authentication-methods').where({ userId });
-      expect(authenticationMethods.length).to.equal(0);
-    });
-
-    it("disables user's certification center, organization learner and organisation memberships", async function () {
-      // then
-      expect(response.statusCode).to.equal(204);
-      const certificationCenterMembership = await knex('certification-center-memberships')
-        .select()
-        .where({ certificationCenterId })
-        .first();
-      const organizationMembership = await knex('memberships').select().where({ organizationId }).first();
-      const organizationLearnerMembership = await knex('organization-learners').select().where({ organizationId });
-
-      expect(organizationMembership.disabledAt).not.to.be.null;
-      expect(certificationCenterMembership.disabledAt).not.to.be.null;
-      expect(organizationLearnerMembership.disabledAt).not.to.be.null;
+      await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayload({
+        client: 'PIX_ADMIN',
+        action: 'ANONYMIZATION',
+        role: PIX_ADMIN.ROLES.SUPER_ADMIN,
+        occurredAt: now.toISOString(),
+        userId: superAdmin.id,
+        targetUserIds: [userId],
+      });
     });
   });
 
@@ -95,8 +87,23 @@ describe('Acceptance | Privacy | Application | Route | anonymize-user', function
       // then
       expect(response.statusCode).to.equal(204);
 
-      const user = await knex('users').select().where({ id: userId }).first();
-      expect(user.hasBeenAnonymised).to.be.true;
+      anonymizeUserEventHandlerSubscribers.forEach((eventHandler) => {
+        _expectHandlerReceivePayload(eventHandler, {
+          userId,
+          updatedByUserId: userId,
+        });
+      });
+
+      await expect(new SendEmailJobController().jobName).to.have.performed.withJobsCount(1);
+
+      await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayload({
+        client: 'PIX_APP',
+        action: 'ANONYMIZATION',
+        role: 'USER',
+        occurredAt: now.toISOString(),
+        userId,
+        targetUserIds: [userId],
+      });
     });
 
     context('when user is not authenticated', function () {
@@ -113,7 +120,7 @@ describe('Acceptance | Privacy | Application | Route | anonymize-user', function
       });
     });
 
-    context('when user cannot self delete their account', function () {
+    context('when isSelfAccountDeletionEnabled feature toggle is set to false', function () {
       it('returns a 403 HTTP status code', async function () {
         // given
         await featureToggles.set('isSelfAccountDeletionEnabled', false);
@@ -133,3 +140,8 @@ describe('Acceptance | Privacy | Application | Route | anonymize-user', function
     });
   });
 });
+
+async function _expectHandlerReceivePayload(handlerClass, payload) {
+  const handler = new handlerClass();
+  await expect(handler.jobName).to.have.performed.withEventPayload(payload);
+}
