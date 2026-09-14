@@ -1,5 +1,6 @@
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
+import * as eventJobPublisherService from '../../../../shared/infrastructure/jobs/event-job-publisher-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { certificationCenterMembershipRepository } from '../../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import * as versionApi from '../../../configuration/application/api/version-api.js';
@@ -20,6 +21,7 @@ import {
   sessionSummaryRepository,
   sharedCompetenceMarkRepository,
 } from '../../infrastructure/repositories/index.js';
+import * as sessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
 import * as sessionPublicationService from '../services/session-publication-service.js';
 import { abortCertificationCourse } from './abort-certification-course.js';
@@ -51,6 +53,7 @@ import { registerPublishableSession } from './register-publishable-session.js';
 import { rejectCertificationCourse } from './reject-certification-course.js';
 import { saveCertificationIssueReport } from './save-certification-issue-report.js';
 import { saveJuryComplementaryCertificationCourseResult } from './save-jury-complementary-certification-course-result.js';
+import { sessionPublication } from './session-publication.js';
 import { superviseSession } from './supervise-session.js';
 import { uncancel } from './uncancel.js';
 import { unfinalizeSession } from './unfinalize-session.js';
@@ -157,9 +160,11 @@ const dependencies = {
   certificationRepository,
   certificationIssueReportRepository,
   certificationCenterMembershipRepository,
+  eventJobPublisherService,
   sessionPublicationService,
   versionApi,
   userRepository,
+  sessionRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -188,6 +193,7 @@ const usecasesWithoutInjectedDependencies = {
   manuallyResolveCertificationIssueReport,
   processAutoJury,
   publishSession,
+  sessionPublication,
   publishSessionsInBatch,
   registerPublishableSession,
   rejectCertificationCourse,
