@@ -190,7 +190,7 @@ export const updateLastAccessedAt = async function ({ membershipId, lastAccessed
 export const findByUserId = async function (userId) {
   const knexConnection = DomainTransaction.getConnection();
 
-  const memberships = await knexConnection(MEMBERSHIPS_TABLE).where({ userId });
+  const memberships = await knexConnection(MEMBERSHIPS_TABLE).where({ userId }).orderBy('id');
 
   return memberships.map(_toDomain);
 };
