@@ -1,5 +1,6 @@
 import { Course } from '../../../evaluation/domain/models/Course.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { isLearningContentCacheRedis, LearningContentRedisRepository } from './learning-content-redis-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.courses';
@@ -13,7 +14,7 @@ export async function get(id) {
 }
 
 export function clearCache(id) {
-  return getInstance().clearCache(id);
+  return getInstance().clearCache?.(id);
 }
 
 function toDomain(courseDto) {
@@ -27,10 +28,19 @@ function toDomain(courseDto) {
   });
 }
 
+/** @type {LearningContentRedisRepository} */
+let redisInstance;
+
 /** @type {LearningContentRepository} */
 let instance;
 
 function getInstance() {
+  if (isLearningContentCacheRedis.value) {
+    if (!redisInstance) {
+      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
+    }
+    return redisInstance;
+  }
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME });
   }

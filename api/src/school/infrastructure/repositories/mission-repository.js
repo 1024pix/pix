@@ -1,6 +1,10 @@
 import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
 import { FRENCH_SPOKEN } from '../../../shared/domain/services/locale-service.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
+import {
+  isLearningContentCacheRedis,
+  LearningContentRedisRepository,
+} from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
 import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import { Mission, MissionContent, MissionStep } from '../../domain/models/Mission.js';
 import { MissionNotFoundError } from '../../domain/school-errors.js';
@@ -30,7 +34,7 @@ export async function findAllActiveMissions(locale = FRENCH_SPOKEN) {
 }
 
 export function clearCache(id) {
-  return getInstance().clearCache(id);
+  return getInstance().clearCache?.(id);
 }
 
 function getTranslatedContent(content, locale) {
@@ -60,10 +64,19 @@ function toDomain(missionDto, locale) {
   });
 }
 
+/** @type {LearningContentRedisRepository} */
+let redisInstance;
+
 /** @type {LearningContentRepository} */
 let instance;
 
 function getInstance() {
+  if (isLearningContentCacheRedis.value) {
+    if (!redisInstance) {
+      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME, idType: 'integer' });
+    }
+    return redisInstance;
+  }
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME, idType: 'integer' });
   }

@@ -5,6 +5,7 @@ import { Challenge } from '../../domain/models/Challenge.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
 import { httpAgent } from '../http-agent.js';
 import { child, SCOPES } from '../utils/logger.js';
+import { isLearningContentCacheRedis, LearningContentRedisRepository } from './learning-content-redis-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 import * as skillRepository from './skill-repository.js';
 
@@ -100,7 +101,7 @@ export async function findOperativeChallengeDtosBySkillsAndLocales(skills, local
 }
 
 export function clearCache(id) {
-  return getInstance().clearCache(id);
+  return getInstance().clearCache?.(id);
 }
 
 async function loadWebComponentInfo(challengeDto) {
@@ -189,10 +190,19 @@ function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill,
   });
 }
 
+/** @type {LearningContentRedisRepository} */
+let redisInstance;
+
 /** @type {LearningContentRepository} */
 let instance;
 
 export function getInstance() {
+  if (isLearningContentCacheRedis.value) {
+    if (!redisInstance) {
+      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
+    }
+    return redisInstance;
+  }
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME });
   }
