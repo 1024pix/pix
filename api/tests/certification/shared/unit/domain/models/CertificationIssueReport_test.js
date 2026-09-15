@@ -145,27 +145,39 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         });
       });
 
-      [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
-        if (
-          [
-            CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
-            CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE,
-          ].includes(subcategory)
-        ) {
-          it(`should create a CANDIDATE_INFORMATIONS_CHANGES CertificationIssueReport when subcategory is of value ${subcategory}`, function () {
-            // when
-            expect(
-              CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory }),
-            ).to.be.an.instanceOf(CertificationIssueReport);
-          });
-        } else {
-          it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, function () {
-            // when
-            expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory })).to.throw(
-              InvalidCertificationIssueReportForSaving,
-            );
-          });
-        }
+      [
+        CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
+        CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE,
+      ].forEach((subcategory) => {
+        it(`should create a CANDIDATE_INFORMATIONS_CHANGES CertificationIssueReport when subcategory is of value ${subcategory}`, function () {
+          // when
+          expect(CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory })).to.be.an.instanceOf(
+            CertificationIssueReport,
+          );
+        });
+      });
+
+      [
+        CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
+        CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+        CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+        CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+        CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+        CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+        CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+        CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+        CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+        CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+        CertificationIssueReportSubcategories.OTHER,
+        CertificationIssueReportSubcategories.SKIP_ON_OOPS,
+        CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
+      ].forEach((subcategory) => {
+        it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, function () {
+          // when
+          expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory })).to.throw(
+            InvalidCertificationIssueReportForSaving,
+          );
+        });
       });
     });
 
@@ -187,37 +199,32 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         );
       });
 
-      [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
-        if (
-          [
-            CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-            CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-            CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-            CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
-            CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
-            CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-            CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-            CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-            CertificationIssueReportSubcategories.SKIP_ON_OOPS,
-            CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
-          ].includes(subcategory)
-        ) {
-          it(`should create an IN_CHALLENGE CertificationIssueReport when subcategory is of value ${subcategory}`, function () {
-            // when
-            expect(
-              CertificationIssueReport.create({
-                ...certificationIssueReportDTO,
-                subcategory,
-                description: subcategory === CertificationIssueReportSubcategories.OTHER ? 'salut' : null,
-              }),
-            ).to.be.an.instanceOf(CertificationIssueReport);
-          });
-        } else if (
-          [
-            CertificationIssueReportSubcategories.LINK_NOT_WORKING,
-            CertificationIssueReportSubcategories.OTHER,
-          ].includes(subcategory)
-        ) {
+      [
+        CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+        CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+        CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+        CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+        CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+        CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+        CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+        CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+        CertificationIssueReportSubcategories.SKIP_ON_OOPS,
+        CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
+      ].forEach((subcategory) => {
+        it(`should create an IN_CHALLENGE CertificationIssueReport when subcategory is of value ${subcategory}`, function () {
+          // when
+          expect(
+            CertificationIssueReport.create({
+              ...certificationIssueReportDTO,
+              subcategory,
+              description: subcategory === CertificationIssueReportSubcategories.OTHER ? 'salut' : null,
+            }),
+          ).to.be.an.instanceOf(CertificationIssueReport);
+        });
+      });
+
+      [CertificationIssueReportSubcategories.LINK_NOT_WORKING, CertificationIssueReportSubcategories.OTHER].forEach(
+        (subcategory) => {
           it(`should throw a deprecated error when using subcategory ${subcategory}`, function () {
             // when
             const createIssueReport = () =>
@@ -230,14 +237,17 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             // then
             expect(createIssueReport).to.throw(DeprecatedCertificationIssueReportSubcategoryError);
           });
-        } else {
-          it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, function () {
-            // when
-            expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory })).to.throw(
-              InvalidCertificationIssueReportForSaving,
-            );
-          });
-        }
+        },
+      );
+
+      it('should throw an InvalidCertificationIssueReportForSaving when subcategory is CertificationIssueReportSubcategories.LEFT_EXAM_ROOM', function () {
+        // when
+        expect(() =>
+          CertificationIssueReport.create({
+            ...certificationIssueReportDTO,
+            subcategory: CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
+          }),
+        ).to.throw(InvalidCertificationIssueReportForSaving);
       });
 
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
