@@ -1,9 +1,10 @@
-import Model, { attr, belongsTo } from '@warp-drive/legacy/model';
+import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 
 export const CombinedCourseItemTypes = {
   CAMPAIGN: 'campaign',
   FORMATION: 'formation',
   MODULE: 'module',
+  COMBINED_COURSE: 'combinedCourse',
 };
 
 export const CombinedCourseAssets = {
@@ -23,9 +24,43 @@ export default class CombinedCourseItem extends Model {
   @attr('number') duration;
   @attr('string') image;
   @attr('string') shortId;
+  @attr('string') participationStatus;
+  // the activities of a nested combined course: combined course items too, so the very
+  // same component renders them
+  @hasMany('combined-course-item', { async: false, inverse: null }) childItems;
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
+  get activities() {
+    return this.hasMany('childItems').value() ?? [];
+  }
+
+  // a module the learner never opened still carries a NOT_STARTED passage, so the mere
+  // presence of a status does not mean the activity was begun
+  get isStarted() {
+    return Boolean(this.participationStatus) && this.participationStatus !== 'NOT_STARTED';
+  }
+
+  get nextActivity() {
+    return this.activities.find(
+      (activity) => !activity.isCompleted && activity.type !== CombinedCourseItemTypes.FORMATION,
+    );
+  }
+
+  get completedActivitiesCount() {
+    return this.activities.filter((activity) => activity.isCompleted).length;
+  }
+
+  // before its diagnosis, a child's modules are not computed yet: a placeholder item
+  // stands for them, so no total can be shown
+  get hasReliableActivitiesCount() {
+    return (
+      this.activities.length > 0 &&
+      !this.activities.some((activity) => activity.type === CombinedCourseItemTypes.FORMATION)
+    );
+  }
+
   get route() {
+    if (this.type === CombinedCourseItemTypes.COMBINED_COURSE) return 'combined-courses.presentation';
     return this.type === CombinedCourseItemTypes.CAMPAIGN ? 'campaigns' : 'module';
   }
 
@@ -39,6 +74,7 @@ export default class CombinedCourseItem extends Model {
   get iconUrl() {
     if (this.type === CombinedCourseItemTypes.CAMPAIGN) return CombinedCourseAssets.CAMPAIGN_ICON;
     if (this.type === CombinedCourseItemTypes.FORMATION) return CombinedCourseAssets.FORMATION_ICON;
+    if (this.type === CombinedCourseItemTypes.COMBINED_COURSE) return CombinedCourseAssets.CAMPAIGN_ICON;
 
     return this.image;
   }
