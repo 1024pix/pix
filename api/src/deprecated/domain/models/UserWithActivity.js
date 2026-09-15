@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { config } from '../../../../config/config.js';
-import { STATUS } from '../../../legal-documents/domain/models/LegalDocumentStatus.js';
+import { STATUS } from '../../../legal-documents/application/api/legal-documents-api.js';
 
 class UserWithActivity {
   constructor({ user, tosStatus, hasAssessmentParticipations, codeForLastProfileToShare, hasRecommendedTrainings }) {

@@ -27,13 +27,13 @@ const getCertificationPointOfContact = async function ({
     centerList,
   });
 
-  const pixCertifTosStatus = await legalDocumentApiRepository.getPixCertifTosStatus({ userId });
+  const pixCertifTosStatusDTO = await legalDocumentApiRepository.getPixCertifTosStatus({ userId });
 
   return certificationPointOfContactRepository.getPointOfContact({
     userId,
     certificationPointOfContactDTO,
     allowedCertificationCenterAccesses,
-    pixCertifTosStatus,
+    pixCertifTosStatusDTO,
   });
 };
 
