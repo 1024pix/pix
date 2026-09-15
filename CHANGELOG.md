@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## [5.501.1](https://github.com/1024pix/pix/compare/v5.501.0...v5.501.1) (2026-09-15)
+
+### :building_construction: Tech
+
+- [#17480](https://github.com/1024pix/pix/pull/17480) Créer un composant SelectSearchWrapper dans Pix Admin (PIX-24231
+- [#17495](https://github.com/1024pix/pix/pull/17495) Met à jour `eslint-plugin-knex` avec une version compatible ESLint v9.
+- [#17387](https://github.com/1024pix/pix/pull/17387) Mise en place de l'EDA sur l'anonymisation
+
+### :arrow_up: Montée de version
+
+- [#17474](https://github.com/1024pix/pix/pull/17474) Update dependency @1024pix/pix-ui to ^68.1.7 (junior)
+
 # [5.501.0](https://github.com/1024pix/pix/compare/v5.500.0...v5.501.0) (2026-09-14)
 
 ### :rocket: Amélioration
