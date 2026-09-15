@@ -7,6 +7,24 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <style>
+        dialog:modal {
+          position: fixed;
+          inset: auto 0 0 auto;   /* bas-droite, comme #ember-testing-container */
+          width: 640px;
+          height: 384px;
+          max-width: 640px;
+          max-height: 384px;
+          margin: 0;
+        }
+
+        dialog:modal::backdrop {
+          background: transparent;   /* le backdrop couvre toujours tout le
+        viewport */
+        }
+    </style>
+
+
     {{content-for "head"}} {{content-for "test-head"}}
 
     <link rel="stylesheet" href="/@embroider/virtual/vendor.css" />
