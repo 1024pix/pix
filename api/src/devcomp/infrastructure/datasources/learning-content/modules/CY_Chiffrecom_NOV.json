@@ -1,0 +1,897 @@
+{
+  "id": "b65757e7-0502-41fd-8c4f-1dc56e760642",
+  "shortId": "b65757e7",
+  "slug": "chiffrer-com-nov",
+  "title": "Qu’est-ce qui protège vos informations envoyées sur le web ?",
+  "isBeta": true,
+  "visibility": "public",
+  "details": {
+    "image": "https://assets.pix.org/modules/placeholder-details.svg",
+    "description": "<p>Quand vous naviguez sur le web, vous échangez des informations avec des sites web&nbsp;: un mot de passe, une adresse, des coordonnées bancaires, etc.</p><p>Ce module présente les risques liés aux échanges d’informations sur internet. Vous découvrirez un moyen de sécuriser les informations, et les limites de cette sécurisation.</p>",
+    "duration": 10,
+    "level": "novice",
+    "objectives": [
+      "<p>Comprendre la sécurité apportée par le protocole HTTPS par rapport à un site en HTTP</p>",
+      "<p>Reconnaître un site qui utilise le protocole HTTPS</p>",
+      "<p>Comprendre que le protocole HTTPS ne protège pas contre les sites malveillants</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "sections": [
+    {
+      "id": "d92a4bde-bcde-4928-a249-0f1b5438014a",
+      "type": "question-yourself",
+      "grains": [
+        {
+          "id": "1bdb76f3-fd17-4bcf-8c91-3e9c4efdf91d",
+          "type": "discovery",
+          "title": "Accroche",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "c1e5b51b-901f-4e97-b4c2-7cdf616a3627",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Nous utilisons internet presque tous les jours pour trouver des informations, mais aussi pour envoyer des données.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "cad2649d-0d59-4dd4-9724-bad3b6ca9e44",
+                "type": "qcm-declarative",
+                "instruction": "<p>Et vous, quelles données avez-vous envoyées sur le web au cours du mois dernier ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Mon nom et mon prénom dans un formulaire</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Mon adresse pour me faire livrer un colis</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Mes numéros de carte bancaire pour faire un achat en ligne</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Aucune de ces réponses</p>"
+                  },
+                  {
+                    "id": "5",
+                    "content": "<p>Je ne sais pas</p>"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": "<p>Naviguer sur Internet entraîne l’envoi de nombreuses informations, parfois sans que l’internaute en ait conscience.</p>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "767a0c9e-bc49-492d-97b1-ead631f497aa",
+          "type": "transition",
+          "title": "Transition 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "82bbe606-3377-4461-ae0b-2808a46fa61d",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Ces envois d’informations sont-ils risqués ? C’est ce que nous allons voir dans ce module.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5022eb30-9f76-44ad-baa3-3157853be9eb",
+      "type": "explore-to-understand",
+      "grains": [
+        {
+          "id": "a74575b1-05b8-46f2-a3fc-cb808fe18cf3",
+          "type": "discovery",
+          "title": "Découverte 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "39706002-14a5-4b9d-a594-95874920d6fa",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Baris répond à un sondage sur une page web avec son ordinateur. Il écrit ses réponses et clique sur le bouton Envoyer. </p><p>Il se demande ce qu’il se passe ensuite.</p><br>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "69a638e9-2eae-41fc-986a-c95b708beb0f",
+                "type": "embed",
+                "isCompletionRequired": false,
+                "title": "Découverte 1",
+                "url": "https://epreuves.pix.fr/fr/ui-kit/qcm-qcu-select/CY_ChiffrerCom_NOV.html",
+                "instruction": "<p>À votre avis, parmi les trois illustrations suivantes, quelle est celle qui est la plus juste&nbsp;</p><br>",
+                "solution": "",
+                "height": 500
+              }
+            }
+          ]
+        },
+        {
+          "id": "f473151e-2cd5-4f9f-a778-381453e77139",
+          "type": "short-lesson",
+          "title": "Leçon 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "f86d5dfe-a4be-4260-9d3e-dabc38cddcab",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Les données envoyées en ligne sont nombreuses. Il peut s’agir de <strong>données importantes à protéger</strong> comme des codes de paiement par exemple.<br><br></p><p>Cette circulation des données se fait selon des règles de communication précises. On appelle cet ensemble de règles un <strong>protocole</strong>.<br><br></p><p>L’un des premiers protocoles d’internet est le <strong>protocole HTTP</strong>.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "00a2c202-64c6-4ebe-ae65-78d77fbae36e",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/2026-09-02-17_32_52-greenshot.png",
+                "alt": "utilisateur → données sur le réseau (non chiffrées) → serveur du site web",
+                "alternativeText": "<p>utilisateur → données sur le réseau (non chiffrées) → serveur du site web</p>",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "2dd4214d-0b28-4374-b300-41c3b348961d",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Ce protocole HTTP <strong>n’est pas sécurisé. <br></strong></p><p><strong>Pendant le trajet des données</strong> entre votre navigateur et le site web, des pirates informatiques pourraient<strong> intercepter les données, les lire</strong> ou <strong>les modifier</strong>.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "be5b3878-18d2-4f7f-8181-1a948ae87b8d",
+          "type": "transition",
+          "title": "Transition 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "ea72df80-eeb1-42e2-a83a-d99b364fc355",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Heureusement, il existe une manière de protéger vos données sur le trajet. Étudions cela de plus près.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "4e04ab9a-f5da-40e5-bf73-b8bb9ce727b7",
+          "type": "discovery",
+          "title": "Découverte 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "00457c8e-9ba4-4d94-b0e2-70bc5cce31a3",
+                "type": "text",
+                "tag": " ",
+                "content": "<p><strong>Manipulez l’illustration pour passer de HTTP à HTTPS, puis observez ce qui change pendant la transmission du mot de passe. Répondez ensuite à la question.</strong></p>"
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "<p>[WIP POI]</p><p>L’écran représente le trajet d’une information entre un utilisateur et un site internet. À gauche, un utilisateur saisit un mot de passe&nbsp;: Soleil123 </p><p>Une flèche représente le trajet de cette information jusqu’au serveur du site. </p><p>En mode HTTP, le mot de passe apparaît en clair pendant son trajet&nbsp;: Soleil123 </p><p>Un personnage placé à proximité du trajet, par exemple muni d’une loupe, illustre le fait qu’une personne qui intercepterait les données pourrait les lire. </p><p>À droite, le serveur reçoit le mot de passe et affiche&nbsp;: Mot de passe validé — accès accordé.</p><p> En haut de l’illustration, un bouton bascule permet de passer de HTTP à HTTPS. </p><p>Lorsque l’utilisateur active HTTPS, le fonctionnement général reste identique, mais le contenu visible pendant le trajet change. </p><p>À la place de Soleil123, l’information apparaît sous une forme incompréhensible, par exemple&nbsp;: cyqsfgOPHD2QPIUG</p><p>Le personnage avec la loupe peut toujours observer le trajet, mais il ne peut plus comprendre le contenu transmis. Le serveur, lui, reçoit correctement l’information et affiche toujours&nbsp;: Mot de passe validé — accès accordé. </p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "72dd0e23-1803-4403-a916-23c05b3b173e",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Quand on change le protocole pour passer du HTTP au HTTPS est ce que l’on peut voir les information envoyées sur leur trajet entre le navigateur web et le serveur ?<br></p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Oui",
+                          "feedback": {
+                            "diagnosis": "<p>Bien vu !&nbsp;</p><p>Avec le protocole HTTPS, une personne malveillante peut toujours intercepter ou observer les informations qui circulent.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Non",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non !&nbsp;</p><p>Avec le protocole HTTPS, une personne malveillante peut toujours intercepter ou observer les informations qui circulent.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "1"
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "68859108-2ffb-45fc-850a-65978436e6d2",
+                      "type": "qcu-discovery",
+                      "instruction": "<p>Quand on change le protocole pour passer du HTTP au HTTPS est ce que l’on peut comprendre les information envoyées sur leur trajet entre le navigateur web et le serveur ?<br></p>",
+                      "hasShortProposals": true,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "Oui",
+                          "feedback": {
+                            "diagnosis": "<p>Eh non.</p><p>Avec le protocole HTTPS, l’information peut toujours être vue par les pirates informatiques, mais elle est transformée pour devenir incompréhensible pendant le trajet.</p>"
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "content": "Non",
+                          "feedback": {
+                            "diagnosis": "<p>Bien vu !</p><p>Avec le protocole HTTPS, l’information peut toujours être vue par les pirates informatiques, mais elle est transformée pour devenir incompréhensible pendant le trajet.</p>"
+                          }
+                        }
+                      ],
+                      "solution": "2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "9ecec9bf-c7cd-4c4d-b494-6e60dd9a1988",
+          "type": "short-lesson",
+          "title": "Leçon 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "79543bb5-c275-47f9-abf1-e690a3a4e56d",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Un <strong>protocole plus sécurisé</strong> que le protocole HTTP a été développé&nbsp;: le <strong>protocole HTTPS</strong>.</p><p>La lettre “S” signifie sécurisé.</p><p>Avec ce protocole, <strong>les données qui circulent sont chiffrées</strong>, c’est-à-dire transformées pour n’être comprises que&nbsp;:</p><ul><li>par l’expéditeur</li><li>par le destinataire</li></ul>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "a96249a4-44bf-4137-bc3d-fb1d6606e98c",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/2026-09-02-17_49_58-greenshot.png",
+                "alt": "expéditeur (navigateur) → chiffrement → trajet des données → déchiffrement → destinataire (site web)",
+                "alternativeText": "<p>expéditeur (navigateur) → chiffrement → trajet des données → déchiffrement → destinataire (site web)</p>",
+                "legend": "",
+                "licence": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": "5b78a614-f7c9-402d-8893-cc30d11de599",
+          "type": "transition",
+          "title": "Transition 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "86f869f0-176f-458f-a682-d7956c62204b",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Ce protocole sécurisé est important à reconnaître quand vous naviguez sur le web. Examinons ensemble les indices qui vous indiquent que votre connexion est sécurisée ou non par le protocole HTTPS.</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "20eade27-60fa-4566-9dde-d7358392b796",
+          "type": "discovery",
+          "title": "Découverte 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "d562b24b-de93-4400-aacd-6061ec6c7987",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Loïc consulte le site internet de sa ville sur son téléphone. Voici ce qu’il s’affiche&nbsp;:</p><br>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "9e63175c-001e-4da2-bed0-5b9b3a5aa624",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/2026-09-03-11_47_36-greenshot.png",
+                "alt": "URL du site d’une mairie",
+                "alternativeText": "<p>URL du site d’une mairie, l’url montre un symbole triangulaire de danger.</p>",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "d7d53fcd-84e1-49de-983f-0c10b8006bab",
+                "type": "qcu-discovery",
+                "instruction": "<p>À votre avis, pourquoi l’adresse du site est précédée du symbole ⚠️ ?&nbsp;</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Le site est indisponible.<br></p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non.</p><p>Avec ce symbole, le navigateur du smartphone alerte Loïc que la connexion avec le site utilise le protocole HTTP, non sécurisé.&nbsp;<br><br></p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>La ville est en alerte canicule.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non.</p><p>Avec ce symbole, le navigateur du smartphone alerte Loïc que la connexion avec le site utilise le protocole HTTP, non sécurisé.&nbsp;<br><br></p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>La connexion avec le site n’est pas sécurisée.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bien vu !</p><p>Avec ce symbole, le navigateur du smartphone alerte Loïc que la connexion avec le site utilise le protocole HTTP, non sécurisé.&nbsp;<br><br></p>"
+                    }
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>Je ne sais pas.<br></p>",
+                    "feedback": {
+                      "diagnosis": "<p>Avec ce symbole, le navigateur du smartphone alerte Loïc que la connexion avec le site utilise le protocole HTTP, non sécurisé.&nbsp;<br><br></p>"
+                    }
+                  }
+                ],
+                "solution": "3"
+              }
+            }
+          ]
+        },
+        {
+          "id": "01c25542-3fab-4ccf-8d04-214a9c859510",
+          "type": "short-lesson",
+          "title": "Leçon 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "067e4e43-03bb-45da-bb22-2a44609018fe",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Le protocole utilisé par un site web apparaît dans<strong> l’adresse complète du site </strong>: l’URL. Mais l’adresse complète n’apparaît pas toujours.<br><br></p><p>En général, lors de la visite d’un site web,<strong> le navigateur indique à l’utilisateur si la connexion est sécurisée ou non.<br><br></strong></p><p>Cette indication peut prendre<strong> différentes formes</strong> selon le navigateur ou l’appareil numérique (smartphone, tablette, ordinateur, etc.) utilisé.<br><br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "f65f9607-f421-4a9a-a922-dcc88258d913",
+                "type": "custom",
+                "title": "Voici quelques exemples d’avertissements selon le navigateur que vous utilisez.",
+                "instruction": "",
+                "functionalInstruction": "",
+                "tagName": "pix-carousel",
+                "props": {
+                  "type": "image",
+                  "slides": [
+                    {
+                      "title": "Safari",
+                      "description": "",
+                      "displayWidth": 500,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/chat-gpt-image-3-sept-2026-10_55_57-4.png",
+                        "alt": "a"
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Mozilla Firefox",
+                      "description": "",
+                      "displayWidth": 500,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/chat-gpt-image-3-sept-2026-10_55_57-3.png",
+                        "alt": "a"
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Microsoft Edge",
+                      "description": "",
+                      "displayWidth": 500,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/chat-gpt-image-3-sept-2026-10_55_57-2.png",
+                        "alt": ""
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    },
+                    {
+                      "title": "Google Chrome",
+                      "description": "",
+                      "displayWidth": 500,
+                      "image": {
+                        "src": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/chat-gpt-image-3-sept-2026-10_55_57-1.png",
+                        "alt": "a"
+                      },
+                      "license": {
+                        "name": "",
+                        "attribution": "",
+                        "url": ""
+                      }
+                    }
+                  ],
+                  "randomSlides": false,
+                  "titleLevel": 0,
+                  "disableAnimation": false,
+                  "disableStyleAroundImage": false,
+                  "enableLoop": false,
+                  "imageTextDisplay": ""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d88dd849-0312-4c7b-b2b0-20813bbf5935",
+          "type": "transition",
+          "title": "Transition 4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "bf922517-8a6c-48b2-92e2-182f10bd1513",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Le protocole HTTPS sécurise la connexion entre l'utilisateur et le site. Mais vous protège-il de tous les dangers du web ?</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "ec0aeb62-fba8-48a2-9469-cc5b7b795e12",
+          "type": "discovery",
+          "title": "Découverte 4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "92b8e9aa-dc8b-4548-bba2-4f3abfc0d667",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Lisez la situation, observez l’image puis répondez à la question.<br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "52a7d466-5f10-459b-86bd-e6b81721ca63",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Vous cherchez une information sur le web et vous arrivez sur un site qui ressemble à Wikipedia. À première vue, tout semble normal… mais certains détails sont étranges.<br><br></p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "e28ea1fd-f0e2-444e-a940-7c8f8f8083d5",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/chat-gpt-image-2-sept-2026-17_58_05.png",
+                "alt": "Image d’illustration d’un site ressemblant à Wikipédia",
+                "alternativeText": "<p>On voit un navigateur ouvert sur un site qui imite Wikipedia&nbsp;: </p><ul><li>le nom du site comporte une faute ;</li><li>l’adresse est inhabituelle ;</li><li>HTTPS et le cadenas sont visibles ;</li><li>la page demande de payer pour continuer à lire.</li></ul>",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "b3b8a3cf-654e-407d-94b1-9b2fc4c98f17",
+                "type": "qcu-discovery",
+                "instruction": "<p>Ce site vous paraît-il digne de confiance ?<br><br></p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Oui, car il utilise le protocole HTTPS.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Eh non.</p><p>Le protocole HTTPS protège les échanges, mais <strong>ne garantit pas qu’un site est fiable</strong>. Un site malveillant peut lui aussi utiliser le protocole HTTPS.<br></p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Non, plusieurs éléments du site semblent suspects.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Bien vu !&nbsp;</p><p>Le protocole HTTPS protège les échanges, mais <strong>ne garantit pas qu’un site est fiable</strong>. Un site malveillant peut lui aussi utiliser le protocole HTTPS.<br></p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je ne sais pas.</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Le protocole HTTPS protège les échanges, mais <strong>ne garantit pas qu’un site est fiable</strong>. Un site malveillant peut lui aussi utiliser le protocole HTTPS.<br></p>"
+                    }
+                  }
+                ],
+                "solution": "2"
+              }
+            }
+          ]
+        },
+        {
+          "id": "9b5b7168-0814-466b-b39e-0c04f4994b24",
+          "type": "short-lesson",
+          "title": "Leçon 4",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "1c5e349c-b5da-4214-831a-2e3e516d7246",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Le protocole HTTPS évite que les données soient interceptées et lues par des pirates informatiques, mais il ne veut pas dire que le site web est digne de confiance.</p>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a2b8beef-9e48-478a-87bb-af9132746c97",
+      "type": "retain-the-essentials",
+      "grains": [
+        {
+          "id": "d1015167-b04b-4cfa-9b4e-b6a6a5e8284c",
+          "type": "summary",
+          "title": "",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "875d7f6d-df86-4b2e-96fa-831f041fe650",
+                "type": "text",
+                "tag": " ",
+                "content": "<ul><li>Sur internet, les données circulent selon des règles appelées <strong>protocoles</strong>. 🫡</li><li>Pour échanger avec un site web, les protocoles les plus utilisés sont&nbsp;:<ul><li>le protocole <strong>HTTP qui n’est pas sécurisé</strong>, les données peuvent être interceptées et lues pendant leur trajet 🔓</li><li>le protocole <strong>HTTPS qui est sécurisé</strong>&nbsp;: les informations sont <strong>chiffrées</strong> pour ne pas être lisibles pendant leur trajet. 🔒</li></ul></li><li>Les navigateurs préviennent les utilisateurs quand ils visitent un site non sécurisé par le HTTPS 🛑</li><li>Il existe des sites malveillants qui utilisent le protocole HTTPS. Restez vigilants pour vos achats en ligne, par exemple. ⚠️</li></ul>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "c80947c3-1802-4121-b2c3-5533244eede6",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/2026-09-02-17_55_37-greenshot.png",
+                "alt": "WIP image récap",
+                "alternativeText": "<p>WIP image récap<br></p>",
+                "legend": "",
+                "licence": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2bbde0f-b020-45d7-b10d-7652cd98414d",
+      "type": "practise",
+      "grains": [
+        {
+          "id": "0ea4355c-1c3b-4e03-8ead-52b567775889",
+          "type": "activity",
+          "title": "Activité 1",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "c5a97382-5170-402c-9875-0e9552160194",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Voyons si vous avez retenu l’essentiel.</p>"
+              }
+            },
+            {
+              "type": "element",
+              "element": {
+                "id": "c368c4e1-c325-47cc-9a11-90fbc5b8a24f",
+                "type": "qab",
+                "instruction": "<p>Pour chaque affirmation, indiquez si elle est vraie ou fausse.</p>",
+                "cards": [
+                  {
+                    "id": "ec2b1f37-8e1c-4bed-ba9a-016a580321de",
+                    "text": "Avec le protocole HTTP, les informations échangées peuvent être lues pendant leur trajet.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "d95d6ea5-8fc3-4345-a87b-4c6773703834",
+                    "text": "Avec le protocole HTTPS, les informations qui circulent peuvent être interceptées, mais leur contenu est illisible.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "d38ac08c-653b-415d-9c1d-d5c71b3d19a8",
+                    "text": "HTTPS permet de protéger les informations échangées entre votre appareil et un site web.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "7d3add01-f611-46d6-867c-ea1f0f8cf29e",
+                    "text": "Un site qui utilise HTTPS est forcément un site de confiance.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "B"
+                  },
+                  {
+                    "id": "35d7c2ad-bde7-4b4c-a722-ffcb66d6d309",
+                    "text": "Le navigateur peut vous avertir lorsqu’un site n’utilise pas une connexion sécurisée.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  },
+                  {
+                    "id": "e33d7d28-9451-47dd-b269-8e75cdd8ec44",
+                    "text": "HTTP et HTTPS sont des protocoles de communication sur internet.",
+                    "image": {
+                      "url": "",
+                      "altText": ""
+                    },
+                    "proposalA": "Vrai",
+                    "proposalB": "Faux",
+                    "solution": "A"
+                  }
+                ],
+                "feedback": {
+                  "diagnosis": ""
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "1f904375-66b1-4ec9-9fe7-28bef89ce3bc",
+          "type": "activity",
+          "title": "Activité 2",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "a5336e83-d751-4f05-b066-062ff4cd753a",
+                "type": "image",
+                "url": "https://assets.pix.org/draft/CY_Chiffrecom_NOV/2026-09-02-17_55_37-greenshot.png",
+                "alt": "a",
+                "alternativeText": "<p>aa<br></p>",
+                "legend": "",
+                "licence": ""
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "<p>A l’aide du schéma ci-dessus, répondez aux questions suivantes.<br></p>",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "25519cf7-9d41-48b5-b9b4-cab80bbb4cc0",
+                      "type": "qcm",
+                      "instruction": "<p>Si le protocole d’échange de données est HTTP, à quels moments les données sont lisibles&nbsp;:</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>sur le navigateur de l’utilisateur</p>"
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>pendant le trajet des données sur internet</p>"
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>sur le serveur du site web</p>"
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bonne réponse.&nbsp;</p>",
+                          "diagnosis": "<p>Avec HTTP, les données ne sont pas chiffrées. Elles peuvent donc être lues aux différentes étapes de leur échange.&nbsp;</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Mauvaise réponse.</p>",
+                          "diagnosis": "<p>Repérez donc tous les endroits où elles peuvent être lues, puis réessayez.</p>"
+                        }
+                      },
+                      "solutions": [
+                        "1",
+                        "2",
+                        "3"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "5d59413d-5155-40af-b60b-e20a5daa6132",
+                      "type": "qcm",
+                      "instruction": "<p>Si le protocole d’échange de données est HTTPS, à quels moments les données sont lisibles&nbsp;:</p>",
+                      "hasShortProposals": false,
+                      "proposals": [
+                        {
+                          "id": "1",
+                          "content": "<p>sur le navigateur de l’utilisateur</p>"
+                        },
+                        {
+                          "id": "2",
+                          "content": "<p>pendant le trajet des données sur internet</p>"
+                        },
+                        {
+                          "id": "3",
+                          "content": "<p>sur le serveur du site web</p>"
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bonne réponse.</p>",
+                          "diagnosis": "<p>Avec HTTPS, les données sont chiffrées pendant leur trajet sur internet. Elles sont lisibles avant leur envoi et après leur réception.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Mauvaise réponse.</p>",
+                          "diagnosis": "<p>Demandez-vous à quels moments elles doivent être lisibles pour pouvoir être utilisées, puis réessayez.</p>"
+                        }
+                      },
+                      "solutions": [
+                        "1",
+                        "3"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "35e8d7af-617d-4296-9e04-266c4d1bae09",
+          "type": "activity",
+          "title": "Activité 3",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "b05b0d18-1f9b-4ebe-8e1f-26b9793b2bfa",
+                "type": "qcm",
+                "instruction": "<p>Parmi les adresses de pages web suivantes, lesquelles indiquent une connexion sécurisée ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>https://ma-banque-en-ligne.fr/espace-client</p>"
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>http://mon-petit-blog.fr/contact</p>"
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>http://boutique-locale.com/panier</p>"
+                  },
+                  {
+                    "id": "4",
+                    "content": "<p>https://mon-service-public.fr/formulaire</p>"
+                  }
+                ],
+                "feedbacks": {
+                  "valid": {
+                    "state": "<p>Bonne réponse</p>",
+                    "diagnosis": "<p>Le début de l’adresse de chaque page web indique le protocole utilisé. </p>"
+                  },
+                  "invalid": {
+                    "state": "<p>Mauvaise réponse</p>",
+                    "diagnosis": "<p>Le début de l’adresse de chaque page web indique le protocole utilisé. Vous pouvez réessayer.</p>"
+                  }
+                },
+                "solutions": [
+                  "1",
+                  "4"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "20991c3a-cb2a-4c5a-a675-312d5e8b1072",
+      "type": "go-further",
+      "grains": [
+        {
+          "id": "8b251508-dda9-4576-b30d-b29b014993e4",
+          "type": "challenge",
+          "title": "",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "84fb0fa7-ee33-4e5d-b219-b52c03bc2dac",
+                "type": "qcu-declarative",
+                "instruction": "<p>Que ferez-vous la prochaine fois que votre navigateur vous indique qu’un site web n’utilise pas le protocole HTTPS ?</p>",
+                "hasShortProposals": false,
+                "proposals": [
+                  {
+                    "id": "1",
+                    "content": "<p>Je continuerai comme d’habitude</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Un site en HTTP n’est pas forcément dangereux. Certains sites, notamment ceux de petites structures comme des associations ou certaines collectivités, utilisent encore HTTP. Vous pouvez les consulter, mais évitez d’y saisir des informations personnelles, confidentielles ou importantes à protéger.</p>"
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "content": "<p>Je peux le consulter, mais je n’y transmettrai pas d’informations importantes à protéger</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Oui, c’est le bon réflexe. Un site en HTTP n’est pas forcément dangereux, mais les informations que vous y envoyez ne sont pas protégées comme avec HTTPS. Vous pouvez donc le consulter, mais évitez d’y saisir des informations personnelles, confidentielles ou importantes à protéger.</p>"
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "content": "<p>Je quitterai immédiatement le site</p>",
+                    "feedback": {
+                      "diagnosis": "<p>Ce n’est pas toujours nécessaire. Un site en HTTP n’est pas forcément dangereux. Certains sites de petites structures utilisent encore ce protocole. Vous pouvez les consulter, mais évitez d’y saisir des informations personnelles, confidentielles ou importantes à protéger.</p>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": []
+}
