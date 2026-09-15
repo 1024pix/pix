@@ -219,6 +219,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await clickByName('Femme');
 
       await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -268,6 +269,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await clickByName('Femme');
 
       await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -346,6 +348,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await clickByName('Homme');
 
       await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -383,6 +386,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'DANEMARK' }));
 
@@ -426,6 +430,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -470,6 +475,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'FRANCE' }));
 
@@ -512,6 +518,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'DANEMARK' }));
 
