@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { CampaignExternalIdTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignExternalIdTypes } from '../../../../src/prescription/shared/domain/constants.ts';
 import {
   PRO_MANAGING_ORGANIZATION_ID,
   PRO_ORGANIZATION_ID,

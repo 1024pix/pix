@@ -6,7 +6,7 @@ import {
   DeletedCampaignError,
 } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { ArchivedCampaignError } from '../../../../../../src/prescription/shared/domain/errors.js';
 import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';

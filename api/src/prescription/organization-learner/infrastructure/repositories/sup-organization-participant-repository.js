@@ -1,7 +1,7 @@
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../src/prescription/shared/domain/constants.ts';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';

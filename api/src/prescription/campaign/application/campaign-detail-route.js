@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { CampaignParticipationStatuses } from '../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../shared/domain/constants.ts';
 import { campaignDetailController } from './campaign-detail-controller.js';
 import { campaignSecurityPreHandlers } from './security-pre-handlers.js';
 

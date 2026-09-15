@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.ts';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { PRO_ORGANIZATION_ID } from '../common/constants.js';
 import { CAMPAIGN_PROASSMUL_ID, CAMPAIGN_PROCOLMUL_ID } from './constants.js';

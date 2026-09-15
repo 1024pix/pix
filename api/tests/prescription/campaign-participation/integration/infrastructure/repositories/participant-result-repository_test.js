@@ -4,7 +4,7 @@ import * as participantResultRepository from '../../../../../../src/prescription
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';

@@ -1,9 +1,8 @@
+import type { CampaignParticipationStatus, CampaignType } from '@1024pix/pix-types';
 import type { Type } from '@warp-drive/core/types/symbols';
 import Model, { type AsyncBelongsTo, attr, belongsTo } from '@warp-drive/legacy/model';
 import type { DateTransform, NumberTransform, StringTransform } from '@warp-drive/legacy/serializer/transform';
 
-import type { CampaignParticipationStatus } from '../utils/campaign-participation-statuses';
-import type { CampaignType } from '../utils/campaign-types';
 import type OrganizationLearnerActivity from './organization-learner-activity';
 
 export default class OrganizationLearnerParticipation extends Model {

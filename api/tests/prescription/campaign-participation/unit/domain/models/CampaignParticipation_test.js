@@ -5,7 +5,7 @@ import { CampaignParticipation } from '../../../../../../src/prescription/campai
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { ArchivedCampaignError } from '../../../../../../src/prescription/shared/domain/errors.js';
 import {
   AlreadySharedCampaignParticipationError,

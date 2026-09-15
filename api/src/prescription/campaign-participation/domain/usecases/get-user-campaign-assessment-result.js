@@ -1,5 +1,5 @@
 import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../../../../shared/domain/errors.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.ts';
 
 const getUserCampaignAssessmentResult = async function ({
   userId,

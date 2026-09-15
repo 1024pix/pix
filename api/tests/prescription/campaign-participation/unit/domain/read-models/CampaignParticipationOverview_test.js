@@ -6,7 +6,7 @@ import { CampaignParticipationOverview } from '../../../../../../src/prescriptio
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;

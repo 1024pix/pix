@@ -2,7 +2,7 @@ import Joi from 'joi';
 import lodash from 'lodash';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
-import { CampaignExternalIdTypes, CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignExternalIdTypes, CampaignTypes } from '../../../shared/domain/constants.ts';
 
 const { first } = lodash;
 const schema = Joi.object({

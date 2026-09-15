@@ -1,5 +1,5 @@
 import { CampaignReport } from '../../../../src/prescription/campaign/domain/read-models/CampaignReport.js';
-import { CampaignExternalIdTypes, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignExternalIdTypes, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.ts';
 
 const buildCampaignReport = function ({
   id = 1,

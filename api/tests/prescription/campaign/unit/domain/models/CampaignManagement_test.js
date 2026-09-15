@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { CampaignManagement } from '../../../../../../src/prescription/campaign/domain/models/CampaignManagement.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 
 describe('CampaignManagement', function () {
   let input = beforeEach(function () {

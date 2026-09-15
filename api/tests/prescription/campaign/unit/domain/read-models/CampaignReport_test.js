@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { CampaignReport } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignReport.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | CampaignReport', function () {

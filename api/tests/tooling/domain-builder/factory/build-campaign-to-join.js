@@ -1,6 +1,6 @@
 import { types } from '../../../../src/organizational-entities/domain/models/Organization.js';
 import { CampaignToJoin } from '../../../../src/prescription/campaign/domain/read-models/CampaignToJoin.js';
-import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.ts';
 
 export function buildCampaignToJoin({
   id = 1,
