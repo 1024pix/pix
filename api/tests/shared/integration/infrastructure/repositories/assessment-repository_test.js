@@ -471,12 +471,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         campaignParticipationId: campaignParticipation2Id,
       }).id;
 
-      await databaseBuilder.commit();
-    });
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-sibling-hooks
-    beforeEach(async function () {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         assessmentId,

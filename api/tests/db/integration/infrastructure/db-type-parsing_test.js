@@ -24,6 +24,7 @@ describe('Integration | DB | db-type-parsing', function () {
       });
 
       if (name === 'datawarehouseKnex') {
+        // eslint-disable-next-line mocha/no-conditional-tests
         it(`should not cast json and jsonb types when reading data from table in base ${name}`, async function () {
           const res = await knexClient
             .select(['column_of_type_json', 'column_of_type_jsonb'])
@@ -34,6 +35,7 @@ describe('Integration | DB | db-type-parsing', function () {
           expect(res.column_of_type_jsonb).to.equal('[{"foob": "barb"}]');
         });
       } else {
+        // eslint-disable-next-line mocha/no-conditional-tests
         it(`should cast json and jsonb types when reading data from table ${name}`, async function () {
           const res = await knexClient
             .select(['column_of_type_json', 'column_of_type_jsonb'])
