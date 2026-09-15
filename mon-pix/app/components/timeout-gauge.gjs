@@ -1,31 +1,15 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import ENV from 'mon-pix/config/environment';
-
-const BLACK_GAUGE_ICON_PATH = '/images/icons/icon-timeout-black.svg';
-const RED_GAUGE_ICON_PATH = '/images/icons/icon-timeout-red.svg';
 
 const TICK_INTERVAL_IN_MILLISECONDS = 1000;
 
 export default class TimeoutGauge extends Component {
-  <template>
-    <div class="timeout-gauge">
-      <div class="timeout-gauge-container">
-        <div class="timeout-gauge-clock">
-          <img src={{this.imageSource}} alt />
-          <div>&nbsp;</div>
-          <div data-test="timeout-gauge-remaining" data-spent="{{this.remainingSeconds}}">
-            {{this.formattedRemainingTime}}
-          </div>
-        </div>
-        <div class="timeout-gauge-progress" style={{this.gaugeWidthStyle}}>
-        </div>
-      </div>
-    </div>
-  </template>
   @tracked remainingSeconds;
-  _timer;
+  @tracked timer;
 
   constructor() {
     super(...arguments);
@@ -46,10 +30,10 @@ export default class TimeoutGauge extends Component {
 
   _startTimer() {
     if (ENV.APP.isTimerCountdownEnabled) {
-      this._timer = setInterval(() => {
+      this.timer = setInterval(() => {
         this.remainingSeconds = this.remainingSeconds - 1;
 
-        if (this._isTimedOut()) {
+        if (this.isTimedOut) {
           this.args.setChallengeAsTimedOut();
           this._stopTimer();
         }
@@ -58,38 +42,52 @@ export default class TimeoutGauge extends Component {
   }
 
   _stopTimer() {
-    if (this._timer) {
-      clearInterval(this._timer);
+    if (this.timer) {
+      clearInterval(this.timer);
     }
   }
 
   get formattedRemainingTime() {
-    return this.remainingSeconds >= 0 ? this._formatToMinutesAndSeconds(this.remainingSeconds) : '0:00';
+    return this.remainingSeconds >= 0 ? this._formatMinutesAndSeconds(this.timeRemaining) : '0:00';
+  }
+
+  get timeRemaining() {
+    if (this.remainingSeconds <= 0) {
+      return { minutes: 0, seconds: 0 };
+    }
+
+    const seconds = this.remainingSeconds % 60;
+    const minutes = (this.remainingSeconds - seconds) / 60;
+
+    return {
+      seconds,
+      minutes,
+    };
   }
 
   get gaugeWidthStyle() {
-    return htmlSafe(`width: ${this.percentageOfTimeout}%`);
+    return htmlSafe(
+      `background: linear-gradient(to right, var(--pix-neutral-100) ${this.percentageOfTimeout}%, transparent ${this.percentageOfTimeout}%);`,
+    );
   }
 
   get percentageOfTimeout() {
     const actualAllottedTime = this.args.allottedTime;
-    if (this._isNumeric(actualAllottedTime) && parseInt(actualAllottedTime) >= 1) {
+    if (this.remainingSeconds <= 0) {
+      return 100;
+    } else if (this._isNumeric(actualAllottedTime) && parseInt(actualAllottedTime) >= 1) {
       return 100 - (this.remainingSeconds / actualAllottedTime) * 100;
     } else {
       return 0;
     }
   }
 
-  get imageSource() {
-    return this._isTimedOut() ? RED_GAUGE_ICON_PATH : BLACK_GAUGE_ICON_PATH;
-  }
-
-  _isTimedOut() {
+  get isTimedOut() {
     return this.remainingSeconds <= 0;
   }
 
-  _formatToMinutesAndSeconds(seconds) {
-    return (seconds - (seconds %= 60)) / 60 + (9 < seconds ? ':' : ':0') + seconds;
+  _formatMinutesAndSeconds(data) {
+    return data.minutes + (9 < data.seconds ? ':' : ':0') + data.seconds;
   }
 
   _isNumeric(value) {
@@ -98,4 +96,18 @@ export default class TimeoutGauge extends Component {
     if (!str) return false;
     return !isNaN(str);
   }
+
+  <template>
+    <div class="timeout-gauge" tab-index="0">
+      <div class="timeout-gauge__content" style={{this.gaugeWidthStyle}}>
+        <PixIcon @name="time" class={{if this.isTimedOut "timeout-gauge__stop-icon"}} />
+
+        <span
+          aria-label="{{t 'common.duration' minutes=this.timeRemaining.minutes seconds=this.timeRemaining.seconds}}"
+        >
+          <span aria-hidden="true">{{this.formattedRemainingTime}}</span>
+        </span>
+      </div>
+    </div>
+  </template>
 }

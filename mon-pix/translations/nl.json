@@ -100,6 +100,7 @@
     "display": {
       "percentage": "{value, number, ::percent}"
     },
+    "duration": "{minutes, plural, =0 {} one {# minuut } other {# minuten }}{seconds, plural, =0 {# seconden} one {# seconde} other {# seconden}}",
     "error": "Er is een fout opgetreden. Probeer het opnieuw of neem contact op met de klantenservice.",
     "form": {
       "error": "Fout",

@@ -36,13 +36,11 @@ export default class ChallengeItemQcm extends ChallengeItemGeneric {
         {{/if}}
 
         {{#if this.displayTimer}}
-          <div class="timeout-gauge-wrapper">
-            <TimeoutGauge
-              @allottedTime={{@challenge.timer}}
-              @hasTimeoutChallenge={{@assessment.hasTimeoutChallenge}}
-              @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}
-            />
-          </div>
+          <TimeoutGauge
+            @allottedTime={{@challenge.timer}}
+            @hasTimeoutChallenge={{@assessment.hasTimeoutChallenge}}
+            @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}
+          />
         {{/if}}
       </fieldset>
 
