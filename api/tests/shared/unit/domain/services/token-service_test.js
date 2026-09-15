@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import Joi from 'joi';
+import jsonwebtoken from 'jsonwebtoken';
 
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
-import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
+import { tokenService, tokenType } from '../../../../../src/shared/domain/services/token-service.js';
 
 describe('Unit | Shared | Domain | Services | Token Service', function () {
   describe('encodeToken', function () {
@@ -17,6 +18,30 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
 
       // then
       expect(result).to.be.a.string;
+      const decodedToken = jsonwebtoken.verify(result, secret, { complete: true });
+      expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: tokenType.ACCESS_TOKEN });
+      expect(decodedToken.payload).to.contain(payload);
+      expect(decodedToken.payload).to.have.property('exp').that.is.a('number');
+      expect(decodedToken.payload).to.have.property('iat').that.is.a('number');
+      expect(decodedToken.payload.exp - decodedToken.payload.iat).to.equal(3 * 24 * 60 * 60);
+    });
+
+    context('when specifying a custom token type', function () {
+      it('generates a JWT with a custom typ header', function () {
+        // given
+        const payload = {};
+        const secret = 'someSecret';
+        const expiresIn = '3d';
+        const type = tokenType.REFRESH_TOKEN;
+
+        // when
+        const result = tokenService.encodeToken(payload, secret, expiresIn, { type });
+
+        // then
+        expect(result).to.be.a.string;
+        const decodedToken = jsonwebtoken.verify(result, secret, { complete: true });
+        expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: type });
+      });
     });
 
     context('when expiresIn is not given', function () {
@@ -27,6 +52,19 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
 
         // when & then
         expect(() => tokenService.encodeToken(payload, secret)).to.throw(Joi.ValidationError);
+      });
+    });
+
+    context('when type has an invalid value', function () {
+      it('throws a ValidationError', function () {
+        // given
+        const payload = {};
+        const secret = 'someSecret';
+        const expiresIn = '3d';
+        const type = 'invalid';
+
+        // when & then
+        expect(() => tokenService.encodeToken(payload, secret, expiresIn, { type })).to.throw(Joi.ValidationError);
       });
     });
   });
