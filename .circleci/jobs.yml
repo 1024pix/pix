@@ -259,7 +259,9 @@ commands:
       app_name:
         type: string
     steps:
-      - browser-tools/install_browser_tools
+      - browser-tools/install_browser_tools:
+          install_firefox: false
+          install_geckodriver: false
       - attach_workspace:
           at: ~/pix
       - run:
@@ -964,7 +966,9 @@ jobs:
             if [[ "$CIRCLE_BRANCH" != "dev" ]] && [[ "<< pipeline.parameters.run-mon-pix >>" == "false" ]] && [[ "<< pipeline.parameters.run-api >>" == "false" ]] && [[ "<< pipeline.parameters.run-e2e-cypress >>" == "false" ]]; then
               circleci step halt
             fi
-      - browser-tools/install_browser_tools
+      - browser-tools/install_browser_tools:
+          install_firefox: false
+          install_geckodriver: false
       - run:
           name: Manual safety start of X11 server
           command: |
@@ -1054,7 +1058,9 @@ jobs:
             if [[ "$CIRCLE_BRANCH" != "dev" ]] && [[ "<< pipeline.parameters.run-orga >>" == "false" ]] && [[ "<< pipeline.parameters.run-api >>" == "false" ]] && [[ "<< pipeline.parameters.run-e2e-cypress >>" == "false" ]]; then
               circleci step halt
             fi
-      - browser-tools/install_browser_tools
+      - browser-tools/install_browser_tools:
+          install_firefox: false
+          install_geckodriver: false
       - run:
           name: Manual safety start of X11 server
           command: |
