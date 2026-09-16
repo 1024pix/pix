@@ -86,7 +86,7 @@
       "message": "Houd er rekening mee dat je meer plaats inneemt dan je totale capaciteit."
     },
     "survey": {
-      "message": "Help Pix Orga te evolueren door deze korte enquête te beantwoorden over hoe jij campagnes gebruikt! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Toegang tot de enquête'</a>'"
+      "message": "Help Pix om Pix Orga verder te ontwikkelen door deze korte enquête over uw gebruik van de overzicht van leertrajecten in te vullen! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Toegang tot de enquête'</a>'"
     }
   },
   "cards": {
