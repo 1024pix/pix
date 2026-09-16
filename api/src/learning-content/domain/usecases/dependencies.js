@@ -1,3 +1,4 @@
+import { learningContentCache } from '../../../shared/infrastructure/caches/learning-content-redis-cache.js';
 import { lcmsClient } from '../../../shared/infrastructure/lcms-client.js';
 import * as sharedAreaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as sharedSkillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
@@ -26,6 +27,7 @@ export const dependencies = {
   lcmsClient,
   createLearningContentReleaseJobRepository,
   refreshLearningContentJobRepository,
+  learningContentCache,
   missionRepository,
   moduleRepository,
   sharedAreaRepository,
