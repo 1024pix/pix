@@ -49,6 +49,20 @@ export default class OrganizationsImport extends Component {
             this.pixToast.sendErrorNotification({ message: htmlSafe(message.join('<br>')) });
             break;
           }
+
+          case 'STRUCTURE_CATEGORY_NOT_FOUND': {
+            const message = [
+              `${this.intl.t('components.administration.organizations-import.notifications.errors.no-organization-created')}`,
+              `${this.intl.t('components.administration.organizations-import.notifications.errors.error-location', { errorLine: error.meta.currentLine, errorField: '"categoryId"' })}`,
+              this.intl.t(
+                'components.administration.organizations-import.notifications.errors.STRUCTURE_CATEGORY_NOT_FOUND',
+                { structureCategoryId: error.meta.structureCategoryId },
+              ),
+            ];
+
+            this.pixToast.sendErrorNotification({ message: htmlSafe(message.join('<br>')) });
+            break;
+          }
           default:
             this.pixToast.sendErrorNotification({ message: error.detail });
         }
