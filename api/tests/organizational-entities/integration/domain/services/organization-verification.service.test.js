@@ -150,10 +150,10 @@ describe('Integration | Organizational Entities | Domain | Services | organizati
 
         // then
         await expect(
-          organizationVerificationService.checkStructureCategoryExists(
-            structureCategory.id,
+          organizationVerificationService.checkStructureCategoryExists({
+            structureCategoryId: structureCategory.id,
             structureCategoryRepository,
-          ),
+          }),
         ).not.to.be.rejected;
       });
     });
@@ -164,10 +164,10 @@ describe('Integration | Organizational Entities | Domain | Services | organizati
         const unknownStructureCategoryId = 99000;
 
         // when
-        const error = await catchErr(organizationVerificationService.checkStructureCategoryExists)(
-          unknownStructureCategoryId,
+        const error = await catchErr(organizationVerificationService.checkStructureCategoryExists)({
+          structureCategoryId: unknownStructureCategoryId,
           structureCategoryRepository,
-        );
+        });
 
         // then
         expect(error).to.deepEqualInstance(
