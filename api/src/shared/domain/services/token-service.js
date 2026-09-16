@@ -3,18 +3,32 @@ import jsonwebtoken from 'jsonwebtoken';
 
 import { config } from '../../../../config/config.js';
 
+export const tokenType = Object.freeze({
+  ACCESS_TOKEN: 'at+jwt',
+  REFRESH_TOKEN: 'rt+jwt',
+});
+
 /**
  * Encodes and signs a payload into a JWT token with a time-limited validity
  *
  * @param {Record<string, any>} payload
  * @param {string} secret the secret to use for signing
  * @param {number|string} expiresIn expressed in seconds or a string describing a time span, 60, ex. "2 days", "10h", "7d"
+ * @param {{
+ *   type?: tokenType[keyof tokenType]
+ * }} options
  * @returns an encoded and signed token containing the given payload
  */
-function encodeToken(payload, secret, expiresIn) {
+function encodeToken(payload, secret, expiresIn, { type = tokenType.ACCESS_TOKEN } = {}) {
   Joi.assert(expiresIn, Joi.required());
+  Joi.assert(
+    type,
+    Joi.string()
+      .valid(...Object.values(tokenType))
+      .required(),
+  );
 
-  return jsonwebtoken.sign(payload, secret, { expiresIn });
+  return jsonwebtoken.sign(payload, secret, { expiresIn, header: { typ: type } });
 }
 
 /**
