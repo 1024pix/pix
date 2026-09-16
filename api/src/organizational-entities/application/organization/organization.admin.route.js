@@ -320,7 +320,11 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: (request, h) => securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, h),
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
@@ -335,7 +339,7 @@ const register = async function (server) {
         handler: (request, h) => organizationAdminController.attachChildOrganization(request, h),
         tags: ['api', 'admin', 'organizational-entities', 'organizations'],
         notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, METIER ou SUPPORT permettant un accès à l'application d'administration de Pix**\n" +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN ou METIER permettant un accès à l'application d'administration de Pix**\n" +
             "- Elle permet d'attacher une organisation mère à une organisation fille",
         ],
       },

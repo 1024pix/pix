@@ -15,6 +15,117 @@ describe('Unit | Organizational Entities | Application | route | Admin | organiz
     await httpTestServer.register(moduleUnderTest);
   });
 
+  describe('POST /api/admin/organizations/{organizationId}/attach-child-organization', function () {
+    describe('access', function () {
+      describe('when access is denied', function () {
+        it('should return 403 HTTP status code without calling controller', async function () {
+          // given
+          securityPreHandlers.hasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
+
+          sinon.stub(organizationAdminController, 'attachChildOrganization');
+
+          // when
+          const payload = { childOrganizationIds: '456' };
+
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/admin/organizations/123/attach-child-organization',
+            payload,
+          );
+
+          // then
+          expect(response.statusCode).to.equal(403);
+          sinon.assert.notCalled(organizationAdminController.attachChildOrganization);
+        });
+      });
+
+      describe('when access is allowed', function () {
+        it('should call controller and return 200 HTTP status code.', async function () {
+          // given
+          securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
+
+          sinon.stub(organizationAdminController, 'attachChildOrganization').returns('ok');
+
+          // when
+          const payload = { childOrganizationIds: '456' };
+
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/admin/organizations/123/attach-child-organization',
+            payload,
+          );
+
+          // then
+          sinon.assert.called(organizationAdminController.attachChildOrganization);
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
+      describe('roles', function () {
+        it('should allow SuperAdmin and Metier roles', async function () {
+          // given
+          securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
+          sinon.stub(organizationAdminController, 'attachChildOrganization').returns('ok');
+
+          // when
+          const payload = { childOrganizationIds: '456' };
+
+          await httpTestServer.request('POST', '/api/admin/organizations/123/attach-child-organization', payload);
+
+          // then
+          sinon.assert.calledWithExactly(securityPreHandlers.hasAtLeastOneAccessOf, [
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
+          ]);
+        });
+      });
+    });
+
+    describe('validation', function () {
+      describe('when organizationId query param is not a number', function () {
+        it('should return 400 HTTP status code', async function () {
+          // given
+          securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
+          sinon.stub(organizationAdminController, 'attachChildOrganization');
+
+          // when
+          const payload = { childOrganizationIds: '456' };
+
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/admin/organizations/mqlksdmdlk/attach-child-organization',
+            payload,
+          );
+
+          // then
+          expect(response.statusCode).to.equal(400);
+          sinon.assert.notCalled(organizationAdminController.attachChildOrganization);
+        });
+      });
+
+      describe('when payload is not provided', function () {
+        it('should return 400 HTTP status code', async function () {
+          // given
+          securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
+          sinon.stub(organizationAdminController, 'attachChildOrganization');
+
+          // when
+          const payload = null;
+
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/admin/organizations/123/attach-child-organization',
+            payload,
+          );
+
+          // then
+          expect(response.statusCode).to.equal(400);
+          sinon.assert.notCalled(organizationAdminController.attachChildOrganization);
+        });
+      });
+    });
+  });
+
   describe('POST /api/admin/organizations/{childOrganizationId}/detach-parent-organization', function () {
     describe('error case', function () {
       describe('when the authenticated user is not super admin', function () {

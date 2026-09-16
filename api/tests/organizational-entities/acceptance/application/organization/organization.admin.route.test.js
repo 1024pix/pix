@@ -1343,7 +1343,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
           await databaseBuilder.commit();
         });
 
-        [ROLES.CERTIF, ROLES.SUPPORT, ROLES.METIER].forEach((role) => {
+        [ROLES.CERTIF, ROLES.SUPPORT].forEach((role) => {
           context(`when user has "${role}" role`, function () {
             it('returns a 403 HTTP status code', async function () {
               // given
