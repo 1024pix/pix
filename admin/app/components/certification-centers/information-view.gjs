@@ -66,6 +66,10 @@ export default class InformationView extends Component {
         {{@certificationCenter.externalId}}
       </DescriptionList.Item>
 
+      <DescriptionList.Item @label={{t "pages.certification-centers.information-view.list.category"}}>
+        {{if @certificationCenter.categoryLabel @certificationCenter.categoryLabel (t "common.not-specified")}}
+      </DescriptionList.Item>
+
       <DescriptionList.ItemWithHTMLElement>
         <:label>
           {{t "pages.certification-centers.information-view.list.dpo-name"}}
