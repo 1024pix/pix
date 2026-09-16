@@ -106,83 +106,84 @@ const answersWithReproducibilityRateLessThan80 = () =>
     domainBuilder.buildAnswer,
   );
 
-const challenges = _.map(
-  [
-    {
-      challengeId: 'challenge_A_for_competence_1',
-      competenceId: 'competence_1',
-      associatedSkillName: '@skillChallengeA_1',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_C_for_competence_1',
-      competenceId: 'competence_1',
-      associatedSkillName: '@skillChallengeC_1',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_B_for_competence_1',
-      competenceId: 'competence_1',
-      associatedSkillName: '@skillChallengeB_1',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_D_for_competence_2',
-      competenceId: 'competence_2',
-      associatedSkillName: '@skillChallengeD_2',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_E_for_competence_2',
-      competenceId: 'competence_2',
-      associatedSkillName: '@skillChallengeE_2',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_F_for_competence_2',
-      competenceId: 'competence_2',
-      associatedSkillName: '@skillChallengeF_2',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_G_for_competence_3',
-      competenceId: 'competence_3',
-      associatedSkillName: '@skillChallengeG_3',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_H_for_competence_3',
-      competenceId: 'competence_3',
-      associatedSkillName: '@skillChallengeH_3',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_I_for_competence_3',
-      competenceId: 'competence_3',
-      associatedSkillName: '@skillChallengeI_3',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_J_for_competence_4',
-      competenceId: 'competence_4',
-      associatedSkillName: '@skillChallengeJ_4',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_K_for_competence_4',
-      competenceId: 'competence_4',
-      associatedSkillName: '@skillChallengeK_4',
-      type: 'QCM',
-    },
-    {
-      challengeId: 'challenge_L_for_competence_4',
-      competenceId: 'competence_4',
-      associatedSkillName: '@skillChallengeL_4',
-      type: 'QCM',
-    },
-  ],
-  domainBuilder.buildCertificationChallengeWithType,
-);
+const challengesForAllCompetences = () =>
+  _.map(
+    [
+      {
+        challengeId: 'challenge_A_for_competence_1',
+        competenceId: 'competence_1',
+        associatedSkillName: '@skillChallengeA_1',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_C_for_competence_1',
+        competenceId: 'competence_1',
+        associatedSkillName: '@skillChallengeC_1',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_B_for_competence_1',
+        competenceId: 'competence_1',
+        associatedSkillName: '@skillChallengeB_1',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_D_for_competence_2',
+        competenceId: 'competence_2',
+        associatedSkillName: '@skillChallengeD_2',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_E_for_competence_2',
+        competenceId: 'competence_2',
+        associatedSkillName: '@skillChallengeE_2',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_F_for_competence_2',
+        competenceId: 'competence_2',
+        associatedSkillName: '@skillChallengeF_2',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_G_for_competence_3',
+        competenceId: 'competence_3',
+        associatedSkillName: '@skillChallengeG_3',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_H_for_competence_3',
+        competenceId: 'competence_3',
+        associatedSkillName: '@skillChallengeH_3',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_I_for_competence_3',
+        competenceId: 'competence_3',
+        associatedSkillName: '@skillChallengeI_3',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_J_for_competence_4',
+        competenceId: 'competence_4',
+        associatedSkillName: '@skillChallengeJ_4',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_K_for_competence_4',
+        competenceId: 'competence_4',
+        associatedSkillName: '@skillChallengeK_4',
+        type: 'QCM',
+      },
+      {
+        challengeId: 'challenge_L_for_competence_4',
+        competenceId: 'competence_4',
+        associatedSkillName: '@skillChallengeL_4',
+        type: 'QCM',
+      },
+    ],
+    domainBuilder.buildCertificationChallengeWithType,
+  );
 
 const competence_1 = domainBuilder.buildCompetence({
   id: 'competence_1',
@@ -940,7 +941,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
 
         const certificationAssessment = {
           certificationAnswersByDate,
-          certificationChallenges: challenges,
+          certificationChallenges: challengesForAllCompetences(),
         };
         const candidate = domainBuilder.certification.evaluation.buildCandidate();
 
@@ -1053,7 +1054,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
 
           const certificationAssessment = {
             certificationAnswersByDate,
-            certificationChallenges: challenges,
+            certificationChallenges: challengesForAllCompetences(),
           };
           const candidate = domainBuilder.certification.evaluation.buildCandidate();
 
@@ -1214,7 +1215,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
           certificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessmentData,
             certificationAnswersByDate: wrongAnswersForAllChallenges(),
-            certificationChallenges: challenges,
+            certificationChallenges: challengesForAllCompetences(),
           });
           const candidate = domainBuilder.certification.evaluation.buildCandidate();
 
@@ -1513,7 +1514,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
           certificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessmentData,
             certificationAnswersByDate: wrongAnswersForAllChallenges(),
-            certificationChallenges: challenges,
+            certificationChallenges: challengesForAllCompetences(),
           });
           const candidate = domainBuilder.certification.evaluation.buildCandidate();
           placementProfileService = {
@@ -1935,7 +1936,7 @@ describe('Certification | Evaluation | Unit | Domain | Services | Scoring V2', f
           certificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessmentData,
             certificationAnswersByDate: wrongAnswersForAllChallenges(),
-            certificationChallenges: challenges,
+            certificationChallenges: challengesForAllCompetences(),
           });
           certificationAssessment.certificationAnswersByDate = correctAnswersForAllChallenges();
           const candidate = domainBuilder.certification.evaluation.buildCandidate();
