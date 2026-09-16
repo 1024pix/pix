@@ -58,6 +58,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
         commonName: 'France',
         originalName: 'France',
       });
+      const categoryId = databaseBuilder.factory.buildStructureCategory().id;
       const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
 
       const { network, organization: parentOrganization } = databaseBuilder.factory.buildNetworkAndHeadOrganization();
@@ -73,9 +74,9 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       await databaseBuilder.commit();
 
       const buffer =
-        'type,externalId,name,provinceCode,credit,createdBy,documentationUrl,identityProviderForCampaigns,isManagingStudents,emailForSCOActivation,DPOFirstName,DPOLastName,DPOEmail,emailInvitations,organizationInvitationRole,locale,tags,targetProfiles,administrationTeamId,parentOrganizationId,countryCode,organizationLearnerTypeId\n' +
-        `SCO,ANNEGRAELLE,Orga des Anne-Graelle,33700,,${superAdminUserId},url.com,,true,,Anne,Graelle,anne-graelle@example.net,,ADMIN,fr,GRAS_GARGOUILLE,${targetProfileId},1234,,99100,${organizationLearnerTypeId}\n` +
-        `PRO,ANNEGARBURE,Orga des Anne-Garbure,33700,999,${superAdminUserId},,,,,Anne,Garbure,anne-garbure@example.net,,ADMIN,fr,GARBURE,${targetProfileId},1234,${parentOrganizationId},99100,${organizationLearnerTypeId}`;
+        'type,externalId,name,provinceCode,credit,createdBy,documentationUrl,identityProviderForCampaigns,isManagingStudents,emailForSCOActivation,DPOFirstName,DPOLastName,DPOEmail,emailInvitations,organizationInvitationRole,locale,tags,targetProfiles,administrationTeamId,parentOrganizationId,countryCode,organizationLearnerTypeId,categoryId\n' +
+        `SCO,ANNEGRAELLE,Orga des Anne-Graelle,33700,,${superAdminUserId},url.com,,true,,Anne,Graelle,anne-graelle@example.net,,ADMIN,fr,GRAS_GARGOUILLE,${targetProfileId},1234,,99100,${organizationLearnerTypeId},${categoryId}\n` +
+        `PRO,ANNEGARBURE,Orga des Anne-Garbure,33700,999,${superAdminUserId},,,,,Anne,Garbure,anne-garbure@example.net,,ADMIN,fr,GARBURE,${targetProfileId},1234,${parentOrganizationId},99100,${organizationLearnerTypeId},${categoryId}`;
 
       // when
       const response = await server.inject({
