@@ -14,6 +14,7 @@ export async function patchLearningContentEntry({
   tutorialRepository,
   missionRepository,
   moduleRepository,
+  learningContentCache,
 }) {
   const repository = {
     frameworks: frameworkRepository,
@@ -30,5 +31,6 @@ export async function patchLearningContentEntry({
   }[modelName];
 
   await repository.save(updatedRecord);
+  await learningContentCache.clear();
   repository.clearCache?.(recordId);
 }
