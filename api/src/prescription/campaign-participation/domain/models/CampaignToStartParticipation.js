@@ -1,4 +1,4 @@
-import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignTypes } from '../../../shared/domain/constants.ts';
 
 class CampaignToStartParticipation {
   constructor({

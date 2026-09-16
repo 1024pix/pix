@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildCampaign } from './build-campaign.js';
 import { buildOrganizationLearner } from './build-organization-learner.js';

@@ -2,7 +2,7 @@ import * as CombinedCourseRepository from '../../../../quest/infrastructure/repo
 import { CAMPAIGN_FEATURES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.ts';
 import { CampaignManagement } from '../../domain/models/CampaignManagement.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;

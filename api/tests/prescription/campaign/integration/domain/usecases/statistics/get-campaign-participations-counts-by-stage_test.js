@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { usecases } from '../../../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.ts';
 import {
   NoStagesForCampaign,
   UserNotAuthorizedToAccessEntityError,

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.ts';
 import { ShareAttestationsToEligibleOrganizationsScript } from '../../../../src/profile/scripts/share-attestations-to-eligible-organizations.js';
 import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
 import {

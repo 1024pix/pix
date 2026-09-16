@@ -1,5 +1,5 @@
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignTypes } from '../../../shared/domain/constants.ts';
 
 const createCampaigns = withTransaction(async function ({
   campaignsToCreate,

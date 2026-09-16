@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignTypes } from '../../../shared/domain/constants.ts';
 import { TubeCoverage } from './CampaignParticipation.js';
 
 class CampaignReport {

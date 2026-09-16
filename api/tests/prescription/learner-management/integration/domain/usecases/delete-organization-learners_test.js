@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { ANONYMIZATION_RULE } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { CLIENTS, ORGANIZATION_FEATURE, PIX_ORGA } from '../../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import {

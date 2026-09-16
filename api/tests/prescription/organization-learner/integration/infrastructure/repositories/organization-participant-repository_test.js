@@ -4,7 +4,7 @@ import * as organizationParticipantRepository from '../../../../../../src/prescr
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 function buildLearnerWithParticipation({

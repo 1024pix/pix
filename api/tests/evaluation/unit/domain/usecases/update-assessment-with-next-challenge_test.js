@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { updateAssessmentWithNextChallenge } from '../../../../../src/evaluation/domain/usecases/update-assessment-with-next-challenge.js';
-import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../src/prescription/shared/domain/constants.ts';
 import {
   AssessmentEndedError,
   AssessmentLackOfChallengesError,

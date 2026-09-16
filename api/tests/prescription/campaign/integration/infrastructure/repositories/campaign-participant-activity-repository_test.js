@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { campaignParticipantActivityRepository } from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-participant-activity-repository.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 

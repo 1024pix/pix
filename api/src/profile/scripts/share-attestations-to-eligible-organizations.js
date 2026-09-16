@@ -2,7 +2,7 @@ import * as knowledgeElementsApi from '../../evaluation/application/api/knowledg
 import * as skillsApi from '../../learning-content/application/api/skills-api.js';
 import * as campaignsApi from '../../prescription/campaign/application/api/campaigns-api.js';
 import * as organizationLearnerWithParticipationApi from '../../prescription/organization-learner/application/api/organization-learners-with-participations-api.js';
-import { CampaignParticipationStatuses } from '../../prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../prescription/shared/domain/constants.ts';
 import * as targetProfilesApi from '../../prescription/target-profile/application/api/target-profile-api.js';
 import { DataForQuest } from '../../quest/domain/models/quests/aggregates/DataForQuest.js';
 import { Eligibility } from '../../quest/domain/models/quests/aggregates/Eligibility.js';

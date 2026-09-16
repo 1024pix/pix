@@ -2,7 +2,7 @@ import * as combinedCourseApi from '../../../../quest/application/api/combined-c
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
-import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignTypes } from '../../../shared/domain/constants.ts';
 import { CampaignParticipationForUserManagement } from '../../domain/models/CampaignParticipationForUserManagement.js';
 
 const findByUserId = async function (userId) {

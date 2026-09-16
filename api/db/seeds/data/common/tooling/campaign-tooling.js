@@ -4,7 +4,7 @@ import _ from 'lodash';
 import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
-} from '../../../../../src/prescription/shared/domain/constants.js';
+} from '../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { stageUsecases } from '../../../../../src/prescription/stages/domain/usecases/index.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';

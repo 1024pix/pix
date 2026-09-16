@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getUserCampaignAssessmentResult } from '../../../../../../src/prescription/campaign-participation/domain/usecases/get-user-campaign-assessment-result.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import {
   NoCampaignParticipationForUserAndCampaign,
   NotFoundError,

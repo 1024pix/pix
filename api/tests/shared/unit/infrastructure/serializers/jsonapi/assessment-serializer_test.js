@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { CampaignAssessment } from '../../../../../../src/shared/domain/read-models/CampaignAssessment.js';
