@@ -13,6 +13,8 @@ export default class AuthenticatedSessionsAllRoute extends Route {
     certificationCenterType: { refreshModel: true },
     status: { refreshModel: true },
     version: { refreshModel: true },
+    startDate: { refreshModel: true },
+    endDate: { refreshModel: true },
   };
 
   async model(params) {
@@ -31,6 +33,8 @@ export default class AuthenticatedSessionsAllRoute extends Route {
           certificationCenterType: params.certificationCenterType || undefined,
           status: params.status || undefined,
           version: params.version || undefined,
+          startDate: params.startDate || undefined,
+          endDate: params.endDate || undefined,
         },
         page: {
           number: params.pageNumber,
@@ -54,6 +58,8 @@ export default class AuthenticatedSessionsAllRoute extends Route {
       controller.certificationCenterType = null;
       controller.status = null;
       controller.version = null;
+      controller.startDate = null;
+      controller.endDate = null;
     }
   }
 }

@@ -15,6 +15,8 @@ export default class AuthenticatedSessionsListAllController extends Controller {
     'certificationCenterExternalId',
     'status',
     'version',
+    'startDate',
+    'endDate',
   ];
   DEBOUNCE_MS = config.pagination.debounce;
 
@@ -26,6 +28,8 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   @tracked certificationCenterType = null;
   @tracked status = null;
   @tracked version = null;
+  @tracked startDate = null;
+  @tracked endDate = null;
 
   get filters() {
     return {
@@ -35,6 +39,8 @@ export default class AuthenticatedSessionsListAllController extends Controller {
       certificationCenterType: this.certificationCenterType,
       status: this.status,
       version: this.version,
+      startDate: this.startDate,
+      endDate: this.endDate,
     };
   }
 
