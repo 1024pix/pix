@@ -78,12 +78,12 @@
     "companion": {
       "check": {
         "detected": {
-          "description": "Pix Companion extension{version}<br />installed and activated.",
+          "description": "Pix Companion extension {version}<br /> installed and enabled.",
           "version": " (version {version})"
         },
         "not-detected": {
-          "description": "Pix Companion extension not installed/activated or in an obsolete version,<br /> which is no longer supported for certification session access.",
-          "link": "Go to documentation"
+          "description": "Pix Companion extension not installed/enabled or outdated,<br /> no longer be used to join the certification session.",
+          "link": "View documentation"
         }
       },
       "install-documentation-url": "https://cloud.pix.fr/s/KocingDC4mFJ3R6",
