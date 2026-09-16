@@ -234,6 +234,45 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           expect(certifiableBadgesAcquiredByUser.map(({ badgeKey }) => badgeKey)).to.deep.equal(['level-2', 'level-3']);
         });
 
+        describe('when the highest badge has been acquired before the lowest one', function () {
+          it('should return the highest level certifiable badge acquired', async function () {
+            //given
+            const userId = databaseBuilder.factory.buildUser().id;
+            const complementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
+              keyLevelList: [
+                { key: 2, level: 2 },
+                { key: 1, level: 1 },
+              ],
+            });
+
+            const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+            databaseBuilder.factory.buildBadgeAcquisition({
+              badgeId: complementaryBadges[0].id,
+              userId,
+              campaignParticipationId,
+              createdAt: new Date('2022-09-29'),
+            });
+            databaseBuilder.factory.buildBadgeAcquisition({
+              badgeId: complementaryBadges[1].id,
+              userId,
+              campaignParticipationId,
+              createdAt: new Date('2022-09-29'),
+            });
+            await databaseBuilder.commit();
+
+            // when
+            const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async () => {
+              return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+                userId,
+              });
+            });
+
+            // then
+            expect(certifiableBadgesAcquiredByUser).to.have.lengthOf(1);
+            expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.equal('level-2');
+          });
+        });
+
         describe('when the user latest campaign is outdated', function () {
           it('should return the highest level and latest certifiable badge acquired even if is detached', async function () {
             //given

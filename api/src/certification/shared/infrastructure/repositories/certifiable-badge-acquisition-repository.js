@@ -68,7 +68,7 @@ export async function findHighestCertifiable({ userId, limitDate = new Date() })
     if (
       badgeLevelIsNotGreaterThan(
         existingEntryForBadge,
-        certifiableBadgeAcquisition.complementaryCertificactionBadgeLevel,
+        certifiableBadgeAcquisition.complementaryCertificationBadgeLevel,
       )
     ) {
       continue;
