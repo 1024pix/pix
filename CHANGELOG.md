@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## [5.501.2](https://github.com/1024pix/pix/compare/v5.501.1...v5.501.2) (2026-09-16)
+
+### :building_construction: Tech
+
+- [#17487](https://github.com/1024pix/pix/pull/17487) Créer un package pix-types pour partager des types entre les applications
+- [#17501](https://github.com/1024pix/pix/pull/17501) Met à jour les plugins ESLint.
+- [#17468](https://github.com/1024pix/pix/pull/17468) Mise à jour d'une variable d'environnement dans le fichier d'exemple
+- [#17485](https://github.com/1024pix/pix/pull/17485) Ne plus installer Firefox dans CircleCi
+- [#17475](https://github.com/1024pix/pix/pull/17475) Réduire le niveau des logs de validation de création d’utilisateur (PIX-24233)
+
+### :arrow_up: Montée de version
+
+- [#17443](https://github.com/1024pix/pix/pull/17443) Update dependency @1024pix/pix-ui to ^68.1.2 (admin)
+- [#17498](https://github.com/1024pix/pix/pull/17498) Update dependency @1024pix/pix-ui to ^68.2.3 (junior)
+- [#17502](https://github.com/1024pix/pix/pull/17502) Update dependency @1024pix/pix-ui to ^68.2.4 (junior)
+- [#17505](https://github.com/1024pix/pix/pull/17505) Update dependency @1024pix/pix-ui to ^68.2.5 (junior)
+- [#17497](https://github.com/1024pix/pix/pull/17497) Update dependency @embroider/macros to ^1.20.7 (certif)
+- [#17503](https://github.com/1024pix/pix/pull/17503) Update dependency @embroider/macros to ^1.20.7 (junior)
+- [#17506](https://github.com/1024pix/pix/pull/17506) Update dependency @embroider/macros to ^1.20.7 (mon-pix)
+- [#17508](https://github.com/1024pix/pix/pull/17508) Update dependency baseline-browser-mapping to ^2.11.21 (e2e-playwright)
+
 ## [5.501.1](https://github.com/1024pix/pix/compare/v5.501.0...v5.501.1) (2026-09-15)
 
 ### :building_construction: Tech

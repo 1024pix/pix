@@ -1,6 +1,6 @@
 {
   "name": "pix-orga",
-  "version": "5.501.1",
+  "version": "5.501.2",
   "private": false,
   "description": "Plateforme en ligne de gestion de campagne d'évaluation",
   "license": "AGPL-3.0",
@@ -147,7 +147,8 @@
     "flatted": ">=3.4.4",
     "handlebars": ">=4.7.9"
   },
-  "engines": {    "@1024pix/pix-ui": "^68.1.2",
+  "engines": {
+    "@1024pix/pix-ui": "^68.1.2",
     "node": "^24.20.0"
   },
   "ember": {
