@@ -70,7 +70,7 @@
     "@warp-drive/legacy": "^5.8.2",
     "@warp-drive/utilities": "^5.8.2",
     "buffer": "^6.0.3",
-    "dayjs": "^1.11.20",
+    "dayjs": "^1.11.23",
     "dotenv": "^17.4.2",
     "ember-auto-import": "^2.13.1",
     "ember-cli": "^7.0.0",
