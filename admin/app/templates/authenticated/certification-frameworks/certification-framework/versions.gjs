@@ -5,7 +5,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 
-export default class CertificationVerionsTemplate extends Component {
+export default class CertificationVersionsTemplate extends Component {
   @service intl;
   @service router;
 
