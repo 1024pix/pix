@@ -108,6 +108,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
             ...centerForAdmin,
             createdAt: new Date('2018-01-01T05:43:10Z'),
             habilitations: [complementaryCertification],
+            categoryLabel: null,
           },
           archivistFullName,
           dataProtectionOfficer,
@@ -118,6 +119,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
 
         // then
         certificationCenterJsonApi.data.attributes['created-at'] = new Date('2018-01-01T05:43:10Z');
+        certificationCenterJsonApi.data.attributes['category-label'] = null;
         certificationCenterJsonApi.data.relationships = {
           'certification-center-memberships': {
             links: {
@@ -150,6 +152,24 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
         ];
 
         expect(serializedCertificationCenter).to.deep.equal(certificationCenterJsonApi);
+      });
+
+      it('should serialize the categoryLabel when present', function () {
+        // given
+        const certificationCenter = domainBuilder.buildCenterForAdmin({
+          center: {
+            ...centerForAdmin,
+            categoryLabel: 'Établissement scolaire',
+          },
+          archivistFullName,
+          dataProtectionOfficer,
+        });
+
+        // when
+        const serializedCertificationCenter = certificationCenterForAdminSerializer.serialize(certificationCenter);
+
+        // then
+        expect(serializedCertificationCenter.data.attributes['category-label']).to.equal('Établissement scolaire');
       });
     });
   });

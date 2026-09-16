@@ -45,6 +45,7 @@ const serialize = function (certificationCenter) {
       'dataProtectionOfficerLastName',
       'dataProtectionOfficerEmail',
       'habilitations',
+      'categoryLabel',
     ],
     typeForAttribute: (attribute) => {
       if (attribute === 'habilitations') return 'complementary-certifications';
