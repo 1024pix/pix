@@ -141,7 +141,7 @@ export default {
     type: 'string',
     description: 'Enables using Redis as cache for learning content',
     defaultValue: '0/1',
-    devDefaultValues: { test: '0/1', reviewApp: '0/1' },
+    devDefaultValues: { test: '1/1', reviewApp: '0/1' },
     tags: ['backend', 'pix-api', 'team-contenu'],
   },
 };
