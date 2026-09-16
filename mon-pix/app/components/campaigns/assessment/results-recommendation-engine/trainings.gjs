@@ -126,16 +126,6 @@ export default class Trainings extends Component {
     this.list.scrollTo({ left: targetCard.offsetLeft, behavior });
   }
 
-  // The list can show more than this.trainingsPerPage cards at once (a peek of
-  // the next card is visible by design). The trailing spacer must cover that
-  // extra peeked width, otherwise the browser clamps scrollTo() short of the
-  // last card's offsetLeft and a previous card re-appears on the left.
-  //
-  // Only needed while scrolling is JS-driven (list--hidden sets
-  // overflow-x: hidden at the desktop breakpoint, see trainings.scss). Below
-  // that breakpoint, scrolling is native and this spacer stays at its CSS
-  // default. Reading the computed overflow-x instead of duplicating the
-  // breakpoint value keeps the SCSS as the single source of truth.
   updateSpacerWidth() {
     if (!this.areNavigationButtonsVisible || getComputedStyle(this.list).overflowX !== 'hidden') {
       this.spacerWidth = null;
