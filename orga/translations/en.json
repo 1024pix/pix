@@ -86,7 +86,7 @@
       "message": "Please note that you are using more seats than your total capacity."
     },
     "survey": {
-      "message": "Help Pix to develop Pix Orga by answering this short survey on how you use our campaigns! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Access the survey'</a>'"
+      "message": "Help Pix improve Pix Orga by answering this short survey about your use of the courses catalogue! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Access the survey'</a>'"
     }
   },
   "cards": {

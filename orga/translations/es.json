@@ -86,7 +86,7 @@
       "message": "Atención, está utilizando más plazas de las que dispone."
     },
     "survey": {
-      "message": "¡Ayuda a Pix a evolucionar Pix Orga respondiendo a esta breve encuesta sobre cómo utilizas las campañas! <'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Accede a la encuesta'</a>'"
+      "message": "¡Ayuda a Pix a mejorar Pix Orga respondiendo a esta breve encuesta sobre tu uso del catálogo de itinerarios! <'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Accede a la encuesta'</a>'"
     }
   },
   "cards": {

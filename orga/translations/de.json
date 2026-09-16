@@ -86,7 +86,7 @@
       "message": "Achtung: Du verbrauchst mehr Plätze als deine Gesamtkapazität."
     },
     "survey": {
-      "message": "Hilf Pix dabei, Pix Orga weiterzuentwickeln, indem du diese kurze Umfrage zu deiner Nutzung von Kampagnen beantwortest! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Hier geht's zur Umfrage'</a>'"
+      "message": "Helfen Sie Pix, Pix Orga weiterzuentwickeln, indem Sie diese kurze Umfrage zu Ihrer Nutzung der Parcoursübersicht beantworten! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Hier geht's zur Umfrage'</a>'"
     }
   },
   "cards": {

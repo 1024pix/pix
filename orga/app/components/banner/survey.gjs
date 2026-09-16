@@ -10,6 +10,7 @@ export default class SurveyBanner extends Component {
 
   get shouldDisplayBanner() {
     const routeNameWhereToDisplayBanner = [
+      'authenticated.campaigns.new',
       'authenticated.campaigns.loading',
       'authenticated.campaigns.list.my-campaigns',
       'authenticated.campaigns.list.all-campaigns',
@@ -18,12 +19,11 @@ export default class SurveyBanner extends Component {
       'authenticated.campaigns.campaign.assessment-results',
       'authenticated.campaigns.campaign.profile-results',
       'authenticated.campaigns.campaign.analysis',
+      'authenticated.campaigns.campaign.analysis.tubes',
+      'authenticated.campaigns.campaign.analysis.competences',
       'authenticated.campaigns.campaign.settings',
       'authenticated.campaigns.update',
-      'authenticated.campaigns.participant-assessment.loading',
-      'authenticated.campaigns.participant-assessment.results',
-      'authenticated.campaigns.participant-assessment.analysis',
-      'authenticated.campaigns.participant-profile',
+      'catalogue.list',
     ];
 
     return (

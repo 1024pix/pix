@@ -86,7 +86,7 @@
       "message": "Si noti che si sta utilizzando un numero di posti superiore alla capacità totale."
     },
     "survey": {
-      "message": "Aiutate Pix a far evolvere Pix Orga rispondendo a questo breve sondaggio su come utilizzate le campagne! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Accedi al sondaggio'</a>'"
+      "message": "Aiuta Pix a migliorare Pix Orga rispondendo a questo breve sondaggio sul tuo utilizzo del catalogo dei percorsi! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Accedi al sondaggio'</a>'"
     }
   },
   "cards": {
