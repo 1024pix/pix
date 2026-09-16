@@ -64,7 +64,7 @@
     "@warp-drive/json-api": "^5.8.2",
     "@warp-drive/legacy": "^5.8.2",
     "@warp-drive/utilities": "^5.8.2",
-    "dayjs": "^1.11.19",
+    "dayjs": "^1.11.23",
     "ember-auto-import": "^2.13.1",
     "ember-cli": "^7.0.0",
     "ember-cli-babel": "^8.3.1",
