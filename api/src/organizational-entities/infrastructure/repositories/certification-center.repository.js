@@ -16,6 +16,7 @@ export async function getById({ id }) {
       updatedAt: 'certification-centers.updatedAt',
       archivedAt: 'certification-centers.archivedAt',
       archivedBy: 'certification-centers.archivedBy',
+      categoryLabel: 'structure_categories.label',
     })
     .from('certification-centers')
     .leftJoin(
@@ -28,8 +29,11 @@ export async function getById({ id }) {
       'complementary-certification-habilitations.complementaryCertificationId',
       'complementary-certifications.id',
     )
+    .leftJoin('fct_structures', 'fct_structures.certification_center_id', 'certification-centers.id')
+    .leftJoin('structures', 'structures.id', 'fct_structures.structure_id')
+    .leftJoin('structure_categories', 'structure_categories.id', 'structures.category_id')
     .where('certification-centers.id', '=', id)
-    .groupBy('certification-centers.id')
+    .groupBy('certification-centers.id', 'structure_categories.label')
     .first();
 
   if (!certificationCenter) {
