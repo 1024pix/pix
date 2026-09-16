@@ -297,6 +297,7 @@
         "notifications": {
           "errors": {
             "PARENT_ORGANIZATION_NOT_IN_NETWORK": " Organization {parentOrganizationId} is not part of a network.",
+            "STRUCTURE_CATEGORY_NOT_FOUND": "Category {structureCategoryId} does not exist.",
             "error-location": "Error on line {errorLine}, in the field {errorField}.",
             "no-organization-created": "No organisation has been created."
           },

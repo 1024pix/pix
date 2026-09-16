@@ -304,6 +304,7 @@
         "notifications": {
           "errors": {
             "PARENT_ORGANIZATION_NOT_IN_NETWORK": " L'organisation {parentOrganizationId} ne fait pas partie d'un réseau.",
+            "STRUCTURE_CATEGORY_NOT_FOUND": "La catégorie {structureCategoryId} n'existe pas.",
             "error-location": "Erreur sur la ligne {errorLine}, dans le champ {errorField}.",
             "no-organization-created": "Aucune organisation n'a été créée."
           },
