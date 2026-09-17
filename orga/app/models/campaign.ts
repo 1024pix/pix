@@ -65,9 +65,12 @@ export default class Campaign extends Model {
   @attr<NumberTransform>('number') declare totalStage: number | null;
   @attr<NumberTransform>('number') declare reachedStage: number | null;
 
-  @belongsTo('organization', { async: true, inverse: 'campaigns' }) declare organization: AsyncBelongsTo<Organization>;
+  @belongsTo<Organization>('organization', { async: true, inverse: 'campaigns' })
+  declare organization: AsyncBelongsTo<Organization>;
+
   @belongsTo<TargetProfile>('target-profile', { async: true, inverse: null })
   declare targetProfile: AsyncBelongsTo<TargetProfile>;
+
   @belongsTo('combined-course-blueprint', { async: true, inverse: null })
   declare combinedCourseBlueprint: AsyncBelongsTo<CombinedCourseBlueprint>;
 
@@ -75,6 +78,7 @@ export default class Campaign extends Model {
 
   @belongsTo<CampaignCollectiveResult>('campaign-collective-result', { async: true, inverse: null })
   declare campaignCollectiveResult: AsyncBelongsTo<CampaignCollectiveResult>;
+
   @belongsTo<CampaignResultLevelsPerTubesAndCompetence>('campaign-result-levels-per-tubes-and-competence', {
     async: true,
     inverse: null,
@@ -82,8 +86,11 @@ export default class Campaign extends Model {
   declare campaignResultLevelsPerTubesAndCompetence: AsyncBelongsTo<CampaignResultLevelsPerTubesAndCompetence>;
 
   @hasMany<Badge>('badge', { async: true, inverse: null }) declare badges: AsyncHasMany<Badge>;
+
   @hasMany<Stage>('stage', { async: true, inverse: null }) declare stages: AsyncHasMany<Stage>;
+
   @hasMany<Division>('division', { async: true, inverse: null }) declare divisions: AsyncHasMany<Division>;
+
   @hasMany<Group>('group', { async: true, inverse: null }) declare groups: AsyncHasMany<Group>;
 
   get hasBadges(): boolean {

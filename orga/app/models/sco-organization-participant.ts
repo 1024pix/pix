@@ -31,7 +31,8 @@ export default class ScoOrganizationParticipant extends Model {
   @attr<BooleanTransform>('boolean', { allowNull: true }) declare isCertifiable: boolean | null;
   @attr<DateTransform>('date') declare certifiableAt: Date | null;
 
-  @belongsTo('organization', { async: true, inverse: null }) declare organization: AsyncBelongsTo<Organization>;
+  @belongsTo<Organization>('organization', { async: true, inverse: null })
+  declare organization: AsyncBelongsTo<Organization>;
 
   get hasUsername(): boolean {
     return Boolean(this.username);
