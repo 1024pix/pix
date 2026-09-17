@@ -1,4 +1,5 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { OrganizationForUpdate } from '../models/OrganizationForUpdate.js';
 
 const updateOrganizationInformation = withTransaction(async function ({
   userId,
@@ -43,18 +44,15 @@ const updateOrganizationInformation = withTransaction(async function ({
     );
   }
 
-  existingOrganization.updateWithDataProtectionOfficerAndTags(
-    organization,
-    organization.dataProtectionOfficer,
-    tagsToUpdate,
-  );
+  const organizationForUpdate = new OrganizationForUpdate(existingOrganization);
+  organizationForUpdate.applyInformationUpdate(organization, organization.dataProtectionOfficer, tagsToUpdate);
 
-  if (existingOrganization.shouldDeletePreviousLearners) {
+  if (organizationForUpdate.shouldDeletePreviousLearners) {
     await learnersApi.deleteOrganizationLearnerBeforeImportFeature({ userId, organizationId: organization.id });
   }
 
   await organizationForAdminRepository.update({
-    organization: existingOrganization,
+    organization: organizationForUpdate,
   });
 
   return organizationForAdminRepository.get({
