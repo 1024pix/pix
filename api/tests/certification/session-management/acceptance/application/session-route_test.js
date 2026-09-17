@@ -106,6 +106,17 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         // then
         expect(response.statusCode).to.equal(422);
       });
+
+      it('should send bad request when date filter are invalid', async function () {
+        // given
+        options.url = '/api/admin/sessions?filter[startDate]=-2147483649';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
     });
 
     context('when user is not SuperAdmin', function () {
