@@ -5,7 +5,10 @@ import { expect } from 'chai';
 import dayjs from 'dayjs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
-import { generate } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/generate-v3-pdf-certificate.js';
+import {
+  generate,
+  testpdfkit,
+} from '../../../../../../../src/certification/results/infrastructure/utils/pdf/generate-v3-pdf-certificate.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
@@ -18,6 +21,16 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
   beforeEach(function () {
     i18n = getI18n();
     translate = i18n.__;
+  });
+
+  describe.only('bouboubn', function () {
+    it('sbhrjhnfvrjhenfvr', async function () {
+      const pdfStream = await testpdfkit();
+      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      await _writeFile(pdfBuffer, 'testici.pdf', false);
+
+      expect(true).to.be.true;
+    });
   });
 
   describe('for a CORE or CLEA certification', function () {
