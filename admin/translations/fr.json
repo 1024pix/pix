@@ -677,7 +677,7 @@
             "save-error": "Une erreur s'est produite lors de l'enregistrement du scoring.",
             "save-scoring-button": "Activer le scoring",
             "save-scoring-modal": {
-              "content": "Cette action va enregistrer la configuration de scoring sur la version active et va déclencher le scoring déjà passée sur cette version. Cette action est irréversible, le scoring ne pourra pas être modifié.",
+              "content": "Cette action va enregistrer la configuration de scoring sur la version active et va déclencher le scoring des certifications déjà passées sur cette version. Cette action est irréversible, le scoring ne pourra pas être modifié.",
               "title": "Confirmation de l'enregistrement du scoring"
             },
             "success-notification": "Le scoring a bien été activé. Les certifications déjà passées sur la version seront scorées.",
