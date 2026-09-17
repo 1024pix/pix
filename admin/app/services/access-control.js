@@ -65,7 +65,7 @@ export default class AccessControlService extends Service {
   }
 
   get hasAccessToAttachChildOrganizationActionsScope() {
-    return !!this.currentUser.adminMember.isSuperAdmin;
+    return Boolean(this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier);
   }
 
   get hasAccessToTools() {
