@@ -1,4 +1,4 @@
-import { createOrganizationZodSchema, toValidationError } from '../../domain/tool-schemas.js';
+import { createOrganizationZodSchema, toSchemaValidationError } from '../../domain/tool-schemas.js';
 import { createOrganization } from '../../domain/usecases/create-organization.js';
 import { listReferenceValues } from '../../domain/usecases/list-reference-values.js';
 import { makeAdministrationTeamRepository } from '../../infrastructure/repositories/administration-team.repository.js';
@@ -70,7 +70,7 @@ const createToolsRunner = function ({ apiBaseUrl, authorizationHeader, forwarded
       if (name === 'create_organization') {
         const parsed = createOrganizationZodSchema.safeParse(args);
         if (!parsed.success) {
-          return toValidationError(parsed.error);
+          return toSchemaValidationError(parsed.error);
         }
         return createOrganization({ args: parsed.data, ...repositories });
       }

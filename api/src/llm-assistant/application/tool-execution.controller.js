@@ -1,8 +1,6 @@
+import { createToolsRunner } from '../../mcp-admin-server/application/api/tools-api.js';
 import { logger } from '../../shared/infrastructure/utils/logger.js';
 import { createMcpClient } from '../infrastructure/mcp/mcp-client.js';
-
-const CONNECT_TIMEOUT_MS = 5_000;
-const CALL_TIMEOUT_MS = 15_000;
 
 const toolExecutionController = {
   async listTools(request, h) {
@@ -36,54 +34,37 @@ const toolExecutionController = {
       'x-forwarded-proto': request.headers['x-forwarded-proto'],
       'x-forwarded-host': request.headers['x-forwarded-host'],
     };
-    // Use loopback + actual bound port (not 0.0.0.0) to avoid Scalingo's load balancer
-    // rewriting x-forwarded-host, which would break JWT audience validation.
+    // Les repositories de mcp-admin-server s'adressent aux APIs internes en HTTP.
+    // Loopback + port réellement écouté (et non 0.0.0.0) pour éviter que le load
+    // balancer de Scalingo ne réécrive x-forwarded-host, ce qui casserait la
+    // validation d'audience du JWT.
     const apiBaseUrl = `http://127.0.0.1:${request.server.info.port}`;
 
     logger.info(`relais → ${toolName}`);
     const t0 = Date.now();
 
-    let client;
+    // Appel direct en process : plus de session MCP ouverte puis refermée à
+    // chaque outil, ce qui coûtait un aller-retour HTTP du serveur vers lui-même
+    // avant même d'atteindre le usecase.
+    const toolsRunner = createToolsRunner({ apiBaseUrl, authorizationHeader, forwardedHeaders });
+
     let result;
     try {
-      // Timeout guards against silent hangs (e.g. 0.0.0.0 connections on Linux).
-      const connectTimeout = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error(`MCP connection timeout after ${CONNECT_TIMEOUT_MS}ms`)), CONNECT_TIMEOUT_MS),
-      );
-      client = await Promise.race([createMcpClient({ authorizationHeader, forwardedHeaders, apiBaseUrl }), connectTimeout]);
-      const callTimeout = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error(`MCP tool call timeout after ${CALL_TIMEOUT_MS}ms`)), CALL_TIMEOUT_MS),
-      );
-      result = await Promise.race([client.callTool({ name: toolName, arguments: args }), callTimeout]);
+      result = await toolsRunner.callTool({ name: toolName, args });
     } catch (err) {
-      // transport MCP injoignable (connexion refusée, réseau inaccessible…)
+      // APIs internes injoignables (connexion refusée, réseau inaccessible…)
       logger.info(`relais ← ${toolName} | durée=${Date.now() - t0}ms | statut=panne-transport`);
       return h.response({ error: { relay: err.message } }).code(502);
-    } finally {
-      // eslint-disable-next-line no-empty-function
-      if (client) await client.close().catch(() => {});
     }
 
-    logger.info(`relais ← ${toolName} | durée=${Date.now() - t0}ms | statut=${result.isError ? 'erreur' : 'ok'}`);
+    const isError = Boolean(result?.error);
+    logger.info(`relais ← ${toolName} | durée=${Date.now() - t0}ms | statut=${isError ? 'erreur' : 'ok'}`);
 
-    if (!result.isError) {
-      // Succès ou erreur métier propre retournée sans isError
-      return h.response(JSON.parse(result.content[0].text)).code(200);
+    if (result?.error?.unknownTool) {
+      return h.response(result).code(404);
     }
 
-    const errText = result.content[0]?.text ?? '';
-
-    // callTool ne lève jamais d'exception sur SDK v1.30+ : les erreurs de protocole arrivent
-    // en isError:true avec préfixe "MCP error". Discriminant outil inconnu : "not found".
-    if (errText.startsWith('MCP error')) {
-      if (errText.includes('not found')) {
-        return h.response({ error: { unknownTool: toolName } }).code(404);
-      }
-      return h.response({ error: { validation: errText } }).code(200);
-    }
-
-    // Erreur propre à l'outil (isError:true mais pas un message de protocole)
-    return h.response(JSON.parse(errText)).code(200);
+    return h.response(result).code(200);
   },
 };
 

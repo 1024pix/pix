@@ -5,7 +5,7 @@ import {
   CREATE_ORGANIZATION_SCHEMA,
   createOrganizationZodSchema,
   LIST_REFERENCE_VALUES_SCHEMA,
-  toValidationError,
+  toFieldValidationError,
 } from '../../domain/tool-schemas.js';
 import { createOrganization } from '../../domain/usecases/create-organization.js';
 import { listReferenceValues } from '../../domain/usecases/list-reference-values.js';
@@ -34,7 +34,7 @@ const createMcpServer = async function ({ authorizationHeader, forwardedHeaders 
 
       const parsed = createOrganizationZodSchema.safeParse(args);
       if (!parsed.success) {
-        const result = toValidationError(parsed.error);
+        const result = toFieldValidationError(parsed.error);
         logger.info(`mcp create_organization ← ${Date.now() - t0}ms validation-error: ${parsed.error.issues[0].message}`);
         return { content: [{ type: 'text', text: JSON.stringify(result) }] };
       }

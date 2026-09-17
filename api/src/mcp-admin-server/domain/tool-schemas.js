@@ -25,10 +25,10 @@ const LIST_REFERENCE_VALUES_SCHEMA = {
 };
 
 /**
- * Traduit un échec de safeParse dans la forme d'erreur attendue par le client :
- * `{ error: { notFound, availableValues } }`.
+ * Forme d'erreur du gestionnaire d'outil MCP : `{ error: { notFound, availableValues } }`.
+ * Signale un champ dont la valeur ne fait pas partie des valeurs acceptées.
  */
-const toValidationError = function (parseError) {
+const toFieldValidationError = function (parseError) {
   const issue = parseError.issues[0];
   return {
     error: {
@@ -38,4 +38,25 @@ const toValidationError = function (parseError) {
   };
 };
 
-export { CREATE_ORGANIZATION_SCHEMA, createOrganizationZodSchema, LIST_REFERENCE_VALUES_SCHEMA, toValidationError };
+/**
+ * Forme d'erreur `{ error: { validation } }`, rendue au client quand les
+ * arguments ne respectent pas le schéma.
+ *
+ * Le transport MCP produisait cette forme à partir de ses propres messages de
+ * protocole. L'appel en process ne passant plus par lui, le message est
+ * reconstruit ici — sans référence au protocole, qui n'a jamais eu sa place
+ * dans une réponse destinée au client.
+ */
+const toSchemaValidationError = function (parseError) {
+  const issue = parseError.issues[0];
+  const field = issue.path.join('.');
+  return { error: { validation: field ? `${field}: ${issue.message}` : issue.message } };
+};
+
+export {
+  CREATE_ORGANIZATION_SCHEMA,
+  createOrganizationZodSchema,
+  LIST_REFERENCE_VALUES_SCHEMA,
+  toFieldValidationError,
+  toSchemaValidationError,
+};

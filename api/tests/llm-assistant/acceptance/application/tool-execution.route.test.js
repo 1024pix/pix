@@ -293,11 +293,13 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
     // ───────────────────────────────────────────────────────────────────────
     // Scénario 8 : 502 transport injoignable — testé via l'endpoint HTTP
     // ───────────────────────────────────────────────────────────────────────
-    describe('scenario 8: 502 when MCP transport is unreachable', function () {
-      it('returns 502 with error.relay when the MCP connection is blocked', async function () {
-        // Bloquer toutes les connexions HTTP sortantes : le client MCP ne peut pas joindre
-        // l'endpoint /api/admin/mcp → erreur capturée par le catch → 502.
+    describe('scenario 8: 502 when internal APIs are unreachable', function () {
+      it('returns 502 with error.relay when outgoing HTTP is blocked', async function () {
+        // Bloquer toutes les connexions HTTP sortantes : les repositories ne peuvent plus
+        // joindre les APIs internes → erreur capturée par le catch → 502.
         // pg ne passe pas par le module http de Node, donc la DB reste accessible.
+        // Le payload doit être complet : depuis l'appel en process, un payload
+        // invalide serait rejeté par le schéma avant d'atteindre le réseau.
         nock.disableNetConnect();
 
         try {
@@ -305,7 +307,13 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
             method: 'POST',
             url: '/api/admin/llm-assistant/tools/create_organization',
             headers: authHeaders,
-            payload: { name: 'Test' },
+            payload: {
+              name: 'Test',
+              type: 'SCO',
+              administrationTeamName: 'Team',
+              organizationLearnerTypeName: 'Type',
+              countryName: 'FRANCE',
+            },
           });
 
           expect(response.statusCode).to.equal(502);
@@ -440,7 +448,8 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
         expect(response.statusCode).to.equal(200);
         const data = JSON.parse(response.payload);
         expect(data).to.have.nested.property('error.validation');
-        expect(data.error.validation).to.be.a('string').and.include('MCP error');
+        // Le message nomme le champ fautif, sans exposer le protocole sous-jacent.
+        expect(data.error.validation).to.be.a('string').and.include('type');
       });
     });
 
