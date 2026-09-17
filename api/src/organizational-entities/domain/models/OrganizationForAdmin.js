@@ -4,11 +4,9 @@ import isEmpty from 'lodash/isEmpty.js';
 
 import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 import { FeatureParamsNotProcessable } from '../errors.js';
+import { padProvinceCode } from '../services/province-code.service.js';
 import { DataProtectionOfficer } from './DataProtectionOfficer.js';
 import { Network } from './Network.js';
-
-const PAD_TARGET_LENGTH = 3;
-const PAD_STRING = '0';
 
 const schema = Joi.object({
   features: Joi.object().pattern(
@@ -188,7 +186,7 @@ class OrganizationForAdmin {
   }
 
   set provinceCode(provinceCode) {
-    this.#provinceCode = provinceCode ? provinceCode.padStart(PAD_TARGET_LENGTH, PAD_STRING) : null;
+    this.#provinceCode = padProvinceCode(provinceCode);
   }
 
   get archivistFullName() {
