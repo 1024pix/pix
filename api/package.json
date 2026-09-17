@@ -187,7 +187,6 @@
     "eslint-plugin-chai-expect": "^4.1.0",
     "eslint-plugin-i18n-json": "^4.0.1",
     "eslint-plugin-knex": "^0.3.0",
-    "eslint-plugin-mocha": "^12.0.2",
     "eslint-plugin-n": "^18.3.0",
     "eslint-plugin-unicorn": "^74.0.0",
     "jsdoc-to-markdown": "^9.1.3",
