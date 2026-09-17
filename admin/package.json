@@ -93,7 +93,7 @@
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-qunit": "^8.2.6",
     "globals": "^17.0.0",
-    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-browser-languagedetector": "^8.2.1",
     "joi": "^18.0.2",
     "js-base64": "^3.7.8",
     "jwt-decode": "^4.0.0",
