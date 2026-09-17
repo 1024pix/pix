@@ -28,9 +28,8 @@ const mcpController = {
       return h.abandon;
     }
 
-    let transport;
     const server = await createMcpServer({ authorizationHeader, forwardedHeaders, apiBaseUrl });
-    transport = new StreamableHTTPServerTransport({
+    const transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: () => randomUUID(),
       onsessioninitialized: (id) => { sessions.set(id, transport); },
       onsessionclosed: (id) => { sessions.delete(id); },

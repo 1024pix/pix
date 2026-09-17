@@ -7,21 +7,21 @@ describe('LlmAssistant | Unit | Config', function () {
       expect(config.llmAssistant).to.exist;
     });
 
-    describe('inferenceUrl', function () {
-      it('should read LLM_ASSISTANT_INFERENCE_URL from env (test override)', function () {
-        expect(config.llmAssistant.inferenceUrl).to.equal('https://llm-assistant-test.pix.fr/api/inference');
+    describe('baseUrl', function () {
+      it('should read LLM_ASSISTANT_BASE_URL from env (test override)', function () {
+        expect(config.llmAssistant.baseUrl).to.equal('https://llm-assistant-test.pix.fr/v1');
       });
     });
 
-    describe('inferenceClientId', function () {
-      it('should read LLM_ASSISTANT_INFERENCE_CLIENT_ID from env (test override)', function () {
-        expect(config.llmAssistant.inferenceClientId).to.equal('test-client-id');
+    describe('apiKey', function () {
+      it('should read LLM_ASSISTANT_API_KEY from env (test override)', function () {
+        expect(config.llmAssistant.apiKey).to.equal('test-api-key');
       });
     });
 
-    describe('inferenceClientSecret', function () {
-      it('should read LLM_ASSISTANT_INFERENCE_CLIENT_SECRET from env (test override)', function () {
-        expect(config.llmAssistant.inferenceClientSecret).to.equal('test-client-secret');
+    describe('model', function () {
+      it('should read LLM_ASSISTANT_MODEL from env (test override)', function () {
+        expect(config.llmAssistant.model).to.equal('test-model');
       });
     });
 

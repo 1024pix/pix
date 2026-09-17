@@ -1,4 +1,3 @@
-import net from 'node:net';
 
 import nock from 'nock';
 
@@ -10,21 +9,6 @@ import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 const { ROLES } = PIX_ADMIN;
-
-/**
- * Trouve un port TCP libre en laissant le système en choisir un, puis le libère.
- * @returns {Promise<number>}
- */
-function findFreePort() {
-  return new Promise((resolve, reject) => {
-    const server = net.createServer();
-    server.listen(0, '127.0.0.1', () => {
-      const { port } = server.address();
-      server.close(() => resolve(port));
-    });
-    server.on('error', reject);
-  });
-}
 
 describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', function () {
   // ─────────────────────────────────────────────────────────────────────────
@@ -61,8 +45,6 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
   describe('scenarios requiring a real HTTP server', function () {
     let httpServer;
     let superAdmin;
-    let authorizationHeader;
-    let forwardedHeaders;
     let authHeaders;
 
     beforeEach(async function () {
@@ -75,11 +57,6 @@ describe('Acceptance | LlmAssistant | Application | Route | ToolExecution', func
       nock.enableNetConnect();
 
       authHeaders = generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id });
-      authorizationHeader = authHeaders.authorization;
-      forwardedHeaders = {
-        'x-forwarded-proto': authHeaders['x-forwarded-proto'],
-        'x-forwarded-host': authHeaders['x-forwarded-host'],
-      };
     });
 
     afterEach(async function () {
