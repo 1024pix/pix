@@ -1,24 +1,18 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { z } from 'zod';
 
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import {
+  CREATE_ORGANIZATION_SCHEMA,
+  createOrganizationZodSchema,
+  LIST_REFERENCE_VALUES_SCHEMA,
+  toValidationError,
+} from '../../domain/tool-schemas.js';
 import { createOrganization } from '../../domain/usecases/create-organization.js';
 import { listReferenceValues } from '../../domain/usecases/list-reference-values.js';
 import { makeAdministrationTeamRepository } from '../repositories/administration-team.repository.js';
 import { makeCountryRepository } from '../repositories/country.repository.js';
 import { makeOrganizationRepository } from '../repositories/organization.repository.js';
 import { makeOrganizationLearnerTypeRepository } from '../repositories/organization-learner-type.repository.js';
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
-
-const CREATE_ORGANIZATION_SCHEMA = {
-  name: z.string().describe("Nom de l'organisation"),
-  type: z.enum(['SCO', 'SUP', 'PRO', 'SCO-1D']).describe("Type d'organisation"),
-  administrationTeamName: z.string().describe("Nom de l'équipe en charge"),
-  organizationLearnerTypeName: z.string().describe('Nom du public prescrit'),
-  countryName: z.string().describe('Nom du pays'),
-  externalId: z.string().optional().describe('Identifiant externe (UAI, SIRET…)'),
-  simulate: z.boolean().optional().describe('Si true, simule la création sans appel API'),
-};
-const createOrganizationZodSchema = z.object(CREATE_ORGANIZATION_SCHEMA);
 
 const createMcpServer = async function ({ authorizationHeader, forwardedHeaders = {}, apiBaseUrl }) {
   const server = new McpServer({ name: 'pix-admin', version: '1.0.0' });
@@ -40,9 +34,8 @@ const createMcpServer = async function ({ authorizationHeader, forwardedHeaders 
 
       const parsed = createOrganizationZodSchema.safeParse(args);
       if (!parsed.success) {
-        const issue = parsed.error.issues[0];
-        const result = { error: { notFound: issue.path.join('.'), availableValues: issue.values ?? issue.options ?? [] } };
-        logger.info(`mcp create_organization ← ${Date.now() - t0}ms validation-error: ${issue.message}`);
+        const result = toValidationError(parsed.error);
+        logger.info(`mcp create_organization ← ${Date.now() - t0}ms validation-error: ${parsed.error.issues[0].message}`);
         return { content: [{ type: 'text', text: JSON.stringify(result) }] };
       }
 
@@ -59,7 +52,7 @@ const createMcpServer = async function ({ authorizationHeader, forwardedHeaders 
 
   server.tool(
     'list_reference_values',
-    { target: z.string().describe('sujet:propriété — ex. organization:administrationTeamName') },
+    LIST_REFERENCE_VALUES_SCHEMA,
     { readOnlyHint: true },
     async ({ target }) => {
       const result = await listReferenceValues({ target, ...repositories });
