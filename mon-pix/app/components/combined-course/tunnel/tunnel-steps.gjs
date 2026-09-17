@@ -7,7 +7,6 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import CombinedCourseStepItem from 'mon-pix/components/combined-course/combined-course-step-item';
-import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 
 import StepDetails from './step-details';
 
@@ -51,7 +50,6 @@ export default class TunnelSteps extends Component {
   @action
   setSelectedItem(item) {
     this.selectedItem = item;
-    console.log('selectedItem');
   }
 
   <template>
