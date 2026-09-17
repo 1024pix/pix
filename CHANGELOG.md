@@ -1,5 +1,38 @@
 # Pix Changelog
 
+# [5.502.0](https://github.com/1024pix/pix/compare/v5.501.2...v5.502.0) (2026-09-17)
+
+### :rocket: Amélioration
+
+- [#17518](https://github.com/1024pix/pix/pull/17518) Afficher la catégorie de la structure sur le détail d'un centre de certification (PIX-24225)
+- [#17515](https://github.com/1024pix/pix/pull/17515) Ajoute le questionnaire de recueil de feedback pour le catalogue (PIX-24194)
+- [#17453](https://github.com/1024pix/pix/pull/17453) Ajoute un stepper cliquable pour naviguer dans le formulaire de création de version (PIX-23043)
+- [#17519](https://github.com/1024pix/pix/pull/17519) Mise à jour des traductions de vérification de Companion (PIX-23904).
+- [#17489](https://github.com/1024pix/pix/pull/17489) Modifier le header `typ` des access tokens (PIX-24246)
+
+### :building_construction: Tech
+
+- [#17512](https://github.com/1024pix/pix/pull/17512) Amélioration de l'isolation des tests `scoring-v2`
+- [#17523](https://github.com/1024pix/pix/pull/17523) PixOrga: convertir les models combined courses en TS
+- [#17507](https://github.com/1024pix/pix/pull/17507) Suppression de la github action pour les tests modulix (PIX-24282).
+- [#17504](https://github.com/1024pix/pix/pull/17504) Typo dans la sélection des badges-acquisitions (PIX-24276).
+
+### :arrow_up: Montée de version
+
+- [#17456](https://github.com/1024pix/pix/pull/17456) Update dependency @1024pix/pix-ui to ^68.1.2 (mon-pix)
+- [#17510](https://github.com/1024pix/pix/pull/17510) Update dependency @1024pix/pix-ui to ^68.2.5 (admin)
+- [#17533](https://github.com/1024pix/pix/pull/17533) Update dependency @1024pix/pix-ui to ^68.2.5 (mon-pix)
+- [#17509](https://github.com/1024pix/pix/pull/17509) Update dependency dayjs to ^1.11.23 (certif)
+- [#17513](https://github.com/1024pix/pix/pull/17513) Update dependency dayjs to ^1.11.23 (mon-pix)
+- [#17520](https://github.com/1024pix/pix/pull/17520) Update dependency ember-cli-babel to ^8.3.2 (certif)
+- [#17521](https://github.com/1024pix/pix/pull/17521) Update dependency ember-cli-babel to ^8.3.2 (junior)
+- [#17524](https://github.com/1024pix/pix/pull/17524) Update dependency ember-cli-babel to ^8.3.2 (mon-pix)
+- [#17525](https://github.com/1024pix/pix/pull/17525) Update dependency ember-exam to ^10.1.3 (mon-pix)
+- [#17526](https://github.com/1024pix/pix/pull/17526) Update dependency ember-exam to v10.1.3 (certif)
+- [#17527](https://github.com/1024pix/pix/pull/17527) Update dependency ember-exam to v10.1.3 (junior)
+- [#17528](https://github.com/1024pix/pix/pull/17528) Update dependency ember-qunit to ^9.1.0 (junior)
+- [#17529](https://github.com/1024pix/pix/pull/17529) Update dependency ember-simple-auth to ^8.3.1 (certif)
+
 ## [5.501.2](https://github.com/1024pix/pix/compare/v5.501.1...v5.501.2) (2026-09-16)
 
 ### :building_construction: Tech
