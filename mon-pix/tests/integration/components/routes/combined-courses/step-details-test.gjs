@@ -2,7 +2,8 @@ import { render } from '@1024pix/ember-testing-library';
 import StepDetails from 'mon-pix/components/combined-course/tunnel/step-details';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from "../../../../helpers/setup-intl-rendering";
+
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Combined Courses | Step-details', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -31,8 +32,6 @@ module('Integration | Component | Combined Courses | Step-details', function (ho
       assert.ok(screen.getByText(item.objectives[0], { exact: false }));
       assert.ok(screen.getByText(item.objectives[0], { exact: false }));
     });
-    test('should have a correct display when data is not provided', function () {
-
-    });
+    test('should have a correct display when data is not provided', function () {});
   });
 });

@@ -12,6 +12,10 @@
     margin-bottom: var(--pix-spacing-2x);
   }
 
+  &__content {
+    flex: 1;
+  }
+
   &__description {
     @extend %pix-body-l;
 

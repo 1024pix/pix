@@ -1,0 +1,37 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+@use '../../globals/a11y' as *;
+
+.combined-course-tunnel {
+  display: flex;
+  position: relative;
+  flex-direction: column-reverse;
+  gap: var(--pix-spacing-10x);
+  height: 100%;
+  padding: var(--pix-spacing-4x);
+
+  @include breakpoints.device-is('tablet') {
+    flex-direction: row;
+  }
+
+  &__exit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: var(--pix-spacing-8x);
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--pix-spacing-10x);
+    align-items: center;
+    padding-left: var(--pix-spacing-20x);
+  }
+
+  &__step-details {
+    flex: 1;
+  }
+
+}

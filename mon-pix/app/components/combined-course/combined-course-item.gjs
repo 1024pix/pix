@@ -27,6 +27,7 @@ const Content = <template>
       <div class="combined-course-item__text">
         <div class="combined-course-item__title">{{@title}}</div>
         {{#if @displayDuration}}
+
           <div class="combined-course-item__description">
             <span>{{yield to="description"}}</span>
             <span class="combined-course-item__duration">
@@ -34,6 +35,7 @@ const Content = <template>
             </span>
           </div>
         {{/if}}
+
       </div>
     </div>
 
@@ -117,7 +119,7 @@ function hasWhiteBackground(item) {
         @title={{@item.title}}
         @isLocked={{true}}
         @iconUrl={{@item.iconUrl}}
-        @displayDuration={{eq @item.type "MODULE"}}
+        @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
       >
         <:duration>
           {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
@@ -138,10 +140,10 @@ function hasWhiteBackground(item) {
           @validatedStagesCount={{@item.validatedStages}}
           @totalStagesCount={{@item.totalStages}}
           @iconUrl={{@item.iconUrl}}
-          @isCampaignType={{eq @item.type "CAMPAIGN"}}
-          @displayDuration={{eq @item.type "MODULE"}}
+          @isCampaignType={{eq @item.type CombinedCourseItemTypes.CAMPAIGN}}
+          @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
           @hasWhiteBackground={{hasWhiteBackground @item}}
-          @hasYellowBorder={{and (eq @item.type "MODULE") @isCombinedCourseCompleted}}
+          @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
           @isCurrentItem={{@isNextItemToComplete}}
         >
           <:duration>

@@ -45,6 +45,7 @@
 @use 'components/certifications/shareable-certificate/v2-certificate' as *;
 @use 'components/certifications/certification-ender' as *;
 @use 'components/combined-courses/combined-courses' as *;
+@use 'components/combined-courses/tunnel' as *;
 @use 'components/combined-courses/attestation' as *;
 @use 'components/combined-courses/step-details' as *;
 @use '../components/routes/combined-courses/process-custom-passages' as *;

@@ -1,6 +1,25 @@
 @use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
 
 .step-details {
+  background-color: var(--pix-neutral-0);
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  border-radius: 0 0 var(--pix-spacing-10x) var(--pix-spacing-10x);
+  gap: var(--pix-spacing-10x);
+  padding: var(--pix-spacing-10x) var(--pix-spacing-4x);
+
+  @include breakpoints.device-is('tablet') {
+      border-radius: var(--pix-spacing-10x) 0 0 var(--pix-spacing-10x);
+      gap: var(--pix-spacing-10x);
+      padding: 80px 80px 80px var(--pix-spacing-10x);
+      align-self: stretch;
+  }
+
   &__main {
     display: flex;
     flex-direction: column;
@@ -22,26 +41,34 @@
   }
 
   &__objectives {
-    &--items {
+    &--item {
        @extend %pix-body-m;
 
+       display: flex;
        font-weight: var(--pix-font-bold);
     }
+
+    &--chevron {
+      fill: var(--pix-primary-300);
+    }
+
   }
 
   &__indicators {
     @extend %pix-body-s;
 
+    display: none;
+
+    @extend %pix-body-s;
+
+    @include breakpoints.device-is('tablet') {
     display: flex;
     gap: var(--pix-spacing-4x);
     margin-top: var(--pix-spacing-2x);
-
     dl {
       display: inline-flex;
       gap: var(--pix-spacing-1x);
       align-items: center;
-
-    @extend %pix-body-s;
 
       dt {
       width: 16px;
@@ -63,6 +90,7 @@
     }
      }
 
+    }
     }
 
   }
