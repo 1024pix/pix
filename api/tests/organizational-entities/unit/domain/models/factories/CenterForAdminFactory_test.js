@@ -38,4 +38,20 @@ describe('Unit | Organizational Entities | Domain | Models | Factories | CenterF
       }),
     );
   });
+
+  it('should build a Center for admin with its category label', function () {
+    // given
+    const center = {
+      ...domainBuilder.certification.enrolment.buildCenter({ createdAt: new Date('2022-01-01') }),
+      categoryLabel: 'Établissement scolaire',
+    };
+    const dataProtectionOfficer =
+      domainBuilder.buildDataProtectionOfficer.buildDataProtectionOfficerWithCertificationCenterId();
+
+    // when
+    const centerForAdmin = CenterForAdminFactory.fromCenterAndDataProtectionOfficer({ center, dataProtectionOfficer });
+
+    // then
+    expect(centerForAdmin.categoryLabel).to.equal('Établissement scolaire');
+  });
 });

@@ -1,7 +1,18 @@
 import { CERTIFICATION_CENTER_TYPES } from '../../../shared/constants.js';
 
 export class CertificationCenter {
-  constructor({ id, name, externalId, type, createdAt, updatedAt, habilitations = [], archivedAt, archivedBy } = {}) {
+  constructor({
+    id,
+    name,
+    externalId,
+    type,
+    createdAt,
+    updatedAt,
+    habilitations = [],
+    archivedAt,
+    archivedBy,
+    categoryLabel,
+  } = {}) {
     this.id = id;
     this.name = name;
     this.externalId = externalId;
@@ -11,6 +22,7 @@ export class CertificationCenter {
     this.habilitations = habilitations;
     this.archivedAt = archivedAt;
     this.archivedBy = archivedBy;
+    this.categoryLabel = categoryLabel;
   }
 
   static types = CERTIFICATION_CENTER_TYPES;

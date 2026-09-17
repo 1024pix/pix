@@ -1643,6 +1643,7 @@
         },
         "is-archived-warning": "Archived at {archivedAt} by {archivedBy}.",
         "list": {
+          "category": "Category",
           "createdAt": "Created at",
           "dpo": "DPO",
           "dpo-definition": "Data Protection Officer",

@@ -258,6 +258,12 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
         certificationCenterId: 1234,
         complementaryCertificationId: 4567,
       });
+      const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
+      const structure = databaseBuilder.factory.buildStructure({ categoryId: category.id });
+      databaseBuilder.factory.buildFactStructure({
+        structureId: structure.id,
+        certificationCenterId: 1234,
+      });
       databaseBuilder.factory.buildCertificationCenter({});
       await databaseBuilder.commit();
       request = {
@@ -298,6 +304,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
               'data-protection-officer-first-name': undefined,
               'data-protection-officer-last-name': undefined,
               'data-protection-officer-email': undefined,
+              'category-label': 'Établissement scolaire',
             },
             relationships: {
               'certification-center-invitations': {

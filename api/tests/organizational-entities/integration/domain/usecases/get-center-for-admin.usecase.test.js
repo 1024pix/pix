@@ -38,4 +38,23 @@ describe('Integration | UseCases | get-center-for-admin', function () {
     expect(certificationCenter.archivedAt).to.deep.equal(date);
     expect(certificationCenter.archivistFullName).to.equal('toto tutu');
   });
+
+  it('should get the certification center category label when linked to a structure', async function () {
+    // given
+    const certificationCenterId = 1234;
+    databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId });
+    const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
+    const structure = databaseBuilder.factory.buildStructure({ categoryId: category.id });
+    databaseBuilder.factory.buildFactStructure({ structureId: structure.id, certificationCenterId });
+
+    await databaseBuilder.commit();
+
+    // when
+    const certificationCenter = await usecases.getCenterForAdmin({
+      id: certificationCenterId,
+    });
+
+    // then
+    expect(certificationCenter.categoryLabel).to.equal('Établissement scolaire');
+  });
 });

@@ -35,6 +35,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       name: 'Center 1',
       externalId: 'ABCDEF',
       type: 'SCO',
+      categoryLabel: 'super-category-label',
     });
 
     // when
@@ -46,6 +47,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     // assert.dom(screen.getByRole('heading', { name: 'Center 1', level: 1 })).exists();
     assert.dom(screen.getByText('ABCDEF')).exists();
     assert.dom(screen.getByText('Établissement scolaire')).exists();
+    assert.dom(screen.getByText('super-category-label')).exists();
   });
 
   test('should display Certification center habilitations', async function (assert) {

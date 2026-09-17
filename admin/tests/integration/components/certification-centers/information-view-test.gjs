@@ -27,6 +27,7 @@ module('Integration | Component | certification-centers/information-view', funct
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
+      categoryLabel: 'super-category-label',
       dataProtectionOfficerFirstName: 'Lucky',
       dataProtectionOfficerLastName: 'Number',
       dataProtectionOfficerEmail: 'lucky@example.net',
@@ -50,11 +51,41 @@ module('Integration | Component | certification-centers/information-view', funct
     assert.dom(screen.getByText(t('pages.certification-centers.information-view.list.type'))).exists();
     assert.dom(screen.getByText(t('pages.certification-centers.information-view.list.external-id'))).exists();
     assert.dom(screen.getByText('AX129')).exists();
+    assert
+      .dom(screen.getByText(t('pages.certification-centers.information-view.list.category')).nextElementSibling)
+      .hasText('super-category-label');
     assert.dom(screen.getByText('Lucky Number')).exists();
     assert.dom(screen.getByText('lucky@example.net')).exists();
     assert.strictEqual(screen.getAllByTitle('Délégué à la protection des données').length, 2);
     assert.dom(screen.getByLabelText('Habilité pour Pix+Droit')).exists();
     assert.dom(screen.getByLabelText('Non habilité pour Cléa')).exists();
     assert.dom(screen.getByText('27/07/2023')).exists();
+  });
+
+  test('it should display "Non spécifié" when the certification center has no category', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const availableHabilitations = [];
+    const certificationCenter = store.createRecord('certification-center', {
+      name: 'Centre SCO',
+      type: 'SCO',
+    });
+
+    // when
+    const screen = await render(
+      <template>
+        <InformationView
+          @availableHabilitations={{availableHabilitations}}
+          @certificationCenter={{certificationCenter}}
+          @toggleEditMode={{toggleEditMode}}
+          @toggleShowArchiveModal={{toggleShowArchiveModal}}
+        />
+      </template>,
+    );
+
+    // then
+    assert
+      .dom(screen.getByText(t('pages.certification-centers.information-view.list.category')).nextElementSibling)
+      .hasText(t('common.not-specified'));
   });
 });

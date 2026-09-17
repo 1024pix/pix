@@ -61,6 +61,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           updatedAt: now,
           createdAt: now,
+          categoryLabel: null,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
       });
@@ -142,6 +143,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           updatedAt: now,
           createdAt: now,
+          categoryLabel: null,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
       });
@@ -197,8 +199,56 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
             label: droit.label,
           }),
         ],
+        categoryLabel: null,
       });
       expect(result).to.deepEqualInstance(expectedCenter);
+    });
+
+    context('when the certification center is linked to a structure with a category', function () {
+      it('returns the certification center with its category label', async function () {
+        // given
+        const centerId = 1;
+        databaseBuilder.factory.buildCertificationCenter({
+          id: centerId,
+          type: CertificationCenter.types.PRO,
+          archivedAt: null,
+          archivedBy: null,
+          createdAt: now,
+          updatedAt: now,
+        });
+        const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
+        const structure = databaseBuilder.factory.buildStructure({ categoryId: category.id });
+        databaseBuilder.factory.buildFactStructure({ structureId: structure.id, certificationCenterId: centerId });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await certificationCenterRepository.getById({ id: centerId });
+
+        // then
+        expect(result.categoryLabel).to.equal('Établissement scolaire');
+      });
+    });
+
+    context('when the certification center is not linked to any structure', function () {
+      it('returns the certification center with a null category label', async function () {
+        // given
+        const centerId = 1;
+        databaseBuilder.factory.buildCertificationCenter({
+          id: centerId,
+          type: CertificationCenter.types.PRO,
+          archivedAt: null,
+          archivedBy: null,
+          createdAt: now,
+          updatedAt: now,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await certificationCenterRepository.getById({ id: centerId });
+
+        // then
+        expect(result.categoryLabel).to.equal(null);
+      });
     });
   });
 

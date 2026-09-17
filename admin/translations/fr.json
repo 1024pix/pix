@@ -1653,6 +1653,7 @@
         },
         "is-archived-warning": "Archivé le {archivedAt} par {archivedBy}.",
         "list": {
+          "category": "Catégorie",
           "createdAt": "Date de création",
           "dpo": "DPO",
           "dpo-definition": "Délégué à la protection des données",
