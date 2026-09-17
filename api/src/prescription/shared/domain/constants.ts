@@ -1,4 +1,9 @@
-import type { CampaignParticipationStatus, CampaignType } from '@1024pix/pix-types';
+import type {
+  CampaignParticipationStatus,
+  CampaignType,
+  CombinedCourseParticipationStatus,
+  CombinedCourseStatus,
+} from '@1024pix/pix-types';
 
 const CampaignParticipationStatuses = {
   STARTED: 'STARTED',
@@ -19,12 +24,12 @@ const CampaignExternalIdTypes = {
 const CombinedCourseParticipationStatuses = {
   STARTED: 'STARTED',
   COMPLETED: 'COMPLETED',
-} as const;
+} as const satisfies Record<CombinedCourseParticipationStatus, CombinedCourseParticipationStatus>;
 
 const CombinedCourseStatuses = {
   ...CombinedCourseParticipationStatuses,
   NOT_STARTED: 'NOT_STARTED',
-} as const;
+} as const satisfies Record<CombinedCourseStatus, CombinedCourseStatus>;
 
 const MaxMasteryRate = {
   MAX_MASTERY_RATE: 1,

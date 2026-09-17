@@ -16,7 +16,7 @@ import EmptyState from 'pix-orga/components/campaign/empty-state';
 import Pagination from 'pix-orga/components/ui/pagination';
 import ParticipationStatus from 'pix-orga/components/ui/participation-status';
 import ENV from 'pix-orga/config/environment';
-import { COMBINED_COURSE_PARTICIPATION_STATUSES } from 'pix-orga/models/combined-course-participation.js';
+import { COMBINED_COURSE_PARTICIPATION_STATUSES } from 'pix-orga/models/combined-course-participation';
 import { isSearchValid } from 'pix-orga/utils/normalize-text.js';
 
 const debounceTime = ENV.pagination.debounce;
