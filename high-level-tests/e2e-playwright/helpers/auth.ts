@@ -1,7 +1,7 @@
 import path from 'node:path';
 
 import * as fs from 'fs/promises';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtHeader } from 'jsonwebtoken';
 import ms from 'ms';
 
 import { PIX_APP_USER_DATA, PIX_CERTIF_PRO_DATA, PIX_ORGA_ADMIN_DATA, PIX_ORGA_MEMBER_DATA } from './db-data.js';
@@ -65,7 +65,7 @@ export function getGarTokenForNewUser(firstName: string, lastName: string, expir
       source: 'external',
     },
     process.env.AUTH_SECRET || '',
-    { expiresIn },
+    { expiresIn, header: { typ: 'at+jwt' } as JwtHeader },
   );
 }
 
@@ -73,13 +73,14 @@ export function getGarTokenForExistingUser(userId: number, expiresIn: ms.StringV
   return jwt.sign(
     { user_id: userId, source: 'external', aud: process.env.PIX_APP_URL },
     process.env.AUTH_SECRET || '',
-    { expiresIn },
+    { expiresIn, header: { typ: 'at+jwt' } as JwtHeader },
   );
 }
 
 export function getTokenForPixUser(userId: number, origin: string, expiresIn: ms.StringValue = '1h') {
   return jwt.sign({ user_id: userId, source: 'pix', aud: origin }, process.env.AUTH_SECRET || '', {
     expiresIn,
+    header: { typ: 'at+jwt' } as JwtHeader,
   });
 }
 
