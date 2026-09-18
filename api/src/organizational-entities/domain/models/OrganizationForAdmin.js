@@ -281,7 +281,7 @@ class OrganizationForAdmin {
     if (newOrganization.organizationLearnerType.id) {
       this.organizationLearnerType = newOrganization.organizationLearnerType;
     }
-    if (newOrganization.categoryId) this.categoryId = newOrganization.categoryId;
+    this.categoryId = newOrganization.categoryId;
   }
 
   setCountryName(countryName) {
