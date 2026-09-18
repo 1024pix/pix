@@ -1,17 +1,8 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { LearningContentResourceNotFound } from '../../../shared/domain/errors.js';
 import { ElementForVerificationFactory } from '../factories/element-for-verification-factory.js';
 
-async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasource }) {
-  let moduleData;
-  try {
-    moduleData = await moduleDatasource.getById(moduleId);
-  } catch (e) {
-    if (e instanceof LearningContentResourceNotFound) {
-      throw new NotFoundError();
-    }
-    throw e;
-  }
+async function getByIdForAnswerVerification({ moduleId, elementId, moduleRepository }) {
+  const moduleData = await moduleRepository.getById({ id: moduleId });
 
   const foundElement = flattenModuleElements(moduleData).find((element) => {
     return element.id === elementId;

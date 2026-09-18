@@ -59,6 +59,7 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
         const elementId = Symbol('elementId');
         const passageId = Symbol('passageId');
         const userResponse = Symbol('userResponse');
+        const moduleRepository = Symbol('moduleRepository');
         const correction = { status: { status: Symbol('status') } };
         const persistedElementAnswer = Symbol('persistedElementAnswer');
 
@@ -81,7 +82,9 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
         element.setUserResponse.withArgs(userResponse).returns();
         element.assess.withArgs().returns(correction);
 
-        elementRepository.getByIdForAnswerVerification.withArgs({ moduleId, elementId }).resolves(element);
+        elementRepository.getByIdForAnswerVerification
+          .withArgs({ moduleId, elementId, moduleRepository })
+          .resolves(element);
 
         const elementAnswerRepository = {
           save: sinon.stub(),
@@ -103,6 +106,7 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
           passageRepository,
           elementRepository,
           elementAnswerRepository,
+          moduleRepository,
         });
 
         // then
