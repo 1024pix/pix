@@ -8,7 +8,6 @@
   flex-direction: column-reverse;
   gap: var(--pix-spacing-10x);
   height: 100%;
-  padding: var(--pix-spacing-4x);
 
   @include breakpoints.device-is('tablet') {
     flex-direction: row;
@@ -29,9 +28,4 @@
     align-items: center;
     padding-left: var(--pix-spacing-20x);
   }
-
-  &__step-details {
-    flex: 1;
-  }
-
 }
