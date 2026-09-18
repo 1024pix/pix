@@ -24,17 +24,18 @@ const Content = <template>
         {{/if}}
       </div>
       <div class="combined-course-item__text">
-        <div class="combined-course-item__title">{{@title}}</div>
-        {{#if @displayDuration}}
+        <div class="combined-course-item__title">{{@title}}
+        </div>
 
-          <div class="combined-course-item__description">
-            <span>{{yield to="description"}}</span>
+        <div class="combined-course-item__description">
+          <span>{{yield to="description"}}</span>
+
+          {{#if @displayDuration}}
             <span class="combined-course-item__duration">
               {{yield to="duration"}}
             </span>
-          </div>
-        {{/if}}
-
+          {{/if}}
+        </div>
       </div>
     </div>
 
