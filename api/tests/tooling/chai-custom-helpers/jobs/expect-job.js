@@ -94,7 +94,6 @@ async function _checkPayloads(payloads) {
 
   const jobName = this._obj;
   const actualPayloads = jobs.map((job) => job.data);
-
   const actualPayloadsWithoutCorrelactionContext = _withoutCorrelactionContext(actualPayloads);
   const expectedPayloadsWithoutCorrelactionContext = _withoutCorrelactionContext(payloads);
 
