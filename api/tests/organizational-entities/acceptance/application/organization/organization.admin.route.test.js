@@ -69,13 +69,14 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
         targetProfileId,
       });
       const organizationLearnerTypeId = databaseBuilder.factory.buildOrganizationLearnerType().id;
+      const structureCategoryId = databaseBuilder.factory.buildStructureCategory().id;
 
       await databaseBuilder.commit();
 
       const buffer =
-        'type,externalId,name,provinceCode,credit,createdBy,documentationUrl,identityProviderForCampaigns,isManagingStudents,emailForSCOActivation,DPOFirstName,DPOLastName,DPOEmail,emailInvitations,organizationInvitationRole,locale,tags,targetProfiles,administrationTeamId,parentOrganizationId,countryCode,organizationLearnerTypeId\n' +
-        `SCO,ANNEGRAELLE,Orga des Anne-Graelle,33700,,${superAdminUserId},url.com,,true,,Anne,Graelle,anne-graelle@example.net,,ADMIN,fr,GRAS_GARGOUILLE,${targetProfileId},1234,,99100,${organizationLearnerTypeId}\n` +
-        `PRO,ANNEGARBURE,Orga des Anne-Garbure,33700,999,${superAdminUserId},,,,,Anne,Garbure,anne-garbure@example.net,,ADMIN,fr,GARBURE,${targetProfileId},1234,${parentOrganizationId},99100,${organizationLearnerTypeId}`;
+        'type,externalId,name,provinceCode,credit,createdBy,documentationUrl,identityProviderForCampaigns,isManagingStudents,emailForSCOActivation,DPOFirstName,DPOLastName,DPOEmail,emailInvitations,organizationInvitationRole,locale,tags,targetProfiles,administrationTeamId,parentOrganizationId,countryCode,organizationLearnerTypeId,categoryId\n' +
+        `SCO,ANNEGRAELLE,Orga des Anne-Graelle,33700,,${superAdminUserId},url.com,,true,,Anne,Graelle,anne-graelle@example.net,,ADMIN,fr,GRAS_GARGOUILLE,${targetProfileId},1234,,99100,${organizationLearnerTypeId},${structureCategoryId}\n` +
+        `PRO,ANNEGARBURE,Orga des Anne-Garbure,33700,999,${superAdminUserId},,,,,Anne,Garbure,anne-garbure@example.net,,ADMIN,fr,GARBURE,${targetProfileId},1234,${parentOrganizationId},99100,${organizationLearnerTypeId},${structureCategoryId}`;
 
       // when
       const response = await server.inject({
@@ -915,8 +916,10 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
         credit: 50,
       };
 
-      const organization = databaseBuilder.factory.buildOrganization({
-        ...organizationAttributes,
+      const structureCategoryId = databaseBuilder.factory.buildStructureCategory().id;
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
+        organizationData: { ...organizationAttributes },
+        categoryId: structureCategoryId,
       });
       await databaseBuilder.commit();
 
@@ -932,6 +935,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
             'administration-team-id': administrationTeamId,
             'country-code': country.code,
             'organization-learner-type-name': newOrganizationLearnerType.name,
+            'category-id': structureCategoryId,
           },
         },
       };

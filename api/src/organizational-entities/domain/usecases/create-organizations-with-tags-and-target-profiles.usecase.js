@@ -14,7 +14,7 @@ import { OrganizationTag } from '../../../shared/domain/models/OrganizationTag.j
 import { generateAvailableAccessCode } from '../../../shared/domain/services/access-code-generator.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
-import { ParentOrganizationNotInNetworkError } from '../errors.js';
+import { ParentOrganizationNotInNetworkError, StructureCategoryNotFound } from '../errors.js';
 import { Organization } from '../models/Organization.js';
 import { OrganizationForAdmin } from '../models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../models/OrganizationLearnerType.js';
@@ -40,6 +40,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
   countryRepository,
   organizationLearnerTypeRepository,
   organizationVerificationService,
+  structureCategoryRepository,
 }) {
   if (isEmpty(organizations)) {
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
@@ -62,6 +63,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
       countryRepository,
       organizationLearnerTypeRepository,
       organizationVerificationService,
+      structureCategoryRepository,
     });
 
     await _addDataProtectionOfficers({
@@ -101,9 +103,14 @@ async function _createOrganizations({
   countryRepository,
   organizationLearnerTypeRepository,
   organizationVerificationService,
+  structureCategoryRepository,
 }) {
+  const categoryIds = [...new Set(transformedOrganizationsData.map(({ organization }) => organization.categoryId))];
+  const existingCategoryIds = await structureCategoryRepository.findExistingIds({ ids: categoryIds });
+  const existingCategoryIdSet = new Set(existingCategoryIds);
+
   return PromiseUtils.mapSeries(transformedOrganizationsData, async (organizationToCreate, index) => {
-    const { administrationTeamId, parentOrganizationId, countryCode, organizationLearnerType } =
+    const { administrationTeamId, parentOrganizationId, countryCode, organizationLearnerType, categoryId } =
       organizationToCreate.organization;
 
     await organizationVerificationService.checkAdministrationTeamExists(
@@ -129,6 +136,13 @@ async function _createOrganizations({
       organizationLearnerType.id,
       organizationLearnerTypeRepository,
     );
+
+    if (!existingCategoryIdSet.has(categoryId)) {
+      throw new StructureCategoryNotFound({
+        message: `Structure category not found for id ${categoryId}`,
+        meta: { structureCategoryId: categoryId },
+      });
+    }
 
     try {
       const createdOrganization = await organizationForAdminRepository.save({
