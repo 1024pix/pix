@@ -150,9 +150,9 @@ export default class Trainings extends Component {
           <h2 id={{this.titleId}} class="results-recommendation-engine-training__title">{{t
               "pages.skill-review.recommended-engine.trainings.title"
             }}</h2>
-          <p class="results-recommendation-engine-training__description">{{t
+          <h3 class="results-recommendation-engine-training__description">{{t
               "pages.skill-review.recommended-engine.trainings.description"
-            }}</p>
+            }}</h3>
         </div>
 
         {{#if this.areNavigationButtonsVisible}}
