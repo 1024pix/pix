@@ -36,12 +36,10 @@ function applyTolerances(string, enabledTolerances) {
   if (_.isEmpty(enabledTolerances)) {
     return result;
   }
-  _(enabledTolerances)
-    .sort()
-    .each((tolerance) => {
-      const toleranceFunction = _.get(tolerances, tolerance);
-      result = toleranceFunction ? toleranceFunction(result) : result;
-    });
+  _.sortBy(enabledTolerances).forEach((tolerance) => {
+    const toleranceFunction = _.get(tolerances, tolerance);
+    result = toleranceFunction ? toleranceFunction(result) : result;
+  });
   return result;
 }
 
