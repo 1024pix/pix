@@ -479,6 +479,57 @@ module('Integration | Component | Module | Passage', function (hooks) {
       sinon.assert.calledWith(saveStub, { adapterOptions: { passageId: passage.id } });
       assert.ok(true);
     });
+
+    module('when saving the element answer fails', function () {
+      test('should not block and allow to continue to the next grain', async function (assert) {
+        // given
+        class ElementAnswerAdapterStub extends ApplicationAdapter {
+          createRecord() {
+            return Promise.reject(new Error('save failed'));
+          }
+        }
+        this.owner.register('adapter:element-answer', ElementAnswerAdapterStub);
+
+        const store = this.owner.lookup('service:store');
+        const qcuElement = {
+          id: 'element-id',
+          instruction: 'instruction',
+          proposals: [
+            { id: '1', content: 'radio1', feedback: { state: 'Correct!', diagnosis: '<p>Good job!</p>' } },
+            { id: '2', content: 'radio2', feedback: { state: 'Wrong!', diagnosis: '<p>Try again!</p>' } },
+          ],
+          type: 'qcu',
+          solution: '1',
+          isAnswerable: true,
+        };
+        const textElement = { content: 'next grain content', type: 'text', tag: ' ' };
+        const section = store.createRecord('section', {
+          id: 'section1',
+          type: 'blank',
+          grains: [
+            { components: [{ type: 'element', element: qcuElement }] },
+            { components: [{ type: 'element', element: textElement }] },
+          ],
+        });
+
+        const module = store.createRecord('module', {
+          id: 'module-id',
+          slug: 'module-slug',
+          title: 'Module title',
+          sections: [section],
+        });
+        const passage = store.createRecord('passage', { id: 'passage-id' });
+
+        const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+        // when
+        await clickByName(qcuElement.proposals[0].content);
+        await clickByName(t('pages.modulix.buttons.activity.verify'));
+
+        // then
+        assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.continue') })).exists();
+      });
+    });
   });
 
   module('when user clicks on an answerable element retry button', function (hooks) {

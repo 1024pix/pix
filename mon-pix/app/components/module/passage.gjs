@@ -185,15 +185,19 @@ export default class ModulePassage extends Component {
 
   @action
   async onElementAnswer(answerData) {
-    await this.store
-      .createRecord('element-answer', {
-        userResponse: answerData.userResponse,
-        elementId: answerData.element.id,
-        passage: this.args.passage,
-      })
-      .save({
+    const elementAnswer = this.store.createRecord('element-answer', {
+      userResponse: answerData.userResponse,
+      elementId: answerData.element.id,
+      passage: this.args.passage,
+    });
+
+    try {
+      await elementAnswer.save({
         adapterOptions: { passageId: this.args.passage.id },
       });
+    } catch {
+      // Ignoring error that should not block the user
+    }
   }
 
   @action

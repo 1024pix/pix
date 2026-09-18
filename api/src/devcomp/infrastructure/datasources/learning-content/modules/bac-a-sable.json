@@ -19,6 +19,144 @@
       "type": "question-yourself",
       "grains": [
         {
+          "id": "dfd6ba42-0481-4710-9058-e511f2378b1a",
+          "type": "discovery",
+          "title": "Que signifie ChatGPT ?",
+          "components": [
+            {
+              "type": "element",
+              "element": {
+                "id": "08e5d1c9-21d9-43bd-b5cb-f54ff06bb3ba",
+                "type": "text",
+                "tag": " ",
+                "content": "<p>Anna utilise un logiciel d’IA générative comme ChatGPT.&nbsp; </p><p>Savez-vous ce que signifie les lettres «&nbsp;<strong>GPT</strong>&nbsp;» dans ChatGPT ? <br></p>"
+              }
+            },
+            {
+              "type": "stepper",
+              "instruction": "",
+              "steps": [
+                {
+                  "elements": [
+                    {
+                      "id": "b4e1d4c2-ce6d-4212-9cb9-6a5afba77a2d",
+                      "type": "qrocm",
+                      "instruction": "<p>À quoi correspond la lettre G ?<br></p>",
+                      "proposals": [
+                        {
+                          "input": "G",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 10,
+                          "display": "inline",
+                          "placeholder": "",
+                          "ariaLabel": "champ libre",
+                          "tolerances": [
+                            "t1",
+                            "t2",
+                            "t3"
+                          ],
+                          "solutions": [
+                            "Generative"
+                          ]
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien vu ! </p>",
+                          "diagnosis": "<p>ChatGPT est un logiciel d’IA qui <strong>génère </strong>du texte, mais aussi du code et des images.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Pas tout à fait&nbsp;: G correspond à «&nbsp;Generative&nbsp;».</p>",
+                          "diagnosis": "<p>ChatGPT est un logiciel d’IA qui <strong>génère </strong>du texte, mais aussi du code et des images.</p>"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "5541791e-7605-419b-94da-3db6dff7d136",
+                      "type": "qrocm",
+                      "instruction": "<p>À quoi correspond la lettre P ?</p>",
+                      "proposals": [
+                        {
+                          "input": "P",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 10,
+                          "display": "inline",
+                          "placeholder": "",
+                          "ariaLabel": "champ libre",
+                          "tolerances": [
+                            "t1",
+                            "t2",
+                            "t3"
+                          ],
+                          "solutions": [
+                            "Pre-trained",
+                            "Pré-entraîné"
+                          ]
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien vu !</p>",
+                          "diagnosis": "<p>En effet, ChatGPT est<strong> pré-entraîné</strong> sur des millions de données pour réussir à générer du texte.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Pas tout à fait. P correspond à «&nbsp;Pretrained&nbsp;».</p>",
+                          "diagnosis": "<p>En effet, ChatGPT est <strong>pré-entraîné</strong> sur des millions de données pour réussir à générer du texte.</p>"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "elements": [
+                    {
+                      "id": "9952572f-aad3-410d-b1a7-d2020f90952e",
+                      "type": "qrocm",
+                      "instruction": "<p>À quoi correspond la lettre T ?</p>",
+                      "proposals": [
+                        {
+                          "input": "P",
+                          "type": "input",
+                          "inputType": "text",
+                          "size": 10,
+                          "display": "inline",
+                          "placeholder": "",
+                          "ariaLabel": "champ libre",
+                          "tolerances": [
+                            "t1",
+                            "t2",
+                            "t3"
+                          ],
+                          "solutions": [
+                            "Transformers",
+                            "Transformeurs"
+                          ]
+                        }
+                      ],
+                      "feedbacks": {
+                        "valid": {
+                          "state": "<p>Bien vu ! </p>",
+                          "diagnosis": "<p>Un <strong>transformer </strong>est un type de<strong> réseau de neurones</strong> conçu pour traiter du texte de manière efficace. Contrairement aux anciens modèles, il <strong>analyse l’ensemble d’un prompt</strong> en même temps pour comprendre le <strong>contexte</strong>.</p>"
+                        },
+                        "invalid": {
+                          "state": "<p>Pas tout à fait. T correspond à «&nbsp;Transformer&nbsp;».</p>",
+                          "diagnosis": "<p>Un <strong>transformeur </strong>est un type de<strong> réseau de neurones</strong> conçu pour traiter du texte de manière efficace. Contrairement aux anciens modèles, il <strong>analyse l’ensemble d’un prompt</strong> en même temps pour comprendre le <strong>contexte</strong>.</p>"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
           "id": "9de10c46-df0e-41f5-a709-81637f0d5cc3",
           "type": "challenge",
           "title": "Premier grain du bac-a-sable",
