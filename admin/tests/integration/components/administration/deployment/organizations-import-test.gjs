@@ -169,5 +169,46 @@ module('Integration | Component |  administration/organizations-import', functio
         assert.true(errorMessage.includes(error.meta.toString()));
       });
     });
+
+    module('when error code is "VALIDATION_ERROR"', function () {
+      test('it displays the correct error notification', async function (assert) {
+        // given
+        const file = new Blob(['foo'], { type: `valid-file` });
+        class NotificationsStub extends Service {
+          sendErrorNotification = notificationErrorStub;
+        }
+        this.owner.register('service:pixToast', NotificationsStub);
+
+        const error = {
+          code: 'VALIDATION_ERROR',
+          meta: {
+            invalidAttributes: [{ attribute: 'attributeInError', validationCode: 'FIELD_REQUIRED' }],
+            currentLine: 2,
+          },
+        };
+
+        saveAdapterStub.withArgs([file]).rejects({
+          errors: [error],
+        });
+
+        // when
+        const screen = await render(<template><OrganizationsImport /></template>);
+        const input = await screen.findByLabelText(t('components.administration.organizations-import.upload-button'));
+        await triggerEvent(input, 'change', { files: [file] });
+
+        // then
+        assert.ok(notificationErrorStub.calledOnce);
+        const [{ message }] = notificationErrorStub.firstCall.args;
+        const errorMessage = message.toString();
+
+        assert.true(
+          errorMessage.includes(
+            t('components.administration.organizations-import.notifications.errors.no-organization-created'),
+          ),
+        );
+        assert.true(errorMessage.includes('attributeInError'));
+        assert.true(errorMessage.includes(t('common.validation-error-messages.FIELD_REQUIRED')));
+      });
+    });
   });
 });
