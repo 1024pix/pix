@@ -117,6 +117,23 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
         expect(result).to.be.false;
       });
     });
+
+    context('when the token is expected to be an access token and has typ header JWT', function () {
+      it('returns true', function () {
+        // given
+        const payload = { amstram: 'gram' };
+        const secret = 'someSecret';
+        const expiresIn = '3d';
+        const expectedType = tokenType.ACCESS_TOKEN;
+        const token = jsonwebtoken.sign(payload, secret, { expiresIn });
+
+        // when
+        const result = tokenService.getDecodedToken(token, secret, { expectedType });
+
+        // then
+        expect(result).to.be.an('object');
+      });
+    });
   });
 
   describe('#extractUserId', function () {
