@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-// eslint-disable-next-line no-restricted-imports
-import { click, find } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -110,7 +109,8 @@ module('Acceptance | Timed challenge', function (hooks) {
       });
 
       test('should display the timer without time remains', function (assert) {
-        assert.ok(find('[data-test="timeout-gauge-remaining"]').textContent.includes('0:00'));
+        assert.dom(screen.getByText('0:00')).exists();
+        assert.dom(screen.getByLabelText('0 secondes')).exists();
       });
 
       test('should only display continue button', function (assert) {

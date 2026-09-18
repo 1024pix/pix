@@ -100,6 +100,7 @@
     "display": {
       "percentage": "{value, number, ::percent}"
     },
+    "duration": "{minutes, plural, =0 {} one {# minuto } other {# minutos }}{seconds, plural, =0 {# segundos} one {# segundo} other {# segundos}}",
     "error": "Se ha producido un error. Vuelve a intentarlo o ponte en contacto con el servicio de asistencia.",
     "form": {
       "error": "error",
