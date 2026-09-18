@@ -102,5 +102,13 @@ describe('Unit | Devcomp | Domain | Services | Validation Tolerances', function 
     it('should return a string with "t2" applied if it is set as enabled tolerance', function () {
       expect(applyTolerances(input, ['t2'])).to.equal(' Shi FooBar ');
     });
+
+    it('should not mutate the given enabled tolerances array (it may be frozen, e.g. shared cache data)', function () {
+      // given
+      const frozenTolerances = Object.freeze(['t2', 't1']);
+
+      // when / then
+      expect(() => applyTolerances(input, frozenTolerances)).to.not.throw();
+    });
   });
 });
