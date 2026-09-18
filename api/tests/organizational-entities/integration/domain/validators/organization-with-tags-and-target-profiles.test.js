@@ -22,6 +22,7 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
     administrationTeamId: 1,
     countryCode: 99123,
     organizationLearnerTypeId: 456,
+    categoryId: 789,
   };
 
   context('success', function () {
@@ -55,6 +56,7 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
               administrationTeamId: 1,
               countryCode: 99123,
               organizationLearnerTypeId: 456,
+              categoryId: 789,
             };
 
             // when
@@ -101,6 +103,7 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
           { attribute: 'administrationTeamId', message: "L'id de l'équipe en charge est manquant" },
           { attribute: 'countryCode', message: 'Le code pays n’est pas renseigné.' },
           { attribute: 'organizationLearnerTypeId', message: "L'id du public prescrit est manquant" },
+          { attribute: 'categoryId', message: "L'id de la catégorie est manquant" },
         ]);
       });
     });
@@ -320,6 +323,46 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         expect(error.invalidAttributes).to.deep.include({
           attribute: 'organizationLearnerTypeId',
           message: "L'id du public prescrit n'est pas un nombre",
+        });
+      });
+    });
+
+    context('categoryId validation', function () {
+      it('returns a required error when categoryId is null', function () {
+        // given
+        const organization = {
+          ...DEFAULT_ORGANIZATION,
+          categoryId: null,
+        };
+
+        // when
+        const error = catchErrSync(validate)(organization);
+
+        // then
+        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.message).to.equal(`Échec de validation de l'entité.`);
+        expect(error.invalidAttributes).to.deep.include({
+          attribute: 'categoryId',
+          message: "L'id de la catégorie est manquant",
+        });
+      });
+
+      it('returns an EntityValidation error when categoryId is not a number', function () {
+        // given
+        const organization = {
+          ...DEFAULT_ORGANIZATION,
+          categoryId: '789',
+        };
+
+        // when
+        const error = catchErrSync(validate)(organization);
+
+        // then
+        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.message).to.equal(`Échec de validation de l'entité.`);
+        expect(error.invalidAttributes).to.deep.include({
+          attribute: 'categoryId',
+          message: "L'id de la catégorie n'est pas un nombre",
         });
       });
     });
