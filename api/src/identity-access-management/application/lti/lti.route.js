@@ -42,4 +42,14 @@ export const ltiRoutes = [
       tags: ['identity-access-management', 'api', 'lti'],
     },
   },
+  {
+    method: 'POST',
+    path: '/api/lti/launch',
+    options: {
+      auth: false,
+      cache: false,
+      handler: (request, h) => ltiController.launch(request, h),
+      tags: ['identity-access-management', 'api', 'lti'],
+    },
+  },
 ];
