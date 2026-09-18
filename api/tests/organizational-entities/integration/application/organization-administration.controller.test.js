@@ -11,24 +11,29 @@ describe('Integration | Organizational Entities | Application | Controller | Org
   let featureId;
   let administrationTeamId;
   let adminUserId;
+  let structureCategoryId;
 
   beforeEach(async function () {
     adminUserId = databaseBuilder.factory.buildUser().id;
     administrationTeamId = databaseBuilder.factory.buildAdministrationTeam().id;
-    organization = databaseBuilder.factory.buildOrganization({
-      name: 'organization name',
-      type: 'SCO',
-      logoUrl: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-      email: 'sco@example.net',
-      credit: 200,
-      externalId: 'itsme',
-      provinceCode: 'FR',
-      isManagingStudents: false,
-      documentationUrl: 'overthere',
-      showSkills: false,
-      identityProviderForCampaigns: 'POLE_EMPLOI',
-      administrationTeamId: administrationTeamId,
-    });
+    structureCategoryId = databaseBuilder.factory.buildStructureCategory().id;
+    ({ organization } = databaseBuilder.factory.buildOrganizationWithStructure({
+      organizationData: {
+        name: 'organization name',
+        type: 'SCO',
+        logoUrl: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+        email: 'sco@example.net',
+        credit: 200,
+        externalId: 'itsme',
+        provinceCode: 'FR',
+        isManagingStudents: false,
+        documentationUrl: 'overthere',
+        showSkills: false,
+        identityProviderForCampaigns: 'POLE_EMPLOI',
+        administrationTeamId: administrationTeamId,
+      },
+      categoryId: structureCategoryId,
+    }));
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
     featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
 
@@ -56,6 +61,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
               'show-skills': true,
               'identity-provider-for-campaigns': 'genericOidcProviderCode',
               'administration-team-id': administrationTeamId,
+              'category-id': structureCategoryId,
             },
           },
         },
@@ -104,6 +110,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
           id: organization.id,
           attributes: {
             'administration-team-id': administrationTeamId,
+            'category-id': structureCategoryId,
           },
           relationships: {
             tags: {
@@ -143,6 +150,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
           id: organization.id,
           attributes: {
             'administration-team-id': administrationTeamId,
+            'category-id': structureCategoryId,
             'data-protection-officer-first-name': 'updated first name',
             'data-protection-officer-last-name': 'updated last name',
             'data-protection-officer-email': 'updatedEmail',
@@ -172,6 +180,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
           id: organization.id,
           attributes: {
             'administration-team-id': administrationTeamId,
+            'category-id': structureCategoryId,
             features: {
               [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: { active: true },
             },
@@ -207,6 +216,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
           id: organization.id,
           attributes: {
             'administration-team-id': administrationTeamId,
+            'category-id': structureCategoryId,
             features: {
               [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: { active: false },
             },

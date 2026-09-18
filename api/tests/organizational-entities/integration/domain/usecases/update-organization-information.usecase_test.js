@@ -22,7 +22,11 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
 
   it('updates organization information', async function () {
     // given
-    const organizationId = databaseBuilder.factory.buildOrganization().id;
+    const structureCategory = databaseBuilder.factory.buildStructureCategory();
+    const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
+      categoryId: structureCategory.id,
+    });
+    const organizationId = organization.id;
 
     const newAdministrationTeamId = databaseBuilder.factory.buildAdministrationTeam().id;
 
@@ -44,6 +48,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
       name: "Nouveau nom d'organization",
       administrationTeamId: newAdministrationTeamId,
       countryCode: newCountry.code,
+      categoryId: structureCategory.id,
       organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
         id: newOrganizationLearnerType.id,
         name: undefined,
@@ -68,7 +73,11 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
     let organizationId;
     beforeEach(async function () {
       databaseBuilder.factory.buildFeature.pixJuniorFeatures();
-      organizationId = databaseBuilder.factory.buildOrganization().id;
+      const initialStructureCategory = databaseBuilder.factory.buildStructureCategory({ label: 'Catégorie initiale' });
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
+        categoryId: initialStructureCategory.id,
+      });
+      organizationId = organization.id;
       await databaseBuilder.commit();
     });
     context('Activating learner import format', function () {
@@ -87,6 +96,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
           originalName: 'Islande',
           commonName: 'Islande',
         });
+        const structureCategory = databaseBuilder.factory.buildStructureCategory();
         await databaseBuilder.commit();
 
         const organizationNewInformation = domainBuilder.buildOrganizationForAdmin({
@@ -94,6 +104,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
           name: "Nouveau nom d'organization",
           administrationTeamId: newAdministrationTeamId,
           countryCode: newCountry.code,
+          categoryId: structureCategory.id,
           organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
             id: newOrganizationLearnerType.id,
             name: undefined,
@@ -121,11 +132,13 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
     it('throws an OrganizationLearnerTypeNotFound error', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const structureCategory = databaseBuilder.factory.buildStructureCategory();
 
       await databaseBuilder.commit();
 
       const organizationNewInformations = domainBuilder.buildOrganizationForAdmin({
         id: organizationId,
+        categoryId: structureCategory.id,
         organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
           id: 123,
           name: undefined,
@@ -151,12 +164,14 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
       const organizationId = databaseBuilder.factory.buildOrganization({
         organizationLearnerTypeId: organizationLearnerType.id,
       }).id;
+      const structureCategory = databaseBuilder.factory.buildStructureCategory();
 
       await databaseBuilder.commit();
 
       const organizationNewInformations = domainBuilder.buildOrganizationForAdmin({
         id: organizationId,
         administrationTeamId: 123,
+        categoryId: structureCategory.id,
         organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
           id: organizationLearnerType.id,
         }),
@@ -180,6 +195,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
       const organization = databaseBuilder.factory.buildOrganization({
         organizationLearnerTypeId: organizationLearnerType.id,
       });
+      const structureCategory = databaseBuilder.factory.buildStructureCategory();
 
       await databaseBuilder.commit();
 
@@ -187,6 +203,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
         id: organization.id,
         administrationTeamId: organization.administrationTeamId,
         countryCode: 123456,
+        categoryId: structureCategory.id,
         organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
           id: organizationLearnerType.id,
         }),
@@ -209,8 +226,10 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
     it('should not update country code', async function () {
       // given
       const organizationLearnerType = databaseBuilder.factory.buildOrganizationLearnerType();
-      const initialOrganization = databaseBuilder.factory.buildOrganization({
-        organizationLearnerTypeId: organizationLearnerType.id,
+      const structureCategory = databaseBuilder.factory.buildStructureCategory();
+      const { organization: initialOrganization } = databaseBuilder.factory.buildOrganizationWithStructure({
+        organizationData: { organizationLearnerTypeId: organizationLearnerType.id },
+        categoryId: structureCategory.id,
       });
 
       const newAdministrationTeamId = databaseBuilder.factory.buildAdministrationTeam().id;
@@ -221,6 +240,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
         id: initialOrganization.id,
         administrationTeamId: newAdministrationTeamId,
         countryCode: null,
+        categoryId: structureCategory.id,
         organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
           id: organizationLearnerType.id,
         }),
@@ -296,12 +316,9 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
   });
 
   context('when no structure category is given', function () {
-    it('does not reset the category of the organization', async function () {
+    it('throws a StructureCategoryNotFound error', async function () {
       // given
-      const structureCategory = databaseBuilder.factory.buildStructureCategory({ label: 'Catégorie initiale' });
       const organization = databaseBuilder.factory.buildOrganization();
-      const structure = databaseBuilder.factory.buildStructure({ categoryId: structureCategory.id });
-      databaseBuilder.factory.buildFactStructure({ structureId: structure.id, organizationId: organization.id });
 
       await databaseBuilder.commit();
 
@@ -315,14 +332,15 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
       });
 
       // when
-      const updatedOrganization = await usecases.updateOrganizationInformation({
+      const error = await catchErr(usecases.updateOrganizationInformation)({
         userId: adminUserId,
         organization: organizationNewInformation,
       });
 
       // then
-      expect(updatedOrganization.categoryId).to.equal(structureCategory.id);
-      expect(updatedOrganization.categoryLabel).to.equal(structureCategory.label);
+      expect(error).to.be.instanceOf(StructureCategoryNotFound);
+      expect(error.message).to.equal('Structure category not found for id null');
+      expect(error.meta.structureCategoryId).to.equal(null);
     });
   });
 });
