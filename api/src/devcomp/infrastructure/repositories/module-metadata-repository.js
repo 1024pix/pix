@@ -24,13 +24,17 @@ async function getAllByIds({ ids }) {
   return modules.map(_toDomain);
 }
 
-async function getAllByShortIds({ shortIds, moduleDatasource }) {
-  try {
-    const modules = await moduleDatasource.getAllByShortIds(shortIds);
-    return modules.map(_toDomain);
-  } catch (error) {
-    throw new NotFoundError(error.message);
+async function getAllByShortIds({ shortIds }) {
+  const cacheKey = `getAllByShortIds(${shortIds})`;
+  const findByShortIdsCallback = (knex) => knex.whereIn('shortId', shortIds);
+
+  const modules = await getInstance().find(cacheKey, findByShortIdsCallback);
+  const foundShortIds = modules.map((module) => module.shortId);
+  const notFoundShortIds = shortIds.filter((shortId) => !foundShortIds.includes(shortId));
+  if (notFoundShortIds.length > 0) {
+    throw new NotFoundError(`Modules with shortIds not found : ${notFoundShortIds}`);
   }
+  return modules.map(_toDomain);
 }
 
 async function getByShortId({ shortId, moduleDatasource }) {

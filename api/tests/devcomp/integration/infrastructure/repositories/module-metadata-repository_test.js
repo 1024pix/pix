@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ModuleDoesNotExistError } from '../../../../../src/devcomp/domain/errors.js';
 import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
 import { ModuleMetadata } from '../../../../../src/devcomp/domain/models/module/ModuleMetadata.js';
 import moduleDatasource from '../../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
@@ -100,105 +99,21 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
   });
 
   describe('#getAllByShortIds', function () {
-    it('should return all module with their metadata', async function () {
+    it('should return all modules with their metadata', async function () {
       // given
-      const moduleShortIds = ['gbsri73s', '1bdri73s'];
-      const firstModule = {
-        id: moduleShortIds[0],
-        shortId: 'gbsri73s',
-        slug: 'getAllByIdsModuleSlug1',
-        title: 'Bien écrire son adresse mail',
-        isBeta: true,
-        visibility: Module.VISIBILITY.PUBLIC,
-        details: {
-          image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
-          description:
-            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
-          duration: 12,
-          level: 'novice',
-          tabletSupport: 'comfortable',
-          objectives: [
-            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
-            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
-            'Comprendre les fonctions des parties d’une adresse mail',
-          ],
-        },
-        sections: [
-          {
-            id: '5bf1c672-3746-4480-b9ac-1f0af9c7c509',
-            type: 'practise',
-            grains: [
-              {
-                id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
-                type: 'lesson',
-                title: 'Explications : les parties d’une adresse mail',
-                components: [
-                  {
-                    type: 'element',
-                    element: {
-                      id: 'd9e8a7b6-5c4d-3e2f-1a0b-9f8e7d6c5b4a',
-                      type: 'text',
-                      content:
-                        "<h4 class='screen-reader-only'>L'arobase</h4><p>L’arobase est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</p><p><span aria-hidden='true'>🇬🇧</span> En anglais, ce symbole se lit <i lang='en'>“at”</i> qui veut dire “chez”.</p><p><span aria-hidden='true'>🤔</span> Le saviez-vous : c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>",
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
-      const secondModule = {
-        id: moduleShortIds[1],
-        shortId: '1bdri73s',
-        slug: 'getAllByIdsModuleSlug2',
-        title: 'Bac à sable',
-        isBeta: true,
-        visibility: Module.VISIBILITY.PUBLIC,
-        details: {
-          image: 'https://assets.pix.org/modules/placeholder-details.svg',
-          description:
-            "<p>Ce module est dédié à des tests internes à Pix.</p><p>Il contient normalement l'intégralité des fonctionnalités disponibles à date.</p>",
-          duration: 5,
-          level: 'novice',
-          tabletSupport: 'inconvenient',
-          objectives: ['Non régression fonctionnelle'],
-        },
-        sections: [
-          {
-            id: 'd2ad3253-7f0a-41f5-b10e-0fa0f49d0cc7',
-            type: 'practise',
-            grains: [
-              {
-                id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
-                type: 'lesson',
-                title: 'Explications : les parties d’une adresse mail',
-                components: [
-                  {
-                    type: 'element',
-                    element: {
-                      id: 'd9e8a7b6-5c4d-3e2f-1a0b-9f8e7d6c5b4a',
-                      type: 'text',
-                      content:
-                        "<h4 class='screen-reader-only'>L'arobase</h4><p>L’arobase est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</p><p><span aria-hidden='true'>🇬🇧</span> En anglais, ce symbole se lit <i lang='en'>“at”</i> qui veut dire “chez”.</p><p><span aria-hidden='true'>🤔</span> Le saviez-vous : c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>",
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
-
-      const moduleDatasourceStub = {
-        getAllByShortIds: sinon.stub(),
-      };
-      moduleDatasourceStub.getAllByShortIds.withArgs(moduleShortIds).resolves([firstModule, secondModule]);
+      const firstModule = databaseBuilder.factory.learningContent.buildModule({
+        shortId: 'gbsri73t',
+        slug: 'getAllByShortIdsModuleSlug1',
+      });
+      const secondModule = databaseBuilder.factory.learningContent.buildModule({
+        shortId: '1bdri73t',
+        slug: 'getAllByShortIdsModuleSlug2',
+      });
+      await databaseBuilder.commit();
 
       // when
       const modules = await moduleMetadataRepository.getAllByShortIds({
-        shortIds: moduleShortIds,
-        moduleDatasource: moduleDatasourceStub,
+        shortIds: [firstModule.shortId, secondModule.shortId],
       });
 
       // then
@@ -230,23 +145,17 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
 
     it('should throw a "NotFoundError" when a module does not exist', async function () {
       // given
-      const notExistingModuleShortIds = ['not-existing-module-short-id-1', 'not-existing-module-short-id-2'];
-      const expectedErrorMessage = `Modules with ids not found : ${notExistingModuleShortIds}`;
-      const moduleDatasourceStub = {
-        getAllByShortIds: sinon.stub(),
-      };
-      moduleDatasourceStub.getAllByShortIds
-        .withArgs(notExistingModuleShortIds)
-        .rejects(new ModuleDoesNotExistError(expectedErrorMessage));
+      const notExistingModuleShortIds = ['not-existing-1', 'not-existing-2'];
 
       // when
       const error = await catchErr(moduleMetadataRepository.getAllByShortIds)({
         shortIds: notExistingModuleShortIds,
-        moduleDatasource: moduleDatasourceStub,
       });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
+      const expectedErrorMessage = `Modules with shortIds not found : ${notExistingModuleShortIds}`;
+      expect(error.message).to.equal(expectedErrorMessage);
     });
   });
 
