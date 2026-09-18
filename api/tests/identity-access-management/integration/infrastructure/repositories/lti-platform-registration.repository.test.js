@@ -34,6 +34,54 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     });
   });
 
+  describe('findByPlatformOriginAndDeploymentId', function () {
+    it('returns LTI platform registration information', async function () {
+      // given
+      const platformOrigin = 'https://test.example.net';
+      const deploymentId = '001';
+      const expectedLtiPlatformRegistration = domainBuilder.identityAccessManagement.buildLtiPlatformRegistration({
+        platformOrigin,
+        deploymentId,
+      });
+
+      databaseBuilder.factory.buildLtiPlatformRegistration(expectedLtiPlatformRegistration);
+      await databaseBuilder.commit();
+
+      // when
+      const registration = await ltiPlatformRegistrationRepository.findByPlatformOriginAndDeploymentId(
+        platformOrigin,
+        deploymentId,
+      );
+
+      // then
+      expect(registration).to.deepEqualInstance(expectedLtiPlatformRegistration);
+    });
+
+    it('returns null when no LTI platforms are found', async function () {
+      // given
+      const platformOrigin = 'https://test.example.net';
+      const deploymentId = '001';
+      const expectedLtiPlatformRegistration = domainBuilder.identityAccessManagement.buildLtiPlatformRegistration({
+        platformOrigin,
+        deploymentId,
+      });
+
+      databaseBuilder.factory.buildLtiPlatformRegistration(expectedLtiPlatformRegistration);
+      await databaseBuilder.commit();
+
+      const wrongDeploymentId = '404';
+
+      // when
+      const registration = await ltiPlatformRegistrationRepository.findByPlatformOriginAndDeploymentId(
+        platformOrigin,
+        wrongDeploymentId,
+      );
+
+      // then
+      expect(registration).to.be.null;
+    });
+  });
+
   describe('#listActivePublicKeys', function () {
     it('returns the list of public keys of the active platforms', async function () {
       // given

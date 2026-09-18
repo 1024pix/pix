@@ -17,6 +17,27 @@ export const ltiPlatformRegistrationRepository = {
     return new LtiPlatformRegistration(ltiPlatformRegistrationDTO);
   },
 
+  async findByPlatformOriginAndDeploymentId(platformOrigin, deploymentId) {
+    const knexConn = DomainTransaction.getConnection();
+
+    const ltiPlatformRegistrationDTO = await knexConn
+      .select('*')
+      .from('lti_platform_registrations')
+      .where('platformOrigin', platformOrigin)
+      .whereRaw('?? #>> ? = ?', [
+        'toolConfig',
+        ['https://purl.imsglobal.org/spec/lti-tool-configuration', 'deployment_id'],
+        deploymentId,
+      ])
+      .first();
+
+    if (!ltiPlatformRegistrationDTO) {
+      return null;
+    }
+
+    return new LtiPlatformRegistration(ltiPlatformRegistrationDTO);
+  },
+
   async listActivePublicKeys() {
     const knexConn = DomainTransaction.getConnection();
     return knexConn.select('publicKey').from('lti_platform_registrations').where('status', 'active').pluck('publicKey');

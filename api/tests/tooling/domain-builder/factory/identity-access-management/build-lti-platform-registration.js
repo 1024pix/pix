@@ -4,7 +4,7 @@ import { cryptoService } from '../../../../../src/shared/domain/services/crypto-
 const defaultKeyPair = await cryptoService.generateJSONWebKeyPair();
 defaultKeyPair.encryptedPrivateKey = await cryptoService.encrypt(JSON.stringify(defaultKeyPair.privateKey));
 
-function getDefaultToolConfig(clientId) {
+function getDefaultToolConfig({ clientId, deploymentId }) {
   return {
     client_id: clientId,
     response_types: ['id_token'],
@@ -20,7 +20,7 @@ function getDefaultToolConfig(clientId) {
       'https://purl.imsglobal.org/spec/lti-ags/scope/score https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly https://purl.imsglobal.org/spec/lti-ags/scope/lineitem https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
     'https://purl.imsglobal.org/spec/lti-tool-configuration': {
       version: '1.3.0',
-      deployment_id: '123',
+      deployment_id: deploymentId,
       target_link_uri: 'https://pix.example.net/api/lti',
       domain: 'pix.example.net',
       description: '',
@@ -37,12 +37,13 @@ function getDefaultToolConfig(clientId) {
 
 export function buildLtiPlatformRegistration({
   clientId = 'AbCD1234',
+  deploymentId = '123',
   encryptedPrivateKey = defaultKeyPair.encryptedPrivateKey,
   platformOrigin = 'https://moodle.example.net',
   platformOpenIdConfigUrl = `${platformOrigin}/mod/lti/openid-configuration.php`,
   publicKey = defaultKeyPair.publicKey,
   status = 'active',
-  toolConfig = getDefaultToolConfig(clientId),
+  toolConfig = getDefaultToolConfig({ clientId, deploymentId }),
 } = {}) {
   return new LtiPlatformRegistration({
     clientId,
@@ -138,12 +139,13 @@ function getDefaultPlatformOpenIdConfig(origin) {
 
 export function buildLtiPlatformRegistrationWithPlatformConfig({
   clientId = 'AbCD1234',
+  deploymentId = '123',
   encryptedPrivateKey = defaultKeyPair.encryptedPrivateKey,
   platformOrigin = 'https://moodle.example.net',
   platformOpenIdConfigUrl = `${platformOrigin}/mod/lti/openid-configuration.php`,
   publicKey = defaultKeyPair.publicKey,
   status = 'active',
-  toolConfig = getDefaultToolConfig(clientId),
+  toolConfig = getDefaultToolConfig({ clientId, deploymentId }),
 } = {}) {
   const ltiPlatformRegistration = new LtiPlatformRegistration({
     clientId,
