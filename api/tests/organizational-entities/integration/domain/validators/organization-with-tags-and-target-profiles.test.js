@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
+import { OrganizationBatchCreationError } from '../../../../../src/organizational-entities/domain/errors.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { validate } from '../../../../../src/organizational-entities/domain/validators/organization-with-tags-and-target-profiles.js';
-import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { getSupportedLocales } from '../../../../../src/shared/domain/services/locale-service.js';
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
@@ -86,30 +86,33 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
 
   context('error', function () {
     context('when one of or all required properties is not provided', function () {
-      it('returns an EntityValidation error', function () {
+      it('returns an OrganizationBatchCreationError error', function () {
         // given
         const organization = {};
+        const currentLine = 42;
 
         // when
-        const error = catchErrSync(validate)(organization);
+        const error = catchErrSync(validate)(organization, currentLine);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.have.deep.members([
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.message).to.equal('Organization batch creation validation failed.');
+        expect(error.code).to.equal('VALIDATION_ERROR');
+        expect(error.meta.invalidAttributes).to.have.deep.members([
           { attribute: 'type', message: '"type" is required' },
           { attribute: 'name', message: '"name" is required' },
           { attribute: 'createdBy', message: "L'id du créateur est manquant" },
           { attribute: 'administrationTeamId', message: "L'id de l'équipe en charge est manquant" },
           { attribute: 'countryCode', message: 'Le code pays n’est pas renseigné.' },
           { attribute: 'organizationLearnerTypeId', message: "L'id du public prescrit est manquant" },
-          { attribute: 'categoryId', message: "L'id de la catégorie est manquant" },
+          { attribute: 'categoryId', message: 'FIELD_REQUIRED' },
         ]);
+        expect(error.meta.currentLine).to.equal(42);
       });
     });
 
     context(`when locale is not supported`, function () {
-      it('returns an EntityValidation error', function () {
+      it('returns an OrganizationBatchCreationError error', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -120,9 +123,8 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'locale',
           message: `La locale doit avoir l'une des valeurs suivantes : de-at, en, es, es-419, fr, nl, fr-be, fr-fr, nl-be, it`,
         });
@@ -141,15 +143,14 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'countryCode',
           message: 'Le code pays n’est pas renseigné.',
         });
       });
 
-      it('returns an EntityValidation error when countryCode is not a number', function () {
+      it('returns an OrganizationBatchCreationError error when countryCode is not a number', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -160,15 +161,14 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'countryCode',
           message: "Le code pays n'est pas un nombre",
         });
       });
 
-      it('returns an EntityValidation error when country code is below minimum value', function () {
+      it('returns an OrganizationBatchCreationError error when country code is below minimum value', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -179,15 +179,14 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'countryCode',
           message: 'Le code pays doit être un nombre entier compris entre 99000 et 99999.',
         });
       });
 
-      it('returns an EntityValidation error when country code is above maximum value', function () {
+      it('returns an OrganizationBatchCreationError error when country code is above maximum value', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -198,9 +197,8 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'countryCode',
           message: 'Le code pays doit être un nombre entier compris entre 99000 et 99999.',
         });
@@ -219,15 +217,14 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'createdBy',
           message: "L'id du créateur est manquant",
         });
       });
 
-      it('returns an EntityValidation error when createdBy is not a number', function () {
+      it('returns an OrganizationBatchCreationError error when createdBy is not a number', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -238,9 +235,8 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'createdBy',
           message: "L'id du créateur n'est pas un nombre",
         });
@@ -259,15 +255,14 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'administrationTeamId',
           message: "L'id de l'équipe en charge est manquant",
         });
       });
 
-      it('returns an EntityValidation error when administrationTeamId is not a number', function () {
+      it('returns an OrganizationBatchCreationError error when administrationTeamId is not a number', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -278,9 +273,8 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'administrationTeamId',
           message: "L'id de l'équipe en charge n'est pas un nombre",
         });
@@ -299,15 +293,14 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'organizationLearnerTypeId',
           message: "L'id du public prescrit est manquant",
         });
       });
 
-      it('returns an EntityValidation error when organizationLearnerTypeId is not a number', function () {
+      it('returns an OrganizationBatchCreationError error when organizationLearnerTypeId is not a number', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -318,9 +311,8 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'organizationLearnerTypeId',
           message: "L'id du public prescrit n'est pas un nombre",
         });
@@ -339,15 +331,14 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'categoryId',
-          message: "L'id de la catégorie est manquant",
+          message: 'FIELD_REQUIRED',
         });
       });
 
-      it('returns an EntityValidation error when categoryId is not a number', function () {
+      it('returns an OrganizationBatchCreationError error when categoryId is not a number', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -358,17 +349,16 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'categoryId',
-          message: "L'id de la catégorie n'est pas un nombre",
+          message: 'FIELD_NOT_A_NUMBER',
         });
       });
     });
 
     context('credit validation', function () {
-      it('returns an EntityValidation error when credit is neither a number nor null', function () {
+      it('returns an OrganizationBatchCreationError error when credit is neither a number nor null', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -379,15 +369,14 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'credit',
           message: 'Le crédit doit être un entier.',
         });
       });
 
-      it('returns an EntityValidation error when credit is not a positive number', function () {
+      it('returns an OrganizationBatchCreationError error when credit is not a positive number', function () {
         // given
         const organization = {
           ...DEFAULT_ORGANIZATION,
@@ -398,9 +387,8 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         const error = catchErrSync(validate)(organization);
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal(`Échec de validation de l'entité.`);
-        expect(error.invalidAttributes).to.deep.include({
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'credit',
           message: 'Le crédit doit être un nombre entier positif.',
         });
