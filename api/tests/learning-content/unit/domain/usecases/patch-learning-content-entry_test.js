@@ -14,7 +14,8 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content en
     courseRepository,
     tutorialRepository,
     missionRepository,
-    moduleRepository;
+    moduleRepository,
+    learningContentCache;
   let repositories;
   let repositoriesByModel;
 
@@ -61,6 +62,9 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content en
     moduleRepository = {
       save: sinon.stub().rejects('should not be called'),
       clearCache: sinon.stub().rejects('should not be called'),
+    };
+    learningContentCache = {
+      clear: sinon.stub(),
     };
     repositories = {
       frameworkRepository,
@@ -120,11 +124,13 @@ describe('Learning Content | Unit | Domain | Usecase | Patch learning content en
             updatedRecord,
             modelName,
             ...repositories,
+            learningContentCache,
           });
 
           // then
           expect(repositoriesByModel[modelName].save).to.have.been.calledOnceWithExactly(updatedRecord);
           if (hasCache) expect(repositoriesByModel[modelName].clearCache).to.have.been.calledOnceWithExactly(recordId);
+          expect(learningContentCache.clear).to.have.been.calledOnceWithExactly();
         });
       });
     });

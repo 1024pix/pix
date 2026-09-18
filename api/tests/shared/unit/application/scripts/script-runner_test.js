@@ -13,6 +13,7 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
   let loggerInfoSpy, loggerErrorSpy;
   let getProcessArgs;
   let releaseInfrastructure;
+  let learningContentCache;
 
   beforeEach(function () {
     scriptFileUrl = 'file://script.js';
@@ -20,6 +21,9 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
     loggerInfoSpy = sinon.spy(logger, 'info');
     loggerErrorSpy = sinon.spy(logger, 'error');
     getProcessArgs = sinon.stub();
+    learningContentCache = {
+      connect: sinon.stub().resolves(),
+    };
     releaseInfrastructure = sinon.stub().resolves();
     scriptRunStub = sinon.stub();
     ScriptClass = class MyTestScript extends Script {
@@ -50,7 +54,12 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
     const loggerPinoChildSpy = sinon.spy(loggerPino, 'child');
 
     // when
-    await ScriptRunner.execute(scriptFileUrl, ScriptClass, { isRunningFromCli, getProcessArgs, releaseInfrastructure });
+    await ScriptRunner.execute(scriptFileUrl, ScriptClass, {
+      isRunningFromCli,
+      getProcessArgs,
+      releaseInfrastructure,
+      learningContentCache,
+    });
 
     // then
     expect(
@@ -75,6 +84,7 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
         isRunningFromCli,
         getProcessArgs,
         releaseInfrastructure,
+        learningContentCache,
       });
 
       // then
@@ -99,9 +109,11 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
         isRunningFromCli,
         getProcessArgs,
         releaseInfrastructure,
+        learningContentCache,
       });
 
       // then
+      expect(learningContentCache.connect).to.have.been.calledOnceWithExactly();
       expect(loggerInfoSpy).to.have.been.calledWith('Start script');
       expect(scriptRunStub).to.have.been.calledWith({
         command: 'pouet',
@@ -123,9 +135,11 @@ describe('Shared | Unit | Application | ScriptRunner', function () {
           isRunningFromCli,
           getProcessArgs,
           releaseInfrastructure,
+          learningContentCache,
         });
 
         // then
+        expect(learningContentCache.connect).to.have.been.calledOnceWithExactly();
         expect(scriptRunStub).to.have.been.calledOnce;
         expect(loggerErrorSpy).to.have.been.calledWith('Script execution failed.');
         expect(loggerErrorSpy).to.have.been.calledWithMatch(sinon.match.instanceOf(Error));
