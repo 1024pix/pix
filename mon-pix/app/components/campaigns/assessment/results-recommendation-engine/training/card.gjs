@@ -31,6 +31,13 @@ export default class Card extends Component {
     return Training.formatDuration({ locale: this.locale.currentLanguage, duration: this.args.training.duration });
   }
 
+  get formattedExtendedDuration() {
+    return Training.formatExtendedDuration({
+      locale: this.locale.currentLanguage,
+      duration: this.args.training.duration,
+    });
+  }
+
   get illustrationPath() {
     return `/images/illustrations/results/training-${this.args.training.type}.webp`;
   }
@@ -71,7 +78,7 @@ export default class Card extends Component {
             <li>{{this.type}}</li>
             <li>{{this.deliveryMode}}</li>
             {{#if @training.hasDuration}}
-              <li>{{this.formattedDuration}}</li>
+              <li aria-label={{this.formattedExtendedDuration}}>{{this.formattedDuration}}</li>
             {{/if}}
           </ul>
           <PixButton
@@ -115,7 +122,7 @@ export default class Card extends Component {
           <ul class="results-recommendation-engine-training-card-content__details"><li>{{this.type}}</li>
             <li>{{this.deliveryMode}}</li>
             {{#if @training.hasDuration}}
-              <li>{{this.formattedDuration}}</li>
+              <li aria-label={{this.formattedExtendedDuration}}>{{this.formattedDuration}}</li>
             {{/if}}
           </ul>
         </section>

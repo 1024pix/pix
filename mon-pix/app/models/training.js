@@ -69,4 +69,15 @@ export default class Training extends Model {
 
     return days ? result : resultWithWhitespaceRemoved;
   }
+
+  static formatExtendedDuration({ locale, duration }) {
+    const { days, hours, minutes } = duration || {};
+
+    if (!days && !hours && !minutes) {
+      return '';
+    }
+
+    const formatter = new Intl.DurationFormat(locale, { style: 'long' });
+    return formatter.format({ days, hours, minutes });
+  }
 }
