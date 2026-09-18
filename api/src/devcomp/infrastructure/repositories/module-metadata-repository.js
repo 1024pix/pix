@@ -59,8 +59,11 @@ async function getBySlug({ slug }) {
   return _toDomain(module);
 }
 
-async function listPublic({ moduleDatasource }) {
-  const modules = await moduleDatasource.list();
+async function listPublic() {
+  const cacheKey = 'list';
+  const listCallback = (knex) => knex.orderBy('slug');
+
+  const modules = await getInstance().find(cacheKey, listCallback);
   const publicModules = modules.filter((module) => module.visibility === Module.VISIBILITY.PUBLIC);
   return publicModules.map(_toDomain);
 }
