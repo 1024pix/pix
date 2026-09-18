@@ -9,6 +9,7 @@ import {
   FeatureNotFound,
   FeatureParamsNotProcessable,
   NetworkAlreadyExistError,
+  OrganizationBatchCreationError,
   OrganizationBatchUpdateError,
   OrganizationLearnerTypeNotFound,
   OrganizationNotFound,
@@ -96,6 +97,10 @@ const organizationalEntitiesDomainErrorMappingConfiguration = [
   },
   {
     name: UnableToAttachCertificationCenterToOrganization.name,
+    httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: OrganizationBatchCreationError.name,
     httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
   },
 ];
