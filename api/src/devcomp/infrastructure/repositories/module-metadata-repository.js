@@ -1,14 +1,27 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import { Module } from '../../domain/models/module/Module.js';
 import { ModuleMetadata } from '../../domain/models/module/ModuleMetadata.js';
 
-async function getAllByIds({ ids, moduleDatasource }) {
-  try {
-    const modules = await moduleDatasource.getAllByIds(ids);
-    return modules.map(_toDomain);
-  } catch (error) {
-    throw new NotFoundError(error.message);
+const TABLE_NAME = 'learningcontent.modules';
+
+/** @type {LearningContentRepository} */
+let instance;
+
+function getInstance() {
+  if (!instance) {
+    instance = new LearningContentRepository({ tableName: TABLE_NAME, idType: 'uuid' });
   }
+  return instance;
+}
+
+async function getAllByIds({ ids }) {
+  const modules = await getInstance().loadMany(ids);
+  const notFoundIds = ids.filter((id, index) => !modules[index]);
+  if (notFoundIds.length > 0) {
+    throw new NotFoundError(`Modules with ids not found : ${notFoundIds}`);
+  }
+  return modules.map(_toDomain);
 }
 
 async function getAllByShortIds({ shortIds, moduleDatasource }) {
@@ -44,16 +57,15 @@ async function listPublic({ moduleDatasource }) {
   return publicModules.map(_toDomain);
 }
 
-function _toDomain(module) {
-  const { id, shortId, slug, title, isBeta, details, visibility } = module;
+function _toDomain({ id, shortId, slug, title, isBeta, duration, image, visibility }) {
   return new ModuleMetadata({
     id,
     shortId,
     slug,
     title,
     isBeta,
-    duration: details.duration,
-    image: details.image,
+    duration,
+    image,
     visibility,
   });
 }
