@@ -4,6 +4,7 @@ import lodash from 'lodash';
 import {
   AdministrationTeamNotFound,
   CountryNotFoundError,
+  OrganizationBatchCreationError,
   OrganizationLearnerTypeNotFound,
   ParentOrganizationNotInNetworkError,
   StructureCategoryNotFound,
@@ -16,7 +17,6 @@ import {
   OrganizationTagNotFound,
   TargetProfileInvalidError,
 } from '../../../../../src/shared/domain/errors.js';
-import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -103,8 +103,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         });
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.invalidAttributes).to.eql([
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.eql([
           {
             attribute: 'type',
             message: "Le type fourni doit avoir l'une des valeurs suivantes : SCO,SUP,PRO,SCO-1D",
@@ -145,7 +145,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           },
           {
             attribute: 'categoryId',
-            message: "L'id de la catégorie est manquant",
+            message: 'FIELD_REQUIRED',
           },
         ]);
       });
@@ -217,8 +217,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         });
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.invalidAttributes).to.eql([
+        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
+        expect(error.meta.invalidAttributes).to.eql([
           {
             attribute: 'emailInvitations',
             message: "L'email fourni n'est pas valide.",

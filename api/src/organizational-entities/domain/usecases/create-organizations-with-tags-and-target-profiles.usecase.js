@@ -46,9 +46,9 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
   }
 
-  for (const organization of organizations) {
-    organizationValidator.validate(organization);
-  }
+  organizations.forEach((organization, index) => {
+    organizationValidator.validate(organization, index + 1);
+  });
 
   let createdOrganizations = [];
   const allTags = await tagRepository.findAll();
