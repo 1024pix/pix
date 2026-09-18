@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -17,6 +18,9 @@ export default class Card extends Component {
 
   @tracked modalIsOpen = false;
 
+  titleId = `results-recommendation-engine-training-card-content-title-${guidFor(this)}`;
+  registrationCardTagId = `results-recommendation-engine-training-card-content-registration-card-tag-${guidFor(this)}`;
+
   get deliveryMode() {
     const deliveryMode = this.args.training.deliveryMode === 'onSite' ? 'on-site' : this.args.training.deliveryMode;
 
@@ -25,6 +29,13 @@ export default class Card extends Component {
 
   get formattedDuration() {
     return Training.formatDuration({ locale: this.locale.currentLanguage, duration: this.args.training.duration });
+  }
+
+  get formattedExtendedDuration() {
+    return Training.formatExtendedDuration({
+      locale: this.locale.currentLanguage,
+      duration: this.args.training.duration,
+    });
   }
 
   get illustrationPath() {
@@ -60,14 +71,14 @@ export default class Card extends Component {
       <div class="results-recommendation-engine-highlighted-training-card">
         <div class="results-recommendation-engine-highlighted-training-card-description">
           <RegistrationCardTag @registrationRequired={{@training.registrationRequired}} />
-          <h3
+          <h4
             class="results-recommendation-engine-highlighted-training-card-description__title"
-          >{{@training.title}}</h3>
+          >{{@training.title}}</h4>
           <ul class="results-recommendation-engine-highlighted-training-card-description__information">
             <li>{{this.type}}</li>
             <li>{{this.deliveryMode}}</li>
             {{#if @training.hasDuration}}
-              <li>{{this.formattedDuration}}</li>
+              <li aria-label={{this.formattedExtendedDuration}}>{{this.formattedDuration}}</li>
             {{/if}}
           </ul>
           <PixButton
@@ -99,13 +110,19 @@ export default class Card extends Component {
             alt=""
           />
         </div>
-        <RegistrationCardTag @registrationRequired={{@training.registrationRequired}} />
+        <RegistrationCardTag
+          id={{this.registrationCardTagId}}
+          @registrationRequired={{@training.registrationRequired}}
+        />
         <section class="results-recommendation-engine-training-card-content">
-          <p class="results-recommendation-engine-training-card-content__title">{{@training.title}}</p>
+          <h4
+            id={{this.titleId}}
+            class="results-recommendation-engine-training-card-content__title"
+          >{{@training.title}}</h4>
           <ul class="results-recommendation-engine-training-card-content__details"><li>{{this.type}}</li>
             <li>{{this.deliveryMode}}</li>
             {{#if @training.hasDuration}}
-              <li>{{this.formattedDuration}}</li>
+              <li aria-label={{this.formattedExtendedDuration}}>{{this.formattedDuration}}</li>
             {{/if}}
           </ul>
         </section>
@@ -113,6 +130,8 @@ export default class Card extends Component {
           class="results-recommendation-engine-training-card__button"
           type="button"
           aria-label={{t "pages.skill-review.recommended-engine.training-card.aria-label"}}
+          aria-describedby={{this.titleId}}
+          disabled={{@disabled}}
           {{on "click" this.showModal}}
         ></button>
       </div>

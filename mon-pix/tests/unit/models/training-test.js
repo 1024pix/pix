@@ -35,6 +35,62 @@ module('Unit | Model | training', function (hooks) {
     });
   });
 
+  module('#formatExtendedDuration', function () {
+    module('when training does not have duration', function () {
+      test('it returns an empty string', function (assert) {
+        // given
+        const duration = null;
+
+        // when
+        const displayedDuration = Training.formatExtendedDuration({ locale: 'fr-FR', duration });
+
+        // then
+        assert.strictEqual(displayedDuration, '');
+      });
+    });
+
+    module('when training has only days duration', function () {
+      test('it returns days only', function (assert) {
+        // given
+        const duration = {
+          days: 3,
+        };
+
+        // when
+        const displayedDuration = Training.formatExtendedDuration({ locale: 'fr-FR', duration });
+
+        // then
+        assert.strictEqual(displayedDuration, '3\u00A0jours');
+      });
+    });
+
+    module('when training has hours and minutes duration', function () {
+      test('it displays complete duration', function (assert) {
+        // given
+        const duration = { days: 0, hours: 1, minutes: 30 };
+
+        // when
+        const displayedDuration = Training.formatExtendedDuration({ locale: 'fr-FR', duration });
+
+        // then
+        assert.strictEqual(displayedDuration, '1\u00A0heure et 30 minutes');
+      });
+    });
+
+    module('when training has days, hours and minutes duration', function () {
+      test('it displays complete duration', function (assert) {
+        // given
+        const duration = { days: 2, hours: 2, minutes: 30 };
+
+        // when
+        const displayedDuration = Training.formatExtendedDuration({ locale: 'fr-FR', duration });
+
+        // then
+        assert.strictEqual(displayedDuration, '2\u00A0jours, 2\u00A0heures et 30 minutes');
+      });
+    });
+  });
+
   module('when training has days and hours duration', function () {
     test('it displays complete duration', function (assert) {
       // given

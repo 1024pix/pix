@@ -24,7 +24,7 @@ export default class RegistrationCardTag extends Component {
   }
 
   <template>
-    <PixTag @color={{this.tagProperties.color}} class="results-recommendation-engine-training-card__tag">
+    <PixTag @color={{this.tagProperties.color}} class="results-recommendation-engine-training-card__tag" ...attributes>
       <PixIcon
         class="results-recommendation-engine-training-card__tag-icon"
         @name={{this.tagProperties.iconName}}

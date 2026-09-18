@@ -47,6 +47,13 @@ export default class CardModal extends Component {
     return Training.formatDuration({ locale: this.locale.currentLanguage, duration: this.args.training.duration });
   }
 
+  get formattedExtendedDuration() {
+    return Training.formatExtendedDuration({
+      locale: this.locale.currentLanguage,
+      duration: this.args.training.duration,
+    });
+  }
+
   get isPositiveFeedback() {
     return this.isTrainingRecommendationRelevant === true;
   }
@@ -109,7 +116,7 @@ export default class CardModal extends Component {
                 <PixIcon @name="time" @ariaHidden={{true}} />
                 <dt>{{t "pages.skill-review.recommended-engine.modal.duration"}}</dt>
                 <dd class="results-recommendation-engine-training-card-modal-section__time-information--bold">
-                  <span>{{this.formattedDuration}}</span>
+                  <span aria-label={{this.formattedExtendedDuration}}>{{this.formattedDuration}}</span>
                 </dd>
               </dl>
             {{/if}}
