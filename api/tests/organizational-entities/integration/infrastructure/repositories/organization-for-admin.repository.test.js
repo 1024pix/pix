@@ -5,6 +5,7 @@ import sinon from 'sinon';
 import { StructureNotFoundError } from '../../../../../src/organizational-entities/domain/errors.js';
 import { AttachedOrganization } from '../../../../../src/organizational-entities/domain/models/AttachedOrganization.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
+import { OrganizationForUpdate } from '../../../../../src/organizational-entities/domain/models/OrganizationForUpdate.js';
 import { OrganizationLearnerType } from '../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
 import { organizationForAdminRepository } from '../../../../../src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
@@ -1361,9 +1362,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         countryCode: 99243,
         organizationLearnerType: domainOrganizationLearnerType,
       });
+      const childOrganizationForUpdate = new OrganizationForUpdate(childOrganizationForAdmin);
 
       // when
-      await organizationForAdminRepository.update({ organization: childOrganizationForAdmin });
+      await organizationForAdminRepository.update({ organization: childOrganizationForUpdate });
 
       // then
       const updatedOrganization = await knex('organizations').where({ id: childOrganization.id }).first();
@@ -1382,9 +1384,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         categoryId,
         organizationLearnerType: domainOrganizationLearnerType,
       });
+      const organizationForUpdate = new OrganizationForUpdate(organizationForAdmin);
 
       // when
-      await organizationForAdminRepository.update({ organization: organizationForAdmin });
+      await organizationForAdminRepository.update({ organization: organizationForUpdate });
 
       // then
       const updatedStructure = await knex('structures').where({ id: structure.id }).first();
@@ -1402,9 +1405,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         categoryId,
         organizationLearnerType: domainOrganizationLearnerType,
       });
+      const organizationForUpdate = new OrganizationForUpdate(organizationForAdmin);
 
       // when
-      await organizationForAdminRepository.update({ organization: organizationForAdmin });
+      await organizationForAdminRepository.update({ organization: organizationForUpdate });
 
       // then
       const untouchedStructure = await knex('structures').where({ id: otherStructure.id }).first();
@@ -1420,9 +1424,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         id: organizationId,
         organizationLearnerType: domainOrganizationLearnerType,
       });
+      const organizationForUpdate = new OrganizationForUpdate(organizationForAdmin);
 
       // when
-      await organizationForAdminRepository.update({ organization: organizationForAdmin });
+      await organizationForAdminRepository.update({ organization: organizationForUpdate });
 
       // then
       const untouchedStructure = await knex('structures').where({ id: structureId }).first();
@@ -1440,9 +1445,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         categoryId,
         organizationLearnerType: domainOrganizationLearnerType,
       });
+      const organizationForUpdate = new OrganizationForUpdate(organizationForAdmin);
 
       // when
-      await organizationForAdminRepository.update({ organization: organizationForAdmin });
+      await organizationForAdminRepository.update({ organization: organizationForUpdate });
 
       // then
       const untouchedStructure = await knex('structures').where({ id: structureId }).first();
@@ -1459,9 +1465,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         categoryId,
         organizationLearnerType: domainOrganizationLearnerType,
       });
+      const organizationForUpdate = new OrganizationForUpdate(organizationForAdmin);
 
       // when
-      const error = await catchErr(organizationForAdminRepository.update)({ organization: organizationForAdmin });
+      const error = await catchErr(organizationForAdminRepository.update)({ organization: organizationForUpdate });
 
       // then
       expect(error).to.be.instanceOf(StructureNotFoundError);
@@ -1489,7 +1496,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           },
           organizationLearnerType: domainOrganizationLearnerType,
         });
-        await organizationForAdminRepository.update({ organization: organizationToUpdate });
+        await organizationForAdminRepository.update({ organization: new OrganizationForUpdate(organizationToUpdate) });
 
         // then
         const enabledFeatures = await knex('organization-features')
@@ -1522,7 +1529,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationLearnerType: domainOrganizationLearnerType,
         });
 
-        await organizationForAdminRepository.update({ organization: organizationToUpdate });
+        await organizationForAdminRepository.update({ organization: new OrganizationForUpdate(organizationToUpdate) });
 
         // then
         const enabledFeatures = await knex('organization-features')
@@ -1560,7 +1567,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           },
           organizationLearnerType: domainOrganizationLearnerType,
         });
-        await organizationForAdminRepository.update({ organization: organizationToUpdate });
+        await organizationForAdminRepository.update({ organization: new OrganizationForUpdate(organizationToUpdate) });
 
         //then
         const enabledFeatures = await knex('organization-features').whereNot({ featureId: byDefaultFeatureId });
@@ -1589,7 +1596,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           },
           organizationLearnerType: domainOrganizationLearnerType,
         });
-        await organizationForAdminRepository.update({ organization: organizationToUpdate });
+        await organizationForAdminRepository.update({ organization: new OrganizationForUpdate(organizationToUpdate) });
 
         //then
         const enabledFeatures = await knex('organization-features');
@@ -1628,7 +1635,9 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
             },
             organizationLearnerType: domainOrganizationLearnerType,
           });
-          await organizationForAdminRepository.update({ organization: organizationToUpdate });
+          await organizationForAdminRepository.update({
+            organization: new OrganizationForUpdate(organizationToUpdate),
+          });
 
           //then
           const enabledFeatures = await knex('organization-features');
@@ -1653,7 +1662,9 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
             organizationLearnerType: domainOrganizationLearnerType,
           });
 
-          await organizationForAdminRepository.update({ organization: organizationToUpdate });
+          await organizationForAdminRepository.update({
+            organization: new OrganizationForUpdate(organizationToUpdate),
+          });
 
           //then
           const enabledFeatures = await knex('organization-features');
@@ -1686,7 +1697,9 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
             organizationLearnerType: domainOrganizationLearnerType,
           });
 
-          await organizationForAdminRepository.update({ organization: organizationToUpdate });
+          await organizationForAdminRepository.update({
+            organization: new OrganizationForUpdate(organizationToUpdate),
+          });
 
           //then
           const enabledFeatures = await knex('organization-features');
@@ -1727,7 +1740,9 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
             },
             organizationLearnerType: domainOrganizationLearnerType,
           });
-          await organizationForAdminRepository.update({ organization: organizationToUpdate });
+          await organizationForAdminRepository.update({
+            organization: new OrganizationForUpdate(organizationToUpdate),
+          });
 
           //then
           const enabledFeatures = await knex('organization-features');
@@ -1756,7 +1771,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         dataProtectionOfficerLastName: 'Man',
         organizationLearnerType: domainOrganizationLearnerType,
       });
-      await organizationForAdminRepository.update({ organization: organizationToUpdate });
+      await organizationForAdminRepository.update({ organization: new OrganizationForUpdate(organizationToUpdate) });
 
       // then
       const dataProtectionOfficerCreated = await knex('data-protection-officers')
@@ -1797,7 +1812,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         dataProtectionOfficerLastName: 'Man',
         organizationLearnerType: domainOrganizationLearnerType,
       });
-      await organizationForAdminRepository.update({ organization: organizationToUpdate });
+      await organizationForAdminRepository.update({ organization: new OrganizationForUpdate(organizationToUpdate) });
 
       // then
       const dataProtectionOfficerUpdated = await knex('data-protection-officers')
@@ -1825,11 +1840,13 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       ];
       // when
 
-      const organizationToUpdate = new OrganizationForAdmin({
-        id: organizationId,
-        documentationUrl: 'https://pix.fr/',
-        organizationLearnerType: domainOrganizationLearnerType,
-      });
+      const organizationToUpdate = new OrganizationForUpdate(
+        new OrganizationForAdmin({
+          id: organizationId,
+          documentationUrl: 'https://pix.fr/',
+          organizationLearnerType: domainOrganizationLearnerType,
+        }),
+      );
 
       organizationToUpdate.tagsToAdd = tagsToAdd;
       await organizationForAdminRepository.update({ organization: organizationToUpdate });
@@ -1848,11 +1865,13 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       const tagsToAdd = [{ tagId, organizationId }];
 
       // when
-      const organizationToUpdate = new OrganizationForAdmin({
-        id: organizationId,
-        documentationUrl: 'https://pix.fr/',
-        organizationLearnerType: domainOrganizationLearnerType,
-      });
+      const organizationToUpdate = new OrganizationForUpdate(
+        new OrganizationForAdmin({
+          id: organizationId,
+          documentationUrl: 'https://pix.fr/',
+          organizationLearnerType: domainOrganizationLearnerType,
+        }),
+      );
 
       organizationToUpdate.tagsToAdd = tagsToAdd;
       await organizationForAdminRepository.update({ organization: organizationToUpdate });
@@ -1877,11 +1896,13 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       ];
 
       // when
-      const organizationToUpdate = new OrganizationForAdmin({
-        id: organizationId,
-        documentationUrl: 'https://pix.fr/',
-        organizationLearnerType: domainOrganizationLearnerType,
-      });
+      const organizationToUpdate = new OrganizationForUpdate(
+        new OrganizationForAdmin({
+          id: organizationId,
+          documentationUrl: 'https://pix.fr/',
+          organizationLearnerType: domainOrganizationLearnerType,
+        }),
+      );
 
       organizationToUpdate.tagsToRemove = tagsToRemove;
       await organizationForAdminRepository.update({ organization: organizationToUpdate });
@@ -1899,10 +1920,12 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       // when
       await organizationForAdminRepository.update({
-        organization: new OrganizationForAdmin({
-          ...organization,
-          organizationLearnerType: domainOrganizationLearnerType,
-        }),
+        organization: new OrganizationForUpdate(
+          new OrganizationForAdmin({
+            ...organization,
+            organizationLearnerType: domainOrganizationLearnerType,
+          }),
+        ),
       });
 
       // then
@@ -1925,13 +1948,15 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       await databaseBuilder.commit();
 
       // when
-      const organizationToUpdate = new OrganizationForAdmin({
-        id: organization.id,
-        organizationLearnerType: new OrganizationLearnerType({
-          id: secondOrganizationLearnerType.id,
-          name: secondOrganizationLearnerType.name,
+      const organizationToUpdate = new OrganizationForUpdate(
+        new OrganizationForAdmin({
+          id: organization.id,
+          organizationLearnerType: new OrganizationLearnerType({
+            id: secondOrganizationLearnerType.id,
+            name: secondOrganizationLearnerType.name,
+          }),
         }),
-      });
+      );
       await organizationForAdminRepository.update({ organization: organizationToUpdate });
 
       // then

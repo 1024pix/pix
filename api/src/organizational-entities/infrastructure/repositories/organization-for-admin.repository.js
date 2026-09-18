@@ -284,7 +284,7 @@ const save = async function ({ organization }) {
 
 /**
  * @type {function}
- * @param {OrganizationForAdmin} organization
+ * @param {OrganizationForUpdate} organization
  * @return {Promise<void>}
  */
 const update = async function ({ organization }) {

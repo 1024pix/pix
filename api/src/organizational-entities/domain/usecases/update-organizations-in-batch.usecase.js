@@ -16,6 +16,7 @@ import {
   OrganizationNotFound,
   StructureCategoryNotFound,
 } from '../errors.js';
+import { OrganizationForUpdate } from '../models/OrganizationForUpdate.js';
 
 /**
  * @typedef {function} updateOrganizationsInBatch
@@ -158,13 +159,14 @@ function _validateAllDtos(
 
 async function _updateOrganization(dto, repository) {
   try {
-    const organization = await repository.get({
+    const existingOrganization = await repository.get({
       organizationId: dto.id,
     });
 
-    organization.updateFromOrganizationBatchUpdateDto(dto);
+    const organizationForUpdate = new OrganizationForUpdate(existingOrganization);
+    organizationForUpdate.applyBatchUpdate(dto);
 
-    await repository.update({ organization });
+    await repository.update({ organization: organizationForUpdate });
   } catch {
     throw new OrganizationBatchUpdateError({
       meta: { organizationId: dto.id },
