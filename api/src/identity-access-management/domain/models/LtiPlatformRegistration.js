@@ -29,4 +29,12 @@ export class LtiPlatformRegistration {
     });
     this.platformOpenIdConfig = platformOpenIdConfig;
   }
+
+  get isActive() {
+    return this.status === LtiPlatformRegistration.status.ACTIVE;
+  }
+
+  get authorizationEndpoint() {
+    return this.platformOpenIdConfig.authorization_endpoint;
+  }
 }
