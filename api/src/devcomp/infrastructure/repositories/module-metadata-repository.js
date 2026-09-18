@@ -37,13 +37,15 @@ async function getAllByShortIds({ shortIds }) {
   return modules.map(_toDomain);
 }
 
-async function getByShortId({ shortId, moduleDatasource }) {
-  try {
-    const module = await moduleDatasource.getByShortId(shortId);
-    return _toDomain(module);
-  } catch (error) {
-    throw new NotFoundError(error.message);
+async function getByShortId({ shortId }) {
+  const cacheKey = `getByShortId(${shortId})`;
+  const findByShortIdCallback = (knex) => knex.where('shortId', shortId).limit(1);
+
+  const [module] = await getInstance().find(cacheKey, findByShortIdCallback);
+  if (!module) {
+    throw new NotFoundError(`Module with shortId ${shortId} not found`);
   }
+  return _toDomain(module);
 }
 
 async function getBySlug({ slug, moduleDatasource }) {

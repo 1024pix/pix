@@ -159,76 +159,25 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
     });
   });
 
-  describe('getByShortId', function () {
+  describe('#getByShortId', function () {
     it('should return a module with its metadata', async function () {
-      const existingModuleShortId = 'gbsri73s';
-      const stubModule = {
-        id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
-        shortId: existingModuleShortId,
-        slug: 'slug',
-        title: 'Bien écrire son adresse mail',
-        isBeta: true,
-        visibility: Module.VISIBILITY.PUBLIC,
-        details: {
-          image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
-          description:
-            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
-          duration: 12,
-          level: 'novice',
-          tabletSupport: 'comfortable',
-          objectives: [
-            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
-            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
-            'Comprendre les fonctions des parties d’une adresse mail',
-          ],
-        },
-        sections: [
-          {
-            id: '5bf1c672-3746-4480-b9ac-1f0af9c7c509',
-            type: 'practise',
-            grains: [
-              {
-                id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
-                type: 'lesson',
-                title: 'Explications : les parties d’une adresse mail',
-                components: [
-                  {
-                    type: 'element',
-                    element: {
-                      id: 'd9e8a7b6-5c4d-3e2f-1a0b-9f8e7d6c5b4a',
-                      type: 'text',
-                      content:
-                        "<h4 class='screen-reader-only'>L'arobase</h4><p>L’arobase est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</p><p><span aria-hidden='true'>🇬🇧</span> En anglais, ce symbole se lit <i lang='en'>“at”</i> qui veut dire “chez”.</p><p><span aria-hidden='true'>🤔</span> Le saviez-vous : c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>",
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
-
-      const moduleDatasourceStub = {
-        getByShortId: sinon.stub(),
-      };
-      moduleDatasourceStub.getByShortId.withArgs(existingModuleShortId).resolves(stubModule);
+      // given
+      const existingModule = databaseBuilder.factory.learningContent.buildModule({ shortId: 'gbsri73u' });
+      await databaseBuilder.commit();
 
       // when
-      const moduleMetadata = await moduleMetadataRepository.getByShortId({
-        shortId: existingModuleShortId,
-        moduleDatasource: moduleDatasourceStub,
-      });
+      const moduleMetadata = await moduleMetadataRepository.getByShortId({ shortId: existingModule.shortId });
 
       // then
       const expectedModuleMetadata = new ModuleMetadata({
-        id: stubModule.id,
-        shortId: existingModuleShortId,
-        slug: stubModule.slug,
-        title: stubModule.title,
-        isBeta: stubModule.isBeta,
-        duration: stubModule.details.duration,
-        image: stubModule.details.image,
-        visibility: stubModule.visibility,
+        id: existingModule.id,
+        shortId: existingModule.shortId,
+        slug: existingModule.slug,
+        title: existingModule.title,
+        isBeta: existingModule.isBeta,
+        duration: existingModule.details.duration,
+        image: existingModule.details.image,
+        visibility: existingModule.visibility,
       });
 
       expect(moduleMetadata).to.be.instanceOf(ModuleMetadata);
@@ -240,13 +189,12 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
       const nonExistingShortId = 'not-existing-module-short-id';
 
       // when
-      const error = await catchErr(moduleMetadataRepository.getByShortId)({
-        slug: nonExistingShortId,
-        moduleDatasource,
-      });
+      const error = await catchErr(moduleMetadataRepository.getByShortId)({ shortId: nonExistingShortId });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
+      const expectedErrorMessage = `Module with shortId ${nonExistingShortId} not found`;
+      expect(error.message).to.equal(expectedErrorMessage);
     });
   });
 
