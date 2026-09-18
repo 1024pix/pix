@@ -81,7 +81,7 @@ describe('Unit | Devcomp | Domain | Services | Validation Tolerances', function 
   });
 
   describe('#applyTolerances with enabled Tolerances', function () {
-    const input = ' Shi Foo-Bar ';
+    const input = ' Jean Clément ';
 
     it('should return the given string without applying any tolerance when the enabled tolerances array is not defined', function () {
       expect(applyTolerances(input)).to.equal(input);
@@ -96,11 +96,15 @@ describe('Unit | Devcomp | Domain | Services | Validation Tolerances', function 
     });
 
     it('should return a string with "t1" applied if it is set as enabled tolerance', function () {
-      expect(applyTolerances(input, ['t1'])).to.equal('shifoo-bar');
+      expect(applyTolerances(input, ['t1'])).to.equal('jeanclement');
     });
 
     it('should return a string with "t2" applied if it is set as enabled tolerance', function () {
-      expect(applyTolerances(input, ['t2'])).to.equal(' Shi FooBar ');
+      expect(applyTolerances(input, ['t2'])).to.equal(' Jean Clment ');
+    });
+
+    it('should return a string with "t1" and "t2" applied if it is set as enabled tolerances', function () {
+      expect(applyTolerances(input, ['t1', 't2'])).to.equal('jeanclement');
     });
   });
 });

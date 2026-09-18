@@ -26,22 +26,20 @@ function applyPreTreatmentForTolerance(value) {
     .replace(/\u00A0/g, ' ');
 }
 
-const tolerances = {
-  t1: normalizeAndRemoveAccents,
-  t2: removeSpecialCharacters,
-};
-
 function applyTolerances(string, enabledTolerances) {
   let result = string.toString();
   if (_.isEmpty(enabledTolerances)) {
     return result;
   }
-  _(enabledTolerances)
-    .sort()
-    .each((tolerance) => {
-      const toleranceFunction = _.get(tolerances, tolerance);
-      result = toleranceFunction ? toleranceFunction(result) : result;
-    });
+
+  if (enabledTolerances.includes('t1')) {
+    result = normalizeAndRemoveAccents(result);
+  }
+
+  if (enabledTolerances.includes('t2')) {
+    result = removeSpecialCharacters(result);
+  }
+
   return result;
 }
 
