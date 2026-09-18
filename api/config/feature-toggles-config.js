@@ -93,7 +93,7 @@ export default {
     type: 'boolean',
     description: 'Enable getting modules from learning content schema',
     defaultValue: false,
-    devDefaultValues: { test: false, reviewApp: false },
+    devDefaultValues: { test: false, reviewApp: true },
     tags: ['team-devcomp', 'pix-api', 'backend'],
   },
   newPixAppLegalDocumentsVersioning: {
