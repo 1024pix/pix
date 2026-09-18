@@ -107,6 +107,40 @@ module('Integration | Component |  administration/organizations-import', functio
       });
     });
 
+    module('when error code is "STRUCTURE_CATEGORY_NOT_FOUND"', function () {
+      test('it displays a correct error notification', async function (assert) {
+        // given
+        const file = new Blob(['foo'], { type: `valid-file` });
+        class NotificationsStub extends Service {
+          sendErrorNotification = notificationErrorStub;
+        }
+        this.owner.register('service:pixToast', NotificationsStub);
+
+        saveAdapterStub.withArgs([file]).rejects({
+          errors: [{ code: 'STRUCTURE_CATEGORY_NOT_FOUND', meta: { structureCategoryId: 80, currentLine: 2 } }],
+        });
+
+        // when
+        const screen = await render(<template><OrganizationsImport /></template>);
+        const input = await screen.findByLabelText(t('components.administration.organizations-import.upload-button'));
+        await triggerEvent(input, 'change', { files: [file] });
+
+        // then
+        assert.ok(notificationErrorStub.calledOnce);
+        const [{ message }] = notificationErrorStub.firstCall.args;
+        const errorMessage = message.toString();
+
+        assert.true(
+          errorMessage.includes(
+            t('components.administration.organizations-import.notifications.errors.no-organization-created'),
+          ),
+        );
+        assert.true(errorMessage.includes('categoryId'));
+        assert.true(errorMessage.includes('80'));
+        assert.true(errorMessage.includes('2'));
+      });
+    });
+
     module('when error code is "MISSING_REQUIRED_FIELD_NAMES"', function () {
       test('it displays the correct error notification', async function (assert) {
         // given
@@ -133,6 +167,47 @@ module('Integration | Component |  administration/organizations-import', functio
         const errorMessage = message.toString();
 
         assert.true(errorMessage.includes(error.meta.toString()));
+      });
+    });
+
+    module('when error code is "VALIDATION_ERROR"', function () {
+      test('it displays the correct error notification', async function (assert) {
+        // given
+        const file = new Blob(['foo'], { type: `valid-file` });
+        class NotificationsStub extends Service {
+          sendErrorNotification = notificationErrorStub;
+        }
+        this.owner.register('service:pixToast', NotificationsStub);
+
+        const error = {
+          code: 'VALIDATION_ERROR',
+          meta: {
+            invalidAttributes: [{ attribute: 'attributeInError', validationCode: 'FIELD_REQUIRED' }],
+            currentLine: 2,
+          },
+        };
+
+        saveAdapterStub.withArgs([file]).rejects({
+          errors: [error],
+        });
+
+        // when
+        const screen = await render(<template><OrganizationsImport /></template>);
+        const input = await screen.findByLabelText(t('components.administration.organizations-import.upload-button'));
+        await triggerEvent(input, 'change', { files: [file] });
+
+        // then
+        assert.ok(notificationErrorStub.calledOnce);
+        const [{ message }] = notificationErrorStub.firstCall.args;
+        const errorMessage = message.toString();
+
+        assert.true(
+          errorMessage.includes(
+            t('components.administration.organizations-import.notifications.errors.no-organization-created'),
+          ),
+        );
+        assert.true(errorMessage.includes('attributeInError'));
+        assert.true(errorMessage.includes(t('common.validation-error-messages.FIELD_REQUIRED')));
       });
     });
   });

@@ -37,10 +37,10 @@ const updateOrganizationInformation = withTransaction(async function ({
   }
 
   if (organization.categoryId) {
-    await organizationVerificationService.checkStructureCategoryExists(
-      organization.categoryId,
+    await organizationVerificationService.checkStructureCategoryExists({
+      structureCategoryId: organization.categoryId,
       structureCategoryRepository,
-    );
+    });
   }
 
   existingOrganization.updateWithDataProtectionOfficerAndTags(

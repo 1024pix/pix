@@ -39,15 +39,16 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
   organizationValidator,
   countryRepository,
   organizationLearnerTypeRepository,
+  structureCategoryRepository,
   organizationVerificationService,
 }) {
   if (isEmpty(organizations)) {
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
   }
 
-  for (const organization of organizations) {
-    organizationValidator.validate(organization);
-  }
+  organizations.forEach((organization, index) => {
+    organizationValidator.validate(organization, index + 1);
+  });
 
   let createdOrganizations = [];
   const allTags = await tagRepository.findAll();
@@ -61,6 +62,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
       transformedOrganizationsData,
       countryRepository,
       organizationLearnerTypeRepository,
+      structureCategoryRepository,
       organizationVerificationService,
     });
 
@@ -100,10 +102,11 @@ async function _createOrganizations({
   organizationForAdminRepository,
   countryRepository,
   organizationLearnerTypeRepository,
+  structureCategoryRepository,
   organizationVerificationService,
 }) {
   return PromiseUtils.mapSeries(transformedOrganizationsData, async (organizationToCreate, index) => {
-    const { administrationTeamId, parentOrganizationId, countryCode, organizationLearnerType } =
+    const { administrationTeamId, parentOrganizationId, countryCode, organizationLearnerType, categoryId } =
       organizationToCreate.organization;
 
     await organizationVerificationService.checkAdministrationTeamExists(
@@ -129,6 +132,12 @@ async function _createOrganizations({
       organizationLearnerType.id,
       organizationLearnerTypeRepository,
     );
+
+    await organizationVerificationService.checkStructureCategoryExists({
+      structureCategoryId: categoryId,
+      structureCategoryRepository,
+      currentLine: index + 1,
+    });
 
     try {
       const createdOrganization = await organizationForAdminRepository.save({

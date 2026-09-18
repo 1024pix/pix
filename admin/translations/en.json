@@ -178,6 +178,11 @@
     "tables": {
       "empty-result": "Aucun résultat"
     },
+    "validation-error-messages": {
+      "DEFAULT": "Value is invalid.",
+      "FIELD_NOT_A_NUMBER": "Value is not a number",
+      "FIELD_REQUIRED": "Value is missing"
+    },
     "words": {
       "example-abbr": "e.g.",
       "no": "No",
@@ -297,6 +302,7 @@
         "notifications": {
           "errors": {
             "PARENT_ORGANIZATION_NOT_IN_NETWORK": " Organization {parentOrganizationId} is not part of a network.",
+            "STRUCTURE_CATEGORY_NOT_FOUND": "Category {structureCategoryId} does not exist.",
             "error-location": "Error on line {errorLine}, in the field {errorField}.",
             "no-organization-created": "No organisation has been created."
           },
