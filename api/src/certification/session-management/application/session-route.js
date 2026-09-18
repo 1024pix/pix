@@ -1,8 +1,11 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../shared/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
+import { SESSION_STATUSES } from '../../shared/domain/constants.js';
+import { AlgorithmEngineVersion } from '../../shared/domain/models/AlgorithmEngineVersion.js';
 import { sessionController } from './session-controller.js';
 
 async function register(server) {
@@ -46,7 +49,29 @@ async function register(server) {
         ],
         validate: {
           query: Joi.object({
-            filter: Joi.object().default({}),
+            filter: Joi.object({
+              ids: Joi.array().items(identifiersType.sessionId.optional()).single().optional(),
+              status: Joi.string()
+                .trim()
+                .valid(
+                  SESSION_STATUSES.CREATED,
+                  SESSION_STATUSES.FINALIZED,
+                  SESSION_STATUSES.IN_PROCESS,
+                  SESSION_STATUSES.PROCESSED,
+                )
+                .optional(),
+              certificationCenterName: Joi.string().trim().optional(),
+              certificationCenterExternalId: Joi.string().trim().optional(),
+              startDate: Joi.date().format('iso').optional(),
+              endDate: Joi.date().format('iso').optional(),
+              certificationCenterType: Joi.string()
+                .trim()
+                .valid(CERTIFICATION_CENTER_TYPES.SUP, CERTIFICATION_CENTER_TYPES.SCO, CERTIFICATION_CENTER_TYPES.PRO)
+                .optional(),
+              version: Joi.number().valid(AlgorithmEngineVersion.V2, AlgorithmEngineVersion.V3).optional(),
+            })
+              .optional()
+              .default({}),
             page: {
               number: Joi.number().integer().empty('').allow(null).optional(),
               size: Joi.number().integer().empty('').allow(null).optional(),

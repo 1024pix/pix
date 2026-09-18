@@ -23,9 +23,8 @@ async function findPaginatedFilteredJurySessions(
   },
 ) {
   const { filter, page } = request.query;
-  const normalizedFilters = dependencies.sessionValidator.validateAndNormalizeFilters(filter);
   const jurySessionsForPaginatedList = await dependencies.jurySessionRepository.findPaginatedFiltered({
-    filters: normalizedFilters,
+    filters: filter,
     page,
   });
 

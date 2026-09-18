@@ -93,7 +93,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(422);
+        expect(response.statusCode).to.equal(400);
       });
 
       it('should signal an entity validation error for an ID that is too small', async function () {
@@ -104,7 +104,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(422);
+        expect(response.statusCode).to.equal(400);
       });
 
       it('should send bad request when date filter are invalid', async function () {
@@ -115,7 +115,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(422);
+        expect(response.statusCode).to.equal(400);
       });
     });
 
