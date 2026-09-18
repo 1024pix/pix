@@ -1,5 +1,5 @@
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
-import * as sessionValidator from '../../shared/domain/validators/session-validator.js';
+import * as sessionValidator from '../../session-managment/domain/validators/session-validator.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as juryCertificationSummaryRepository from '../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as jurySessionRepository from '../infrastructure/repositories/jury-session-repository.js';
