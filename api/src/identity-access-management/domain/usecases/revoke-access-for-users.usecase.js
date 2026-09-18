@@ -14,10 +14,9 @@ export const revokeAccessForUsers = async function ({
   authenticationMethodRepository,
 }) {
   for (const userId of userIds) {
-    // Revoke user AccessToken
     await revokedUserAccessRepository.revokeAll({ userId, revokeUntil: new Date() });
 
-    // Revoke user RefreshToken
+    // Legacy repository. Will be removed in the quite-near future.
     await refreshTokenRepository.revokeAllByUserId({ userId });
 
     // Revoke current user password
