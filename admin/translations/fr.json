@@ -185,6 +185,10 @@
     "tables": {
       "empty-result": "Aucun résultat"
     },
+    "validation-error-messages": {
+      "FIELD_NOT_A_NUMBER": "La valeur n'est pas un nombre.",
+      "FIELD_REQUIRED": "La valeur est manquante."
+    },
     "words": {
       "example-abbr": "ex:",
       "no": "Non",
