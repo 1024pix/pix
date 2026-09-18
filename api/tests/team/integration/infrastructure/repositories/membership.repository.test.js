@@ -917,15 +917,16 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
       const organization2 = databaseBuilder.factory.buildOrganization();
       const membership2 = databaseBuilder.factory.buildMembership({ userId, organizationId: organization2.id });
 
+      const anotherUserId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({ userId: anotherUserId, organizationId: organization1.id });
+
       await databaseBuilder.commit();
 
       // when
       const memberships = await membershipRepository.findByUserId(userId);
 
       // then
-      expect(memberships).to.have.lengthOf(2);
-      expect(memberships[0].id).to.equal(membership1.id);
-      expect(memberships[1].id).to.equal(membership2.id);
+      expect(_.map(memberships, 'id')).to.have.members([membership1.id, membership2.id]);
     });
   });
 });
