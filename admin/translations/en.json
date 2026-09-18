@@ -2004,12 +2004,20 @@
           "certification-name": {
             "aria-label": "Filtrer les sessions avec le nom d'un centre de certification"
           },
+          "endDate": {
+            "aria-label": "Hide sessions after the choosen date",
+            "label": "End date"
+          },
           "external-id": {
             "aria-label": "Filtrer les sessions avec un identifiant externe"
           },
           "ids": {
             "aria-label": "Filtrer les sessions avec un ou plusieurs id séparés par des virgules",
             "label": "Session(s) ID(s)"
+          },
+          "startDate": {
+            "aria-label": "Hide sessions before the choosen date",
+            "label": "Start Date"
           },
           "status": {
             "aria-label": "Filtrer les sessions en sélectionnant un statut"

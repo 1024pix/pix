@@ -2008,12 +2008,20 @@
           "certification-name": {
             "aria-label": "Filtrer les sessions avec le nom d'un centre de certification"
           },
+          "endDate": {
+            "aria-label": "Masque les sessions après une date choisit",
+            "label": "Date de fin"
+          },
           "external-id": {
             "aria-label": "Filtrer les sessions avec un identifiant externe"
           },
           "ids": {
             "aria-label": "Filtrer les sessions avec un ou plusieurs id séparés par des virgules",
             "label": "ID(s) de session(s)"
+          },
+          "startDate": {
+            "aria-label": "Masquer les sessions avant la date choisit",
+            "label": "Date de début"
           },
           "status": {
             "aria-label": "Filtrer les sessions en sélectionnant un statut"

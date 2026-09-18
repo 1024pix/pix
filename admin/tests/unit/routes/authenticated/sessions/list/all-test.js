@@ -37,6 +37,8 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
             certificationCenterExternalId: undefined,
             status: undefined,
             version: undefined,
+            startDate: undefined,
+            endDate: undefined,
           };
 
           // then
@@ -56,6 +58,8 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
             certificationCenterExternalId: undefined,
             status: undefined,
             version: undefined,
+            startDate: undefined,
+            endDate: undefined,
           };
 
           // when
@@ -78,6 +82,8 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
             certificationCenterExternalId: undefined,
             status: undefined,
             version: undefined,
+            startDate: undefined,
+            endDate: undefined,
           };
 
           // when
@@ -100,6 +106,8 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
             certificationCenterExternalId: undefined,
             status: undefined,
             version: undefined,
+            startDate: undefined,
+            endDate: undefined,
           };
 
           // when
@@ -122,6 +130,8 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
             certificationCenterExternalId: 'EXTID',
             status: undefined,
             version: undefined,
+            startDate: undefined,
+            endDate: undefined,
           };
 
           // when
@@ -144,6 +154,8 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
             certificationCenterExternalId: undefined,
             status: 'someStatus',
             version: undefined,
+            startDate: undefined,
+            endDate: undefined,
           };
 
           // when
@@ -166,6 +178,56 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
             certificationCenterExternalId: undefined,
             status: undefined,
             version: 3,
+            startDate: undefined,
+            endDate: undefined,
+          };
+
+          // when
+          await route.model(params);
+
+          // then
+          sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+          assert.ok(true);
+        });
+      });
+
+      module('when queryParams startDate is "2026-01-01"', function () {
+        test('it should call store.query with a filter with version', async function (assert) {
+          // given
+          params.startDate = '2026-01-01';
+          expectedQueryArgs.filter = {
+            ids: undefined,
+            certificationCenterName: undefined,
+            certificationCenterType: undefined,
+            certificationCenterExternalId: undefined,
+            status: undefined,
+            version: undefined,
+            startDate: '2026-01-01',
+            endDate: undefined,
+          };
+
+          // when
+          await route.model(params);
+
+          // then
+          sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+          assert.ok(true);
+        });
+      });
+
+      module('when queryParams endDate is "2026-01-01"', function () {
+        test('it should call store.query with a filter with version', async function (assert) {
+          // given
+          params.endDate = '2026-01-01';
+          expectedQueryArgs.filter = {
+            ids: undefined,
+            certificationCenterName: undefined,
+            certificationCenterType: undefined,
+            certificationCenterExternalId: undefined,
+            status: undefined,
+            version: undefined,
+            startDate: undefined,
+            endDate: '2026-01-01',
           };
 
           // when

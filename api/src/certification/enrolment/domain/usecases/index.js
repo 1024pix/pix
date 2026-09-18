@@ -5,7 +5,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
-import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
+import * as sessionValidator from '../../../session-managment/domain/validators/session-validator.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -53,7 +53,7 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {import('../../../../shared/infrastructure/repositories/index.js').CountryRepository} CountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {import('../../../../shared/infrastructure/repositories/index.js').UserRepository} UserRepository
- * @typedef {import('../../../shared/domain/validators/session-validator.js')} SessionValidator
+ * @typedef {import('../../../session-managment/domain/validators/session-validator.js')} SessionValidator
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
