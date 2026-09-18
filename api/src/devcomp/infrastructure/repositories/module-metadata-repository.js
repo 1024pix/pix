@@ -48,13 +48,15 @@ async function getByShortId({ shortId }) {
   return _toDomain(module);
 }
 
-async function getBySlug({ slug, moduleDatasource }) {
-  try {
-    const module = await moduleDatasource.getBySlug(slug);
-    return _toDomain(module);
-  } catch (error) {
-    throw new NotFoundError(error.message);
+async function getBySlug({ slug }) {
+  const cacheKey = `getBySlug(${slug})`;
+  const findBySlugCallback = (knex) => knex.where('slug', slug).limit(1);
+
+  const [module] = await getInstance().find(cacheKey, findBySlugCallback);
+  if (!module) {
+    throw new NotFoundError(`Module with slug ${slug} not found`);
   }
+  return _toDomain(module);
 }
 
 async function listPublic({ moduleDatasource }) {
