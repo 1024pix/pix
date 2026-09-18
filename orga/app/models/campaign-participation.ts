@@ -15,7 +15,9 @@ export default class CampaignParticipation extends Model {
   @attr<DateTransform>('date') declare sharedAt: Date | null;
 
   @belongsTo<Campaign>('campaign', { async: true, inverse: null }) declare campaign: AsyncBelongsTo<Campaign>;
-  @belongsTo('user', { async: true, inverse: null }) declare user: AsyncBelongsTo<User>;
+
+  @belongsTo<User>('user', { async: true, inverse: null }) declare user: AsyncBelongsTo<User>;
+
   @belongsTo<CampaignCollectiveResult>('campaign-collective-result', { async: true, inverse: null })
   declare campaignCollectiveResult: AsyncBelongsTo<CampaignCollectiveResult>;
 }
