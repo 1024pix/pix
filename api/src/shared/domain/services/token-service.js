@@ -45,7 +45,18 @@ function getDecodedToken(token, secret = config.authentication.secret, { expecte
   try {
     const decodedToken = jsonwebtoken.verify(token, secret, { complete: true });
 
-    Joi.assert(decodedToken.header.typ, Joi.string().valid(expectedType).required());
+    const allowedTypes = [expectedType];
+    // ensure backward compatibility for older access tokens
+    if (expectedType === tokenType.ACCESS_TOKEN) {
+      allowedTypes.push('JWT');
+    }
+
+    Joi.assert(
+      decodedToken.header.typ,
+      Joi.string()
+        .valid(...allowedTypes)
+        .required(),
+    );
 
     return decodedToken.payload;
   } catch {
