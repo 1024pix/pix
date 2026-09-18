@@ -178,6 +178,11 @@
     "tables": {
       "empty-result": "Aucun résultat"
     },
+    "validation-error-messages": {
+      "DEFAULT": "Value is invalid.",
+      "FIELD_NOT_A_NUMBER": "Value is not a number",
+      "FIELD_REQUIRED": "Value is missing"
+    },
     "words": {
       "example-abbr": "e.g.",
       "no": "No",
