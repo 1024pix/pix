@@ -1,4 +1,9 @@
 export class LtiPlatformRegistration {
+  static status = Object.freeze({
+    ACTIVE: 'active',
+    PENDING: 'pending',
+  });
+
   constructor({
     clientId,
     platformOrigin,

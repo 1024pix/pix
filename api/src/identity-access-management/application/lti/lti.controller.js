@@ -1,49 +1,30 @@
 import { usecases } from '../../domain/usecases/index.js';
+import { ltiErrorSerializer } from '../../infrastructure/serializers/html/lti-error-serializer.js';
+import { ltiRegistrationSerializer } from '../../infrastructure/serializers/html/lti-registration-serializer.js';
 
 async function listPublicKeys(request, h, dependencies = { listLtiPublicKeys: usecases.listLtiPublicKeys }) {
   const publicKeys = await dependencies.listLtiPublicKeys();
-  return h.response(publicKeys).code(200);
+
+  return h.response(publicKeys);
 }
-
-const registerSuccessTemplate = () => `<!DOCTYPE html>
-<html>
-  <body>
-    Registration successfull, please wait...
-    <script type="text/javascript">
-      (window.opener ?? window.parent).postMessage({ subject:'org.imsglobal.lti.close' }, '*');
-    </script>
-  </body>
-</html>
-`;
-
-const registerErrorTemplate = (err) => `<!DOCTYPE html>
-<html>
-  <body>
-    <h1>Registration error</h1>
-    <p>${err.message ?? err}</p>
-  </body>
-</html>
-`;
 
 async function register(request, h, dependencies = { registerLtiPlatform: usecases.registerLtiPlatform }) {
   const { openid_configuration: platformConfigurationUrl, registration_token: registrationToken } = request.query;
 
-  // usage temporaire de referrer en attendant la mise en place de la gateway qui permettra l'ajout du header sur toutes les routes LTI
-  const frameAncestors = request.info.referrer;
-
   try {
-    await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
+    const registration = await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
+
+    return h
+      .response(ltiRegistrationSerializer.serialize())
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${registration.platformOrigin}`);
   } catch (err) {
     return h
-      .response(registerErrorTemplate(err))
+      .response(ltiErrorSerializer.serialize({ title: 'Registration error', message: err.message ?? err }))
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${frameAncestors}`)
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
       .code(400);
   }
-  return h
-    .response(registerSuccessTemplate())
-    .header('Content-Type', 'text/html; charset=utf-8')
-    .header('Content-Security-Policy', `frame-ancestors ${frameAncestors}`);
 }
 
 export const ltiController = { listPublicKeys, register };
