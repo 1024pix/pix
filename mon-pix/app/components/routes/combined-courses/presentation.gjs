@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -90,6 +91,17 @@ export default class CombinedCoursePresentation extends Component {
     });
   }
 
+  @action
+  async goToItem(item) {
+    if (this.args.combinedCourse.status === 'NOT_STARTED') {
+      const combinedCourseAdapter = this.store.adapterFor('combined-course');
+      await combinedCourseAdapter.start(this.args.combinedCourse.code);
+    }
+    this.router.transitionTo(item.route, ...item.models, {
+      queryParams: { redirection: item.redirection },
+    });
+  }
+
   get isSurveyEnabled() {
     return this.featureToggles.featureToggles?.isSurveyEnabledForCombinedCourses && this.args.combinedCourse.surveyUrl;
   }
@@ -108,7 +120,7 @@ export default class CombinedCoursePresentation extends Component {
           {{t "common.actions.quit"}}
         </PixButtonLink>
       </nav>
-      <article class="combined-course__content">
+      <article>
         <Header
           @combinedCourse={{@combinedCourse}}
           @startQuestParticipation={{this.startQuestParticipation}}
@@ -122,11 +134,14 @@ export default class CombinedCoursePresentation extends Component {
         {{#if this.shouldDisplayRetryModulesText}}
           <p class="combined-course__retry-text">{{t "pages.combined-courses.completed.retry-text"}}</p>
         {{/if}}
-        <CombinedCourseItemsList
-          @combinedCourse={{@combinedCourse}}
-          @displayNextItemTag={{true}}
-          @startQuestParticipation={{this.startQuestParticipation}}
-        />
+        <article class="combined-course__content">
+          <CombinedCourseItemsList
+            @combinedCourse={{@combinedCourse}}
+            @displayNextItemTag={{true}}
+            @onClick={{this.goToItem}}
+            {{!-- @onClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}} --}}
+          />
+        </article>
       </article>
     </main>
   </template>

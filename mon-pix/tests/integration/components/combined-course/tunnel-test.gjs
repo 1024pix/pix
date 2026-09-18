@@ -1,10 +1,10 @@
 import { render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
-import TunnelSteps from 'mon-pix/components/combined-course/tunnel/tunnel-steps';
+import Tunnel from 'mon-pix/components/routes/combined-courses/tunnel';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering.js';
 
 module('Integration | Component | tunnel steps', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -26,7 +26,7 @@ module('Integration | Component | tunnel steps', function (hooks) {
       // when
       const screen = await render(
         <template>
-          <TunnelSteps
+          <Tunnel
             @item={{combinedCourseItem}}
             @isLocked={{combinedCourseItem.isLocked}}
             @isNextItemToComplete={{false}}
@@ -69,7 +69,7 @@ module('Integration | Component | tunnel steps', function (hooks) {
       // when
       const screen = await render(
         <template>
-          <TunnelSteps
+          <Tunnel
             @item={{combinedCourseItem}}
             @isLocked={{combinedCourseItem.isLocked}}
             @isNextItemToComplete={{false}}

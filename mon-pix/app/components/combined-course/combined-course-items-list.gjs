@@ -14,26 +14,29 @@ export default class CombinedCourseItemsList extends Component {
     return this.step++;
   }
 
+  @action
+  isSelectedItem(item) {
+    return this.args.combinedCourse.nextCombinedCourseItem === item;
+  }
+
   <template>
-    <article class="combined-course__content">
-      {{#each @combinedCourse.items as |item index|}}
-        {{#unless @combinedCourse.areItemsOfTheSameType}}
-          {{#if (@combinedCourse.isPreviousItemDifferent index)}}
-            <h2 class="combined-course__step-title">{{t
-                "pages.combined-courses.content.step"
-                stepNumber=(this.getCurrentStep)
-              }}</h2>
-          {{/if}}
-        {{/unless}}
-        <CombinedCourseItem
-          @item={{item}}
-          @isLocked={{item.isLocked}}
-          @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
-          @onClick={{fn @startQuestParticipation}}
-          @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
-          @displayNextItemTag={{@displayNextItemTag}}
-        />
-      {{/each}}
-    </article>
+    {{#each @combinedCourse.items as |item index|}}
+      {{#unless @combinedCourse.areItemsOfTheSameType}}
+        {{#if (@combinedCourse.isPreviousItemDifferent index)}}
+          <h2 class="combined-course__step-title">{{t
+              "pages.combined-courses.content.step"
+              stepNumber=(this.getCurrentStep)
+            }}</h2>
+        {{/if}}
+      {{/unless}}
+      <CombinedCourseItem
+        @item={{item}}
+        @isLocked={{item.isLocked}}
+        @isSelectedItem={{this.isSelectedItem item}}
+        @onClick={{fn @onClick item}}
+        @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
+        @displayNextItemTag={{@displayNextItemTag}}
+      />
+    {{/each}}
   </template>
 }

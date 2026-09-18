@@ -14,6 +14,16 @@
 
   &__content {
     flex: 1;
+    padding: 0 var(--pix-spacing-4x);
+
+    @include breakpoints.device-is('tablet') {
+      &--tunnel {
+        margin-top: 120px;
+        padding-left: 80px;
+      }
+    }
+
+
   }
 
   &__description {

@@ -130,7 +130,7 @@ function hasWhiteBackground(item) {
       <button
         class="combined-course-item--selectable"
         type="button"
-        {{on "click" (fn @onClick @item)}}
+        {{on "click" @onClick}}
         data-testid="selectable-item-button"
       >
         <Content
@@ -145,7 +145,7 @@ function hasWhiteBackground(item) {
           @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
           @hasWhiteBackground={{hasWhiteBackground @item}}
           @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
-          @isCurrentItem={{@isNextItemToComplete}}
+          @isCurrentItem={{@isSelectedItem}}
         >
           <:duration>
             {{#if @item.duration}}
@@ -153,7 +153,7 @@ function hasWhiteBackground(item) {
             {{/if}}
           </:duration>
           <:blockEnd>
-            {{#if @isNextItemToComplete}}
+            {{#if @isSelectedItem}}
               {{#if @displayNextItemTag}}
                 <PixTag @color="purple-light" class="combined-course-item__tag">{{t
                     "pages.combined-courses.items.tagText"

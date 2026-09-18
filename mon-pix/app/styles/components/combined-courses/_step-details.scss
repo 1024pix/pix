@@ -2,22 +2,23 @@
 @use 'pix-design-tokens/breakpoints';
 
 .step-details {
-  background-color: var(--pix-neutral-0);
-
   display: flex;
   flex: 1;
   flex-direction: column;
-  align-items: flex-start;
-  height: 100%;
-  border-radius: 0 0 var(--pix-spacing-10x) var(--pix-spacing-10x);
   gap: var(--pix-spacing-10x);
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
   padding: var(--pix-spacing-10x) var(--pix-spacing-4x);
+  background-color: var(--pix-neutral-0);
+  border-radius: 0 0 var(--pix-spacing-10x) var(--pix-spacing-10x);
+  box-shadow: var(--pix-shadow-default);
 
   @include breakpoints.device-is('tablet') {
-      border-radius: var(--pix-spacing-10x) 0 0 var(--pix-spacing-10x);
-      gap: var(--pix-spacing-10x);
-      padding: 80px 80px 80px var(--pix-spacing-10x);
       align-self: stretch;
+      padding: 80px;
+      padding-left: var(--pix-spacing-10x);
+      border-radius: var(--pix-spacing-10x) 0 0 var(--pix-spacing-10x);
   }
 
   &__main {

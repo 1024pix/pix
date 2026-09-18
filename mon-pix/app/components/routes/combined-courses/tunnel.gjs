@@ -46,6 +46,7 @@ export default class CombinedCourseTunnel extends Component {
 
   @action
   setSelectedItem(item) {
+    console.log('item', item);
     this.selectedItem = item;
   }
 
@@ -56,7 +57,9 @@ export default class CombinedCourseTunnel extends Component {
           {{t "common.actions.quit"}}
         </PixButtonLink>
       </nav>
-      <CombinedCourseItemsList @combinedCourse={{@combinedCourse}} />
+      <article class="combined-course__content combined-course__content--tunnel">
+        <CombinedCourseItemsList @combinedCourse={{@combinedCourse}} @onClick={{this.setSelectedItem}} />
+      </article>
       <aside class="step-details">
         <StepDetails
           @item={{this.selectedItem}}
