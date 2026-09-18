@@ -336,6 +336,31 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             _assertErrorMatchesWithExpectedOne(errors, expectedError);
           }
         });
+
+        it('should reject with error when categoryId is an empty string', function () {
+          // given
+          const expectedError = {
+            attribute: 'categoryId',
+            message: "La catégorie n'est pas renseignée.",
+          };
+          const organizationCreationParams = {
+            name: 'ACME',
+            type: 'PRO',
+            administrationTeamId: 1234,
+            countryCode: 99998,
+            organizationLearnerType: { id: 1 },
+            categoryId: '',
+          };
+
+          try {
+            // when
+            organizationCreationValidator.validate(organizationCreationParams);
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
+        });
       });
 
       it('should reject with errors on all fields (but only once by field) when all fields are missing', function () {
