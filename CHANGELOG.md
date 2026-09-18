@@ -1,5 +1,27 @@
 # Pix Changelog
 
+# [5.503.0](https://github.com/1024pix/pix/compare/v5.502.0...v5.503.0) (2026-09-18)
+
+### :rocket: Amélioration
+
+- [#17522](https://github.com/1024pix/pix/pull/17522) Autoriser le rôle "METIER" à rattacher une organisation fille (PIX-23922) 
+
+### :bug: Correction
+
+- [#17540](https://github.com/1024pix/pix/pull/17540) Ne pas bloquer l'utilisateur si l'enregistrement d'une réponse échoue dans un module (PIX-24299)
+
+### :building_construction: Tech
+
+- [#17457](https://github.com/1024pix/pix/pull/17457) Revoir l'accessibilité du Timer sur les challenge (PIX-24108).
+- [#17541](https://github.com/1024pix/pix/pull/17541) Utilisation de l’égalité stricte pour hasRevokedPassword
+
+### :arrow_up: Montée de version
+
+- [#17530](https://github.com/1024pix/pix/pull/17530) Update dependency ember-simple-auth to ^8.3.1 (mon-pix)
+- [#17531](https://github.com/1024pix/pix/pull/17531) Update dependency ember-template-imports to ^4.4.0 (admin)
+- [#17534](https://github.com/1024pix/pix/pull/17534) Update dependency i18next-browser-languagedetector to ^8.2.1 (admin)
+- [#17537](https://github.com/1024pix/pix/pull/17537) Update dependency jsonwebtoken to ^9.0.3 (e2e-playwright)
+
 # [5.502.0](https://github.com/1024pix/pix/compare/v5.501.2...v5.502.0) (2026-09-17)
 
 ### :rocket: Amélioration
