@@ -224,7 +224,7 @@ import {
 import { buildUserLogin } from './identity-access-management/build-user-login.js';
 import { builders as learningContentBuilders } from './learning-content/index.js';
 import { buildLegalDocument } from './legal-documents/build-legal-document.js';
-import { buildLegalDocumentStatus } from './legal-documents/build-legal-document-status.js';
+import { buildLegalDocumentStatusDTO } from './legal-documents/build-legal-document-status-DTO.js';
 import { buildChat } from './llm/build-chat.js';
 import { buildConfiguration } from './llm/build-configuration.js';
 import { buildAssistantMessage, buildUserMessage } from './llm/build-message.js';
@@ -361,7 +361,7 @@ const learningContent = learningContentBuilders;
 
 const legalDocuments = {
   buildLegalDocument,
-  buildLegalDocumentStatus,
+  buildLegalDocumentStatusDTO,
 };
 
 const llm = {
