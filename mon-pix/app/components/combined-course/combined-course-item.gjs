@@ -158,7 +158,10 @@ function hasWhiteBackground(item) {
             {{/if}}
           </:duration>
           <:blockEnd>
-            {{#if @isNextItemToComplete}}
+            {{#if @actionLabel}}
+              {{! the whole row is already the link, so this is the affordance, not a control }}
+              <span class="combined-course-item__action">{{@actionLabel}}</span>
+            {{else if @isNextItemToComplete}}
               <PixTag @color="purple-light" class="combined-course-item__tag">{{t
                   "pages.combined-courses.items.tagText"
                 }}

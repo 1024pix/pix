@@ -68,6 +68,15 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
   }
 }
 
+export class NestedCombinedCourseItem extends CombinedCourseItem {
+  // the activities of the nested course, so the parent page can list them
+  childItems = [];
+
+  get type() {
+    return COMBINED_COURSE_ITEM_TYPES.COMBINED_COURSE;
+  }
+}
+
 export class ModuleCombinedCourseItem extends CombinedCourseItem {
   constructor({
     id,
