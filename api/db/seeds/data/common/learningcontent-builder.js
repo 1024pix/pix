@@ -96,7 +96,7 @@ function keepingPrototypeAndOneAlternativeBySkillAndLocale() {
     if (challenge.genealogy === 'Prototype 1') return true;
 
     const alternativeKey = `${challenge.skillId}:${challenge.locales[0]}`;
-    if (alternativesCountBySkillAndLocale.get(alternativeKey) ?? 0 >= 1) {
+    if ((alternativesCountBySkillAndLocale.get(alternativeKey) ?? 0) >= 1) {
       return false;
     }
     alternativesCountBySkillAndLocale.set(alternativeKey, alternativesCountBySkillAndLocale.get(alternativeKey) + 1);

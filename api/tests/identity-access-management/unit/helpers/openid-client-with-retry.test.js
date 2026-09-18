@@ -61,7 +61,7 @@ describe('Unit | Identity Access Management | Domain | Helper | openid-client-wi
         // when
         try {
           await openidClientWithRetry.discovery(someParams);
-          // eslint-disable-next-line no-unused-vars
+          // oxlint-disable-next-line no-unused-vars
         } catch (_) {
           // continue regardless of error
         }
@@ -119,7 +119,7 @@ describe('Unit | Identity Access Management | Domain | Helper | openid-client-wi
         // when
         try {
           await openidClientWithRetry.authorizationCodeGrant(someParams);
-          // eslint-disable-next-line no-unused-vars
+          // oxlint-disable-next-line no-unused-vars
         } catch (_) {
           // continue regardless of error
         }
@@ -177,7 +177,7 @@ describe('Unit | Identity Access Management | Domain | Helper | openid-client-wi
         // when
         try {
           await openidClientWithRetry.fetchUserInfo(someParams);
-          // eslint-disable-next-line no-unused-vars
+          // oxlint-disable-next-line no-unused-vars
         } catch (_) {
           // continue regardless of error
         }

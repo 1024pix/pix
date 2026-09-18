@@ -42,7 +42,7 @@ function _getLowestByLevel(complementaryCertificationCourseResults) {
   if (!complementaryCertificationCourseResults.every(({ acquired }) => acquired)) {
     return { acquired: false };
   }
-  // eslint-disable-next-line no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   const [lowestByLevel, ...tail] = complementaryCertificationCourseResults.sort((a, b) => {
     return a['level'] > b['level'] ? 1 : b['level'] > a['level'] ? -1 : 0;
   });

@@ -5,7 +5,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 export function serialize(juryCertificationSummary, meta, { translate }) {
   return new Serializer('jury-certification-summary', {
     transform(juryCertificationSummary) {
-      // eslint-disable-next-line no-unused-vars
+      // oxlint-disable-next-line no-unused-vars
       const { certificationIssueReports, ...result } = juryCertificationSummary;
       result.certificationObtained = juryCertificationSummary.getCertificationLabel(translate);
       result.examinerComment = extractExaminerComment(juryCertificationSummary);

@@ -15,7 +15,7 @@ function _getComplementaryCertificationsHeaders(habilitationLabels) {
 }
 
 function _getHeadersAsArray(complementaryCertificationsHeaders = [], shouldDisplayBillingModeColumns) {
-  // eslint-disable-next-line no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   const { billingMode, prepaymentCode, ...headersWithoutBillingMode } = headers;
   const certificationCenterCsvHeaders = shouldDisplayBillingModeColumns ? headers : headersWithoutBillingMode;
 

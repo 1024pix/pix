@@ -35,7 +35,7 @@ export class HistorizeAnswersCatchUpScript extends Script {
     const dateOfScriptExecutionEnding = new Date(endDate);
 
     for (
-      let currentDate = new Date(startDate);
+      const currentDate = new Date(startDate);
       currentDate <= dateOfScriptExecutionEnding;
       currentDate.setDate(currentDate.getDate() + 1)
     ) {
