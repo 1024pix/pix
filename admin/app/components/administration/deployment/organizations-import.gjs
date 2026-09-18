@@ -26,6 +26,15 @@ export default class OrganizationsImport extends Component {
         }),
       });
     } catch (errorResponse) {
+      const buildErrorMessageWithLocation = (errorLine, errorField, complementaryMessage) => {
+        const messages = [
+          `${this.intl.t('components.administration.organizations-import.notifications.errors.no-organization-created')}`,
+          `${this.intl.t('components.administration.organizations-import.notifications.errors.error-location', { errorLine, errorField: `"${errorField}"` })}`,
+          complementaryMessage,
+        ];
+
+        return htmlSafe(messages.join('<br>'));
+      };
       const errors = errorResponse.errors;
 
       if (!errors) {
@@ -37,30 +46,29 @@ export default class OrganizationsImport extends Component {
             this.pixToast.sendErrorNotification({ message: `${error.meta}` });
             break;
           case 'PARENT_ORGANIZATION_NOT_IN_NETWORK': {
-            const message = [
-              `${this.intl.t('components.administration.organizations-import.notifications.errors.no-organization-created')}`,
-              `${this.intl.t('components.administration.organizations-import.notifications.errors.error-location', { errorLine: error.meta.currentLine, errorField: '"parentOrganizationId"' })}`,
+            const message = buildErrorMessageWithLocation(
+              error.meta.currentLine,
+              'parentOrganizationId',
               this.intl.t(
                 'components.administration.organizations-import.notifications.errors.PARENT_ORGANIZATION_NOT_IN_NETWORK',
                 { parentOrganizationId: error.meta.parentOrganizationId },
               ),
-            ];
+            );
 
-            this.pixToast.sendErrorNotification({ message: htmlSafe(message.join('<br>')) });
+            this.pixToast.sendErrorNotification({ message });
             break;
           }
 
           case 'STRUCTURE_CATEGORY_NOT_FOUND': {
-            const message = [
-              `${this.intl.t('components.administration.organizations-import.notifications.errors.no-organization-created')}`,
-              `${this.intl.t('components.administration.organizations-import.notifications.errors.error-location', { errorLine: error.meta.currentLine, errorField: '"categoryId"' })}`,
+            const message = buildErrorMessageWithLocation(
+              error.meta.currentLine,
+              'categoryId',
               this.intl.t(
                 'components.administration.organizations-import.notifications.errors.STRUCTURE_CATEGORY_NOT_FOUND',
                 { structureCategoryId: error.meta.structureCategoryId },
               ),
-            ];
-
-            this.pixToast.sendErrorNotification({ message: htmlSafe(message.join('<br>')) });
+            );
+            this.pixToast.sendErrorNotification({ message });
             break;
           }
           default:
