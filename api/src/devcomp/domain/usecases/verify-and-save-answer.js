@@ -8,13 +8,18 @@ async function verifyAndSaveAnswer({
   passageRepository,
   elementRepository,
   elementAnswerRepository,
+  moduleRepository,
 }) {
   const passage = await _getPassage({ passageId, passageRepository });
   if (passage.terminatedAt) {
     throw new PassageTerminatedError();
   }
 
-  const element = await elementRepository.getByIdForAnswerVerification({ moduleId: passage.moduleId, elementId });
+  const element = await elementRepository.getByIdForAnswerVerification({
+    moduleId: passage.moduleId,
+    elementId,
+    moduleRepository,
+  });
 
   element.setUserResponse(userResponse);
 
