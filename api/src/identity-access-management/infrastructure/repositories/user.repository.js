@@ -370,7 +370,8 @@ function _setSearchFiltersForQueryBuilder(filter, qb, queryType) {
 
 function _applyQueryType(field, value, qb, queryType) {
   if (queryType === QUERY_TYPES.EXACT_QUERY) {
-    qb.where(field, value);
+    // eslint-disable-next-line knex/avoid-injections
+    qb.whereRaw(`LOWER("${field}") = ?`, value.toLowerCase());
   } else {
     qb.whereILike(field, `%${value}%`);
   }
