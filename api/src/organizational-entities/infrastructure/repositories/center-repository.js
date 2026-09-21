@@ -55,6 +55,7 @@ export async function getById({ id }) {
   let matchingOrganization = null;
   if (center.type === CERTIFICATION_CENTER_TYPES.SCO) {
     const organizationDB = await knexConn('organizations')
+      .select(['id', 'externalId', 'type', 'isManagingStudents'])
       .where({ type: Organization.types.SCO })
       .whereRaw('LOWER("externalId") = ?', center.externalId?.toLowerCase() ?? '')
       .first();
