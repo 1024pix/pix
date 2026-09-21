@@ -7,10 +7,6 @@ class CertificationCpfCountry {
     this.matcher = matcher;
   }
 
-  isFrance() {
-    return this.code === '99100';
-  }
-
   isForeign() {
     return this.code !== '99100';
   }
