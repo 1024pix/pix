@@ -171,7 +171,7 @@ export default class ModulixIssueReportModal extends Component {
                   required
                   aria-required="true"
                   placeholder={{t "pages.modulix.issue-report.modal.textarea-placeholder"}}
-                  {{on "input" this.onChangeComment}}
+                  {{on "change" this.onChangeComment}}
                 >
                   <:label>{{t "pages.modulix.issue-report.modal.textarea-label"}}</:label>
                 </PixTextarea>
