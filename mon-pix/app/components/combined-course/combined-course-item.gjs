@@ -24,15 +24,18 @@ const Content = <template>
         {{/if}}
       </div>
       <div class="combined-course-item__text">
-        <div class="combined-course-item__title">{{@title}}</div>
-        {{#if @displayDuration}}
-          <div class="combined-course-item__description">
-            <span>{{yield to="description"}}</span>
+        <div class="combined-course-item__title">{{@title}}
+        </div>
+
+        <div class="combined-course-item__description">
+          <span>{{yield to="description"}}</span>
+
+          {{#if @displayDuration}}
             <span class="combined-course-item__duration">
               {{yield to="duration"}}
             </span>
-          </div>
-        {{/if}}
+          {{/if}}
+        </div>
       </div>
     </div>
 
@@ -112,7 +115,7 @@ function hasWhiteBackground(item) {
       @isLocked={{true}}
       @iconUrl={{@item.iconUrl}}
       class="combined-course-item--formation"
-      @displayDuration={{true}}
+      @displayDuration={{false}}
     >
       <:description>
         <p>{{t "pages.combined-courses.items.formation.description"}}</p>
@@ -124,7 +127,7 @@ function hasWhiteBackground(item) {
         @title={{@item.title}}
         @isLocked={{true}}
         @iconUrl={{@item.iconUrl}}
-        @displayDuration={{eq @item.type "MODULE"}}
+        @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
       >
         <:duration>
           {{#if @item.duration}}<Duration @item={{@item}} />{{/if}}
@@ -146,10 +149,10 @@ function hasWhiteBackground(item) {
           @validatedStagesCount={{@item.validatedStages}}
           @totalStagesCount={{@item.totalStages}}
           @iconUrl={{@item.iconUrl}}
-          @isCampaignType={{eq @item.type "CAMPAIGN"}}
-          @displayDuration={{eq @item.type "MODULE"}}
+          @isCampaignType={{eq @item.type CombinedCourseItemTypes.CAMPAIGN}}
+          @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
           @hasWhiteBackground={{hasWhiteBackground @item}}
-          @hasYellowBorder={{and (eq @item.type "MODULE") @isCombinedCourseCompleted}}
+          @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
           @isCurrentItem={{@isNextItemToComplete}}
         >
           <:duration>

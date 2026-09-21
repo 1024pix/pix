@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
+import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -18,7 +19,7 @@ module('Integration | Component | combined course item', function (hooks) {
         id: 1,
         title: 'mon module',
         reference: 'mon-module',
-        type: 'MODULE',
+        type: CombinedCourseItemTypes.MODULE,
         isLocked: false,
         duration: 10,
       });
@@ -163,7 +164,7 @@ module('Integration | Component | combined course item', function (hooks) {
         id: 1,
         title: 'ma campagne',
         reference: 'ma-campagne',
-        type: 'CAMPAIGN',
+        type: CombinedCourseItemTypes.CAMPAIGN,
         isLocked: false,
         isCompleted: true,
         masteryRate: 0.15,
