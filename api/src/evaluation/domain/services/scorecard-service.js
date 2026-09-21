@@ -172,14 +172,19 @@ async function _resetCampaignAssessment({
   if (!campaignParticipation || campaignParticipation.isShared || resetSkillsNotIncludedInCampaign) {
     return null;
   }
+  // 1. on récupère la campaign à partir de la participation
   const campaign = await campaignRepository.get(campaignParticipation.campaignId);
+  // 2. on créé un nouvel assessment, lié à la campaign via le campaignParticipationId
   const newAssessment = Assessment.createForCampaign({
     userId: assessment.userId,
     campaignParticipationId: assessment.campaignParticipationId,
     campaign,
   });
 
+  // 3. on met à jour l'assessment actuel (ce qui récupère depuis la DB la campagne associée)
   await assessmentRepository.abortByAssessmentId(assessment.id);
+  // 4. on insère le nouvel assessment dans la DB, ce qui omet la propriété "campaign" du modèle...
+  // *mais* refait un SELECT pour retourner la campaigne associée
   return await assessmentRepository.save({ assessment: newAssessment });
 }
 
