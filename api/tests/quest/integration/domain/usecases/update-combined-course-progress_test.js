@@ -25,6 +25,20 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
     it('should synchronize and update combined course if it is completed', async function () {
       const code = 'SOMETHING';
       const moduleId = '6282925d-4775-4bca-b513-4c3009ec5886';
+      databaseBuilder.factory.learningContent.buildModule({
+        id: moduleId,
+        shortId: '6a68bf32',
+        slug: 'bac-a-sable',
+        title: 'Bac à sable',
+        details: {
+          image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          description: 'Un module de test',
+          duration: 5,
+          level: 'novice',
+          objectives: ['Découvrir le bac à sable'],
+          tabletSupport: 'comfortable',
+        },
+      });
       const { id: organizationLearnerId, userId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
       const trainingId = databaseBuilder.factory.buildTraining({ type: 'modulix', link: '/modules/bac-a-sable' }).id;
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -88,6 +102,20 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
       it('should reward the user', async function () {
         const code = 'SOMETHING';
         const moduleId = '6282925d-4775-4bca-b513-4c3009ec5886';
+        databaseBuilder.factory.learningContent.buildModule({
+          id: moduleId,
+          shortId: '6a68bf32',
+          slug: 'bac-a-sable',
+          title: 'Bac à sable',
+          details: {
+            image: 'https://assets.pix.org/modules/placeholder-details.svg',
+            description: 'Un module de test',
+            duration: 5,
+            level: 'novice',
+            objectives: ['Découvrir le bac à sable'],
+            tabletSupport: 'comfortable',
+          },
+        });
         const {
           id: organizationLearnerId,
           userId,
@@ -233,6 +261,48 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
     const moduleId = '6282925d-4775-4bca-b513-4c3009ec5886';
     const module2Id = '9beb922f-4d8e-495d-9c85-0e7265ca78d6';
     const module3Id = 'd4c4a2b2-0046-471d-ad9c-15f9cfc8f1f6';
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId,
+      shortId: '6a68bf32',
+      slug: 'bac-a-sable',
+      title: 'Bac à sable',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 5,
+        level: 'novice',
+        objectives: ['Découvrir le bac à sable'],
+        tabletSupport: 'comfortable',
+      },
+    });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: module2Id,
+      shortId: 'e074af34',
+      slug: 'au-dela-des-mots-de-passe',
+      title: 'Au-delà des mots de passe : comment s’authentifier ?',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module sur les mots de passe',
+        duration: 5,
+        level: 'novice',
+        objectives: ["S'authentifier sans mot de passe"],
+        tabletSupport: 'comfortable',
+      },
+    });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: module3Id,
+      shortId: '7762efcb',
+      slug: 'comment-envoyer-un-mail',
+      title: 'Comment envoyer un mail ? ',
+      details: {
+        image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
+        description: 'Un module de test',
+        duration: 10,
+        level: 'novice',
+        objectives: ['Écrire et envoyer un mail'],
+        tabletSupport: 'comfortable',
+      },
+    });
 
     const { id: organizationLearnerId, userId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
     const trainingId = databaseBuilder.factory.buildTraining({ type: 'modulix', link: '/modules/bac-a-sable' }).id;

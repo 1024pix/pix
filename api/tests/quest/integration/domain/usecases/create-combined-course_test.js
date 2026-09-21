@@ -13,6 +13,34 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     // given
     const moduleId1 = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
     const moduleId2 = 'f32a2238-4f65-4698-b486-15d51935d335';
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId1,
+      shortId: '27d6ca4f',
+      slug: 'demo-combinix-1',
+      title: 'Demo combinix 1',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné'],
+        tabletSupport: 'comfortable',
+      },
+    });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId2,
+      shortId: 'df82ec66',
+      slug: 'demo-combinix-2',
+      title: 'Demo combinix 2',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné 2'],
+        tabletSupport: 'comfortable',
+      },
+    });
     const userId = databaseBuilder.factory.buildUser().id;
     const organizationId = databaseBuilder.factory.buildOrganization().id;
 
@@ -106,6 +134,34 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     // given
     const moduleId1 = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
     const moduleId2 = 'f32a2238-4f65-4698-b486-15d51935d335';
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId1,
+      shortId: '27d6ca4f',
+      slug: 'demo-combinix-1',
+      title: 'Demo combinix 1',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné'],
+        tabletSupport: 'comfortable',
+      },
+    });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId2,
+      shortId: 'df82ec66',
+      slug: 'demo-combinix-2',
+      title: 'Demo combinix 2',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné 2'],
+        tabletSupport: 'comfortable',
+      },
+    });
     const userId = databaseBuilder.factory.buildUser().id;
     const organizationId = databaseBuilder.factory.buildOrganization().id;
 
@@ -239,6 +295,34 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     // given
     const moduleId1 = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
     const moduleId2 = 'f32a2238-4f65-4698-b486-15d51935d335';
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId1,
+      shortId: '27d6ca4f',
+      slug: 'demo-combinix-1',
+      title: 'Demo combinix 1',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné'],
+        tabletSupport: 'comfortable',
+      },
+    });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId2,
+      shortId: 'df82ec66',
+      slug: 'demo-combinix-2',
+      title: 'Demo combinix 2',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné 2'],
+        tabletSupport: 'comfortable',
+      },
+    });
     const userId = databaseBuilder.factory.buildUser().id;
     const organizationId = databaseBuilder.factory.buildOrganization().id;
     const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;

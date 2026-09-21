@@ -44,6 +44,20 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-blueprin
       id: 1,
       questId: quest.id,
     });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: '9beb922f-4d8e-495d-9c85-0e7265ca78d6',
+      shortId: 'e074af34',
+      slug: 'au-dela-des-mots-de-passe',
+      title: 'Au-delà des mots de passe : comment s’authentifier ?',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module sur les mots de passe',
+        duration: 5,
+        level: 'novice',
+        objectives: ["S'authentifier sans mot de passe"],
+        tabletSupport: 'comfortable',
+      },
+    });
     await databaseBuilder.commit();
 
     //when
