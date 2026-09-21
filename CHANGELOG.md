@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## [5.503.1](https://github.com/1024pix/pix/compare/v5.503.0...v5.503.1) (2026-09-21)
+
+### :bug: Correction
+
+- [#17542](https://github.com/1024pix/pix/pull/17542) Répare l'affichage de la durée et de la description du bloc formation d'un parcours combiné
+
+### :building_construction: Tech
+
+- [#17544](https://github.com/1024pix/pix/pull/17544) Upgrade d'un test de membership-repository
+
 # [5.503.0](https://github.com/1024pix/pix/compare/v5.502.0...v5.503.0) (2026-09-18)
 
 ### :rocket: Amélioration
