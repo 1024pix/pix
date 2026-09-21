@@ -1,3 +1,7 @@
+import CertificateGenerator from './certification/certificate-generator';
 import ScoringSimulator from './certification/scoring-simulator';
 
-<template><ScoringSimulator /></template>
+<template>
+  <ScoringSimulator />
+  <CertificateGenerator />
+</template>
