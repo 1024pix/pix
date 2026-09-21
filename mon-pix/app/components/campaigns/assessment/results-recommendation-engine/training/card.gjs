@@ -1,4 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import { concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
@@ -18,8 +19,10 @@ export default class Card extends Component {
 
   @tracked modalIsOpen = false;
 
-  titleId = `results-recommendation-engine-training-card-content-title-${guidFor(this)}`;
+  detailsId = `results-recommendation-engine-training-card-content-details-${guidFor(this)}`;
   registrationCardTagId = `results-recommendation-engine-training-card-content-registration-card-tag-${guidFor(this)}`;
+  sectionId = `results-recommendation-engine-training-card-section-${guidFor(this)}`;
+  titleId = `results-recommendation-engine-training-card-content-title-${guidFor(this)}`;
 
   get deliveryMode() {
     const deliveryMode = this.args.training.deliveryMode === 'onSite' ? 'on-site' : this.args.training.deliveryMode;
@@ -110,19 +113,32 @@ export default class Card extends Component {
             alt=""
           />
         </div>
-        <RegistrationCardTag
-          id={{this.registrationCardTagId}}
-          @registrationRequired={{@training.registrationRequired}}
-        />
-        <section class="results-recommendation-engine-training-card-content">
+        <section
+          class="results-recommendation-engine-training-card-content"
+          id={{this.sectionId}}
+          aria-labelledby={{this.titleId}}
+          aria-describedby={{concat this.detailsId " " this.registrationCardTagId}}
+        >
           <h4
             id={{this.titleId}}
             class="results-recommendation-engine-training-card-content__title"
           >{{@training.title}}</h4>
-          <ul class="results-recommendation-engine-training-card-content__details"><li>{{this.type}}</li>
-            <li>{{this.deliveryMode}}</li>
+          <RegistrationCardTag
+            id={{this.registrationCardTagId}}
+            class="results-recommendation-engine-training-card-content__registration-card-tag"
+            @registrationRequired={{@training.registrationRequired}}
+          />
+          <ul id={{this.detailsId}} class="results-recommendation-engine-training-card-content__details">
+            <li>{{this.type}}</li>
+            <li><span
+                aria-hidden="true"
+                class="results-recommendation-engine-training-card-content__details--separator"
+              >•</span>{{this.deliveryMode}}</li>
             {{#if @training.hasDuration}}
-              <li aria-label={{this.formattedExtendedDuration}}>{{this.formattedDuration}}</li>
+              <li aria-label={{this.formattedExtendedDuration}}><span
+                  aria-hidden="true"
+                  class="results-recommendation-engine-training-card-content__details--separator"
+                >•</span>{{this.formattedDuration}}</li>
             {{/if}}
           </ul>
         </section>
@@ -130,7 +146,7 @@ export default class Card extends Component {
           class="results-recommendation-engine-training-card__button"
           type="button"
           aria-label={{t "pages.skill-review.recommended-engine.training-card.aria-label"}}
-          aria-describedby={{this.titleId}}
+          aria-describedby={{this.sectionId}}
           disabled={{@disabled}}
           {{on "click" this.showModal}}
         ></button>

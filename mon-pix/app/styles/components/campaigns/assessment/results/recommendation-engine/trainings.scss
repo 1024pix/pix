@@ -143,6 +143,7 @@
     @extend %pix-title-xxs;
 
     display: -webkit-box;
+    order: 2;
     min-height: 3.1rem;
     overflow: hidden;
     text-align: start;
@@ -151,18 +152,22 @@
     -webkit-line-clamp: 2;
   }
 
+  &__registration-card-tag {
+    order: 1;
+  }
+
   &__details {
     @extend %pix-body-xs;
 
     display: flex;
+    order: 3;
     color: var(--pix-neutral-500);
-  }
 
-  ul li:not(:first-child)::before {
-    margin: 0 var(--pix-spacing-1x);
-    content: '\2022';
-  }
+    &--separator {
+      margin: 0 var(--pix-spacing-1x);
 
+    }
+  }
 }
 
 .results-recommendation-engine-training-card-modal {
