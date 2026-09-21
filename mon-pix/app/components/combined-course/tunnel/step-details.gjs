@@ -6,6 +6,7 @@ import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item.js'
 
 import Duration from '../duration';
 import Level from '../level';
+import { fn } from "@ember/helper";
 
 <template>
   <div class="step-details__main">
@@ -43,7 +44,7 @@ import Level from '../level';
     {{/if}}
   </div>
 
-  <PixButton class="step-details__cta" @triggerAction={{@onClick}}>
+  <PixButton class="step-details__cta" @triggerAction={{fn @onClick @item}}>
     {{#if (eq @item.type CombinedCourseItemTypes.CAMPAIGN)}}
       {{t "pages.combined-courses.items.start-campaign"}}
     {{else}}

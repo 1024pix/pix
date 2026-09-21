@@ -1,7 +1,6 @@
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
@@ -15,7 +14,9 @@ const Content = <template>
       {{if @hasYellowBorder 'combined-course-item--yellow-border'}}
       {{if @hasWhiteBackground 'combined-course-item--white'}}
       {{if @isCurrentItem 'combined-course-item--current'}}
-      {{if @isCampaignType 'combined-course-item--isCampaignType'}}"
+      {{if @isCampaignType 'combined-course-item--isCampaignType'}}
+    "
+    aria-details={{if @isCurrentItem 'step-details'}}
     ...attributes
   >
     <div class="combined-course-item__content">

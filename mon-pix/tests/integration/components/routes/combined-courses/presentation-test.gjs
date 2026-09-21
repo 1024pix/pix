@@ -615,5 +615,4 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       assert.ok(screen.getByText(reward.label, { exact: false }));
     });
   });
-
 });

@@ -16,6 +16,9 @@ export default class CombinedCourseItemsList extends Component {
 
   @action
   isSelectedItem(item) {
+    if (this.args.selectedItem) {
+      return this.args.selectedItem === item;
+    }
     return this.args.combinedCourse.nextCombinedCourseItem === item;
   }
 

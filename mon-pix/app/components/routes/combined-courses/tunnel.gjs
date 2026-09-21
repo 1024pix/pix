@@ -26,8 +26,7 @@ export default class CombinedCourseTunnel extends Component {
   @tracked selectedItem;
 
   @action
-  goToNextItem() {
-    const item = this.args.combinedCourse.nextCombinedCourseItem;
+  goToItem(item) {
     this.router.transitionTo(item.route, ...item.models, {
       queryParams: { redirection: item.redirection },
     });
@@ -46,7 +45,6 @@ export default class CombinedCourseTunnel extends Component {
 
   @action
   setSelectedItem(item) {
-    console.log('item', item);
     this.selectedItem = item;
   }
 
@@ -58,13 +56,13 @@ export default class CombinedCourseTunnel extends Component {
         </PixButtonLink>
       </nav>
       <article class="combined-course__content combined-course__content--tunnel">
-        <CombinedCourseItemsList @combinedCourse={{@combinedCourse}} @onClick={{this.setSelectedItem}} />
+        <CombinedCourseItemsList @combinedCourse={{@combinedCourse}} @onClick={{this.setSelectedItem}} @selectedItem={{this.selectedItem}} />
       </article>
-      <aside class="step-details">
+      <aside class="step-details" id="step-details">
         <StepDetails
           @item={{this.selectedItem}}
           @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem this.selectedItem}}
-          @onClick={{this.goToNextItem}}
+          @onClick={{this.goToItem}}
         />
       </aside>
     </main>

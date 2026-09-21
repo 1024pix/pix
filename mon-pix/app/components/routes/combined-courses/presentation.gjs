@@ -139,7 +139,6 @@ export default class CombinedCoursePresentation extends Component {
             @combinedCourse={{@combinedCourse}}
             @displayNextItemTag={{true}}
             @onClick={{this.goToItem}}
-            {{!-- @onClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}} --}}
           />
         </article>
       </article>
