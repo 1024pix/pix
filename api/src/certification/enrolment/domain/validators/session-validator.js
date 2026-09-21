@@ -4,9 +4,9 @@ import BaseJoi from 'joi';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { types } from '../../../../shared/domain/models/CertificationCenter.js';
 import { identifiersType } from '../../../../shared/domain/types/identifiers-type.js';
-import { SESSION_STATUSES } from '../constants.js';
-import { CERTIFICATION_SESSIONS_ERRORS } from '../constants/sessions-errors.js';
-import { AlgorithmEngineVersion } from '../models/AlgorithmEngineVersion.js';
+import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
+import { CERTIFICATION_SESSIONS_ERRORS } from '../../../shared/domain/constants/sessions-errors.js';
+import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
