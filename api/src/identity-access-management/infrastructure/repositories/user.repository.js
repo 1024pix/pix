@@ -356,7 +356,7 @@ function _toDomainFromDTO({ userDTO, authenticationMethodsDTO = [] }) {
 
 function _setSearchFiltersForQueryBuilder(filter, qb, queryType) {
   const id = filter.id;
-  const fields = ['email', 'firstName', 'lastName', 'email', 'username'];
+  const fields = ['email', 'firstName', 'lastName', 'username'];
   if (id) {
     qb.where({ id });
   }
