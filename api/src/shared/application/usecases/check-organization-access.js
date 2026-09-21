@@ -1,6 +1,6 @@
 import { getAllFeaturesFromOrganization } from '../../../organizational-entities/application/api/organization-features-api.js';
+import { usecases as prescriptionUsecases } from '../../../organizational-entities/domain/organization-places/usecases/index.js';
 import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
-import { usecases as prescriptionUsecases } from '../../../prescription/organization-place/domain/usecases/index.js';
 import { ORGANIZATION_FEATURE } from '../../constants.js';
 import { ForbiddenAccess } from '../../domain/errors.js';
 

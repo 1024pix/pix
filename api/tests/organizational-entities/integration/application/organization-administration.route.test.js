@@ -16,8 +16,8 @@ describe('Integration | Organizational Entities | Application | Route | Organiza
     beforeEach(async function () {
       sinon.stub(organizationAdminController, 'updateOrganizationInformation').returns('ok');
       httpTestServer = new HttpTestServer();
-      await httpTestServer.register(organizationalEntitiesRoutes);
       httpTestServer.setupAuthentication();
+      await httpTestServer.register(organizationalEntitiesRoutes);
     });
 
     it('return a 401 status code when trying to call route unauthenticated', async function () {

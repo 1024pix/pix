@@ -1,5 +1,12 @@
 {
   "name": "organizational-entities",
-  "dependsOn": ["prescription/campaign", "prescription/learner-management", "school", "shared", "team"],
+  "dependsOn": [
+    "prescription/campaign",
+    "prescription/learner-management",
+    "prescription/organization-learner",
+    "school",
+    "shared",
+    "team"
+  ],
   "circular": "temporary-allowed"
 }

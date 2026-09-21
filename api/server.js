@@ -31,7 +31,6 @@ import { campaignParticipationsRoutes } from './src/prescription/campaign-partic
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
 import { organizationLearnerRoutes } from './src/prescription/organization-learner/routes.js';
 import { organizationLearnerFeatureRoutes } from './src/prescription/organization-learner-feature/routes.js';
-import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { stagesModuleRoutes } from './src/prescription/stages/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
 import { privacyRoutes } from './src/privacy/application/routes.js';
@@ -65,7 +64,6 @@ const prescriptionRoutes = [
   organizationLearnerFeatureRoutes,
   targetProfileRoutes,
   campaignRoutes,
-  organizationPlaceRoutes,
   campaignParticipationsRoutes,
 ].flat();
 

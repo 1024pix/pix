@@ -1,4 +1,4 @@
-import { OrganizationPlacesLotForManagement } from '../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLotForManagement.js';
+import { OrganizationPlacesLotForManagement } from '../../../../src/organizational-entities/domain/organization-places/models/OrganizationPlacesLotForManagement.js';
 
 function buildOrganizationPlacesLot({
   id = 1,
