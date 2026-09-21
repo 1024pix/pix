@@ -191,14 +191,15 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
       availableCombinedCourseBlueprints = server.createList('course', 2, { type: 'blueprint' });
       availableCombinedCourseBlueprints.forEach((course) => {
-        server.create('combined-course-blueprint-overview', { id: course.id, name: course.name });
-        server.create('combined-course-blueprint', { id: course.id, name: course.name });
+        server.create('combined-course-blueprint-overview', { id: course.sourceId, name: course.name });
+        server.create('combined-course-blueprint', { id: course.sourceId, name: course.name });
       });
-
-      availableTargetProfiles = server.createList('course', 2, { type: 'targetProfile' });
+      availableTargetProfiles = server.createList('course', 2, {
+        type: 'targetProfile',
+      });
       availableTargetProfiles.forEach((course) => {
-        server.create('target-profile-overview', { id: course.id, name: course.name });
-        server.create('target-profile', { id: course.id, name: course.name });
+        server.create('target-profile-overview', { id: course.sourceId, name: course.name });
+        server.create('target-profile', { id: course.sourceId, name: course.name });
       });
     });
 
@@ -229,16 +230,14 @@ module('Acceptance | Campaign Creation', function (hooks) {
           name: t('pages.campaign-creation.course-selection-label'),
         }),
       );
-
       await click(
         screen.getByRole('link', {
           name: t('pages.catalogue.modal.open-modal', { name: expectedCombinedCourseBlueprintName }),
         }),
       );
-
       const dialog = await screen.findAllByRole('dialog');
-      await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
+      await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
       await fillByLabel('Nom de la campagne *', 'Mon parcours combiné');
 
       // when
@@ -274,7 +273,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
       test('it should allow to create a campaign of type ASSESSMENT and redirect to the newly created campaign', async function (assert) {
         // given
-        const expectedTargetProfileId = availableTargetProfiles[1].id;
+        const expectedTargetProfileId = availableTargetProfiles[1].sourceId;
         const expectedTargetProfileName = availableTargetProfiles[1].name;
 
         const screen = await visit('/campagnes/creation');
@@ -309,7 +308,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         // then
         const firstCampaign = server.db.campaigns[0];
         assert.strictEqual(firstCampaign.name, 'Ma Campagne');
-        assert.strictEqual(firstCampaign.targetProfileId, expectedTargetProfileId);
+        assert.strictEqual(firstCampaign.targetProfileId.toString(), expectedTargetProfileId);
         assert.strictEqual(currentURL(), '/campagnes/1/parametres');
       });
 
@@ -403,6 +402,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         // given
         const screen = await visit('/campagnes/creation');
 
+        const expectedTargetProfileId = availableTargetProfiles[1].id;
         const expectedTargetProfileName = availableTargetProfiles[1].name;
         server.post('/campaigns', {}, 500);
 
@@ -432,7 +432,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         await clickByName('Créer la campagne');
 
         // then
-        assert.strictEqual(currentURL(), '/campagnes/creation?courseId=4');
+        assert.strictEqual(currentURL(), `/campagnes/creation?courseId=${expectedTargetProfileId}`);
         assert.ok(screen.getByText('Une erreur est survenue. Veuillez réessayer ultérieurement.'));
       });
     });

@@ -23,7 +23,8 @@ module('Acceptance | Catalogue page', function (hooks) {
     server.create('feature-toggle', { id: '0', displayCatalogue: true });
     area1 = server.create('area', { id: 'area1', code: '1', title: 'Area 1', competenceIds: [] });
     course1 = server.create('course', {
-      id: 1,
+      id: 'targetProfile-1',
+      sourceId: '1',
       name: 'Ma super formation',
       type: 'targetProfile',
       nbTubes: 5,
@@ -36,7 +37,13 @@ module('Acceptance | Catalogue page', function (hooks) {
       isSimplifiedAccess: false,
       category: 'PREDEFINED',
     });
-    course2 = server.create('course', { id: 2, name: 'Mon parcours combiné', type: 'blueprint', nbModules: 2 });
+    course2 = server.create('course', {
+      id: 'blueprint-2',
+      sourceId: '2',
+      name: 'Mon parcours combiné',
+      type: 'blueprint',
+      nbModules: 2,
+    });
     server.create('combined-course-blueprint-overview', {
       id: 2,
       name: 'Mon parcours combiné',

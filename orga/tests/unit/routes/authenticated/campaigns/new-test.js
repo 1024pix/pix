@@ -546,7 +546,7 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
               type: Symbol('campaign type'),
               title: Symbol('campaign title'),
               description: Symbol('campaign description'),
-              targetProfileId: Symbol('campaign target profile id'),
+              targetProfileId: 'targetProfileId', // Symbol('campaign target profile id'),
               ownerId: Symbol('campaign owner id'),
               multipleSendings: Symbol('campaign multiple sendings activation'),
               externalIdLabel: Symbol('campaign external id'),
@@ -562,6 +562,7 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
             };
 
             const duplicatedCampaignRecord = EmberObject.create({
+              ...sourceCampaign,
               setType(type) {
                 this.type = type;
               },
@@ -575,7 +576,8 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
             const peekRecordStub = sinon.stub();
 
             const courseRecord = {
-              id: sourceCampaign.targetProfileId,
+              id: Symbol('course-id'),
+              sourceId: sourceCampaign.targetProfileId,
               type: 'targetProfile',
             };
 
@@ -639,7 +641,7 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
               organization,
             };
 
-            const duplicatedCampaignRecord = Symbol('duplicated campaign record');
+            const duplicatedCampaignRecord = {};
 
             const findAllStub = sinon.stub();
             const findRecordStub = sinon.stub();
@@ -719,7 +721,8 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
             const peekRecordStub = sinon.stub();
 
             const courseRecord = {
-              id: sourceCampaign.targetProfileId,
+              id: Symbol('courseId'),
+              sourceId: sourceCampaign.targetProfileId,
               type: 'targetProfile',
             };
 
@@ -770,7 +773,7 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
             ownerId: prescriber.id,
           };
 
-          const createdCampaignRecord = Symbol('created campaign record');
+          const createdCampaignRecord = {};
 
           const findAllStub = sinon.stub();
           const findRecordStub = sinon.stub();

@@ -69,7 +69,7 @@ export default class CourseCard extends Component {
           <LinkTo
             @route="authenticated.catalogue.list"
             @model={{@type}}
-            @query={{hash targetProfileId=@course.id}}
+            @query={{hash targetProfileId=@course.sourceId}}
             {{on "click" @selectCourse}}
             title={{@course.name}}
             aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
@@ -78,7 +78,7 @@ export default class CourseCard extends Component {
           <LinkTo
             @route="authenticated.catalogue.list"
             @model={{@type}}
-            @query={{hash blueprintId=@course.id}}
+            @query={{hash blueprintId=@course.sourceId}}
             {{on "click" @selectCourse}}
             title={{@course.name}}
             aria-label={{t "pages.catalogue.modal.open-modal" name=@course.name}}
