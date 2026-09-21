@@ -102,7 +102,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
 
         const participants = [];
         participants.meta = {
-          headingCustomColumns: ['awesome.column'],
+          headingCustomColumns: [{ name: 'awesome.column' }],
         };
         // when
         const screen = await render(
@@ -129,7 +129,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
 
         const participants = [];
         participants.meta = {
-          headingCustomColumns: ['awesome.column'],
+          headingCustomColumns: [{ name: 'awesome.column' }],
         };
 
         // when
@@ -236,7 +236,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
         ];
 
         participants.meta = {
-          headingCustomColumns: ['awesome.column'],
+          headingCustomColumns: [{ name: 'awesome.column' }],
         };
 
         // when
@@ -274,7 +274,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
         ];
 
         participants.meta = {
-          headingCustomColumns: ['awesome.column'],
+          headingCustomColumns: [{ name: 'awesome.column' }],
         };
 
         // when
@@ -422,7 +422,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
           this.owner.register('service:current-user', CurrentUserStub);
           participants.meta = {
             customFilters: ['COMMON_DIVISION'],
-            headingCustomColumns: [],
+            headingCustomColumns: [{ name: 'COMMON_DIVISION' }],
           };
         });
 

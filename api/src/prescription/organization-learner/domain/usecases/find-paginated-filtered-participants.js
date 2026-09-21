@@ -55,7 +55,7 @@ async function _addOralizationInformations({
   organizationParticipants,
   organizationLearnerFeatureRepository,
 }) {
-  meta.headingCustomColumns.push('ORALIZATION');
+  meta.headingCustomColumns.push({ name: 'ORALIZATION' });
   return {
     meta,
     organizationParticipants: await _addOralizationInformationToParticipants({

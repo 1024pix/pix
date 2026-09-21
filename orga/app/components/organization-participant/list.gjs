@@ -47,15 +47,15 @@ export default class List extends Component {
   @service locale;
 
   @action
-  getExtraColumnRowValue(extraColumnName, participant) {
-    const extraColumnValue = participant.extraColumns[extraColumnName];
+  getExtraColumnRowValue(extraColumn, participant) {
+    const extraColumnValue = participant.extraColumns[extraColumn.name];
 
-    if (extraColumnName === 'ORALIZATION') {
+    if (extraColumn.name === 'ORALIZATION') {
       return this.intl.t(`pages.organization-participants.table.row-value.oralization.${extraColumnValue}`);
     }
     if (!extraColumnValue) return '';
 
-    if (!isNaN(new Date(extraColumnValue).getTime())) {
+    if (extraColumn.format === 'date') {
       return this.intl.formatDate(extraColumnValue);
     }
 
@@ -246,7 +246,7 @@ export default class List extends Component {
             </PixTableColumn>
 
             {{#each this.customColumns as |heading|}}
-              {{#if (eq heading "COMMON_DIVISION")}}
+              {{#if (eq heading.name "COMMON_DIVISION")}}
                 <PixTableColumn
                   @context={{context}}
                   @onSort={{fn this.addResetOnFunction @sortByDivision reset}}
@@ -258,7 +258,7 @@ export default class List extends Component {
                   @ariaLabelSortDesc={{t "pages.organization-participants.table.column.division.ariaLabelSortDown"}}
                 >
                   <:header>
-                    {{t (getColumnName heading)}}
+                    {{t (getColumnName heading.name)}}
                   </:header>
                   <:cell>
                     {{this.getExtraColumnRowValue heading participant}}
@@ -268,7 +268,7 @@ export default class List extends Component {
                 <PixTableColumn @context={{context}}>
                   <:header>
                     <div class="organization-participant__align-element">
-                      {{t (getColumnName heading)}}
+                      {{t (getColumnName heading.name)}}
                       {{#if (eq heading "ORALIZATION")}}
                         <PixTooltip @id="organization-participants-oralization-tooltip" @isWide="true">
                           <:triggerElement>
