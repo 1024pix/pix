@@ -11,6 +11,8 @@
 
   &__header {
     display: flex;
+    flex-wrap: wrap;
+    gap: var(--pix-spacing-1x);
     align-items: center;
     justify-content: space-between;
     margin-top: var(--pix-spacing-10x);
@@ -28,31 +30,16 @@
   }
 
   &__navigation {
-    display: none;
-
-    @include breakpoints.device-is('desktop') {
-      display: flex;
-      gap: var(--pix-spacing-2x);
-    }
+    display: flex;
+    gap: var(--pix-spacing-2x);
   }
 
   &__list {
     display: flex;
     margin-top: var(--pix-spacing-4x);
+    overflow-x: hidden;
     overflow-y: hidden;
 
-    &--hidden {
-      @include breakpoints.device-is('desktop') {
-        overflow-x: hidden;
-      }
-    }
-
-    // Width is set inline by the component at desktop breakpoints (see
-    // updateSpacerWidth in trainings.gjs), which reserves enough trailing
-    // space so an incomplete last page can still reach the left edge
-    // instead of being clamped back to a scroll position that re-reveals a
-    // previous card. This default only applies below the desktop breakpoint,
-    // where scrolling is native (no navigation buttons, no inline style).
     &-spacer {
       flex-shrink: 0;
       width: 1px;
@@ -61,7 +48,12 @@
 }
 
 .results-recommendation-engine-training-list {
+
   &__item {
+    &--disabled {
+      pointer-events: none;
+    }
+
     padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
   }
 }
@@ -151,6 +143,7 @@
     @extend %pix-title-xxs;
 
     display: -webkit-box;
+    order: 2;
     min-height: 3.1rem;
     overflow: hidden;
     text-align: start;
@@ -159,18 +152,22 @@
     -webkit-line-clamp: 2;
   }
 
+  &__registration-card-tag {
+    order: 1;
+  }
+
   &__details {
     @extend %pix-body-xs;
 
     display: flex;
+    order: 3;
     color: var(--pix-neutral-500);
-  }
 
-  ul li:not(:first-child)::before {
-    margin: 0 var(--pix-spacing-1x);
-    content: '\2022';
-  }
+    &--separator {
+      margin: 0 var(--pix-spacing-1x);
 
+    }
+  }
 }
 
 .results-recommendation-engine-training-card-modal {
