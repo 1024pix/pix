@@ -1,17 +1,17 @@
-import { getI18n } from '../../../shared/infrastructure/i18n/i18n.js';
 import { Area } from '../../../shared/domain/models/Area.js';
-import { findIntervalIndexFromScore } from '../../shared/domain/services/mesh-service.js';
+import { getI18n } from '../../../shared/infrastructure/i18n/i18n.js';
 import { Frameworks } from '../../shared/domain/models/Frameworks.js';
-import { Certificate } from '../domain/models/v3/Certificate.js';
+import { findIntervalIndexFromScore } from '../../shared/domain/services/mesh-service.js';
 import { ResultCompetence } from '../domain/models/ResultCompetence.js';
 import { ResultCompetenceTree } from '../domain/models/ResultCompetenceTree.js';
+import { Certificate } from '../domain/models/v3/Certificate.js';
 import * as v3CertificationAttestationPdf from '../infrastructure/utils/pdf/generate-v3-pdf-certificate.js';
 
 const AREAS = [
   {
     code: '1',
     title: 'Informations et données',
-    color: '#053B5C',
+    color: '#F24645',
     competences: [
       { code: '1.1', name: "Mener une recherche et une veille d'information" },
       { code: '1.2', name: 'Gérer des données' },
@@ -21,7 +21,7 @@ const AREAS = [
   {
     code: '2',
     title: 'Communication et collaboration',
-    color: '#8B3B96',
+    color: '#1A8C89',
     competences: [
       { code: '2.1', name: 'Interagir' },
       { code: '2.2', name: 'Partager et publier' },
@@ -32,7 +32,7 @@ const AREAS = [
   {
     code: '3',
     title: 'Création de contenu',
-    color: '#E6762B',
+    color: '#3D68FF',
     competences: [
       { code: '3.1', name: 'Développer des documents textuels' },
       { code: '3.2', name: 'Développer des documents multimédia' },
@@ -43,7 +43,7 @@ const AREAS = [
   {
     code: '4',
     title: 'Protection et sécurité',
-    color: '#1C7B21',
+    color: '#AC008D',
     competences: [
       { code: '4.1', name: "Sécuriser l'environnement numérique" },
       { code: '4.2', name: 'Protéger les données personnelles et la vie privée' },
@@ -53,7 +53,7 @@ const AREAS = [
   {
     code: '5',
     title: 'Environnement numérique',
-    color: '#0062A3',
+    color: '#5E2563',
     competences: [
       { code: '5.1', name: 'Résoudre des problèmes techniques' },
       { code: '5.2', name: 'Construire un environnement numérique' },
@@ -108,7 +108,7 @@ async function generateCertificatePreview(request, h) {
     eduV3ExternalJuryResult: null,
   });
 
-  const pdf = await v3CertificationAttestationPdf.generate({ certificates: [certificate], i18n });
+  const pdf = await v3CertificationAttestationPdf.generate({ certificates: [certificate], i18n, testing: true });
 
   return h
     .response(pdf)
