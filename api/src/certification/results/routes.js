@@ -1,3 +1,4 @@
+import { certificatePreviewRoute } from './application/certificate-preview-route.js';
 import { certificateRoute } from './application/certificate-route.js';
 import { certificationReportsRoute } from './application/certification-reports-route.js';
 import { certificationResultsRoute } from './application/certification-results-route.js';
@@ -9,6 +10,7 @@ const certificationResultRoutes = [
   certificationReportsRoute,
   certificationResultsRoute,
   certificateRoute,
+  certificatePreviewRoute,
   livretScolaireRoute,
   organizationRoute,
   userRoute,
