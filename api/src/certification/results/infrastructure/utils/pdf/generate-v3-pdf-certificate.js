@@ -173,6 +173,12 @@ const areas_text = {
     },
   },
 };
+
+const GAP = 4;
+const MARGIN = 25;
+const PADDING_TAG = 1;
+const COLORS = ['#F24645', '#1A8C89', '#3D68FF', '#AC008D', '#5E2563'];
+
 export function testpdfkit() {
   const doc = new PDFDocument({
     size: 'A4',
@@ -192,69 +198,145 @@ export function testpdfkit() {
   );
   doc.x = MARGIN;
   doc.y = 162;
+
   const NB_COLUMNS = 3;
   const COLUMN_GAP = 16;
   const columnWidth = (doc.page.contentWidth - MARGIN - MARGIN - (NB_COLUMNS - 1) * COLUMN_GAP) / NB_COLUMNS;
-  const init_y = doc.y;
+  const initY = doc.y;
   let index = 0;
+
   for (const area_data of Object.values(areas_text)) {
-    const heightForBlockToCome = heightOfBlock(
+    const areaBlockHeight = measureHeightOfHeaderBlock(
       doc,
       area_data.label,
       area_data.competences_text['1'].label,
       columnWidth,
     );
-    const isOverflow = doc.y + heightForBlockToCome > doc.page.contentHeight - MARGIN;
-    if (isOverflow) {
-      changeColumn(doc, columnWidth, COLUMN_GAP, init_y);
-    }
-    let docWithStyle = docWithStyleForAreaTitle(doc, COLORS[index]);
-    docWithStyle.text(area_data.label, { width: columnWidth });
-    addGap(doc, init_y);
+    changeColumnIfNeeded(doc, areaBlockHeight, columnWidth, COLUMN_GAP, initY);
+
+    writeAreaTitle(doc, area_data.label, COLORS[index], columnWidth, initY);
 
     for (const { label, content } of Object.values(area_data.competences_text)) {
-      const heightForBlockToCome = heightOfBlock(doc, null, label, columnWidth);
-      const isOverflow = doc.y + heightForBlockToCome > doc.page.contentHeight - MARGIN;
-      if (isOverflow) {
-        changeColumn(doc, columnWidth, COLUMN_GAP, init_y);
-      }
-      docWithStyle = docWithStyleForCompetenceTitle(doc);
-      createTagLevelWithCompetenceName(docWithStyle, 'Niveau 1', label, columnWidth, COLORS[index])
-      addGap(doc, init_y);
+      const competenceBlockHeight = measureHeightOfHeaderBlock(doc, null, label, columnWidth);
+      changeColumnIfNeeded(doc, competenceBlockHeight, columnWidth, COLUMN_GAP, initY);
 
-      docWithStyle = docWithStyleForParagraphText(doc);
-      writeParagraph(docWithStyle, content, columnWidth, COLUMN_GAP, init_y);
-      addGap(doc, init_y);
-      addGap(doc, init_y);
+      writeCompetenceHeader(doc, 'Niveau 1', label, columnWidth, COLORS[index], initY);
+
+      writeParagraph(doc, content, columnWidth, COLUMN_GAP, initY);
     }
-    addGap(doc, init_y);
+    addGap(doc, initY);
     index++;
   }
   doc.end();
   return doc;
 }
 
-function changeColumn(pdfDoc, columnWidth, columnGap, initY) {
-  pdfDoc.switchToPage(0);
-  pdfDoc.x = pdfDoc.x + columnWidth + columnGap;
-  pdfDoc.y = initY;
-  pdfDoc.switchToPage(0);
+function writeParagraph(pdfDoc, text, columnWidth, columnGap, initY) {
+  const styledDoc = docWithStyleForParagraphText(pdfDoc);
+  const tokens = splitIntoTokens(text);
+
+  let confirmedFitCount = 0;
+  let upperBound = tokens.length;
+  while (confirmedFitCount < upperBound) {
+    const mid = Math.floor((confirmedFitCount + upperBound + 1) / 2);
+    if (wouldOverflowColumn(styledDoc, tokens.slice(0, mid).join(''), columnWidth)) {
+      upperBound = mid - 1;
+    } else {
+      confirmedFitCount = mid;
+    }
+  }
+
+  const textThatFits = tokens.slice(0, confirmedFitCount).join('');
+  const textThatOverflows = tokens.slice(confirmedFitCount).join('');
+
+  styledDoc.text(textThatFits, { width: columnWidth, align: 'justify' });
+  if (textThatOverflows.length > 0) {
+    changeColumn(styledDoc, columnWidth, columnGap, initY);
+    styledDoc.text(textThatOverflows, { width: columnWidth, align: 'justify' });
+  }
+  addGap(styledDoc, initY);
+  addGap(styledDoc, initY);
 }
 
-function docWithStyleForAreaTitle(pdfDoc, color) {
-  return pdfDoc.font('Nunito-Bold').fillColor(color).fontSize(AREA_FONT_SIZE);
+function splitIntoTokens(text) {
+  const tokens = [];
+  let rest = text;
+  while (rest.length > 0) {
+    const index = rest.search(/[\s\n]/);
+    if (index === -1) {
+      tokens.push(rest);
+      break;
+    }
+    tokens.push(rest.substring(0, index + 1));
+    rest = rest.slice(index + 1);
+  }
+  return tokens;
 }
 
-function docWithStyleForCompetenceTitle(pdfDoc) {
-  return pdfDoc.font('OpenSans-SemiBold').fillColor('#52D987').fontSize(9);
+function wouldOverflowColumn(pdfDoc, text, columnWidth) {
+  const pageBottom = pdfDoc.page.contentHeight - MARGIN;
+  return pdfDoc.y + pdfDoc.heightOfString(text, { width: columnWidth }) > pageBottom;
 }
 
-function docWithStyleForParagraphText(pdfDoc) {
-  return pdfDoc.font('Roboto-Regular').fillColor('#000000').fontSize(8);
+function writeCompetenceHeader(doc, level, labelCompetences, columnWidth, color, initY) {
+  const startX = doc.x;
+  const startY = doc.y;
+
+  const { tagHeight, shiftX, titleWidth, titleHeight } = measureCompetenceHeader(
+    doc,
+    level,
+    labelCompetences,
+    columnWidth,
+    color,
+  );
+
+  doc.x = startX;
+  doc.y = startY + Math.max(0, (titleHeight - tagHeight) / 2);
+  writeLevelTag(doc, level, color);
+
+  doc.x = startX + shiftX;
+  doc.y = startY;
+  docWithStyleForCompetenceTitle(doc, color).text(labelCompetences, { width: titleWidth });
+
+  doc.x = startX;
+  addGap(doc, initY);
 }
 
-// (area) + competence + paragraph (soit la font size du paragraphe pour une fois)
-function heightOfBlock(pdfDoc, areaTitle, competenceTitle, columnWidth) {
+function measureCompetenceHeader(doc, level, labelCompetences, columnWidth, color) {
+  const tagMeasureDoc = docWithStyleForTag(doc);
+  const tagWidth = tagMeasureDoc.widthOfString(level);
+  const tagHeight = tagMeasureDoc.heightOfString(level);
+  const shiftX = GAP + tagWidth + PADDING_TAG * 2;
+  const titleWidth = columnWidth - shiftX;
+  const titleHeight = docWithStyleForCompetenceTitle(doc, color).heightOfString(labelCompetences, {
+    width: titleWidth,
+  });
+  return { tagHeight, shiftX, titleWidth, titleHeight };
+}
+
+function writeLevelTag(doc, level, color) {
+  const styledDoc = docWithStyleForTag(doc);
+  const tagWidth = styledDoc.widthOfString(level);
+  const tagHeight = styledDoc.heightOfString(level);
+
+  doc.roundedRect(doc.x - PADDING_TAG * 4, doc.y - PADDING_TAG, tagWidth, tagHeight, 50).fill(color);
+  docWithStyleForLevel(doc).text(level);
+
+  return { tagWidth, tagHeight };
+}
+
+function writeAreaTitle(pdfDoc, label, color, columnWidth, initY) {
+  docWithStyleForAreaTitle(pdfDoc, color).text(label, { width: columnWidth });
+  addGap(pdfDoc, initY);
+}
+
+function changeColumnIfNeeded(pdfDoc, blockHeight, columnWidth, columnGap, initY) {
+  if (pdfDoc.y + blockHeight > pdfDoc.page.contentHeight - MARGIN) {
+    changeColumn(pdfDoc, columnWidth, columnGap, initY);
+  }
+}
+
+function measureHeightOfHeaderBlock(pdfDoc, areaTitle, competenceTitle, columnWidth) {
   let height = 0;
   if (areaTitle) {
     const docForArea = docWithStyleForAreaTitle(pdfDoc);
@@ -270,89 +352,36 @@ function heightOfBlock(pdfDoc, areaTitle, competenceTitle, columnWidth) {
   return height;
 }
 
+function changeColumn(pdfDoc, columnWidth, columnGap, initY) {
+  pdfDoc.switchToPage(0);
+  pdfDoc.x = pdfDoc.x + columnWidth + columnGap;
+  pdfDoc.y = initY;
+  pdfDoc.switchToPage(0);
+}
+
 function addGap(pdfDoc, initY) {
-  if (pdfDoc.y === initY) {
-    return;
-  }
-  if (pdfDoc.contentHeight - pdfDoc.y > GAP + 1) {
-    return;
-  }
+  if (pdfDoc.y === initY) return;
+  if (pdfDoc.y + GAP > pdfDoc.page.contentHeight - MARGIN) return;
   pdfDoc.y += GAP;
 }
 
-function writeParagraph(pdfDoc, text, columnWidth, columnGap, initY) {
-  let textQuiRentre = '';
-  let textQuiReste = structuredClone(text);
-  while (textQuiReste.length > 0) {
-    const index = textQuiReste.search(/[\s\n]/);
-    let token;
-    if (index === -1) {
-      token = textQuiReste;
-    } else {
-      token = textQuiReste.substring(0, index + 1);
-    }
-    const height_total = pdfDoc.y + pdfDoc.heightOfString(textQuiRentre + token, { width: columnWidth });
-    const isOverflow = height_total > pdfDoc.page.contentHeight - MARGIN;
-    if (isOverflow) {
-      break;
-    }
-    if (index === -1) {
-      textQuiReste = '';
-    } else {
-      textQuiReste = textQuiReste.slice(index + 1);
-    }
-    textQuiRentre = textQuiRentre + token;
-  }
-  pdfDoc.text(textQuiRentre, { width: columnWidth , align: 'justify'});
-  if (textQuiReste.length > 0) {
-    changeColumn(pdfDoc, columnWidth, columnGap, initY);
-    pdfDoc.text(textQuiReste, { width: columnWidth , align: 'justify' });
-  }
+function docWithStyleForAreaTitle(pdfDoc, color) {
+  const AREA_FONT_SIZE = 11;
+  return pdfDoc.font('Nunito-Bold').fillColor(color).fontSize(AREA_FONT_SIZE);
 }
 
-const AREA_FONT_SIZE = 11;
-const GAP = 4;
-const MARGIN = 25;
-const PADDING_TAG = 1;
-const COLORS = ['#F24645', '#1A8C89', '#3D68FF', '#AC008D', '#5E2563']
-
-function createTagLevelWithCompetenceName(pdf, level, labelCompetences , columnWidth, color) {
-  const previousX = pdf.x;
-  const previousY = pdf.y;
-  const levelLabelwidth = pdf.widthOfString(level);
-  const levelLabelHeight = pdf.heightOfString(level);
-
-  pdf.roundedRect(pdf.x - PADDING_TAG * 4, pdf.y - PADDING_TAG, levelLabelwidth, levelLabelHeight, 50).fill(color)
-
-  pdf.font('OpenSans-SemiBold').fillColor('#fff').fontSize(7);
-  pdf.text(level);
-
-
-  const shiftXOfTag = GAP + levelLabelwidth + PADDING_TAG * 2 ;
-  const shifYOfTag = pdf.y - levelLabelHeight + PADDING_TAG * 2;
-  pdf.x += shiftXOfTag;
-  pdf.y = shifYOfTag;
-
-  pdf.font('OpenSans-SemiBold').fillColor(color).fontSize(9);
-  pdf.text(labelCompetences, { width: columnWidth - shiftXOfTag });
-  pdf.x = previousX
-
-  pdf.y = previousY + pdf.heightOfString(labelCompetences, { width: columnWidth - shiftXOfTag });
+function docWithStyleForTag(pdfDoc) {
+  return pdfDoc.font('OpenSans-SemiBold').fontSize(9);
 }
 
+function docWithStyleForLevel(pdfDoc) {
+  return pdfDoc.font('OpenSans-SemiBold').fillColor('#fff').fontSize(7);
+}
 
-// label 1.1 truc pdfDoc.y 181.004
-// after shift y 180.2803671875
-// after shift x 68.96875
-// { columnWidth: 253.29666666666665, shifXOfTag: 68.96875 }
-// after competence Name y 189.81308203125
-// after competence Name x 25
-// label 1.1 truc pdfDoc.y 189.81308203125
+function docWithStyleForCompetenceTitle(pdfDoc, color) {
+  return pdfDoc.font('OpenSans-SemiBold').fillColor(color).fontSize(9);
+}
 
-// label 3.1. Développer des documents textuels pdfDoc.y 181.004
-// after shift y 180.2803671875
-// after shift x 338.2654166666666
-// { columnWidth: 253.29666666666665, shifXOfTag: 338.2654166666666 }
-// after competence Name y 180.2803671875
-// after competence Name x 294.2966666666666
-// label 3.1. Développer des documents textuels pdfDoc.y 180.2803671875
+function docWithStyleForParagraphText(pdfDoc) {
+  return pdfDoc.font('Roboto-Regular').fillColor('#000000').fontSize(8);
+}
