@@ -3,10 +3,13 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Serializer } = jsonapiSerializer;
 
 const serialize = function (filters) {
+  const filtersWithId = filters.map((filter) => ({
+    ...filter,
+    id: `${filter.organizationId}-${filter.attributeName}`,
+  }));
   return new Serializer('organization-learner-filters', {
-    id: 'attributeName',
     attributes: ['attributeName', 'values'],
-  }).serialize(filters);
+  }).serialize(filtersWithId);
 };
 
 export const organizationLearnerFilterSerializer = { serialize };
