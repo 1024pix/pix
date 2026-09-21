@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { ComplementaryCertificationCourseWithResults } from '../../../../../../src/certification/enrolment/domain/models/ComplementaryCertificationCourseWithResults.js';
 import * as complementaryCertificationCourseRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/complementary-certification-course-repository.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
@@ -130,12 +131,15 @@ describe('Integration | Repository | complementary-certification-course-reposito
           });
 
         expect(complementaryCertificationCoursesWithResults).to.have.lengthOf(2);
-        expect(complementaryCertificationCoursesWithResults[0]).to.deepEqualInstance(
+        expect(complementaryCertificationCoursesWithResults).to.have.deep.members([
           complementaryCertificationCourseWithResult1,
-        );
-        expect(complementaryCertificationCoursesWithResults[1]).to.deepEqualInstance(
           complementaryCertificationCourseWithResult2,
-        );
+        ]);
+        complementaryCertificationCoursesWithResults.forEach((complementaryCertificationCourseWithResults) => {
+          expect(complementaryCertificationCourseWithResults).to.be.instanceOf(
+            ComplementaryCertificationCourseWithResults,
+          );
+        });
       });
     });
   });
