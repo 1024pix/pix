@@ -1,4 +1,6 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -32,10 +34,6 @@ export default class CombinedCourseTunnel extends Component {
     });
   }
 
-  get isSurveyEnabled() {
-    return this.featureToggles.featureToggles?.isSurveyEnabledForCombinedCourses && this.args.combinedCourse.surveyUrl;
-  }
-
   get shouldDisplayRetryModulesText() {
     return (
       this.args.combinedCourse.hasItemOfTypeModule &&
@@ -56,7 +54,11 @@ export default class CombinedCourseTunnel extends Component {
         </PixButtonLink>
       </nav>
       <article class="combined-course__content combined-course__content--tunnel">
-        <CombinedCourseItemsList @combinedCourse={{@combinedCourse}} @onClick={{this.setSelectedItem}} @selectedItem={{this.selectedItem}} />
+        <CombinedCourseItemsList
+          @combinedCourse={{@combinedCourse}}
+          @onClick={{this.setSelectedItem}}
+          @selectedItem={{this.selectedItem}}
+        />
       </article>
       <aside class="step-details" id="step-details">
         <StepDetails
@@ -66,5 +68,12 @@ export default class CombinedCourseTunnel extends Component {
         />
       </aside>
     </main>
+    <nav class="combined-course-tunnel-sticky">
+      <h1 class="combined-course-tunnel-sticky__title">{{this.selectedItem.title}}</h1>
+      <PixButton class="combined-course-tunnel-sticky__cta" @triggerAction={{fn @onClick this.selectedItem}}>
+        {{t "pages.combined-courses.items.start-campaign"}}
+      </PixButton>
+
+    </nav>
   </template>
 }

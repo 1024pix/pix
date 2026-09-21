@@ -8,6 +8,7 @@
   flex-direction: column-reverse;
   gap: var(--pix-spacing-10x);
   height: 100%;
+  z-index: 0;
 
   @include breakpoints.device-is('tablet') {
     flex-direction: row;
@@ -19,4 +20,29 @@
     right: 0;
     padding: var(--pix-spacing-8x);
   }
+}
+
+.combined-course-tunnel-sticky {
+  background-color: var(--pix-neutral-0) ;
+  @extend %pix-body-s;
+  font-weight: bold;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pix-spacing-4x) var(--pix-spacing-2x);
+  gap: var(--pix-spacing-4x);
+  box-shadow: var(--pix-shadow-xs);
+  position: sticky;
+  bottom: 0;
+
+  &__title {
+    text-align: justify;
+    word-break: break-all;
+  }
+
+  @include breakpoints.device-is('tablet') {
+    display: none;
+  }
+
 }

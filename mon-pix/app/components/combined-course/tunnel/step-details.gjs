@@ -1,12 +1,12 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { fn } from '@ember/helper';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item.js';
 
 import Duration from '../duration';
 import Level from '../level';
-import { fn } from "@ember/helper";
 
 <template>
   <div class="step-details__main">

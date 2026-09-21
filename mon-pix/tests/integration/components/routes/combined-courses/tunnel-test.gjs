@@ -3,7 +3,6 @@ import { t } from 'ember-intl/test-support';
 import CombinedCourseTunnel from 'mon-pix/components/routes/combined-courses/tunnel';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 import { CombinedCourseStatuses } from '../../../../../models/combined-course.js';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js';
@@ -150,7 +149,6 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
   module('setSelectedItem', function () {
     test('should mount component with current item', async function (assert) {
       // given
-      const onClickStub = sinon.stub();
       const store = this.owner.lookup('service:store');
       const combinedCourseItem = store.createRecord('combined-course-item', {
         id: 1,
@@ -168,15 +166,12 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} @onClick={{onClickStub}} /></template>,
-      );
+      const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
 
       assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-module') }));
     });
     test('should set selected item when clicking on it', async function (assert) {
       // given
-      const onClickStub = sinon.stub();
       const store = this.owner.lookup('service:store');
       const combinedCourseItem1 = store.createRecord('combined-course-item', {
         id: 1,
@@ -200,6 +195,7 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
         reference: 'mon-module 3',
         type: CombinedCourseItemTypes.MODULE,
         isLocked: false,
+        isCompleted: false,
         duration: 10,
       });
 
@@ -209,15 +205,13 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
       });
 
       // when
-      const screen = await render(
-        <template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} @onClick={{onClickStub}} /></template>,
-      );
+      const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
 
-      await screen.getByRole('button', { name: /mon module 3/ }).click();
-      await this.pauseTest();
-      //then
-      assert.notOk(screen.queryByRole('button', { name: t('pages.combined-courses.items.start-campaign') }));
-      assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-module') }));
+      const moduleButton = screen.getByRole('button', { name: /mon module 3/ });
+      assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-campaign') }));
+      await moduleButton.click();
+      assert.notOk(await screen.queryByText('pages.combined-courses.items.start-campaign'));
+      assert.ok(await screen.findByRole('button', { name: t('pages.combined-courses.items.start-module') }));
     });
   });
 });
