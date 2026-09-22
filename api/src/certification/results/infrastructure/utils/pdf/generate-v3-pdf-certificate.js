@@ -2,6 +2,7 @@
  * @typedef {import ('../../../domain/models/v3/Certificate.js').Certificate} Certificate
  */
 import url from 'node:url';
+import path from 'node:path';
 
 import PDFDocument from 'pdfkit';
 
@@ -207,16 +208,16 @@ export function testpdfkit(certificate, { translate }) {
   const initY = doc.y;
 
   for (const area of certificate.resultCompetenceTree.areas) {
-    const areaTitle = translate(`certification.certificate.areas.${area.id}.label`);
+    const areaTitle = translate(`certification.certificate.areas.${area.code}.label`);
     const areaBlockHeight = measureHeightOfHeaderBlock(doc, areaTitle, area.resultCompetences[0].name, columnWidth);
     changeColumnIfNeeded(doc, areaBlockHeight, columnWidth, COLUMN_GAP, initY);
 
-    writeAreaTitle(doc, areaTitle, area.color, columnWidth, initY);
+    writeAreaTitle(doc, areaTitle, area.color, area.code, columnWidth, initY);
 
     for (const { index, level } of area.resultCompetences) {
       const strLevel = String(level);
       const competenceIndex = index.split('.')[1];
-      const tradBaseKey = `certification.certificate.areas.${area.id}.competences.${competenceIndex}`;
+      const tradBaseKey = `certification.certificate.areas.${area.code}.competences.${competenceIndex}`;
       const competenceTitle = translate(tradBaseKey + '.index') + '. ' + translate(tradBaseKey + '.title');
 
       const competenceBlockHeight = measureHeightOfHeaderBlock(doc, null, competenceTitle, columnWidth);
@@ -328,8 +329,20 @@ function writeLevelTag(doc, level, color) {
   return { tagWidth, tagHeight };
 }
 
-function writeAreaTitle(pdfDoc, label, color, columnWidth, initY) {
-  docWithStyleForAreaTitle(pdfDoc, color).text(label, { width: columnWidth });
+function writeAreaTitle(pdfDoc, label, color, areaCode, columnWidth, initY) {
+  const startX = pdfDoc.x;
+  const startY = pdfDoc.y;
+
+  pdfDoc.image(path.resolve(__dirname, `templates/assets/area-icon/area-${areaCode}.png`), { fit: [25, 16] })
+
+  pdfDoc.x = startX + 25 + GAP;
+  pdfDoc.y = startY + 2;
+
+  docWithStyleForAreaTitle(pdfDoc, color).text(areaCode + '. ' +  label, { width: columnWidth });
+
+  pdfDoc.x = startX;
+  pdfDoc.y += 2;
+
   addGap(pdfDoc, initY);
 }
 
