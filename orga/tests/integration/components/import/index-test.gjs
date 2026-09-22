@@ -114,7 +114,7 @@ module('Integration | Component | Import', function (hooks) {
         createdAt: new Date(2020, 10, 1),
         createdBy: { firstName: 'Richard', lastName: 'Aldana' },
         updatedAt: new Date(2020, 10, 2),
-        errors: [{ code: 'UAI_MISMATCHED', meta: {} }],
+        importErrors: [{ code: 'UAI_MISMATCHED', meta: {} }],
       });
 
       class CurrentUserStub extends Service {
@@ -153,7 +153,7 @@ module('Integration | Component | Import', function (hooks) {
         createdAt: new Date(2020, 10, 1),
         createdBy: { firstName: 'Richard', lastName: 'Aldana' },
         updatedAt: new Date(2020, 10, 2),
-        errors: [{ code: 'UAI_MISMATCHED', meta: {} }],
+        importErrors: [{ code: 'UAI_MISMATCHED', meta: {} }],
       });
 
       class CurrentUserStub extends Service {
@@ -209,7 +209,7 @@ module('Integration | Component | Import', function (hooks) {
         createdAt: new Date(2020, 10, 1),
         createdBy: { firstName: 'Richard', lastName: 'Aldana' },
         updatedAt: new Date(2020, 10, 2),
-        errors: [{ code: 'UAI_MISMATCHED', meta: {} }],
+        importErrors: [{ code: 'UAI_MISMATCHED', meta: {} }],
       });
 
       const onImportSupStudents = this.onImportSupStudents;

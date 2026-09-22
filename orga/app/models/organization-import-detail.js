@@ -4,16 +4,16 @@ export default class OrganizationImportDetail extends Model {
   @attr('string') status;
   @attr('date') createdAt;
   @attr('date') updatedAt;
-  @attr() errors;
+  @attr() importErrors;
   @attr() hasFixableErrors;
   @attr() createdBy;
 
   get hasError() {
-    return /ERROR/.test(this.status) && this.errors?.length > 0;
+    return /ERROR/.test(this.status) && this.importErrors?.length > 0;
   }
 
   get hasWarning() {
-    return this.isDone && this.errors?.length > 0;
+    return this.isDone && this.importErrors?.length > 0;
   }
 
   get isDone() {
