@@ -50,6 +50,29 @@ describe('Unit | Identity Access Management | Infrastructure | Repositories | le
     });
   });
 
+  describe('#acceptPixCertifTos', function () {
+    it('accepts terms of service', async function () {
+      // given
+      const dependencies = {
+        legalDocumentApi: {
+          acceptLegalDocumentByUserId: sinon.stub().resolves(),
+        },
+      };
+
+      const userId = Symbol('userId');
+
+      // when
+      await legalDocumentApiRepository.acceptPixCertifTos({ userId, dependencies });
+
+      // then
+      expect(dependencies.legalDocumentApi.acceptLegalDocumentByUserId).to.have.been.calledWithExactly({
+        userId,
+        service: 'pix-certif',
+        type: 'TOS',
+      });
+    });
+  });
+
   describe('#getPixAppTosStatus', function () {
     it('returns the TOS status', async function () {
       // given

@@ -8,6 +8,10 @@ const acceptPixOrgaTos = async ({ userId, dependencies = { legalDocumentApi } })
   return dependencies.legalDocumentApi.acceptLegalDocumentByUserId({ userId, service: 'pix-orga', type: 'TOS' });
 };
 
+const acceptPixCertifTos = async ({ userId, dependencies = { legalDocumentApi } }) => {
+  return dependencies.legalDocumentApi.acceptLegalDocumentByUserId({ userId, service: 'pix-certif', type: 'TOS' });
+};
+
 const getPixAppTosStatus = async ({ userId, dependencies = { legalDocumentApi } }) => {
   return dependencies.legalDocumentApi.getLegalDocumentStatusByUserId({ userId, service: 'pix-app', type: 'TOS' });
 };
@@ -27,6 +31,7 @@ const getPixOrgaTosStatus = async ({ userId, dependencies = { legalDocumentApi }
 export const legalDocumentApiRepository = {
   acceptPixAppTos,
   acceptPixOrgaTos,
+  acceptPixCertifTos,
   getPixAppTosStatus,
   getPixOrgaTosStatus,
   getPixCertifTosStatus,
