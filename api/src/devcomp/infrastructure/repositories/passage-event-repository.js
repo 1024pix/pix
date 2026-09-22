@@ -6,7 +6,7 @@ import { PassageEventFactory } from '../../domain/factories/passage-event-factor
 
 const logger = child('devcomp:passage-event-repository', { event: SCOPES.DEVCOMP });
 
-async function record(event) {
+export async function record(event) {
   const knexConn = DomainTransaction.getConnection();
   try {
     await knexConn('passage-events').insert({
