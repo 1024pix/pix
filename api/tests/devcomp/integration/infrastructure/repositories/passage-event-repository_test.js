@@ -102,4 +102,41 @@ describe('Integration | DevComp | Repositories | PassageEventRepository', functi
       expect(results[1].sequenceNumber).to.equal(2);
     });
   });
+
+  describe('#getHighestSequenceNumberForPassageId', function () {
+    it('should get highest sequence number among passage events according to provided passage-id', async function () {
+      // given
+      const passage = databaseBuilder.factory.buildPassage();
+      const otherPassage = databaseBuilder.factory.buildPassage();
+      databaseBuilder.factory.buildPassageEvent({
+        data: { contentHash: 'version' },
+        passageId: passage.id,
+        sequenceNumber: 2,
+        type: 'PASSAGE_STARTED',
+      });
+      databaseBuilder.factory.buildPassageEvent({
+        data: {
+          autoAssessment: 'yes',
+          cardId: '3b9d1d5c-0441-48b6-b3f7-36de4e975715',
+          elementId: 'c4981cba-b7c6-44de-8bc6-86d3465ecc70',
+        },
+        passageId: passage.id,
+        sequenceNumber: 1,
+        type: 'FLASHCARDS_CARD_AUTO_ASSESSED',
+      });
+      databaseBuilder.factory.buildPassageEvent({
+        passageId: otherPassage.id,
+        sequenceNumber: 100,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const highestSequenceNumber = await passageEventRepository.getHighestSequenceNumberForPassageId({
+        passageId: passage.id,
+      });
+
+      // then
+      expect(highestSequenceNumber).to.equal(2);
+    });
+  });
 });

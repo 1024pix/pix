@@ -28,11 +28,22 @@ async function record(event) {
   }
 }
 
-async function getAllByPassageId({ passageId }) {
+export async function getAllByPassageId({ passageId }) {
   const knexConn = DomainTransaction.getConnection();
   const passageEvents = await knexConn('passage-events').where('passageId', passageId).orderBy('sequenceNumber');
 
   return passageEvents.map((passageEvent) => _toDomain(passageEvent));
+}
+
+export async function getHighestSequenceNumberForPassageId({ passageId }) {
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn
+    .select('sequenceNumber')
+    .from('passage-events')
+    .where('passageId', passageId)
+    .orderBy('sequenceNumber', 'desc')
+    .limit(1);
+  return results[0].sequenceNumber;
 }
 
 function _toDomain(passageEvent) {
@@ -41,5 +52,3 @@ function _toDomain(passageEvent) {
     ...passageEvent.data,
   });
 }
-
-export { getAllByPassageId, record };
