@@ -100,6 +100,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserToCreate', fu
       // then
       expect(user.cgu).to.equal(true);
       expect(user.lastTermsOfServiceValidatedAt).to.deep.equal(now);
+      expect(user.lastDataProtectionPolicySeenAt).to.deep.equal(now);
       expect(user.updatedAt).to.deep.equal(now);
       expect(user.createdAt).to.deep.equal(now);
     });

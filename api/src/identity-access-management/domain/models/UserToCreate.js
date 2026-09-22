@@ -57,6 +57,7 @@ class UserToCreate {
       ...user,
       cgu: true,
       lastTermsOfServiceValidatedAt: now,
+      lastDataProtectionPolicySeenAt: now,
       createdAt: now,
       updatedAt: now,
     });
