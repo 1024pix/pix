@@ -25,7 +25,6 @@ describe('Unit | Devcomp | Domain | UseCases | record-passage-events', function 
     const passage = domainBuilder.devcomp.buildPassage({ id: 2 });
     const passageEventRepositoryStub = {
       record: sinon.stub().resolves(),
-      getAllByPassageId: sinon.stub().resolves([]),
     };
     const passageRepositoryStub = {
       get: sinon.stub().resolves(passage),
@@ -128,7 +127,6 @@ describe('Unit | Devcomp | Domain | UseCases | record-passage-events', function 
         const passage = domainBuilder.devcomp.buildPassage({ id: 2, terminatedAt: new Date() });
         const passageEventRepositoryStub = {
           record: sinon.stub().resolves(),
-          getAllByPassageId: sinon.stub().resolves([]),
         };
         const passageRepositoryStub = {
           get: sinon.stub().resolves(passage),
@@ -192,22 +190,6 @@ describe('Unit | Devcomp | Domain | UseCases | record-passage-events', function 
           type: 'PASSAGE_TERMINATED',
         };
 
-        const passageStartedEvent = {
-          occurredAt: new Date(),
-          passageId: 2,
-          sequenceNumber: 1,
-          type: 'PASSAGE_STARTED',
-        };
-
-        const passageNotTerminatedEvent = {
-          occurredAt: new Date(),
-          passageId: 2,
-          sequenceNumber: 3,
-          elementId: '5ad40bc9-8b5c-47ee-b893-f8ab1a1b8095',
-          cardId: 'c4675f66-97f1-4202-8aeb-0388edf102d5',
-          type: 'FLASHCARDS_VERSO_SEEN',
-        };
-
         const passage = domainBuilder.devcomp.buildPassage({ id: 2 });
 
         const passageRepositoryStub = {
@@ -215,7 +197,7 @@ describe('Unit | Devcomp | Domain | UseCases | record-passage-events', function 
         };
         const passageEventRepositoryStub = {
           record: sinon.stub(),
-          getAllByPassageId: sinon.stub().resolves([passageStartedEvent, passageNotTerminatedEvent]),
+          getHighestSequenceNumberForPassageId: sinon.stub().resolves(3),
         };
 
         // when
