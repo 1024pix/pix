@@ -1,8 +1,10 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { fn } from '@ember/helper';
+import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import { t } from 'ember-intl';
+import t from 'ember-intl/helpers/t';
 import { eq } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item.js';
 
@@ -10,9 +12,12 @@ import Duration from '../duration';
 import Level from '../level';
 
 export default class StepDetails extends Component {
+  @service intl;
+  @action
   getModuleLevel(item) {
     return this.intl.t(`pages.modulix.details.levels.${item.level}`);
   }
+
   <template>
     <div class="step-details__main">
       {{#if @item.iconUrl}}
