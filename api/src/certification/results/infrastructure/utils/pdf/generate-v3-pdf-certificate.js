@@ -17,7 +17,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
  */
 export async function generate({ certificates, i18n, testing }) {
   if (testing) {
-    return testpdfkit();
+    return testpdfkit(certificates[0], { translate: i18n.__ });
   }
   const doc = new PDFDocument({
     size: 'A4',
@@ -180,9 +180,8 @@ const areas_text = {
 const GAP = 4;
 const MARGIN = 25;
 const PADDING_TAG = 1;
-const COLORS = ['#F24645', '#1A8C89', '#3D68FF', '#AC008D', '#5E2563'];
 
-export function testpdfkit() {
+export function testpdfkit(certificate, { translate }) {
   const doc = new PDFDocument({
     size: 'A4',
     layout: 'landscape',
@@ -206,29 +205,29 @@ export function testpdfkit() {
   const COLUMN_GAP = 16;
   const columnWidth = (doc.page.contentWidth - MARGIN - MARGIN - (NB_COLUMNS - 1) * COLUMN_GAP) / NB_COLUMNS;
   const initY = doc.y;
-  let index = 0;
 
-  for (const area_data of Object.values(areas_text)) {
-    const areaBlockHeight = measureHeightOfHeaderBlock(
-      doc,
-      area_data.label,
-      area_data.competences_text['1'].label,
-      columnWidth,
-    );
+  for (const area of certificate.resultCompetenceTree.areas) {
+    const areaTitle = translate(`certification.certificate.areas.${area.id}.label`);
+    const areaBlockHeight = measureHeightOfHeaderBlock(doc, areaTitle, area.resultCompetences[0].name, columnWidth);
     changeColumnIfNeeded(doc, areaBlockHeight, columnWidth, COLUMN_GAP, initY);
 
-    writeAreaTitle(doc, area_data.label, COLORS[index], columnWidth, initY);
+    writeAreaTitle(doc, areaTitle, area.color, columnWidth, initY);
 
-    for (const { label, content } of Object.values(area_data.competences_text)) {
-      const competenceBlockHeight = measureHeightOfHeaderBlock(doc, null, label, columnWidth);
+    for (const { index, level } of area.resultCompetences) {
+      const strLevel = String(level);
+      const competenceIndex = index.split('.')[1];
+      const tradBaseKey = `certification.certificate.areas.${area.id}.competences.${competenceIndex}`;
+      const competenceTitle = translate(tradBaseKey + '.index') + '. ' + translate(tradBaseKey + '.title');
+
+      const competenceBlockHeight = measureHeightOfHeaderBlock(doc, null, competenceTitle, columnWidth);
       changeColumnIfNeeded(doc, competenceBlockHeight, columnWidth, COLUMN_GAP, initY);
 
-      writeCompetenceHeader(doc, 'Niveau 1', label, columnWidth, COLORS[index], initY);
+      writeCompetenceHeader(doc, strLevel, competenceTitle, columnWidth, area.color, initY);
 
+      const content = translate(tradBaseKey + `.levels.${strLevel}`);
       writeParagraph(doc, content, columnWidth, COLUMN_GAP, initY);
     }
     addGap(doc, initY);
-    index++;
   }
   doc.end();
   return doc;
@@ -306,9 +305,10 @@ function writeCompetenceHeader(doc, level, labelCompetences, columnWidth, color,
 }
 
 function measureCompetenceHeader(doc, level, labelCompetences, columnWidth, color) {
+  const levelLabel = 'Niveau ' + level;
   const tagMeasureDoc = docWithStyleForTag(doc);
-  const tagWidth = tagMeasureDoc.widthOfString(level);
-  const tagHeight = tagMeasureDoc.heightOfString(level);
+  const tagWidth = tagMeasureDoc.widthOfString(levelLabel);
+  const tagHeight = tagMeasureDoc.heightOfString(levelLabel);
   const shiftX = GAP + tagWidth + PADDING_TAG * 2;
   const titleWidth = columnWidth - shiftX;
   const titleHeight = docWithStyleForCompetenceTitle(doc, color).heightOfString(labelCompetences, {
@@ -318,12 +318,12 @@ function measureCompetenceHeader(doc, level, labelCompetences, columnWidth, colo
 }
 
 function writeLevelTag(doc, level, color) {
+  const levelLabel = 'Niveau ' + level;
   const styledDoc = docWithStyleForTag(doc);
-  const tagWidth = styledDoc.widthOfString(level);
-  const tagHeight = styledDoc.heightOfString(level);
-
+  const tagWidth = styledDoc.widthOfString(levelLabel);
+  const tagHeight = styledDoc.heightOfString(levelLabel);
   doc.roundedRect(doc.x - PADDING_TAG * 4, doc.y - PADDING_TAG, tagWidth, tagHeight, 50).fill(color);
-  docWithStyleForLevel(doc).text(level);
+  docWithStyleForLevel(doc).text(levelLabel);
 
   return { tagWidth, tagHeight };
 }
