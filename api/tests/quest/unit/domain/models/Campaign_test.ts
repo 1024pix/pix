@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/value-objects/Campaign.js';
+import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/value-objects/Campaign.ts';
 
 describe('Quest | Unit | Domain | Models | Campaign ', function () {
   describe('#constructor', function () {
@@ -34,11 +34,10 @@ describe('Quest | Unit | Domain | Models | Campaign ', function () {
 
       // when
       const campaign = Campaign.buildCampaignForCombinedCourse({
-        organizationId: '1',
+        organizationId: 1,
         targetProfile,
-        creatorId: '3',
+        creatorId: 3,
         combinedCourseCode: 'code',
-        recommendableModules: null,
         modules: [],
       });
 
@@ -61,12 +60,15 @@ describe('Quest | Unit | Domain | Models | Campaign ', function () {
 
       // when
       const campaign = Campaign.buildCampaignForCombinedCourse({
-        organizationId: '1',
+        organizationId: 1,
         targetProfile,
-        creatorId: '3',
+        creatorId: 3,
         combinedCourseCode: 'code',
-        recommendableModules: [{ moduleId: 1 }, { moduleId: 2 }],
-        modules: [{ id: 3 }],
+        recommendableModules: [
+          { moduleId: '1', targetProfileIds: [] },
+          { moduleId: '2', targetProfileIds: [] },
+        ],
+        modules: [{ id: '3', title: '', slug: '', duration: 0, image: '', shortId: '' }],
       });
 
       // then
@@ -88,12 +90,15 @@ describe('Quest | Unit | Domain | Models | Campaign ', function () {
 
       // when
       const campaign = Campaign.buildCampaignForCombinedCourse({
-        organizationId: '1',
+        organizationId: 1,
         targetProfile,
-        creatorId: '3',
+        creatorId: 3,
         combinedCourseCode: 'code',
-        recommendableModules: [{ moduleId: 1 }, { moduleId: 2 }],
-        modules: [{ id: 1 }],
+        recommendableModules: [
+          { moduleId: '1', targetProfileIds: [] },
+          { moduleId: '2', targetProfileIds: [] },
+        ],
+        modules: [{ id: '1', title: '', slug: '', duration: 0, image: '', shortId: '' }],
       });
 
       // then
