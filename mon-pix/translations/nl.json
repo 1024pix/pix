@@ -1304,11 +1304,11 @@
         "tagText": "U bent er nu!"
       },
       "process-custom-passages": {
-        "description": "We analyseren uw resultaten en stellen uw gepersonaliseerde trainingsplan op.",
+        "description": "We analyseren uw resultaten en stellen een passende reeks cursussen samen.",
         "list": {
           "generate-personalize-course": "Uw gepersonaliseerde cursus genereren.",
           "results-analysis": "Analyse van uw resultaten.",
-          "select-passages": "Geschikte trainingen selecteren."
+          "select-passages": "Geschikte inhoud selecteren."
         },
         "title": "De volgende stappen in uw huidige cursus berekenen."
       },

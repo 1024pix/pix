@@ -1304,11 +1304,11 @@
         "tagText": "Vous en êtes là !"
       },
       "process-custom-passages": {
-        "description": "Nous analysons vos résultats et construisons votre plan de formation personnalisé.",
+        "description": "Nous analysons vos résultats et construisons une suite de parcours adaptée.",
         "list": {
           "generate-personalize-course": "Génération de votre parcours personnalisé.",
           "results-analysis": "Analyse de vos résultats.",
-          "select-passages": "Sélection des formations adaptées."
+          "select-passages": "Sélection des contenus adaptés."
         },
         "title": "Calcul de la suite du parcours en cours."
       },
