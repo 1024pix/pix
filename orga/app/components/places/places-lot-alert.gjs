@@ -1,7 +1,7 @@
 import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import dayjs from 'dayjs';
 import { t } from 'ember-intl';
-import { STATUSES } from 'pix-orga/models/organization-places-lot.js';
+import { STATUSES } from 'pix-orga/models/organization-places-lot';
 
 function getLastActivePlacesLot(placesLots) {
   return placesLots

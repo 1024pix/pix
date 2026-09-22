@@ -14,6 +14,10 @@ export type CombinedCourseRewardStatus = 'NOT_STARTED' | 'STARTED' | 'OBTAINED' 
 
 export type CombinedCourseStatus = 'NOT_STARTED' | 'STARTED' | 'COMPLETED';
 
+/* InformationBanner */
+
+export type InformationBannerSeverity = 'error' | 'warning' | 'information';
+
 /* LegalDocument */
 
 export type LegalDocumentStatus = 'accepted' | 'requested' | 'not-applicable' | 'update-requested';
@@ -39,3 +43,24 @@ export type OrganizationInvitationStatus = 'pending' | 'accepted' | 'cancelled';
 export type OrganizationRole = 'ADMIN' | 'MEMBER';
 
 export type OrganizationType = 'SCO' | 'SUP' | 'PRO' | 'SCO-1D';
+
+/* Mission */
+
+export type MissionLearnerStatus = 'not-started' | 'started' | 'completed';
+
+export type MissionResultStatus = 'exceeded' | 'reached' | 'partially-reached' | 'not-reached';
+
+/* OrganizationImport */
+
+export type OrganizationImportStatus =
+  | 'UPLOADING'
+  | 'UPLOADED'
+  | 'UPLOAD_ERROR'
+  | 'VALIDATED'
+  | 'IMPORTED'
+  | 'VALIDATION_ERROR'
+  | 'IMPORT_ERROR';
+
+/* OrganizationPlaces */
+
+export type OrganizationPlacesLotStatus = 'PENDING' | 'ACTIVE' | 'EXPIRED';
