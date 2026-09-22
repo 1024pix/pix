@@ -1,5 +1,4 @@
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
-import * as sessionValidator from '../../shared/domain/validators/session-validator.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as juryCertificationSummaryRepository from '../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as jurySessionRepository from '../infrastructure/repositories/jury-session-repository.js';
@@ -19,13 +18,11 @@ async function findPaginatedFilteredJurySessions(
   dependencies = {
     jurySessionRepository,
     jurySessionSerializer,
-    sessionValidator,
   },
 ) {
   const { filter, page } = request.query;
-  const normalizedFilters = dependencies.sessionValidator.validateAndNormalizeFilters(filter);
   const jurySessionsForPaginatedList = await dependencies.jurySessionRepository.findPaginatedFiltered({
-    filters: normalizedFilters,
+    filters: filter,
     page,
   });
 

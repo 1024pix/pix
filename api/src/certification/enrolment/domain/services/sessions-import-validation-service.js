@@ -6,7 +6,7 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constant
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../shared/domain/constants/sessions-errors.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
-import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
+import * as sessionValidator from '../validators/session-validator.js';
 
 export async function validateSession({
   session,

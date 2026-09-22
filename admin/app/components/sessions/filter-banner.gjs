@@ -11,6 +11,8 @@ export default class SessionsFilterBanner extends Component {
   searchedIds = this.args.filters?.ids;
   searchedCertificationCenterName = this.args.filters?.certificationCenterName;
   searchedCertificationCenterExternalId = this.args.filters?.certificationCenterExternalId;
+  startDate = this.args.filters?.startDate;
+  endDate = this.args.filters?.endDate;
 
   constructor() {
     super(...arguments);
@@ -60,6 +62,25 @@ export default class SessionsFilterBanner extends Component {
       >
         <:label>{{t "pages.sessions.table.headers.external-id"}}</:label>
       </PixInput>
+
+      <PixInput
+        aria-label={{t "pages.sessions.list.filters.startDate.aria-label"}}
+        type="date"
+        @value={{this.startDate}}
+        oninput={{fn @triggerFiltering "startDate"}}
+      >
+        <:label><span>{{t "pages.sessions.list.filters.startDate.label"}}</span></:label>
+      </PixInput>
+
+      <PixInput
+        aria-label={{t "pages.sessions.list.filters.startDate.aria-label"}}
+        type="date"
+        @value={{this.endDate}}
+        oninput={{fn @triggerFiltering "endDate"}}
+      >
+        <:label><span>{{t "pages.sessions.list.filters.endDate.label"}}</span></:label>
+      </PixInput>
+
       <PixSelect
         @options={{this.certificationCenterTypeOptions}}
         @onChange={{fn @onChangeFilter "certificationCenterType"}}
