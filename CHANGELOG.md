@@ -1,5 +1,31 @@
 # Pix Changelog
 
+# [5.504.0](https://github.com/1024pix/pix/compare/v5.503.1...v5.504.0) (2026-09-22)
+
+### :rocket: Amélioration
+
+- [#17496](https://github.com/1024pix/pix/pull/17496) Ajout de filtre de date sur la liste des sessions (PIX-23750)
+- [#17481](https://github.com/1024pix/pix/pull/17481) Améliorer l'accessibilité du caroussel sur le moteur de reco (PIX-24069)
+- [#17491](https://github.com/1024pix/pix/pull/17491) Vérifier le header `typ` des access tokens (PIX-24247)
+
+### :bug: Correction
+
+- [#17554](https://github.com/1024pix/pix/pull/17554) Affiche la banniere avec le questionnaire du catalogue sur les pages manquantes (PIX-24334)
+- [#17547](https://github.com/1024pix/pix/pull/17547) Corriger la lecture des modules JSON lors de la vérification des réponses (PIX-24306)
+- [#17549](https://github.com/1024pix/pix/pull/17549) Corriger la lecture des modules JSON pour les besoins des parcours combinés (PIX-24308)
+- [#17517](https://github.com/1024pix/pix/pull/17517) Recharge la liste des filtres d'organization au changement d'orga (PIX-22991)
+
+### :building_construction: Tech
+
+- [#17539](https://github.com/1024pix/pix/pull/17539) Convertir des models PixOrga en TypeScript
+- [#17552](https://github.com/1024pix/pix/pull/17552) Editer modale de signalement pour préparer au nouveau PixTextArea (PIX-24331)
+- [#17558](https://github.com/1024pix/pix/pull/17558) Remplacement d'une callback done par une assertion 'await' 
+- [#17545](https://github.com/1024pix/pix/pull/17545) Upgrade d'un test dans `complementary-certification-course_test.js`
+
+### :arrow_up: Montée de version
+
+- [#17535](https://github.com/1024pix/pix/pull/17535) Update dependency joi to ^18.2.8 (admin)
+
 ## [5.503.1](https://github.com/1024pix/pix/compare/v5.503.0...v5.503.1) (2026-09-21)
 
 ### :bug: Correction
