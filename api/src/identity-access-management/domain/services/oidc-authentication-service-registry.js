@@ -1,3 +1,6 @@
+// eslint-disable-next-line n/no-unsupported-features/node-builtins
+import { locks } from 'node:worker_threads';
+
 import { InvalidIdentityProviderError } from '../../../shared/domain/errors.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
@@ -5,6 +8,9 @@ import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-p
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
 import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
+
+const LOCK_REQUEST_TIMEOUT = 5000; // in ms
+const LOAD_ALL_OIDC_PROVIDER_SERVICES_LOCKNAME = 'loadAllOidcProviderServices';
 
 export class OidcAuthenticationServiceRegistry {
   #allOidcProviderServices = null;
@@ -60,15 +66,25 @@ export class OidcAuthenticationServiceRegistry {
       return oidcProviderService;
     }
 
-    const oidcProviderServices = await this.getOidcProviderServicesByRequestedApplication(requestedApplication);
-    oidcProviderService = oidcProviderServices.find((service) => identityProviderCode === service.code);
-    if (!oidcProviderService) {
-      throw new InvalidIdentityProviderError(identityProviderCode);
-    }
+    const lockName = `getOidcProviderServiceByCode-${identityProviderCode}`;
+    await locks.request(lockName, { signal: AbortSignal.timeout(LOCK_REQUEST_TIMEOUT) }, async () => {
+      // The lock has been acquired.
+      // eslint-disable-next-line no-console
+      console.log(`lock ${lockName} has been acquired↑↑↑`);
 
-    await oidcProviderService.initializeClientConfig();
-    this.#readyOidcProviderServicesByIdentityProviderCode[key] = oidcProviderService;
+      const oidcProviderServices = await this.getOidcProviderServicesByRequestedApplication(requestedApplication);
+      oidcProviderService = oidcProviderServices.find((service) => identityProviderCode === service.code);
+      if (!oidcProviderService) {
+        throw new InvalidIdentityProviderError(identityProviderCode);
+      }
 
+      await oidcProviderService.initializeClientConfig();
+      this.#readyOidcProviderServicesByIdentityProviderCode[key] = oidcProviderService;
+    });
+
+    // The lock has been released here.
+    // eslint-disable-next-line no-console
+    console.log(`lock ${lockName} will be released↓↓↓`);
     return oidcProviderService;
   }
 
@@ -87,33 +103,46 @@ export class OidcAuthenticationServiceRegistry {
       return;
     }
 
-    if (!oidcProviderServices) {
-      const oidcProviders = await this.oidcProviderRepository.findAllOidcProviders();
+    await locks.request(LOAD_ALL_OIDC_PROVIDER_SERVICES_LOCKNAME, async () => {
+      // The lock has been acquired.
+      // eslint-disable-next-line no-console
+      console.log('lock loadAllOidcProviderServices has been acquired↑↑↑');
 
-      oidcProviderServices = await PromiseUtils.mapSeries(oidcProviders, async (oidcProvider) => {
-        await oidcProvider.decryptClientSecret(cryptoService);
-        switch (oidcProvider.identityProvider) {
-          case 'FWB':
-            return new FwbOidcAuthenticationService(oidcProvider);
-          case 'POLE_EMPLOI':
-            return new PoleEmploiOidcAuthenticationService(oidcProvider);
-          default:
-            return new OidcAuthenticationService(oidcProvider);
-        }
-      });
-    }
+      if (!oidcProviderServices) {
+        const oidcProviders = await this.oidcProviderRepository.findAllOidcProviders();
 
-    this.#allOidcProviderServices = oidcProviderServices;
+        oidcProviderServices = await PromiseUtils.mapSeries(oidcProviders, async (oidcProvider) => {
+          await oidcProvider.decryptClientSecret(cryptoService);
+          switch (oidcProvider.identityProvider) {
+            case 'FWB':
+              return new FwbOidcAuthenticationService(oidcProvider);
+            case 'POLE_EMPLOI':
+              return new PoleEmploiOidcAuthenticationService(oidcProvider);
+            default:
+              return new OidcAuthenticationService(oidcProvider);
+          }
+        });
+      }
 
-    const enabledOidcProviderServices = this.#allOidcProviderServices.filter(
-      (oidcProviderService) => oidcProviderService.isEnabled,
-    );
+      this.#allOidcProviderServices = oidcProviderServices;
 
-    this.#oidcProviderServicesByRequestedApplication = Object.groupBy(
-      enabledOidcProviderServices,
-      (oidcProviderService) =>
-        generateGroupByKeyForRequestedApplication(oidcProviderService.application, oidcProviderService.applicationTld),
-    );
+      const enabledOidcProviderServices = this.#allOidcProviderServices.filter(
+        (oidcProviderService) => oidcProviderService.isEnabled,
+      );
+
+      this.#oidcProviderServicesByRequestedApplication = Object.groupBy(
+        enabledOidcProviderServices,
+        (oidcProviderService) =>
+          generateGroupByKeyForRequestedApplication(
+            oidcProviderService.application,
+            oidcProviderService.applicationTld,
+          ),
+      );
+    });
+
+    // The lock has been released here.
+    // eslint-disable-next-line no-console
+    console.log('lock loadAllOidcProviderServices has been released↓↓↓');
   }
 }
 
