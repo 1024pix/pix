@@ -193,18 +193,6 @@ const updateHasSeenChallengeTooltip = async function ({ userId, challengeType })
   return new User(user);
 };
 
-const updatePixCertifTermsOfServiceAcceptedToTrue = async function (id) {
-  const knexConn = DomainTransaction.getConnection();
-  const now = new Date();
-
-  const [user] = await knexConn('users')
-    .where({ id })
-    .update({ pixCertifTermsOfServiceAccepted: true, lastPixCertifTermsOfServiceValidatedAt: now, updatedAt: now })
-    .returning('*');
-
-  return new User(user);
-};
-
 const isUsernameAvailable = async function (username) {
   const knexConn = DomainTransaction.getConnection();
   const foundUser = await knexConn('users').where({ username }).first();
@@ -304,7 +292,6 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} updateHasSeenChallengeTooltip
  * @property {function} updateHasSeenNewDashboardInfoToTrue
  * @property {function} updateLastDataProtectionPolicySeenAt
- * @property {function} updatePixCertifTermsOfServiceAcceptedToTrue
  * @property {function} updateUserDetailsForAdministration
  * @property {function} updateUsername
  * @property {function} updateWithEmailConfirmed
@@ -331,7 +318,6 @@ export {
   updateHasSeenChallengeTooltip,
   updateHasSeenNewDashboardInfoToTrue,
   updateLastDataProtectionPolicySeenAt,
-  updatePixCertifTermsOfServiceAcceptedToTrue,
   updateUserDetailsForAdministration,
   updateUsername,
   updateWithEmailConfirmed,

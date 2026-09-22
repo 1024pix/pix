@@ -1130,37 +1130,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       });
     });
 
-    describe('#updatePixCertifTermsOfServiceAcceptedToTrue', function () {
-      it('returns the model with pixCertifTermsOfServiceAccepted flag updated to true', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false }).id;
-        await databaseBuilder.commit();
-
-        // when
-        const actualUser = await userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(userId);
-
-        // then
-        expect(actualUser).to.be.an.instanceof(User);
-        expect(actualUser.pixCertifTermsOfServiceAccepted).to.be.true;
-      });
-
-      it('updates the pixCertifTermsOfServiceValidatedAt', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser({
-          pixCertifTermsOfServiceAccepted: true,
-          lastPixCertifTermsOfServiceValidatedAt: new Date('2020-01-01T00:00:00Z'),
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const actualUser = await userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(user.id);
-
-        // then
-        expect(actualUser.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(now);
-        expect(actualUser.updatedAt).to.deep.equal(now);
-      });
-    });
-
     describe('#updateHasSeenAssessmentInstructionsToTrue', function () {
       it('returns the model with hasSeenAssessmentInstructions flag updated to true', async function () {
         // given
