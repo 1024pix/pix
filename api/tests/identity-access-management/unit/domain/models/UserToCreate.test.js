@@ -58,6 +58,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserToCreate', fu
         username: null,
         mustValidateTermsOfService: false,
         lastTermsOfServiceValidatedAt: null,
+        lastDataProtectionPolicySeenAt: null,
         lang: 'fr',
         locale: undefined,
         hasSeenNewDashboardInfo: false,
