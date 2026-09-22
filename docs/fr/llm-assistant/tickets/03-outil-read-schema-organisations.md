@@ -1,6 +1,6 @@
 Status: ready-for-agent
 
-# 02: Outil `read` — routeur de schémas et `organisations://`
+# 03: Outil `read` — routeur de schémas et `organisations://`
 
 **What to build:** Un outil **unique** de lecture, `read`, qui prend une adresse et
 rend la ressource correspondante. Premier schéma : une organisation désignée par
@@ -16,7 +16,7 @@ reste donc délibérément pauvre — un schéma, un identifiant ou un filtre, u
 — et une adresse invalide doit se rattraper d'elle-même en répondant par les
 schémas disponibles et un exemple.
 
-**Blocked by:** 01
+**Blocked by:** 02
 
 - [ ] `read` accepte une adresse, avec un sélecteur de plage terminal optionnel
 - [ ] `organisations://<id>` rend la fiche de l'organisation, profils cibles
@@ -30,9 +30,9 @@ schémas disponibles et un exemple.
       paginée**, avec son décompte total. Sans cela l'énumération interdite à la
       collection rentrerait par la fiche.
 - [ ] Aucun outil de lecture supplémentaire n'est ajouté au catalogue
-- [ ] L'outil temporaire de vérification d'identité posé par le ticket 01 est
+- [ ] L'outil temporaire de vérification d'identité posé par le ticket 02 est
       **supprimé**
 - [ ] La grammaire d'adressage est documentée dans la description de l'outil :
       délimiteur, forme du sélecteur de plage, échappement, et comportement par
       défaut en l'absence de plage. Elle est illustrée à l'identique dans le
-      ticket 03.
+      ticket 04.

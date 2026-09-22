@@ -1,13 +1,13 @@
 Status: ready-for-agent
 
-# 03: Schéma `profils-cibles://`
+# 04: Schéma `profils-cibles://`
 
 **What to build:** Un second schéma, qui permet de lire un profil cible précis et
 d'en chercher avec pagination.
 
 **Ce ticket teste la conception autant qu'il livre une fonctionnalité.** Ajouter un
 schéma doit se réduire à une entrée de registre : si la logique de résolution du
-routeur doit changer, la promesse du ticket 02 est fausse et c'est la conception
+routeur doit changer, la promesse du ticket 03 est fausse et c'est la conception
 qu'il faut reprendre.
 
 Deux contraintes viennent du volume : il y a environ **1500 profils cibles**, aux
@@ -26,7 +26,7 @@ Le champ interrogé s'appelle `internalName` et n'est pas un libellé public :
 l'adresse doit nommer le champ qu'elle interroge, faute de quoi l'appelant et
 l'utilisateur ne parlent pas du même attribut.
 
-**Blocked by:** 02
+**Blocked by:** 03
 
 - [ ] `profils-cibles://<id>` rend un profil cible
 - [ ] Une adresse de collection rend une page de résultats, accompagnée du

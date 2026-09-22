@@ -1,6 +1,6 @@
 Status: ready-for-agent
 
-# 05: Journal des opérations faites par un outil
+# 06: Journal des opérations faites par un outil
 
 **What to build:** Toute opération d'écriture passée par un outil laisse une
 trace : qui l'a faite, par quel moyen, et dans quel lot. Un auditeur doit pouvoir
@@ -21,7 +21,7 @@ Le journal vit dans le contexte borné de l'assistant. Pix Audit Logs n'est pas
 retenu : son modèle est centré sur des actions visant des personnes, et son objet
 est le suivi RGPD.
 
-**Blocked by:** 04
+**Blocked by:** 05
 
 - [ ] Une entrée porte l'utilisateur, le moyen d'obtention et un identifiant de lot
 - [ ] **Qui émet l'identifiant de lot est décidé et documenté.** La notion de lot

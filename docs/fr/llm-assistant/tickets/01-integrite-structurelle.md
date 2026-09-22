@@ -1,6 +1,6 @@
 Status: ready-for-agent
 
-# 06: Intégrité structurelle de l'attachement et du détachement
+# 01: Intégrité structurelle de l'attachement et du détachement
 
 **What to build:** Le domaine refuse ce qui n'a pas de sens **structurellement**.
 

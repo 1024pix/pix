@@ -1,6 +1,6 @@
 Status: ready-for-agent
 
-# 01: Amorce — serveur MCP du backoffice
+# 02: Amorce — serveur MCP du backoffice
 
 **What to build:** Un serveur MCP joignable depuis l'API de Pix, qui relaie
 l'identité de l'appelant et expose un outil de vérification. Une personne
@@ -14,7 +14,7 @@ suivante. Ce ticket se vérifie par ses tests et par un essai manuel en
 développement avec un jeton obtenu localement.
 
 **L'outil exposé est temporaire et nommé comme tel** : il rend l'identité de
-l'appelant et rien d'autre, et il est **supprimé par le ticket 02** quand `read`
+l'appelant et rien d'autre, et il est **supprimé par le ticket 03** quand `read`
 arrive. Le catalogue définitif est fermé à trois entrées — `read`, attacher,
 détacher — et cette amorce ne doit pas en consommer une.
 
