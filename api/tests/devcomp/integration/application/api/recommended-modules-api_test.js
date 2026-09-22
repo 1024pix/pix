@@ -23,6 +23,11 @@ describe('Integration | Devcomp | Application | Api | RecommendedModules', funct
         campaignParticipationId,
         trainingId,
       });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: '5df14039-803b-4db4-9778-67e4b84afbbd',
+        shortId: 'ecc13f55',
+        slug: 'adresse-ip-publique-et-vous',
+      });
 
       await databaseBuilder.commit();
 
@@ -75,6 +80,16 @@ describe('Integration | Devcomp | Application | Api | RecommendedModules', funct
       databaseBuilder.factory.buildTargetProfileTraining({
         trainingId: trainingId2,
         targetProfileId: targetProfileId2,
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: '5df14039-803b-4db4-9778-67e4b84afbbd',
+        shortId: 'ecc13f55',
+        slug: 'adresse-ip-publique-et-vous',
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: '9beb922f-4d8e-495d-9c85-0e7265ca78d6',
+        shortId: 'e074af34',
+        slug: 'au-dela-des-mots-de-passe',
       });
 
       await databaseBuilder.commit();
