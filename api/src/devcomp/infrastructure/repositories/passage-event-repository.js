@@ -2,7 +2,6 @@ import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-er
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { DomainError } from '../../../shared/domain/errors.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
-import { PassageEventFactory } from '../../domain/factories/passage-event-factory.js';
 
 const logger = child('devcomp:passage-event-repository', { event: SCOPES.DEVCOMP });
 
@@ -28,13 +27,6 @@ export async function record(event) {
   }
 }
 
-export async function getAllByPassageId({ passageId }) {
-  const knexConn = DomainTransaction.getConnection();
-  const passageEvents = await knexConn('passage-events').where('passageId', passageId).orderBy('sequenceNumber');
-
-  return passageEvents.map((passageEvent) => _toDomain(passageEvent));
-}
-
 export async function getHighestSequenceNumberForPassageId({ passageId }) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn
@@ -44,11 +36,4 @@ export async function getHighestSequenceNumberForPassageId({ passageId }) {
     .orderBy('sequenceNumber', 'desc')
     .limit(1);
   return results[0].sequenceNumber;
-}
-
-function _toDomain(passageEvent) {
-  return PassageEventFactory.build({
-    ...passageEvent,
-    ...passageEvent.data,
-  });
 }
