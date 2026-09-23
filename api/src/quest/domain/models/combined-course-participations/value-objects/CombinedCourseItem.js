@@ -24,6 +24,23 @@ class CombinedCourseItem {
   }
 }
 
+/* TODO
+- description : Training = null / Campaign = customLandingPageText / Module = description
+- objectifs : Training = null / Campaign = null / Module = objectives
+- level : Training = null / Campaign = null / Module = level
+
+==> Données à faire remonter de la table campaigns et des modules de learning-content dans les repos associés
+(Campagnes : api/src/quest/infrastructure/repositories/combined-courses/campaign-repository.js
+Modules api/src/quest/infrastructure/repositories/combined-courses/module-repository.js -> api/src/devcomp/infrastructure/repositories/module-metadata-repository.js)
+
+Ajouter ces infos dans nos VOs Campaign et Module.
+
+Les passer à CampaignCombinedCourseItem et à ModuleCombinedCourseItem via les méthodes de CombinedCourseDetails
+(#createCampaignCombinedCourseItem / #createModuleCombinedCourseItem)
+
+Ajouter à la sérialisation : api/src/quest/infrastructure/serializers/combined-course-serializer.js
+ */
+
 export class TrainingCombinedCourseItem extends CombinedCourseItem {
   constructor({
     id,

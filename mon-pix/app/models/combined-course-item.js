@@ -23,9 +23,11 @@ export default class CombinedCourseItem extends Model {
   @attr('number') duration;
   @attr('string') image;
   @attr('string') shortId;
-  // todo description
-  // todo @attr('string') objectives;
-  // todo level
+  // TODO correct types
+  @attr('string') description;
+  @attr('string') objectives;
+  @attr('string') level;
+
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
   get route() {
