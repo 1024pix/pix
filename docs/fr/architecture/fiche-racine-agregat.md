@@ -256,8 +256,8 @@ constructor(
   quest,
 ) { … }
 
-// conforme — version corrigée : le constructeur ne porte que ce que l'invariant
-// engage ; le reste (nom, description, illustration…) va dans un read-model
+// conforme — version corrigée : l'agrégat ne porte que ce que l'invariant engage ;
+// le reste (nom, description, illustration…) se charge à part, pour qui en a besoin
 constructor({ id, participations = [] } = {}) { … }
 ```
 
@@ -299,8 +299,8 @@ nécessaire, et fait échouer des opérations sans rapport entre elles. Et elle 
 placée : personne ne se pose la question tant que la transaction absorbe le problème.
 
 **La position Pix est différente, et elle est décidée.** L'ADR 25 retient la transaction qui couvre
-plusieurs agrégats quand les écritures doivent échouer ou réussir ensemble. L'ADR 25 prescrit
-d'orchestrer ces écritures dans le usecase, sans événements. Son motif est mesuré : des deadlocks
+plusieurs agrégats quand les écritures doivent échouer ou réussir ensemble. Ces écritures sont alors
+orchestrées dans le usecase, sans événements. Son motif est mesuré : des deadlocks
 constatés en production, causés par des événements à l'intérieur de transactions.
 
 A7 reste donc l'invariant de la littérature, et garde sa valeur comme question de conception. Si deux
@@ -322,7 +322,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Une transaction qui couvre plusieurs agrégats dont les écritures doivent échouer ou réussir ensemble | **autorisé**, c'est la décision de l'ADR 25 : orchestration dans le usecase, sans événements. Voir X4 |
 | Un identifiant d'un autre contexte porté comme donnée | **autorisé**, c'est E7 bien appliqué |
 | La racine tient les instances de ses objets internes | **autorisé**, c'est la définition d'un agrégat |
-| Plusieurs repositories pour une même frontière | **pas une exception** — c'est X3, une convention à décider explicitement |
+| Plusieurs repositories pour une même frontière | **pas une exception** — c'est X3, une convention à assumer explicitement |
 | Un dossier `aggregates/` contenant des read-models | **pas une exception** — c'est X1 |
 
 ---
@@ -346,8 +346,8 @@ Ces rentabilités sont potentielles, pas acquises : elles supposent une frontiè
 Un agrégat qui respecte tous les invariants sur une mauvaise frontière n'a aucun ROI. Il sera
 seulement plus difficile à corriger, parce que le code s'y sera appuyé.
 
-Sur une frontière mal placée, respecter les invariants aggrave le problème. La conséquence pratique : décider A1 avant
-d'outiller quoi que ce soit.
+Sur une frontière mal placée, respecter les invariants aggrave le problème. La conséquence pratique :
+placer la frontière (A1) avant d'outiller quoi que ce soit.
 
 ### Ce que ça n'apporte pas
 
@@ -480,14 +480,14 @@ export const updateUserPassword = withTransaction(async function ({ … }) {
 });
 ```
 
-`User` et `AuthenticationMethod` sont deux agrégats. Un mot de passe changé sans courriel confirmé, ou l'inverse, laisse un compte dans un état
-dont personne ne veut. Ces deux écritures doivent échouer ensemble. La cohérence à terme n'y
+`User` et `AuthenticationMethod` sont deux agrégats. Un mot de passe changé sans courriel confirmé, ou
+l'inverse, laisse un compte dans un état dont personne ne veut. Ces deux écritures doivent échouer ensemble. La cohérence à terme n'y
 répondrait pas : elle laisserait une fenêtre pendant laquelle le compte est cassé.
 
 **Correction.** Aucune, et ce n'est pas une tolérance. C'est une décision, portée par l'ADR 25.
 
 Pix enchaînait des traitements par événements à l'intérieur des transactions. C'est la forme qui
-aurait permis de découper. À sa rédaction, l'ADR 25 cite un usecase qui le fait encore. Ces
+aurait permis de découper. L'ADR 25 cite un usecase qui le faisait encore au moment de sa rédaction. Ces
 événements dans des transactions ont causé des deadlocks en production, en épuisant le pool de
 connexions. L'ADR 25 en tire deux règles :
 
@@ -503,15 +503,15 @@ Ce qui est à tenir : sur du code neuf, poser la question de A7 plutôt que d'é
 réflexe. Une transaction qui grossit reste un signal possible de frontière mal placée. Ce moment est
 le seul où la frontière mal placée se voit.
 
-Ce qui rouvrirait le dossier : de la contention mesurée sur une de ces transactions, c'est-à-dire le
+Ce qui changerait ce verdict : de la contention mesurée sur une de ces transactions, c'est-à-dire le
 même type de preuve que celle qui a produit l'ADR 25.
 
 ---
 
 ## 6. Vérification déterministe
 
-Presque tout ici demande de savoir ce qui appartient à la même frontière,
-une information qui n'est écrite nulle part. C'est X2.
+Presque tout ici demande de savoir ce qui appartient à la même frontière. Cette information n'est
+écrite nulle part : c'est X2.
 
 Il n'existe pas de plugin ESLint maison. Toute règle sur mesure suppose d'abord de créer cette
 infrastructure, et les coûts ci-dessous ne comptent que la règle.
@@ -560,7 +560,7 @@ l'ordre ci-dessous : déclarer avant d'outiller.
 ### Ordre de mise en œuvre
 
 L'ordre suit le coût et les dépendances entre points, pas le ROI du § 4 : A1, le plus rentable,
-vient en dernier parce qu'elle dépend de X2.
+vient en dernier parce qu'il dépend de X2.
 
 1. **X2** : déclarer les racines et leur invariant de frontière, par contexte
 2. **X1** : appliquer le test du § 1 aux dossiers `aggregates/` et renommer selon le résultat
@@ -631,9 +631,9 @@ Ordonnée par ROI décroissant pour les invariants propres, comme au § 4, puis 
 
 Chaque ligne porte son statut au regard du § 6 :
 
-- `[auto]` disparaît de la checklist dès que la règle correspondante existe.
-- `[partiel]` reste, réduite à ce que la règle ne couvre pas.
-- `[humain]` reste en entier : aucun moyen déterministe n'est connu.
+- Une ligne `[auto]` disparaît dès que la règle correspondante existe.
+- Une ligne `[partiel]` reste, réduite à ce que la règle ne couvre pas.
+- Une ligne `[humain]` reste en entier : aucun moyen déterministe n'est connu.
 
 Les quatre dernières lignes reprennent des invariants hérités de `fiche-entite.md`. E3 et E7 portent
 différemment sur une racine, E4 et E6 s'y appliquent comme sur toute entité.
@@ -649,10 +649,10 @@ différemment sur une racine, E4 et E6 s'y appliquent comme sur toute entité.
 [ ] [partiel] E3  L'invariant tient après chaque opération, échec à mi-chemin compris
 [ ] [auto]    E6  Aucun assemblage par mutateurs successifs appelés de l'extérieur
 [ ] [humain]  E7  Les autres agrégats sont référencés par identifiant, jamais par instance
-[ ] [auto]    E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
+[ ] [partiel] E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
 ```
 
-À terme, il reste huit lignes : deux `[partiel]` (A3, E3) et six `[humain]`. La raison est
+À terme, il reste neuf lignes : trois `[partiel]` (A3, E3, E4) et six `[humain]`. La raison est
 structurelle : les invariants portent sur une frontière que le code ne déclare pas. X2 est ce qui
 déplacerait cette limite.
 
@@ -677,6 +677,6 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 Vernon, « Effective Aggregate Design », trois articles gratuits :
 <https://www.dddcommunity.org/library/vernon_2011/>
 
-Tous les invariants propres ont une source. Mais aucun n'est adossé à un ADR : la façon dont Pix
+Tous les invariants propres ont une source. Mais aucun n'est appuyé sur un ADR : la façon dont Pix
 place ses frontières d'agrégat n'a jamais été décidée par écrit. X2 est le premier pas pour écrire
 cette décision.

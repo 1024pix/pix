@@ -194,7 +194,7 @@ Un changement produit une nouvelle instance, il ne modifie pas l'existante. La f
 est un constructeur statique nommé :
 
 ```js
-static get OK() { return new AnswerStatus({ status: OK }); }
+static get OK() { return new AnswerStatus({ status: statuses.OK }); }
 ```
 
 **Ce qui casse.** Un objet-valeur mutable, partagé entre deux évaluations ou mis en cache, peut changer
@@ -245,7 +245,7 @@ voir X5 au § 5. Le deuxième est un identifiant à part entière, donc V3 s'app
 relève de `fiche-entite.md`.
 
 Comment les distinguer : chercher qui lit la clé. Si personne ne la relit côté serveur, c'est une clé
-de cache.
+de présentation.
 
 ### V3. Validation à la construction
 
@@ -287,13 +287,14 @@ cohérente. La vérification se duplique, et elle est oubliée quelque part.
 
 ### V4. Aucune I/O, aucune dépendance à l'infrastructure
 
-Le symptôme est visible dans les imports :
+Un objet-valeur n'importe rien de l'infrastructure et ne fait aucune I/O. Une violation se repère
+dans les imports :
 
 ```js
 // dans un objet-valeur de domain/models/ — fautif
 import { logger } from '…/shared/infrastructure/utils/logger.js';
 
-// et son usage, qui est le motif réel : tracer un cas non évaluable avant de lever
+// et son usage : journaliser une erreur avant de la lever
 getDeletableOrganizationLearners(organizationLearnerIdsToDelete, userId) {
   if (this.organizationLearners.length !== organizationLearnerIdsToDelete.length) {
     logger.error(`User id ${userId} could not delete organization learners because …`);
@@ -309,8 +310,8 @@ l'erreur. Voir `X3` de `fiche-specification.md`, où l'écart est instruit.
 L'interdit vaut aussi pour la configuration, l'horloge et l'aléatoire. Un objet qui lit l'heure courante
 n'est pas testable de façon déterministe : la date arrive en paramètre.
 
-**Ce qui casse.** Le test cesse d'être pur : il faut un double. Le besoin d'un double est le symptôme,
-pas la cause.
+**Ce qui casse.** Le test cesse d'être pur : il faut un double. Ce besoin n'est que le symptôme. La
+cause est la dépendance à l'infrastructure.
 
 ### V5. Porte le comportement lié à ses données
 
@@ -350,8 +351,8 @@ Pas de repository, pas de table dédiée, pas de fonction de persistance. Un obj
 S'il faut le retrouver indépendamment, c'est une entité.
 
 **Ce qui casse.** Un repository dédié à un objet-valeur lui donne une identité de fait, celle par
-laquelle on le retrouve. L'objet-valeur bascule alors dans la catégorie des entités,
-sans que personne l'ait décidé.
+laquelle on le retrouve. L'objet-valeur bascule alors dans la catégorie des entités, sans que
+personne l'ait décidé.
 
 ### V7. Exposition en lecture seule, collections comprises
 
@@ -476,7 +477,7 @@ relue par personne côté serveur.
 
 **Correction.** Classer selon les trois cas de V2, puis :
 
-1. **Clé de cache pure.** Le sérialiseur la compose depuis les champs qu'il a déjà. L'objet du domaine
+1. **Clé de présentation pure.** Le sérialiseur la compose depuis les champs qu'il a déjà. L'objet du domaine
    n'a pas d'`id`. C'est le cas majoritaire, et la correction est mécanique.
 2. **Clé renvoyée par le client.** Un objet-valeur porte la paire construire / découper, et les deux
    vivent ensemble. C'est un identifiant, donc V3 s'applique à lui. Le déplacer dans le sérialiseur
@@ -507,11 +508,12 @@ Le quatrième porte deux signaux du § 1 à lui seul : `Admin` et `Details` nomm
 un concept métier.
 
 Les deux derniers ressemblent à des **commandes**, au sens de CQRS. Le mot `read-model` vient lui
-aussi de CQRS. Dans les deux cas, le vocabulaire de CQRS est emprunté sans son architecture. Détail dans `references-ddd.md`, section « Read model ».
+aussi de CQRS. Dans les deux cas, le vocabulaire de CQRS est emprunté sans son architecture. Détail
+dans `references-ddd.md`, section « Read model ».
 
 **Le motif habituel** est une optimisation non mesurée : ne pas charger l'entité entière. La grille
-coût/bénéfice de `corpus-index.md` est explicite : un bénéfice invoqué sans mesure compte pour nul. Le coût, lui, est certain.
-Chaque forme partielle est un modèle qui ne garantit aucun invariant, et le nombre de fichiers de
+coût/bénéfice de `corpus-index.md` est explicite : un bénéfice invoqué sans mesure compte pour nul.
+Le coût, lui, est certain. Chaque forme partielle est un modèle qui ne garantit aucun invariant, et le nombre de fichiers de
 `domain/models/` cesse de dire combien de concepts porte le contexte.
 
 **Correction.** Le test du motif de `V8` s'applique fichier par fichier. Ce qui exprime une différence de
@@ -532,10 +534,13 @@ primitives circulent vers le domaine :
 
 ```js
 // à la route
-payload: Joi.object({ threshold: Joi.number().min(0).max(100).required() })
+threshold: Joi.number().min(0).max(100).required(),
 
-// puis, dans le domaine
-function apply({ threshold }) { … }   // un number, sans garantie propre
+// puis, dans le usecase : un number, sans garantie propre, transmis tel quel
+const createOrUpdateTrainingTrigger = async function ({ trainingId, tubes, type, threshold, … }) {
+  …
+  return trainingTriggerRepository.createOrUpdate({ trainingId, triggerTubesForCreation: tubes, type, threshold });
+};
 ```
 
 L'ADR 19 a examiné le typage des identifiants côté domaine et l'a écarté pour son coût, en retenant la
@@ -559,9 +564,15 @@ prescrit sous cette forme.
 **Exemple concret.** Le durcissement se voit au nombre de constructeurs qui lèvent :
 
 ```js
-constructor({ value }) {
-  if (value < 0 || value > 100) throw new DomainError('…');
-  this.#value = value;
+class QrocmSolutions {
+  constructor(proposals) {
+    proposals
+      .filter((proposal) => ['input', 'select'].includes(proposal.type))
+      .forEach((proposal) => {
+        assertNotNullOrUndefined(proposal.solutions, 'The solutions are required for each QROCM proposal …');
+        …
+      });
+  }
 }
 ```
 
@@ -712,21 +723,21 @@ Deux formes, et elles ne se valent pas.
 **Type structurel**, léger, sans garantie d'unicité :
 
 ```ts
-export type Threshold = { readonly value: number };
+export type AnswerStatus = { readonly status: string };
 ```
 
-Deux types de même forme sont interchangeables : le typage structurel ne distingue pas un `Threshold`
-d'un `Percentage`. C'est la forme retenue pour un read-model, dont la forme *est* le contenu. Voir
+Deux types de même forme sont interchangeables : le typage structurel ne distingue pas un
+`AnswerStatus` de n'importe quel autre objet qui porte un champ `status`. C'est la forme retenue pour un read-model, dont la forme *est* le contenu. Voir
 `fiche-read-model.md`. Elle ne convient pas ici.
 
 **Classe avec champ privé.** C'est ce qui donne la nominalité : un champ `#` rend le type non
 assignable depuis une forme identique :
 
 ```ts
-export class Threshold {
-  readonly #value: number;
-  constructor(value: number) { /* validation */ this.#value = value; }
-  get value(): number { return this.#value; }
+export class AnswerStatus {
+  readonly #status: string;
+  constructor({ status }: { status: string }) { /* validation */ this.#status = status; }
+  isOK(): boolean { return this.#status === statuses.OK; }
 }
 ```
 
@@ -749,13 +760,12 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 
 L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6.
 
-Deux indices de diagnostic, avec leurs limites.
+Deux indices de diagnostic :
 
-Un objet qui a besoin d'un double **viole V4**. Le double nécessaire est le symptôme, pas la cause.
-
-Un objet-valeur dont le test unitaire n'a ni validation ni comportement à vérifier n'est probablement
-pas un objet-valeur : appliquer le discriminant du § 1. La limite : un type nommé sans logique peut
-valoir pour la seule signature, ce qu'admet le § 3.
+- Un objet qui a besoin d'un double **viole V4**. Voir « Ce qui casse » de V4 au § 2.
+- Un objet-valeur dont le test unitaire n'a ni validation ni comportement à vérifier n'est
+  probablement pas un objet-valeur : appliquer le discriminant du § 1. Limite : un type nommé sans
+  logique peut valoir pour la seule signature, ce qu'admet le § 3.
 
 ---
 
@@ -763,9 +773,11 @@ valoir pour la seule signature, ce qu'admet le § 3.
 
 Ordonnée par ROI décroissant, conformément au § 4.
 
-Chaque ligne porte son statut au regard du § 6. `[auto]` disparaît de la checklist dès que la règle
-correspondante existe. `[partiel]` reste, réduite à ce que la règle ne couvre pas. `[humain]` reste
-entièrement : aucun moyen déterministe n'est identifié.
+Chaque ligne porte son statut au regard du § 6 :
+
+- Une ligne `[auto]` disparaît dès que la règle correspondante existe.
+- Une ligne `[partiel]` reste, réduite à ce que la règle ne couvre pas.
+- Une ligne `[humain]` reste en entier : aucun moyen déterministe n'est connu.
 
 ```
 [ ] [humain]  V3  Validation à la construction, un seul type d'erreur ; avant affectation si le message nomme l'entrée   (objet-valeur)
@@ -786,8 +798,8 @@ entièrement : aucun moyen déterministe n'est identifié.
 À terme, il reste onze lignes. Six sont entièrement de jugement : V3, V5, V8, la pureté des tests et
 les deux rappels de classement. Cinq sont partielles, réduites à ce que la règle ne couvre pas : V7,
 V4, V2 pour la clé composée, V2 pour l'identité propre, et V6. Les invariants les plus rentables,
-V3 et V5, portent sur le
-contenu d'une règle, pas sur une forme syntaxique. Cela limite la part automatisable.
+V3 et V5, portent sur le contenu d'une règle, pas sur une forme syntaxique. Cela limite la part
+automatisable.
 
 ---
 
@@ -813,6 +825,5 @@ Deux invariants sur huit n'ont aucune source : V7 et V8. V3 n'en a qu'une partie
 objet-valeur vient d'Evans ; la façon de l'appliquer ici est en partie conventionnelle. Ce sont des
 conventions : elles se discutent sur leurs mérites, pas par appel à une autorité.
 
-Les quatre tests du discriminant, au § 1, n'ont eux non plus aucune source. Ce sont les artefacts les
-plus utilisés de la fiche et les moins adossés : à discuter sur leur rendement en revue, pas sur leur
-pedigree.
+Les quatre tests du discriminant, au § 1, n'ont pas non plus de source. Ils se jugent sur leur
+utilité en revue.

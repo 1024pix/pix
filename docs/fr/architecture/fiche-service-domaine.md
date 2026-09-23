@@ -337,8 +337,8 @@ Deux autres positions ont été écartées :
 - renommer le dossier en `shared-usecases/`, moins cher, mais qui laisse le vrai service sans
   emplacement.
 
-Avant de déplacer, il faut classer les fichiers existants avec le test du § 1. La règle du § 6, en
-avertissement, fournit la liste.
+Avant de déplacer, il faut classer les fichiers existants avec le test du § 1. La règle ESLint de D1,
+en avertissement, fournit la liste (§ 6).
 
 ### X2. La règle est placée dans un service plutôt que sur un objet
 
@@ -422,9 +422,9 @@ correspond à /(Repository|Api|Storage)$/.
 
 La règle n'a besoin que de la signature.
 
-Elle se déclenchera sur le code existant, et c'est voulu. Chaque fichier signalé contient un usecase.
-Le classer avec le test du § 1 : le déplacer, ou le découper. Introduire la règle en avertissement
-pendant le classement de X1, puis la passer en erreur.
+Elle se déclenchera sur le code existant, et c'est voulu : chaque fichier signalé contient un
+usecase. Classer ce fichier avec le test du § 1, puis le déplacer ou le découper. Introduire la règle
+en avertissement pendant ce classement, puis la passer en erreur.
 
 La même analyse de la signature sert au discriminant du § 6 de `fiche-usecase.md`. Elle sert aussi à
 l'étape 1 de I1 dans `fiche-repository.md`, qui repère déjà les paramètres en `/Api$/`. Le coût
@@ -459,10 +459,11 @@ contexte à l'autre.
 
 ### Ce qui n'est pas mécanisable
 
-D4 est, avec D1, l'invariant le plus rentable, et c'est le moins vérifiable. Pour savoir si une règle aurait pu vivre
-sur un objet, il faut connaître cet objet.
+D4 est, avec D1, l'invariant le plus rentable, et c'est le moins vérifiable. Pour savoir si une
+règle aurait pu vivre sur un objet, il faut connaître cet objet.
 
-Le seul indicateur connu est « un seul objet du domaine en entrée ». Il justifie une revue, pas un
+Le seul indicateur connu est le signal de D4 : un seul objet du domaine, ou une seule collection, en
+entrée. Il justifie une revue, pas un
 verdict. Il ne couvre pas le cas le plus fréquent : une règle sur deux objets, qui appartenait à l'un
 des deux.
 
@@ -473,7 +474,8 @@ Cet ordre suit le coût, pas le ROI du § 4.
 1. **D1 imports** : configuration `dependency-cruiser`, avec contre-épreuve. Introduire une
    violation, vérifier que l'outil la signale, puis la retirer.
 2. **D1 signature** en avertissement, pour produire la liste des fichiers à classer.
-3. **X1** : classer les fichiers avec le test du § 1, puis déplacer les usecases.
+3. **X1** : classer les fichiers avec le test du § 1, puis déplacer ou découper ceux qui contiennent
+   un usecase.
 4. **D1 signature** en erreur.
 5. **D3** : règle sur les champs de classe.
 6. **§ 8 et D5** : un seul script, une fois le dossier stabilisé.
@@ -495,8 +497,8 @@ Un codemod peut appliquer une décision. Il ne peut pas en prendre une.
 
 ## 7. Le type
 
-Un service de domaine est un module de fonctions. Son typage n'a rien de particulier : des paramètres
-nommés, des objets du domaine en entrée et en sortie.
+Un service de domaine est de préférence un module de fonctions. Son typage n'a rien de particulier :
+des paramètres nommés, des objets du domaine en entrée et en sortie.
 
 ```ts
 export function filterKnowledgeElements(params: {
@@ -549,9 +551,9 @@ Ordonnée par ROI décroissant, comme au § 4.
 
 Chaque ligne porte son statut au regard du § 6 :
 
-- `[auto]` sort de la checklist dès que la règle correspondante existe.
-- `[partiel]` reste, réduite à ce que la règle ne couvre pas.
-- `[humain]` reste en entier : aucun moyen déterministe n'est connu.
+- Une ligne `[auto]` disparaît dès que la règle correspondante existe.
+- Une ligne `[partiel]` reste, réduite à ce que la règle ne couvre pas.
+- Une ligne `[humain]` reste en entier : aucun moyen déterministe n'est connu.
 
 ```
 [ ] [auto]    D1  Aucun paramètre en *Repository, *Api, *Storage ; aucun import d'infrastructure
@@ -566,8 +568,8 @@ Chaque ligne porte son statut au regard du § 6 :
 [ ] [humain]  Si le service prend un seul objet du domaine, vérifier que la règle ne lui appartient pas
 ```
 
-À terme, il reste huit lignes : deux `[partiel]` et six `[humain]`. D4, rentable comme D1, reste
-humaine : elle porte sur une alternative qui n'existe pas dans le code.
+À terme, il reste huit lignes : deux `[partiel]` et six `[humain]`. La ligne de D4 reste humaine,
+alors que D4 est aussi rentable que D1 : elle porte sur une alternative qui n'existe pas dans le code.
 
 ---
 

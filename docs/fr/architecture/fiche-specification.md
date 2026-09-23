@@ -60,9 +60,9 @@ cycle de vie, `V7` exposition en lecture seule.
 | [**X3**](#x3-la-specification-journalise) | la specification journalise | **à corriger** |
 | [**X4**](#x4-la-résolution-dune-propriété-du-candidat-se-fait-par-nom) | la résolution d'une propriété du candidat se fait par nom | à surveiller |
 
-Deux artefacts hors numérotation : la [table des quatre éléments](#les-quatre-éléments)
-du pattern au § 1, et le [format publié](#le-format-dune-specification-pilotée-par-les-données-est-un-contrat-publié)
-et ses trois conséquences.
+Hors numérotation, au § 1 : la [table des quatre éléments](#les-quatre-éléments) du pattern, et le
+[format publié](#le-format-dune-specification-pilotée-par-les-données-est-un-contrat-publié) avec ses
+trois conséquences.
 
 ---
 
@@ -124,7 +124,7 @@ C'est `S6`. Ces trois conséquences distinguent ce format de toute autre structu
 
 ### Ce qu'une Specification n'est pas
 
-Table de décision. Si le code correspond à une ligne, ce n'est pas une Specification.
+Si le code correspond à une ligne, ce n'est pas une Specification.
 
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
@@ -216,8 +216,8 @@ comportement dépend du critère écrit. Le diagnostic devient impossible.
 **Énoncé.** Une specification renvoie un booléen quand elle a pu conclure, et signale explicitement
 qu'elle n'a pas pu conclure.
 
-Cet invariant peut sembler contredire `S1`, qui interdit de lever. Cette contradiction n'est qu'apparente.
-Elle vient de trois cas qu'il faut séparer :
+Cet invariant peut sembler contredire `S1`, qui interdit de lever. Cette contradiction n'est
+qu'apparente. Elle vient de trois cas qu'il faut séparer :
 
 | Cas | Réponse | Invariant |
 | --- | --- | --- |
@@ -277,9 +277,9 @@ pas droit, et personne ne le sait. Voir `X2` au § 5.
 **Énoncé.** Un combinateur accepte n'importe quel critère comme enfant, y compris un autre
 combinateur, et propage le candidat sans le transformer.
 
-Aucune des deux formes ci-dessous n'a d'occurrence réelle dans `ComposedRequirement`. Le conforme est
-dérivé de son `isFulfilled` réel, débarrassé de la journalisation. Voir `X3` au § 5. Le fautif est une
-variante hypothétique, mêmes noms, qui inspecte le type de ses enfants.
+Le conforme est le vrai `ComposedRequirement.isFulfilled`, sans sa journalisation (voir `X3` au
+§ 5). Le fautif n'a pas d'occurrence dans le code : c'est une variante hypothétique, avec les mêmes
+noms, qui inspecte le type de ses enfants.
 
 ```js
 // conforme — dérivé de ComposedRequirement.isFulfilled : le combinateur ne connaît que
@@ -544,10 +544,9 @@ sources ne formulent pas, mais que le caractère piloté par les données impose
 **Exemple concret.**
 
 ```js
-if (comparisonIsInvalid) {
-  logger.error(`comparaison invalide : ${this.#comparison}`);
-  return false;
-}
+// extrait de CriterionProperty.check(), déjà montré sous S2
+logger.error({ event: 'quest-reward', err: error }, 'Error on quests criterion property');
+return false;
 ```
 
 Le signe : un `return false` précédé d'une journalisation. Le code traite un incident comme une
@@ -622,7 +621,7 @@ nouvelle sans déploiement. C'est le bénéfice central du pattern piloté par l
 Ce qui est à tenir, c'est la compensation : le test de `S7` vérifie l'étape que rien d'autre ne valide.
 Il coûte dix lignes. Sans lui, rien ne compense le coût de la convention.
 
-Ce qui rouvrirait le dossier : le typage. Un nom de critère typé en `keyof Candidate`, plutôt qu'en
+Ce qui changerait ce verdict : le typage. Un nom de critère typé en `keyof Candidate`, plutôt qu'en
 `string`, rend la déclaration sans propriété impossible à la compilation. Voir § 7. À ce moment-là,
 `X4` cesse d'être un écart, et le test de `S7` devient inutile.
 
@@ -746,7 +745,7 @@ Aucun de ces écarts ne se corrige mécaniquement. Chacun demande une décision 
 - `X2` : quel canal pour signaler l'inévaluable ;
 - `X1` : quel découpage entre le moteur et ses consommateurs.
 
-Le test et la règle suffisent.
+Pour les invariants, le test et la règle suffisent : aucun codemod n'est nécessaire.
 
 ---
 
@@ -801,8 +800,8 @@ L'existence du fichier de test se vérifie par comparaison de noms. Moyens et li
 Deux indices de diagnostic, avec leurs exceptions.
 
 **Une specification qui a besoin d'une doublure pour être testée en unitaire viole `V4`.** La doublure
-nécessaire est le symptôme, pas la solution. Cet indice n'a pas d'exception : il n'existe aucun cas où une
-specification conforme en demande une.
+n'est pas une contrainte du test, c'est le diagnostic. Cet indice n'a pas d'exception : aucune
+specification conforme n'en demande une.
 
 **Un test qui liste des cas au lieu d'énumérer est un signal.** Le domaine est fini et déclaré. Un test
 écrit cas par cas se périme dès qu'une valeur est ajoutée à une énumération, et personne ne le saura.
@@ -825,19 +824,19 @@ Les quatre dernières lignes reprennent les invariants hérités de `fiche-objet
 [ ] [auto]    S1  Aucun accès à une propriété du candidat sans traiter son absence
 [ ] [humain]  S2  Une donnée présente mais inexploitable est signalée, elle ne renvoie pas false
 [ ] [partiel] S6  Toute valeur ajoutée à une énumération du format est documentée
-[ ] [auto]    S7  Tout critère de l'énumération a sa propriété sur le candidat ET son chargement
+[ ] [partiel] S7  Tout critère de l'énumération a sa propriété sur le candidat ET son chargement
 [ ] [auto]    S5  La composition reste fermée ; le candidat n'est pas transformé en cours de route
 [ ] [auto]    V4  Aucun import d'infrastructure dans un modèle du domaine, journal compris
 [ ] [humain]  V3  Validation à la construction, à tous les niveaux de l'arbre, avant affectation
 [ ] [auto]    V1  Aucun champ public mutable, classe de base comprise ; aucun gel inopérant
-[ ] [auto]    V7  Aucune collection interne rendue telle quelle
+[ ] [partiel] V7  Aucune collection interne rendue telle quelle
 [ ] [humain]  Tests unitaires purs ; les tests énumèrent au lieu de lister des cas
 [ ] [humain]  Avant de signaler S1 ou S7, vérifier les exceptions du § 3
 ```
 
-À terme il reste six lignes. Cinq sont de jugement : `S8`, `S2`, `V3`, la forme des tests et le
-rappel des exceptions. La sixième est la ligne `[partiel]` de `S6`, réduite à ce que le test ne couvre
-pas. `S8` et `S2` restent de jugement parce que leurs écarts, `X1` et `X2`, se corrigent par une
+À terme, il reste huit lignes. Cinq sont de jugement : `S8`, `S2`, `V3`, la forme des tests et le
+rappel des exceptions. Trois sont partielles, réduites à ce que le test ou la règle ne couvre pas :
+`S6`, `S7` pour le chargement de la propriété, et `V7` pour les accès imbriqués. `S8` et `S2` restent de jugement parce que leurs écarts, `X1` et `X2`, se corrigent par une
 décision que rien ne vérifie ensuite. C'est cohérent avec le § 5.
 
 ---
@@ -859,10 +858,9 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | Le candidat est un objet-valeur | Discriminant du § 1 de `fiche-objet-valeur.md`, sans source externe. Evans pour la catégorie Value Object | *DDD Reference* |
 | Invariants hérités | voir § 10 de `fiche-objet-valeur.md` | — |
 
-**Deux invariants propres sur six n'ont aucune source** : `S2` et `S7`. Ils se discutent sur leurs
+Deux invariants propres sur six n'ont **aucune source** : `S2` et `S7`. Ils se discutent sur leurs
 mérites, pas par appel à une autorité. Ils ont la même origine : le caractère piloté par les données du
 moteur, que les sources ne traitent pas.
 
-Le cadrage est l'affirmation la plus structurante de la fiche : si un objet n'est pas une
-Specification, tout ce qui précède change de nature. Le PDF gratuit d'Evans & Fowler suffit à en juger.
-C'est là qu'il faut commencer pour contester la fiche.
+Tout le reste dépend du cadrage : si un objet n'est pas une Specification, les invariants ci-dessus
+ne s'appliquent pas. Le PDF gratuit d'Evans & Fowler suffit pour en juger.
