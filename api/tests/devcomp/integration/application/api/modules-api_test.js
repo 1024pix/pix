@@ -37,6 +37,10 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           title: 'Bac à sable',
           duration: 5,
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          level: 'novice',
+          description:
+            "<p>Ce module est dédié à des tests internes à Pix.</p><p>Il contient normalement l'intégralité des fonctionnalités disponibles à date.</p>",
+          objectives: ['Non régression fonctionnelle'],
         },
         {
           id: existingModuleId2,
@@ -45,6 +49,14 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           title: 'Bien écrire une adresse mail',
           duration: 10,
           image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
+          level: 'novice',
+          description:
+            "Écrire une adresse mail, c'est la première étape pour communiquer avec vos contacts. Dans ce module, découvrez les différentes parties de l'adresse mail et apprenez à éviter des erreurs courantes.",
+          objectives: [
+            'Reconnaître les différentes parties d’une adresse mail et les identifier sur des exemples',
+            "Associer chaque partie d'une adresse mail à sa fonction",
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+          ],
         },
       ];
 
@@ -143,6 +155,10 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           createdAt: now,
           updatedAt: now,
           terminatedAt: null,
+          level: 'novice',
+          description:
+            "<p>Ce module est dédié à des tests internes à Pix.</p><p>Il contient normalement l'intégralité des fonctionnalités disponibles à date.</p>",
+          objectives: ['Non régression fonctionnelle'],
         },
         {
           id: existingModuleId2,
@@ -155,6 +171,14 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           createdAt: new Date('2023-01-01'),
           updatedAt: new Date('2023-02-01'),
           terminatedAt: null,
+          level: 'novice',
+          description:
+            "Écrire une adresse mail, c'est la première étape pour communiquer avec vos contacts. Dans ce module, découvrez les différentes parties de l'adresse mail et apprenez à éviter des erreurs courantes.",
+          objectives: [
+            'Reconnaître les différentes parties d’une adresse mail et les identifier sur des exemples',
+            "Associer chaque partie d'une adresse mail à sa fonction",
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+          ],
         },
         {
           id: existingModuleId3,
@@ -167,6 +191,14 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           terminatedAt: now,
           createdAt: new Date('2020-01-01'),
           updatedAt: new Date('2020-02-01'),
+          level: 'independent',
+          description:
+            "<p>Quand vous naviguez sur internet, vous partagez des informations et laissez ainsi de nombreuses traces : adresse IP, cookies, historique, etc. Dans ce module, découvrez ce qu'est une adresse IP publique et ce qu’elle dévoile sur vous.</p>",
+          objectives: [
+            'Comprendre la fonction des adresses IP publiques',
+            "Connaître les informations personnelles dévoilées par l'adresse IP publique (IPv4)",
+            'Distinguer les adresses IP publiques des adresses IP privées',
+          ],
         },
       ];
 
@@ -227,6 +259,14 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           slug: 'adresse-ip-publique-et-vous',
           title: "L'adresse IP publique : ce qu'elle révèle sur vous !",
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          level: 'independent',
+          description:
+            "<p>Quand vous naviguez sur internet, vous partagez des informations et laissez ainsi de nombreuses traces : adresse IP, cookies, historique, etc. Dans ce module, découvrez ce qu'est une adresse IP publique et ce qu’elle dévoile sur vous.</p>",
+          objectives: [
+            'Comprendre la fonction des adresses IP publiques',
+            "Connaître les informations personnelles dévoilées par l'adresse IP publique (IPv4)",
+            'Distinguer les adresses IP publiques des adresses IP privées',
+          ],
         },
         {
           id: '9beb922f-4d8e-495d-9c85-0e7265ca78d6',
@@ -235,6 +275,13 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           title: 'Au-delà des mots de passe : comment s’authentifier ?',
           duration: 5,
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          level: 'novice',
+          description:
+            '<p>Code reçu par SMS, empreinte digitale, reconnaissance faciale… De plus en plus de moyens existent pour prouver son identité en ligne. <br>Dans ce module, vous allez découvrir les différentes façons de s’authentifier et pourquoi elles renforcent la sécurité de vos comptes. 🔐</p>',
+          objectives: [
+            '<p>Comprendre le principe et l’intérêt d’une double authentification</p>',
+            '<p>Effectuer en pratique une double authentification</p>',
+          ],
         },
       ];
 

@@ -123,6 +123,9 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
           duration: firstModule.details.duration,
           image: firstModule.details.image,
           visibility: firstModule.visibility,
+          level: firstModule.details.level,
+          description: firstModule.details.description,
+          objectives: firstModule.details.objectives,
         }),
         new ModuleMetadata({
           id: secondModule.id,
@@ -133,6 +136,9 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
           duration: secondModule.details.duration,
           image: secondModule.details.image,
           visibility: secondModule.visibility,
+          level: secondModule.details.level,
+          description: secondModule.details.description,
+          objectives: secondModule.details.objectives,
         }),
       ];
       expect(modules).to.have.lengthOf(2);
@@ -275,6 +281,9 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
           duration: firstModule.details.duration,
           image: firstModule.details.image,
           visibility: firstModule.visibility,
+          level: firstModule.details.level,
+          description: firstModule.details.description,
+          objectives: firstModule.details.objectives,
         }),
         new ModuleMetadata({
           id: secondModule.id,
@@ -285,6 +294,9 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
           duration: secondModule.details.duration,
           image: secondModule.details.image,
           visibility: secondModule.visibility,
+          level: secondModule.details.level,
+          description: secondModule.details.description,
+          objectives: secondModule.details.objectives,
         }),
       ];
       expect(modules).to.have.lengthOf(2);
@@ -384,6 +396,9 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
         duration: stubModule.details.duration,
         image: stubModule.details.image,
         visibility: stubModule.visibility,
+        level: stubModule.details.level,
+        description: stubModule.details.description,
+        objectives: stubModule.details.objectives,
       });
 
       expect(moduleMetadata).to.be.instanceOf(ModuleMetadata);
@@ -475,6 +490,9 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
         duration: stubModule.details.duration,
         image: stubModule.details.image,
         visibility: stubModule.visibility,
+        level: stubModule.details.level,
+        description: stubModule.details.description,
+        objectives: stubModule.details.objectives,
       });
 
       expect(moduleMetadata).to.be.instanceOf(ModuleMetadata);
@@ -805,6 +823,9 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
           image: emailModule.details.image,
           link: `/modules/${emailModule.shortId}/${emailModule.slug}`,
           visibility: emailModule.visibility,
+          level: emailModule.details.level,
+          description: emailModule.details.description,
+          objectives: emailModule.details.objectives,
         },
         {
           id: bacASableModule.id,
@@ -816,6 +837,9 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
           image: bacASableModule.details.image,
           link: `/modules/${bacASableModule.shortId}/${bacASableModule.slug}`,
           visibility: bacASableModule.visibility,
+          level: bacASableModule.details.level,
+          description: bacASableModule.details.description,
+          objectives: bacASableModule.details.objectives,
         },
       ];
 
@@ -929,6 +953,9 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
           image: publicModule.details.image,
           link: `/modules/${publicModule.shortId}/${publicModule.slug}`,
           visibility: publicModule.visibility,
+          level: publicModule.details.level,
+          description: publicModule.details.description,
+          objectives: publicModule.details.objectives,
         },
       ];
 

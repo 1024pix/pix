@@ -55,6 +55,9 @@ function _toDomain(module) {
     duration: details.duration,
     image: details.image,
     visibility,
+    level: details.level,
+    description: details.description,
+    objectives: details.objectives,
   });
 }
 
