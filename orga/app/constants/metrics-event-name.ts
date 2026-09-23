@@ -7,6 +7,7 @@ export const EVENT_NAME = {
     EXPORT_DATA_CLICK: 'campaignExportDataResultClick',
   },
   CATALOGUE: {
+    SEARCH: 'catalogueSearch',
     COURSE_SELECTION_CLICK: 'catalogueCourseSelectionClick',
     CAMPAIGN_CREATION_CLICK: 'catalogueCampaignCreationClick',
   },

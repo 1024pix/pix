@@ -6,21 +6,31 @@ export default class PlausibleAdapter extends BaseAdapter {
   }
 
   install() {
-    const { siteId, scriptUrl } = this.config;
+    const { scriptUrl } = this.config;
 
     window.plausible =
       window.plausible ||
-      function (...args) {
-        (window.plausible.q = window.plausible.q || []).push(args);
+      function () {
+        (window.plausible.q = window.plausible.q || []).push(arguments);
       };
+
+    window.plausible.init =
+      window.plausible.init ||
+      function (i) {
+        window.plausible.o = i || {};
+      };
+
+    window.plausible.init({
+      hashBasedRouting: true,
+      autoCapturePageviews: false,
+      captureOnLocalhost: true,
+    });
 
     const scriptElement = document.createElement('script');
     const firstScriptElement = document.getElementsByTagName('script')[0];
     scriptElement.type = 'text/javascript';
-    scriptElement.defer = true;
     scriptElement.async = true;
     scriptElement.src = scriptUrl;
-    scriptElement.setAttribute('data-domain', siteId);
     firstScriptElement.parentNode.insertBefore(scriptElement, firstScriptElement);
   }
 

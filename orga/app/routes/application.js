@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import ENV from 'pix-orga/config/environment';
 import { formats } from 'pix-orga/ember-intl';
+import PlausibleAdapter from 'pix-orga/metrics-adapters/plausible-adapter';
 
 export default class ApplicationRoute extends Route {
   @service store;
@@ -15,9 +16,21 @@ export default class ApplicationRoute extends Route {
   @service router;
   @service intl;
   @service localeLoader;
+  @service metrics;
 
   constructor() {
     super(...arguments);
+
+    this.metrics.activateAdapters([
+      {
+        name: 'PlausibleAdapter',
+        adapter: PlausibleAdapter,
+        environments: ENV.ANALYTICS.ENABLED ? ['all'] : [],
+        config: {
+          scriptUrl: ENV.ANALYTICS.SCRIPT_URL,
+        },
+      },
+    ]);
 
     const trackRouteChange = (transition) => {
       if (!transition.to || transition.to.metadata?.doNotTrackPage) {

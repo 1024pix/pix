@@ -8,7 +8,6 @@ module('Unit | MetricsAdapter | plausible-adapter', function (hooks) {
   hooks.beforeEach(function () {
     const config = {
       scriptUrl: 'https://plausible.io/js/script.manual.js',
-      siteId: 'review.pix.fr',
     };
 
     this.adapter = new PlausibleAdapter(config);
@@ -23,7 +22,6 @@ module('Unit | MetricsAdapter | plausible-adapter', function (hooks) {
   test('#install installs container correctly', function (assert) {
     const script = document.querySelector('script[src*="plausible"]');
     assert.strictEqual(script.getAttribute('src'), 'https://plausible.io/js/script.manual.js');
-    assert.strictEqual(script.getAttribute('data-domain'), 'review.pix.fr');
   });
 
   test('#trackEvent calls Plausible with the right arguments', function (assert) {
