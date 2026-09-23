@@ -210,5 +210,75 @@ module('Integration | Component |  administration/organizations-import', functio
         assert.true(errorMessage.includes(error.meta.toString()));
       });
     });
+
+    module('when error code is "VALIDATION_ERROR"', function () {
+      test('it displays one error message with location and one detailed error message for each attribute in error.', async function (assert) {
+        // given
+        const file = new Blob(['foo'], { type: `valid-file` });
+        class NotificationsStub extends Service {
+          sendErrorNotification = notificationErrorStub;
+        }
+        this.owner.register('service:pixToast', NotificationsStub);
+
+        const error = {
+          code: 'VALIDATION_ERROR',
+          meta: {
+            invalidAttributes: [
+              { attribute: 'attributeInError', message: 'FIELD_REQUIRED' },
+              { attribute: 'otherAttributeInError', message: 'FIELD_NOT_A_NUMBER' },
+            ],
+            currentLine: 2,
+          },
+        };
+
+        saveAdapterStub.withArgs([file]).rejects({
+          errors: [error],
+        });
+
+        // when
+        const screen = await render(<template><OrganizationsImport /></template>);
+        const input = await screen.findByLabelText(t('components.administration.organizations-import.upload-button'));
+        await triggerEvent(input, 'change', { files: [file] });
+
+        // then
+        assert.ok(notificationErrorStub.called);
+        const [{ message: firstErrorToastContent }] = notificationErrorStub.getCall(0).args;
+        const [{ message: secondErrorToastContent }] = notificationErrorStub.getCall(1).args;
+        const [{ message: thirdErrorToastContent }] = notificationErrorStub.getCall(2).args;
+
+        assert.true(
+          firstErrorToastContent
+            .toString()
+            .includes(t('components.administration.organizations-import.notifications.errors.no-organization-created')),
+        );
+        assert.true(
+          firstErrorToastContent
+            .toString()
+            .includes(
+              t('components.administration.organizations-import.notifications.errors.error-location', { errorLine: 2 }),
+            ),
+        );
+
+        assert.true(
+          secondErrorToastContent.toString().includes(
+            t('components.administration.organizations-import.notifications.errors.error-field', {
+              errorField: 'attributeInError',
+            }),
+          ),
+        );
+        assert.true(secondErrorToastContent.toString().includes(t('common.validation-error-messages.FIELD_REQUIRED')));
+
+        assert.true(
+          thirdErrorToastContent.toString().includes(
+            t('components.administration.organizations-import.notifications.errors.error-field', {
+              errorField: 'otherAttributeInError',
+            }),
+          ),
+        );
+        assert.true(
+          thirdErrorToastContent.toString().includes(t('common.validation-error-messages.FIELD_NOT_A_NUMBER')),
+        );
+      });
+    });
   });
 });

@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import { errorValidationCodesRegistry } from 'pix-admin/utils/error-validation-codes-registry';
 
 import AdministrationBlockLayout from '../block-layout';
 import DownloadTemplate from '../download-template';
@@ -67,6 +68,27 @@ export default class OrganizationsImport extends Component {
             this.pixToast.sendErrorNotification({ message: detailedMessage });
             break;
           }
+
+          case 'VALIDATION_ERROR': {
+            const basicMessageWithLocation = _buildBasicErrorMessageWithLocation(this.intl, error.meta.currentLine);
+            this.pixToast.sendErrorNotification({ message: basicMessageWithLocation });
+
+            for (const invalidAttribute of error.meta.invalidAttributes) {
+              const validationErrorMessage = errorValidationCodesRegistry.getTranslatedMessageFromValidationCode(
+                this.intl,
+                invalidAttribute.message,
+              );
+              const detailedMessage = _buildErrorDetailsMessage(
+                this.intl,
+                invalidAttribute.attribute,
+                validationErrorMessage,
+              );
+              this.pixToast.sendErrorNotification({ message: detailedMessage });
+            }
+
+            break;
+          }
+
           default:
             this.pixToast.sendErrorNotification({ message: error.detail });
         }
