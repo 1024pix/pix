@@ -35,7 +35,7 @@ Fiches de référence pour les constats ci-dessous : `fiche-repository.md`, `fic
 | 6 | 3 modèles du domaine importent `logger` depuis l'infrastructure | S3 | lecture | testabilité, et coût d'évaluation |
 | 7 | `evaluation` importe directement les usecases de `quest` | CA-2 / DDD-1 | lecture | frontière de contexte franchie hors API |
 | 8 | `Object.freeze` qui ne protège rien dans `ObjectRequirement.data` | S4 | lecture | fausse impression de garantie |
-| 9 | Champs publics mutables sur `BaseRequirement` | S4 | lecture | objet-valeur modifiable de l'extérieur |
+| 9 | Champs publics mutables sur `BaseRequirement` | S4 | lecture | Value Object modifiable de l'extérieur |
 | 10 | `combined-course-blueprint-repository.js` absent de l'index | I6 | lecture | l'index n'est plus la carte du contexte |
 | 11 | `aggregates/` contient des read-models | DDT-1 | lecture | le mot promet une garantie inexistante |
 | 12 | `domain/services/` contient un usecase | DDT-6 | lecture | idem |
@@ -68,8 +68,8 @@ requirement.isFulfilled(dataForQuest)
 ```
 
 **Pourquoi c'est le constat le plus structurant.** Aucune API publiée ne peut exposer « réinstancie
-mon agrégat avec d'autres requirements ». Tant que ce point tient, `quest` et les parcours combinés
-ne peuvent pas devenir deux contextes bornés distincts.
+mon Aggregate avec d'autres requirements ». Tant que ce point tient, `quest` et les parcours combinés
+ne peuvent pas devenir deux Bounded Contexts distincts.
 
 **Le comportement métier derrière est légitime** : un module recommandable non recommandé ne doit pas
 bloquer la complétion du parcours. Mais il est *émergent*, produit par un filtrage de requirements.
@@ -146,7 +146,7 @@ await combinedCourseParticipantRepository.getOrCreateNewOrganizationLearner({
 });
 ```
 
-**Ce qu'il faudrait faire.** Un objet-valeur local par usage, construit dans le repository. Pour
+**Ce qu'il faudrait faire.** Un Value Object local par usage, construit dans le repository. Pour
 `user-repository`, un `QuestUser` avec les seuls champs consommés. Attention au piège : envelopper le
 DTO dans une classe aux mêmes champs satisferait un lint sans rien régler — la forme de l'autre
 contexte resterait dans le domaine.
@@ -383,11 +383,11 @@ combinedCourseDetails.setItems({ campaigns, modules });
 combinedCourseDetails.setRecommandableModuleIds(recommendableModuleIds);
 ```
 
-**Nuance importante, et elle change le verdict.** Ce ne sont pas des agrégats ratés : dans le cadre
+**Nuance importante, et elle change le verdict.** Ce ne sont pas des Aggregates ratés : dans le cadre
 Specification, `Eligibility`, `Success` et `DataForQuest` sont le **candidat** évalué. Le concept est
 juste, le nom du dossier est faux. Il faut renommer, pas repenser.
 
-`Quest`, en revanche, est une vraie racine d'agrégat et a bien sa place dans `entities/`.
+`Quest`, en revanche, est une vraie Aggregate Root et a bien sa place dans `entities/`.
 
 **Ce qu'il faudrait faire.** Renommer le dossier pour ce qu'il contient — `evaluation-context/` ou
 équivalent. Coût faible, et ça retire une promesse non tenue.
@@ -401,13 +401,13 @@ juste, le nom du dossier est faux. Il faut renommer, pas repenser.
 (`combinedCourseRepository`, `campaignRepository`, `moduleRepository`, `recommendedModuleRepository`,
 `eligibilityRepository`, `profileRewardRepository`) et enchaîne des mutateurs.
 
-Un service de domaine ne fait pas d'I/O : il prend des objets du domaine, il en renvoie. Ce fichier
+Un Domain Service ne fait pas d'I/O : il prend des objets du domaine, il en renvoie. Ce fichier
 est de l'orchestration, donc un usecase. Il est d'ailleurs injecté comme dépendance des vrais
 usecases, via un `injectDependencies` dédié en tête de `domain/usecases/index.js`.
 
 **Point positif à ne pas perdre** : il ne calcule aucune règle. Il délègue à
 `combinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(...)`, c'est-à-dire à
-l'agrégat. La règle métier est au bon endroit.
+l'Aggregate. La règle métier est au bon endroit.
 
 **Ce qu'il faudrait faire.** Le déplacer dans `usecases/`, ou acter que `services/` désigne à Pix un
 « sous-usecase partagé » et le documenter comme tel. Les deux sont défendables ; le tiers état ne
@@ -534,7 +534,7 @@ Priorisé par la grille coût/bénéfice, pas par gravité brute.
 
 **Chantiers longs :**
 
-11. Constat 2 — les six passe-plats, un objet-valeur local par usage.
+11. Constat 2 — les six passe-plats, un Value Object local par usage.
 12. Constat 4 — sortir la réactivation dans le usecase.
 13. Constat 7 — API interne pour le déclenchement, puis règle au grain de la couche.
 14. Constat 1 — items possédés par le parcours combiné, puis découpage en deux contextes. C'est le

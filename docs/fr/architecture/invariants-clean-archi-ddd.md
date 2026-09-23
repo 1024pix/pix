@@ -14,7 +14,7 @@ qui est réellement pratiqué.
 La troisième catégorie a été ajoutée le 2026-09-07 et elle change le verdict sur plusieurs écarts.
 Elle a un fondement documentaire précis.
 
-**Pix vient de la Clean Architecture d'Uncle Bob ; les contextes bornés sont arrivés par-dessus.**
+**Pix vient de la Clean Architecture d'Uncle Bob ; les Bounded Contexts sont arrivés par-dessus.**
 ADR 46 (2023-05-05) : « L'architecture de l'API est inspirée par la Clean architecture ». ADR 51
 (2023-07-20) en fait une **contrainte** du refactoring d'arborescence — « Respecter la Clean
 Architecture Pix » — et rejette sa solution 1 au motif qu'elle la modifiait. ADR 55 (2024-03-26)
@@ -56,8 +56,8 @@ recherche des dossiers value-objects dans api/src : 5 résultats, tous dans ques
   quest/domain/models/quests/value-objects
 ```
 
-Tous les autres dossiers de `api/src` ont un `domain/models/` plat, sans distinction entité /
-objet-valeur / agrégat. Un contexte plus stable comme `legal-documents` ou `school` sert donc de témoin, pas de
+Tous les autres dossiers de `api/src` ont un `domain/models/` plat, sans distinction Entity /
+Value Object / Aggregate. Un contexte plus stable comme `legal-documents` ou `school` sert donc de témoin, pas de
 référence : il n'y a rien à y comparer sur le volet tactique, la question ne s'y pose pas.
 
 Deux témoins retenus pour distinguer « spécificité quest » de « convention Pix » :
@@ -193,7 +193,7 @@ titre qu'une base de données. Le domaine n'a pas à savoir si la donnée vient 
 fichier ou de l'API interne d'un autre contexte. Le repository est donc le port unique par lequel le
 domaine atteint l'extérieur, et le nom est le bon.
 
-DDD nomme séparément la couche anti-corruption, mais cette distinction porte sur le rôle conceptuel,
+DDD nomme séparément l'Anticorruption Layer, mais cette distinction porte sur le rôle conceptuel,
 pas sur la frontière technique. La lecture port/adaptateur de Clean Architecture les réunit
 délibérément.
 
@@ -263,7 +263,7 @@ même : rien dans l'outillage ne distingue un dossier temporaire d'un dossier d�
 périme la situation. Un marqueur explicite serait le premier candidat à une vérification
 déterministe utile.
 
-### DDD-4. Le langage ubiquitaire n'est pas partagé entre contextes voisins
+### DDD-4. Le Ubiquitous Language n'est pas partagé entre contextes voisins
 
 `quest` définit ses propres `Campaign`, `TargetProfile`, `OrganizationLearner`, `Module`, qui
 existent déjà sous ces noms dans `prescription` et `devcomp`. C'est exactement ce que DDD prescrit —
@@ -278,7 +278,7 @@ relecture.
 
 Tous les contextes dépendent de `shared`, qui contient du domaine (`DomainTransaction`, `errors.js`,
 `access-code-generator`), de l'infrastructure (`organization-feature-repository`,
-`access-code-repository`) et des utilitaires. `shared` n'est pas un contexte borné : c'est
+`access-code-repository`) et des utilitaires. `shared` n'est pas un Bounded Context : c'est
 l'emplacement où va ce qui n'a pas trouvé sa place. Toute règle de frontière est contournable en
 passant par lui.
 
@@ -300,12 +300,12 @@ l'avancement. Reformuler cet écart comme une découverte serait malhonnête.
 
 ## Volet DDD tactique
 
-### DDT-1. Le découpage entités / objets-valeurs / agrégats existe mais n'est pas porté par le code
+### DDT-1. Le découpage Entities / Value Objects / Aggregates existe mais n'est pas porté par le code
 
 `quest` range ses modèles dans `entities/`, `value-objects/`, `aggregates/`, `events/`. Le dossier
 annonce l'intention, il ne la garantit pas.
 
-Un objet-valeur est par définition immuable et sans identité. `Criterion.js` et `Requirement.js`
+Un Value Object est par définition immuable et sans identité. `Criterion.js` et `Requirement.js`
 s'en approchent : état en champs privés `#`, exposition en lecture seule, `Object.freeze` sur les
 collections renvoyées.
 
@@ -316,7 +316,7 @@ get data() {
 }
 ```
 
-Mais les agrégats, eux, n'ont rien d'un agrégat au sens DDD :
+Mais les Aggregates, eux, n'ont rien d'un Aggregate au sens DDD :
 
 ```js
 // api/src/quest/domain/models/quests/aggregates/Eligibility.js
@@ -393,29 +393,29 @@ une justification bien plus solide qu'une fuite de schéma. À reclasser en **co
 plutôt qu'en dérive, une fois vérifié que la forme de `toDTO()` correspond bien à la syntaxe
 documentée et non à un format dérivé.
 
-### DDT-4. Un objet-valeur pour chaque intention d'écriture — convention, et c'est une bonne
+### DDT-4. Un Value Object pour chaque intention d'écriture — convention, et c'est une bonne
 
 `combined-course-blueprints/value-objects/` contient `CombinedCourseBlueprintForCreation.js` et
-`CombinedCourseBlueprintForUpdate.js`, distincts de l'entité `CombinedCourseBlueprint.js`.
+`CombinedCourseBlueprintForUpdate.js`, distincts de l'Entity `CombinedCourseBlueprint.js`.
 
 Ce n'est pas dans les livres sous ce nom, mais c'est un pattern sain : l'entrée d'une commande est
-typée séparément de l'entité persistée. À retenir comme convention à généraliser plutôt que comme
+typée séparément de l'Entity persistée. À retenir comme convention à généraliser plutôt que comme
 écart à corriger. Le pendant en lecture est `read-models/` (`school`) ou `dtos/`
 (`organizational-entities`), et là le vocabulaire n'est pas stabilisé — trois noms pour la même idée
 selon le contexte.
 
-### DDT-5. Le repository n'est pas au grain de l'agrégat
+### DDT-5. Le repository n'est pas au grain de l'Aggregate
 
-DDD associe un repository à une racine d'agrégat. `quest` a 22 repositories pour 6 familles de
+DDD associe un repository à une Aggregate Root. `quest` a 22 repositories pour 6 familles de
 modèles. `CombinedCourse` porte `participations` dans son état, et `CombinedCourseParticipation` a
 son propre repository : les deux sont donc racine, ce qui vide la notion de son sens.
 
 Le découpage réel suit les besoins de requêtage, pas les frontières de cohérence. C'est un choix
-tenable, mais il faut alors renoncer au mot « agrégat » plutôt que le laisser sur un dossier.
+tenable, mais il faut alors renoncer au mot « Aggregate » plutôt que le laisser sur un dossier.
 
-### DDT-6. `domain/services/` contient de l'orchestration, pas des services de domaine — dérive
+### DDT-6. `domain/services/` contient de l'orchestration, pas des Domain Services — dérive
 
-Un service de domaine, en DDD, porte une règle qui ne relève d'aucun agrégat : il prend des objets du
+Un Domain Service, en DDD, porte une règle qui ne relève d'aucun Aggregate : il prend des objets du
 domaine, il en renvoie, et **il ne fait aucune I/O**.
 
 `quest/domain/services/` contient un seul fichier, `combined-course-details-service.js`. Il appelle
@@ -440,11 +440,11 @@ Deux observations qui en découlent :
   sous-usecase partagé. Convention défendable, nom trompeur.
 - **La règle métier, elle, est au bon endroit.** Le service ne calcule rien : il délègue à
   `combinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(dataForQuest)`.
-  `Quest.js` porte bien ses invariants, ce qui confirme que la racine d'agrégat fonctionne dans ce
+  `Quest.js` porte bien ses invariants, ce qui confirme que l'Aggregate Root fonctionne dans ce
   contexte quand on la laisse travailler.
 
 Ce cas renforce DDT-1 : `CombinedCourseDetails` est rangé dans `aggregates/` et se construit par une
-séquence de mutateurs appelés de l'extérieur. C'est un constructeur progressif, pas un agrégat qui
+séquence de mutateurs appelés de l'extérieur. C'est un constructeur progressif, pas un Aggregate qui
 protège une frontière de cohérence.
 
 ---
@@ -462,7 +462,7 @@ peut d'ailleurs masquer ce cas précis — on paie, on a décidé de payer, et o
 | --- | --- | --- | --- |
 | **`aggregates/`** (DDT-1) | une arborescence à quatre niveaux, un choix de dossier à chaque nouveau modèle, des chemins d'import plus longs | la garantie qu'un invariant est tenu à une frontière de cohérence | **rien**. `Eligibility` est un sac de champs publics mutables sans identité ; `CombinedCourseDetails` se construit par des mutateurs appelés de l'extérieur. Le mot promet une garantie inexistante, ce qui est plus coûteux que l'absence de rangement |
 | **Les 6 passe-plats** (DDD-2) | un fichier, une inscription dans l'index, une injection de dépendance, un test unitaire attendu — par fonction | un domaine indépendant de la forme des voisins | **rien**. Le DTO de `identity-access-management` arrive intact dans `startCombinedCourse`. On paie la couche et on garde le couplage |
-| **`domain/services/`** (DDT-6) | un dossier et une décision de rangement à chaque ajout | une règle qui ne relève d'aucun agrégat, isolée et testable sans I/O | **rien**. Le seul fichier appelle six repositories : c'est un usecase |
+| **`domain/services/`** (DDT-6) | un dossier et une décision de rangement à chaque ajout | une règle qui ne relève d'aucun Aggregate, isolée et testable sans I/O | **rien**. Le seul fichier appelle six repositories : c'est un usecase |
 | **Les 3 imports d'infrastructure voisine** (DDD-1) | la couche `application/api/` complète de trois contextes, plus leurs DTO | un contrat stable entre contextes | **rien sur ces trois-là**. `prescription/organization-learner` est atteint par son API *et* par son repository |
 
 Le point commun : dans les quatre cas, le coût est déjà payé intégralement. Rien à économiser en
@@ -475,7 +475,7 @@ rétablir le bénéfice.
 | Sujet | Bénéfice obtenu | Ce qui l'émousse |
 | --- | --- | --- |
 | **`dependencies.json` + dependency-cruiser** | réel, la règle sort et bloque la CI | elle est au grain du **contexte**, pas de la **couche**. `quest/domain` importe `prescription/infrastructure` au vert. Une règle de chemin suffit à fermer le trou |
-| **`entities/` vs `value-objects/`** | réel sur les objets-valeurs : `Criterion` et `Requirement` ont un état privé `#`, une exposition en lecture seule, `Object.freeze` sur les collections | rien ne l'impose. Un objet-valeur mutable passerait sans bruit. Le dossier est une intention, pas une garantie |
+| **`entities/` vs `value-objects/`** | réel sur les Value Objects : `Criterion` et `Requirement` ont un état privé `#`, une exposition en lecture seule, `Object.freeze` sur les collections | rien ne l'impose. Un Value Object mutable passerait sans bruit. Le dossier est une intention, pas une garantie |
 | **Validation dans les modèles** | réel dans `quest` : `Quest` et `CombinedCourse` valident en Joi | incohérence d'ordre (avant vs après affectation), et la majorité des contextes ne valident rien du tout |
 
 ### Bénéfice obtenu — à protéger, surtout ne rien casser
@@ -486,7 +486,7 @@ rétablir le bénéfice.
 | **`injectDependencies`** | machinerie astucieuse, mais elle tient sa promesse : I5 est respecté **partout** dans `quest`, aucun repository n'importe une API voisine |
 | **APIs internes rendant des DTO** | 13 consommées par `quest`. La convention tient à grande échelle ; les 3 contournements sont l'exception |
 | **Règles de test par couche** (`quest/CLAUDE.md`) | et un corollaire de diagnostic gratuit : un repository adossé à une API qui n'a rien à tester en unitaire ne traduit rien, donc viole DDD-2 |
-| **Les invariants portés par `Quest.js`** | `isEligible`, `isSuccessful` composent des dizaines de `Requirement` sur la racine. La seule racine d'agrégat du contexte qui fasse son travail |
+| **Les invariants portés par `Quest.js`** | `isEligible`, `isSuccessful` composent des dizaines de `Requirement` sur la racine. La seule Aggregate Root du contexte qui fasse son travail |
 
 ### Deux façons de mal utiliser cette grille
 
@@ -511,7 +511,7 @@ rouvrir : c'est demander qu'elle produise l'effet pour lequel elle a été prise
 - Les règles de test par couche, écrites dans `api/src/quest/CLAUDE.md` : usecases en intégration
   uniquement, modèles en unitaire pur, repositories sur API interne en unitaire avec mock,
   repositories sur base en intégration.
-- La documentation du contexte : `README.md` qui nomme les entités cœur et signale explicitement les
+- La documentation du contexte : `README.md` qui nomme les Entities cœur et signale explicitement les
   discussions de frontière en cours.
 
 ## Sources
@@ -525,10 +525,10 @@ Bibliographie et liens dans `references-ddd.md`. Correspondance par famille d'é
 | DDD-1, DDD-3, DDD-5 (frontières, contexte partagé) | Evans, *DDD*, ch. « Maintaining Model Integrity » — Bounded Context, Context Map, Shared Kernel |
 | DDD-2 (traduction entre contextes) | Evans, même ch. — **Anticorruption Layer** ; Vernon, *IDDD*, ch. « Integrating Bounded Contexts » |
 | DDD-4 (même mot, deux contextes) | Evans, ch. « Maintaining Model Integrity » — c'est le comportement **attendu**, pas un écart |
-| DDT-1, DDT-2, DDT-4 (entité, objet-valeur, validation) | Evans, ch. « A Model Expressed in Software » ; Fowler, « AnemicDomainModel » (gratuit) |
+| DDT-1, DDT-2, DDT-4 (Entity, Value Object, validation) | Evans, ch. « A Model Expressed in Software » ; Fowler, « AnemicDomainModel » (gratuit) |
 | DDT-3 (format publié) | Evans, ch. « Maintaining Model Integrity » — **Published Language** |
-| DDT-5 (grain de l'agrégat) | Vernon, « Effective Aggregate Design » — trois articles gratuits |
-| DDT-6 (service de domaine sans I/O) | Evans, ch. « A Model Expressed in Software » — définition du Service |
+| DDT-5 (grain de l'Aggregate) | Vernon, « Effective Aggregate Design » — trois articles gratuits |
+| DDT-6 (Domain Service sans I/O) | Evans, ch. « A Model Expressed in Software » — définition du Service |
 
 La **grille coût/bénéfice** de la section précédente n'a pas de source : c'est le critère de
 l'équipe, formulé le 2026-09-07. Il prime volontairement sur la conformité aux sources ci-dessus.

@@ -20,7 +20,7 @@ exemple :
 >   - `S3` réénonçait `V4` ;
 >   - `S4` réénonçait `V1`, `V2`, `V6` et `V7` ;
 >   - `S9` réénonçait `V3`.
-> - `X1`, la redéfinition par le consommateur, empêche d'isoler le moteur dans un contexte borné
+> - `X1`, la redéfinition par le consommateur, empêche d'isoler le moteur dans un Bounded Context
 >   distinct. C'est l'écart le plus structurant de la fiche. C'est aussi le seul dont la correction est
 >   un chantier de conception.
 > - Le format d'une specification écrite à la main est un contrat publié. Aucune documentation
@@ -46,8 +46,8 @@ exemple :
 | [**S7**](#s7-tout-critère-déclaré-est-branché-sur-le-candidat) | tout critère déclaré est branché sur le candidat | moyenne | test, dix lignes |
 | [**S5**](#s5-la-composition-est-fermée) | la composition est fermée | hygiène | test de composition |
 
-[**Invariants hérités de l'objet-valeur**](#les-invariants-hérités-de-lobjet-valeur) : les critères et
-le candidat sont des objets-valeurs. Les invariants de `fiche-objet-valeur.md` s'appliquent : `V1`
+[**Invariants hérités du Value Object**](#les-invariants-hérités-du-value-object) : les critères et
+le candidat sont des Value Objects. Les invariants de `fiche-objet-valeur.md` s'appliquent : `V1`
 immuabilité, `V2` absence d'identité, `V3` validation à la construction, `V4` pureté, `V6` absence de
 cycle de vie, `V7` exposition en lecture seule.
 
@@ -77,12 +77,12 @@ Chaque élément a un rôle distinct :
 
 | Élément | Rôle | Catégorie | Fiche |
 | --- | --- | --- | --- |
-| **La specification** | l'arbre de critères. Racine d'agrégat si elle est persistée et identifiée | entité, ou racine | `fiche-racine-agregat.md` |
-| **Les critères** | les feuilles et les combinateurs du prédicat | objets-valeurs | `fiche-objet-valeur.md` |
-| **Le candidat** | l'objet évalué, assemblé pour l'occasion | **objet-valeur** | `fiche-objet-valeur.md` |
+| **La specification** | l'arbre de critères. Aggregate Root si elle est persistée et identifiée | Entity, ou racine | `fiche-racine-agregat.md` |
+| **Les critères** | les feuilles et les combinateurs du prédicat | Value Objects | `fiche-objet-valeur.md` |
+| **Le candidat** | l'objet évalué, assemblé pour l'occasion | **Value Object** | `fiche-objet-valeur.md` |
 | **`isSatisfiedBy(candidat)`** | l'unique point d'entrée | sur la specification | — |
 
-**Le candidat est un objet-valeur**, pas un read-model. Le discriminant du § 1 de
+**Le candidat est un Value Object**, pas un read-model. Le discriminant du § 1 de
 `fiche-objet-valeur.md` le montre : une règle du domaine lit ses valeurs pour décider. Le domaine
 raisonne donc avec lui.
 
@@ -130,7 +130,7 @@ Si le code correspond à une ligne, ce n'est pas une Specification.
 | --- | --- | --- |
 | charge les données du candidat | un repository, puis un usecase qui assemble le candidat | `fiche-repository.md`, `fiche-usecase.md` |
 | décide quoi faire du résultat | `domain/usecases/` | `fiche-usecase.md` |
-| applique une règle sur un seul objet, sans composition | l'entité ou l'objet-valeur concerné | `fiche-entite.md`, `fiche-objet-valeur.md` |
+| applique une règle sur un seul objet, sans composition | l'Entity ou le Value Object concerné | `fiche-entite.md`, `fiche-objet-valeur.md` |
 | applique une règle transverse non composable, sans I/O | `domain/services/` | `fiche-service-domaine.md` |
 | journalise, mesure, trace | l'appelant — voir `X3` | — |
 | filtre les critères avant d'évaluer | nulle part : c'est `S8` | — |
@@ -140,9 +140,9 @@ Si le code correspond à une ligne, ce n'est pas une Specification.
 
 ## 2. Invariants
 
-### Les invariants hérités de l'objet-valeur
+### Les invariants hérités du Value Object
 
-Les critères et le candidat sont des objets-valeurs. Les invariants `V1`, `V2`, `V3`, `V4`, `V6` et
+Les critères et le candidat sont des Value Objects. Les invariants `V1`, `V2`, `V3`, `V4`, `V6` et
 `V7` de `fiche-objet-valeur.md` **s'appliquent**. Leurs énoncés, illustrations et pièges sont dans
 `fiche-objet-valeur.md`.
 
@@ -419,7 +419,7 @@ return quest.isSuccessful(this.dataForQuest);
 ```
 
 **Ce qui casse.** Le troisième est rédhibitoire : aucune API publiée ne peut exposer « réinstancie mon
-agrégat avec d'autres critères ». Tant que `S8` est violé, le moteur ne peut pas devenir un contexte
+Aggregate avec d'autres critères ». Tant que `S8` est violé, le moteur ne peut pas devenir un contexte
 borné distinct de ses consommateurs. L'ADR 55 reste inapplicable à cette frontière.
 
 À l'inverse, un consommateur conforme se contente d'évaluer :
@@ -488,17 +488,17 @@ Les écarts sont numérotés `X` et non `S`, qui est le préfixe des invariants 
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **X1** Un consommateur reconstruit la specification | dérive | Aucune API publiée ne peut couvrir cet usage : le moteur ne peut pas être isolé dans un contexte borné distinct | Le besoin métier est satisfait immédiatement, sans toucher au moteur | **À corriger** |
+| **X1** Un consommateur reconstruit la specification | dérive | Aucune API publiée ne peut couvrir cet usage : le moteur ne peut pas être isolé dans un Bounded Context distinct | Le besoin métier est satisfait immédiatement, sans toucher au moteur | **À corriger** |
 | **X2** « Non satisfait » et « non évaluable » sont confondus | dérive | Une specification cassée est indiscernable d'un candidat non conforme, et le défaut atteint l'utilisateur sans trace | Journaliser puis rendre `false` est plus court à écrire, et ne casse rien tout de suite | **À corriger** |
 | **X3** La specification journalise | dérive | Le domaine dépend de l'infrastructure, et le coût d'évaluation cesse d'être prévisible | Réel — un moteur piloté par les données est difficile à déboguer sans trace | **À corriger** |
 | **X4** La résolution d'une propriété du candidat se fait par nom | convention assumée | Rien ne garantit qu'un nom corresponde à une donnée. C'est ce qui rend `S7` nécessaire | Réel — le format s'étend sans toucher au moteur, et une specification nouvelle ne demande aucun déploiement | *À surveiller* |
 
-L'écart « le candidat est rangé avec les agrégats » n'est pas listé ici : il est énoncé sous `X1` de
+L'écart « le candidat est rangé avec les Aggregates » n'est pas listé ici : il est énoncé sous `X1` de
 `fiche-racine-agregat.md`, où se trouve le dossier fautif.
 
 ### X1. Un consommateur reconstruit la specification
 
-**Ce que dit la théorie.** Un contexte borné expose un contrat, pas sa forme interne. Evans traite le
+**Ce que dit la théorie.** Un Bounded Context expose un contrat, pas sa forme interne. Evans traite le
 sujet sous *Bounded Context* et *Anticorruption Layer*. L'ADR 55 le décide pour Pix.
 
 **Exemple concret.** Le troisième degré de violation de `S8`, extrait réel de
@@ -855,7 +855,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **S6** format publié | Evans, *DDD*, ch. « Maintaining Model Integrity » — **Published Language** | *DDD Reference*, PDF gratuit |
 | **S7** énumération ↔ candidat | **aucune source.** Contrainte propre à la résolution par nom, donc à `X4` | — |
 | **S8** pas de redéfinition par le consommateur | Evans, même ch. — **Anticorruption Layer**, **Bounded Context**. Pix : **ADR 55** | ADR 55 ; Vernon, *IDDD*, ch. « Integrating Bounded Contexts » |
-| Le candidat est un objet-valeur | Discriminant du § 1 de `fiche-objet-valeur.md`, sans source externe. Evans pour la catégorie Value Object | *DDD Reference* |
+| Le candidat est un Value Object | Discriminant du § 1 de `fiche-objet-valeur.md`, sans source externe. Evans pour la catégorie Value Object | *DDD Reference* |
 | Invariants hérités | voir § 10 de `fiche-objet-valeur.md` | — |
 
 Deux invariants propres sur six n'ont **aucune source** : `S2` et `S7`. Ils se discutent sur leurs

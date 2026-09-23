@@ -43,7 +43,7 @@ en lecture seule.
 | [**X2**](#x2-le-mot-read-model-vient-de-cqrs) | le mot `read-model` vient de CQRS | à surveiller |
 | [**X3**](#x3-lobjet-est-immuable-alors-que-rien-ne-lexige) | l'objet est immuable alors que rien ne l'exige | rien à faire |
 
-Pour savoir si un objet est un read-model ou un objet-valeur, voir les quatre tests au § 1 de
+Pour savoir si un objet est un read-model ou un Value Object, voir les quatre tests au § 1 de
 `fiche-objet-valeur.md`.
 
 ---
@@ -98,8 +98,8 @@ Si le code correspond à une ligne, ce n'est pas un read-model.
 
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
-| porte une règle qu'une décision du domaine lit | un objet-valeur, dans `domain/models/` | `fiche-objet-valeur.md` |
-| a besoin d'être retrouvé, suivi, mis à jour dans le temps | une entité | `fiche-entite.md` |
+| porte une règle qu'une décision du domaine lit | un Value Object, dans `domain/models/` | `fiche-objet-valeur.md` |
+| a besoin d'être retrouvé, suivi, mis à jour dans le temps | une Entity | `fiche-entite.md` |
 | décrit le contrat d'échange avec un autre contexte | `application/api/` | `fiche-api-interne.md` |
 | met en forme pour une réponse HTTP, clé de présentation comprise | `infrastructure/serializers/` | `fiche-serialiseur.md` |
 | assemble les données | un repository | `fiche-repository.md` |
@@ -108,7 +108,7 @@ La première ligne est le cas fréquent et le seul difficile. Pour la reconnaît
 au § 1 de `fiche-objet-valeur.md`.
 
 Attention : une dérivation de présentation (un total, un pourcentage, un libellé composé) n'est pas
-une règle métier. Un read-model peut donc porter des méthodes sans devenir un objet-valeur. La question n'est pas « a-t-il du comportement ? » mais « ce comportement
+une règle métier. Un read-model peut donc porter des méthodes sans devenir un Value Object. La question n'est pas « a-t-il du comportement ? » mais « ce comportement
 décide-t-il quelque chose ? »
 
 ---
@@ -209,7 +209,7 @@ chemin de lecture où personne ne sait quoi en faire.
 Un read-model sort du domaine. Il n'y rentre pas comme paramètre d'une décision.
 
 Cet invariant est un **test de classement**, pas une interdiction. Si une règle lit ses valeurs pour
-décider, l'objet n'est pas un read-model. C'est un objet-valeur : V3 et V5 s'appliquent à lui. Le cas
+décider, l'objet n'est pas un read-model. C'est un Value Object : V3 et V5 s'appliquent à lui. Le cas
 se rencontre avec le candidat évalué par une Specification, voir `fiche-specification.md`.
 
 Le cas symétrique, plus fréquent, est un **modèle du domaine qui fabrique le read-model** :
@@ -265,7 +265,7 @@ domain/models/TargetProfileSummaryForAdmin.js
 Ne pas ranger un read-model dans un dossier qui promet autre chose, `aggregates/` en particulier. Le
 mot annonce une frontière de cohérence et des invariants tenus. Un read-model n'a ni l'une ni les
 autres. Un tel dossier existe déjà : sous `domain/models/`, `aggregates/` regroupe des objets qui
-tiennent des invariants entre plusieurs entités liées. Un read-model n'y a pas sa place.
+tiennent des invariants entre plusieurs Entities liées. Un read-model n'y a pas sa place.
 
 **Pourquoi sous `domain/` alors qu'il n'appartient pas au modèle du domaine.** La raison est
 structurelle, pas taxonomique. Un repository le construit et un usecase le renvoie. Le placer sous
@@ -320,9 +320,9 @@ compromis appartient au besoin, pas à l'architecture.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **X1** Un dossier pour trois natures d'objets | dérive | Le classement est invisible : un objet-valeur mal rangé ne se distingue pas d'un read-model. RM3 ne peut pas devenir bloquant | Aucun | **À corriger** |
+| **X1** Un dossier pour trois natures d'objets | dérive | Le classement est invisible : un Value Object mal rangé ne se distingue pas d'un read-model. RM3 ne peut pas devenir bloquant | Aucun | **À corriger** |
 | **X2** Le mot `read-model` vient de CQRS | convention assumée | Collision avec un concept distinct : qui connaît CQRS suppose un store séparé et de la cohérence à terme | Le mot est en usage et compris de l'équipe. C'est l'Ubiquitous Language. Renommer toucherait de nombreux fichiers | *À surveiller* |
-| **X3** L'objet est immuable alors que rien ne l'exige | convention assumée | Champs privés et accesseurs à écrire pour un objet qui ne fait que sortir | Uniformité avec les objets-valeurs, et une seule règle de lint pour les deux | *Rien à faire* |
+| **X3** L'objet est immuable alors que rien ne l'exige | convention assumée | Champs privés et accesseurs à écrire pour un objet qui ne fait que sortir | Uniformité avec les Value Objects, et une seule règle de lint pour les deux | *Rien à faire* |
 
 ### X1. Un dossier pour trois natures d'objets
 
@@ -337,12 +337,12 @@ application/api/read-models/ → contrat publié vers un autre contexte
 ```
 
 Sous le premier dossier, deux natures se mélangent. Certains objets sont lus par une règle : ce sont
-des objets-valeurs, qui doivent satisfaire V3 et V5. D'autres ne font que sortir.
+des Value Objects, qui doivent satisfaire V3 et V5. D'autres ne font que sortir.
 
 **Correction.** Classer, pas renommer. Le classement est tout le bénéfice. Le nom du dossier n'y
 change rien, voir X2.
 
-1. Un objet qu'une règle lit est un **objet-valeur**. Il va dans `domain/models/` et doit satisfaire
+1. Un objet qu'une règle lit est un **Value Object**. Il va dans `domain/models/` et doit satisfaire
    V3 et V5. C'est le déplacement qui coûte. C'est aussi celui qui rapporte : il révèle lesquels de ces
    objets font du travail de domaine.
 2. Un objet assemblé pour sortir reste un **read-model**, dans `domain/read-models/`. Rien à faire.
@@ -352,7 +352,7 @@ change rien, voir X2.
 Le classement se fait fichier par fichier, par les quatre tests du § 1 de `fiche-objet-valeur.md`.
 
 Ce que la correction débloque : RM3 par une règle de chemin. La règle **peut déjà s'écrire** : les
-deux dossiers sont frères. Mais elle se déclencherait aujourd'hui sur les objets-valeurs mal rangés. Elle
+deux dossiers sont frères. Mais elle se déclencherait aujourd'hui sur les Value Objects mal rangés. Elle
 ne peut donc pas être bloquante avant le classement.
 
 Migration opportuniste, conforme à l'ADR 20 : le neuf suit le discriminant, l'existant se classe quand
@@ -397,7 +397,7 @@ read-model Pix ne pourront plus porter le même nom.
 l'immuabilité ni l'absence d'identité : ce sont des propriétés du Value Object d'Evans, qui est une
 autre catégorie.
 
-**Exemple concret.** Un read-model écrit comme un objet-valeur, avec le coût d'écriture que cela
+**Exemple concret.** Un read-model écrit comme un Value Object, avec le coût d'écriture que cela
 suppose :
 
 ```js
@@ -424,7 +424,7 @@ deux champs restants.
 Un objet littéral gelé rendrait le même service à cet endroit précis.
 
 **Correction.** Aucune sur le principe. Les deux champs publics de l'exemple, eux, violent V1 et se
-corrigent : X3 ne porte que sur le choix d'écrire un read-model comme un objet-valeur. Le coût est
+corrigent : X3 ne porte que sur le choix d'écrire un read-model comme un Value Object. Le coût est
 réel mais faible. Le bénéfice est une uniformité utile : une seule règle de lint couvre V1 et V7 pour
 les deux catégories. Exempter les read-models demanderait à cette règle de distinguer les deux, ce que
 X1 rend impossible aujourd'hui.
@@ -447,7 +447,7 @@ infrastructure.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **RM3** n'entre pas dans une règle | règle `dependency-cruiser` de chemin | configuration seule | **après X1** — avant le classement, la règle se déclenche aussi sur les objets-valeurs mal rangés |
+| **RM3** n'entre pas dans une règle | règle `dependency-cruiser` de chemin | configuration seule | **après X1** — avant le classement, la règle se déclenche aussi sur les Value Objects mal rangés |
 | **RM4** emplacement | script `tests/tooling/` : aucun homonyme d'un read-model hors de `read-models/` | ~20 lignes | faibles |
 | **§ 8** un fichier de test existe | même script | ~15 lignes de plus | aucun |
 | **RM2** aucune validation — signal | règle ESLint : un `throw` dans un fichier de `read-models/` | ~15 lignes | faibles |
@@ -478,7 +478,7 @@ Deux pièges :
 - Écrire `src/.+/`, pas `src/[^/]+/`. Sinon, la règle n'atteint pas les contextes à sous-contextes.
   Elle ne s'y déclenche jamais, sans aucun message.
 
-Ce qui empêche de la rendre bloquante n'est pas le nommage, mais le classement. Un objet-valeur rangé
+Ce qui empêche de la rendre bloquante n'est pas le nommage, mais le classement. Un Value Object rangé
 dans `read-models/` déclenche la règle alors qu'il est légitime. En `warn`, la règle produit la liste
 des fichiers à classer. Elle passe en `error` après X1.
 
@@ -497,7 +497,7 @@ Le script parcourt les fichiers de `read-models/`. Deux vérifications :
 - **RM4** : aucun fichier hors de `read-models/` ne porte le nom d'un read-model. Le script ne
   repère donc que les homonymes. Un read-model rangé ailleurs sous un nom unique, comme l'exemple
   fautif de RM4, lui échappe : ce cas reste à la revue. Faux positifs faibles : une homonymie avec une
-  entité est possible.
+  Entity est possible.
 - **§ 8** : chaque fichier a un fichier de test. La correspondance se fait sur le **nom de base**,
   après retrait du suffixe de test, pour deux raisons :
   - le fichier peut vivre dans un sous-dossier alors que son test est au premier niveau
@@ -524,10 +524,10 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 
 | Écart | Codemod | Ce qu'il fait |
 | --- | --- | --- |
-| **X1** classement | préparation seule | Déplacer un fichier et réécrire ses imports, oui. Décider s'il est objet-valeur ou read-model, non |
+| **X1** classement | préparation seule | Déplacer un fichier et réécrire ses imports, oui. Décider s'il est Value Object ou read-model, non |
 | **RM1** règle métier déplacée | non | Décider où la règle vit dans le domaine est de la conception |
 
-Sur X1, un codemod ne doit pas « corriger » un objet reclassé en objet-valeur en lui ajoutant une
+Sur X1, un codemod ne doit pas « corriger » un objet reclassé en Value Object en lui ajoutant une
 validation vide. Le lint passerait au vert, et la dette deviendrait invisible. Le codemod produit un
 `TODO` et un squelette.
 
@@ -546,7 +546,7 @@ export type PlacesStatistics = {
 };
 ```
 
-C'est l'inverse du choix retenu pour un objet-valeur, qui exige la nominalité. Voir § 7 de
+C'est l'inverse du choix retenu pour un Value Object, qui exige la nominalité. Voir § 7 de
 `fiche-objet-valeur.md`. La raison de la différence : la nominalité protège un constructeur qui valide.
 Un read-model ne valide pas.
 

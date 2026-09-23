@@ -17,13 +17,13 @@ JavaScript n'est analysé.
 Conséquence sur un port. Un port `.ts` qui importe son modèle depuis un `.js` déclare
 `Promise<any | null>` : il compile, il ne vérifie rien.
 
-La propriété se propage. Un modèle en `.ts` qui importe un objet-valeur en `.js` reste partiellement
+La propriété se propage. Un modèle en `.ts` qui importe un Value Object en `.js` reste partiellement
 `any`. Un type ne vérifie quelque chose que si la chaîne complète, du port jusqu'aux types feuilles,
 est en `.ts`.
 
 ## Ordre de migration d'une chaîne de repository
 
-1. les **feuilles du graphe de types** — ce que les modèles importent : objets-valeurs, énumérations,
+1. les **feuilles du graphe de types** — ce que les modèles importent : Value Objects, énumérations,
    erreurs du domaine ;
 2. les modèles du domaine, sans quoi les invariants d'entrée et de sortie d'un repository restent
    inexprimables ;

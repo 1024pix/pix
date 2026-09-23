@@ -8,8 +8,8 @@ typage de mordre est dans `migration-typescript.md`.
 
 > **À instruire**
 >
-> - I1 et I2 s'énoncent en termes d'« objet du domaine local ». La définition est livrée, au § 1 de
->   `fiche-objet-valeur.md`. À relire une fois pour confirmer qu'elle couvre bien les cas de I1 et I2.
+> - I1 et I2 s'énoncent en termes d'« objet du domaine local », défini au § 1. À relire une fois pour
+>   confirmer que la définition couvre bien les cas de I1 et I2.
 > - Le numéro **I7** n'est pas attribué. Il portait « le modèle ne porte pas de méthode au service de
 >   la persistance », qui est un invariant du **modèle** : il vit désormais sous `E5` de
 >   `fiche-entite.md`, avec sa vérification. Le numéro n'est pas réattribué.
@@ -51,12 +51,12 @@ typage de mordre est dans `migration-typescript.md`.
 | [**X1**](#x1-aucun-port-nest-déclaré) | aucun port n'est déclaré | **à corriger** |
 | [**X2**](#x2-méthode-de-persistance-sur-le-modèle) | méthode de persistance sur le modèle | **à corriger** |
 | [**X3**](#x3-la-connexion-à-la-base-ne-passe-pas-par-la-signature) | la connexion à la base ne passe pas par la signature | à surveiller |
-| [**X4**](#x4-plusieurs-repositories-pour-un-même-agrégat) | plusieurs repositories pour un même agrégat | rien à faire |
+| [**X4**](#x4-plusieurs-repositories-pour-un-même-aggregate) | plusieurs repositories pour un même Aggregate | rien à faire |
 | [**X5**](#x5-domainusecasesindexjs-importe-linfrastructure) | `domain/usecases/index.js` importe l'infrastructure | rien à faire |
 | [**X6**](#x6-le-repository-couvre-aussi-laccès-aux-contextes-voisins) | le repository couvre aussi l'accès aux contextes voisins | rien à faire |
 
-Deux artefacts hors numérotation, souvent cherchés : la table de décision
-[« ce que le repository n'est pas »](#ce-que-le-repository-nest-pas) au § 1, et
+Hors numérotation : la définition d'un [objet du domaine local](#ce-quest-un-objet-du-domaine-local)
+et la table [« ce que le repository n'est pas »](#ce-que-le-repository-nest-pas) au § 1, et
 [l'avertissement sur `getOrCreate*`](#avertissement) au § 3.
 
 ---
@@ -74,10 +74,26 @@ Le domaine ne sait pas de quelle source il s'agit. Toutes relèvent de la même 
 | un fichier, un objet stocké | `infrastructure/repositories/` |
 | un service HTTP externe | `infrastructure/repositories/` |
 | un cache, une file de messages | `infrastructure/repositories/` |
-| l'API interne d'un autre contexte borné | `infrastructure/repositories/` |
+| l'API interne d'un autre Bounded Context | `infrastructure/repositories/` |
 
-DDD nomme séparément la couche anti-corruption pour la dernière ligne. Le corpus ne reprend pas cette
+DDD nomme séparément l'Anticorruption Layer pour la dernière ligne. Le corpus ne reprend pas cette
 distinction. L'écart est instruit au § 5.
+
+### Ce qu'est un objet du domaine local
+
+Notion utilisée par I1 et I2, les invariants de sortie et d'entrée du repository.
+
+Un objet du domaine local est un type déclaré dans le `domain/` **du contexte courant**, dont ce
+contexte contrôle la construction.
+
+| Est un objet du domaine local | N'en est pas un |
+| --- | --- |
+| une Entity, une Aggregate Root | une ligne de base de données |
+| un Value Object | une charge utile HTTP désérialisée |
+| un read-model produit par un repository du contexte | le DTO publié par l'API interne d'un autre contexte |
+
+La dernière ligne de droite est celle qu'on oublie : le format d'un voisin est de l'extérieur, même
+quand il est déjà en forme d'objet. Sa traduction est le travail du repository.
 
 ### Ce que le repository n'est pas
 
@@ -86,10 +102,10 @@ Table de décision. Si le code correspond à une ligne, il ne va pas dans le rep
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
 | enchaîne plusieurs repositories, décide de l'ordre des opérations | `domain/usecases/` | `fiche-usecase.md` |
-| applique une règle sur des objets d'une même frontière de cohérence | la racine d'agrégat, dans `domain/models/` | `fiche-racine-agregat.md` |
-| applique une règle qui traverse plusieurs agrégats, sans aucune I/O | `domain/services/` | `fiche-service-domaine.md` |
-| contraint une valeur | un objet-valeur, dans `domain/models/` | `fiche-objet-valeur.md` |
-| valide la cohérence interne d'une entité | le constructeur du modèle, dans `domain/models/` | `fiche-entite.md` |
+| applique une règle sur des objets d'une même frontière de cohérence | l'Aggregate Root, dans `domain/models/` | `fiche-racine-agregat.md` |
+| applique une règle qui traverse plusieurs Aggregates, sans aucune I/O | `domain/services/` | `fiche-service-domaine.md` |
+| contraint une valeur | un Value Object, dans `domain/models/` | `fiche-objet-valeur.md` |
+| valide la cohérence interne d'une Entity | le constructeur du modèle, dans `domain/models/` | `fiche-entite.md` |
 | décide si un utilisateur a le droit | `domain/usecases/`, ou un pre-handler déclaré sur la route | `fiche-usecase.md`, `fiche-route.md` |
 | transforme un modèle en JSON:API pour une réponse HTTP | `infrastructure/serializers/` | `fiche-serialiseur.md` |
 | expose une donnée du contexte à un autre contexte | `application/api/` | `fiche-api-interne.md` |
@@ -446,7 +462,7 @@ le seul verdict qui engage du travail. Table triée par verdict.
 | **X1** Aucun port n'est déclaré | dérive | l'injection et le boilerplate | **nul** — aucun contrat vérifiable | **À corriger** |
 | **X2** Méthode de persistance sur le modèle | dérive | différé, à la prochaine migration de schéma | **nul** | **À corriger** |
 | **X3** La connexion à la base ne passe pas par la signature | convention | on ne sait pas, en lisant un usecase, s'il est transactionnel | réel — signatures propres | À surveiller |
-| **X4** Plusieurs repositories pour un même agrégat | convention | quelques fichiers de plus | réel — chaque requête est écrite pour son besoin | Rien à faire |
+| **X4** Plusieurs repositories pour un même Aggregate | convention | quelques fichiers de plus | réel — chaque requête est écrite pour son besoin | Rien à faire |
 | **X5** `domain/usecases/index.js` importe l'infrastructure | vestige assumé en convention | nul — le fichier est toujours au même chemin | le câblage est là où sont les usecases qu'il câble | Rien à faire — exempté dans la règle |
 | **X6** Le repository couvre aussi l'accès aux contextes voisins | convention assumée | nul | réel — un seul concept, le domaine ignore la source | Rien à faire |
 
@@ -555,10 +571,10 @@ l'écrit : un ADR court qui acte l'abandon de la forme explicite et son motif �
 — et qui reprenne la contrepartie, documenter le périmètre transactionnel quand il n'est pas évident.
 C'est l'objet de `U7` dans `fiche-usecase.md`.
 
-### X4. Plusieurs repositories pour un même agrégat
+### X4. Plusieurs repositories pour un même Aggregate
 
-DDD associe un repository à une racine d'agrégat. En pratique, un repository est créé par **besoin de
-requête**, pas par agrégat.
+DDD associe un repository à une Aggregate Root. En pratique, un repository est créé par **besoin de
+requête**, pas par Aggregate.
 
 ```
 infrastructure/repositories/
@@ -571,7 +587,7 @@ infrastructure/repositories/
     combined-course-participant-repository.js         la même frontière, vue d'un autre besoin
 ```
 
-Quatre repositories pour un seul agrégat, rangés en sous-dossiers portant le nom du besoin appelant —
+Quatre repositories pour un seul Aggregate, rangés en sous-dossiers portant le nom du besoin appelant —
 ce qui dit exactement ce que le découpage est. DDD n'en aurait qu'un, et les formes de lecture seraient des
 read-models qu'il produit.
 
@@ -582,32 +598,32 @@ pour rien est une contrainte, pas une préférence.
 **Le débat porte sur l'alternative**, et la littérature la tranche. Deux options se présentent
 naturellement : beaucoup de modèles, ou un modèle unique partiellement rempli selon l'appel.
 
-Le **modèle partiellement rempli est à écarter**. Un agrégat est défini par ses invariants ; chargement
+Le **modèle partiellement rempli est à écarter**. Un Aggregate est défini par ses invariants ; chargement
 partiel, il ne peut pas les garantir. Fowler nomme cette forme : c'est la variante *Ghost* du pattern
 **Lazy Load** de *PoEAA*. Il en donne le coût — l'objet doit savoir aller chercher ce qui lui manque,
 donc la connaissance de la persistance entre dans le modèle. C'est X2. Choisir cette option pour
 résoudre X4 aggrave X2.
 
-La réponse de la littérature au coût de chargement est ailleurs : **réduire l'agrégat** pour que le
+La réponse de la littérature au coût de chargement est ailleurs : **réduire l'Aggregate** pour que le
 charger entier soit bon marché. C'est la règle 2 de Vernon, *design small aggregates*, et sa motivation
 est exactement celle-là.
 
 Quant aux modèles multiples, ils sont endossés à une condition : que les modèles supplémentaires
-soient des **read-models**, pas des agrégats. Une lecture qui n'a pas besoin d'invariants ne passe pas
-par l'agrégat : on requête directement et on produit la forme adaptée. Vernon appelle cela une *use
+soient des **read-models**, pas des Aggregates. Une lecture qui n'a pas besoin d'invariants ne passe pas
+par l'Aggregate : on requête directement et on produit la forme adaptée. Vernon appelle cela une *use
 case optimal query*.
 
-La forme retenue par la littérature est donc une troisième : un modèle d'écriture — l'agrégat, petit,
+La forme retenue par la littérature est donc une troisième : un modèle d'écriture — l'Aggregate, petit,
 toujours chargé entier — et autant de modèles de lecture que de besoins, sans invariant.
 
 **Correction.** Aucune sur le découpage. Deux points à tenir :
 
 1. Le **vocabulaire**. Compter les repositories d'un contexte ne dit plus combien il a de frontières de
-   cohérence. Ne pas poser le mot « agrégat » sur un dossier si les repositories ne suivent pas ce
+   cohérence. Ne pas poser le mot « Aggregate » sur un dossier si les repositories ne suivent pas ce
    grain — voir A3 dans `fiche-racine-agregat.md`.
-2. Les repositories créés pour un besoin de lecture renvoient des **read-models**, pas des entités
+2. Les repositories créés pour un besoin de lecture renvoient des **read-models**, pas des Entities
    incomplètes — voir `fiche-read-model.md`. C'est la frontière à ne pas franchir : plusieurs
-   repositories est une convention tenable, un agrégat à moitié chargé non.
+   repositories est une convention tenable, un Aggregate à moitié chargé non.
 
 Contrepoids : Fowler prévient que séparer lecture et écriture ajoute de la complexité et ne doit pas
 être le défaut. À appliquer où la pression de charge existe.
@@ -644,7 +660,7 @@ infrastructure/repositories/
 Le nommage trahit d'ailleurs la gêne : le second fichier porte `-api.` dans son nom, comme s'il
 fallait avertir le lecteur que ce repository n'en est pas tout à fait un.
 
-DDD appellerait le second une couche anti-corruption et le rangerait à part. C'est l'écart annoncé au
+DDD appellerait le second une Anticorruption Layer et le rangerait à part. C'est l'écart annoncé au
 § 1.
 
 **Correction.** Aucune. C'est la lecture port/adaptateur : le domaine ignore la source, donc la couche
@@ -1058,7 +1074,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **I9** nommage cohérent dans le contexte | aucune source | — |
 | **I10** aucune règle métier | Martin, *Clean Architecture* (2017), ch. « Business Rules » et « Presenters and Humble Objects » | le livre de 2017 |
 | **I11** n'importe pas un autre repository | aucune source. Déduction : composer deux accès est de l'orchestration, ce que la table du § 1 attribue au usecase | — |
-| Grain de l'agrégat, et le coût de chargement (X4) | Vernon, « Effective Aggregate Design », règle 2 *design small aggregates* — trois articles gratuits. Vernon, *IDDD*, pour la *use case optimal query* | dddcommunity.org |
+| Grain de l'Aggregate, et le coût de chargement (X4) | Vernon, « Effective Aggregate Design », règle 2 *design small aggregates* — trois articles gratuits. Vernon, *IDDD*, pour la *use case optimal query* | dddcommunity.org |
 | Contre le modèle partiellement rempli (X4) | Fowler, *PoEAA*, pattern **Lazy Load**, variante *Ghost*. Fowler, « CQRS » sur son bliki, pour la mise en garde sur la complexité ajoutée | bliki gratuit en ligne |
 | Transaction en ambient context | choix Pix sans ADR. Les ADR 9 et 25 décident la transaction au grain du usecase, pas la forme ambient | ADR 9 et 25, pour ce qu'ils tranchent |
 
@@ -1066,6 +1082,6 @@ Trois invariants sur dix n'ont aucune source : I3, I6, I9. I11 est une déductio
 « erreur du domaine » de I4 est une extrapolation d'Evans, même si ses prérequis Pix sont documentés.
 Ce sont des conventions : elles se discutent sur leurs mérites, pas par appel à une autorité.
 
-Note sur Evans et le repository : chez lui, un Repository retrouve les agrégats de son propre
+Note sur Evans et le repository : chez lui, un Repository retrouve les Aggregates de son propre
 contexte. La lecture « port unique vers l'extérieur, contexte voisin compris » vient de la tradition
 ports & adaptateurs. Evans fonde I1 et I2, pas le cadrage.
