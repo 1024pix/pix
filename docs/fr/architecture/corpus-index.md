@@ -177,17 +177,19 @@ fiches. Ils sont corrigés :
 **2. Origine des exemples.** Chaque bloc de code a été recherché dans `api/src`. La règle est
 maintenant écrite dans le gabarit : un exemple fautif est du code réel, un exemple conforme est du
 code réel ou la version corrigée du même extrait. Environ quinze exemples inventés ont été remplacés
-par du code réel. Deux blocs de `fiche-objet-valeur.md` restent schématiques faute de cas réel :
-`apply({ threshold })` et `constructor({ value })`, au § 5.
+par du code réel. Les seules formes fautives sans occurrence réelle sont signalées comme
+hypothétiques : les invariants concernés ne sont violés nulle part.
 
 **3. Simplification de la prose.** Les règles de langue sont écrites dans la règle 2 du gabarit.
 `fiche-service-domaine.md` a été réécrite en premier et sert de référence. Titres, ancres, tables et
 blocs de code n'ont pas changé.
 
-**4. Revue adversariale.** Une revue par fiche a comparé la prose simplifiée à la version d'avant.
+**4. Revue adversariale, puis relecture complète.** Une revue par fiche a comparé la prose simplifiée à la version d'avant.
 Elle a trouvé des pertes de sens, dues à des remplacements de mots mécaniques et à des liens logiques
 coupés, et des contradictions plus anciennes, surtout dans les checklists et au § 6. Les deux sont
-corrigées, et la règle 2 du gabarit dit maintenant comment les éviter.
+corrigées, et la règle 2 du gabarit dit maintenant comment les éviter. Une relecture complète des six
+fiches a suivi. Elle a remplacé les derniers exemples inventés et aligné les statuts de checklist
+entre fiches : une ligne qui couvre l'horloge ou un accès imbriqué n'est pas `[auto]`.
 
 Ce qui reste ouvert :
 
@@ -343,7 +345,8 @@ sommaire n'en est pas une : il est dans l'en-tête.
 2. **Invariants numérotés**, chacun avec : énoncé, illustration conforme et fautive, et « ce qui
    casse ». Les trois, pour chacun.
    - L'illustration **fautive** est un extrait du code réel, simplifié au besoin, sans champ ni
-     signature inventés.
+     signature inventés. Si aucune violation n'existe dans le code, la forme fautive est dérivée du
+     code réel et dite hypothétique.
    - L'illustration **conforme** est un extrait réel quand il en existe un. Sinon, c'est la version
      corrigée du même extrait fautif : mêmes classes, mêmes champs.
    - Aucune classe inventée pour l'occasion.

@@ -17,8 +17,8 @@ typage de s'appliquer est dans `migration-typescript.md`.
 > - Le modèle de référence de la documentation d'architecture expose des champs publics assignables.
 >   `E1` et `E6` l'excluent. La fiche garde sa règle et son motif : aucun code extérieur ne doit
 >   pouvoir réécrire un **champ qui porte une règle**. Là où rien n'est protégé, c'est de l'hygiène,
->   pas un invariant. La page
->   de documentation date d'avant les contextes bornés et n'est pas la cible.
+>   pas un invariant. La page de documentation date d'avant les contextes bornés et n'est pas la
+>   cible.
 
 ## Sommaire
 
@@ -51,9 +51,8 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**X4**](#x4-larborescence-ne-distingue-pas-entité-et-objet-valeur) | l'arborescence ne distingue pas entité et objet-valeur | à surveiller |
 | [**X5**](#x5-lentité-non-persistée-porte-un-identifiant-null) | l'entité non persistée porte un identifiant `null` | à surveiller |
 
-Deux repères hors numérotation, souvent cherchés : le
-[test de discrimination](#le-test-de-discrimination) avec l'objet-valeur, et la question
-[entité ou racine d'agrégat](#entité-ou-racine-dagrégat). Les deux sont au § 1.
+Hors numérotation, au § 1 : le [test de discrimination](#le-test-de-discrimination) avec
+l'objet-valeur, et la question [entité ou racine d'agrégat](#entité-ou-racine-dagrégat).
 
 ---
 
@@ -161,7 +160,7 @@ invalide, y compris une opération qui échoue à mi-chemin.
 C'est l'invariant qui distingue une entité d'un objet littéral nommé. Il vaut aussi pour une racine
 d'agrégat, où il porte sur la frontière de cohérence entière. `fiche-racine-agregat.md` y renvoie.
 
-**À la construction.** Un seul type d'erreur de validation
+**À la construction.** Une entité invalide ne s'instancie pas. Un seul type d'erreur de validation
 vaut pour tout le domaine.
 
 La convention Pix valide `this` après les affectations, contre un schéma déclaratif. C'est `X3` au
@@ -282,14 +281,15 @@ class DataForQuest {
   set success(value) { this.#success = value; }
 }
 
-// conforme — l'intention est nommée
-complete() { this.status = COMPLETED; }
-terminate({ now }) { this.terminatedAt = now; }
+// conforme à E6 — l'intention est nommée (la lecture de l'heure viole E4, voir plus haut)
+complete() {
+  this.updatedAt = new Date();
+  this.status = CombinedCourseParticipationStatuses.COMPLETED;
+}
 ```
 
 Dans l'exemple fautif, l'objet gèle ce qu'il expose en lecture, puis offre un mutateur public sur le
-même champ. La protection donne l'apparence d'une garantie qu'un seul `set`
-annule.
+même champ. La protection donne l'apparence d'une garantie, qu'un seul `set` annule.
 
 **Ce qui casse.** Un mutateur nu annule E3 : l'invariant n'est plus garanti qu'à la construction.
 
@@ -481,7 +481,7 @@ l'entrée fautive : le diagnostic est plus long. Là où le message compte, vali
 d'affecter reste préférable. C'est le cas d'une entrée venant d'un import, d'une API ou d'un
 formulaire.
 
-Ce qui rouvrirait le dossier : un utilitaire qui validerait les paramètres plutôt que `this`. Il
+Ce qui changerait ce verdict : un utilitaire qui validerait les paramètres plutôt que `this`. Il
 supprimerait le coût sans rien retirer du bénéfice.
 
 ### X4. L'arborescence ne distingue pas entité et objet-valeur
@@ -502,7 +502,7 @@ domain/models/
   CombinedCourseStatistics.js   → read-model, probablement
 ```
 
-**Correction.** Aucune n'est décidée. C'est le point à décider, plutôt qu'à appliquer.
+**Correction.** Aucune n'est décidée : c'est une décision à prendre, pas une correction à appliquer.
 
 Ce que le dossier commun coûte vraiment : aucune règle de chemin ne peut viser les entités seules. Les
 vérifications du § 6 s'appliquent donc à tout `domain/models/`, et produisent du bruit sur les
@@ -536,7 +536,7 @@ vérifie. C'est V8 de `fiche-objet-valeur.md` appliqué à une entité.
 différence de nature, donc elle est légitime. Une forme de mise à jour portant un sous-ensemble de
 champs ne l'est pas, sauf mesure.
 
-Ce qui rouvrirait le dossier : constater que le cas `null` a produit un défaut en production. Sans
+Ce qui changerait ce verdict : constater que le cas `null` a produit un défaut en production. Sans
 cette pièce, le coût du doublement des types n'est pas démontré.
 
 ---
@@ -552,7 +552,7 @@ infrastructure. Les coûts ci-dessous ne comptent que la règle elle-même.
 
 **Une limite pour toute cette section.** Les règles portent sur `domain/models/`, qui contient aussi
 les objets-valeurs et peut-être des racines d'agrégat. Elles se déclencheront donc sur des fichiers
-qui ne sont pas des entités. Cette limite vient de X4, et elle plafonne la précision de toutes les
+qui ne sont pas des entités. Cette limite vient de X4, et elle réduit la précision de toutes les
 règles de cette section.
 
 | Invariant | Moyen | Coût | Faux positifs |
@@ -695,8 +695,8 @@ L'existence du fichier de test se vérifie par comparaison de noms. Moyens et li
 
 Deux indices de diagnostic :
 
-- Le test qui manque le plus souvent est celui du **refus**. On vérifie qu'`archive()` archive, pas
-  qu'il refuse d'archiver deux fois. Or c'est le second qui prouve que E3 est tenu. Une exception :
+- Le test qui manque le plus souvent est celui du **refus**. On vérifie que `terminate()` termine, pas
+  qu'il refuse de terminer deux fois. Or c'est le second qui prouve que E3 est tenu. Une exception :
   une entité sans méthode de changement d'état n'a pas de refus à tester, ce qu'admet le § 3.
 - Une entité qui a besoin d'un double **viole E4**. Voir « Ce qui casse » de E4 au § 2.
 
@@ -706,15 +706,17 @@ Deux indices de diagnostic :
 
 Ordonnée par ROI décroissant, conformément au § 4.
 
-Chaque ligne porte son statut au regard du § 6. `[auto]` disparaît de la checklist dès que la règle
-correspondante existe. `[partiel]` reste, réduite à ce que la règle ne couvre pas. `[humain]` reste
-entièrement : aucun moyen déterministe n'est identifié.
+Chaque ligne porte son statut au regard du § 6 :
+
+- Une ligne `[auto]` disparaît dès que la règle correspondante existe.
+- Une ligne `[partiel]` reste, réduite à ce que la règle ne couvre pas.
+- Une ligne `[humain]` reste en entier : aucun moyen déterministe n'est connu.
 
 ```
 [ ] [partiel] E3  Refuse de s'instancier dans un état invalide, et refuse chaque transition invalide
 [ ] [auto]    E6  Aucun mutateur nu ; chaque changement d'état nomme son intention métier
 [ ] [humain]  E7  Les entités d'un autre agrégat sont référencées par identifiant, pas par instance
-[ ] [auto]    E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
+[ ] [partiel] E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
 [ ] [humain]  E5  Aucune méthode dont le repository est le seul consommateur   (sauf format publié)
 [ ] [partiel] E1  L'identité est explicite et ne change pas ; le cas non persisté est traité
 [ ] [humain]  E2  Les comparaisons se fondent sur l'identité, pas sur les champs
@@ -724,7 +726,7 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [humain]  Si l'objet n'a aucune règle propre, appliquer le test du § 1 : entité, ou read-model ?
 ```
 
-À terme, il reste sept lignes, toutes de jugement :
+À terme, il reste huit lignes, toutes de jugement :
 
 - E7 ;
 - E5 ;
@@ -733,7 +735,8 @@ entièrement : aucun moyen déterministe n'est identifié.
 - le rappel du test de discrimination ;
 - la part de E3 qu'aucune règle ne couvre : la validation de valeur, par opposition à la validation
   de présence ;
-- la part de E1 qu'aucune règle ne couvre : le traitement du cas non persisté.
+- la part de E1 qu'aucune règle ne couvre : le traitement du cas non persisté ;
+- la part de E4 qu'aucune règle ne couvre : l'horloge, l'aléatoire et la configuration.
 
 ---
 
