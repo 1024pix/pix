@@ -1,5 +1,24 @@
 # Pix Changelog
 
+# [5.505.0](https://github.com/1024pix/pix/compare/v5.504.0...v5.505.0) (2026-09-23)
+
+### :rocket: Amélioration
+
+- [#17548](https://github.com/1024pix/pix/pull/17548) Accepter les CGU de l'utilisateur de Pix Certif en passant par le nouveau modèle (PIX-22443)
+- [#17578](https://github.com/1024pix/pix/pull/17578) Ajouter les pictos pour les attestations cyber CNAF (PIX-24367)
+
+### :building_construction: Tech
+
+- [#17556](https://github.com/1024pix/pix/pull/17556) Ajoute des index sur la table `users`.
+- [#17577](https://github.com/1024pix/pix/pull/17577) Amélioration d'un test de script
+- [#17580](https://github.com/1024pix/pix/pull/17580) Améliore les performances de la recherche d'utilisateurs depuis Pix Admin.
+- [#17566](https://github.com/1024pix/pix/pull/17566) Améliore les performances de la route qui enregistre un passage-event.
+
+### :arrow_up: Montée de version
+
+- [#17562](https://github.com/1024pix/pix/pull/17562) Update dependency @1024pix/pix-ui to ^68.2.6 (admin)
+- [#17563](https://github.com/1024pix/pix/pull/17563) Update dependency @1024pix/pix-ui to ^68.2.6 (junior)
+
 # [5.504.0](https://github.com/1024pix/pix/compare/v5.503.1...v5.504.0) (2026-09-22)
 
 ### :rocket: Amélioration
