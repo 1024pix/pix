@@ -6,7 +6,7 @@ Le gabarit commun, l'état du chantier et l'ordre de relecture sont dans `corpus
 le code réel est mesuré dans les rapports de divergence, un par contexte. Ce qui empêche aujourd'hui le
 typage de s'appliquer est dans `migration-typescript.md`.
 
-À utiliser dès qu'un objet répond à la question « ce candidat satisfait-il ces critères ? ». Par
+Une Specification s'applique dès qu'un objet répond à la question « ce candidat satisfait-il ces critères ? ». Par
 exemple :
 
 - un moteur de règles ;
@@ -89,7 +89,7 @@ raisonne donc avec lui.
 Conséquence directe : `V3` s'applique. Le candidat valide à la construction. C'est ce qui rend `S1`
 tenable, car un candidat valide garantit la forme de chacune de ses propriétés.
 
-Ne pas le ranger dans `aggregates/`, qui promet une frontière de cohérence qu'il n'a pas. Voir `X1`
+Le candidat ne se range pas dans `aggregates/`, qui promet une frontière de cohérence qu'il n'a pas. Voir `X1`
 de `fiche-racine-agregat.md`.
 
 ### Plusieurs prédicats, et le prédicat vide
@@ -107,8 +107,8 @@ export const COMPARISONS = { ALL: 'all', ONE_OF: 'one-of' };
 ```
 
 Un prédicat **vide** est vrai par vacuité : une composition `all` sur une liste vide renvoie `true`.
-Ce n'est pas un défaut, c'est la sémantique attendue. Il faut le savoir : un prédicat vide ne filtre
-plus aucun candidat.
+Ce n'est pas un défaut, c'est la sémantique attendue. Conséquence : un prédicat vide ne filtre plus
+aucun candidat.
 
 ### Le format d'une specification pilotée par les données est un contrat publié
 
@@ -207,7 +207,7 @@ constructor({ campaignParticipations = [] }) { … }
 avalée par un `try/catch` que personne ne relit. Le défaut est silencieux et le résultat manquant est
 attribué au métier.
 
-**À proscrire : plusieurs modes de réponse pour la même erreur de câblage.** Si certaines propriétés
+**Un seul mode de réponse par erreur de câblage.** Si certaines propriétés
 lèvent, d'autres rendent `false` par projection, et d'autres `false` par collection vide, le
 comportement dépend du critère écrit. Le diagnostic devient impossible.
 
@@ -217,13 +217,13 @@ comportement dépend du critère écrit. Le diagnostic devient impossible.
 qu'elle n'a pas pu conclure.
 
 Cet invariant peut sembler contredire `S1`, qui interdit de lever. Cette contradiction n'est
-qu'apparente. Elle vient de trois cas qu'il faut séparer :
+qu'apparente. Elle vient de la confusion de trois cas distincts :
 
 | Cas | Réponse | Invariant |
 | --- | --- | --- |
 | Une donnée du candidat est **absente** | `false` — c'est une réponse légitime | `S1` |
 | La **specification** est malformée : type de critère inconnu, comparaison inapplicable | **ne peut pas arriver** : l'arbre ne s'instancie pas | `V3` |
-| Une donnée du candidat est **présente mais inexploitable** : type inattendu, valeur hors domaine | non évaluable, à signaler | `S2` |
+| Une donnée du candidat est **présente mais inexploitable** : type inattendu, valeur hors domaine | non évaluable, signalé comme tel | `S2` |
 
 Le périmètre de `S2` est donc le troisième cas, et lui seul. C'est le seul qui subsiste à l'exécution
 quand `V3` est tenu. Il vient toujours de l'extérieur du domaine : une donnée chargée qui n'a pas la
@@ -260,7 +260,7 @@ check(item) {
 }
 ```
 
-Trois sorties sont possibles, **à choisir une fois pour tout le moteur** :
+Trois sorties sont possibles. Le moteur en retient **une seule, pour tous ses critères** :
 
 - lever une erreur du domaine ;
 - renvoyer un résultat à trois états ;
@@ -303,7 +303,7 @@ isFulfilled(dataInput) {
 **Ce qui casse.** Exprimer une condition métier nouvelle demande alors de modifier le moteur. C'est
 exactement ce que le pattern sert à éviter.
 
-Généralement déjà tenu : c'est un invariant **à protéger**, pas à conquérir. Un combinateur qui refuse
+Généralement déjà tenu : c'est un invariant **acquis**, qui se protège plutôt qu'il ne se conquiert. Un combinateur qui refuse
 un type d'enfant, ou qui modifie le candidat avant de le passer, casse la propriété.
 
 ### S6. Le format est un contrat publié
@@ -382,9 +382,9 @@ for (const name of Object.values(TYPES.OBJECT)) {
 forme de la propriété, une exception ou un `false` définitif et silencieux. Le critère est écrit. Il
 paraît actif, mais il ne l'est pas.
 
-**L'exception à prévoir.** Un critère qui porte un algorithme (un calcul, un seuil, une agrégation)
+**L'exception.** Un critère qui porte un algorithme (un calcul, un seuil, une agrégation)
 n'utilise pas la résolution par nom. Il appelle une méthode nommée du candidat. Il est hors du périmètre
-de `S7` et n'entre pas dans l'énumération. Il faut le distinguer explicitement, sinon la vérification
+de `S7` et n'entre pas dans l'énumération. Faute de le distinguer explicitement, la vérification
 produit un faux positif.
 
 ### S8. Un consommateur ne redéfinit pas la specification
@@ -441,12 +441,12 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 
 | Cas | Statut |
 | --- | --- |
-| Un prédicat vide est vrai par vacuité | **autorisé**, c'est la sémantique de la composition `all`. Effet à connaître : le prédicat ne filtre plus aucun candidat |
+| Un prédicat vide est vrai par vacuité | **autorisé**, c'est la sémantique de la composition `all`. Effet : le prédicat ne filtre plus aucun candidat |
 | Un critère algorithmique hors de l'énumération, appelant une méthode du candidat | **autorisé**, hors périmètre de `S7` |
 | Un critère sans modalité de comparaison, quand la notion n'a pas de sens pour lui | **autorisé** : un seuil ne se compare pas « une parmi » |
 | Une méthode du candidat qui rend une valeur neutre sur entrée non exploitable | **autorisé**, et c'est `S1` bien appliqué |
-| Un candidat construit en deux temps, avec un accesseur pour la partie coûteuse à charger | **autorisé** si l'appelant renseigne avant usage. C'est une optimisation, pas une violation de `S1`. À documenter, sinon un relecteur la corrigera |
-| Une specification aux prédicats **tous** vides | **cas dégénéré**, pas une exception. Elle est satisfaite par tout candidat. À interdire à l'écriture, pas à l'évaluation |
+| Un candidat construit en deux temps, avec un accesseur pour la partie coûteuse à charger | **autorisé** si l'appelant renseigne avant usage. C'est une optimisation, pas une violation de `S1`. Elle est documentée, sinon un relecteur la prend pour un défaut |
+| Une specification aux prédicats **tous** vides | **cas dégénéré**, pas une exception. Elle est satisfaite par tout candidat. Elle est interdite à l'écriture, pas à l'évaluation |
 | Le consommateur porte une propriété qui neutralise un critère | **autorisé**, c'est la réponse conforme à `S8` — une propriété du modèle, pas un filtrage |
 
 ---
@@ -460,7 +460,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **S2** non satisfait ≠ non évaluable | **forte** | Un utilisateur privé de son résultat par un défaut cesse d'être indiscernable d'un utilisateur qui n'y a pas droit |
 | **S6** format publié | **forte** | Les specifications déjà écrites continuent de fonctionner, et leur documentation reste vraie |
 | **S7** correspondance énumération ↔ candidat | moyenne | Interdit une classe de pannes silencieuses pour dix lignes de test |
-| **S5** fermeture par composition | hygiène | Exprimer une condition métier arbitraire sans toucher au moteur. Généralement déjà tenu, donc à protéger plutôt qu'à conquérir |
+| **S5** fermeture par composition | hygiène | Exprimer une condition métier arbitraire sans toucher au moteur. Généralement déjà tenu, donc protégé plutôt que conquis |
 
 **Pourquoi quatre invariants sur six sont en rentabilité forte.** C'est inhabituel dans le corpus. Les
 modes de défaillance d'un moteur piloté par les données sont silencieux, mais visibles par
@@ -571,7 +571,7 @@ dépendance de Clean Architecture.
 **Exemple concret.**
 
 ```js
-// dans un objet-valeur du moteur — l'import
+// dans un Value Object du moteur — l'import
 import { logger } from '…/shared/infrastructure/utils/logger.js';
 
 // et son usage, au cœur de l'évaluation
@@ -618,12 +618,12 @@ Le nom est stocké en base de données, donc aucun outil ne peut lier la déclar
 **Correction.** Aucune sur le principe. La résolution par nom permet d'écrire une specification
 nouvelle sans déploiement. C'est le bénéfice central du pattern piloté par les données.
 
-Ce qui est à tenir, c'est la compensation : le test de `S7` vérifie l'étape que rien d'autre ne valide.
+La compensation est le test de `S7` : il vérifie l'étape que rien d'autre ne valide.
 Il coûte dix lignes. Sans lui, rien ne compense le coût de la convention.
 
-Ce qui changerait ce verdict : le typage. Un nom de critère typé en `keyof Candidate`, plutôt qu'en
-`string`, rend la déclaration sans propriété impossible à la compilation. Voir § 7. À ce moment-là,
-`X4` cesse d'être un écart, et le test de `S7` devient inutile.
+**Révision.** Le typage change ce verdict. Un nom de critère typé en `keyof Candidate`, plutôt qu'en
+`string`, rend la déclaration sans propriété impossible à la compilation. Voir § 7. `X4` cesse alors
+d'être un écart, et le test de `S7` devient inutile.
 
 ---
 
@@ -681,8 +681,9 @@ ce message, un échec du test est inexploitable.
 Dix lignes, aucun faux positif. Si le test passe déjà, il sert de test de non-régression : il interdit
 une classe entière de pannes silencieuses.
 
-**Extension plus coûteuse mais utile.** Vérifier que la propriété est renseignée par le repository qui
-assemble le candidat, pas seulement exposée. Cela demande une fixture, donc un test d'intégration.
+**Extension plus coûteuse mais utile.** Une extension du test vérifie que la propriété est renseignée
+par le repository qui assemble le candidat, pas seulement exposée. Elle demande une fixture, donc un
+test d'intégration.
 
 ### S1 — test de totalité
 
@@ -694,18 +695,19 @@ for (const name of Object.values(TYPES.OBJECT)) {
 }
 ```
 
-À étendre à chaque valeur de l'énumération des comparaisons, et à un candidat dont chaque propriété est
-absente à tour de rôle.
+Le test s'étend à chaque valeur de l'énumération des comparaisons, et à un candidat dont chaque
+propriété est absente à tour de rôle.
 
-**Ne pas l'étendre** aux parties du candidat volontairement chargées en deux temps. Voir § 3.
+Le test **ne couvre pas** les parties du candidat volontairement chargées en deux temps. Voir § 3.
 
 ### S6 — ce qui manque avant de pouvoir le tester
 
 Le test est trivial : comparer les valeurs des énumérations du code à une liste documentée. Il ne peut
 pas encore être écrit, parce que la liste documentée n'existe pas.
 
-C'est donc le premier travail sur cet invariant. Il ne s'agit pas d'outillage : produire la
-documentation du format, versionnée dans le dépôt, puis le test qui l'oppose au code. Dans cet ordre.
+La documentation du format, versionnée dans le dépôt, est donc le prérequis du test de `S6`. Ce
+prérequis relève de la documentation, pas de l'outillage. Le test qui oppose le format au code vient
+ensuite.
 
 ### Ce qui n'est pas mécanisable
 
@@ -776,7 +778,7 @@ plutôt qu'en `string`, rend impossible la déclaration d'un critère sans propr
 test de `S7` devient alors inutile. C'est le seul endroit du corpus où le typage retire un test au lieu
 d'en ajouter un.
 
-La limite à connaître : ce bénéfice suppose que le nom vienne du code. Un nom qui vient de la base de
+La limite : ce bénéfice suppose que le nom vienne du code. Un nom qui vient de la base de
 données reste une chaîne au moment où il arrive. La vérification se déplace alors vers la validation du
 format, `V3`.
 

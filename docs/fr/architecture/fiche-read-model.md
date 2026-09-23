@@ -62,7 +62,7 @@ class PlacesStatistics {
   #placeRepartition;
 
   constructor({ placesLots = [], placeRepartition, organizationId } = {}) {
-    // clé de présentation : à composer dans le sérialiseur, voir V2
+    // clé de présentation : elle se compose dans le sérialiseur, voir V2
     this.id = `${organizationId}_place_statistics`;
     this.#placesLots = placesLots;
     this.#placeRepartition = placeRepartition;
@@ -107,9 +107,9 @@ Si le code correspond à une ligne, ce n'est pas un read-model.
 La première ligne est le cas fréquent et le seul difficile. Pour la reconnaître, voir les quatre tests
 au § 1 de `fiche-objet-valeur.md`.
 
-Attention : une dérivation de présentation (un total, un pourcentage, un libellé composé) n'est pas
-une règle métier. Un read-model peut donc porter des méthodes sans devenir un Value Object. La question n'est pas « a-t-il du comportement ? » mais « ce comportement
-décide-t-il quelque chose ? »
+Une dérivation de présentation (un total, un pourcentage, un libellé composé) n'est pas une règle
+métier. Un read-model peut donc porter des méthodes sans devenir un Value Object. La question n'est
+pas « a-t-il du comportement ? » mais « ce comportement décide-t-il quelque chose ? »
 
 ---
 
@@ -166,7 +166,8 @@ rien ne le signale.
 ### RM2. Aucune validation
 
 C'est une projection de données déjà lues par notre propre requête. Les valider est redondant. L'échec
-n'aurait pas de traitement sensé : on ne refuse pas une donnée qu'on vient de lire chez soi.
+n'aurait pas de traitement sensé : l'application ne refuse pas une donnée qu'elle vient de lire dans
+sa propre base.
 
 ```js
 // conforme — une projection sans validation
@@ -230,7 +231,7 @@ get organizationLearners() {
   });
 }
 
-// conforme — le même calcul, sans emballer la sortie ; au repository ou au usecase de composer le
+// conforme — le même calcul, sans emballer la sortie ; le repository ou le usecase compose le
 // read-model à partir des valeurs renvoyées
 get organizationLearners() {
   return this.#organizationLearners.map((learner) => ({
@@ -262,7 +263,7 @@ domain/read-models/
 domain/models/TargetProfileSummaryForAdmin.js
 ```
 
-Ne pas ranger un read-model dans un dossier qui promet autre chose, `aggregates/` en particulier. Le
+Un read-model ne se range pas dans un dossier qui promet autre chose, `aggregates/` en particulier. Le
 mot annonce une frontière de cohérence et des invariants tenus. Un read-model n'a ni l'une ni les
 autres. Un tel dossier existe déjà : sous `domain/models/`, `aggregates/` regroupe des objets qui
 tiennent des invariants entre plusieurs Entities liées. Un read-model n'y a pas sa place.
@@ -289,7 +290,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Il porte un total, un pourcentage, un libellé composé | **autorisé** — dérivation de présentation, RM1 |
 | Il est construit depuis une source externe | **autorisé** — le repository traduit et valide la source, pas le read-model. C'est l'exception de RM2 |
 | Il porte l'identifiant d'autre chose | **autorisé** — c'est une donnée, pas son identité. Voir V2 |
-| Il n'a aucune dérivation et se réduit à une forme | **à discuter**, pas à signaler seul — nommer le contrat d'une requête peut suffire. Voir § 8 |
+| Il n'a aucune dérivation et se réduit à une forme | **toléré** : ne se signale pas seul, car nommer le contrat d'une requête peut suffire. Voir § 8 |
 
 ---
 
@@ -355,8 +356,8 @@ Ce que la correction débloque : RM3 par une règle de chemin. La règle **peut 
 deux dossiers sont frères. Mais elle se déclencherait aujourd'hui sur les Value Objects mal rangés. Elle
 ne peut donc pas être bloquante avant le classement.
 
-Migration opportuniste, conforme à l'ADR 20 : le neuf suit le discriminant, l'existant se classe quand
-on le touche.
+Migration opportuniste, conforme à l'ADR 20 : le neuf suit le discriminant, l'existant se classe à sa
+prochaine modification.
 
 ### X2. Le mot `read-model` vient de CQRS
 
@@ -387,9 +388,9 @@ classement, pas le nom.
 
 Le § 1 précise ce que le mot désigne et ce qu'il ne désigne pas.
 
-**À surveiller.** Deux déclencheurs changeraient ce verdict : un malentendu constaté sur pièces, ou
-l'introduction réelle d'un read model CQRS quelque part. Si un read model CQRS apparaît, lui et le
-read-model Pix ne pourront plus porter le même nom.
+**Révision.** Deux faits changent ce verdict : un malentendu constaté sur pièces, ou l'introduction
+réelle d'un read model CQRS. Un read model CQRS et le read-model Pix ne peuvent pas porter le même
+nom.
 
 ### X3. L'objet est immuable alors que rien ne l'exige
 
@@ -438,9 +439,9 @@ C'est une convention explicite, pas une lecture de Fowler : il n'exige pas l'imm
 Les taux de faux positifs annoncés sont estimés. Toute hypothèse sur le comportement d'un outil se
 vérifie par contre-épreuve :
 
-- introduire la violation ;
-- confirmer que l'outil la signale ;
-- retirer la violation.
+- introduction de la violation ;
+- confirmation que l'outil la signale ;
+- retrait de la violation.
 
 Il n'existe aucun plugin ESLint maison : toute règle sur mesure suppose d'abord de créer cette
 infrastructure.
@@ -467,16 +468,16 @@ La règle s'écrit telle quelle : les deux dossiers sont déjà frères.
 }
 ```
 
-Elle attrape des cas réels, mais pas ceux qu'on attendrait. Ce sont surtout des **modèles du domaine
+Elle attrape des cas réels, mais pas ceux que son nom annonce. Ce sont surtout des **modèles du domaine
 qui fabriquent des read-models**, pas des règles qui en lisent un. Le sens de la flèche est inversé,
 mais le couplage est le même : un modèle du domaine connaît la forme d'une sortie.
 
 Deux pièges :
 
 - Seul `error` fait échouer la commande, et la valeur par défaut est `warn`. `error` est la valeur
-  cible, mais tant que X1 n'est pas corrigé, laisser `warn`.
-- Écrire `src/.+/`, pas `src/[^/]+/`. Sinon, la règle n'atteint pas les contextes à sous-contextes.
-  Elle ne s'y déclenche jamais, sans aucun message.
+  cible. Tant que X1 n'est pas corrigé, la règle reste en `warn`.
+- Le chemin s'écrit `src/.+/`, pas `src/[^/]+/`. Avec la seconde forme, la règle n'atteint pas les
+  contextes à sous-contextes. Elle ne s'y déclenche jamais, sans aucun message.
 
 Ce qui empêche de la rendre bloquante n'est pas le nommage, mais le classement. Un Value Object rangé
 dans `read-models/` déclenche la règle alors qu'il est légitime. En `warn`, la règle produit la liste
@@ -578,7 +579,7 @@ Deux indices de diagnostic :
 - Un read-model qui a besoin d'un double **viole V4** : il touche à l'infrastructure. Voir V4 dans
   `fiche-objet-valeur.md`.
 - Un read-model dont le test unitaire n'a rien à vérifier n'a ni forme propre ni dérivation : il
-  aurait pu rester un objet littéral. Ce n'est pas une faute, c'est une question à poser. Limite :
+  aurait pu rester un objet littéral. Ce n'est pas une faute, c'est une question ouverte. Limite :
   nommer le contrat d'une requête est une raison suffisante d'exister, même sans dérivation.
 
 Ce que le test unitaire ne couvre pas : que la requête produise bien cette forme. C'est le test

@@ -33,7 +33,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**D4**](#d4-cest-un-dernier-recours) | c'est un dernier recours | **forte** | aucun outil, signal faible |
 | [**D3**](#d3-sans-état-et-sans-effet-sur-ses-entrées) | sans état, et sans effet sur ses entrées | moyenne | règle ESLint, partielle |
 | [**D2**](#d2-prend-des-objets-du-domaine-en-renvoie) | prend des objets du domaine, en renvoie | moyenne | revue |
-| [**D5**](#d5-nommé-par-la-règle-pas-par-la-ressource) | nommé par la règle, pas par la ressource | hygiène | script, à mesurer |
+| [**D5**](#d5-nommé-par-la-règle-pas-par-la-ressource) | nommé par la règle, pas par la ressource | hygiène | script, faux positifs non mesurés |
 
 **Écarts** — tous à corriger. Le § 5 dit pourquoi.
 
@@ -55,18 +55,18 @@ plusieurs Aggregates, soit aucun objet n'en est le propriétaire naturel.
 
 Il reçoit des objets du domaine et en renvoie. Il ne charge rien, n'écrit rien et ne garde aucun état.
 
-C'est une catégorie de **dernier recours**. On n'y vient qu'après avoir essayé de placer la règle sur
-un Value Object, une Entity ou une Aggregate Root. Créer un service par facilité retire la logique
+C'est une catégorie de **dernier recours**. Un service ne se crée qu'après une tentative de placer la
+règle sur un Value Object, une Entity ou une Aggregate Root. Créer un service par facilité retire la logique
 des modèles, qui deviennent anémiques.
 
 ### Le test de discrimination
 
-Poser les questions dans cet ordre.
+Les questions se posent dans cet ordre.
 
-1. *La règle porte-t-elle sur les données d'un seul objet ?* → elle va sur cet **Value Object** ou
+1. *La règle porte-t-elle sur les données d'un seul objet ?* → elle va sur ce **Value Object** ou
    cette **Entity**.
-2. *Porte-t-elle sur plusieurs objets d'une même frontière de cohérence ?* → elle va sur la **racine
-   d'Aggregate**.
+2. *Porte-t-elle sur plusieurs objets d'une même frontière de cohérence ?* → elle va sur l'**Aggregate
+   Root**.
 3. *A-t-elle besoin de charger ou d'écrire quoi que ce soit ?* → c'est un **usecase**, pas un service.
 4. *Reste-t-il une règle sans propriétaire naturel, qui se calcule sur des objets déjà fournis ?*
    → **Domain Service**.
@@ -126,7 +126,7 @@ L'interdiction couvre aussi l'infrastructure implicite :
 
 Une date ou un générateur arrive en paramètre, comme pour une Entity.
 
-**Ce qui casse.** Le service n'est plus testable en unitaire pur : il faut une base ou une doublure.
+**Ce qui casse.** Le service n'est plus testable en unitaire pur : il demande une base ou une doublure.
 Il devient aussi un usecase sans que personne l'ait décidé, dans un dossier qui annonce le contraire.
 
 La détection est simple : un paramètre dont le nom finit par `Repository`, `Api` ou `Storage`. Voir le
@@ -214,13 +214,13 @@ L'objet modifié a aussi une faille : il aurait dû refuser la modification (V1 
 
 ### D4. C'est un dernier recours
 
-**Énoncé.** On ne crée un service qu'après avoir répondu non aux trois premières questions du test de
-discrimination. Le service accueille la règle qui n'a pas de propriétaire naturel.
+**Énoncé.** Un service ne se crée qu'après une réponse négative aux trois premières questions du test
+de discrimination. Le service accueille la règle qui n'a pas de propriétaire naturel.
 
 **Pourquoi c'est un invariant et pas un conseil.** Un Domain Service est la solution la plus
 facile. Écrire une fonction qui prend deux objets et renvoie un booléen va toujours plus vite. Ajouter
-une méthode à une Entity oblige à vérifier que son invariant tient. Sans règle, on choisit donc le
-service.
+une méthode à une Entity oblige à vérifier que son invariant tient. Sans règle, le choix se porte
+donc sur le service.
 
 **Ce qui casse.** Avec le temps, les modèles ne contiennent plus que des champs, et toute la logique
 vit dans des fonctions à côté. C'est un modèle anémique que personne n'a choisi. Voir X2 au § 5.
@@ -252,7 +252,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | --- | --- |
 | Un service reçoit `now` ou un générateur en paramètre | **autorisé**, c'est la forme correcte de D1 |
 | Un service reçoit une constante de configuration en paramètre | **autorisé** : c'est une donnée, pas une dépendance |
-| Un service asynchrone sans I/O, qui découpe un calcul long | **autorisé**, mais rare. Vérifier qu'aucun `await` ne porte sur une I/O |
+| Un service asynchrone sans I/O, qui découpe un calcul long | **autorisé** si aucun `await` ne porte sur une I/O, mais rare |
 | Un service prend plusieurs objets du domaine et renvoie un Value Object | **autorisé**, c'est le cas nominal de D2 |
 | Un service exporté sous forme de classe sans état | **autorisé**, mais le module de fonctions est la forme préférée (§ 7) |
 | Un service partagé entre plusieurs usecases | **autorisé** si D1 tient. Le partage n'est pas le critère |
@@ -289,7 +289,7 @@ Les écarts sont numérotés `X` et non `D`, qui est le préfixe des invariants 
 
 Les trois écarts sont des dérives. Aucun n'est une convention assumée. Pour X1, la cause est connue :
 le sens du dossier `services/` n'avait jamais été décidé. Il l'est maintenant : `services/` est
-réservé aux vrais services. X1 a donc une correction à appliquer, pas une option à choisir.
+réservé aux vrais services. X1 relève donc d'une correction, pas d'un choix entre options.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
@@ -326,7 +326,7 @@ parle du métier, pas du partage entre usecases.
 
 Elle a deux conséquences :
 
-- Une fois les fichiers déplacés, on peut passer la règle ESLint de D1 en erreur. Plus personne ne
+- Une fois les fichiers déplacés, la règle ESLint de D1 peut passer en erreur. Plus personne ne
   peut alors ajouter un repository à un fichier de ce dossier.
 - Le dossier devient rare, voire vide dans certains contextes. C'est attendu : une règle qui traverse
   plusieurs Aggregates sans rien charger est peu fréquente.
@@ -337,13 +337,13 @@ Deux autres positions ont été écartées :
 - renommer le dossier en `shared-usecases/`, moins cher, mais qui laisse le vrai service sans
   emplacement.
 
-Avant de déplacer, il faut classer les fichiers existants avec le test du § 1. La règle ESLint de D1,
-en avertissement, fournit la liste (§ 6).
+Le déplacement suppose d'abord le classement des fichiers existants avec le test du § 1. La règle
+ESLint de D1, en avertissement, fournit la liste (§ 6).
 
 ### X2. La règle est placée dans un service plutôt que sur un objet
 
 **Ce que dit la théorie.** Evans précise qu'un Service ne doit pas retirer leur comportement aux
-objets. Fowler nomme ce qu'on obtient sinon : le modèle anémique.
+objets. Fowler nomme ce qui en résulte sinon : le modèle anémique.
 
 **Exemple concret.**
 
@@ -359,8 +359,8 @@ transverse.
 **Correction.** Déplacer la règle sur l'objet, sous une fabrique nommée :
 `Tube.groupFromSkills(skills)`. Les appelants remplacent l'appel de fonction par la méthode statique.
 
-La correction n'est pas mécanique. Pour savoir si la règle appartient à l'objet, il faut savoir si
-elle contraint son état ou si elle relie deux objets. Le signal de D4 montre où regarder. Il ne
+La correction n'est pas mécanique. Savoir si la règle appartient à l'objet demande de savoir si elle
+contraint son état ou si elle relie deux objets. Le signal de D4 montre où regarder. Il ne
 décide pas.
 
 X1 de `fiche-usecase.md` décrit un écart proche, vu depuis le usecase. Le fichier fautif et la
@@ -390,7 +390,7 @@ Rien ne permet de refuser une fonction de plus dans ce fichier, et il grossit sa
 
 **Correction.** Un fichier par règle, nommé par la règle. Si les fonctions sont indépendantes, le
 découpage est mécanique et ne demande aucune décision de conception. Si elles partagent des fonctions
-privées, il faut décider où les placer.
+privées, leur placement demande une décision.
 
 C'est l'écart le moins coûteux à corriger des trois.
 
@@ -409,7 +409,7 @@ infrastructure, et les coûts ci-dessous ne comptent que la règle.
 | **D1** aucune I/O, imports | règle `dependency-cruiser` de chemin | configuration seule | aucun |
 | **D3** sans état | règle ESLint : champ de classe dans un fichier de `domain/services/` | ~15 lignes | faibles |
 | **§ 8** un test unitaire existe | script `tests/tooling/` | ~30 lignes | aucun |
-| **D5** nommé par la règle | script : nom de fichier terminant par `-service` | ~15 lignes | **à mesurer** |
+| **D5** nommé par la règle | script : nom de fichier terminant par `-service` | ~15 lignes | **non mesurés** |
 | **D2** objets du domaine en entrée et en sortie | revue | — | — |
 | **D4** dernier recours | revue | — | — |
 
@@ -423,8 +423,8 @@ correspond à /(Repository|Api|Storage)$/.
 La règle n'a besoin que de la signature.
 
 Elle se déclenchera sur le code existant, et c'est voulu : chaque fichier signalé contient un
-usecase. Classer ce fichier avec le test du § 1, puis le déplacer ou le découper. Introduire la règle
-en avertissement pendant ce classement, puis la passer en erreur.
+usecase. Chaque fichier signalé se classe avec le test du § 1, puis se déplace ou se découpe. La
+règle reste en avertissement pendant ce classement, puis passe en erreur.
 
 La même analyse de la signature sert au discriminant du § 6 de `fiche-usecase.md`. Elle sert aussi à
 l'étape 1 de I1 dans `fiche-repository.md`, qui repère déjà les paramètres en `/Api$/`. Le coût
@@ -445,27 +445,26 @@ Deux pièges :
 
 - `severity: 'error'` est obligatoire. La valeur par défaut est `warn`, et seul `error` fait échouer
   la commande.
-- Écrire `src/.+/` et non `src/[^/]+/`. Sinon, la règle n'atteint pas les contextes à sous-contextes.
-  Elle ne s'y déclenche jamais, sans aucun message.
+- Le chemin s'écrit `src/.+/`, pas `src/[^/]+/`. Avec la seconde forme, la règle n'atteint pas les
+  contextes à sous-contextes. Elle ne s'y déclenche jamais, sans aucun message.
 
 ### L'existence du test unitaire comme indicateur
 
 Un fichier de `domain/services/` sans test unitaire est soit non testé, soit testé en intégration.
 Dans le second cas, D1 est probablement violé. Le script ne prouve rien : il montre où regarder.
 
-La correspondance se fait sur le nom de base, sans le suffixe de test. On ne compare pas les chemins,
+La correspondance se fait sur le nom de base, sans le suffixe de test. Les chemins ne sont pas comparés,
 car le fichier et son test peuvent être dans des dossiers différents. Le suffixe varie aussi d'un
 contexte à l'autre.
 
 ### Ce qui n'est pas mécanisable
 
-D4 est, avec D1, l'invariant le plus rentable, et c'est le moins vérifiable. Pour savoir si une
-règle aurait pu vivre sur un objet, il faut connaître cet objet.
+D4 est, avec D1, l'invariant le plus rentable, et c'est le moins vérifiable. Savoir si une
+règle aurait pu vivre sur un objet suppose de connaître cet objet.
 
 Le seul indicateur connu est le signal de D4 : un seul objet du domaine, ou une seule collection, en
-entrée. Il justifie une revue, pas un
-verdict. Il ne couvre pas le cas le plus fréquent : une règle sur deux objets, qui appartenait à l'un
-des deux.
+entrée. Il justifie une revue, pas un verdict. Il ne couvre pas le cas le plus fréquent : une règle
+sur deux objets, qui appartenait à l'un des deux.
 
 ### Ordre de mise en œuvre
 
@@ -488,9 +487,9 @@ Un codemod peut appliquer une décision. Il ne peut pas en prendre une.
 
 | Écart ou invariant | Codemod | Ce qu'il fait |
 | --- | --- | --- |
-| **X1** déplacement | oui, une fois le fichier classé | Déplacer un fichier de `services/` vers `usecases/` et réécrire ses imports. Si le fichier a un câblage dédié, le signaler au lieu de deviner |
-| **X3** découpage | partiel | Séparer des fonctions indépendantes en fichiers nommés, oui. Décider où vont les fonctions privées partagées, non |
-| **D5** renommage | oui, complet | Renommer et réécrire les imports |
+| **X1** déplacement | oui, une fois le fichier classé | Déplace un fichier de `services/` vers `usecases/` et réécrit ses imports. Signale un câblage dédié au lieu de deviner |
+| **X3** découpage | partiel | Sépare des fonctions indépendantes en fichiers nommés. Ne décide pas où vont les fonctions privées partagées |
+| **D5** renommage | oui, complet | Renomme le fichier et réécrit les imports |
 | **X2** déplacement de règle | non | Choisir l'objet qui porte la règle est de la conception |
 
 ---
@@ -520,7 +519,7 @@ Le typage ne couvre ni D3 ni D4 :
   qui modifient l'objet reçu.
 - Rien dans un type ne dit qu'une règle aurait pu vivre ailleurs.
 
-On préfère le module de fonctions à la classe. Une classe sans état n'apporte rien de plus, et elle
+Le module de fonctions est préféré à la classe. Une classe sans état n'apporte rien de plus, et elle
 permet d'ajouter un champ.
 
 Les contraintes de syntaxe imposées par la configuration sont dans `migration-typescript.md`.
@@ -558,7 +557,7 @@ Chaque ligne porte son statut au regard du § 6 :
 ```
 [ ] [auto]    D1  Aucun paramètre en *Repository, *Api, *Storage ; aucun import d'infrastructure
 [ ] [humain]  D1  Ni journal, ni horloge, ni aléatoire, ni configuration lue directement — tout entre en paramètre
-[ ] [humain]  D4  La règle ne pouvait pas vivre sur un objet-valeur, une entité ou une racine
+[ ] [humain]  D4  La règle ne pouvait pas vivre sur un Value Object, une Entity ou une racine
 [ ] [partiel] D3  Aucun état ; les objets reçus ne sont pas modifiés
 [ ] [humain]  D2  Entrées et sorties sont des objets du domaine local ou des scalaires
 [ ] [partiel] D5  Le fichier est nommé par la règle, pas par une ressource suffixée -service

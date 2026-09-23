@@ -66,7 +66,7 @@ questions, il dit s'il y a un Aggregate ou non.
 ## 1. Rôle
 
 Un Aggregate est un **groupe d'objets traité comme une unité de cohérence**. Sa racine est l'Entity par
-laquelle on y accède : rien de ce qu'il contient n'est atteignable autrement.
+laquelle passe tout accès : rien de ce qu'il contient n'est atteignable autrement.
 
 Sa raison d'être tient en une phrase : il existe une règle qui porte sur plusieurs objets à la fois,
 et quelqu'un doit garantir qu'elle est vraie en permanence. C'est la racine.
@@ -129,7 +129,7 @@ pratique qui limite le coût d'un chargement. Pour une racine, c'est constitutif
 s'arrête la frontière. Une racine qui tient l'instance d'une autre racine n'a pas une frontière. Elle
 en a deux confondues.
 
-Le corollaire à ne pas oublier : à l'intérieur d'un même Aggregate, tenir les instances est normal.
+Le corollaire : à l'intérieur d'un même Aggregate, tenir les instances est normal.
 C'est la définition d'un Aggregate, et c'est l'exception que E7 nomme.
 
 ### A1. La frontière de cohérence est explicite
@@ -137,11 +137,11 @@ C'est la définition d'un Aggregate, et c'est l'exception que E7 nomme.
 **Énoncé.** L'Aggregate existe parce qu'une règle porte sur plusieurs de ses objets à la fois. Cette
 règle doit être **nommable**.
 
-Le test : formuler la phrase « à tout instant, dans cet Aggregate, … doit être vrai ». Si la phrase ne
+Le test consiste à formuler la phrase « à tout instant, dans cet Aggregate, … doit être vrai ». Si la phrase ne
 vient pas, il n'y a pas de frontière à protéger.
 
 ```
-// nommable — il y a un agrégat, et le code le vérifie
+// nommable — il y a un Aggregate, et le code le vérifie
 « à tout instant, toute participation portée par un parcours combiné est
   une participation de ce contexte, et non une forme quelconque »
 
@@ -217,7 +217,7 @@ infrastructure/repositories/
     combined-course-repository.js               getById, save
   combined-course-details-repository.js         getById, avec tout ce qu'un écran affiche
   combined-course-participations/
-    combined-course-participation-repository.js une entité interne à la frontière
+    combined-course-participation-repository.js une Entity interne à la frontière
     organization-learner-participation-repository.js
   prescription/
     combined-course-participant-repository.js   la même frontière, vue d'un autre besoin
@@ -242,7 +242,8 @@ de `fiche-repository.md`, qui traite le même écart du côté du repository.
 
 ### A6. Petit Aggregate
 
-**Énoncé.** Préférer plusieurs petits Aggregates reliés par identité à un gros Aggregate qui tient tout.
+**Énoncé.** Un Aggregate ne contient que les objets que son invariant de frontière engage. Les autres
+objets forment des Aggregates distincts, reliés par identité.
 
 ```js
 // fautif — le constructeur porte douze champs, alors que la seule chose que la
@@ -256,13 +257,13 @@ constructor(
   quest,
 ) { … }
 
-// conforme — version corrigée : l'agrégat ne porte que ce que l'invariant engage ;
+// conforme — version corrigée : l'Aggregate ne porte que ce que l'invariant engage ;
 // le reste (nom, description, illustration…) se charge à part, pour qui en a besoin
 constructor({ id, participations = [] } = {}) { … }
 ```
 
-Un Aggregate grossit naturellement, parce qu'il est commode d'y ajouter ce qu'on a sous la main. Deux
-questions à poser à chaque ajout :
+Un Aggregate grossit naturellement, parce qu'il est commode d'y ajouter ce qui est sous la main. Deux
+questions se posent à chaque ajout :
 
 - *cette donnée doit-elle être cohérente avec le reste à tout instant, ou seulement à terme ?*
 - *combien de lignes cet ajout fait-il charger pour une opération qui ne s'en sert pas ?*
@@ -285,7 +286,7 @@ charger partiellement. Le modèle partiellement rempli est écarté pour la rais
 L'exemple fautif est en X4 au § 5.
 
 ```js
-// conforme — une seule écriture, un seul agrégat modifié
+// conforme — une seule écriture, un seul Aggregate modifié
 export const changeUserLocale = async function ({ userId, locale, userRepository }) {
   const lang = getBaseLocale(locale);
 
@@ -322,7 +323,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Une transaction qui couvre plusieurs Aggregates dont les écritures doivent échouer ou réussir ensemble | **autorisé**, c'est la décision de l'ADR 25 : orchestration dans le usecase, sans événements. Voir X4 |
 | Un identifiant d'un autre contexte porté comme donnée | **autorisé**, c'est E7 bien appliqué |
 | La racine tient les instances de ses objets internes | **autorisé**, c'est la définition d'un Aggregate |
-| Plusieurs repositories pour une même frontière | **pas une exception** — c'est X3, une convention à assumer explicitement |
+| Plusieurs repositories pour une même frontière | **pas une exception** — c'est X3, une convention admise seulement si elle est assumée explicitement |
 | Un dossier `aggregates/` contenant des read-models | **pas une exception** — c'est X1 |
 
 ---
@@ -331,7 +332,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 
 | Invariant | Rentabilité | Ce qu'on gagne |
 | --- | --- | --- |
-| **A1** frontière explicite | **forte** | On sait ce qui doit être vrai ensemble, donc ce qu'une transaction doit couvrir. Sans cette réponse, chaque écriture multiple est improvisée |
+| **A1** frontière explicite | **forte** | Ce qui doit être vrai ensemble est connu, donc aussi ce qu'une transaction doit couvrir. Sans cette réponse, chaque écriture multiple est improvisée |
 | **A2** point d'entrée unique | **forte** | La règle ne peut pas être contournée. C'est la différence entre une garantie et une convention |
 | **A6** petit Aggregate | moyenne | Moins de contention en écriture, chargements plus rapides, frontières plus faciles à déplacer quand le métier change |
 | **A7** une transaction, un Aggregate | moyenne | Les conflits d'écriture concurrente restent raisonnables, et, hors cas échouer-ensemble de l'ADR 25, la question « faut-il une transaction ici ? » a une réponse mécanique |
@@ -347,11 +348,11 @@ Un Aggregate qui respecte tous les invariants sur une mauvaise frontière n'a au
 seulement plus difficile à corriger, parce que le code s'y sera appuyé.
 
 Sur une frontière mal placée, respecter les invariants aggrave le problème. La conséquence pratique :
-placer la frontière (A1) avant d'outiller quoi que ce soit.
+la frontière (A1) se place avant tout outillage.
 
 ### Ce que ça n'apporte pas
 
-Ces invariants ne disent pas **où** placer la frontière. Ils disent ce qu'il faut tenir une fois
+Ces invariants ne disent pas **où** placer la frontière. Ils disent ce qui doit tenir une fois
 qu'elle est posée. Le placement est un travail de modélisation avec le métier, pas une déduction
 depuis le code.
 
@@ -361,7 +362,7 @@ depuis le code.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **X1** Le mot « Aggregate » est posé sur des dossiers sans frontière nommable | dérive | Le dossier promet une garantie qui n'existe pas. On y cherche des invariants absents, et leur absence passe pour normale | Un rangement, quel qu'il soit | **À corriger** |
+| **X1** Le mot « Aggregate » est posé sur des dossiers sans frontière nommable | dérive | Le dossier promet une garantie qui n'existe pas. Un relecteur y cherche des invariants absents, et leur absence passe pour normale | Un rangement, quel qu'il soit | **À corriger** |
 | **X2** Aucune racine n'est déclarée nulle part | dérive | A1 n'est vérifiable ni par un humain ni par un outil, et l'indicateur de A3 est incalculable | Nul | **À corriger** |
 | **X3** Plusieurs repositories pour une même frontière | convention assumée | A3 tombe, donc compter les repositories ne dit plus rien de la conception | Réel — chaque requête est écrite pour son besoin, sans champ chargé pour rien | *À surveiller* |
 | **X4** Une opération modifie plusieurs Aggregates dans la même transaction | convention assumée | Une transaction verrouille plus que nécessaire, et masque une frontière mal placée | Réel et **mesuré** — l'alternative par événements a causé des deadlocks en production, et la cohérence immédiate évite tout appareil de compensation | *Rien à faire* |
@@ -380,7 +381,7 @@ domain/models/<un-domaine>/
   aggregates/
     …Details.js                  → assemblé pour un écran : aucune règle commune
     …ParticipationDetails.js     → idem
-    DataFor….js                  → le candidat d'une Specification : un objet-valeur
+    DataFor….js                  → le candidat d'une Specification : un Value Object
 ```
 
 Le mot annonce des invariants tenus. Un relecteur qui ne les trouve pas conclut que la fiche est mal
@@ -405,13 +406,13 @@ avec la vérifiabilité, pas avec le livre.
 
 **Exemple concret.** A1 demande qu'une phrase soit nommable. A3 demande de comparer le nombre de
 repositories au nombre de racines. Ni l'une ni l'autre information n'existe sous une forme lisible :
-il faut ouvrir chaque modèle et deviner.
+les obtenir demande d'ouvrir chaque modèle et de deviner.
 
 **Correction.** Déclarer les racines par contexte, avec leur invariant de frontière. Un fichier de
 quelques lignes suffit :
 
 ```md
-## Racines d'agrégat de ce contexte
+## Aggregate Roots de ce contexte
 
 - **CombinedCourse** — à tout instant, toute participation portée est une participation
   de ce contexte
@@ -427,7 +428,7 @@ Pour un coût faible, ce fichier permet :
 - de calculer l'indicateur de A3 ;
 - de donner un point de comparaison à A6.
 
-C'est le premier travail à faire.
+X2 est donc le prérequis de la revue de A1 et de l'indicateur de A3.
 
 Le vrai levier n'est pas l'outillage, c'est la déclaration. Tant qu'aucun fichier ne dit « voici
 les racines de ce contexte et ce que chacune garantit », aucune analyse statique ne peut le déduire.
@@ -445,7 +446,7 @@ infrastructure/repositories/
     combined-course-repository.js               getById, save
   combined-course-details-repository.js         getById, avec tout ce qu'un écran affiche
   combined-course-participations/
-    combined-course-participation-repository.js une entité interne à la frontière
+    combined-course-participation-repository.js une Entity interne à la frontière
     organization-learner-participation-repository.js
   prescription/
     combined-course-participant-repository.js   la même frontière, vue d'un autre besoin
@@ -457,12 +458,12 @@ Les sous-dossiers suivent le besoin appelant : le découpage se fait par requêt
 ce point et choisit entre les deux options. Le modèle partiellement rempli est à écarter, la réponse
 est de réduire l'Aggregate.
 
-Deux points à tenir, qui sont le prix de la convention :
+La convention tient à deux conditions :
 
-1. Ne pas poser le mot « Aggregate » sur un dossier si chaque repository ne correspond pas à une
+1. Le mot « Aggregate » ne s'emploie sur un dossier que si chaque repository y correspond à une
    racine. C'est X1.
 2. Les repositories créés pour un besoin de lecture renvoient des **read-models**, pas des racines
-   partiellement chargées. C'est la limite à ne pas dépasser.
+   partiellement chargées. C'est la limite de la convention.
 
 ### X4. Une opération modifie plusieurs Aggregates dans la même transaction
 
@@ -476,7 +477,7 @@ export const updateUserPassword = withTransaction(async function ({ … }) {
   const user = await userRepository.getByEmail(email);
   …
   await authenticationMethodRepository.updatePassword({ userId, hashedPassword });
-  await userRepository.updateEmailConfirmed(userId);   // autre agrégat
+  await userRepository.updateEmailConfirmed(userId);   // autre Aggregate
 });
 ```
 
@@ -499,12 +500,12 @@ C'est donc un bénéfice mesuré, ce qui suffit à classer l'écart en *rien à 
 est explicite : une mesure change le verdict, une intuition non. Ici la mesure existe, et elle va
 contre la littérature.
 
-Ce qui est à tenir : sur du code neuf, poser la question de A7 plutôt que d'élargir la transaction par
-réflexe. Une transaction qui grossit reste un signal possible de frontière mal placée. Ce moment est
+Sur du code neuf, la question de A7 précède tout élargissement de transaction : l'élargissement ne
+se fait pas par réflexe. Une transaction qui grossit reste un signal possible de frontière mal placée. Ce moment est
 le seul où la frontière mal placée se voit.
 
-Ce qui changerait ce verdict : de la contention mesurée sur une de ces transactions, c'est-à-dire le
-même type de preuve que celle qui a produit l'ADR 25.
+**Révision.** De la contention mesurée sur une de ces transactions change ce verdict. C'est le même
+type de preuve que celle qui a produit l'ADR 25.
 
 ---
 
@@ -546,15 +547,15 @@ A1, A6 et A7 demandent de connaître la frontière de cohérence. Elle n'est éc
 code, et aucune analyse statique ne peut la déduire.
 
 Ce n'est pas une limite de l'outillage mais une absence d'information. La conséquence pratique est
-l'ordre ci-dessous : déclarer avant d'outiller.
+l'ordre ci-dessous : la déclaration précède l'outillage.
 
 ### Pièges d'implémentation
 
-- Calculer l'indicateur de A3 avant d'avoir fait X2 : le rapport compare alors un nombre de
+- L'indicateur de A3 calculé avant X2 : le rapport compare alors un nombre de
   repositories à zéro racine déclarée, ce qui ne produit rien de lisible.
-- Lancer le codemod de X1 avant d'avoir classé chaque fichier avec le test du § 1 : il applique une
+- Le codemod de X1 lancé avant le classement de chaque fichier par le test du § 1 : il applique une
   décision qui n'a pas encore été prise, et déplace au hasard.
-- Écrire la règle ESLint d'A2 sans la mutualiser avec V7 de `fiche-objet-valeur.md` : la même
+- La règle ESLint d'A2 écrite sans mutualisation avec V7 de `fiche-objet-valeur.md` : la même
   vérification finit dupliquée dans deux fiches.
 
 ### Ordre de mise en œuvre
@@ -615,7 +616,7 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites au § 6 de
 `fiche-entite.md`.
 
-**Le test le plus caractéristique**, et celui qui manque presque toujours : prouver qu'une opération
+**Le test le plus caractéristique**, et celui qui manque presque toujours, prouve qu'une opération
 qui violerait l'invariant de frontière est refusée. C'est le seul qui distingue un Aggregate d'une
 Entity avec des objets à côté.
 
@@ -642,13 +643,13 @@ différemment sur une racine, E4 et E6 s'y appliquent comme sur toute Entity.
 [ ] [humain]  A1  L'invariant de frontière est nommable : « à tout instant, … doit être vrai »
 [ ] [auto]    A2  Aucun accès à un objet interne sans passer par la racine, accesseurs compris
 [ ] [humain]  A6  L'ajout ne fait pas charger des données inutiles à la plupart des opérations
-[ ] [humain]  A7  L'opération ne modifie qu'un agrégat, ou la cohérence différée est explicite, ou les écritures doivent échouer ensemble (ADR 25)
+[ ] [humain]  A7  L'opération ne modifie qu'un Aggregate, ou la cohérence différée est explicite, ou les écritures doivent échouer ensemble (ADR 25)
 [ ] [partiel] A3  Un seul repository pour cette frontière — sinon, la convention est-elle assumée ?
 [ ] [humain]  Un test prouve le refus d'une opération qui violerait l'invariant de frontière
-[ ] [humain]  Si aucun invariant de frontière n'est nommable, ce n'est pas un agrégat — le ranger ailleurs
+[ ] [humain]  Si aucun invariant de frontière n'est nommable, ce n'est pas un Aggregate — le ranger ailleurs
 [ ] [partiel] E3  L'invariant tient après chaque opération, échec à mi-chemin compris
 [ ] [auto]    E6  Aucun assemblage par mutateurs successifs appelés de l'extérieur
-[ ] [humain]  E7  Les autres agrégats sont référencés par identifiant, jamais par instance
+[ ] [humain]  E7  Les autres Aggregates sont référencés par identifiant, jamais par instance
 [ ] [partiel] E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
 ```
 

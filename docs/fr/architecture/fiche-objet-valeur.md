@@ -110,7 +110,7 @@ La question n'est pas « a-t-il du comportement ? » mais « **ce comportement d
 chose ?** »
 
 ```js
-// objet-valeur : petit, nommé par le métier, porte une règle qui décide
+// Value Object : petit, nommé par le métier, porte une règle qui décide
 class BadgeCriterionForCalculation {
   constructor({ threshold, skillIds }) { this.threshold = threshold; this.skillIds = skillIds; }
   isFulfilled(knowledgeElements) { return this.getAcquisitionPercentage(knowledgeElements) === 100; }
@@ -275,7 +275,7 @@ Un Value Object n'importe rien de l'infrastructure et ne fait aucune I/O. Une vi
 dans les imports :
 
 ```js
-// dans un objet-valeur de domain/models/ — fautif
+// dans un Value Object de domain/models/ — fautif
 import { logger } from '…/shared/infrastructure/utils/logger.js';
 
 // et son usage : journaliser une erreur avant de la lever
@@ -403,7 +403,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Une méthode rend une valeur neutre sur entrée non exploitable plutôt que de lever | **autorisé** |
 | Une famille de Value Objects partage une classe de base abstraite | **autorisé** si la base respecte V1 |
 | Un Value Object sans comportement, dans une famille où d'autres en ont | **toléré** : ne se signale pas seul, car un type nommé peut valoir pour la seule signature |
-| L'objet est anémique et aucune règle ne le lit | **ce n'est pas un Value Object** — appliquer le discriminant du § 1, puis `fiche-read-model.md` |
+| L'objet est anémique et aucune règle ne le lit | **ce n'est pas un Value Object** : le discriminant du § 1 s'applique, puis `fiche-read-model.md` |
 
 ---
 
@@ -764,8 +764,8 @@ Chaque ligne porte son statut au regard du § 6 :
 - Une ligne `[humain]` reste en entier : aucun moyen déterministe n'est connu.
 
 ```
-[ ] [humain]  V3  Validation à la construction, un seul type d'erreur ; avant affectation si le message nomme l'entrée   (objet-valeur)
-[ ] [humain]  V5  La règle qui contraint la donnée est portée par l'objet                  (objet-valeur)
+[ ] [humain]  V3  Validation à la construction, un seul type d'erreur ; avant affectation si le message nomme l'entrée   (Value Object)
+[ ] [humain]  V5  La règle qui contraint la donnée est portée par l'objet                  (Value Object)
 [ ] [auto]    V1  Aucun champ public ; aucune écriture après le constructeur, classe de base comprise
 [ ] [partiel] V7  Aucune collection interne rendue telle quelle ; aucun gel inopérant
 [ ] [partiel] V4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration

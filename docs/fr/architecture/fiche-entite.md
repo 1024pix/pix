@@ -79,7 +79,7 @@ Toute Aggregate Root est une Entity. Cette fiche s'applique intégralement à el
 faux : une Entity peut vivre **à l'intérieur** d'un Aggregate sans en être la racine. Elle n'est alors
 pas accessible directement et n'a pas de repository.
 
-La question à poser : *cette Entity est-elle atteignable autrement qu'en passant par une autre ?* Si
+La question qui décide : *cette Entity est-elle atteignable autrement qu'en passant par une autre ?* Si
 oui, c'est une racine, et `fiche-racine-agregat.md` ajoute ses devoirs propres : frontière de
 cohérence, point d'entrée unique, repository.
 
@@ -99,7 +99,7 @@ Si le code correspond à une ligne, ce n'est pas une Entity.
 | coordonne plusieurs Entities et repositories pour réaliser une intention | `domain/usecases/` | `fiche-usecase.md` |
 | applique une règle qui ne relève d'aucune Entity, sans I/O | `domain/services/` | `fiche-service-domaine.md` |
 | met en forme pour une réponse HTTP | `infrastructure/serializers/` | `fiche-serialiseur.md` |
-| décrit ce qu'on expose à un autre contexte | `application/api/` | `fiche-api-interne.md` |
+| décrit ce qui est exposé à un autre contexte | `application/api/` | `fiche-api-interne.md` |
 
 ---
 
@@ -123,7 +123,7 @@ class Passage {
 fondement. Chaque site d'appel improvise sa comparaison.
 
 **Le cas de l'Entity non encore persistée.** Une Entity créée en mémoire n'a pas encore d'identifiant.
-Deux traitements existent, à choisir explicitement : un identifiant `null` assumé et documenté, ou un
+Deux traitements existent, et le choix entre eux est explicite : un identifiant `null` assumé et documenté, ou un
 type distinct pour l'intention de création, `…ForCreation` (voir V8 dans `fiche-objet-valeur.md`). Le
 second est plus sûr : la signature dit qu'il n'y a pas encore d'identité. Voir X5 au § 5.
 
@@ -150,7 +150,7 @@ données chargées. Elle a deux effets :
 - elle confond deux Entities distinctes qui partagent ce champ ;
 - elle distingue deux instances de la même Entity chargées à des moments différents.
 
-Conséquence pratique en test : comparer les identifiants, et vérifier l'état pertinent séparément.
+Conséquence pratique en test : le test compare les identifiants, et vérifie l'état pertinent séparément.
 
 ### E3. Les invariants sont tenus à tout instant
 
@@ -184,7 +184,7 @@ terminate({ now }) {
 ```
 
 **À la sortie d'une opération partielle.** Une méthode qui modifie plusieurs champs, et lève entre
-deux affectations, laisse l'Entity incohérente. Valider d'abord, affecter ensuite : la même règle
+deux affectations, laisse l'Entity incohérente. La validation précède l'affectation : la même règle
 qu'à la construction, pour la même raison.
 
 **Ce qui casse.** Sans cet invariant, chaque code en aval doit se demander si l'état est cohérent. La
@@ -209,7 +209,7 @@ import { anonymizeGeneralizeDate } from '…/shared/infrastructure/utils/date-ut
 qu'elle ne ressemble pas à un import :
 
 ```js
-// fautif — l'entité lit l'heure courante, donc le test ne peut pas la fixer
+// fautif — l'Entity lit l'heure courante, donc le test ne peut pas la fixer
 updateRole({ role, updatedByUserId }) {
   this.role = role;
   this.updatedAt = new Date();
@@ -230,7 +230,7 @@ peut satisfaire un invariant et en violer un autre. C'est le cas le plus courant
 **Corollaire.** Une Entity ne charge jamais ce qui lui manque. Si une règle a besoin d'une donnée que
 l'Entity n'a pas, c'est au usecase de la fournir.
 
-**Ce qui casse.** Le test cesse d'être pur : il faut un double. Ce besoin n'est que le symptôme. La
+**Ce qui casse.** Le test cesse d'être pur : il demande un double. Ce besoin n'est que le symptôme. La
 cause est la dépendance à l'infrastructure.
 
 ### E5. Aucune méthode au service de la persistance
@@ -298,8 +298,8 @@ arriver. C'est la description la moins chère de son cycle de vie.
 
 **Le cas de la construction progressive.** Une Entity construite par une suite de mutateurs appelés de
 l'extérieur, `setX()` puis `setY()` puis `setZ()`, n'est pas une Entity. C'est un constructeur
-déguisé, et son état est invalide entre deux appels. Si l'assemblage est réellement progressif, il
-faut le nommer : un objet dédié à la construction, ou un read-model si l'objet ne porte aucune règle.
+déguisé, et son état est invalide entre deux appels. Un assemblage réellement progressif porte un
+nom : un objet dédié à la construction, ou un read-model si l'objet ne porte aucune règle.
 
 ### E7. Les autres Aggregates sont référencés par identité
 
@@ -307,7 +307,7 @@ faut le nommer : un objet dédié à la construction, ou un read-model si l'obje
 Aggregate : elle en tient l'identifiant.
 
 ```js
-// fautif — l'entité tient l'instance d'une entité d'un autre agrégat, en plus de son identifiant
+// fautif — l'Entity tient l'instance d'une Entity d'un autre Aggregate, en plus de son identifiant
 this.organization = organization;
 this.organizationId = organization?.id ?? organizationId;
 this.user = user;
@@ -339,7 +339,7 @@ invariant en rentabilité forte.
 
 Le nom est celui du Ubiquitous Language du contexte. Deux contextes peuvent avoir une Entity de même
 nom, désignant deux choses différentes. C'est attendu en DDD, pas une collision à résoudre. Ce qui
-doit être clair, c'est **de quel contexte** on parle au moment de l'import.
+doit être clair, c'est **de quel contexte** relève le nom au moment de l'import.
 
 **Ce qui casse.** Rien à l'exécution. Invariant d'hygiène : il rend le fichier trouvable et réduit le
 bruit de revue.
@@ -359,8 +359,8 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un accesseur calculé — `isArchived`, `hasFeature` — plutôt qu'un champ | **autorisé**, et souvent préférable |
 | Une Entity qui reçoit `now` ou un générateur en paramètre | **autorisé**, c'est la forme correcte de E4 |
 | Deux contextes ont une Entity de même nom | **autorisé**, c'est le Ubiquitous Language par contexte. E8 |
-| L'objet n'a aucune règle propre et personne ne le lit pour décider | **ce n'est pas une Entity** — appliquer le test du § 1, puis `fiche-read-model.md` |
-| Une Entity au constructeur permissif dans du code ancien | **pas une exception** — c'est X1, à classer et corriger, pas à absoudre |
+| L'objet n'a aucune règle propre et personne ne le lit pour décider | **ce n'est pas une Entity** — le test du § 1 s'applique, puis `fiche-read-model.md` |
+| Une Entity au constructeur permissif dans du code ancien | **pas une exception** — c'est X1, un écart classé et corrigé, pas absous |
 
 ---
 
@@ -481,7 +481,7 @@ l'entrée fautive : le diagnostic est plus long. Là où le message compte, vali
 d'affecter reste préférable. C'est le cas d'une entrée venant d'un import, d'une API ou d'un
 formulaire.
 
-Ce qui changerait ce verdict : un utilitaire qui validerait les paramètres plutôt que `this`. Il
+**Révision.** Un utilitaire qui validerait les paramètres plutôt que `this` change ce verdict. Il
 supprimerait le coût sans rien retirer du bénéfice.
 
 ### X4. L'arborescence ne distingue pas Entity et Value Object
@@ -497,8 +497,8 @@ et value objects du domaine ». Le mélange est donc une convention documentée,
 
 ```
 domain/models/
-  Passage.js                    → entité
-  AnswerStatus.js               → objet-valeur
+  Passage.js                    → Entity
+  AnswerStatus.js               → Value Object
   CombinedCourseStatistics.js   → read-model, probablement
 ```
 
@@ -528,15 +528,15 @@ const versionId = await versionRepository.save(draftVersion);
 Tout consommateur de `Version` doit alors savoir si l'identifiant peut être `null`. Rien dans la
 signature ne le dit.
 
-**Correction.** Aucune sur l'existant. Pour le neuf, préférer un type distinct pour l'intention de
-création, `…ForCreation`, sans identifiant. La signature porte alors l'information, et le typage la
+**Correction.** Aucune sur l'existant. Pour le neuf, l'intention de création prend un type distinct,
+`…ForCreation`, sans identifiant. La signature porte alors l'information, et le typage la
 vérifie. C'est V8 de `fiche-objet-valeur.md` appliqué à une Entity.
 
-À lire avec `X7` de `fiche-objet-valeur.md`, qui limite la pratique : une forme de création exprime une
+`X7` de `fiche-objet-valeur.md` limite la pratique : une forme de création exprime une
 différence de nature, donc elle est légitime. Une forme de mise à jour portant un sous-ensemble de
 champs ne l'est pas, sauf mesure.
 
-Ce qui changerait ce verdict : constater que le cas `null` a produit un défaut en production. Sans
+**Révision.** Un défaut en production causé par le cas `null` change ce verdict. Sans
 cette pièce, le coût du doublement des types n'est pas démontré.
 
 ---
@@ -579,8 +579,8 @@ règles de cette section.
 ```
 
 `severity: 'error'` est obligatoire : la valeur par défaut est `warn`, et seul `error` fait échouer la
-commande. Écrire `src/.+/`, pas `src/[^/]+/`. Sinon les contextes à sous-contextes ne sont pas
-atteints, et la règle ne se déclenche jamais, sans erreur ni avertissement.
+commande. Le chemin s'écrit `src/.+/`, pas `src/[^/]+/`. Avec la seconde forme, les contextes à
+sous-contextes ne sont pas atteints : la règle ne s'y déclenche jamais, sans aucun message.
 
 Cette règle est partagée avec V4 de `fiche-objet-valeur.md` et S3 de `fiche-specification.md` : une
 seule configuration couvre les trois.
@@ -592,8 +592,8 @@ Décidable localement, deux motifs :
 - une déclaration `set nom(valeur)` dans un fichier de `domain/models/` ;
 - un champ de classe public affecté hors du constructeur.
 
-Le second est plus utile et plus délicat : il faut distinguer l'affectation dans le constructeur de
-celle dans une méthode. Commencer par le cas net, le `set` explicite, puis élargir.
+Le second est plus utile et plus délicat : il demande de distinguer l'affectation dans le
+constructeur de celle dans une méthode. Le cas net, le `set` explicite, précède donc le second motif.
 
 ### E3 — la règle la plus utile et la plus bruyante
 
@@ -662,7 +662,7 @@ export class Organization {
   constructor(params: { id: number; archivedAt?: Date | null }) { /* validation */ }
 
   get isArchived(): boolean { return this.#archivedAt !== null; }
-  // pas de mutateur ici : le code actuel n'a aucune méthode d'archivage sur cette entité,
+  // pas de mutateur ici : le code actuel n'a aucune méthode d'archivage sur cette Entity,
   // `archivedAt` y est aujourd'hui affecté par construction
 }
 ```
@@ -695,8 +695,8 @@ L'existence du fichier de test se vérifie par comparaison de noms. Moyens et li
 
 Deux indices de diagnostic :
 
-- Le test qui manque le plus souvent est celui du **refus**. On vérifie que `terminate()` termine, pas
-  qu'il refuse de terminer deux fois. Or c'est le second qui prouve que E3 est tenu. Une exception :
+- Le test qui manque le plus souvent est celui du **refus**. Les tests vérifient que `terminate()`
+  termine, pas qu'il refuse de terminer deux fois. Or c'est le second qui prouve que E3 est tenu. Une exception :
   une Entity sans méthode de changement d'état n'a pas de refus à tester, ce qu'admet le § 3.
 - Une Entity qui a besoin d'un double **viole E4**. Voir « Ce qui casse » de E4 au § 2.
 
@@ -715,15 +715,15 @@ Chaque ligne porte son statut au regard du § 6 :
 ```
 [ ] [partiel] E3  Refuse de s'instancier dans un état invalide, et refuse chaque transition invalide
 [ ] [auto]    E6  Aucun mutateur nu ; chaque changement d'état nomme son intention métier
-[ ] [humain]  E7  Les entités d'un autre agrégat sont référencées par identifiant, pas par instance
+[ ] [humain]  E7  Les Entities d'un autre Aggregate sont référencées par identifiant, pas par instance
 [ ] [partiel] E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
 [ ] [humain]  E5  Aucune méthode dont le repository est le seul consommateur   (sauf format publié)
 [ ] [partiel] E1  L'identité est explicite et ne change pas ; le cas non persisté est traité
 [ ] [humain]  E2  Les comparaisons se fondent sur l'identité, pas sur les champs
-[ ] [auto]    E8  Un fichier, PascalCase, nom du langage ubiquitaire du contexte
-[ ] [auto]    Un fichier de test existe, et son nom correspond à celui de l'entité
+[ ] [auto]    E8  Un fichier, PascalCase, nom du Ubiquitous Language du contexte
+[ ] [auto]    Un fichier de test existe, et son nom correspond à celui de l'Entity
 [ ] [humain]  Chaque règle a son test de refus, pas seulement son cas passant
-[ ] [humain]  Si l'objet n'a aucune règle propre, appliquer le test du § 1 : entité, ou read-model ?
+[ ] [humain]  Si l'objet n'a aucune règle propre, appliquer le test du § 1 : Entity, ou read-model ?
 ```
 
 À terme, il reste huit lignes, toutes de jugement :

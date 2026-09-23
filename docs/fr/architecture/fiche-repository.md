@@ -582,7 +582,7 @@ infrastructure/repositories/
     combined-course-repository.js                     getById, save
   combined-course-details-repository.js               getById, avec tout ce qu'un écran affiche
   combined-course-participations/
-    combined-course-participation-repository.js       une entité interne à la frontière
+    combined-course-participation-repository.js       une Entity interne à la frontière
   prescription/
     combined-course-participant-repository.js         la même frontière, vue d'un autre besoin
 ```
@@ -654,7 +654,7 @@ Deux fichiers du même dossier, deux sources différentes, un seul concept.
 ```
 infrastructure/repositories/
   prescriber-repository.js            → des tables de la base
-  privacy-users-api.repository.js     → l'API interne d'un autre contexte borné
+  privacy-users-api.repository.js     → l'API interne d'un autre Bounded Context
 ```
 
 Le nommage trahit d'ailleurs la gêne : le second fichier porte `-api.` dans son nom, comme s'il
