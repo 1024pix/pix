@@ -127,9 +127,9 @@ describe('Integration | UseCases | play-mission', function () {
       await databaseBuilder.commit();
 
       const {
-        // eslint-disable-next-line no-unused-vars
+        // oxlint-disable-next-line no-unused-vars
         createdAt: _createdAt,
-        // eslint-disable-next-line no-unused-vars
+        // oxlint-disable-next-line no-unused-vars
         updatedAt: _updatedAt,
         ...assessment
       } = await usecases.playMission({
@@ -138,9 +138,9 @@ describe('Integration | UseCases | play-mission', function () {
       });
 
       const {
-        // eslint-disable-next-line no-unused-vars
+        // oxlint-disable-next-line no-unused-vars
         createdAt: __createdAt,
-        // eslint-disable-next-line no-unused-vars
+        // oxlint-disable-next-line no-unused-vars
         updatedAt: __updatedAt,
         ...expectedAssessment
       } = domainBuilder.buildSchoolAssessment({

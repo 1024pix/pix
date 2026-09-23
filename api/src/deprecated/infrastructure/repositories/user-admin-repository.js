@@ -118,7 +118,7 @@ function _fromKnexDTOToUserDetailsForAdmin({
       authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code &&
       authenticationMethod.authenticationComplement;
     if (isPixAuthenticationMethodWithAuthenticationComplement) {
-      // eslint-disable-next-line no-unused-vars -- extract password so that it's not returned/displayed
+      // oxlint-disable-next-line no-unused-vars -- extract password so that it's not returned/displayed
       const { password, ...authenticationComplement } = authenticationMethod.authenticationComplement;
       return {
         ...authenticationMethod,

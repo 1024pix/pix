@@ -5,7 +5,7 @@ import { CertificationIssueReport } from '../../domain/models/CertificationIssue
 export async function save({ certificationIssueReport }) {
   const knexConn = DomainTransaction.getConnection();
 
-  //eslint-disable-next-line no-unused-vars
+  //oxlint-disable-next-line no-unused-vars
   const { isImpactful, ...certificationIssueReportWithoutIsImpactful } = certificationIssueReport;
 
   const [data] = await knexConn

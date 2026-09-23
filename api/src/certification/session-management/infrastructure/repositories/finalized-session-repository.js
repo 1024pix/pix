@@ -66,7 +66,7 @@ function _toDomainObject({ date, time, ...finalizedSession }) {
 }
 
 function _toDTO(finalizedSession) {
-  // eslint-disable-next-line no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   const { sessionDate, sessionTime, ...filteredFinalizedSession } = finalizedSession;
   return { ...filteredFinalizedSession, date: finalizedSession.sessionDate, time: finalizedSession.sessionTime };
 }

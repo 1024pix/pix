@@ -18,7 +18,7 @@ export const clientApplicationRepository = {
     const dtos = await knexConn.select().from(TABLE_NAME).orderBy('name');
     return dtos.map((dto) => {
       const clientApplication = toDomain(dto);
-      // eslint-disable-next-line no-unused-vars -- extract clientSecret so that it's not returned/displayed
+      // oxlint-disable-next-line no-unused-vars -- extract clientSecret so that it's not returned/displayed
       const { clientSecret, ...clientApplicationWithoutClientSecret } = clientApplication;
       return clientApplicationWithoutClientSecret;
     });
