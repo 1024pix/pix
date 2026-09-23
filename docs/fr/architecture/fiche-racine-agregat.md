@@ -4,19 +4,19 @@ Fiche générique. Elle décrit l'état cible, où tout est en TypeScript.
 
 Le gabarit commun, l'état du chantier et l'ordre de relecture sont dans `corpus-index.md`. L'écart avec
 le code réel est mesuré dans les rapports de divergence, un par contexte. Ce qui empêche aujourd'hui le
-typage de mordre est dans `migration-typescript.md`.
+typage de s'appliquer est dans `migration-typescript.md`.
 
 > **À instruire**
 >
 > - Appliquée telle quelle, cette fiche disqualifie du code existant : peu d'objets satisfont A1 et
->   A2. Elle sert d'abord à trancher un débat de conception, ensuite à contrôler du code.
-> - `A7` est l'invariant de la littérature, et **Pix a décidé autrement** pour les écritures qui
->   doivent échouer ensemble — ADR 25, sur un motif mesuré. Le lire avec `X4` au § 5, sans quoi la
->   fiche paraît prescrire ce que le dépôt contredit.
-> - Les numéros **A4** et **A5** ne sont pas attribués. Ils portaient des invariants identiques à E7
->   et E3 de `fiche-entite.md`, avec des ROI inversés. Les énoncés vivent désormais là-bas, et les
+>   A2. Elle sert d'abord à décider un débat de conception, ensuite à contrôler du code.
+> - A7 est l'invariant de la littérature. Pix a décidé autrement pour les écritures qui doivent
+>   échouer ensemble, sur un motif mesuré : l'ADR 25. La lire avec X4 au § 5, sinon la fiche paraît
+>   prescrire ce que le dépôt contredit.
+> - Les numéros A4 et A5 ne sont pas attribués. Ils portaient des invariants identiques à E7 et E3 de
+>   `fiche-entite.md`, avec des ROI inversés. Les énoncés vivent dans `fiche-entite.md`, et les
 >   numéros ne sont pas réattribués.
-> - X2 — aucune racine n'est déclarée — bloque le calcul de l'indicateur de A3 et la revue de A1. À
+> - X2, aucune racine n'est déclarée, bloque le calcul de l'indicateur de A3 et la revue de A1. À
 >   traiter avant le reste.
 
 ## Sommaire
@@ -38,10 +38,9 @@ typage de mordre est dans `migration-typescript.md`.
 | [**A7**](#a7-une-transaction-un-agrégat) | une transaction, un agrégat | moyenne | revue |
 | [**A3**](#a3-un-repository-par-racine-et-seulement-pour-les-racines) | un repository par racine | hygiène | indicateur, après X2 |
 
-[**Invariants hérités de l'entité**](#les-invariants-hérités-de-lentité) — toute racine est une
+[**Invariants hérités de l'entité**](#les-invariants-hérités-de-lentité) : toute racine est une
 entité, donc E1 à E8 de `fiche-entite.md` s'appliquent intégralement. Quatre sont repris ci-dessous :
-`E3` et `E7` jouent un rôle particulier pour une racine, `E4` et `E6` reviennent dans la checklist
-du § 9.
+E3 et E7 jouent un rôle particulier pour une racine, E4 et E6 reviennent dans la checklist du § 9.
 
 | # | Invariant | ROI | Vérification |
 | --- | --- | --- | --- |
@@ -59,8 +58,8 @@ du § 9.
 | [**X3**](#x3-plusieurs-repositories-pour-une-même-frontière) | plusieurs repositories pour une même frontière | à surveiller |
 | [**X4**](#x4-une-opération-modifie-plusieurs-agrégats-dans-la-même-transaction) | une opération modifie plusieurs agrégats dans la même transaction | rien à faire |
 
-L'artefact le plus cherché est le [test de discrimination](#le-test-de-discrimination) au § 1 : il
-dit en trois questions s'il y a un agrégat ou non.
+Hors numérotation : le [test de discrimination](#le-test-de-discrimination) du § 1. En trois
+questions, il dit s'il y a un agrégat ou non.
 
 ---
 
@@ -69,12 +68,12 @@ dit en trois questions s'il y a un agrégat ou non.
 Un agrégat est un **groupe d'objets traité comme une unité de cohérence**. Sa racine est l'entité par
 laquelle on y accède : rien de ce qu'il contient n'est atteignable autrement.
 
-Sa raison d'être tient en une phrase : **il existe une règle qui porte sur plusieurs objets à la fois,
-et quelqu'un doit garantir qu'elle est vraie en permanence.** C'est la racine.
+Sa raison d'être tient en une phrase : il existe une règle qui porte sur plusieurs objets à la fois,
+et quelqu'un doit garantir qu'elle est vraie en permanence. C'est la racine.
 
-S'il n'y a pas de telle règle, il n'y a pas d'agrégat — juste une entité et des objets à côté. Poser
-le mot sur un dossier sans cette règle promet une garantie qui n'existe pas, ce qui coûte plus cher
-que de ne pas ranger du tout. Voir X1 au § 5.
+S'il n'y a pas de telle règle, il n'y a pas d'agrégat. Il reste une entité, et des objets à côté.
+Poser le mot sur un dossier sans cette règle promet une garantie qui n'existe pas. Cela coûte plus
+cher que de ne pas ranger du tout. Voir X1 au § 5.
 
 ### Le test de discrimination
 
@@ -99,7 +98,7 @@ accès direct.
 
 ### Ce qu'une racine d'agrégat n'est pas
 
-Table de décision. Si le code correspond à une ligne, ce n'est pas une racine d'agrégat.
+Si le code correspond à une ligne, ce n'est pas une racine d'agrégat.
 
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
@@ -117,18 +116,18 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas une racine 
 
 ### Les invariants hérités de l'entité
 
-Toute racine est une entité. **E1 à E8 de `fiche-entite.md` s'appliquent intégralement** et ne sont
-pas répétés ici. Deux y jouent un rôle particulier pour une racine.
+Toute racine est une entité. E1 à E8 de `fiche-entite.md` s'appliquent intégralement, et ne sont pas
+répétés ici. Deux d'entre eux jouent un rôle particulier pour une racine.
 
-**E3 — les invariants sont tenus à tout instant.** Pour une entité simple, l'invariant porte sur ses
-propres champs. Pour une racine, il porte sur la **frontière entière** : après chaque opération, y
-compris celle qui échoue à mi-chemin, tout ce que contient l'agrégat est cohérent. C'est la
-formulation forte de A1.
+**E3**, *les invariants sont tenus à tout instant*. Pour une entité simple, l'invariant porte sur ses
+propres champs. Pour une racine, il porte sur la frontière entière : après chaque opération, y compris
+celle qui échoue à mi-chemin, tout ce que contient l'agrégat reste cohérent. C'est la formulation forte
+de A1.
 
-**E7 — les autres agrégats sont référencés par identité.** Pour une entité simple, c'est une bonne
-pratique qui borne le coût d'un chargement. Pour une racine, c'est **constitutif** : c'est ce qui
-définit où s'arrête la frontière. Une racine qui tient l'instance d'une autre racine n'a pas de
-frontière, elle en a deux confondues.
+**E7**, *les autres agrégats sont référencés par identité*. Pour une entité simple, c'est une bonne
+pratique qui borne le coût d'un chargement. Pour une racine, c'est constitutif : cela définit où
+s'arrête la frontière. Une racine qui tient l'instance d'une autre racine n'a pas une frontière. Elle
+en a deux confondues.
 
 Le corollaire à ne pas oublier : à l'intérieur d'un même agrégat, tenir les instances est normal.
 C'est la définition d'un agrégat, et c'est l'exception que E7 nomme.
@@ -152,9 +151,9 @@ vient pas, il n'y a pas de frontière à protéger.
 « ces objets sont toujours chargés ensemble »
 ```
 
-Le premier énoncé est **mince** : il contraint un type, pas une quantité métier. Un invariant mince
-reste un invariant, mais c'est un signal — si c'est tout ce que la frontière garantit, une question se
-pose aussitôt, reprise plus bas : porter cette collection vaut-il son chargement ?
+Le premier énoncé est mince : il contraint un type, pas une quantité métier. Un invariant mince reste
+un invariant, mais c'est un signal. Si c'est tout ce que la frontière garantit, une question se pose
+aussitôt, reprise plus bas : porter cette collection vaut-il son chargement ?
 
 Le second n'est pas un invariant mais une observation sur les habitudes de chargement. C'est le seul
 énoncé disponible pour un objet assemblé pour un écran, et c'est exactement pourquoi ces objets ne
@@ -165,13 +164,15 @@ décision improvisée : personne ne sait ce qu'une transaction doit couvrir, ni 
 réconcilier plus tard.
 
 **Prérequis de vérification.** Cet invariant n'est contrôlable que si la phrase est écrite quelque
-part. Elle ne l'est nulle part aujourd'hui — c'est X2 au § 5.
+part. Elle ne l'est nulle part aujourd'hui. C'est X2 au § 5.
 
 ### A2. La racine est le seul point d'entrée
 
-**Énoncé.** Rien de ce que contient l'agrégat n'est atteignable sans passer par la racine. Ni par
-import direct, ni par un repository dédié, ni par un accesseur qui rend la référence interne
-modifiable.
+**Énoncé.** Rien de ce que contient l'agrégat n'est atteignable sans passer par la racine :
+
+- ni par import direct ;
+- ni par un repository dédié ;
+- ni par un accesseur qui rend la référence interne modifiable.
 
 ```js
 // fautif — le champ est public : l'appelant obtient la collection interne,
@@ -191,15 +192,15 @@ get completedParticipationsCount() {
 }
 ```
 
-Les deux formes coexistent dans le même fichier réel : le champ est public, **et** la racine expose
-déjà deux comptages dérivés. C'est la moitié du travail faite. Passer `#participations` en privé
-suffit, puisque les accesseurs qui remplacent la collection existent déjà.
+Les deux formes coexistent dans le même fichier réel : le champ est public, et la racine expose déjà
+deux comptages dérivés. La moitié du travail est faite. Passer `#participations` en privé suffit,
+puisque les accesseurs qui remplacent la collection existent déjà.
 
-Ces deux comptages sont d'ailleurs la forme qu'Evans autorise explicitement pour traverser la
-frontière : un scalaire calculé, pas la collection — voir le § 10.
+Ces deux comptages sont la forme qu'Evans autorise pour traverser la frontière : un scalaire calculé,
+pas la collection. Voir le § 10.
 
 **Ce qui casse.** La règle de frontière devient contournable, donc ce n'est plus une garantie mais une
-convention. C'est la différence que porte tout l'intérêt de la catégorie.
+convention. C'est là tout l'intérêt de la catégorie.
 
 **Conséquence sur les objets internes.** Ils n'ont pas de repository, et leur identité n'a de sens que
 dans l'agrégat. S'ils ont besoin d'être retrouvés indépendamment, ils ne sont pas internes.
@@ -227,17 +228,16 @@ infrastructure/repositories/
 ```
 
 C'est l'invariant le plus souvent abandonné en pratique, parce que le découpage réel suit les besoins
-de requêtage. **Deux positions sont cohérentes, une troisième ne l'est pas :**
+de requêtage. Deux positions sont cohérentes, une troisième ne l'est pas :
 
 - tenir A3, et accepter que certaines lectures passent par un read-model plutôt que par un repository
   dédié ;
-- renoncer à A3 assumément, et **renoncer aussi au mot « agrégat »** — parler d'entités et de
-  repositories ;
-- garder le mot et multiplier les repositories : le vocabulaire ne veut plus rien dire.
+- renoncer à A3, et renoncer aussi au mot « agrégat » : parler d'entités et de repositories ;
+- garder le mot et multiplier les repositories, ce qui vide le vocabulaire de son sens.
 
-**Ce qui casse.** Compter les repositories cesse d'être une information. C'est un invariant d'hygiène :
-il ne prévient aucun défaut, il préserve la valeur d'un indicateur. Voir X3 au § 5, et X4 de
-`fiche-repository.md` qui traite le même écart depuis l'autre bord.
+**Ce qui casse.** Compter les repositories cesse d'être une information. C'est un invariant
+d'hygiène : il ne prévient aucun défaut, il préserve la valeur d'un indicateur. Voir X3 au § 5, et X4
+de `fiche-repository.md`, qui traite le même écart sous un autre angle.
 
 ### A6. Petit agrégat
 
@@ -267,7 +267,7 @@ questions à poser à chaque ajout :
 - *combien de lignes cet ajout fait-il charger pour une opération qui ne s'en sert pas ?*
 
 **Ce qui casse.** Un gros agrégat se charge entier pour chaque opération, y compris celles qui ne
-touchent qu'un champ. Et il concentre les écritures concurrentes, donc la contention.
+touchent qu'un champ. Il concentre aussi les écritures concurrentes, donc la contention.
 
 C'est aussi la réponse de la littérature au coût de chargement : réduire l'agrégat plutôt que le
 charger partiellement. Le modèle partiellement rempli est écarté pour la raison exposée dans X4 de
@@ -278,10 +278,10 @@ charger partiellement. Le modèle partiellement rempli est écarté pour la rais
 **Énoncé.** Une opération modifie **un** agrégat. Si elle doit en modifier deux, deux voies :
 
 - la frontière est mal placée, et les deux n'en font qu'un ;
-- ou ils sont bien distincts, et la cohérence entre eux se règle **à terme** — un événement, un job,
-  une réconciliation.
+- ou ils sont bien distincts, et la cohérence entre eux se règle à terme : un événement, un job, une
+  réconciliation.
 
-Le fautif est déjà montré en X4 au § 5 — l'exemple y est nécessaire pour instruire la décision Pix, il
+Le fautif est déjà montré en X4 au § 5. L'exemple y est nécessaire pour instruire la décision Pix, il
 n'est pas répété ici.
 
 ```js
@@ -298,14 +298,14 @@ export const changeUserLocale = async function ({ userId, locale, userRepository
 nécessaire, et fait échouer des opérations sans rapport entre elles. Et elle masque une frontière mal
 placée : personne ne se pose la question tant que la transaction absorbe le problème.
 
-**La position Pix est différente, et elle est décidée.** L'ADR 25 retient explicitement la transaction
-qui couvre plusieurs agrégats quand les écritures doivent échouer ou réussir ensemble, et prescrit de
-les orchestrer dans le usecase **sans événements**. Son motif est mesuré : des deadlocks constatés en
+**La position Pix est différente, et elle est décidée.** L'ADR 25 retient la transaction qui couvre
+plusieurs agrégats quand les écritures doivent échouer ou réussir ensemble. Elle prescrit de les
+orchestrer dans le usecase, sans événements. Son motif est mesuré : des deadlocks constatés en
 production, causés par des événements à l'intérieur de transactions.
 
-`A7` reste donc l'invariant de la littérature, et il garde sa valeur comme **question de conception** —
-si deux agrégats doivent toujours changer ensemble, la frontière est peut-être mal placée. Mais ce
-n'est pas la règle appliquée. Voir `X4` au § 5, qui instruit l'écart.
+A7 reste donc l'invariant de la littérature, et garde sa valeur comme question de conception. Si deux
+agrégats doivent toujours changer ensemble, la frontière est peut-être mal placée. Mais ce n'est pas
+la règle appliquée. Voir X4 au § 5, qui instruit l'écart.
 
 ---
 
@@ -321,7 +321,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Une opération qui touche deux agrégats via un événement ou un job | **autorisé**, c'est la seconde voie de A7 |
 | Un identifiant d'un autre contexte porté comme donnée | **autorisé**, c'est E7 bien appliqué |
 | La racine tient les instances de ses objets internes | **autorisé**, c'est la définition d'un agrégat |
-| Plusieurs repositories pour une même frontière | **pas une exception** — c'est X3, une convention à trancher explicitement |
+| Plusieurs repositories pour une même frontière | **pas une exception** — c'est X3, une convention à décider explicitement |
 | Un dossier `aggregates/` contenant des read-models | **pas une exception** — c'est X1 |
 
 ---
@@ -341,12 +341,12 @@ classés en rentabilité forte, et c'est sur une racine que ce classement se jus
 
 ### L'avertissement propre à cette fiche
 
-Ces rentabilités sont **potentielles, pas acquises** : elles supposent une frontière correctement
-placée. Un agrégat qui respecte tous les invariants sur une mauvaise frontière n'a aucun ROI — il sera
+Ces rentabilités sont potentielles, pas acquises : elles supposent une frontière correctement placée.
+Un agrégat qui respecte tous les invariants sur une mauvaise frontière n'a aucun ROI. Il sera
 seulement plus difficile à corriger, parce que le code s'y sera appuyé.
 
-C'est la seule fiche du corpus où respecter les invariants peut aggraver le problème. La conséquence
-pratique : trancher A1 avant d'outiller quoi que ce soit.
+Respecter les invariants peut donc aggraver le problème. La conséquence pratique : décider A1 avant
+d'outiller quoi que ce soit.
 
 ### Ce que ça n'apporte pas
 
@@ -370,8 +370,8 @@ depuis le code.
 **Ce que dit la théorie.** Un agrégat existe s'il y a une règle portant sur plusieurs objets à tenir
 en permanence. Sans cette règle, il n'y a pas d'agrégat.
 
-**Exemple concret.** Un dossier qui annonce une frontière de cohérence et contient des projections de
-lecture — deux dossiers `aggregates/` réels, de contextes distincts, réunis ici sous un chemin
+**Exemple concret.** Un dossier qui annonce une frontière de cohérence, mais contient des projections
+de lecture. Deux dossiers `aggregates/` réels, de contextes distincts, sont réunis ici sous un chemin
 générique :
 
 ```
@@ -391,7 +391,7 @@ résultat.
 1. Aucune règle commune, assemblé pour une lecture → c'est un **read-model**, il va dans
    `domain/read-models/`. `fiche-read-model.md` s'applique.
 2. Une règle commune nommable → c'est un agrégat, le dossier garde son nom, et la phrase de A1
-   s'écrit — c'est X2.
+   s'écrit. C'est X2.
 3. Une seule entité et des objets à côté, sans règle commune → le dossier n'a pas à s'appeler
    `aggregates/`.
 
@@ -421,20 +421,18 @@ quelques lignes suffit :
 La deuxième ligne est le vrai apport du fichier : une racine dont personne n'a écrit ce qu'elle
 garantit se voit immédiatement, alors qu'aujourd'hui il faut ouvrir le modèle et deviner.
 
-Ce que ça débloque, et c'est disproportionné au coût : A1 devient revuable, l'indicateur de A3
-devient calculable, et A6 a un point de comparaison. C'est le premier travail à faire sur cette
-fiche.
+Ce que ça débloque est disproportionné au coût : A1 devient revuable, l'indicateur de A3 devient
+calculable, et A6 a un point de comparaison. C'est le premier travail à faire.
 
-**Le vrai levier de cette fiche n'est pas l'outillage, c'est la déclaration.** Tant qu'aucun fichier
-ne dit « voici les racines de ce contexte et ce que chacune garantit », aucune analyse statique ne
-peut le déduire.
+**Le vrai levier n'est pas l'outillage, c'est la déclaration.** Tant qu'aucun fichier ne dit « voici
+les racines de ce contexte et ce que chacune garantit », aucune analyse statique ne peut le déduire.
 
 ### X3. Plusieurs repositories pour une même frontière
 
 **Ce que dit la théorie.** Le Repository porte sur les agrégats, pas sur les entités internes ni sur
 les besoins de requête. Un repository par racine.
 
-**Exemple concret.** Trois repositories pour une seule frontière de cohérence :
+**Exemple concret.** Cinq repositories pour une seule frontière de cohérence :
 
 ```
 infrastructure/repositories/
@@ -448,11 +446,10 @@ infrastructure/repositories/
     combined-course-participant-repository.js   la même frontière, vue d'un autre besoin
 ```
 
-Cinq fichiers, une frontière de cohérence. Le rangement en sous-dossiers, par besoin appelant, dit
-bien ce qu'il est : un découpage par requête, pas par agrégat.
+Les sous-dossiers suivent le besoin appelant : le découpage se fait par requête, pas par agrégat.
 
-**Correction.** Aucune sur le découpage : le bénéfice est réel, et c'est instruit en détail dans X4 de
-`fiche-repository.md`, qui tranche l'alternative — le modèle partiellement rempli est à écarter, la
+**Correction.** Aucune sur le découpage : le bénéfice est réel. C'est instruit en détail dans X4 de
+`fiche-repository.md`, qui décide l'alternative. Le modèle partiellement rempli est à écarter, la
 réponse est de réduire l'agrégat.
 
 Deux points à tenir, qui sont le prix de la convention :
@@ -479,26 +476,25 @@ export const updateUserPassword = withTransaction(async function ({ … }) {
 ```
 
 L'exemple est le meilleur argument de la décision : `User` et `AuthenticationMethod` sont deux
-agrégats, et un mot de passe changé sans courriel confirmé — ou l'inverse — laisse un compte dans un
-état dont personne ne veut. **Ces deux écritures doivent échouer ensemble.** La cohérence à terme n'y
-répondrait pas ; elle laisserait une fenêtre pendant laquelle le compte est cassé.
+agrégats. Un mot de passe changé sans courriel confirmé, ou l'inverse, laisse un compte dans un état
+dont personne ne veut. Ces deux écritures doivent échouer ensemble. La cohérence à terme n'y
+répondrait pas : elle laisserait une fenêtre pendant laquelle le compte est cassé.
 
-**Correction.** Aucune, et ce n'est pas une tolérance : c'est une décision, portée par l'**ADR 25**.
+**Correction.** Aucune, et ce n'est pas une tolérance. C'est une décision, portée par l'ADR 25.
 
-Son raisonnement mérite d'être connu, parce qu'il est l'inverse de l'intuition. Pix avait la
-chorégraphie par événements à l'intérieur des transactions — la forme même qui aurait permis de
-découper. Elle a causé des **deadlocks en production**, en épuisant le pool de connexions. L'ADR 25 en
-tire deux règles : plus d'événements dans une transaction, et les écritures qui doivent échouer
-ensemble sont orchestrées dans le usecase, transaction comprise, même si elles couvrent plusieurs
-agrégats.
+Son raisonnement mérite d'être connu, car il va à l'inverse de l'intuition. Pix orchestrait autrefois
+par événements à l'intérieur des transactions, la forme même qui aurait permis de découper. Cela a
+causé des **deadlocks en production**, en épuisant le pool de connexions. L'ADR 25 en tire deux
+règles : plus d'événements dans une transaction, et les écritures qui doivent échouer ensemble sont
+orchestrées dans le usecase, transaction comprise, même si elles couvrent plusieurs agrégats.
 
-C'est donc un bénéfice **mesuré**, ce qui est rare dans ce corpus et ce qui suffit à classer l'écart en
-*rien à faire*. La grille du gabarit est explicite : une mesure change le verdict, une intuition non —
-ici la mesure existe, et elle va contre la littérature.
+C'est donc un bénéfice mesuré, ce qui suffit à classer l'écart en *rien à faire*. La grille du gabarit
+est explicite : une mesure change le verdict, une intuition non. Ici la mesure existe, et elle va
+contre la littérature.
 
-Ce qui est à tenir : quand le cas se présente sur du code neuf, poser la question de `A7` plutôt que
-d'élargir la transaction par réflexe. Une transaction qui grossit reste un signal possible de
-frontière mal placée, et c'est le seul moment où on la voit.
+Ce qui est à tenir : sur du code neuf, poser la question d'A7 plutôt que d'élargir la transaction par
+réflexe. Une transaction qui grossit reste un signal possible de frontière mal placée. C'est le seul
+moment où on la voit.
 
 Ce qui rouvrirait le dossier : de la contention mesurée sur une de ces transactions, c'est-à-dire le
 même type de preuve que celle qui a produit l'ADR 25.
@@ -507,11 +503,11 @@ même type de preuve que celle qui a produit l'ADR 25.
 
 ## 6. Vérification déterministe
 
-Cette section est courte, et c'est le résultat honnête : presque tout ici demande de savoir ce qui
-appartient à la même frontière, information qui n'est écrite nulle part. C'est X2.
+Cette section est courte. Presque tout ici demande de savoir ce qui appartient à la même frontière,
+une information qui n'est écrite nulle part. C'est X2.
 
-Il n'existe aucun plugin ESLint maison : toute règle sur mesure suppose d'abord de créer cette
-infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
+Il n'existe pas de plugin ESLint maison. Toute règle sur mesure suppose d'abord de créer cette
+infrastructure, et les coûts ci-dessous ne comptent que la règle.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
@@ -527,7 +523,7 @@ Un accesseur qui rend directement une collection interne casse le point d'entré
 décidable localement.
 
 C'est la même règle que V7 de `fiche-objet-valeur.md` : une seule implémentation couvre les deux. Elle
-n'a pas besoin de savoir si le fichier est une racine, un objet-valeur ou une entité — rendre une
+n'a pas besoin de savoir si le fichier est une racine, un objet-valeur ou une entité. Rendre une
 collection interne modifiable est fautif dans les trois cas.
 
 ### A3 — un indicateur, pas une règle
@@ -535,7 +531,7 @@ collection interne modifiable est fautif dans les trois cas.
 Compter les repositories d'un contexte et les comparer aux racines déclarées ne produit pas un
 verdict mais un **chiffre à regarder**. Un écart important est un signal de conception.
 
-Prérequis : que les racines soient déclarées. Elles ne le sont pas — X2.
+Prérequis : que les racines soient déclarées. Elles ne le sont pas. C'est X2.
 
 ### Ce qui n'est pas mécanisable, et pourquoi
 
@@ -559,13 +555,13 @@ l'ordre ci-dessous : déclarer avant d'outiller.
 L'ordre suit le coût et les dépendances entre points, pas le ROI du § 4 : A1, la plus rentable,
 vient en dernier parce qu'elle dépend de X2.
 
-1. **X2** — déclarer les racines et leur invariant de frontière, par contexte
-2. **X1** — appliquer le test du § 1 aux dossiers `aggregates/` et renommer selon le résultat
-3. **A2** — la règle ESLint, mutualisée avec V7
-4. **A3** — le script d'indicateur, une fois X2 fait
-5. **A1** — la revue devient possible, sur la phrase déclarée
+1. **X2** : déclarer les racines et leur invariant de frontière, par contexte
+2. **X1** : appliquer le test du § 1 aux dossiers `aggregates/` et renommer selon le résultat
+3. **A2** : la règle ESLint, mutualisée avec V7
+4. **A3** : le script d'indicateur, une fois X2 fait
+5. **A1** : la revue devient possible, sur la phrase déclarée
 
-Les deux premiers points ne sont pas de l'outillage. C'est la particularité de cette fiche.
+Les deux premiers points ne sont pas de l'outillage.
 
 ### Codemods
 
@@ -580,15 +576,14 @@ pas.
 
 ## 7. Le type
 
-Le typage aide peu sur cette fiche, et il faut le dire plutôt que de laisser croire l'inverse. **Une
-frontière de cohérence n'est pas une propriété de type.** Aucune annotation ne dit « ces trois objets
-doivent être cohérents ensemble ».
+Le typage aide peu ici. Une frontière de cohérence n'est pas une propriété de type. Aucune annotation
+ne dit « ces trois objets doivent être cohérents ensemble ».
 
 Deux points où il apporte quand même quelque chose.
 
 **E7 devient lisible dans la signature.** `organizationId: number` plutôt qu'`organization:
-Organization` est visible à la lecture, donc revu. Avec des identifiants typés — un `OrganizationId`
-distinct d'un `number` — la confusion entre deux identifiants devient une erreur de compilation. C'est
+Organization` est visible à la lecture, donc revu. Avec des identifiants typés, un `OrganizationId`
+distinct d'un `number`, la confusion entre deux identifiants devient une erreur de compilation. C'est
 le sujet de l'ADR 19, qui l'a écarté pour son coût.
 
 **A2 se rapproche.** `readonly items: readonly Item[]` empêche la modification par l'appelant au
@@ -596,7 +591,7 @@ typage. Mais `readonly` est effacé à la compilation : la protection est statiq
 copie à l'accesseur reste nécessaire pour tout appelant JavaScript. A2 repose sur la copie, pas sur le
 type.
 
-La forme retenue est la classe, comme pour toute entité — voir § 7 de `fiche-entite.md`.
+La forme retenue est la classe, comme pour toute entité. Voir § 7 de `fiche-entite.md`.
 
 Les contraintes de syntaxe imposées par la configuration sont dans `migration-typescript.md`.
 
@@ -610,26 +605,28 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 | Chaque opération modifiant l'agrégat | **unitaire** | que l'invariant tient après l'opération, y compris en cas d'échec partiel |
 | Le repository de la racine | **intégration** | que l'agrégat est chargé et sauvegardé **entier** |
 
-L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6 de
+L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites au § 6 de
 `fiche-entite.md`.
 
-**Le test caractéristique de cette fiche**, et celui qui manque presque toujours : prouver qu'une
-opération qui violerait l'invariant de frontière est refusée. C'est le seul qui distingue un agrégat
-d'une entité avec des objets à côté.
+**Le test le plus caractéristique**, et celui qui manque presque toujours : prouver qu'une opération
+qui violerait l'invariant de frontière est refusée. C'est le seul qui distingue un agrégat d'une
+entité avec des objets à côté.
 
 La borne : il n'est écrivable que si l'invariant de frontière est formulé. Un agrégat dont personne ne
-sait énoncer la règle n'a pas ce test parce qu'il n'a pas cette règle — et c'est A1 qui est en défaut,
+sait énoncer la règle n'a pas ce test, parce qu'il n'a pas cette règle. C'est A1 qui est en défaut,
 pas la couverture.
 
 ---
 
 ## 9. Checklist de revue
 
-Ordonnée par ROI décroissant, conformément au § 4.
+Ordonnée par ROI décroissant, comme au § 4.
 
-Chaque ligne porte son statut au regard du § 6. `[auto]` disparaît de la checklist dès que la règle
-correspondante existe. `[partiel]` reste, réduite à ce que la règle ne couvre pas. `[humain]` reste
-entièrement : aucun moyen déterministe n'est identifié.
+Chaque ligne porte son statut au regard du § 6 :
+
+- `[auto]` sort de la checklist dès que la règle correspondante existe.
+- `[partiel]` reste, réduite à ce que la règle ne couvre pas.
+- `[humain]` reste en entier : aucun moyen déterministe n'est connu.
 
 Les quatre dernières lignes reprennent les invariants hérités de `fiche-entite.md` qui portent
 différemment sur une racine.
@@ -648,9 +645,9 @@ différemment sur une racine.
 [ ] [auto]    E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
 ```
 
-À terme il reste huit lignes : deux partielles (A3, E3), six de pur jugement. C'est la fiche la moins
-mécanisable du corpus, et la raison est structurelle : ses invariants portent sur une frontière que le
-code ne déclare pas. X2 est ce qui déplacerait cette limite.
+À terme, il reste huit lignes : deux `[partiel]` (A3, E3) et six `[humain]`. La raison est
+structurelle : les invariants portent sur une frontière que le code ne déclare pas. X2 est ce qui
+déplacerait cette limite.
 
 ---
 
@@ -670,9 +667,8 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **X2** déclarer les racines | **aucune source.** La théorie ne prescrit pas de fichier ; l'écart est avec la vérifiabilité | — |
 | Identifiants typés (§ 7) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût | ADR 19 |
 
-Vernon, « Effective Aggregate Design » — trois articles gratuits :
+Vernon, « Effective Aggregate Design », trois articles gratuits :
 <https://www.dddcommunity.org/library/vernon_2011/>
 
-**Aucun invariant propre n'est sans source.** En contrepartie, aucun n'est adossé à un ADR : la façon
-dont Pix place ses frontières d'agrégat n'a jamais été décidée par écrit. C'est ce que cette fiche
-sert à ouvrir, et X2 est le premier pas.
+**Aucun invariant propre n'est sans source.** Mais aucun n'est adossé à un ADR : la façon dont Pix
+place ses frontières d'agrégat n'a jamais été décidée par écrit. X2 est le premier pas pour l'écrire.
