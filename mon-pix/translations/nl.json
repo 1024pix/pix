@@ -1295,6 +1295,7 @@
         "aria-label-completed-campaign": "Dit element wordt aangevuld met een slagingspercentage van {value, number, ::percent}",
         "aria-label-completed-campaign-with-stages": "Je hebt {acquired, plural, =0 {gen ster} =1 {# ster} other {# strerren}} van de {total}",
         "aria-label-duration": "Geschatte duur: {duration} minuten",
+        "aria-label-level": "Niveau: {level}",
         "completed": "Voltooid!",
         "duration": "≈ {duration} min",
         "formation": {

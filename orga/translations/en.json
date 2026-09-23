@@ -1087,7 +1087,6 @@
         "associated-badges": "Related badges",
         "combined-course-content": {
           "aria-label-duration": "Estimated duration: {duration} minutes",
-          "aria-label-level": "Level : {level}",
           "duration": "≈ {duration} min",
           "module-info": "Modules will be recommended to participants based on their results.",
           "prescribed": "Prescribed",
