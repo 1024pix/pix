@@ -3,7 +3,7 @@
 **Commencer ici.** Ce fichier est le point d'entrée du corpus : il dit quelles fiches existent, dans
 quel état, dans quel ordre les relire, et porte le gabarit commun.
 
-État au 2026-09-08. **Ce fichier se périme** — les fiches non.
+État au 2026-09-23. **Ce fichier se périme** — les fiches non.
 
 Il porte ce qui relève de la conduite du chantier : quelles fiches existent, dans quel état, dans quel
 ordre les relire, pourquoi les regroupements ont été tranchés comme ils l'ont été, et le **gabarit**
@@ -96,9 +96,10 @@ dépôt qui fasse autorité.
 Relecture par agent, une par fiche, le 2026-09-08. **Sept sur onze relues** ; quatre ont échoué sur la
 limite de session. `fiche-read-model.md`, créée depuis, porte le total à douze.
 
-**Les douze fiches sont conformes au gabarit** : sommaire, dix sections dans l'ordre, écarts en cinq
+Les douze fiches ont la structure du gabarit : sommaire, dix sections dans l'ordre, écarts en cinq
 colonnes numérotés `X`, checklist marquée `[auto]` / `[partiel]` / `[humain]`, section sur le type
-réduite à ce qui survit à la migration.
+réduite à ce qui survit à la migration. Le détail du gabarit n'est vérifié que pour les six fiches
+domaine : voir la passe du 2026-09-23 ci-dessous.
 
 Ce que ça ne dit pas : aucune n'a été relue par un tiers **dans cet état**. La relecture par agent du
 2026-09-08 portait sur les versions antérieures.
@@ -151,6 +152,45 @@ invariant ne l'interdisait, parce que le cas n'avait pas été imaginé.
 **Ce que la passe n'a pas pu faire.** Mesurer les taux de faux positifs annoncés dans les § 6 — cela
 demande d'écrire les règles, pas de lire des fichiers. La réserve posée sur `M1` est la seule qui
 s'appuie sur un échantillon compté.
+
+## Passe du 2026-09-23 sur les fiches domaine
+
+Périmètre : `fiche-entite.md`, `fiche-objet-valeur.md`, `fiche-racine-agregat.md`,
+`fiche-read-model.md`, `fiche-service-domaine.md`, `fiche-specification.md`. Les six autres fiches
+n'ont pas eu cette passe.
+
+Trois étapes, dans cet ordre.
+
+**1. Conformité au gabarit.** Un audit point par point du gabarit a trouvé des écarts dans les six
+fiches. Ils sont corrigés :
+
+- tables du sommaire classées par ROI dans `fiche-objet-valeur.md` et `fiche-read-model.md` ;
+- paires conforme / fautive ajoutées pour `A3`, `A6`, `A7`, `RM2`, `RM3`, `RM4`, `S2`, `S6`, `S7` et
+  `S8` ;
+- invariants empruntés à `fiche-entite.md` mis en table dans `fiche-racine-agregat.md` ;
+- décompte des checklists corrigé : il reste huit lignes, pas sept, dans `fiche-racine-agregat.md`
+  et `fiche-service-domaine.md` ;
+- renvois morts réparés : `X7` et `X2` dans `fiche-entite.md` ;
+- dates de décision et récits de révision retirés ;
+- ROI « exemption » de `RM2` remplacé par « hygiène », le seul niveau du gabarit qui lui correspond.
+
+**2. Origine des exemples.** Chaque bloc de code a été recherché dans `api/src`. La règle est
+maintenant écrite dans le gabarit : un exemple fautif est du code réel, un exemple conforme est du
+code réel ou la version corrigée du même extrait. Environ quinze exemples inventés ont été remplacés
+par du code réel. Deux blocs de `fiche-objet-valeur.md` restent schématiques faute de cas réel :
+`apply({ threshold })` et `constructor({ value })`, au § 5.
+
+**3. Simplification de la prose.** Les règles de langue sont écrites dans la règle 2 du gabarit.
+`fiche-service-domaine.md` a été réécrite en premier et sert de référence. Titres, ancres, tables et
+blocs de code n'ont pas changé.
+
+Ce qui reste ouvert :
+
+- La portée de `X5` dans `fiche-objet-valeur.md`. Les trois clés composées réelles relevées sont
+  toutes dans des read-models. L'écart relève peut-être de `fiche-read-model.md`.
+- L'arborescence de `X3` dans `fiche-racine-agregat.md` contient le nom d'un contexte, repris du
+  code réel. C'est une entorse à la règle 1.
+- Aucune des six fiches n'a été relue par un tiers après cette passe.
 
 ## Ordre de relecture proposé
 
