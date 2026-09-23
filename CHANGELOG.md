@@ -1,5 +1,22 @@
 # Pix Changelog
 
+# [5.506.0](https://github.com/1024pix/pix/compare/v5.505.1...v5.506.0) (2026-09-23)
+
+### :rocket: Amélioration
+
+- [#17571](https://github.com/1024pix/pix/pull/17571) Mettre à jour les wordings de l'écran de chargement des modules d'un parcours combiné (PIX-24366)
+
+### :bug: Correction
+
+- [#17582](https://github.com/1024pix/pix/pull/17582) Corriger l'erreur en production (PIX-24371).
+- [#17550](https://github.com/1024pix/pix/pull/17550) Révoquer les accès utilisateurs lors de l’anonymisation (PIX-7038)
+
+### :building_construction: Tech
+
+- [#17581](https://github.com/1024pix/pix/pull/17581) Ajoute d'un index username sur la table users.
+- [#17565](https://github.com/1024pix/pix/pull/17565) Mise à jour du package epreuves-components
+- [#17516](https://github.com/1024pix/pix/pull/17516) Test implementation helper pour selectionner une option d'un select / multiselect
+
 ## [5.505.1](https://github.com/1024pix/pix/compare/v5.505.0...v5.505.1) (2026-09-23)
 
 ### :bug: Correction
