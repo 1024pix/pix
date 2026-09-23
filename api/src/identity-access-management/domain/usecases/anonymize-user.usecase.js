@@ -20,8 +20,9 @@ export const anonymizeUser = withTransaction(async function ({
   authenticationMethodRepository,
   lastUserApplicationConnectionsRepository,
   userLoginRepository,
-  refreshTokenRepository,
   resetPasswordDemandRepository,
+  revokedUserAccessRepository,
+  refreshTokenRepository,
 }) {
   await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
 
@@ -37,6 +38,9 @@ export const anonymizeUser = withTransaction(async function ({
 
   await _anonymizeUser(userRepository, { user, updatedByUserId });
 
+  await revokedUserAccessRepository.revokeAll({ userId, revokeUntil: new Date() });
+
+  // Legacy repository. Will be removed in the quite-near future.
   await refreshTokenRepository.revokeAllByUserId({ userId });
 });
 
