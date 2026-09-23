@@ -292,7 +292,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
           it('returns only users matching "first name" if given in filter', async function () {
             // given
-            const filter = { firstName: 'Go' };
+            const filter = { firstName: 'go' };
             const page = { number: 1, size: 10 };
             const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
