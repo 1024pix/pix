@@ -1,4 +1,4 @@
-# Fiche — Entité
+# Fiche — Entity
 
 Fiche générique. Elle décrit l'état cible, où tout est en TypeScript.
 
@@ -11,13 +11,13 @@ typage de s'appliquer est dans `migration-typescript.md`.
 > - Le § 6 annonce des taux de faux positifs estimés, pas mesurés. Les deux règles les plus utiles
 >   portent sur E3 et E6. Celle de E3 est la plus susceptible de produire du bruit sur l'existant.
 >   Pour celle de E6, aucun faux positif n'est attendu.
-> - E3 et E7 sont énoncés ici et valent aussi pour une racine d'agrégat, qui y renvoie. Vérifier à
+> - E3 et E7 sont énoncés ici et valent aussi pour une Aggregate Root, qui y renvoie. Vérifier à
 >   chaque reprise que les deux fiches ne les réénoncent pas.
 > - Les écarts sont numérotés `X` et non `E`, qui est déjà le préfixe des invariants de cette fiche.
 > - Le modèle de référence de la documentation d'architecture expose des champs publics assignables.
 >   `E1` et `E6` l'excluent. La fiche garde sa règle et son motif : aucun code extérieur ne doit
 >   pouvoir réécrire un **champ qui porte une règle**. Là où rien n'est protégé, c'est de l'hygiène,
->   pas un invariant. La page de documentation date d'avant les contextes bornés et n'est pas la
+>   pas un invariant. La page de documentation date d'avant les Bounded Contexts et n'est pas la
 >   cible.
 
 ## Sommaire
@@ -35,7 +35,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | --- | --- | --- | --- |
 | [**E3**](#e3-les-invariants-sont-tenus-à-tout-instant) | les invariants sont tenus à tout instant | **forte** | règle ESLint, bruyante |
 | [**E6**](#e6-aucun-mutateur-nu) | aucun mutateur nu | **forte** | règle ESLint |
-| [**E7**](#e7-les-autres-agrégats-sont-référencés-par-identité) | les autres agrégats sont référencés par identité | **forte** | revue |
+| [**E7**](#e7-les-autres-aggregates-sont-référencés-par-identité) | les autres Aggregates sont référencés par identité | **forte** | revue |
 | [**E4**](#e4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
 | [**E5**](#e5-aucune-méthode-au-service-de-la-persistance) | aucune méthode au service de la persistance | moyenne | revue |
 | [**E1**](#e1-lidentité-est-explicite-et-stable) | l'identité est explicite et stable | moyenne | règle ESLint, à mesurer |
@@ -48,17 +48,17 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | --- | --- | --- |
 | [**X1**](#x1-le-constructeur-en-sac-de-propriétés) | le constructeur en sac de propriétés | **à corriger** |
 | [**X3**](#x3-la-validation-a-lieu-après-laffectation) | la validation a lieu après l'affectation | à surveiller |
-| [**X4**](#x4-larborescence-ne-distingue-pas-entité-et-objet-valeur) | l'arborescence ne distingue pas entité et objet-valeur | à surveiller |
-| [**X5**](#x5-lentité-non-persistée-porte-un-identifiant-null) | l'entité non persistée porte un identifiant `null` | à surveiller |
+| [**X4**](#x4-larborescence-ne-distingue-pas-entity-et-value-object) | l'arborescence ne distingue pas Entity et Value Object | à surveiller |
+| [**X5**](#x5-lentity-non-persistée-porte-un-identifiant-null) | l'Entity non persistée porte un identifiant `null` | à surveiller |
 
 Hors numérotation, au § 1 : le [test de discrimination](#le-test-de-discrimination) avec
-l'objet-valeur, et la question [entité ou racine d'agrégat](#entité-ou-racine-dagrégat).
+le Value Object, et la question [Entity ou Aggregate Root](#entity-ou-aggregate-root).
 
 ---
 
 ## 1. Rôle
 
-Une entité est définie **par son identité**, pas par ses attributs. Ses valeurs changent au cours du
+Une Entity est définie **par son identité**, pas par ses attributs. Ses valeurs changent au cours du
 temps, elle reste la même chose.
 
 Elle porte les règles qui contraignent son propre état. Elle les tient **à tout instant**, pas
@@ -67,37 +67,37 @@ seulement à la construction.
 ### Le test de discrimination
 
 > Si remplacer une instance par une autre portant exactement les mêmes valeurs change quelque chose
-> pour le métier, c'est une entité. Sinon, c'est un objet-valeur.
+> pour le métier, c'est une Entity. Sinon, c'est un Value Object.
 
 Deux exemples qui rendent le test concret. Deux organisations aux mêmes nom et type sont deux
-organisations différentes : entité. Deux seuils de 50 % sont le même seuil : objet-valeur, et
+organisations différentes : Entity. Deux seuils de 50 % sont le même seuil : Value Object, et
 `fiche-objet-valeur.md` s'applique.
 
-### Entité ou racine d'agrégat
+### Entity ou Aggregate Root
 
-Toute racine d'agrégat est une entité. Cette fiche s'applique intégralement à elle. L'inverse est
-faux : une entité peut vivre **à l'intérieur** d'un agrégat sans en être la racine. Elle n'est alors
+Toute Aggregate Root est une Entity. Cette fiche s'applique intégralement à elle. L'inverse est
+faux : une Entity peut vivre **à l'intérieur** d'un Aggregate sans en être la racine. Elle n'est alors
 pas accessible directement et n'a pas de repository.
 
-La question à poser : *cette entité est-elle atteignable autrement qu'en passant par une autre ?* Si
+La question à poser : *cette Entity est-elle atteignable autrement qu'en passant par une autre ?* Si
 oui, c'est une racine, et `fiche-racine-agregat.md` ajoute ses devoirs propres : frontière de
 cohérence, point d'entrée unique, repository.
 
-Deux invariants de cette fiche, **E3** et **E7**, valent pour toute entité. C'est pourquoi ils sont
-énoncés ici, et la fiche racine d'agrégat y renvoie plutôt que de les répéter.
+Deux invariants de cette fiche, **E3** et **E7**, valent pour toute Entity. C'est pourquoi ils sont
+énoncés ici, et la fiche Aggregate Root y renvoie plutôt que de les répéter.
 
-### Ce qu'une entité n'est pas
+### Ce qu'une Entity n'est pas
 
-Si le code correspond à une ligne, ce n'est pas une entité.
+Si le code correspond à une ligne, ce n'est pas une Entity.
 
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
-| n'a pas d'identité propre, deux instances de mêmes valeurs sont interchangeables | un objet-valeur, dans `domain/models/` | `fiche-objet-valeur.md` |
+| n'a pas d'identité propre, deux instances de mêmes valeurs sont interchangeables | un Value Object, dans `domain/models/` | `fiche-objet-valeur.md` |
 | est assemblé pour une lecture, et aucune règle ne le lit | un read-model, dans `domain/read-models/` | `fiche-read-model.md` |
-| garantit une règle portant sur plusieurs objets à la fois | une racine d'agrégat | `fiche-racine-agregat.md` |
+| garantit une règle portant sur plusieurs objets à la fois | une Aggregate Root | `fiche-racine-agregat.md` |
 | charge ou écrit des données | un repository | `fiche-repository.md` |
-| coordonne plusieurs entités et repositories pour réaliser une intention | `domain/usecases/` | `fiche-usecase.md` |
-| applique une règle qui ne relève d'aucune entité, sans I/O | `domain/services/` | `fiche-service-domaine.md` |
+| coordonne plusieurs Entities et repositories pour réaliser une intention | `domain/usecases/` | `fiche-usecase.md` |
+| applique une règle qui ne relève d'aucune Entity, sans I/O | `domain/services/` | `fiche-service-domaine.md` |
 | met en forme pour une réponse HTTP | `infrastructure/serializers/` | `fiche-serialiseur.md` |
 | décrit ce qu'on expose à un autre contexte | `application/api/` | `fiche-api-interne.md` |
 
@@ -107,7 +107,7 @@ Si le code correspond à une ligne, ce n'est pas une entité.
 
 ### E1. L'identité est explicite et stable
 
-**Énoncé.** L'entité porte son identifiant. Il ne change pas pendant sa vie.
+**Énoncé.** L'Entity porte son identifiant. Il ne change pas pendant sa vie.
 
 ```js
 // conforme — l'identifiant est porté, et rien ne le réassigne ensuite
@@ -122,15 +122,15 @@ class Passage {
 **Ce qui casse.** Sans identité explicite, l'égalité, la déduplication et les références n'ont pas de
 fondement. Chaque site d'appel improvise sa comparaison.
 
-**Le cas de l'entité non encore persistée.** Une entité créée en mémoire n'a pas encore d'identifiant.
+**Le cas de l'Entity non encore persistée.** Une Entity créée en mémoire n'a pas encore d'identifiant.
 Deux traitements existent, à choisir explicitement : un identifiant `null` assumé et documenté, ou un
 type distinct pour l'intention de création, `…ForCreation` (voir V8 dans `fiche-objet-valeur.md`). Le
 second est plus sûr : la signature dit qu'il n'y a pas encore d'identité. Voir X5 au § 5.
 
 ### E2. L'égalité se fonde sur l'identité
 
-**Énoncé.** Deux instances de même identifiant sont la même entité, quelles que soient leurs valeurs.
-Deux instances de mêmes valeurs et d'identifiants différents sont deux entités.
+**Énoncé.** Deux instances de même identifiant sont la même Entity, quelles que soient leurs valeurs.
+Deux instances de mêmes valeurs et d'identifiants différents sont deux Entities.
 
 ```js
 // conforme
@@ -147,27 +147,27 @@ static areEqual(oneSkill, otherSkill) {
 **Ce qui casse.** Une comparaison par un champ autre que l'identifiant dépend de la fraîcheur des
 données chargées. Elle a deux effets :
 
-- elle confond deux entités distinctes qui partagent ce champ ;
-- elle distingue deux instances de la même entité chargées à des moments différents.
+- elle confond deux Entities distinctes qui partagent ce champ ;
+- elle distingue deux instances de la même Entity chargées à des moments différents.
 
 Conséquence pratique en test : comparer les identifiants, et vérifier l'état pertinent séparément.
 
 ### E3. Les invariants sont tenus à tout instant
 
-**Énoncé.** Une entité invalide ne s'instancie pas. Aucune opération ne la laisse dans un état
+**Énoncé.** Une Entity invalide ne s'instancie pas. Aucune opération ne la laisse dans un état
 invalide, y compris une opération qui échoue à mi-chemin.
 
-C'est l'invariant qui distingue une entité d'un objet littéral nommé. Il vaut aussi pour une racine
-d'agrégat, où il porte sur la frontière de cohérence entière. `fiche-racine-agregat.md` y renvoie.
+C'est l'invariant qui distingue une Entity d'un objet littéral nommé. Il vaut aussi pour une racine
+d'Aggregate, où il porte sur la frontière de cohérence entière. `fiche-racine-agregat.md` y renvoie.
 
-**À la construction.** Une entité invalide ne s'instancie pas. Un seul type d'erreur de validation
+**À la construction.** Une Entity invalide ne s'instancie pas. Un seul type d'erreur de validation
 vaut pour tout le domaine.
 
 La convention Pix valide `this` après les affectations, contre un schéma déclaratif. C'est `X3` au
 § 5. Ce n'est pas la forme la plus stricte. Elle est documentée, et son coût porte sur le message
 d'erreur, pas sur l'invariant.
 
-**À chaque changement d'état.** Une méthode qui modifie l'entité vérifie que le nouvel état reste
+**À chaque changement d'état.** Une méthode qui modifie l'Entity vérifie que le nouvel état reste
 valide.
 
 ```js
@@ -184,20 +184,20 @@ terminate({ now }) {
 ```
 
 **À la sortie d'une opération partielle.** Une méthode qui modifie plusieurs champs, et lève entre
-deux affectations, laisse l'entité incohérente. Valider d'abord, affecter ensuite : la même règle
+deux affectations, laisse l'Entity incohérente. Valider d'abord, affecter ensuite : la même règle
 qu'à la construction, pour la même raison.
 
 **Ce qui casse.** Sans cet invariant, chaque code en aval doit se demander si l'état est cohérent. La
 vérification se duplique et elle est oubliée quelque part.
 
 **Le piège du constructeur en sac de propriétés.** Un constructeur déstructuré avec une valeur par
-défaut `= {}` et tous les champs optionnels accepte l'objet vide. L'entité s'instancie toujours, donc
+défaut `= {}` et tous les champs optionnels accepte l'objet vide. L'Entity s'instancie toujours, donc
 elle ne protège rien. C'est la forme la plus répandue de violation. C'est aussi la plus discrète :
 elle ressemble à du code correct. Voir X1 au § 5.
 
 ### E4. Aucune I/O, aucune dépendance à l'infrastructure
 
-**Énoncé.** Une entité n'importe rien de l'infrastructure et ne fait aucune I/O. Une violation se
+**Énoncé.** Une Entity n'importe rien de l'infrastructure et ne fait aucune I/O. Une violation se
 repère dans les imports.
 
 ```js
@@ -227,15 +227,15 @@ updateRole({ role, updatedByUserId, now }) {
 Ces deux méthodes sont par ailleurs **conformes à E6** : elles nomment leur intention. Un même code
 peut satisfaire un invariant et en violer un autre. C'est le cas le plus courant en revue.
 
-**Corollaire.** Une entité ne charge jamais ce qui lui manque. Si une règle a besoin d'une donnée que
-l'entité n'a pas, c'est au usecase de la fournir.
+**Corollaire.** Une Entity ne charge jamais ce qui lui manque. Si une règle a besoin d'une donnée que
+l'Entity n'a pas, c'est au usecase de la fournir.
 
 **Ce qui casse.** Le test cesse d'être pur : il faut un double. Ce besoin n'est que le symptôme. La
 cause est la dépendance à l'infrastructure.
 
 ### E5. Aucune méthode au service de la persistance
 
-**Énoncé.** La traduction vers la forme de stockage est la responsabilité du repository. L'entité
+**Énoncé.** La traduction vers la forme de stockage est la responsabilité du repository. L'Entity
 n'expose pas de méthode dont le repository est le seul consommateur.
 
 ```js
@@ -293,18 +293,18 @@ même champ. La protection donne l'apparence d'une garantie, qu'un seul `set` an
 
 **Ce qui casse.** Un mutateur nu annule E3 : l'invariant n'est plus garanti qu'à la construction.
 
-**Bénéfice de lecture.** La liste des méthodes d'une entité est la liste des choses qui peuvent lui
+**Bénéfice de lecture.** La liste des méthodes d'une Entity est la liste des choses qui peuvent lui
 arriver. C'est la description la moins chère de son cycle de vie.
 
-**Le cas de la construction progressive.** Une entité construite par une suite de mutateurs appelés de
-l'extérieur, `setX()` puis `setY()` puis `setZ()`, n'est pas une entité. C'est un constructeur
+**Le cas de la construction progressive.** Une Entity construite par une suite de mutateurs appelés de
+l'extérieur, `setX()` puis `setY()` puis `setZ()`, n'est pas une Entity. C'est un constructeur
 déguisé, et son état est invalide entre deux appels. Si l'assemblage est réellement progressif, il
 faut le nommer : un objet dédié à la construction, ou un read-model si l'objet ne porte aucune règle.
 
-### E7. Les autres agrégats sont référencés par identité
+### E7. Les autres Aggregates sont référencés par identité
 
-**Énoncé.** Une entité ne tient pas l'instance complète d'une entité appartenant à un **autre**
-agrégat : elle en tient l'identifiant.
+**Énoncé.** Une Entity ne tient pas l'instance complète d'une Entity appartenant à un **autre**
+Aggregate : elle en tient l'identifiant.
 
 ```js
 // fautif — l'entité tient l'instance d'une entité d'un autre agrégat, en plus de son identifiant
@@ -318,7 +318,7 @@ this.organizationId = organizationId;
 this.userId = userId;
 ```
 
-À l'intérieur d'un même agrégat, tenir les instances est normal : c'est la définition d'un agrégat.
+À l'intérieur d'un même Aggregate, tenir les instances est normal : c'est la définition d'un Aggregate.
 
 Cet invariant vaut aussi pour une racine, où il est constitutif de la frontière plutôt qu'une bonne
 pratique. `fiche-racine-agregat.md` y renvoie.
@@ -328,16 +328,16 @@ pratique. `fiche-racine-agregat.md` y renvoie.
 Tenir l'objet entier oblige le repository à le charger aussi. Le coût d'un chargement cesse d'être
 limité : il dépend de la profondeur du graphe.
 
-La frontière cesse aussi d'être déplaçable. Une entité qui tient l'instance d'une entité d'un autre
+La frontière cesse aussi d'être déplaçable. Une Entity qui tient l'instance d'une Entity d'un autre
 contexte devient impossible à extraire le jour où ce contexte est découpé. C'est ce qui classe cet
 invariant en rentabilité forte.
 
 ### E8. Nommage et emplacement
 
-**Énoncé.** Un fichier par entité, nommé d'après le concept métier en PascalCase, dans
+**Énoncé.** Un fichier par Entity, nommé d'après le concept métier en PascalCase, dans
 `domain/models/`.
 
-Le nom est celui du langage ubiquitaire du contexte. Deux contextes peuvent avoir une entité de même
+Le nom est celui du Ubiquitous Language du contexte. Deux contextes peuvent avoir une Entity de même
 nom, désignant deux choses différentes. C'est attendu en DDD, pas une collision à résoudre. Ce qui
 doit être clair, c'est **de quel contexte** on parle au moment de l'import.
 
@@ -352,15 +352,15 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 
 | Cas | Statut |
 | --- | --- |
-| Une entité non persistée avec un identifiant `null` | **autorisé** si c'est assumé et documenté — E1, et voir X5 |
-| Une entité sans aucune méthode de changement d'état | **autorisé** — toutes les entités ne mutent pas |
-| Une entité tient les instances d'entités du **même** agrégat | **autorisé**, c'est la définition d'un agrégat. E7 |
+| Une Entity non persistée avec un identifiant `null` | **autorisé** si c'est assumé et documenté — E1, et voir X5 |
+| Une Entity sans aucune méthode de changement d'état | **autorisé** — toutes les Entities ne mutent pas |
+| Une Entity tient les instances d'Entities du **même** Aggregate | **autorisé**, c'est la définition d'un Aggregate. E7 |
 | Une méthode de sérialisation vers un **format publié** | **autorisé**, c'est l'exception de E5 |
 | Un accesseur calculé — `isArchived`, `hasFeature` — plutôt qu'un champ | **autorisé**, et souvent préférable |
-| Une entité qui reçoit `now` ou un générateur en paramètre | **autorisé**, c'est la forme correcte de E4 |
-| Deux contextes ont une entité de même nom | **autorisé**, c'est le langage ubiquitaire par contexte. E8 |
-| L'objet n'a aucune règle propre et personne ne le lit pour décider | **ce n'est pas une entité** — appliquer le test du § 1, puis `fiche-read-model.md` |
-| Une entité au constructeur permissif dans du code ancien | **pas une exception** — c'est X1, à classer et corriger, pas à absoudre |
+| Une Entity qui reçoit `now` ou un générateur en paramètre | **autorisé**, c'est la forme correcte de E4 |
+| Deux contextes ont une Entity de même nom | **autorisé**, c'est le Ubiquitous Language par contexte. E8 |
+| L'objet n'a aucune règle propre et personne ne le lit pour décider | **ce n'est pas une Entity** — appliquer le test du § 1, puis `fiche-read-model.md` |
+| Une Entity au constructeur permissif dans du code ancien | **pas une exception** — c'est X1, à classer et corriger, pas à absoudre |
 
 ---
 
@@ -384,10 +384,10 @@ contextes. C'est le chantier le plus coûteux à rattraper.
 ### Ce que ça n'apporte pas
 
 Aucun de ces invariants ne dit si le concept modélisé est le bon, ni si la frontière entre deux
-entités est au bon endroit. Ils garantissent qu'une entité tient ses promesses, pas qu'elle promet
+Entities est au bon endroit. Ils garantissent qu'une Entity tient ses promesses, pas qu'elle promet
 les bonnes choses.
 
-Ils ne disent pas non plus si l'objet méritait d'être une entité plutôt qu'un objet-valeur ou un
+Ils ne disent pas non plus si l'objet méritait d'être une Entity plutôt qu'un Value Object ou un
 read-model. C'est le test du § 1 qui répond. Il relève du jugement.
 
 ---
@@ -402,14 +402,14 @@ modèle vide. La correction porte sur le usecase.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **X1** Le constructeur en sac de propriétés | dérive | L'entité s'instancie dans n'importe quel état, donc elle ne protège rien. E3 est faux par construction | L'écriture est rapide, et l'ajout d'un champ ne touche pas au constructeur | **À corriger** |
+| **X1** Le constructeur en sac de propriétés | dérive | L'Entity s'instancie dans n'importe quel état, donc elle ne protège rien. E3 est faux par construction | L'écriture est rapide, et l'ajout d'un champ ne touche pas au constructeur | **À corriger** |
 | **X3** La validation a lieu après l'affectation | convention assumée | Un objet invalide existe le temps du constructeur, et le message porte sur un état déjà construit plutôt que sur l'entrée fautive | Réel — un schéma déclaratif, un seul appel de validation, une forme uniforme entre tous les modèles | *À surveiller* |
-| **X4** L'arborescence ne distingue pas entité et objet-valeur | convention assumée | Le test du § 1 n'est appliqué nulle part de façon visible, et aucune règle de chemin ne peut viser les entités seules | Un seul dossier où chercher, et aucune décision de classement à prendre à chaque fichier | *À surveiller* |
-| **X5** L'entité non persistée porte un identifiant `null` | convention assumée | Chaque consommateur doit traiter le cas `null`, et le type ne l'annonce pas | Une seule classe au lieu de deux, et un seul chemin de code | *À surveiller* |
+| **X4** L'arborescence ne distingue pas Entity et Value Object | convention assumée | Le test du § 1 n'est appliqué nulle part de façon visible, et aucune règle de chemin ne peut viser les Entities seules | Un seul dossier où chercher, et aucune décision de classement à prendre à chaque fichier | *À surveiller* |
+| **X5** L'Entity non persistée porte un identifiant `null` | convention assumée | Chaque consommateur doit traiter le cas `null`, et le type ne l'annonce pas | Une seule classe au lieu de deux, et un seul chemin de code | *À surveiller* |
 
 ### X1. Le constructeur en sac de propriétés
 
-**Ce que dit la théorie.** Une entité protège ses invariants. Un constructeur est le point où
+**Ce que dit la théorie.** Une Entity protège ses invariants. Un constructeur est le point où
 l'invariant devient vrai pour la première fois.
 
 **Exemple concret.**
@@ -484,9 +484,9 @@ formulaire.
 Ce qui changerait ce verdict : un utilitaire qui validerait les paramètres plutôt que `this`. Il
 supprimerait le coût sans rien retirer du bénéfice.
 
-### X4. L'arborescence ne distingue pas entité et objet-valeur
+### X4. L'arborescence ne distingue pas Entity et Value Object
 
-**Ce que dit la théorie.** Entité, objet-valeur et racine d'agrégat sont trois catégories aux
+**Ce que dit la théorie.** Entity, Value Object et Aggregate Root sont trois catégories aux
 invariants différents. La théorie ne prescrit rien sur les dossiers. Mais un dossier commun rend le
 classement invisible.
 
@@ -504,17 +504,17 @@ domain/models/
 
 **Correction.** Aucune n'est décidée : c'est une décision à prendre, pas une correction à appliquer.
 
-Ce que le dossier commun coûte vraiment : aucune règle de chemin ne peut viser les entités seules. Les
+Ce que le dossier commun coûte vraiment : aucune règle de chemin ne peut viser les Entities seules. Les
 vérifications du § 6 s'appliquent donc à tout `domain/models/`, et produisent du bruit sur les
-objets-valeurs. `fiche-read-model.md` montre l'inverse : deux dossiers séparés permettent d'écrire la
+Value Objects. `fiche-read-model.md` montre l'inverse : deux dossiers séparés permettent d'écrire la
 règle de chemin.
 
 Ce que la séparation coûterait : une décision de classement sur chaque fichier existant, par le test
 du § 1. Le choix se fait sur le gain de vérification, pas sur le seul souci de bien classer.
 
-### X5. L'entité non persistée porte un identifiant `null`
+### X5. L'Entity non persistée porte un identifiant `null`
 
-**Ce que dit la théorie.** Une entité est définie par son identité. Une entité sans identité est une
+**Ce que dit la théorie.** Une Entity est définie par son identité. Une Entity sans identité est une
 contradiction dans les termes. C'est pourquoi le cas mérite un nom.
 
 **Exemple concret.**
@@ -530,7 +530,7 @@ signature ne le dit.
 
 **Correction.** Aucune sur l'existant. Pour le neuf, préférer un type distinct pour l'intention de
 création, `…ForCreation`, sans identifiant. La signature porte alors l'information, et le typage la
-vérifie. C'est V8 de `fiche-objet-valeur.md` appliqué à une entité.
+vérifie. C'est V8 de `fiche-objet-valeur.md` appliqué à une Entity.
 
 À lire avec `X7` de `fiche-objet-valeur.md`, qui limite la pratique : une forme de création exprime une
 différence de nature, donc elle est légitime. Une forme de mise à jour portant un sous-ensemble de
@@ -551,8 +551,8 @@ Il n'existe aucun plugin ESLint maison. Toute règle sur mesure suppose d'abord 
 infrastructure. Les coûts ci-dessous ne comptent que la règle elle-même.
 
 **Une limite pour toute cette section.** Les règles portent sur `domain/models/`, qui contient aussi
-les objets-valeurs et peut-être des racines d'agrégat. Elles se déclencheront donc sur des fichiers
-qui ne sont pas des entités. Cette limite vient de X4, et elle réduit la précision de toutes les
+les Value Objects et peut-être des Aggregate Roots. Elles se déclencheront donc sur des fichiers
+qui ne sont pas des Entities. Cette limite vient de X4, et elle réduit la précision de toutes les
 règles de cette section.
 
 | Invariant | Moyen | Coût | Faux positifs |
@@ -562,10 +562,10 @@ règles de cette section.
 | **E8** nommage et emplacement | script `tests/tooling/` | ~20 lignes | aucun |
 | **E3** invariants tenus | règle ESLint : constructeur en `= {}` sans appel de validation | ~40 lignes | **élevés sur l'existant** — voir X1 |
 | **X3** validation après affectation | sans objet : c'est la forme prescrite. Voir `X3` au § 5 | — | — |
-| **E1** identité explicite | règle ESLint : une classe de `domain/models/` expose un accesseur `id` | ~15 lignes | **à mesurer** — un objet-valeur porteur d'identifiant la déclenche |
+| **E1** identité explicite | règle ESLint : une classe de `domain/models/` expose un accesseur `id` | ~15 lignes | **à mesurer** — un Value Object porteur d'identifiant la déclenche |
 | **E5** pas de méthode de persistance | revue. knip, déjà branché, ne signale que les exports sans consommateur | — | — |
 | **E2** l'égalité se fonde sur l'identité | revue | — | — |
-| **E7** les autres agrégats sont référencés par identité | revue | — | — |
+| **E7** les autres Aggregates sont référencés par identité | revue | — | — |
 
 ### E4 — une règle de chemin
 
@@ -602,7 +602,7 @@ Le motif : un constructeur dont le paramètre est déstructuré avec `= {}`, et 
 validation par schéma.
 
 Ce motif désigne exactement la forme dominante de violation. La règle se déclenchera donc sur beaucoup
-d'entités existantes. Elle s'introduit en avertissement, après une décision sur l'ampleur du
+d'Entities existantes. Elle s'introduit en avertissement, après une décision sur l'ampleur du
 rattrapage : voir l'ordre de travail de `X1` au § 5.
 
 Ce que la règle ne doit pas signaler : une validation placée après les affectations. C'est la forme
@@ -621,7 +621,7 @@ format publié.
 
 ### Ce qui n'est pas mécanisable
 
-E2 et E7 demandent de savoir ce qui appartient au même agrégat. E5 demande de savoir ce qui est un
+E2 et E7 demandent de savoir ce qui appartient au même Aggregate. E5 demande de savoir ce qui est un
 format publié. Ces deux informations ne se lisent pas dans un fichier isolé, et elles ne sont écrites
 nulle part. C'est le même manque que celui relevé au § 6 de `fiche-racine-agregat.md`.
 
@@ -633,7 +633,7 @@ Cet ordre suit le coût, pas le ROI du § 4.
 2. **E6** : première règle ESLint sur mesure, ce qui suppose de créer l'infrastructure
 3. **E8** : script de nommage
 4. **E3** : en avertissement, pour produire la liste du rattrapage
-5. **E1** : après mesure des faux positifs sur les objets-valeurs porteurs d'identifiant
+5. **E1** : après mesure des faux positifs sur les Value Objects porteurs d'identifiant
 
 ### Codemods
 
@@ -644,14 +644,14 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 | **E8** nommage | oui, complet | Renommer le fichier et réécrire ses imports |
 | **E6** champs publics | partiel | Privatiser un champ et ajouter son accesseur, oui. Si le champ est **écrit** depuis l'extérieur, signaler et s'arrêter — ajouter un mutateur violerait E6 |
 | **X1** sac de propriétés | préparation seule | Repérer les constructeurs fautifs, oui. Décider quels champs sont requis, non |
-| **X1** de `fiche-usecase.md`, règles dans les usecases | non | Décider ce qui appartient à l'entité et ce qui est de l'orchestration est de la conception |
+| **X1** de `fiche-usecase.md`, règles dans les usecases | non | Décider ce qui appartient à l'Entity et ce qui est de l'orchestration est de la conception |
 
 ---
 
 ## 7. Le type
 
-Une entité se déclare en **classe**. Deux types de même forme risquent moins de se confondre que pour
-un objet-valeur, parce que deux entités se distinguent par leur identité. La classe reste la forme
+Une Entity se déclare en **classe**. Deux types de même forme risquent moins de se confondre que pour
+un Value Object, parce que deux Entities se distinguent par leur identité. La classe reste la forme
 retenue, car un constructeur qui valide doit être le seul chemin de construction.
 
 ```ts
@@ -687,7 +687,7 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 
 | Objet | Type de test | Ce qu'on vérifie |
 | --- | --- | --- |
-| Entité | **unitaire pur**, aucune base, aucun double | la validation à la construction |
+| Entity | **unitaire pur**, aucune base, aucun double | la validation à la construction |
 | Chaque méthode de changement d'état | **unitaire** | le cas passant **et** le refus quand l'invariant serait violé |
 | Accesseurs calculés | **unitaire** | les cas limites, pas seulement le cas nominal |
 
@@ -697,8 +697,8 @@ Deux indices de diagnostic :
 
 - Le test qui manque le plus souvent est celui du **refus**. On vérifie que `terminate()` termine, pas
   qu'il refuse de terminer deux fois. Or c'est le second qui prouve que E3 est tenu. Une exception :
-  une entité sans méthode de changement d'état n'a pas de refus à tester, ce qu'admet le § 3.
-- Une entité qui a besoin d'un double **viole E4**. Voir « Ce qui casse » de E4 au § 2.
+  une Entity sans méthode de changement d'état n'a pas de refus à tester, ce qu'admet le § 3.
+- Une Entity qui a besoin d'un double **viole E4**. Voir « Ce qui casse » de E4 au § 2.
 
 ---
 
@@ -748,19 +748,19 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | Invariant | Source | Où vérifier |
 | --- | --- | --- |
 | **E1**, **E2** identité, égalité par identité | Evans, *DDD*, ch. « A Model Expressed in Software » — Entity | *DDD Reference*, PDF gratuit |
-| **E3** invariants tenus à tout instant | Evans, ch. « The Life Cycle of a Domain Object » — l'invariant est la raison d'être de l'agrégat, et vaut pour l'entité | *DDD Reference* |
+| **E3** invariants tenus à tout instant | Evans, ch. « The Life Cycle of a Domain Object » — l'invariant est la raison d'être de l'Aggregate, et vaut pour l'Entity | *DDD Reference* |
 | **E4** pureté | Evans, même ch. ; Martin, « The Clean Architecture » | billet gratuit |
 | **E5** pas de méthode de persistance | Evans, ch. « A Model Expressed in Software ». L'exception du format publié : ch. « Maintaining Model Integrity », **Published Language** | *DDD Reference* |
 | **E6** aucun mutateur nu | Fowler, « AnemicDomainModel » | bliki gratuit |
 | **E7** référence par identité | Vernon, « Effective Aggregate Design », règle 3 : *reference other aggregates by identity* | dddcommunity.org |
-| **E8** nommage et emplacement | l'**emplacement** est documenté : `docs/fr/Anatomy.md` décrit `domain/models`. Le **nommage** — PascalCase, un fichier par entité — n'a **aucune source** | `docs/fr/Anatomy.md` ; ADR 51 |
-| Le test de discrimination entité / objet-valeur | Evans, même ch. — c'est le critère qu'il donne | *DDD Reference* |
+| **E8** nommage et emplacement | l'**emplacement** est documenté : `docs/fr/Anatomy.md` décrit `domain/models`. Le **nommage** — PascalCase, un fichier par Entity — n'a **aucune source** | `docs/fr/Anatomy.md` ; ADR 51 |
+| Le test de discrimination Entity / Value Object | Evans, même ch. — c'est le critère qu'il donne | *DDD Reference* |
 | Typage des identifiants à la frontière HTTP, pas par le domaine (X2 de `fiche-objet-valeur.md`) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût | ADR 19 |
 
 Un seul invariant sur huit n'a aucune source externe : **E8**, la convention de nommage. La catégorie
-entité est le cœur du vocabulaire tactique de DDD, et ses invariants sont ceux des livres.
+Entity est le cœur du vocabulaire tactique de DDD, et ses invariants sont ceux des livres.
 
 Ce qui manque de source, ici, c'est la **façon Pix** de les appliquer : le choix du type d'erreur de
-validation, l'ordre validation / affectation, et le traitement de l'entité non persistée. Ces trois
+validation, l'ordre validation / affectation, et le traitement de l'Entity non persistée. Ces trois
 points relèvent de la convention et se discutent sur leurs mérites. Les deux derniers sont
 respectivement X3 et X5 au § 5.

@@ -1,4 +1,4 @@
-# Fiche — Service de domaine
+# Fiche — Domain Service
 
 Fiche générique. Elle décrit l'état cible, où tout est en TypeScript.
 
@@ -8,7 +8,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 
 > **À instruire**
 >
-> - `domain/services/` est réservé aux vrais services de domaine. Les fichiers qui font des I/O vont
+> - `domain/services/` est réservé aux vrais Domain Services. Les fichiers qui font des I/O vont
 >   dans `usecases/`. Cette décision reste à écrire dans un ADR. Ses conséquences sont dans `X1` au
 >   § 5.
 > - Le numéro D6 n'est pas attribué. Il portait « testable en unitaire pur », qui découle de D1 et
@@ -44,32 +44,32 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**X3**](#x3-le-fichier-est-nommé-par-la-ressource-et-suffixé--service) | le fichier est nommé par la ressource et suffixé `-service` | **à corriger** |
 
 Hors numérotation : le [test de discrimination](#le-test-de-discrimination) du § 1. En quatre
-questions, il départage objet, agrégat, usecase et service. `fiche-usecase.md` y renvoie.
+questions, il départage objet, Aggregate, usecase et service. `fiche-usecase.md` y renvoie.
 
 ---
 
 ## 1. Rôle
 
-Un service de domaine porte une règle métier qui n'appartient à aucun objet. Soit elle traverse
-plusieurs agrégats, soit aucun objet n'en est le propriétaire naturel.
+Un Domain Service porte une règle métier qui n'appartient à aucun objet. Soit elle traverse
+plusieurs Aggregates, soit aucun objet n'en est le propriétaire naturel.
 
 Il reçoit des objets du domaine et en renvoie. Il ne charge rien, n'écrit rien et ne garde aucun état.
 
 C'est une catégorie de **dernier recours**. On n'y vient qu'après avoir essayé de placer la règle sur
-un objet-valeur, une entité ou une racine d'agrégat. Créer un service par facilité retire la logique
+un Value Object, une Entity ou une Aggregate Root. Créer un service par facilité retire la logique
 des modèles, qui deviennent anémiques.
 
 ### Le test de discrimination
 
 Poser les questions dans cet ordre.
 
-1. *La règle porte-t-elle sur les données d'un seul objet ?* → elle va sur cet **objet-valeur** ou
-   cette **entité**.
+1. *La règle porte-t-elle sur les données d'un seul objet ?* → elle va sur cet **Value Object** ou
+   cette **Entity**.
 2. *Porte-t-elle sur plusieurs objets d'une même frontière de cohérence ?* → elle va sur la **racine
-   d'agrégat**.
+   d'Aggregate**.
 3. *A-t-elle besoin de charger ou d'écrire quoi que ce soit ?* → c'est un **usecase**, pas un service.
 4. *Reste-t-il une règle sans propriétaire naturel, qui se calcule sur des objets déjà fournis ?*
-   → **service de domaine**.
+   → **Domain Service**.
 
 En pratique, la question 3 décide le plus souvent. C'est aussi la plus facile à vérifier : le fichier
 reçoit-il un paramètre dont le nom correspond à `/(Repository|Api|Storage)$/` ?
@@ -77,19 +77,19 @@ reçoit-il un paramètre dont le nom correspond à `/(Repository|Api|Storage)$/`
 Le dossier ne suffit pas à répondre. Un fichier de `domain/services/` qui fait des I/O est un usecase,
 et `fiche-usecase.md` s'applique à lui en entier. Voir X1 au § 5.
 
-### Ce qu'un service de domaine n'est pas
+### Ce qu'un Domain Service n'est pas
 
-Si le code correspond à une ligne, ce n'est pas un service de domaine.
+Si le code correspond à une ligne, ce n'est pas un Domain Service.
 
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
 | charge ou écrit des données, même une seule fois | `domain/usecases/` | `fiche-usecase.md` |
 | est réutilisé par plusieurs usecases **et** fait des I/O | `domain/usecases/` : c'est un sous-usecase | `fiche-usecase.md` |
-| applique une règle sur un seul objet | l'objet-valeur ou l'entité concernée | `fiche-objet-valeur.md`, `fiche-entite.md` |
-| applique une règle dans une frontière de cohérence | la racine d'agrégat | `fiche-racine-agregat.md` |
+| applique une règle sur un seul objet | le Value Object ou l'Entity concernée | `fiche-objet-valeur.md`, `fiche-entite.md` |
+| applique une règle dans une frontière de cohérence | l'Aggregate Root | `fiche-racine-agregat.md` |
 | évalue un prédicat composable configuré par des données | une Specification | `fiche-specification.md` |
 | met en forme pour une lecture | un read-model | `fiche-read-model.md` |
-| garde un état entre deux appels | rien : un service de domaine est sans état | — |
+| garde un état entre deux appels | rien : un Domain Service est sans état | — |
 
 ---
 
@@ -97,7 +97,7 @@ Si le code correspond à une ligne, ce n'est pas un service de domaine.
 
 ### D1. Aucune I/O, aucune dépendance injectée
 
-**Énoncé.** Un service de domaine ne reçoit ni repository, ni API interne, ni client de stockage.
+**Énoncé.** Un Domain Service ne reçoit ni repository, ni API interne, ni client de stockage.
 C'est l'invariant qui définit la catégorie.
 
 ```js
@@ -124,7 +124,7 @@ L'interdiction couvre aussi l'infrastructure implicite :
 - l'aléatoire ;
 - la configuration.
 
-Une date ou un générateur arrive en paramètre, comme pour une entité.
+Une date ou un générateur arrive en paramètre, comme pour une Entity.
 
 **Ce qui casse.** Le service n'est plus testable en unitaire pur : il faut une base ou une doublure.
 Il devient aussi un usecase sans que personne l'ait décidé, dans un dossier qui annonce le contraire.
@@ -137,7 +137,7 @@ La détection est simple : un paramètre dont le nom finit par `Repository`, `Ap
 **Énoncé.** Les entrées et les sorties sont :
 
 - des objets du domaine local ;
-- des objets-valeurs ;
+- des Value Objects ;
 - des scalaires.
 
 Jamais :
@@ -164,7 +164,7 @@ avec des objets du domaine validés en entrée, la comparaison serait directe.
 **Ce qui casse.** La règle dépend d'une forme décidée ailleurs, comme un schéma de base ou le contrat
 d'un voisin. Un changement de cette forme casse la règle.
 
-**Conséquence.** Un service de domaine ne renvoie pas de read-model. Produire une projection pour
+**Conséquence.** Un Domain Service ne renvoie pas de read-model. Produire une projection pour
 l'affichage, c'est de la mise en forme, pas une règle métier.
 
 ### D3. Sans état, et sans effet sur ses entrées
@@ -217,9 +217,9 @@ L'objet modifié a aussi une faille : il aurait dû refuser la modification (V1 
 **Énoncé.** On ne crée un service qu'après avoir répondu non aux trois premières questions du test de
 discrimination. Le service accueille la règle qui n'a pas de propriétaire naturel.
 
-**Pourquoi c'est un invariant et pas un conseil.** Un service de domaine est la solution la plus
+**Pourquoi c'est un invariant et pas un conseil.** Un Domain Service est la solution la plus
 facile. Écrire une fonction qui prend deux objets et renvoie un booléen va toujours plus vite. Ajouter
-une méthode à une entité oblige à vérifier que son invariant tient. Sans règle, on choisit donc le
+une méthode à une Entity oblige à vérifier que son invariant tient. Sans règle, on choisit donc le
 service.
 
 **Ce qui casse.** Avec le temps, les modèles ne contiennent plus que des champs, et toute la logique
@@ -230,7 +230,7 @@ rien d'autre. Sa règle appartient presque toujours à cet objet, ou à l'objet 
 
 ### D5. Nommé par la règle, pas par la ressource
 
-**Énoncé.** Le nom du fichier dit ce qu'il calcule ou décide. Ce n'est pas le nom d'une entité.
+**Énoncé.** Le nom du fichier dit ce qu'il calcule ou décide. Ce n'est pas le nom d'une Entity.
 
 ```
 get-competence-level.js         — dit ce que ça fait
@@ -253,7 +253,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un service reçoit `now` ou un générateur en paramètre | **autorisé**, c'est la forme correcte de D1 |
 | Un service reçoit une constante de configuration en paramètre | **autorisé** : c'est une donnée, pas une dépendance |
 | Un service asynchrone sans I/O, qui découpe un calcul long | **autorisé**, mais rare. Vérifier qu'aucun `await` ne porte sur une I/O |
-| Un service prend plusieurs objets du domaine et renvoie un objet-valeur | **autorisé**, c'est le cas nominal de D2 |
+| Un service prend plusieurs objets du domaine et renvoie un Value Object | **autorisé**, c'est le cas nominal de D2 |
 | Un service exporté sous forme de classe sans état | **autorisé**, mais le module de fonctions est la forme préférée (§ 7) |
 | Un service partagé entre plusieurs usecases | **autorisé** si D1 tient. Le partage n'est pas le critère |
 | Le fichier de câblage `index.js` importe l'infrastructure | **autorisé**, exclu des règles de D1 : il câble, il ne porte aucune règle. Voir X5 de `fiche-repository.md` |
@@ -277,8 +277,8 @@ signature, sans faux positif. Aucun outil ne vérifie D4.
 
 ### Ce que ça n'apporte pas
 
-Ces invariants ne disent pas si la règle devait être transversale. Un service de domaine correct peut
-cacher une frontière d'agrégat mal placée : la règle traverse deux agrégats qui auraient dû n'en faire
+Ces invariants ne disent pas si la règle devait être transversale. Un Domain Service correct peut
+cacher une frontière d'Aggregate mal placée : la règle traverse deux Aggregates qui auraient dû n'en faire
 qu'un. Voir A1 de `fiche-racine-agregat.md`.
 
 ---
@@ -317,7 +317,7 @@ Le dossier ne distingue pas ces natures. Un relecteur ne sait donc pas quels inv
 la règle ESLint de D1 ne peut pas passer en erreur. Le troisième fichier est une exception nommée au
 § 3, symétrique de `domain/usecases/index.js`. Voir X5 de `fiche-repository.md`.
 
-**Correction.** `domain/services/` est réservé aux vrais services de domaine. Les fichiers qui font
+**Correction.** `domain/services/` est réservé aux vrais Domain Services. Les fichiers qui font
 des I/O vont dans `usecases/`.
 
 Cette position est la plus fidèle aux sources. Chez Evans, un Service est sans état et ne fait pas
@@ -329,7 +329,7 @@ Elle a deux conséquences :
 - Une fois les fichiers déplacés, on peut passer la règle ESLint de D1 en erreur. Plus personne ne
   peut alors ajouter un repository à un fichier de ce dossier.
 - Le dossier devient rare, voire vide dans certains contextes. C'est attendu : une règle qui traverse
-  plusieurs agrégats sans rien charger est peu fréquente.
+  plusieurs Aggregates sans rien charger est peu fréquente.
 
 Deux autres positions ont été écartées :
 
@@ -497,7 +497,7 @@ Un codemod peut appliquer une décision. Il ne peut pas en prendre une.
 
 ## 7. Le type
 
-Un service de domaine est de préférence un module de fonctions. Son typage n'a rien de particulier :
+Un Domain Service est de préférence un module de fonctions. Son typage n'a rien de particulier :
 des paramètres nommés, des objets du domaine en entrée et en sortie.
 
 ```ts
@@ -531,7 +531,7 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 
 | Objet | Type de test | Ce qu'on vérifie |
 | --- | --- | --- |
-| Service de domaine | **unitaire pur** : aucune base, aucune doublure | la règle, sur le cas nominal **et** les cas limites |
+| Domain Service | **unitaire pur** : aucune base, aucune doublure | la règle, sur le cas nominal **et** les cas limites |
 | Absence d'effet sur les entrées | **unitaire** | que les objets passés ne sont pas modifiés |
 
 L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites au § 6.
@@ -539,7 +539,7 @@ L'existence du fichier de test se vérifie en comparant les noms. Moyens et limi
 Deux indices de diagnostic, avec leurs limites :
 
 - Un service qui a besoin d'une **doublure** viole D1. La doublure n'est pas une contrainte du test,
-  c'est le diagnostic. Cet indice n'a pas de limite : un vrai service de domaine n'en demande jamais.
+  c'est le diagnostic. Cet indice n'a pas de limite : un vrai Domain Service n'en demande jamais.
 - Le **test d'absence d'effet** est celui qui manque le plus souvent. C'est le seul qui prouve D3.
   Limite : un service qui ne reçoit que des scalaires n'a rien à modifier.
 

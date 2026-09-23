@@ -46,13 +46,13 @@ typage de mordre est dans `migration-typescript.md`.
 | [**X2**](#x2-lapi-appelle-un-repository-sans-passer-par-un-usecase) | l'API appelle un repository sans passer par un usecase | **à corriger** |
 | [**X3**](#x3-lobjet-de-contrat-nest-pas-dans-le-dossier-décidé) | l'objet de contrat n'est pas dans le dossier décidé | **à corriger** |
 | [**X4**](#x4-lapi-importe-une-api-ou-un-repository-dun-contexte-tiers) | l'API importe une API ou un repository d'un contexte tiers | **à corriger** |
-| [**X5**](#x5-le-dto-expose-exactement-les-champs-de-lentité) | le DTO expose exactement les champs de l'entité | à surveiller |
+| [**X5**](#x5-le-dto-expose-exactement-les-champs-de-lentity) | le DTO expose exactement les champs de l'Entity | à surveiller |
 
 ---
 
 ## 1. Rôle
 
-Une API interne est le **contrat publié** d'un contexte borné : ce qu'il accepte de faire pour les
+Une API interne est le **contrat publié** d'un Bounded Context : ce qu'il accepte de faire pour les
 autres, et sous quelle forme il leur répond.
 
 C'est le seul point par lequel un contexte voisin doit passer. Tout le reste — modèles, usecases,
@@ -182,7 +182,7 @@ son service.
 
 ### P4. Le DTO ne porte aucun comportement métier
 
-**Énoncé.** Le DTO est un objet-valeur : immuable, sans identité, sans règle. `V1`, `V2`, `V6` et `V7`
+**Énoncé.** Le DTO est un Value Object : immuable, sans identité, sans règle. `V1`, `V2`, `V6` et `V7`
 de `fiche-objet-valeur.md` s'appliquent et ne sont pas répétés ici.
 
 Ce qui reste autorisé : une mise en forme sans décision — composer un libellé, aplatir une structure,
@@ -336,7 +336,7 @@ tunnel. Le dimensionnement reste un travail de conception entre les deux équipe
 | **X2** L'API appelle un repository sans passer par un usecase | dérive | Deux comportements pour la même question, selon qu'on la pose de l'intérieur ou de l'extérieur | La lecture est immédiate, sans usecase à écrire | **À corriger** |
 | **X3** L'objet de contrat n'est pas dans le dossier décidé | dérive | La convention documentée n'est pas appliquée partout, donc son script de vérification ne peut pas être bloquant. Et le mot `read-model` recouvre deux notions | Nul — la décision existe, elle n'a pas été suivie | **À corriger** |
 | **X4** L'API importe une API ou un repository d'un contexte tiers | dérive | Le graphe déclaré ne décrit plus le graphe réel. Une règle de dépendance passe au vert sur un couplage réel | La composition est faite une fois chez le fournisseur au lieu de chez chaque consommateur | **À corriger** |
-| **X5** Le DTO expose exactement les champs de l'entité | convention assumée, ou absence d'arbitrage | Le contrat suit le modèle : ajouter un champ interne l'expose, le renommer casse le contrat | Réel si c'est délibéré — le contrat est effectivement le modèle, et il n'y a rien à décider | *À surveiller* |
+| **X5** Le DTO expose exactement les champs de l'Entity | convention assumée, ou absence d'arbitrage | Le contrat suit le modèle : ajouter un champ interne l'expose, le renommer casse le contrat | Réel si c'est délibéré — le contrat est effectivement le modèle, et il n'y a rien à décider | *À surveiller* |
 
 ### X1. L'API renvoie un modèle du domaine plutôt qu'un DTO
 
@@ -440,7 +440,7 @@ Ce qui rend la correction coûteuse : elle déplace du travail du fournisseur ve
 et il peut y en avoir plusieurs. C'est le prix d'un graphe honnête, et il se vérifie par configuration
 seule une fois payé.
 
-### X5. Le DTO expose exactement les champs de l'entité
+### X5. Le DTO expose exactement les champs de l'Entity
 
 **Ce que dit la théorie.** Le langage publié est choisi pour l'échange. Qu'il coïncide avec le modèle
 interne est possible, mais ce doit être une coïncidence constatée, pas un défaut d'arbitrage.

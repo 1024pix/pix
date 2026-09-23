@@ -76,9 +76,9 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un sériali
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
 | calcule une valeur absente de l'objet reçu | le usecase, ou un read-model | `fiche-usecase.md`, `fiche-read-model.md` |
-| filtre selon une condition métier | le domaine — entité, objet-valeur, racine d'agrégat | `fiche-entite.md`, `fiche-objet-valeur.md`, `fiche-racine-agregat.md` |
+| filtre selon une condition métier | le domaine — Entity, Value Object, Aggregate Root | `fiche-entite.md`, `fiche-objet-valeur.md`, `fiche-racine-agregat.md` |
 | choisit une forme de réponse selon les droits de l'appelant | le usecase, qui ne renvoie que ce qui est autorisé | `fiche-usecase.md` |
-| met en forme pour un autre contexte borné | `application/api/` et son DTO de contrat | `fiche-api-interne.md` |
+| met en forme pour un autre Bounded Context | `application/api/` et son DTO de contrat | `fiche-api-interne.md` |
 | assemble une forme pour une lecture | un read-model, construit par un repository | `fiche-read-model.md` |
 
 ---
@@ -232,7 +232,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Déclarer des relations incluses | **autorisé** — c'est de la mise en forme |
 | Renommer un champ pour le vocabulaire du format | **autorisé**, et c'est un bon usage de la couche |
 | Une enveloppe de pagination autour des objets sérialisés | **autorisé** |
-| Un sérialiseur qui reçoit un read-model plutôt qu'une entité | **autorisé**, et préférable. Voir `X4` |
+| Un sérialiseur qui reçoit un read-model plutôt qu'une Entity | **autorisé**, et préférable. Voir `X4` |
 | Une condition qui choisit entre deux formes de réponse | **pas une exception** — c'est `M1` violé, donc `X1` |
 | Un champ calculé depuis une méthode métier de l'objet | **pas une exception** — c'est `M2` violé, donc `X2` |
 | Deux sérialiseurs pour la même ressource selon l'appelant | **pas une exception** — c'est `M1` à l'échelle du fichier |

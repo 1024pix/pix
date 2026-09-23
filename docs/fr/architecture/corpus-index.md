@@ -25,12 +25,12 @@ instruites.
 | --- | --- | --- |
 | `fiche-repository.md` | `I` | le port vers l'extérieur, base ou API voisine |
 | `fiche-specification.md` | `S` | moteur de règles composable et piloté par des données |
-| `fiche-objet-valeur.md` | `V` | objet-valeur |
+| `fiche-objet-valeur.md` | `V` | Value Object |
 | `fiche-read-model.md` | `RM` | read-model — la forme assemblée pour une lecture |
-| `fiche-entite.md` | `E` | entité |
-| `fiche-racine-agregat.md` | `A` | racine d'agrégat |
+| `fiche-entite.md` | `E` | Entity |
+| `fiche-racine-agregat.md` | `A` | Aggregate Root |
 | `fiche-usecase.md` | `U` | usecase |
-| `fiche-service-domaine.md` | `D` | service de domaine |
+| `fiche-service-domaine.md` | `D` | Domain Service |
 | `fiche-api-interne.md` | `P` | le contrat publié entre contextes |
 | `fiche-controleur.md` | `C` | contrôleur |
 | `fiche-route.md` | `R` | route |
@@ -39,10 +39,10 @@ instruites.
 La collision de préfixe sur `R` est levée : le read-model emploie `RM`, `R` reste à la route. C'est la
 sortie que ce fichier proposait déjà.
 
-**Le discriminant objet-valeur / read-model est énoncé une seule fois**, au § 1 de
+**Le discriminant Value Object / read-model est énoncé une seule fois**, au § 1 de
 `fiche-objet-valeur.md`, et `fiche-read-model.md` y renvoie. De même, les cinq invariants mécaniques
 communs — immuabilité, absence d'identité, pureté, absence de cycle de vie, exposition en lecture
-seule — sont énoncés dans la fiche objet-valeur ; la fiche read-model les reprend dans sa checklist
+seule — sont énoncés dans la fiche Value Object ; la fiche read-model les reprend dans sa checklist
 seulement, parce qu'une checklist doit être copiable telle quelle.
 
 **Les écarts se numérotent `X`**, dans toutes les fiches. L'ambiguïté signalée ici — `E` servait à la
@@ -70,13 +70,13 @@ dépôt qui fasse autorité.
 
 | Décision | Ce qu'elle tranche | Conséquence dans le corpus |
 | --- | --- | --- |
-| `domain/services/` est réservé aux **vrais services de domaine** | Les fichiers qui font des I/O partent dans `usecases/`. Le dossier devient rare, voire vide par endroits — c'est normal | `X1` de `fiche-service-domaine.md` a une direction. `D1` devient activable en erreur une fois le déplacement fait |
+| `domain/services/` est réservé aux **vrais Domain Services** | Les fichiers qui font des I/O partent dans `usecases/`. Le dossier devient rare, voire vide par endroits — c'est normal | `X1` de `fiche-service-domaine.md` a une direction. `D1` devient activable en erreur une fois le déplacement fait |
 | Les champs qui portent une règle sont **privés** | Un champ qui porte une règle ne doit pas pouvoir être réécrit de l'extérieur. Là où rien n'est protégé, c'est de l'hygiène | `V1`, `E1` et `E6` gardent leur règle, avec ce motif. Le modèle de référence de la documentation d'architecture n'est pas la cible |
 | Les deux règles hébergées dans Confluence sont **vraies** | Contrôles d'accès en pre-handler, et objets de contrat dans `application/api/models/` | `R2` et `P5` sont confirmés. Reste à les faire redescendre en ADR |
 | Le mot `read-model` est **conservé** | C'est l'Ubiquitous Language de l'équipe, et le renommer n'apportait rien sur l'outillage | `X2` de `fiche-read-model.md` classé *à surveiller*. Le travail est le classement, pas le renommage |
 | La **désérialisation** relève de `fiche-serialiseur.md` | Le sérialiseur traduit dans les deux sens, ce que `docs/fr/Anatomy.md` documente. 46 fichiers sur 235 ont une fonction de désérialisation | Invariant `M5` ajouté. `M1` limité au sens sortant, et sa règle du § 6 doit exclure le corps des désérialisations — sinon elle sort sur du code correct |
 | Les modèles par **intention d'écriture** ne se multiplient pas sans mesure | `…ForCreation` exprime une différence de nature et reste. `…ForUpdate` portant un sous-ensemble de champs est un modèle partiellement rempli, et c'est le côté commande de CQRS sans CQRS | `V8` gagne son discriminant, et l'écart `X7` de `fiche-objet-valeur.md` est créé. La règle générale est passée dans le gabarit : un bénéfice de performance non mesuré compte pour nul |
-| La transaction reste au grain du **usecase**, même sur plusieurs agrégats | ADR 25, sur un motif mesuré : les événements dans les transactions ont causé des deadlocks en production | `A7` de `fiche-racine-agregat.md` devient une question de conception et non la règle appliquée. `X4` passe en *rien à faire*. `U7` gagne son critère |
+| La transaction reste au grain du **usecase**, même sur plusieurs Aggregates | ADR 25, sur un motif mesuré : les événements dans les transactions ont causé des deadlocks en production | `A7` de `fiche-racine-agregat.md` devient une question de conception et non la règle appliquée. `X4` passe en *rien à faire*. `U7` gagne son critère |
 | Pas d'ADR sur la stabilité du format des réponses HTTP | Ce que font les applications front n'est pas le sujet de ce corpus. Et deux tiers de l'écart se règlent par un outil plutôt que par une procédure | `X3` de `fiche-serialiseur.md` se réduit à une règle : ne jamais redéfinir le sens d'une valeur existante. Le reste attend le paquet partagé — voir `migration-typescript.md` |
 
 ## Les autres fichiers
@@ -107,14 +107,14 @@ Ce que ça ne dit pas : aucune n'a été relue par un tiers **dans cet état**. 
 | Fiche | Relue | État |
 | --- | --- | --- |
 | `fiche-repository.md` | oui | **corrigée** le 2026-09-08. `I7` retiré — c'est un invariant du modèle, il vit sous `E5` de `fiche-entite.md` avec sa vérification par knip. `X3` précisé : la forme ambiante a remplacé la forme **prescrite par l'ADR 9** sans décision écrite, l'ADR 25 ayant remplacé le 9 sans redécider ce point. Invariant `I11` ajouté, `I8` retiré — il rendait la source visible dans le nom du fichier, ce qui contredit l'uniformité de la couche posée au § 1. Le numéro n'est pas réattribué. Le gabarit en est sorti vers ce fichier ; dix sections, `Sources` au § 10. Sommaire ajouté, et le § 6 dit désormais lesquelles de ses lignes sont datées |
-| `fiche-specification.md` | oui | **corrigée** le 2026-09-08. `S1`/`S2` départagés en distinguant trois cas — donnée absente, arbre malformé, donnée inexploitable. Test `S7` corrigé : il inspectait le prototype au lieu d'une instance. `S3`, `S4` et `S9` retirés, ils réénonçaient `V4`, `V1`/`V2`/`V6`/`V7` et `V3` ; numéros non réattribués. Le candidat est reclassé objet-valeur, pas read-model |
+| `fiche-specification.md` | oui | **corrigée** le 2026-09-08. `S1`/`S2` départagés en distinguant trois cas — donnée absente, arbre malformé, donnée inexploitable. Test `S7` corrigé : il inspectait le prototype au lieu d'une instance. `S3`, `S4` et `S9` retirés, ils réénonçaient `V4`, `V1`/`V2`/`V6`/`V7` et `V3` ; numéros non réattribués. Le candidat est reclassé Value Object, pas read-model |
 | `fiche-objet-valeur.md` | oui | **corrigée** le 2026-09-08, puis **scindée**. Le read-model en est sorti vers sa propre fiche. Quatre tests de discrimination ajoutés au § 1, écarts refaits au format en cinq colonnes, `X5` ajouté sur la clé de présentation, définition d'« objet du domaine local » ajoutée. Numéros d'écart commençant à `X2`, non réattribués. Devient le domicile des invariants mécaniques pour le read-model **et** la Specification |
 | `fiche-read-model.md` | — | **créée** le 2026-09-08 par scission de `fiche-objet-valeur.md`. Jamais relue par un tiers |
-| `fiche-racine-agregat.md` | oui | **corrigée** le 2026-09-08 avec la fiche entité, puis **rectifiée** : `A7` est l'invariant de la littérature et Pix a décidé l'inverse pour le cas échouer-ensemble — ADR 25, sur un motif mesuré. `X4` passe de *vestige à surveiller* à *convention assumée, rien à faire*. `A4` et `A5` retirés — duplications de `E7` et `E3` à ROI inversés ; numéros non réattribués. Section d'invariants hérités ajoutée. Écart `X2` ajouté : aucune racine n'est déclarée, ce qui bloque `A1` et `A3` |
+| `fiche-racine-agregat.md` | oui | **corrigée** le 2026-09-08 avec la fiche Entity, puis **rectifiée** : `A7` est l'invariant de la littérature et Pix a décidé l'inverse pour le cas échouer-ensemble — ADR 25, sur un motif mesuré. `X4` passe de *vestige à surveiller* à *convention assumée, rien à faire*. `A4` et `A5` retirés — duplications de `E7` et `E3` à ROI inversés ; numéros non réattribués. Section d'invariants hérités ajoutée. Écart `X2` ajouté : aucune racine n'est déclarée, ce qui bloque `A1` et `A3` |
 | `fiche-service-domaine.md` | oui | **corrigée** le 2026-09-08 avec la fiche usecase. Prémisse fausse retirée : le problème n'est pas une catégorie vide mais un dossier qui mélange deux natures. ROI classé et section sur le type ajoutés — les deux éléments du gabarit qui manquaient. `D6` retiré : c'était une déduction de `D1` et le contenu du § 8. Devient le domicile du discriminant usecase / service |
 | `fiche-api-interne.md` | oui | **corrigée** le 2026-09-08. `P5` a une source : la documentation liée à l'ADR 55 décide `application/api/models/`. `X3` est donc une convention non appliquée, pas une décision à prendre. `P3` se vérifie en régénérant `API.md` et en comparant. Le § 4 dit pourquoi le ROI de cette couche est décalé dans le temps |
 | `fiche-controleur.md` | oui | **corrigée** le 2026-09-08, puis **répercutée** après lecture de l'ADR 13 — qui conforte `C2` mais dont l'état est `Proposed`. `C2` gagne le cas de la transaction ouverte dans le contrôleur, vestige de l'ADR 9. L'écart « contrôle des droits dans le contrôleur » n'y est plus énoncé : il vit sous `X1` de `fiche-route.md`, où sont sa correction et sa vérification |
-| `fiche-entite.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Devient le domicile de `E3` et `E7`, que la fiche racine d'agrégat dupliquait. Écarts refaits en `X1` à `X5`. À faire relire |
+| `fiche-entite.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. Devient le domicile de `E3` et `E7`, que la fiche Aggregate Root dupliquait. Écarts refaits en `X1` à `X5`. À faire relire |
 | `fiche-usecase.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers, puis **répercutée** après lecture des ADR 9 et 25. `U7` est sourcé et donne un critère net : échouer-ensemble → une transaction sans événements, indépendant → pas de transaction. Le § 4bis a disparu : le discriminant vit dans `fiche-service-domaine.md`, cette fiche y renvoie. Écarts refaits en `X1` à `X5`, dont deux que d'autres fiches traitaient depuis l'autre bord. À faire relire |
 | `fiche-route.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers, puis **deux fois rectifiée** le même jour. `R2` a une source — la documentation d'architecture Pix. Et l'écart `X2` que j'y avais ajouté était faux : `auth: false` déclare déjà une route publique, donc la vérification de `R2` n'a aucun préalable. Numéro `X2` retiré |
 | `fiche-serialiseur.md` | **non** | **corrigée** le 2026-09-08 sans avoir été relue par un tiers. `M3` est le seul invariant du corpus dont la vérification ne peut pas vivre dans ce dépôt : ses consommateurs sont hors du dépôt |
@@ -206,7 +206,7 @@ Ce qui reste ouvert :
    read-model. `fiche-read-model.md`, issue de la même passe, n'a jamais été relue par un tiers : à
    faire relire avant les autres, puisqu'elle est neuve et non éprouvée.
 2. ~~`fiche-entite.md`~~ puis ~~`fiche-racine-agregat.md`~~ — **corrigées le 2026-09-08**, ensemble
-   comme prévu. Les duplications A4/E7 et A5/E3 sont résolues : l'énoncé vit dans la fiche entité, la
+   comme prévu. Les duplications A4/E7 et A5/E3 sont résolues : l'énoncé vit dans la fiche Entity, la
    fiche racine y renvoie et ajoute ce qui change pour une racine. Aucune des deux n'a été relue par
    un tiers dans cet état.
 3. ~~`fiche-usecase.md`~~ et ~~`fiche-service-domaine.md`~~ — **corrigées le 2026-09-08**, ensemble
@@ -232,14 +232,14 @@ Quatre découpages ont été discutés puis tranchés. Les raisons sont ici pour
 discriminant entre catégories n'appartient à aucune — ne tient pas : le gabarit a déjà un emplacement
 pour ça dans chaque fiche, la table « ce que ce fichier n'est pas ». Et trois arguments penchent pour
 la séparation : la checklist est l'artefact opérationnel et on relit **un** fichier à la fois ; les
-invariants d'une entité et d'un read-model ne sont pas des variantes d'une même chose ; la vérification
+invariants d'une Entity et d'un read-model ne sont pas des variantes d'une même chose ; la vérification
 déterministe diffère aussi (règle ESLint, revue humaine, test).
 
 **Le read-model a sa fiche.** Trois découpages ont été tenus successivement le 2026-09-08, et il faut
 les trois pour comprendre la position finale.
 
-1. *Variante de l'objet-valeur* — abandonné. L'anémie est précisément ce qui fait qu'un tel objet
-   n'est pas un objet-valeur ; un sac immuable sans comportement est un DTO au sens de Fowler.
+1. *Variante du Value Object* — abandonné. L'anémie est précisément ce qui fait qu'un tel objet
+   n'est pas un Value Object ; un sac immuable sans comportement est un DTO au sens de Fowler.
 2. *Catégorie sœur dans la même fiche* — abandonné aussi. Deux des trois critères de séparation énoncés
    plus haut tranchaient contre : on relit **un** fichier à la fois, et une checklist commune force le
    relecteur à sauter des lignes annotées — le reproche exact qui a fait éclater la fiche
@@ -249,7 +249,7 @@ les trois pour comprendre la position finale.
    pour ça, la table « ce que ce fichier n'est pas ».
 
 L'argument décisif est pédagogique. Présenter le read-model comme « V3 et V5 ne s'appliquent pas » le
-décrit comme un **objet-valeur défectueux**, et c'est ce cadrage qui rendait la distinction
+décrit comme un **Value Object défectueux**, et c'est ce cadrage qui rendait la distinction
 insaisissable. Deux fiches obligent chaque catégorie à se tenir sur ses propres termes.
 
 Le discriminant reste : **le domaine raisonne-t-il avec cet objet ?**, avec quatre tests applicables
@@ -267,18 +267,18 @@ Ce qui reste à faire est le **classement** des fichiers, pas le renommage : c'e
 fichier le décrit comme portant le « discriminant entre catégories de modèles ». Écarté : ce document
 est un **état des lieux daté**, et y placer du contenu stable casserait la règle qui fonde le corpus
 — les fiches sont pérennes, le reste se périme. Les cinq invariants mécaniques restent donc énoncés
-dans la fiche objet-valeur, et la fiche read-model y aiguille.
+dans la fiche Value Object, et la fiche read-model y aiguille.
 
 **La Specification est à part.** Un moteur de règles composable et piloté par des données a pour
 invariants la totalité, la pureté et la fermeture par composition — pas l'identité et le cycle de vie.
 
 *Contradiction arbitrée le 2026-09-08.* Il était écrit ici que le candidat évalué par une Specification
 est un read-model, ce que `R3` interdisait. Le discriminant tranche : si une règle lit ses valeurs pour
-décider, le candidat n'est pas un DTO, c'est un objet-valeur, et V3 et V5 s'appliquent à lui. `Q3` est
+décider, le candidat n'est pas un DTO, c'est un Value Object, et V3 et V5 s'appliquent à lui. `Q3` est
 devenu un test de classement, pas une interdiction.
 
-**Le service de domaine a sa fiche, malgré une catégorie clairsemée.** L'argument inverse a été tenu
-puis abandonné : il était incohérent avec la fiche racine d'agrégat, défendue **parce que** la notion
+**Le Domain Service a sa fiche, malgré une catégorie clairsemée.** L'argument inverse a été tenu
+puis abandonné : il était incohérent avec la fiche Aggregate Root, défendue **parce que** la notion
 est creuse. Une fiche est utile quand elle donne le critère de jugement, pas seulement quand la
 catégorie est peuplée. *Correction issue de la relecture : la catégorie n'est pas « presque vide » —
 33 vrais services sur 109 fichiers, dix contextes sur vingt à zéro.*
@@ -289,7 +289,7 @@ modèle commune : trois familles d'invariants sous une couverture, c'était troi
 une, et la checklist mélangeait des critères qu'on ne relit jamais ensemble. Ce qui était juste dans le
 regroupement est préservé par un parcours séparé, `fiche-application.md`.
 
-**Les DTO de contrat vont avec l'API interne**, pas avec les objets-valeurs : ce sont des formats
+**Les DTO de contrat vont avec l'API interne**, pas avec les Value Objects : ce sont des formats
 publiés, et leurs invariants sont ceux d'un contrat — stabilité, documentation, indépendance de
 l'appelant.
 
@@ -419,6 +419,10 @@ référence :
 - Couper une phrase ne doit pas couper son lien logique. Garder les « parce que », « donc », « sauf
   si », et vérifier que chaque pronom désigne encore le bon nom. En cas de doute, répéter le nom.
 - Simplifier ne doit pas affaiblir une règle : « ne doit pas pouvoir » n'est pas « ne doit pas ».
+- Les noms de patterns DDD restent en anglais, comme dans les ADR et les dossiers du code : Bounded
+  Context, Entity, Value Object, Aggregate, Aggregate Root, Repository, Domain Service,
+  Specification, Ubiquitous Language, Published Language, Anticorruption Layer. Le genre suit le mot
+  français : une Entity, un Value Object, une Aggregate Root. `read-model` garde sa graphie d'équipe.
 - Aucune phrase qui commente la fiche elle-même, ni qui prête une intention à l'auteur du code.
 - Trois éléments ou plus dans une phrase deviennent une liste.
 

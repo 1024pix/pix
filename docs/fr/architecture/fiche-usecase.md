@@ -60,8 +60,8 @@ ci-dessous s'y appliquent.
 Un usecase réalise **une intention métier** de bout en bout. Il orchestre : il appelle des
 repositories, construit ou fait évoluer des objets du domaine, et décide de l'ordre des opérations.
 
-Il ne calcule aucune règle lui-même. Les règles vivent sur les entités, les objets-valeurs et les
-racines d'agrégat ; le usecase les fait jouer dans le bon ordre, avec les bonnes données.
+Il ne calcule aucune règle lui-même. Les règles vivent sur les Entities, les Value Objects et les
+Aggregate Roots ; le usecase les fait jouer dans le bon ordre, avec les bonnes données.
 
 C'est la couche la plus lue du contexte : on ouvre un usecase pour comprendre ce que le système fait.
 Sa qualité de lecture compte donc autant que sa correction.
@@ -71,7 +71,7 @@ Sa qualité de lecture compte donc autant que sa correction.
 > Un usecase ne contient **aucun calcul métier**. Un `if` sur « l'objet a-t-il été trouvé » est
 > légitime ; un `if` sur une condition métier signifie qu'une règle a fui hors du modèle.
 
-### Usecase ou service de domaine
+### Usecase ou Domain Service
 
 Le discriminant tient dans la signature, et il est énoncé au § 1 de `fiche-service-domaine.md` — une
 fois, parce qu'il n'appartient à aucune des deux catégories.
@@ -81,7 +81,7 @@ correspond à `/(Repository|Api|Storage)$/` fait des I/O, donc **c'est un usecas
 dossier. Tous les invariants de cette fiche s'y appliquent sans exception.
 
 Le partage entre plusieurs usecases est une raison légitime de factoriser un fichier. Ce n'est pas ce
-qui en ferait un service de domaine.
+qui en ferait un Domain Service.
 
 ### Ce qu'un usecase n'est pas
 
@@ -89,8 +89,8 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un usecase.
 
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
-| applique une règle sur des objets d'une même frontière de cohérence | la racine d'agrégat | `fiche-racine-agregat.md` |
-| applique une règle sur un seul objet | l'entité ou l'objet-valeur | `fiche-entite.md`, `fiche-objet-valeur.md` |
+| applique une règle sur des objets d'une même frontière de cohérence | l'Aggregate Root | `fiche-racine-agregat.md` |
+| applique une règle sur un seul objet | l'Entity ou le Value Object | `fiche-entite.md`, `fiche-objet-valeur.md` |
 | applique une règle sans aucune I/O dans sa signature | `domain/services/` | `fiche-service-domaine.md` |
 | compose des règles évaluables et pilotées par des données | une Specification | `fiche-specification.md` |
 | accède à une source de données | un repository | `fiche-repository.md` |
@@ -200,7 +200,7 @@ est exempté dans la règle du § 6 plutôt que de servir de précédent.
 **Énoncé.** Un fichier par usecase, nommé par le **verbe de l'intention** : `start-course`,
 `archive-organization`, `reward-user`. Pas par la ressource, pas par la couche.
 
-Le nom est celui du langage ubiquitaire du contexte. Deux contextes peuvent avoir un usecase du même
+Le nom est celui du Ubiquitous Language du contexte. Deux contextes peuvent avoir un usecase du même
 nom désignant deux choses différentes : c'est attendu, mais ça se paie à la lecture d'un import.
 
 **Ce qui casse.** La liste des fichiers de `usecases/` cesse d'être la liste de ce que le contexte
@@ -256,7 +256,7 @@ seule ne suffit pas à savoir si le usecase s'exécute dans une transaction. Voi
 `fiche-repository.md`, où cet écart est instruit. La contrepartie est de **documenter le périmètre**
 quand il n'est pas évident.
 
-**Sur plusieurs agrégats.** L'ADR 25 retient explicitement la transaction qui en couvre plusieurs
+**Sur plusieurs Aggregates.** L'ADR 25 retient explicitement la transaction qui en couvre plusieurs
 quand les écritures doivent échouer ensemble. C'est une position différente de celle de Vernon — voir
 `A7` et `X4` de `fiche-racine-agregat.md`, où le choix est instruit.
 
@@ -308,7 +308,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Le fichier de câblage `usecases/index.js` importe l'infrastructure | **autorisé**, exempté dans la règle. Voir X3 |
 | Un usecase reçoit un journal en dépendance injectée | **autorisé** — injecté, pas importé. À distinguer d'un modèle qui importe l'infrastructure |
 | Un usecase enveloppe son corps dans un `try/catch` qui journalise | **à discuter** — commode, mais avale les erreurs de programmation et les rend invisibles |
-| Un fichier de `services/` sans I/O, testé en unitaire pur | **autorisé**, c'est un vrai service de domaine |
+| Un fichier de `services/` sans I/O, testé en unitaire pur | **autorisé**, c'est un vrai Domain Service |
 | Un fichier de `services/` qui reçoit un repository | **pas une exception** — c'est un usecase, à traiter comme tel |
 
 ---
@@ -336,7 +336,7 @@ Ces invariants ne disent pas si le découpage en usecases est le bon, ni si une 
 mérite son usecase. Un usecase par route est une convention, pas une garantie de pertinence : elle
 produit aussi des usecases qui ne font que déléguer.
 
-Et ils ne disent pas si le fichier méritait d'être un usecase plutôt qu'un service de domaine. C'est
+Et ils ne disent pas si le fichier méritait d'être un usecase plutôt qu'un Domain Service. C'est
 le test du § 1 de `fiche-service-domaine.md` qui répond.
 
 ---
@@ -355,11 +355,11 @@ Les écarts sont numérotés `X` et non `U`, qui est le préfixe des invariants 
 
 ### X1. La règle métier vit dans le usecase
 
-**Ce que dit la théorie.** Martin distingue les règles d'entreprise, qui vivent dans les entités, des
+**Ce que dit la théorie.** Martin distingue les règles d'entreprise, qui vivent dans les Entities, des
 règles applicatives, qui orchestrent. Fowler nomme le symptôme obtenu quand la distinction tombe : le
 modèle anémique.
 
-Cet écart est le même que celui vu depuis l'entité, où le symptôme est le modèle vide. Il est énoncé
+Cet écart est le même que celui vu depuis l'Entity, où le symptôme est le modèle vide. Il est énoncé
 ici, où se trouve le fichier fautif — `fiche-entite.md` y renvoie.
 
 **Exemple concret.**
@@ -542,7 +542,7 @@ sous-contextes ne sont pas atteints et la règle ne se déclenche jamais, sans l
 ### Le discriminant — la règle qui force la décision
 
 Un fichier de `domain/services/` qui reçoit un paramètre dont le nom finit par `Repository`, `Api` ou
-`Storage` fait des I/O, donc n'est pas un service de domaine.
+`Storage` fait des I/O, donc n'est pas un Domain Service.
 
 Elle est triviale à écrire et sortira sur l'existant. **C'est son intérêt** : elle transforme une
 ambiguïté de vocabulaire en décision datée. À introduire en avertissement le temps de trancher X1 de
@@ -639,8 +639,8 @@ L'existence du fichier de test se vérifie par comparaison de noms. Moyens et li
 `fiche-repository.md`.
 
 Un indice de diagnostic, avec sa borne. **Si un usecase demande beaucoup de fixtures pour un cas
-simple, c'est souvent que son agrégat est trop gros** — voir A6 de `fiche-racine-agregat.md`. La
-borne : un usecase qui traverse légitimement plusieurs agrégats en demandera beaucoup sans qu'aucun
+simple, c'est souvent que son Aggregate est trop gros** — voir A6 de `fiche-racine-agregat.md`. La
+borne : un usecase qui traverse légitimement plusieurs Aggregates en demandera beaucoup sans qu'aucun
 soit trop gros.
 
 ---
@@ -681,7 +681,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | Invariant | Source | Où vérifier |
 | --- | --- | --- |
 | Le usecase comme couche | Martin, *Clean Architecture*, ch. « Business Rules » — distinction *Entities* / *Use Cases* | le livre de 2017 ; billet « The Clean Architecture » gratuit |
-| **U1** aucune règle métier | Martin, même ch. — les règles d'entreprise sont dans les entités, les règles applicatives dans les usecases. Fowler, « AnemicDomainModel » pour le symptôme inverse | bliki gratuit |
+| **U1** aucune règle métier | Martin, même ch. — les règles d'entreprise sont dans les Entities, les règles applicatives dans les usecases. Fowler, « AnemicDomainModel » pour le symptôme inverse | bliki gratuit |
 | **U2** dépendances injectées | Martin, ch. « The Dependency Inversion Principle ». Pix : **ADR 46**, avec son motif ESM | ADR 46 |
 | **U3** aucun import d'infrastructure | Martin, « The Clean Architecture » — la règle de dépendance | billet gratuit |
 | **U4** une intention, un fichier | Pix : **ADR 20** pour le caractère obligatoire, **ADR 51** pour l'arborescence. Le nommage par verbe n'a **aucune source** | ADR 20 et 51 |
@@ -689,7 +689,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **U7** périmètre transactionnel | Pix : **ADR 25**, qui remplace l'ADR 9 et interdit les événements dans une transaction, sur un motif mesuré — des deadlocks en production. Le critère échouer-ensemble / indépendamment vient de ses conséquences. Vernon, règle 4, pour la cohérence différée | ADR 25 ; dddcommunity.org |
 | **U8** enregistré dans l'index | **aucune source** — outillage Pix | — |
 | **U9** API interne obligatoire | Pix : **ADR 55**, qui décide les APIs internes synchrones et énumère les coûts acceptés | ADR 55 |
-| Le discriminant avec le service de domaine | Evans, *DDD*, ch. « A Model Expressed in Software » — le Service y est défini sans état et sans I/O | *DDD Reference* |
+| Le discriminant avec le Domain Service | Evans, *DDD*, ch. « A Model Expressed in Software » — le Service y est défini sans état et sans I/O | *DDD Reference* |
 
 **Deux invariants sur neuf n'ont aucune source** : U8, et le nommage par verbe de U4. Quatre
 invariants renvoient directement à un ADR Pix, ce qui les rend contestables sur pièces plutôt que par

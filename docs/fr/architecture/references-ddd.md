@@ -33,7 +33,7 @@ par titre — à ouvrir avant de s'en servir comme argument.*
 
 ### Ce que les ADR établissent, et qui change la lecture des écarts
 
-**Pix vient de la Clean Architecture d'Uncle Bob, et les contextes bornés sont arrivés par-dessus.**
+**Pix vient de la Clean Architecture d'Uncle Bob, et les Bounded Contexts sont arrivés par-dessus.**
 ADR 46 le dit (« inspirée par la Clean architecture »), ADR 51 en fait une contrainte à respecter, et
 ADR 55 cite la source. La solution 1 d'ADR 51 a d'ailleurs été **rejetée** au motif qu'elle
 « ne respecte pas les contraintes », c'est-à-dire qu'elle modifiait la Clean Archi existante.
@@ -85,7 +85,7 @@ S5 de `fiche-specification.md`.
 
 Evans, *DDD*, chapitre **« A Model Expressed in Software »** (ch. 5).
 
-Le point qui nous concerne le plus : un Service de domaine y est défini comme sans état et sans I/O.
+Le point qui nous concerne le plus : un Domain Service y est défini comme sans état et sans I/O.
 C'est la base de l'écart DDT-6 (`domain/services/` de `quest` contient de l'orchestration).
 
 **Fowler, « AnemicDomainModel »** — <https://martinfowler.com/bliki/AnemicDomainModel.html>
@@ -100,10 +100,10 @@ Evans, *DDD*, chapitre **« The Life Cycle of a Domain Object »** (ch. 6).
 **Vernon, « Effective Aggregate Design »** — trois articles gratuits.
 <https://www.dddcommunity.org/library/vernon_2011/>
 
-La référence pratique sur le **grain** d'un agrégat, et donc sur notre écart DDT-5 (22 repositories
+La référence pratique sur le **grain** d'un Aggregate, et donc sur notre écart DDT-5 (22 repositories
 pour 6 familles de modèles, `CombinedCourse` et `CombinedCourseParticipation` racines toutes les
-deux). Vernon y défend explicitement les petits agrégats et le référencement par identité entre
-agrégats — ce que `rewardType`/`rewardId` fait correctement vers le contexte `profile`.
+deux). Vernon y défend explicitement les petits Aggregates et le référencement par identité entre
+Aggregates — ce que `rewardType`/`rewardId` fait correctement vers le contexte `profile`.
 
 ### Read model — le mot ne vient pas de DDD
 
@@ -168,7 +168,7 @@ mot, et elles n'ont pas les mêmes invariants :
 
 | Ce que recouvre `read-model` | Ce que c'est | Où ça va |
 | --- | --- | --- |
-| un objet qu'une règle du domaine lit pour décider | un **objet-valeur** mal rangé | `domain/models/`, avec validation et comportement. `fiche-objet-valeur.md` |
+| un objet qu'une règle du domaine lit pour décider | un **Value Object** mal rangé | `domain/models/`, avec validation et comportement. `fiche-objet-valeur.md` |
 | une forme produite pour une lecture, sans règle | un **read-model** | `domain/read-models/`, rien à faire. `fiche-read-model.md` |
 | le contrat publié vers un autre contexte | un **DTO de contrat** | `application/api/`, où le mot est trompeur |
 
@@ -180,7 +180,7 @@ objets, l'architecture correspondante n'étant pas en place.
 
 **La même appropriation existe du côté écriture**, et elle est passée inaperçue plus longtemps. Les
 modèles `…ForCreation` et `…ForUpdate` ressemblent aux **commandes** de CQRS. Le motif est le même
-qu'un read-model : ne pas passer par l'agrégat entier. L'architecture manquante est la même aussi.
+qu'un read-model : ne pas passer par l'Aggregate entier. L'architecture manquante est la même aussi.
 
 La différence tient au motif invoqué. Un read-model répond à un besoin de lecture réel. Une forme
 d'écriture partielle répond le plus souvent à une optimisation **non mesurée**, ce qui la rend plus
@@ -190,7 +190,7 @@ difficile à défendre. C'est `X7` de `fiche-objet-valeur.md`.
 
 Evans, *DDD*, chapitre **« The Life Cycle of a Domain Object »** (ch. 6).
 
-À noter pour l'honnêteté intellectuelle : chez Evans, un Repository sert à retrouver les agrégats de
+À noter pour l'honnêteté intellectuelle : chez Evans, un Repository sert à retrouver les Aggregates de
 **son propre** contexte. Notre lecture — le repository comme port unique vers l'extérieur, y compris
 vers un contexte voisin — vient de la tradition ports & adaptateurs, pas de DDD à la lettre. Les deux
 sources ci-dessous sont donc celles qui fondent réellement notre convention.
@@ -208,7 +208,7 @@ extérieur au même titre qu'une base de données, et le domaine ne sait pas leq
 Version courte du livre. Les cercles, la règle de dépendance, et le fait que la frontière se
 franchit par une interface possédée par la couche interne.
 
-Martin, *Clean Architecture* (2017), chapitres **« Business Rules »** (entités vs cas d'usage) et
+Martin, *Clean Architecture* (2017), chapitres **« Business Rules »** (Entities vs cas d'usage) et
 **« The Dependency Inversion Principle »**. Le premier est la source de notre démarcation
 repository / usecase / service.
 
@@ -218,7 +218,7 @@ Evans, *DDD*, chapitre **« Maintaining Model Integrity »** (ch. 14, partie « 
 
 Trois patterns qu'on utilise nommément :
 
-- **Bounded Context** : la frontière, et le critère qui compte — un langage ubiquitaire cohérent,
+- **Bounded Context** : la frontière, et le critère qui compte — un Ubiquitous Language cohérent,
   pas une taille de dossier. C'est ce qui justifie de séparer `quest` (moteur) des parcours combinés.
 - **Anticorruption Layer** : la couche qui traduit le modèle d'un voisin dans le vocabulaire local.
   `QuestInput` en est une.
@@ -243,7 +243,7 @@ du DDD affaiblirait celles qui en viennent vraiment.
 | --- | --- |
 | `get*` lève, `find*` renvoie `null` | **aucune source**, ni externe ni ADR. Convention orale |
 | Nom de fichier en `-api.repository.js` | **aucune source**. Usage observé dans `privacy`, `organizational-entities`, `identity-access-management` |
-| Un objet-valeur par intention d'écriture (`…ForCreation`, `…ForUpdate`) | **aucune source**. Proche de Command / DTO d'entrée, pas nommé ainsi |
+| Un Value Object par intention d'écriture (`…ForCreation`, `…ForUpdate`) | **aucune source**. Proche de Command / DTO d'entrée, pas nommé ainsi |
 | Règles de test par couche (`quest/CLAUDE.md`) | **convention d'équipe**, écrite dans le contexte, pas dans un ADR |
 | `dependencies.json` + `dependsOn` par contexte | **outillage Pix**. Matérialise la Context Map d'Evans, qui est un document et non un fichier vérifié en CI |
 | Le repository comme port vers un contexte voisin | **lecture ports & adaptateurs**, pas DDD à la lettre — voir la note sous « Repository ». Cohérent avec ADR 55 sans y être nommé ainsi |
@@ -259,7 +259,7 @@ existante, et elle source plusieurs points que le corpus donnait pour convention
 | --- | --- |
 | La logique d'autorisation « doit être réalisée autant que possible dans les securityPreHandlers, plutôt que dans les controllers ou les usecases » | `R2` de `fiche-route.md`, qui était donné sans source |
 | Le contrat d'un securityPreHandler : paramètres, valeurs de retour, utilitaire de combinaison des accès | la forme prescrite de `R2` |
-| Le domaine « se compose de deux grosses parties : les use cases et les entités » | le placement des usecases dans `domain/` |
+| Le domaine « se compose de deux grosses parties : les use cases et les Entities » | le placement des usecases dans `domain/` |
 | L'infrastructure contient « les repositories, la sérialisation et différents services » | le placement des sérialiseurs dans `infrastructure/` |
 | L'application dépend de l'infrastructure, qui dépend du domaine | le fait que `C4` vise `infrastructure/repositories/` et non toute l'infrastructure |
 | « Dans la majorité des cas on utilise le format json-api, c'est le format à privilégier » | le format de sortie supposé par `fiche-serialiseur.md` |
@@ -270,7 +270,7 @@ existante, et elle source plusieurs points que le corpus donnait pour convention
 Elle est **hors du dépôt**. Une page Confluence change sans que rien ici ne le signale.
 
 Elle est **datée** : la page *5.Bout en bout* emploie des chemins `api/lib/…`, donc elle décrit
-l'arborescence d'avant l'ADR 51 et les contextes bornés.
+l'arborescence d'avant l'ADR 51 et les Bounded Contexts.
 
 Et la page *4.Application* porte son **propre `TODO`** : « préciser des pistes d'améliorations ou
 valider ce qui est documenté ici en précisant que c'est le contrat qu'il faut suivre (plutôt que
@@ -299,7 +299,7 @@ que le corpus donnait pour conventions sans appui.
 
 **La réserve, et elle est importante** : ce fichier décrit `lib/`, avec les trois couches à la racine.
 Cette arborescence **n'existe plus** — l'ADR 51 l'a remplacée par un triplet répliqué dans chaque
-contexte borné. Le **sens des dossiers** a survécu à la migration, la structure non.
+Bounded Context. Le **sens des dossiers** a survécu à la migration, la structure non.
 
 Ce qu'il ne couvre pas : le **nommage des fichiers**. PascalCase pour un modèle, kebab-case pour un
 usecase, le suffixe `-repository` — rien de tout cela n'y figure. Les invariants de nommage restent
