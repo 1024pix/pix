@@ -357,6 +357,20 @@ la commente pas, ne raconte pas ses propres révisions. Pas de première personn
 d'emphase rhétorique. Phrases courtes. Une décision d'équipe se mentionne comme un fait, pas comme un
 argument.
 
+Concrètement, d'après les guides de langage clair (ISO 24495-1) et Diátaxis pour la documentation de
+référence :
+
+- Une idée par phrase, vingt mots au plus. La règle d'abord, le motif ensuite.
+- Voix active, le verbe plutôt que le nom.
+- Pas d'incise en tiret cadratin dans la prose. Un point, deux points ou une phrase de plus.
+- Du gras seulement sur le terme à repérer, une fois par paragraphe au plus.
+- Des mots courants, un seul mot pour une même chose. Pas de jargon maison : « se déclencher » et non
+  « sortir sur », « s'appliquer » et non « mordre », « décider » et non « trancher ».
+- Aucune phrase qui commente la fiche elle-même, ni qui prête une intention à l'auteur du code.
+- Trois éléments ou plus dans une phrase deviennent une liste.
+
+`fiche-service-domaine.md` sert de référence pour ce niveau de langue.
+
 **3. Chaque invariant énonce son ROI**, et les invariants sont classés par rentabilité. Un invariant
 dont le ROI n'est pas énonçable n'a pas sa place dans une fiche, ou est classé en hygiène.
 
