@@ -39,8 +39,16 @@ typage de mordre est dans `migration-typescript.md`.
 | [**A3**](#a3-un-repository-par-racine-et-seulement-pour-les-racines) | un repository par racine | hygiène | indicateur, après X2 |
 
 [**Invariants hérités de l'entité**](#les-invariants-hérités-de-lentité) — toute racine est une
-entité, donc E1 à E8 de `fiche-entite.md` s'appliquent intégralement. Deux y jouent un rôle
-particulier : `E3` les invariants tenus à tout instant, et `E7` la référence par identité.
+entité, donc E1 à E8 de `fiche-entite.md` s'appliquent intégralement. Quatre sont repris ci-dessous :
+`E3` et `E7` jouent un rôle particulier pour une racine, `E4` et `E6` reviennent dans la checklist
+du § 9.
+
+| # | Invariant | ROI | Vérification |
+| --- | --- | --- | --- |
+| [**E3**](fiche-entite.md#e3-les-invariants-sont-tenus-à-tout-instant) | les invariants sont tenus à tout instant | **forte** | règle ESLint, bruyante |
+| [**E6**](fiche-entite.md#e6-aucun-mutateur-nu) | aucun mutateur nu | **forte** | règle ESLint |
+| [**E7**](fiche-entite.md#e7-les-autres-agrégats-sont-référencés-par-identité) | les autres agrégats sont référencés par identité | **forte** | revue |
+| [**E4**](fiche-entite.md#e4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
 
 **Écarts** — triés par verdict, comme au § 5.
 
@@ -145,8 +153,8 @@ vient pas, il n'y a pas de frontière à protéger.
 ```
 
 Le premier énoncé est **mince** : il contraint un type, pas une quantité métier. Un invariant mince
-reste un invariant, mais c'est un signal — si c'est tout ce que la frontière garantit, la question de
-A6 se pose aussitôt : porter cette collection vaut-il son chargement ?
+reste un invariant, mais c'est un signal — si c'est tout ce que la frontière garantit, une question se
+pose aussitôt, reprise plus bas : porter cette collection vaut-il son chargement ?
 
 Le second n'est pas un invariant mais une observation sur les habitudes de chargement. C'est le seul
 énoncé disponible pour un objet assemblé pour un écran, et c'est exactement pourquoi ces objets ne
@@ -176,10 +184,10 @@ class CombinedCourse {
 
 // conforme — la racine ne rend que des résultats, jamais la collection
 get participationsCount() {
-  return this.#participations.length;
+  return this.participations.length;
 }
 get completedParticipationsCount() {
-  return this.#participations.filter((participation) => participation.isCompleted()).length;
+  return this.participations.filter((participation) => participation.isCompleted()).length;
 }
 ```
 
@@ -200,6 +208,24 @@ dans l'agrégat. S'ils ont besoin d'être retrouvés indépendamment, ils ne son
 
 **Énoncé.** Le nombre de repositories d'un contexte dit combien d'unités de cohérence il a.
 
+```
+// fautif — cinq repositories pour une seule frontière de cohérence, détaillé en X3 au § 5
+infrastructure/repositories/
+  combined-courses/
+    combined-course-repository.js               getById, save
+  combined-course-details-repository.js         getById, avec tout ce qu'un écran affiche
+  combined-course-participations/
+    combined-course-participation-repository.js une entité interne à la frontière
+    organization-learner-participation-repository.js
+  prescription/
+    combined-course-participant-repository.js   la même frontière, vue d'un autre besoin
+
+// conforme — un seul repository pour la racine
+infrastructure/repositories/
+  combined-courses/
+    combined-course-repository.js               getById, save
+```
+
 C'est l'invariant le plus souvent abandonné en pratique, parce que le découpage réel suit les besoins
 de requêtage. **Deux positions sont cohérentes, une troisième ne l'est pas :**
 
@@ -216,6 +242,23 @@ il ne prévient aucun défaut, il préserve la valeur d'un indicateur. Voir X3 a
 ### A6. Petit agrégat
 
 **Énoncé.** Préférer plusieurs petits agrégats reliés par identité à un gros agrégat qui tient tout.
+
+```js
+// fautif — le constructeur porte douze champs, alors que la seule chose que la
+// frontière garantit porte sur un seul d'entre eux : « participations »
+constructor(
+  {
+    id, code, organizationId, name, description, illustration,
+    participations = [], questId, blueprintId = null,
+    deletedAt = null, deletedBy = null, baseSurveyUrl = null,
+  } = {},
+  quest,
+) { … }
+
+// conforme — version corrigée : le constructeur ne porte que ce que l'invariant
+// engage ; le reste (nom, description, illustration…) va dans un read-model
+constructor({ id, participations = [] } = {}) { … }
+```
 
 Un agrégat grossit naturellement, parce qu'il est commode d'y ajouter ce qu'on a sous la main. Deux
 questions à poser à chaque ajout :
@@ -237,6 +280,19 @@ charger partiellement. Le modèle partiellement rempli est écarté pour la rais
 - la frontière est mal placée, et les deux n'en font qu'un ;
 - ou ils sont bien distincts, et la cohérence entre eux se règle **à terme** — un événement, un job,
   une réconciliation.
+
+Le fautif est déjà montré en X4 au § 5 — l'exemple y est nécessaire pour instruire la décision Pix, il
+n'est pas répété ici.
+
+```js
+// conforme — une seule écriture, un seul agrégat modifié
+export const changeUserLocale = async function ({ userId, locale, userRepository }) {
+  const lang = getBaseLocale(locale);
+
+  await userRepository.update({ id: userId, lang, locale });
+  return userRepository.get(userId);
+};
+```
 
 **Ce qui casse.** Une transaction qui couvre plusieurs agrégats verrouille plus de lignes que
 nécessaire, et fait échouer des opérations sans rapport entre elles. Et elle masque une frontière mal
@@ -315,7 +371,8 @@ depuis le code.
 en permanence. Sans cette règle, il n'y a pas d'agrégat.
 
 **Exemple concret.** Un dossier qui annonce une frontière de cohérence et contient des projections de
-lecture :
+lecture — deux dossiers `aggregates/` réels, de contextes distincts, réunis ici sous un chemin
+générique :
 
 ```
 domain/models/<un-domaine>/
@@ -488,7 +545,19 @@ code, et aucune analyse statique ne peut la déduire.
 Ce n'est pas une limite de l'outillage mais une absence d'information. La conséquence pratique est
 l'ordre ci-dessous : déclarer avant d'outiller.
 
+### Pièges d'implémentation
+
+- Calculer l'indicateur de A3 avant d'avoir fait X2 : le rapport compare alors un nombre de
+  repositories à zéro racine déclarée, ce qui ne produit rien de lisible.
+- Lancer le codemod de X1 avant d'avoir classé chaque fichier avec le test du § 1 : il applique une
+  décision qui n'a pas encore été prise, et déplace au hasard.
+- Écrire la règle ESLint d'A2 sans la mutualiser avec V7 de `fiche-objet-valeur.md` : la même
+  vérification finit dupliquée dans deux fiches.
+
 ### Ordre de mise en œuvre
+
+L'ordre suit le coût et les dépendances entre points, pas le ROI du § 4 : A1, la plus rentable,
+vient en dernier parce qu'elle dépend de X2.
 
 1. **X2** — déclarer les racines et leur invariant de frontière, par contexte
 2. **X1** — appliquer le test du § 1 aux dossiers `aggregates/` et renommer selon le résultat
@@ -579,9 +648,9 @@ différemment sur une racine.
 [ ] [auto]    E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
 ```
 
-À terme il reste sept lignes, toutes de jugement. C'est la fiche la moins mécanisable du corpus, et
-la raison est structurelle : ses invariants portent sur une frontière que le code ne déclare pas.
-X2 est ce qui déplacerait cette limite.
+À terme il reste huit lignes : deux partielles (A3, E3), six de pur jugement. C'est la fiche la moins
+mécanisable du corpus, et la raison est structurelle : ses invariants portent sur une frontière que le
+code ne déclare pas. X2 est ce qui déplacerait cette limite.
 
 ---
 

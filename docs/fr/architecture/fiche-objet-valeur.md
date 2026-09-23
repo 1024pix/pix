@@ -16,9 +16,9 @@ typage de mordre est dans `migration-typescript.md`.
 >   conditionne X5, et se fait fichier par fichier.
 > - Les numéros d'écart commencent à X2 : X1 et X6 portaient sur le read-model et ont suivi la création
 >   de `fiche-read-model.md`. Les numéros ne sont pas réattribués.
-> - **Contradiction tranchée le 2026-09-08**, comme dans `fiche-entite.md` : la fiche garde sa règle.
->   Le motif retenu est qu'un champ qui porte une règle ne doit pas pouvoir être réécrit de
->   l'extérieur — ce qui, pour un objet-valeur immuable par définition, vaut pour tous ses champs.
+> - Cohérence avec `fiche-entite.md` : la fiche garde sa règle. Le motif retenu est qu'un champ qui
+>   porte une règle ne doit pas pouvoir être réécrit de l'extérieur — ce qui, pour un objet-valeur
+>   immuable par définition, vaut pour tous ses champs.
 
 ## Sommaire
 
@@ -29,18 +29,18 @@ typage de mordre est dans `migration-typescript.md`.
 [8. Tests attendus](#8-tests-attendus) · [9. Checklist de revue](#9-checklist-de-revue) ·
 [10. Sources](#10-sources)
 
-**Invariants**
+**Invariants** — classés par ROI, comme au § 4.
 
 | # | Invariant | ROI | Vérification |
 | --- | --- | --- | --- |
-| [**V1**](#v1-immuable-après-construction) | immuable après construction | moyenne | règle ESLint |
-| [**V2**](#v2-aucune-identité-égalité-par-valeur) | aucune identité, égalité par valeur | moyenne | règle ESLint, après X5 |
 | [**V3**](#v3-validation-à-la-construction) | validation à la construction | **forte** | revue |
-| [**V4**](#v4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
 | [**V5**](#v5-porte-le-comportement-lié-à-ses-données) | porte le comportement lié à ses données | **forte** | revue |
-| [**V6**](#v6-aucun-cycle-de-vie-propre) | aucun cycle de vie propre | hygiène | script |
+| [**V1**](#v1-immuable-après-construction) | immuable après construction | moyenne | règle ESLint |
 | [**V7**](#v7-exposition-en-lecture-seule-collections-comprises) | exposition en lecture seule, collections comprises | moyenne | règle ESLint |
+| [**V4**](#v4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
 | [**V8**](#v8-un-type-par-intention) | un type par intention | moyenne | revue, puis typage |
+| [**V2**](#v2-aucune-identité-égalité-par-valeur) | aucune identité, égalité par valeur | moyenne | règle ESLint, après X5 |
+| [**V6**](#v6-aucun-cycle-de-vie-propre) | aucun cycle de vie propre | hygiène | script |
 
 **Écarts** — triés par verdict, comme au § 5.
 
@@ -112,10 +112,9 @@ chose ?** »
 
 ```js
 // objet-valeur : petit, nommé par le métier, porte une règle qui décide
-class Threshold {
-  #value;
-  constructor({ value }) { /* validation */ this.#value = value; }
-  isReachedBy(percentage) { return percentage >= this.#value; }
+class BadgeCriterionForCalculation {
+  constructor({ threshold, skillIds }) { this.threshold = threshold; this.skillIds = skillIds; }
+  isFulfilled(knowledgeElements) { return this.getAcquisitionPercentage(knowledgeElements) === 100; }
 }
 
 // read-model : large, nommé par son écran, dérive sans décider
@@ -180,7 +179,7 @@ Aucune écriture après le constructeur. Ni mutateur, ni champ public assignable
 class AnswerStatus {
   #status;
   constructor({ status }) { /* validation */ this.#status = status; }
-  isOK() { return this.#status === OK; }
+  isOK() { return this.#status === statuses.OK; }
 }
 
 // fautif — champ public, réassignable de l'extérieur
@@ -295,10 +294,13 @@ Le symptôme est visible dans les imports :
 // dans un objet-valeur de domain/models/ — fautif
 import { logger } from '…/shared/infrastructure/utils/logger.js';
 
-// et son usage, qui est le motif réel : tracer un cas non évaluable
-if (comparisonIsInvalid) {
-  logger.error(`comparaison invalide : ${this.comparison}`);
-  return false;
+// et son usage, qui est le motif réel : tracer un cas non évaluable avant de lever
+getDeletableOrganizationLearners(organizationLearnerIdsToDelete, userId) {
+  if (this.organizationLearners.length !== organizationLearnerIdsToDelete.length) {
+    logger.error(`User id ${userId} could not delete organization learners because …`);
+    throw new CouldNotDeleteLearnersError();
+  }
+  return this.organizationLearners;
 }
 ```
 
@@ -464,9 +466,9 @@ son consommateur.
 
 ```js
 // la clé n'existe que pour le store du client, et rien ne la relit côté serveur
-this.id = `${campaignId}_${competenceId}`;
-this.id = `${userId}_${competenceId}`;
-this.id = `${areaId}_${trainingTriggerId}`;
+this.id = `${campaignId}_${this.competenceId}`;
+this.id = `${id}_${trainingTriggerId}`;
+this.id = `${attestationKey}_${organizationLearnerId}`;
 ```
 
 Le motif se reconnaît à deux traits : l'objet porte déjà les deux parties, et la concaténation n'est
@@ -531,7 +533,7 @@ primitives circulent vers le domaine :
 
 ```js
 // à la route
-validate: { payload: Joi.object({ threshold: Joi.number().min(0).max(100) }) }
+payload: Joi.object({ threshold: Joi.number().min(0).max(100).required() })
 
 // puis, dans le domaine
 function apply({ threshold }) { … }   // un number, sans garantie propre
@@ -577,9 +579,10 @@ garantir.
 et `readonly` en TypeScript est effacé à la compilation. La garantie se construit à la main :
 
 ```js
-class Code {
-  #value;                              // inaccessible de l'extérieur
-  get value() { return this.#value; }  // aucune écriture exposée
+export class CriterionProperty {
+  #key;                                  // inaccessible de l'extérieur
+  constructor(args) { this.#key = args.key; /* … */ }
+  get key() { return this.#key; }        // aucune écriture exposée
 }
 ```
 
@@ -595,8 +598,7 @@ Les taux de faux positifs annoncés sont estimés. Toute hypothèse sur le compo
 vérifie par contre-épreuve : introduire la violation, confirmer que l'outil sort, retirer la violation.
 
 Il n'existe aucun plugin ESLint maison : toute règle sur mesure suppose d'abord de créer cette
-infrastructure, et les coûts ci-dessous ne comptent que la règle. Ce point est daté, à retirer dès que
-l'infrastructure existe.
+infrastructure, et les coûts ci-dessous ne comptent que la règle.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |

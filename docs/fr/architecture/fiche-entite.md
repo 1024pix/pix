@@ -13,11 +13,11 @@ typage de mordre est dans `migration-typescript.md`.
 > - E3 et E7 sont énoncés ici et valent aussi pour une racine d'agrégat, qui y renvoie. Vérifier à
 >   chaque reprise que les deux fiches ne les réénoncent pas.
 > - Les écarts sont numérotés `X` et non `E`, qui est déjà le préfixe des invariants de cette fiche.
-> - **Contradiction tranchée le 2026-09-08.** Le modèle de référence de la documentation
->   d'architecture expose des champs publics assignables, ce que `E1` et `E6` excluent. La fiche garde
->   sa règle, avec son motif explicite : **un champ qui porte une règle ne doit pas pouvoir être
->   réécrit de l'extérieur.** Là où rien n'est protégé, c'est de l'hygiène et non un invariant. La
->   page de documentation est antérieure aux contextes bornés et n'est pas la cible.
+> - Le modèle de référence de la documentation d'architecture expose des champs publics assignables,
+>   ce que `E1` et `E6` excluent. La fiche garde sa règle, avec son motif explicite : **un champ qui
+>   porte une règle ne doit pas pouvoir être réécrit de l'extérieur.** Là où rien n'est protégé, c'est
+>   de l'hygiène et non un invariant. La page de documentation est antérieure aux contextes bornés et
+>   n'est pas la cible.
 
 ## Sommaire
 
@@ -135,15 +135,19 @@ Deux instances de mêmes valeurs et d'identifiants différents sont deux entité
 
 ```js
 // conforme
-const isSamePassage = (a, b) => a.id === b.id;
+static areEqualById(oneSkill, otherSkill) {
+  return oneSkill.id === otherSkill.id;
+}
 
-// fautif — la comparaison dépend des champs chargés par la requête
-const isSamePassage = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+// fautif — la comparaison porte sur un champ, pas sur l'identifiant
+static areEqual(oneSkill, otherSkill) {
+  return oneSkill.name === otherSkill.name;
+}
 ```
 
-**Ce qui casse.** Une comparaison par champs dépend de l'ordre des clés et de la fraîcheur des
-données chargées. Elle rend deux entités différentes égales, ou l'inverse, selon la requête qui les a
-produites.
+**Ce qui casse.** Une comparaison par un champ autre que l'identifiant dépend de la fraîcheur des
+données chargées et confond deux entités distinctes qui partagent ce champ, ou distingue deux
+instances de la même entité chargées à des moments différents.
 
 Conséquence pratique en test : comparer les identifiants, et vérifier séparément l'état pertinent.
 
@@ -173,7 +177,7 @@ terminate() {
 
 // conforme — la règle est vérifiée au moment où elle peut être violée
 terminate({ now }) {
-  if (this.terminatedAt) throw new PassageAlreadyTerminatedError(this.id);
+  if (this.terminatedAt) throw new PassageTerminatedError();
   this.terminatedAt = now;
 }
 ```
@@ -204,11 +208,18 @@ import { anonymizeGeneralizeDate } from '…/shared/infrastructure/utils/date-ut
 
 ```js
 // fautif — l'entité lit l'heure courante, donc le test ne peut pas la fixer
-terminate() { this.terminatedAt = new Date(); }
-complete()  { this.updatedAt = new Date(); this.status = COMPLETED; }
+updateRole({ role, updatedByUserId }) {
+  this.role = role;
+  this.updatedAt = new Date();
+  if (updatedByUserId) this.updatedByUserId = updatedByUserId;
+}
 
 // conforme — la date entre en paramètre
-terminate({ now }) { this.terminatedAt = now; }
+updateRole({ role, updatedByUserId, now }) {
+  this.role = role;
+  this.updatedAt = now;
+  if (updatedByUserId) this.updatedByUserId = updatedByUserId;
+}
 ```
 
 Ces deux méthodes sont par ailleurs **conformes à E6** : elles nomment leur intention. Un même code
@@ -226,13 +237,17 @@ pas la cause.
 n'expose pas de méthode dont le repository est le seul consommateur.
 
 ```js
-// fautif — le modèle porte une méthode dont seule l'infrastructure se sert
-class Passage {
-  toRow() { return { moduleId: this.moduleId, userId: this.userId, terminatedAt: this.terminatedAt }; }
+// fautif — le modèle porte une méthode dont seul le repository se sert
+class Quest {
+  toDTO() {
+    return { id: this.id, rewardType: this.rewardType, rewardId: this.rewardId, … };
+  }
 }
 
 // conforme — la traduction vit dans le repository, en fonction locale
-const toRow = (passage) => ({ moduleId: passage.moduleId, userId: passage.userId, … });
+function _toDomain({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
+  return new Passage({ id, moduleId, userId, createdAt, updatedAt, terminatedAt });
+}
 ```
 
 **Ce qui casse.** Une migration de schéma oblige à modifier le domaine.
@@ -284,13 +299,15 @@ nommer : un objet dédié à la construction, ou un read-model si l'objet ne por
 agrégat : elle en tient l'identifiant.
 
 ```js
-// conforme — l'identifiant suffit
-this.userId = userId;
-this.moduleId = moduleId;
-
-// fautif — l'entité tient l'instance d'une entité d'un autre agrégat
+// fautif — l'entité tient l'instance d'une entité d'un autre agrégat, en plus de son identifiant
+this.organization = organization;
+this.organizationId = organization?.id ?? organizationId;
 this.user = user;
-this.module = module;
+this.userId = user?.id ?? userId;
+
+// conforme — seul l'identifiant est tenu
+this.organizationId = organizationId;
+this.userId = userId;
 ```
 
 À l'intérieur d'un même agrégat, tenir les instances est normal : c'est la définition d'un agrégat.
@@ -496,18 +513,19 @@ contradiction dans les termes, ce qui est précisément pourquoi le cas mérite 
 **Exemple concret.**
 
 ```js
-const passage = new Passage({ id: null, moduleId, userId });   // avant insertion
-const saved = await passageRepository.save({ passage });
+const draftVersion = Version.buildDraftFromActiveVersion({ scope, version: activeVersion, tubeIds });
+// draftVersion.id === null, avant insertion
+const versionId = await versionRepository.save(draftVersion);
 ```
 
-Tout consommateur de `Passage` doit alors savoir si l'identifiant peut être `null`, et rien dans la
+Tout consommateur de `Version` doit alors savoir si l'identifiant peut être `null`, et rien dans la
 signature ne le dit.
 
 **Correction.** Aucune sur l'existant. Pour le neuf, préférer un type distinct pour l'intention de
 création — `…ForCreation`, sans identifiant. La signature porte alors l'information, et le typage la
 vérifiera. C'est V8 de `fiche-objet-valeur.md` appliqué à une entité.
 
-À lire avec `X7` de cette même fiche, qui borne la pratique : une forme de **création** exprime une
+À lire avec `X7` de `fiche-objet-valeur.md`, qui borne la pratique : une forme de **création** exprime une
 différence de nature, donc elle est légitime. Une forme de **mise à jour** portant un sous-ensemble de
 champs ne l'est pas, sauf mesure.
 
@@ -539,7 +557,8 @@ sont pas des entités. C'est X4, et c'est ce qui plafonne la précision de cette
 | **X3** validation après affectation | sans objet : c'est la forme prescrite. Voir `X3` au § 5 | — | — |
 | **E1** identité explicite | règle ESLint : une classe de `domain/models/` expose un accesseur `id` | ~15 lignes | **à mesurer** — un objet-valeur porteur d'identifiant la déclenche |
 | **E5** pas de méthode de persistance | knip, déjà branché : il signale les exports à consommateur unique | aucun | **à mesurer** |
-| **E2**, **E7** | revue | — | — |
+| **E2** l'égalité se fonde sur l'identité | revue | — | — |
+| **E7** les autres agrégats sont référencés par identité | revue | — | — |
 
 ### E4 — une règle de chemin
 
@@ -617,7 +636,7 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 | **E8** nommage | oui, complet | Renommer le fichier et réécrire ses imports |
 | **E6** champs publics | partiel | Privatiser un champ et ajouter son accesseur, oui. Si le champ est **écrit** depuis l'extérieur, signaler et s'arrêter — ajouter un mutateur violerait E6 |
 | **X1** sac de propriétés | préparation seule | Repérer les constructeurs fautifs, oui. Décider quels champs sont requis, non |
-| **X2** règles dans les usecases | non | Décider ce qui appartient à l'entité et ce qui est de l'orchestration est de la conception |
+| **X1** de `fiche-usecase.md`, règles dans les usecases | non | Décider ce qui appartient à l'entité et ce qui est de l'orchestration est de la conception |
 
 ---
 
@@ -635,7 +654,8 @@ export class Organization {
   constructor(params: { id: number; archivedAt?: Date | null }) { /* validation */ }
 
   get isArchived(): boolean { return this.#archivedAt !== null; }
-  archive(params: { archivedBy: number; now: Date }): void { /* … */ }
+  // pas de mutateur ici : le code actuel n'a aucune méthode d'archivage sur cette entité,
+  // `archivedAt` y est aujourd'hui affecté par construction
 }
 ```
 
@@ -718,12 +738,12 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **E7** référence par identité | Vernon, « Effective Aggregate Design », règle 3 : *reference other aggregates by identity* | dddcommunity.org |
 | **E8** nommage et emplacement | l'**emplacement** est documenté : `docs/fr/Anatomy.md` décrit `domain/models`. Le **nommage** — PascalCase, un fichier par entité — n'a **aucune source** | `docs/fr/Anatomy.md` ; ADR 51 |
 | Le test de discrimination entité / objet-valeur | Evans, même ch. — c'est le critère qu'il donne | *DDD Reference* |
-| Validation à la frontière HTTP plutôt que par le type (X5) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût | ADR 19 |
+| Typage des identifiants à la frontière HTTP, pas par le domaine (X2 de `fiche-objet-valeur.md`) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût | ADR 19 |
 
 **Un seul invariant sur huit n'a aucune source externe** : E8, convention de nommage. La catégorie
 entité est le cœur du vocabulaire tactique de DDD, et ses invariants sont ceux des livres.
 
 Ce qui manque de source, ici, c'est la **façon Pix** de les appliquer : le choix du type d'erreur de
 validation, l'ordre validation / affectation, et le traitement de l'entité non persistée. Ces trois
-points relèvent de la convention et se discutent sur leurs mérites — ce sont respectivement X3 et X5
-au § 5.
+points relèvent de la convention et se discutent sur leurs mérites — les deux derniers sont
+respectivement X3 et X5 au § 5.
