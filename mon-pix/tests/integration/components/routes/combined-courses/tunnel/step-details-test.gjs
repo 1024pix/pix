@@ -33,6 +33,6 @@ module('Integration | Component | Combined Courses | Tunnel | Step-details', fun
       assert.ok(screen.getByText(item.objectives[0], { exact: false }));
     });
 
-    // test('should have a correct display when data is not provided', function () {});
+    // TODO test('should have a correct display when data is not provided', function () {});
   });
 });

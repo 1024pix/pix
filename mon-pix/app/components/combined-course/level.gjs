@@ -1,7 +1,7 @@
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
-import { service } from "@ember/service";
 
 export default class Level extends Component {
   @service intl;

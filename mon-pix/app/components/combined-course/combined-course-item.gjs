@@ -14,9 +14,8 @@ const Content = <template>
       {{if @hasYellowBorder 'combined-course-item--yellow-border'}}
       {{if @hasWhiteBackground 'combined-course-item--white'}}
       {{if @isCurrentItem 'combined-course-item--current'}}
-      {{if @isCampaignType 'combined-course-item--isCampaignType'}}
-    "
-    aria-details={{if @isCurrentItem 'step-details'}}
+      {{if @isCampaignType 'combined-course-item--isCampaignType'}}"
+    aria-details={{if @isCurrentItem "step-details"}}
     ...attributes
   >
     <div class="combined-course-item__content">
