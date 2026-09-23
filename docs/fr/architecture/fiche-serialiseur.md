@@ -357,7 +357,7 @@ pour des raisons différentes. Les coupler fait dépendre l'une de l'autre.
 **Exemple concret.**
 
 ```js
-// le sérialiseur déclare des champs de l'entité elle-même
+// le sérialiseur déclare des champs de l'Entity elle-même
 attributes: ['name', 'code', 'description', 'illustration']   // ce sont les champs de CombinedCourse
 ```
 

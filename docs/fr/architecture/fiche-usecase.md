@@ -661,7 +661,7 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [auto]    U5  Aucune notion de transport : ni request, ni code HTTP, ni sérialisation
 [ ] [humain]  U6  Renvoie des objets du domaine local, jamais un DTO étranger ni un objet de réponse
 [ ] [humain]  U7  Le périmètre atomique est explicite quand plusieurs écritures ont lieu
-[ ] [partiel] U4  Un fichier, un nom de verbe en kebab-case, langage ubiquitaire du contexte
+[ ] [partiel] U4  Un fichier, un nom de verbe en kebab-case, Ubiquitous Language du contexte
 [ ] [auto]    U8  Enregistré dans l'index des usecases
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui du usecase
 [ ] [humain]  Test d'intégration ; un fichier de services/ sans I/O est testé en unitaire pur
