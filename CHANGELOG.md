@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## [5.505.1](https://github.com/1024pix/pix/compare/v5.505.0...v5.505.1) (2026-09-23)
+
+### :bug: Correction
+
+- [#17557](https://github.com/1024pix/pix/pull/17557) Corrige l'affichage de la classe dans la liste des prescrits générique (PIX-24341)
+- [#17570](https://github.com/1024pix/pix/pull/17570) Gérer les erreurs lorsqu'on termine un module (PIX-24365)
+
+### :building_construction: Tech
+
+- [#17560](https://github.com/1024pix/pix/pull/17560) Migres les derniers models PixOrga en TS
+
 # [5.505.0](https://github.com/1024pix/pix/compare/v5.504.0...v5.505.0) (2026-09-23)
 
 ### :rocket: Amélioration
