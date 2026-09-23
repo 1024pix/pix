@@ -336,6 +336,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             isLocked: false,
             duration: 10,
             shortId: 'short-abcdefgh1',
+            level: 'Débutant',
+            description: 'Description',
+            objectives: [
+              [
+                '<p>Connaître les origines des biais des LLM</p>',
+                '<p>Générer et analyser des résultats biaisés de LLM</p>',
+                '<p>Comparer les résultats de différents LLM</p>',
+              ],
+            ],
           }),
         ]);
       });
@@ -436,6 +445,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             isCompleted: false,
             isLocked: false,
             shortId: 'short-ebcde1',
+            level: 'Débutant',
+            description: 'Description',
+            objectives: [
+              [
+                '<p>Connaître les origines des biais des LLM</p>',
+                '<p>Générer et analyser des résultats biaisés de LLM</p>',
+                '<p>Comparer les résultats de différents LLM</p>',
+              ],
+            ],
           }),
         ]);
       });
@@ -707,6 +725,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isCompleted: false,
               isLocked: true,
               shortId: 'short-abcdef1',
+              level: 'Débutant',
+              description: 'Description',
+              objectives: [
+                [
+                  '<p>Connaître les origines des biais des LLM</p>',
+                  '<p>Générer et analyser des résultats biaisés de LLM</p>',
+                  '<p>Comparer les résultats de différents LLM</p>',
+                ],
+              ],
             }),
             new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
@@ -781,6 +808,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: false,
           isLocked: true,
           shortId: 'short-abc2de',
+          level: 'Débutant',
+          description: 'Description',
+          objectives: [
+            [
+              '<p>Connaître les origines des biais des LLM</p>',
+              '<p>Générer et analyser des résultats biaisés de LLM</p>',
+              '<p>Comparer les résultats de différents LLM</p>',
+            ],
+          ],
         }),
       ]);
     });
@@ -930,6 +966,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: true,
           isLocked: false,
           shortId: 'short-abcde3',
+          level: 'Débutant',
+          description: 'Description',
+          objectives: [
+            [
+              '<p>Connaître les origines des biais des LLM</p>',
+              '<p>Générer et analyser des résultats biaisés de LLM</p>',
+              '<p>Comparer les résultats de différents LLM</p>',
+            ],
+          ],
         }),
         new ModuleCombinedCourseItem({
           id: 'abcde4',
@@ -942,6 +987,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: true,
           isLocked: false,
           shortId: 'short-abcde4',
+          level: 'Débutant',
+          description: 'Description',
+          objectives: [
+            [
+              '<p>Connaître les origines des biais des LLM</p>',
+              '<p>Générer et analyser des résultats biaisés de LLM</p>',
+              '<p>Comparer les résultats de différents LLM</p>',
+            ],
+          ],
         }),
         new CampaignCombinedCourseItem({
           id: 2,
@@ -964,6 +1018,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: false,
           isLocked: false,
           shortId: 'short-abcde1',
+          level: 'Débutant',
+          description: 'Description',
+          objectives: [
+            [
+              '<p>Connaître les origines des biais des LLM</p>',
+              '<p>Générer et analyser des résultats biaisés de LLM</p>',
+              '<p>Comparer les résultats de différents LLM</p>',
+            ],
+          ],
         }),
         new ModuleCombinedCourseItem({
           id: 'abcde2',
@@ -976,6 +1039,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: false,
           isLocked: true,
           shortId: 'short-abcde2',
+          level: 'Débutant',
+          description: 'Description',
+          objectives: [
+            [
+              '<p>Connaître les origines des biais des LLM</p>',
+              '<p>Générer et analyser des résultats biaisés de LLM</p>',
+              '<p>Comparer les résultats de différents LLM</p>',
+            ],
+          ],
         }),
       ]);
     });

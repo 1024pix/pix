@@ -67,6 +67,9 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
             duration: 10,
             image: 'emile7',
             'short-id': 'short-7',
+            level: 'novice',
+            description: 'description',
+            objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
           },
         },
         {

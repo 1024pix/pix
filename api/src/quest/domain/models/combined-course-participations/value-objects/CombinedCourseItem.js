@@ -25,9 +25,9 @@ class CombinedCourseItem {
 }
 
 /* TODO
-- description : Training = null / Campaign = customLandingPageText / Module = description
-- objectifs : Training = null / Campaign = null / Module = objectives
-- level : Training = null / Campaign = null / Module = level
+- description :  / Module = description
+- objectifs :  / Module = objectives
+- level : / Module = level
 
 ==> Données à faire remonter de la table campaigns et des modules de learning-content dans les repos associés
 (Campagnes : api/src/quest/infrastructure/repositories/combined-courses/campaign-repository.js
@@ -35,7 +35,7 @@ Modules api/src/quest/infrastructure/repositories/combined-courses/module-reposi
 
 Ajouter ces infos dans nos VOs Campaign et Module.
 
-Les passer à CampaignCombinedCourseItem et à ModuleCombinedCourseItem via les méthodes de CombinedCourseDetails
+Les passer à  ModuleCombinedCourseItem via les méthodes de CombinedCourseDetails
 (#createCampaignCombinedCourseItem / #createModuleCombinedCourseItem)
 
 Ajouter à la sérialisation : api/src/quest/infrastructure/serializers/combined-course-serializer.js
@@ -97,9 +97,25 @@ export class ModuleCombinedCourseItem extends CombinedCourseItem {
     duration,
     image,
     shortId,
+    level,
+    description,
+    objectives,
   }) {
-    super({ id, title, reference, redirection, participationStatus, isCompleted, isLocked, duration, image });
+    super({
+      id,
+      title,
+      reference,
+      redirection,
+      participationStatus,
+      isCompleted,
+      isLocked,
+      duration,
+      image,
+    });
     this.shortId = shortId;
+    this.level = level;
+    this.description = description;
+    this.objectives = objectives;
   }
   get type() {
     return COMBINED_COURSE_ITEM_TYPES.MODULE;

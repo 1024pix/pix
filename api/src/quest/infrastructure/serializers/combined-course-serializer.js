@@ -32,6 +32,9 @@ const serialize = function (combinedCourse) {
         'duration',
         'image',
         'shortId',
+        'level',
+        'description',
+        'objectives',
       ],
     },
     reward: {
