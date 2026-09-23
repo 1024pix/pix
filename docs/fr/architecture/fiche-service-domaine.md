@@ -8,9 +8,9 @@ typage de mordre est dans `migration-typescript.md`.
 
 > **À instruire**
 >
-> - **Décision prise le 2026-09-08** : `domain/services/` est réservé aux vrais services de domaine.
->   Les fichiers qui font des I/O partent dans `usecases/`. `X1` au § 5 en donne la conséquence, et
->   `D1` devient activable en erreur une fois le déplacement fait. Reste à écrire dans un ADR.
+> - `domain/services/` est réservé aux vrais services de domaine. Les fichiers qui font des I/O
+>   partent dans `usecases/`. `X1` au § 5 en donne la conséquence, et `D1` devient activable en
+>   erreur une fois le déplacement fait. Reste à écrire dans un ADR.
 > - Le numéro **D6** n'est pas attribué. Il portait « testable en unitaire pur », qui est une
 >   déduction de D1 et le contenu du § 8, pas un invariant propre.
 > - D4 est le plus rentable des invariants de cette fiche et n'a aucun moyen de vérification. Le seul
@@ -181,10 +181,11 @@ function computeTubesFromSkills(skills) {
   return tubes;
 }
 
-// fautif — la même écriture, mais sur un objet reçu
-export function sortSkills({ tube }) {
-  tube.skills = _.sortBy(tube.skills, ['difficulty']);
-  return tube;
+// fautif — la même écriture, mais sur un tableau reçu : Array#sort mute sur place
+export function getNextActivityInfo({ activities, stepCount }) {
+  const byDescendingCreatedAt = (a, b) => b.createdAt - a.createdAt;
+  const sortedActivities = activities.sort(byDescendingCreatedAt);
+  // …
 }
 ```
 
@@ -274,8 +275,8 @@ Les écarts sont numérotés `X` et non `D`, qui est le préfixe des invariants 
 
 **Les trois sont des dérives, et aucun n'est une convention assumée.** La raison est historique : le
 sens du dossier n'avait jamais été décidé, donc il n'y avait pas de convention à assumer. Il l'est
-depuis le 2026-09-08 — `services/` est réservé aux vrais services — ce qui donne à `X1` une direction
-au lieu d'un arbitrage.
+désormais — `services/` est réservé aux vrais services — ce qui donne à `X1` une direction au lieu
+d'un arbitrage.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
@@ -303,8 +304,8 @@ Le dossier ne distingue pas ces natures, donc un relecteur ne sait pas quel jeu 
 appliquer, et la règle de D1 ne peut pas être activée en erreur. Le troisième cas est l'exception
 nommée, symétrique de celle de `domain/usecases/index.js` — voir X5 de `fiche-repository.md`.
 
-**Correction, et la direction est décidée.** `domain/services/` est réservé aux **vrais services de
-domaine**. Les fichiers qui reçoivent une I/O partent dans `usecases/`.
+**Correction.** `domain/services/` est réservé aux **vrais services de domaine**, et la direction est
+décidée. Les fichiers qui reçoivent une I/O partent dans `usecases/`.
 
 C'est la position la plus fidèle aux sources, et à deux titres. Chez Evans, un Service est sans état et
 ne fait pas d'I/O. Et `docs/fr/Anatomy.md` décrit `domain/services` comme les « Services métier du
@@ -543,9 +544,9 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [humain]  Si le service prend un seul objet du domaine, vérifier que la règle ne lui appartient pas
 ```
 
-À terme il reste sept lignes, toutes de jugement. La ligne la plus rentable de la liste — D4 — est
-aussi celle qu'aucun outil ne couvrira, et c'est structurel : elle porte sur une alternative qui
-n'existe pas dans le code.
+À terme il reste huit lignes : deux `[partiel]`, réduites à ce que la règle ne couvre pas, et six
+`[humain]`, entièrement de jugement. La ligne la plus rentable de la liste — D4 — fait partie des
+secondes, et c'est structurel : elle porte sur une alternative qui n'existe pas dans le code.
 
 ---
 

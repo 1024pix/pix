@@ -158,17 +158,28 @@ absente rend `false`.
 
 Le point sensible est toujours le même : l'accès à une propriété du candidat.
 
+La forme fautive « sans garde » n'a pas d'occurrence telle quelle dans le code : elle est dérivée ici
+de `ObjectRequirement.isFulfilled`, où une propriété absente et non tableau est transmise telle quelle
+à `#criterion.check()`, qui lève en lisant `item[this.#key]` sur un `item` `undefined`.
+
 ```js
-// fautif — lève si la propriété du candidat est absente
+// fautif — dérivé de ObjectRequirement.isFulfilled : une propriété absente atteint #criterion.check()
+// sans garde, qui lève en lisant item[this.#key] sur un item undefined
 isFulfilled(dataInput) {
-  return dataInput[this.requirement_type].every((item) => this.#criterion.check({ item }));
+  const comparisonFunction = getComparisonFunction(this.comparison);
+  return this.#criterion.check({ item: dataInput[this.requirement_type], comparisonFunction });
 }
 
-// conforme — l'absence est une réponse, pas un incident
+// conforme — l'absence de la propriété du candidat est une réponse, pas un incident
 isFulfilled(dataInput) {
-  const items = dataInput[this.requirement_type];
-  if (!items) return false;
-  return items.every((item) => this.#criterion.check({ item }));
+  const comparisonFunction = getComparisonFunction(this.comparison);
+  const value = dataInput[this.requirement_type];
+  if (value === undefined) return false;
+
+  if (Array.isArray(value)) {
+    return value.some((item) => this.#criterion.check({ item, comparisonFunction }));
+  }
+  return this.#criterion.check({ item: value, comparisonFunction });
 }
 ```
 
@@ -210,10 +221,33 @@ quand `V3` est tenu, et il vient toujours de l'extérieur du domaine — une don
 la forme attendue.
 
 ```js
-// fautif — journalise puis renvoie false : indiscernable d'un candidat non conforme
-if (typeof value !== 'number') {
-  logger.error({ name: this.requirement_type, value });
+// fautif — extrait simplifié de CriterionProperty.check() : construit l'erreur, la journalise,
+// puis rend false. Indiscernable d'un candidat qui ne remplit simplement pas le critère
+check(item) {
+  const dataAttr = item[this.#key];
+  if (this.#comparison === COMPARISONS.EQUAL) {
+    return dataAttr === this.#data;
+  }
+  const error = new InvalidComparisonError({
+    comparisonOperator: this.#comparison,
+    typeofCriterion: typeof this.#data,
+    typeofData: typeof dataAttr,
+  });
+  logger.error({ event: 'quest-reward', err: error }, 'Error on quests criterion property');
   return false;
+}
+
+// conforme — l'erreur remonte, elle n'est plus avalée derrière un booléen
+check(item) {
+  const dataAttr = item[this.#key];
+  if (this.#comparison === COMPARISONS.EQUAL) {
+    return dataAttr === this.#data;
+  }
+  throw new InvalidComparisonError({
+    comparisonOperator: this.#comparison,
+    typeofCriterion: typeof this.#data,
+    typeofData: typeof dataAttr,
+  });
 }
 ```
 
@@ -230,18 +264,25 @@ pas droit, et personne ne le sait. Voir `X2` au § 5.
 **Énoncé.** Un combinateur accepte n'importe quel critère comme enfant, y compris un autre
 combinateur, et propage le candidat **sans le transformer**.
 
+Aucune des deux formes ci-dessous n'a d'occurrence réelle dans `ComposedRequirement` : le conforme est
+dérivé de son `isFulfilled` réel, débarrassé de la journalisation — voir `X3` au § 5 ; le fautif en est
+une variante hypothétique, mêmes noms, qui inspecte le type de ses enfants.
+
 ```js
-// conforme — le combinateur ne connaît que l'interface, pas les types concrets
+// conforme — dérivé de ComposedRequirement.isFulfilled : le combinateur ne connaît que
+// l'interface, pas les types concrets
 isFulfilled(dataInput) {
-  return this.#subRequirements[comparisonFunction]((sub) => sub.isFulfilled(dataInput));
+  const comparisonFunction = getComparisonFunction(this.comparison);
+  return this.#subRequirements[comparisonFunction]((subRequirement) => subRequirement.isFulfilled(dataInput));
 }
 
 // fautif — il connaît ses enfants, donc la composition n'est plus fermée
 isFulfilled(dataInput) {
-  return this.#subRequirements.every((sub) =>
-    sub.requirement_type === TYPES.CAPPED_TUBES
-      ? sub.check(dataInput.cappedTubes)
-      : sub.isFulfilled(dataInput),
+  const comparisonFunction = getComparisonFunction(this.comparison);
+  return this.#subRequirements[comparisonFunction]((subRequirement) =>
+    subRequirement.requirement_type === TYPES.CAPPED_TUBES
+      ? subRequirement.isFulfilled(dataInput.cappedTubes)
+      : subRequirement.isFulfilled(dataInput),
   );
 }
 ```
@@ -261,8 +302,15 @@ L'illustration la plus visible de cet invariant est un **nom de champ** : une cl
 garde sa casse d'origine dans le modèle, même quand elle jure avec les conventions du code.
 
 ```js
+// conforme — extrait réel de BaseRequirement
 class BaseRequirement {
   requirement_type;   // snake_case, parce que c'est la clé du format écrit à la main
+  comparison;
+}
+
+// fautif — hypothétique : aucune occurrence réelle, le champ n'a jamais été renommé
+class BaseRequirement {
+  requirementType;
   comparison;
 }
 ```
@@ -300,6 +348,21 @@ requirement_type: Joi.string().valid(...Object.values(TYPES.OBJECT))
 Les deux autres ne le sont par rien. Un nom peut donc entrer dans l'énumération, passer le schéma, et
 ne correspondre à aucune propriété du candidat.
 
+```js
+// fautif — extrait réel de ObjectRequirement.isFulfilled : le nom traverse tel quel,
+// sans vérifier qu'une propriété du candidat lui correspond
+isFulfilled(dataInput) {
+  const comparisonFunction = getComparisonFunction(this.comparison);
+  return this.#criterion.check({ item: dataInput[this.requirement_type], comparisonFunction });
+}
+
+// conforme — la correspondance nom ↔ propriété est vérifiée une fois, sur une instance du candidat
+const dataInput = new DataForQuest({ eligibility: {}, success: {} });
+for (const name of Object.values(TYPES.OBJECT)) {
+  expect(name in dataInput, `le critère « ${name} » n'a aucune propriété sur le candidat`).to.be.true;
+}
+```
+
 **Ce qui casse.** Un nom enregistré sans donnée derrière produit une violation de `S1` : selon la
 forme de la propriété, une exception ou un `false` définitif et silencieux. Le critère est écrit, il
 paraît actif, et il ne l'est pas.
@@ -317,20 +380,39 @@ critères comptent.
 Les trois degrés de violation, du moins au plus grave :
 
 ```js
-// 1. il lit la forme interne du format
-const ids = quest.successRequirements.map(({ data }) => data.targetProfileId.value);
+// 1. il lit la forme interne du format — extrait réel, CombinedCourseBlueprint.targetProfileIds
+const ids = quest.successRequirements.map(({ data }) => parseInt(data.targetProfileId.data));
 
 // 2. il évalue une exigence isolée
 const done = requirement.isFulfilled(dataInput);
 
-// 3. il reconstruit la specification avec un sous-ensemble
-const filtered = quest.successRequirements.filter(/* … */);
-return new Quest({ ...quest, successRequirements: filtered }).isFulfilled(dataInput);
+// 3. il reconstruit la specification avec un sous-ensemble — extrait réel,
+// CombinedCourseDetails.isSuccessful()
+const successRequirements = this.quest.successRequirements.filter(
+  (requirement) => requirement.requirement_type === REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
+);
+const quest = new Quest({
+  id: this.quest.id,
+  createdAt: this.quest.createdAt,
+  updatedAt: this.quest.updatedAt,
+  rewardId: this.quest.rewardId,
+  rewardType: this.quest.rewardType,
+  eligibilityRequirements: this.quest.eligibilityRequirements,
+  successRequirements,
+});
+return quest.isSuccessful(this.dataForQuest);
 ```
 
 **Ce qui casse.** Le troisième est rédhibitoire : aucune API publiée ne peut exposer « réinstancie mon
 agrégat avec d'autres critères ». Tant que `S8` est violé, le moteur ne peut pas devenir un contexte
 borné distinct de ses consommateurs, et l'ADR 55 reste inapplicable à cette frontière.
+
+À l'inverse, un consommateur conforme se contente d'évaluer :
+
+```js
+// conforme — extrait réel, CombinedCourseDetails : le consommateur évalue, il ne redéfinit rien
+const isCompleted = dataForQuest ? requirement.isFulfilled(dataForQuest) : false;
+```
 
 Le besoin métier derrière est souvent légitime — un critère qui ne doit pas bloquer dans certaines
 conditions. Mais il doit devenir une **propriété explicite** du modèle du consommateur, au lieu d'un
@@ -402,11 +484,22 @@ L'écart « le candidat est rangé avec les agrégats » n'est pas listé ici : 
 **Ce que dit la théorie.** Un contexte borné expose un contrat, pas sa forme interne. Evans traite le
 sujet sous *Bounded Context* et *Anticorruption Layer* ; l'ADR 55 le décide pour Pix.
 
-**Exemple concret.** Le troisième degré de violation de `S8` :
+**Exemple concret.** Le troisième degré de violation de `S8` — extrait réel, `CombinedCourseDetails.isSuccessful()` :
 
 ```js
-const filtered = spec.criteria.filter((c) => !shouldIgnore(c));
-return new Specification({ ...spec, criteria: filtered }).isSatisfiedBy(candidate);
+const successRequirements = this.quest.successRequirements.filter(
+  (requirement) => requirement.requirement_type === REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
+);
+const quest = new Quest({
+  id: this.quest.id,
+  createdAt: this.quest.createdAt,
+  updatedAt: this.quest.updatedAt,
+  rewardId: this.quest.rewardId,
+  rewardType: this.quest.rewardType,
+  eligibilityRequirements: this.quest.eligibilityRequirements,
+  successRequirements,
+});
+return quest.isSuccessful(this.dataForQuest);
 ```
 
 Le consommateur ne consomme pas un service, il réassemble le modèle d'un autre.

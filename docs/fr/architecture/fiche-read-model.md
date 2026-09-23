@@ -22,14 +22,14 @@ typage de mordre est dans `migration-typescript.md`.
 [8. Tests attendus](#8-tests-attendus) · [9. Checklist de revue](#9-checklist-de-revue) ·
 [10. Sources](#10-sources)
 
-**Invariants propres**
+**Invariants propres** — classés par ROI, comme au § 4.
 
 | # | Invariant | ROI | Vérification |
 | --- | --- | --- | --- |
 | [**RM1**](#rm1-aucune-règle-métier) | aucune règle métier | **forte** | aucun moyen — indécidable |
-| [**RM2**](#rm2-aucune-validation) | aucune validation | exemption | signal ESLint |
 | [**RM3**](#rm3-nentre-pas-dans-une-règle) | n'entre pas dans une règle | moyenne | `dependency-cruiser`, après X1 |
 | [**RM4**](#rm4-emplacement) | emplacement | moyenne | script |
+| [**RM2**](#rm2-aucune-validation) | aucune validation | hygiène | signal ESLint |
 
 [**Invariants communs**](#les-cinq-invariants-communs), énoncés au § 2 de `fiche-objet-valeur.md` :
 `V1` immuabilité, `V2` aucune identité, `V4` pureté, `V6` aucun cycle de vie propre, `V7` exposition
@@ -167,6 +167,15 @@ C'est une projection de données déjà lues par notre propre requête. Les vali
 l'échec n'aurait pas de traitement sensé : on ne refuse pas une donnée qu'on vient de lire chez soi.
 
 ```js
+// conforme — une projection sans validation
+class Country {
+  constructor({ code, name, matcher }) {
+    this.code = code;
+    this.name = name;
+    this.matcher = matcher;
+  }
+}
+
 // fautif — un read-model qui valide ce que notre propre requête vient de lire
 const validationSchema = Joi.object({
   id: Joi.number().required(),
@@ -204,14 +213,28 @@ cas se rencontre avec le candidat évalué par une Specification — voir `fiche
 Le cas symétrique, plus fréquent, est un **modèle du domaine qui fabrique le read-model** :
 
 ```js
-// dans domain/models/ — le modèle importe et construit une forme de sortie
+// fautif — dans domain/models/, le modèle importe et construit une forme de sortie
 import { OrganizationLearnerDTO } from '../read-models/OrganizationLearnerDTO.js';
 
 get organizationLearners() {
+  return this.#redactPrivateData();
+}
+
+#redactPrivateData() {
   return this.#organizationLearners.map((learner) => {
-    const displayName = `${learner.firstName}${this.#getDistinctiveLastNamePostfix(learner)}`;
+    const lastNamePostfix = this.#getDistinctiveLastNamePostfix(learner);
+    const displayName = `${learner.firstName}${lastNamePostfix}`;
     return new OrganizationLearnerDTO({ ...learner, displayName });
   });
+}
+
+// conforme — le même calcul, sans emballer la sortie ; au repository ou au usecase de composer le
+// read-model à partir des valeurs renvoyées
+get organizationLearners() {
+  return this.#organizationLearners.map((learner) => ({
+    ...learner,
+    displayName: `${learner.firstName}${this.#getDistinctiveLastNamePostfix(learner)}`,
+  }));
 }
 ```
 
@@ -227,8 +250,20 @@ quoi. C'est la conséquence directe de RM2 : sans validation, aucune garantie n'
 
 `domain/read-models/`, frère de `domain/models/`.
 
+```
+// conforme — les deux dossiers sont frères
+domain/models/
+domain/read-models/
+
+// fautif — un read-model rangé comme un modèle du domaine : aucune règle ne le lit, sa forme est
+// assemblée pour un écran d'administration
+domain/models/TargetProfileSummaryForAdmin.js
+```
+
 Ne pas ranger un read-model dans un dossier qui promet autre chose, `aggregates/` en particulier : le
-mot annonce une frontière de cohérence et des invariants tenus, ce qu'un read-model n'a pas.
+mot annonce une frontière de cohérence et des invariants tenus, ce qu'un read-model n'a pas. Le cas
+existe : un dossier `aggregates/` sous `domain/models/` regroupe des objets qui tiennent des
+invariants entre plusieurs entités liées — un read-model n'y a pas sa place.
 
 **Pourquoi sous `domain/` alors qu'il n'appartient pas au modèle du domaine.** La raison est
 structurelle, pas taxonomique. Un repository le construit et un usecase le renvoie ; le placer sous
@@ -263,7 +298,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **RM1** aucune règle métier | **forte** | Empêche qu'une règle du domaine vive hors du domaine, où elle sera réécrite |
 | **RM3** n'entre pas dans une règle | moyenne | Empêche une décision prise à partir d'une forme non validée. Et sert de test de classement |
 | **RM4** emplacement | moyenne | Deux dossiers frères, donc RM3 devient vérifiable par une règle de chemin |
-| **RM2** aucune validation | **exemption** | Le gain est en creux : évite qu'un relecteur signale l'absence de validation sur chaque read-model |
+| **RM2** aucune validation | hygiène | Le gain est en creux : évite qu'un relecteur signale l'absence de validation sur chaque read-model |
 
 RM4 est classé en rentabilité moyenne et non en hygiène, contrairement à ce qu'un invariant de
 rangement vaut d'ordinaire : ici l'emplacement est ce qui rend un autre invariant vérifiable.
@@ -376,7 +411,7 @@ class PlacesLot {
 ```
 
 La forme est plus intéressante que prévu : **la moitié des champs sont privés avec accesseur, l'autre
-moitié est publique**. Le coût d'écriture est payé — six lignes pour trois champs — et le bénéfice
+moitié est publique**. Le coût d'écriture est payé — six lignes pour deux champs — et le bénéfice
 n'est pas obtenu, puisque l'objet reste modifiable par les deux champs restants.
 
 Un objet littéral gelé rendrait le même service à cet endroit précis.
