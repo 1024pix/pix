@@ -37,8 +37,8 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**V3**](#v3-validation-à-la-construction) | validation à la construction | **forte** | revue |
 | [**V5**](#v5-porte-le-comportement-lié-à-ses-données) | porte le comportement lié à ses données | **forte** | revue |
 | [**V1**](#v1-immuable-après-construction) | immuable après construction | moyenne | règle ESLint |
-| [**V7**](#v7-exposition-en-lecture-seule-collections-comprises) | exposition en lecture seule, collections comprises | moyenne | règle ESLint |
-| [**V4**](#v4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
+| [**V7**](#v7-exposition-en-lecture-seule-collections-comprises) | exposition en lecture seule, collections comprises | moyenne | règle ESLint, partielle |
+| [**V4**](#v4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser`, partielle |
 | [**V8**](#v8-un-type-par-intention) | un type par intention | moyenne | revue, puis typage |
 | [**V2**](#v2-aucune-identité-égalité-par-valeur) | aucune identité, égalité par valeur | moyenne | règle ESLint, après X5 |
 | [**V6**](#v6-aucun-cycle-de-vie-propre) | aucun cycle de vie propre | hygiène | script |
@@ -53,8 +53,8 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**X3**](#x3-validation-à-la-construction-de-chaque-value-object) | validation à la construction de chaque Value Object | rien à faire |
 | [**X4**](#x4-limmuabilité-nest-pas-garantie-par-le-langage) | l'immuabilité n'est pas garantie par le langage | rien à faire |
 
-**Hors numérotation** — le [discriminant](#le-discriminant) avec le read-model, et ses quatre tests ·
-le [cas de la clé de présentation](#le-cas-de-la-clé-de-présentation), et ses trois cas.
+Hors numérotation : le [discriminant](#le-discriminant) avec le read-model et ses quatre tests, au
+§ 1, et le [cas de la clé de présentation](#le-cas-de-la-clé-de-présentation) et ses trois cas, au § 2.
 
 ---
 
@@ -66,10 +66,9 @@ lié à ses données. Il transforme une primitive sans signification, comme `str
 littéral, en concept nommé qui protège ses propres règles.
 
 Le Value Object se confond souvent avec le **read-model** : une forme assemblée pour une lecture, que le
-domaine ne lit pas pour décider. Elle a sa fiche, `fiche-read-model.md`.
+domaine ne lit pas pour décider. Le read-model a sa fiche, `fiche-read-model.md`.
 
-Le discriminant entre les deux n'appartient à aucune des deux catégories. Il sert aux deux fiches :
-`fiche-read-model.md` y renvoie.
+Le discriminant ci-dessous sert aux deux fiches : `fiche-read-model.md` y renvoie.
 
 ### Le discriminant
 
@@ -90,8 +89,7 @@ par une règle, est un Value Object mal rangé. Il doit alors satisfaire V3 et V
 
 #### Quatre tests pour l'appliquer
 
-La question de principe est juste, mais abstraite. Ces quatre tests y répondent plus vite, et ils
-concordent presque toujours.
+La question est abstraite. Quatre tests y répondent plus vite, et ils concordent presque toujours.
 
 | Test | Value Object | read-model |
 | --- | --- | --- |
@@ -125,11 +123,11 @@ class PlacesStatistics {
 
 #### La zone grise
 
-Quand les tests ne concordent pas, classer en **read-model**, parce que cette erreur-là se signale
-d'elle-même.
+Quand les tests ne concordent pas, l'objet se classe en **read-model**, parce que cette erreur-là se
+signale d'elle-même.
 
-Un Value Object pris pour un read-model se signale dès qu'une règle veut le lire. C'est RM3, que la
-règle de chemin du § 6 détecte. L'erreur inverse, un read-model pris pour un Value Object, ne se
+Un Value Object pris pour un read-model se signale dès qu'une règle le lit. C'est RM3, que la règle de
+chemin du § 6 de `fiche-read-model.md` détecte. L'erreur inverse, un read-model pris pour un Value Object, ne se
 signale jamais. Elle produit une validation et des règles inutiles.
 
 ### Ce qu'un Value Object n'est pas
@@ -155,7 +153,7 @@ V8 sont propres au Value Object.
 
 ### V1. Immuable après construction
 
-Aucune écriture après le constructeur. Ni mutateur, ni champ public assignable.
+**Énoncé.** Aucune écriture après le constructeur. Ni mutateur, ni champ public assignable.
 
 ```js
 // conforme — l'état est privé, rien n'est exposé en écriture
@@ -189,7 +187,8 @@ exposer des champs publics sur sa classe abstraite. L'invariant se vérifie sur 
 
 ### V2. Aucune identité, égalité par valeur
 
-Pas d'identité propre. Pas de suivi dans le temps. Deux instances de mêmes valeurs sont la même chose.
+**Énoncé.** Pas d'identité propre. Pas de suivi dans le temps. Deux instances de mêmes valeurs sont la
+même chose.
 
 Un Value Object peut **porter** l'identifiant d'autre chose : c'est une donnée comme une autre. Ce qui
 est interdit, c'est qu'il ait sa propre identité.
@@ -207,8 +206,8 @@ class CombinedCourseStatistics {
 **Test de discrimination.** Si remplacer une instance par une autre de mêmes valeurs change quelque
 chose pour le métier, ce n'est pas un Value Object, c'est une Entity.
 
-**Ce qui casse.** Une identité propre appelle un cycle de vie : quelque chose va vouloir le retrouver,
-le mettre à jour, le comparer par référence. La catégorie ne tient plus, et V6 tombe avec elle.
+**Ce qui casse.** Une identité propre appelle un cycle de vie : retrouver l'objet, le mettre à jour,
+le comparer par référence. La catégorie ne tient plus, et V6 tombe avec elle.
 
 #### Le cas de la clé de présentation
 
@@ -216,11 +215,11 @@ Un client qui met les objets en cache, comme le store d'une application web, exi
 enregistrement. Cela vaut aussi pour des objets qui n'ont aucune identité. La clé est alors composée, le
 plus souvent par concaténation de deux identifiants portés.
 
-Cette clé n'est **pas** une identité du domaine. Trois cas, à ne pas confondre :
+Cette clé n'est **pas** une identité du domaine. Trois cas se distinguent :
 
 | Situation | Nature de la clé | Où elle se fabrique |
 | --- | --- | --- |
-| Le client a besoin d'une clé de cache, et rien ne la lui renvoie | clé de présentation | le sérialiseur |
+| Le client a besoin d'une clé pour son cache, et ne la renvoie jamais | clé de présentation | le sérialiseur |
 | Le client renvoie la clé, et le serveur la découpe pour retrouver ses parties | identifiant composite | un Value Object qui porte la paire construire / découper |
 | L'objet a une identité métier exprimée par plusieurs attributs | identité composite | c'est une **Entity**, et V2 ne s'y applique pas |
 
@@ -228,12 +227,12 @@ Le premier cas est le plus fréquent. Il ne viole V2 que si la clé est fabriqu�
 voir X5 au § 5. Le deuxième est un identifiant à part entière, donc V3 s'applique à lui. Le troisième
 relève de `fiche-entite.md`.
 
-Comment les distinguer : chercher qui lit la clé. Si personne ne la relit côté serveur, c'est une clé
-de présentation.
+Le critère est le lecteur de la clé. Si personne ne la relit côté serveur, c'est une clé de
+présentation.
 
 ### V3. Validation à la construction
 
-*Value Object uniquement.* Une valeur invalide ne s'instancie pas. L'aval ne valide rien.
+**Énoncé.** *Propre au Value Object.* Une valeur invalide ne s'instancie pas. L'aval ne valide rien.
 
 ```js
 // conforme — validation, puis affectation, avec une erreur du domaine
@@ -257,22 +256,22 @@ constructor({ status } = {}) {
 Le second exemple est la forme la plus fréquente de violation : ce n'est pas une validation mal
 placée, c'est une validation absente.
 
-Trois points de cohérence, sans quoi l'invariant est respecté sans être utile :
+Trois points de cohérence, sans lesquels l'invariant est respecté sans être utile :
 
-- **valider avant d'affecter** quand le message d'erreur doit désigner l'entrée fautive. La convention
-  Pix valide `this` après les affectations, contre un schéma déclaratif : voir `X3` de
-  `fiche-entite.md`, qui instruit cet écart ;
-- **un seul type d'erreur de validation** pour le domaine, sinon les appelants rattrapent et
+- la validation **précède l'affectation** quand le message d'erreur doit désigner l'entrée fautive.
+  La convention Pix valide `this` après les affectations, contre un schéma déclaratif : voir `X3` de
+  `fiche-entite.md`, qui décrit cet écart ;
+- **un seul type d'erreur de validation** vaut pour le domaine. Sinon, les appelants rattrapent et
   reconvertissent ;
-- **valider à tous les niveaux** d'une composition, pas seulement à la racine.
+- la validation porte sur **tous les niveaux** d'une composition, pas seulement sur la racine.
 
 **Ce qui casse.** Sans validation à la construction, chaque appelant doit se demander si la valeur est
 cohérente. La vérification se duplique, et elle est oubliée quelque part.
 
 ### V4. Aucune I/O, aucune dépendance à l'infrastructure
 
-Un Value Object n'importe rien de l'infrastructure et ne fait aucune I/O. Une violation se repère
-dans les imports :
+**Énoncé.** Un Value Object n'importe rien de l'infrastructure et ne fait aucune I/O. Une violation se
+repère dans les imports :
 
 ```js
 // dans un Value Object de domain/models/ — fautif
@@ -289,7 +288,7 @@ getDeletableOrganizationLearners(organizationLearnerIdsToDelete, userId) {
 ```
 
 Le besoin est légitime, la solution non. C'est l'appelant qui trace : l'objet lève seulement
-l'erreur. Voir `X3` de `fiche-specification.md`, où l'écart est instruit.
+l'erreur. Voir `X3` de `fiche-specification.md`, qui décrit l'écart.
 
 L'interdit vaut aussi pour la configuration, l'horloge et l'aléatoire. Un objet qui lit l'heure courante
 n'est pas testable de façon déterministe : la date arrive en paramètre.
@@ -299,8 +298,8 @@ cause est la dépendance à l'infrastructure.
 
 ### V5. Porte le comportement lié à ses données
 
-*Value Object uniquement.* Un objet réduit à des champs et des accesseurs n'apporte rien qu'un objet
-littéral n'apporte déjà.
+**Énoncé.** *Propre au Value Object.* Le Value Object porte les règles qui contraignent ses données.
+Un objet réduit à des champs et des accesseurs n'apporte rien qu'un objet littéral n'apporte déjà.
 
 ```js
 // pauvre : un sac de champs, que trois clés d'un objet littéral remplaceraient
@@ -329,8 +328,8 @@ un type nommé peut valoir pour la seule signature. Voir le § 3.
 
 ### V6. Aucun cycle de vie propre
 
-Pas de repository, pas de table dédiée, pas de fonction de persistance. Un Value Object est persisté
-**avec** ce qui le contient, ou pas du tout.
+**Énoncé.** Pas de repository, pas de table dédiée, pas de fonction de persistance. Un Value Object
+est persisté **avec** ce qui le contient, ou pas du tout.
 
 Un objet qui doit être retrouvé indépendamment est une Entity.
 
@@ -340,7 +339,8 @@ personne l'ait décidé.
 
 ### V7. Exposition en lecture seule, collections comprises
 
-Un accesseur qui renvoie une collection interne expose un tableau modifiable par l'appelant.
+**Énoncé.** Rien n'est exposé en écriture, pas même le contenu d'une collection interne. Un accesseur
+qui renvoie une collection interne expose un tableau modifiable par l'appelant.
 
 ```js
 // fautif — l'appelant reçoit le tableau interne et peut le modifier
@@ -353,16 +353,16 @@ get proposals() { return [...this.#coreChallenge.proposals]; }
 Le champ privé ne suffit donc pas : `#coreChallenge` est inaccessible, mais l'accesseur renvoie une
 référence vers son contenu.
 
-**Le gel inopérant.** `Object.freeze` n'affecte pas les champs privés `#` : ce ne sont pas
-des propriétés. Geler une instance dont l'état est privé ne protège rien tout en en donnant
+**Le gel inopérant.** `Object.freeze` n'affecte pas les champs privés `#` : ce ne sont pas des
+propriétés. Geler une instance dont l'état est privé ne protège rien tout en en donnant
 l'apparence.
 
 **Ce qui casse.** V1 est annulé de l'extérieur : l'objet est immuable, son contenu ne l'est pas.
 
 ### V8. Un type par intention
 
-*Value Object uniquement.* Quand un même concept entre dans le système sous plusieurs formes, chaque
-forme a son type.
+**Énoncé.** *Propre au Value Object.* Quand un même concept entre dans le système sous plusieurs
+formes, chaque forme a son type.
 
 ```
 CombinedCourseBlueprintForCreation   → sans identifiant, avant insertion
@@ -379,7 +379,7 @@ Une forme de **création** est un concept distinct : un objet qui n'existe pas e
 d'identité, ce qui est une différence de nature et non un raccourci. `…ForCreation` est légitime.
 
 Une forme de **mise à jour** qui porte un sous-ensemble de champs est autre chose : c'est un modèle
-partiellement rempli, et `X4` de `fiche-repository.md` explique pourquoi il est à écarter. Le test du
+partiellement rempli, et `X4` de `fiche-repository.md` explique pourquoi il est écarté. Le test du
 motif sépare les cas :
 
 | Motif invoqué | Verdict |
@@ -416,7 +416,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **V1** immuabilité | moyenne | Le partage devient sûr sans copie défensive |
 | **V7** exposition en lecture seule | moyenne | Ferme la voie par laquelle V1 est annulé de l'extérieur |
 | **V4** pureté | moyenne | Test unitaire sans double, coût d'exécution prévisible |
-| **V8** un type par intention | moyenne | La signature devient une garantie, et le typage la rendra vérifiable. À appliquer avec le test du motif : sans lui, c'est le vecteur de `X7` |
+| **V8** un type par intention | moyenne | La signature devient une garantie, et le typage la rendra vérifiable. Il va avec le test du motif : sans lui, c'est le vecteur de `X7` |
 | **V2** aucune identité | moyenne | Rend le classement possible : sans lui, rien ne distingue un Value Object d'une Entity mal rangée |
 | **V6** aucun cycle de vie propre | hygiène | Conséquence de V2. Rien de mesurable ne s'améliore |
 
@@ -461,8 +461,8 @@ relue par personne côté serveur.
 
 **Correction.** Classer selon les trois cas de V2, puis :
 
-1. **Clé de présentation pure.** Le sérialiseur la compose depuis les champs qu'il a déjà. L'objet du domaine
-   n'a pas d'`id`. C'est le cas majoritaire, et la correction est mécanique.
+1. **Clé de présentation pure.** Le sérialiseur la compose depuis les champs qu'il a déjà. L'objet du
+   domaine n'a pas d'`id`. C'est le cas majoritaire, et la correction est mécanique.
 2. **Clé renvoyée par le client.** Un Value Object porte la paire construire / découper, et les deux
    vivent ensemble. C'est un identifiant, donc V3 s'applique à lui. Le déplacer dans le sérialiseur
    séparerait les deux moitiés d'une même règle.
@@ -497,8 +497,8 @@ dans `references-ddd.md`, section « Read model ».
 
 **Le motif habituel** est une optimisation non mesurée : ne pas charger l'Entity entière. La grille
 coût/bénéfice de `corpus-index.md` est explicite : un bénéfice invoqué sans mesure compte pour nul.
-Le coût, lui, est certain. Chaque forme partielle est un modèle qui ne garantit aucun invariant, et le nombre de fichiers de
-`domain/models/` cesse de dire combien de concepts porte le contexte.
+Le coût, lui, est certain. Chaque forme partielle est un modèle qui ne garantit aucun invariant, et le
+nombre de fichiers de `domain/models/` cesse de dire combien de concepts porte le contexte.
 
 **Correction.** Le test du motif de `V8` s'applique fichier par fichier. Ce qui exprime une différence de
 nature reste, comme l'absence d'identité ou un vocabulaire d'entrée distinct. Ce qui n'exprime qu'un
@@ -545,7 +545,7 @@ l'inverse et n'appuie donc pas le typage.
 chaque Value Object à sa construction est un durcissement, cohérent avec sa définition mais non
 prescrit sous cette forme.
 
-**Exemple concret.** Le durcissement se voit au nombre de constructeurs qui lèvent :
+**Exemple concret.** Le durcissement se voit aux constructeurs qui lèvent, comme celui-ci :
 
 ```js
 class QrocmSolutions {
@@ -561,8 +561,8 @@ class QrocmSolutions {
 ```
 
 **Correction.** Aucune. Le coût est une validation et un type d'erreur par type ; le bénéfice est
-qu'aucun code en aval ne revérifie. C'est V3, classé en rentabilité forte au § 4. C'est une convention
-explicite, pas une lecture d'Evans.
+qu'aucun code en aval ne revérifie. C'est V3, classé en rentabilité forte au § 4. Cette convention est
+explicite, et ce n'est pas une lecture d'Evans.
 
 ### X4. L'immuabilité n'est pas garantie par le langage
 
@@ -600,7 +600,7 @@ infrastructure, et les coûts ci-dessous ne comptent que la règle.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **V4** aucune I/O | règle `dependency-cruiser` de chemin | configuration seule | aucun |
+| **V4** aucune I/O | règle `dependency-cruiser` de chemin, pour les imports seulement. L'horloge, l'aléatoire et la configuration restent en revue | configuration seule | aucun |
 | **V1** immuabilité | règle ESLint : champ de classe public | ~30 lignes | aucun attendu |
 | **V7** exposition en lecture seule | même règle, élargie | ~30 lignes de plus | faibles |
 | **V6** aucun cycle de vie propre | script `tests/tooling/` : aucun repository ne porte le nom d'un Value Object | ~20 lignes | faibles |
@@ -639,8 +639,8 @@ Trois motifs syntaxiques, tous locaux au fichier :
 - un accesseur dont le corps est un `return this.#champ` où le champ est initialisé par un tableau.
 
 Le troisième est le plus utile et le plus délicat : il demande de remonter à l'initialisation pour
-connaître le type. La règle se limite au cas évident : un champ initialisé à `[]`, ou affecté depuis un paramètre par
-défaut `= []`.
+connaître le type. La règle se limite au cas évident : un champ initialisé à `[]`, ou affecté depuis un
+paramètre par défaut `= []`.
 
 Le motif ne couvre pas un accès imbriqué, comme `return this.#coreChallenge.proposals` dans l'exemple
 fautif de V7. Ce cas reste à la revue, d'où le statut `[partiel]` de V7 au § 9.
@@ -659,9 +659,9 @@ classement. Elle n'est donc jamais bloquante, car les cas 2 et 3 sont légitimes
 
 **V2 ensuite.** Un champ ou accesseur `id` dans un fichier de Value Object. Cette règle est inexploitable
 avant X5 : les clés de présentation composées dans le domaine la déclenchent toutes, et rien ne les
-distingue d'une identité réelle. Une fois X5 traité, il reste deux sortes d'`id`
-légitimes. Les premiers sont les identifiants d'autre chose, que V2 autorise. Les seconds sont les
-identifiants composites du deuxième cas de V2. Une liste d'exclusion couvre les deux.
+distingue d'une identité réelle. Une fois X5 traité, restent deux sortes d'`id` légitimes : les
+identifiants d'autre chose, que V2 autorise, et les identifiants composites du deuxième cas de V2. Une
+liste d'exclusion couvre les deux.
 
 ### V6 et l'existence des tests — un script
 
@@ -711,8 +711,8 @@ export type AnswerStatus = { readonly status: string };
 ```
 
 Deux types de même forme sont interchangeables : le typage structurel ne distingue pas un
-`AnswerStatus` de n'importe quel autre objet qui porte un champ `status`. C'est la forme retenue pour un read-model, dont la forme *est* le contenu. Voir
-`fiche-read-model.md`. Elle ne convient pas ici.
+`AnswerStatus` de n'importe quel autre objet qui porte un champ `status`. C'est la forme retenue pour
+un read-model, dont la forme *est* le contenu : voir `fiche-read-model.md`. Elle ne convient pas ici.
 
 **Classe avec champ privé.** C'est ce qui donne la nominalité : un champ `#` rend le type non
 assignable depuis une forme identique :
@@ -803,7 +803,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | L'identité composite (deuxième et troisième cas de V2) | Evans, même ch. — l'identité d'une Entity peut être composée de plusieurs attributs | *DDD Reference* |
 | **X5** la clé de présentation appartient à la couche externe | Martin, *Clean Architecture* (2017), ch. « Presenters and Humble Objects » ; la règle de dépendance | le livre de 2017 |
 | Le discriminant avec le read-model | la catégorie voisine n'a **aucun nom en DDD** — sources dans `fiche-read-model.md`, § 10. Les quatre tests du § 1 sont une construction de ce corpus, sans source | — |
-| Validation à la frontière HTTP (X2) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût et retient la validation à la route. À rouvrir, pas à invoquer à l'appui du typage | ADR 19 |
+| Validation à la frontière HTTP (X2) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût et retient la validation à la route. Il conclut contre le typage et ne l'appuie donc pas | ADR 19 |
 
 Deux invariants sur huit n'ont aucune source : V7 et V8. V3 n'en a qu'une partielle. La catégorie
 Value Object vient d'Evans ; la façon de l'appliquer ici est en partie conventionnelle. Ce sont des
