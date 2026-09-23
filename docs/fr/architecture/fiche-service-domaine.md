@@ -13,8 +13,8 @@ typage de s'appliquer est dans `migration-typescript.md`.
 >   § 5.
 > - Le numéro D6 n'est pas attribué. Il portait « testable en unitaire pur », qui découle de D1 et
 >   fait l'objet du § 8.
-> - D4 est l'invariant le plus rentable de la fiche, et aucun outil ne le vérifie. Le seul signal
->   connu est faible.
+> - D4 est, avec D1, l'invariant le plus rentable de la fiche. Aucun outil ne le vérifie, et le seul
+>   signal connu est faible.
 
 ## Sommaire
 
@@ -51,24 +51,24 @@ questions, il départage objet, agrégat, usecase et service. `fiche-usecase.md`
 ## 1. Rôle
 
 Un service de domaine porte une règle métier qui n'appartient à aucun objet. Soit elle traverse
-plusieurs agrégats, soit aucun d'eux n'en est le propriétaire naturel.
+plusieurs agrégats, soit aucun objet n'en est le propriétaire naturel.
 
 Il reçoit des objets du domaine et en renvoie. Il ne charge rien, n'écrit rien et ne garde aucun état.
 
 C'est une catégorie de **dernier recours**. On n'y vient qu'après avoir essayé de placer la règle sur
-un objet-valeur, une entité ou une racine d'agrégat. Créer un service trop tôt retire la logique des
-modèles, qui deviennent anémiques.
+un objet-valeur, une entité ou une racine d'agrégat. Créer un service par facilité retire la logique
+des modèles, qui deviennent anémiques.
 
 ### Le test de discrimination
 
-Poser les questions dans cet ordre. Le test sert aussi à `fiche-usecase.md`, qui y renvoie.
+Poser les questions dans cet ordre.
 
 1. *La règle porte-t-elle sur les données d'un seul objet ?* → elle va sur cet **objet-valeur** ou
    cette **entité**.
 2. *Porte-t-elle sur plusieurs objets d'une même frontière de cohérence ?* → elle va sur la **racine
    d'agrégat**.
 3. *A-t-elle besoin de charger ou d'écrire quoi que ce soit ?* → c'est un **usecase**, pas un service.
-4. *Reste-t-il une règle qui traverse plusieurs agrégats et se calcule sur des objets déjà fournis ?*
+4. *Reste-t-il une règle sans propriétaire naturel, qui se calcule sur des objets déjà fournis ?*
    → **service de domaine**.
 
 En pratique, la question 3 décide le plus souvent. C'est aussi la plus facile à vérifier : le fichier
@@ -117,7 +117,13 @@ Le premier service importe `dayjs` et une constante partagée. C'est conforme : 
 l'infrastructure, pas les bibliothèques de calcul. Le point important est que la date de référence
 arrive en paramètre. Le service ne lit pas l'heure, donc son test peut la fixer.
 
-L'interdiction couvre aussi l'infrastructure implicite : journal, horloge, aléatoire, configuration.
+L'interdiction couvre aussi l'infrastructure implicite :
+
+- le journal ;
+- l'horloge ;
+- l'aléatoire ;
+- la configuration.
+
 Une date ou un générateur arrive en paramètre, comme pour une entité.
 
 **Ce qui casse.** Le service n'est plus testable en unitaire pur : il faut une base ou une doublure.
@@ -128,9 +134,17 @@ La détection est simple : un paramètre dont le nom finit par `Repository`, `Ap
 
 ### D2. Prend des objets du domaine, en renvoie
 
-**Énoncé.** Les entrées et les sorties sont des objets du domaine local, des objets-valeurs ou des
-scalaires. Jamais une ligne de base, jamais le DTO d'un autre contexte, jamais un objet préparé pour
-une réponse HTTP.
+**Énoncé.** Les entrées et les sorties sont :
+
+- des objets du domaine local ;
+- des objets-valeurs ;
+- des scalaires.
+
+Jamais :
+
+- une ligne de base ;
+- le DTO d'un autre contexte ;
+- un objet préparé pour une réponse HTTP.
 
 ```js
 // conforme — des objets du domaine et des scalaires, un nombre en sortie
@@ -195,23 +209,24 @@ réponse par étapes reste sans état.
 un objet changer sans qu'aucune affectation n'apparaisse dans son code. C'est le défaut le plus long à
 diagnostiquer parmi ceux de cette fiche.
 
-Un service qui modifie son entrée révèle aussi une faille de l'objet modifié : il viole V1 ou E6, qui
-auraient dû l'interdire.
+L'objet modifié a aussi une faille : il aurait dû refuser la modification (V1 de
+`fiche-objet-valeur.md`, E6 de `fiche-entite.md`).
 
 ### D4. C'est un dernier recours
 
 **Énoncé.** On ne crée un service qu'après avoir répondu non aux trois premières questions du test de
 discrimination. Le service accueille la règle qui n'a pas de propriétaire naturel.
 
-**Pourquoi c'est un invariant.** Un service de domaine est la solution la plus facile. Écrire une
-fonction qui prend deux objets et renvoie un booléen va toujours plus vite qu'ajouter une méthode à
-une entité en vérifiant que son invariant tient.
+**Pourquoi c'est un invariant et pas un conseil.** Un service de domaine est la solution la plus
+facile. Écrire une fonction qui prend deux objets et renvoie un booléen va toujours plus vite. Ajouter
+une méthode à une entité oblige à vérifier que son invariant tient. Sans règle, on choisit donc le
+service.
 
 **Ce qui casse.** Avec le temps, les modèles ne contiennent plus que des champs, et toute la logique
 vit dans des fonctions à côté. C'est un modèle anémique que personne n'a choisi. Voir X2 au § 5.
 
-**Le signal.** Un service qui prend un seul objet du domaine, et rien d'autre. Sa règle appartient
-presque toujours à cet objet.
+**Le signal.** Un service qui prend un seul objet du domaine, ou une seule collection d'objets, et
+rien d'autre. Sa règle appartient presque toujours à cet objet, ou à l'objet qu'il produit.
 
 ### D5. Nommé par la règle, pas par la ressource
 
@@ -224,8 +239,8 @@ scorecard-service.js            — ne dit rien, et attire tout ce qui touche à
 ```
 
 **Ce qui casse.** Un fichier nommé d'après une ressource et suffixé `-service` accepte n'importe
-quelle fonction : rien ne permet de refuser un ajout. Un nom de règle, lui, donne ce critère. Voir X3
-au § 5.
+quelle fonction : rien ne permet de refuser un ajout. Un nom de règle donne un critère de refus. Voir
+X3 au § 5.
 
 ---
 
@@ -239,10 +254,11 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un service reçoit une constante de configuration en paramètre | **autorisé** : c'est une donnée, pas une dépendance |
 | Un service asynchrone sans I/O, qui découpe un calcul long | **autorisé**, mais rare. Vérifier qu'aucun `await` ne porte sur une I/O |
 | Un service prend plusieurs objets du domaine et renvoie un objet-valeur | **autorisé**, c'est le cas nominal de D2 |
-| Un service exporté sous forme de classe sans état | **autorisé** : la forme compte moins que D3 |
+| Un service exporté sous forme de classe sans état | **autorisé**, mais le module de fonctions est la forme préférée (§ 7) |
 | Un service partagé entre plusieurs usecases | **autorisé** si D1 tient. Le partage n'est pas le critère |
+| Le fichier de câblage `index.js` importe l'infrastructure | **autorisé**, exclu des règles de D1 : il câble, il ne porte aucune règle. Voir X5 de `fiche-repository.md` |
 | Un service qui reçoit un repository | **pas une exception** : c'est un usecase, quel que soit son dossier |
-| Un service qui prend un seul objet du domaine | **pas une exception**, mais un signal : la règle appartient probablement à cet objet. Voir D4 |
+| Un service qui prend un seul objet du domaine | **pas une exception**, mais un signal : la règle appartient probablement à cet objet, ou à celui qu'il produit. Voir D4 |
 
 ---
 
@@ -252,7 +268,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | --- | --- | --- |
 | **D1** aucune I/O | **forte** | Une règle métier testable en unitaire pur, sans base ni doublure. Dans un usecase, la même règle demande des fixtures |
 | **D4** dernier recours | **forte** | La question « cette règle peut-elle vivre sur un objet ? » est posée avant de créer le fichier. Les modèles gardent leur logique |
-| **D3** sans état, sans effet de bord | moyenne | Le service se rejoue et se parallélise. L'appelant retrouve ses objets tels qu'il les a passés |
+| **D3** sans état, sans effet sur ses entrées | moyenne | Le service se rejoue et se parallélise. L'appelant retrouve ses objets tels qu'il les a passés |
 | **D2** objets du domaine en entrée et en sortie | moyenne | La règle se réutilise depuis une route, un script ou un job, sans adaptation |
 | **D5** nommé par la règle | hygiène | La liste des fichiers montre les règles transversales du contexte |
 
@@ -271,20 +287,20 @@ qu'un. Voir A1 de `fiche-racine-agregat.md`.
 
 Les écarts sont numérotés `X` et non `D`, qui est le préfixe des invariants de cette fiche.
 
-Les trois écarts sont des dérives. Aucun n'est une convention assumée, car le sens du dossier
-`services/` n'avait jamais été décidé. Il l'est maintenant : `services/` est réservé aux vrais
-services. X1 a donc une correction à appliquer, pas une option à choisir.
+Les trois écarts sont des dérives. Aucun n'est une convention assumée. Pour X1, la cause est connue :
+le sens du dossier `services/` n'avait jamais été décidé. Il l'est maintenant : `services/` est
+réservé aux vrais services. X1 a donc une correction à appliquer, pas une option à choisir.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **X1** Le dossier `services/` mélange deux natures de fichiers | dérive | Tant que le mélange dure, la règle de D1 ne peut pas passer en erreur. Le mot, repris du DDD, induit en erreur | Nul | **À corriger**, direction décidée |
+| **X1** Le dossier `services/` mélange deux natures de fichiers | dérive | Tant que le mélange dure, la règle ESLint de D1 ne peut pas passer en erreur. Le mot, repris du DDD, induit en erreur | Nul | **À corriger**, direction décidée |
 | **X2** La règle est placée dans un service plutôt que sur un objet | dérive | Les modèles perdent leur logique, et la règle s'éloigne de ses données | L'écriture est plus rapide, et l'invariant de l'objet n'a pas à être revu | **À corriger** |
 | **X3** Le fichier est nommé par la ressource et suffixé `-service` | dérive | Le fichier accueille tout ce qui touche à la ressource, sans critère pour refuser | Nul | **À corriger** |
 
 ### X1. Le dossier `services/` mélange deux natures de fichiers
 
 **Ce que dit la théorie.** Chez Evans, un Service est sans état, et son interface emploie les termes
-du modèle. Il ne fait pas d'I/O. Un code qui fait des I/O orchestre : c'est ce que Clean Architecture
+du modèle. Il ne fait pas d'I/O. Du code qui fait des I/O orchestre : c'est ce que Clean Architecture
 appelle un usecase.
 
 **Exemple concret.** Deux fichiers du même dossier, deux natures :
@@ -298,11 +314,11 @@ domain/services/
 ```
 
 Le dossier ne distingue pas ces natures. Un relecteur ne sait donc pas quels invariants appliquer, et
-la règle de D1 ne peut pas passer en erreur. Le troisième fichier est une exception nommée, symétrique
-de `domain/usecases/index.js`. Voir X5 de `fiche-repository.md`.
+la règle ESLint de D1 ne peut pas passer en erreur. Le troisième fichier est une exception nommée au
+§ 3, symétrique de `domain/usecases/index.js`. Voir X5 de `fiche-repository.md`.
 
-**Correction.** `domain/services/` est réservé aux vrais services de domaine. Les fichiers qui
-reçoivent une I/O vont dans `usecases/`.
+**Correction.** `domain/services/` est réservé aux vrais services de domaine. Les fichiers qui font
+des I/O vont dans `usecases/`.
 
 Cette position est la plus fidèle aux sources. Chez Evans, un Service est sans état et ne fait pas
 d'I/O. `docs/fr/Anatomy.md` décrit `domain/services` comme les « Services métier du domaine » : le nom
@@ -310,8 +326,8 @@ parle du métier, pas du partage entre usecases.
 
 Elle a deux conséquences :
 
-- Une fois les fichiers déplacés, la règle de D1 passe en erreur. Plus personne ne peut ajouter un
-  repository à un fichier de ce dossier.
+- Une fois les fichiers déplacés, on peut passer la règle ESLint de D1 en erreur. Plus personne ne
+  peut alors ajouter un repository à un fichier de ce dossier.
 - Le dossier devient rare, voire vide dans certains contextes. C'est attendu : une règle qui traverse
   plusieurs agrégats sans rien charger est peu fréquente.
 
@@ -332,11 +348,11 @@ objets. Fowler nomme ce qu'on obtient sinon : le modèle anémique.
 **Exemple concret.**
 
 ```js
-// dans domain/services/ — la règle porte sur un seul objet
+// dans domain/services/ — une seule collection d'objets en entrée
 function computeTubesFromSkills(skills) { … }
 ```
 
-C'est le signal de D4 : une seule collection d'objets du domaine en entrée, un objet du domaine en
+C'est le signal de D4 : une seule collection d'objets du domaine en entrée, des objets du domaine en
 sortie. Regrouper des acquis par tube est une règle du modèle d'apprentissage, pas un calcul
 transverse.
 
@@ -382,8 +398,7 @@ C'est l'écart le moins coûteux à corriger des trois.
 
 ## 6. Vérification déterministe
 
-L'invariant qui définit la catégorie, D1, se lit dans la signature. Cette section est donc plus
-courte et plus concluante que dans les autres fiches du domaine.
+L'invariant qui définit la catégorie, D1, se lit dans la signature.
 
 Il n'existe pas de plugin ESLint maison. Toute règle sur mesure suppose d'abord de créer cette
 infrastructure, et les coûts ci-dessous ne comptent que la règle.
@@ -405,13 +420,15 @@ Dans un fichier de domain/services/, un paramètre déstructuré dont le nom
 correspond à /(Repository|Api|Storage)$/.
 ```
 
-La règle se décide sans quitter la signature.
+La règle n'a besoin que de la signature.
 
-Elle se déclenchera sur le code existant, et c'est voulu : chaque fichier signalé est à déplacer vers
-`usecases/`. L'introduire en avertissement pendant le classement de X1, puis la passer en erreur.
+Elle se déclenchera sur le code existant, et c'est voulu. Chaque fichier signalé contient un usecase.
+Le classer avec le test du § 1 : le déplacer, ou le découper. Introduire la règle en avertissement
+pendant le classement de X1, puis la passer en erreur.
 
-Le même parcours d'AST sert au discriminant du § 6 de `fiche-usecase.md` et à l'étape 1 de I1 dans
-`fiche-repository.md`, qui repère déjà les paramètres en `/Api$/`. Le coût supplémentaire est faible.
+La même analyse de la signature sert au discriminant du § 6 de `fiche-usecase.md`. Elle sert aussi à
+l'étape 1 de I1 dans `fiche-repository.md`, qui repère déjà les paramètres en `/Api$/`. Le coût
+supplémentaire est donc faible.
 
 La règle `dependency-cruiser` complète la précédente pour les imports directs :
 
@@ -419,7 +436,7 @@ La règle `dependency-cruiser` complète la précédente pour les imports direct
 {
   name: 'domain-service-must-not-do-io',
   severity: 'error',
-  from: { path: 'src/.+/domain/services/' },
+  from: { path: 'src/.+/domain/services/', pathNot: 'domain/services/index\.js$' },
   to: { path: 'src/.+/infrastructure/' },
 }
 ```
@@ -428,20 +445,21 @@ Deux pièges :
 
 - `severity: 'error'` est obligatoire. La valeur par défaut est `warn`, et seul `error` fait échouer
   la commande.
-- Écrire `src/.+/` et non `src/[^/]+/`. Sinon, la règle n'atteint pas les contextes à sous-contextes
-  et ne se déclenche jamais, sans aucun message.
+- Écrire `src/.+/` et non `src/[^/]+/`. Sinon, la règle n'atteint pas les contextes à sous-contextes.
+  Elle ne s'y déclenche jamais, sans aucun message.
 
 ### L'existence du test unitaire comme indicateur
 
 Un fichier de `domain/services/` sans test unitaire est soit non testé, soit testé en intégration.
 Dans le second cas, D1 est probablement violé. Le script ne prouve rien : il montre où regarder.
 
-La correspondance se fait sur le nom de base, sans le suffixe de test. Le fichier peut être dans un
-sous-dossier et son test à plat, et le suffixe varie d'un contexte à l'autre.
+La correspondance se fait sur le nom de base, sans le suffixe de test. On ne compare pas les chemins,
+car le fichier et son test peuvent être dans des dossiers différents. Le suffixe varie aussi d'un
+contexte à l'autre.
 
 ### Ce qui n'est pas mécanisable
 
-D4 est l'invariant le plus important et le moins vérifiable. Pour savoir si une règle aurait pu vivre
+D4 est, avec D1, l'invariant le plus rentable, et c'est le moins vérifiable. Pour savoir si une règle aurait pu vivre
 sur un objet, il faut connaître cet objet.
 
 Le seul indicateur connu est « un seul objet du domaine en entrée ». Il justifie une revue, pas un
@@ -452,7 +470,8 @@ des deux.
 
 Cet ordre suit le coût, pas le ROI du § 4.
 
-1. **D1 imports** : configuration `dependency-cruiser`, avec contre-épreuve.
+1. **D1 imports** : configuration `dependency-cruiser`, avec contre-épreuve. Introduire une
+   violation, vérifier que l'outil la signale, puis la retirer.
 2. **D1 signature** en avertissement, pour produire la liste des fichiers à classer.
 3. **X1** : classer les fichiers avec le test du § 1, puis déplacer les usecases.
 4. **D1 signature** en erreur.
@@ -494,12 +513,13 @@ ne reste rien à deviner.
 
 Le typage ne couvre ni D3 ni D4 :
 
-- L'absence d'effet de bord ne s'exprime pas. `readonly` interdit l'écriture au typage, mais disparaît
-  à la compilation et ne dit rien des méthodes qui modifient l'objet reçu.
+- L'absence d'effet sur les entrées ne s'exprime pas dans un type. `readonly` n'interdit l'écriture
+  que pendant la vérification des types, et disparaît à la compilation. Il ne dit rien des méthodes
+  qui modifient l'objet reçu.
 - Rien dans un type ne dit qu'une règle aurait pu vivre ailleurs.
 
-La forme retenue est le module de fonctions, pas la classe. Une classe sans état n'apporte rien de
-plus, et elle permet d'ajouter un champ.
+On préfère le module de fonctions à la classe. Une classe sans état n'apporte rien de plus, et elle
+permet d'ajouter un champ.
 
 Les contraintes de syntaxe imposées par la configuration sont dans `migration-typescript.md`.
 
@@ -514,12 +534,12 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 
 L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites au § 6.
 
-Deux indices de diagnostic, avec leurs bornes :
+Deux indices de diagnostic, avec leurs limites :
 
-- **Un service qui a besoin d'une doublure viole D1.** La doublure n'est pas une contrainte du test,
-  c'est le diagnostic. Cet indice n'a pas de borne : un vrai service de domaine n'en demande jamais.
-- **Le test d'absence d'effet est celui qui manque le plus souvent.** C'est le seul qui prouve D3.
-  Borne : un service qui ne reçoit que des scalaires n'a rien à modifier.
+- Un service qui a besoin d'une **doublure** viole D1. La doublure n'est pas une contrainte du test,
+  c'est le diagnostic. Cet indice n'a pas de limite : un vrai service de domaine n'en demande jamais.
+- Le **test d'absence d'effet** est celui qui manque le plus souvent. C'est le seul qui prouve D3.
+  Limite : un service qui ne reçoit que des scalaires n'a rien à modifier.
 
 ---
 
@@ -535,7 +555,7 @@ Chaque ligne porte son statut au regard du § 6 :
 
 ```
 [ ] [auto]    D1  Aucun paramètre en *Repository, *Api, *Storage ; aucun import d'infrastructure
-[ ] [humain]  D1  Ni horloge, ni aléatoire, ni configuration lue directement — tout entre en paramètre
+[ ] [humain]  D1  Ni journal, ni horloge, ni aléatoire, ni configuration lue directement — tout entre en paramètre
 [ ] [humain]  D4  La règle ne pouvait pas vivre sur un objet-valeur, une entité ou une racine
 [ ] [partiel] D3  Aucun état ; les objets reçus ne sont pas modifiés
 [ ] [humain]  D2  Entrées et sorties sont des objets du domaine local ou des scalaires
@@ -546,8 +566,8 @@ Chaque ligne porte son statut au regard du § 6 :
 [ ] [humain]  Si le service prend un seul objet du domaine, vérifier que la règle ne lui appartient pas
 ```
 
-À terme, il reste huit lignes : deux `[partiel]` et six `[humain]`. D4, la ligne la plus rentable,
-reste humaine : elle porte sur une alternative qui n'existe pas dans le code.
+À terme, il reste huit lignes : deux `[partiel]` et six `[humain]`. D4, rentable comme D1, reste
+humaine : elle porte sur une alternative qui n'existe pas dans le code.
 
 ---
 
@@ -565,7 +585,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | Le sens du dossier `services/` (X1) | **aucun ADR.** L'ADR 51 fixe l'arborescence sans définir le contenu de `services/`. L'ADR 20 rend le usecase obligatoire sans traiter le service. `docs/fr/Anatomy.md` parle de « Services métier du domaine », ce qui appuie la décision sans la remplacer | ADR 20 et 51 ; `docs/fr/Anatomy.md` |
 
 Un seul invariant sur cinq n'a pas de source : D5, la convention de nommage. D1, D2 et D3 viennent de
-la définition d'Evans. La fiche ne décrit donc pas une préférence locale : elle applique la définition
-du terme employé.
+la définition d'Evans, D4 du même chapitre. Un relecteur peut donc invoquer D1 à D4 : ce n'est pas une
+préférence locale, c'est la définition du terme employé.
 
-Le sens donné au dossier n'a pas de source Pix. X1 le décide, et un ADR doit l'écrire.
+Aucun ADR ne fixe le sens du dossier. X1 le décide, et un ADR doit l'écrire.

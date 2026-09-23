@@ -159,7 +159,7 @@ Périmètre : `fiche-entite.md`, `fiche-objet-valeur.md`, `fiche-racine-agregat.
 `fiche-read-model.md`, `fiche-service-domaine.md`, `fiche-specification.md`. Les six autres fiches
 n'ont pas eu cette passe.
 
-Trois étapes, dans cet ordre.
+Quatre étapes, dans cet ordre.
 
 **1. Conformité au gabarit.** Un audit point par point du gabarit a trouvé des écarts dans les six
 fiches. Ils sont corrigés :
@@ -183,6 +183,11 @@ par du code réel. Deux blocs de `fiche-objet-valeur.md` restent schématiques f
 **3. Simplification de la prose.** Les règles de langue sont écrites dans la règle 2 du gabarit.
 `fiche-service-domaine.md` a été réécrite en premier et sert de référence. Titres, ancres, tables et
 blocs de code n'ont pas changé.
+
+**4. Revue adversariale.** Une revue par fiche a comparé la prose simplifiée à la version d'avant.
+Elle a trouvé des pertes de sens, dues à des remplacements de mots mécaniques et à des liens logiques
+coupés, et des contradictions plus anciennes, surtout dans les checklists et au § 6. Les deux sont
+corrigées, et la règle 2 du gabarit dit maintenant comment les éviter.
 
 Ce qui reste ouvert :
 
@@ -405,7 +410,12 @@ référence :
 - Pas d'incise en tiret cadratin dans la prose. Un point, deux points ou une phrase de plus.
 - Du gras seulement sur le terme à repérer, une fois par paragraphe au plus.
 - Des mots courants, un seul mot pour une même chose. Pas de jargon maison : « se déclencher » et non
-  « sortir sur », « s'appliquer » et non « mordre », « décider » et non « trancher ».
+  « sortir sur », « s'appliquer » et non « mordre », « borne » ou « écrivable » à éviter. Remplacer
+  un mot selon le sens de la phrase, jamais mécaniquement : « trancher un débat » devient « régler un
+  débat », « trancher entre deux options » devient « choisir ».
+- Couper une phrase ne doit pas couper son lien logique. Garder les « parce que », « donc », « sauf
+  si », et vérifier que chaque pronom désigne encore le bon nom. En cas de doute, répéter le nom.
+- Simplifier ne doit pas affaiblir une règle : « ne doit pas pouvoir » n'est pas « ne doit pas ».
 - Aucune phrase qui commente la fiche elle-même, ni qui prête une intention à l'auteur du code.
 - Trois éléments ou plus dans une phrase deviennent une liste.
 

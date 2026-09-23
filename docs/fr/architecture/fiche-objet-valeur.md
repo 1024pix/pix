@@ -1,10 +1,11 @@
 # Fiche — Objet-valeur
 
-Fiche générique. Elle décrit l'état cible, où tout est en TypeScript.
+Fiche générique. Elle décrit l'état cible, où tout est en TypeScript. Les exemples viennent du code
+actuel, en JavaScript.
 
 Le gabarit commun, l'état du chantier et l'ordre de relecture sont dans `corpus-index.md`. L'écart avec
-le code réel est mesuré dans les rapports de divergence, un par contexte. Ce qui empêche le typage de
-s'appliquer est dans `migration-typescript.md`.
+le code réel est mesuré dans les rapports de divergence, un par contexte. Ce qui empêche aujourd'hui le
+typage de s'appliquer est dans `migration-typescript.md`.
 
 > **À instruire**
 >
@@ -52,9 +53,8 @@ s'appliquer est dans `migration-typescript.md`.
 | [**X3**](#x3-validation-à-la-construction-de-chaque-objet-valeur) | validation à la construction de chaque objet-valeur | rien à faire |
 | [**X4**](#x4-limmuabilité-nest-pas-garantie-par-le-langage) | l'immuabilité n'est pas garantie par le langage | rien à faire |
 
-Deux artefacts hors numérotation, souvent cherchés : le [discriminant](#le-discriminant) avec le
-read-model, et ses quatre tests ; et le [cas de la clé de présentation](#le-cas-de-la-clé-de-présentation),
-et ses trois cas.
+**Hors numérotation** — le [discriminant](#le-discriminant) avec le read-model, et ses quatre tests ·
+le [cas de la clé de présentation](#le-cas-de-la-clé-de-présentation), et ses trois cas.
 
 ---
 
@@ -68,8 +68,8 @@ littéral, en concept nommé qui protège ses propres règles.
 L'objet-valeur se confond souvent avec le **read-model** : une forme assemblée pour une lecture, que le
 domaine ne lit pas pour décider. Elle a sa fiche, `fiche-read-model.md`.
 
-Le discriminant entre les deux est énoncé ici, une seule fois. Il n'appartient à aucune des deux
-catégories, et les deux fiches y renvoient.
+Le discriminant entre les deux n'appartient à aucune des deux catégories. Il sert aux deux fiches :
+`fiche-read-model.md` y renvoie.
 
 ### Le discriminant
 
@@ -90,7 +90,7 @@ par une règle, est un objet-valeur mal rangé. Il doit alors satisfaire V3 et V
 
 #### Quatre tests pour l'appliquer
 
-La question de principe est juste, mais abstraite. Ces quatre tests la décident plus vite, et ils
+La question de principe est juste, mais abstraite. Ces quatre tests y répondent plus vite, et ils
 concordent presque toujours.
 
 | Test | Objet-valeur | read-model |
@@ -125,12 +125,12 @@ class PlacesStatistics {
 
 #### La zone grise
 
-Quand les tests ne concordent pas, classer en **read-model**. Ce n'est pas de la prudence, c'est que
-l'erreur se corrige seule.
+Quand les tests ne concordent pas, classer en **read-model**, parce que cette erreur-là se signale
+d'elle-même.
 
 Un objet-valeur pris pour un read-model se signale dès qu'une règle veut le lire. C'est RM3, que la
-règle de chemin du § 6 détecte. L'erreur inverse ne se signale jamais. On écrit une validation et des
-règles dont personne n'avait besoin, et aucun outil ne le signale.
+règle de chemin du § 6 détecte. L'erreur inverse, un read-model pris pour un objet-valeur, ne se
+signale jamais. Elle produit une validation et des règles inutiles.
 
 ### Ce qu'est un objet du domaine local
 
@@ -198,7 +198,7 @@ static get OK() { return new AnswerStatus({ status: OK }); }
 ```
 
 **Ce qui casse.** Un objet-valeur mutable, partagé entre deux évaluations ou mis en cache, peut changer
-sans que son deuxième lecteur ne le sache. Le défaut apparaît loin de sa cause.
+sans que son deuxième lecteur le sache. Le défaut apparaît loin de sa cause.
 
 **Piège sur les classes de base.** Une hiérarchie peut être irréprochable dans ses sous-classes et
 exposer des champs publics sur sa classe abstraite. L'invariant se vérifie sur toute la chaîne.
@@ -242,7 +242,7 @@ Cette clé n'est **pas** une identité du domaine. Trois cas, à ne pas confondr
 
 Le premier cas est le plus fréquent. Il ne viole V2 que si la clé est fabriquée **dans le domaine** ;
 voir X5 au § 5. Le deuxième est un identifiant à part entière, donc V3 s'applique à lui. Le troisième
-sort de cette fiche.
+relève de `fiche-entite.md`.
 
 Comment les distinguer : chercher qui lit la clé. Si personne ne la relit côté serveur, c'est une clé
 de cache.
@@ -303,10 +303,10 @@ getDeletableOrganizationLearners(organizationLearnerIdsToDelete, userId) {
 }
 ```
 
-Le besoin est légitime, la solution non : la trace se rend à l'appelant. Voir `X3` de
-`fiche-specification.md`, où l'écart est instruit.
+Le besoin est légitime, la solution non. C'est l'appelant qui trace : l'objet lève seulement
+l'erreur. Voir `X3` de `fiche-specification.md`, où l'écart est instruit.
 
-Cela vaut aussi pour la configuration, l'horloge et l'aléatoire. Un objet qui lit l'heure courante
+L'interdit vaut aussi pour la configuration, l'horloge et l'aléatoire. Un objet qui lit l'heure courante
 n'est pas testable de façon déterministe : la date arrive en paramètre.
 
 **Ce qui casse.** Le test cesse d'être pur : il faut un double. Le besoin d'un double est le symptôme,
@@ -332,8 +332,9 @@ class TrainingTrigger {
 }
 ```
 
-Le second décide quelque chose : un seuil est atteint ou non. C'est ce qui distingue un objet-valeur
-d'un read-model. C'est aussi le piège du § 1 : une dérivation de présentation ne décide rien.
+Le second décide quelque chose : un seuil est atteint ou non. Cette décision distingue un
+objet-valeur d'un read-model. Le piège du § 1 le rappelle : une dérivation de présentation ne décide
+rien.
 
 **Ce qui casse.** La règle qui contraint la donnée s'écrit ailleurs, donc plusieurs fois, donc
 différemment.
@@ -349,8 +350,8 @@ Pas de repository, pas de table dédiée, pas de fonction de persistance. Un obj
 S'il faut le retrouver indépendamment, c'est une entité.
 
 **Ce qui casse.** Un repository dédié à un objet-valeur lui donne une identité de fait, celle par
-laquelle on le retrouve. Il bascule alors dans la catégorie des entités, sans que personne l'ait
-décidé.
+laquelle on le retrouve. L'objet-valeur bascule alors dans la catégorie des entités,
+sans que personne l'ait décidé.
 
 ### V7. Exposition en lecture seule, collections comprises
 
@@ -386,15 +387,15 @@ CombinedCourseBlueprintForUpdate     → avec identifiant
 **Ce qui casse.** Une signature qui accepte l'un accepte l'autre. L'erreur n'apparaît qu'à
 l'exécution, sur un champ absent.
 
-**Le discriminant** est indispensable, car cet invariant est le vecteur d'une dérive. Voir `X7` au
-§ 5.
+Cet invariant est le vecteur d'une dérive : voir `X7` au § 5. Le **test du motif**, plus bas, est donc
+indispensable.
 
 Une forme de **création** est un concept distinct : un objet qui n'existe pas encore n'a pas
 d'identité, ce qui est une différence de nature et non un raccourci. `…ForCreation` est légitime.
 
 Une forme de **mise à jour** qui porte un sous-ensemble de champs est autre chose : c'est un modèle
-partiellement rempli, et `X4` de `fiche-repository.md` explique pourquoi il est à écarter. La question
-à poser est celle du motif.
+partiellement rempli, et `X4` de `fiche-repository.md` explique pourquoi il est à écarter. Le test du
+motif sépare les cas :
 
 | Motif invoqué | Verdict |
 | --- | --- |
@@ -430,7 +431,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **V1** immuabilité | moyenne | Le partage devient sûr sans copie défensive |
 | **V7** exposition en lecture seule | moyenne | Ferme la voie par laquelle V1 est annulé de l'extérieur |
 | **V4** pureté | moyenne | Test unitaire sans double, coût d'exécution prévisible |
-| **V8** un type par intention | moyenne | La signature devient une garantie, et le typage la rendra vérifiable. À lire avec son discriminant : sans lui, c'est le vecteur de `X7` |
+| **V8** un type par intention | moyenne | La signature devient une garantie, et le typage la rendra vérifiable. À appliquer avec le test du motif : sans lui, c'est le vecteur de `X7` |
 | **V2** aucune identité | moyenne | Rend le classement possible : sans lui, rien ne distingue un objet-valeur d'une entité mal rangée |
 | **V6** aucun cycle de vie propre | hygiène | Conséquence de V2. Rien de mesurable ne s'améliore |
 
@@ -480,8 +481,8 @@ relue par personne côté serveur.
 2. **Clé renvoyée par le client.** Un objet-valeur porte la paire construire / découper, et les deux
    vivent ensemble. C'est un identifiant, donc V3 s'applique à lui. Le déplacer dans le sérialiseur
    séparerait les deux moitiés d'une même règle.
-3. **Identité métier composite.** L'objet est une entité. Il sort de cette fiche, et rien n'est à
-   corriger.
+3. **Identité métier composite.** L'objet est une entité. Il relève de `fiche-entite.md`, et rien
+   n'est à corriger.
 
 Le classement précède la correction : appliquer le cas 1 à un objet du cas 2 casse la requête entrante
 qui renvoie la clé.
@@ -505,21 +506,20 @@ AdminCombinedCourseBlueprintDetails  → un autre sous-ensemble, nommé par son 
 Le quatrième porte deux signaux du § 1 à lui seul : `Admin` et `Details` nomment un consommateur, pas
 un concept métier.
 
-Les deux derniers ressemblent à des **commandes**, au sens de CQRS. C'est la même appropriation que
-celle du mot `read-model`, côté écriture cette fois. Le vocabulaire de CQRS est emprunté sans son
-architecture. Détail dans `references-ddd.md`, section « Read model ».
+Les deux derniers ressemblent à des **commandes**, au sens de CQRS. Le mot `read-model` vient lui
+aussi de CQRS. Dans les deux cas, le vocabulaire de CQRS est emprunté sans son architecture. Détail dans `references-ddd.md`, section « Read model ».
 
-**Le motif habituel** est une optimisation non mesurée : ne pas charger l'entité entière. La grille de
-ce corpus est explicite : un bénéfice invoqué sans mesure compte pour nul. Le coût, lui, est certain.
+**Le motif habituel** est une optimisation non mesurée : ne pas charger l'entité entière. La grille
+coût/bénéfice de `corpus-index.md` est explicite : un bénéfice invoqué sans mesure compte pour nul. Le coût, lui, est certain.
 Chaque forme partielle est un modèle qui ne garantit aucun invariant, et le nombre de fichiers de
 `domain/models/` cesse de dire combien de concepts porte le contexte.
 
-**Correction.** Le discriminant de `V8` décide fichier par fichier. Ce qui exprime une différence de
+**Correction.** Le test du motif de `V8` s'applique fichier par fichier. Ce qui exprime une différence de
 nature reste, comme l'absence d'identité ou un vocabulaire d'entrée distinct. Ce qui n'exprime qu'un
 sous-ensemble de champs disparaît : on charge l'entité, on la fait changer par une méthode nommée, on
 la sauve. C'est `E6` de `fiche-entite.md`.
 
-Ce qui rouvrirait le dossier pour un cas donné : une mesure. Un chargement dont le coût est constaté
+Seule une mesure change ce verdict pour un cas donné. Un chargement dont le coût est constaté
 en production justifie une forme partielle, et la mesure s'écrit à côté du modèle.
 
 ### X2. Les valeurs sont validées à la frontière HTTP, pas par leur type
@@ -543,11 +543,11 @@ validation à la route. Son exemple donne d'ailleurs le même type à deux ident
 ce qui est la limite de l'approche.
 
 **Correction.** Rien d'immédiat, et pas de reprise de l'existant. Ce qui est à tenir : une valeur qui
-porte une règle métier, pas seulement une borne de format, traverse le domaine dans son type, pas en
+porte une règle métier, pas seulement une contrainte de format, traverse le domaine dans son type, pas en
 primitive. La validation à la route reste utile pour ce qu'elle fait bien : refuser tôt, avec un
 message utilisateur. Les deux ne s'excluent pas ; c'est leur confusion qui coûte.
 
-Réouvrir l'ADR 19 est le préalable si l'équipe veut généraliser. Ne pas l'invoquer comme source à
+Si l'équipe veut généraliser, elle doit d'abord rouvrir l'ADR 19. Ne pas l'invoquer comme source à
 l'appui du typage : il conclut l'inverse.
 
 ### X3. Validation à la construction de chaque objet-valeur
@@ -586,8 +586,8 @@ export class CriterionProperty {
 ```
 
 **Correction.** Aucune sur la forme. Le vestige est un coût d'écriture, pas un défaut de conception.
-Ce qui le rend rentable, c'est qu'il est vérifiable : V1 et V7 se contrôlent par une règle de lint, ce
-qu'une convention orale ne permettrait pas. Voir le § 6.
+Il est rentable parce qu'il est vérifiable : V1 se contrôle par une règle de lint, et V7 en partie.
+Une convention orale ne le permettrait pas. Voir le § 6.
 
 ---
 
@@ -610,7 +610,7 @@ infrastructure, et les coûts ci-dessous ne comptent que la règle.
 | **V7** exposition en lecture seule | même règle, élargie | ~30 lignes de plus | faibles |
 | **V6** aucun cycle de vie propre | script `tests/tooling/` : aucun repository ne porte le nom d'un objet-valeur | ~20 lignes | faibles |
 | **§ 8** un fichier de test existe | même script | ~15 lignes de plus | aucun |
-| **X5** clé composée dans le domaine — signal | règle ESLint : affectation à `id` depuis un littéral de gabarit | ~20 lignes | aucun |
+| **X5** clé composée dans le domaine — signal | règle ESLint : affectation à `id` depuis un littéral de gabarit | ~20 lignes | aucun faux positif syntaxique ; ne dit pas lequel des cas de V2 s'applique, donc jamais bloquante |
 | **V2** aucune identité | règle ESLint : accesseur ou champ nommé `id` | ~15 lignes | **nombreux avant X5** — voir plus bas |
 | **V3**, **V5**, **V8** | revue | — | — |
 
@@ -625,9 +625,11 @@ infrastructure, et les coûts ci-dessous ne comptent que la règle.
 }
 ```
 
-`severity: 'error'` est obligatoire : la valeur par défaut est `warn`, et seul `error` fait échouer la
-commande. Écrire `src/.+/` et non `src/[^/]+/`, sinon les contextes à sous-contextes ne sont pas
-atteints et la règle ne se déclenche jamais, sans erreur ni avertissement.
+`severity: 'error'` est obligatoire. La valeur par défaut est `warn`, et seul `error` fait échouer la
+commande.
+
+Écrire `src/.+/` et non `src/[^/]+/`. Sinon, les contextes à sous-contextes ne sont pas atteints. La
+règle ne se déclenche alors jamais, sans erreur ni avertissement.
 
 La règle jumelle interdit à une règle du domaine d'importer un read-model. Elle est au § 6 de
 `fiche-read-model.md`, sous l'invariant RM3.
@@ -645,22 +647,26 @@ Le troisième est le plus utile et le plus délicat : il faut remonter à l'init
 le type. À restreindre au cas évident : un champ initialisé à `[]`, ou affecté depuis un paramètre par
 défaut `= []`.
 
+Le motif ne couvre pas un accès imbriqué, comme `return this.#coreChallenge.proposals` dans l'exemple
+fautif de V7. Ce cas reste à la revue, d'où le statut `[partiel]` de V7 au § 9.
+
 ### X5 et V2 — dans cet ordre
 
 Les deux règles regardent le même champ, et l'ordre entre elles compte.
 
-**X5 d'abord.** Le signal est syntaxique et sans faux positif :
+**X5 d'abord.** Le signal est syntaxique, et il ne donne aucun faux positif sur sa forme :
 
 > Une affectation à une propriété `id`, dont la valeur est un littéral de gabarit, dans un fichier du
 > domaine.
 
-La règle ne prouve rien sur la nature de la clé : elle désigne l'endroit où appliquer le classement des
-trois cas de V2. C'est sa fonction.
+La règle ne dit pas lequel des trois cas de V2 s'applique : elle désigne l'endroit où faire le
+classement. Elle n'est donc jamais bloquante, car les cas 2 et 3 sont légitimes.
 
 **V2 ensuite.** Un champ ou accesseur `id` dans un fichier d'objet-valeur. Cette règle est inexploitable
 avant X5 : les clés de présentation composées dans le domaine la déclenchent toutes, et rien ne les
-distingue d'une identité réelle. Une fois X5 traité, il ne reste que les `id` portés, l'identifiant
-d'autre chose autorisé par V2, qu'une liste d'exclusion couvre.
+distingue d'une identité réelle. Une fois X5 traité, il reste deux sortes d'`id`
+légitimes. Les premiers sont les identifiants d'autre chose, que V2 autorise. Les seconds sont les
+identifiants composites du deuxième cas de V2. Une liste d'exclusion couvre les deux.
 
 ### V6 et l'existence des tests — un script
 
@@ -669,10 +675,10 @@ Le script parcourt les fichiers d'objets-valeurs et de DTO. Deux vérifications 
 - **V6** : aucun fichier de `infrastructure/repositories/` ne porte le nom d'un objet-valeur. Faux
   positifs faibles : une homonymie entre un objet-valeur et une entité est possible.
 - **§ 8** : chaque fichier a un fichier de test. La correspondance se fait sur le nom de base, après
-  retrait du suffixe de test. Le fichier peut vivre dans un sous-dossier alors que son test est à plat,
-  et le suffixe n'est pas le même partout. La comparaison couvre les deux sens : un objet sans test, et
-  un test dont aucun objet ne porte le nom. Cela attrape aussi la faute de frappe dans un nom de
-  fichier de test.
+  retrait du suffixe de test, car le fichier peut être dans un sous-dossier et son test à un autre
+  endroit. Le suffixe de test varie aussi d'un endroit à l'autre. La comparaison couvre les deux sens :
+  un objet sans test, et un test dont aucun objet ne porte le nom. Ce second sens attrape la faute de
+  frappe dans un nom de fichier de test.
 
 ### Ordre de mise en œuvre
 
@@ -682,7 +688,7 @@ Cet ordre suit le coût, pas le ROI du § 4.
 2. **V1** puis **V7**, première règle ESLint sur mesure, ce qui suppose de créer l'infrastructure
 3. **V6** et l'existence des tests, un seul script de complétude
 4. **X5** signal, puis le classement des trois cas, fichier par fichier
-5. **V2**, après X5, avec la liste d'exclusion des identifiants portés
+5. **V2**, après X5, avec la liste d'exclusion des `id` légitimes
 
 ### Codemods
 
@@ -718,9 +724,9 @@ assignable depuis une forme identique :
 
 ```ts
 export class Threshold {
-  readonly #brand!: void;
-  readonly value: number;
-  constructor(value: number) { /* validation */ this.value = value; }
+  readonly #value: number;
+  constructor(value: number) { /* validation */ this.#value = value; }
+  get value(): number { return this.#value; }
 }
 ```
 
@@ -743,12 +749,12 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 
 L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6.
 
-Deux indices de diagnostic, avec leurs bornes.
+Deux indices de diagnostic, avec leurs limites.
 
 Un objet qui a besoin d'un double **viole V4**. Le double nécessaire est le symptôme, pas la cause.
 
 Un objet-valeur dont le test unitaire n'a ni validation ni comportement à vérifier n'est probablement
-pas un objet-valeur : appliquer le discriminant du § 1. La borne : un type nommé sans logique peut
+pas un objet-valeur : appliquer le discriminant du § 1. La limite : un type nommé sans logique peut
 valoir pour la seule signature, ce qu'admet le § 3.
 
 ---
@@ -762,13 +768,13 @@ correspondante existe. `[partiel]` reste, réduite à ce que la règle ne couvre
 entièrement : aucun moyen déterministe n'est identifié.
 
 ```
-[ ] [humain]  V3  Validation à la construction, avant affectation, un seul type d'erreur   (objet-valeur)
+[ ] [humain]  V3  Validation à la construction, un seul type d'erreur ; avant affectation si le message nomme l'entrée   (objet-valeur)
 [ ] [humain]  V5  La règle qui contraint la donnée est portée par l'objet                  (objet-valeur)
 [ ] [auto]    V1  Aucun champ public ; aucune écriture après le constructeur, classe de base comprise
 [ ] [partiel] V7  Aucune collection interne rendue telle quelle ; aucun gel inopérant
-[ ] [auto]    V4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
+[ ] [partiel] V4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
 [ ] [humain]  V8  Une intention d'écriture distincte a son propre type — et son motif tient (X7)
-[ ] [auto]    V2  Aucune clé composée ici : une clé de cache se compose dans le sérialiseur
+[ ] [partiel] V2  Aucune clé composée ici : une clé de présentation se compose dans le sérialiseur
 [ ] [partiel] V2  Aucune identité propre ; un identifiant porté est admis
 [ ] [partiel] V6  Aucun repository, aucune persistance propre
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui de l'objet
@@ -777,9 +783,11 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [humain]  Avant de signaler un id, classer la clé selon les trois cas du § 2, V2
 ```
 
-À terme il reste six lignes, toutes de jugement : V3, V5, V8, la pureté des tests et les deux rappels
-de classement. Les invariants les plus rentables de cette fiche, V3 et V5, portent sur le contenu
-d'une règle, pas sur une forme syntaxique. Cela borne la part automatisable.
+À terme, il reste onze lignes. Six sont entièrement de jugement : V3, V5, V8, la pureté des tests et
+les deux rappels de classement. Cinq sont partielles, réduites à ce que la règle ne couvre pas : V7,
+V4, V2 pour la clé composée, V2 pour l'identité propre, et V6. Les invariants les plus rentables,
+V3 et V5, portent sur le
+contenu d'une règle, pas sur une forme syntaxique. Cela limite la part automatisable.
 
 ---
 
@@ -799,7 +807,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | L'identité composite (deuxième et troisième cas de V2) | Evans, même ch. — l'identité d'une entité peut être composée de plusieurs attributs | *DDD Reference* |
 | **X5** la clé de présentation appartient à la couche externe | Martin, *Clean Architecture* (2017), ch. « Presenters and Humble Objects » ; la règle de dépendance | le livre de 2017 |
 | Le discriminant avec le read-model | la catégorie voisine n'a **aucun nom en DDD** — sources dans `fiche-read-model.md`, § 10. Les quatre tests du § 1 sont une construction de ce corpus, sans source | — |
-| Validation à la frontière HTTP (X2) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût et retient la validation à la route. À réouvrir, pas à invoquer à l'appui du typage | ADR 19 |
+| Validation à la frontière HTTP (X2) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût et retient la validation à la route. À rouvrir, pas à invoquer à l'appui du typage | ADR 19 |
 
 Deux invariants sur huit n'ont aucune source : V7 et V8. V3 n'en a qu'une partielle. La catégorie
 objet-valeur vient d'Evans ; la façon de l'appliquer ici est en partie conventionnelle. Ce sont des
