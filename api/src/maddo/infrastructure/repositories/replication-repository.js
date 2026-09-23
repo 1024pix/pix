@@ -156,7 +156,7 @@ export const replications = [
     },
   },
   {
-    name: 'data-calibrations',
+    name: 'data_calibrations',
     before: async ({ datamartKnex }) => {
       await datamartKnex('data_calibrations').truncate();
     },
@@ -168,7 +168,7 @@ export const replications = [
     },
   },
   {
-    name: 'data-active-calibrated-challenges',
+    name: 'data_active_calibrated_challenges',
     before: async ({ datamartKnex }) => {
       await datamartKnex('data_active_calibrated_challenges').truncate();
     },
@@ -185,7 +185,7 @@ export const replications = [
     },
   },
   {
-    name: 'data-scoring-meshes-all',
+    name: 'data_scoring_meshes_all',
     before: async ({ datamartKnex }) => {
       await datamartKnex('data_scoring_meshes_all').truncate();
     },
@@ -197,7 +197,7 @@ export const replications = [
     },
   },
   {
-    name: 'data-scoring-meshes',
+    name: 'data_scoring_meshes',
     before: async ({ datamartKnex }) => {
       await datamartKnex('data_scoring_meshes').truncate();
     },
@@ -214,7 +214,7 @@ export const replications = [
     },
   },
   {
-    name: 'data-scoring-thresholds-all',
+    name: 'data_scoring_thresholds_all',
     before: async ({ datamartKnex }) => {
       await datamartKnex('data_scoring_thresholds_all').truncate();
     },
@@ -226,7 +226,7 @@ export const replications = [
     },
   },
   {
-    name: 'data-scoring-thresholds',
+    name: 'data_scoring_thresholds',
     before: async ({ datamartKnex }) => {
       await datamartKnex('data_scoring_thresholds').truncate();
     },
