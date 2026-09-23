@@ -3,8 +3,8 @@
 Fiche générique. Elle décrit l'état cible, où tout est en TypeScript.
 
 Le gabarit commun, l'état du chantier et l'ordre de relecture sont dans `corpus-index.md`. L'écart avec
-le code réel est mesuré dans les rapports de divergence, un par contexte. Ce qui empêche aujourd'hui le
-typage de mordre est dans `migration-typescript.md`.
+le code réel est mesuré dans les rapports de divergence, un par contexte. Ce qui empêche le typage de
+s'appliquer est dans `migration-typescript.md`.
 
 > **À instruire**
 >
@@ -17,8 +17,8 @@ typage de mordre est dans `migration-typescript.md`.
 > - Les numéros d'écart commencent à X2 : X1 et X6 portaient sur le read-model et ont suivi la création
 >   de `fiche-read-model.md`. Les numéros ne sont pas réattribués.
 > - Cohérence avec `fiche-entite.md` : la fiche garde sa règle. Le motif retenu est qu'un champ qui
->   porte une règle ne doit pas pouvoir être réécrit de l'extérieur — ce qui, pour un objet-valeur
->   immuable par définition, vaut pour tous ses champs.
+>   porte une règle ne doit pas pouvoir être réécrit de l'extérieur. Pour un objet-valeur, immuable par
+>   définition, cela vaut pour tous ses champs.
 
 ## Sommaire
 
@@ -53,23 +53,23 @@ typage de mordre est dans `migration-typescript.md`.
 | [**X4**](#x4-limmuabilité-nest-pas-garantie-par-le-langage) | l'immuabilité n'est pas garantie par le langage | rien à faire |
 
 Deux artefacts hors numérotation, souvent cherchés : le [discriminant](#le-discriminant) avec le
-read-model et ses quatre tests ; et le [cas de la clé de présentation](#le-cas-de-la-clé-de-présentation)
-avec ses trois cas.
+read-model, et ses quatre tests ; et le [cas de la clé de présentation](#le-cas-de-la-clé-de-présentation),
+et ses trois cas.
 
 ---
 
 ## 1. Rôle
 
-Un **objet-valeur** est défini par ses attributs, pas par une identité. Deux instances portant les
-mêmes valeurs sont interchangeables. Il est immuable, il ne se persiste pas seul, et il porte le
-comportement lié à ses données. Il transforme une primitive sans signification — `string`, `number`,
-un objet littéral — en concept nommé qui protège ses propres règles.
+Un **objet-valeur** est défini par ses attributs, pas par une identité. Deux instances aux mêmes
+valeurs sont interchangeables. Il est immuable, il ne se persiste pas seul, et il porte le comportement
+lié à ses données. Il transforme une primitive sans signification, comme `string`, `number` ou un objet
+littéral, en concept nommé qui protège ses propres règles.
 
-La catégorie avec laquelle il se confond est le **read-model** : une forme assemblée pour une lecture,
-que le domaine ne lit pas pour décider. Elle a sa fiche, `fiche-read-model.md`.
+L'objet-valeur se confond souvent avec le **read-model** : une forme assemblée pour une lecture, que le
+domaine ne lit pas pour décider. Elle a sa fiche, `fiche-read-model.md`.
 
-Le discriminant entre les deux est énoncé ici, une fois, parce qu'il n'appartient à aucune des deux
-catégories et que les deux fiches y renvoient.
+Le discriminant entre les deux est énoncé ici, une seule fois. Il n'appartient à aucune des deux
+catégories, et les deux fiches y renvoient.
 
 ### Le discriminant
 
@@ -82,16 +82,15 @@ Une seule question sépare l'objet-valeur du read-model :
 | Une règle du domaine lit ses valeurs pour décider | **objet-valeur** | V1 à V8 |
 | Il est assemblé pour être lu, puis sérialisé ou affiché | **read-model** | V1, V2, V4, V6, V7, puis RM1 à RM4 de `fiche-read-model.md` |
 
-Les cinq invariants communs — immuabilité, absence d'identité, pureté, absence de cycle de vie,
-exposition en lecture seule — s'appliquent aux deux. Ce qui diffère est la validation et le
-comportement.
+Cinq invariants sont communs aux deux : immuabilité, absence d'identité, pureté, absence de cycle de
+vie, exposition en lecture seule. Seules la validation et le comportement diffèrent.
 
-Le discriminant se lit dans le code, pas dans le dossier : un objet rangé dans `read-models/` mais lu
-par une règle est un objet-valeur mal rangé, et il doit alors satisfaire V3 et V5.
+Le discriminant se lit dans le code, pas dans le dossier. Un objet rangé dans `read-models/`, mais lu
+par une règle, est un objet-valeur mal rangé. Il doit alors satisfaire V3 et V5.
 
 #### Quatre tests pour l'appliquer
 
-La question de principe est juste mais abstraite. Ces quatre tests la tranchent plus vite, et ils
+La question de principe est juste, mais abstraite. Ces quatre tests la décident plus vite, et ils
 concordent presque toujours.
 
 | Test | Objet-valeur | read-model |
@@ -103,9 +102,9 @@ concordent presque toujours.
 
 #### Le piège : dérivation n'est pas règle
 
-C'est la principale source de confusion entre les deux catégories. Une **dérivation de présentation**
-— un total, un pourcentage, un libellé composé — n'est pas une règle métier. Un read-model peut donc
-porter des méthodes sans devenir un objet-valeur.
+C'est la principale source de confusion entre les deux catégories. Une **dérivation de présentation**,
+comme un total, un pourcentage ou un libellé composé, n'est pas une règle métier. Un read-model peut
+donc porter des méthodes sans devenir un objet-valeur.
 
 La question n'est pas « a-t-il du comportement ? » mais « **ce comportement décide-t-il quelque
 chose ?** »
@@ -129,9 +128,9 @@ class PlacesStatistics {
 Quand les tests ne concordent pas, classer en **read-model**. Ce n'est pas de la prudence, c'est que
 l'erreur se corrige seule.
 
-Un objet-valeur pris pour un read-model se signale dès qu'une règle veut le lire : c'est RM3, que la
-règle de chemin du § 6 détecte. L'erreur inverse ne se signale jamais — on écrit une validation et des
-règles dont personne n'avait besoin, et aucun outil ne le dira.
+Un objet-valeur pris pour un read-model se signale dès qu'une règle veut le lire. C'est RM3, que la
+règle de chemin du § 6 détecte. L'erreur inverse ne se signale jamais. On écrit une validation et des
+règles dont personne n'avait besoin, et aucun outil ne le signale.
 
 ### Ce qu'est un objet du domaine local
 
@@ -151,7 +150,7 @@ quand il est déjà en forme d'objet. Sa traduction est le travail du repository
 
 ### Ce qu'un objet-valeur n'est pas
 
-Table de décision. Si le code correspond à une ligne, ce n'est pas un objet-valeur.
+Si le code correspond à une ligne, ce n'est pas un objet-valeur.
 
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
@@ -198,8 +197,8 @@ est un constructeur statique nommé :
 static get OK() { return new AnswerStatus({ status: OK }); }
 ```
 
-**Ce qui casse.** Un objet-valeur mutable partagé entre deux évaluations, ou mis en cache, change sous
-les pieds de son deuxième lecteur. Le défaut se manifeste loin de sa cause.
+**Ce qui casse.** Un objet-valeur mutable, partagé entre deux évaluations ou mis en cache, peut changer
+sans que son deuxième lecteur ne le sache. Le défaut apparaît loin de sa cause.
 
 **Piège sur les classes de base.** Une hiérarchie peut être irréprochable dans ses sous-classes et
 exposer des champs publics sur sa classe abstraite. L'invariant se vérifie sur toute la chaîne.
@@ -229,9 +228,9 @@ le mettre à jour, le comparer par référence. La catégorie ne tient plus, et 
 
 #### Le cas de la clé de présentation
 
-Un client qui met les objets en cache — le store d'une application web — exige une clé par
-enregistrement, y compris pour des objets qui n'ont aucune identité. La clé est alors composée, le plus
-souvent par concaténation de deux identifiants portés.
+Un client qui met les objets en cache, comme le store d'une application web, exige une clé par
+enregistrement. Cela vaut aussi pour des objets qui n'ont aucune identité. La clé est alors composée, le
+plus souvent par concaténation de deux identifiants portés.
 
 Cette clé n'est **pas** une identité du domaine. Trois cas, à ne pas confondre :
 
@@ -241,9 +240,9 @@ Cette clé n'est **pas** une identité du domaine. Trois cas, à ne pas confondr
 | Le client renvoie la clé, et le serveur la découpe pour retrouver ses parties | identifiant composite | un objet-valeur qui porte la paire construire / découper |
 | L'objet a une identité métier exprimée par plusieurs attributs | identité composite | c'est une **entité**, et V2 ne s'y applique pas |
 
-Le premier cas est le plus fréquent. Il ne viole V2 que lorsque la clé est fabriquée **dans le
-domaine** — voir X5 au § 5. Le deuxième est un identifiant à part entière, donc V3 s'applique à lui.
-Le troisième sort de cette fiche.
+Le premier cas est le plus fréquent. Il ne viole V2 que si la clé est fabriquée **dans le domaine** ;
+voir X5 au § 5. Le deuxième est un identifiant à part entière, donc V3 s'applique à lui. Le troisième
+sort de cette fiche.
 
 Comment les distinguer : chercher qui lit la clé. Si personne ne la relit côté serveur, c'est une clé
 de cache.
@@ -307,8 +306,8 @@ getDeletableOrganizationLearners(organizationLearnerIdsToDelete, userId) {
 Le besoin est légitime, la solution non : la trace se rend à l'appelant. Voir `X3` de
 `fiche-specification.md`, où l'écart est instruit.
 
-Vaut aussi pour la configuration, l'horloge et l'aléatoire. Un objet qui lit l'heure courante n'est
-pas testable de façon déterministe : la date entre en paramètre.
+Cela vaut aussi pour la configuration, l'horloge et l'aléatoire. Un objet qui lit l'heure courante
+n'est pas testable de façon déterministe : la date arrive en paramètre.
 
 **Ce qui casse.** Le test cesse d'être pur : il faut un double. Le besoin d'un double est le symptôme,
 pas la cause.
@@ -334,7 +333,7 @@ class TrainingTrigger {
 ```
 
 Le second décide quelque chose : un seuil est atteint ou non. C'est ce qui distingue un objet-valeur
-d'un read-model, et c'est le piège du § 1 — une dérivation de présentation ne décide rien.
+d'un read-model. C'est aussi le piège du § 1 : une dérivation de présentation ne décide rien.
 
 **Ce qui casse.** La règle qui contraint la donnée s'écrit ailleurs, donc plusieurs fois, donc
 différemment.
@@ -349,13 +348,13 @@ Pas de repository, pas de table dédiée, pas de fonction de persistance. Un obj
 
 S'il faut le retrouver indépendamment, c'est une entité.
 
-**Ce qui casse.** Un repository dédié à un objet-valeur lui donne une identité de fait — celle par
-laquelle on le retrouve — et le fait basculer dans la catégorie des entités sans que personne l'ait
+**Ce qui casse.** Un repository dédié à un objet-valeur lui donne une identité de fait, celle par
+laquelle on le retrouve. Il bascule alors dans la catégorie des entités, sans que personne l'ait
 décidé.
 
 ### V7. Exposition en lecture seule, collections comprises
 
-Un accesseur qui rend une collection interne rend un tableau modifiable par l'appelant.
+Un accesseur qui renvoie une collection interne expose un tableau modifiable par l'appelant.
 
 ```js
 // fautif — l'appelant reçoit le tableau interne et peut le modifier
@@ -365,7 +364,7 @@ get proposals() { return this.#coreChallenge.proposals; }
 get proposals() { return [...this.#coreChallenge.proposals]; }
 ```
 
-Le champ privé ne suffit donc pas : `#coreChallenge` est inaccessible, mais l'accesseur rend une
+Le champ privé ne suffit donc pas : `#coreChallenge` est inaccessible, mais l'accesseur renvoie une
 référence vers son contenu.
 
 **Attention au gel inopérant.** `Object.freeze` n'affecte pas les champs privés `#` : ce ne sont pas
@@ -387,8 +386,8 @@ CombinedCourseBlueprintForUpdate     → avec identifiant
 **Ce qui casse.** Une signature qui accepte l'un accepte l'autre. L'erreur n'apparaît qu'à
 l'exécution, sur un champ absent.
 
-**Le discriminant, et il est indispensable**, parce que cet invariant est le vecteur d'une dérive —
-voir `X7` au § 5.
+**Le discriminant** est indispensable, car cet invariant est le vecteur d'une dérive. Voir `X7` au
+§ 5.
 
 Une forme de **création** est un concept distinct : un objet qui n'existe pas encore n'a pas
 d'identité, ce qui est une différence de nature et non un raccourci. `…ForCreation` est légitime.
@@ -441,8 +440,8 @@ Ces invariants ne disent pas **quels** concepts méritent un objet-valeur. Extra
 trop est un coût pur ; ne pas en extraire un qui portait une règle laisse la règle se dupliquer. Ce
 jugement reste humain.
 
-Ils ne disent pas non plus **si** un concept méritait d'être un objet-valeur plutôt qu'un read-model.
-C'est le discriminant du § 1 qui répond, et il repose sur des tests de jugement.
+Ils ne disent pas non plus **si** un concept mérite d'être un objet-valeur plutôt qu'un read-model.
+C'est le discriminant du § 1 qui répond ; il s'appuie sur des tests de jugement.
 
 ---
 
@@ -476,12 +475,12 @@ relue par personne côté serveur.
 
 **Correction.** Classer selon les trois cas de V2, puis :
 
-1. **Clé de cache pure** — le sérialiseur la compose depuis les champs qu'il a déjà. L'objet du domaine
+1. **Clé de cache pure.** Le sérialiseur la compose depuis les champs qu'il a déjà. L'objet du domaine
    n'a pas d'`id`. C'est le cas majoritaire, et la correction est mécanique.
-2. **Clé renvoyée par le client** — un objet-valeur porte la paire construire / découper, et les deux
+2. **Clé renvoyée par le client.** Un objet-valeur porte la paire construire / découper, et les deux
    vivent ensemble. C'est un identifiant, donc V3 s'applique à lui. Le déplacer dans le sérialiseur
    séparerait les deux moitiés d'une même règle.
-3. **Identité métier composite** — l'objet est une entité. Il sort de cette fiche, et rien n'est à
+3. **Identité métier composite.** L'objet est une entité. Il sort de cette fiche, et rien n'est à
    corriger.
 
 Le classement précède la correction : appliquer le cas 1 à un objet du cas 2 casse la requête entrante
@@ -489,10 +488,10 @@ qui renvoie la clé.
 
 ### X7. Les modèles se multiplient par intention d'écriture, sans mesure
 
-**Ce que dit la théorie.** Un agrégat se charge entier, parce que c'est ce qui lui permet de garantir
-ses invariants. La réponse de la littérature au coût de chargement est de **réduire l'agrégat** —
-règle 2 de Vernon — pas de le charger à moitié. Et Fowler prévient que séparer lecture et écriture
-ajoute de la complexité et ne doit pas être le défaut.
+**Ce que dit la théorie.** Un agrégat se charge entier, car cela lui permet de garantir ses invariants.
+Face au coût de chargement, la littérature répond : **réduire l'agrégat** (règle 2 de Vernon), pas le
+charger à moitié. Fowler prévient aussi que séparer lecture et écriture ajoute de la complexité, et que
+ce ne doit pas être le choix par défaut.
 
 **Exemple concret.** Un concept, quatre modèles :
 
@@ -506,17 +505,17 @@ AdminCombinedCourseBlueprintDetails  → un autre sous-ensemble, nommé par son 
 Le quatrième porte deux signaux du § 1 à lui seul : `Admin` et `Details` nomment un consommateur, pas
 un concept métier.
 
-Les deux derniers ressemblent à des **commandes** au sens de CQRS. C'est la même appropriation que
-celle du mot `read-model`, du côté écriture cette fois : on emprunte le vocabulaire de CQRS sans en
-avoir l'architecture. Détail dans `references-ddd.md`, section « Read model ».
+Les deux derniers ressemblent à des **commandes**, au sens de CQRS. C'est la même appropriation que
+celle du mot `read-model`, côté écriture cette fois. Le vocabulaire de CQRS est emprunté sans son
+architecture. Détail dans `references-ddd.md`, section « Read model ».
 
-**Le motif habituel est une optimisation non mesurée** : ne pas charger l'entière. Or la grille de ce
-corpus est explicite — un bénéfice invoqué sans mesure compte pour nul. Le coût, lui, est certain :
-chaque forme partielle est un modèle qui ne peut garantir aucun invariant, et le nombre de fichiers de
+**Le motif habituel** est une optimisation non mesurée : ne pas charger l'entité entière. La grille de
+ce corpus est explicite : un bénéfice invoqué sans mesure compte pour nul. Le coût, lui, est certain.
+Chaque forme partielle est un modèle qui ne garantit aucun invariant, et le nombre de fichiers de
 `domain/models/` cesse de dire combien de concepts porte le contexte.
 
-**Correction.** Le discriminant de `V8` tranche fichier par fichier. Ce qui exprime une différence de
-nature reste — l'absence d'identité, un vocabulaire d'entrée distinct. Ce qui n'exprime qu'un
+**Correction.** Le discriminant de `V8` décide fichier par fichier. Ce qui exprime une différence de
+nature reste, comme l'absence d'identité ou un vocabulaire d'entrée distinct. Ce qui n'exprime qu'un
 sous-ensemble de champs disparaît : on charge l'entité, on la fait changer par une méthode nommée, on
 la sauve. C'est `E6` de `fiche-entite.md`.
 
@@ -544,7 +543,7 @@ validation à la route. Son exemple donne d'ailleurs le même type à deux ident
 ce qui est la limite de l'approche.
 
 **Correction.** Rien d'immédiat, et pas de reprise de l'existant. Ce qui est à tenir : une valeur qui
-porte une règle métier — pas seulement une borne de format — traverse le domaine dans son type, pas en
+porte une règle métier, pas seulement une borne de format, traverse le domaine dans son type, pas en
 primitive. La validation à la route reste utile pour ce qu'elle fait bien : refuser tôt, avec un
 message utilisateur. Les deux ne s'excluent pas ; c'est leur confusion qui coûte.
 
@@ -586,16 +585,20 @@ export class CriterionProperty {
 }
 ```
 
-**Correction.** Aucune sur la forme. Le vestige est le coût d'écriture, pas un défaut de conception.
-Ce qui le rend rentable est qu'il est vérifiable : V1 et V7 se contrôlent par une règle de lint, ce
-qui n'aurait pas été le cas d'une convention orale — voir § 6.
+**Correction.** Aucune sur la forme. Le vestige est un coût d'écriture, pas un défaut de conception.
+Ce qui le rend rentable, c'est qu'il est vérifiable : V1 et V7 se contrôlent par une règle de lint, ce
+qu'une convention orale ne permettrait pas. Voir le § 6.
 
 ---
 
 ## 6. Vérification déterministe
 
 Les taux de faux positifs annoncés sont estimés. Toute hypothèse sur le comportement d'un outil se
-vérifie par contre-épreuve : introduire la violation, confirmer que l'outil sort, retirer la violation.
+vérifie par contre-épreuve :
+
+- introduire la violation ;
+- confirmer que l'outil la signale ;
+- retirer la violation.
 
 Il n'existe aucun plugin ESLint maison : toute règle sur mesure suppose d'abord de créer cette
 infrastructure, et les coûts ci-dessous ne comptent que la règle.
@@ -626,8 +629,8 @@ infrastructure, et les coûts ci-dessous ne comptent que la règle.
 commande. Écrire `src/.+/` et non `src/[^/]+/`, sinon les contextes à sous-contextes ne sont pas
 atteints et la règle ne se déclenche jamais, sans erreur ni avertissement.
 
-La règle jumelle, qui interdit à une règle du domaine d'importer un read-model, est au § 6 de
-`fiche-read-model.md` — c'est son invariant RM3.
+La règle jumelle interdit à une règle du domaine d'importer un read-model. Elle est au § 6 de
+`fiche-read-model.md`, sous l'invariant RM3.
 
 ### V1 et V7 — une seule règle ESLint
 
@@ -639,7 +642,7 @@ Trois motifs syntaxiques, tous locaux au fichier :
 - un accesseur dont le corps est un `return this.#champ` où le champ est initialisé par un tableau.
 
 Le troisième est le plus utile et le plus délicat : il faut remonter à l'initialisation pour connaître
-le type. À restreindre au cas évident — champ initialisé à `[]`, ou affecté depuis un paramètre par
+le type. À restreindre au cas évident : un champ initialisé à `[]`, ou affecté depuis un paramètre par
 défaut `= []`.
 
 ### X5 et V2 — dans cet ordre
@@ -656,30 +659,30 @@ trois cas de V2. C'est sa fonction.
 
 **V2 ensuite.** Un champ ou accesseur `id` dans un fichier d'objet-valeur. Cette règle est inexploitable
 avant X5 : les clés de présentation composées dans le domaine la déclenchent toutes, et rien ne les
-distingue d'une identité réelle. Une fois X5 traité, il ne reste que les `id` portés — l'identifiant
-d'autre chose, autorisé par V2 — qu'une liste d'exclusion couvre.
+distingue d'une identité réelle. Une fois X5 traité, il ne reste que les `id` portés, l'identifiant
+d'autre chose autorisé par V2, qu'une liste d'exclusion couvre.
 
 ### V6 et l'existence des tests — un script
 
 Le script parcourt les fichiers d'objets-valeurs et de DTO. Deux vérifications :
 
 - **V6** : aucun fichier de `infrastructure/repositories/` ne porte le nom d'un objet-valeur. Faux
-  positifs faibles — une homonymie entre un objet-valeur et une entité est possible.
-- **§ 8** : chaque fichier a un fichier de test. La correspondance se fait sur le **nom de base**,
-  après retrait du suffixe de test : le fichier peut vivre dans un sous-dossier alors que son test est
-  à plat, et le suffixe n'est pas le même partout. La comparaison sort les deux sens — un objet sans
-  test, et un test dont aucun objet ne porte le nom, ce qui attrape la faute de frappe dans un nom de
+  positifs faibles : une homonymie entre un objet-valeur et une entité est possible.
+- **§ 8** : chaque fichier a un fichier de test. La correspondance se fait sur le nom de base, après
+  retrait du suffixe de test. Le fichier peut vivre dans un sous-dossier alors que son test est à plat,
+  et le suffixe n'est pas le même partout. La comparaison couvre les deux sens : un objet sans test, et
+  un test dont aucun objet ne porte le nom. Cela attrape aussi la faute de frappe dans un nom de
   fichier de test.
 
 ### Ordre de mise en œuvre
 
 Cet ordre suit le coût, pas le ROI du § 4.
 
-1. **V4** — configuration `dependency-cruiser`, avec contre-épreuve
-2. **V1** puis **V7** — première règle ESLint sur mesure, ce qui suppose de créer l'infrastructure
-3. **V6 + existence des tests** — un seul script de complétude
-4. **X5 signal** — puis le classement des trois cas, fichier par fichier
-5. **V2** — après X5, avec la liste d'exclusion des identifiants portés
+1. **V4**, configuration `dependency-cruiser`, avec contre-épreuve
+2. **V1** puis **V7**, première règle ESLint sur mesure, ce qui suppose de créer l'infrastructure
+3. **V6** et l'existence des tests, un seul script de complétude
+4. **X5** signal, puis le classement des trois cas, fichier par fichier
+5. **V2**, après X5, avec la liste d'exclusion des identifiants portés
 
 ### Codemods
 
@@ -700,17 +703,17 @@ privatiser sans casser. Il signale et s'arrête, il n'ajoute pas de mutateur.
 
 Deux formes, et elles ne se valent pas.
 
-**Type structurel** — léger, sans garantie d'unicité :
+**Type structurel**, léger, sans garantie d'unicité :
 
 ```ts
 export type Threshold = { readonly value: number };
 ```
 
 Deux types de même forme sont interchangeables : le typage structurel ne distingue pas un `Threshold`
-d'un `Percentage`. C'est la forme retenue pour un read-model, dont la forme *est* le contenu — voir
+d'un `Percentage`. C'est la forme retenue pour un read-model, dont la forme *est* le contenu. Voir
 `fiche-read-model.md`. Elle ne convient pas ici.
 
-**Classe avec champ privé** — c'est ce qui donne la nominalité, parce qu'un champ `#` rend le type non
+**Classe avec champ privé.** C'est ce qui donne la nominalité : un champ `#` rend le type non
 assignable depuis une forme identique :
 
 ```ts
@@ -775,8 +778,8 @@ entièrement : aucun moyen déterministe n'est identifié.
 ```
 
 À terme il reste six lignes, toutes de jugement : V3, V5, V8, la pureté des tests et les deux rappels
-de classement. Les invariants les plus rentables de cette fiche — V3 et V5 — portent sur le contenu
-d'une règle et non sur une forme syntaxique, ce qui borne la part automatisable.
+de classement. Les invariants les plus rentables de cette fiche, V3 et V5, portent sur le contenu
+d'une règle, pas sur une forme syntaxique. Cela borne la part automatisable.
 
 ---
 
