@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { RecommendedModule } from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/RecommendedModule.js';
+import { RecommendedModule } from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/RecommendedModule.ts';
 import * as recommendedModuleRepository from '../../../../../src/quest/infrastructure/repositories/recommended-module-repository.js';
 
 describe('Unit | Repositories | Recommended Module Repository', function () {

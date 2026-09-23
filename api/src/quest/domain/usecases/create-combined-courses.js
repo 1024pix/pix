@@ -1,7 +1,7 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { CsvParser } from '../../../shared/infrastructure/serializers/csv/csv-parser.js';
 import { COMBINED_COURSE_HEADER } from '../constants.js';
-import { Campaign } from '../models/combined-courses/value-objects/Campaign.js';
+import { Campaign } from '../models/combined-courses/value-objects/Campaign.ts';
 
 export const createCombinedCourses = withTransaction(
   async ({
@@ -23,8 +23,14 @@ export const createCombinedCourses = withTransaction(
     const pendingCodes = [];
 
     for (const row of csvData) {
-      const { organizationIds: organizationIdsSeparatedByComma, creatorId, content, combinedCourseBlueprintId } = row;
-      const organizationIds = organizationIdsSeparatedByComma.split(',');
+      const {
+        organizationIds: organizationIdsSeparatedByComma,
+        creatorId: creatorIdFromCsv,
+        content,
+        combinedCourseBlueprintId,
+      } = row;
+      const organizationIds = organizationIdsSeparatedByComma.split(',').map(Number);
+      const creatorId = Number(creatorIdFromCsv);
       const combinedCourseInformation = JSON.parse(content);
       const combinedCourseBlueprint = await combinedCourseBlueprintRepository.findById({
         id: combinedCourseBlueprintId,

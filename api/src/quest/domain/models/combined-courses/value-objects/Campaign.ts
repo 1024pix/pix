@@ -1,4 +1,41 @@
+import type { TargetProfile } from '../../combined-course-blueprints/value-objects/TargetProfile.ts';
+import type { RecommendedModule } from '../../combined-course-participations/value-objects/RecommendedModule.ts';
+import type { Module } from './Module.ts';
+
+type CampaignParams = {
+  id?: number;
+  name: string;
+  code?: string;
+  targetProfileId: number;
+  organizationId: number;
+  creatorId: number;
+  ownerId: number;
+  title: string;
+  customResultPageButtonUrl: string;
+  customResultPageButtonText: string;
+};
+
+type CampaignForCombinedCourse = {
+  organizationId: number;
+  targetProfile: TargetProfile;
+  creatorId: number;
+  combinedCourseCode: string;
+  recommendableModules?: RecommendedModule[] | null;
+  modules: Module[];
+};
+
 export class Campaign {
+  id?: number;
+  name: string;
+  code?: string;
+  targetProfileId: number;
+  organizationId: number;
+  creatorId: number;
+  ownerId: number;
+  title: string;
+  customResultPageButtonUrl: string;
+  customResultPageButtonText: string;
+
   constructor({
     id,
     name,
@@ -10,7 +47,7 @@ export class Campaign {
     title,
     customResultPageButtonUrl,
     customResultPageButtonText,
-  }) {
+  }: CampaignParams) {
     this.id = id;
     this.name = name;
     this.code = code;
@@ -30,7 +67,7 @@ export class Campaign {
     combinedCourseCode,
     recommendableModules,
     modules,
-  }) {
+  }: CampaignForCombinedCourse) {
     let hasRecommendableModulesInTargetProfile;
     if (recommendableModules) {
       const matchingRecommendableModules = recommendableModules.filter(({ moduleId }) =>
@@ -44,10 +81,10 @@ export class Campaign {
     if (hasRecommendableModulesInTargetProfile) combinedCourseUrl += '/chargement';
 
     return new Campaign({
-      organizationId: parseInt(organizationId),
+      organizationId: organizationId,
       targetProfileId: targetProfile.id,
-      creatorId: parseInt(creatorId),
-      ownerId: parseInt(creatorId),
+      creatorId,
+      ownerId: creatorId,
       name: targetProfile.internalName,
       title: targetProfile.name,
       customResultPageButtonUrl: combinedCourseUrl,
