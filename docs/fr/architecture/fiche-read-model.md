@@ -10,7 +10,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 >
 > - Le classement des fichiers de `read-models/` selon les quatre tests du § 1 n'est pas fait. C'est le
 >   travail que décrit X1. Il conditionne la règle de RM3 au § 6.
-> - RM1 n'a aucun moyen de vérification déterministe. C'est l'invariant le plus exposé : distinguer une
+> - RM1 n'a aucun moyen de vérification déterministe. C'est l'invariant le plus risqué : distinguer une
 >   dérivation de présentation d'une règle métier n'est pas décidable.
 
 ## Sommaire
@@ -43,8 +43,8 @@ en lecture seule.
 | [**X2**](#x2-le-mot-read-model-vient-de-cqrs) | le mot `read-model` vient de CQRS | à surveiller |
 | [**X3**](#x3-lobjet-est-immuable-alors-que-rien-ne-lexige) | l'objet est immuable alors que rien ne l'exige | rien à faire |
 
-Le discriminant avec l'objet-valeur, et ses quatre tests, sont au § 1 de `fiche-objet-valeur.md`. Il
-est énoncé une fois pour les deux fiches.
+Pour savoir si un objet est un read-model ou un objet-valeur, voir les quatre tests au § 1 de
+`fiche-objet-valeur.md`.
 
 ---
 
@@ -62,7 +62,7 @@ class PlacesStatistics {
   #placeRepartition;
 
   constructor({ placesLots = [], placeRepartition, organizationId } = {}) {
-    this.id = `${organizationId}_place_statistics`;   // la clé de présentation, voir V2
+    this.id = `${organizationId}_place_statistics`;   // clé de présentation : à composer dans le sérialiseur, voir V2
     this.#placesLots = placesLots;
     this.#placeRepartition = placeRepartition;
   }
@@ -103,11 +103,11 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un read-mod
 | met en forme pour une réponse HTTP, clé de présentation comprise | `infrastructure/serializers/` | `fiche-serialiseur.md` |
 | assemble les données | un repository | `fiche-repository.md` |
 
-La première ligne est le cas fréquent et le seul difficile. Le discriminant et ses quatre tests sont
-au § 1 de `fiche-objet-valeur.md` : ils servent aux deux fiches, ils y sont énoncés une fois.
+La première ligne est le cas fréquent et le seul difficile. Pour la reconnaître, voir les quatre tests
+au § 1 de `fiche-objet-valeur.md`.
 
-Rappel du piège, parce qu'il se joue ici : une dérivation de présentation (un total, un pourcentage,
-un libellé composé) n'est pas une règle métier. Un read-model peut donc porter des méthodes sans
+Attention : une dérivation de présentation (un total, un pourcentage, un libellé composé) n'est pas
+une règle métier. Un read-model peut donc porter des méthodes sans
 devenir un objet-valeur. La question n'est pas « a-t-il du comportement ? » mais « ce comportement
 décide-t-il quelque chose ? »
 
@@ -131,7 +131,7 @@ Le cas de la clé de présentation, qui se rencontre surtout ici, est traité au
 
 ### RM1. Aucune règle métier
 
-Sa valeur est sa forme. Y mettre une règle métier la rend invisible depuis le domaine.
+Sa valeur est sa forme. Une règle métier placée dans un read-model devient invisible depuis le domaine.
 
 ```js
 // conforme — dérivation de présentation : une soustraction, plancher à zéro
@@ -150,8 +150,8 @@ get hasReachedMaximumPlacesLimit() {
 }
 ```
 
-Les deux accesseurs vivent dans le même fichier et tiennent en quelques lignes. Ils n'utilisent que des
-données déjà là. Le second est fautif pour trois raisons cumulées :
+Les deux accesseurs vivent dans le même fichier et tiennent en quelques lignes. Le premier n'utilise
+que des données déjà chargées. Le second est fautif pour trois raisons cumulées :
 
 - un seuil fixé par le métier
 - un drapeau qui ouvre ou ferme la règle
@@ -243,7 +243,7 @@ get organizationLearners() {
 Le calcul lui-même est du domaine. Distinguer deux élèves homonymes, en gardant le minimum de lettres
 du nom de famille, est une règle, et une bonne. Ce qui est fautif est **le type de retour** : le modèle
 décide de la forme que verra le front. Le même calcul, renvoyant les valeurs sans les emballer,
-laisserait le repository ou le contrôleur composer la sortie.
+laisserait le repository ou le usecase composer la sortie.
 
 **Ce qui casse.** Une règle qui décide à partir d'une forme non validée décide à partir de n'importe
 quoi. C'est la conséquence directe de RM2 : sans validation, aucune garantie n'accompagne les valeurs.
@@ -263,9 +263,9 @@ domain/models/TargetProfileSummaryForAdmin.js
 ```
 
 Ne pas ranger un read-model dans un dossier qui promet autre chose, `aggregates/` en particulier. Le
-mot annonce une frontière de cohérence et des invariants tenus. Un read-model n'a pas ça. Le cas
-existe : un dossier `aggregates/` sous `domain/models/` regroupe des objets qui tiennent des invariants
-entre plusieurs entités liées. Un read-model n'y a pas sa place.
+mot annonce une frontière de cohérence et des invariants tenus. Un read-model n'a ni l'une ni les
+autres. Un tel dossier existe déjà : sous `domain/models/`, `aggregates/` regroupe des objets qui
+tiennent des invariants entre plusieurs entités liées. Un read-model n'y a pas sa place.
 
 **Pourquoi sous `domain/` alors qu'il n'appartient pas au modèle du domaine.** La raison est
 structurelle, pas taxonomique. Un repository le construit et un usecase le renvoie. Le placer sous
@@ -287,7 +287,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Le read-model est anémique | **autorisé** — c'est RM1, et non une dérive du modèle anémique |
 | Le read-model ne valide pas | **autorisé** — c'est RM2 |
 | Il porte un total, un pourcentage, un libellé composé | **autorisé** — dérivation de présentation, RM1 |
-| Il est construit depuis une source externe et validé | **autorisé** — c'est l'exception de RM2 |
+| Il est construit depuis une source externe | **autorisé** — le repository traduit et valide la source, pas le read-model. C'est l'exception de RM2 |
 | Il porte l'identifiant d'autre chose | **autorisé** — c'est une donnée, pas son identité. Voir V2 |
 | Il n'a aucune dérivation et se réduit à une forme | **à discuter**, pas à signaler seul — nommer le contrat d'une requête peut suffire. Voir § 8 |
 
@@ -351,8 +351,8 @@ change rien, voir X2.
 
 Le classement se fait fichier par fichier, par les quatre tests du § 1 de `fiche-objet-valeur.md`.
 
-Ce que la correction débloque : RM3 par une règle de chemin. La règle est **déjà écrivable** : les deux
-dossiers sont frères. Mais elle se déclencherait aujourd'hui sur les objets-valeurs mal rangés. Elle
+Ce que la correction débloque : RM3 par une règle de chemin. La règle **peut déjà s'écrire** : les
+deux dossiers sont frères. Mais elle se déclencherait aujourd'hui sur les objets-valeurs mal rangés. Elle
 ne peut donc pas être bloquante avant le classement.
 
 Migration opportuniste, conforme à l'ADR 20 : le neuf suit le discriminant, l'existant se classe quand
@@ -373,23 +373,23 @@ C'est la *use case optimal query* de Vernon. Son objet transporté est un **DTO*
 store séparé, une projection alimentée par des événements, et de la cohérence à terme. Il n'y a rien
 de tout ça ici.
 
-**Correction.** Aucune sur le mot. C'est une décision assumée.
+**Correction.** Aucune sur le mot. Le renommage a été écarté.
 
 Deux raisons justifient ce choix.
 
 Le mot est celui de l'équipe. **L'Ubiquitous Language est la langue de l'équipe**, pas celle du livre.
-Imposer un terme de Fowler contre un terme d'équipe qui fonctionne irait contre ce principe même.
+Renommer au nom de la rigueur du vocabulaire irait contre l'Ubiquitous Language, qui est justement
+une règle de vocabulaire.
 
 Le renommage n'apporte rien à l'outillage. `domain/models/` et `domain/read-models/` sont déjà des
-dossiers frères, donc la règle de chemin de RM3 est déjà écrivable. Ce qui la bloque, c'est le
+dossiers frères, donc la règle de chemin de RM3 peut déjà s'écrire. Ce qui la bloque, c'est le
 classement, pas le nom.
 
-Ce qui reste à faire coûte une phrase : écrire ce que le mot désigne localement, et ce qu'il ne
-désigne pas. C'est fait au § 1.
+Le § 1 précise ce que le mot désigne et ce qu'il ne désigne pas.
 
 **À surveiller.** Deux déclencheurs rouvriraient le dossier : un malentendu constaté sur pièces, ou
-l'introduction réelle d'un read model CQRS quelque part. Dans ce cas, les deux ne pourraient plus
-porter le même nom.
+l'introduction réelle d'un read model CQRS quelque part. Si un read model CQRS apparaît, lui et le
+read-model Pix ne pourront plus porter le même nom.
 
 ### X3. L'objet est immuable alors que rien ne l'exige
 
@@ -417,15 +417,17 @@ class PlacesLot {
 }
 ```
 
-**La moitié des champs sont privés avec accesseur**, l'autre moitié publique. Le coût d'écriture est
+La moitié des champs sont privés avec accesseur, l'autre moitié publique. Le coût d'écriture est
 payé (six lignes pour deux champs). Le bénéfice n'est pas obtenu : l'objet reste modifiable par les
 deux champs restants.
 
 Un objet littéral gelé rendrait le même service à cet endroit précis.
 
-**Correction.** Aucune. Le coût est réel mais faible. Le bénéfice est une uniformité utile : une seule
-règle de lint couvre V1 et V7 pour les deux catégories. Exempter les read-models demanderait à cette
-règle de distinguer les deux, ce que X1 rend impossible aujourd'hui.
+**Correction.** Aucune sur le principe. Les deux champs publics de l'exemple, eux, violent V1 et se
+corrigent : X3 ne porte que sur le choix d'écrire un read-model comme un objet-valeur. Le coût est
+réel mais faible. Le bénéfice est une uniformité utile : une seule règle de lint couvre V1 et V7 pour
+les deux catégories. Exempter les read-models demanderait à cette règle de distinguer les deux, ce que
+X1 rend impossible aujourd'hui.
 
 C'est une convention explicite, pas une lecture de Fowler : il n'exige pas l'immuabilité.
 
@@ -441,20 +443,20 @@ vérifie par contre-épreuve :
 - retirer la violation
 
 Il n'existe aucun plugin ESLint maison : toute règle sur mesure suppose d'abord de créer cette
-infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
+infrastructure.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
 | **RM3** n'entre pas dans une règle | règle `dependency-cruiser` de chemin | configuration seule | **après X1** — avant le classement, la règle se déclenche aussi sur les objets-valeurs mal rangés |
-| **RM4** emplacement | script `tests/tooling/` : aucun read-model hors de `read-models/` | ~20 lignes | faibles |
+| **RM4** emplacement | script `tests/tooling/` : aucun homonyme d'un read-model hors de `read-models/` | ~20 lignes | faibles |
 | **§ 8** un fichier de test existe | même script | ~15 lignes de plus | aucun |
-| **RM2** aucune validation — signal | règle ESLint : un `throw` dans un fichier de `read-models/` | ~15 lignes | faibles — l'exception de la source externe |
+| **RM2** aucune validation — signal | règle ESLint : un `throw` dans un fichier de `read-models/` | ~15 lignes | faibles |
 | **RM1** aucune règle métier | aucun moyen : distinguer une dérivation de présentation d'une règle métier n'est pas décidable | — | — |
 | **V1**, **V2**, **V4**, **V6**, **V7** communs | voir § 6 de `fiche-objet-valeur.md` | — | — |
 
 ### RM3 — une règle de chemin
 
-La règle est écrivable telle quelle : les deux dossiers sont déjà frères.
+La règle s'écrit telle quelle : les deux dossiers sont déjà frères.
 
 ```js
 {
@@ -469,18 +471,19 @@ Elle attrape des cas réels, mais pas ceux qu'on attendrait. Ce sont surtout des
 qui fabriquent des read-models**, pas des règles qui en lisent un. Le sens de la flèche est inversé,
 mais le couplage est le même : un modèle du domaine connaît la forme d'une sortie.
 
-`severity: 'error'` est obligatoire. La valeur par défaut est `warn`, et seul `error` fait échouer la
-commande. Écrire `src/.+/`, pas `src/[^/]+/`. Sinon les contextes à sous-contextes ne sont pas
+Seul `error` fait échouer la commande (défaut : `warn`). `error` est la valeur cible. Tant que X1
+n'est pas corrigé, laisser `warn`. Écrire `src/.+/`, pas `src/[^/]+/`. Sinon les contextes à sous-contextes ne sont pas
 atteints, et la règle ne se déclenche jamais, sans erreur ni avertissement.
 
 Ce qui empêche de la rendre bloquante n'est pas le nommage, mais le classement. Un objet-valeur rangé
-dans `read-models/` déclenche la règle alors qu'il est légitime. À activer en avertissement pour
-produire la liste des fichiers à classer, puis en `error` après X1.
+dans `read-models/` déclenche la règle alors qu'il est légitime. En `warn`, la règle produit la liste
+des fichiers à classer. Elle passe en `error` après X1.
 
 ### RM2 signal — un `throw` dans un read-model
 
 Syntaxique et local au fichier. Un read-model ne valide pas, donc il ne lève pas d'erreur de
-validation. La règle désigne l'endroit où vérifier si l'exception de la source externe s'applique.
+validation. Même pour une source externe, la validation revient au repository (I1 de
+`fiche-repository.md`), pas au read-model.
 
 Elle ne prouve pas la violation : c'est sa fonction de la désigner.
 
@@ -488,13 +491,19 @@ Elle ne prouve pas la violation : c'est sa fonction de la désigner.
 
 Le script parcourt les fichiers de `read-models/`. Deux vérifications :
 
-- **RM4** : aucun fichier portant le nom d'un read-model ailleurs que dans `read-models/`. Faux
-  positifs faibles : une homonymie avec une entité est possible.
+- **RM4** : aucun fichier hors de `read-models/` ne porte le nom d'un read-model. Le script ne
+  repère donc que les homonymes. Un read-model rangé ailleurs sous un nom unique, comme l'exemple
+  fautif de RM4, lui échappe : ce cas reste à la revue. Faux positifs faibles : une homonymie avec une
+  entité est possible.
 - **§ 8** : chaque fichier a un fichier de test. La correspondance se fait sur le **nom de base**,
-  après retrait du suffixe de test. Le fichier peut vivre dans un sous-dossier alors que son test est
-  à plat, et le suffixe n'est pas le même partout. La comparaison détecte les deux sens : un read-model
-  sans test, et un test dont aucun read-model ne porte le nom. Elle attrape ainsi la faute de frappe
-  dans un nom de fichier de test.
+  après retrait du suffixe de test, pour deux raisons :
+  - le fichier peut vivre dans un sous-dossier alors que son test est au premier niveau
+  - le suffixe de test n'est pas le même partout
+
+  La comparaison détecte les deux sens :
+  - un read-model sans test
+  - un test dont aucun read-model ne porte le nom, ce qui attrape la faute de frappe dans un nom de
+    fichier de test
 
 ### Ordre de mise en œuvre
 
@@ -515,16 +524,16 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 | **X1** classement | préparation seule | Déplacer un fichier et réécrire ses imports, oui. Décider s'il est objet-valeur ou read-model, non |
 | **RM1** règle métier déplacée | non | Décider où la règle vit dans le domaine est de la conception |
 
-Sur X1, un codemod ne doit surtout pas « corriger » en ajoutant une validation vide à un objet
-reclassé en objet-valeur : le lint passerait au vert, et la dette deviendrait invisible. Il produit un
+Sur X1, un codemod ne doit pas « corriger » un objet reclassé en objet-valeur en lui ajoutant une
+validation vide. Le lint passerait au vert, et la dette deviendrait invisible. Le codemod produit un
 `TODO` et un squelette.
 
 ---
 
 ## 7. Le type
 
-Un read-model est un **type structurel**. Sa forme est son contenu. Rien n'empêche qu'une autre forme
-identique lui soit substituée.
+Un read-model est un **type structurel**. Sa forme est son contenu. Une autre forme identique peut lui
+être substituée : c'est voulu.
 
 ```ts
 export type PlacesStatistics = {
@@ -561,13 +570,13 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 
 L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6.
 
-Deux indices de diagnostic, avec leurs bornes.
+Deux indices de diagnostic.
 
 Un read-model qui a besoin d'un double **viole V4** : il touche à l'infrastructure. Le double
 nécessaire est le symptôme, pas la cause.
 
 Un read-model dont le test unitaire n'a rien à vérifier n'a ni forme propre ni dérivation : il aurait
-pu rester un objet littéral. Ce n'est pas une faute, c'est une question à poser. La borne : nommer le
+pu rester un objet littéral. Ce n'est pas une faute, c'est une question à poser. Limite : nommer le
 contrat d'une requête est une raison suffisante d'exister, même sans dérivation.
 
 Ce que le test unitaire ne couvre pas : que la requête produise bien cette forme. C'est le test
@@ -580,7 +589,8 @@ d'intégration du repository qui le vérifie. Voir § 8 de `fiche-repository.md`
 Ordonnée par ROI décroissant, comme au § 4.
 
 Chaque ligne porte son statut au regard du § 6. `[auto]` disparaît de la checklist dès que la règle
-correspondante existe. `[partiel]` reste, réduite à ce que la règle ne couvre pas. `[humain]` reste
+correspondante existe. Une ligne `[partiel]` reste, réduite à ce que la règle ne couvre
+pas. `[humain]` reste
 entièrement : aucun moyen déterministe n'est identifié.
 
 Les cinq dernières lignes reprennent les invariants communs, énoncés dans `fiche-objet-valeur.md`.
@@ -589,19 +599,21 @@ Les cinq dernières lignes reprennent les invariants communs, énoncés dans `fi
 [ ] [humain]  RM1 Aucune règle métier ; les dérivations de présentation sont admises
 [ ] [partiel] RM3 N'entre pas dans le domaine comme paramètre d'une règle
 [ ] [partiel] RM4 Le fichier est dans read-models/, pas dans un dossier qui promet autre chose
-[ ] [partiel] RM2 Aucune validation, sauf si la source est externe
+[ ] [partiel] RM2 Aucune validation ; une source externe se valide dans le repository
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui du read-model
 [ ] [humain]  Test unitaire pur, sans double
 [ ] [humain]  Avant de signaler RM1, vérifier : ce comportement décide-t-il quelque chose ?
 [ ] [auto]    V1  Aucun champ public ; aucune écriture après le constructeur
 [ ] [auto]    V4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
-[ ] [auto]    V2  Aucune clé composée ici : une clé de cache se compose dans le sérialiseur
+[ ] [auto]    V2  Aucune clé composée ici : une clé de présentation se compose dans le sérialiseur
 [ ] [partiel] V6  Aucun repository, aucune persistance propre
 [ ] [partiel] V7  Aucune collection interne rendue telle quelle ; aucun gel inopérant
 ```
 
-À terme, il reste trois lignes, toutes de jugement : RM1, la pureté du test, et le rappel sur la
-dérivation. RM1 est le cœur de la fiche, et il est indécidable. C'est la borne de cette catégorie.
+À terme, il reste huit lignes. Trois sont de jugement : RM1, la pureté du test, et le rappel sur la
+dérivation. Les cinq lignes `[partiel]` restent, réduites à ce que leur règle ne couvre pas. RM1 est
+le cœur de la fiche, et il est indécidable. Aucun outil ne pourra donc vérifier l'essentiel de cette
+catégorie.
 
 ---
 
@@ -621,6 +633,6 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | Immuabilité et absence d'identité | Convention Pix, pas Fowler : le DTO de *PoEAA* n'exige ni l'une ni l'autre. Les énoncés sont ceux de V1 et V2 dans `fiche-objet-valeur.md`. Leur autorité, chez Evans, porte sur le Value Object, qu'un read-model n'est pas. Voir X3 au § 5 | *PoEAA* ; *DDD Reference* |
 | Un repository peut renvoyer un calcul de synthèse | Vérifié. Ça ne concerne pas cette fiche : Evans, ch. 6, autorise un repository à renvoyer un décompte ou une somme, des scalaires, pas un objet assemblé. Le passage appuie l'exception du § 3 de `fiche-repository.md` | *Final Manuscript* 2003, p. 109 |
 
-Trois des quatre invariants propres n'ont aucune source directe : RM2 et RM4 n'en ont aucune, RM1 et
+Aucun des quatre invariants propres n'a de source directe : RM2 et RM4 n'ont aucune source, RM1 et
 RM3 sont des déductions explicites. La catégorie n'existe pas dans la littérature DDD, donc c'est
 cohérent. Ce sont des conventions : elles se discutent sur leurs mérites, pas par appel à une autorité.

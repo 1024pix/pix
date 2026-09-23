@@ -6,19 +6,25 @@ Le gabarit commun, l'état du chantier et l'ordre de relecture sont dans `corpus
 le code réel est mesuré dans les rapports de divergence, un par contexte. Ce qui empêche aujourd'hui le
 typage de s'appliquer est dans `migration-typescript.md`.
 
-À utiliser dès qu'un objet répond à la question « ce candidat satisfait-il ces critères ? » : un moteur
-de règles, un ensemble de pré-requis, un prédicat métier composable et configuré par des données.
+À utiliser dès qu'un objet répond à la question « ce candidat satisfait-il ces critères ? ». Par
+exemple :
+
+- un moteur de règles ;
+- un ensemble de prérequis ;
+- un prédicat métier composable et configuré par des données.
 
 > **À instruire**
 >
-> - Les numéros `S3`, `S4` et `S9` ne sont pas attribués. Ils réénonçaient `V4`, puis `V1`, `V2`, `V6`
->   et `V7`, puis `V3` de `fiche-objet-valeur.md`. Les énoncés vivent là-bas, et les numéros ne sont
->   pas réattribués.
-> - `X1`, la redéfinition par le consommateur, bloque la sortie du moteur en contexte borné distinct.
->   C'est l'écart le plus structurant de la fiche. C'est aussi le seul dont la correction est un
->   chantier de conception.
+> - Les numéros `S3`, `S4` et `S9` restent libres et ne sont pas réattribués. Ils réénonçaient des
+>   invariants de `fiche-objet-valeur.md`, où vivent les énoncés :
+>   - `S3` réénonçait `V4` ;
+>   - `S4` réénonçait `V1`, `V2`, `V6` et `V7` ;
+>   - `S9` réénonçait `V3`.
+> - `X1`, la redéfinition par le consommateur, empêche d'isoler le moteur dans un contexte borné
+>   distinct. C'est l'écart le plus structurant de la fiche. C'est aussi le seul dont la correction est
+>   un chantier de conception.
 > - Le format d'une specification écrite à la main est un contrat publié. Aucune documentation
->   versionnée de ce format n'existe aujourd'hui. Cela rend `S6` invérifiable.
+>   versionnée de ce format n'existe aujourd'hui. Sans elle, `S6` est invérifiable.
 
 ## Sommaire
 
@@ -36,7 +42,7 @@ de règles, un ensemble de pré-requis, un prédicat métier composable et confi
 | [**S8**](#s8-un-consommateur-ne-redéfinit-pas-la-specification) | un consommateur ne redéfinit pas la specification | **forte** | revue, puis règle après découpage |
 | [**S1**](#s1-la-specification-est-totale) | la specification est totale | **forte** | test paramétré |
 | [**S2**](#s2--non-satisfait--et--non-évaluable--sont-distincts) | « non satisfait » et « non évaluable » sont distincts | **forte** | revue |
-| [**S6**](#s6-le-format-est-un-contrat-publié) | le format est un contrat publié | **forte** | test, après X4 |
+| [**S6**](#s6-le-format-est-un-contrat-publié) | le format est un contrat publié | **forte** | test, après documentation du format |
 | [**S7**](#s7-tout-critère-déclaré-est-branché-sur-le-candidat) | tout critère déclaré est branché sur le candidat | moyenne | test, dix lignes |
 | [**S5**](#s5-la-composition-est-fermée) | la composition est fermée | hygiène | test de composition |
 
@@ -54,7 +60,7 @@ cycle de vie, `V7` exposition en lecture seule.
 | [**X3**](#x3-la-specification-journalise) | la specification journalise | **à corriger** |
 | [**X4**](#x4-la-résolution-dune-propriété-du-candidat-se-fait-par-nom) | la résolution d'une propriété du candidat se fait par nom | à surveiller |
 
-Deux artefacts hors numérotation, souvent cherchés : la [table des quatre éléments](#les-quatre-éléments)
+Deux artefacts hors numérotation : la [table des quatre éléments](#les-quatre-éléments)
 du pattern au § 1, et le [format publié](#le-format-dune-specification-pilotée-par-les-données-est-un-contrat-publié)
 et ses trois conséquences.
 
@@ -67,7 +73,7 @@ rien, n'écrit rien, et ne décide pas des conséquences.
 
 ### Les quatre éléments
 
-Les nommer évite les trois quarts des confusions.
+Chaque élément a un rôle distinct :
 
 | Élément | Rôle | Catégorie | Fiche |
 | --- | --- | --- | --- |
@@ -101,8 +107,8 @@ export const COMPARISONS = { ALL: 'all', ONE_OF: 'one-of' };
 ```
 
 Un prédicat **vide** est vrai par vacuité : une composition `all` sur une liste vide renvoie `true`.
-Ce n'est pas un défaut, c'est la sémantique attendue. Il faut le savoir : un prédicat vide ne cadre
-plus rien.
+Ce n'est pas un défaut, c'est la sémantique attendue. Il faut le savoir : un prédicat vide ne filtre
+plus aucun candidat.
 
 ### Le format d'une specification pilotée par les données est un contrat publié
 
@@ -114,7 +120,7 @@ son format devient un **Published Language** au sens d'Evans. Trois conséquence
 - toute valeur ajoutée à une énumération du format est documentée avant d'être utilisable ;
 - un format publié se versionne ou s'étend, il ne se casse pas.
 
-C'est `S6`. Cela distingue ce format de toute autre structure interne.
+C'est `S6`. Ces trois conséquences distinguent ce format de toute autre structure interne.
 
 ### Ce qu'une Specification n'est pas
 
@@ -137,13 +143,13 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas une Specifi
 ### Les invariants hérités de l'objet-valeur
 
 Les critères et le candidat sont des objets-valeurs. Les invariants `V1`, `V2`, `V3`, `V4`, `V6` et
-`V7` de `fiche-objet-valeur.md` **s'appliquent**. Ils ne sont pas répétés ici, illustrations et pièges
-compris.
+`V7` de `fiche-objet-valeur.md` **s'appliquent**. Leurs énoncés, illustrations et pièges sont dans
+`fiche-objet-valeur.md`.
 
-Deux pièges à connaître en particulier : le champ public sur une classe de base abstraite, et le gel
-inopérant sur un objet dont l'état est privé.
+Deux de ces pièges comptent en particulier ici : le champ public sur une classe de base abstraite, et
+le gel inopérant sur un objet dont l'état est privé.
 
-Deux de ces invariants portent un rôle particulier dans un moteur de règles.
+Deux invariants hérités, `V3` et `V4`, jouent un rôle particulier dans un moteur de règles.
 
 **`V3` : validation à la construction.** Elle élimine le cas d'une specification malformée au moment
 de l'évaluation. Un arbre invalide ne s'instancie pas, donc `isSatisfiedBy` n'a rien à vérifier. Sans
@@ -153,22 +159,22 @@ La validation s'applique à tous les niveaux de l'arbre : la specification, les 
 critères, les comparaisons élémentaires. Chacun a son schéma.
 
 **`V4` : pureté.** Aucune I/O, aucun effet de bord. Le candidat entre, un booléen sort. L'entorse la
-plus fréquente est la journalisation. C'est `X3` au § 5, qui donne la sortie propre.
+plus fréquente est la journalisation. C'est `X3` au § 5, qui donne la correction.
 
 ### S1. La specification est totale
 
-**Énoncé.** `isSatisfiedBy` est définie pour toute candidate valide, y compris incomplète. Une donnée
+**Énoncé.** `isSatisfiedBy` est définie pour tout candidat valide, y compris incomplet. Une donnée
 absente rend `false`.
 
 Le point sensible est toujours le même : l'accès à une propriété du candidat.
 
 La forme fautive « sans garde » n'existe pas telle quelle dans le code. Elle est dérivée de
-`ObjectRequirement.isFulfilled`. Là, une propriété absente et non tableau part telle quelle vers
-`#criterion.check()`. La méthode lève en lisant `item[this.#key]` sur un `item` `undefined`.
+`ObjectRequirement.isFulfilled`. Dans cette méthode, une propriété absente et non tableau est transmise
+à `#criterion.check()`, qui lève en lisant `item[this.#key]` sur un `item` `undefined`.
 
 ```js
-// fautif — dérivé de ObjectRequirement.isFulfilled : une propriété absente et non tableau est transmise
-// sans garde, qui lève en lisant item[this.#key] sur un item undefined
+// fautif — dérivé de ObjectRequirement.isFulfilled : une propriété absente et non tableau atteint
+// #criterion.check() sans garde ; check() lève en lisant item[this.#key] sur un item undefined
 isFulfilled(dataInput) {
   const comparisonFunction = getComparisonFunction(this.comparison);
   return this.#criterion.check({ item: dataInput[this.requirement_type], comparisonFunction });
@@ -201,7 +207,7 @@ constructor({ campaignParticipations = [] }) { … }
 avalée par un `try/catch` que personne ne relit. Le défaut est silencieux et le résultat manquant est
 attribué au métier.
 
-**À éviter : plusieurs modes de réponse pour la même erreur de câblage.** Si certaines propriétés
+**À proscrire : plusieurs modes de réponse pour la même erreur de câblage.** Si certaines propriétés
 lèvent, d'autres rendent `false` par projection, et d'autres `false` par collection vide, le
 comportement dépend du critère écrit. Le diagnostic devient impossible.
 
@@ -210,8 +216,8 @@ comportement dépend du critère écrit. Le diagnostic devient impossible.
 **Énoncé.** Une specification renvoie un booléen quand elle a pu conclure, et signale explicitement
 qu'elle n'a pas pu conclure.
 
-Cet invariant peut sembler contredire `S1`, qui interdit de lever. La confusion vient de trois cas mal
-distingués :
+Cet invariant peut sembler contredire `S1`, qui interdit de lever. Cette contradiction n'est qu'apparente.
+Elle vient de trois cas qu'il faut séparer :
 
 | Cas | Réponse | Invariant |
 | --- | --- | --- |
@@ -260,7 +266,7 @@ Trois sorties sont possibles, **à choisir une fois pour tout le moteur** :
 - renvoyer un résultat à trois états ;
 - renvoyer un booléen accompagné d'une liste de diagnostics.
 
-Le défaut n'est pas de choisir l'une plutôt que l'autre. C'est de ne pas choisir.
+Le défaut n'est pas de choisir une sortie plutôt qu'une autre. C'est de ne pas choisir.
 
 **Ce qui casse.** Une specification cassée devient indiscernable d'un candidat qui ne remplit pas les
 critères. Un utilisateur privé de son résultat par un défaut est traité comme un utilisateur qui n'y a
@@ -354,7 +360,7 @@ Ajouter un critère demande plusieurs étapes, dans plusieurs fichiers :
 requirement_type: Joi.string().valid(...Object.values(TYPES.OBJECT))
 ```
 
-Les deux autres ne le sont par rien. Un nom peut donc entrer dans l'énumération, passer le schéma, et
+Rien ne valide les deux autres. Un nom peut donc entrer dans l'énumération, passer le schéma, et
 ne correspondre à aucune propriété du candidat.
 
 ```js
@@ -377,7 +383,7 @@ forme de la propriété, une exception ou un `false` définitif et silencieux. L
 paraît actif, mais il ne l'est pas.
 
 **L'exception à prévoir.** Un critère qui porte un algorithme (un calcul, un seuil, une agrégation)
-n'utilise pas la résolution par nom. Il appelle une méthode nommée du candidat. Il sort du périmètre
+n'utilise pas la résolution par nom. Il appelle une méthode nommée du candidat. Il est hors du périmètre
 de `S7` et n'entre pas dans l'énumération. Il faut le distinguer explicitement, sinon la vérification
 produit un faux positif.
 
@@ -435,13 +441,13 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 
 | Cas | Statut |
 | --- | --- |
-| Un prédicat vide est vrai par vacuité | **autorisé**, c'est la sémantique de la composition `all`. Effet à connaître : plus de cadrage du candidat |
+| Un prédicat vide est vrai par vacuité | **autorisé**, c'est la sémantique de la composition `all`. Effet à connaître : le prédicat ne filtre plus aucun candidat |
 | Un critère algorithmique hors de l'énumération, appelant une méthode du candidat | **autorisé**, hors périmètre de `S7` |
 | Un critère sans modalité de comparaison, quand la notion n'a pas de sens pour lui | **autorisé** : un seuil ne se compare pas « une parmi » |
 | Une méthode du candidat qui rend une valeur neutre sur entrée non exploitable | **autorisé**, et c'est `S1` bien appliqué |
 | Un candidat construit en deux temps, avec un accesseur pour la partie coûteuse à charger | **autorisé** si l'appelant renseigne avant usage. C'est une optimisation, pas une violation de `S1`. À documenter, sinon un relecteur la corrigera |
 | Une specification aux prédicats **tous** vides | **cas dégénéré**, pas une exception. Elle est satisfaite par tout candidat. À interdire à l'écriture, pas à l'évaluation |
-| Le consommateur porte une propriété qui neutralise un critère | **autorisé**, c'est la sortie de `S8` — une propriété du modèle, pas un filtrage |
+| Le consommateur porte une propriété qui neutralise un critère | **autorisé**, c'est la réponse conforme à `S8` — une propriété du modèle, pas un filtrage |
 
 ---
 
@@ -482,7 +488,7 @@ Les écarts sont numérotés `X` et non `S`, qui est le préfixe des invariants 
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
-| **X1** Un consommateur reconstruit la specification | dérive | Aucune API publiée ne peut couvrir cet usage : le moteur ne peut pas sortir en contexte borné distinct | Le besoin métier est satisfait immédiatement, sans toucher au moteur | **À corriger** |
+| **X1** Un consommateur reconstruit la specification | dérive | Aucune API publiée ne peut couvrir cet usage : le moteur ne peut pas être isolé dans un contexte borné distinct | Le besoin métier est satisfait immédiatement, sans toucher au moteur | **À corriger** |
 | **X2** « Non satisfait » et « non évaluable » sont confondus | dérive | Une specification cassée est indiscernable d'un candidat non conforme, et le défaut atteint l'utilisateur sans trace | Journaliser puis rendre `false` est plus court à écrire, et ne casse rien tout de suite | **À corriger** |
 | **X3** La specification journalise | dérive | Le domaine dépend de l'infrastructure, et le coût d'évaluation cesse d'être prévisible | Réel — un moteur piloté par les données est difficile à déboguer sans trace | **À corriger** |
 | **X4** La résolution d'une propriété du candidat se fait par nom | convention assumée | Rien ne garantit qu'un nom corresponde à une donnée. C'est ce qui rend `S7` nécessaire | Réel — le format s'étend sans toucher au moteur, et une specification nouvelle ne demande aucun déploiement | *À surveiller* |
@@ -518,7 +524,7 @@ Le consommateur ne consomme pas un service, il réassemble le modèle d'un autre
 
 **Correction.** Faire du besoin une propriété explicite du modèle du consommateur. « Ce critère ne doit
 pas bloquer dans telles conditions » devient une donnée que le consommateur porte, et que la
-specification reçoit. Ce n'est plus une opération sur l'arbre.
+specification reçoit. Dans l'état cible, le consommateur ne modifie plus l'arbre des critères.
 
 Puis une **couche de traduction unique** entre le vocabulaire du consommateur et le format de la
 specification, dans les deux sens. Elle doit couvrir l'écriture et la lecture. Une traduction qui ne
@@ -544,8 +550,8 @@ if (comparisonIsInvalid) {
 }
 ```
 
-Le signe qui ne trompe pas : un `return false` précédé d'une journalisation. La journalisation dit que
-le développeur savait que ce n'était pas une réponse.
+Le signe : un `return false` précédé d'une journalisation. Le code traite un incident comme une
+réponse.
 
 **Correction.** Choisir une des trois sorties de `S2` :
 
@@ -579,12 +585,10 @@ isFulfilled(dataInput) {
 }
 ```
 
-Le motif est parlant : la trace dit quel critère a conclu quoi. C'est exactement l'information
-nécessaire pour déboguer un moteur piloté par les données. Le besoin est réel, l'endroit non.
+La trace dit quel critère a conclu quoi. C'est l'information nécessaire pour déboguer un moteur piloté
+par les données. Le besoin est réel, l'endroit non.
 
-**Correction.** Ce n'est pas de supprimer la trace. Le besoin est réel : un moteur piloté par les
-données est difficile à déboguer sans savoir quel critère a conclu quoi. La sortie propre est de
-rendre la trace à l'appelant.
+**Correction.** Garder la trace, mais la rendre à l'appelant.
 
 ```js
 // la specification reste pure, l'appelant décide quoi faire de la trace
@@ -601,7 +605,7 @@ et la trace de décision. Les traiter ensemble coûte moins que séparément.
 
 ### X4. La résolution d'une propriété du candidat se fait par nom
 
-**Ce que dit la théorie.** Rien : la résolution tardive est un choix d'implémentation, pas un écart
+**Ce que dit la théorie.** Rien : la résolution par nom est un choix d'implémentation, pas un écart
 avec le pattern. L'écart est avec la vérifiabilité.
 
 **Exemple concret.**
@@ -610,13 +614,13 @@ avec le pattern. L'écart est avec la vérifiabilité.
 const items = dataInput[this.requirement_type];   // requirement_type vient du format, en base
 ```
 
-Le nom traverse la base de données, donc aucun outil ne peut lier la déclaration à son usage.
+Le nom est stocké en base de données, donc aucun outil ne peut lier la déclaration à son usage.
 
-**Correction.** Aucune sur le principe. C'est ce qui permet d'écrire une specification nouvelle sans
-déploiement. C'est le bénéfice central du pattern piloté par les données.
+**Correction.** Aucune sur le principe. La résolution par nom permet d'écrire une specification
+nouvelle sans déploiement. C'est le bénéfice central du pattern piloté par les données.
 
-Ce qui est à tenir, c'est la compensation : le test de `S7` verrouille l'étape que rien ne protège. Il
-coûte dix lignes. Sans lui, la convention est payée sans sa contrepartie.
+Ce qui est à tenir, c'est la compensation : le test de `S7` vérifie l'étape que rien d'autre ne valide.
+Il coûte dix lignes. Sans lui, rien ne compense le coût de la convention.
 
 Ce qui rouvrirait le dossier : le typage. Un nom de critère typé en `keyof Candidate`, plutôt qu'en
 `string`, rend la déclaration sans propriété impossible à la compilation. Voir § 7. À ce moment-là,
@@ -626,10 +630,15 @@ Ce qui rouvrirait le dossier : le typage. Un nom de critère typé en `keyof Can
 
 ## 6. Vérification déterministe
 
-**Cette fiche se vérifie surtout par des tests, pas par des règles de lint.** La raison est
-structurelle : son domaine est énumérable. La liste des types de critères, celle des comparaisons, la
-surface du candidat sont toutes finies et déclarées. On boucle dessus et on affirme une propriété.
-C'est plus simple et plus robuste qu'une analyse d'AST.
+Les invariants propres se vérifient par des tests plutôt que par du lint, parce que les ensembles
+suivants sont finis et déclarés :
+
+- la liste des types de critères ;
+- la liste des comparaisons ;
+- la surface du candidat.
+
+Un test boucle sur ces ensembles et affirme une propriété. C'est plus simple et plus robuste qu'une
+analyse d'AST.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
@@ -668,10 +677,10 @@ for (const name of Object.values(TYPES.OBJECT)) {
 
 `in` couvre les champs propres, les accesseurs du prototype et les méthodes : les trois formes sous
 lesquelles une propriété du candidat peut exister. Le message d'échec nomme le critère fautif. Sans
-lui, la sortie est inutilisable.
+ce message, un échec du test est inexploitable.
 
-Dix lignes, aucun faux positif. S'il passe déjà, c'est un test de non-régression. C'est très bien : il
-interdit une classe entière de pannes silencieuses.
+Dix lignes, aucun faux positif. Si le test passe déjà, il sert de test de non-régression : il interdit
+une classe entière de pannes silencieuses.
 
 **Extension plus coûteuse mais utile.** Vérifier que la propriété est renseignée par le repository qui
 assemble le candidat, pas seulement exposée. Cela demande une fixture, donc un test d'intégration.
@@ -693,8 +702,8 @@ absente à tour de rôle.
 
 ### S6 — ce qui manque avant de pouvoir le tester
 
-Le test est trivial : comparer les valeurs des énumérations du code à une liste documentée. Il n'est
-pas écrivable, parce que la liste documentée n'existe pas.
+Le test est trivial : comparer les valeurs des énumérations du code à une liste documentée. Il ne peut
+pas encore être écrit, parce que la liste documentée n'existe pas.
 
 C'est donc le premier travail sur cet invariant. Il ne s'agit pas d'outillage : produire la
 documentation du format, versionnée dans le dépôt, puis le test qui l'oppose au code. Dans cet ordre.
@@ -731,11 +740,11 @@ Peu rentables ici, contrairement à la fiche repository.
 | **X2** sortie de non-évaluabilité | non | Chaque site d'appel doit décider ce qu'il fait du nouveau cas |
 | **X1** redéfinition | non | C'est de la conception |
 
-Les corrections de cette fiche demandent chacune une décision :
+Aucun de ces écarts ne se corrige mécaniquement. Chacun demande une décision :
 
-- quelle valeur par défaut ;
-- quel canal pour signaler l'inévaluable ;
-- ce que devient la trace.
+- `X3` : ce que devient la trace ;
+- `X2` : quel canal pour signaler l'inévaluable ;
+- `X1` : quel découpage entre le moteur et ses consommateurs.
 
 Le test et la règle suffisent.
 
@@ -743,7 +752,7 @@ Le test et la règle suffisent.
 
 ## 7. Le type
 
-Le pattern se type bien, et c'est un bon candidat de migration : peu de fichiers, aucune I/O, frontière
+Le pattern se type bien, et c'est une bonne cible de migration : peu de fichiers, aucune I/O, frontière
 nette.
 
 ```ts
@@ -768,7 +777,7 @@ plutôt qu'en `string`, rend impossible la déclaration d'un critère sans propr
 test de `S7` devient alors inutile. C'est le seul endroit du corpus où le typage retire un test au lieu
 d'en ajouter un.
 
-La borne à connaître : ce bénéfice suppose que le nom vienne du code. Un nom qui vient de la base de
+La limite à connaître : ce bénéfice suppose que le nom vienne du code. Un nom qui vient de la base de
 données reste une chaîne au moment où il arrive. La vérification se déplace alors vers la validation du
 format, `V3`.
 
@@ -789,15 +798,15 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6 de
 `fiche-repository.md`.
 
-Deux indices de diagnostic, avec leurs bornes.
+Deux indices de diagnostic, avec leurs exceptions.
 
 **Une specification qui a besoin d'une doublure pour être testée en unitaire viole `V4`.** La doublure
-nécessaire est le symptôme, pas la solution. Cet indice est sans borne : il n'existe aucun cas où une
+nécessaire est le symptôme, pas la solution. Cet indice n'a pas d'exception : il n'existe aucun cas où une
 specification conforme en demande une.
 
 **Un test qui liste des cas au lieu d'énumérer est un signal.** Le domaine est fini et déclaré. Un test
 écrit cas par cas se périme dès qu'une valeur est ajoutée à une énumération, et personne ne le saura.
-La borne : les cas limites d'une comparaison particulière se listent légitimement.
+L'exception : les cas limites d'une comparaison particulière se listent légitimement.
 
 ---
 
@@ -805,9 +814,9 @@ La borne : les cas limites d'une comparaison particulière se listent légitimem
 
 Ordonnée par ROI décroissant, conformément au § 4.
 
-Chaque ligne porte son statut au regard du § 6. `[auto]` disparaît de la checklist dès que la règle ou
-le test correspondant existe. `[partiel]` reste, réduite à ce qu'il ne couvre pas. `[humain]` reste
-entièrement : aucun moyen déterministe n'est identifié.
+Chaque ligne porte son statut au regard du § 6. Une ligne `[auto]` disparaît de la checklist dès que
+la règle ou le test correspondant existe. Une ligne `[partiel]` reste, réduite à ce que la règle ou le
+test ne couvre pas. Une ligne `[humain]` reste entière : aucun moyen déterministe n'est identifié.
 
 Les quatre dernières lignes reprennent les invariants hérités de `fiche-objet-valeur.md`.
 
@@ -826,9 +835,10 @@ Les quatre dernières lignes reprennent les invariants hérités de `fiche-objet
 [ ] [humain]  Avant de signaler S1 ou S7, vérifier les exceptions du § 3
 ```
 
-À terme il reste cinq lignes, toutes de jugement : `S8`, `S2`, `V3`, la forme des tests et le rappel
-des exceptions. `S8` et `S2` sont les deux écarts dont la correction est une décision, pas un
-déplacement. C'est cohérent avec le § 5.
+À terme il reste six lignes. Cinq sont de jugement : `S8`, `S2`, `V3`, la forme des tests et le
+rappel des exceptions. La sixième est la ligne `[partiel]` de `S6`, réduite à ce que le test ne couvre
+pas. `S8` et `S2` restent de jugement parce que leurs écarts, `X1` et `X2`, se corrigent par une
+décision que rien ne vérifie ensuite. C'est cohérent avec le § 5.
 
 ---
 
@@ -844,7 +854,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **S2** non satisfait ≠ non évaluable | **aucune source.** Les sources traitent la Specification comme un prédicat total et ne traitent pas le cas d'une donnée présente mais inexploitable | — |
 | **S5** fermeture par composition | Evans & Fowler, « Specifications » — la composition y est explicite | même PDF |
 | **S6** format publié | Evans, *DDD*, ch. « Maintaining Model Integrity » — **Published Language** | *DDD Reference*, PDF gratuit |
-| **S7** énumération ↔ candidat | **aucune source.** Contrainte propre à la résolution tardive par nom, donc à `X4` | — |
+| **S7** énumération ↔ candidat | **aucune source.** Contrainte propre à la résolution par nom, donc à `X4` | — |
 | **S8** pas de redéfinition par le consommateur | Evans, même ch. — **Anticorruption Layer**, **Bounded Context**. Pix : **ADR 55** | ADR 55 ; Vernon, *IDDD*, ch. « Integrating Bounded Contexts » |
 | Le candidat est un objet-valeur | Discriminant du § 1 de `fiche-objet-valeur.md`, sans source externe. Evans pour la catégorie Value Object | *DDD Reference* |
 | Invariants hérités | voir § 10 de `fiche-objet-valeur.md` | — |

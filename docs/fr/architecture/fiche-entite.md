@@ -8,14 +8,16 @@ typage de s'appliquer est dans `migration-typescript.md`.
 
 > **À instruire**
 >
-> - Le § 6 annonce des taux de faux positifs estimés, pas mesurés. Les deux règles les plus utiles,
->   sur E3 et E6, sont aussi les plus susceptibles de produire du bruit sur l'existant.
+> - Le § 6 annonce des taux de faux positifs estimés, pas mesurés. Les deux règles les plus utiles
+>   portent sur E3 et E6. Celle de E3 est la plus susceptible de produire du bruit sur l'existant.
+>   Pour celle de E6, aucun faux positif n'est attendu.
 > - E3 et E7 sont énoncés ici et valent aussi pour une racine d'agrégat, qui y renvoie. Vérifier à
 >   chaque reprise que les deux fiches ne les réénoncent pas.
 > - Les écarts sont numérotés `X` et non `E`, qui est déjà le préfixe des invariants de cette fiche.
 > - Le modèle de référence de la documentation d'architecture expose des champs publics assignables.
->   `E1` et `E6` l'excluent. La fiche garde sa règle : **un champ qui porte une règle ne doit pas se
->   réécrire de l'extérieur.** Là où rien n'est protégé, c'est de l'hygiène, pas un invariant. La page
+>   `E1` et `E6` l'excluent. La fiche garde sa règle et son motif : aucun code extérieur ne doit
+>   pouvoir réécrire un **champ qui porte une règle**. Là où rien n'est protégé, c'est de l'hygiène,
+>   pas un invariant. La page
 >   de documentation date d'avant les contextes bornés et n'est pas la cible.
 
 ## Sommaire
@@ -35,7 +37,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**E6**](#e6-aucun-mutateur-nu) | aucun mutateur nu | **forte** | règle ESLint |
 | [**E7**](#e7-les-autres-agrégats-sont-référencés-par-identité) | les autres agrégats sont référencés par identité | **forte** | revue |
 | [**E4**](#e4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
-| [**E5**](#e5-aucune-méthode-au-service-de-la-persistance) | aucune méthode au service de la persistance | moyenne | knip, partiel |
+| [**E5**](#e5-aucune-méthode-au-service-de-la-persistance) | aucune méthode au service de la persistance | moyenne | revue |
 | [**E1**](#e1-lidentité-est-explicite-et-stable) | l'identité est explicite et stable | moyenne | règle ESLint, à mesurer |
 | [**E2**](#e2-légalité-se-fonde-sur-lidentité) | l'égalité se fonde sur l'identité | hygiène | revue |
 | [**E8**](#e8-nommage-et-emplacement) | nommage et emplacement | hygiène | script |
@@ -82,8 +84,8 @@ La question à poser : *cette entité est-elle atteignable autrement qu'en passa
 oui, c'est une racine, et `fiche-racine-agregat.md` ajoute ses devoirs propres : frontière de
 cohérence, point d'entrée unique, repository.
 
-Deux invariants de cette fiche, **E3** et **E7**, valent pour toute entité. Ils sont énoncés ici. La
-fiche racine d'agrégat y renvoie plutôt que de les répéter.
+Deux invariants de cette fiche, **E3** et **E7**, valent pour toute entité. C'est pourquoi ils sont
+énoncés ici, et la fiche racine d'agrégat y renvoie plutôt que de les répéter.
 
 ### Ce qu'une entité n'est pas
 
@@ -144,8 +146,10 @@ static areEqual(oneSkill, otherSkill) {
 ```
 
 **Ce qui casse.** Une comparaison par un champ autre que l'identifiant dépend de la fraîcheur des
-données chargées. Elle confond deux entités distinctes qui partagent ce champ. Ou elle distingue deux
-instances de la même entité chargées à des moments différents.
+données chargées. Elle a deux effets :
+
+- elle confond deux entités distinctes qui partagent ce champ ;
+- elle distingue deux instances de la même entité chargées à des moments différents.
 
 Conséquence pratique en test : comparer les identifiants, et vérifier l'état pertinent séparément.
 
@@ -157,7 +161,7 @@ invalide, y compris une opération qui échoue à mi-chemin.
 C'est l'invariant qui distingue une entité d'un objet littéral nommé. Il vaut aussi pour une racine
 d'agrégat, où il porte sur la frontière de cohérence entière. `fiche-racine-agregat.md` y renvoie.
 
-**À la construction.** Une entité invalide ne s'instancie pas. Un seul type d'erreur de validation
+**À la construction.** Un seul type d'erreur de validation
 vaut pour tout le domaine.
 
 La convention Pix valide `this` après les affectations, contre un schéma déclaratif. C'est `X3` au
@@ -194,15 +198,16 @@ elle ressemble à du code correct. Voir X1 au § 5.
 
 ### E4. Aucune I/O, aucune dépendance à l'infrastructure
 
-**Énoncé.** Le symptôme est dans les imports.
+**Énoncé.** Une entité n'importe rien de l'infrastructure et ne fait aucune I/O. Une violation se
+repère dans les imports.
 
 ```js
 // dans un fichier de domain/models/ — fautif
 import { anonymizeGeneralizeDate } from '…/shared/infrastructure/utils/date-utils.js';
 ```
 
-**Vaut aussi pour l'horloge.** C'est la violation la plus fréquente, car elle ne ressemble pas à un
-import :
+**Vaut aussi pour l'horloge.** Lire l'heure courante est la violation la plus fréquente, parce
+qu'elle ne ressemble pas à un import :
 
 ```js
 // fautif — l'entité lit l'heure courante, donc le test ne peut pas la fixer
@@ -226,8 +231,8 @@ peut satisfaire un invariant et en violer un autre. C'est le cas le plus courant
 **Corollaire.** Une entité ne charge jamais ce qui lui manque. Si une règle a besoin d'une donnée que
 l'entité n'a pas, c'est au usecase de la fournir.
 
-**Ce qui casse.** Le test cesse d'être pur : il faut un double. Le besoin d'un double est le symptôme,
-pas la cause.
+**Ce qui casse.** Le test cesse d'être pur : il faut un double. Ce besoin n'est que le symptôme. La
+cause est la dépendance à l'infrastructure.
 
 ### E5. Aucune méthode au service de la persistance
 
@@ -250,14 +255,19 @@ function _toDomain({ id, moduleId, userId, createdAt, updatedAt, terminatedAt })
 
 **Ce qui casse.** Une migration de schéma oblige à modifier le domaine.
 
-**L'exception.** Quand la forme sérialisée est un format publié, écrite à la main, documentée et
-consommée hors du code, la méthode de sérialisation exprime un contrat, pas un schéma de base.
+L'exception : un **format publié**. C'est une forme sérialisée qui est :
+
+- écrite à la main ;
+- documentée ;
+- consommée hors du code.
+
+La méthode de sérialisation exprime alors un contrat, pas un schéma de base.
 
 Le test qui discrimine : *si le schéma de la base changeait, cette méthode devrait-elle changer ?* Si
 oui, elle est au service de la persistance. Si elle suit un format documenté indépendant, non.
 
-Cet invariant vit seulement ici. Il figurait aussi dans `fiche-repository.md` sous le numéro `I7`,
-qui est retiré : l'invariant porte sur le modèle, pas sur le repository.
+`fiche-repository.md` ne porte pas cet invariant. Son ancien numéro `I7` est retiré, parce que
+l'invariant porte sur le modèle, pas sur le repository.
 
 ### E6. Aucun mutateur nu
 
@@ -277,11 +287,11 @@ complete() { this.status = COMPLETED; }
 terminate({ now }) { this.terminatedAt = now; }
 ```
 
-Le premier exemple est le plus instructif. L'objet gèle ce qu'il expose en lecture, puis offre un
-mutateur public sur le même champ. La protection donne l'apparence d'une garantie qu'un seul `set`
+Dans l'exemple fautif, l'objet gèle ce qu'il expose en lecture, puis offre un mutateur public sur le
+même champ. La protection donne l'apparence d'une garantie qu'un seul `set`
 annule.
 
-**Ce qui casse.** Un mutateur nu annule E3 : l'invariant n'est plus garanti qu'à la naissance.
+**Ce qui casse.** Un mutateur nu annule E3 : l'invariant n'est plus garanti qu'à la construction.
 
 **Bénéfice de lecture.** La liste des méthodes d'une entité est la liste des choses qui peuvent lui
 arriver. C'est la description la moins chère de son cycle de vie.
@@ -315,8 +325,8 @@ pratique. `fiche-racine-agregat.md` y renvoie.
 
 **Ce qui casse.** Deux effets, et le second est le plus coûteux.
 
-Charger l'objet entier oblige le repository à le charger aussi. Le coût d'un chargement cesse d'être
-borné : il dépend de la profondeur du graphe.
+Tenir l'objet entier oblige le repository à le charger aussi. Le coût d'un chargement cesse d'être
+limité : il dépend de la profondeur du graphe.
 
 La frontière cesse aussi d'être déplaçable. Une entité qui tient l'instance d'une entité d'un autre
 contexte devient impossible à extraire le jour où ce contexte est découpé. C'est ce qui classe cet
@@ -359,8 +369,8 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Invariant | Rentabilité | Ce qu'on gagne |
 | --- | --- | --- |
 | **E3** invariants tenus à tout instant | **forte** | Un état invalide n'existe jamais, donc aucun code en aval n'a à s'en prémunir. C'est la différence entre un modèle qui protège et un modèle qui décore |
-| **E6** aucun mutateur nu | **forte** | Sans lui, E3 n'est garanti qu'à la naissance. Et la liste des méthodes devient la description du cycle de vie |
-| **E7** référence par identité | **forte** | Le coût d'un chargement reste borné, et la frontière reste déplaçable le jour d'un découpage en contextes |
+| **E6** aucun mutateur nu | **forte** | Sans lui, E3 n'est garanti qu'à la construction. Et la liste des méthodes devient la description du cycle de vie |
+| **E7** référence par identité | **forte** | Le coût d'un chargement reste limité, et la frontière reste déplaçable le jour d'un découpage en contextes |
 | **E4** pureté | moyenne | Les règles métier deviennent vérifiables en unitaire pur, à coût quasi nul |
 | **E5** pas de méthode de persistance | moyenne | Une migration de schéma ne touche pas au domaine |
 | **E1** identité explicite | moyenne | Préalable pour raisonner sur l'égalité, la déduplication et les références |
@@ -418,8 +428,9 @@ class TrainingTrigger {
 Trois traits vont ensemble et signalent le motif : la valeur par défaut `= {}` sur le paramètre
 déstructuré, tous les champs optionnels, et aucun appel de validation dans le corps.
 
-Sur cet exemple, la validation existe pour un seul champ, le type de déclencheur, et manque pour tous
-les autres.
+Sur cet exemple, le troisième trait n'est vrai qu'en partie. La validation existe pour un seul champ,
+le type de déclencheur, et manque pour tous les autres. La règle du § 6 ne voit pas ce cas, parce
+qu'elle cherche l'absence de tout appel de validation. Une validation partielle reste donc en revue.
 
 **Correction.** Rendre requis ce qui est requis, et valider avant d'affecter. Le coût réel n'est pas
 l'écriture du constructeur. C'est la découverte des appelants qui s'appuyaient sur la permissivité,
@@ -465,10 +476,10 @@ conventions cohabitent.
 Passer de l'une à l'autre sur un modèle donné n'est pas mécanique. L'utilitaire qui valide `this`
 contre un schéma ne se remplace pas par des assertions champ par champ sans réécrire la validation.
 
-Le message d'erreur reste la part utile de l'écart à surveiller. Une validation sur `this` décrit
-l'objet construit, pas l'entrée fautive : le diagnostic est plus long. Là où le message compte, par
-exemple une entrée venant d'un import, d'une API ou d'un formulaire, valider les paramètres avant
-d'affecter reste préférable.
+Le coût à surveiller est le message d'erreur. Une validation sur `this` décrit l'objet construit, pas
+l'entrée fautive : le diagnostic est plus long. Là où le message compte, valider les paramètres avant
+d'affecter reste préférable. C'est le cas d'une entrée venant d'un import, d'une API ou d'un
+formulaire.
 
 Ce qui rouvrirait le dossier : un utilitaire qui validerait les paramètres plutôt que `this`. Il
 supprimerait le coût sans rien retirer du bénéfice.
@@ -480,8 +491,7 @@ invariants différents. La théorie ne prescrit rien sur les dossiers. Mais un d
 classement invisible.
 
 **C'est documenté.** `docs/fr/Anatomy.md` décrit `domain/models` comme contenant « Entités, aggrégats
-et value objects du domaine ». Le mélange est donc une convention, pas une dérive. Cela confirme le
-classement de cet écart et lui donne une source.
+et value objects du domaine ». Le mélange est donc une convention documentée, pas une dérive.
 
 **Exemple concret.** `domain/models/` contient les trois catégories à plat, sans distinction.
 
@@ -496,11 +506,11 @@ domain/models/
 
 Ce que le dossier commun coûte vraiment : aucune règle de chemin ne peut viser les entités seules. Les
 vérifications du § 6 s'appliquent donc à tout `domain/models/`, et produisent du bruit sur les
-objets-valeurs. C'est le même obstacle que celui décrit dans `fiche-read-model.md`, où deux dossiers
-frères rendent au contraire la règle écrivable.
+objets-valeurs. `fiche-read-model.md` montre l'inverse : deux dossiers séparés permettent d'écrire la
+règle de chemin.
 
 Ce que la séparation coûterait : une décision de classement sur chaque fichier existant, par le test
-du § 1. À arbitrer au regard du gain de vérification, pas par goût de taxonomie.
+du § 1. Le choix se fait sur le gain de vérification, pas sur le seul souci de bien classer.
 
 ### X5. L'entité non persistée porte un identifiant `null`
 
@@ -522,7 +532,7 @@ signature ne le dit.
 création, `…ForCreation`, sans identifiant. La signature porte alors l'information, et le typage la
 vérifie. C'est V8 de `fiche-objet-valeur.md` appliqué à une entité.
 
-À lire avec `X7` de `fiche-objet-valeur.md`, qui borne la pratique : une forme de création exprime une
+À lire avec `X7` de `fiche-objet-valeur.md`, qui limite la pratique : une forme de création exprime une
 différence de nature, donc elle est légitime. Une forme de mise à jour portant un sous-ensemble de
 champs ne l'est pas, sauf mesure.
 
@@ -534,15 +544,16 @@ cette pièce, le coût du doublement des types n'est pas démontré.
 ## 6. Vérification déterministe
 
 Les taux de faux positifs annoncés sont estimés. Toute hypothèse sur le comportement d'un outil se
-vérifie par contre-épreuve : introduire la violation, confirmer que l'outil sort, retirer la
-violation.
+vérifie par contre-épreuve : introduire la violation, confirmer que l'outil la signale, retirer
+la violation.
 
 Il n'existe aucun plugin ESLint maison. Toute règle sur mesure suppose d'abord de créer cette
 infrastructure. Les coûts ci-dessous ne comptent que la règle elle-même.
 
-**Une limite pour tout ce paragraphe.** Les règles portent sur `domain/models/`, qui contient aussi
-les objets-valeurs et peut-être des racines d'agrégat. Elles sortiront donc sur des fichiers qui ne
-sont pas des entités. C'est X4.
+**Une limite pour toute cette section.** Les règles portent sur `domain/models/`, qui contient aussi
+les objets-valeurs et peut-être des racines d'agrégat. Elles se déclencheront donc sur des fichiers
+qui ne sont pas des entités. Cette limite vient de X4, et elle plafonne la précision de toutes les
+règles de cette section.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
@@ -552,7 +563,7 @@ sont pas des entités. C'est X4.
 | **E3** invariants tenus | règle ESLint : constructeur en `= {}` sans appel de validation | ~40 lignes | **élevés sur l'existant** — voir X1 |
 | **X3** validation après affectation | sans objet : c'est la forme prescrite. Voir `X3` au § 5 | — | — |
 | **E1** identité explicite | règle ESLint : une classe de `domain/models/` expose un accesseur `id` | ~15 lignes | **à mesurer** — un objet-valeur porteur d'identifiant la déclenche |
-| **E5** pas de méthode de persistance | knip, déjà branché : il signale les exports à consommateur unique | aucun | **à mesurer** |
+| **E5** pas de méthode de persistance | revue. knip, déjà branché, ne signale que les exports sans consommateur | — | — |
 | **E2** l'égalité se fonde sur l'identité | revue | — | — |
 | **E7** les autres agrégats sont référencés par identité | revue | — | — |
 
@@ -590,22 +601,23 @@ Le motif : un constructeur dont le paramètre est déstructuré avec `= {}`, et 
 **aucun appel de validation**, sous aucune forme. Ni garde écrite à la main, ni appel à l'utilitaire de
 validation par schéma.
 
-Il désigne exactement la forme dominante de violation, mais il se déclenchera sur beaucoup d'entités
-existantes. À introduire en avertissement, avec une décision préalable sur l'ampleur du rattrapage. La
-lancer en erreur d'emblée garantit qu'elle sera désactivée.
+Ce motif désigne exactement la forme dominante de violation. La règle se déclenchera donc sur beaucoup
+d'entités existantes. Elle s'introduit en avertissement, après une décision sur l'ampleur du
+rattrapage : voir l'ordre de travail de `X1` au § 5.
 
 Ce que la règle ne doit pas signaler : une validation placée après les affectations. C'est la forme
-prescrite par la documentation d'architecture, voir `X3` au § 5. Une règle qui l'attraperait sortirait
-sur la quasi-totalité des modèles.
+prescrite par la documentation d'architecture, voir `X3` au § 5. Une règle qui l'attraperait se
+déclencherait sur la quasi-totalité des modèles.
 
-### E5 partiel — knip
+### E5 — knip ne suffit pas
 
-knip détecte les exports non consommés. Une méthode dont le seul consommateur est le repository
-n'apparaît pas comme non consommée : knip ne la voit pas directement. Il désigne la famille adjacente,
-un export à consommateur unique, qui est le motif de `E5`. À exploiter en lisant sa sortie.
+knip signale les exports que rien n'importe. Une méthode dont le seul consommateur est le repository
+est consommée, donc knip ne la signale pas. Il ne sait pas non plus compter les consommateurs d'un
+export : un export à consommateur unique passe sans signalement. `E5` reste donc en revue.
 
-Coût nul, puisqu'il tourne déjà. Faux positifs à mesurer avant d'en faire une règle bloquante. Il ne
-décide pas non plus de l'exception du format publié, qui reste en revue.
+knip aide seulement après la correction : une fois la traduction déplacée dans le repository, un
+export resté sans consommateur apparaît dans sa sortie. Il ne décide pas non plus de l'exception du
+format publié.
 
 ### Ce qui n'est pas mécanisable
 
@@ -638,9 +650,9 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 
 ## 7. Le type
 
-Une entité se déclare en **classe**. L'identité rend la nominalité moins critique que pour un
-objet-valeur : deux entités ne se confondent pas par leur forme. La classe reste la forme retenue, car
-un constructeur qui valide doit être le seul chemin de construction.
+Une entité se déclare en **classe**. Deux types de même forme risquent moins de se confondre que pour
+un objet-valeur, parce que deux entités se distinguent par leur identité. La classe reste la forme
+retenue, car un constructeur qui valide doit être le seul chemin de construction.
 
 ```ts
 export class Organization {
@@ -681,13 +693,12 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 
 L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6.
 
-Deux indices de diagnostic, avec leurs bornes.
+Deux indices de diagnostic :
 
-**Le test qui manque le plus souvent est celui du refus.** On vérifie qu'`archive()` archive, pas
-qu'il refuse d'archiver deux fois. Or c'est le second qui prouve que E3 est tenu. La borne : une
-entité sans méthode de changement d'état n'a pas de refus à tester, ce qu'admet le § 3.
-
-Une entité qui a besoin d'un double **viole E4**. Le double nécessaire est le symptôme, pas la cause.
+- Le test qui manque le plus souvent est celui du **refus**. On vérifie qu'`archive()` archive, pas
+  qu'il refuse d'archiver deux fois. Or c'est le second qui prouve que E3 est tenu. Une exception :
+  une entité sans méthode de changement d'état n'a pas de refus à tester, ce qu'admet le § 3.
+- Une entité qui a besoin d'un double **viole E4**. Voir « Ce qui casse » de E4 au § 2.
 
 ---
 
@@ -704,7 +715,7 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [auto]    E6  Aucun mutateur nu ; chaque changement d'état nomme son intention métier
 [ ] [humain]  E7  Les entités d'un autre agrégat sont référencées par identifiant, pas par instance
 [ ] [auto]    E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
-[ ] [partiel] E5  Aucune méthode dont le repository est le seul consommateur   (sauf format publié)
+[ ] [humain]  E5  Aucune méthode dont le repository est le seul consommateur   (sauf format publié)
 [ ] [partiel] E1  L'identité est explicite et ne change pas ; le cas non persisté est traité
 [ ] [humain]  E2  Les comparaisons se fondent sur l'identité, pas sur les champs
 [ ] [auto]    E8  Un fichier, PascalCase, nom du langage ubiquitaire du contexte
@@ -713,9 +724,16 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [humain]  Si l'objet n'a aucune règle propre, appliquer le test du § 1 : entité, ou read-model ?
 ```
 
-À terme, il reste six lignes, toutes de jugement : E7, E5, E2, le test de refus, le rappel du test de
-discrimination, et la part de E3 qu'aucune règle ne couvre, la validation de valeur, par opposition à
-la validation de présence.
+À terme, il reste sept lignes, toutes de jugement :
+
+- E7 ;
+- E5 ;
+- E2 ;
+- le test de refus ;
+- le rappel du test de discrimination ;
+- la part de E3 qu'aucune règle ne couvre : la validation de valeur, par opposition à la validation
+  de présence ;
+- la part de E1 qu'aucune règle ne couvre : le traitement du cas non persisté.
 
 ---
 
@@ -736,7 +754,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | Le test de discrimination entité / objet-valeur | Evans, même ch. — c'est le critère qu'il donne | *DDD Reference* |
 | Typage des identifiants à la frontière HTTP, pas par le domaine (X2 de `fiche-objet-valeur.md`) | **ADR 19**, qui écarte le typage des identifiants côté domaine pour son coût | ADR 19 |
 
-**Un seul invariant sur huit n'a aucune source externe** : E8, convention de nommage. La catégorie
+Un seul invariant sur huit n'a aucune source externe : **E8**, la convention de nommage. La catégorie
 entité est le cœur du vocabulaire tactique de DDD, et ses invariants sont ceux des livres.
 
 Ce qui manque de source, ici, c'est la **façon Pix** de les appliquer : le choix du type d'erreur de
