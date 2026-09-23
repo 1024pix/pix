@@ -1,4 +1,4 @@
-import { clickByName, render, waitFor, within } from '@1024pix/ember-testing-library';
+import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CombinedCourseBlueprintForm from 'pix-admin/components/combined-course-blueprints/form';
@@ -6,6 +6,18 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
+async function selectOption(screen, buttonLabel, optionLabel) {
+  const button = screen.getByRole('button', {
+    name: buttonLabel,
+  });
+
+  const list = within(button.closest('div')).getByRole('listbox', { hidden: true });
+
+  const option = within(list).getByText(optionLabel);
+
+  await click(option);
+}
 
 module('Integration | Component | CombinedCourseBlueprints::form', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -174,18 +186,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         'http://survey-link.fr',
       );
 
-      await click(
-        screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-      );
-
-      await waitFor(
-        async () => {
-          await screen.findByRole('listbox');
-
-          await click(screen.getByRole('option', { name: 'Parentalite' }));
-        },
-        { timeout: 20000 },
-      );
+      await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
 
       await click(screen.getByRole('button', { name: t('components.combined-course-blueprints.create.createButton') }));
 
@@ -337,16 +338,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         await click(
           screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
         );
-        await waitFor(
-          async () => {
-            await screen.findByRole('listbox');
+        await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
 
-            await click(screen.getByRole('option', { name: 'Parentalite' }));
-          },
-          { timeout: 20000 },
-        );
-
-        await click(screen.getByRole('option', { name: 'Parentalite' }));
         await click(
           screen.getByRole('radio', {
             name: t('components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option'),
@@ -381,17 +374,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         //when
         const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
 
-        await click(
-          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-        );
-        await waitFor(
-          async () => {
-            await screen.findByRole('listbox');
-
-            await click(screen.getByRole('option', { name: 'Parentalite' }));
-          },
-          { timeout: 20000 },
-        );
+        await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
 
         await fillIn(
           screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
@@ -450,17 +433,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
         );
 
-        await click(
-          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-        );
-        await waitFor(
-          async () => {
-            await screen.findByRole('listbox');
-
-            await click(screen.getByRole('option', { name: 'Parentalite' }));
-          },
-          { timeout: 20000 },
-        );
+        await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
 
         await click(
           screen.getByRole('radio', {
@@ -483,12 +456,8 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         await clickByName('1 Titre competence');
         await click(screen.getByLabelText('@tubeName1 : Tube 1'));
 
-        const allSelects = await screen.getAllByText(/Sélection du niveau du sujet suivant : Tube/);
+        await selectOption(screen, 'Sélection du niveau du sujet suivant : Tube 1', '4');
 
-        await click(allSelects[0]);
-        const allCells = screen.getAllByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ });
-        const tubesListbox = await within(allCells[0]).findByRole('listbox');
-        await click(within(tubesListbox).getByRole('option', { name: '4' }));
         await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '75');
 
         await click(
@@ -524,17 +493,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
         );
 
-        await click(
-          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-        );
-        await waitFor(
-          async () => {
-            await screen.findByRole('listbox');
-
-            await click(screen.getByRole('option', { name: 'Parentalite' }));
-          },
-          { timeout: 20000 },
-        );
+        await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
 
         await click(
           screen.getByRole('radio', {
@@ -557,13 +516,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         await clickByName('1 Titre competence');
         await click(screen.getByLabelText('@tubeName1 : Tube 1'));
 
-        const allSelects = await screen.getAllByText(/Sélection du niveau du sujet suivant : Tube/);
-
-        await click(allSelects[0]);
-        const allCells = screen.getAllByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ });
-        const tubesListbox = await within(allCells[0]).findByRole('listbox');
-
-        await click(within(tubesListbox).getByRole('option', { name: '4' }));
+        await selectOption(screen, 'Sélection du niveau du sujet suivant : Tube 1', '4');
 
         await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '75');
 
@@ -623,16 +576,10 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
             screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
           );
 
-          await click(
-            screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-          );
-          await waitFor(
-            async () => {
-              await screen.findByRole('listbox');
-
-              await click(screen.getByRole('option', { name: 'Parentalite' }));
-            },
-            { timeout: 20000 },
+          await selectOption(
+            screen,
+            t('components.combined-course-blueprints.attestation.select-label'),
+            'Parentalite',
           );
 
           await click(
@@ -719,11 +666,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           await clickByName('1 Titre competence');
           await click(screen.getByLabelText('@tubeName1 : Tube 1'));
 
-          const allSelects = await screen.getAllByText(/Sélection du niveau du sujet suivant : Tube/);
-          await click(allSelects[0]);
-          const allCells = screen.getAllByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ });
-          const tubesListbox = await within(allCells[0]).findByRole('listbox');
-          await click(within(tubesListbox).getByRole('option', { name: '4' }));
+          await selectOption(screen, 'Sélection du niveau du sujet suivant : Tube 1', '4');
 
           // when
           await click(
@@ -832,17 +775,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
         );
 
-        await click(
-          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-        );
-        await waitFor(
-          async () => {
-            await screen.findByRole('listbox');
-
-            await click(screen.getByRole('option', { name: 'Parentalite' }));
-          },
-          { timeout: 20000 },
-        );
+        await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
 
         return screen;
       }
@@ -949,11 +882,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         await clickByName('1 Titre competence');
         await click(screen.getByLabelText('@tubeName1 : Tube 1'));
 
-        const allSelects = await screen.getAllByText(/Sélection du niveau du sujet suivant : Tube/);
-        await click(allSelects[0]);
-        const allCells = screen.getAllByRole('cell', { name: /Sélection du niveau du sujet suivant : Tube/ });
-        const tubesListbox = await within(allCells[0]).findByRole('listbox');
-        await click(within(tubesListbox).getByRole('option', { name: '4' }));
+        await selectOption(screen, 'Sélection du niveau du sujet suivant : Tube 1', '4');
         await fillIn(screen.getByLabelText('Taux de réussite requis', { exact: false }), '99');
 
         // when
@@ -1042,17 +971,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
           screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
         );
 
-        await click(
-          screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
-        );
-        await waitFor(
-          async () => {
-            await screen.findByRole('listbox');
-
-            await click(screen.getByRole('option', { name: 'Parentalite' }));
-          },
-          { timeout: 20000 },
-        );
+        await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
 
         return screen;
       }
