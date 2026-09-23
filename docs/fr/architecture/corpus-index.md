@@ -297,6 +297,11 @@ sommaire n'en est pas une : il est dans l'en-tête.
    aiguille vers ses voisines, elle ne réexplique pas leurs invariants.
 2. **Invariants numérotés**, chacun avec : énoncé, illustration conforme et fautive, et « ce qui
    casse ». Les trois, pour chacun.
+   - L'illustration **fautive** est un extrait du code réel, simplifié au besoin, sans champ ni
+     signature inventés.
+   - L'illustration **conforme** est un extrait réel quand il en existe un. Sinon, c'est la version
+     corrigée du même extrait fautif : mêmes classes, mêmes champs.
+   - Aucune classe inventée pour l'occasion.
 3. **Exceptions légitimes**, avec l'avertissement qu'une exception ne vaut que pour son invariant.
 4. **ROI des invariants**, classé en rentabilité forte / moyenne / hygiène, plus un niveau *revue
    seule* pour un invariant réel mais non vérifiable. Une seule table : invariant, rentabilité, ce
