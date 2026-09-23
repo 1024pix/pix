@@ -35,7 +35,7 @@ export default class Import extends Component {
   get errorDetailList() {
     if (this.args.organizationImportDetail?.hasWarning) {
       const warnings = [];
-      const warningsByFields = this.args.organizationImportDetail?.errors.reduce((fields, error) => {
+      const warningsByFields = this.args.organizationImportDetail?.importErrors.reduce((fields, error) => {
         const { field } = error;
         if (!fields[field]) {
           fields[field] = [];
@@ -53,7 +53,7 @@ export default class Import extends Component {
       }
       return warnings;
     }
-    return this.args.organizationImportDetail?.errors.map((error) =>
+    return this.args.organizationImportDetail?.importErrors.map((error) =>
       this.errorMessages.getErrorMessage(error.code, error.meta),
     );
   }
