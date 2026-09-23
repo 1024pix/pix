@@ -198,7 +198,7 @@ est interdit, c'est qu'il ait sa propre identité.
 // conforme — aucune identité propre, deux instances de même statut sont la même chose
 class AnswerStatus { #status; }
 
-// à instruire — pourquoi cet objet a-t-il un identifiant ?
+// fautif, sauf deuxième cas ci-dessous — l'objet porte un identifiant sans rôle dans le domaine
 class CombinedCourseStatistics {
   constructor({ id, participationsCount }) { this.id = id; … }
 }
@@ -236,7 +236,7 @@ de présentation.
 *Value Object uniquement.* Une valeur invalide ne s'instancie pas. L'aval ne valide rien.
 
 ```js
-// conforme — on valide, puis on affecte, avec une erreur du domaine
+// conforme — validation, puis affectation, avec une erreur du domaine
 constructor({ id, type, grains }) {
   assertNotNullOrUndefined(id, 'The id is required for a section');
   this.#assertTypeIsValid(type);
@@ -294,7 +294,7 @@ l'erreur. Voir `X3` de `fiche-specification.md`, où l'écart est instruit.
 L'interdit vaut aussi pour la configuration, l'horloge et l'aléatoire. Un objet qui lit l'heure courante
 n'est pas testable de façon déterministe : la date arrive en paramètre.
 
-**Ce qui casse.** Le test cesse d'être pur : il faut un double. Ce besoin n'est que le symptôme. La
+**Ce qui casse.** Le test cesse d'être pur : il demande un double. Ce besoin n'est que le symptôme. La
 cause est la dépendance à l'infrastructure.
 
 ### V5. Porte le comportement lié à ses données
@@ -332,10 +332,10 @@ un type nommé peut valoir pour la seule signature. Voir le § 3.
 Pas de repository, pas de table dédiée, pas de fonction de persistance. Un Value Object est persisté
 **avec** ce qui le contient, ou pas du tout.
 
-S'il faut le retrouver indépendamment, c'est une Entity.
+Un objet qui doit être retrouvé indépendamment est une Entity.
 
 **Ce qui casse.** Un repository dédié à un Value Object lui donne une identité de fait, celle par
-laquelle on le retrouve. Le Value Object bascule alors dans la catégorie des Entities, sans que
+laquelle il est retrouvé. Le Value Object bascule alors dans la catégorie des Entities, sans que
 personne l'ait décidé.
 
 ### V7. Exposition en lecture seule, collections comprises
@@ -353,7 +353,7 @@ get proposals() { return [...this.#coreChallenge.proposals]; }
 Le champ privé ne suffit donc pas : `#coreChallenge` est inaccessible, mais l'accesseur renvoie une
 référence vers son contenu.
 
-**Attention au gel inopérant.** `Object.freeze` n'affecte pas les champs privés `#` : ce ne sont pas
+**Le gel inopérant.** `Object.freeze` n'affecte pas les champs privés `#` : ce ne sont pas
 des propriétés. Geler une instance dont l'état est privé ne protège rien tout en en donnant
 l'apparence.
 
@@ -386,8 +386,8 @@ motif sépare les cas :
 | --- | --- |
 | L'objet n'a pas encore d'identité | légitime — c'est un concept distinct |
 | Le vocabulaire de l'appel diffère de celui du modèle | légitime — c'est un objet d'entrée nommé |
-| On ne veut pas charger l'Entity entière, et le coût est **mesuré** | légitime, et à documenter avec la mesure |
-| On ne veut pas charger l'Entity entière, sans mesure | **ce n'est pas un motif** — charger l'Entity, la faire changer par une méthode nommée, la sauver. C'est `E6` de `fiche-entite.md` |
+| Éviter de charger l'Entity entière, coût **mesuré** | légitime, documenté avec la mesure |
+| Éviter de charger l'Entity entière, sans mesure | **ce n'est pas un motif** : l'Entity se charge entière et change par une méthode nommée. C'est `E6` de `fiche-entite.md` |
 
 ---
 
@@ -402,7 +402,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un accesseur reconstruit un objet à chaque appel | **autorisé** — c'est la forme sûre de V7 |
 | Une méthode rend une valeur neutre sur entrée non exploitable plutôt que de lever | **autorisé** |
 | Une famille de Value Objects partage une classe de base abstraite | **autorisé** si la base respecte V1 |
-| Un Value Object sans comportement, dans une famille où d'autres en ont | **à discuter**, pas à signaler seul — un type nommé peut valoir pour la seule signature |
+| Un Value Object sans comportement, dans une famille où d'autres en ont | **toléré** : ne se signale pas seul, car un type nommé peut valoir pour la seule signature |
 | L'objet est anémique et aucune règle ne le lit | **ce n'est pas un Value Object** — appliquer le discriminant du § 1, puis `fiche-read-model.md` |
 
 ---
@@ -502,11 +502,11 @@ Le coût, lui, est certain. Chaque forme partielle est un modèle qui ne garanti
 
 **Correction.** Le test du motif de `V8` s'applique fichier par fichier. Ce qui exprime une différence de
 nature reste, comme l'absence d'identité ou un vocabulaire d'entrée distinct. Ce qui n'exprime qu'un
-sous-ensemble de champs disparaît : on charge l'Entity, on la fait changer par une méthode nommée, on
-la sauve. C'est `E6` de `fiche-entite.md`.
+sous-ensemble de champs disparaît : l'Entity se charge entière, change par une méthode nommée, puis
+se sauve. C'est `E6` de `fiche-entite.md`.
 
-Seule une mesure change ce verdict pour un cas donné. Un chargement dont le coût est constaté
-en production justifie une forme partielle, et la mesure s'écrit à côté du modèle.
+**Révision.** Une mesure change ce verdict pour un cas donné. Un chargement dont le coût est constaté
+en production justifie une forme partielle, documentée avec la mesure à côté du modèle.
 
 ### X2. Les valeurs sont validées à la frontière HTTP, pas par leur type
 
@@ -531,13 +531,13 @@ L'ADR 19 a examiné le typage des identifiants côté domaine et l'a écarté po
 validation à la route. Son exemple donne d'ailleurs le même type à deux identifiants de sens différent,
 ce qui est la limite de l'approche.
 
-**Correction.** Rien d'immédiat, et pas de reprise de l'existant. Ce qui est à tenir : une valeur qui
-porte une règle métier, pas seulement une contrainte de format, traverse le domaine dans son type, pas en
-primitive. La validation à la route reste utile pour ce qu'elle fait bien : refuser tôt, avec un
-message utilisateur. Les deux ne s'excluent pas ; c'est leur confusion qui coûte.
+**Correction.** Aucune sur l'existant. Pour le neuf, une valeur qui porte une règle métier, et pas
+seulement une contrainte de format, traverse le domaine dans son type, pas en primitive. La
+validation à la route garde son rôle : refuser tôt, avec un message utilisateur. Les deux se
+complètent, et c'est leur confusion qui coûte.
 
-Si l'équipe veut généraliser, elle doit d'abord rouvrir l'ADR 19. Ne pas l'invoquer comme source à
-l'appui du typage : il conclut l'inverse.
+**Révision.** Généraliser le typage des valeurs suppose de revenir sur l'ADR 19. Cet ADR conclut
+l'inverse et n'appuie donc pas le typage.
 
 ### X3. Validation à la construction de chaque Value Object
 
@@ -561,8 +561,8 @@ class QrocmSolutions {
 ```
 
 **Correction.** Aucune. Le coût est une validation et un type d'erreur par type ; le bénéfice est
-qu'aucun code en aval ne revérifie. C'est V3, classé en rentabilité forte au § 4. À maintenir comme
-convention explicite plutôt que comme lecture d'Evans.
+qu'aucun code en aval ne revérifie. C'est V3, classé en rentabilité forte au § 4. C'est une convention
+explicite, pas une lecture d'Evans.
 
 ### X4. L'immuabilité n'est pas garantie par le langage
 
@@ -623,8 +623,8 @@ infrastructure, et les coûts ci-dessous ne comptent que la règle.
 `severity: 'error'` est obligatoire. La valeur par défaut est `warn`, et seul `error` fait échouer la
 commande.
 
-Écrire `src/.+/` et non `src/[^/]+/`. Sinon, les contextes à sous-contextes ne sont pas atteints. La
-règle ne se déclenche alors jamais, sans erreur ni avertissement.
+Le chemin s'écrit `src/.+/`, pas `src/[^/]+/`. Avec la seconde forme, les contextes à sous-contextes
+ne sont pas atteints : la règle ne s'y déclenche jamais, sans aucun message.
 
 La règle jumelle interdit à une règle du domaine d'importer un read-model. Elle est au § 6 de
 `fiche-read-model.md`, sous l'invariant RM3.
@@ -638,8 +638,8 @@ Trois motifs syntaxiques, tous locaux au fichier :
   valeur renvoyée ;
 - un accesseur dont le corps est un `return this.#champ` où le champ est initialisé par un tableau.
 
-Le troisième est le plus utile et le plus délicat : il faut remonter à l'initialisation pour connaître
-le type. À restreindre au cas évident : un champ initialisé à `[]`, ou affecté depuis un paramètre par
+Le troisième est le plus utile et le plus délicat : il demande de remonter à l'initialisation pour
+connaître le type. La règle se limite au cas évident : un champ initialisé à `[]`, ou affecté depuis un paramètre par
 défaut `= []`.
 
 Le motif ne couvre pas un accès imbriqué, comme `return this.#coreChallenge.proposals` dans l'exemple
@@ -748,7 +748,7 @@ Deux indices de diagnostic :
 
 - Un objet qui a besoin d'un double **viole V4**. Voir « Ce qui casse » de V4 au § 2.
 - Un Value Object dont le test unitaire n'a ni validation ni comportement à vérifier n'est
-  probablement pas un Value Object : appliquer le discriminant du § 1. Limite : un type nommé sans
+  probablement pas un Value Object : le discriminant du § 1 s'applique. Limite : un type nommé sans
   logique peut valoir pour la seule signature, ce qu'admet le § 3.
 
 ---

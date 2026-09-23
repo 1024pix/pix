@@ -419,6 +419,11 @@ référence :
 - Couper une phrase ne doit pas couper son lien logique. Garder les « parce que », « donc », « sauf
   si », et vérifier que chaque pronom désigne encore le bon nom. En cas de doute, répéter le nom.
 - Simplifier ne doit pas affaiblir une règle : « ne doit pas pouvoir » n'est pas « ne doit pas ».
+- Une fiche est une référence au sens de Diátaxis : elle énonce une règle et son statut. Elle ne
+  conseille pas, ne suppose rien de ce que l'équipe voudra, n'emploie pas « on ». Les consignes à
+  l'infinitif ou à l'impératif vivent seulement dans les rubriques **Correction** et **Ordre de mise
+  en œuvre**. Une condition qui changerait un verdict s'écrit sous l'étiquette **Révision.**, comme un
+  fait. Ce qui relève de la conduite du chantier va dans l'encadré « À instruire » ou dans l'index.
 - Les noms de patterns DDD restent en anglais, comme dans les ADR et les dossiers du code : Bounded
   Context, Entity, Value Object, Aggregate, Aggregate Root, Repository, Domain Service,
   Specification, Ubiquitous Language, Published Language, Anticorruption Layer. Le genre suit le mot
