@@ -72,7 +72,7 @@ module('Integration | Component |  administration/organizations-import', functio
     });
 
     module('when error code is "PARENT_ORGANIZATION_NOT_IN_NETWORK"', function () {
-      test('it displays a correct error notification', async function (assert) {
+      test('it displays a basic error notification with location and a detailed one', async function (assert) {
         // given
         const file = new Blob(['foo'], { type: `valid-file` });
         class NotificationsStub extends Service {
@@ -92,23 +92,45 @@ module('Integration | Component |  administration/organizations-import', functio
         await triggerEvent(input, 'change', { files: [file] });
 
         // then
-        assert.ok(notificationErrorStub.calledOnce);
-        const [{ message }] = notificationErrorStub.firstCall.args;
-        const errorMessage = message.toString();
+        assert.ok(notificationErrorStub.calledTwice);
+        const [{ message: firstErrorMessage }] = notificationErrorStub.getCall(0).args;
+        const [{ message: secondErrorMessage }] = notificationErrorStub.getCall(1).args;
 
         assert.true(
-          errorMessage.includes(
-            t('components.administration.organizations-import.notifications.errors.no-organization-created'),
+          firstErrorMessage
+            .toString()
+            .includes(t('components.administration.organizations-import.notifications.errors.no-organization-created')),
+        );
+        assert.true(
+          firstErrorMessage
+            .toString()
+            .includes(
+              t('components.administration.organizations-import.notifications.errors.error-location', { errorLine: 2 }),
+            ),
+        );
+
+        assert.true(
+          secondErrorMessage.toString().includes(
+            t('components.administration.organizations-import.notifications.errors.error-field', {
+              errorField: 'parentOrganizationId',
+            }),
           ),
         );
-        assert.true(errorMessage.includes('parentOrganizationId'));
-        assert.true(errorMessage.includes('1234'));
-        assert.true(errorMessage.includes('2'));
+        assert.true(
+          secondErrorMessage.toString().includes(
+            t(
+              'components.administration.organizations-import.notifications.errors.PARENT_ORGANIZATION_NOT_IN_NETWORK',
+              {
+                parentOrganizationId: 1234,
+              },
+            ),
+          ),
+        );
       });
     });
 
     module('when error code is "STRUCTURE_CATEGORY_NOT_FOUND"', function () {
-      test('it displays a correct error notification', async function (assert) {
+      test('it displays a basic error notification with location and a detailed one', async function (assert) {
         // given
         const file = new Blob(['foo'], { type: `valid-file` });
         class NotificationsStub extends Service {
@@ -117,7 +139,7 @@ module('Integration | Component |  administration/organizations-import', functio
         this.owner.register('service:pixToast', NotificationsStub);
 
         saveAdapterStub.withArgs([file]).rejects({
-          errors: [{ code: 'STRUCTURE_CATEGORY_NOT_FOUND', meta: { structureCategoryId: 80, currentLine: 2 } }],
+          errors: [{ code: 'STRUCTURE_CATEGORY_NOT_FOUND', meta: { structureCategoryId: 80, currentLine: 1 } }],
         });
 
         // when
@@ -126,18 +148,37 @@ module('Integration | Component |  administration/organizations-import', functio
         await triggerEvent(input, 'change', { files: [file] });
 
         // then
-        assert.ok(notificationErrorStub.calledOnce);
-        const [{ message }] = notificationErrorStub.firstCall.args;
-        const errorMessage = message.toString();
+        assert.ok(notificationErrorStub.calledTwice);
+        const [{ message: firstErrorMessage }] = notificationErrorStub.getCall(0).args;
+        const [{ message: secondErrorMessage }] = notificationErrorStub.getCall(1).args;
 
         assert.true(
-          errorMessage.includes(
-            t('components.administration.organizations-import.notifications.errors.no-organization-created'),
+          firstErrorMessage
+            .toString()
+            .includes(t('components.administration.organizations-import.notifications.errors.no-organization-created')),
+        );
+        assert.true(
+          firstErrorMessage
+            .toString()
+            .includes(
+              t('components.administration.organizations-import.notifications.errors.error-location', { errorLine: 1 }),
+            ),
+        );
+
+        assert.true(
+          secondErrorMessage.toString().includes(
+            t('components.administration.organizations-import.notifications.errors.error-field', {
+              errorField: 'categoryId',
+            }),
           ),
         );
-        assert.true(errorMessage.includes('categoryId'));
-        assert.true(errorMessage.includes('80'));
-        assert.true(errorMessage.includes('2'));
+        assert.true(
+          secondErrorMessage.toString().includes(
+            t('components.administration.organizations-import.notifications.errors.STRUCTURE_CATEGORY_NOT_FOUND', {
+              structureCategoryId: 80,
+            }),
+          ),
+        );
       });
     });
 
