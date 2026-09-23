@@ -129,12 +129,9 @@ async function launch(request, h, dependencies = { ltiPlatformRegistrationReposi
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
   if (messageType === 'LtiResourceLinkRequest') {
-    const targetLinkUri = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'];
+    await sendScoring(verifiedToken, registration);
 
-    // scoreUrl = new URL(verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'].lineitem);
-    // scoreUrl.pathname += '/scores';
-    // scoreUrl = scoreUrl.href;
-    // userId = verifiedToken.sub;
+    const targetLinkUri = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'];
 
     return h.redirect(targetLinkUri);
   }
@@ -184,6 +181,83 @@ async function encodeDeepLinkingResponse(request, deepLinkUrl, registration, dep
       keyid: registration.publicKey.kid,
     },
   );
+}
+
+async function sendScoring(request, registration) {
+  const scoringServiceAccessToken = await getAccessToken(
+    'https://purl.imsglobal.org/spec/lti-ags/scope/score',
+    registration,
+  );
+  if (!scoringServiceAccessToken) return;
+
+  const scoringServiceUrl = new URL(request['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'].lineitem);
+  scoringServiceUrl.pathname += '/scores';
+
+  const scoringPayload = {
+    scoreGiven: 83,
+    scoreMaximum: 100,
+    comment: 'This is exceptional work.',
+    activityProgress: 'Completed',
+    gradingProgress: 'FullyGraded',
+    timestamp: new Date().toISOString(),
+    userId: request.sub,
+  };
+
+  const scoringRes = await fetch(scoringServiceUrl, {
+    method: 'POST',
+    headers: {
+      Authorization: scoringServiceAccessToken.token_type + ' ' + scoringServiceAccessToken.access_token,
+      'Content-Type': 'application/vnd.ims.lis.v1.score+json',
+    },
+    body: JSON.stringify(scoringPayload),
+  });
+
+  if (scoringRes.ok) {
+    logger.info({ payload: await scoringRes.text() }, 'scoring ok');
+  } else {
+    logger.error({ status: scoringRes.status, err: await scoringRes.text() }, 'could not send scoring');
+  }
+}
+
+async function getAccessToken(scope, registration, dependencies = { cryptoService }) {
+  const privateKey = {
+    format: 'jwk',
+    key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),
+  };
+
+  const client_assertion = jsonwebtoken.sign(
+    {
+      iss: registration.platformOrigin,
+      sub: registration.clientId,
+      aud: registration.platformOpenIdConfig.token_endpoint,
+    },
+    privateKey,
+    {
+      expiresIn: 3600,
+      algorithm: 'RS256',
+      keyid: registration.publicKey.kid,
+    },
+  );
+
+  const res = await fetch(registration.platformOpenIdConfig.token_endpoint, {
+    method: 'POST',
+    body: new URLSearchParams({
+      grant_type: 'client_credentials',
+      client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+      client_assertion,
+      scope,
+    }),
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+    },
+  });
+
+  if (!res.ok) {
+    logger.error({ status: res.status, err: await res.text() }, 'could not get access token');
+    return null;
+  }
+
+  return res.json();
 }
 
 export const ltiController = { listPublicKeys, register, init, launch };
