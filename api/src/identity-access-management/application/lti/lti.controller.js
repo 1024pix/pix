@@ -5,7 +5,7 @@ import { ltiRegistrationSerializer } from '../../infrastructure/serializers/html
 async function listPublicKeys(request, h, dependencies = { listLtiPublicKeys: usecases.listLtiPublicKeys }) {
   const publicKeys = await dependencies.listLtiPublicKeys();
 
-  return h.response(publicKeys);
+  return h.response({ keys: publicKeys });
 }
 
 async function register(request, h, dependencies = { registerLtiPlatform: usecases.registerLtiPlatform }) {
