@@ -27,7 +27,6 @@ export default class ApplicationRoute extends Route {
         adapter: PlausibleAdapter,
         environments: ENV.ANALYTICS.ENABLED ? ['all'] : [],
         config: {
-          siteId: ENV.ANALYTICS.SITE_ID,
           scriptUrl: ENV.ANALYTICS.SCRIPT_URL,
         },
       },
