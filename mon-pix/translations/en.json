@@ -1304,11 +1304,11 @@
         "tagText": "You're at that point!"
       },
       "process-custom-passages": {
-        "description": "We analyse your results and build your personalised training plan.",
+        "description": "We analyse your results and build a suitable series of courses.",
         "list": {
           "generate-personalize-course": "Generating your personalised course.",
           "results-analysis": "Analysis of your results.",
-          "select-passages": "Selecting suitable training courses."
+          "select-passages": "Selecting suitable content."
         },
         "title": "Calculating the next steps in your current course."
       },

@@ -1304,11 +1304,11 @@
         "tagText": "So weit bist du schon!"
       },
       "process-custom-passages": {
-        "description": "Wir analysieren deine Ergebnisse und bauen deinen persönlichen Lernpfad auf.",
+        "description": "Wir analysieren deine Ergebnisse und stellen eine passende Abfolge von Lernpfaden zusammen.",
         "list": {
           "generate-personalize-course": "Generiere deinen persönlichen Lernpfad.",
           "results-analysis": "Analyse deiner Ergebnisse.",
-          "select-passages": "Auswahl geeigneter Übungen."
+          "select-passages": "Auswahl passender Inhalte."
         },
         "title": "Berechnung des weiteren Verlaufs des aktuellen Pfads."
       },
