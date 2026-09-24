@@ -389,6 +389,10 @@ Corrections apportées :
   l'expose par l'accesseur `quest`. `Quest` a son propre repository, donc c'est une autre racine
   (A3). La version corrigée ne garde que `questId`. Le usecase qui a besoin de la quête la charge
   par son repository.
+  Conséquence : [`CombinedCourseDetails`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js#L38),
+  qui étend `CombinedCourse` pour un écran et lit `this.quest`, porte alors la quête lui-même. C'est
+  un objet assemblé pour une lecture, rangé à tort avec les Aggregates : voir `X1` de
+  [`ecarts.md`](ecarts.md#x1-le-mot--aggregate--est-posé-sur-des-dossiers-sans-frontière-nommable).
 
 Choix sur **A6** : l'Aggregate garde ses douze champs. L'invariant de frontière n'engage que
 `participations`, et A6 décrit la forme réduite. Mais A6 fait de la réduction la réponse à un coût
