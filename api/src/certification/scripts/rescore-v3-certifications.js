@@ -1,11 +1,11 @@
 import { setTimeout } from 'node:timers/promises';
 
-import CertificationRescored from '../../src/certification/evaluation/domain/events/CertificationRescored.js';
-import { usecases } from '../../src/certification/evaluation/domain/usecases/index.js';
-import { commaSeparatedNumberParser } from '../../src/shared/application/scripts/parsers.js';
-import { Script } from '../../src/shared/application/scripts/script.js';
-import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
-import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
+import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
+import { Script } from '../../shared/application/scripts/script.js';
+import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
+import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
+import CertificationRescored from '../evaluation/domain/events/CertificationRescored.js';
+import { usecases } from '../evaluation/domain/usecases/index.js';
 
 export class RescoreV3Certifications extends Script {
   constructor() {

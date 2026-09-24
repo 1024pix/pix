@@ -5,8 +5,8 @@ import sinon from 'sinon';
 import {
   buildCountries,
   checkTransformUnicity,
-} from '../../../scripts/certification/import-certification-cpf-countries.js';
-import { catchErr } from '../../tooling/test-utils/error.js';
+} from '../../../../src/certification/scripts/import-certification-cpf-countries.js';
+import { catchErr } from '../../../tooling/test-utils/error.js';
 
 const { noop } = lodash;
 

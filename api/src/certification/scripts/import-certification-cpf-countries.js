@@ -6,10 +6,10 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { databaseConnectionRegistry } from '../../db/database-connection-registry.js';
-import { knex } from '../../db/knex-database-connection.js';
-import { normalizeAndSortChars } from '../../src/shared/infrastructure/utils/string-utils.js';
-import { parseCsv } from '../helpers/csvHelpers.js';
+import { databaseConnectionRegistry } from '../../../db/database-connection-registry.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
+import { normalizeAndSortChars } from '../../shared/infrastructure/utils/string-utils.js';
 
 const CURRENT_NAME_COLUMN = 'LIBCOG';
 const ALTERNATIVE_NAME_COLUMN = 'LIBENR';

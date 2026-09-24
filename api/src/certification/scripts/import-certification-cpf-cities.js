@@ -1,8 +1,7 @@
 import lodash from 'lodash';
 
-import { databaseConnectionRegistry } from '../../db/database-connection-registry.js';
-import { knex } from '../../db/knex-database-connection.js';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { databaseConnectionRegistry } from '../../../db/database-connection-registry.js';
+import { knex } from '../../../db/knex-database-connection.js';
 /**
  * Usage: node scripts/certification/import-certification-cpf-cities.js path/file.csv
  * File is semi-colon separated values, headers being:
@@ -11,7 +10,8 @@ import { logger } from '../../src/shared/infrastructure/utils/logger.js';
  *
  * File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/ (Export au format CSV)
  **/
-import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
+import { checkCsvHeader, parseCsv } from '../../../scripts/helpers/csvHelpers.js';
+import { logger } from '../../shared/infrastructure/utils/logger.js';
 const { uniqBy, values } = lodash;
 import * as url from 'node:url';
 
