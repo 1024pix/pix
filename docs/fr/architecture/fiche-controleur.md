@@ -4,17 +4,15 @@ Fiche générique. Elle décrit l'état cible, où tout est en TypeScript.
 
 Le gabarit commun, l'état du chantier et l'ordre de relecture sont dans `corpus-index.md`. L'écart avec
 le code réel est mesuré dans les rapports de divergence, un par contexte. Ce qui empêche aujourd'hui le
-typage de mordre est dans `migration-typescript.md`.
+typage de s'appliquer est dans `migration-typescript.md`.
 
 > **À instruire**
 >
-> - **ADR 13 lu le 2026-09-08.** Il conforte `C2` sans le contredire, mais son état est **`Proposed`** :
->   il ne peut pas être cité comme une décision. Voir le § 10.
-> - Ouvrir une transaction dans un contrôleur est la forme que prescrivait l'ADR 9, remplacé depuis.
->   La forme dominante place la transaction dans le usecase. Voir `C2`.
+> - L'ADR 13 conforte `C2` sans le contredire, mais son état est `Proposed` : il ne peut pas être
+>   cité comme une décision. Voir le § 10.
+> - Ouvrir une transaction dans un contrôleur est la forme que prescrivait l'ADR 9, remplacé par
+>   l'ADR 25. La forme dominante place la transaction dans le usecase. Voir `C2`.
 > - Le § 6 annonce des taux de faux positifs estimés, pas mesurés.
-> - L'écart « le contrôle des droits est écrit dans le contrôleur » n'est pas énoncé ici. Il l'est sous
->   `X1` de `fiche-route.md`, où vivent sa correction et sa vérification.
 
 ## Sommaire
 
@@ -44,6 +42,11 @@ typage de mordre est dans `migration-typescript.md`.
 | [**X3**](#x3-un-accès-direct-au-repository-ou-au-domaine-dun-voisin) | un accès direct au repository, ou au domaine d'un voisin | **à corriger** |
 | [**X4**](#x4-les-usecases-sont-importés-sans-injection) | les usecases sont importés sans injection | rien à faire |
 
+Hors numérotation : la [table de décision](#ce-quun-contrôleur-nest-pas) du § 1. L'écart « le
+contrôle des droits est écrit dans le contrôleur » n'est pas dans cette fiche : il est sous
+[`X1` de `fiche-route.md`](fiche-route.md#x1-le-contrôle-des-droits-est-écrit-dans-le-contrôleur), avec
+sa correction et sa vérification.
+
 ---
 
 ## 1. Rôle
@@ -57,18 +60,17 @@ const getQuestResults = async function (request, h, dependencies = { questResult
   const { campaignParticipationId } = request.params;
   const userId = extractUserIdFromRequest(request);
 
-  const results = await usecases.getQuestResultsForCampaignParticipation({ userId, campaignParticipationId });
+  const questResults = await usecases.getQuestResultsForCampaignParticipation({ userId, campaignParticipationId });
 
-  return h.response(dependencies.questResultSerializer.serialize(results));
+  return h.response(dependencies.questResultSerializer.serialize(questResults));
 };
 ```
 
-C'est un *humble object* au sens de Martin : assez bête pour que son test soit trivial, afin que tout
-ce qui mérite d'être testé sérieusement le soit ailleurs.
+C'est un *humble object* au sens de Martin. Il est assez simple pour que son test soit trivial, afin
+que tout ce qui mérite un vrai test soit testé ailleurs.
 
-**Le ROI de cette couche est presque entièrement négatif** : il vient de ce que le contrôleur ne
-contient pas. C'est ce qui explique la brièveté de la fiche — et une fiche longue sur un contrôleur
-serait le signe qu'on lui demande trop.
+Le **ROI** de cette couche est presque entièrement négatif : il vient de ce que le contrôleur ne
+contient pas.
 
 ### Ce qu'un contrôleur n'est pas
 
@@ -94,9 +96,10 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un contrôl
 
 ```js
 // fautif — quelle est l'intention métier de cette séquence ?
-const passage = await usecases.createPassage({ moduleId, moduleVersion, userId });
+const passage = await usecases.createPassage({ moduleId, userId });
 
 const passageStartedData = {
+  contentHash: moduleVersion,
   occurredAt: new Date(occurredAt),
   passageId: passage.id,
   sequenceNumber,
@@ -105,57 +108,68 @@ const passageStartedData = {
 
 await usecases.recordPassageEvents({ events: [passageStartedData] });
 
-// conforme — l'intention composée a un nom, un fichier et un test d'intégration
-const passage = await usecases.startPassage({ moduleId, moduleVersion, userId, occurredAt });
+// conforme — version corrigée : l'intention composée a un nom, un fichier et un test d'intégration
+const passage = await usecases.startPassage({ moduleId, moduleVersion, userId, occurredAt, sequenceNumber });
 ```
 
-L'exemple montre le coût réel de la violation, et il est plus lourd que « deux appels au lieu d'un » :
-entre les deux appels, le contrôleur **fabrique la charge de l'événement**. Il décide du type
-`PASSAGE_STARTED`, convertit la date, relie l'événement au passage créé. Trois décisions du domaine
-prises dans un fichier testé unitairement avec des doublures — donc aucune ne l'est vraiment.
+Le coût de la violation dépasse « deux appels au lieu d'un ». Entre les deux appels, le contrôleur
+**fabrique la charge de l'événement** :
 
-**Ce qui casse.** La composition vit dans un contrôleur, où elle n'est vérifiée qu'en acceptance — le
-test le plus lent et le plus tardif du dépôt. Et l'intention n'a pas de nom, donc elle est
-introuvable : personne ne peut savoir qu'elle existe sans lire le contrôleur.
+- il fixe le type `PASSAGE_STARTED` ;
+- il convertit la date ;
+- il relie l'événement au passage créé et à la version du module.
 
-C'est le seul invariant de cette fiche qui **déplace du coût de vérification** plutôt que d'en
-retirer.
+Ce sont des décisions du domaine, prises dans un fichier testé en unitaire avec des doublures. Aucune
+n'est donc vraiment testée.
 
-**Faux ami légitime** : un usecase d'écriture suivi d'un usecase de lecture pour construire la
-réponse. Parfois justifié, parfois le signe que le premier devrait renvoyer ce qu'il faut. À trancher
-au cas par cas — voir § 3.
+**Ce qui casse.** La composition vit dans un contrôleur, où seul le test d'acceptance la vérifie.
+C'est le test le plus lent et le plus tardif du dépôt. De plus, l'intention n'a pas de nom, donc elle
+est introuvable : personne ne peut savoir qu'elle existe sans lire le contrôleur.
+
+C1 est le seul invariant de cette fiche qui **déplace du coût de vérification** au lieu d'en retirer.
+
+**Faux ami légitime.** Un usecase d'écriture suivi d'un usecase de lecture pour construire la
+réponse. Il s'examine au cas par cas : il est parfois justifié, parfois le signe que le premier
+usecase ne renvoie pas ce que la réponse demande. Voir le § 3.
 
 ### C2. Aucune décision
 
 **Énoncé.** Pas de règle métier. Pas de code d'erreur choisi ici. Pas de transformation au-delà de
 l'extraction.
 
-Le code de **succès** est une propriété constante de la route — 200, 201, 204 selon la nature de
-l'opération. Les codes d'**erreur** viennent du mappeur d'erreurs : le contrôleur laisse remonter
+Le code de **succès** est une propriété constante de la route : 200, 201 ou 204 selon la nature de
+l'opération. Les codes d'erreur viennent du mappeur d'erreurs : le contrôleur laisse remonter
 l'erreur du domaine.
 
-**Pourquoi passer par le mappeur, concrètement.** Le contrat du front n'est pas le statut HTTP mais
-l'objet d'erreur complet : un `code` fonctionnel qui identifie la règle violée, et un objet `meta` qui
-porte les informations dont le front a besoin pour composer son message. C'est ce que décrit l'ADR 13,
-et c'est ce qui permet **plusieurs messages pour un même statut HTTP**. Un `.code(404)` écrit à la main
-produit une réponse sans `code` et sans `meta` : le front retombe sur son message générique.
+**Le contrat du front.** Le mappeur sert ce contrat, qui n'est pas le statut HTTP mais l'objet d'erreur
+complet :
 
-**Le cas de la transaction.** Ouvrir une transaction dans un contrôleur — `DomainTransaction.execute`
-autour de l'appel — est la forme que prescrivait l'ADR 9, lequel a été remplacé par l'ADR 25. La forme
-dominante aujourd'hui place la transaction dans le usecase, ce qui est cohérent avec `U7` de
-`fiche-usecase.md` : c'est le usecase qui sait ce qui doit être atomique. Un contrôleur qui ouvre une
-transaction décide donc quelque chose, ce que `C2` exclut.
+- un `code` fonctionnel, qui identifie la règle violée ;
+- un objet `meta`, qui porte les informations dont le front a besoin pour composer son message.
+
+L'ADR 13, à l'état `Proposed`, décrit cette structure. C'est elle qui permet **plusieurs messages
+pour un même statut HTTP**. Un `.code(404)` écrit à la main produit une réponse sans `code` et sans
+`meta` : le front retombe alors sur son message générique.
+
+**Le cas de la transaction.** Ouvrir une transaction dans un contrôleur, avec
+`DomainTransaction.execute` autour de l'appel, est la forme que prescrivait l'ADR 9. L'ADR 25 a
+remplacé l'ADR 9. La forme dominante place la transaction dans le usecase, ce qui est cohérent avec
+`U7` de `fiche-usecase.md` : c'est le usecase qui sait ce qui doit être atomique. Un contrôleur qui
+ouvre une transaction décide donc quelque chose, ce que `C2` exclut.
 
 ```js
 // fautif — la transaction enveloppe un seul appel de usecase
 const createdOrUpdatedTrainingTrigger = await DomainTransaction.execute(async () => {
   return usecases.createOrUpdateTrainingTrigger({ trainingId, threshold, tubes, type });
 });
+
+// conforme — version corrigée : la transaction est ouverte dans le usecase, le contrôleur l'appelle seulement
+const createdOrUpdatedTrainingTrigger = await usecases.createOrUpdateTrainingTrigger({ trainingId, threshold, tubes, type });
 ```
 
-La forme réelle est la plus révélatrice : il n'y a **qu'un** appel à l'intérieur. Le contrôleur ne
-compose rien, donc la transaction n'y sert à rien qu'elle ne servirait mieux dans le usecase — où le
-périmètre atomique serait lisible avec la règle qu'il protège.
+L'extrait fautif ne contient **qu'un** appel de usecase. Le contrôleur ne compose rien. La
+transaction ne lui sert donc à rien qu'elle ne servirait mieux dans le usecase, où le périmètre
+atomique se lit avec la règle qu'il protège.
 
 ```js
 // fautif — la décision de statut est prise ici
@@ -166,28 +180,36 @@ if (!replication) {
 }
 
 // conforme — le usecase lève, le mappeur traduit
-const results = await usecases.getQuestResultsForCampaignParticipation({ userId, campaignParticipationId });
-return h.response(dependencies.questResultSerializer.serialize(results));
+const questResults = await usecases.getQuestResultsForCampaignParticipation({ userId, campaignParticipationId });
+return h.response(dependencies.questResultSerializer.serialize(questResults));
 ```
 
-La forme fautive cumule d'ailleurs deux violations : elle choisit le statut, **et** elle lit un
-repository, donc `C4`. Les deux vont souvent ensemble — un contrôleur qui charge lui-même n'a
+La forme fautive cumule deux violations : elle choisit le statut, **et** elle lit un repository, ce
+qui enfreint `C4`. Les deux vont souvent ensemble, parce qu'un contrôleur qui charge lui-même n'a
 personne à qui déléguer la décision d'absence.
 
 **Ce qui casse.** Le même cas d'absence produit deux réponses différentes selon le point d'entrée
-emprunté, et le front ne reçoit pas le code d'erreur exploitable que le mappeur aurait produit. C'est
-le pendant applicatif de `I4` de `fiche-repository.md` : le repository lève une erreur du domaine, le
-mappeur lui associe un statut, personne au milieu ne décide.
+emprunté. Le front ne reçoit pas le code d'erreur exploitable que le mappeur aurait produit. C'est le
+pendant applicatif de `I4` de `fiche-repository.md` : le repository lève une erreur du domaine, le
+mappeur lui associe un statut, et personne au milieu ne décide.
 
 ### C3. Le sérialiseur est injecté par valeur de paramètre par défaut
 
 **Énoncé.** Le sérialiseur arrive par un troisième paramètre dont la valeur par défaut le fournit.
 
 ```js
-const handler = async function (request, h, dependencies = { someSerializer }) { … }
+// fautif — le sérialiseur importé est appelé directement
+async function getAllModulesMetadata() {
+  const modulesMetadata = await usecases.getModuleMetadataList();
+
+  return moduleMetadataSerializer.serialize(modulesMetadata);
+}
+
+// conforme — le sérialiseur arrive par le troisième paramètre
+const getQuestResults = async function (request, h, dependencies = { questResultSerializer }) { … }
 ```
 
-**Ce qui casse.** Sous ESM les exports sont immuables : sans cette forme, le sérialiseur ne peut pas
+**Ce qui casse.** Sous ESM, les exports sont immuables. Sans cette forme, le sérialiseur ne peut pas
 être substitué en test, donc le contrôleur n'est pas testable en unitaire. C'est la même contrainte
 technique que celle qui motive l'injection ailleurs, décidée par l'ADR 46.
 
@@ -197,30 +219,48 @@ technique que celle qui motive l'injection ailleurs, décidée par l'ADR 46.
 contrôleur ne connaît que les usecases de **son** contexte.
 
 ```js
-// fautif — la porte dérobée
+// fautif — un repository lu directement
 import * as challengeToPlayRepository from '../../infrastructure/repositories/challenge-to-play-repository.js';
 
 // fautif — la frontière franchie hors API interne
-import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import { usecases as questUsecases } from '../../../quest/domain/usecases/index.js';
+
+// conforme — les usecases du contexte courant, et eux seuls
+import { usecases } from '../domain/usecases/index.js';
 ```
 
-**Ce qui casse.** Une lecture « juste pour afficher » contourne les règles du domaine, et la même
-question reçoit deux réponses selon le chemin emprunté. C'est la voie la plus courte pour qu'une règle
-cesse d'être appliquée sans que personne l'ait décidé.
+**Ce qui casse.** Une lecture « juste pour afficher » contourne les règles du domaine. La même question
+reçoit alors deux réponses selon le chemin emprunté. Une règle peut ainsi cesser d'être appliquée sans
+que personne l'ait décidé.
 
-**L'exception à ne pas généraliser** : les usecases du contexte courant sont importés directement,
-sans injection, parce que le framework HTTP ne permet pas d'injecter dans les routes. C'est `X4` au
-§ 5. Cette exception ne s'étend **pas** aux usecases d'un autre contexte — franchir une frontière
-passe par l'API interne, `U9` de `fiche-usecase.md`.
+**Exception.** Les usecases du contexte courant sont importés directement, sans injection, parce que
+le framework HTTP ne permet pas d'injecter dans les routes. C'est `X4` au § 5. Cette exception ne
+s'étend **pas** aux usecases d'un autre contexte : franchir une frontière passe par l'API interne,
+selon `U9` de `fiche-usecase.md`.
 
 ### C5. Un contrôleur par ressource, une fonction par action
 
-**Énoncé.** Le fichier porte le nom de la ressource ; chaque fonction exportée porte le nom de
-l'action ; elles sont regroupées dans un objet exporté que la route référence.
+**Énoncé.** Le fichier porte le nom de la ressource. Chaque fonction exportée porte le nom de
+l'action. Les fonctions sont regroupées dans un objet exporté que la route référence.
 
-**Ce qui casse.** Rien à l'exécution. Invariant d'hygiène : il rend le fichier prévisible et réduit le
-bruit de revue. Il rend aussi `C1` plus facile à vérifier, en donnant à la règle du § 6 une unité
-claire à parcourir.
+```js
+// fautif — la fonction est exportée seule, et la route l'importe par son nom
+export async function replicate(request, h, dependencies = { … }) { … }
+
+// conforme — un objet exporté regroupe les actions de la ressource
+const questController = {
+  checkUserQuest,
+  getQuestResults,
+  createOrUpdateQuestsInBatch,
+  getTemplateForCreateOrUpdateQuestsInBatch,
+};
+
+export { questController };
+```
+
+**Ce qui casse.** Rien à l'exécution. C'est un invariant d'hygiène : il rend le fichier prévisible et
+réduit le bruit de revue. Il rend aussi `C1` plus facile à vérifier, parce qu'il donne à la règle du
+§ 6 une unité claire à parcourir.
 
 ---
 
@@ -235,8 +275,8 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un code de succès non standard — 201, 204 | **autorisé** — propriété constante de la route. `C2` |
 | Un `if` sur la présence d'un paramètre optionnel | **autorisé** |
 | Un flux ou un fichier renvoyé plutôt qu'un objet sérialisé, avec ses en-têtes | **autorisé** |
-| Un usecase d'écriture suivi d'un usecase de lecture | **à discuter** — parfois justifié, parfois le signe que le premier devrait renvoyer ce qu'il faut. `C1` |
-| Un `DomainTransaction.execute` autour de l'appel | **vestige** de l'architecture de l'ADR 9, remplacé depuis. À déplacer dans le usecase, pas à absoudre |
+| Un usecase d'écriture suivi d'un usecase de lecture | **examiné au cas par cas** : parfois justifié, parfois le signe que le premier usecase ne renvoie pas ce que la réponse demande. `C1` |
+| Un `DomainTransaction.execute` autour de l'appel | **pas une exception** : vestige de l'architecture de l'ADR 9, que l'ADR 25 a remplacé. La transaction appartient au usecase, selon `U7` de `fiche-usecase.md`. `C2` |
 | Deux usecases métier enchaînés | **pas une exception** — intention sans nom. C'est `X1` |
 | Le contrôle des droits écrit ici | **pas une exception** — voir `R2` et `X1` de `fiche-route.md` |
 
@@ -248,17 +288,18 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | --- | --- | --- |
 | **C1** un seul usecase | **forte** | Chaque intention métier a un nom, un fichier et un test d'intégration. Sans lui, la composition n'est vérifiée qu'en acceptance |
 | **C2** aucune décision | **forte** | Le contrôleur devient trivial, donc son test aussi, donc l'effort se concentre là où est la valeur. C'est le mécanisme du *humble object* |
-| **C4** aucun accès aux données | **forte** | Empêche la porte dérobée : une lecture qui contourne les règles du domaine et crée deux comportements pour la même question |
-| **C3** sérialiseur injecté | moyenne | Rend le contrôleur testable en unitaire sans monter de serveur. Le gain est réel mais borné : ces tests sont peu nombreux et peu coûteux |
+| **C4** aucun accès aux données | **forte** | Le contrôleur ne lit rien en contournant les règles du domaine, donc il ne crée pas de second comportement pour la même question |
+| **C3** sérialiseur injecté | moyenne | Rend le contrôleur testable en unitaire sans monter de serveur. Le gain est réel mais limité : ces tests sont peu nombreux et peu coûteux |
 | **C5** un contrôleur par ressource | hygiène | Aucun gain mesurable. Rend le fichier prévisible, et donne à la règle de `C1` une unité claire à parcourir |
 
 ### Ce que ça n'apporte pas
 
-Rien ici ne dit si l'API HTTP est bien conçue — découpage des ressources, granularité, cohérence des
-adresses. Un contrôleur irréprochable peut servir une API pénible.
+Ces invariants ne disent pas si l'API HTTP est bien conçue. Ils ne couvrent ni le découpage des
+ressources, ni leur granularité, ni la cohérence des adresses. Un contrôleur irréprochable peut servir
+une API pénible.
 
-Et le ROI de cette couche étant négatif, il a une borne : appliquer les cinq invariants ne rend pas le
-contrôleur bon, ça le rend **absent du raisonnement**. C'est l'objectif.
+Le ROI de cette couche est négatif, et il a donc une limite. Appliquer les cinq invariants ne rend
+pas le contrôleur bon : cela le rend **absent du raisonnement**, ce qui est le but de la couche.
 
 ---
 
@@ -269,30 +310,42 @@ contrôleur bon, ça le rend **absent du raisonnement**. C'est l'objectif.
 | **X1** Deux usecases sont appelés à la suite | dérive | Une intention composée existe sans nom, donc introuvable, et vérifiée seulement en acceptance | Pas de fichier de plus à écrire, et la séquence se lit d'une traite | **À corriger** |
 | **X2** Un code d'erreur est choisi dans le contrôleur | dérive | Le même cas produit deux réponses selon le point d'entrée, et le front perd le code d'erreur exploitable | Le statut est décidé au plus près de la réponse, sans passer par le domaine | **À corriger** |
 | **X3** Un accès direct au repository, ou au domaine d'un voisin | dérive | Les règles du domaine sont contournées, et une frontière de contexte est franchie hors contrat | La lecture est immédiate, sans usecase ni API interne à écrire | **À corriger** |
-| **X4** Les usecases sont importés sans injection | convention assumée | Le contrôleur ne peut pas substituer ses usecases en test, donc ses tests unitaires portent sur les sérialiseurs seulement | Réel — le framework HTTP ne permet pas d'injecter dans les routes, et l'alternative serait un conteneur à câbler | *Rien à faire* |
+| **X4** Les usecases sont importés sans injection | convention assumée | Les usecases n'apparaissent pas dans la signature : le test remplace les méthodes de l'objet `usecases` importé | Réel : aucun conteneur d'injection à câbler. Le framework HTTP ne permet pas d'injecter dans les routes, donc l'alternative serait ce conteneur | *Rien à faire* |
 
 ### X1. Deux usecases sont appelés à la suite
 
 **Ce que dit la théorie.** L'adaptateur d'entrée ne compose pas. La composition d'intentions est du
-travail de usecase — Martin la place dans la couche *Use Cases*, pas dans l'adaptateur.
+travail de usecase : Martin la place dans la couche *Use Cases*, pas dans l'adaptateur.
 
 **Exemple concret.**
 
 ```js
 const create = async function (request, h, { usecases, passageSerializer }) {
-  const { 'module-id': moduleId, 'occurred-at': occurredAt, 'sequence-number': sequenceNumber } =
-    request.payload.data.attributes;
-
+  const {
+    'module-id': moduleId,
+    'module-version': moduleVersion,
+    'occurred-at': occurredAt,
+    'sequence-number': sequenceNumber,
+  } = request.payload.data.attributes;
+  const userId = extractUserIdFromRequest(request);
   const passage = await usecases.createPassage({ moduleId, userId });
-  await usecases.recordPassageEvents({
-    events: [{ occurredAt: new Date(occurredAt), passageId: passage.id, sequenceNumber, type: 'PASSAGE_STARTED' }],
-  });
 
-  return h.response(passageSerializer.serialize(passage)).created();
+  const passageStartedData = {
+    contentHash: moduleVersion,
+    occurredAt: new Date(occurredAt),
+    passageId: passage.id,
+    sequenceNumber,
+    type: 'PASSAGE_STARTED',
+  };
+
+  await usecases.recordPassageEvents({ events: [passageStartedData] });
+
+  const serializedPassage = passageSerializer.serialize(passage);
+  return h.response(serializedPassage).created();
 };
 ```
 
-Le signe qui ne trompe pas : deux `await usecases.` dans la même fonction.
+Le signal : deux `await usecases.` dans la même fonction.
 
 **Correction.** Nommer l'intention composée et la déplacer dans `domain/usecases/`. Le contrôleur
 retrouve un seul appel.
@@ -306,7 +359,7 @@ Le cas « écriture puis lecture » est à traiter à part : voir le faux ami de
 ### X2. Un code d'erreur est choisi dans le contrôleur
 
 **Ce que dit la théorie.** L'adaptateur traduit, il ne décide pas. Le passage d'une erreur du domaine
-à un code HTTP est une traduction, donc elle a un endroit unique.
+à un code HTTP est une traduction, donc cette traduction a un endroit unique.
 
 **Exemple concret.**
 
@@ -318,35 +371,40 @@ if (!replication) {
 }
 ```
 
-Deux défauts en un : la décision est prise ici, et le usecase renvoie `null` là où `I3` de
-`fiche-repository.md` voudrait qu'un `get*` lève.
+L'extrait a trois défauts :
+
+- la décision de statut est prise ici ;
+- le contrôleur lit un repository, ce que `C4` exclut ;
+- `replicationRepository.getByName` renvoie `undefined`, alors que selon `I3` de
+  `fiche-repository.md` un `get*` lève.
 
 **Correction.** Faire lever le domaine, et laisser le mappeur d'erreurs traduire. Le contrôleur perd
 sa condition.
 
-Ce qui rend la correction non mécanique : il faut choisir l'erreur de domaine à lever, ce qui
+Ce qui rend la correction non mécanique : il faut choisir l'erreur de domaine à lever. Ce choix
 détermine le code HTTP **et** le code d'erreur exploitable par le front. C'est la même décision que
-celle de `X4` de `fiche-repository.md`.
+celle de `I4` de `fiche-repository.md`.
 
 ### X3. Un accès direct au repository, ou au domaine d'un voisin
 
 **Ce que dit la théorie.** La règle de dépendance : la couche externe n'atteint pas l'infrastructure
-en sautant le domaine. Et l'ADR 55 décide que toute frontière de contexte passe par l'API interne.
+en sautant le domaine. De plus, l'ADR 55 décide que toute frontière de contexte passe par l'API
+interne.
 
 **Exemple concret.**
 
 ```js
 import { chatRepository } from '../infrastructure/repositories/index.js';
-import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import { usecases as questUsecases } from '../../../quest/domain/usecases/index.js';
 ```
 
-**Correction.** Mécanique dans le premier cas : écrire le usecase qui manque, souvent une délégation
-d'une ligne — ce que l'ADR 20 admet, voir `X5` de `fiche-usecase.md`.
+**Correction.** Le premier cas est mécanique : écrire le usecase qui manque. C'est souvent une
+délégation d'une ligne, ce que l'ADR 20 admet (voir `X5` de `fiche-usecase.md`).
 
-Moins mécanique dans le second : il faut vérifier que le contexte voisin expose bien la capacité par
-son API interne, et l'y ajouter sinon. C'est `fiche-api-interne.md`.
+Le second cas est moins mécanique. Il faut vérifier que le contexte voisin expose la capacité par son
+API interne, et l'y ajouter sinon. Voir `fiche-api-interne.md`.
 
-Les deux cas se vérifient par configuration seule, ce qui les rend faciles à empêcher pour l'avenir
+Les deux cas se vérifient par configuration seule. Ils sont donc faciles à empêcher pour l'avenir,
 même si le rattrapage prend du temps.
 
 ### X4. Les usecases sont importés sans injection
@@ -364,20 +422,22 @@ import { usecases } from '../../domain/usecases/index.js';   // pas injecté
 conteneur d'injection, donc le contrôleur n'a pas de point d'entrée où recevoir ses usecases.
 L'ADR 46 assume explicitement cette exception.
 
-Ce que la convention coûte réellement est borné : les tests unitaires de contrôleur substituent le
-sérialiseur — c'est `C3` — et vérifient que le bon usecase est appelé avec les bons paramètres en
-espionnant le module. Ce qui n'est pas substituable n'a pas besoin de l'être, la logique étant
-ailleurs.
+Le coût de la convention est limité. Les tests unitaires de contrôleur substituent le sérialiseur,
+selon `C3`. Ils vérifient que le bon usecase est appelé avec les bons paramètres en remplaçant les
+méthodes de l'objet `usecases` importé. Ce qui n'est pas substituable n'a pas besoin de l'être, parce
+que la logique est ailleurs.
 
-Ce qui rouvrirait le dossier : l'introduction d'un conteneur d'injection pour d'autres raisons. À ce
-moment-là, l'exception cesse d'être nécessaire.
+**Révision.** Un conteneur d'injection introduit pour d'autres raisons rend l'exception inutile, et
+change ce verdict.
 
 ---
 
 ## 6. Vérification déterministe
 
-Il n'existe aucun plugin ESLint maison : toute règle sur mesure suppose d'abord de créer cette
-infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
+Il n'existe aucun plugin ESLint maison. Toute règle sur mesure suppose d'abord de créer cette
+infrastructure.
+
+**Révision.** Ce paragraphe disparaît dès qu'un plugin ESLint maison existe.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
@@ -400,29 +460,30 @@ infrastructure. Ce point est daté, à retirer dès que l'infrastructure existe.
 ```
 
 `severity: 'error'` est obligatoire : la valeur par défaut est `warn`, et seul `error` fait échouer la
-commande. Écrire `src/.+/` et non `src/[^/]+/`, sinon les contextes à sous-contextes ne sont pas
-atteints et la règle ne se déclenche jamais, sans le signaler. Contre-épreuve obligatoire.
+commande. Le chemin s'écrit `src/.+/` et non `src/[^/]+/`. Sinon, les contextes à sous-contextes ne
+sont pas atteints, et la règle ne se déclenche jamais, sans le signaler. La contre-épreuve est
+obligatoire.
 
-La seconde règle — la frontière de contexte — est la même que `U9` de `fiche-usecase.md`, avec la même
-difficulté : exprimer « un autre contexte que le sien ». Une seule configuration couvre les deux
+La seconde règle, sur la frontière de contexte, est la même que `U9` de `fiche-usecase.md`. Elle a la
+même difficulté : exprimer « un autre contexte que le sien ». Une seule configuration couvre les deux
 couches.
 
 ### C1 — compter les appels de usecase
 
-Décidable localement : compter les appels de méthode sur l'identifiant `usecases` dans le corps d'une
-fonction exportée d'un fichier de contrôleur. Plus d'un, on signale.
+La règle est décidable localement. Elle compte les appels de méthode sur l'identifiant `usecases`
+dans le corps d'une fonction exportée d'un fichier de contrôleur. Au-delà d'un appel, elle signale.
 
-Faux positif attendu sur le cas « écriture puis lecture ». **À traiter par exclusion nominative**
-plutôt qu'en affaiblissant la règle : une liste de fonctions exemptées, courte et relue, vaut mieux
-qu'un seuil à deux qui laisserait passer les vrais cas.
+Le cas « écriture puis lecture » produit un faux positif attendu. Il se traite **par exclusion
+nominative**, pas en affaiblissant la règle. Une liste de fonctions exemptées, courte et relue, vaut
+mieux qu'un seuil à deux, qui laisserait passer les vrais cas.
 
 ### C2 — les codes d'erreur
 
 Un `.code()` avec un littéral supérieur ou égal à 400 dans un contrôleur est un signal fiable.
 
-Faux positif possible sur les chemins qui ne passent pas par le domaine — un téléversement trop
-volumineux, par exemple — à exclure explicitement. Le code de **succès** n'est pas concerné : la règle
-ne porte que sur le seuil 400.
+Les chemins qui ne passent pas par le domaine peuvent produire un faux positif, par exemple un
+téléversement trop volumineux. Ces chemins doivent être exclus explicitement. Le code de **succès**
+n'est pas concerné : la règle ne porte que sur le seuil 400.
 
 ### Ordre de mise en œuvre
 
@@ -435,7 +496,7 @@ Cet ordre suit le coût, pas le ROI du § 4.
 
 ### Codemods
 
-Peu de matière, et c'est cohérent avec la nature de la couche.
+Peu d'écarts se prêtent à un codemod, ce qui est cohérent avec la nature de la couche.
 
 | Écart | Codemod | Ce qu'il fait |
 | --- | --- | --- |
@@ -447,14 +508,15 @@ Peu de matière, et c'est cohérent avec la nature de la couche.
 
 ## 7. Le type
 
-**Le gain est faible sur cette couche, et il faut le dire.** Les objets de requête et de réponse du
-framework sont typés de façon large, et la validation déclarée sur la route produit un contrôle à
-l'exécution que le typage ne connaît pas : le type de `request.params` n'est pas déduit du schéma de la
-route.
+Le **gain** du typage est faible sur cette couche, pour deux raisons :
 
-Ce que le typage apporte réellement : typer le troisième paramètre documente ce qui est substituable en
-test, et les usecases typés rendent vérifiable ce que le contrôleur appelle sur eux — une méthode
-absente devient une erreur de compilation.
+- les objets de requête et de réponse du framework sont typés de façon large ;
+- la validation déclarée sur la route produit un contrôle à l'exécution que le typage ne connaît
+  pas. Le type de `request.params` n'est pas déduit du schéma de la route.
+
+Le typage apporte deux choses. Typer le troisième paramètre documente ce qui est substituable en
+test. Les usecases typés rendent vérifiable ce que le contrôleur appelle sur eux : une méthode absente
+devient une erreur de compilation.
 
 ```ts
 const getQuestResults = async function (
@@ -477,25 +539,29 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 | --- | --- | --- |
 | Contrôleur | **unitaire**, usecase et sérialiseur substitués | que le bon usecase est appelé avec les bons paramètres, et que la réponse est sérialisée |
 
-Rien d'autre. Les statuts et la sécurité se vérifient au niveau de la route, en acceptance — voir
+Rien d'autre. Les statuts et la sécurité se vérifient au niveau de la route, en acceptance. Voir
 `fiche-route.md`.
 
 L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6 de
 `fiche-repository.md`.
 
-Un indice de diagnostic, avec sa borne. **Un test de contrôleur qui demande des fixtures métier est le
-signe que `C1` ou `C2` est violé** : le contrôleur décide de quelque chose qui dépend de l'état.
-La borne : un contrôleur qui renvoie un fichier peut demander un montage sans rien décider.
+Un indice de diagnostic, avec sa limite :
+
+- Un test de contrôleur qui demande des **fixtures métier** est le signe que `C1` ou `C2` est violé :
+  le contrôleur décide de quelque chose qui dépend de l'état.
+- Limite : un contrôleur qui renvoie un fichier peut demander un montage sans rien décider.
 
 ---
 
 ## 9. Checklist de revue
 
-Ordonnée par ROI décroissant, conformément au § 4.
+Ordonnée par ROI décroissant, comme au § 4.
 
-Chaque ligne porte son statut au regard du § 6. `[auto]` disparaît de la checklist dès que la règle
-correspondante existe. `[partiel]` reste, réduite à ce qu'elle ne couvre pas. `[humain]` reste
-entièrement : aucun moyen déterministe n'est identifié.
+Chaque ligne porte son statut au regard du § 6 :
+
+- Une ligne `[auto]` disparaît dès que la règle correspondante existe.
+- Une ligne `[partiel]` reste, réduite à ce que la règle ne couvre pas.
+- Une ligne `[humain]` reste en entier : aucun moyen déterministe n'est connu.
 
 ```
 [ ] [auto]    C4  Aucun accès aux repositories ; aucun usecase d'un autre contexte
@@ -509,9 +575,10 @@ entièrement : aucun moyen déterministe n'est identifié.
 [ ] [humain]  Aucun contrôle de droit ici — voir R2 de fiche-route.md
 ```
 
-À terme il reste quatre lignes, toutes de jugement, et la part automatisable de cette fiche est
-élevée : trois de ses cinq invariants se vérifient sans revue. C'est la contrepartie d'une couche dont
-le rôle est de ne rien contenir — ce qui ne doit pas y être se détecte mieux que ce qui doit y être.
+À terme, il reste six lignes : deux `[partiel]` et quatre `[humain]`. Deux invariants sur cinq,
+`C4` et `C5`, se vérifient sans revue, et `C1` et `C2` en partie. C'est la contrepartie d'une couche
+dont le rôle est de ne rien contenir : ce qui ne doit pas y être se détecte mieux que ce qui doit y
+être.
 
 ---
 

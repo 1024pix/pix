@@ -215,7 +215,7 @@ d'un contexte dit alors combien d'unités de cohérence il a.
 infrastructure/repositories/
   combined-courses/
     combined-course-repository.js               getById, save
-  combined-course-details-repository.js         getById, avec tout ce qu'un écran affiche
+  combined-course-details-repository.js         findByOrganizationId, avec tout ce qu'un écran affiche
   combined-course-participations/
     combined-course-participation-repository.js une Entity interne à la frontière
     organization-learner-participation-repository.js
@@ -444,7 +444,7 @@ les besoins de requête. Un repository par racine.
 infrastructure/repositories/
   combined-courses/
     combined-course-repository.js               getById, save
-  combined-course-details-repository.js         getById, avec tout ce qu'un écran affiche
+  combined-course-details-repository.js         findByOrganizationId, avec tout ce qu'un écran affiche
   combined-course-participations/
     combined-course-participation-repository.js une Entity interne à la frontière
     organization-learner-participation-repository.js
