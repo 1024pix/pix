@@ -1,5 +1,20 @@
 # Pix Changelog
 
+# [5.507.0](https://github.com/1024pix/pix/compare/v5.506.0...v5.507.0) (2026-09-24)
+
+### :rocket: Amélioration
+
+- [#17559](https://github.com/1024pix/pix/pull/17559) Ajouter le suivi des recherches dans le catalogue (PIX-23647).
+
+### :bug: Correction
+
+- [#17583](https://github.com/1024pix/pix/pull/17583) Changement des séparateurs des clé `name` dans pour le endpoint replication MADDO (PIX-2378)
+- [#17551](https://github.com/1024pix/pix/pull/17551) Éviter les collisions d'identifiants entre les parcours combinés et les profils cibles du catalogue (PIX-24322).
+
+### :building_construction: Tech
+
+- [#17568](https://github.com/1024pix/pix/pull/17568) Migration typescript des value-objects Campaign, Module, RecommendedModule, TargetProfile
+
 # [5.506.0](https://github.com/1024pix/pix/compare/v5.505.1...v5.506.0) (2026-09-23)
 
 ### :rocket: Amélioration
