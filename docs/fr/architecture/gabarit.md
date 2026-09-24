@@ -27,8 +27,8 @@ Dans cet ordre :
 
 1. **Titre** : le nom du concept, par exemple « Repository ». Une phrase de définition, le dossier du
    code concerné, et les liens vers les trois autres fichiers du dossier.
-2. **Statut des règles.** Une phrase dit que les règles s'appliquent au code d'aujourd'hui. La
-   vérification de chaque règle dit ce qui la contrôle aujourd'hui, et ce qui est prévu.
+2. **Portée des règles.** Une phrase dit à quels fichiers les règles s'appliquent, et renvoie à
+   `outillage.md` pour ce qui est en place dans la CI.
 3. **Sommaire** : les sections, puis une table des invariants dans l'ordre des numéros, avec leur
    libellé et leur vérification.
 4. **Rôle** : définition, termes définis en une phrase à leur première occurrence, et table « ce que
@@ -37,8 +37,8 @@ Dans cet ordre :
    - **Énoncé.** La règle, avec les verbes d'obligation de la règle 2.
    - Une paire d'exemples **conforme** et **fautif**, voir la règle des exemples.
    - **Ce qui casse.** Une à trois phrases : la conséquence concrète d'une violation.
-   - **Vérification.** Une ligne : ce qui contrôle la règle aujourd'hui, et le moyen prévu, avec un
-     lien vers `outillage.md`.
+   - **Vérification.** Une ligne : le moyen qui vérifie la règle, avec un lien vers `outillage.md`.
+     Ni état, ni date, ni « prévu » : la référence reste vraie quand l'outillage avance.
 6. **Exceptions légitimes** : une table cas / statut, chaque exception rattachée à son invariant.
 7. **Exemple complet** : un fichier réel conforme, son enregistrement et son test.
 8. **Tests attendus** par variante du fichier.
@@ -46,7 +46,9 @@ Dans cet ordre :
    `[partiel]` ou `[humain]` selon le moyen prévu dans `outillage.md`.
 10. **Sources** : l'origine de chaque invariant, avec le numéro et le titre des ADR.
 
-La référence ne contient ni historique, ni théorie développée, ni plan d'outillage, ni verdict. Un
+La référence est **intemporelle** : elle ne contient ni date, ni « aujourd'hui », ni « prévu », ni
+historique, ni théorie développée, ni plan d'outillage, ni verdict. Tout ce qui dépend d'un état du
+code ou de l'outillage va dans `outillage.md` ou `ecarts.md`, qui sont datés. Un
 « Ce qui casse » de plus de trois phrases a sa place dans `explication.md`.
 
 ## `explication.md` — l'explication
@@ -120,6 +122,5 @@ avec trois changements :
   le dit. Tous les permaliens d'un dossier pointent vers **le même commit**, pour que ses exemples
   décrivent un seul état du code. Pour mettre un exemple à jour, on met à jour les extraits du
   dossier et le commit ensemble.
-- **Le cadre « état cible » disparaît de la référence.** Une règle de `README.md` s'applique
-  aujourd'hui. Ce qui dépend d'une migration se dit dans la ligne **Vérification**, ou dans
-  `outillage.md`.
+- **Le cadre « état cible » disparaît de la référence.** Une règle de `README.md` s'applique à tout
+  fichier du type. Ce qui dépend d'une migration va dans `outillage.md`.
