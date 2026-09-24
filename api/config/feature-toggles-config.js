@@ -144,4 +144,11 @@ export default {
     devDefaultValues: { test: '1/1', reviewApp: '0/1' },
     tags: ['backend', 'pix-api', 'team-contenu'],
   },
+  isLtiEnabled: {
+    type: 'boolean',
+    description: 'Enables LTI endpoints',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: false },
+    tags: ['team-acces', 'backend', 'pix-api'],
+  },
 };

@@ -31,4 +31,25 @@ export const ltiRoutes = [
       tags: ['identity-access-management', 'api', 'lti'],
     },
   },
+  {
+    method: 'POST',
+    path: '/api/lti/init',
+    options: {
+      auth: false,
+      cache: false,
+      handler: (request, h) => ltiController.init(request, h),
+      notes: ['Cette route initialise un workflow LTI'],
+      tags: ['identity-access-management', 'api', 'lti'],
+    },
+  },
+  {
+    method: 'POST',
+    path: '/api/lti/launch',
+    options: {
+      auth: false,
+      cache: false,
+      handler: (request, h) => ltiController.launch(request, h),
+      tags: ['identity-access-management', 'api', 'lti'],
+    },
+  },
 ];

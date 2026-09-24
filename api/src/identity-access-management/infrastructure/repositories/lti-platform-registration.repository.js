@@ -32,14 +32,18 @@ export const ltiPlatformRegistrationRepository = {
     platformOpenIdConfigUrl,
   }) {
     const knexConn = DomainTransaction.getConnection();
-    return knexConn('lti_platform_registrations').insert({
-      clientId,
-      platformOrigin,
-      status,
-      toolConfig,
-      encryptedPrivateKey,
-      publicKey,
-      platformOpenIdConfigUrl,
-    });
+    const [ltiPlatformRegistrationDTO] = await knexConn('lti_platform_registrations')
+      .insert({
+        clientId,
+        platformOrigin,
+        status,
+        toolConfig,
+        encryptedPrivateKey,
+        publicKey,
+        platformOpenIdConfigUrl,
+      })
+      .returning('*');
+
+    return new LtiPlatformRegistration(ltiPlatformRegistrationDTO);
   },
 };
