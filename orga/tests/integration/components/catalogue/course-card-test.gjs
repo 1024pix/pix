@@ -63,7 +63,8 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const course = store.createRecord('course', {
-        id: '1',
+        id: 'targetProfile-1',
+        sourceId: '1',
         name: 'Ma super formation',
         type: 'targetProfile',
         nbTubes: 5,
@@ -110,7 +111,8 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const course = store.createRecord('course', {
-        id: '2',
+        id: 'blueprint-2',
+        sourceId: '2',
         name: 'Ma super formation',
         type: 'blueprint',
         nbTubes: 5,

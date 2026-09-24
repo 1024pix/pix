@@ -28,16 +28,16 @@ export const findByOrganizationId = async ({ organizationId, locale }) => {
   const blueprintRows = blueprints.map((blueprint) => buildBlueprintRow(blueprint, tubeIdsByTargetProfileId));
   const targetProfileRows = sharedTargetProfiles.map((tp) => buildTargetProfileRow(tp, tubeIdsByTargetProfileId));
 
-  const blueprintRowsById = new Map(blueprintRows.map((row) => [row.id, row]));
-  const targetProfileRowsById = new Map(targetProfileRows.map((row) => [row.id, row]));
-
-  const allRows = new Map([...blueprintRowsById, ...targetProfileRowsById]);
-  const { areasByCompetenceId, competencesByTubeId } = await resolveLearningContent(allRows, locale);
+  const { areasByCompetenceId, competencesByTubeId } = await resolveLearningContent(
+    [...blueprintRows, ...targetProfileRows],
+    locale,
+  );
 
   const toItem = (type) => (row) => {
     const areas = resolveAreas(row, competencesByTubeId, areasByCompetenceId);
     return new CourseItem({
-      id: row.id,
+      id: `${type}-${row.id}`,
+      sourceId: row.id,
       name: row.name,
       type,
       nbTubes: row.nbTubes,
@@ -49,8 +49,8 @@ export const findByOrganizationId = async ({ organizationId, locale }) => {
     });
   };
 
-  const blueprintItems = [...blueprintRowsById.values()].map(toItem(COURSE_ITEM_TYPES.BLUEPRINT));
-  const targetProfileItems = [...targetProfileRowsById.values()].map(toItem(COURSE_ITEM_TYPES.TARGET_PROFILE));
+  const blueprintItems = blueprintRows.map(toItem(COURSE_ITEM_TYPES.BLUEPRINT));
+  const targetProfileItems = targetProfileRows.map(toItem(COURSE_ITEM_TYPES.TARGET_PROFILE));
 
   return [...blueprintItems, ...targetProfileItems].sort(compareByNameThenByDate);
 };
@@ -100,8 +100,8 @@ const buildTargetProfileRow = (targetProfile, tubeIdsByTargetProfileId) => {
   };
 };
 
-const resolveLearningContent = async (rowsById, locale) => {
-  const allTubeIds = [...new Set([...rowsById.values()].flatMap((row) => row.tubeIds))];
+const resolveLearningContent = async (rows, locale) => {
+  const allTubeIds = [...new Set(rows.flatMap((row) => row.tubeIds))];
 
   if (allTubeIds.length === 0) {
     return { areasByCompetenceId: new Map(), competencesByTubeId: new Map() };

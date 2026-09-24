@@ -69,6 +69,10 @@ export default class CourseModal extends Component {
     return '';
   }
 
+  get courseId() {
+    return `${this.courseInfo.type}-${this.args.currentCourse.id}`;
+  }
+
   @action
   trackCourseSelection() {
     this.pixMetrics.trackEvent(EVENT_NAME.CATALOGUE.COURSE_SELECTION_CLICK);
@@ -120,7 +124,7 @@ export default class CourseModal extends Component {
 
             <PixButtonLink
               @route={{this.campaignCreationRoute}}
-              @query={{hash courseId=@currentCourse.id}}
+              @query={{hash courseId=this.courseId}}
               @isDisabled={{this.hasReachedPlacesLimit}}
               @size="small"
               class="course-modal__form-link"
