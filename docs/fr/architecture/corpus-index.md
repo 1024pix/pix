@@ -193,8 +193,9 @@ entre fiches : une ligne qui couvre l'horloge ou un accès imbriqué n'est pas `
 
 Ce qui reste ouvert :
 
-- La portée de `X5` dans `fiche-objet-valeur.md`. Les trois clés composées réelles relevées sont
-  toutes dans des read-models. L'écart relève peut-être de `fiche-read-model.md`.
+- Réglé le 2026-09-24 : la clé de présentation se compose dans le sérialiseur, quel que soit l'objet
+  qui la porte aujourd'hui. `X5` de `fiche-objet-valeur.md` reste l'énoncé unique, et
+  `fiche-read-model.md` y renvoie déjà.
 - Aucune des six fiches n'a été relue par un tiers après cette passe.
 
 ## Passe du 2026-09-24 sur les autres fiches
@@ -292,10 +293,9 @@ Réglées le 2026-09-24 :
   read-model.
 - Le nom de contexte dans l'arborescence de `A3` : accepté, un exemple illustre la règle.
 
-Ouvertes :
-
-- La définition d'« objet du domaine local » ne dit rien des modèles de `shared/domain/`. 47
-  repositories hors de `shared/` en renvoient : la définition actuelle les déclare fautifs pour `I1`.
+- La définition d'« objet du domaine local » et `shared/domain/` : un modèle du Shared Kernel compte
+  comme local. `shared/` a servi de fourre-tout, et certains modèles devraient vivre dans un Bounded
+  Context : c'est DDD-5 de `invariants-clean-archi-ddd.md`, un écart de découpage.
 
 ## Ordre de relecture proposé
 
