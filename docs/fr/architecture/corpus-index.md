@@ -235,14 +235,13 @@ Ce que l'équipe a décidé après la passe :
   `X4` de `fiche-repository.md`, dont le verdict devient « à surveiller ».
 - Un repository obtient toujours sa connexion par `DomainTransaction`. C'est le nouvel invariant `I12`
   de `fiche-repository.md` ; `X3` n'attend plus qu'un ADR.
+  Le datamart, une autre base, en est exempté.
 - Un DTO n'expose que les champs que ses consommateurs lisent. C'est le nouvel invariant `P9` de
   `fiche-api-interne.md` ; `X5` devient une dérive à corriger.
 
 Ce qui reste ouvert :
 
 - La nature de `X4` dans `fiche-repository.md` : une convention pratiquée, jamais décidée par écrit.
-- L'accès au datamart, une autre base que `DomainTransaction` ne couvre pas : voir `I12` de
-  `fiche-repository.md`.
 - La règle `M1` de `fiche-serialiseur.md` ne voit pas une condition portée par un paramètre de
   `serialize`, et les exports CSV portent de vraies règles métier sans que la fiche dise si elle les
   couvre.

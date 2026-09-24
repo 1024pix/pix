@@ -20,8 +20,6 @@ typage de s'appliquer est dans `migration-typescript.md`.
 >   des outils disponibles en tête du § 6 : à revérifier, et à retirer dès que l'infrastructure
 >   existe.
 > - Le numéro **I8** n'est pas attribué, et ne le sera pas. Voir la note au § 4.
-> - I12 ne dit pas comment un repository atteint le datamart, une autre base que `DomainTransaction`
->   ne couvre pas. Les repositories concernés importent aujourd'hui sa connexion `knex`.
 
 ## Sommaire
 
@@ -404,7 +402,8 @@ autorisées.
 ### I12. La connexion à la base vient de `DomainTransaction`
 
 **Énoncé.** Un repository obtient toujours sa connexion à la base par
-`DomainTransaction.getConnection()`. Il n'importe jamais la connexion `knex` elle-même.
+`DomainTransaction.getConnection()`. Il n'importe jamais la connexion `knex` elle-même. Le datamart,
+une autre base, fait exception : voir le § 3.
 
 ```js
 // fautif — learning-content/infrastructure/repositories/framework-repository.js
@@ -449,6 +448,7 @@ Sans cette section, un relecteur signale du code correct.
 | Une fonction ne renvoie rien | autorisé |
 | Un repository de `jobs/` est une classe étendant une classe de base partagée, exportée en singleton | autorisé. La conversion en module de fonctions ne doit pas être faite |
 | `DomainTransaction` est importé et non injecté | autorisé. Seule exception à I5 ; c'est la forme que prescrit I12 |
+| Un repository qui lit le datamart importe la connexion `knex` du datamart | **autorisé** pour I12 : `DomainTransaction` ne couvre que la base principale |
 | Une fonction reçoit `knexConn` en paramètre, avec `DomainTransaction.getConnection()` en valeur par défaut | autorisé pour I12 **si l'appelant passe effectivement une autre connexion** — hors transaction, réplica, pool distinct. Voir X3 au § 5 |
 | `getOrCreate*` ne lève pas alors qu'il commence par `get` | autorisé pour I3 seulement. Voir l'avertissement ci-dessous |
 
@@ -730,7 +730,7 @@ Deux précisions sur les coûts :
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **I12** connexion par `DomainTransaction` | règle `dependency-cruiser` de chemin : un fichier de `infrastructure/repositories/` n'importe pas `db/knex-database-connection.js` | configuration seule | aucun |
+| **I12** connexion par `DomainTransaction` | règle `dependency-cruiser` de chemin : un fichier de `infrastructure/repositories/` n'importe pas `db/knex-database-connection.js` | configuration seule | aucun : la connexion du datamart est un autre fichier, `datamart/knex-database-connection.js`, que la règle ne vise pas |
 | **I11** n'importe pas un autre repository | règle `dependency-cruiser` de chemin | configuration seule | aucun |
 | **I5** dépendances injectées | règle `dependency-cruiser` de chemin | configuration seule | aucun |
 | **I4** erreurs du domaine — partiel | `no-restricted-syntax` ESLint | configuration seule | aucun |
