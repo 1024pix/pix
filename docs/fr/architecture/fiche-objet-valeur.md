@@ -591,9 +591,9 @@ Une convention orale ne le permettrait pas. Voir le § 6.
 Les taux de faux positifs annoncés sont estimés. Toute hypothèse sur le comportement d'un outil se
 vérifie par contre-épreuve :
 
-- introduire la violation ;
-- confirmer que l'outil la signale ;
-- retirer la violation.
+- introduction de la violation ;
+- confirmation que l'outil la signale ;
+- retrait de la violation.
 
 Il n'existe aucun plugin ESLint maison : toute règle sur mesure suppose d'abord de créer cette
 infrastructure, et les coûts ci-dessous ne comptent que la règle.

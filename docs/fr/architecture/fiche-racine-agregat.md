@@ -47,7 +47,7 @@ E3 et E7 jouent un rôle particulier pour une racine, E4 et E6 reviennent dans l
 | [**E3**](fiche-entite.md#e3-les-invariants-sont-tenus-à-tout-instant) | les invariants sont tenus à tout instant | **forte** | règle ESLint, bruyante |
 | [**E6**](fiche-entite.md#e6-aucun-mutateur-nu) | aucun mutateur nu | **forte** | règle ESLint |
 | [**E7**](fiche-entite.md#e7-les-autres-aggregates-sont-référencés-par-identité) | les autres Aggregates sont référencés par identité | **forte** | revue |
-| [**E4**](fiche-entite.md#e4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
+| [**E4**](fiche-entite.md#e4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser`, partielle |
 
 **Écarts** — triés par verdict, comme au § 5.
 
@@ -129,16 +129,16 @@ pratique qui limite le coût d'un chargement. Pour une racine, c'est constitutif
 s'arrête la frontière. Une racine qui tient l'instance d'une autre racine n'a pas une frontière. Elle
 en a deux confondues.
 
-Le corollaire : à l'intérieur d'un même Aggregate, tenir les instances est normal.
-C'est la définition d'un Aggregate, et c'est l'exception que E7 nomme.
+Le corollaire : à l'intérieur d'un même Aggregate, tenir les instances est normal. C'est la
+définition d'un Aggregate, et c'est l'exception que E7 nomme.
 
 ### A1. La frontière de cohérence est explicite
 
 **Énoncé.** L'Aggregate existe parce qu'une règle porte sur plusieurs de ses objets à la fois. Cette
 règle doit être **nommable**.
 
-Le test consiste à formuler la phrase « à tout instant, dans cet Aggregate, … doit être vrai ». Si la phrase ne
-vient pas, il n'y a pas de frontière à protéger.
+Le test consiste à formuler la phrase « à tout instant, dans cet Aggregate, … doit être vrai ». Si la
+phrase ne vient pas, il n'y a pas de frontière à protéger.
 
 ```
 // nommable — il y a un Aggregate, et le code le vérifie
@@ -301,8 +301,8 @@ placée : personne ne se pose la question tant que la transaction absorbe le pro
 
 **La position Pix est différente, et elle est décidée.** L'ADR 25 retient la transaction qui couvre
 plusieurs Aggregates quand les écritures doivent échouer ou réussir ensemble. Ces écritures sont alors
-orchestrées dans le usecase, sans événements. Son motif est mesuré : des deadlocks
-constatés en production, causés par des événements à l'intérieur de transactions.
+orchestrées dans le usecase, sans événements. Le motif de l'ADR est mesuré : des deadlocks constatés
+en production, causés par des événements à l'intérieur de transactions.
 
 A7 reste donc l'invariant de la littérature, et garde sa valeur comme question de conception. Si deux
 Aggregates doivent toujours changer ensemble, la frontière est peut-être mal placée. Mais ce n'est pas
@@ -455,7 +455,7 @@ infrastructure/repositories/
 Les sous-dossiers suivent le besoin appelant : le découpage se fait par requête, pas par Aggregate.
 
 **Correction.** Aucune sur le découpage : le bénéfice est réel. X4 de `fiche-repository.md` détaille
-ce point et choisit entre les deux options. Le modèle partiellement rempli est à écarter, la réponse
+ce point et choisit entre les deux options. Le modèle partiellement rempli est écarté : la réponse
 est de réduire l'Aggregate.
 
 La convention tient à deux conditions :
@@ -481,15 +481,16 @@ export const updateUserPassword = withTransaction(async function ({ … }) {
 });
 ```
 
-`User` et `AuthenticationMethod` sont deux Aggregates. Un mot de passe changé sans courriel confirmé, ou
-l'inverse, laisse un compte dans un état dont personne ne veut. Ces deux écritures doivent échouer ensemble. La cohérence à terme n'y
-répondrait pas : elle laisserait une fenêtre pendant laquelle le compte est cassé.
+`User` et `AuthenticationMethod` sont deux Aggregates. Un mot de passe changé sans courriel confirmé,
+ou l'inverse, laisse un compte dans un état dont personne ne veut. Ces deux écritures doivent échouer
+ensemble. La cohérence à terme n'y répondrait pas : elle laisserait une fenêtre pendant laquelle le
+compte est cassé.
 
 **Correction.** Aucune, et ce n'est pas une tolérance. C'est une décision, portée par l'ADR 25.
 
 Pix enchaînait des traitements par événements à l'intérieur des transactions. C'est la forme qui
-aurait permis de découper. L'ADR 25 cite un usecase qui le faisait encore au moment de sa rédaction. Ces
-événements dans des transactions ont causé des deadlocks en production, en épuisant le pool de
+aurait permis de découper. L'ADR 25 cite un usecase qui le faisait encore au moment de sa rédaction.
+Ces événements dans des transactions ont causé des deadlocks en production, en épuisant le pool de
 connexions. L'ADR 25 en tire deux règles :
 
 - plus d'événements dans une transaction ;
@@ -500,9 +501,9 @@ C'est donc un bénéfice mesuré, ce qui suffit à classer l'écart en *rien à 
 est explicite : une mesure change le verdict, une intuition non. Ici la mesure existe, et elle va
 contre la littérature.
 
-Sur du code neuf, la question de A7 précède tout élargissement de transaction : l'élargissement ne
-se fait pas par réflexe. Une transaction qui grossit reste un signal possible de frontière mal placée. Ce moment est
-le seul où la frontière mal placée se voit.
+Sur du code neuf, la question de A7 se pose avant tout élargissement de transaction. Une transaction
+qui grossit reste un signal possible de frontière mal placée, et c'est le seul moment où ce défaut se
+voit.
 
 **Révision.** De la contention mesurée sur une de ces transactions change ce verdict. C'est le même
 type de preuve que celle qui a produit l'ADR 25.
@@ -551,11 +552,11 @@ l'ordre ci-dessous : la déclaration précède l'outillage.
 
 ### Pièges d'implémentation
 
-- L'indicateur de A3 calculé avant X2 : le rapport compare alors un nombre de
-  repositories à zéro racine déclarée, ce qui ne produit rien de lisible.
+- L'indicateur de A3 calculé avant X2 : le rapport compare alors un nombre de repositories à zéro
+  racine déclarée, ce qui ne produit rien de lisible.
 - Le codemod de X1 lancé avant le classement de chaque fichier par le test du § 1 : il applique une
   décision qui n'a pas encore été prise, et déplace au hasard.
-- La règle ESLint d'A2 écrite sans mutualisation avec V7 de `fiche-objet-valeur.md` : la même
+- La règle ESLint de A2 écrite sans mutualisation avec V7 de `fiche-objet-valeur.md` : la même
   vérification finit dupliquée dans deux fiches.
 
 ### Ordre de mise en œuvre
