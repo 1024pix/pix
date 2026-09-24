@@ -11,22 +11,22 @@ class LearningContentRedisCache {
   constructor({ pool = LearningContentRedisCache.createClientPool() } = {}) {
     this.#pool = pool;
 
-    this.#pool.on('error', (err) => logger.error({ err }, 'redis cache client pool error'));
+    this.#pool?.on('error', (err) => logger.error({ err }, 'redis cache client pool error'));
   }
 
   async connect() {
-    return this.#pool.connect();
+    return this.#pool?.connect();
   }
 
   async close() {
-    return this.#pool.close();
+    return this.#pool?.close();
   }
 
   /**
    * @param {string} key
    */
   async getEntity(key) {
-    const value = await this.#pool.get(key);
+    const value = await this.#pool?.get(key);
     if (value == null) return undefined;
     return JSON.parse(value);
   }
@@ -35,7 +35,7 @@ class LearningContentRedisCache {
    * @param {string[]} keys
    */
   async getEntities(keys) {
-    const values = await this.#pool.mGet(keys);
+    const values = await this.#pool?.mGet(keys);
     return values.map((value) => {
       if (value == null) return undefined;
       return JSON.parse(value);
@@ -46,7 +46,7 @@ class LearningContentRedisCache {
    * @param {string} key
    */
   async getIds(key) {
-    const value = await this.#pool.get(key);
+    const value = await this.#pool?.get(key);
     if (value == null) return undefined;
     if (value === '') return [];
     return value.split(',');
@@ -57,14 +57,14 @@ class LearningContentRedisCache {
    * @param {any} value
    */
   setEntity(key, value) {
-    return this.#pool.set(key, JSON.stringify(value), { condition: 'NX' });
+    return this.#pool?.set(key, JSON.stringify(value), { condition: 'NX' });
   }
 
   /**
    * @param {[key: string, entity: any][]} entities
    */
   setEntities(entities) {
-    return this.#pool.mSetNX(entities.map(([key, entity]) => [key, JSON.stringify(entity)]));
+    return this.#pool?.mSetNX(entities.map(([key, entity]) => [key, JSON.stringify(entity)]));
   }
 
   /**
@@ -72,14 +72,15 @@ class LearningContentRedisCache {
    * @param {string[]} ids
    */
   setIds(key, ids) {
-    return this.#pool.set(key, ids.join(','), { condition: 'NX' });
+    return this.#pool?.set(key, ids.join(','), { condition: 'NX' });
   }
 
   clear() {
-    return this.#pool.flushDb();
+    return this.#pool?.flushDb();
   }
 
   static createClientPool() {
+    if (!config.redisUrl) return undefined;
     const poolConfig = {};
     if (config.lcms.redisCache.clientPoolMinimum != undefined) {
       poolConfig.minimum = config.lcms.redisCache.clientPoolMinimum;
