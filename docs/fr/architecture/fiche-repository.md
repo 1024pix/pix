@@ -52,8 +52,8 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | --- | --- | --- |
 | [**X1**](#x1-aucun-port-nest-déclaré) | aucun port n'est déclaré | **à corriger** |
 | [**X2**](#x2-méthode-de-persistance-sur-le-modèle) | méthode de persistance sur le modèle | **à corriger** |
+| [**X4**](#x4-plusieurs-repositories-pour-un-même-aggregate) | plusieurs repositories pour un même Aggregate | **à corriger** |
 | [**X3**](#x3-la-connexion-à-la-base-ne-passe-pas-par-la-signature) | la connexion à la base ne passe pas par la signature | à surveiller |
-| [**X4**](#x4-plusieurs-repositories-pour-un-même-aggregate) | plusieurs repositories pour un même Aggregate | à surveiller |
 | [**X6**](#x6-le-repository-couvre-aussi-laccès-aux-contextes-voisins) | le repository couvre aussi l'accès aux contextes voisins | rien à faire |
 
 Hors numérotation : la définition d'un [objet du domaine local](#ce-quest-un-objet-du-domaine-local)
@@ -515,8 +515,8 @@ le seul verdict qui engage du travail. Table triée par verdict.
 | --- | --- | --- | --- | --- |
 | **X1** Aucun port n'est déclaré | dérive | l'injection et le code de câblage | **nul** : aucun contrat vérifiable | **À corriger** |
 | **X2** Méthode de persistance sur le modèle | dérive | différé, à la prochaine migration de schéma | **nul** | **À corriger** |
+| **X4** Plusieurs repositories pour un même Aggregate | dérive | quelques fichiers de plus, et A3 de `fiche-racine-agregat.md` tombe : compter les repositories ne dit plus rien de la conception | **non mesuré** : le gain de performance est supposé, jamais constaté | **À corriger** |
 | **X3** La connexion à la base ne passe pas par la signature | convention assumée | un usecase ne dit pas, à la lecture, s'il est transactionnel | réel : signatures propres | À surveiller |
-| **X4** Plusieurs repositories pour un même Aggregate | convention assumée | quelques fichiers de plus, et A3 de `fiche-racine-agregat.md` tombe : compter les repositories ne dit plus rien de la conception | réel : chaque requête est écrite pour son besoin | À surveiller |
 | **X6** Le repository couvre aussi l'accès aux contextes voisins | convention assumée | nul | réel : un seul concept, le domaine ignore la source | Rien à faire |
 
 Le numéro **X5** n'est pas attribué. Il portait « `domain/usecases/index.js` importe
@@ -652,12 +652,15 @@ infrastructure/repositories/
 Cinq repositories pour un seul Aggregate. Les sous-dossiers portent le nom du besoin appelant, ce
 qui dit exactement ce que le découpage est. DDD n'aurait qu'un repository.
 
-Le bénéfice est réel : chaque requête est écrite pour son besoin, sans champ chargé pour rien et sans
-repository générique que tout le monde étend. Sur une plateforme à fort trafic, ne pas charger la base
-pour rien est une contrainte, pas une préférence.
+Le bénéfice attendu est la performance : chaque requête ne charge que ce dont elle a besoin. Ce
+bénéfice n'est pas mesuré. Il peut même être nul : une Entity chargée plus tôt dans la même requête
+HTTP est souvent déjà dans le cache de la base, et la recharger entière coûte alors peu.
 
-Le débat porte sur l'alternative, et la littérature le règle. Deux options se présentent : beaucoup de
-modèles, ou un modèle unique partiellement rempli selon l'appel.
+La littérature pose la même condition. Un découpage pour la performance se justifie par un problème
+de charge **mesuré**, pas supposé. Sans mesure, un Aggregate a un repository.
+
+Deux options se présentent quand la mesure existe : beaucoup de modèles, ou un modèle unique
+partiellement rempli selon l'appel.
 
 Le **modèle partiellement rempli est écarté**. Un Aggregate est défini par ses invariants. Chargé
 partiellement, il ne peut pas les garantir. Fowler nomme cette forme : c'est la variante *Ghost* du
@@ -665,28 +668,23 @@ pattern **Lazy Load** de *PoEAA*. Il en donne le coût : l'objet doit savoir all
 manque, donc la connaissance de la persistance entre dans le modèle. C'est X2. Choisir cette option
 pour résoudre X4 aggrave X2.
 
-La réponse de la littérature au coût de chargement est ailleurs : **réduire l'Aggregate** pour que le
-charger entier soit bon marché. C'est la règle 2 de Vernon, *design small aggregates*, motivée par ce
-même coût.
+La première réponse au coût de chargement est de **réduire l'Aggregate**, pour que le charger entier
+soit bon marché. C'est la règle 2 de Vernon, *design small aggregates*, motivée par ce même coût.
 
-Les modèles multiples sont admis à une condition : les modèles supplémentaires sont des
-**read-models**, pas des Aggregates. Une lecture qui n'a pas besoin d'invariants ne passe pas par
+Si la mesure montre qu'une lecture reste trop chère, cette lecture passe par un **read-model**, pas
+par un second repository d'Aggregate. Une lecture qui n'a pas besoin d'invariants ne passe pas par
 l'Aggregate. Elle requête directement et produit la forme adaptée. Vernon appelle cela une *use case
 optimal query*.
 
-La forme retenue par la littérature est donc une troisième forme :
+**Correction.** Un repository par Aggregate. Pour chaque repository supplémentaire :
 
-- un modèle d'écriture, l'Aggregate, petit et toujours chargé entier ;
-- autant de modèles de lecture que de besoins, sans invariant.
+1. S'il sert une écriture, ou une lecture qui a besoin des invariants, le fusionner dans le
+   repository de l'Aggregate.
+2. S'il sert une lecture sans invariant, il ne reste séparé que si une mesure montre que charger
+   l'Aggregate entier est trop cher. Il renvoie alors un **read-model** : voir `fiche-read-model.md`.
 
-**Correction.** Aucune sur le découpage. Deux points à tenir, d'où le verdict « à surveiller » :
-
-1. Le **vocabulaire**. Compter les repositories d'un contexte ne dit plus combien il a de frontières de
-   cohérence. Ne pas poser le mot « Aggregate » sur un dossier si les repositories ne suivent pas ce
-   grain : voir A3 dans `fiche-racine-agregat.md`.
-2. Les repositories créés pour un besoin de lecture renvoient des **read-models**, pas des Entities
-   incomplètes : voir `fiche-read-model.md`. C'est la frontière à ne pas franchir. Plusieurs
-   repositories est une convention tenable, un Aggregate à moitié chargé non.
+Le mot « Aggregate » ne se pose sur un dossier que si ses repositories suivent ce grain : voir A3
+dans `fiche-racine-agregat.md`.
 
 Limite, selon Fowler : séparer lecture et écriture ajoute de la complexité et ne doit pas être le
 défaut. La séparation se fait là où la pression de charge existe.

@@ -43,6 +43,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**X1**](#x1-une-condition-choisit-entre-deux-formes-de-réponse) | une condition choisit entre deux formes de réponse | **à corriger** |
 | [**X2**](#x2-le-sérialiseur-fabrique-un-champ-absent-de-lobjet-reçu) | le sérialiseur fabrique un champ absent de l'objet reçu | **à corriger** |
 | [**X3**](#x3-un-champ-est-retiré-renommé-ou-change-de-sens-sans-coordination) | un champ est retiré, renommé, ou change de sens sans coordination | **à corriger** |
+| [**X5**](#x5-un-export-csv-porte-des-règles-métier) | un export CSV porte des règles métier | **à corriger** |
 | [**X4**](#x4-le-sérialiseur-reçoit-un-modèle-du-domaine-plutôt-quun-read-model) | le sérialiseur reçoit un modèle du domaine plutôt qu'un read-model | à surveiller |
 
 Hors numérotation : la [table des trois niveaux de changement](#la-piste-qui-changerait-m3) du § 7,
@@ -63,6 +64,9 @@ Les deux sens n'ont pas les mêmes invariants.
 **Vers l'extérieur**, le sérialiseur est **déclaratif** : une liste de champs, éventuellement des
 relations incluses. Il ne calcule pas, ne filtre pas selon une condition métier, ne décide pas. C'est
 `M1`.
+
+Un **export CSV** est aussi un sérialiseur : il met en forme vers un autre format d'échange. `M1`
+s'y applique comme à JSON:API.
 
 **Vers le domaine**, le sérialiseur **traduit** : il renomme, il convertit un type, il construit des
 objets du domaine. Ces opérations sont sa raison d'être, et elles sont autorisées. Dans ce sens, il lui
@@ -260,6 +264,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un sérialiseur qui reçoit un read-model plutôt qu'une Entity | **autorisé**, et préférable. Voir `X4` |
 | Une condition qui choisit entre deux formes de réponse | **pas une exception** — c'est `M1` violé, donc `X1` |
 | Un champ calculé depuis une méthode métier de l'objet | **pas une exception** — c'est `M2` violé, donc `X2` |
+| Un export CSV qui filtre ou choisit ses données selon une règle métier | **pas une exception** : c'est `M1` violé, donc `X5` |
 | Deux sérialiseurs pour la même ressource selon l'appelant | **pas une exception** — c'est `M1` à l'échelle du fichier |
 | Un `if` sur une relation absente dans une **désérialisation** | **autorisé** — c'est de la traduction, `M5`. La même forme serait fautive dans une sérialisation |
 | Un `parseInt` ou un renommage de clé dans une désérialisation | **autorisé** — c'est la raison d'être du sens entrant |
@@ -299,6 +304,7 @@ incluses ou non. Un sérialiseur irréprochable peut produire une réponse péni
 | **X1** Une condition choisit entre deux formes de réponse | dérive | La règle est invisible depuis le domaine, à l'endroit où personne ne la cherche | Le besoin est satisfait sans toucher au usecase ni au domaine | **À corriger** |
 | **X2** Le sérialiseur fabrique un champ absent de l'objet reçu | dérive | Un champ sort à `null` sans cause visible, ou un calcul métier vit dans la mise en forme | Pas de read-model ni de usecase à modifier | **À corriger** |
 | **X3** Un champ est retiré, renommé, ou change de sens sans coordination | dérive | Des applications front cassent à l'exécution, chez d'autres équipes. Le changement de sens ne se signale nulle part | Le format suit le vocabulaire interne sans dette de compatibilité | **À corriger** |
+| **X5** Un export CSV porte des règles métier | dérive | La règle vit dans la mise en forme, où personne ne la cherche, et un service du domaine est appelé depuis l'infrastructure | L'export se construit en un seul fichier | **À corriger** |
 | **X4** Le sérialiseur reçoit un modèle du domaine plutôt qu'un read-model | convention assumée | Le format de sortie est couplé à la forme du modèle : renommer un champ du modèle le retire de la réponse, sans erreur | Réel — pas de read-model à écrire pour chaque écran, et le modèle est déjà là | *À surveiller* |
 
 ### X1. Une condition choisit entre deux formes de réponse
@@ -392,6 +398,42 @@ parce qu'une procédure s'oublie.
 Par décision, aucun ADR ne porte de procédure de coordination. Deux tiers de l'écart attendent le bon outil, et
 le tiers restant relève de la règle du sens.
 
+### X5. Un export CSV porte des règles métier
+
+**Ce que dit la théorie.** Comme pour `X1` : le *presenter* est dépourvu de logique, quel que soit
+le format qu'il produit.
+
+**Exemple concret.** L'export CSV des résultats d'une campagne d'évaluation choisit lui-même les
+acquis de chaque participant, selon l'état de la participation. Pour une participation en cours, il
+appelle un service du domaine.
+
+```js
+// prescription/campaign/infrastructure/serializers/csv/campaign-assessment-export.js — extrait
+if (campaignParticipationInfo.isShared) {
+  const sharedResultInfo = sharedKnowledgeElementsByUserIdAndCompetenceId.find(…);
+  participantKnowledgeElementsByCompetenceId = this.learningContent.getKnowledgeElementsGroupedByCompetence(
+    sharedResultInfo.knowledgeElements,
+  );
+} else if (campaignParticipationInfo.isCompleted === false) {
+  const othersResultInfo = startedKnowledgeElementsByUserIdAndCompetenceId.find(…);
+  const filteredKnowledgeElements = improvementService.filterKnowledgeElements({
+    knowledgeElements: othersResultInfo.knowledgeElements,
+    isFromCampaign: true,
+    isImproving: true,
+    createdAt: campaignParticipationInfo.createdAt,
+  });
+  …
+}
+```
+
+Quels acquis comptent pour un participant est une règle métier. Ici, elle est dans l'infrastructure.
+Un écran qui affiche les mêmes résultats doit la réécrire, et rien ne garantit que les deux versions
+restent identiques.
+
+**Correction.** Faire calculer par le usecase, ou par un read-model, les acquis retenus pour chaque
+participant. L'export ne fait plus que les mettre en colonnes. La correction n'est pas mécanique : il
+faut déplacer la règle sans changer son résultat, donc la couvrir d'abord par un test.
+
 ### X4. Le sérialiseur reçoit un modèle du domaine plutôt qu'un read-model
 
 **Ce que dit la théorie.** Le format de sortie et le modèle du domaine évoluent pour des raisons
@@ -450,6 +492,8 @@ surtout du bruit.
   Ce sont des conditions sur une chaîne de format, pas sur l'objet du domaine.
 - Les fonctions utilitaires qui prennent une valeur, et non l'objet sérialisé, comme le nettoyage
   d'une chaîne.
+
+La règle couvre aussi les exports CSV de `infrastructure/serializers/csv/`. Voir `X5`.
 
 Après ces quatre exclusions, la règle signale les `if`, les ternaires, les `&&` en position de valeur
 et les `switch` **qui portent sur l'objet sérialisé ou une de ses propriétés**. C'est ce dernier point

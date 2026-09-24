@@ -195,7 +195,7 @@ Ce qui reste ouvert :
 
 - La portée de `X5` dans `fiche-objet-valeur.md`. Les trois clés composées réelles relevées sont
   toutes dans des read-models. L'écart relève peut-être de `fiche-read-model.md`.
-- L'arborescence de `X3` dans `fiche-racine-agregat.md` contient le nom d'un contexte, repris du
+- L'arborescence de `A3` dans `fiche-racine-agregat.md` contient le nom d'un contexte, repris du
   code réel. C'est une entorse à la règle 1.
 - Aucune des six fiches n'a été relue par un tiers après cette passe.
 
@@ -232,19 +232,17 @@ Ce que l'équipe a décidé après la passe :
   l'Anticorruption Layer de l'ADR 55. C'est l'écart `X6` de `fiche-usecase.md`, à corriger.
 - Un écart énoncé dans deux fiches n'est gardé qu'une fois. `X5` de `fiche-repository.md` est retiré
   au profit de `X3` de `fiche-usecase.md`. `X3` de `fiche-racine-agregat.md` est retiré au profit de
-  `X4` de `fiche-repository.md`, dont le verdict devient « à surveiller ».
+  `X4` de `fiche-repository.md`.
 - Un repository obtient toujours sa connexion par `DomainTransaction`. C'est le nouvel invariant `I12`
   de `fiche-repository.md` ; `X3` n'attend plus qu'un ADR.
   Le datamart, une autre base, en est exempté.
 - Un DTO n'expose que les champs que ses consommateurs lisent. C'est le nouvel invariant `P9` de
   `fiche-api-interne.md` ; `X5` devient une dérive à corriger.
+- Aucune règle métier dans un sérialiseur, exports CSV compris. `X5` de `fiche-serialiseur.md` décrit
+  l'écart sur les CSV. `X4` de `fiche-repository.md` devient une dérive à corriger : un découpage en
+  plusieurs repositories ne se justifie que par une mesure de charge.
 
-Ce qui reste ouvert :
-
-- La nature de `X4` dans `fiche-repository.md` : une convention pratiquée, jamais décidée par écrit.
-- La règle `M1` de `fiche-serialiseur.md` ne voit pas une condition portée par un paramètre de
-  `serialize`, et les exports CSV portent de vraies règles métier sans que la fiche dise si elle les
-  couvre.
+Toutes les questions ouvertes de cette passe sont décidées.
 
 ## Ordre de relecture proposé
 

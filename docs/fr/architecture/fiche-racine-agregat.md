@@ -228,12 +228,9 @@ infrastructure/repositories/
 ```
 
 C'est l'invariant le plus souvent abandonné en pratique, parce que le découpage réel suit les besoins
-de requêtage. Deux positions sont cohérentes, une troisième ne l'est pas :
-
-- tenir A3, et accepter que certaines lectures passent par un read-model plutôt que par un repository
-  dédié ;
-- renoncer explicitement à A3, et au mot « Aggregate » avec lui : parler d'Entities et de repositories ;
-- garder le mot et multiplier les repositories, ce qui vide le vocabulaire de son sens.
+de requêtage. A3 se tient ainsi : une lecture dont une mesure montre que charger l'Aggregate entier est
+trop cher passe par un read-model, pas par un repository d'Aggregate de plus. Garder le mot
+« Aggregate » et multiplier les repositories vide le vocabulaire de son sens.
 
 **Ce qui casse.** Compter les repositories cesse d'être une information. C'est un invariant
 d'hygiène : il ne prévient aucun défaut, il préserve la valeur d'un indicateur. L'écart est traité sous X4
@@ -322,7 +319,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Une transaction qui couvre plusieurs Aggregates dont les écritures doivent échouer ou réussir ensemble | **autorisé**, c'est la décision de l'ADR 25 : orchestration dans le usecase, sans événements. Voir X4 |
 | Un identifiant d'un autre contexte porté comme donnée | **autorisé**, c'est E7 bien appliqué |
 | La racine tient les instances de ses objets internes | **autorisé**, c'est la définition d'un Aggregate |
-| Plusieurs repositories pour une même frontière | **pas une exception** : c'est X4 de `fiche-repository.md`, une convention admise seulement si elle est assumée explicitement |
+| Plusieurs repositories pour une même frontière | **pas une exception** : c'est X4 de `fiche-repository.md`, une dérive à corriger. Seul un read-model justifié par une mesure de charge reste séparé |
 | Un dossier `aggregates/` contenant des read-models | **pas une exception** — c'est X1 |
 
 ---
