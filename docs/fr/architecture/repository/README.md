@@ -58,16 +58,22 @@ Termes employés dans cette page :
 Notion utilisée par I1 et I2, les invariants de sortie et d'entrée du repository.
 
 Un objet du domaine local est un type déclaré dans le `domain/` **du contexte courant**, dont ce
-contexte contrôle la construction.
+contexte contrôle la construction, ou dans `shared/domain/`, le Shared Kernel que tous les contextes
+partagent.
 
 | Est un objet du domaine local | N'en est pas un |
 | --- | --- |
 | une Entity, une Aggregate Root | une ligne de base de données |
 | un Value Object | une charge utile HTTP désérialisée |
 | un read-model produit par un repository du contexte | le DTO publié par l'API interne d'un autre contexte |
+| un modèle de `shared/domain/` | un modèle du `domain/` d'un autre contexte |
 
 La dernière ligne de droite porte le cas le plus facile à manquer. Le format d'un voisin vient de
 l'extérieur, même quand il a déjà la forme d'un objet. Sa traduction est le travail du repository.
+
+Un modèle de `shared/domain/` reste local pour I1, même quand sa place serait dans un Bounded
+Context. Son rangement est une question de découpage, pas de repository : voir
+[`explication.md`](explication.md#le-shared-kernel).
 
 ### Ce que le repository n'est pas
 

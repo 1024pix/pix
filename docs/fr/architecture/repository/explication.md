@@ -19,6 +19,17 @@ impose porte sur le type de test, parce que l'adaptateur connaît ce qu'il adapt
 nom d'un fichier ne dit pas la source du repository : un invariant qui l'aurait exigé, l'ancien I8, a
 été écarté.
 
+### Le Shared Kernel
+
+`shared/domain/` est le Shared Kernel au sens d'Evans : un noyau de modèle que plusieurs contextes
+partagent par décision. Un repository qui renvoie un de ses modèles ne laisse donc pas entrer le
+modèle d'un voisin, et I1 le compte comme local.
+
+Dans les faits, `shared/` a aussi servi de fourre-tout. Certains de ses modèles appartiennent à un
+seul Bounded Context et devraient y vivre. C'est un écart de découpage, décrit sous DDD-5 dans
+`../invariants-clean-archi-ddd.md`. Le déplacer ne change rien pour I1 : le modèle reste local au
+contexte qui le reçoit.
+
 ## ROI des invariants
 
 | Invariant | Rentabilité | Ce qu'on gagne |
