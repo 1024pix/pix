@@ -40,7 +40,9 @@ Dans cet ordre :
    - **Vérification.** Une ligne : le moyen qui vérifie la règle, avec un lien vers `outillage.md`.
      Ni état, ni date, ni « prévu » : la référence reste vraie quand l'outillage avance.
 6. **Exceptions légitimes** : une table cas / statut, chaque exception rattachée à son invariant.
-7. **Exemple complet** : un fichier réel conforme, son enregistrement et son test.
+7. **Exemple complet** : un fichier réel conforme, son enregistrement et son test. À défaut de
+   fichier entièrement conforme, la **version corrigée** du fichier réel le plus proche, avec un
+   permalien vers l'original et la liste des corrections, chacune rattachée à son invariant.
 8. **Tests attendus** par variante du fichier.
 9. **Checklist de revue**, copiable, ordonnée par ROI. Chaque ligne est marquée `[auto]`,
    `[partiel]` ou `[humain]` selon le moyen prévu dans `outillage.md`.
