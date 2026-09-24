@@ -123,10 +123,12 @@ class Passage {
 fondement. Chaque site d'appel improvise sa comparaison.
 
 **Le cas de l'Entity non encore persistée.** Une Entity créée en mémoire n'a pas encore d'identifiant.
-Deux traitements existent, et le choix entre eux est explicite : un identifiant `null` assumé et
-documenté, ou un type distinct pour l'intention de création, `…ForCreation` (voir V8 dans
-`fiche-objet-valeur.md`). Le
-second est plus sûr : la signature dit qu'il n'y a pas encore d'identité. Voir X5 au § 5.
+Deux traitements existent, et le choix entre eux est explicite :
+
+- un identifiant `null`, assumé et documenté ;
+- un type distinct pour l'intention de création, `…ForCreation` (voir V8 dans `fiche-objet-valeur.md`).
+
+Le second est plus sûr : la signature dit qu'il n'y a pas encore d'identité. Voir X5 au § 5.
 
 ### E2. L'égalité se fonde sur l'identité
 
