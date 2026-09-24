@@ -252,7 +252,8 @@ substituée par une doublure de test : le repository devient intestable en unita
 ### I6. Le repository est enregistré dans `infrastructure/repositories/index.js`
 
 **Énoncé.** Tout fichier de `infrastructure/repositories/` figure dans l'objet des repositories de
-l'index du contexte.
+l'index du contexte, qu'il reçoive des dépendances ou non. Un seul régime de câblage existe : les
+usecases reçoivent leurs repositories depuis cet index.
 
 ```js
 // conforme — l'index importe l'API du voisin et le repository, puis les marie
@@ -272,7 +273,9 @@ const repositories = injectDependencies(repositoriesWithoutInjectedDependencies,
 L'index importe les API des contextes voisins pour les injecter : c'est la forme que prescrit I5.
 
 **Ce qui casse.** L'injection ne s'applique qu'aux entrées de cet objet. Un repository absent n'a
-jamais ses dépendances remplies : elles restent `undefined`, et il échoue au premier appel.
+jamais ses dépendances remplies : elles restent `undefined`, et il échoue au premier appel. Un
+repository sans dépendance ne casse pas, mais il crée un second régime de câblage, et l'index cesse
+d'être la liste complète des ports du contexte.
 
 **Vérification.** Revue. Prévu : un script de complétude. Voir
 [`outillage.md`](outillage.md#i6-et-i9--un-script-de-complétude).
@@ -489,6 +492,9 @@ une requête, puis une traduction en objet du domaine. Le test est un test d'int
 | --- | --- | --- |
 | Base de données | intégration uniquement | la requête et le mapping vers le domaine |
 | API interne d'un autre contexte | unitaire, API substituée | uniquement le mapping vers le domaine |
+| Service HTTP externe | intégration, le service intercepté par `nock` | la requête envoyée, adresse et contenu, et la traduction de la réponse |
+
+**Code.** Service HTTP externe : [`prompt-repository_test.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/tests/llm/integration/infrastructure/repositories/prompt-repository_test.js#L30-L55).
 
 Indice de diagnostic : un repository adossé à une API qui n'a rien à tester en unitaire ne traduit
 en général rien, donc viole I1. Cet indice ne vaut pas pour les cas des exceptions légitimes : une

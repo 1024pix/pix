@@ -193,6 +193,7 @@ La comparaison détecte deux cas, un dans chaque sens :
 | --- | --- |
 | un paramètre dont le nom correspond à `/Api$/` | unitaire, l'API mockée |
 | un paramètre de connexion, ou un appel sur la connexion | intégration |
+| un client HTTP, en paramètre ou appelé | intégration, service intercepté par `nock` |
 | les deux | les deux |
 | aucun des deux | non classable : signalé, jamais deviné |
 

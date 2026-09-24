@@ -195,8 +195,6 @@ Ce qui reste ouvert :
 
 - La portée de `X5` dans `fiche-objet-valeur.md`. Les trois clés composées réelles relevées sont
   toutes dans des read-models. L'écart relève peut-être de `fiche-read-model.md`.
-- L'arborescence de `A3` dans `fiche-racine-agregat.md` contient le nom d'un contexte, repris du
-  code réel. C'est une entorse à la règle 1.
 - Aucune des six fiches n'a été relue par un tiers après cette passe.
 
 ## Passe du 2026-09-24 sur les autres fiches
@@ -282,14 +280,22 @@ Un numéro retiré n'est jamais réattribué.
 
 ### Questions ouvertes nées du pilote
 
-- Les tests attendus d'un repository adossé à un service HTTP externe ne sont pas décrits.
-- `I6` exige que tout repository figure dans l'index du contexte. Certains contextes n'ont pas
-  d'index de repositories et câblent dans `domain/usecases/index.js`. La portée de `I6` est à
-  préciser.
-- Repris de l'ancien encadré « À instruire » de la fiche : la définition d'« objet du domaine local »
-  est à relire une fois, pour confirmer qu'elle couvre bien les cas de `I1` et `I2`.
-- Repris du même encadré : le grain de chargement d'un repository dépend de ce que désigne un dossier
-  `aggregates/`. Voir `fiche-racine-agregat.md`.
+Réglées le 2026-09-24 :
+
+- Les tests d'un repository adossé à un service HTTP externe : intégration, le service intercepté
+  par `nock`. Ajouté aux tests attendus.
+- La portée de `I6` : un seul régime, tout repository est dans l'index. Les contextes qui câblent
+  autrement forment l'écart `X7` de `repository/ecarts.md`.
+- Le grain de chargement et le dossier `aggregates/` : la décision existe. `X1` de
+  `fiche-racine-agregat.md` réserve le dossier aux vrais Aggregates, et `X4` de
+  `repository/ecarts.md` fixe un repository par Aggregate, les lectures sans invariant passant par un
+  read-model.
+- Le nom de contexte dans l'arborescence de `A3` : accepté, un exemple illustre la règle.
+
+Ouvertes :
+
+- La définition d'« objet du domaine local » ne dit rien des modèles de `shared/domain/`. 47
+  repositories hors de `shared/` en renvoient : la définition actuelle les déclare fautifs pour `I1`.
 
 ## Ordre de relecture proposé
 
