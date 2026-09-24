@@ -20,6 +20,8 @@ typage de s'appliquer est dans `migration-typescript.md`.
 >   des outils disponibles en tête du § 6 : à revérifier, et à retirer dès que l'infrastructure
 >   existe.
 > - Le numéro **I8** n'est pas attribué, et ne le sera pas. Voir la note au § 4.
+> - I12 ne dit pas comment un repository atteint le datamart, une autre base que `DomainTransaction`
+>   ne couvre pas. Les repositories concernés importent aujourd'hui sa connexion `knex`.
 
 ## Sommaire
 
@@ -38,6 +40,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**I4**](#i4-les-erreurs-levées-appartiennent-au-domaine) | les erreurs levées appartiennent au domaine | **forte** | `no-restricted-syntax`, partiel |
 | [**I6**](#i6-le-repository-est-enregistré-dans-infrastructurerepositoriesindexjs) | enregistré dans l'index du contexte | **forte** | script |
 | [**I11**](#i11-un-repository-nimporte-pas-un-autre-repository) | n'importe pas un autre repository | **forte** | `dependency-cruiser` |
+| [**I12**](#i12-la-connexion-à-la-base-vient-de-domaintransaction) | la connexion à la base vient de `DomainTransaction` | **forte** | `dependency-cruiser` |
 | [**I10**](#i10-aucune-règle-métier-dans-le-repository) *signal* | aucune fonction de lecture qui écrit | **forte** | règle ESLint |
 | [**I2**](#i2-ne-jamais-accepter-une-structure-de-persistance-en-entrée) | n'accepte pas de structure de persistance en entrée | moyenne | typage, après migration |
 | [**I3**](#i3-get-lève-find-renvoie-null-ou-une-collection-vide) | `get*` lève, `find*` renvoie `null` | moyenne | règle ESLint |
@@ -262,8 +265,8 @@ une doublure. Mais l'import reste écrit dans le fichier. La dépendance de modu
 `dependency-cruiser` la voit et la règle de contexte se déclenche. Le paramètre rend le repository
 testable sans le rendre découplé.
 
-**Exception.** L'accesseur de connexion à la base est importé, pas injecté. C'est la conséquence du
-choix d'ambient context pour la transaction. C'est la seule dépendance dans ce cas.
+**Exception.** `DomainTransaction` est importé, pas injecté. C'est la conséquence du choix d'ambient
+context pour la transaction, et la forme que prescrit I12. C'est la seule dépendance dans ce cas.
 
 **Ce qui casse.** Sous ESM les exports sont immuables. Sans injection, la dépendance ne peut pas être
 substituée par une doublure de test : le repository devient intestable en unitaire.
@@ -398,6 +401,36 @@ Un import vers le repository d'un autre contexte franchit en plus une frontière
 Les règles au grain du contexte le laissent passer si ce contexte est déclaré dans les dépendances
 autorisées.
 
+### I12. La connexion à la base vient de `DomainTransaction`
+
+**Énoncé.** Un repository obtient toujours sa connexion à la base par
+`DomainTransaction.getConnection()`. Il n'importe jamais la connexion `knex` elle-même.
+
+```js
+// fautif — learning-content/infrastructure/repositories/framework-repository.js
+import { knex } from '../../../../db/knex-database-connection.js';
+
+async list() {
+  const frameworkDtos = await knex.select('*').from(tableName).orderBy('name');
+  return frameworkDtos.map(toDomain);
+}
+
+// conforme — forme corrigée du même extrait
+async list() {
+  const knexConn = DomainTransaction.getConnection();
+  const frameworkDtos = await knexConn.select('*').from(tableName).orderBy('name');
+  return frameworkDtos.map(toDomain);
+}
+```
+
+`DomainTransaction.getConnection()` rend la transaction en cours s'il y en a une, et la connexion
+ordinaire sinon. Le repository n'a donc pas à savoir s'il tourne dans une transaction.
+
+**Ce qui casse.** Une requête sur la connexion importée s'exécute hors de la transaction en cours.
+Une écriture n'est pas annulée si la transaction échoue, et une lecture ne voit pas ce que la
+transaction a déjà écrit. Rien ne le signale : le code fonctionne tant que le usecase n'est pas
+transactionnel.
+
 ---
 
 ## 3. Exceptions légitimes
@@ -415,8 +448,8 @@ Sans cette section, un relecteur signale du code correct.
 | Une fonction `is*` / `has*` renvoie un booléen | autorisé |
 | Une fonction ne renvoie rien | autorisé |
 | Un repository de `jobs/` est une classe étendant une classe de base partagée, exportée en singleton | autorisé. La conversion en module de fonctions ne doit pas être faite |
-| L'accesseur de connexion à la base est importé et non injecté | autorisé. Seule exception à I5 |
-| Une fonction reçoit `knexConn` en paramètre, avec l'accesseur ambiant en valeur par défaut | autorisé **si l'appelant passe effectivement une autre connexion** — hors transaction, réplica, pool distinct. Voir X3 au § 5 |
+| `DomainTransaction` est importé et non injecté | autorisé. Seule exception à I5 ; c'est la forme que prescrit I12 |
+| Une fonction reçoit `knexConn` en paramètre, avec `DomainTransaction.getConnection()` en valeur par défaut | autorisé pour I12 **si l'appelant passe effectivement une autre connexion** — hors transaction, réplica, pool distinct. Voir X3 au § 5 |
 | `getOrCreate*` ne lève pas alors qu'il commence par `get` | autorisé pour I3 seulement. Voir l'avertissement ci-dessous |
 
 Lecture de I1 sur les premières lignes : un identifiant ou un scalaire est le langage du domaine. Ce
@@ -442,6 +475,7 @@ lue comme un blanc-seing fait passer une vraie violation au lieu d'éviter un fa
 | **I1** — ne renvoie pas de structure de persistance | **forte** | Un renommage de champ chez un voisin devient une erreur dans la PR de ce voisin, au lieu d'une 500 en production. Sans l'invariant, le seul filet est un test d'acceptance qui couvre le chemin par hasard |
 | **I4** — erreurs du domaine uniquement | **forte** | Le code HTTP est déterminé par le mappeur d'erreurs. Le contrat n'est pas le statut mais le code d'erreur exploité par le front : une erreur non domaine sort sans code ni métadonnées |
 | **I6** — enregistré dans l'index du contexte | **forte** | Prévient un plantage à l'exécution. Garde l'index comme liste complète de ce que le contexte touche à l'extérieur |
+| **I12** — connexion par `DomainTransaction` | **forte** | Une requête sur la connexion importée échappe à la transaction en cours : l'écriture survit à un échec, et rien ne le signale |
 | **I11** — n'importe pas un autre repository | **forte** | Un repository qui en importe un autre fait de l'orchestration, à un endroit où aucune règle ne la cherche : ni I5 ni I10 ne la voient |
 | **I10 (signal)** — aucune fonction de lecture qui écrit | **forte** | Une fonction qui annonce une lecture et qui écrit trompe ses appelants, quel que soit le contenu de l'écriture |
 | **I2** — n'accepte pas de structure de persistance | moyenne | Corollaire de I1. Pas de mode de violation indépendant, pas de moyen de vérification propre. Tombe si I1 est tenu |
@@ -567,9 +601,8 @@ const getByCode = async ({ code, knexConn }) => { … };
 La forme en vigueur garde les signatures propres. En contrepartie, un usecase ne dit pas s'il
 s'exécute dans une transaction : la réponse est dans le fichier qui l'appelle.
 
-La forme ambiante a remplacé la forme prescrite par l'ADR 9, sans décision écrite. Ce n'est pas
-une convention sans source : c'est une convention **contre** une source, dont l'abandon n'est pas
-consigné.
+La forme ambiante a remplacé la forme prescrite par l'ADR 9. L'équipe l'a confirmée : la connexion
+vient toujours de `DomainTransaction`, c'est I12. Aucun ADR ne consigne encore cette décision.
 
 **Une troisième forme, examinée et non retenue comme convention.**
 
@@ -593,7 +626,7 @@ que celle en cours : hors transaction, sur un réplica de lecture, sur un pool d
 paramètre est utilisé, donc il n'annonce rien de faux. Elle est autorisée par exception, sur ces
 fonctions, et non comme convention générale.
 
-**Correction.** Aucune sur la forme, qui est en place partout et fonctionne. Ce qui manque est
+**Correction.** Aucune sur la forme, décidée par l'équipe et prescrite par I12. Ce qui manque est
 l'écrit : un ADR court qui acte l'abandon de la forme explicite et son motif, des signatures propres.
 Cet ADR reprend aussi la contrepartie : documenter le périmètre transactionnel quand il n'est pas
 évident. C'est l'objet de `U7` dans `fiche-usecase.md`.
@@ -697,6 +730,7 @@ Deux précisions sur les coûts :
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
+| **I12** connexion par `DomainTransaction` | règle `dependency-cruiser` de chemin : un fichier de `infrastructure/repositories/` n'importe pas `db/knex-database-connection.js` | configuration seule | aucun |
 | **I11** n'importe pas un autre repository | règle `dependency-cruiser` de chemin | configuration seule | aucun |
 | **I5** dépendances injectées | règle `dependency-cruiser` de chemin | configuration seule | aucun |
 | **I4** erreurs du domaine — partiel | `no-restricted-syntax` ESLint | configuration seule | aucun |
@@ -938,6 +972,7 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 | **I6** enregistré dans l'index | oui, complet | Insérer l'import et la clé dans l'index. Purement syntaxique |
 | **I9** nommage cohérent | oui, complet | Renommer le fichier et réécrire tous les imports. La partie risquée est la mise à jour des appelants |
 | **I5** dépendances injectées | oui, complet | Transformer un import direct en paramètre injecté et l'ajouter à l'index |
+| **I12** connexion par `DomainTransaction` | oui, à relire | Remplacer l'import de `knex` par `DomainTransaction.getConnection()`. Une écriture faite hors transaction à dessein doit être repérée avant : elle relève de l'exception du § 3 |
 | **I11** n'importe pas un autre repository | partiel | Déplacer la composition vers le usecase appelant demande de savoir lequel, et de décider de l'ordre des appels |
 | **I3** `get*` lève, `find*` renvoie `null` | partiel | Renommer et propager aux appelants, oui. Décider de quel côté corriger, non : faire lever un `find*` change le comportement de chaque site d'appel |
 | **I4** erreurs du domaine | préparation seule | Repérer les `throw new Error(...)`, oui. Choisir l'erreur de domaine, non : ce choix détermine le code HTTP et le code d'erreur |
@@ -1048,7 +1083,7 @@ Chaque ligne porte son statut au regard du § 6 :
 - Une ligne `[partiel]` reste, réduite à ce que la règle ne couvre pas.
 - Une ligne `[humain]` reste en entier : aucun moyen déterministe n'est identifié.
 
-Sept lignes sur treize sont `[auto]`. La checklist se vide donc de plus de la moitié de ses lignes à
+Huit lignes sur quatorze sont `[auto]`. La checklist se vide donc de plus de la moitié de ses lignes à
 mesure que le § 6 s'implémente. Une checklist dont la majorité des lignes sont vérifiées par un outil
 entraîne à la parcourir sans la lire.
 
@@ -1056,11 +1091,12 @@ entraîne à la parcourir sans la lire.
 [ ] [partiel] I1  Aucun return ne rend directement une ligne de base, un DTO étranger ou une réponse HTTP
 [ ] [partiel] I4  Tout throw cible une erreur du domaine ; aucun catch ne relâche l'erreur brute
 [ ] [auto]    I6  Le fichier est enregistré dans infrastructure/repositories/index.js
+[ ] [auto]    I12 La connexion vient de DomainTransaction.getConnection(), jamais d'un import de knex
 [ ] [auto]    I11 Aucun import d'un autre repository, de ce contexte ou d'un autre
 [ ] [auto]    I10 Aucune fonction en get*/find*/is*/has* qui écrit
 [ ] [partiel] I2  Aucun paramètre métier n'est une ligne de base ou un DTO étranger, même reconditionné
 [ ] [auto]    I3  Les get* lèvent, les find* renvoient null ou une collection vide
-[ ] [auto]    I5  Aucun import d'API interne ni de client ; ils arrivent en paramètres (sauf la connexion)
+[ ] [auto]    I5  Aucun import d'API interne ni de client ; ils arrivent en paramètres (sauf DomainTransaction)
 [ ] [humain]  I10 Aucun branchement sur une condition métier, aucun enchaînement qui porte une intention
 [ ] [auto]    I9  Nommage cohérent avec le reste du contexte
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui du repository
@@ -1093,12 +1129,13 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **X2** méthode de persistance sur le modèle, invariant `E5` de `fiche-entite.md` (ancien I7) | Evans, ch. « A Model Expressed in Software ». L'exception du format publié : ch. « Maintaining Model Integrity », **Published Language** | *DDD Reference* |
 | **I9** nommage cohérent dans le contexte | aucune source | — |
 | **I10** aucune règle métier | Martin, *Clean Architecture* (2017), ch. « Business Rules » et « Presenters and Humble Objects » | le livre de 2017 |
+| **I12** connexion par `DomainTransaction` | décision d'équipe, sans ADR. Voir X3 au § 5 | — |
 | **I11** n'importe pas un autre repository | aucune source. Déduction : composer deux accès est de l'orchestration, ce que la table du § 1 attribue au usecase | — |
 | Grain de l'Aggregate, et le coût de chargement (X4) | Vernon, « Effective Aggregate Design », règle 2 *design small aggregates* — trois articles gratuits. Vernon, *IDDD*, pour la *use case optimal query* | dddcommunity.org |
 | Contre le modèle partiellement rempli (X4) | Fowler, *PoEAA*, pattern **Lazy Load**, variante *Ghost*. Fowler, « CQRS » sur son bliki, pour la mise en garde sur la complexité ajoutée | bliki gratuit en ligne |
-| Transaction en ambient context | choix Pix sans ADR. Les ADR 9 et 25 décident la transaction au grain du usecase, pas la forme ambient | ADR 9 et 25, pour ce qu'ils décident |
+| Transaction en ambient context | décision d'équipe sans ADR, voir I12. Les ADR 9 et 25 décident la transaction au grain du usecase, pas la forme ambient | ADR 9 et 25, pour ce qu'ils décident |
 
-Trois invariants sur neuf n'ont aucune source : I3, I6, I9. I11 est une déduction explicite. La partie
+Trois invariants sur dix n'ont aucune source : I3, I6, I9. I12 est une décision d'équipe, sans ADR. I11 est une déduction explicite. La partie
 « erreur du domaine » de I4 est une extrapolation d'Evans, même si ses prérequis Pix sont documentés.
 Ce sont des conventions : elles se discutent sur leurs mérites, pas par appel à une autorité.
 
