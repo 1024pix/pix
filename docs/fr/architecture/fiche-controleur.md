@@ -83,7 +83,7 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un contrôl
 | contrôle les droits | un pre-handler déclaré sur la route | `fiche-route.md` |
 | met en forme la réponse | un sérialiseur | `fiche-serialiseur.md` |
 | choisit un code d'erreur à partir d'une erreur métier | le mappeur d'erreurs du contexte | — |
-| accède aux données | un repository, appelé par un usecase | `fiche-repository.md` |
+| accède aux données | un repository, appelé par un usecase | `repository/README.md` |
 | expose une capacité à un autre contexte | `application/api/` | `fiche-api-interne.md` |
 
 ---
@@ -190,7 +190,7 @@ personne à qui déléguer la décision d'absence.
 
 **Ce qui casse.** Le même cas d'absence produit deux réponses différentes selon le point d'entrée
 emprunté. Le front ne reçoit pas le code d'erreur exploitable que le mappeur aurait produit. C'est le
-pendant applicatif de `I4` de `fiche-repository.md` : le repository lève une erreur du domaine, le
+pendant applicatif de `I4` de `repository/README.md` : le repository lève une erreur du domaine, le
 mappeur lui associe un statut, et personne au milieu ne décide.
 
 ### C3. Le sérialiseur est injecté par valeur de paramètre par défaut
@@ -376,14 +376,14 @@ L'extrait a trois défauts :
 - la décision de statut est prise ici ;
 - le contrôleur lit un repository, ce que `C4` exclut ;
 - `replicationRepository.getByName` renvoie `undefined`, alors que selon `I3` de
-  `fiche-repository.md` un `get*` lève.
+  `repository/README.md` un `get*` lève.
 
 **Correction.** Faire lever le domaine, et laisser le mappeur d'erreurs traduire. Le contrôleur perd
 sa condition.
 
 Ce qui rend la correction non mécanique : il faut choisir l'erreur de domaine à lever. Ce choix
 détermine le code HTTP **et** le code d'erreur exploitable par le front. C'est la même décision que
-celle de `I4` de `fiche-repository.md`.
+celle de `I4` de `repository/README.md`.
 
 ### X3. Un accès direct au repository, ou au domaine d'un voisin
 
@@ -549,8 +549,8 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 Rien d'autre. Les statuts et la sécurité se vérifient au niveau de la route, en acceptance. Voir
 `fiche-route.md`.
 
-L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6 de
-`fiche-repository.md`.
+L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites dans
+`repository/outillage.md`.
 
 Un indice de diagnostic, avec sa limite :
 

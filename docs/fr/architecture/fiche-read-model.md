@@ -102,7 +102,7 @@ Si le code correspond à une ligne, ce n'est pas un read-model.
 | a besoin d'être retrouvé, suivi, mis à jour dans le temps | une Entity | `fiche-entite.md` |
 | décrit le contrat d'échange avec un autre contexte | `application/api/` | `fiche-api-interne.md` |
 | met en forme pour une réponse HTTP, clé de présentation comprise | `infrastructure/serializers/` | `fiche-serialiseur.md` |
-| assemble les données | un repository | `fiche-repository.md` |
+| assemble les données | un repository | `repository/README.md` |
 
 La première ligne est le cas fréquent et le seul difficile. Pour la reconnaître, voir les quatre tests
 au § 1 de `fiche-objet-valeur.md`.
@@ -202,7 +202,7 @@ autre chose, lever ici ne changerait rien au problème. Cela casserait seulement
 
 **L'exception.** Un objet construit à partir d'une source externe (l'API d'un autre contexte, un
 service tiers) n'est plus une projection de données de confiance. Traduire redevient nécessaire. C'est
-le travail du repository, invariant I1 de `fiche-repository.md`.
+le travail du repository, invariant I1 de `repository/README.md`.
 
 **Ce qui casse.** Une validation ici double celle du domaine sans la remplacer. Elle lève sur un
 chemin de lecture où personne ne sait quoi en faire.
@@ -489,7 +489,7 @@ des fichiers à classer. Elle passe en `error` après X1.
 
 Syntaxique et local au fichier. Un read-model ne valide pas, donc il ne lève pas d'erreur de
 validation. Même pour une source externe, la validation revient au repository (I1 de
-`fiche-repository.md`), pas au read-model.
+`repository/README.md`), pas au read-model.
 
 La règle ne prouve pas la violation : elle désigne où regarder.
 
@@ -585,7 +585,7 @@ Deux indices de diagnostic :
   nommer le contrat d'une requête est une raison suffisante d'exister, même sans dérivation.
 
 Ce que le test unitaire ne couvre pas : que la requête produise bien cette forme. C'est le test
-d'intégration du repository qui le vérifie. Voir § 8 de `fiche-repository.md`.
+d'intégration du repository qui le vérifie. Voir « Tests attendus » de `repository/README.md`.
 
 ---
 
@@ -637,7 +637,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **RM3** n'entre pas dans une règle | Déduction de la validation à la construction : une règle qui décide à partir d'une forme non validée décide à partir de n'importe quoi | — |
 | **RM4** emplacement | **aucune source**. Convention Pix en place | — |
 | Immuabilité et absence d'identité | Convention Pix, pas Fowler : le DTO de *PoEAA* n'exige ni l'une ni l'autre. Les énoncés sont ceux de V1 et V2 dans `fiche-objet-valeur.md`. Leur autorité, chez Evans, porte sur le Value Object, qu'un read-model n'est pas. Voir X3 au § 5 | *PoEAA* ; *DDD Reference* |
-| Un repository peut renvoyer un calcul de synthèse | Vérifié. Cela ne concerne pas cette fiche : Evans, ch. 6, autorise un repository à renvoyer un décompte ou une somme, des scalaires, pas un objet assemblé. Le passage appuie l'exception du § 3 de `fiche-repository.md` | *Final Manuscript* 2003, p. 109 |
+| Un repository peut renvoyer un calcul de synthèse | Vérifié. Cela ne concerne pas cette fiche : Evans, ch. 6, autorise un repository à renvoyer un décompte ou une somme, des scalaires, pas un objet assemblé. Le passage appuie l'exception du § 3 de `repository/README.md` | *Final Manuscript* 2003, p. 109 |
 
 Aucun des quatre invariants propres n'a de source directe : RM2 et RM4 n'ont aucune source, RM1 et
 RM3 sont des déductions explicites. La catégorie n'existe pas dans la littérature DDD, donc c'est

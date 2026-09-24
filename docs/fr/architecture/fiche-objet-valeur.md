@@ -140,7 +140,7 @@ Si le code correspond à une ligne, ce n'est pas un Value Object.
 | a besoin d'être retrouvé, suivi, mis à jour dans le temps | une Entity, dans `domain/models/` | `fiche-entite.md` |
 | coordonne plusieurs objets pour tenir une règle commune | une Aggregate Root | `fiche-racine-agregat.md` |
 | compose des règles évaluables et pilotées par des données | une Specification | `fiche-specification.md` |
-| charge ou écrit des données | un repository | `fiche-repository.md` |
+| charge ou écrit des données | un repository | `repository/README.md` |
 | décrit le contrat d'échange avec un autre contexte | `application/api/` | `fiche-api-interne.md` |
 | met en forme pour une réponse HTTP, clé de présentation comprise | `infrastructure/serializers/` | `fiche-serialiseur.md` |
 
@@ -379,7 +379,7 @@ Une forme de **création** est un concept distinct : un objet qui n'existe pas e
 d'identité, ce qui est une différence de nature et non un raccourci. `…ForCreation` est légitime.
 
 Une forme de **mise à jour** qui porte un sous-ensemble de champs est autre chose : c'est un modèle
-partiellement rempli. `X4` de `fiche-repository.md` explique pourquoi il est écarté. Le test du motif
+partiellement rempli. `X4` de `repository/ecarts.md` explique pourquoi il est écarté. Le test du motif
 sépare les cas :
 
 | Motif invoqué | Verdict |

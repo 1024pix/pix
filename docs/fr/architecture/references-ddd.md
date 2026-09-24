@@ -17,11 +17,11 @@ décidées et argumentées.
 
 | ADR | Ce qu'il tranche |
 | --- | --- |
-| [0002](../docs/adr/0002-style-d-architecture.md) (2019-08-22) | Style de plateforme : une API métier, plusieurs fronts. L'intelligence métier **doit** être dans l'API |
-| [0020](../docs/adr/0020-caractere-obligatoire-use-case.md) (2020-01-25) | Toute route passe par un usecase, même réduit à un appel. **« Pas de reprise systématique de l'existant »** |
-| [0046](../docs/adr/0046-injecter-les-dependances-api.md) (2023-05-05) | Injection de dépendances custom, **automatique en suivant la signature des paramètres**. Motif : ESM rend les exports immuables, donc non substituables en test |
-| [0051](../docs/adr/0051-nouvelle-arborescence-api.md) (2023-07-20) | Arborescence par contexte fonctionnel. Contrainte : **« Respecter la Clean Architecture Pix »** |
-| [0055](../docs/adr/0055-communication-bounded-contexts.md) (2024-03-26) | **APIs internes synchrones** entre contextes. Cite directement le billet d'Uncle Bob |
+| [0002](../../adr/0002-style-d-architecture.md) (2019-08-22) | Style de plateforme : une API métier, plusieurs fronts. L'intelligence métier **doit** être dans l'API |
+| [0020](../../adr/0020-caractere-obligatoire-use-case.md) (2020-01-25) | Toute route passe par un usecase, même réduit à un appel. **« Pas de reprise systématique de l'existant »** |
+| [0046](../../adr/0046-injecter-les-dependances-api.md) (2023-05-05) | Injection de dépendances custom, **automatique en suivant la signature des paramètres**. Motif : ESM rend les exports immuables, donc non substituables en test |
+| [0051](../../adr/0051-nouvelle-arborescence-api.md) (2023-07-20) | Arborescence par contexte fonctionnel. Contrainte : **« Respecter la Clean Architecture Pix »** |
+| [0055](../../adr/0055-communication-bounded-contexts.md) (2024-03-26) | **APIs internes synchrones** entre contextes. Cite directement le billet d'Uncle Bob |
 | 0009, 0025 | Transaction métier — origine de `DomainTransaction` |
 | 0008, 0010 | Découplage par événements, `event-dispatcher`. ADR 55 exclut ce type d'interaction de son périmètre |
 | 0019 | Typer les identifiants |
@@ -134,8 +134,8 @@ Chapitre 6, section « Querying a REPOSITORY » (*Final Manuscript*, 15 avril 20
 dans le concept d'un repository de renvoyer « some types of summary calculations, such as an object
 count », ou la somme d'un attribut numérique que le modèle destinait à être totalisé.
 
-Ce sont des **scalaires**, pas un objet de lecture assemblé. Le passage adosse donc l'exception du § 3
-de `fiche-repository.md` — la fonction de repository qui renvoie un scalaire — et **non** le DTO de
+Ce sont des **scalaires**, pas un objet de lecture assemblé. Le passage adosse donc l'exception légitime
+de `repository/README.md` — la fonction de repository qui renvoie un scalaire — et **non** le DTO de
 lecture. L'absence de nom pour l'objet de lecture large en ressort confirmée plutôt qu'atténuée.
 
 **Ce que Pix appelle `read-models/` n'est pas un read model CQRS.** Un read model CQRS suppose en

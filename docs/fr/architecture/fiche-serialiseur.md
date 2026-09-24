@@ -243,7 +243,7 @@ de `fiche-route.md`. Un sérialiseur qui vérifie qu'un champ est présent doubl
 déjà. Il la double mal, sans message utilisateur et sans documentation générée.
 
 **Ce qui casse.** La forme JSON:API entre dans le domaine, et un changement de format d'échange
-remonte jusqu'aux modèles. C'est la même mécanique que `I1` de `fiche-repository.md`, vue depuis
+remonte jusqu'aux modèles. C'est la même mécanique que `I1` de `repository/README.md`, vue depuis
 l'autre porte d'entrée.
 
 ---
@@ -624,8 +624,8 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 | Sérialisation | **unitaire pur** — aucune doublure, aucun serveur | la forme produite, champ par champ |
 | Désérialisation | **unitaire pur** | l'objet du domaine produit, et le cas de la relation absente |
 
-L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites au § 6 de
-`fiche-repository.md`.
+L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites dans
+`repository/outillage.md`.
 
 Deux indices de diagnostic, avec leurs limites :
 
@@ -687,7 +687,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | --- | --- | --- |
 | La couche, **M1** et **M4** | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » — le *presenter* est dépourvu de logique pour que son test soit trivial | le livre de 2017 ; billet gratuit de 2012 |
 | **M2** uniquement des champs présents | **aucune source** — déduction de `M1` | — |
-| **M5** la désérialisation ne laisse rien entrer | **déduction** de `I1` de `fiche-repository.md`, vu depuis l'autre porte d'entrée. Le rôle dans les deux sens est documenté : `docs/fr/Anatomy.md` décrit les sérialiseurs comme des « Convertisseurs de données Domain objects ←→ HTTP request objects » | `docs/fr/Anatomy.md` |
+| **M5** la désérialisation ne laisse rien entrer | **déduction** de `I1` de `repository/README.md`, vu depuis l'autre porte d'entrée. Le rôle dans les deux sens est documenté : `docs/fr/Anatomy.md` décrit les sérialiseurs comme des « Convertisseurs de données Domain objects ←→ HTTP request objects » | `docs/fr/Anatomy.md` |
 | **M3** format stable | Evans, *DDD*, ch. « Maintaining Model Integrity » — **Published Language**, appliqué ici à l'extérieur du système plutôt qu'entre contextes | *DDD Reference*, PDF gratuit |
 | La stabilité du format des réponses HTTP | **aucun ADR**, par décision : deux tiers de l'écart se règlent par un outil à venir plutôt que par une procédure. Voir `X3` au § 5 | — |
 
