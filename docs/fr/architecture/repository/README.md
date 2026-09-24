@@ -9,11 +9,11 @@ dossier :
 - [`explication.md`](explication.md) : pourquoi ces règles, ce qu'elles rapportent, la théorie et
   l'histoire des décisions ;
 - [`outillage.md`](outillage.md) : mettre en place les vérifications automatiques ;
-- [`ecarts.md`](ecarts.md) : où le code s'écarte de la théorie aujourd'hui, et ce qui est décidé.
+- [`ecarts.md`](ecarts.md) : où le code s'écarte de la théorie, et ce qui est décidé.
 
-**Statut des règles.** Les règles de cette page s'appliquent au code d'aujourd'hui. La ligne
-**Vérification** de chaque invariant dit ce qui la contrôle aujourd'hui, et le moyen prévu. Aucune
-vérification automatique n'est en place à ce jour : toutes passent par la revue.
+Les règles de cette page s'appliquent à tout repository. La ligne **Vérification** de chaque
+invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la CI est dans
+[`outillage.md`](outillage.md).
 
 ## Sommaire
 
@@ -21,10 +21,10 @@ vérification automatique n'est en place à ce jour : toutes passent par la revu
 [Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
 [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
 
-| # | Invariant | Moyen prévu |
+| # | Invariant | Vérification |
 | --- | --- | --- |
 | [**I1**](#i1-ne-jamais-renvoyer-une-structure-de-persistance) | ne jamais renvoyer une structure de persistance | règle ESLint, en deux étapes, puis typage |
-| [**I2**](#i2-ne-jamais-accepter-une-structure-de-persistance-en-entrée) | n'accepte pas de structure de persistance en entrée | typage, après migration |
+| [**I2**](#i2-ne-jamais-accepter-une-structure-de-persistance-en-entrée) | n'accepte pas de structure de persistance en entrée | typage |
 | [**I3**](#i3-get-lève-find-renvoie-null-ou-une-collection-vide) | `get*` lève, `find*` renvoie `null` | règle ESLint |
 | [**I4**](#i4-les-erreurs-levées-appartiennent-au-domaine) | les erreurs levées appartiennent au domaine | `no-restricted-syntax`, partiel |
 | [**I5**](#i5-les-dépendances-externes-arrivent-en-paramètre-jamais-par-import) | dépendances injectées, jamais importées | `dependency-cruiser` |
@@ -127,8 +127,8 @@ dépendance ne se déclenche.
 le code conforme : la forme de l'autre contexte reste dans le domaine. La traduction produit un type
 local dont les champs sont ceux que le domaine utilise.
 
-**Vérification.** Revue. Prévu : une règle ESLint en deux étapes, puis le typage. Voir
-[`outillage.md`](outillage.md#i1--deux-étapes).
+**Vérification.** Une règle ESLint pour le passe-plat, en deux étapes, et le typage pour le reste.
+Voir [`outillage.md`](outillage.md#i1--deux-étapes).
 
 ### I2. Ne jamais accepter une structure de persistance en entrée
 
@@ -154,7 +154,7 @@ await combinedCourseParticipantRepository.getOrCreateNewOrganizationLearner({
 **Ce qui casse.** Même mécanique que I1, mais la fuite traverse le usecase. I2 découle de I1 : si
 aucun repository ne renvoie de DTO étranger, aucun ne circule pour être passé en entrée.
 
-**Vérification.** Revue. Prévu : le typage, après migration.
+**Vérification.** Le typage. Voir [`outillage.md`](outillage.md#vérifier-par-le-typage).
 
 ### I3. `get*` lève, `find*` renvoie `null` ou une collection vide
 
@@ -190,7 +190,7 @@ Les deux corps sont identiques. Seul le nom dit à l'appelant s'il doit prévoir
 **Ce qui casse.** Sans typage, le nom est le seul contrat. S'il ne correspond pas au comportement,
 chaque site d'appel doit lire l'implémentation.
 
-**Vérification.** Revue. Prévu : une règle ESLint. Voir [`outillage.md`](outillage.md#i3--règle-eslint).
+**Vérification.** Une règle ESLint. Voir [`outillage.md`](outillage.md#i3--règle-eslint).
 
 ### I4. Les erreurs levées appartiennent au domaine
 
@@ -221,8 +221,8 @@ métadonnées : le client ne peut ni la traiter ni la traduire.
 **Prérequis.** La traduction suppose que les contraintes de base portent un nom qui exprime
 l'intention métier. C'est l'ADR 34, voir [Sources](#sources).
 
-**Vérification.** Revue. Prévu : `no-restricted-syntax` pour l'`Error` nu. Le `catch` qui relâche
-reste en revue. Voir [`outillage.md`](outillage.md#i4--sélecteur-eslint).
+**Vérification.** `no-restricted-syntax` pour l'`Error` nu. Le `catch` qui relâche se vérifie en
+revue. Voir [`outillage.md`](outillage.md#i4--sélecteur-eslint).
 
 ### I5. Les dépendances externes arrivent en paramètre, jamais par import
 
@@ -252,7 +252,7 @@ la seule dépendance dans ce cas.
 **Ce qui casse.** Sous ESM, les exports sont immuables. Sans injection, la dépendance ne peut pas être
 substituée par une doublure de test : le repository devient intestable en unitaire.
 
-**Vérification.** Revue. Prévu : une règle `dependency-cruiser`. Voir
+**Vérification.** Une règle `dependency-cruiser`. Voir
 [`outillage.md`](outillage.md#i11-et-i5--règles-de-chemin).
 
 ### I6. Le repository est enregistré dans `infrastructure/repositories/index.js`
@@ -283,7 +283,7 @@ jamais ses dépendances remplies : elles restent `undefined`, et il échoue au p
 repository sans dépendance ne casse pas, mais il crée un second régime de câblage, et l'index cesse
 d'être la liste complète des ports du contexte.
 
-**Vérification.** Revue. Prévu : un script de complétude. Voir
+**Vérification.** Un script de complétude. Voir
 [`outillage.md`](outillage.md#i6-et-i9--un-script-de-complétude).
 
 ### I9. Nommage du fichier
@@ -294,7 +294,7 @@ globale n'est choisie.
 
 **Ce qui casse.** Rien. Invariant d'hygiène : le fichier est plus facile à trouver.
 
-**Vérification.** Revue. Prévu : le script de complétude de I6.
+**Vérification.** Le script de complétude de I6.
 
 ### I10. Aucune règle métier dans le repository
 
@@ -335,8 +335,9 @@ enchaînement qui décrit un processus relève de `domain/usecases/`.
 **Ce qui casse.** La règle vit à un endroit où personne ne la cherche. Elle sera réécrite
 différemment ailleurs, et une modification du métier n'ira pas la chercher là.
 
-**Vérification.** Revue. Prévu : une règle ESLint qui signale une fonction de lecture qui écrit
-(`get*`, `find*`, `is*`, `has*`). Le signal désigne l'endroit à relire, il ne prouve pas la violation.
+**Vérification.** Une règle ESLint signale une fonction de lecture qui écrit (`get*`, `find*`,
+`is*`, `has*`). Le signal désigne l'endroit à relire, il ne prouve pas la violation. Le reste de
+l'invariant se vérifie en revue.
 Voir [`outillage.md`](outillage.md#i10-signal--préfixe-de-lecture-sur-une-fonction-qui-écrit).
 
 ### I11. Un repository n'importe pas un autre repository
@@ -371,7 +372,7 @@ const findPaginatedFilteredTutorials = async function ({
 ne voit que les API et les clients, I10 que les conditions métier. Vers un autre contexte, l'import
 franchit en plus une frontière hors de l'API interne.
 
-**Vérification.** Revue. Prévu : une règle `dependency-cruiser`. Voir
+**Vérification.** Une règle `dependency-cruiser`. Voir
 [`outillage.md`](outillage.md#i11-et-i5--règles-de-chemin).
 
 ### I12. La connexion à la base vient de `DomainTransaction`
@@ -407,7 +408,7 @@ ordinaire sinon. Le repository n'a donc pas à savoir s'il tourne dans une trans
 Une écriture n'est pas annulée si la transaction échoue, et une lecture ne voit pas ce que la
 transaction a déjà écrit. Rien ne le signale.
 
-**Vérification.** Revue. Prévu : une règle `dependency-cruiser`. Voir
+**Vérification.** Une règle `dependency-cruiser`. Voir
 [`outillage.md`](outillage.md#i12--règle-de-chemin).
 
 ---
@@ -510,7 +511,7 @@ fonction qui renvoie un scalaire, un booléen ou rien n'a rien à traduire.
 
 ## Checklist de revue
 
-Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen prévu dans
+Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vérification décrit dans
 [`outillage.md`](outillage.md) :
 
 - `[auto]` : la ligne disparaît dès que la règle existe ;
@@ -553,4 +554,4 @@ L'argumentation et la bibliographie sont dans [`explication.md`](explication.md)
 | **I9** nommage | convention d'équipe, sans source |
 | **I10** aucune règle métier | Martin, *Clean Architecture* |
 | **I11** pas d'import de repository | déduction : composer deux accès relève du usecase |
-| **I12** connexion par `DomainTransaction` | décision d'équipe du 2026-09-24, sans ADR. L'ADR 9, « Transactions métier », prescrivait une autre forme : voir [`explication.md`](explication.md) |
+| **I12** connexion par `DomainTransaction` | décision d'équipe, sans ADR. L'ADR 9, « Transactions métier », prescrivait une autre forme : voir [`explication.md`](explication.md) |
