@@ -25,6 +25,7 @@ const buildUserDetailsForAdmin = function ({
   lastApplicationConnections,
   pixAppTosStatus = { status: STATUS.ACCEPTED, acceptedAt: null },
   pixOrgaTosStatus = { status: STATUS.ACCEPTED, acceptedAt: null },
+  pixCertifTosStatus = { status: STATUS.ACCEPTED, acceptedAt: null },
 } = {}) {
   const userDetailsForAdmin = new UserDetailsForAdmin({
     id,
@@ -49,7 +50,7 @@ const buildUserDetailsForAdmin = function ({
     isPixAgent,
     lastApplicationConnections,
   });
-  userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
+  userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus, pixCertifTosStatus });
   return userDetailsForAdmin;
 };
 
