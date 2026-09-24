@@ -19,16 +19,6 @@ export default class AddCandidateController extends Controller {
     return this._saveCertificationCandidate(certificationCandidate);
   }
 
-  @action
-  updateCertificationCandidateInStagingFieldFromEvent(candidateInStaging, field, event) {
-    candidateInStaging.set(field, event.target.value);
-  }
-
-  @action
-  updateCertificationCandidateInStagingFieldFromValue(candidateInStaging, field, value) {
-    candidateInStaging.set(field, value);
-  }
-
   async _saveCertificationCandidate(certificationCandidateData) {
     const certificationCandidate = this._createCertificationCandidateRecord(certificationCandidateData);
 

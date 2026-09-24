@@ -31,15 +31,10 @@ module(
 
     test('it shows candidate form', async function (assert) {
       // given
-      const updateCandidateStub = sinon.stub();
       const countries = [];
 
       // when
-      const screen = await render(
-        <template>
-          <CandidateCreationForm @countries={{countries}} @updateCandidateData={{updateCandidateStub}} />
-        </template>,
-      );
+      const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
       // then
       assert.dom(screen.getByRole('textbox', { name: 'Nom de naissance *' })).exists();
@@ -63,15 +58,10 @@ module(
 
     test('it should have some inputs required', async function (assert) {
       // given
-      const updateCandidateStub = sinon.stub();
       const countries = [];
 
       // when
-      const screen = await render(
-        <template>
-          <CandidateCreationForm @countries={{countries}} @updateCandidateData={{updateCandidateStub}} />
-        </template>,
-      );
+      const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
       // then
       assert.dom(screen.getByRole('textbox', { name: 'Nom de naissance *' })).hasAttribute('required');
@@ -83,6 +73,7 @@ module(
 
     module('when the form is filled', function () {
       test('it should submit a student', async function (assert) {
+        // given
         const candidateData = {
           firstName: 'Lara',
           lastName: 'Pafromage',
@@ -97,13 +88,9 @@ module(
           extraTimePercentage: '20',
           sex: 'F',
           subscription: 'CORE',
+          billingMode: '',
+          prepaymentCode: '',
         };
-
-        const updateCandidateFromValueStub = sinon.stub();
-        updateCandidateFromValueStub.callsFake((object, key, value) => (object[key] = value));
-
-        const updateCandidateFromEventStub = sinon.stub();
-        updateCandidateFromEventStub.callsFake((object, field, event) => (object[field] = event.target.value));
 
         const saveCandidateStub = sinon.stub();
 
@@ -113,16 +100,8 @@ module(
           { id: 3, code: '99345', name: 'Botswana' },
         ];
 
-        // when
         const screen = await render(
-          <template>
-            <CandidateCreationForm
-              @countries={{countries}}
-              @updateCandidateData={{updateCandidateFromEventStub}}
-              @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-              @saveCandidate={{saveCandidateStub}}
-            />
-          </template>,
+          <template><CandidateCreationForm @countries={{countries}} @saveCandidate={{saveCandidateStub}} /></template>,
         );
 
         await fillIn(screen.getByLabelText('Prénom *'), candidateData.firstName);
@@ -143,32 +122,22 @@ module(
         await fillIn(screen.getByLabelText(/E-mail de convocation/), candidateData.email);
         await click(screen.getByRole('radio', { name: 'Certification Pix' }));
 
+        // when
         await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
         // then
         sinon.assert.calledOnce(saveCandidateStub);
-        const savedCandidate = saveCandidateStub.firstCall.args[0];
-        assert.deepEqual(savedCandidate.getProperties(Object.keys(candidateData)), candidateData);
+        assert.deepEqual(saveCandidateStub.firstCall.args[0], candidateData);
       });
     });
 
     module('when the certification center is not SCO', function () {
       test('it shows candidate form with billing information', async function (assert) {
         // given
-        const updateCandidateStub = sinon.stub();
-        const updateCandidateFromValueStub = sinon.stub();
         const countries = [];
 
         // when
-        const screen = await render(
-          <template>
-            <CandidateCreationForm
-              @countries={{countries}}
-              @updateCandidateData={{updateCandidateStub}}
-              @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-            />
-          </template>,
-        );
+        const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
         // then
         assert.dom(screen.getByRole('button', { name: 'Tarification part Pix *' })).isVisible();
@@ -177,20 +146,10 @@ module(
       module('when the selected billing mode is PREPAID', function () {
         test('it should display prepaid code field', async function (assert) {
           // given
-          const updateCandidateStub = sinon.stub();
-          const updateCandidateFromValueStub = sinon.stub();
           const countries = [];
 
           // when
-          const screen = await render(
-            <template>
-              <CandidateCreationForm
-                @countries={{countries}}
-                @updateCandidateData={{updateCandidateStub}}
-                @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-              />
-            </template>,
-          );
+          const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
           await click(screen.getByRole('button', { name: `${t('common.forms.certification-labels.pricing')} *` }));
           await screen.findByRole('listbox');
@@ -209,20 +168,10 @@ module(
       module('when the selected billing mode is NOT PREPAID', function () {
         test('it should NOT display prepaid code field', async function (assert) {
           // given
-          const updateCandidateStub = sinon.stub();
-          const updateCandidateFromValueStub = sinon.stub();
           const countries = [];
 
           // when
-          const screen = await render(
-            <template>
-              <CandidateCreationForm
-                @countries={{countries}}
-                @updateCandidateData={{updateCandidateStub}}
-                @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-              />
-            </template>,
-          );
+          const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
           await click(screen.getByRole('button', { name: `${t('common.forms.certification-labels.pricing')} *` }));
           await screen.findByRole('listbox');
@@ -241,7 +190,6 @@ module(
 
     test('it shows a countries list with France selected as default', async function (assert) {
       // given
-      const updateCandidateStub = sinon.stub();
       const countries = [
         { id: '1', code: '99123', name: 'Syldavie' },
         { id: '2', code: '99100', name: 'France' },
@@ -249,11 +197,7 @@ module(
       ];
 
       // when
-      const screen = await render(
-        <template>
-          <CandidateCreationForm @countries={{countries}} @updateCandidateData={{updateCandidateStub}} />
-        </template>,
-      );
+      const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Pays de naissance *' })).includesText('France');
@@ -261,18 +205,11 @@ module(
 
     test('it shows a link to return to the candidates list', async function (assert) {
       // given
-      const updateCandidateStub = sinon.stub();
       const countries = [];
 
       // when
       const screen = await render(
-        <template>
-          <CandidateCreationForm
-            @sessionId='123'
-            @countries={{countries}}
-            @updateCandidateData={{updateCandidateStub}}
-          />
-        </template>,
+        <template><CandidateCreationForm @sessionId='123' @countries={{countries}} /></template>,
       );
 
       // then
@@ -284,20 +221,10 @@ module(
     module('when a foreign country is selected', function () {
       test('it shows city field and hides insee code and postal code fields', async function (assert) {
         // given
-        const updateCandidateFromEventStub = sinon.stub();
-        const updateCandidateDataFromValue = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
 
         // when
-        const screen = await render(
-          <template>
-            <CandidateCreationForm
-              @countries={{countries}}
-              @updateCandidateData={{updateCandidateFromEventStub}}
-              @updateCandidateDataFromValue={{updateCandidateDataFromValue}}
-            />
-          </template>,
-        );
+        const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
         await click(screen.getByRole('button', { name: 'Pays de naissance *' }));
 
@@ -319,20 +246,10 @@ module(
     module('when the insee code option is selected', function () {
       test('it shows insee code field and hides postal code and city fields', async function (assert) {
         // given
-        const updateCandidateFromValueStub = sinon.stub();
-        const updateCandidateFromEventStub = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
 
         // when
-        const screen = await render(
-          <template>
-            <CandidateCreationForm
-              @countries={{countries}}
-              @updateCandidateData={{updateCandidateFromEventStub}}
-              @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-            />
-          </template>,
-        );
+        const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
         await click(screen.getByRole('radio', { name: 'Code INSEE' }));
 
@@ -346,20 +263,10 @@ module(
     module('when the postal code option is selected', function () {
       test('it shows postal code and city fields and hides insee code field', async function (assert) {
         // given
-        const updateCandidateFromValueStub = sinon.stub();
-        const updateCandidateFromEventStub = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
 
         // when
-        const screen = await render(
-          <template>
-            <CandidateCreationForm
-              @countries={{countries}}
-              @updateCandidateData={{updateCandidateFromEventStub}}
-              @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-            />
-          </template>,
-        );
+        const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
         await click(screen.getByRole('radio', { name: 'Code postal' }));
 
@@ -373,15 +280,10 @@ module(
     module('when center is allowed access to complementary certifications', function () {
       test('it display complementary certification options', async function (assert) {
         // given
-        const updateCandidateFromEventStub = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
 
         // when
-        const screen = await render(
-          <template>
-            <CandidateCreationForm @countries={{countries}} @updateCandidateData={{updateCandidateFromEventStub}} />
-          </template>,
-        );
+        const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
         // then
         assert.dom(screen.getByRole('group', { name: 'Choix de la certification *' })).exists();
