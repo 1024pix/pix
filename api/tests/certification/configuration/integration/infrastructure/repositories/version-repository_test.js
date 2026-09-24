@@ -46,11 +46,12 @@ describe('Certification | Configuration | Integration | Repository | Version', f
 
         // then
         const savedVersion = await versionRepository.getById({ id: versionId });
-        expect(savedVersion).to.deepEqualInstance(version);
+        expect(savedVersion).deepEqualInstanceOmitting(version, ['id']);
       });
     });
-
-    context('when the saved certification version already exists', function () {
+  });
+  describe('update', function () {
+    context('when the certification to update exists', function () {
       it('should update the certification version', async function () {
         // given
         const challengesConfiguration = {
@@ -58,6 +59,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           limitToOneQuestionPerTube: true,
           defaultCandidateCapacity: -8,
         };
+
         const version = domainBuilder.certification.configuration
           .versionBuilder()
           .asActive({ startDate: new Date('2025-06-01') })
@@ -78,26 +80,26 @@ describe('Certification | Configuration | Integration | Repository | Version', f
             tubeIds: ['rec123', 'rec456', 'rec789'],
           })
           .insertToDB({ databaseBuilder });
+        await databaseBuilder.commit();
+
         const alteredVersion = domainBuilder.certification.configuration
           .versionBuilder()
           .copy(version)
           .withParameters({
             assessmentDuration: 11111,
             minimumAnswersRequiredToValidateACertification: 22222,
-            comments: 'COUCOU',
+            comments: 'COUCOU 2 le retour',
           })
           .build();
 
-        // when
-        await versionRepository.save(alteredVersion);
+        await versionRepository.update(alteredVersion);
 
         // then
-        const savedVersion = await versionRepository.getById({ id: version.id });
-        expect(savedVersion).to.deepEqualInstance(alteredVersion);
+        const updatedVersion = await versionRepository.getById({ id: version.id });
+        expect(updatedVersion).to.deepEqualInstance(alteredVersion);
       });
     });
   });
-
   describe('#findAllByScope', function () {
     it('returns all the versions of a given scope', async function () {
       // given

@@ -61,5 +61,5 @@ export async function updateVersion({
     competencesScoringConfiguration,
   });
 
-  return versionRepository.save(version);
+  return versionRepository.update(version);
 }
