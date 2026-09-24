@@ -87,7 +87,7 @@ export default class List extends Component {
   }
 
   get hasActionColumn() {
-    const hasOralization = this.customColumns.includes('ORALIZATION');
+    const hasOralization = this.customColumns.find(({ name }) => name === 'ORALIZATION');
     return Boolean(this.currentUser.canEditLearnerName || hasOralization);
   }
 
