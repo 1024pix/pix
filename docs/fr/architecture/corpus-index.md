@@ -325,8 +325,8 @@ sur le code, ou dits simplifiés ou hypothétiques. Les plus notables :
   défaut du troisième paramètre. `X4` de `controleur/` passe « à surveiller » jusqu'à l'alignement.
 - Réglé : la grille de verdict dit maintenant « à corriger : le coût dépasse le bénéfice, ou le
   bénéfice s'obtient autrement », ce qui correspond aux verdicts rendus.
-- **`Section` de devcomp** sert d'exemple conforme de Value Object (`V3` de `objet-valeur/`) et
-  d'Entity (`X3` de `entite/`). Sa catégorie est à fixer.
+- Réglé : `Section` de devcomp est une Entity, interne à l'Aggregate `Module`. L'exemple conforme de
+  `V3` de `objet-valeur/` devient `QrocmSolutions`.
 - Réglé : la clé de présentation se compose dans le sérialiseur (cas 1), et une clé que le client
   renvoie reste dans un Value Object qui la construit et la découpe (cas 2). Dans tous les cas, la
   réponse de l'API reste identique : seule la construction de la clé se déplace.
