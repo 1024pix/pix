@@ -148,7 +148,7 @@ describe('Quest | Integration | Repository | quest', function () {
         successRequirements: [],
       });
 
-      databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: 1 });
+      databaseBuilder.factory.buildCombinedCourse({ questId: 1 });
 
       await databaseBuilder.commit();
 
@@ -162,6 +162,80 @@ describe('Quest | Integration | Repository | quest', function () {
       expect(questIds).to.not.include(questToExclude.id);
     });
     it('should return the quests with reward id, not linked to combined courses, when param includeCombinedCourses is false', async function () {
+      // given
+      databaseBuilder.factory.buildQuest({
+        id: 1,
+        rewardType: REWARD_TYPES.ATTESTATION,
+        rewardId: 2,
+        eligibilityRequirements: [],
+        successRequirements: [],
+      });
+      databaseBuilder.factory.buildCombinedCourse({ questId: 1 });
+
+      databaseBuilder.factory.buildQuest({
+        id: 2,
+        rewardType: REWARD_TYPES.ATTESTATION,
+        rewardId: 2,
+        eligibilityRequirements: [],
+        successRequirements: [],
+      });
+      databaseBuilder.factory.buildQuest({
+        id: 3,
+        rewardType: null,
+        rewardId: null,
+        eligibilityRequirements: [],
+        successRequirements: [],
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const quests = await questRepository.findAllWithReward({ includeCombinedCourses: false });
+
+      // then
+      expect(quests[0]).to.be.an.instanceof(Quest);
+      expect(quests).to.have.lengthOf(1);
+      expect(quests[0].id).to.equal(2);
+    });
+
+    it('it should return all quests with reward including those linked to combined course blueprints', async function () {
+      // given
+      databaseBuilder.factory.buildQuest({
+        id: 1,
+        rewardType: REWARD_TYPES.ATTESTATION,
+        rewardId: 2,
+        eligibilityRequirements: [],
+        successRequirements: [],
+      });
+      databaseBuilder.factory.buildQuest({
+        id: 2,
+        rewardType: REWARD_TYPES.ATTESTATION,
+        rewardId: 2,
+        eligibilityRequirements: [],
+        successRequirements: [],
+      });
+      const questToExclude = databaseBuilder.factory.buildQuest({
+        id: 3,
+        rewardType: null,
+        rewardId: null,
+        eligibilityRequirements: [],
+        successRequirements: [],
+      });
+
+      databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: 1 });
+
+      await databaseBuilder.commit();
+
+      // when
+      const quests = await questRepository.findAllWithReward({ includeCombinedCourses: true });
+      const questIds = quests.map((quest) => quest.id);
+
+      // then
+      expect(quests[0]).to.be.an.instanceof(Quest);
+      expect(quests).to.have.lengthOf(2);
+      expect(questIds).to.not.include(questToExclude.id);
+    });
+
+    it('should return the quests with reward id, not linked to combined course blueprints, when param includeCombinedCourses is false', async function () {
       // given
       databaseBuilder.factory.buildQuest({
         id: 1,
