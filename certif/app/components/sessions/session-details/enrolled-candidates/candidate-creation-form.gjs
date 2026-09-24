@@ -1,0 +1,468 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixLabel from '@1024pix/pix-ui/components/pix-label';
+import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
+import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { fn, hash } from '@ember/helper';
+import { on } from '@ember/modifier';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
+
+import CandidateCreationModalComplementaryList from './candidate-creation-modal-complementary-list';
+
+const FRANCE_INSEE_CODE = '99100';
+const INSEE_CODE_OPTION = 'insee';
+const POSTAL_CODE_OPTION = 'postal';
+
+export default class CandidateCreationForm extends Component {
+  @service currentUser;
+  @service intl;
+
+  @tracked selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
+  @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
+  @tracked isLoading = false;
+  @tracked selectedBillingMode;
+
+  get complementaryCertificationsHabilitations() {
+    return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
+  }
+
+  get billingMenuPlaceholder() {
+    const labelTranslation = this.intl.t('common.actions.choose');
+    return `-- ${labelTranslation} --`;
+  }
+
+  get isBirthGeoCodeRequired() {
+    return this._isFranceSelected();
+  }
+
+  get isInseeCodeOptionSelected() {
+    return this.selectedBirthGeoCodeOption === INSEE_CODE_OPTION;
+  }
+
+  get isPostalCodeOptionSelected() {
+    return this.selectedBirthGeoCodeOption === POSTAL_CODE_OPTION;
+  }
+
+  get isBirthInseeCodeRequired() {
+    if (!this._isFranceSelected()) {
+      return false;
+    }
+
+    if (this.isInseeCodeOptionSelected) {
+      return true;
+    }
+
+    return false;
+  }
+
+  get isBirthPostalCodeRequired() {
+    if (!this._isFranceSelected()) {
+      return false;
+    }
+
+    if (this.isPostalCodeOptionSelected) {
+      return true;
+    }
+
+    return false;
+  }
+
+  get isBirthCityRequired() {
+    if (!this._isFranceSelected()) {
+      return true;
+    }
+
+    if (this.isPostalCodeOptionSelected) {
+      return true;
+    }
+
+    return false;
+  }
+
+  get isPrepaidBillingMode() {
+    return this.selectedBillingMode === 'PREPAID';
+  }
+
+  get countryOptions() {
+    return this.args.countries?.map((country) => {
+      return { label: country.name, value: country.code };
+    });
+  }
+
+  get billingModeOptions() {
+    const freeLabel = this.intl.t('common.labels.billing-mode.free');
+    const paidLabel = this.intl.t('common.labels.billing-mode.paid');
+    const prepaidLabel = this.intl.t('common.labels.billing-mode.prepaid');
+
+    return [
+      { label: freeLabel, value: 'FREE' },
+      { label: paidLabel, value: 'PAID' },
+      { label: prepaidLabel, value: 'PREPAID' },
+    ];
+  }
+
+  selectBirthGeoCodeOption = (option) => {
+    this.selectedBirthGeoCodeOption = option;
+
+    if (this.isInseeCodeOptionSelected) {
+      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthCity', '');
+      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthPostalCode', '');
+    } else if (this.isPostalCodeOptionSelected) {
+      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', '');
+    }
+  };
+
+  updateBirthdate = (event) => {
+    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthdate', event.target.value);
+  };
+
+  updateBillingMode = (billingMode) => {
+    this.selectedBillingMode = billingMode;
+    this.args.updateCandidateDataFromValue(this.args.candidateData, 'billingMode', billingMode);
+  };
+
+  selectBirthCountry = (option) => {
+    this.selectedCountryInseeCode = option;
+    const countryName = this._getCountryName();
+    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthCountry', countryName);
+    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthCity', '');
+    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthPostalCode', '');
+    if (this._isFranceSelected()) {
+      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', '');
+    } else {
+      this.selectBirthGeoCodeOption(INSEE_CODE_OPTION);
+      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', '99');
+    }
+  };
+
+  updateSubscription = (complementaryCertificationHabilitation) => {
+    this.args.candidateData.subscription = complementaryCertificationHabilitation;
+  };
+
+  onFormSubmit = async (event) => {
+    event.preventDefault();
+    this.isLoading = true;
+
+    try {
+      const result = await this.args.saveCandidate(this.args.candidateData);
+
+      if (result) {
+        this._resetForm();
+      }
+    } finally {
+      this.isLoading = false;
+    }
+  };
+
+  _isFranceSelected() {
+    return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
+  }
+
+  _getCountryName() {
+    const country = this.args.countries.find((country) => country.code === this.selectedCountryInseeCode);
+    return country.name;
+  }
+
+  _resetForm() {
+    document.getElementById('new-candidate-form').reset();
+    this.selectedCountryInseeCode = FRANCE_INSEE_CODE;
+    this.selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
+    this.selectedBillingMode = undefined;
+  }
+
+  <template>
+    <h1 class='page-title'>{{t 'pages.sessions.detail.candidates.add-form.title'}}</h1>
+
+    <form id='new-candidate-form' class='new-candidate-modal__form' {{on 'submit' this.onFormSubmit}}>
+
+      <p class='new-candidate-modal-form__required-fields-mention'>
+        {{t 'common.forms.mandatory-fields' htmlSafe=true}}
+      </p>
+
+      <div class='new-candidate-modal-form__field'>
+        <PixInput
+          @id='lastname'
+          {{on 'input' (fn @updateCandidateData @candidateData 'lastName')}}
+          required
+          aria-required={{true}}
+          autocomplete='off'
+          @requiredLabel={{t 'common.forms.required'}}
+        >
+          <:label>{{t 'common.labels.candidate.birth-name'}}</:label>
+        </PixInput>
+        <PixInput
+          @id='firstname'
+          {{on 'input' (fn @updateCandidateData @candidateData 'firstName')}}
+          required
+          aria-required={{true}}
+          autocomplete='off'
+          @requiredLabel={{t 'common.forms.required'}}
+        >
+          <:label>{{t 'common.labels.candidate.firstname'}}</:label>
+        </PixInput>
+      </div>
+
+      <div class='new-candidate-modal-form__field'>
+        <fieldset>
+          <legend class='label'>
+            <PixLabel @requiredLabel={{t 'common.forms.required'}}>
+              {{t 'common.labels.candidate.gender.title'}}
+            </PixLabel>
+          </legend>
+          <div class='radio-button-container'>
+            <PixRadioButton
+              @value='F'
+              name='sex'
+              required
+              {{on 'change' (fn @updateCandidateData @candidateData 'sex')}}
+            >
+              <:label>{{t 'common.labels.candidate.gender.woman'}}</:label>
+            </PixRadioButton>
+            <PixRadioButton
+              @value='M'
+              name='sex'
+              required
+              {{on 'change' (fn @updateCandidateData @candidateData 'sex')}}
+            >
+              <:label>{{t 'common.labels.candidate.gender.man'}}</:label>
+            </PixRadioButton>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class='new-candidate-modal-form__field'>
+        <div>
+          <PixLabel @requiredLabel={{t 'common.forms.required'}} for='birth-date'>
+            {{t 'common.labels.candidate.birth-date'}}
+          </PixLabel>
+          <input
+            id='birth-date'
+            type='date'
+            placeholder={{t 'common.labels.candidate.birth-date-example'}}
+            name='birth-date'
+            class='input input--small'
+            {{on 'change' this.updateBirthdate}}
+            required
+            autocomplete='off'
+          />
+        </div>
+      </div>
+
+      <div class='new-candidate-modal-form__field'>
+        <PixSelect
+          @id='birth-country'
+          @options={{this.countryOptions}}
+          @onChange={{this.selectBirthCountry}}
+          @value={{this.selectedCountryInseeCode}}
+          @hideDefaultOption={{true}}
+          @texts={{hash requiredLabel=(t 'common.forms.required')}}
+          required
+        >
+          <:label>{{t 'common.labels.candidate.birth-country'}}</:label>
+        </PixSelect>
+      </div>
+
+      {{#if this.isBirthGeoCodeRequired}}
+        <div class='new-candidate-modal-form__field'>
+          <fieldset>
+            <legend class='label'>
+              <PixLabel @requiredLabel={{t 'common.forms.required'}}>
+                {{t 'common.labels.candidate.birth-geographical-code'}}
+              </PixLabel>
+            </legend>
+            <div class='radio-button-container'>
+              <PixRadioButton
+                name='birth-geo-code-option'
+                @value='insee'
+                checked='checked'
+                {{on 'change' (fn this.selectBirthGeoCodeOption 'insee')}}
+                required
+              >
+                <:label>{{t 'common.labels.candidate.insee-code'}}</:label>
+              </PixRadioButton>
+              <PixRadioButton
+                name='birth-geo-code-option'
+                @value='postal'
+                {{on 'change' (fn this.selectBirthGeoCodeOption 'postal')}}
+                required
+              >
+                <:label>{{t 'common.labels.candidate.postcode'}}</:label>
+              </PixRadioButton>
+            </div>
+          </fieldset>
+        </div>
+      {{/if}}
+
+      {{#if this.isBirthInseeCodeRequired}}
+        <div class='new-candidate-modal-form__field'>
+          <PixInput
+            @id='birth-insee-code'
+            {{on 'input' (fn @updateCandidateData @candidateData 'birthInseeCode')}}
+            required
+            aria-required={{true}}
+            autocomplete='off'
+            maxlength='5'
+            @requiredLabel={{t 'common.forms.required'}}
+          >
+            <:label>{{t 'common.labels.candidate.birth-city-insee-code'}}</:label>
+          </PixInput>
+        </div>
+      {{/if}}
+
+      {{#if this.isBirthPostalCodeRequired}}
+        <div class='new-candidate-modal-form__field'>
+          <PixInput
+            @id='birth-postal-code'
+            {{on 'input' (fn @updateCandidateData @candidateData 'birthPostalCode')}}
+            required
+            aria-required={{true}}
+            autocomplete='off'
+            maxlength='5'
+            @requiredLabel={{t 'common.forms.required'}}
+          >
+            <:label>{{t 'common.labels.candidate.birth-city-postcode'}}</:label>
+          </PixInput>
+        </div>
+      {{/if}}
+
+      {{#if this.isBirthCityRequired}}
+        <div class='new-candidate-modal-form__field'>
+          <PixInput
+            @id='birth-city'
+            {{on 'input' (fn @updateCandidateData @candidateData 'birthCity')}}
+            required
+            aria-required={{true}}
+            autocomplete='off'
+            @requiredLabel={{t 'common.forms.required'}}
+          >
+            <:label>{{t 'common.labels.candidate.birth-city'}}</:label>
+          </PixInput>
+        </div>
+      {{/if}}
+
+      <div class='new-candidate-modal-form__field'>
+        <PixInput
+          @id='external-id'
+          {{on 'input' (fn @updateCandidateData @candidateData 'externalId')}}
+          autocomplete='off'
+        >
+          <:label>{{t 'common.forms.certification-labels.external-id'}}</:label>
+        </PixInput>
+      </div>
+
+      <div class='new-candidate-modal-form__field'>
+        <PixInput
+          @id='extra-time-percentage'
+          class='input {{if this.validation.email.hasError "input--error"}}'
+          {{on 'input' (fn @updateCandidateData @candidateData 'extraTimePercentage')}}
+          autocomplete='off'
+        >
+          <:label>{{t 'common.forms.certification-labels.extratime-percentage'}}</:label>
+        </PixInput>
+      </div>
+
+      <div class='new-candidate-modal-form__field'>
+        <PixInput
+          @id='result-recipient-email'
+          {{on 'input' (fn @updateCandidateData @candidateData 'resultRecipientEmail')}}
+          type='email'
+          autocomplete='nope'
+        >
+          <:label>{{t 'common.forms.certification-labels.email-results'}}</:label>
+        </PixInput>
+      </div>
+
+      <PixNotificationAlert class='new-candidate-modal-form__info-panel' @withIcon={{true}}>
+        {{t 'pages.sessions.detail.candidates.add-form.info-panel' htmlSafe=true}}
+      </PixNotificationAlert>
+
+      <div class='new-candidate-modal-form__field'>
+        <PixInput
+          @id='email'
+          {{on 'input' (fn @updateCandidateData @candidateData 'email')}}
+          type='email'
+          autocomplete='nope'
+        >
+          <:label>{{t 'common.forms.certification-labels.email-convocation'}}</:label>
+        </PixInput>
+      </div>
+
+      <PixNotificationAlert class='new-candidate-modal-form__info-panel' @withIcon={{true}}>
+        {{t 'pages.sessions.detail.candidates.add-form.email-convocation-info'}}
+      </PixNotificationAlert>
+
+      {{#if @shouldDisplayPaymentOptions}}
+        <div class='new-candidate-modal-form__field'>
+          <PixSelect
+            @id='billing-mode'
+            @options={{this.billingModeOptions}}
+            @onChange={{this.updateBillingMode}}
+            @value={{this.selectedBillingMode}}
+            @placeholder={{this.billingMenuPlaceholder}}
+            @hideDefaultOption={{true}}
+            @texts={{hash requiredLabel=(t 'common.forms.required')}}
+          >
+            <:label>{{t 'common.forms.certification-labels.pricing'}}</:label>
+          </PixSelect>
+
+          {{#if this.isPrepaidBillingMode}}
+
+            <div class='new-candidate-modal-form__tooltip'>
+              <label for='prepayment-code' class='label'>
+                {{t 'common.forms.certification-labels.prepayment-code'}}
+              </label>
+              <PixTooltip @id='tooltip-prepayment-code' @position='left'>
+                <:triggerElement>
+                  <PixIcon
+                    @plainIcon={{true}}
+                    @name='info'
+                    @ariaHidden={{true}}
+                    aria-label={{t 'pages.sessions.detail.candidates.add-form.prepayment-information'}}
+                    tabindex='0'
+                    aria-describedby='tooltip-prepayment-code'
+                    class='new-candidate-tooltip__icon'
+                  />
+                </:triggerElement>
+                <:tooltip>
+                  {{t 'pages.sessions.detail.candidates.add-form.prepayment-tooltip' htmlSafe=true}}
+                </:tooltip>
+              </PixTooltip>
+
+              <PixInput
+                @id='prepayment-code'
+                type='text'
+                {{on 'input' (fn @updateCandidateData @candidateData 'prepaymentCode')}}
+                autocomplete='off'
+              />
+            </div>
+          {{/if}}
+        </div>
+      {{/if}}
+
+      {{#if this.complementaryCertificationsHabilitations.length}}
+        <CandidateCreationModalComplementaryList
+          @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
+          @updateSubscription={{this.updateSubscription}}
+        />
+      {{/if}}
+    </form>
+    <PixButtonLink
+      @route='authenticated.sessions.details.certification-candidates'
+      @model={{@sessionId}}
+      @variant='secondary'
+      @isBorderVisible='true'
+    >
+      {{t 'common.actions.back'}}
+    </PixButtonLink>
+    <PixButton @type='submit' @isLoading={{this.isLoading}} @isDisabled={{this.isLoading}} form='new-candidate-form'>
+      {{t 'pages.sessions.detail.candidates.add-form.actions.enrol-the-candidate'}}
+    </PixButton>
+  </template>
+}

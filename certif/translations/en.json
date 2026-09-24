@@ -625,7 +625,7 @@
       },
       "detail": {
         "candidates": {
-          "add-modal": {
+          "add-form": {
             "actions": {
               "close-extra-information": "Close add candidate window modal",
               "enrol-the-candidate": "Enrol the candidate"

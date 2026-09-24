@@ -2,7 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import CandidateCreationModal from 'pix-certif/components/sessions/session-details/enrolled-candidates/candidate-creation-modal';
+import CandidateCreationForm from 'pix-certif/components/sessions/session-details/enrolled-candidates/candidate-creation-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -25,7 +25,7 @@ const emptyCandidateData = {
 };
 
 module(
-  'Integration | Component | Sessions | SessionDetails | EnrolledCandidates | candidate-creation-modal',
+  'Integration | Component | Sessions | SessionDetails | EnrolledCandidates | candidate-creation-form',
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
@@ -46,20 +46,15 @@ module(
 
     test('it shows candidate form', async function (assert) {
       // given
-      const closeModalStub = sinon.stub();
       const updateCandidateStub = sinon.stub();
-      const updateCandidateWithEventStub = sinon.stub();
       const countries = [];
 
       // when
       const screen = await render(
         <template>
-          <CandidateCreationModal
-            @showModal={{true}}
-            @closeModal={{closeModalStub}}
+          <CandidateCreationForm
             @countries={{countries}}
             @updateCandidateData={{updateCandidateStub}}
-            @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
             @candidateData={{emptyCandidateData}}
           />
         </template>,
@@ -103,21 +98,13 @@ module(
 
     test('it should have some inputs required', async function (assert) {
       // given
-      const closeModalStub = sinon.stub();
       const updateCandidateStub = sinon.stub();
-      const updateCandidateWithEventStub = sinon.stub();
       const countries = [];
 
       // when
       const screen = await render(
         <template>
-          <CandidateCreationModal
-            @showModal={{true}}
-            @closeModal={{closeModalStub}}
-            @countries={{countries}}
-            @updateCandidateData={{updateCandidateStub}}
-            @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
-          />
+          <CandidateCreationForm @countries={{countries}} @updateCandidateData={{updateCandidateStub}} />
         </template>,
       );
 
@@ -147,7 +134,6 @@ module(
           subscription: 'CORE',
         };
 
-        const closeModalStub = sinon.stub();
         const updateCandidateFromValueStub = sinon.stub();
         updateCandidateFromValueStub.callsFake((object, key, value) => (object[key] = value));
 
@@ -165,9 +151,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CandidateCreationModal
-              @showModal={{true}}
-              @closeModal={{closeModalStub}}
+            <CandidateCreationForm
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
@@ -210,21 +194,16 @@ module(
       test('it shows candidate form with billing information', async function (assert) {
         // given
         const shouldDisplayPaymentOptions = true;
-        const closeModalStub = sinon.stub();
         const updateCandidateStub = sinon.stub();
         const updateCandidateFromValueStub = sinon.stub();
-        const updateCandidateWithEventStub = sinon.stub();
         const countries = [];
 
         // when
         const screen = await render(
           <template>
-            <CandidateCreationModal
-              @showModal={{true}}
-              @closeModal={{closeModalStub}}
+            <CandidateCreationForm
               @countries={{countries}}
               @updateCandidateData={{updateCandidateStub}}
-              @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
               @candidateData={{emptyCandidateData}}
               @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
@@ -239,21 +218,16 @@ module(
       module('when the selected billing mode is PREPAID', function () {
         test('it should display prepaid code field', async function (assert) {
           // given
-          const closeModalStub = sinon.stub();
           const updateCandidateStub = sinon.stub();
           const updateCandidateFromValueStub = sinon.stub();
-          const updateCandidateWithEventStub = sinon.stub();
           const countries = [];
 
           // when
           const screen = await render(
             <template>
-              <CandidateCreationModal
-                @showModal={{true}}
-                @closeModal={{closeModalStub}}
+              <CandidateCreationForm
                 @countries={{countries}}
                 @updateCandidateData={{updateCandidateStub}}
-                @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
                 @candidateData={{emptyCandidateData}}
                 @shouldDisplayPaymentOptions={{true}}
                 @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
@@ -270,7 +244,7 @@ module(
             .dom(screen.getByRole('textbox', { name: t('common.forms.certification-labels.prepayment-code') }))
             .isVisible();
           assert
-            .dom(screen.getByLabelText(t('pages.sessions.detail.candidates.add-modal.prepayment-information')))
+            .dom(screen.getByLabelText(t('pages.sessions.detail.candidates.add-form.prepayment-information')))
             .isVisible();
         });
       });
@@ -279,21 +253,16 @@ module(
         test('it should NOT display prepaid code field', async function (assert) {
           // given
           const shouldDisplayPaymentOptions = true;
-          const closeModalStub = sinon.stub();
           const updateCandidateStub = sinon.stub();
           const updateCandidateFromValueStub = sinon.stub();
-          const updateCandidateWithEventStub = sinon.stub();
           const countries = [];
 
           // when
           const screen = await render(
             <template>
-              <CandidateCreationModal
-                @showModal={{true}}
-                @closeModal={{closeModalStub}}
+              <CandidateCreationForm
                 @countries={{countries}}
                 @updateCandidateData={{updateCandidateStub}}
-                @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
                 @candidateData={{emptyCandidateData}}
                 @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
                 @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
@@ -310,7 +279,7 @@ module(
             .dom(screen.queryByRole('textbox', { name: t('common.forms.certification-labels.prepayment-code') }))
             .doesNotExist();
           assert
-            .dom(screen.queryByLabelText(t('pages.sessions.detail.candidates.add-modal.prepayment-information')))
+            .dom(screen.queryByLabelText(t('pages.sessions.detail.candidates.add-form.prepayment-information')))
             .doesNotExist();
         });
       });
@@ -318,9 +287,7 @@ module(
 
     test('it shows a countries list with France selected as default', async function (assert) {
       // given
-      const closeModalStub = sinon.stub();
       const updateCandidateStub = sinon.stub();
-      const updateCandidateWithEventStub = sinon.stub();
       const countries = [
         { id: '1', code: '99123', name: 'Syldavie' },
         { id: '2', code: '99100', name: 'France' },
@@ -330,12 +297,9 @@ module(
       // when
       const screen = await render(
         <template>
-          <CandidateCreationModal
-            @showModal={{true}}
-            @closeModal={{closeModalStub}}
+          <CandidateCreationForm
             @countries={{countries}}
             @updateCandidateData={{updateCandidateStub}}
-            @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
             @candidateData={{emptyCandidateData}}
           />
         </template>,
@@ -345,82 +309,42 @@ module(
       assert.dom(screen.getByRole('button', { name: 'Pays de naissance *' })).includesText('France');
     });
 
-    module('when close button cross icon is clicked', function () {
-      test('it closes candidate details modal', async function (assert) {
-        // given
-        const closeModalStub = sinon.stub();
-        const updateCandidateStub = sinon.stub();
-        const updateCandidateWithEventStub = sinon.stub();
-        const countries = [];
+    test('it shows a link to return to the candidates list', async function (assert) {
+      // given
+      const updateCandidateStub = sinon.stub();
+      const countries = [];
 
-        // when
-        const screen = await render(
-          <template>
-            <CandidateCreationModal
-              @showModal={{true}}
-              @closeModal={{closeModalStub}}
-              @countries={{countries}}
-              @updateCandidateData={{updateCandidateStub}}
-              @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
-              @candidateData={{emptyCandidateData}}
-            />
-          </template>,
-        );
+      // when
+      const screen = await render(
+        <template>
+          <CandidateCreationForm
+            @sessionId='123'
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateStub}}
+            @candidateData={{emptyCandidateData}}
+          />
+        </template>,
+      );
 
-        await click(screen.getByRole('button', { name: 'Fermer' }));
-
-        // then
-        sinon.assert.calledOnce(closeModalStub);
-        assert.ok(true);
-      });
-    });
-
-    module('when close bottom button is clicked', function () {
-      test('it closes candidate details modal ', async function (assert) {
-        // given
-        const closeModalStub = sinon.stub();
-        const updateCandidateStub = sinon.stub();
-        const updateCandidateWithEventStub = sinon.stub();
-        const countries = [];
-
-        // when
-        const screen = await render(
-          <template>
-            <CandidateCreationModal
-              @showModal={{true}}
-              @closeModal={{closeModalStub}}
-              @countries={{countries}}
-              @updateCandidateData={{updateCandidateStub}}
-              @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
-              @candidateData={{emptyCandidateData}}
-            />
-          </template>,
-        );
-
-        await click(screen.getByRole('button', { name: 'Fermer' }));
-
-        // then
-        sinon.assert.calledOnce(closeModalStub);
-        assert.ok(true);
-      });
+      // then
+      assert
+        .dom(screen.getByRole('link', { name: t('common.actions.back') }))
+        .hasAttribute('href', '/sessions/123/candidats');
     });
 
     module('when a foreign country is selected', function () {
       test('it shows city field and hides insee code and postal code fields', async function (assert) {
         // given
-        const closeModalStub = sinon.stub();
-        const updateCandidateWithEventStub = sinon.stub();
+        const updateCandidateFromEventStub = sinon.stub();
         const updateCandidateDataFromValue = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
 
         // when
         const screen = await render(
           <template>
-            <CandidateCreationModal
-              @showModal={{true}}
-              @closeModal={{closeModalStub}}
+            <CandidateCreationForm
               @countries={{countries}}
-              @updateCandidateData={{updateCandidateWithEventStub}}
+              @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateDataFromValue}}
               @candidateData={{emptyCandidateData}}
             />
@@ -447,7 +371,6 @@ module(
     module('when the insee code option is selected', function () {
       test('it shows insee code field and hides postal code and city fields', async function (assert) {
         // given
-        const closeModalStub = sinon.stub();
         const updateCandidateFromValueStub = sinon.stub();
         const updateCandidateFromEventStub = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
@@ -455,9 +378,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CandidateCreationModal
-              @showModal={{true}}
-              @closeModal={{closeModalStub}}
+            <CandidateCreationForm
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
@@ -478,7 +399,6 @@ module(
     module('when the postal code option is selected', function () {
       test('it shows postal code and city fields and hides insee code field', async function (assert) {
         // given
-        const closeModalStub = sinon.stub();
         const updateCandidateFromValueStub = sinon.stub();
         const updateCandidateFromEventStub = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
@@ -486,9 +406,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CandidateCreationModal
-              @showModal={{true}}
-              @closeModal={{closeModalStub}}
+            <CandidateCreationForm
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
@@ -515,11 +433,7 @@ module(
         // when
         const screen = await render(
           <template>
-            <CandidateCreationModal
-              @showModal={{true}}
-              @countries={{countries}}
-              @updateCandidateData={{updateCandidateFromEventStub}}
-            />
+            <CandidateCreationForm @countries={{countries}} @updateCandidateData={{updateCandidateFromEventStub}} />
           </template>,
         );
 

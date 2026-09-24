@@ -625,7 +625,7 @@
       },
       "detail": {
         "candidates": {
-          "add-modal": {
+          "add-form": {
             "actions": {
               "close-extra-information": "Fermer la modale d'ajout de candidat",
               "enrol-the-candidate": "Inscrire le candidat"

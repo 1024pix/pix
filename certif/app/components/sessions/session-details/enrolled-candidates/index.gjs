@@ -16,7 +16,6 @@ import toNumber from 'lodash/toNumber';
 import dayjsUtcFormat from 'pix-certif/helpers/dayjs-utc-format';
 import { formatPercentage } from 'pix-certif/helpers/format-percentage';
 
-import CandidateCreationModal from './candidate-creation-modal';
 import CandidateDetailsModal from './candidate-details-modal';
 import CandidateEditionModal from './candidate-edition-modal';
 
@@ -54,12 +53,12 @@ export default class EnrolledCandidates extends Component {
     try {
       await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
       this.pixToast.sendSuccessNotification({
-        message: this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-remove`),
+        message: this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.success-remove`),
       });
     } catch (error) {
-      let errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-unknown`);
+      let errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.error-remove-unknown`);
       if (get(error, 'errors[0].code') === 403) {
-        errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-already-in`);
+        errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.error-remove-already-in`);
       }
       this.pixToast.sendErrorNotification({ message: errorText });
     }
@@ -159,7 +158,7 @@ export default class EnrolledCandidates extends Component {
       });
       this.args.reloadCertificationCandidate();
       this.pixToast.sendSuccessNotification({
-        message: this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-add`),
+        message: this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.success-add`),
       });
       return true;
     } catch (errorResponse) {
@@ -217,7 +216,7 @@ export default class EnrolledCandidates extends Component {
   _getErrorText({ status, errorResponse }) {
     switch (status) {
       case '409':
-        return this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-duplicate`);
+        return this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.error-add-duplicate`);
       case '422':
         return this._handleEntityValidationError(errorResponse);
       case '400':
@@ -226,7 +225,7 @@ export default class EnrolledCandidates extends Component {
       case '403':
         return this._handleApiError(errorResponse);
       default:
-        return this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-unknown`);
+        return this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.error-add-unknown`);
     }
   }
 
@@ -262,7 +261,7 @@ export default class EnrolledCandidates extends Component {
   }
 
   _handleDuplicateError(certificationCandidate) {
-    const errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-duplicate`);
+    const errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.error-add-duplicate`);
     this._handleSavingError({ errorText, certificationCandidate });
   }
 
@@ -303,21 +302,20 @@ export default class EnrolledCandidates extends Component {
       </h3>
       {{#if @shouldDisplayScoStudentRegistration}}
         <PixButtonLink
-          @isDisabled={{@disableEnrollCandidate}}
           @route='authenticated.sessions.add-student'
           @model={{@sessionId}}
+          @isDisabled={{@disableEnrollCandidate}}
         >
           {{t 'pages.sessions.detail.candidates.list.actions.inscription-multiple.label'}}
         </PixButtonLink>
       {{else}}
-        <PixButton
-          id='add-candidate'
+        <PixButtonLink
+          @route='authenticated.sessions.add-candidate'
+          @model={{@sessionId}}
           @isDisabled={{@disableEnrollCandidate}}
-          @triggerAction={{this.openNewCandidateModal}}
-          @size='small'
         >
           {{t 'pages.sessions.detail.candidates.list.actions.inscription.label'}}
-        </PixButton>
+        </PixButtonLink>
       {{/if}}
     </header>
     {{#if @certificationCandidates}}
@@ -489,17 +487,6 @@ export default class EnrolledCandidates extends Component {
         @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
       />
     {{/if}}
-
-    <CandidateCreationModal
-      @showModal={{this.showNewCandidateModal}}
-      @closeModal={{this.closeNewCandidateModal}}
-      @countries={{@countries}}
-      @saveCandidate={{this.addCertificationCandidate}}
-      @candidateData={{this.newCandidate}}
-      @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
-      @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
-      @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
-    />
 
     <CandidateEditionModal
       @showModal={{this.shouldDisplayEditCertificationCandidateModal}}
