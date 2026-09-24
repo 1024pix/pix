@@ -400,8 +400,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
     });
 
-    module('when the addCandidate button is clicked', function () {
-      test('it should open the new Certification Candidate Modal', async function (assert) {
+    module('when the addCandidate link is clicked', function () {
+      test('it should display the new certification candidate page', async function (assert) {
         // given
         const sessionWithoutCandidates = server.create('session-enrolment', {
           certificationCenterId: allowedCertificationCenterAccess.id,
@@ -413,20 +413,20 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
         // when
         const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
-        await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+        await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
         await settled();
 
         // then
-        await screen.findByRole('dialog');
+        assert.strictEqual(currentURL(), `/sessions/${sessionWithoutCandidates.id}/inscription-candidat`);
         assert.dom(screen.getByRole('button', { name: 'Inscrire le candidat' })).exists();
       });
 
-      module('when the addCandidate button is clicked a second time', function (hooks) {
+      module('when the addCandidate link is clicked a second time', function (hooks) {
         hooks.beforeEach(async function () {
           server.createList('country', 2, { code: '99100', name: 'France' });
         });
 
-        test('it should open the new Certification Candidate Modal with empty input', async function (assert) {
+        test('it should display the new certification candidate page with empty input', async function (assert) {
           // given
           const sessionWithoutCandidates = server.create('session-enrolment', {
             certificationCenterId: allowedCertificationCenterAccess.id,
@@ -436,8 +436,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           });
           const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
 
-          await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-          const modal = await screen.findByRole('dialog');
+          await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
           await fillIn(screen.getByLabelText('Nom de naissance *'), 'BackStreet');
           await fillIn(screen.getByLabelText('Prénom *'), 'Boys');
           await click(screen.getByLabelText('Homme'));
@@ -454,18 +453,15 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             }),
           );
           await fillIn(screen.getByLabelText('Code de prépaiement'), '12345');
-          await fillIn(
-            screen.getByLabelText('E-mail du prescripteur (enseignant, formateur), pour la réception des résultats'),
-            'guybrush.threepwood@example.net',
-          );
-          await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
+          await fillIn(screen.getByLabelText(/E-mail du prescripteur/), 'guybrush.threepwood@example.net');
+          await fillIn(screen.getByLabelText(/E-mail de convocation/), 'roooooar@example.net');
 
-          await click(within(modal).getByRole('button', { name: 'Fermer' }));
+          await click(screen.getByRole('link', { name: 'Retour à la liste des candidats' }));
 
           // when
-          await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-          // then
+          await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
 
+          // then
           assert.strictEqual(screen.getByLabelText('Nom de naissance *').value, '');
           assert.strictEqual(screen.getByLabelText('Prénom *').value, '');
           assert.false(screen.getByLabelText('Homme').checked);
@@ -475,12 +471,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           assert.strictEqual(screen.getByLabelText('Temps majoré (%)').value, '');
           assert.strictEqual(screen.getByLabelText('Tarification part Pix *').value, '');
           assert.dom(screen.queryByLabelText('Code de prépaiement')).doesNotExist();
-          assert.strictEqual(
-            screen.getByLabelText('E-mail du prescripteur (enseignant, formateur), pour la réception des résultats')
-              .value,
-            '',
-          );
-          assert.strictEqual(screen.getByLabelText('E-mail de convocation').value, '');
+          assert.strictEqual(screen.getByLabelText(/E-mail du prescripteur/).value, '');
+          assert.strictEqual(screen.getByLabelText(/E-mail de convocation/).value, '');
         });
       });
 
@@ -512,8 +504,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
             // when
             const screen = await visit(`/sessions/${session.id}/candidats`);
-            await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-            await screen.findByRole('dialog');
+            await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
             await settled();
@@ -559,8 +550,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
               // when
               const screen = await visit(`/sessions/${session.id}/candidats`);
-              await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-              await screen.findByRole('dialog');
+              await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
               await _fillFormWithCorrectData(screen);
               await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
@@ -586,8 +576,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           test('it should display a success notification', async function (assert) {
             // when
             const screen = await visit(`/sessions/${session.id}/candidats`);
-            await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-            await screen.findByRole('dialog');
+            await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
             await settled();
@@ -599,8 +588,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           test('it should add a new candidate', async function (assert) {
             // when
             const screen = await visit(`/sessions/${session.id}/candidats`);
-            await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-            await screen.findByRole('dialog');
+            await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
             await settled();
@@ -623,7 +611,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               allowedCertificationCenterAccess.update({ type: 'SUP' });
 
               const screen = await visit(`/sessions/${session.id}/candidats`);
-              await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+              await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
               await fillIn(screen.getByLabelText('Prénom *'), 'Guybrush');
               await fillIn(screen.getByLabelText('Nom de naissance *'), 'Threepwood');
               await fillIn(screen.getByLabelText('Date de naissance *'), '2019-04-28');
@@ -675,13 +663,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       });
     });
     await click(paymentOption);
-    await fillIn(
-      screen.getByRole('textbox', {
-        name: 'E-mail du prescripteur (enseignant, formateur), pour la réception des résultats',
-      }),
-      'email.destinataire@example.net',
-    );
-    await fillIn(screen.getByRole('textbox', { name: 'E-mail de convocation' }), 'email.convocation@example.net');
+    await fillIn(screen.getByRole('textbox', { name: /E-mail du prescripteur/ }), 'email.destinataire@example.net');
+    await fillIn(screen.getByRole('textbox', { name: /E-mail de convocation/ }), 'email.convocation@example.net');
     await click(screen.getByRole('radio', { name: 'Certification Pix' }));
   }
 });

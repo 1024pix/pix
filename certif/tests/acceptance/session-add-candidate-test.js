@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, fillIn } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -25,7 +25,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     const screen = await visit(`/sessions/${sessionId}/candidats`);
 
     // when
-    await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+    await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
     await fillIn(screen.getByLabelText('Nom de naissance *'), 'Quatorze');
     await fillIn(screen.getByLabelText('Prénom *'), 'Louis');
     await click(screen.getByLabelText('Homme'));
@@ -50,7 +50,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     const screen = await visit(`/sessions/${sessionId}/candidats`);
 
     // when
-    await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+    await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
     await fillIn(screen.getByLabelText('Nom de naissance *'), 'Quatorze');
     await fillIn(screen.getByLabelText('Prénom *'), 'Louis');
     await click(screen.getByLabelText('Homme'));
@@ -80,7 +80,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     const screen = await visit(`/sessions/${sessionId}/candidats`);
 
     // when
-    await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+    await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
     await fillIn(screen.getByLabelText('Nom de naissance *'), 'Quatorze');
     await fillIn(screen.getByLabelText('Prénom *'), 'Louis');
     await click(screen.getByLabelText('Homme'));
@@ -98,7 +98,18 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     assert.dom(screen.getByRole('cell', { name: 'Pix+ Droit' })).exists();
   });
 
-  async function _setupCertificationCenter({ server, sessionId, habilitations }) {
+  test('it should redirect to the sessions list when the session has expired', async function (assert) {
+    // given
+    await _setupCertificationCenter({ server, sessionId, habilitations: [], hasExpired: true });
+
+    // when
+    await visit(`/sessions/${sessionId}/inscription-candidat`);
+
+    // then
+    assert.strictEqual(currentURL(), '/sessions');
+  });
+
+  async function _setupCertificationCenter({ server, sessionId, habilitations, hasExpired = false }) {
     allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
       type: 'PRO',
       habilitations,
@@ -116,6 +127,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
 
     server.create('session-management', {
       id: sessionId,
+      hasExpired,
     });
 
     server.createList('country', 1);

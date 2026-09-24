@@ -63,6 +63,7 @@ const FIELDS = [
 ];
 
 export default class CandidateDetailsModal extends Component {
+  @service currentUser;
   @service intl;
 
   @action
@@ -89,6 +90,10 @@ export default class CandidateDetailsModal extends Component {
     return this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.${this.args.candidate.subscription}`);
   }
 
+  get shouldDisplayPaymentOptions() {
+    return !this.currentUser.currentAllowedCertificationCenterAccess.isSco;
+  }
+
   <template>
     <PixModal
       @title={{t 'pages.sessions.detail.candidates.detail-modal.title'}}
@@ -108,7 +113,7 @@ export default class CandidateDetailsModal extends Component {
             @label={{this.getRowLabel 'forms.certification-labels.accessibility'}}
             @value={{this.getAccessibilityAdjustmentNeeded}}
           />
-          {{#if @shouldDisplayPaymentOptions}}
+          {{#if this.shouldDisplayPaymentOptions}}
             <CandidateDetailsModalRow
               @label={{this.getRowLabel 'forms.certification-labels.pricing'}}
               @value={{this.getRowValue 'billingModeLabel'}}
