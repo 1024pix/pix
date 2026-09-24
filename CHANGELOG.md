@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [5.507.2](https://github.com/1024pix/pix/compare/v5.507.1...v5.507.2) (2026-09-24)
+
+### :bug: Correction
+
+- [#17590](https://github.com/1024pix/pix/pull/17590) Maddo : Cache du contenu pédagogique dans Redis
+
 ## [5.507.1](https://github.com/1024pix/pix/compare/v5.507.0...v5.507.1) (2026-09-24)
 
 ### :bug: Correction

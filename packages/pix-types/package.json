@@ -1,6 +1,6 @@
 {
   "name": "@1024pix/pix-types",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Types partagés entre les applications",
   "private": true,
   "type": "module",
