@@ -93,6 +93,33 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
     });
 
     module('Import Feature cases', function () {
+      test('it should display oralization action when available', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          hasLearnerImportFeature = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        const participants = [];
+        participants.meta = {
+          headingCustomColumns: [{ name: 'ORALIZATION' }],
+        };
+        // when
+        const screen = await render(
+          <template>
+            <List
+              @participants={{participants}}
+              @triggerFiltering={{noop}}
+              @onClickLearner={{noop}}
+              @fullName={{fullNameFilter}}
+              @certificabilityFilter={{certificabilityFilter}}
+            />
+          </template>,
+        );
+        // then
+        assert.ok(screen.getByRole('columnheader', { name: 'Actions' }));
+      });
+
       test('it should display extra header when import feature available enabled', async function (assert) {
         // given
         class CurrentUserStub extends Service {
