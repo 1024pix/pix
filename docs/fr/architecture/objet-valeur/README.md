@@ -234,16 +234,20 @@ présentation.
 **Énoncé.** *Propre au Value Object.* Une valeur invalide ne s'instancie pas. L'aval ne valide rien.
 
 ```js
-// conforme — validation, puis affectation, avec une erreur du domaine
-constructor({ id, type, grains }) {
-  assertNotNullOrUndefined(id, 'The id is required for a section');
-  assertNotNullOrUndefined(type, 'The type is required for a section');
-  this.#assertTypeIsValid(type);
-  assertIsArray(grains, 'A list of grains is required for a section');
+// conforme — validation de chaque proposition, puis affectation, avec une erreur du domaine
+constructor(proposals) {
+  proposals
+    .filter((proposal) => ['input', 'select'].includes(proposal.type))
+    .forEach((proposal) => {
+      assertNotNullOrUndefined(proposal.solutions, 'The solutions are required for each QROCM proposal …');
+      if (!Array.isArray(proposal.solutions)) {
+        throw new ModuleInstantiationError('Each proposal in QROCM solutions should have a list of solutions');
+      }
+      …
+    });
 
-  this.id = id;
-  this.type = type;
-  this.grains = grains;
+  this.value = {};
+  …
 }
 
 // fautif — aucune validation, et le code le sait
@@ -253,7 +257,7 @@ constructor({ status } = {}) {
 }
 ```
 
-**Code.** Conforme pour V3 seulement : [`Section.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/module/Section.js#L14-L23), dont les champs publics enfreignent V1. Fautif : [`AnswerStatus.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/AnswerStatus.js#L11-L14).
+**Code.** Conforme pour V3 seulement : [`QrocmSolutions.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/QrocmSolutions.js#L5-L25), simplifié, dont les champs publics enfreignent V1. Fautif : [`AnswerStatus.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/AnswerStatus.js#L11-L14).
 
 Le second exemple est la forme la plus fréquente de violation : ce n'est pas une validation mal
 placée, c'est une validation absente.
