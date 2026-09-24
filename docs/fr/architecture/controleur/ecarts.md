@@ -16,7 +16,7 @@ la théorie dans [`explication.md`](explication.md#la-théorie-des-écarts).
 | **X1** Deux usecases sont appelés à la suite | dérive | Une intention composée existe sans nom, donc introuvable, et vérifiée seulement en acceptance | Pas de fichier de plus à écrire, et la séquence se lit d'une traite | **À corriger** |
 | **X2** Un code d'erreur est choisi dans le contrôleur | dérive | Le même cas produit deux réponses selon le point d'entrée, et le front perd le code d'erreur exploitable | Le statut est décidé au plus près de la réponse, sans passer par le domaine | **À corriger** |
 | **X3** Un accès direct au repository, ou au domaine d'un voisin | dérive | Les règles du domaine sont contournées, et une frontière de contexte est franchie hors contrat | La lecture est immédiate, sans usecase ni API interne à écrire | **À corriger** |
-| **X4** Les usecases sont importés sans injection | vestige | Les usecases n'apparaissent pas dans la signature : le test remplace les méthodes de l'objet `usecases` importé | Faible : aucune enveloppe à poser sur la route | **À corriger** |
+| **X4** Les usecases sont importés sans injection | vestige | Les usecases n'apparaissent pas dans la signature : le test remplace les méthodes de l'objet `usecases` importé | Aucune enveloppe à poser sur la route | *À surveiller* |
 
 L'écart « le contrôle des droits est écrit dans le contrôleur » n'est pas dans ce fichier : il est
 sous `X1` de `../route/ecarts.md`, avec sa correction et sa vérification.
@@ -146,15 +146,13 @@ handler: handlerWithDependencies(passageController.create),
 La forme conforme existe déjà : un contexte l'emploie, avec une enveloppe qui passe au contrôleur un
 objet `dependencies` contenant les usecases et les sérialiseurs.
 
-**Verdict.** À corriger. L'équipe a décidé que l'exception de l'ADR 46 est un vestige : la cible est
-l'injection des usecases dans le contrôleur. Le bénéfice de la forme actuelle est faible, et le coût
-est un contrôleur dont la signature ne dit pas ce qu'il appelle. L'histoire de la décision est dans
+**Verdict.** À surveiller. La cible est l'injection des usecases, mais les deux formes de `C3` de
+[`README.md`](README.md#c3-les-dépendances-arrivent-en-paramètre) sont admises tant que l'équipe ne
+s'est pas alignée sur une forme unique. L'histoire de la décision est dans
 [`explication.md`](explication.md#linjection-des-usecases).
-
-Le coût de la forme actuelle est limité : les tests unitaires de contrôleur remplacent les méthodes
-de l'objet `usecases` importé, et la logique est ailleurs. C'est ce qui rend la correction
-progressive plutôt qu'urgente.
 
 **Correction.** Faire recevoir au contrôleur ses usecases en paramètre, par la même enveloppe que le
 contexte qui le fait déjà. Une démarche d'injection transverse est en cours dans l'équipe staff : elle
-fixe la forme définitive. Un contrôleur neuf suit la forme déjà en place.
+fixe la forme définitive. Un contrôleur neuf suit la forme par défaut de `C3`.
+
+**Révision.** Le choix d'une forme unique par l'équipe change ce verdict.

@@ -19,7 +19,7 @@ contient pas.
 | **C1** un seul usecase | **forte** | Chaque intention métier a un nom, un fichier et un test d'intégration. Sans lui, la composition n'est vérifiée qu'en acceptance |
 | **C2** aucune décision | **forte** | Le contrôleur devient trivial, donc son test aussi, donc l'effort se concentre là où est la valeur. C'est le mécanisme du *humble object* |
 | **C4** aucun accès aux données | **forte** | Le contrôleur ne lit rien en contournant les règles du domaine, donc il ne crée pas de second comportement pour la même question |
-| **C3** sérialiseur injecté | moyenne | Rend le contrôleur testable en unitaire sans monter de serveur. Le gain est réel mais limité : ces tests sont peu nombreux et peu coûteux |
+| **C3** dépendances en paramètre | moyenne | Rend le contrôleur testable en unitaire sans monter de serveur. Le gain est réel mais limité : ces tests sont peu nombreux et peu coûteux |
 | **C5** un contrôleur par ressource | hygiène | Aucun gain mesurable. Rend le fichier prévisible, et donne à la règle de `C1` une unité claire à parcourir |
 
 `C1` est le seul de ces invariants qui **déplace du coût de vérification** au lieu d'en retirer : la
@@ -86,8 +86,10 @@ remplacée par une doublure de test. C'est ce motif qui fonde `C3`.
 
 Le même ADR écarte l'injection des usecases dans les contrôleurs, sans en donner de motif. L'équipe a
 décidé que cette exception est un vestige : la cible est l'injection de toutes les dépendances, usecases
-compris. Au 2026-09-24, une démarche d'injection transverse est en cours dans l'équipe staff. L'écart
-et sa correction sont `X4` de [`ecarts.md`](ecarts.md).
+compris. Au 2026-09-24, une démarche d'injection transverse est en cours dans l'équipe staff. En
+attendant l'alignement, les deux formes existantes sont admises, et la référence recommande
+l'enveloppe de la route, la seule qui injecte aussi les usecases. L'écart est `X4` de
+[`ecarts.md`](ecarts.md).
 
 Le framework HTTP n'empêche pas l'injection des usecases. Sa limite porte sur l'injection des
 **contrôleurs** dans les routes.
@@ -137,7 +139,7 @@ Bibliographie et liens dans `../references-ddd.md`. Les ADR sont dans `docs/adr/
 | La couche, et **C2** | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » : le contrôleur est dépourvu de logique pour que son test soit trivial | le livre de 2017 ; billet gratuit |
 | **C1** un usecase par point d'entrée | Pix : **ADR 20**, qui rend le usecase obligatoire pour toute route | ADR 20 |
 | La transaction hors du contrôleur | Pix : **ADR 25**, qui remplace l'ADR 9. Celui-ci plaçait `DomainTransaction.execute` dans le contrôleur ; l'ADR 25 ne le reprend pas, et la forme dominante place la transaction dans le usecase | ADR 9 et 25 |
-| **C3** sérialiseur injecté | Pix : **ADR 46**, et son motif ESM. L'ADR écarte l'injection des usecases dans les contrôleurs sans motif ; la cible est désormais l'injection, voir `X4` de [`ecarts.md`](ecarts.md) | ADR 46 |
+| **C3** dépendances en paramètre | Pix : **ADR 46**, et son motif ESM. L'ADR écarte l'injection des usecases dans les contrôleurs sans motif ; la cible est désormais l'injection, voir `X4` de [`ecarts.md`](ecarts.md) | ADR 46 |
 | **C4** aucun accès aux données | Martin, « The Clean Architecture » : la règle de dépendance. Pix : **ADR 55** pour la frontière entre contextes | billet gratuit ; ADR 55 |
 | **C5** nommage | **aucune source** : convention de rangement | — |
 | Le mappeur d'erreurs (`C2`, `X2`) | Pix : **ADR 44**, qui rend le code d'erreur obligatoire. **ADR 13** décrit la structure de l'objet d'erreur JSON:API (`status`, `code` fonctionnel, `title`, `detail`, `meta`) et pose que plusieurs messages peuvent correspondre à un même statut HTTP. **Son état est `Proposed`** : il éclaire le raisonnement, il ne fait pas autorité | ADR 13 et 44 |

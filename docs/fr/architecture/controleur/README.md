@@ -24,7 +24,7 @@ invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la 
 | --- | --- | --- |
 | [**C1**](#c1-un-seul-usecase-par-point-dentrée) | un seul usecase par point d'entrée | règle ESLint |
 | [**C2**](#c2-aucune-décision) | aucune décision | règle ESLint pour le code d'erreur, revue pour le reste |
-| [**C3**](#c3-le-sérialiseur-est-injecté-par-valeur-de-paramètre-par-défaut) | le sérialiseur est injecté par valeur de paramètre par défaut | revue |
+| [**C3**](#c3-les-dépendances-arrivent-en-paramètre) | les dépendances arrivent en paramètre | revue |
 | [**C4**](#c4-aucun-accès-direct-aux-données) | aucun accès direct aux données | `dependency-cruiser` |
 | [**C5**](#c5-un-contrôleur-par-ressource-une-fonction-par-action) | un contrôleur par ressource, une fonction par action | script |
 
@@ -177,26 +177,39 @@ le mappeur lui associe un statut, et personne au milieu ne décide.
 **Vérification.** Une règle ESLint pour le code d'erreur choisi ici. La règle métier et la
 transaction se vérifient en revue. Voir [`outillage.md`](outillage.md#c2--les-codes-derreur).
 
-### C3. Le sérialiseur est injecté par valeur de paramètre par défaut
+### C3. Les dépendances arrivent en paramètre
 
-**Énoncé.** Le sérialiseur arrive par un troisième paramètre dont la valeur par défaut le fournit.
+**Énoncé.** Les dépendances du contrôleur, sérialiseurs et usecases, arrivent en paramètre. Aucune
+n'est importée puis appelée directement. Deux formes sont admises :
+
+- **la forme par défaut**, pour tout contrôleur neuf : une enveloppe posée sur la route passe au
+  contrôleur un objet de dépendances qui contient ses usecases et ses sérialiseurs ;
+- **la forme admise** : une valeur par défaut sur le troisième paramètre fournit le sérialiseur.
 
 ```js
+// par défaut — l'enveloppe de la route injecte usecases et sérialiseur
+handler: handlerWithDependencies(passageController.create),
+
+const create = async function (request, h, { usecases, passageSerializer }) { … };
+
+// admise — la valeur par défaut du troisième paramètre fournit le sérialiseur
+const getQuestResults = async function (request, h, dependencies = { questResultSerializer }) { … };
+
 // fautif — le sérialiseur importé est appelé directement
 async function getAllModulesMetadata() {
   const modulesMetadata = await usecases.getModuleMetadataList();
 
   return moduleMetadataSerializer.serialize(modulesMetadata);
 }
-
-// conforme — le sérialiseur arrive par le troisième paramètre
-const getQuestResults = async function (request, h, dependencies = { questResultSerializer }) { … }
 ```
 
-**Code.** Fautif : [`module-metadata-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/modules-metadata/module-metadata-controller.js#L4-L8). Conforme : [`quest-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/quest-controller.js#L7).
+**Code.** Par défaut : [`passage-route.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-route.js#L17) et [`passage-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-controller.js#L4). Admise : [`quest-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/quest-controller.js#L7). Fautif : [`module-metadata-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/modules-metadata/module-metadata-controller.js#L4-L8).
 
-**Ce qui casse.** Sous ESM, les exports sont immuables. Sans cette forme, le sérialiseur ne peut pas
-être substitué en test, donc le contrôleur n'est pas testable en unitaire. C'est la même contrainte
+La forme par défaut est la seule qui injecte aussi les usecases. Un contrôleur qui l'emploie n'aura
+rien à changer quand l'équipe choisira une forme unique.
+
+**Ce qui casse.** Sous ESM, les exports sont immuables. Une dépendance importée ne peut pas être
+substituée en test, donc le contrôleur n'est pas testable en unitaire. C'est la même contrainte
 technique que celle qui motive l'injection ailleurs, décidée par l'ADR 46.
 
 **Vérification.** La revue. Voir [`outillage.md`](outillage.md#vérifications).
@@ -213,11 +226,11 @@ import * as challengeToPlayRepository from '../../infrastructure/repositories/ch
 // fautif — la frontière franchie hors API interne
 import { usecases as questUsecases } from '../../../quest/domain/usecases/index.js';
 
-// conforme — les usecases du contexte courant, et eux seuls
-import { usecases } from '../domain/usecases/index.js';
+// conforme — les usecases du contexte courant, et eux seuls, reçus par l'enveloppe (C3)
+const create = async function (request, h, { usecases, passageSerializer }) { … };
 ```
 
-**Code.** Fautif, le repository : [`challenge-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/application/challenges/challenge-controller.js#L1). Fautif, la frontière : [`assessment-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/application/assessments/assessment-controller.js#L6). Conforme : [`quest-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/quest-controller.js#L4).
+**Code.** Fautif, le repository : [`challenge-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/application/challenges/challenge-controller.js#L1). Fautif, la frontière : [`assessment-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/application/assessments/assessment-controller.js#L6). Conforme : [`passage-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-controller.js#L4).
 
 **Les usecases du contexte courant** sont les seuls que le contrôleur reçoit. Aucune forme ne
 s'étend aux usecases d'un autre contexte : franchir une frontière passe par l'API interne, selon `U9`
@@ -266,7 +279,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 
 | Cas | Statut |
 | --- | --- |
-| Les usecases du contexte importés sans injection | **toléré** : c'est l'écart `X4` de [`ecarts.md`](ecarts.md), dont la cible est l'injection. `C4` |
+| Les usecases du contexte importés, avec le sérialiseur en valeur par défaut | **admis** : c'est la seconde forme de `C3`. `C4` |
 | L'utilisateur extrait de la requête via un utilitaire partagé | **autorisé**, c'est de l'extraction |
 | Un code de succès non standard : 201, 204 | **autorisé**, propriété constante de la route. `C2` |
 | Un `if` sur la présence d'un paramètre optionnel | **autorisé** |
@@ -312,7 +325,7 @@ Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vér
 [ ] [partiel] C1  Un seul usecase appelé
 [ ] [partiel] C2  Aucune décision : ni règle métier, ni code d'erreur choisi ici
 [ ] [humain]  C2  Aucune transaction ouverte ici : elle appartient au usecase
-[ ] [humain]  C3  Le sérialiseur est injecté par valeur de paramètre par défaut
+[ ] [humain]  C3  Les dépendances arrivent en paramètre ; l'enveloppe de la route pour un contrôleur neuf
 [ ] [auto]    C5  Nom de fichier = ressource, nom de fonction = action, objet exporté
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui du contrôleur
 [ ] [humain]  Test unitaire avec usecase et sérialiseur substitués, sans fixture métier
@@ -334,6 +347,6 @@ L'argumentation et la bibliographie sont dans [`explication.md`](explication.md#
 | **C1** un usecase par point d'entrée | ADR 20, « Est-il obligatoire d'implémenter un use-case dans toutes les situations ? » |
 | **C2** la transaction hors du contrôleur | ADR 25, « Précision sur les transactions et les événements métier », qui remplace l'ADR 9, « Transactions métier » |
 | **C2** le mappeur d'erreurs | ADR 44, « Gestion des erreurs de l'API dans les clients (applications tierces, IHM, etc.) et références ». L'ADR 13 éclaire le raisonnement sans faire autorité : voir [`explication.md`](explication.md#le-contrat-du-front) |
-| **C3** sérialiseur injecté | ADR 46, « Injecter les dépendances dans l'API » |
+| **C3** dépendances en paramètre | ADR 46, « Injecter les dépendances dans l'API » |
 | **C4** aucun accès aux données | Martin, « The Clean Architecture », la règle de dépendance. ADR 55, « Communication "séquentielle" entre les contextes fonctionnels », pour la frontière entre contextes |
 | **C5** nommage | convention de rangement, sans source |
