@@ -385,26 +385,32 @@ l'invariant de sa ligne. Elle n'excuse rien d'autre.
 
 Aucune Entity du code n'est entièrement conforme. L'exemple est la version corrigée de `Passage`, le
 passage d'un utilisateur dans un module. C'est l'Entity la plus proche du conforme : identité portée
-(E1), aucun import (E4), aucun mutateur nu (E6), aucune méthode de persistance (E5), aucune instance
-d'un autre Aggregate (E7). Une Entity n'a pas d'enregistrement : elle s'importe directement.
+(E1), aucun import (E4), aucune méthode de persistance (E5), aucune instance d'un autre Aggregate
+(E7). Une Entity n'a pas d'enregistrement : elle s'importe directement.
 
 ```js
 // l'Entity, version corrigée
 import { PassageTerminatedError } from '../errors.js';
 
 class Passage {
+  #terminatedAt;
+
   constructor({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
     this.id = id;
     this.moduleId = moduleId;
     this.userId = userId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    this.terminatedAt = terminatedAt;
+    this.#terminatedAt = terminatedAt;
+  }
+
+  get terminatedAt() {
+    return this.#terminatedAt;
   }
 
   terminate({ now }) {
-    if (this.terminatedAt) throw new PassageTerminatedError();
-    this.terminatedAt = now;
+    if (this.#terminatedAt) throw new PassageTerminatedError();
+    this.#terminatedAt = now;
   }
 }
 
@@ -421,6 +427,8 @@ Corrections apportées :
   Tout autre appelant de `terminate` y échappe. Le usecase n'a plus à le vérifier.
 - **E4**, date en paramètre : `terminate` reçoit `now` au lieu de lire `new Date()`. Le usecase la
   fournit.
+- **E6**, pas d'affectation externe : `terminatedAt` porte la règle du refus, donc il devient privé,
+  lu par un accesseur. Sans cela, un appelant pourrait le réécrire et contourner `terminate`.
 
 Reste hors correction : la validation à la construction, que demande aussi E3. Aucune règle du code
 ne dit quels champs sont obligatoires, et un `userId` absent y est admis. La corriger supposerait une
