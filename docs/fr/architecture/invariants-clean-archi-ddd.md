@@ -263,7 +263,7 @@ même : rien dans l'outillage ne distingue un dossier temporaire d'un dossier d�
 périme la situation. Un marqueur explicite serait le premier candidat à une vérification
 déterministe utile.
 
-### DDD-4. Le Ubiquitous Language n'est pas partagé entre contextes voisins
+### DDD-4. L'Ubiquitous Language n'est pas partagé entre contextes voisins
 
 `quest` définit ses propres `Campaign`, `TargetProfile`, `OrganizationLearner`, `Module`, qui
 existent déjà sous ces noms dans `prescription` et `devcomp`. C'est exactement ce que DDD prescrit —

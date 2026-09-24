@@ -200,7 +200,7 @@ est exempté dans la règle du § 6 plutôt que de servir de précédent.
 **Énoncé.** Un fichier par usecase, nommé par le **verbe de l'intention** : `start-course`,
 `archive-organization`, `reward-user`. Pas par la ressource, pas par la couche.
 
-Le nom est celui du Ubiquitous Language du contexte. Deux contextes peuvent avoir un usecase du même
+Le nom est celui de l'Ubiquitous Language du contexte. Deux contextes peuvent avoir un usecase du même
 nom désignant deux choses différentes : c'est attendu, mais ça se paie à la lecture d'un import.
 
 **Ce qui casse.** La liste des fichiers de `usecases/` cesse d'être la liste de ce que le contexte

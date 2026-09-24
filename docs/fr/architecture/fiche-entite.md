@@ -36,9 +36,9 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**E3**](#e3-les-invariants-sont-tenus-à-tout-instant) | les invariants sont tenus à tout instant | **forte** | règle ESLint, bruyante |
 | [**E6**](#e6-aucun-mutateur-nu) | aucun mutateur nu | **forte** | règle ESLint |
 | [**E7**](#e7-les-autres-aggregates-sont-référencés-par-identité) | les autres Aggregates sont référencés par identité | **forte** | revue |
-| [**E4**](#e4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser` |
+| [**E4**](#e4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | moyenne | `dependency-cruiser`, partielle |
 | [**E5**](#e5-aucune-méthode-au-service-de-la-persistance) | aucune méthode au service de la persistance | moyenne | revue |
-| [**E1**](#e1-lidentité-est-explicite-et-stable) | l'identité est explicite et stable | moyenne | règle ESLint, à mesurer |
+| [**E1**](#e1-lidentité-est-explicite-et-stable) | l'identité est explicite et stable | moyenne | règle ESLint, faux positifs non mesurés |
 | [**E2**](#e2-légalité-se-fonde-sur-lidentité) | l'égalité se fonde sur l'identité | hygiène | revue |
 | [**E8**](#e8-nommage-et-emplacement) | nommage et emplacement | hygiène | script |
 
@@ -123,8 +123,9 @@ class Passage {
 fondement. Chaque site d'appel improvise sa comparaison.
 
 **Le cas de l'Entity non encore persistée.** Une Entity créée en mémoire n'a pas encore d'identifiant.
-Deux traitements existent, et le choix entre eux est explicite : un identifiant `null` assumé et documenté, ou un
-type distinct pour l'intention de création, `…ForCreation` (voir V8 dans `fiche-objet-valeur.md`). Le
+Deux traitements existent, et le choix entre eux est explicite : un identifiant `null` assumé et
+documenté, ou un type distinct pour l'intention de création, `…ForCreation` (voir V8 dans
+`fiche-objet-valeur.md`). Le
 second est plus sûr : la signature dit qu'il n'y a pas encore d'identité. Voir X5 au § 5.
 
 ### E2. L'égalité se fonde sur l'identité
@@ -150,18 +151,17 @@ données chargées. Elle a deux effets :
 - elle confond deux Entities distinctes qui partagent ce champ ;
 - elle distingue deux instances de la même Entity chargées à des moments différents.
 
-Conséquence pratique en test : le test compare les identifiants, et vérifie l'état pertinent séparément.
+En test, la comparaison porte sur les identifiants, et l'état pertinent se vérifie séparément.
 
 ### E3. Les invariants sont tenus à tout instant
 
 **Énoncé.** Une Entity invalide ne s'instancie pas. Aucune opération ne la laisse dans un état
 invalide, y compris une opération qui échoue à mi-chemin.
 
-C'est l'invariant qui distingue une Entity d'un objet littéral nommé. Il vaut aussi pour une racine
-d'Aggregate, où il porte sur la frontière de cohérence entière. `fiche-racine-agregat.md` y renvoie.
+C'est l'invariant qui distingue une Entity d'un objet littéral nommé. Il vaut aussi pour une Aggregate
+Root, où il porte sur la frontière de cohérence entière. `fiche-racine-agregat.md` y renvoie.
 
-**À la construction.** Une Entity invalide ne s'instancie pas. Un seul type d'erreur de validation
-vaut pour tout le domaine.
+**À la construction.** La validation lève un seul type d'erreur, commun à tout le domaine.
 
 La convention Pix valide `this` après les affectations, contre un schéma déclaratif. C'est `X3` au
 § 5. Ce n'est pas la forme la plus stricte. Elle est documentée, et son coût porte sur le message
@@ -205,7 +205,7 @@ repère dans les imports.
 import { anonymizeGeneralizeDate } from '…/shared/infrastructure/utils/date-utils.js';
 ```
 
-**Vaut aussi pour l'horloge.** Lire l'heure courante est la violation la plus fréquente, parce
+**L'horloge.** Lire l'heure courante est la violation la plus fréquente, parce
 qu'elle ne ressemble pas à un import :
 
 ```js
@@ -228,7 +228,7 @@ Ces deux méthodes sont par ailleurs **conformes à E6** : elles nomment leur in
 peut satisfaire un invariant et en violer un autre. C'est le cas le plus courant en revue.
 
 **Corollaire.** Une Entity ne charge jamais ce qui lui manque. Si une règle a besoin d'une donnée que
-l'Entity n'a pas, c'est au usecase de la fournir.
+l'Entity n'a pas, le usecase la fournit.
 
 **Ce qui casse.** Le test cesse d'être pur : il demande un double. Ce besoin n'est que le symptôme. La
 cause est la dépendance à l'infrastructure.
@@ -337,7 +337,7 @@ invariant en rentabilité forte.
 **Énoncé.** Un fichier par Entity, nommé d'après le concept métier en PascalCase, dans
 `domain/models/`.
 
-Le nom est celui du Ubiquitous Language du contexte. Deux contextes peuvent avoir une Entity de même
+Le nom est celui de l'Ubiquitous Language du contexte. Deux contextes peuvent avoir une Entity de même
 nom, désignant deux choses différentes. C'est attendu en DDD, pas une collision à résoudre. Ce qui
 doit être clair, c'est **de quel contexte** relève le nom au moment de l'import.
 
@@ -358,7 +358,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Une méthode de sérialisation vers un **format publié** | **autorisé**, c'est l'exception de E5 |
 | Un accesseur calculé — `isArchived`, `hasFeature` — plutôt qu'un champ | **autorisé**, et souvent préférable |
 | Une Entity qui reçoit `now` ou un générateur en paramètre | **autorisé**, c'est la forme correcte de E4 |
-| Deux contextes ont une Entity de même nom | **autorisé**, c'est le Ubiquitous Language par contexte. E8 |
+| Deux contextes ont une Entity de même nom | **autorisé**, c'est l'Ubiquitous Language par contexte. E8 |
 | L'objet n'a aucune règle propre et personne ne le lit pour décider | **ce n'est pas une Entity** — le test du § 1 s'applique, puis `fiche-read-model.md` |
 | Une Entity au constructeur permissif dans du code ancien | **pas une exception** — c'est X1, un écart classé et corrigé, pas absous |
 
@@ -368,7 +368,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 
 | Invariant | Rentabilité | Ce qu'on gagne |
 | --- | --- | --- |
-| **E3** invariants tenus à tout instant | **forte** | Un état invalide n'existe jamais, donc aucun code en aval n'a à s'en prémunir. C'est la différence entre un modèle qui protège et un modèle qui décore |
+| **E3** invariants tenus à tout instant | **forte** | Un état invalide n'existe jamais, donc aucun code en aval n'a à s'en prémunir |
 | **E6** aucun mutateur nu | **forte** | Sans lui, E3 n'est garanti qu'à la construction. Et la liste des méthodes devient la description du cycle de vie |
 | **E7** référence par identité | **forte** | Le coût d'un chargement reste limité, et la frontière reste déplaçable le jour d'un découpage en contextes |
 | **E4** pureté | moyenne | Les règles métier deviennent vérifiables en unitaire pur, à coût quasi nul |
@@ -499,7 +499,7 @@ et value objects du domaine ». Le mélange est donc une convention documentée,
 domain/models/
   Passage.js                    → Entity
   AnswerStatus.js               → Value Object
-  CombinedCourseStatistics.js   → read-model, probablement
+  CombinedCourseStatistics.js   → Value Object sans règle, ou read-model : le test du § 1 décide
 ```
 
 **Correction.** Aucune n'est décidée : c'est une décision à prendre, pas une correction à appliquer.
@@ -544,8 +544,11 @@ cette pièce, le coût du doublement des types n'est pas démontré.
 ## 6. Vérification déterministe
 
 Les taux de faux positifs annoncés sont estimés. Toute hypothèse sur le comportement d'un outil se
-vérifie par contre-épreuve : introduire la violation, confirmer que l'outil la signale, retirer
-la violation.
+vérifie par contre-épreuve :
+
+- introduction de la violation ;
+- confirmation que l'outil la signale ;
+- retrait de la violation.
 
 Il n'existe aucun plugin ESLint maison. Toute règle sur mesure suppose d'abord de créer cette
 infrastructure. Les coûts ci-dessous ne comptent que la règle elle-même.
@@ -557,12 +560,12 @@ règles de cette section.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **E4** aucune I/O | règle `dependency-cruiser` de chemin | configuration seule | aucun |
+| **E4** aucune I/O | règle `dependency-cruiser` de chemin, pour les imports seulement. L'horloge, l'aléatoire et la configuration restent en revue | configuration seule | aucun |
 | **E6** aucun mutateur nu | règle ESLint : `set` public dans `domain/models/` | ~20 lignes | aucun attendu |
 | **E8** nommage et emplacement | script `tests/tooling/` | ~20 lignes | aucun |
 | **E3** invariants tenus | règle ESLint : constructeur en `= {}` sans appel de validation | ~40 lignes | **élevés sur l'existant** — voir X1 |
 | **X3** validation après affectation | sans objet : c'est la forme prescrite. Voir `X3` au § 5 | — | — |
-| **E1** identité explicite | règle ESLint : une classe de `domain/models/` expose un accesseur `id` | ~15 lignes | **à mesurer** — un Value Object porteur d'identifiant la déclenche |
+| **E1** identité explicite | règle ESLint : une classe de `domain/models/` expose un accesseur `id` | ~15 lignes | **non mesurés** — un Value Object porteur d'identifiant la déclenche |
 | **E5** pas de méthode de persistance | revue. knip, déjà branché, ne signale que les exports sans consommateur | — | — |
 | **E2** l'égalité se fonde sur l'identité | revue | — | — |
 | **E7** les autres Aggregates sont référencés par identité | revue | — | — |
@@ -696,8 +699,9 @@ L'existence du fichier de test se vérifie par comparaison de noms. Moyens et li
 Deux indices de diagnostic :
 
 - Le test qui manque le plus souvent est celui du **refus**. Les tests vérifient que `terminate()`
-  termine, pas qu'il refuse de terminer deux fois. Or c'est le second qui prouve que E3 est tenu. Une exception :
-  une Entity sans méthode de changement d'état n'a pas de refus à tester, ce qu'admet le § 3.
+  termine, pas qu'il refuse de terminer deux fois. Or c'est le second qui prouve que E3 est tenu.
+  Exception : une Entity sans méthode de changement d'état n'a pas de refus à tester, ce qu'admet le
+  § 3.
 - Une Entity qui a besoin d'un double **viole E4**. Voir « Ce qui casse » de E4 au § 2.
 
 ---
@@ -720,7 +724,7 @@ Chaque ligne porte son statut au regard du § 6 :
 [ ] [humain]  E5  Aucune méthode dont le repository est le seul consommateur   (sauf format publié)
 [ ] [partiel] E1  L'identité est explicite et ne change pas ; le cas non persisté est traité
 [ ] [humain]  E2  Les comparaisons se fondent sur l'identité, pas sur les champs
-[ ] [auto]    E8  Un fichier, PascalCase, nom du Ubiquitous Language du contexte
+[ ] [auto]    E8  Un fichier, PascalCase, nom de l'Ubiquitous Language du contexte
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui de l'Entity
 [ ] [humain]  Chaque règle a son test de refus, pas seulement son cas passant
 [ ] [humain]  Si l'objet n'a aucune règle propre, appliquer le test du § 1 : Entity, ou read-model ?

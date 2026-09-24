@@ -6,8 +6,8 @@ Le gabarit commun, l'état du chantier et l'ordre de relecture sont dans `corpus
 le code réel est mesuré dans les rapports de divergence, un par contexte. Ce qui empêche aujourd'hui le
 typage de s'appliquer est dans `migration-typescript.md`.
 
-Une Specification s'applique dès qu'un objet répond à la question « ce candidat satisfait-il ces critères ? ». Par
-exemple :
+Une Specification s'applique dès qu'un objet répond à la question « ce candidat satisfait-il ces
+critères ? ». Par exemple :
 
 - un moteur de règles ;
 - un ensemble de prérequis ;
@@ -77,7 +77,7 @@ Chaque élément a un rôle distinct :
 
 | Élément | Rôle | Catégorie | Fiche |
 | --- | --- | --- | --- |
-| **La specification** | l'arbre de critères. Aggregate Root si elle est persistée et identifiée | Entity, ou racine | `fiche-racine-agregat.md` |
+| **La specification** | l'arbre de critères. Aggregate Root si elle est persistée et identifiée | Entity, ou Aggregate Root | `fiche-racine-agregat.md` |
 | **Les critères** | les feuilles et les combinateurs du prédicat | Value Objects | `fiche-objet-valeur.md` |
 | **Le candidat** | l'objet évalué, assemblé pour l'occasion | **Value Object** | `fiche-objet-valeur.md` |
 | **`isSatisfiedBy(candidat)`** | l'unique point d'entrée | sur la specification | — |
@@ -89,8 +89,8 @@ raisonne donc avec lui.
 Conséquence directe : `V3` s'applique. Le candidat valide à la construction. C'est ce qui rend `S1`
 tenable, car un candidat valide garantit la forme de chacune de ses propriétés.
 
-Le candidat ne se range pas dans `aggregates/`, qui promet une frontière de cohérence qu'il n'a pas. Voir `X1`
-de `fiche-racine-agregat.md`.
+Le candidat ne se range pas dans `aggregates/`, qui promet une frontière de cohérence qu'il n'a pas.
+Voir `X1` de `fiche-racine-agregat.md`.
 
 ### Plusieurs prédicats, et le prédicat vide
 
@@ -207,9 +207,9 @@ constructor({ campaignParticipations = [] }) { … }
 avalée par un `try/catch` que personne ne relit. Le défaut est silencieux et le résultat manquant est
 attribué au métier.
 
-**Un seul mode de réponse par erreur de câblage.** Si certaines propriétés
-lèvent, d'autres rendent `false` par projection, et d'autres `false` par collection vide, le
-comportement dépend du critère écrit. Le diagnostic devient impossible.
+**Un seul mode de réponse par erreur de câblage.** Si certaines propriétés lèvent, d'autres rendent
+`false` par projection, et d'autres `false` par collection vide, le comportement dépend du critère
+écrit. Le diagnostic devient impossible.
 
 ### S2. « Non satisfait » et « non évaluable » sont distincts
 
@@ -303,8 +303,8 @@ isFulfilled(dataInput) {
 **Ce qui casse.** Exprimer une condition métier nouvelle demande alors de modifier le moteur. C'est
 exactement ce que le pattern sert à éviter.
 
-Généralement déjà tenu : c'est un invariant **acquis**, qui se protège plutôt qu'il ne se conquiert. Un combinateur qui refuse
-un type d'enfant, ou qui modifie le candidat avant de le passer, casse la propriété.
+S5 est généralement déjà tenu : l'enjeu est de le préserver. Un combinateur qui refuse un type
+d'enfant, ou qui modifie le candidat avant de le passer, casse la propriété.
 
 ### S6. Le format est un contrat publié
 
@@ -382,9 +382,9 @@ for (const name of Object.values(TYPES.OBJECT)) {
 forme de la propriété, une exception ou un `false` définitif et silencieux. Le critère est écrit. Il
 paraît actif, mais il ne l'est pas.
 
-**L'exception.** Un critère qui porte un algorithme (un calcul, un seuil, une agrégation)
-n'utilise pas la résolution par nom. Il appelle une méthode nommée du candidat. Il est hors du périmètre
-de `S7` et n'entre pas dans l'énumération. Faute de le distinguer explicitement, la vérification
+**L'exception.** Un critère qui porte un algorithme (un calcul, un seuil, une agrégation) n'utilise
+pas la résolution par nom. Il appelle une méthode nommée du candidat. Il est hors du périmètre de `S7`
+et n'entre pas dans l'énumération. Faute de le distinguer explicitement, la vérification
 produit un faux positif.
 
 ### S8. Un consommateur ne redéfinit pas la specification
@@ -419,8 +419,8 @@ return quest.isSuccessful(this.dataForQuest);
 ```
 
 **Ce qui casse.** Le troisième est rédhibitoire : aucune API publiée ne peut exposer « réinstancie mon
-Aggregate avec d'autres critères ». Tant que `S8` est violé, le moteur ne peut pas devenir un contexte
-borné distinct de ses consommateurs. L'ADR 55 reste inapplicable à cette frontière.
+Aggregate avec d'autres critères ». Tant que `S8` est violé, le moteur ne peut pas devenir un Bounded
+Context distinct de ses consommateurs. L'ADR 55 reste inapplicable à cette frontière.
 
 À l'inverse, un consommateur conforme se contente d'évaluer :
 
@@ -460,7 +460,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **S2** non satisfait ≠ non évaluable | **forte** | Un utilisateur privé de son résultat par un défaut cesse d'être indiscernable d'un utilisateur qui n'y a pas droit |
 | **S6** format publié | **forte** | Les specifications déjà écrites continuent de fonctionner, et leur documentation reste vraie |
 | **S7** correspondance énumération ↔ candidat | moyenne | Interdit une classe de pannes silencieuses pour dix lignes de test |
-| **S5** fermeture par composition | hygiène | Exprimer une condition métier arbitraire sans toucher au moteur. Généralement déjà tenu, donc protégé plutôt que conquis |
+| **S5** fermeture par composition | hygiène | Exprimer une condition métier arbitraire sans toucher au moteur. Généralement déjà tenu : l'enjeu est de le préserver |
 
 **Pourquoi quatre invariants sur six sont en rentabilité forte.** C'est inhabituel dans le corpus. Les
 modes de défaillance d'un moteur piloté par les données sont silencieux, mais visibles par
@@ -618,8 +618,8 @@ Le nom est stocké en base de données, donc aucun outil ne peut lier la déclar
 **Correction.** Aucune sur le principe. La résolution par nom permet d'écrire une specification
 nouvelle sans déploiement. C'est le bénéfice central du pattern piloté par les données.
 
-La compensation est le test de `S7` : il vérifie l'étape que rien d'autre ne valide.
-Il coûte dix lignes. Sans lui, rien ne compense le coût de la convention.
+La compensation est le test de `S7` : il vérifie l'étape que rien d'autre ne valide. Il coûte dix
+lignes. Sans lui, rien ne compense le coût de la convention.
 
 **Révision.** Le typage change ce verdict. Un nom de critère typé en `keyof Candidate`, plutôt qu'en
 `string`, rend la déclaration sans propriété impossible à la compilation. Voir § 7. `X4` cesse alors
@@ -681,9 +681,8 @@ ce message, un échec du test est inexploitable.
 Dix lignes, aucun faux positif. Si le test passe déjà, il sert de test de non-régression : il interdit
 une classe entière de pannes silencieuses.
 
-**Extension plus coûteuse mais utile.** Une extension du test vérifie que la propriété est renseignée
-par le repository qui assemble le candidat, pas seulement exposée. Elle demande une fixture, donc un
-test d'intégration.
+**L'extension.** Un test d'intégration vérifie en plus que la propriété est renseignée par le
+repository qui assemble le candidat, pas seulement exposée. Il demande une fixture.
 
 ### S1 — test de totalité
 
@@ -778,8 +777,8 @@ plutôt qu'en `string`, rend impossible la déclaration d'un critère sans propr
 test de `S7` devient alors inutile. C'est le seul endroit du corpus où le typage retire un test au lieu
 d'en ajouter un.
 
-La limite : ce bénéfice suppose que le nom vienne du code. Un nom qui vient de la base de
-données reste une chaîne au moment où il arrive. La vérification se déplace alors vers la validation du
+La limite : ce bénéfice suppose que le nom vienne du code. Un nom qui vient de la base de données
+reste une chaîne au moment où il arrive. La vérification se déplace alors vers la validation du
 format, `V3`.
 
 Les contraintes de syntaxe imposées par la configuration sont dans `migration-typescript.md`.
@@ -799,15 +798,14 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6 de
 `fiche-repository.md`.
 
-Deux indices de diagnostic, avec leurs exceptions.
+Deux indices de diagnostic, avec leurs exceptions :
 
-**Une specification qui a besoin d'une doublure pour être testée en unitaire viole `V4`.** La doublure
-n'est pas une contrainte du test, c'est le diagnostic. Cet indice n'a pas d'exception : aucune
-specification conforme n'en demande une.
-
-**Un test qui liste des cas au lieu d'énumérer est un signal.** Le domaine est fini et déclaré. Un test
-écrit cas par cas se périme dès qu'une valeur est ajoutée à une énumération, et personne ne le saura.
-L'exception : les cas limites d'une comparaison particulière se listent légitimement.
+- Une specification qui a besoin d'une **doublure** pour être testée en unitaire viole `V4`. La
+  doublure n'est pas une contrainte du test, c'est le diagnostic. Cet indice n'a pas d'exception :
+  aucune specification conforme n'en demande une.
+- Un test qui **liste des cas** au lieu d'énumérer est un signal. Le domaine est fini et déclaré. Un
+  test écrit cas par cas se périme dès qu'une valeur est ajoutée à une énumération, et personne ne le
+  saura. Exception : les cas limites d'une comparaison particulière se listent légitimement.
 
 ---
 
@@ -815,9 +813,11 @@ L'exception : les cas limites d'une comparaison particulière se listent légiti
 
 Ordonnée par ROI décroissant, conformément au § 4.
 
-Chaque ligne porte son statut au regard du § 6. Une ligne `[auto]` disparaît de la checklist dès que
-la règle ou le test correspondant existe. Une ligne `[partiel]` reste, réduite à ce que la règle ou le
-test ne couvre pas. Une ligne `[humain]` reste entière : aucun moyen déterministe n'est identifié.
+Chaque ligne porte son statut au regard du § 6 :
+
+- Une ligne `[auto]` disparaît dès que la règle ou le test correspondant existe.
+- Une ligne `[partiel]` reste, réduite à ce que la règle ou le test ne couvre pas.
+- Une ligne `[humain]` reste en entier : aucun moyen déterministe n'est connu.
 
 Les quatre dernières lignes reprennent les invariants hérités de `fiche-objet-valeur.md`.
 
@@ -838,8 +838,9 @@ Les quatre dernières lignes reprennent les invariants hérités de `fiche-objet
 
 À terme, il reste huit lignes. Cinq sont de jugement : `S8`, `S2`, `V3`, la forme des tests et le
 rappel des exceptions. Trois sont partielles, réduites à ce que le test ou la règle ne couvre pas :
-`S6`, `S7` pour le chargement de la propriété, et `V7` pour les accès imbriqués. `S8` et `S2` restent de jugement parce que leurs écarts, `X1` et `X2`, se corrigent par une
-décision que rien ne vérifie ensuite. C'est cohérent avec le § 5.
+`S6`, `S7` pour le chargement de la propriété, et `V7` pour les accès imbriqués. `S8` et `S2` restent
+de jugement parce que leurs écarts, `X1` et `X2`, se corrigent par une décision que rien ne vérifie
+ensuite. C'est cohérent avec le § 5.
 
 ---
 

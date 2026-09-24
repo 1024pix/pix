@@ -56,8 +56,8 @@ plusieurs Aggregates, soit aucun objet n'en est le propriétaire naturel.
 Il reçoit des objets du domaine et en renvoie. Il ne charge rien, n'écrit rien et ne garde aucun état.
 
 C'est une catégorie de **dernier recours**. Un service ne se crée qu'après une tentative de placer la
-règle sur un Value Object, une Entity ou une Aggregate Root. Créer un service par facilité retire la logique
-des modèles, qui deviennent anémiques.
+règle sur un Value Object, une Entity ou une Aggregate Root. Créer un service par facilité retire la
+logique des modèles, qui deviennent anémiques.
 
 ### Le test de discrimination
 
@@ -233,7 +233,7 @@ rien d'autre. Sa règle appartient presque toujours à cet objet, ou à l'objet 
 **Énoncé.** Le nom du fichier dit ce qu'il calcule ou décide. Ce n'est pas le nom d'une Entity.
 
 ```
-get-competence-level.js         — dit ce que ça fait
+get-competence-level.js         — dit ce que le fichier calcule
 get-campaign-progression.js     — idem
 scorecard-service.js            — ne dit rien, et attire tout ce qui touche à la carte de score
 ```
@@ -278,8 +278,8 @@ signature, sans faux positif. Aucun outil ne vérifie D4.
 ### Ce que ça n'apporte pas
 
 Ces invariants ne disent pas si la règle devait être transversale. Un Domain Service correct peut
-cacher une frontière d'Aggregate mal placée : la règle traverse deux Aggregates qui auraient dû n'en faire
-qu'un. Voir A1 de `fiche-racine-agregat.md`.
+cacher une frontière d'Aggregate mal placée : la règle traverse deux Aggregates qui auraient dû n'en
+faire qu'un. Voir A1 de `fiche-racine-agregat.md`.
 
 ---
 
@@ -423,8 +423,8 @@ correspond à /(Repository|Api|Storage)$/.
 La règle n'a besoin que de la signature.
 
 Elle se déclenchera sur le code existant, et c'est voulu : chaque fichier signalé contient un
-usecase. Chaque fichier signalé se classe avec le test du § 1, puis se déplace ou se découpe. La
-règle reste en avertissement pendant ce classement, puis passe en erreur.
+usecase. Il se classe avec le test du § 1, puis se déplace ou se découpe. La règle reste en
+avertissement pendant ce classement, puis passe en erreur.
 
 La même analyse de la signature sert au discriminant du § 6 de `fiche-usecase.md`. Elle sert aussi à
 l'étape 1 de I1 dans `fiche-repository.md`, qui repère déjà les paramètres en `/Api$/`. Le coût
@@ -453,14 +453,14 @@ Deux pièges :
 Un fichier de `domain/services/` sans test unitaire est soit non testé, soit testé en intégration.
 Dans le second cas, D1 est probablement violé. Le script ne prouve rien : il montre où regarder.
 
-La correspondance se fait sur le nom de base, sans le suffixe de test. Les chemins ne sont pas comparés,
-car le fichier et son test peuvent être dans des dossiers différents. Le suffixe varie aussi d'un
+La correspondance se fait sur le nom de base, sans le suffixe de test. Les chemins ne sont pas
+comparés, car le fichier et son test peuvent être dans des dossiers différents. Le suffixe varie aussi d'un
 contexte à l'autre.
 
 ### Ce qui n'est pas mécanisable
 
-D4 est, avec D1, l'invariant le plus rentable, et c'est le moins vérifiable. Savoir si une
-règle aurait pu vivre sur un objet suppose de connaître cet objet.
+D4 est, avec D1, l'invariant le plus rentable, et c'est le moins vérifiable. Savoir si une règle
+aurait pu vivre sur un objet suppose de connaître cet objet.
 
 Le seul indicateur connu est le signal de D4 : un seul objet du domaine, ou une seule collection, en
 entrée. Il justifie une revue, pas un verdict. Il ne couvre pas le cas le plus fréquent : une règle
@@ -557,14 +557,14 @@ Chaque ligne porte son statut au regard du § 6 :
 ```
 [ ] [auto]    D1  Aucun paramètre en *Repository, *Api, *Storage ; aucun import d'infrastructure
 [ ] [humain]  D1  Ni journal, ni horloge, ni aléatoire, ni configuration lue directement — tout entre en paramètre
-[ ] [humain]  D4  La règle ne pouvait pas vivre sur un Value Object, une Entity ou une racine
+[ ] [humain]  D4  La règle ne pouvait pas vivre sur un Value Object, une Entity ou une Aggregate Root
 [ ] [partiel] D3  Aucun état ; les objets reçus ne sont pas modifiés
 [ ] [humain]  D2  Entrées et sorties sont des objets du domaine local ou des scalaires
 [ ] [partiel] D5  Le fichier est nommé par la règle, pas par une ressource suffixée -service
 [ ] [auto]    Un fichier de test unitaire existe, et son nom correspond à celui du service
 [ ] [humain]  Test unitaire pur, sans doublure, avec les cas limites
 [ ] [humain]  Un test prouve que les entrées ne sont pas modifiées
-[ ] [humain]  Si le service prend un seul objet du domaine, vérifier que la règle ne lui appartient pas
+[ ] [humain]  Si le service prend un seul objet ou une seule collection, vérifier que la règle ne lui appartient pas
 ```
 
 À terme, il reste huit lignes : deux `[partiel]` et six `[humain]`. La ligne de D4 reste humaine,

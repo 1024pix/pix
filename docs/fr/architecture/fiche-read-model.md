@@ -79,7 +79,7 @@ class PlacesStatistics {
 
 Aucun concept du métier ne s'appelle « statistiques de places » : c'est le contenu d'un écran. Les
 trois accesseurs sont des **dérivations de présentation** : des soustractions et des sommes sur des
-données déjà chargées. Ils ne décident rien, ils mettent en forme. Le `id` concaténé n'identifie rien :
+données déjà chargées. Ils ne décident rien, ils mettent en forme. L'`id` concaténé n'identifie rien :
 il satisfait le store du front, qui exige une clé.
 
 ### Ce que le mot désigne, et ce qu'il ne désigne pas
@@ -131,7 +131,8 @@ Le cas de la clé de présentation, qui se rencontre surtout ici, est traité au
 
 ### RM1. Aucune règle métier
 
-Sa valeur est sa forme. Une règle métier placée dans un read-model devient invisible depuis le domaine.
+**Énoncé.** Un read-model ne porte aucune règle métier. Sa valeur est sa forme. Une règle métier placée
+dans un read-model devient invisible depuis le domaine.
 
 ```js
 // conforme — dérivation de présentation : une soustraction, plancher à zéro
@@ -157,15 +158,16 @@ que des données déjà chargées. Le second est fautif pour trois raisons cumul
 - un drapeau qui ouvre ou ferme la règle ;
 - une lecture de la configuration, qui viole aussi `V4`.
 
-Cette limite de places décide vraiment : une inscription est refusée quelque part quand elle est atteinte. La
-décision se prend donc à deux endroits. Le domaine ne voit pas l'un des deux.
+Cette limite de places décide vraiment : une inscription est refusée quelque part quand elle est
+atteinte. La décision se prend donc à deux endroits, et le domaine ne voit pas l'un des deux.
 
 **Ce qui casse.** La règle sera réécrite dans le domaine, différemment. Les deux divergeront sans que
 rien ne le signale.
 
 ### RM2. Aucune validation
 
-C'est une projection de données déjà lues par notre propre requête. Les valider est redondant. L'échec
+**Énoncé.** Un read-model ne valide pas ses données. C'est une projection de données déjà lues par
+une requête du contexte : les valider est redondant. L'échec
 n'aurait pas de traitement sensé : l'application ne refuse pas une donnée qu'elle vient de lire dans
 sa propre base.
 
@@ -179,7 +181,7 @@ class Country {
   }
 }
 
-// fautif — un read-model qui valide ce que notre propre requête vient de lire
+// fautif — un read-model qui valide ce que la requête du contexte vient de lire
 const validationSchema = Joi.object({
   id: Joi.number().required(),
   count: Joi.number().required().allow(null),
@@ -207,7 +209,7 @@ chemin de lecture où personne ne sait quoi en faire.
 
 ### RM3. N'entre pas dans une règle
 
-Un read-model sort du domaine. Il n'y rentre pas comme paramètre d'une décision.
+**Énoncé.** Un read-model sort du domaine. Il n'y rentre pas comme paramètre d'une décision.
 
 Cet invariant est un **test de classement**, pas une interdiction. Si une règle lit ses valeurs pour
 décider, l'objet n'est pas un read-model. C'est un Value Object : V3 et V5 s'appliquent à lui. Le cas
@@ -251,7 +253,7 @@ quoi. C'est la conséquence directe de RM2 : sans validation, aucune garantie n'
 
 ### RM4. Emplacement
 
-`domain/read-models/`, frère de `domain/models/`.
+**Énoncé.** Un read-model vit dans `domain/read-models/`, frère de `domain/models/`.
 
 ```
 // conforme — les deux dossiers sont frères
@@ -372,7 +374,7 @@ C'est la *use case optimal query* de Vernon. Son objet transporté est un **DTO*
 
 **Exemple concret.** Le malentendu apparaît chez quelqu'un qui connaît CQRS. Le mot lui promet un
 store séparé, une projection alimentée par des événements, et de la cohérence à terme. Il n'y a rien
-de tout ça ici.
+de tout cela ici.
 
 **Correction.** Aucune sur le mot. Le renommage a été écarté.
 
@@ -501,13 +503,13 @@ Le script parcourt les fichiers de `read-models/`. Deux vérifications :
   Entity est possible.
 - **§ 8** : chaque fichier a un fichier de test. La correspondance se fait sur le **nom de base**,
   après retrait du suffixe de test, pour deux raisons :
-  - le fichier peut vivre dans un sous-dossier alors que son test est au premier niveau
-  - le suffixe de test n'est pas le même partout
+  - le fichier peut vivre dans un sous-dossier alors que son test est au premier niveau ;
+  - le suffixe de test n'est pas le même partout.
 
   La comparaison détecte les deux sens :
-  - un read-model sans test
+  - un read-model sans test ;
   - un test dont aucun read-model ne porte le nom, ce qui attrape la faute de frappe dans un nom de
-    fichier de test
+    fichier de test.
 
 ### Ordre de mise en œuvre
 
