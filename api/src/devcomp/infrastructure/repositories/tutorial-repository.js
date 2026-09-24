@@ -24,7 +24,7 @@ export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
 
     tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto.locale === tutorialLocale);
   }
-  tutorialDtos.sort(byId);
+  tutorialDtos = tutorialDtos.toSorted(byId);
   const tutorials = tutorialDtos.map(toDomain);
   const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
   const tutorialEvaluations = await tutorialEvaluationRepository.find({
@@ -41,7 +41,7 @@ export async function findPaginatedFilteredForCurrentUser({ userId, filters = {}
   const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
   const tutorialIds = userSavedTutorials.map(({ tutorialId }) => tutorialId);
   let tutorialDtos = await getInstance().loadMany(tutorialIds);
-  tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto).sort(byId);
+  tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto).toSorted(byId);
   const tutorialEvaluations = await tutorialEvaluationRepository.find({
     userId,
   });
@@ -104,7 +104,7 @@ export async function findPaginatedFilteredRecommendedByUserId({
       if (lang) {
         tutorialDtos = tutorialDtos.filter((tutorialDto) => getBaseLocale(tutorialDto.locale) === lang);
       }
-      tutorialDtos.sort(byId);
+      tutorialDtos = tutorialDtos.toSorted(byId);
       const tutorials = tutorialDtos.map(toDomain);
 
       return toTutorialsForUserForRecommandation({

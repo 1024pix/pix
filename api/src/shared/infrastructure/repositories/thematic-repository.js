@@ -14,7 +14,7 @@ export async function list({ locale = FRENCH_FRANCE } = {}) {
 }
 
 export async function findByCompetenceIds(competenceIds, locale) {
-  const cacheKey = `findByCompetenceIds([${competenceIds.sort()}])`;
+  const cacheKey = `findByCompetenceIds([${competenceIds.toSorted()}])`;
   const findByCompetenceIdsCallback = (knex) => knex.whereIn('competenceId', competenceIds).orderBy('id');
   const thematicDtos = await getInstance().find(cacheKey, findByCompetenceIdsCallback);
   return thematicDtos.map((thematicDto) => toDomain(thematicDto, locale));
@@ -25,7 +25,7 @@ export async function findByRecordIds(ids, locale) {
   return thematicDtos
     .filter((thematic) => thematic)
     .map((thematicDto) => toDomain(thematicDto, locale))
-    .sort(byLocalizedName(locale));
+    .toSorted(byLocalizedName(locale));
 }
 
 export function clearCache(id) {

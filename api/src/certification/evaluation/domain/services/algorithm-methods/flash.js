@@ -259,7 +259,7 @@ function _findBestPossibleChallenges(challengesWithReward) {
    * @param {{challenge: CalibratedChallenge, reward: number}} challengeWithReward
    * @returns {boolean}
    */
-  const orderedChallengesWithReward = challengesWithReward.sort((a, b) => {
+  const orderedChallengesWithReward = challengesWithReward.toSorted((a, b) => {
     return a.reward > b.reward ? -1 : a.reward < b.reward ? 1 : 0;
   });
 

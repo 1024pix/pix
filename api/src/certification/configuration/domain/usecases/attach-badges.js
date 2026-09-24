@@ -125,7 +125,7 @@ function _isLastLevelDifferentThanExpectedMaximum({ sortedUniqLevels, complement
 function _verifyThatLevelsAreConsistent({ complementaryCertificationBadgesToAttachDTO }) {
   const extractedLevelsFromBadges =
     complementaryCertificationBadgesToAttachDTO?.map((badge) => badge.level).filter(Number.isInteger) ?? [];
-  const sortedUniqLevels = [...new Set([...extractedLevelsFromBadges])].sort(_compareLevels);
+  const sortedUniqLevels = [...new Set([...extractedLevelsFromBadges])].toSorted(_compareLevels);
   if (!_ifLevelIsUniq({ sortedUniqLevels, complementaryCertificationBadgesToAttachDTO })) {
     throw new InvalidBadgeLevelError();
   }

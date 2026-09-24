@@ -9,7 +9,7 @@ class CommonOrganizationLearnerFilter {
     return {
       organization_id: this.organizationId,
       attribute_name: this.attributeName,
-      values: JSON.stringify(this.values.sort()),
+      values: JSON.stringify(this.values.toSorted()),
     };
   }
 }

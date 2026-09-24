@@ -52,7 +52,7 @@ export const findByOrganizationId = async ({ organizationId, locale }) => {
   const blueprintItems = blueprintRows.map(toItem(COURSE_ITEM_TYPES.BLUEPRINT));
   const targetProfileItems = targetProfileRows.map(toItem(COURSE_ITEM_TYPES.TARGET_PROFILE));
 
-  return [...blueprintItems, ...targetProfileItems].sort(compareByNameThenByDate);
+  return [...blueprintItems, ...targetProfileItems].toSorted(compareByNameThenByDate);
 };
 
 const compareByNameThenByDate = (a, b) => {
@@ -148,10 +148,10 @@ const resolveAreas = (row, competencesByTubeId, areasByCompetenceId) => {
   }
 
   return [...areasMap.values()]
-    .sort((a, b) => (a.code ?? '').localeCompare(b.code ?? '', undefined, { numeric: true }))
+    .toSorted((a, b) => (a.code ?? '').localeCompare(b.code ?? '', undefined, { numeric: true }))
     .map((area) => ({
       ...area,
-      competences: area.competences.sort((a, b) =>
+      competences: area.competences.toSorted((a, b) =>
         (a.index ?? '').localeCompare(b.index ?? '', undefined, { numeric: true }),
       ),
     }));

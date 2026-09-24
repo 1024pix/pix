@@ -43,7 +43,7 @@ export async function findByRecordIds({ competenceIds, locale }) {
   const competenceDtos = await getInstance().getMany(competenceIds);
   return competenceDtos
     .filter((competenceDto) => competenceDto)
-    .sort(byId)
+    .toSorted(byId)
     .map((competenceDto) => toDomain({ competenceDto, locale }));
 }
 

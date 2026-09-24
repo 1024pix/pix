@@ -6,15 +6,15 @@ class CampaignLearningContent extends LearningContent {
   }
 
   get areas() {
-    return super.areas.sort((a, b) => a.code.localeCompare(b.code));
+    return super.areas.toSorted((a, b) => a.code.localeCompare(b.code));
   }
 
   get competences() {
-    return super.competences.sort((a, b) => a.index.localeCompare(b.index));
+    return super.competences.toSorted((a, b) => a.index.localeCompare(b.index));
   }
 
   get skills() {
-    return this.competences.flatMap((competence) => competence.skills.sort((a, b) => a.name.localeCompare(b.name)));
+    return this.competences.flatMap((competence) => competence.skills.toSorted((a, b) => a.name.localeCompare(b.name)));
   }
 }
 

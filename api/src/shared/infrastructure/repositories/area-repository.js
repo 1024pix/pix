@@ -40,7 +40,7 @@ export async function findByRecordIds({ areaIds, locale }) {
   const areaDtos = await getInstance().getMany(areaIds);
   return areaDtos
     .filter((areaDto) => areaDto)
-    .sort(byId)
+    .toSorted(byId)
     .map((areaDto) => toDomain(areaDto, locale));
 }
 

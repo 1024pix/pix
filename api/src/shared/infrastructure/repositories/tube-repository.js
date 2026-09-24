@@ -63,7 +63,7 @@ export function clearCache(id) {
 }
 
 function toDomainList(tubeDtos, locale) {
-  return tubeDtos.sort(byName).map((tubeDto) => toDomain(tubeDto, locale));
+  return tubeDtos.toSorted(byName).map((tubeDto) => toDomain(tubeDto, locale));
 }
 
 function byName(tube1, tube2) {

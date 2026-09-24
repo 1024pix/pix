@@ -17,7 +17,7 @@ export async function getCandidateImportSheetData({ sessionId, sessionRepository
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
 
-  const enrolledCandidates = session.certificationCandidates.sort(Candidate.sortByLastNameAndFirstName);
+  const enrolledCandidates = session.certificationCandidates.toSorted(Candidate.sortByLastNameAndFirstName);
   const center = await centerRepository.getById({ id: session.certificationCenterId });
   return {
     session,

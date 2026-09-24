@@ -55,7 +55,7 @@ export class DatabaseBuilder {
   async commit() {
     await this.#init();
 
-    const orderedObjectsToInsert = Object.entries(this.#databaseBuffer.objectsToInsert).sort(
+    const orderedObjectsToInsert = Object.entries(this.#databaseBuffer.objectsToInsert).toSorted(
       ([tableName1], [tableName2]) => this.#insertPriority.get(tableName1) - this.#insertPriority.get(tableName2),
     );
 
@@ -81,7 +81,9 @@ export class DatabaseBuilder {
     if (this.#dirtyTables.size) {
       await this.knex.raw(
         Array.from(this.#dirtyTables)
-          .sort((tableName1, tableName2) => this.#deletePriority.get(tableName1) - this.#deletePriority.get(tableName2))
+          .toSorted(
+            (tableName1, tableName2) => this.#deletePriority.get(tableName1) - this.#deletePriority.get(tableName2),
+          )
           .map(deleteFrom)
           .join('\n'),
       );
