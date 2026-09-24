@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## [5.507.1](https://github.com/1024pix/pix/compare/v5.507.0...v5.507.1) (2026-09-24)
+
+### :bug: Correction
+
+- [#17576](https://github.com/1024pix/pix/pull/17576) Ne pas présenter le bandeau d'évolution des politiques de confidentialités à la fin du processus d'inscription (PIX-24281)
+
+### :building_construction: Tech
+
+- [#17585](https://github.com/1024pix/pix/pull/17585) Ajoute un index sur la colonne `userId` de la table `memberships`.
+- [#17511](https://github.com/1024pix/pix/pull/17511) Mettre le contenu pédagogique en cache dans Redis
+- [#17579](https://github.com/1024pix/pix/pull/17579) Modifie l'assertion du usecase `get-campaign-parameters-for-simulator`
+- [#17572](https://github.com/1024pix/pix/pull/17572) Répliquer les données du datawarehouse vers le datamart avec COPY FROM STDIN
+
 # [5.507.0](https://github.com/1024pix/pix/compare/v5.506.0...v5.507.0) (2026-09-24)
 
 ### :rocket: Amélioration
