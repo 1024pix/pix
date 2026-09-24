@@ -1,7 +1,7 @@
 # Gabarit des dossiers de fiche
 
-Ce fichier dit comment s'écrit la documentation d'un type de fichier de `api/`. Il remplace le
-gabarit en fin de `corpus-index.md` pour les dossiers déjà découpés. Le pilote est `repository/`.
+Ce fichier dit comment s'écrit la documentation d'un type de fichier de `api/`. Les douze dossiers du
+corpus le suivent. `repository/` a servi de pilote et reste le modèle.
 
 ## Principe
 

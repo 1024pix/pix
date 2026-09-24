@@ -76,7 +76,7 @@ livre.
 L'article de référence, coécrit par les deux auteurs. Il couvre explicitement la **composition**
 (`and` / `or` / `not`), la distinction entre spécification de validation, de sélection et de
 construction, et les variantes pilotées par les données. C'est la source directe des invariants S1 à
-S5 de `fiche-specification.md`.
+S5 de `specification/README.md`.
 
 Également dans Evans, *Domain-Driven Design*, chapitre **« Making Implicit Concepts Explicit »**
 (ch. 9), où le pattern est introduit.
@@ -168,11 +168,11 @@ mot, et elles n'ont pas les mêmes invariants :
 
 | Ce que recouvre `read-model` | Ce que c'est | Où ça va |
 | --- | --- | --- |
-| un objet qu'une règle du domaine lit pour décider | un **Value Object** mal rangé | `domain/models/`, avec validation et comportement. `fiche-objet-valeur.md` |
-| une forme produite pour une lecture, sans règle | un **read-model** | `domain/read-models/`, rien à faire. `fiche-read-model.md` |
+| un objet qu'une règle du domaine lit pour décider | un **Value Object** mal rangé | `domain/models/`, avec validation et comportement. `objet-valeur/README.md` |
+| une forme produite pour une lecture, sans règle | un **read-model** | `domain/read-models/`, rien à faire. `read-model/README.md` |
 | le contrat publié vers un autre contexte | un **DTO de contrat** | `application/api/`, où le mot est trompeur |
 
-Le classement se fait fichier par fichier, par les quatre tests du § 1 de `fiche-objet-valeur.md`, qui
+Le classement se fait fichier par fichier, par les quatre tests du § 1 de `objet-valeur/README.md`, qui
 les énonce pour les deux catégories. Migration opportuniste, conforme à l'ADR 20.
 
 Ce qui est à tenir dans tous les cas : ne pas invoquer CQRS pour justifier une décision sur ces
@@ -184,7 +184,7 @@ qu'un read-model : ne pas passer par l'Aggregate entier. L'architecture manquant
 
 La différence tient au motif invoqué. Un read-model répond à un besoin de lecture réel. Une forme
 d'écriture partielle répond le plus souvent à une optimisation **non mesurée**, ce qui la rend plus
-difficile à défendre. C'est `X7` de `fiche-objet-valeur.md`.
+difficile à défendre. C'est `X7` de `objet-valeur/ecarts.md`.
 
 ### Repository
 
@@ -257,13 +257,13 @@ existante, et elle source plusieurs points que le corpus donnait pour convention
 
 | Ce qu'elle établit | Ce que ça source |
 | --- | --- |
-| La logique d'autorisation « doit être réalisée autant que possible dans les securityPreHandlers, plutôt que dans les controllers ou les usecases » | `R2` de `fiche-route.md`, qui était donné sans source |
+| La logique d'autorisation « doit être réalisée autant que possible dans les securityPreHandlers, plutôt que dans les controllers ou les usecases » | `R2` de `route/README.md`, qui était donné sans source |
 | Le contrat d'un securityPreHandler : paramètres, valeurs de retour, utilitaire de combinaison des accès | la forme prescrite de `R2` |
 | Le domaine « se compose de deux grosses parties : les use cases et les Entities » | le placement des usecases dans `domain/` |
 | L'infrastructure contient « les repositories, la sérialisation et différents services » | le placement des sérialiseurs dans `infrastructure/` |
 | L'application dépend de l'infrastructure, qui dépend du domaine | le fait que `C4` vise `infrastructure/repositories/` et non toute l'infrastructure |
-| « Dans la majorité des cas on utilise le format json-api, c'est le format à privilégier » | le format de sortie supposé par `fiche-serialiseur.md` |
-| Le modèle de référence valide `this` après avoir affecté ses champs, contre un schéma déclaratif | `X3` de `fiche-entite.md`, qui passe de dérive à convention assumée |
+| « Dans la majorité des cas on utilise le format json-api, c'est le format à privilégier » | le format de sortie supposé par `serialiseur/README.md` |
+| Le modèle de référence valide `this` après avoir affecté ses champs, contre un schéma déclaratif | `X3` de `entite/ecarts.md`, qui passe de dérive à convention assumée |
 
 **Trois réserves sur cette source, et elles comptent.**
 
@@ -278,7 +278,7 @@ d'écrire que c'est ce qui est fait actuellement) ». Elle se présente donc com
 comme une prescription.
 
 **Une contradiction qu'elle ouvre.** Son modèle de référence expose des champs publics assignables,
-ce que `V1` de `fiche-objet-valeur.md` et `E1`/`E6` de `fiche-entite.md` excluent. À trancher.
+ce que `V1` de `objet-valeur/README.md` et `E1`/`E6` de `entite/README.md` excluent. À trancher.
 
 ### `docs/fr/Anatomy.md`
 
@@ -290,11 +290,11 @@ que le corpus donnait pour conventions sans appui.
 
 | Ce qu'il établit | Ce que ça source |
 | --- | --- |
-| `domain/models` → « Entités, aggrégats et value objects du domaine » | `X4` de `fiche-entite.md` : le mélange des trois catégories dans un dossier commun est **documenté**, pas subi |
+| `domain/models` → « Entités, aggrégats et value objects du domaine » | `X4` de `entite/ecarts.md` : le mélange des trois catégories dans un dossier commun est **documenté**, pas subi |
 | `domain/services` → « Services métier du domaine » | la décision de réserver le dossier aux vrais services : le nom dit bien le métier, pas le partage |
 | `domain/usecases` → « Cas d'usage métier » | le placement de `U4` |
 | `infrastructure/repositories` → « Gestionnaires d'accès aux données » | le placement de `I9` |
-| `infrastructure/serializers` → « Convertisseurs de données Domain objects **←→** HTTP request objects » | `M5` de `fiche-serialiseur.md` : le métier bidirectionnel du sérialiseur |
+| `infrastructure/serializers` → « Convertisseurs de données Domain objects **←→** HTTP request objects » | `M5` de `serialiseur/README.md` : le métier bidirectionnel du sérialiseur |
 | `application` → « Fichiers de définition des routes et contrôleurs HTTP » | le placement de `R5` et `C5` |
 
 **La réserve, et elle est importante** : ce fichier décrit `lib/`, avec les trois couches à la racine.

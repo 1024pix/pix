@@ -81,14 +81,14 @@ Table de décision. Si le code correspond à une ligne, il ne va pas dans le rep
 
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
-| enchaîne plusieurs repositories, décide de l'ordre des opérations | `domain/usecases/` | `../fiche-usecase.md` |
-| applique une règle sur des objets d'une même frontière de cohérence | l'Aggregate Root, dans `domain/models/` | `../fiche-racine-agregat.md` |
-| applique une règle qui traverse plusieurs Aggregates, sans aucune I/O | `domain/services/` | `../fiche-service-domaine.md` |
-| contraint une valeur | un Value Object, dans `domain/models/` | `../fiche-objet-valeur.md` |
-| valide la cohérence interne d'une Entity | le constructeur du modèle, dans `domain/models/` | `../fiche-entite.md` |
-| décide si un utilisateur a le droit | `domain/usecases/`, ou un pre-handler déclaré sur la route | `../fiche-usecase.md`, `../fiche-route.md` |
-| transforme un modèle en JSON:API pour une réponse HTTP | `infrastructure/serializers/` | `../fiche-serialiseur.md` |
-| expose une donnée du contexte à un autre contexte | `application/api/` | `../fiche-api-interne.md` |
+| enchaîne plusieurs repositories, décide de l'ordre des opérations | `domain/usecases/` | `../usecase/README.md` |
+| applique une règle sur des objets d'une même frontière de cohérence | l'Aggregate Root, dans `domain/models/` | `../racine-agregat/README.md` |
+| applique une règle qui traverse plusieurs Aggregates, sans aucune I/O | `domain/services/` | `../service-domaine/README.md` |
+| contraint une valeur | un Value Object, dans `domain/models/` | `../objet-valeur/README.md` |
+| valide la cohérence interne d'une Entity | le constructeur du modèle, dans `domain/models/` | `../entite/README.md` |
+| décide si un utilisateur a le droit | `domain/usecases/`, ou un pre-handler déclaré sur la route | `../usecase/README.md`, `../route/README.md` |
+| transforme un modèle en JSON:API pour une réponse HTTP | `infrastructure/serializers/` | `../serialiseur/README.md` |
+| expose une donnée du contexte à un autre contexte | `application/api/` | `../api-interne/README.md` |
 
 Repère : un repository ne contient aucun branchement sur une condition métier. Un `if` sur
 l'existence d'une ligne est légitime. Un `if` sur une propriété métier de l'objet ne l'est pas.
