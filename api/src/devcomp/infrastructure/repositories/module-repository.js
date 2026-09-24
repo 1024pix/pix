@@ -1,19 +1,11 @@
 import crypto from 'node:crypto';
 
-import { LearningContentResourceNotFound, NotFoundError } from '../../../shared/domain/errors.js';
-import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { LearningContentRedisRepository } from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
 import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
-import { ModuleDoesNotExistError } from '../../domain/errors.js';
 import { ModuleFactory } from '../factories/module-factory.js';
 
-const isFetchingModulesFromLearningContentEnabled = featureToggles.use('isFetchingModulesFromLearningContentEnabled');
-
-async function getById({ id, moduleDatasource }) {
-  if (!isFetchingModulesFromLearningContentEnabled.value) {
-    return _getModuleFromDatasource({ ref: 'id', moduleDatasource, query: id });
-  }
-
+async function getById({ id }) {
   const module = await getInstance().load(id);
   if (!module) {
     throw new NotFoundError();
@@ -22,11 +14,7 @@ async function getById({ id, moduleDatasource }) {
   return toDomainFromDbObject(module);
 }
 
-async function getByShortId({ shortId, moduleDatasource }) {
-  if (!isFetchingModulesFromLearningContentEnabled.value) {
-    return await _getModuleFromDatasource({ ref: 'shortId', moduleDatasource, query: shortId });
-  }
-
+async function getByShortId({ shortId }) {
   const cacheKey = `getByShortId(${shortId})`;
   const findByShortIdCallback = (knex) => knex.where('shortId', shortId).limit(1);
 
@@ -39,11 +27,7 @@ async function getByShortId({ shortId, moduleDatasource }) {
   return toDomainFromDbObject(module);
 }
 
-async function getBySlug({ slug, moduleDatasource }) {
-  if (!isFetchingModulesFromLearningContentEnabled.value) {
-    return await _getModuleFromDatasource({ ref: 'slug', moduleDatasource, query: slug });
-  }
-
+async function getBySlug({ slug }) {
   const cacheKey = `getBySlug(${slug})`;
   const findBySlugCallback = (knex) => knex.where('slug', slug).limit(1);
 
@@ -56,12 +40,7 @@ async function getBySlug({ slug, moduleDatasource }) {
   return toDomainFromDbObject(module);
 }
 
-async function list({ moduleDatasource } = {}) {
-  if (!isFetchingModulesFromLearningContentEnabled.value) {
-    const modulesData = await moduleDatasource.list();
-    return Promise.all(modulesData.map(async (moduleData) => await ModuleFactory.build(moduleData)));
-  }
-
+async function list() {
   const cacheKey = 'list';
   const listCallback = (knex) => knex.orderBy('slug');
 
@@ -79,20 +58,6 @@ function _computeModuleVersion(moduleData) {
   return hash.copy().digest('hex');
 }
 
-async function _getModuleFromDatasource({ ref, moduleDatasource, query }) {
-  try {
-    const method = getModuleMethod(ref, moduleDatasource);
-    const moduleData = await method(query);
-
-    return await toDomain(moduleData);
-  } catch (error) {
-    if (error instanceof LearningContentResourceNotFound || error instanceof ModuleDoesNotExistError) {
-      throw new NotFoundError();
-    }
-    throw error;
-  }
-}
-
 async function toDomainFromDbObject({ image, description, duration, level, tabletSupport, objectives, ...moduleRest }) {
   return toDomain({ ...moduleRest, details: { image, description, duration, level, tabletSupport, objectives } });
 }
@@ -100,19 +65,6 @@ async function toDomainFromDbObject({ image, description, duration, level, table
 async function toDomain(moduleData) {
   const version = _computeModuleVersion(moduleData);
   return ModuleFactory.build({ ...moduleData, version });
-}
-
-function getModuleMethod(ref, moduleDatasource) {
-  switch (ref) {
-    case 'slug':
-      return moduleDatasource.getBySlug;
-    case 'shortId':
-      return moduleDatasource.getByShortId;
-    case 'id':
-      return moduleDatasource.getById;
-    default:
-      return moduleDatasource.getById;
-  }
 }
 
 export function clearCache(id) {

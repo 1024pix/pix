@@ -25,6 +25,8 @@ describe('Acceptance | Controller | passage-controller', function () {
       it('should create a new passage and response with a 201', async function () {
         // given
         nock('https://assets.pix.org').persist().head(/^.+$/).reply(200, {});
+        databaseBuilder.factory.learningContent.buildModule({ id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d' });
+        await databaseBuilder.commit();
         const expectedResponse = {
           type: 'passages',
           attributes: {
@@ -62,8 +64,9 @@ describe('Acceptance | Controller | passage-controller', function () {
         // given
         nock('https://assets.pix.org').persist().head(/^.+$/).reply(200, {});
         const user = databaseBuilder.factory.buildUser();
-        await databaseBuilder.commit();
         const moduleId = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
+        databaseBuilder.factory.learningContent.buildModule({ id: moduleId });
+        await databaseBuilder.commit();
         const expectedResponse = {
           type: 'passages',
           attributes: {
@@ -111,6 +114,31 @@ describe('Acceptance | Controller | passage-controller', function () {
           case: 'QCU',
           moduleId: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
           elementId: '845fe6d7-7ac5-46bb-a5d6-0419148b3978',
+          element: {
+            id: '845fe6d7-7ac5-46bb-a5d6-0419148b3978',
+            type: 'qcu',
+            instruction: '<p>Peut-on avoir la même adresse mail qu’une autre personne ?</p>',
+            proposals: [
+              {
+                id: '1',
+                content: 'Oui',
+                feedback: {
+                  state: 'Mauvaise réponse.',
+                  diagnosis: '<p>Une adresse mail est unique.</p>',
+                },
+              },
+              {
+                id: '2',
+                content: 'Non',
+                feedback: {
+                  state: 'Bonne réponse&#8239;!&nbsp;🎉',
+                  diagnosis:
+                    "<p>Une adresse mail est <strong>unique</strong>.<br>Au moment de la création d'une adresse mail, vous saurez si un identifiant est disponible ou pas.</p>",
+                },
+              },
+            ],
+            solution: '2',
+          },
           userResponse: ['2'],
           expectedUserResponseValue: '2',
           expectedFeedback: {
@@ -124,6 +152,35 @@ describe('Acceptance | Controller | passage-controller', function () {
           case: 'QROCM-ind',
           moduleId: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
           elementId: '8709ad92-093e-447a-a7b6-3223e6171196',
+          element: {
+            id: '8709ad92-093e-447a-a7b6-3223e6171196',
+            type: 'qrocm',
+            instruction: '<p>Écrivez une adresse mail valide.</p>',
+            proposals: [
+              {
+                type: 'input',
+                input: 'email',
+                inputType: 'text',
+                size: 'medium',
+                display: 'inline',
+                placeholder: 'exemple@email.com',
+                ariaLabel: 'Adresse mail',
+                tolerances: ['t1'],
+                solutions: ['naomizao457@yahoo.com', 'naomizao457@yahoo.fr'],
+              },
+            ],
+            feedbacks: {
+              valid: {
+                state: 'Bravo !&nbsp;\uD83D\uDCAB',
+                diagnosis:
+                  "<p>Tout est dans l'ordre&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
+              },
+              invalid: {
+                state: 'Mauvaise réponse.',
+                diagnosis: '<p>Réessayez.</p>',
+              },
+            },
+          },
           userResponse: [{ input: 'email', answer: 'naomizao457@yahoo.com' }],
           expectedUserResponseValue: { email: 'naomizao457@yahoo.com' },
           expectedFeedback: {
@@ -139,6 +196,28 @@ describe('Acceptance | Controller | passage-controller', function () {
           case: 'QCM',
           moduleId: '6282925d-4775-4bca-b513-4c3009ec5886',
           elementId: '30701e93-1b4d-4da4-b018-fa756c07d53f',
+          element: {
+            id: '30701e93-1b4d-4da4-b018-fa756c07d53f',
+            type: 'qcm',
+            instruction: '<p>Qui sommes-nous ?</p>',
+            proposals: [
+              { id: '1', content: 'Un service public' },
+              { id: '2', content: 'Une entreprise privée' },
+              { id: '3', content: 'Gratuit pour les particuliers' },
+              { id: '4', content: 'En ligne' },
+            ],
+            solutions: ['1', '3', '4'],
+            feedbacks: {
+              valid: {
+                state: 'Correct&#8239;!',
+                diagnosis: '<p>Vous nous avez bien cernés&nbsp;:)</p>',
+              },
+              invalid: {
+                state: 'Incorrect.',
+                diagnosis: '<p>Réessayez.</p>',
+              },
+            },
+          },
           userResponse: ['1', '3', '4'],
           expectedUserResponseValue: ['1', '3', '4'],
           expectedFeedback: {
@@ -151,6 +230,28 @@ describe('Acceptance | Controller | passage-controller', function () {
 
       cases.forEach((testCase, i) =>
         it(`should return a valid ${testCase.case} element answer`, async function () {
+          databaseBuilder.factory.learningContent.buildModule({
+            id: testCase.moduleId,
+            sections: [
+              {
+                id: `11111111-1111-1111-1111-11111111111${i}`,
+                type: 'practise',
+                grains: [
+                  {
+                    id: `22222222-2222-2222-2222-22222222222${i}`,
+                    type: 'lesson',
+                    title: 'Grain de test',
+                    components: [
+                      {
+                        type: 'element',
+                        element: testCase.element,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          });
           const passage = databaseBuilder.factory.buildPassage({ id: i + 1, moduleId: testCase.moduleId });
           await databaseBuilder.commit();
 
