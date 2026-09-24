@@ -402,8 +402,9 @@ autorisées.
 ### I12. La connexion à la base vient de `DomainTransaction`
 
 **Énoncé.** Un repository obtient toujours sa connexion à la base par
-`DomainTransaction.getConnection()`. Il n'importe jamais la connexion `knex` elle-même. Le datamart,
-une autre base, fait exception : voir le § 3.
+`DomainTransaction.getConnection()`. Il n'importe jamais la connexion `knex` elle-même. Deux cas font
+exception, décrits au § 3 : le datamart, qui est une autre base, et l'écriture qui doit survivre à
+l'échec de la transaction en cours.
 
 ```js
 // fautif — learning-content/infrastructure/repositories/framework-repository.js
@@ -449,6 +450,7 @@ Sans cette section, un relecteur signale du code correct.
 | Un repository de `jobs/` est une classe étendant une classe de base partagée, exportée en singleton | autorisé. La conversion en module de fonctions ne doit pas être faite |
 | `DomainTransaction` est importé et non injecté | autorisé. Seule exception à I5 ; c'est la forme que prescrit I12 |
 | Un repository qui lit le datamart importe la connexion `knex` du datamart | **autorisé** pour I12 : `DomainTransaction` ne couvre que la base principale |
+| Une écriture doit survivre à l'échec de la transaction en cours, comme l'état d'un import enregistré même quand l'import échoue | **autorisé** pour I12 sous la forme de la ligne suivante : la fonction reçoit `knexConn`, et l'appelant lui passe explicitement une connexion hors transaction. Importer `knex` dans le repository reste fautif, parce que rien n'y dit que l'écriture échappe à la transaction exprès |
 | Une fonction reçoit `knexConn` en paramètre, avec `DomainTransaction.getConnection()` en valeur par défaut | autorisé pour I12 **si l'appelant passe effectivement une autre connexion** — hors transaction, réplica, pool distinct. Voir X3 au § 5 |
 | `getOrCreate*` ne lève pas alors qu'il commence par `get` | autorisé pour I3 seulement. Voir l'avertissement ci-dessous |
 
