@@ -414,8 +414,13 @@ get targetProfileIds() {
     .map(({ data }) => parseInt(data.targetProfileId.data));
 }
 
-// 2. il évalue une exigence isolée
-const done = requirement.isFulfilled(dataInput);
+// 2. il parcourt les critères et en évalue un isolément
+for (const requirement of this.quest.successRequirements) {
+  if (requirement.requirement_type === TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS) {
+    const isCompleted = dataForQuest ? requirement.isFulfilled(dataForQuest) : false;
+    …
+  }
+}
 
 // 3. il reconstruit la specification avec un sous-ensemble
 const successRequirements = this.quest.successRequirements.filter((successRequirements) => {
@@ -438,16 +443,16 @@ const quest = new Quest({
 return quest.isSuccessful(this.dataForQuest);
 ```
 
-**Code.** Degré 1 : [`CombinedCourseBlueprint.targetProfileIds`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js#L47-L51). Degré 2 : hypothétique. Degré 3 : [`CombinedCourseDetails.isSuccessful`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js#L302-L321).
+**Code.** Degré 1 : [`CombinedCourseBlueprint.targetProfileIds`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js#L47-L51). Degré 2 : [`CombinedCourseDetails.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js#L219-L224), simplifié. Degré 3 : [`CombinedCourseDetails.isSuccessful`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js#L302-L321).
 
 À l'inverse, un consommateur conforme se contente d'évaluer :
 
 ```js
-// conforme — le consommateur évalue, il ne redéfinit rien
-const isCompleted = dataForQuest ? requirement.isFulfilled(dataForQuest) : false;
+// conforme — le consommateur évalue la specification entière, il ne redéfinit rien
+return quest.isSuccessful(dataForQuest);
 ```
 
-**Code.** [`CombinedCourseDetails.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js#L224).
+**Code.** [`check-user-quest-success.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/check-user-quest-success.js#L40).
 
 Le besoin métier derrière est souvent légitime : un critère qui ne doit pas bloquer dans certaines
 conditions. Mais il doit devenir une **propriété explicite** du modèle du consommateur, pas un filtrage
