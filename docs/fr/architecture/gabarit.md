@@ -96,7 +96,7 @@ cette règle.
 
 - La nature est *convention assumée*, *dérive* ou *vestige*.
 - Le coût payé et le bénéfice obtenu sont deux colonnes séparées.
-- **À corriger** : un coût payé sans bénéfice. *À surveiller* : un coût et un bénéfice réels, sous
+- **À corriger** : le coût dépasse le bénéfice, ou le bénéfice s'obtient autrement. *À surveiller* : un coût et un bénéfice réels, sous
   condition. *Rien à faire* : aucun coût réel.
 - **Un bénéfice de performance invoqué sans mesure compte pour nul.**
 
