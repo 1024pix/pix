@@ -51,8 +51,8 @@ réduit la précision de toutes les règles de cette section.
 commande. Le chemin s'écrit `src/.+/`, pas `src/[^/]+/`. Avec la seconde forme, les contextes à
 sous-contextes ne sont pas atteints : la règle ne s'y déclenche jamais, sans aucun message.
 
-Cette règle est partagée avec `V4` de `../objet-valeur/README.md` et `S3` de
-`../specification/README.md` : une seule configuration couvre les trois.
+Cette règle est partagée avec `V4` de `../objet-valeur/README.md`, que `../specification/README.md`
+reprend pour ses critères : une seule configuration couvre les trois.
 
 ### E6 — mutateur nu
 

@@ -40,7 +40,7 @@ Hors numérotation :
 
 ## Rôle
 
-Un sérialiseur traduit entre les objets du domaine et le format d'échange HTTP. Il le fait **dans les
+Un sérialiseur traduit entre les objets du domaine et un format d'échange. Il le fait **dans les
 deux sens** : il met en forme une réponse, et il désérialise une charge utile entrante.
 
 Les deux sens n'ont pas les mêmes invariants.

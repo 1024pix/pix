@@ -123,6 +123,25 @@ Le chemin est fixe. Il est donc **exempté dans la règle** de
 L'exemption ne couvre pas le câblage qui importe l'infrastructure d'un **autre** contexte : c'est une
 violation, et elle demande une seconde règle.
 
+Cette violation existe. Deux fichiers de câblage importent directement les repositories d'autres
+contextes :
+
+```js
+// quest/domain/usecases/index.js
+import * as organizationLearnerPrescriptionRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
+
+// devcomp/domain/usecases/index.js
+import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
+```
+
+**Code.** [`quest/domain/usecases/index.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/index.js#L1-L6), [`devcomp/domain/usecases/index.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/usecases/index.js#L1-L7).
+
+Ce cas relève de `U9` de [`README.md`](README.md#u9-aucun-accès-direct-au-domaine-dun-autre-contexte) :
+le voisin est atteint sans passer par son API interne. Il est à corriger comme `X6`, par un repository
+du contexte qui enveloppe l'API du voisin.
+
 La règle qui l'exempte pour tout le domaine est écrite dans
 [`../repository/outillage.md`](../repository/outillage.md#i11-et-i5--règles-de-chemin).
 

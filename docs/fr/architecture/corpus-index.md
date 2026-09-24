@@ -323,7 +323,17 @@ sur le code, ou dits simplifiés ou hypothétiques. Les plus notables :
 
 - **`C3` contre `X4` dans `controleur/`.** `C3` exige une valeur par défaut sur le paramètre du
   sérialiseur. La forme cible de `X4`, l'enveloppe de devcomp, passe ce paramètre sans valeur par
-  défaut.
+  défaut. L'exemple conforme de `C4` importe aussi les usecases, la forme que `X4` déclare
+  vestige.
+- **La grille de verdict et le bénéfice réel.** La grille réserve « à corriger » à un coût payé sans
+  bénéfice. Plusieurs écarts « à corriger » ont un bénéfice réel mais jugé insuffisant : `X4` de
+  `controleur/`, `X3` de `route/`, `X1` de `serialiseur/`, `X4` de `api-interne/`, `X2` de
+  `service-domaine/` et `usecase/`, `X3` de `specification/`.
+- **`Section` de devcomp** sert d'exemple conforme de Value Object (`V3` de `objet-valeur/`) et
+  d'Entity (`X3` de `entite/`). Sa catégorie est à fixer.
+- **Le deuxième cas de la clé de présentation**, la clé que le client renvoie et que le serveur
+  découpe, reste dans un Value Object selon `objet-valeur/`. La décision « les identifiants front vont
+  dans le sérialiseur » ne dit pas si elle couvre ce cas.
 - **`S8` dans `specification/`.** L'exemple conforme évalue une exigence isolée, ce que le degré 2 de
   violation de `S8` décrit comme fautif.
 - **`X2` dans `service-domaine/`.** Le verdict est « à corriger » alors que le bénéfice est réel, ce

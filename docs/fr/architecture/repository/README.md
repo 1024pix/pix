@@ -34,8 +34,6 @@ invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la 
 | [**I11**](#i11-un-repository-nimporte-pas-un-autre-repository) | n'importe pas un autre repository | `dependency-cruiser` |
 | [**I12**](#i12-la-connexion-à-la-base-vient-de-domaintransaction) | la connexion à la base vient de `DomainTransaction` | `dependency-cruiser` |
 
-Les numéros I7 et I8 ne sont pas attribués.
-
 ---
 
 ## Rôle
@@ -548,7 +546,7 @@ L'argumentation et la bibliographie sont dans [`explication.md`](explication.md)
 | --- | --- |
 | **I1**, **I2** structure de persistance | Evans, *DDD*. ADR 55, « Communication "séquentielle" entre les contextes fonctionnels », qui accepte la duplication des modèles entre contextes |
 | **I3** `get*` lève, `find*` renvoie `null` | convention d'équipe, sans source |
-| **I4** erreurs du domaine | ADR 44, « Gestion des erreurs de l'API dans les clients », et ADR 34, « Nom des contraintes sur la base PG » |
+| **I4** erreurs du domaine | ADR 44, « Gestion des erreurs de l'API dans les clients (applications tierces, IHM, etc.) et références », et ADR 34, « Nom des contraintes sur la base PG » |
 | **I5** dépendances injectées | ADR 46, « Injecter les dépendances dans l'API », et ADR 24, « Faut-il encapsuler les appels http dans l'API ? » |
 | **I6** enregistré dans l'index | convention d'outillage, conséquence de l'ADR 46 |
 | **I9** nommage | convention d'équipe, sans source |

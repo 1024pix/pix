@@ -198,7 +198,7 @@ class PlacesLot {
 }
 ```
 
-**Code.** Conforme : [`Country.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/read-models/Country.js#L1-L7). Fautif : [`PlacesLot.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/read-models/PlacesLot.js#L6-L27), simplifié : le schéma réel porte six champs.
+**Code.** Conforme pour RM2 seulement : [`Country.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/read-models/Country.js#L1-L7), dont les champs publics enfreignent `V1`. Fautif : [`PlacesLot.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/read-models/PlacesLot.js#L6-L27), simplifié : le schéma réel porte six champs.
 
 La fonction s'appelle `validateEntity`. C'est le bon indice : le schéma décrit **ce que la table
 garantit déjà** (une date d'activation obligatoire, un identifiant numérique). Si la lecture ramenait
@@ -284,8 +284,7 @@ domain/models/TargetProfileSummaryForAdmin.js
 
 Un read-model ne se range pas dans un dossier qui promet autre chose, `aggregates/` en particulier. Le
 mot annonce une frontière de cohérence et des invariants tenus. Un read-model n'a ni l'une ni les
-autres. Un tel dossier existe déjà : sous `domain/models/`, `aggregates/` regroupe des objets qui
-tiennent des invariants entre plusieurs Entities liées. Un read-model n'y a pas sa place.
+autres : voir `A1` de `../racine-agregat/README.md`.
 
 Le rangement sous `domain/` suit la direction des dépendances, pas une catégorie DDD : voir
 [`explication.md`](explication.md#pourquoi-sous-domain).
