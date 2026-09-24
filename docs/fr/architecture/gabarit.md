@@ -117,7 +117,9 @@ avec trois changements :
   GitHub vers un commit fixe, avec les lignes exactes : `…/blob/<sha>/api/…#L7-L11`. Un lien vers une
   branche est interdit, parce que le code change et que l'exemple doit rester retrouvable. Le chemin
   n'est plus répété dans le commentaire du bloc. Un extrait hypothétique n'a pas de lien, et la ligne
-  le dit. Pour mettre un exemple à jour, on change l'extrait et le commit ensemble.
+  le dit. Tous les permaliens d'un dossier pointent vers **le même commit**, pour que ses exemples
+  décrivent un seul état du code. Pour mettre un exemple à jour, on met à jour les extraits du
+  dossier et le commit ensemble.
 - **Le cadre « état cible » disparaît de la référence.** Une règle de `README.md` s'applique
   aujourd'hui. Ce qui dépend d'une migration se dit dans la ligne **Vérification**, ou dans
   `outillage.md`.
