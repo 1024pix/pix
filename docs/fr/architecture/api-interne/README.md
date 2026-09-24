@@ -437,6 +437,7 @@ Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'aut
 | **P1** | La fonction rend directement le résultat d'un usecase qui renvoie un scalaire ou rien | autorisé : aucun modèle n'est exposé |
 | **P1** | L'API lève une erreur définie dans `application/api/errors.js` | autorisé : l'erreur fait partie du contrat |
 | **P1** | Une enveloppe de pagination autour de DTO | autorisé |
+| **P7** | Une fonction utilisée par un seul consommateur | autorisé : un contrat commence souvent ainsi. Le nom dit le besoin, pas l'écran du consommateur |
 | **P2** | L'API accède à un repository de `shared` | **pas une exception** : c'est une violation de `P2`, même si `shared` est commode |
 | **P2** | L'API importe le fichier d'un usecase plutôt que l'index des usecases | **pas une exception** : elle reçoit la fonction sans ses dépendances, et doit alors importer et passer elle-même les repositories, contre `P2`. Même pour casser un import cyclique |
 | **P3** | L'API renvoie `null` quand rien n'est trouvé | autorisé si documenté ; le contrat doit dire lequel des deux comportements s'applique |

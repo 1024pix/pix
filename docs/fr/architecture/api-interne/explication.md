@@ -112,10 +112,13 @@ La forme limite de `P7`, une fonction par appelant comme `getByIdForAdmin`, a un
 désigne un écran plutôt qu'un besoin métier. Si l'écran change, le contrat se périme.
 `getWithFullReferential` vieillirait mieux que `getByIdForAdmin`.
 
-### Un cas non tranché
+### Une fonction pour un seul consommateur
 
-**L'API expose une fonction utilisée par un seul consommateur.** C'est le début d'un tunnel plutôt que
-d'un contrat : voir [ce que ces invariants n'apportent pas](#ce-que-ces-invariants-napportent-pas).
+Une fonction de contrat commence presque toujours avec un seul consommateur, et `P9` impose déjà que
+ses champs soient lus. Elle est donc autorisée. Le risque de tunnel est ailleurs : une API qui
+accumule des fonctions taillées pour les écrans d'un consommateur. Ce signal se lit dans le nom, comme
+le montre [le nom d'une fonction par appelant](#le-nom-dune-fonction-par-appelant), et dans
+[ce que ces invariants n'apportent pas](#ce-que-ces-invariants-napportent-pas).
 
 ### L'import d'un usecase hors de l'index
 

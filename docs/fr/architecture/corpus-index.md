@@ -345,11 +345,12 @@ Réglées le 2026-09-24 :
   mesure.
 - Une API interne n'importe jamais le fichier d'un usecase, même pour casser un import cyclique : elle
   passe par l'index des usecases.
+- Une fonction d'API interne utilisée par un seul consommateur est autorisée ; son nom dit le besoin,
+  pas l'écran du consommateur.
 
 Ouvertes :
 
-- **`api-interne/`** : un cas non tranché, une fonction utilisée par un seul consommateur. La source de
-  `P3` et `P5` est une page Confluence, à reporter dans l'ADR 55.
+- **`api-interne/`** : la source de `P3` et `P5` est une page Confluence, à reporter dans l'ADR 55.
 - **`domain/services/` réservé aux vrais Domain Services** : la décision n'est écrite dans aucun ADR.
 - **`racine-agregat/`** : appliquée telle quelle, la fiche disqualifie du code existant, car peu
   d'objets satisfont `A1` et `A2`.
