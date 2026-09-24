@@ -325,10 +325,8 @@ sur le code, ou dits simplifiés ou hypothétiques. Les plus notables :
   sérialiseur. La forme cible de `X4`, l'enveloppe de devcomp, passe ce paramètre sans valeur par
   défaut. L'exemple conforme de `C4` importe aussi les usecases, la forme que `X4` déclare
   vestige.
-- **La grille de verdict et le bénéfice réel.** La grille réserve « à corriger » à un coût payé sans
-  bénéfice. Plusieurs écarts « à corriger » ont un bénéfice réel mais jugé insuffisant : `X4` de
-  `controleur/`, `X3` de `route/`, `X1` de `serialiseur/`, `X4` de `api-interne/`, `X2` de
-  `service-domaine/` et `usecase/`, `X3` de `specification/`.
+- Réglé : la grille de verdict dit maintenant « à corriger : le coût dépasse le bénéfice, ou le
+  bénéfice s'obtient autrement », ce qui correspond aux verdicts rendus.
 - **`Section` de devcomp** sert d'exemple conforme de Value Object (`V3` de `objet-valeur/`) et
   d'Entity (`X3` de `entite/`). Sa catégorie est à fixer.
 - **Le deuxième cas de la clé de présentation**, la clé que le client renvoie et que le serveur
@@ -523,8 +521,8 @@ sommaire n'en est pas une : il est dans l'en-tête.
      corriger coûterait cher est une réponse valable. L'écrire, sinon il sera resoulevé.
    - Le coût et le bénéfice sont **deux colonnes séparées**, pas une appréciation fondue en une
      phrase. C'est ce qui rend le verdict lisible d'un coup d'œil.
-   - Le verdict découle des deux : **À corriger** quand le coût est payé sans bénéfice, *À surveiller*,
-     ou *Rien à faire*. « Convention assumée » ne dispense pas de l'examen.
+   - Le verdict découle des deux : **À corriger** quand le coût dépasse le bénéfice, ou quand le
+     bénéfice s'obtient autrement, *À surveiller*, ou *Rien à faire*. « Convention assumée » ne dispense pas de l'examen.
    - **Un bénéfice de performance invoqué sans mesure compte pour nul.** C'est la règle la plus utile
      de la grille, parce que c'est le motif le plus fréquent des dérives structurelles : on évite un
      chargement, on multiplie les modèles, et personne n'a constaté le problème que ça résout. Le coût,
