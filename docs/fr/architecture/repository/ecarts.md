@@ -16,6 +16,7 @@ la théorie dans [`explication.md`](explication.md#la-théorie-des-écarts).
 | **X1** Aucun port n'est déclaré | dérive | l'injection et le code de câblage | **nul** : aucun contrat vérifiable | **À corriger** |
 | **X2** Méthode de persistance sur le modèle | dérive | différé, à la prochaine migration de schéma | **nul** | **À corriger** |
 | **X4** Plusieurs repositories pour un même Aggregate | dérive | quelques fichiers de plus, et A3 de `../fiche-racine-agregat.md` tombe : compter les repositories ne dit plus rien de la conception | **nul** : le gain de performance est supposé, jamais mesuré | **À corriger** |
+| **X7** Des repositories sont câblés hors de l'index | dérive | deux régimes de câblage ; l'index ne liste plus les ports du contexte | quelques lignes d'index en moins | **À corriger** |
 | **X3** La connexion à la base ne passe pas par la signature | convention assumée | un usecase ne dit pas, à la lecture, s'il est transactionnel | réel : signatures propres | À surveiller |
 | **X6** Le repository couvre aussi l'accès aux contextes voisins | convention assumée | nul | réel : un seul concept, le domaine ignore la source | Rien à faire |
 
@@ -154,3 +155,23 @@ infrastructure/repositories/
 
 **Correction.** Aucune. Ce repository est le seul point d'entrée vers le voisin : le usecase le
 reçoit, jamais l'API interne elle-même. Voir `X6` de `../fiche-usecase.md`.
+
+### X7. Des repositories sont câblés hors de l'index
+
+**Exemple concret.** Deux formes coexistent à côté de l'index des repositories.
+
+- Un contexte n'a pas d'index de repositories : ses usecases importent les repositories directement
+  dans leur fichier de câblage.
+- Un contexte a un index, mais n'y déclare que les repositories qui reçoivent une dépendance. Les
+  autres sont importés ailleurs.
+
+**Code.** Sans index : [`legal-documents/domain/usecases/index.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/legal-documents/domain/usecases/index.js#L4-L7). Index partiel : [`school/infrastructure/repositories/index.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/school/infrastructure/repositories/index.js#L8-L12), pour huit fichiers dans [le dossier](https://github.com/1024pix/pix/tree/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/school/infrastructure/repositories).
+
+**Verdict.** Le seul bénéfice est quelques lignes d'index en moins. Le coût est un second régime de
+câblage, que le lecteur doit reconnaître, et un index qui ne dit plus quels ports le contexte
+utilise. L'équipe a décidé d'un seul régime : c'est I6 de [`README.md`](README.md).
+
+**Correction.** Pour chaque contexte, créer l'index s'il manque, y déclarer tous les repositories, et
+faire importer l'index par le câblage des usecases. Le changement est mécanique, et le script de I6
+dans [`outillage.md`](outillage.md#i6-et-i9--un-script-de-complétude) donne la liste.
+
