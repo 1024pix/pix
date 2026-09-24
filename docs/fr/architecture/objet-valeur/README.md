@@ -253,7 +253,7 @@ constructor({ status } = {}) {
 }
 ```
 
-**Code.** Conforme : [`Section.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/module/Section.js#L14-L23). Fautif : [`AnswerStatus.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/AnswerStatus.js#L11-L14).
+**Code.** Conforme pour V3 seulement : [`Section.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/module/Section.js#L14-L23), dont les champs publics enfreignent V1. Fautif : [`AnswerStatus.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/AnswerStatus.js#L11-L14).
 
 Le second exemple est la forme la plus fréquente de violation : ce n'est pas une validation mal
 placée, c'est une validation absente.

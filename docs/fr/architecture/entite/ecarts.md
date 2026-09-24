@@ -161,7 +161,8 @@ const versionId = await versionRepository.save(draftVersion);
 Tout consommateur de `Version` doit alors savoir si l'identifiant peut être `null`. Rien dans la
 signature ne le dit.
 
-**Verdict.** À surveiller : le coût du doublement des types n'est pas démontré. La théorie est dans
+**Verdict.** À surveiller : aucun défaut causé par le cas `null` n'est démontré, donc un second type
+ne se justifie pas encore sur l'existant. La théorie est dans
 [`explication.md`](explication.md#x5-lentity-non-persistée-porte-un-identifiant-null).
 
 **Correction.** Aucune sur l'existant. Pour le neuf, l'intention de création prend un type distinct,
@@ -172,5 +173,4 @@ C'est `V8` de `../objet-valeur/README.md` appliqué à une Entity.
 différence de nature, donc elle est légitime. Une forme de mise à jour portant un sous-ensemble de
 champs ne l'est pas, sauf mesure.
 
-**Révision.** Un défaut en production causé par le cas `null` change ce verdict. Sans cette pièce, le
-coût du doublement des types n'est pas démontré.
+**Révision.** Un défaut en production causé par le cas `null` change ce verdict.
