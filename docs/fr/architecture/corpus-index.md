@@ -343,11 +343,13 @@ Réglées le 2026-09-24 :
 - La ligne `A3` de la checklist de `racine-agregat/` est validée : un seul repository par Aggregate,
   et un repository de plus seulement pour une lecture qui renvoie un read-model, justifiée par une
   mesure.
+- Une API interne n'importe jamais le fichier d'un usecase, même pour casser un import cyclique : elle
+  passe par l'index des usecases.
 
 Ouvertes :
 
-- **`api-interne/`** : deux cas non tranchés, une fonction utilisée par un seul consommateur et l'import
-  individuel d'un usecase. La source de `P3` et `P5` est une page Confluence, à reporter dans l'ADR 55.
+- **`api-interne/`** : un cas non tranché, une fonction utilisée par un seul consommateur. La source de
+  `P3` et `P5` est une page Confluence, à reporter dans l'ADR 55.
 - **`domain/services/` réservé aux vrais Domain Services** : la décision n'est écrite dans aucun ADR.
 - **`racine-agregat/`** : appliquée telle quelle, la fiche disqualifie du code existant, car peu
   d'objets satisfont `A1` et `A2`.

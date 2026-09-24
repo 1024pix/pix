@@ -112,14 +112,17 @@ La forme limite de `P7`, une fonction par appelant comme `getByIdForAdmin`, a un
 désigne un écran plutôt qu'un besoin métier. Si l'écran change, le contrat se périme.
 `getWithFullReferential` vieillirait mieux que `getByIdForAdmin`.
 
-### Deux cas non tranchés
+### Un cas non tranché
 
-Deux cas n'ont pas de statut arrêté :
+**L'API expose une fonction utilisée par un seul consommateur.** C'est le début d'un tunnel plutôt que
+d'un contrat : voir [ce que ces invariants n'apportent pas](#ce-que-ces-invariants-napportent-pas).
 
-- **L'API expose une fonction utilisée par un seul consommateur.** C'est le début d'un tunnel plutôt
-  que d'un contrat : voir [ce que ces invariants n'apportent pas](#ce-que-ces-invariants-napportent-pas).
-- **L'API importe un usecase individuellement plutôt que l'index.** Le cas est sans effet visible,
-  mais il contourne le point unique de câblage.
+### L'import d'un usecase hors de l'index
+
+Une API qui importe le fichier d'un usecase reçoit la fonction brute, sans les dépendances que
+l'index injecte. Elle doit alors câbler elle-même les repositories, ce qui la fait violer `P2`, et
+parfois `P8`. Le cas relevé dans le code servait à casser un import cyclique. L'équipe a décidé que
+ce motif ne le justifie pas : l'API passe toujours par l'index.
 
 ## La théorie des écarts
 

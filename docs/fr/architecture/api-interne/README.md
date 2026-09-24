@@ -438,6 +438,7 @@ Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'aut
 | **P1** | L'API lève une erreur définie dans `application/api/errors.js` | autorisé : l'erreur fait partie du contrat |
 | **P1** | Une enveloppe de pagination autour de DTO | autorisé |
 | **P2** | L'API accède à un repository de `shared` | **pas une exception** : c'est une violation de `P2`, même si `shared` est commode |
+| **P2** | L'API importe le fichier d'un usecase plutôt que l'index des usecases | **pas une exception** : elle reçoit la fonction sans ses dépendances, et doit alors importer et passer elle-même les repositories, contre `P2`. Même pour casser un import cyclique |
 | **P3** | L'API renvoie `null` quand rien n'est trouvé | autorisé si documenté ; le contrat doit dire lequel des deux comportements s'applique |
 | **P4** | Le DTO renomme un champ par rapport au modèle interne | autorisé : c'est un bon usage de la couche |
 | **P4** | Le DTO aplatit une structure imbriquée | autorisé : mise en forme sans décision |

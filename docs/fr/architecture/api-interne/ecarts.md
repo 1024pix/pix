@@ -131,7 +131,9 @@ export const findWithOrganizationByIds = async ({ organizationLearnerIds, organi
 **Code.** [`organization-learners-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/organization-learner/application/api/organization-learners-api.js#L154-L163), import à la ligne 1.
 
 Le consommateur de cette API dépend du contexte qui fournit `tagRepository`, et rien dans ses
-déclarations de dépendances ne le dit. Le même fichier viole aussi `P2` : il importe des repositories,
+déclarations de dépendances ne le dit. La composition vient de ce que l'API importe le fichier du usecase,
+[ligne 3](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/organization-learner/application/api/organization-learners-api.js#L3), et non l'index : elle doit
+alors passer elle-même les repositories. Cet import servait à casser un import cyclique. Le même fichier viole aussi `P2` : il importe des repositories,
 dont celui de `shared`. La règle de `P2` signale donc cet import avant celle de `P8`.
 
 **Verdict.** À corriger. Le bénéfice, une composition faite une fois, ne compense pas un graphe de
