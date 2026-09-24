@@ -1,5 +1,5 @@
 class CertificationCpfCountry {
-  constructor({ id, code, commonName, originalName, matcher } = {}) {
+  constructor({ id, code, commonName, originalName, matcher }) {
     this.id = id;
     this.code = code;
     this.commonName = commonName;
